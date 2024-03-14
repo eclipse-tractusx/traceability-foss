@@ -188,7 +188,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     private void handleNotificationUpdate(AlertNotificationEntity notificationEntity, QualityNotificationMessage notification) {
-        notificationEntity.setEdcUrl(notification.getEdcUrl());
         notificationEntity.setContractAgreementId(notification.getContractAgreementId());
         notificationEntity.setNotificationReferenceId(notification.getNotificationReferenceId());
         notificationEntity.setTargetDate(notification.getTargetDate());

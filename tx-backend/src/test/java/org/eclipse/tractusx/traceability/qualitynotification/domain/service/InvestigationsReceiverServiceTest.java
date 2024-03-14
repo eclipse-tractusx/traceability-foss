@@ -84,7 +84,6 @@ class InvestigationsReceiverServiceTest {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.SENT)
@@ -94,7 +93,6 @@ class InvestigationsReceiverServiceTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .messageId("messageId")
-                .isInitial(true)
                 .build();
 
 
@@ -127,7 +125,6 @@ class InvestigationsReceiverServiceTest {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
@@ -137,7 +134,6 @@ class InvestigationsReceiverServiceTest {
                 .edcNotificationId("123")
                 .targetDate(Instant.now())
                 .messageId("messageId")
-                .isInitial(false)
                 .build();
 
 
@@ -169,7 +165,6 @@ class InvestigationsReceiverServiceTest {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.DECLINED)
@@ -179,7 +174,6 @@ class InvestigationsReceiverServiceTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .messageId("messageId")
-                .isInitial(false)
                 .build();
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN");
@@ -210,7 +204,6 @@ class InvestigationsReceiverServiceTest {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.ACCEPTED)
@@ -220,7 +213,6 @@ class InvestigationsReceiverServiceTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .messageId("messageId")
-                .isInitial(false)
                 .build();
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN");
@@ -251,7 +243,6 @@ class InvestigationsReceiverServiceTest {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.CLOSED)
@@ -261,7 +252,6 @@ class InvestigationsReceiverServiceTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .messageId("messageId")
-                .isInitial(false)
                 .build();
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "senderBPN");

@@ -48,7 +48,6 @@ public class InvestigationTestDataFactory {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description(description)
                 .notificationStatus(investigationStatus)
@@ -57,7 +56,6 @@ public class InvestigationTestDataFactory {
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("1")
                 .messageId("messageId")
-                .isInitial(true)
                 .build();
         List<QualityNotificationMessage> notifications = List.of(notification);
 
@@ -109,7 +107,6 @@ public class InvestigationTestDataFactory {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description(description)
                 .notificationStatus(notificationInvestigationStatus)
@@ -117,7 +114,6 @@ public class InvestigationTestDataFactory {
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
-                .isInitial(true)
                 .build();
 
         QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
@@ -127,7 +123,6 @@ public class InvestigationTestDataFactory {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.SENT)
@@ -135,7 +130,6 @@ public class InvestigationTestDataFactory {
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
-                .isInitial(true)
                 .build();
         List<QualityNotificationMessage> notifications = new ArrayList<>();
         notifications.add(notification);
@@ -168,7 +162,6 @@ public class InvestigationTestDataFactory {
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
@@ -176,7 +169,6 @@ public class InvestigationTestDataFactory {
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
-                .isInitial(true)
                 .build();
         List<QualityNotificationMessage> notifications = List.of(notification);
 

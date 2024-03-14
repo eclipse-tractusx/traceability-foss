@@ -71,7 +71,6 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .sendTo(investigationNotificationEntity.getSendTo())
                 .sendToName(investigationNotificationEntity.getSendToName())
                 .description(investigationNotificationEntity.getInvestigation().getDescription())
-                .edcUrl(investigationNotificationEntity.getEdcUrl())
                 .contractAgreementId(investigationNotificationEntity.getContractAgreementId())
                 .notificationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
                 .affectedParts(investigationNotificationEntity.getAssets().stream()
@@ -83,7 +82,6 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .messageId(investigationNotificationEntity.getMessageId())
                 .created(investigationNotificationEntity.getCreated())
                 .updated(investigationNotificationEntity.getUpdated())
-                .isInitial(investigationNotificationEntity.getIsInitial())
                 .type(QualityNotificationType.INVESTIGATION)
                 .build();
     }
@@ -95,7 +93,6 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .builder()
                 .id(qualityNotificationMessage.getId())
                 .investigation(investigationEntity)
-                .edcUrl(qualityNotificationMessage.getEdcUrl())
                 .errorMessage(qualityNotificationMessage.getErrorMessage())
                 .contractAgreementId(qualityNotificationMessage.getContractAgreementId())
                 .created(qualityNotificationMessage.getCreated())
@@ -110,7 +107,6 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .edcNotificationId(qualityNotificationMessage.getEdcNotificationId())
                 .status(NotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
                 .messageId(qualityNotificationMessage.getMessageId())
-                .isInitial(qualityNotificationMessage.getIsInitial())
                 .build();
     }
 

@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model;
 
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
@@ -36,6 +37,7 @@ public class EDCNotificationFactory {
         if (notification.getTargetDate() != null) {
             targetDate = notification.getTargetDate().toString();
         }
+
         EDCNotificationHeader header = new EDCNotificationHeader(
                 notification.getEdcNotificationId(),
                 notification.getCreatedBy(),

@@ -97,10 +97,9 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .sendTo("BPNL00000003AXS3")
                 .sendToName("Receiver manufacturer name")
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
-                .isInitial(false)
                 .type(QualityNotificationType.INVESTIGATION)
+                .severity(QualityNotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
         EDCNotification notification = EDCNotificationFactory.createEdcNotification(

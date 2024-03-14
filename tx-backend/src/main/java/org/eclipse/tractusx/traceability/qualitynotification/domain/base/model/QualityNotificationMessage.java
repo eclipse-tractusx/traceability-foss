@@ -47,7 +47,6 @@ public class QualityNotificationMessage {
     private String notificationReferenceId;
     private String createdBy;
     private String sendTo;
-    private String edcUrl;
     private String contractAgreementId;
     private String description;
     private QualityNotificationStatus notificationStatus;
@@ -57,7 +56,6 @@ public class QualityNotificationMessage {
     private Instant targetDate;
     private QualityNotificationSeverity severity;
     private String messageId;
-    private Boolean isInitial;
     private QualityNotificationType type;
     private String errorMessage;
 
@@ -88,7 +86,6 @@ public class QualityNotificationMessage {
                 .severity(severity)
                 .edcNotificationId(notificationId)
                 .messageId(messageId)
-                .isInitial(true)
                 .build();
     }
 
@@ -118,16 +115,14 @@ public class QualityNotificationMessage {
                 .createdByName(senderName)
                 .sendTo(receiverBPN)
                 .sendToName(receiverName)
-                .edcUrl(edcUrl)
                 .contractAgreementId(contractAgreementId)
                 .description(description)
                 .notificationStatus(notificationStatus)
                 .affectedParts(affectedParts)
-                .targetDate(targetDate)
-                .severity(severity)
                 .edcNotificationId(edcNotificationId)
                 .messageId(messageUUID)
-                .isInitial(false)
+                .severity(severity)
+                .targetDate(targetDate)
                 .type(type)
                 .errorMessage(errorMessage)
                 .build();

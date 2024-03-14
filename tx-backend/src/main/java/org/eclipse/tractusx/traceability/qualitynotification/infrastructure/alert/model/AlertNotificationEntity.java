@@ -71,7 +71,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .sendTo(alertNotificationEntity.getSendTo())
                 .sendToName(alertNotificationEntity.getSendToName())
                 .description(alertNotificationEntity.getAlert().getDescription())
-                .edcUrl(alertNotificationEntity.getEdcUrl())
                 .contractAgreementId(alertNotificationEntity.getContractAgreementId())
                 .notificationStatus(QualityNotificationStatus.fromStringValue(alertNotificationEntity.getStatus().name()))
                 .affectedParts(alertNotificationEntity.getAssets().stream()
@@ -83,7 +82,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .messageId(alertNotificationEntity.getMessageId())
                 .created(alertNotificationEntity.getCreated())
                 .updated(alertNotificationEntity.getUpdated())
-                .isInitial(alertNotificationEntity.getIsInitial())
                 .type(QualityNotificationType.ALERT)
                 .build();
     }
@@ -107,7 +105,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .edcNotificationId(qualityNotificationMessage.getEdcNotificationId())
                 .status(NotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
                 .messageId(qualityNotificationMessage.getMessageId())
-                .isInitial(qualityNotificationMessage.getIsInitial())
                 .build();
     }
 

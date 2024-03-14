@@ -204,7 +204,6 @@ class NotificationPublisherServiceTest {
                 .created(LocalDateTime.now().plusSeconds(10))
                 .targetDate(Instant.now())
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
-                .isInitial(false)
                 .build();
 
         List<QualityNotificationMessage> notifications = new ArrayList<>();

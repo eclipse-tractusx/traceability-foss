@@ -71,7 +71,6 @@ class NotificationMapperTest {
         assertEquals(expectedNotification.getCreatedByName(), actualNotification.getCreatedByName());
         assertEquals(expectedNotification.getSendTo(), actualNotification.getSendTo());
         assertEquals(expectedNotification.getSendToName(), actualNotification.getSendToName());
-        assertEquals(expectedNotification.getEdcUrl(), actualNotification.getEdcUrl());
         assertNull(actualNotification.getContractAgreementId());
         assertEquals("information", actualNotification.getDescription());
         assertEquals(expectedNotification.getNotificationStatus(), actualNotification.getNotificationStatus());

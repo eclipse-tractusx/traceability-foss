@@ -81,7 +81,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
 
         // when
@@ -107,7 +106,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
 
         // when
@@ -131,7 +129,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -156,7 +153,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -181,7 +177,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -206,7 +201,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -232,7 +226,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -257,7 +250,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -282,7 +274,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -307,7 +298,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
