@@ -97,13 +97,13 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
                 Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(edcNotificationId);
                 if (optionalQualityNotificationById.isPresent()) {
-                    optionalQualityNotificationById.ifPresent(investigationRepository::saveQualityNotificationEntity);
+                    optionalQualityNotificationById.ifPresent(investigationRepository::updateQualityNotificationEntity);
                     log.info("Updated qualitynotification message as investigation with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
                 }
             } else {
                 Optional<QualityNotification> optionalQualityNotificationById = alertRepository.findByEdcNotificationId(edcNotificationId);
                 if (optionalQualityNotificationById.isPresent()) {
-                    optionalQualityNotificationById.ifPresent(alertRepository::saveQualityNotificationEntity);
+                    optionalQualityNotificationById.ifPresent(alertRepository::updateQualityNotificationEntity);
                     log.info("Updated qualitynotification message as alert with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
                 }
             }

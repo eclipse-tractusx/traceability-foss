@@ -54,7 +54,7 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
     @JoinColumn(name = "investigation_id")
     private InvestigationEntity investigation;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "assets_as_built_notifications",
             joinColumns = @JoinColumn(name = "notification_id"),

@@ -54,7 +54,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Table(name = "alert")
 public class AlertEntity extends NotificationBaseEntity {
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "assets_as_built_alerts",
             joinColumns = @JoinColumn(name = "alert_id"),
@@ -63,7 +63,7 @@ public class AlertEntity extends NotificationBaseEntity {
     public List<AssetAsBuiltEntity> assets;
 
 
-    @OneToMany(mappedBy = "alert", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "alert")
     private List<AlertNotificationEntity> notifications;
 
     public static QualityNotification toDomain(AlertEntity alertNotificationEntity) {
