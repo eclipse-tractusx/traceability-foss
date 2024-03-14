@@ -106,8 +106,7 @@ so that you end up with a well-structured app.
 A detailed [explanation](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/user/user-manual.adoc) of how to use the application.
 
 ### Frontend Testing Strategy
-
-See [TESTING](TESTING.md).
+See [TESTING](frontend/TESTING.md).
 
 ## The backend application
 
@@ -120,36 +119,8 @@ See [TESTING](TESTING.md).
 
 * see [Installation guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/INSTALL.md)
 
-### Running tests
-
-#### Unit tests
-
-To run unit tests invoke following command:
-
-```sh
-mvn clean test
-```
-
-#### Integration tests
-
-Product Traceability FOSS Backend relies on [Testcontainers library](https://www.testcontainers.org/) in order to provide
-persistence layer, thus [Docker Engine](https://docs.docker.com/engine/) is required to be running.
-
-To run integration tests via command line, invoke following command:
-
-```sh
-mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B verify
-```
-
-#### Running all tests
-
-To run all tests invoke following command:
-
-```sh
-mvn -DskipTests=false clean verify
-```
-
-*Please note that this task depends on `integrationTest` task, so it's required to have [Docker Engine](https://docs.docker.com/engine/) running.*
+## Backend Testing Strategy
+See [TESTING](tx-backend/TESTING.md).
 
 ## API documentation
 The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/openapi/traceability-foss-backend.json)
