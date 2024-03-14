@@ -21,8 +21,8 @@
 
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
 import { Role } from '@core/user/role.model';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -46,6 +46,11 @@ export class AdminComponent {
       name: 'routing.adminImport',
       icon: 'upload',
       link: '/admin/configure-import',
+    },
+    {
+      name: 'routing.adminContract',
+      icon: 'assignment_ind',
+      link: '/admin/contracts',
     },
   ];
 
