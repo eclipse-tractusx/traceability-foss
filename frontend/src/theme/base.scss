@@ -218,6 +218,7 @@ app-other-parts {
 
 app-notifications-tab {
   .table-wrapper {
+    background-color: white;
     @media screen and (max-height: 1049px) {
       height: 56vh ;
     }
@@ -333,5 +334,11 @@ app-multiselect .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.md
 app-textarea {
   .mat-mdc-form-field-infix {
     padding-top: 14px !important;
+  }
+}
+
+app-admin {
+  .table-wrapper {
+    overflow-x: auto;
   }
 }

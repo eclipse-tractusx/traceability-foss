@@ -27,6 +27,7 @@ SPDX-License-Identifier: Apache-2.0
         [routerLink]="item.link"
         [class.active]="this.activeUrl === item.link"
         class="sidenav--item"
+        [attr.data-testid]="item.link"
       >
         <app-text-with-icon [iconName]="item.icon" [color]="this.activeUrl === item.link ? 'primary' : undefined">
           <ng-container *ngIf="showFullText">{{ item.name | i18n }}</ng-container>

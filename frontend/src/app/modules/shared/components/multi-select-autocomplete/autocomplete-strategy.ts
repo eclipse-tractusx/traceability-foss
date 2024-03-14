@@ -17,6 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 import { Injectable } from '@angular/core';
+import { AdminService } from '@page/admin/core/admin.service';
 import { Owner } from '@page/parts/model/owner.enum';
 import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationService } from '@shared/service/notification.service';
@@ -93,6 +94,25 @@ export class AlertStrategy extends AutocompleteStrategy {
   }
 }
 
+@Injectable({
+  providedIn: 'any',
+})
+export class ContractsStrategy extends AutocompleteStrategy {
+  adminService: AdminService;
+
+  constructor(adminService: AdminService) {
+    super();
+    this.adminService = adminService;
+  }
+
+  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
+    return this.adminService.getDistinctFilterValues(
+      filterColumns,
+      searchElement,
+    );
+  }
+}
+
 export const AutocompleteStrategyMap = new Map<TableType, any>([
   [ TableType.AS_BUILT_OWN, PartsStrategy ],
   [ TableType.AS_BUILT_SUPPLIER, PartsStrategy ],
@@ -104,6 +124,7 @@ export const AutocompleteStrategyMap = new Map<TableType, any>([
   [ TableType.CREATED_INVESTIGATION, InvestigationStrategy ],
   [ TableType.RECEIVED_ALERT, AlertStrategy ],
   [ TableType.CREATED_ALERT, AlertStrategy ],
+  [ TableType.CONTRACTS, ContractsStrategy]
 ]);
 
 export function getOwnerOfTable(tableType: TableType): Owner {
