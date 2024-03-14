@@ -22,6 +22,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #423 Moved errorMessages from investigation/alert to notification list
 - Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
 - #536 rework /policies to respond with policies from the IRS policy store
+- #742 rework test management strategy for frontend and backend part
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
