@@ -21,6 +21,8 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
@@ -57,6 +59,12 @@ class EdcNotificationServiceImplTest {
     @Mock
     private DiscoveryService discoveryService;
 
+    @Mock
+    private InvestigationRepository investigationRepository;
+
+    @Mock
+    private AlertRepository alertRepository;
+
     @Test
     void testNotificationsServiceUpdateAsync() {
         // given
@@ -73,7 +81,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
 
         // when
@@ -99,7 +106,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
 
         // when
@@ -123,7 +129,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -148,7 +153,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -173,7 +177,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -198,7 +201,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -224,7 +226,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -249,7 +250,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -274,7 +274,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -299,7 +298,6 @@ class EdcNotificationServiceImplTest {
                 .type(QualityNotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 

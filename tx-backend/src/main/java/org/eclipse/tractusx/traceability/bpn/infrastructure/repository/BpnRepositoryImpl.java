@@ -64,8 +64,11 @@ public class BpnRepositoryImpl implements BpnRepository {
     }
 
     @Override
-    public Optional<String> findManufacturerName(String manufacturerId) {
-        return repository.findById(manufacturerId).map(BpnEntity::getManufacturerName);
+    public String findManufacturerName(String manufacturerId) {
+        if (manufacturerId != null) {
+            return repository.findById(manufacturerId).map(BpnEntity::getManufacturerName).orElse(null);
+        }
+        return null;
     }
 
     @Override

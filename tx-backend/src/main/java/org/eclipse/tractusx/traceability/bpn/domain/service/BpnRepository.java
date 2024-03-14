@@ -39,7 +39,7 @@ public interface BpnRepository {
 
     void deleteById(String bpn);
 
-    Optional<String> findManufacturerName(String manufacturerId);
+    String findManufacturerName(String manufacturerId);
 
     void updateManufacturers(Map<String, String> bpns);
 

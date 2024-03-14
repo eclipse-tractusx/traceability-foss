@@ -52,7 +52,6 @@ public class NotificationMessageMapper { // rename to QualityNotificationMessage
                 .createdByName(getManufacturerName(edcNotification.getSenderBPN()))
                 .sendTo(edcNotification.getRecipientBPN())
                 .sendToName(getManufacturerName(edcNotification.getRecipientBPN()))
-                .edcUrl(edcNotification.getSenderAddress())
                 .description(edcNotification.getInformation())
                 .notificationStatus(edcNotification.convertNotificationStatus())
                 .affectedParts(edcNotification.getListOfAffectedItems())
@@ -60,13 +59,11 @@ public class NotificationMessageMapper { // rename to QualityNotificationMessage
                 .severity(QualityNotificationSeverity.fromString(edcNotification.getSeverity()))
                 .edcNotificationId(edcNotification.getNotificationId())
                 .messageId(edcNotification.getMessageId())
-                .isInitial(false)
                 .build();
 
     }
 
     private String getManufacturerName(String senderBPN) {
-        return bpnRepository.findManufacturerName(senderBPN)
-                .orElse(null);
+        return bpnRepository.findManufacturerName(senderBPN);
     }
 }

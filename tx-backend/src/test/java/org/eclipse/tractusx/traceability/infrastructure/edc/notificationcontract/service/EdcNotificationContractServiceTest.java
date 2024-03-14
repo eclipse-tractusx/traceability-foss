@@ -106,7 +106,7 @@ class EdcNotificationContractServiceTest {
     }
 
     @Test
-    void givenService_whenAssetCreationThrowsException_thenThrowException() throws CreateEdcAssetException, CreateEdcPolicyDefinitionException, CreateEdcContractDefinitionException {
+    void givenService_whenAssetCreationThrowsException_thenThrowException() throws CreateEdcAssetException {
         // given
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;

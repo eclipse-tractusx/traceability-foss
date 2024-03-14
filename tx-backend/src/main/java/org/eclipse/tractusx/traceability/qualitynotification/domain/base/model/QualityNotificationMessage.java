@@ -22,6 +22,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationStatusTransitionNotAllowed;
 
@@ -29,14 +31,15 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @Setter
 @Data
 public class QualityNotificationMessage {
-    private final String id;
+    private String id;
     private final String createdByName;
     private final String sendToName;
     @Builder.Default
@@ -44,7 +47,6 @@ public class QualityNotificationMessage {
     private String notificationReferenceId;
     private String createdBy;
     private String sendTo;
-    private String edcUrl;
     private String contractAgreementId;
     private String description;
     private QualityNotificationStatus notificationStatus;
@@ -54,11 +56,10 @@ public class QualityNotificationMessage {
     private Instant targetDate;
     private QualityNotificationSeverity severity;
     private String messageId;
-    private Boolean isInitial;
     private QualityNotificationType type;
     private String errorMessage;
 
-    void changeStatusTo(QualityNotificationStatus to) {
+    public void changeStatusTo(QualityNotificationStatus to) {
         boolean transitionAllowed = notificationStatus.transitionAllowed(to);
 
         if (!transitionAllowed) {
@@ -67,10 +68,30 @@ public class QualityNotificationMessage {
         this.notificationStatus = to;
     }
 
+    public static QualityNotificationMessage create(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
+        final String notificationId = UUID.randomUUID().toString();
+        final String messageId = UUID.randomUUID().toString();
+        return QualityNotificationMessage.builder()
+                .id(notificationId)
+                .created(LocalDateTime.now())
+                .createdBy(applicationBpn.value())
+                .createdByName(creator)
+                .sendTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
+                .sendToName(sendToName)
+                .description(description)
+                .notificationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())
+                .targetDate(targetDate)
+                .severity(severity)
+                .edcNotificationId(notificationId)
+                .messageId(messageId)
+                .build();
+    }
 
     // Important - receiver and sender will be saved in switched order
     public QualityNotificationMessage copyAndSwitchSenderAndReceiver(BPN applicationBpn) {
         final String notificationId = UUID.randomUUID().toString();
+        final String messageUUID = UUID.randomUUID().toString();
         String receiverBPN = sendTo;
         String senderBPN = createdBy;
         String receiverName;
@@ -93,16 +114,14 @@ public class QualityNotificationMessage {
                 .createdByName(senderName)
                 .sendTo(receiverBPN)
                 .sendToName(receiverName)
-                .edcUrl(edcUrl)
                 .contractAgreementId(contractAgreementId)
                 .description(description)
                 .notificationStatus(notificationStatus)
                 .affectedParts(affectedParts)
-                .targetDate(targetDate)
-                .severity(severity)
                 .edcNotificationId(edcNotificationId)
-                .messageId(UUID.randomUUID().toString())
-                .isInitial(false)
+                .messageId(messageUUID)
+                .severity(severity)
+                .targetDate(targetDate)
                 .type(type)
                 .errorMessage(errorMessage)
                 .build();
