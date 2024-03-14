@@ -14,6 +14,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #515 Service Unavailable Response on Notification failure
 - #536 Added import state PUBLISHED_TO_CORE_SERVICES in frontend
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
+- #423 Notification will be created/persisted in case of a edc notification
 - Added a step to the pull-request-backend.yml which checks if the pom.xml(root) properties have some versions ending with -SNAPSHOT
 - Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
 - #536 added new ImportState to asset PUBLISHED_TO_CORE_SERVICES indicating edc assets and dtr shells were created for given asset

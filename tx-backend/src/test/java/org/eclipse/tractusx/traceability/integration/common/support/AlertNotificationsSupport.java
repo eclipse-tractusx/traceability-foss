@@ -363,7 +363,6 @@ public class AlertNotificationsSupport {
                 .createdBy(OWN_BPN)
                 .createdByName(OWN_BPN_COMPANY_NAME)
                 .sendTo(OTHER_BPN)
-                .sendToName(OTHER_BPN_COMPANY_NAME)
                 .alert(alert)
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a1")
                 .build();

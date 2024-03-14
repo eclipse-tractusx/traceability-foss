@@ -100,15 +100,15 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .sendToName("Receiver manufacturer name")
                 .severity(QualityNotificationSeverity.MINOR)
                 .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
-                .isInitial(false)
                 .type(QualityNotificationType.ALERT)
+                .severity(QualityNotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
         EDCNotification notification = EDCNotificationFactory.createEdcNotification(
                 "it", notificationBuild);
 
         // when
-        alertsReceiverService.handleNotificationReceive(notification);
+        alertsReceiverService.handleReceive(notification);
 
         // then
         alertsSupport.assertAlertsSize(1);
@@ -156,7 +156,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 }
         );
 
-        alertNotificationsSupport.assertAlertNotificationsSize(1);
+        alertNotificationsSupport.assertAlertNotificationsSize(2);
 
         // when/then
         given()
@@ -477,7 +477,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .post("/api/alerts/1/cancel")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Alert not found for 1 id"));
+                .body("message", Matchers.is("Alert not found for 1 notification id"));
     }
 
     @Test
@@ -528,7 +528,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        alertNotificationsSupport.assertAlertNotificationsSize(1);
+        alertNotificationsSupport.assertAlertNotificationsSize(2);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))

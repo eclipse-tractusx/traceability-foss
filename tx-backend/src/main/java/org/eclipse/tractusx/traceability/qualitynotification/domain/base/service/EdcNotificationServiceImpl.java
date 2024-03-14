@@ -26,6 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
@@ -51,50 +53,50 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     private final InvestigationsEDCFacade edcFacade;
     private final DiscoveryService discoveryService;
 
-
     @Override
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
-    public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage notification) {
-        log.info("::asyncNotificationExecutor::notification {}", notification);
-        Discovery discovery = discoveryService.getDiscoveryByBPN(notification.getSendTo());
+
+    public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage message) {
+        log.info("::asyncNotificationExecutor::message {}", message);
+        Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSendTo());
         String senderEdcUrl = discovery.getSenderUrl();
         List<String> receiverUrls = emptyIfNull(discovery.getReceiverUrls());
         List<Boolean> sendResults = List.of();
 
-        if (notification.getType().equals(QualityNotificationType.ALERT)) {
+        if (message.getType().equals(QualityNotificationType.ALERT)) {
             log.info("::asyncNotificationExecutor::isQualityAlert");
             sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingNotification(notification, senderEdcUrl, receiverUrl)).toList();
+                    .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
         }
 
-        if (notification.getType().equals(QualityNotificationType.INVESTIGATION)) {
+        if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
             log.info("::asyncNotificationExecutor::isQualityInvestigation");
             sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingNotification(notification, senderEdcUrl, receiverUrl)).toList();
+                    .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
         }
 
         Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
 
         if (Boolean.TRUE.equals(wasSent)) {
-            return CompletableFuture.completedFuture(notification);
+            return CompletableFuture.completedFuture(message);
         }
 
         return CompletableFuture.completedFuture(null);
     }
 
-    // #606 TODO add within the catch a service call which updates a notification error message field with the error message from the exception so that we can execute a retry within the e2e testing.
-    private boolean handleSendingNotification(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
+    // #606 TODO add within the catch a service call which updates a message error message field with the error message from the exception so that we can execute a retry within the e2e testing.
+    private boolean handleSendingNotification(QualityNotificationMessage message, String senderEdcUrl, String receiverUrl) {
         try {
-            edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
+            edcFacade.startEdcTransfer(message, receiverUrl, senderEdcUrl);
             return true;
         } catch (NoCatalogItemException e) {
-            log.warn("Could not send notification to {} no catalog item found. ", receiverUrl, e);
+            log.warn("Could not send message to {} no catalog item found. ", receiverUrl, e);
         } catch (SendNotificationException e) {
-            log.warn("Could not send notification to {} ", receiverUrl, e);
+            log.warn("Could not send message to {} ", receiverUrl, e);
         } catch (NoEndpointDataReferenceException e) {
-            log.warn("Could not send notification to {} no endpoint data reference found", receiverUrl, e);
+            log.warn("Could not send message to {} no endpoint data reference found", receiverUrl, e);
         } catch (ContractNegotiationException e) {
-            log.warn("Could not send notification to {} could not negotiate contract agreement", receiverUrl, e);
+            log.warn("Could not send message to {} could not negotiate contract agreement", receiverUrl, e);
         }
         return false;
     }
