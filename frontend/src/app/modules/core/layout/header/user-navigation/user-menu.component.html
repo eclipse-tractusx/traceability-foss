@@ -89,6 +89,7 @@ SPDX-License-Identifier: Apache-2.0
     [class.user-menu-items--disabled] = "!isAuthorized"
     [routerLink]="isAuthorized ? ['/' + route] : null"
     [class.user-menu-items--selected]="route === activeItem"
+    data-testid="user-menu-administration-button"
   >
     <p class="regular-text user-menu-items__label" [class.user-menu-items__label--disabled]="!isAuthorized" role="menuitem">
       {{ 'routing.' + name | i18n }}

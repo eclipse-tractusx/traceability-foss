@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
 
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
