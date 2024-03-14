@@ -41,7 +41,6 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolic
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.CreateEdcResourcesException;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -62,58 +61,53 @@ public class EdcAssetCreationService {
     @Value("${registry.urlWithPath}")
     String registryUrlWithPath = null;
 
-    public String createDtrAndSubmodelAssets(String policyId) {
+    public String createDtrAndSubmodelAssets(String policyId) throws CreateEdcPolicyDefinitionException, CreateEdcAssetException, CreateEdcContractDefinitionException {
         PolicyResponse policy = policyService.getPolicyById(policyId);
         String createdPolicyId;
         try {
             createdPolicyId = edcDtrPolicyDefinitionService.createAccessPolicy(mapToEdcPolicyRequest(policy));
             log.info("DTR Policy Id created :{}", createdPolicyId);
-        } catch (CreateEdcPolicyDefinitionException e) {
-            throw new CreateEdcResourcesException(e);
         } catch (EdcPolicyDefinitionAlreadyExists e) {
             createdPolicyId = policyId;
+        } catch (Exception exception) {
+            throw new CreateEdcPolicyDefinitionException(exception);
         }
-
 
         String dtrAssetId;
         try {
             dtrAssetId = edcDtrAssetService.createDtrAsset(registryUrlWithPath, REGISTRY_ASSET_ID);
             log.info("DTR Asset Id created :{}", dtrAssetId);
-        } catch (CreateEdcAssetException e) {
-            throw new CreateEdcResourcesException(e);
         } catch (EdcAssetAlreadyExistsException e) {
             dtrAssetId = REGISTRY_ASSET_ID;
+        } catch (Exception exception) {
+            throw new CreateEdcAssetException(exception);
         }
 
-
-        String dtrContractId;
         try {
-            dtrContractId = edcDtrContractDefinitionService.createContractDefinition(dtrAssetId, createdPolicyId);
+            String dtrContractId = edcDtrContractDefinitionService.createContractDefinition(dtrAssetId, createdPolicyId);
             log.info("DTR Contract Id created :{}", dtrContractId);
-        } catch (CreateEdcContractDefinitionException e) {
-            throw new CreateEdcResourcesException(e);
+        } catch (Exception e) {
+            throw new CreateEdcContractDefinitionException(e);
         }
-
 
         String submodelAssetId;
         String submodelAssetIdToCreate = "urn:uuid:" + UUID.randomUUID();
         try {
             submodelAssetId = edcDtrAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase() + "/api/submodel", submodelAssetIdToCreate);
             log.info("Submodel Asset Id created :{}", submodelAssetId);
-        } catch (CreateEdcAssetException e) {
-            throw new CreateEdcResourcesException(e);
         } catch (EdcAssetAlreadyExistsException e) {
             submodelAssetId = submodelAssetIdToCreate;
+        } catch (Exception exception) {
+            throw new CreateEdcAssetException(exception);
         }
 
-
-        String submodelContractId;
         try {
-            submodelContractId = edcDtrContractDefinitionService.createContractDefinition(submodelAssetId, createdPolicyId);
-        } catch (CreateEdcContractDefinitionException e) {
-            throw new CreateEdcResourcesException(e);
+            String submodelContractId = edcDtrContractDefinitionService.createContractDefinition(submodelAssetId, createdPolicyId);
+            log.info("Submodel Contract Id created :{}", submodelContractId);
+        } catch (Exception e) {
+            throw new CreateEdcContractDefinitionException(e);
         }
-        log.info("Submodel Contract Id created :{}", submodelContractId);
+
         return submodelAssetId;
     }
 

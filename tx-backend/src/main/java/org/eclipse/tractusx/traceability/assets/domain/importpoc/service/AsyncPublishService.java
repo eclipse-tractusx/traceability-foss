@@ -21,6 +21,9 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
+import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
+import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShellException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
@@ -35,6 +38,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -54,21 +58,40 @@ public class AsyncPublishService {
 
         List<String> createdShellsAssetIds = new ArrayList<>();
         assetsByPolicyId.forEach((policyId, assetsForPolicy) -> {
-            String submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(policyId);
-            assetsForPolicy.forEach(assetBase -> {
-                try {
-                    String assetId = dtrService.createShellInDtr(assetBase, submodelServerAssetId);
-                    createdShellsAssetIds.add(assetId);
-                } catch (CreateDtrShellException e) {
-                    log.error("Failed to create shell in dtr for asset with id %s".formatted(assetBase.getId()), e);
-                    updateAssetStates(ImportState.ERROR, "Failed to create shell in DTR", List.of(assetBase.getId()));
+            String submodelServerAssetId = null;
+
+            try {
+                submodelServerAssetId = edcAssetCreationService.createDtrAndSubmodelAssets(policyId);
+            } catch (CreateEdcPolicyDefinitionException e) {
+                log.error("Failed to create EDC Policy.", e);
+                updateAssetStates(ImportState.ERROR, ImportNote.ERROR_EDC_POLICY_CREATION_FAILED, assetsForPolicy.stream().map(AssetBase::getId).toList());
+            } catch (CreateEdcAssetException e) {
+                log.error("Failed to create EDC Asset.", e);
+                updateAssetStates(ImportState.ERROR, ImportNote.ERROR_EDC_ASSET_CREATION_FAILED, assetsForPolicy.stream().map(AssetBase::getId).toList());
+            } catch (CreateEdcContractDefinitionException e) {
+                log.error("Failed to create EDC Contract.", e);
+                updateAssetStates(ImportState.ERROR, ImportNote.ERROR_EDC_CONTRACT_CREATION_FAILED, assetsForPolicy.stream().map(AssetBase::getId).toList());
+            }
+
+
+            if (Objects.nonNull(submodelServerAssetId)) {
+                String tempSubmodelServerAssetId = submodelServerAssetId;
+                assetsForPolicy.forEach(assetBase -> {
+                    try {
+                        String assetId = dtrService.createShellInDtr(assetBase, tempSubmodelServerAssetId);
+                        createdShellsAssetIds.add(assetId);
+                    } catch (CreateDtrShellException e) {
+                        log.error("Failed to create shell in dtr for asset with id %s".formatted(assetBase.getId()), e);
+                        updateAssetStates(ImportState.ERROR, ImportNote.ERROR_DTR_SHELL_CREATION_FAILED, List.of(assetBase.getId()));
+                    }
+                });
+
+                updateAssetStates(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
+                if (triggerSynchronizeAssets) {
+                    decentralRegistryService.synchronizeAssets();
                 }
-            });
+            }
         });
-        updateAssetStates(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
-        if (triggerSynchronizeAssets) {
-            decentralRegistryService.synchronizeAssets();
-        }
     }
 
     private void updateAssetStates(ImportState importState, String importNote, List<String> assetIds) {

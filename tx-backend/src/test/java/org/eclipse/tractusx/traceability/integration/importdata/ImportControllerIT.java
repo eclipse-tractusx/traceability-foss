@@ -533,6 +533,190 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenValidFile_whenPublishDataFailsOnPolicy_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("default-policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+        irsApiSupport.irsApiReturnsPolicies();
+        edcApiSupport.edcWillFailToCreatePolicyDefinition();
+        edcApiSupport.edcWillCreateAsset();
+        edcApiSupport.edcWillCreateContractDefinition();
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
+        dtrApiSupport.dtrWillCreateShell();
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(registerAssetRequest)
+                .post("/api/assets/publish")
+                .then()
+                .statusCode(201);
+
+        // then
+        eventually(() -> {
+            try {
+                AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+                assertThat(asset.getImportState()).isEqualTo(ImportState.ERROR);
+            } catch (AssertionFailedError exception) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    @Test
+    void givenValidFile_whenPublishDataFailsOnEdcPolicyCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("default-policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+        irsApiSupport.irsApiReturnsPolicies();
+        edcApiSupport.edcWillFailToCreatePolicyDefinition();
+        edcApiSupport.edcWillCreateAsset();
+        edcApiSupport.edcWillCreateContractDefinition();
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
+        dtrApiSupport.dtrWillCreateShell();
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(registerAssetRequest)
+                .post("/api/assets/publish")
+                .then()
+                .statusCode(201);
+
+        // then
+        eventually(() -> {
+            try {
+                AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+                assertThat(asset.getImportState()).isEqualTo(ImportState.ERROR);
+            } catch (AssertionFailedError exception) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    @Test
+    void givenValidFile_whenPublishDataFailsOnEdcAssetCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("default-policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+        irsApiSupport.irsApiReturnsPolicies();
+        edcApiSupport.edcWillCreatePolicyDefinition();
+        edcApiSupport.edcWillFailToCreateAsset();
+        edcApiSupport.edcWillCreateContractDefinition();
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
+        dtrApiSupport.dtrWillCreateShell();
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(registerAssetRequest)
+                .post("/api/assets/publish")
+                .then()
+                .statusCode(201);
+
+        // then
+        eventually(() -> {
+            try {
+                AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+                assertThat(asset.getImportState()).isEqualTo(ImportState.ERROR);
+            } catch (AssertionFailedError exception) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    @Test
+    void givenValidFile_whenPublishDataFailsOnEdcContractCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+        // given
+        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        File file = new File(path);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .multiPart(file)
+                .post("/api/assets/import")
+                .then()
+                .statusCode(200)
+                .extract().as(ImportResponse.class);
+
+        RegisterAssetRequest registerAssetRequest = new RegisterAssetRequest("default-policy", List.of("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f"));
+        irsApiSupport.irsApiReturnsPolicies();
+        edcApiSupport.edcWillCreatePolicyDefinition();
+        edcApiSupport.edcWillCreateAsset();
+        edcApiSupport.edcWillFailToCreateContractDefinition();
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
+        dtrApiSupport.dtrWillCreateShell();
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(registerAssetRequest)
+                .post("/api/assets/publish")
+                .then()
+                .statusCode(201);
+
+        // then
+        eventually(() -> {
+            try {
+                AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+                assertThat(asset.getImportState()).isEqualTo(ImportState.ERROR);
+            } catch (AssertionFailedError exception) {
+                return false;
+            }
+            return true;
+        });
+    }
+
+    @Test
     void givenInvalidAssetID_whenPublishData_thenStatusCode404() throws JoseException, InterruptedException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();

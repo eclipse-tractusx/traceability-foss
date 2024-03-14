@@ -37,3 +37,5 @@ include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data
 include::data-provisioning/return-import-report.adoc[leveloffset=+1]
 
 include::data-provisioning/publish-assets.adoc[leveloffset=+1]
+
+include::data-provisioning/publish-assets-error.adoc[leveloffset=+1]

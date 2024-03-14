@@ -64,6 +64,15 @@ public class EdcSupport {
         );
     }
 
+    public void edcWillFailToCreateAsset() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v3/assets"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.SERVICE_UNAVAILABLE_503)
+        );
+    }
+
     public void edcWillRemoveNotificationAsset() {
         whenHttp(restitoProvider.stubServer()).match(
                 method(DELETE),
@@ -169,7 +178,7 @@ public class EdcSupport {
                 post("/management/v2/policydefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
-                status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+                status(HttpStatus.SERVICE_UNAVAILABLE_503)
         );
     }
 
