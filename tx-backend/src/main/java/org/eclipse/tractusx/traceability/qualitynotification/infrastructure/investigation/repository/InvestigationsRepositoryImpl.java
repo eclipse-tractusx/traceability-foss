@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inv
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -58,6 +59,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Slf4j
 @RequiredArgsConstructor
 @Component
+@Transactional
 public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private final JpaInvestigationRepository jpaInvestigationRepository;

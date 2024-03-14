@@ -59,6 +59,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Component
 public class AlertsRepositoryImpl implements AlertRepository {
 
