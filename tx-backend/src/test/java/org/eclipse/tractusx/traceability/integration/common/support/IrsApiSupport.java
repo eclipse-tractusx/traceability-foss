@@ -94,4 +94,15 @@ public class IrsApiSupport {
                         restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json")
                 );
     }
+
+    public void irsApiReturnsPolicies() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/policies")
+                )
+                .then(
+                        status(HttpStatus.OK_200),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies.json")
+                );
+    }
 }

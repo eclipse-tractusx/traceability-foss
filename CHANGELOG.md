@@ -10,14 +10,19 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- #421 Added contract agreement view
 - #515 Service Unavailable Response on Notification failure
-
+- #536 Added import state PUBLISHED_TO_CX in frontend
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
-
+- Added a step to the pull-request-backend.yml which checks if the pom.xml(root) properties have some versions ending with -SNAPSHOT
+- Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
 - #515 Fixed notification toast click area
+- #625 increased height of tables
 - #423 Moved errorMessages from investigation/alert to notification list
+- Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
+- #536 rework /policies to respond with policies from the IRS policy store
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout

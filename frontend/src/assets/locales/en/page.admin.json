@@ -40,6 +40,17 @@
       "description": "Description",
       "uploadMore": "Upload more",
       "noImportStateMessage": "No additional information was returned by the server."
+    },
+    "contracts": {
+      "contracts": "Contracts",
+      "contractId": "Contract ID",
+      "counterpartyAddress": "Counterparty address",
+      "creationDate": "Creation date",
+      "endDate": "End date",
+      "state": "State",
+      "policies": "Policies",
+      "selectAtleastOne": "Select atleast one contract to use the export functionality.",
+      "exportAsCSV": ".CSV-File Export"
     }
   }
 }

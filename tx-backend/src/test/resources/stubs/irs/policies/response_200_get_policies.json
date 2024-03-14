@@ -1,0 +1,97 @@
+[
+  {
+    "validUntil" : "2029-03-11T11:04:52.771949893Z",
+    "payload" : {
+      "@context" : {
+        "odrl" : "http://www.w3.org/ns/odrl/2/"
+      },
+      "@id" : "default-policy",
+      "policy" : {
+        "policyId" : "default-policy",
+        "createdOn" : "2024-03-11T11:04:52.771906693Z",
+        "validUntil" : "2029-03-11T11:04:52.771949893Z",
+        "permissions" : [
+          {
+            "action" : "USE",
+            "constraint" : {
+              "and" : [
+                {
+                  "leftOperand" : "PURPOSE",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "ID 3.0 Trace"
+                },
+                {
+                  "leftOperand" : "PURPOSE",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "ID 3.1 Trace"
+                },
+                {
+                  "leftOperand" : "PURPOSE",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "R2_Traceability"
+                },
+                {
+                  "leftOperand" : "FrameworkAgreement.traceability",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "active"
+                },
+                {
+                  "leftOperand" : "Membership",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "active"
+                }
+              ],
+              "or" : [
+                {
+                  "leftOperand" : "PURPOSE",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "ID 3.0 Trace"
+                },
+                {
+                  "leftOperand" : "PURPOSE",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "ID 3.1 Trace"
+                },
+                {
+                  "leftOperand" : "PURPOSE",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "R2_Traceability"
+                },
+                {
+                  "leftOperand" : "FrameworkAgreement.traceability",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "active"
+                },
+                {
+                  "leftOperand" : "Membership",
+                  "operator" : {
+                    "@id" : "eq"
+                  },
+                  "odrl:rightOperand" : "active"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+]
