@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.ale
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -62,7 +63,7 @@ public class AlertEntity extends NotificationBaseEntity {
     public List<AssetAsBuiltEntity> assets;
 
 
-    @OneToMany(mappedBy = "alert")
+    @OneToMany(mappedBy = "alert", fetch = FetchType.EAGER)
     private List<AlertNotificationEntity> notifications;
 
     public static QualityNotification toDomain(AlertEntity alertNotificationEntity) {
