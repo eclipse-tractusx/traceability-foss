@@ -16,16 +16,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { HttpParams } from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
   FilterOperator,
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
-import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
+import {NotificationFilter} from '../../../mocks/services/investigations-mock/investigations.model';
 
-export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate' ];
+export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate' ];
 
 // TODO: Refactor function
 export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
