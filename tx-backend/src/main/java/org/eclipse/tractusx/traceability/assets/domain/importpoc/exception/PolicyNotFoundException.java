@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,14 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.exception;
 
-public enum ImportState {
-    TRANSIENT,
-    PERSISTENT,
-    ERROR,
-    IN_SYNCHRONIZATION,
-    PUBLISHED_TO_CORE_SERVICES,
-    UNSET
+public class PolicyNotFoundException extends RuntimeException{
+    public PolicyNotFoundException(String message) {
+        super(message);
+    }
 }

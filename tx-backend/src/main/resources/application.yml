@@ -28,6 +28,7 @@ traceability:
   adminApiKey: ${IRS_ADMIN_API_KEY}
   regularApiKey: ${IRS_REGULAR_API_KEY}
   irsBase: ${IRS_URL}
+  irsPoliciesPath: "/irs/policies"
   submodelBase: ${SUBMODEL_URL}
 
 edc:
@@ -47,6 +48,8 @@ edc:
   api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings: { }
   provider-edc-url: ${EDC_PROVIDER_URL}
+  provider-dataplane-edc-url: ${EDC_PROVIDER_DATAPLANE_URL}
+
   callback-urls: ${EDC_CALLBACK_URL}
 
 irs-edc-client:
@@ -154,6 +157,11 @@ cors:
   origins: >
     ${ALLOWED_CORS_ORIGIN_FIRST},
     ${ALLOWED_CORS_ORIGIN_SECOND}
+
+registry:
+  urlWithPath: ${REGISTRY_URL_WITH_PATH:https://registry.net/semantics/registry/api/v3.0}
+  shellDescriptorUrl: /shell-descriptors
+  allowedBpns: ${REGISTRY_ALLOWED_BPNS:BPNL00000003CML1,BPNL00000003CNKC}
 
 digitalTwinRegistryClient:
   shellDescriptorTemplate: /shell-descriptors/{aasIdentifier} # The path to retrieve AAS descriptors from the decentral DTR, must contain the placeholder {aasIdentifier}

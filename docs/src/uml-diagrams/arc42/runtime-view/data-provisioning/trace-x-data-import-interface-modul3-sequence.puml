@@ -3,19 +3,32 @@ participant BE
 participant EDC
 participant Registry
 participant Submodels
+participant Irs
+autonumber "<b>[000]"
 
-BE ->> BE: [001] scheduler job
-BE ->> BE: [002] receive list of IN_SYNC_assets
-BE ->> EDC: [003] create asset in EDC: POST/create/asset
-EDC -->> BE: [004] response
-BE ->> EDC: [005] create policy in EDC: POST/create/policy
-EDC -->> BE: [006] response
-BE ->> EDC: [007] create contract in EDC: POST/create/contract
-EDC -->> BE: [008] response
-BE ->> Submodels: [009] create submodel: POST/submodel
-Submodels -->> BE: [010]
-BE ->> Registry: [011] register shell in registry: POST/semantics/registry
-Registry -->> BE: [012]
-BE ->> BE: [013] update asset state PUBLISHED_TO_CX
-BE ->> BE: [014] trigger IRS sync
+BE ->> BE: scheduler job
+BE ->> BE: receive list of IN_SYNC assets
+BE ->> Irs: get policy for assets from policy store: GET/irs/policies
+Irs -->> BE: response
+BE ->> EDC: create policy in EDC: POST/create/policy
+EDC -->> BE: response
+BE ->> EDC: create DTR asset in EDC: POST/create/asset
+EDC -->> BE: response
+BE ->> EDC: create DTR contract in EDC: POST/create/contract
+EDC -->> BE: response
+BE ->> EDC: create Submodel asset in EDC: POST/create/asset
+EDC -->> BE: response
+BE ->> EDC: create Submodel contract in EDC: POST/create/contract
+EDC -->> BE: response
+BE ->> Submodels: create submodel: POST/submodel
+Submodels -->> BE:
+BE ->> Registry: [017] register shell in registry: POST/semantics/registry
+alt Successful DTR shell creation
+Registry -->> BE: shell created
+BE ->> BE: update asset state PUBLISHED_TO_CORE_SERVICES
+BE ->> BE: trigger IRS sync
+else DTR shell was not created
+Registry -->> BE: create shell not successful or service unavailable
+BE ->> BE: update asset state ERROR
+end
 @enduml

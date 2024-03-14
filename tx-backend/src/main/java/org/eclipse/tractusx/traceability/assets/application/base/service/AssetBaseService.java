@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.assets.application.base.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -47,4 +48,6 @@ public interface AssetBaseService {
     AssetBase updateQualityType(String assetId, QualityType qualityType);
 
     List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner);
+
+    List<String> getAssetIdsInImportState(ImportState... importStates);
 }

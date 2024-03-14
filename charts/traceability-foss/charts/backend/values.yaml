@@ -170,6 +170,7 @@ irs:
   baseUrl: "https://replace.me"
 registry:
   urlWithPath: "https://replace.me"
+  allowedBpns: "replace me"
 portal:
   baseUrl: "https://replace.me"
 

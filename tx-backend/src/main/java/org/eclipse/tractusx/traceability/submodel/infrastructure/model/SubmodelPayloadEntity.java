@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.submodel.infrastructure.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -54,12 +53,12 @@ public class SubmodelPayloadEntity {
     private String json;
 
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "asset_as_built_id")
     @ToString.Exclude
     public AssetAsBuiltEntity assetAsBuilt;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "asset_as_planned_id")
     @ToString.Exclude
     private AssetAsPlannedEntity assetAsPlanned;

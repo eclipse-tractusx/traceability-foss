@@ -199,7 +199,10 @@ The following table explains the different import state an asset can have:
 |Asset is uploaded but not synchronized with the Item Relationship Service (IRS).
 
 |in_synchronization
-|Asset is in the process of synchronizing with the IRS.
+|Asset is ready to be published.
+
+|published_to_core_services
+|Asset is published, EDC assets, DTR shell, Submodel are created
 
 |persistent
 |Asset is successfully synchronized with the IRS.

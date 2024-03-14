@@ -33,12 +33,19 @@ public class MapperHelper {
     }
 
     public static String getShortId(List<Shell> shells, String globalAssetId) {
-        return getShortIds(shells).get(globalAssetId);
+        return shells.stream()
+                .filter(shell -> shell.payload().idShort() != null)
+                .map(shell -> Map.entry(shell.payload().globalAssetId(), shell.payload().idShort()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existingValue, newValue) -> existingValue
+                )).get(globalAssetId);
     }
 
     public static String getContractAgreementId(List<Shell> shells, String globalAssetId) {
         return shells.stream()
-                .filter(shell -> shell.payload().globalAssetId().equals(globalAssetId))
+                .filter(shell -> globalAssetId.equals(shell.payload().globalAssetId()))
                 .map(Shell::contractAgreementId)
                 .findFirst()
                 .orElse(null);
@@ -55,16 +62,6 @@ public class MapperHelper {
                 return null;
             }
         }
-    }
-
-    private static Map<String, String> getShortIds(List<Shell> shells) {
-        return shells.stream()
-                .map(shell -> Map.entry(shell.payload().globalAssetId(), shell.payload().idShort()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (existingValue, newValue) -> existingValue
-                ));
     }
 
     public static void enrichAssetBase(List<DetailAspectModel> detailAspectModels, AssetBase assetBase) {

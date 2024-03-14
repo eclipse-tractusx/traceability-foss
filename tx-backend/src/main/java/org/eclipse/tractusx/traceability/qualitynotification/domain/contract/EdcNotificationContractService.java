@@ -43,7 +43,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class EdcNotificationContractService {
 
-    private final EdcAssetService edcNotificationAssetService;
+    private final EdcAssetService edcAssetService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
@@ -60,7 +60,7 @@ public class EdcNotificationContractService {
 
         String notificationAssetId;
         try {
-            notificationAssetId = edcNotificationAssetService.createNotificationAsset(
+            notificationAssetId = edcAssetService.createNotificationAsset(
                     createBaseUrl(request.notificationType(), request.notificationMethod()),
                     request.notificationType().name() + " " + request.notificationMethod().name(),
                     org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()),
@@ -115,7 +115,7 @@ public class EdcNotificationContractService {
         log.info("Removing {} notification asset", notificationAssetId);
 
         try {
-            edcNotificationAssetService.deleteAsset(notificationAssetId);
+            edcAssetService.deleteAsset(notificationAssetId);
         } catch (DeleteEdcAssetException e) {
             throw new CreateNotificationContractException(e);
         }
