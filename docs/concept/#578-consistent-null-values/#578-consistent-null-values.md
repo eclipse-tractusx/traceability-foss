@@ -33,7 +33,7 @@ These should be consistent throughout Trace-X.
     - [ ] Empty strings ("") are all converted to null.
 - [ ] Null values are shown as a dash "-" in the frontend.
 - [ ] When sorting columns, null values are treated the default way of the database. (Shown at the end for ASC - shown at the beginning for DESC)
-- [ ] Null values can be filtered for. They are shown as "*empty field*" when filtering for them. This option is always shown at the top of the filter/search box regardless of what the user is searching for.
+- [ ] Null values can be filtered for. They are shown as "-" when filtering for them. This option is always shown at the top of the filter/search box regardless of what the user is searching for.
 - [ ] Leading and trailing whitespace characters don't count as mandatory values during user input.
 
 # Out of scope
@@ -52,7 +52,7 @@ Null values should be shown in the frontend as a dash:
 ![null-value-display.png](null-value-display.png)
 
 When sorting the values, null must be treated the default way of the database. When sorted ascending, they are at the end. When sorted descending, they are at the beginning.
-Filtering for empty values must be possible. In the filter box "*empty field*" should always be shown at the top regardless of what the user is searching for.
+Filtering for empty values must be possible. In the filter box "-" should always be shown at the top regardless of what the user is searching for.
 
 ![null-value-filter.png](null-value-filter.png)
 
