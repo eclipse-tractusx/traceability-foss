@@ -47,6 +47,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
@@ -90,9 +91,10 @@ public class InvestigationsEDCFacade {
         notification.setContractAgreementId(contractAgreementId);
         notification.setEdcUrl(receiverEdcUrl);
 
+
         try {
-            EdcNotificationRequest notificationRequest = buildNotificationRequestNew(notification, senderEdcUrl, dataReference);
-            httpCallService.sendRequest(notificationRequest);
+            EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notification, senderEdcUrl, dataReference);
+            httpCallService.sendRequest(notificationRequest, notification);
         } catch (Exception e) {
             throw new SendNotificationException("Failed to send notification.", e);
         }
@@ -142,7 +144,7 @@ public class InvestigationsEDCFacade {
     }
 
     // TODO this method should be completly handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
-    private EdcNotificationRequest buildNotificationRequestNew(
+    private EdcNotificationRequest toEdcNotificationRequest(
             final QualityNotificationMessage notification,
             final String senderEdcUrl,
             final EndpointDataReference dataReference
@@ -152,7 +154,7 @@ public class InvestigationsEDCFacade {
         String body = objectMapper.writeValueAsString(edcNotification);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set(dataReference.getAuthKey(), dataReference.getAuthCode());
+        headers.set(Objects.requireNonNull(dataReference.getAuthKey()), dataReference.getAuthCode());
         headers.set("Content-Type", "application/json");
         log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
         return EdcNotificationRequest.builder()

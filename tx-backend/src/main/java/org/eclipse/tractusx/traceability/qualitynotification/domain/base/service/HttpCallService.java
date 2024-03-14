@@ -21,28 +21,37 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
 
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 import static java.lang.String.format;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
+@Transactional
 public class HttpCallService {
 
     private final RestTemplate edcNotificationTemplate;
-
-    public HttpCallService(RestTemplate edcNotificationTemplate) {
-        this.edcNotificationTemplate = edcNotificationTemplate;
-    }
+    private final InvestigationRepository investigationRepository;
+    private final AlertRepository alertRepository;
 
 
-    public void sendRequest(final EdcNotificationRequest request) {
+    public void sendRequest(final EdcNotificationRequest request, QualityNotificationMessage message) {
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
         try {
             var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
@@ -50,6 +59,21 @@ public class HttpCallService {
             log.info("Control plane responded with status: {}", response.getStatusCode());
             if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
+            } else {
+                String edcNotificationId = message.getEdcNotificationId();
+                if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
+                    Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(edcNotificationId);
+                    if (optionalQualityNotificationById.isPresent()) {
+                        optionalQualityNotificationById.ifPresent(investigationRepository::updateQualityNotificationEntity);
+                        log.info("Updated qualitynotification message as investigation with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
+                    }
+                } else {
+                    Optional<QualityNotification> optionalQualityNotificationById = alertRepository.findByEdcNotificationId(edcNotificationId);
+                    if (optionalQualityNotificationById.isPresent()) {
+                        optionalQualityNotificationById.ifPresent(alertRepository::updateQualityNotificationEntity);
+                        log.info("Updated qualitynotification message as alert with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
+                    }
+                }
             }
         } catch (Exception e) {
             log.warn(e.getMessage());

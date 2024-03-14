@@ -32,7 +32,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.excepti
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.springframework.context.annotation.Profile;
@@ -40,7 +39,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -93,20 +91,6 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     private boolean handleSendingNotification(QualityNotificationMessage message, String senderEdcUrl, String receiverUrl) {
         try {
             edcFacade.startEdcTransfer(message, receiverUrl, senderEdcUrl);
-            String edcNotificationId = message.getEdcNotificationId();
-            if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
-                Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(edcNotificationId);
-                if (optionalQualityNotificationById.isPresent()) {
-                    optionalQualityNotificationById.ifPresent(investigationRepository::updateQualityNotificationEntity);
-                    log.info("Updated qualitynotification message as investigation with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
-                }
-            } else {
-                Optional<QualityNotification> optionalQualityNotificationById = alertRepository.findByEdcNotificationId(edcNotificationId);
-                if (optionalQualityNotificationById.isPresent()) {
-                    optionalQualityNotificationById.ifPresent(alertRepository::updateQualityNotificationEntity);
-                    log.info("Updated qualitynotification message as alert with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
-                }
-            }
             return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send message to {} no catalog item found. ", receiverUrl, e);

@@ -20,8 +20,6 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.servic
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -119,6 +117,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         approvedNotifications.forEach(notificationMessage -> {
             notificationMessage.setId(UUID.randomUUID().toString());
             notificationMessage.changeStatusTo(QualityNotificationStatus.SENT);
+            notificationMessage.setIsInitial(false);
         });
         log.info("Found {} notification messages in status SENT", approvedNotifications.size());
 

@@ -102,7 +102,7 @@ class InvestigationsEDCFacadeTest {
         investigationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl);
 
         // then
-        verify(httpCallService).sendRequest(any());
+        verify(httpCallService).sendRequest(any(), any());
     }
 
     @Test
@@ -131,7 +131,7 @@ class InvestigationsEDCFacadeTest {
         when(endpointDataReference.getEndpoint()).thenReturn(dataReferenceEndpoint);
         when(endpointDataReferenceStorage.get(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
-        doThrow(new RuntimeException()).when(httpCallService).sendRequest(any());
+        doThrow(new RuntimeException()).when(httpCallService).sendRequest(any(), any());
 
         // when/then
         assertThrows(SendNotificationException.class, () -> investigationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
