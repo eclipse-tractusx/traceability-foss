@@ -28,7 +28,9 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.investigatio
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder(toBuilder = true)
@@ -142,4 +144,7 @@ public class QualityNotification {
         return this.notificationStatus.isActiveState();
     }
 
+    public Optional<QualityNotificationMessage> latestNotification() {
+        return notifications.stream().max(Comparator.comparing(QualityNotificationMessage::getCreated)).stream().findFirst();
+    }
 }

@@ -39,7 +39,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -116,11 +115,18 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
         if (optionalQualityNotificationById.isPresent()) {
             log.info("Quality Notification for error message enrichment {}", optionalQualityNotificationById.get());
-            optionalQualityNotificationById.get().getNotifications().stream()
-                    .max(Comparator.comparing(QualityNotificationMessage::getCreated)).stream().toList().forEach(qMessage -> qMessage.setErrorMessage(e.getMessage()));
+
+            Optional<QualityNotificationMessage> qualityNotificationMessage =
+                    optionalQualityNotificationById.get().latestNotification();
+
+            qualityNotificationMessage.ifPresent(message1 -> {
+                message1.setErrorMessage(e.getMessage());
+            });
+
             investigationRepository.updateErrorMessage(optionalQualityNotificationById.get());
         } else {
-            log.warn("Quality Notification NOT FOUND for error message enrichment {}");
+            log.warn("Quality Notification NOT FOUND for error message enrichment notification id {}", message.getId());
         }
     }
 }
+

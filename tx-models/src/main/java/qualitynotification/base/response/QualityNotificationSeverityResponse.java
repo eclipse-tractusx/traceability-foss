@@ -18,6 +18,7 @@
  ********************************************************************************/
 package qualitynotification.base.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 
@@ -33,6 +34,8 @@ public enum QualityNotificationSeverityResponse {
         this.realName = realName;
     }
 
+
+    @JsonCreator
     public static QualityNotificationSeverityResponse fromString(String str) {
         for (QualityNotificationSeverityResponse s : QualityNotificationSeverityResponse.values()) {
             if (s.realName.equalsIgnoreCase(str)) {

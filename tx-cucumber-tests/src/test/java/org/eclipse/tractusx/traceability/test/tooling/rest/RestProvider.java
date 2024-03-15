@@ -28,9 +28,11 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
 import org.apache.http.HttpStatus;
+import org.awaitility.Duration;
 import org.eclipse.tractusx.traceability.test.tooling.EnvVariablesResolver;
 import org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
@@ -43,6 +45,7 @@ import qualitynotification.base.response.QualityNotificationResponse;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
@@ -50,6 +53,7 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.READ_ENUMS_U
 import static com.fasterxml.jackson.databind.DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static io.restassured.RestAssured.given;
+import static org.awaitility.Awaitility.await;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_B;
 
@@ -96,6 +100,7 @@ public class RestProvider {
             NotificationTypeEnum notificationType) {
         final StartQualityNotificationRequest requestBody = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
+                .isAsBuilt(true)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(QualityNotificationSeverityRequest.valueOf(severity))
@@ -115,15 +120,28 @@ public class RestProvider {
     }
 
     public void approveNotification(final Long notificationId, NotificationTypeEnum notificationType) {
-        given().spec(getRequestSpecification())
-                .contentType(ContentType.JSON)
-                .when()
-                .post("api/" + notificationType.label + "/{notificationId}/approve".replace(
-                        "{notificationId}",
-                        notificationId.toString()
-                ))
-                .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
+        await()
+                .atMost(Duration.FIVE_MINUTES)
+                .pollInterval(10, TimeUnit.SECONDS)
+                .ignoreExceptions()
+                .until(() -> {
+                    ValidatableResponse validatableResponse = given().spec(getRequestSpecification())
+                            .contentType(ContentType.JSON)
+                            .when()
+                            .post("api/" + notificationType.label + "/{notificationId}/approve".replace(
+                                    "{notificationId}",
+                                    notificationId.toString()
+                            ))
+                            .then();
+                    try {
+                        validatableResponse.statusCode(HttpStatus.SC_NO_CONTENT);
+                        return true;
+                    } catch (Exception e) {
+                        System.out.println("Retry action");
+                        return false;
+                    }
+                });
+
     }
 
     public void cancelNotification(final Long notificationId, NotificationTypeEnum notificationType) {
@@ -140,17 +158,28 @@ public class RestProvider {
     }
 
     public void closeNotification(final Long notificationId, NotificationTypeEnum notificationType) {
+        await()
+                .atMost(Duration.FIVE_MINUTES)
+                .pollInterval(10, TimeUnit.SECONDS)
+                .ignoreExceptions()
+                .until(() -> {
+                    ValidatableResponse result = given().spec(getRequestSpecification())
+                            .contentType(ContentType.JSON)
+                            .when()
+                            .body("{\"reason\": \"stringstringstr\"}")
+                            .post("api/" + notificationType.label + "/{notificationId}/close".replace(
+                                    "{notificationId}",
+                                    notificationId.toString()
+                            ))
+                            .then();
+                    try {
+                        ValidatableResponse validatableResponse = result.statusCode(HttpStatus.SC_NO_CONTENT);
+                        return true;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                });
 
-        given().spec(getRequestSpecification())
-                .contentType(ContentType.JSON)
-                .when()
-                .body("{\"reason\": \"stringstringstr\"}")
-                .post("api/" + notificationType.label + "/{notificationId}/close".replace(
-                        "{notificationId}",
-                        notificationId.toString()
-                ))
-                .then()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
     public void updateNotification(NotificationTypeEnum notificationType, final Long notificationId,
@@ -160,17 +189,30 @@ public class RestProvider {
                 .reason(reason)
                 .build();
 
-        given().spec(getRequestSpecification())
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when()
-                .post("api/" + notificationType.label + "/{notificationId}/update".replace(
-                        "{notificationId}",
-                        notificationId.toString()
-                ))
-                .then()
-                .log().all()
-                .statusCode(HttpStatus.SC_NO_CONTENT);
+        await()
+                .atMost(Duration.FIVE_MINUTES)
+                .pollInterval(10, TimeUnit.SECONDS)
+                .ignoreExceptions()
+                .until(() -> {
+                    ValidatableResponse validatableResponse = given().spec(getRequestSpecification())
+                            .contentType(ContentType.JSON)
+                            .body(requestBody)
+                            .when()
+                            .post("api/" + notificationType.label + "/{notificationId}/update".replace(
+                                    "{notificationId}",
+                                    notificationId.toString()
+                            ))
+                            .then()
+                            .log().all();
+
+                    try {
+                        validatableResponse.statusCode(HttpStatus.SC_NO_CONTENT);
+                        return true;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                });
+
     }
 
     public List<QualityNotificationResponse> getReceivedNotifications(NotificationTypeEnum notificationType) {

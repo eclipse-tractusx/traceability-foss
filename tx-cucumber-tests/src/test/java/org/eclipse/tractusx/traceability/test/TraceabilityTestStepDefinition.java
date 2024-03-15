@@ -32,7 +32,6 @@ import org.awaitility.Duration;
 import org.eclipse.tractusx.traceability.test.exteption.MissingStepDefinitionException;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
-
 import org.eclipse.tractusx.traceability.test.validator.NotificationValidator;
 import org.hamcrest.Matchers;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
