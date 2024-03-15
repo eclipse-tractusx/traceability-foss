@@ -140,6 +140,11 @@ public class AlertsRepositoryImpl implements AlertRepository {
                 .map(AlertEntity::toDomain);
     }
 
+    @Override
+    public Optional<QualityNotification> findByNotificationMessageId(String id) {
+        return jpaAlertRepository.findByNotificationMessageId(id).map(AlertEntity::toDomain);
+    }
+
     @Transactional
     @Override
     public long countPartsByStatusAndOwnership(List<QualityNotificationStatus> statuses, Owner owner) {

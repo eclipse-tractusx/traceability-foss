@@ -38,6 +38,8 @@ public interface QualityNotificationRepository {
 
     Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId);
 
+    Optional<QualityNotification> findByNotificationMessageId(String id);
+
     long countQualityNotificationEntitiesBySide(QualityNotificationSide investigationSide);
 
     QualityNotificationId saveQualityNotificationEntity(QualityNotification investigation);

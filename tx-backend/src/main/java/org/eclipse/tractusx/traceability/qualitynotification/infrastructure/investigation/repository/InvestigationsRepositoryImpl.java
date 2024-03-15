@@ -147,6 +147,11 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     @Override
+    public Optional<QualityNotification> findByNotificationMessageId(String id) {
+        return jpaInvestigationRepository.findByNotificationMessageId(id).map(InvestigationEntity::toDomain);
+    }
+
+    @Override
     public long countQualityNotificationEntitiesBySide(QualityNotificationSide investigationSide) {
         return jpaInvestigationRepository.countAllBySideEquals(NotificationSideBaseEntity.valueOf(investigationSide.name()));
     }

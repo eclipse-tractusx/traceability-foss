@@ -95,22 +95,22 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send message to {} no catalog item found. ", receiverUrl, e);
-            enrichQualityNotificationByError(e);
+            enrichQualityNotificationByError(e, message);
         } catch (SendNotificationException e) {
             log.warn("Could not send message to {} ", receiverUrl, e);
-            enrichQualityNotificationByError(e);
+            enrichQualityNotificationByError(e, message);
         } catch (NoEndpointDataReferenceException e) {
             log.warn("Could not send message to {} no endpoint data reference found", receiverUrl, e);
-            enrichQualityNotificationByError(e);
+            enrichQualityNotificationByError(e, message);
         } catch (ContractNegotiationException e) {
             log.warn("Could not send message to {} could not negotiate contract agreement", receiverUrl, e);
-            enrichQualityNotificationByError(e);
+            enrichQualityNotificationByError(e, message);
         }
         return false;
     }
 
-    private void enrichQualityNotificationByError(Exception e) {
-        Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findOptionalQualityNotificationById(null);
+    private void enrichQualityNotificationByError(Exception e, QualityNotificationMessage message) {
+        Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByNotificationMessageId(message.getId());
         if (optionalQualityNotificationById.isPresent()) {
             optionalQualityNotificationById.get().getNotifications().stream()
                     .max(Comparator.comparing(QualityNotificationMessage::getCreated)).stream().toList().forEach(qMessage -> qMessage.setErrorMessage(e.getMessage()));
