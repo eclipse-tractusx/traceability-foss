@@ -103,7 +103,14 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         investigationEntity.setCloseReason(investigation.getCloseReason());
         investigationEntity.setAcceptReason(investigation.getAcceptReason());
         investigationEntity.setDeclineReason(investigation.getDeclineReason());
+        handleNotificationUpdate(investigationEntity, investigation);
+        jpaInvestigationRepository.save(investigationEntity);
+    }
 
+    @Override
+    public void updateQualityNotificationEntityByErrorMessage(QualityNotification investigation) {
+        InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getNotificationId().value())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getNotificationId().value())));
         handleNotificationUpdate(investigationEntity, investigation);
         jpaInvestigationRepository.save(investigationEntity);
     }
@@ -160,6 +167,34 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         InvestigationNotificationEntity notificationEntity = toNotificationEntity(investigationEntity, notificationDomain, assetEntities);
 
         Optional<InvestigationNotificationEntity> optionalNotification = notificationRepository.findById(notificationEntity.getId());
+
+        optionalNotification.ifPresentOrElse(
+                // If present
+                investigationNotificationEntity -> log.info("Investigation has the following old notification with id {} and status {}", investigationNotificationEntity.getId(), investigationNotificationEntity.getStatus().name()),
+                // If not present
+                () -> {
+                    // Persist
+                    log.info("Investigation has the following new notification with id {} and status {}", notificationEntity.getId(), notificationEntity.getStatus().name());
+                    notificationRepository.save(notificationEntity);
+                    log.info("Successfully persisted notification entity {}", notificationEntity);
+                }
+        );
+
+    }
+
+    private void updateErrorMessageInNotification(InvestigationEntity investigationEntity, QualityNotificationMessage notificationDomain, List<AssetAsBuiltEntity> assetEntities) {
+        InvestigationNotificationEntity notificationEntity = toNotificationEntity(investigationEntity, notificationDomain, assetEntities);
+
+        Optional<InvestigationNotificationEntity> optionalNotification = notificationRepository.findById(notificationEntity.getId());
+
+        optionalNotification.ifPresentOrElse(investigationNotificationEntity -> {
+            optionalNotification.get().setErrorMessage(notificationDomain.getErrorMessage());
+            notificationRepository.save(notificationEntity);
+
+        }, () -> {
+            log.info("Could not find notification by id {}", notificationDomain.getId());
+        });
+
 
         optionalNotification.ifPresentOrElse(
                 // If present
