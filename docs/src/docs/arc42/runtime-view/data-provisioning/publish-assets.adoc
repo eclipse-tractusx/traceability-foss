@@ -2,7 +2,7 @@
 
 This section describes user interaction when publishing assets
 
-[plantuml,target=import-report-receive,format=svg]
+[plantuml,target=publish-assets,format=svg]
 ....
 include::../../../../uml-diagrams/arc42/runtime-view/data-provisioning/publish-assets.puml[]
 ....
