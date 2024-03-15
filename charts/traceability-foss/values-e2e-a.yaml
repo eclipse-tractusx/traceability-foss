@@ -194,6 +194,7 @@ backend:
     baseUrl: *irs_url
   registry:
     urlWithPath: *dtr_url
+    allowedBpns: *allowed_bpns
   portal:
     baseUrl: *portal_backend_url
 
