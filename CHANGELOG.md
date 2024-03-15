@@ -19,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
 - #536 added new ImportState to asset PUBLISHED_TO_CORE_SERVICES indicating edc assets and dtr shells were created for given asset
 - #536 added cron job responsible to publish assets in PUBLISHED_TO_CORE_SERVICES import state to edc and dtr
+- #652 add GitHub action to publish Swagger to Swaggerhub
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)

@@ -50,7 +50,7 @@ public class OpenApiConfig {
                 .components(components)
                 .addSecurityItem(new SecurityRequirement().addList("oAuth2", "profile email"))
                 .info(new Info()
-                        .title("Trace-FOSS - OpenAPI Documentation")
+                        .title("Tractus-X Traceability Foss")
                         .version("1.0.0")
                         .description("Trace-FOSS is a system for tracking parts along the supply chain. " +
                                 "A high level of transparency across the supplier network enables faster intervention " +
