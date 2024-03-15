@@ -18,7 +18,7 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<div class="part-detail--header--container">
+<div class="part-detail--header--container flex flex-row justify-between items-center mb-1">
   <div class="part-detail--header--navigation--container">
     <app-button
       [color]="'primary'"
@@ -30,8 +30,29 @@ SPDX-License-Identifier: Apache-2.0
       </div>
     </app-button>
   </div>
-  <div class="part-detail--header--action--container">
-    <mat-icon></mat-icon>
+  <div class="part-detail--header--action--container flex flex-row justify-center items-center">
+    <div class="action-button-tile mr-2">
+    <mat-icon
+      matTooltip="{{ 'start investigation' | i18n}}"
+      matTooltipClass="table--header--tooltip"
+      matTooltipPosition="above"
+      [class.mdc-tooltip--multiline]="true"
+      [matTooltipShowDelay]="500"
+      [matTooltipDisabled]="!roleService.isAdmin() && !isAsPlannedPart && (selectedPartDetails$ | async)?.data?.children?.length > 0"
+      [style.cursor]="'pointer'"
+    >announcement</mat-icon>
+    </div>
+    <div class="action-button-tile">
+    <mat-icon
+      matTooltip="{{ 'publish asset' | i18n}}"
+      matTooltipClass="table--header--tooltip"
+      matTooltipPosition="above"
+      [class.mdc-tooltip--multiline]="true"
+      [matTooltipShowDelay]="500"
+      [matTooltipDisabled]="!roleService.isAdmin() && !isAsPlannedPart && (selectedPartDetails$ | async)?.data?.children?.length > 0"
+      [style.cursor]="'pointer'"
+    >published_with_changes</mat-icon>
+  </div>
   </div>
 </div>
 <div class="part-detail--container">
