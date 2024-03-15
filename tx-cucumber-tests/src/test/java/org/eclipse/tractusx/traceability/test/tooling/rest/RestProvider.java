@@ -103,7 +103,7 @@ public class RestProvider {
                 .isAsBuilt(true)
                 .description(description)
                 .targetDate(targetDate)
-                .severity(QualityNotificationSeverityRequest.valueOf(severity))
+                .severity(QualityNotificationSeverityRequest.fromValue(severity))
                 .receiverBpn(receiverBpn)
                 .build();
         return given().log().body()
