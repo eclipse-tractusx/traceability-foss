@@ -24,11 +24,15 @@ package qualitynotification.base.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class UpdateQualityNotificationRequest {
     @NotNull(message = "status must be present")
     private UpdateQualityNotificationStatusRequest status;

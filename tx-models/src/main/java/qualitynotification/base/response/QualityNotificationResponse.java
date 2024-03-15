@@ -23,7 +23,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @SuperBuilder
@@ -81,5 +83,10 @@ public class QualityNotificationResponse {
     private String targetDate;
 
     private List<QualityNotificationMessageResponse> messages;
+
+
+    public Optional<QualityNotificationMessageResponse> latestNotification() {
+        return messages.stream().max(Comparator.comparing(QualityNotificationMessageResponse::getCreated)).stream().findFirst();
+    }
 
 }
