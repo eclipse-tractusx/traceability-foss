@@ -37,10 +37,11 @@ import {AngularSplitModule} from 'angular-split';
 import {PartsRoutingModule} from './parts.routing';
 import {PartsComponent} from './presentation/parts.component';
 import {RelationComponent} from './presentation/relation/relation.component';
+import {PartsDetailModule} from "@page/parts/detail/parts-detail.module";
 
 @NgModule({
   declarations: [ PartsComponent, RelationComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule, AngularSplitModule, MatDialogModule ],
+  imports: [ CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule, AngularSplitModule, MatDialogModule, PartsDetailModule ],
   providers: [ PartsState, BomLifecycleSettingsService, PartsFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider([ 'page.parts', 'partDetail' ]) ],
 })
 export class PartsModule {
