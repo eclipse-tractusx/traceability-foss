@@ -112,9 +112,12 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     private void enrichQualityNotificationByError(Exception e, QualityNotificationMessage message) {
         Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByNotificationMessageId(message.getId());
         if (optionalQualityNotificationById.isPresent()) {
+            log.info("Quality Notification for error message enrichment {}", optionalQualityNotificationById.get());
             optionalQualityNotificationById.get().getNotifications().stream()
                     .max(Comparator.comparing(QualityNotificationMessage::getCreated)).stream().toList().forEach(qMessage -> qMessage.setErrorMessage(e.getMessage()));
             investigationRepository.updateErrorMessage(optionalQualityNotificationById.get());
+        } else {
+            log.warn("Quality Notification NOT FOUND for error message enrichment {}", optionalQualityNotificationById.get());
         }
     }
 }
