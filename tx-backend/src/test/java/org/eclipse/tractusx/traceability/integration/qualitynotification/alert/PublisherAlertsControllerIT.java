@@ -231,9 +231,12 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void givenTooLongAlertReason_whenUpdateAlert_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         String description = RandomStringUtils.random(1001);
-        val request = new UpdateQualityNotificationRequest();
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
-        request.setReason(description);
+
+        UpdateQualityNotificationRequest request = UpdateQualityNotificationRequest
+                .builder()
+                .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                .reason(description)
+                .build();
 
         // when/then
         given()
@@ -251,9 +254,13 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void givenWrongStatus_whenUpdateAlert_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         String description = RandomStringUtils.random(15);
-        val request = new UpdateQualityNotificationRequest();
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
-        request.setReason(description);
+
+
+        UpdateQualityNotificationRequest request = UpdateQualityNotificationRequest
+                .builder()
+                .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                .reason(description)
+                .build();
 
         // when/then
         given()
@@ -440,8 +447,12 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
         // when
-        var closeAlertRequest = new CloseQualityNotificationRequest();
-        closeAlertRequest.setReason("this is the close reason for that investigation");
+
+        CloseQualityNotificationRequest closeAlertRequest = CloseQualityNotificationRequest
+                .builder()
+                .reason("this is the close reason for that investigation")
+                .build();
+
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(closeAlertRequest))
