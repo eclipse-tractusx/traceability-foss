@@ -8,7 +8,7 @@ In this example, the user requests an import report.
 include::../../../../uml-diagrams/arc42/runtime-view/data-provisioning/import-report-receive.puml[]
 ....
 
-==== Overview
+== Overview
 
 When a user requests an import report, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
 If yes, then the endpoint returns an import report to the given importJobId.
