@@ -62,7 +62,7 @@ public class AlertResponseMapper {
                 .sendToName(getReceiverName(qualityNotification.getNotifications()))
                 .severity(QualityNotificationMapper.from(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getSeverity).orElse(QualityNotificationSeverity.MINOR)))
                 .targetDate(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
-                .qualityNotificationMessages(fromNotifications(qualityNotification.getNotifications()))
+                .messages(fromNotifications(qualityNotification.getNotifications()))
                 .build();
     }
 
