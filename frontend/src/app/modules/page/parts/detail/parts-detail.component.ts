@@ -1,21 +1,21 @@
-import {Component, Input} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {RoleService} from '@core/user/role.service';
-import {TractionBatteryCode} from '@page/parts/model/aspectModels.model';
-import {Owner} from '@page/parts/model/owner.enum';
+import { Location } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RoleService } from '@core/user/role.service';
+import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
+import { Owner } from '@page/parts/model/owner.enum';
 
-import {Part, QualityType} from '@page/parts/model/parts.model';
-import {PartsAssembler} from '@shared/assembler/parts.assembler';
-import {SelectOption} from '@shared/components/select/select.component';
-import {State} from '@shared/model/state';
-import {View} from '@shared/model/view.model';
-import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
+import { Part, QualityType } from '@page/parts/model/parts.model';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { SelectOption } from '@shared/components/select/select.component';
+import { State } from '@shared/model/state';
+import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
-import {Observable, Subscription} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
-import {Location} from "@angular/common";
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { Observable, Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-parts-detail',
@@ -152,7 +152,8 @@ export class PartsDetailComponent {
   protected readonly Owner = Owner;
 
   navigateToPartsView() {
+    const parentPath = this.router.routerState.snapshot.url.split('/')[1]; //otherParts
     const navigationExtras = this.pageIndexHistory ? {queryParams: this.pageIndexHistory} : null
-    this.router.navigate(['parts'], navigationExtras);
+    this.router.navigate([parentPath], navigationExtras);
   }
 }

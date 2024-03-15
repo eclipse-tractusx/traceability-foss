@@ -264,8 +264,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       if(!params) {
         return;
       }
-      this.onAsBuiltTableConfigChange({page: params['AS_BUILT_OWN_PAGE'], pageSize: 50, sorting: ["",null]});
-      this.onAsPlannedTableConfigChange({page: params['AS_PLANNED_OWN_PAGE'], pageSize: 50, sorting: ["", null]});
+      this.onAsBuiltTableConfigChange({page: params['AS_BUILT_OWN_PAGE'], pageSize: 50, sorting: null});
+      this.onAsPlannedTableConfigChange({page: params['AS_PLANNED_OWN_PAGE'], pageSize: 50, sorting: null});
     }
 
     protected readonly UserSettingView = UserSettingView;
