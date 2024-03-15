@@ -38,6 +38,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Bumped shedlock from 5.11.0 to 5.12.0
 - Overridden transitive commons-compress version by 1.26.1 to fix CVE-2024-26308
 - Overridden transitive commons-codec version by 1.16.1 to fix CVE-2024-26308
+- Update irs-registry-client from version 1.6.0-SNAPSHOT to 1.6.0
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
