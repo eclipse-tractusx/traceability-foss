@@ -114,7 +114,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
         if (optionalQualityNotificationById.isPresent()) {
             optionalQualityNotificationById.get().getNotifications().stream()
                     .max(Comparator.comparing(QualityNotificationMessage::getCreated)).stream().toList().forEach(qMessage -> qMessage.setErrorMessage(e.getMessage()));
-            investigationRepository.updateQualityNotificationEntity(optionalQualityNotificationById.get());
+            investigationRepository.updateErrorMessage(optionalQualityNotificationById.get());
         }
     }
 }

@@ -50,4 +50,6 @@ public interface QualityNotificationRepository {
 
     List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide owner);
 
+    void updateErrorMessage(QualityNotification investigation);
+
 }
