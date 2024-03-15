@@ -84,7 +84,7 @@ public class ImportController {
                     description = "OK.",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema())),
+                            schema = @Schema(implementation = ImportResponse.class))),
             @ApiResponse(
                     responseCode = "204",
                     description = "No Content.",

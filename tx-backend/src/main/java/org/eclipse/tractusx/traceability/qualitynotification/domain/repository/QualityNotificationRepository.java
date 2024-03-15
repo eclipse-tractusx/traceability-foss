@@ -42,7 +42,7 @@ public interface QualityNotificationRepository {
 
     QualityNotificationId saveQualityNotificationEntity(QualityNotification investigation);
 
-    QualityNotificationId updateQualityNotificationEntity(QualityNotification investigation);
+    void updateQualityNotificationEntity(QualityNotification investigation);
 
     PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
 

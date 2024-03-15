@@ -80,6 +80,13 @@ public enum QualityNotificationStatus {
         return MAPPINGS.get(value);
     }
 
+    public static QualityNotificationStatus getPreviousStatus(QualityNotificationStatus status) {
+        return switch (status) {
+            case CREATED, SENT, CANCELED -> QualityNotificationStatus.CREATED;
+            case ACKNOWLEDGED, RECEIVED, CLOSED -> QualityNotificationStatus.SENT;
+            case ACCEPTED, DECLINED -> QualityNotificationStatus.ACKNOWLEDGED;
+        };
+    }
     public boolean transitionAllowed(QualityNotificationStatus to) {
 
         Set<QualityNotificationStatus> allowedStatusesToTransition = STATE_MACHINE.get(this);

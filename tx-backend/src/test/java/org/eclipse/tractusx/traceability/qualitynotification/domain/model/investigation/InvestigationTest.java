@@ -24,12 +24,10 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.model.inves
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
-import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -238,8 +236,8 @@ class InvestigationTest {
     void forbidAcknowledgeInvestigationWithStatusClosed(QualityNotificationStatus status) {
         // Given
         investigation = receiverInvestigationWithStatus(status);
-        QualityNotificationMessage notification = testNotification();
-        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.acknowledge(notification));
+
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.acknowledge());
 
         assertEquals(status, investigation.getNotificationStatus());
 
@@ -249,12 +247,8 @@ class InvestigationTest {
     @DisplayName("Forbid Accept Investigation with invalid status")
     @MethodSource("provideInvalidStatusForAcceptInvestigation")
     void forbidAcceptInvestigationWithDisallowedStatus(QualityNotificationStatus status) {
-        QualityNotificationMessage notification = testNotification();
-
         investigation = receiverInvestigationWithStatus(status);
-
-        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.accept("some reason", notification));
-
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.accept("some reason"));
         assertEquals(status, investigation.getNotificationStatus());
 
     }
@@ -264,8 +258,7 @@ class InvestigationTest {
     @MethodSource("provideInvalidStatusForDeclineInvestigation")
     void forbidDeclineInvestigationWithInvalidStatus(QualityNotificationStatus status) {
         investigation = receiverInvestigationWithStatus(status);
-        QualityNotificationMessage notification = testNotification();
-        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.decline("some-reason", notification));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.decline("some-reason"));
         assertEquals(status, investigation.getNotificationStatus());
     }
 
@@ -309,9 +302,8 @@ class InvestigationTest {
     @Test
     @DisplayName("Acknowledge Investigation successfully")
     void acknowledgeInvestigationSuccessfully() {
-        QualityNotificationMessage notification = testNotification();
         investigation = receiverInvestigationWithStatus(RECEIVED);
-        investigation.acknowledge(notification);
+        investigation.acknowledge();
         assertEquals(ACKNOWLEDGED, investigation.getNotificationStatus());
 
     }
@@ -319,21 +311,17 @@ class InvestigationTest {
     @Test
     @DisplayName("Accept Investigation successfully")
     void acceptInvestigationSuccessfully() {
-        QualityNotificationMessage notification = testNotification();
         investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
-        investigation.accept("some reason", notification);
+        investigation.accept("some reason");
         assertEquals(ACCEPTED, investigation.getNotificationStatus());
-        assertEquals(ACCEPTED, notification.getNotificationStatus());
     }
 
     @Test
     @DisplayName("Decline Investigation successfully")
     void declineInvestigationSuccessfully() {
-        QualityNotificationMessage notification = testNotification();
         investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
-        investigation.decline("some reason", notification);
+        investigation.decline("some reason");
         assertEquals(DECLINED, investigation.getNotificationStatus());
-        assertEquals(DECLINED, notification.getNotificationStatus());
     }
 
     //util functions
@@ -349,12 +337,6 @@ class InvestigationTest {
                 .notificationStatus(status)
                 .notificationSide(side)
                 .build();
-        // todo check if we need empty lists
-        //   return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", "", "", Instant.now(), new ArrayList<>(), new ArrayList<>());
-    }
-
-    private QualityNotificationMessage testNotification() {
-        return NotificationTestDataFactory.createNotificationTestData();
     }
 }
 

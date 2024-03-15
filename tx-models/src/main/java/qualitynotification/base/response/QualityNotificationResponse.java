@@ -84,6 +84,6 @@ public class QualityNotificationResponse {
     @Size(max = 255)
     private String errorMessage;
 
-    private List<QualityNotificationMessageResponse> qualityNotificationMessageResponseList;
+    private List<QualityNotificationMessageResponse> qualityNotificationMessages;
 
 }

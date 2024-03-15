@@ -36,6 +36,7 @@ public class EDCNotificationFactory {
         if (notification.getTargetDate() != null) {
             targetDate = notification.getTargetDate().toString();
         }
+
         EDCNotificationHeader header = new EDCNotificationHeader(
                 notification.getEdcNotificationId(),
                 notification.getCreatedBy(),
