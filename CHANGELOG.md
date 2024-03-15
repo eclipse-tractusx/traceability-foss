@@ -29,6 +29,15 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #536 rework /policies to respond with policies from the IRS policy store
 - #536 sync assets logic was adjusted to create IRS jobs only for assets that are not in TRANSIENT or IN_SYNC states
 - #536 Updated Arc42 documentation and user-manual with publish assets informations
+- Bumped softprops/action-gh-release from v1 to v2
+- Bumped azure/setup-helm from v3 to v4
+- Bumped aquasecurity/trivy-action from 0.17.0 to 0.18.0
+- Bupped cucumber-bom from 7.12.1 to 7.15.0
+- Bumped jetbrains-annotation from 24.0.1 to 24.1.0
+- Bumped commons-logging from 1.2 to 1.3.0
+- Bumped shedlock from 5.11.0 to 5.12.0
+- Overridden transitive commons-compress version by 1.26.1 to fix CVE-2024-26308
+- Overridden transitive commons-codec version by 1.16.1 to fix CVE-2024-26308
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
