@@ -38,7 +38,8 @@ public enum QualityNotificationSeverityResponse {
     @JsonCreator
     public static QualityNotificationSeverityResponse fromString(String str) {
         for (QualityNotificationSeverityResponse s : QualityNotificationSeverityResponse.values()) {
-            if (s.realName.equalsIgnoreCase(str)) {
+            String replacedString = str.replace("-", "_");
+            if (s.realName.equalsIgnoreCase(replacedString)) {
                 return s;
             }
         }
