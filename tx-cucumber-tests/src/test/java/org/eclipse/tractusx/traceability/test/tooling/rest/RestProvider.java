@@ -34,11 +34,12 @@ import org.apache.http.HttpStatus;
 import org.eclipse.tractusx.traceability.test.tooling.EnvVariablesResolver;
 import org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
-import org.eclipse.tractusx.traceability.test.tooling.rest.request.StartQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
+import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.StartQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationRequest;
+import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
 
 import java.time.Instant;
 import java.util.List;
@@ -97,7 +98,7 @@ public class RestProvider {
                 .partIds(partIds)
                 .description(description)
                 .targetDate(targetDate)
-                .severity(severity)
+                .severity(QualityNotificationSeverityRequest.valueOf(severity))
                 .receiverBpn(receiverBpn)
                 .build();
         return given().log().body()
