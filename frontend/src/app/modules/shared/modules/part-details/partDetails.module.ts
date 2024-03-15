@@ -30,10 +30,9 @@ import { RelationsModule } from '../relations/relations.module';
 import { PartDetailsFacade } from './core/partDetails.facade';
 import { PartDetailsState } from './core/partDetails.state';
 import { PartDetailComponent } from './presentation/part-detail.component';
-import { StartInvestigationComponent } from './presentation/start-investigation/start-investigation.component';
 
 @NgModule({
-  declarations: [ PartDetailComponent, StartInvestigationComponent ],
+  declarations: [ PartDetailComponent ],
   imports: [ CommonModule, TemplateModule, SharedModule, RelationsModule ],
   providers: [
     PartDetailsState,

@@ -93,11 +93,6 @@ SPDX-License-Identifier: Apache-2.0
           <mat-icon>announcement</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <app-start-investigation
-        *ngIf="(selectedPartDetails$ | async)?.data?.children?.length"
-        [part]="selectedPartDetails$ | async"
-        (submitted)="setIsOpen(false)"
-      ></app-start-investigation>
     </mat-expansion-panel>
   </mat-accordion>
 </app-sidenav-wrapper>
