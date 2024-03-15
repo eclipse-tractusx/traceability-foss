@@ -39,12 +39,12 @@ class QualityNotificationMessage {
    contractAgreementId: String
    notificationReferenceId: String
    targetDate: Instant
-   severity: QualityNotificationSeverityResponse;
+   severity: QualityNotificationSeverity;
    edcNotificationId: String;
    created: LocalDateTime;
    updated: LocalDateTime;
    messageId: String;
-   status: QualityNotificationStatusResponse;
+   status: QualityNotificationStatus;
    errorMessage: String;
 }
 
