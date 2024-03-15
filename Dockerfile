@@ -15,7 +15,7 @@
 # * SPDX-License-Identifier: Apache-2.0
 
 # Dependencies
-FROM maven:3-openjdk-17-slim AS maven
+FROM maven:3-openjdk-18-slim AS maven
 ARG BUILD_TARGET=tx-backend
 
 # Create Working Directory
