@@ -45,7 +45,7 @@ public class OpenApiConfig {
                 .flows(new OAuthFlows().clientCredentials(
                         new OAuthFlow().scopes(
                                 new Scopes().addString(
-                                        "profile email", "")).tokenUrl("localhost"))));
+                                        "profile email", "")).tokenUrl("https://example.com/api/oauth/token"))));
         return new OpenAPI()
                 .components(components)
                 .addSecurityItem(new SecurityRequirement().addList("oAuth2", "profile email"))

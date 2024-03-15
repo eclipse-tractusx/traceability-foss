@@ -55,10 +55,14 @@ public class SubmodelController {
             tags = {"Submodel"},
             description = "The endpoint returns Submodel for given id. Used for data providing functionality",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found", content = @Content(
-            mediaType = "application/json",
-            schema = @Schema()
-    )),
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Returns submodel payload",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = String.class)
+                    )),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -112,14 +116,8 @@ public class SubmodelController {
             description = "This endpoint allows you to save a Submodel identified by its ID.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Ok.", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema()
-            )),
-            @ApiResponse(responseCode = "204", description = "No Content.", content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema()
-            )),
+            @ApiResponse(responseCode = "200", description = "Ok."),
+            @ApiResponse(responseCode = "204", description = "No Content."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
