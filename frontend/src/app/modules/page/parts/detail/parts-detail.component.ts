@@ -1,21 +1,21 @@
-import { Location } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RoleService } from '@core/user/role.service';
-import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
-import { Owner } from '@page/parts/model/owner.enum';
+import {Location} from '@angular/common';
+import {Component, Input} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {RoleService} from '@core/user/role.service';
+import {TractionBatteryCode} from '@page/parts/model/aspectModels.model';
+import {Owner} from '@page/parts/model/owner.enum';
 
-import { ImportState, Part, QualityType } from '@page/parts/model/parts.model';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { SelectOption } from '@shared/components/select/select.component';
-import { State } from '@shared/model/state';
-import { View } from '@shared/model/view.model';
-import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import {ImportState, Part, QualityType} from '@page/parts/model/parts.model';
+import {PartsAssembler} from '@shared/assembler/parts.assembler';
+import {SelectOption} from '@shared/components/select/select.component';
+import {State} from '@shared/model/state';
+import {View} from '@shared/model/view.model';
+import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
 
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {Observable, Subject, Subscription} from 'rxjs';
+import {filter, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-parts-detail',
@@ -38,6 +38,13 @@ export class PartsDetailComponent {
 
   public isAsPlannedPart: boolean = false;
   public isPersistentPart: boolean = false;
+  public isOwnPart: boolean = false;
+  public hasChildren: boolean = false;
+
+  public investigationOnSubcomponentsTooltipMessage: string;
+  public incidentCreationTooltipMessage: string;
+  public publishAssetsTooltipMessage: string;
+
 
   public customerOrPartSiteDetailsHeader$: Subscription;
   public customerOrPartSiteHeader: string;
@@ -47,10 +54,11 @@ export class PartsDetailComponent {
 
   public qualityTypeControl = new FormControl<QualityType>(null);
   public readonly isOpen$: Observable<boolean>;
+  public readonly isPublisherOpen$ = new Subject<boolean>();
 
   private readonly isOpenState: State<boolean> = new State<boolean>(false);
 
-  public authorizationTooltipMessage: string;
+
   public currentPartId: string;
   public pageIndexHistory: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}
 
@@ -100,11 +108,19 @@ export class PartsDetailComponent {
         this.isPersistentPart = true;
       }
 
-      if(part?.data?.children?.length > 0 ) {
-        this.authorizationTooltipMessage = this.setRestrictionMessageKeyForInvestigationOnSubcomponents(true);
-      } else {
-        this.authorizationTooltipMessage = this.setRestrictionMessageKeyForInvestigationOnSubcomponents(false);
+      if(part?.data?.owner === Owner.OWN) {
+        this.isOwnPart = true;
       }
+
+      if(part?.data?.children?.length > 0 ) {
+        this.hasChildren = true;
+      }
+
+      this.incidentCreationTooltipMessage = this.setRestrictionMessageKeyForIncidentCreation();
+      this.publishAssetsTooltipMessage = this.setRestrictionMessageKeyForPublishAssets();
+      this.investigationOnSubcomponentsTooltipMessage = this.setRestrictionMessageKeyForInvestigationOnSubcomponents()
+
+
     });
 
     this.displayedColumns = [ 'position', 'productType', 'tractionBatteryCode' ];
@@ -141,17 +157,17 @@ export class PartsDetailComponent {
   // - is as built part
   // - has child parts
   // - role is not admin
-  private setRestrictionMessageKeyForInvestigationOnSubcomponents(hasChildren: boolean): string {
+  private setRestrictionMessageKeyForInvestigationOnSubcomponents(): string {
     if(this.isAsPlannedPart) {
       return 'routing.notAllowedForAsPlanned';
     }
-    else if(!hasChildren) {
+    else if(!this.hasChildren) {
       return 'routing.noChildPartsForInvestigation';
     }
     else if(this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     } else {
-      return 'routing.start_investigation_for_subcomponents';
+      return 'routing.startInvestigation';
     }
 
   }
@@ -160,7 +176,7 @@ export class PartsDetailComponent {
   // - part owner is own
   // - is persistent
   // - is not admin role
-  private setRestrictionMessageKeyForCreateQualityIncident(): string {
+  private setRestrictionMessageKeyForIncidentCreation(): string {
     if(this.isAsPlannedPart) {
       return 'routing.notAllowedForAsPlanned';
     }
@@ -170,15 +186,25 @@ export class PartsDetailComponent {
     else if(this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     } else {
-      return 'routing.start_quality_incident';
+      return 'routing.createIncident';
     }
 
   }
 
   // valid publish assets on asset (allowance of state is handled in publish assets view)
   // - part owner is own
-  // - is not admin role
-  private
+  // - is admin role
+  private setRestrictionMessageKeyForPublishAssets() {
+    if(!this.roleService.isAdmin()) {
+      return 'routing.unauthorized';
+    }
+    if(!this.isOwnPart) {
+      return 'routing.OnlyAllowedForOwnParts';
+    } else {
+      return 'routing.publishAssets'
+    }
+
+  }
 
 
   protected readonly NotificationAction = NotificationAction;
