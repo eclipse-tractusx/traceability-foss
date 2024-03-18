@@ -49,7 +49,7 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Slf4j
 @RequiredArgsConstructor
 @Service
-@Transactional
+@Transactional(dontRollbackOn = SendNotificationException.class)
 @Profile(NOT_INTEGRATION_TESTS)
 public class EdcNotificationServiceImpl implements EdcNotificationService {
 
@@ -59,7 +59,6 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     @Override
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
-
     public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage message) {
         log.info("::asyncNotificationExecutor::message {}", message);
         Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSendTo());
