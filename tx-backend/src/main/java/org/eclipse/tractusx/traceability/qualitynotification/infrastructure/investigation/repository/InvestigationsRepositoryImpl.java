@@ -102,7 +102,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     @Override
     public void updateErrorMessage(QualityNotification investigation) {
-
+        log.info("Starting update of error message with investigation {}", investigation);
         InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getNotificationId().value()).orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getNotificationId().value())));
 
         for (QualityNotificationMessage notification : investigation.getNotifications()) {
@@ -113,7 +113,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
                 investigationNotificationEntity.setErrorMessage(notification.getErrorMessage());
                 investigationNotificationEntity.setUpdated(LocalDateTime.ofInstant(clock.instant(), clock.getZone()));
                 notificationRepository.save(notificationEntity);
-
+                log.info("Update of error message with notificationEntity {}", notificationEntity);
             }, () -> log.info("Could not find notification by id {}. Error could not be enriched {}", notification.getId(), notification.getErrorMessage()));
         }
         jpaInvestigationRepository.save(investigationEntity);
