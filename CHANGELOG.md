@@ -40,6 +40,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Overridden transitive commons-compress version by 1.26.1 to fix CVE-2024-26308
 - Overridden transitive commons-codec version by 1.16.1 to fix CVE-2024-26308
 - Updated review-message for check pom for -SNAPSHOT workflow 
+- Changed base image from eclipse-temurin:17-jre-alpine to eclipse-temurin:21-jre-alpine
+- Changed build image from maven:3-openjdk-17-slim to maven:3-openjdk-18-slim
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
