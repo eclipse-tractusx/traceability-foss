@@ -385,7 +385,7 @@ The backend is able to persist the data in the DTR / EDC and allows to use IRS f
 This section describes what happens when the user wants to get a report of the imported assets associated to a importJobId.
 In this example, the user requests an import report.
 
-##### Overview
+### Overview
 
 When a user requests an import report, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
 If yes, then the endpoint returns an import report to the given importJobId.
