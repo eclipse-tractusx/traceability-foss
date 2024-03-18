@@ -66,7 +66,7 @@ import static org.eclipse.tractusx.traceability.common.config.JsonLdConfiguratio
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Transactional
+@Transactional(dontRollbackOn = ContractNegotiationException.class)
 public class InvestigationsEDCFacade {
 
     public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
