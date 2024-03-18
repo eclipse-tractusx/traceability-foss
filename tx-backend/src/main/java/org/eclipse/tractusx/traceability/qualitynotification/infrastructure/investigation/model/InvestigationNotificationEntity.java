@@ -83,6 +83,7 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .created(investigationNotificationEntity.getCreated())
                 .updated(investigationNotificationEntity.getUpdated())
                 .type(QualityNotificationType.INVESTIGATION)
+                .errorMessage(investigationNotificationEntity.getErrorMessage())
                 .build();
     }
 
