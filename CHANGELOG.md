@@ -9,6 +9,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+## [10.7.0 - 18.03.2024]
+
 ### Added
 - #421 Added contract agreement view
 - #515 Service Unavailable Response on Notification failure
