@@ -43,6 +43,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Updated review-message for check pom for -SNAPSHOT workflow 
 - Changed base image from eclipse-temurin:17-jre-alpine to eclipse-temurin:21-jre-alpine
 - Changed build image from maven:3-openjdk-17-slim to maven:3-openjdk-18-slim
+- #742 rework test management strategy for frontend and backend part
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
