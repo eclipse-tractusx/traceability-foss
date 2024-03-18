@@ -19,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
 - #536 added new ImportState to asset PUBLISHED_TO_CORE_SERVICES indicating edc assets and dtr shells were created for given asset
 - #536 added cron job responsible to publish assets in PUBLISHED_TO_CORE_SERVICES import state to edc and dtr
+- #652 add GitHub action to publish Swagger to Swaggerhub
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
@@ -39,6 +40,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Overridden transitive commons-compress version by 1.26.1 to fix CVE-2024-26308
 - Overridden transitive commons-codec version by 1.16.1 to fix CVE-2024-26308
 - Update irs-registry-client from version 1.6.0-SNAPSHOT to 1.6.0
+- Updated review-message for check pom for -SNAPSHOT workflow 
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
