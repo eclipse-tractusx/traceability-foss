@@ -9,6 +9,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+## [10.7.0 - 18.03.2024]
+
 ### Added
 - #421 Added contract agreement view
 - #515 Service Unavailable Response on Notification failure
@@ -40,7 +42,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Overridden transitive commons-compress version by 1.26.1 to fix CVE-2024-26308
 - Overridden transitive commons-codec version by 1.16.1 to fix CVE-2024-26308
 - Update irs-registry-client from version 1.6.0-SNAPSHOT to 1.6.0
-- Updated review-message for check pom for -SNAPSHOT workflow 
+- Updated review-message for check pom for -SNAPSHOT workflow
 - Changed base image from eclipse-temurin:17-jre-alpine to eclipse-temurin:21-jre-alpine
 - Changed build image from maven:3-openjdk-17-slim to maven:3-openjdk-18-slim
 - #742 rework test management strategy for frontend and backend part
