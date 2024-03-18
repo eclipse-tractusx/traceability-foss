@@ -147,6 +147,7 @@ public class QualityNotification {
     }
 
     public List<QualityNotificationMessage> secondLatestNotifications() {
+
         Optional<QualityNotificationMessage> highestState = notifications.stream()
                 .max(Comparator.comparing(QualityNotificationMessage::getCreated));
 
@@ -157,7 +158,7 @@ public class QualityNotification {
 
             Optional<QualityNotificationMessage> secondHighestState = notifications.stream()
                     .filter(message -> !message.getNotificationStatus().equals(highestStatus))
-                    .findFirst();
+                    .max(Comparator.comparing(QualityNotificationMessage::getCreated));
 
             if (secondHighestState.isPresent()) {
                 log.info("Second highest status found: {}", secondHighestState.get().getNotificationStatus());
