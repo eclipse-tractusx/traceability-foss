@@ -98,3 +98,14 @@ jobs:
     with:
       version: ${{ github.ref_name }}
     secrets: inherit
+
+  publish-to-swaggerhub:
+    name: "Publish OpenAPI spec to Swaggerhub"
+    permissions:
+      contents: read
+    needs:
+      - release
+    uses: ./.github/workflows/publish-swagger-hub.yml
+    with:
+      version: ${{ github.ref_name }}
+    secrets: inherit

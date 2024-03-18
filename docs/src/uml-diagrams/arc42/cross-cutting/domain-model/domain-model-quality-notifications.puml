@@ -16,7 +16,7 @@ class QualityNotification {
     closeReason: String;
     acceptReason: String;
     declineReason: String;
-    notifications: Map<String, QualityNotificationMessage>;
+    messages: List<QualityNotificationMessage>;
 }
 
 class QualityNotificationId {
@@ -30,6 +30,23 @@ enum QualityNotificationSide{
 class BPN{
 bpn: String;
 }
+class QualityNotificationMessage {
+   id: String
+   createdBy: String
+   createdByName: String
+   sendTo: String
+   sendToName: String
+   contractAgreementId: String
+   notificationReferenceId: String
+   targetDate: Instant
+   severity: QualityNotificationSeverity;
+   edcNotificationId: String;
+   created: LocalDateTime;
+   updated: LocalDateTime;
+   messageId: String;
+   status: QualityNotificationStatus;
+   errorMessage: String;
+}
 
 enum QualityNotificationStatus{
  CREATED(QualityNotificationSide.SENDER, emptySet()),
@@ -42,9 +59,10 @@ enum QualityNotificationStatus{
     CLOSED(QualityNotificationSide.SENDER, of(QualityNotificationSide.SENDER, QualityNotificationSide.RECEIVER));
  }
 
-QualityNotification *-- QualityNotificationId
-QualityNotification *-- BPN
-QualityNotification *-- QualityNotificationStatus
-QualityNotification *-- QualityNotificationSide
+QualityNotification --> QualityNotificationId
+QualityNotification --> BPN
+QualityNotification --> QualityNotificationStatus
+QualityNotification --> QualityNotificationSide
+QualityNotification *-- QualityNotificationMessage
 @enduml
 

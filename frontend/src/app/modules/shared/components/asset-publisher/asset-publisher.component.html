@@ -24,19 +24,19 @@
       <mat-error *ngIf="policyFormControl.invalid">{{'publisher.selectPolicyError' | i18n}}</mat-error>
     </mat-form-field>
 
-    <div class="publish-action-container" [style.cursor]="checkForNonTransientPart() ? 'not-allowed' : 'default'">
+    <div class="publish-action-container" [style.cursor]="checkForIllegalAssetStateToPublish() ? 'not-allowed' : 'default'">
       <div class="detail--action--button"
-           matTooltip="{{'routing.nonTransientPart' | i18n}}"
+           matTooltip="{{'routing.illegalAssetStateToPublish' | i18n}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"
            [class.mdc-tooltip--multiline]="true"
            [matTooltipShowDelay]="1000"
-           [matTooltipDisabled]="!checkForNonTransientPart()"
+           [matTooltipDisabled]="!checkForIllegalAssetStateToPublish()"
       >
       <app-button variant="raised"
                   class="custom-button_import"
                   color="primary"
-                  [isDisabled]="policyFormControl.invalid || checkForNonTransientPart()"
+                  [isDisabled]="policyFormControl.invalid || checkForIllegalAssetStateToPublish()"
                   (click)="publish()">
         {{'publisher.publish' | i18n}}
       </app-button>

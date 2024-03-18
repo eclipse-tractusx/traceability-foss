@@ -15,7 +15,7 @@
 # * SPDX-License-Identifier: Apache-2.0
 
 # Dependencies
-FROM maven:3-openjdk-17-slim AS maven
+FROM maven:3-openjdk-18-slim AS maven
 ARG BUILD_TARGET=tx-backend
 
 # Create Working Directory
@@ -39,7 +39,7 @@ COPY tx-backend tx-backend
 RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests
 
 # Copy the jar and build image
-FROM eclipse-temurin:17-jre-alpine@sha256:c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f AS traceability-app
+FROM eclipse-temurin:21-jre-alpine@sha256:fb4150a30569aadae9d693d949684a00653411528e62498b9900940c9b5b8a66 AS traceability-app
 
 ARG UID=10000
 ARG GID=1000
