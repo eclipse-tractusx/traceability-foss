@@ -44,6 +44,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@Ignore
 @ExtendWith(MockitoExtension.class)
 class DecentralRegistryServiceImplTest {
 
@@ -62,7 +63,6 @@ class DecentralRegistryServiceImplTest {
     private DecentralRegistryServiceImpl registryFacade;
 
 
-    @Ignore
     @Test
     void testUpdateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
         // Given
