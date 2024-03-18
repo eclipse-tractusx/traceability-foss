@@ -69,9 +69,11 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           review-message: "Please remove -SNAPSHOT from property versions. You can find them in pom.xml(tx-root)."
+
+      - name: Print environment variables
+        id: print-env-vars
         run: |
-          OUTPUT_VALUE=${{ steps.pom-version.outputs.pom_changed }}
-          echo $OUTPUT_VALUE
+          echo $GITHUB_OUTPUT
 
 
   Test-and-Sonar:
