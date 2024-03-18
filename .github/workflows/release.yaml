@@ -87,7 +87,7 @@ jobs:
           echo "$EOF" >> "$GITHUB_ENV"
 
       - name: Create Trace-X Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body: ${{ env.CHANGELOG }}
 
@@ -95,6 +95,17 @@ jobs:
     needs:
       - release
     uses: ./.github/workflows/jira-publish-release.yaml
+    with:
+      version: ${{ github.ref_name }}
+    secrets: inherit
+
+  publish-to-swaggerhub:
+    name: "Publish OpenAPI spec to Swaggerhub"
+    permissions:
+      contents: read
+    needs:
+      - release
+    uses: ./.github/workflows/publish-swagger-hub.yml
     with:
       version: ${{ github.ref_name }}
     secrets: inherit

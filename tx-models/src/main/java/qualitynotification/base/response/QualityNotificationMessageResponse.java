@@ -18,8 +18,10 @@
  ********************************************************************************/
 package qualitynotification.base.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
@@ -34,7 +36,6 @@ public class QualityNotificationMessageResponse {
     private String createdByName;
     private String sendTo;
     private String sendToName;
-    private String edcUrl;
     private String contractAgreementId;
     private String notificationReferenceId;
     private Instant targetDate;
@@ -44,8 +45,9 @@ public class QualityNotificationMessageResponse {
     private LocalDateTime created;
     private LocalDateTime updated;
     private String messageId;
-    private Boolean isInitial;
     @Enumerated(EnumType.STRING)
     private QualityNotificationStatusResponse status;
+    @Schema(example = "EDC not reachable", maxLength = 255)
+    @Size(max = 255)
     private String errorMessage;
 }

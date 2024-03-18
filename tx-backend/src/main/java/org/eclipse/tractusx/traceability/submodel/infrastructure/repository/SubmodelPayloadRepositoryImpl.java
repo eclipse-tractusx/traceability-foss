@@ -31,6 +31,9 @@ import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelP
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -51,5 +54,23 @@ public class SubmodelPayloadRepositoryImpl implements SubmodelPayloadRepository 
     public void savePayloadForAssetAsPlanned(String assetId, List<GenericSubmodel> submodels) {
         AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById(assetId).orElseThrow(() -> new AssetNotFoundException(ASSET_NOT_FOUND_EXCEPTION_TEMPLATE.formatted(assetId)));
         jpaSubmodelPayloadRepository.saveAll(SubmodelPayloadEntity.from(asset, submodels));
+    }
+
+    @Override
+    public Map<String, String> getAspectTypesAndPayloadsByAssetId(String assetId) {
+        Optional<AssetAsBuiltEntity> assetAsBuilt = jpaAssetAsBuiltRepository.findById(assetId);
+        Optional<AssetAsPlannedEntity> assetAsPlanned = jpaAssetAsPlannedRepository.findById(assetId);
+
+        if(assetAsBuilt.isPresent()) {
+            return toTypesAndPayloadsMap(jpaSubmodelPayloadRepository.findByAssetAsBuilt(assetAsBuilt.get()));
+        } else if (assetAsPlanned.isPresent()) {
+            return toTypesAndPayloadsMap(jpaSubmodelPayloadRepository.findByAssetAsPlanned(assetAsPlanned.get()));
+        }
+        throw new AssetNotFoundException(ASSET_NOT_FOUND_EXCEPTION_TEMPLATE.formatted(assetId));
+    }
+
+    private Map<String, String> toTypesAndPayloadsMap(List<SubmodelPayloadEntity> entities) {
+        return entities.stream().map(entity -> Map.entry(entity.getAspectType(), entity.getJson()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

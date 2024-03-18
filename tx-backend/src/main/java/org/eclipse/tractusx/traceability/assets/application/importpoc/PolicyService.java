@@ -24,4 +24,6 @@ import java.util.List;
 
 public interface PolicyService {
     List<PolicyResponse> getAllPolicies();
+
+    PolicyResponse getPolicyById(String id);
 }

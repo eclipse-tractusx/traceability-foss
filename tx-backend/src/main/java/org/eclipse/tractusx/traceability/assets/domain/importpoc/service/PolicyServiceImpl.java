@@ -23,12 +23,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,11 +38,22 @@ import java.util.Optional;
 public class PolicyServiceImpl implements PolicyService {
 
     private final IrsRepository irsRepository;
+
     @Override
     public List<PolicyResponse> getAllPolicies() {
-        List<IrsPolicyResponse> allPolicies = Optional.ofNullable(irsRepository.getPolicies())
-                .orElse(Collections.emptyList());
+        return IrsPolicyResponse.toResponse(getAcceptedPoliciesOrEmptyList());
+    }
 
-        return IrsPolicyResponse.toResponse(allPolicies);
+    @Override
+    public PolicyResponse getPolicyById(String id) {
+        return getAcceptedPoliciesOrEmptyList().stream()
+                .filter(policy -> policy.payload().policy().getPolicyId().equals(id)).findFirst()
+                .map(IrsPolicyResponse::toResponse)
+                .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
+    }
+
+    @NotNull
+    private List<IrsPolicyResponse> getAcceptedPoliciesOrEmptyList() {
+        return emptyIfNull(irsRepository.getPolicies());
     }
 }

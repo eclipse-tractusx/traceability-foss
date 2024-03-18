@@ -58,7 +58,6 @@ class QualityNotificationMapperTest {
                 .sendTo(receiver)
                 .sendToName("receiverManufacturerName")
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .messageId("1")
                 .build();
 

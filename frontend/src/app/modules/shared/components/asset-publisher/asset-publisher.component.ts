@@ -60,7 +60,7 @@ export class AssetPublisherComponent {
     })
   }
 
-  checkForNonTransientPart(): boolean {
-    return this.selectedAssets.some(part => part.importState !== ImportState.TRANSIENT)
+  checkForIllegalAssetStateToPublish(): boolean {
+    return this.selectedAssets.some(part => (part.importState !== ImportState.TRANSIENT && part.importState !== ImportState.ERROR))
   }
 }

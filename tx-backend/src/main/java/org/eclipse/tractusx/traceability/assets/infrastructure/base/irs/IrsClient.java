@@ -34,6 +34,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -56,7 +57,8 @@ public class IrsClient {
 
     private final TraceabilityProperties traceabilityProperties;
 
-    private static final String POLICY_PATH = "/irs/policies";
+    @Value("${traceability.irsPoliciesPath}")
+    String policiesPath = null;
 
     public IrsClient(RestTemplate irsAdminTemplate,
                      RestTemplate irsRegularTemplate,
@@ -67,12 +69,12 @@ public class IrsClient {
     }
 
     public List<IrsPolicyResponse> getPolicies() {
-        return irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.GET, null, new ParameterizedTypeReference<List<IrsPolicyResponse>>() {
+        return irsAdminTemplate.exchange(policiesPath, HttpMethod.GET, null, new ParameterizedTypeReference<List<IrsPolicyResponse>>() {
         }).getBody();
     }
 
     public void deletePolicy() {
-        irsAdminTemplate.exchange(POLICY_PATH + "/" + traceabilityProperties.getRightOperand(), HttpMethod.DELETE, null, new ParameterizedTypeReference<>() {
+        irsAdminTemplate.exchange(policiesPath + "/" + traceabilityProperties.getRightOperand(), HttpMethod.DELETE, null, new ParameterizedTypeReference<>() {
         });
     }
 
@@ -97,7 +99,7 @@ public class IrsClient {
 
         Payload payload = new Payload(context, policyId, policy);
         RegisterPolicyRequest registerPolicyRequest = new RegisterPolicyRequest(validUntil.toInstant(), payload);
-        irsAdminTemplate.exchange(POLICY_PATH, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
+        irsAdminTemplate.exchange(policiesPath, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
     }
 
     public void registerJob(RegisterJobRequest registerJobRequest) {

@@ -25,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
@@ -134,6 +136,8 @@ public class IrsRepositoryImpl implements IrsRepository {
                 existingAsset.setParentRelations(asset.getParentRelations());
             }
             existingAsset.setTombstone(asset.getTombstone() == null ? "" : asset.getTombstone());
+            existingAsset.setImportState(ImportState.PERSISTENT);
+            existingAsset.setImportNote(ImportNote.PERSISTED);
             repository.save(existingAsset);
         } else {
             repository.save(asset);

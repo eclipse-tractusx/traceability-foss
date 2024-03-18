@@ -1,0 +1,21 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+autonumber "<b>[000]"
+
+actor TraceXApiConsumer
+activate TraceXApiConsumer
+
+box "Trace-X FOSS" #LightGrey
+participant TraceX
+activate TraceX
+
+TraceXApiConsumer -> TraceX : POST /assets/publish
+TraceX -> TraceX : Module 2
+TraceXApiConsumer -> TraceXApiConsumer : GET /assets
+
+
+
+
+
+@enduml
