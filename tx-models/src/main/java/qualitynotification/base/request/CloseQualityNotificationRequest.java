@@ -24,13 +24,22 @@ package qualitynotification.base.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Setter
 @Getter
 @ToString
+@Builder
+@Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class CloseQualityNotificationRequest {
     @Schema(example = "The reason.", minLength = 15, maxLength = 1000)
     @Size(min = 15, max = 1000, message = "Close reason should have at least 15 characters and at most 1000 characters")

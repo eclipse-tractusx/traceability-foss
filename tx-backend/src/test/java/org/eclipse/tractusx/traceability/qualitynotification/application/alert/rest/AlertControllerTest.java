@@ -151,8 +151,8 @@ class AlertControllerTest {
     void givenRequest_whenCloseAlert_thenProcessCorrectly() {
         // given
         final Long param = 1L;
-        final CloseQualityNotificationRequest request = new CloseQualityNotificationRequest();
-        request.setReason("just because");
+
+        CloseQualityNotificationRequest request = CloseQualityNotificationRequest.builder().reason("just because").build();
 
         // when
         controller.closeAlert(param, request);
@@ -165,9 +165,14 @@ class AlertControllerTest {
     void givenRequest_whenUpdateAlert_thenProcessCorrectly() {
         // given
         final Long param = 1L;
-        final UpdateQualityNotificationRequest request = new UpdateQualityNotificationRequest();
-        request.setReason("just because I say so");
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
+
+
+        UpdateQualityNotificationRequest request =
+                UpdateQualityNotificationRequest.builder()
+                        .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                        .reason("just because I say so")
+                        .build();
+
 
         // when
         controller.updateAlert(param, request);

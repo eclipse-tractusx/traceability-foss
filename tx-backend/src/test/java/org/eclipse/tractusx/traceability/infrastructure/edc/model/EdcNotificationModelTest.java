@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.model;
 
+import lombok.val;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
@@ -101,8 +102,8 @@ public class EdcNotificationModelTest {
     @Test
     public void testSanitizeCloseInvestigationRequest() {
         //GIVEN
-        CloseQualityNotificationRequest closeQualityNotificationRequest = new CloseQualityNotificationRequest();
-        closeQualityNotificationRequest.setReason("Reason\n");
+        CloseQualityNotificationRequest closeQualityNotificationRequest = CloseQualityNotificationRequest.builder()
+                .reason("Reason\n").build();
 
         //WHEN
         CloseQualityNotificationRequest cleanCloseQualityNotificationRequest = sanitize(closeQualityNotificationRequest);
@@ -116,9 +117,11 @@ public class EdcNotificationModelTest {
     @Test
     public void testSanitizeUpdateQualityNotificationRequest() {
         //GIVEN
-        UpdateQualityNotificationRequest updateQualityNotificationRequest = new UpdateQualityNotificationRequest();
-        updateQualityNotificationRequest.setReason("Reason\n");
-        updateQualityNotificationRequest.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
+        UpdateQualityNotificationRequest updateQualityNotificationRequest = UpdateQualityNotificationRequest
+                .builder()
+                .reason("Reason\n")
+                .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                .build();
 
         //WHEN
         UpdateQualityNotificationRequest cleanUpdateQualityNotificationRequest = sanitize(updateQualityNotificationRequest);

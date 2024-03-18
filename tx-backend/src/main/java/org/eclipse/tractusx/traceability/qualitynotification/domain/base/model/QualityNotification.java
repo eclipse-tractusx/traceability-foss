@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
@@ -28,10 +29,13 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.investigatio
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder(toBuilder = true)
+@Slf4j
 public class QualityNotification {
     private BPN bpn;
     private QualityNotificationId notificationId;
@@ -140,6 +144,37 @@ public class QualityNotification {
 
     public boolean isActiveState() {
         return this.notificationStatus.isActiveState();
+    }
+
+    public List<QualityNotificationMessage> secondLatestNotifications() {
+
+        Optional<QualityNotificationMessage> highestState = notifications.stream()
+                .max(Comparator.comparing(QualityNotificationMessage::getCreated));
+
+        if (highestState.isPresent()) {
+            QualityNotificationMessage highestMessage = highestState.get();
+            QualityNotificationStatus highestStatus = highestMessage.getNotificationStatus();
+            log.info("Highest status found: {}", highestStatus);
+
+            Optional<QualityNotificationMessage> secondHighestState = notifications.stream()
+                    .filter(message -> !message.getNotificationStatus().equals(highestStatus))
+                    .max(Comparator.comparing(QualityNotificationMessage::getCreated));
+
+            if (secondHighestState.isPresent()) {
+                log.info("Second highest status found: {}", secondHighestState.get().getNotificationStatus());
+                return notifications.stream()
+                        .filter(message -> message.getNotificationStatus().equals(secondHighestState.get().getNotificationStatus()))
+                        .toList();
+            } else {
+                log.info("No second highest status found. Returning notifications with highest status.");
+                return notifications.stream()
+                        .filter(message -> message.getNotificationStatus().equals(highestStatus))
+                        .toList();
+            }
+        } else {
+            log.warn("No notifications found. Returning empty list.");
+            return Collections.emptyList();
+        }
     }
 
 }

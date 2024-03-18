@@ -18,30 +18,30 @@ Feature: [BE][FE]Handling of several parts in one quality alert
 	#* correct sending of several parts in *one* alert
 	#* correct reception of several parts in *one* alert on receiver side
 	#* correct update of *one* alert with several parts
-  @TRACEFOSS-1670 @TRACEFOSS-1920 @TRACEFOSS-1101 @TRACEFOSS-1673 @TEST-904 @TEST-1217 @INTEGRATION_TEST
-  Scenario: [BE] Check correct processing of several parts in quality alerts
-    When I am logged into TRACE_X_A application
-    When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd,urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
-    And I create quality alert
-      | "severity"    | "MINOR"                           |
-      | "description" | "Testing severity TRACEFOSS-1670" |
-    Then I check, if quality alert has proper values
-      | "description"  | "Testing severity TRACEFOSS-1670" |
-      | "status"       | "CREATED"                         |
-      | "assetIdCount" | "2"                               |
-    When I approve quality alert
-    Then I check, if quality alert has proper values
-      | "status" | "SENT" |
-    When I am logged into TRACE_X_B application
-    Then I check, if quality alert has been received
-    Then I check, if quality alert has proper values
-      | "description"  | "Testing severity TRACEFOSS-1670" |
-      | "status"       | "RECEIVED"                        |
-      | "assetIdCount" | "2"                               |
-    When I acknowledge quality alert
-    Then I check, if quality alert has proper values
-      | "status" | "ACKNOWLEDGED" |
-    When I am logged into TRACE_X_A application
-    Then I check, if quality alert has proper values
-      | "status"       | "ACKNOWLEDGED" |
-      | "assetIdCount" | "2"            |
+	@TRACEFOSS-1670 @TRACEFOSS-3128 @TRACEFOSS-2910 @TRACEFOSS-2715 @TEST-904 @TEST-1217 @TRACEFOSS-1920 @TRACEFOSS-1673 @TRACEFOSS-1101 @INTEGRATION_TEST @[QUALITY_ALERTS]
+	Scenario: [BE] Check correct processing of several parts in quality alerts
+		When I am logged into TRACE_X_A application
+		When I use assets with ids 'urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22,urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
+		And I create quality alert
+		  | "severity"    | "MINOR"                           |
+		  | "description" | "Testing severity TRACEFOSS-1670" |
+		Then I check, if quality alert has proper values
+		  | "description"  | "Testing severity TRACEFOSS-1670" |
+		  | "status"       | "CREATED"                         |
+		  | "assetIdCount" | "2"                               |
+		When I approve quality alert
+		Then I check, if quality alert has proper values
+		  | "status" | "SENT" |
+		When I am logged into TRACE_X_B application
+		Then I check, if quality alert has been received
+		Then I check, if quality alert has proper values
+		  | "description"  | "Testing severity TRACEFOSS-1670" |
+		  | "status"       | "RECEIVED"                        |
+		  | "assetIdCount" | "2"                               |
+		When I acknowledge quality alert
+		Then I check, if quality alert has proper values
+		  | "status" | "ACKNOWLEDGED" |
+		When I am logged into TRACE_X_A application
+		Then I check, if quality alert has proper values
+		  | "status"       | "ACKNOWLEDGED" |
+		  | "assetIdCount" | "2"            |

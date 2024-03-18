@@ -69,17 +69,12 @@ public class SecurityUtils {
 
     public static CloseQualityNotificationRequest sanitize(CloseQualityNotificationRequest closeInvestigationRequest) {
         String cleanReason = sanitize(closeInvestigationRequest.getReason());
-        CloseQualityNotificationRequest cleanCloseInvestigationRequest = new CloseQualityNotificationRequest();
-        cleanCloseInvestigationRequest.setReason(cleanReason);
-        return cleanCloseInvestigationRequest;
+        return CloseQualityNotificationRequest.builder().reason(cleanReason).build();
     }
 
     public static UpdateQualityNotificationRequest sanitize(UpdateQualityNotificationRequest updateInvestigationRequest) {
         String cleanReason = sanitize(updateInvestigationRequest.getReason());
-        UpdateQualityNotificationRequest cleanUpdateInvestigationRequest = new UpdateQualityNotificationRequest();
-        cleanUpdateInvestigationRequest.setStatus(updateInvestigationRequest.getStatus());
-        cleanUpdateInvestigationRequest.setReason(cleanReason);
-        return cleanUpdateInvestigationRequest;
+        return UpdateQualityNotificationRequest.builder().status(updateInvestigationRequest.getStatus()).reason(cleanReason).build();
     }
 
     public static EDCNotification sanitize(EDCNotification edcNotification) {

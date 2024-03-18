@@ -222,11 +222,14 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     void givenInvestigationReasonTooLong_whenUpdate_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         String description = RandomStringUtils.random(1001);
-        val request = new UpdateQualityNotificationRequest();
-        request.setReason(description);
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
 
-        // when/then
+        UpdateQualityNotificationRequest request =
+                UpdateQualityNotificationRequest
+                        .builder()
+                        .reason(description)
+                        .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                        .build();
+           // when/then
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
@@ -242,9 +245,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     void givenWrongStatus_whenUpdateInvestigation_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         String description = RandomStringUtils.random(15);
-        val request = new UpdateQualityNotificationRequest();
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
-        request.setReason(description);
+
+        UpdateQualityNotificationRequest request =
+                UpdateQualityNotificationRequest
+                        .builder()
+                        .reason(description)
+                        .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                        .build();
 
         // when/then
         given()
@@ -424,8 +431,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
         // when
-        val closeInvestigationRequest = new CloseQualityNotificationRequest();
-        closeInvestigationRequest.setReason("this is the close reason for that investigation");
+        CloseQualityNotificationRequest closeInvestigationRequest =
+                CloseQualityNotificationRequest
+                        .builder()
+                        .reason("this is the close reason for that investigation")
+                        .build();
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(closeInvestigationRequest))
