@@ -47,7 +47,7 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           review-message: "Please add a short description of the feature/fix to the Changelog.md."
-  Check-Pom-update:
+  Check-Pom-for-snapshot-versions:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -69,6 +69,9 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           review-message: "Please remove -SNAPSHOT from property versions. You can find them in pom.xml(tx-root)."
+        run: |
+          OUTPUT_VALUE=${{ steps.pom-version.outputs.pom_changed }}
+          echo $OUTPUT_VALUE
 
 
   Test-and-Sonar:
