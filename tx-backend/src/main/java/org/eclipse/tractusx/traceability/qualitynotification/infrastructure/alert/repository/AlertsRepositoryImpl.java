@@ -47,6 +47,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -99,6 +100,25 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
+    public void updateErrorMessage(QualityNotification alert) {
+
+        AlertEntity alertEntity = jpaAlertRepository.findById(alert.getNotificationId().value()).orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", alert.getNotificationId().value())));
+
+        for (QualityNotificationMessage notification : alert.getNotifications()) {
+            List<AssetAsBuiltEntity> assetEntitiesByAlert = getAssetAsBuiltEntitiesByAlert(alert);
+            AlertNotificationEntity notificationEntity = toNotificationEntity(alertEntity, notification, assetEntitiesByAlert);
+            Optional<AlertNotificationEntity> optionalNotification = notificationRepository.findById(notificationEntity.getId());
+            optionalNotification.ifPresentOrElse(alertNotificationEntity -> {
+                alertNotificationEntity.setErrorMessage(notification.getErrorMessage());
+                alertNotificationEntity.setUpdated(LocalDateTime.ofInstant(clock.instant(), clock.getZone()));
+                notificationRepository.save(notificationEntity);
+
+            }, () -> log.info("Could not find notification by id {}. Error could not be enriched {}", notification.getId(), notification.getErrorMessage()));
+        }
+        jpaAlertRepository.save(alertEntity);
+    }
+
+    @Override
     public QualityNotificationId saveQualityNotificationEntity(QualityNotification alert) {
 
         List<AssetAsBuiltEntity> assetAsBuiltEntities = getAssetAsBuiltEntitiesByAlert(alert);
@@ -118,6 +138,11 @@ public class AlertsRepositoryImpl implements AlertRepository {
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId alertId) {
         return jpaAlertRepository.findById(alertId.value())
                 .map(AlertEntity::toDomain);
+    }
+
+    @Override
+    public Optional<QualityNotification> findByNotificationMessageId(String id) {
+        return jpaAlertRepository.findByNotificationMessageId(id).map(AlertEntity::toDomain);
     }
 
     @Transactional

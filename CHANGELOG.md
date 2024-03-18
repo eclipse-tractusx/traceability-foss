@@ -22,6 +22,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #536 added new ImportState to asset PUBLISHED_TO_CORE_SERVICES indicating edc assets and dtr shells were created for given asset
 - #536 added cron job responsible to publish assets in PUBLISHED_TO_CORE_SERVICES import state to edc and dtr
 - #652 add GitHub action to publish Swagger to Swaggerhub
+- #606 Added error message into notifications on failure
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
@@ -46,6 +47,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Changed base image from eclipse-temurin:17-jre-alpine to eclipse-temurin:21-jre-alpine
 - Changed build image from maven:3-openjdk-17-slim to maven:3-openjdk-18-slim
 - #742 rework test management strategy for frontend and backend part
+- #606 cucumber tests retry on error
+- #606 refactored response model to only be used by common model package tx-models
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout

@@ -32,10 +32,11 @@ import org.awaitility.Duration;
 import org.eclipse.tractusx.traceability.test.exteption.MissingStepDefinitionException;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
-import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 import org.eclipse.tractusx.traceability.test.validator.NotificationValidator;
 import org.hamcrest.Matchers;
+import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -52,9 +53,6 @@ import static org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnu
 import static org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum.INVESTIGATION;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_B;
-import static org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest.ACCEPTED;
-import static org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest.ACKNOWLEDGED;
-import static org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest.DECLINED;
 import static org.eclipse.tractusx.traceability.test.validator.TestUtils.normalize;
 import static org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
 
@@ -197,28 +195,28 @@ public class TraceabilityTestStepDefinition {
 
     @When("I acknowledge quality investigation")
     public void iAcknowledgeQualityInvestigation() {
-        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), ACKNOWLEDGED, "");
+        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED, "");
     }
 
     @When("I accept quality investigation")
     public void iAcceptQualityInvestigation(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), ACCEPTED, reason);
+        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED, reason);
     }
 
     @When("I decline quality investigation")
     public void iDeclineQualityInvestigation(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), DECLINED, reason);
+        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED, reason);
     }
 
     @When("I decline quality alert")
     public void iDeclineQualityAlert(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), DECLINED, reason);
+        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED, reason);
     }
 
     private Long getNotificationIdBasedOnEnv() {
@@ -315,7 +313,7 @@ public class TraceabilityTestStepDefinition {
 
     @When("I acknowledge quality alert")
     public void iAcknowledgeQualityAlert() {
-        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), ACKNOWLEDGED, "");
+        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED, "");
     }
 
 
@@ -323,6 +321,6 @@ public class TraceabilityTestStepDefinition {
     public void iAcceptQualityAlert(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), ACCEPTED, reason);
+        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED, reason);
     }
 }
