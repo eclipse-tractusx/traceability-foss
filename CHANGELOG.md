@@ -10,6 +10,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+- #421 Added contract agreement view
 - #515 Service Unavailable Response on Notification failure
 - #536 Added import state PUBLISHED_TO_CX in frontend
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
