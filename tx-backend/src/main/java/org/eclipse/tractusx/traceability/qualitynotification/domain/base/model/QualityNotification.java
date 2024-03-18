@@ -144,7 +144,22 @@ public class QualityNotification {
         return this.notificationStatus.isActiveState();
     }
 
-    public Optional<QualityNotificationMessage> latestNotification() {
-        return notifications.stream().max(Comparator.comparing(QualityNotificationMessage::getCreated)).stream().findFirst();
+    public List<QualityNotificationMessage> secondLatestNotifications() {
+        Optional<QualityNotificationMessage> highestState = notifications.stream().max(Comparator.comparing(QualityNotificationMessage::getCreated)).stream().findFirst();
+
+        if (highestState.isPresent()) {
+            Optional<QualityNotificationMessage> secondHighestState = notifications.stream().filter(message -> !message.getNotificationStatus().equals(highestState.get().getNotificationStatus())).findFirst();
+
+            return secondHighestState
+                    .map(qualityNotificationMessage ->
+                            notifications
+                                    .stream()
+                                    .filter(message -> message.getNotificationStatus()
+                                            .equals(qualityNotificationMessage.getNotificationStatus())).toList())
+                    .orElse(Collections.emptyList());
+        } else {
+            return Collections.emptyList();
+        }
     }
+
 }
