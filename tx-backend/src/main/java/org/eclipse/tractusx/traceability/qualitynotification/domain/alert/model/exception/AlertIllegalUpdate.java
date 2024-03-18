@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,15 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.test.tooling.rest.response;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception;
 
-import java.util.List;
+public class AlertIllegalUpdate extends IllegalArgumentException {
 
-public record PageResult<T>(
-        List<T> content,
-        Integer page,
-        Integer pageCount,
-        Integer pageSize,
-        Long totalItems
-) {
+    public AlertIllegalUpdate(String message) {
+        super(message);
+    }
 }

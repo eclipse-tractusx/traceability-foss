@@ -45,12 +45,12 @@ public class OpenApiConfig {
                 .flows(new OAuthFlows().clientCredentials(
                         new OAuthFlow().scopes(
                                 new Scopes().addString(
-                                        "profile email", "")).tokenUrl("localhost"))));
+                                        "profile email", "")).tokenUrl("https://example.com/api/oauth/token"))));
         return new OpenAPI()
                 .components(components)
                 .addSecurityItem(new SecurityRequirement().addList("oAuth2", "profile email"))
                 .info(new Info()
-                        .title("Trace-FOSS - OpenAPI Documentation")
+                        .title("Tractus-X Traceability Foss")
                         .version("1.0.0")
                         .description("Trace-FOSS is a system for tracking parts along the supply chain. " +
                                 "A high level of transparency across the supplier network enables faster intervention " +

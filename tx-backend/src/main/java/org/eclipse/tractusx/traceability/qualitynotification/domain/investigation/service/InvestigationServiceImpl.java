@@ -19,13 +19,9 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
@@ -33,17 +29,14 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.Q
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service("investigationServiceImpl")
 public class InvestigationServiceImpl extends AbstractQualityNotificationService {
 
-    private final NotificationPublisherService notificationPublisherService;
     private final InvestigationRepository investigationsRepository;
-    private final AssetAsBuiltServiceImpl assetService;
 
-    @Override
-    protected NotificationPublisherService getNotificationPublisherService() {
-        return notificationPublisherService;
+    public InvestigationServiceImpl(TraceabilityProperties traceabilityProperties, InvestigationRepository investigationsRepository, NotificationPublisherService notificationPublisherService) {
+        super(traceabilityProperties, notificationPublisherService);
+        this.investigationsRepository = investigationsRepository;
     }
 
     @Override
@@ -52,24 +45,9 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
     }
 
     @Override
-    public QualityNotificationId start(StartQualityNotification startQualityAlertDomain) {
-        QualityNotification notification = getNotificationPublisherService().startInvestigation(startQualityAlertDomain.getPartIds(), startQualityAlertDomain.getDescription(), startQualityAlertDomain.getTargetDate(), startQualityAlertDomain.getSeverity(), startQualityAlertDomain.getReceiverBpn(), startQualityAlertDomain.isAsBuilt());
-
-        QualityNotificationId createdInvestigationId = getQualityNotificationRepository().saveQualityNotificationEntity(notification);
-        log.info("Start Investigation {}", notification);
-        return createdInvestigationId;
+    public RuntimeException getNotFoundException(String message) {
+        return new InvestigationNotFoundException(message);
     }
 
-    @Override
-    public QualityNotification loadOrNotFoundException(QualityNotificationId investigationId) {
-        return getQualityNotificationRepository().findOptionalQualityNotificationById(investigationId)
-                .orElseThrow(() -> new InvestigationNotFoundException(investigationId));
-    }
-
-    @Override
-    public QualityNotification loadByEdcNotificationIdOrNotFoundException(String edcNotificationId) {
-        return getQualityNotificationRepository().findByEdcNotificationId(edcNotificationId)
-                .orElseThrow(() -> new InvestigationNotFoundException(edcNotificationId));
-    }
 
 }

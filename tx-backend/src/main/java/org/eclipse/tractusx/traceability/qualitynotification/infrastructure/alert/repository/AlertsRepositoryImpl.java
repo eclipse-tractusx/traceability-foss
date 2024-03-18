@@ -47,6 +47,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -59,6 +60,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Component
 public class AlertsRepositoryImpl implements AlertRepository {
 
@@ -83,7 +85,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
-    public QualityNotificationId updateQualityNotificationEntity(QualityNotification alert) {
+    public void updateQualityNotificationEntity(QualityNotification alert) {
         AlertEntity alertEntity = jpaAlertRepository.findById(alert.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Alert with id %s not found!", alert.getNotificationId().value())));
 
@@ -95,8 +97,25 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
         handleNotificationUpdate(alertEntity, alert);
         jpaAlertRepository.save(alertEntity);
+    }
 
-        return alert.getNotificationId();
+    @Override
+    public void updateErrorMessage(QualityNotification alert) {
+
+        AlertEntity alertEntity = jpaAlertRepository.findById(alert.getNotificationId().value()).orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", alert.getNotificationId().value())));
+
+        for (QualityNotificationMessage notification : alert.getNotifications()) {
+            List<AssetAsBuiltEntity> assetEntitiesByAlert = getAssetAsBuiltEntitiesByAlert(alert);
+            AlertNotificationEntity notificationEntity = toNotificationEntity(alertEntity, notification, assetEntitiesByAlert);
+            Optional<AlertNotificationEntity> optionalNotification = notificationRepository.findById(notificationEntity.getId());
+            optionalNotification.ifPresentOrElse(alertNotificationEntity -> {
+                alertNotificationEntity.setErrorMessage(notification.getErrorMessage());
+                alertNotificationEntity.setUpdated(LocalDateTime.ofInstant(clock.instant(), clock.getZone()));
+                notificationRepository.save(notificationEntity);
+
+            }, () -> log.info("Could not find notification by id {}. Error could not be enriched {}", notification.getId(), notification.getErrorMessage()));
+        }
+        jpaAlertRepository.save(alertEntity);
     }
 
     @Override
@@ -119,6 +138,11 @@ public class AlertsRepositoryImpl implements AlertRepository {
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId alertId) {
         return jpaAlertRepository.findById(alertId.value())
                 .map(AlertEntity::toDomain);
+    }
+
+    @Override
+    public Optional<QualityNotification> findByNotificationMessageId(String id) {
+        return jpaAlertRepository.findByNotificationMessageId(id).map(AlertEntity::toDomain);
     }
 
     @Transactional
@@ -189,7 +213,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     private void handleNotificationUpdate(AlertNotificationEntity notificationEntity, QualityNotificationMessage notification) {
-        notificationEntity.setEdcUrl(notification.getEdcUrl());
         notificationEntity.setContractAgreementId(notification.getContractAgreementId());
         notificationEntity.setNotificationReferenceId(notification.getNotificationReferenceId());
         notificationEntity.setTargetDate(notification.getTargetDate());

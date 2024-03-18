@@ -364,14 +364,14 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562").orElseThrow();
-        alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt), null);
-        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(), null);
-        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, List.of(), null);
-        alertsSupport.storeAlertWithStatusAndAssets(ACKNOWLEDGED, List.of(), null);
-        alertsSupport.storeAlertWithStatusAndAssets(ACCEPTED, List.of(), null);
-        alertsSupport.storeAlertWithStatusAndAssets(DECLINED, List.of(assetAsBuilt2), null);
-        alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of(), null);
-        alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt), null);
+        alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt));
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of());
+        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, List.of());
+        alertsSupport.storeAlertWithStatusAndAssets(ACKNOWLEDGED, List.of());
+        alertsSupport.storeAlertWithStatusAndAssets(ACCEPTED, List.of());
+        alertsSupport.storeAlertWithStatusAndAssets(DECLINED, List.of(assetAsBuilt2));
+        alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of());
+        alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt));
 
         final String filter = "assetId,EQUAL,urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562,AND";
 

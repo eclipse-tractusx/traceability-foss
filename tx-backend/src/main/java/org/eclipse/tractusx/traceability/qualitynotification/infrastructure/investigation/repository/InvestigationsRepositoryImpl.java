@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inv
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -32,6 +33,7 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -47,10 +49,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -60,6 +61,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Slf4j
 @RequiredArgsConstructor
 @Component
+@Transactional
 public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private final JpaInvestigationRepository jpaInvestigationRepository;
@@ -75,39 +77,46 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     @Override
     public PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria) {
-        List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
-                .map(InvestigationSpecification::new)
-                .toList();
+        List<InvestigationSpecification> investigationSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(InvestigationSpecification::new).toList();
         Specification<InvestigationEntity> specification = InvestigationSpecification.toSpecification(investigationSpecifications);
         return new PageResult<>(jpaInvestigationRepository.findAll(specification, pageable), InvestigationEntity::toDomain);
     }
 
     @Override
     public long countOpenNotificationsByOwnership(List<Owner> owners) {
-        return jpaInvestigationRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(QualityNotificationStatus.ACTIVE_STATES))
-                .stream()
-                .map(InvestigationEntity::getAssets)
-                .flatMap(Collection::stream)
-                .filter(assetAsBuiltEntity -> owners.contains(assetAsBuiltEntity.getOwner()))
-                .distinct()
-                .toList().size();
+        return jpaInvestigationRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(QualityNotificationStatus.ACTIVE_STATES)).stream().map(InvestigationEntity::getAssets).flatMap(Collection::stream).filter(assetAsBuiltEntity -> owners.contains(assetAsBuiltEntity.getOwner())).distinct().toList().size();
     }
 
     @Override
-    public QualityNotificationId updateQualityNotificationEntity(QualityNotification investigation) {
-        InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getNotificationId().value())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getNotificationId().value())));
+    public void updateQualityNotificationEntity(QualityNotification investigation) {
+        InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getNotificationId().value()).orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getNotificationId().value())));
 
         investigationEntity.setStatus(NotificationStatusBaseEntity.fromStringValue(investigation.getNotificationStatus().name()));
         investigationEntity.setUpdated(clock.instant());
         investigationEntity.setCloseReason(investigation.getCloseReason());
         investigationEntity.setAcceptReason(investigation.getAcceptReason());
         investigationEntity.setDeclineReason(investigation.getDeclineReason());
-
         handleNotificationUpdate(investigationEntity, investigation);
         jpaInvestigationRepository.save(investigationEntity);
+    }
 
-        return investigation.getNotificationId();
+    @Override
+    public void updateErrorMessage(QualityNotification investigation) {
+        log.info("Starting update of error message with investigation {}", investigation);
+        InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getNotificationId().value()).orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getNotificationId().value())));
+
+        for (QualityNotificationMessage notification : investigation.getNotifications()) {
+            List<AssetAsBuiltEntity> assetEntitiesByInvestigation = getAssetEntitiesByInvestigation(investigation);
+            InvestigationNotificationEntity notificationEntity = toNotificationEntity(investigationEntity, notification, assetEntitiesByInvestigation);
+            Optional<InvestigationNotificationEntity> optionalNotification = notificationRepository.findById(notificationEntity.getId());
+            optionalNotification.ifPresentOrElse(investigationNotificationEntity -> {
+                investigationNotificationEntity.setErrorMessage(notification.getErrorMessage());
+                investigationNotificationEntity.setUpdated(LocalDateTime.ofInstant(clock.instant(), clock.getZone()));
+                notificationRepository.save(notificationEntity);
+                log.info("Update of error message with notificationEntity {}", notificationEntity);
+            }, () -> log.info("Could not find notification by id {}. Error could not be enriched {}", notification.getId(), notification.getErrorMessage()));
+        }
+        jpaInvestigationRepository.save(investigationEntity);
     }
 
     @Override
@@ -120,8 +129,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
             jpaInvestigationRepository.save(investigationEntity);
 
-            investigation.getNotifications()
-                    .forEach(notification -> handleNotificationCreate(investigationEntity, notification, assetEntities));
+            investigation.getNotifications().forEach(notification -> handleNotificationCreate(investigationEntity, notification, assetEntities));
 
             return new QualityNotificationId(investigationEntity.getId());
         } else {
@@ -131,14 +139,17 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     @Override
     public Optional<QualityNotification> findOptionalQualityNotificationById(QualityNotificationId investigationId) {
-        return jpaInvestigationRepository.findById(investigationId.value())
-                .map(InvestigationEntity::toDomain);
+        return jpaInvestigationRepository.findById(investigationId.value()).map(InvestigationEntity::toDomain);
     }
 
     @Override
     public Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId) {
-        return jpaInvestigationRepository.findByNotificationsEdcNotificationId(edcNotificationId)
-                .map(InvestigationEntity::toDomain);
+        return jpaInvestigationRepository.findByNotificationsEdcNotificationId(edcNotificationId).map(InvestigationEntity::toDomain);
+    }
+
+    @Override
+    public Optional<QualityNotification> findByNotificationMessageId(String id) {
+        return jpaInvestigationRepository.findByNotificationMessageId(id).map(InvestigationEntity::toDomain);
     }
 
     @Override
@@ -147,18 +158,9 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     private void handleNotificationUpdate(InvestigationEntity investigationEntity, QualityNotification investigation) {
-
-        List<InvestigationNotificationEntity> notificationEntities = new ArrayList<>(investigationEntity.getNotifications());
-        Map<String, InvestigationNotificationEntity> notificationEntityMap = notificationEntities.stream().collect(Collectors.toMap(InvestigationNotificationEntity::getId, notificationEntity -> notificationEntity));
         for (QualityNotificationMessage notification : investigation.getNotifications()) {
-            if (notificationExists(investigationEntity, notification.getId())) {
-                log.info("handleNotificationUpdate::notificationExists with id {} for investigation with id {}", notification.getId(), investigation.getNotificationId());
-                handleNotificationUpdate(notificationEntityMap.get(notification.getId()), notification);
-            } else {
-                log.info("handleNotificationUpdate::new notification with id {} for investigation with id {}", notification.getId(), investigation.getNotificationId());
-                List<AssetAsBuiltEntity> assetEntitiesByInvestigation = getAssetEntitiesByInvestigation(investigation);
-                handleNotificationCreate(investigationEntity, notification, assetEntitiesByInvestigation);
-            }
+            List<AssetAsBuiltEntity> assetEntitiesByInvestigation = getAssetEntitiesByInvestigation(investigation);
+            handleNotificationCreate(investigationEntity, notification, assetEntitiesByInvestigation);
         }
 
     }
@@ -169,23 +171,21 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private void handleNotificationCreate(InvestigationEntity investigationEntity, QualityNotificationMessage notificationDomain, List<AssetAsBuiltEntity> assetEntities) {
         InvestigationNotificationEntity notificationEntity = toNotificationEntity(investigationEntity, notificationDomain, assetEntities);
-        InvestigationNotificationEntity savedEntity = notificationRepository.save(notificationEntity);
-        log.info("Successfully persisted notification entity {}", savedEntity);
-    }
 
-    private boolean notificationExists(InvestigationEntity investigationEntity, String notificationId) {
-        List<InvestigationNotificationEntity> notificationEntities = new ArrayList<>(investigationEntity.getNotifications());
-        return notificationEntities.stream().anyMatch(notification -> notification.getId().equals(notificationId));
-    }
+        Optional<InvestigationNotificationEntity> optionalNotification = notificationRepository.findById(notificationEntity.getId());
 
-    private void handleNotificationUpdate(InvestigationNotificationEntity notificationEntity, QualityNotificationMessage notification) {
-        notificationEntity.setEdcUrl(notification.getEdcUrl());
-        notificationEntity.setContractAgreementId(notification.getContractAgreementId());
-        notificationEntity.setNotificationReferenceId(notification.getNotificationReferenceId());
-        notificationEntity.setTargetDate(notification.getTargetDate());
-        notificationRepository.save(notificationEntity);
-    }
+        optionalNotification.ifPresentOrElse(
+                // If present
+                investigationNotificationEntity -> log.info("Investigation has the following old notification with id {} and status {}", investigationNotificationEntity.getId(), investigationNotificationEntity.getStatus().name()),
+                // If not present
+                () -> {
+                    // Persist
+                    log.info("Investigation has the following new notification with id {} and status {}", notificationEntity.getId(), notificationEntity.getStatus().name());
+                    notificationRepository.save(notificationEntity);
+                    log.info("Successfully persisted notification entity {}", notificationEntity);
+                });
 
+    }
 
     private InvestigationNotificationEntity toNotificationEntity(InvestigationEntity investigationEntity, QualityNotificationMessage notification, List<AssetAsBuiltEntity> investigationAssets) {
         List<AssetAsBuiltEntity> notificationAssets = filterNotificationAssets(notification, investigationAssets);
@@ -197,17 +197,15 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     private List<AssetAsBuiltEntity> filterNotificationAssets(QualityNotificationMessage notification, List<AssetAsBuiltEntity> assets) {
-        Set<String> notificationAffectedAssetIds = notification.getAffectedParts().stream()
-                .map(QualityNotificationAffectedPart::assetId)
-                .collect(Collectors.toSet());
+        Set<String> notificationAffectedAssetIds = notification.getAffectedParts().stream().map(QualityNotificationAffectedPart::assetId).collect(Collectors.toSet());
 
-        return assets.stream()
-                .filter(it -> notificationAffectedAssetIds.contains(it.getId()))
-                .toList();
+        return assets.stream().filter(it -> notificationAffectedAssetIds.contains(it.getId())).toList();
     }
 
     @Override
     public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide side) {
         return CriteriaUtility.getDistinctNotificationFieldValues(fieldName, startWith, resultLimit, side, InvestigationEntity.class, entityManager);
     }
+
+
 }

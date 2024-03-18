@@ -20,7 +20,8 @@
 package org.eclipse.tractusx.traceability.test.validator;
 
 import lombok.Getter;
-import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
+
 
 import java.util.Arrays;
 import java.util.List;

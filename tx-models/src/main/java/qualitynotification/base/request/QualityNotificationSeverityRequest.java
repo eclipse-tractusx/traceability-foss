@@ -21,6 +21,7 @@ package qualitynotification.base.request;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 
 import java.util.NoSuchElementException;
@@ -55,9 +56,9 @@ public enum QualityNotificationSeverityRequest {
                 .collect(Collectors.joining(", "));
     }
 
-
+    @JsonValue
     public String getRealName() {
-        return this.realName;
+        return realName;
     }
 }
 

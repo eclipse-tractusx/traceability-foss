@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.servic
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
@@ -35,34 +36,48 @@ import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import static java.lang.String.format;
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Transactional(dontRollbackOn = {ContractNegotiationException.class, NoCatalogItemException.class, SendNotificationException.class, NoEndpointDataReferenceException.class})
 public class InvestigationsEDCFacade {
 
     public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
 
-    private final HttpCallService httpCallService;
-
     private final ObjectMapper objectMapper;
 
     private final EdcProperties edcProperties;
+
+    private final RestTemplate edcNotificationTemplate;
+    private final InvestigationRepository investigationRepository;
+    private final AlertRepository alertRepository;
 
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
@@ -87,11 +102,10 @@ public class InvestigationsEDCFacade {
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
 
         notification.setContractAgreementId(contractAgreementId);
-        notification.setEdcUrl(receiverEdcUrl);
 
         try {
-            EdcNotificationRequest notificationRequest = buildNotificationRequestNew(notification, senderEdcUrl, dataReference);
-            httpCallService.sendRequest(notificationRequest);
+            EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notification, senderEdcUrl, dataReference);
+            sendRequest(notificationRequest, notification);
         } catch (Exception e) {
             throw new SendNotificationException("Failed to send notification.", e);
         }
@@ -112,7 +126,7 @@ public class InvestigationsEDCFacade {
     private CatalogItem getCatalogItem(final QualityNotificationMessage notification, final String receiverEdcUrl) {
         try {
             final String propertyNotificationTypeValue = QualityNotificationType.ALERT.equals(notification.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
-            final String propertyMethodValue = Boolean.TRUE.equals(notification.getIsInitial()) ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
+            final String propertyMethodValue = Boolean.TRUE.equals(notification.getNotificationStatus().equals(QualityNotificationStatus.SENT)) ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
             return edcCatalogFacade.fetchCatalogItems(
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
@@ -141,7 +155,7 @@ public class InvestigationsEDCFacade {
     }
 
     // TODO this method should be completly handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
-    private EdcNotificationRequest buildNotificationRequestNew(
+    private EdcNotificationRequest toEdcNotificationRequest(
             final QualityNotificationMessage notification,
             final String senderEdcUrl,
             final EndpointDataReference dataReference
@@ -151,13 +165,44 @@ public class InvestigationsEDCFacade {
         String body = objectMapper.writeValueAsString(edcNotification);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set(dataReference.getAuthKey(), dataReference.getAuthCode());
+        headers.set(Objects.requireNonNull(dataReference.getAuthKey()), dataReference.getAuthCode());
         headers.set("Content-Type", "application/json");
         log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
         return EdcNotificationRequest.builder()
                 .url(dataReference.getEndpoint())
                 .body(body)
                 .headers(headers).build();
+    }
+
+
+    private void sendRequest(final EdcNotificationRequest request, QualityNotificationMessage message) {
+        HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
+        try {
+            var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
+            });
+            log.info("Control plane responded with status: {}", response.getStatusCode());
+            if (!response.getStatusCode().is2xxSuccessful()) {
+                throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
+            } else {
+                String edcNotificationId = message.getEdcNotificationId();
+                if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
+                    Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(edcNotificationId);
+                    if (optionalQualityNotificationById.isPresent()) {
+                        optionalQualityNotificationById.ifPresent(investigationRepository::updateQualityNotificationEntity);
+                        log.info("Updated qualitynotification message as investigation with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
+                    }
+                } else {
+                    Optional<QualityNotification> optionalQualityNotificationById = alertRepository.findByEdcNotificationId(edcNotificationId);
+                    if (optionalQualityNotificationById.isPresent()) {
+                        optionalQualityNotificationById.ifPresent(alertRepository::updateQualityNotificationEntity);
+                        log.info("Updated qualitynotification message as alert with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+            throw e;
+        }
     }
 
 }

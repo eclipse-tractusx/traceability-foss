@@ -109,7 +109,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     @Override
     @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
-        if(Objects.isNull(assets)) {
+        if (Objects.isNull(assets)) {
             return List.of();
         }
         List<AssetAsBuiltEntity> toPersist = assets.stream().map(assetToPersist -> new AbstractMap.SimpleEntry<AssetBase, AssetBaseEntity>(assetToPersist, jpaAssetAsBuiltRepository.findById(assetToPersist.getId()).orElse(null)))
@@ -130,6 +130,23 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
             return true;
         }
         return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;
+    }
+
+    @Transactional
+    @Override
+    public List<AssetBase> findByImportStateIn(ImportState... importStates) {
+        return jpaAssetAsBuiltRepository.findByImportStateIn(importStates).stream()
+                .map(AssetAsBuiltEntity::toDomain).toList();
+    }
+
+    @Override
+    public void updateImportStateAndNoteForAssets(ImportState importState, String importNote, List<String> assetIds) {
+        List<AssetAsBuiltEntity> assets = jpaAssetAsBuiltRepository.findByIdIn(assetIds);
+        assets.forEach(assetAsBuilt -> {
+            assetAsBuilt.setImportState(importState);
+            assetAsBuilt.setImportNote(importNote);
+        });
+        jpaAssetAsBuiltRepository.saveAll(assets);
     }
 
     @Override

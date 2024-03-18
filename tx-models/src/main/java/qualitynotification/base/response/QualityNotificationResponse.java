@@ -20,13 +20,19 @@ package qualitynotification.base.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @SuperBuilder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class QualityNotificationResponse {
 
     @Schema(example = "66", maxLength = 255)
@@ -80,10 +86,11 @@ public class QualityNotificationResponse {
     @Size(max = 50)
     private String targetDate;
 
-    @Schema(example = "EDC not reachable", maxLength = 255)
-    @Size(max = 255)
-    private String errorMessage;
+    private List<QualityNotificationMessageResponse> messages;
 
-    private List<QualityNotificationMessageResponse> qualityNotificationMessageResponseList;
+
+    public Optional<QualityNotificationMessageResponse> latestNotification() {
+        return messages.stream().max(Comparator.comparing(QualityNotificationMessageResponse::getCreated)).stream().findFirst();
+    }
 
 }

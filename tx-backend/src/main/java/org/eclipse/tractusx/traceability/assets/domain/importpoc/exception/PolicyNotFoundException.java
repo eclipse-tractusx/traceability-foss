@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,14 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.test.tooling.rest.request;
+package org.eclipse.tractusx.traceability.assets.domain.importpoc.exception;
 
-import lombok.Builder;
-import lombok.Data;
-
-@Builder
-@Data
-public class UpdateQualityNotificationRequest {
-    private UpdateQualityNotificationStatusRequest status;
-    private String reason;
+public class PolicyNotFoundException extends RuntimeException{
+    public PolicyNotFoundException(String message) {
+        super(message);
+    }
 }

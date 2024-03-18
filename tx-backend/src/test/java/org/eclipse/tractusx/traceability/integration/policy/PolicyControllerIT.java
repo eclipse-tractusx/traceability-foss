@@ -27,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 class PolicyControllerIT extends IntegrationTestSpecification {
     @Autowired
@@ -45,6 +47,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .get("/api/policies")
                 .then()
                 .statusCode(200)
+                .body("size()", is(1))
                 .log().all();
 
     }

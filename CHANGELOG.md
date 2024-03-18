@@ -9,13 +9,21 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+## [10.7.0 - 18.03.2024]
+
 ### Added
 - #421 Added contract agreement view
 - #515 Service Unavailable Response on Notification failure
-- #536 Added import state PUBLISHED_TO_CX in frontend
+- #536 Added import state PUBLISHED_TO_CORE_SERVICES in frontend
 - #420 add /contracts api to fetch contract agreement information from EDC for assets
+- #423 Notification will be created/persisted in case of a edc notification
 - Added a step to the pull-request-backend.yml which checks if the pom.xml(root) properties have some versions ending with -SNAPSHOT
 - Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
+- #536 added new ImportState to asset PUBLISHED_TO_CORE_SERVICES indicating edc assets and dtr shells were created for given asset
+- #536 added cron job responsible to publish assets in PUBLISHED_TO_CORE_SERVICES import state to edc and dtr
+- #652 add GitHub action to publish Swagger to Swaggerhub
+- #606 Added error message into notifications on failure
+
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
 - #515 Fixed notification toast click area
@@ -23,6 +31,24 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #423 Moved errorMessages from investigation/alert to notification list
 - Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
 - #536 rework /policies to respond with policies from the IRS policy store
+- #536 sync assets logic was adjusted to create IRS jobs only for assets that are not in TRANSIENT or IN_SYNC states
+- #536 Updated Arc42 documentation and user-manual with publish assets informations
+- Bumped softprops/action-gh-release from v1 to v2
+- Bumped azure/setup-helm from v3 to v4
+- Bumped aquasecurity/trivy-action from 0.17.0 to 0.18.0
+- Bupped cucumber-bom from 7.12.1 to 7.15.0
+- Bumped jetbrains-annotation from 24.0.1 to 24.1.0
+- Bumped commons-logging from 1.2 to 1.3.0
+- Bumped shedlock from 5.11.0 to 5.12.0
+- Overridden transitive commons-compress version by 1.26.1 to fix CVE-2024-26308
+- Overridden transitive commons-codec version by 1.16.1 to fix CVE-2024-26308
+- Update irs-registry-client from version 1.6.0-SNAPSHOT to 1.6.0
+- Updated review-message for check pom for -SNAPSHOT workflow
+- Changed base image from eclipse-temurin:17-jre-alpine to eclipse-temurin:21-jre-alpine
+- Changed build image from maven:3-openjdk-17-slim to maven:3-openjdk-18-slim
+- #742 rework test management strategy for frontend and backend part
+- #606 cucumber tests retry on error
+- #606 refactored response model to only be used by common model package tx-models
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout

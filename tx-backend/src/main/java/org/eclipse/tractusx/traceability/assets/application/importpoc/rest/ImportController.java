@@ -33,6 +33,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.ws.rs.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.ImportService;
@@ -51,6 +52,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,7 +84,7 @@ public class ImportController {
                     description = "OK.",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema())),
+                            schema = @Schema(implementation = ImportResponse.class))),
             @ApiResponse(
                     responseCode = "204",
                     description = "No Content.",
@@ -300,8 +302,8 @@ public class ImportController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
 
     @PostMapping(value = "/publish", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> registerAssetsForPublishing(@RequestBody RegisterAssetRequest registerAssetRequest) {
-        publishService.publishAssets(registerAssetRequest.policyId(), registerAssetRequest.assetIds());
+    public ResponseEntity<String> registerAssetsForPublishing(@RequestBody RegisterAssetRequest registerAssetRequest, @RequestParam(name = "triggerSynchronizeAssets", defaultValue = "true") boolean triggerSynchronizeAssets) {
+        publishService.publishAssets(registerAssetRequest.policyId(), registerAssetRequest.assetIds(), triggerSynchronizeAssets);
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }

@@ -16,27 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
-package org.eclipse.tractusx.traceability.test.tooling.rest.request;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+public interface QualityNotificationReceiverService {
 
-import java.util.NoSuchElementException;
-import java.util.stream.Stream;
+    void handleReceive(EDCNotification edcNotification);
 
-public enum UpdateQualityNotificationStatusRequest {
-    ACKNOWLEDGED,
-    ACCEPTED,
-    DECLINED;
-
-
-    @JsonCreator
-    public static UpdateQualityNotificationStatusRequest fromValue(final String value) {
-        return Stream.of(UpdateQualityNotificationStatusRequest.values())
-                .filter(updateInvestigationStatus -> updateInvestigationStatus.name().equals(value))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Unsupported UpdateInvestigationStatus"));
-    }
-
-
+    void handleUpdate(EDCNotification edcNotification);
 }

@@ -97,17 +97,16 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .sendTo("BPNL00000003AXS3")
                 .sendToName("Receiver manufacturer name")
                 .severity(QualityNotificationSeverity.MINOR)
-                .isInitial(false)
                 .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
-                .isInitial(false)
                 .type(QualityNotificationType.INVESTIGATION)
+                .severity(QualityNotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
         EDCNotification notification = EDCNotificationFactory.createEdcNotification(
                 "it", notificationBuild);
 
         // when
-        investigationsReceiverService.handleNotificationReceive(notification);
+        investigationsReceiverService.handleReceive(notification);
 
         // then
         investigationsSupport.assertInvestigationsSize(1);
@@ -223,11 +222,14 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     void givenInvestigationReasonTooLong_whenUpdate_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         String description = RandomStringUtils.random(1001);
-        val request = new UpdateQualityNotificationRequest();
-        request.setReason(description);
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
 
-        // when/then
+        UpdateQualityNotificationRequest request =
+                UpdateQualityNotificationRequest
+                        .builder()
+                        .reason(description)
+                        .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                        .build();
+           // when/then
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(request))
@@ -243,9 +245,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     void givenWrongStatus_whenUpdateInvestigation_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         String description = RandomStringUtils.random(15);
-        val request = new UpdateQualityNotificationRequest();
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
-        request.setReason(description);
+
+        UpdateQualityNotificationRequest request =
+                UpdateQualityNotificationRequest
+                        .builder()
+                        .reason(description)
+                        .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                        .build();
 
         // when/then
         given()
@@ -366,6 +372,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
+
+        investigationNotificationsSupport.assertNotificationsSize(4);
     }
 
     @Test
@@ -384,6 +392,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .severity(QualityNotificationSeverityRequest.MINOR)
                 .isAsBuilt(true)
                 .build();
+
 
         // when
         val investigationId = given()
@@ -422,8 +431,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
         // when
-        val closeInvestigationRequest = new CloseQualityNotificationRequest();
-        closeInvestigationRequest.setReason("this is the close reason for that investigation");
+        CloseQualityNotificationRequest closeInvestigationRequest =
+                CloseQualityNotificationRequest
+                        .builder()
+                        .reason("this is the close reason for that investigation")
+                        .build();
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(closeInvestigationRequest))
@@ -446,12 +458,13 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
 
+        investigationNotificationsSupport.assertNotificationsSize(3);
         investigationsSupport.assertInvestigationsSize(1);
         investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.CLOSED);
     }
 
     @Test
-    void givenNonExistingAlert_whenCancel_thenReturnNotFound() throws JoseException {
+    void givenNonExistingInvestigation_whenCancel_thenReturnNotFound() throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
@@ -459,7 +472,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/1/cancel")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Investigation not found for 1 id"));
+                .body("message", Matchers.is("Investigation not found for 1 notification id"));
     }
 
     @Test

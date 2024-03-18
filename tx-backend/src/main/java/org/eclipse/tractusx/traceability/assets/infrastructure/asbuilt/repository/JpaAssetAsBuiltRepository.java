@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,4 +38,6 @@ public interface JpaAssetAsBuiltRepository extends JpaRepository<AssetAsBuiltEnt
 
     @Query("SELECT COUNT(asset) FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
     long countAssetsByOwner(@Param("owner") Owner owner);
+
+    List<AssetAsBuiltEntity> findByImportStateIn(ImportState... importState);
 }

@@ -100,15 +100,15 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .sendToName("Receiver manufacturer name")
                 .severity(QualityNotificationSeverity.MINOR)
                 .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
-                .isInitial(false)
                 .type(QualityNotificationType.ALERT)
+                .severity(QualityNotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
         EDCNotification notification = EDCNotificationFactory.createEdcNotification(
                 "it", notificationBuild);
 
         // when
-        alertsReceiverService.handleNotificationReceive(notification);
+        alertsReceiverService.handleReceive(notification);
 
         // then
         alertsSupport.assertAlertsSize(1);
@@ -156,7 +156,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 }
         );
 
-        alertNotificationsSupport.assertAlertNotificationsSize(1);
+        alertNotificationsSupport.assertAlertNotificationsSize(2);
 
         // when/then
         given()
@@ -231,9 +231,12 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void givenTooLongAlertReason_whenUpdateAlert_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         String description = RandomStringUtils.random(1001);
-        val request = new UpdateQualityNotificationRequest();
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
-        request.setReason(description);
+
+        UpdateQualityNotificationRequest request = UpdateQualityNotificationRequest
+                .builder()
+                .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                .reason(description)
+                .build();
 
         // when/then
         given()
@@ -251,9 +254,13 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void givenWrongStatus_whenUpdateAlert_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         String description = RandomStringUtils.random(15);
-        val request = new UpdateQualityNotificationRequest();
-        request.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED);
-        request.setReason(description);
+
+
+        UpdateQualityNotificationRequest request = UpdateQualityNotificationRequest
+                .builder()
+                .status(UpdateQualityNotificationStatusRequest.ACCEPTED)
+                .reason(description)
+                .build();
 
         // when/then
         given()
@@ -440,8 +447,12 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
         // when
-        var closeAlertRequest = new CloseQualityNotificationRequest();
-        closeAlertRequest.setReason("this is the close reason for that investigation");
+
+        CloseQualityNotificationRequest closeAlertRequest = CloseQualityNotificationRequest
+                .builder()
+                .reason("this is the close reason for that investigation")
+                .build();
+
         given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(closeAlertRequest))
@@ -477,7 +488,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .post("/api/alerts/1/cancel")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Alert not found for 1 id"));
+                .body("message", Matchers.is("Alert not found for 1 notification id"));
     }
 
     @Test
@@ -528,7 +539,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        alertNotificationsSupport.assertAlertNotificationsSize(1);
+        alertNotificationsSupport.assertAlertNotificationsSize(2);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))

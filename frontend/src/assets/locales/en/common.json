@@ -17,7 +17,7 @@
     "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",
     "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available.",
-    "nonTransientPart": "One or more selected parts are not in the required import state \"TRANSIENT\".",
+    "illegalAssetStateToPublish": "One or more selected parts are not in the required import state \"TRANSIENT\" or \"ERROR\".",
     "adminContract": "Contracts"
   },
   "pageTitle": {
@@ -143,7 +143,7 @@
     "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
     "ERROR": "ERROR",
     "UNSET": "UNSET",
-    "PUBLISHED_TO_CX": "PUBLISHED"
+    "PUBLISHED_TO_CORE_SERVICES": "PUBLISHED"
   },
   "severity": {
     "MINOR": "Minor",
@@ -338,7 +338,7 @@
       "IN_SYNCHRONIZATION": "In Synchronization",
       "ERROR": "Error",
       "UNSET": "Unset",
-      "PUBLISHED_TO_CX": "Veröffentlicht"
+      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
 
     }
   },
