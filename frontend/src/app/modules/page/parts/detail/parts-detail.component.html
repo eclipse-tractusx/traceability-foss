@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="part-detail--header--navigation--container">
     <app-button
       [color]="'primary'"
-      (click)="this.navigateToPartsView()"
+      (click)="this.navigateToParentPath()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
@@ -31,16 +31,21 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
   </div>
   <div class="part-detail--header--action--container flex flex-row justify-center items-center">
-    <div class="action-button-tile mr-2">
-    <mat-icon
-      matTooltip="{{ 'start investigation' | i18n}}"
-      matTooltipClass="table--header--tooltip"
-      matTooltipPosition="above"
-      [class.mdc-tooltip--multiline]="true"
-      [matTooltipShowDelay]="500"
-      [matTooltipDisabled]="!roleService.isAdmin() && !isAsPlannedPart && (selectedPartDetails$ | async)?.data?.children?.length > 0"
+    <div class="action-button-tile"
+         matTooltip="{{ (authorizationTooltipMessage === null ? 'start investigation' : authorizationTooltipMessage) | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="500"
+    >
+    <app-button
+
       [style.cursor]="'pointer'"
-    >announcement</mat-icon>
+      iconName="announcement"
+      class="action-button-tile mr-2"
+      [isDisabled]="authorizationTooltipMessage !== null"
+    >
+    </app-button>
     </div>
     <div class="action-button-tile">
     <mat-icon
@@ -104,7 +109,7 @@ SPDX-License-Identifier: Apache-2.0
 
 </div>
 
-<mat-expansion-panel *ngIf="showStartInvestigation"
+<mat-expansion-panel *ngIf="showStartInvestigationOnChildParts"
                      [disabled]="!(selectedPartDetails$ | async)?.data?.children?.length || roleService.isAdmin() || isAsPlannedPart"
                      matTooltip="{{ authorizationTooltipMessage | i18n}}"
                      matTooltipClass="table--header--tooltip"

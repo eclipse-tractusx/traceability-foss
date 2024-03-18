@@ -6,7 +6,7 @@ import { RoleService } from '@core/user/role.service';
 import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
 import { Owner } from '@page/parts/model/owner.enum';
 
-import { Part, QualityType } from '@page/parts/model/parts.model';
+import { ImportState, Part, QualityType } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { SelectOption } from '@shared/components/select/select.component';
 import { State } from '@shared/model/state';
@@ -24,7 +24,7 @@ import { filter, tap } from 'rxjs/operators';
 })
 export class PartsDetailComponent {
   @Input() showRelation = true;
-  @Input() showStartInvestigation = true;
+  @Input() showStartInvestigationOnChildParts = true;
 
   public  shortenPartDetails$: Observable<View<Part>>;
   public readonly selectedPartDetails$: Observable<View<Part>>;
@@ -37,6 +37,7 @@ export class PartsDetailComponent {
   public readonly displayedColumns: string[];
 
   public isAsPlannedPart: boolean = false;
+  public isPersistentPart: boolean = false;
 
   public customerOrPartSiteDetailsHeader$: Subscription;
   public customerOrPartSiteHeader: string;
@@ -95,10 +96,14 @@ export class PartsDetailComponent {
         this.isAsPlannedPart = part.data.semanticDataModel.toString() === 'PartAsPlanned';
       }
 
+      if(part?.data?.importState === ImportState.PERSISTENT) {
+        this.isPersistentPart = true;
+      }
+
       if(part?.data?.children?.length > 0 ) {
-        this.authorizationTooltipMessage = this.getRestrictionMessageKey(true);
+        this.authorizationTooltipMessage = this.setRestrictionMessageKeyForInvestigationOnSubcomponents(true);
       } else {
-        this.authorizationTooltipMessage = this.getRestrictionMessageKey(false);
+        this.authorizationTooltipMessage = this.setRestrictionMessageKeyForInvestigationOnSubcomponents(false);
       }
     });
 
@@ -108,7 +113,6 @@ export class PartsDetailComponent {
   public ngOnInit(): void {
     this.route.queryParams.subscribe((params: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}) => {
       this.pageIndexHistory = params;
-      console.log(this.pageIndexHistory)
     })
   }
 
@@ -132,8 +136,12 @@ export class PartsDetailComponent {
     this.partDetailsFacade.selectedPart = null;
     this.router.navigate([ `parts/relations/${ part.id }` ]).then(_ => window.location.reload());
   }
-
-  getRestrictionMessageKey(hasChildren: boolean): string {
+  // valid investigation for subcomponent:
+  // - is supplier part
+  // - is as built part
+  // - has child parts
+  // - role is not admin
+  private setRestrictionMessageKeyForInvestigationOnSubcomponents(hasChildren: boolean): string {
     if(this.isAsPlannedPart) {
       return 'routing.notAllowedForAsPlanned';
     }
@@ -143,17 +151,45 @@ export class PartsDetailComponent {
     else if(this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     } else {
-      return null;
+      return 'routing.start_investigation_for_subcomponents';
+    }
+
+  }
+  // valid create quality incident for part (alert/investigation will be handled in create incident view):
+  // - is not as planned part
+  // - part owner is own
+  // - is persistent
+  // - is not admin role
+  private setRestrictionMessageKeyForCreateQualityIncident(): string {
+    if(this.isAsPlannedPart) {
+      return 'routing.notAllowedForAsPlanned';
+    }
+    else if(!this.isPersistentPart) {
+      return 'routing.notAllowedForNonPersistentPart';
+    }
+    else if(this.roleService.isAdmin()) {
+      return 'routing.unauthorized';
+    } else {
+      return 'routing.start_quality_incident';
     }
 
   }
 
+  // valid publish assets on asset (allowance of state is handled in publish assets view)
+  // - part owner is own
+  // - is not admin role
+  private
+
+
   protected readonly NotificationAction = NotificationAction;
   protected readonly Owner = Owner;
 
-  navigateToPartsView() {
+  navigateToParentPath() {
     const parentPath = this.router.routerState.snapshot.url.split('/')[1]; //otherParts
     const navigationExtras = this.pageIndexHistory ? {queryParams: this.pageIndexHistory} : null
     this.router.navigate([parentPath], navigationExtras);
   }
+
+
+
 }
