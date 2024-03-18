@@ -73,7 +73,7 @@ jobs:
       - name: Print environment variables
         id: print-env-vars
         run: |
-          echo $GITHUB_OUTPUT
+          echo ${{steps.pom-version.outputs.pom_changed}}
 
 
   Test-and-Sonar:
