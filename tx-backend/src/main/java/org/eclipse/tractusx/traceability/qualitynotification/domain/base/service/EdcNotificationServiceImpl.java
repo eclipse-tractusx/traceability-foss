@@ -49,7 +49,7 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Slf4j
 @RequiredArgsConstructor
 @Service
-@Transactional(dontRollbackOn = SendNotificationException.class)
+@Transactional(dontRollbackOn = ContractNegotiationException.class)
 @Profile(NOT_INTEGRATION_TESTS)
 public class EdcNotificationServiceImpl implements EdcNotificationService {
 
