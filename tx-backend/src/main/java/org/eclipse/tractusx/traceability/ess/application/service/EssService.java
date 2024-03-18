@@ -25,23 +25,21 @@ import ess.response.EssResponse;
 import ess.response.EssStatusType;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.enums.JobState;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsClient;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
 import org.eclipse.tractusx.traceability.bpdm.model.request.RegisterEssInvestigationJobRequest;
 import org.eclipse.tractusx.traceability.bpdm.model.request.SiteSearchRequest;
 import org.eclipse.tractusx.traceability.bpdm.model.response.SiteSearchResponse;
 import org.eclipse.tractusx.traceability.bpdm.model.response.legal.LegalEntity;
-import org.eclipse.tractusx.traceability.bpdm.service.BpdmApiClient;
+import org.eclipse.tractusx.traceability.bpdm.service.BpdmClient;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.ess.EssSpecification;
@@ -68,15 +66,15 @@ public class EssService {
     private ApplicationContext applicationContext;
 
     private final EssRepository essRepository;
-    private final IRSApiClient irsClient;
-    private final BpdmApiClient bpdmApiClient;
+    private final IrsClient irsClient;
+    private final BpdmClient bpdmClient;
     private final VEssRepository vEssRepository;
 
-    public EssService(EssRepository essRepository, IRSApiClient irsClient,
-                      BpdmApiClient bpdmApiClient, VEssRepository vEssRepository) {
+    public EssService(EssRepository essRepository, IrsClient irsClient,
+                      BpdmClient bpdmClient, VEssRepository vEssRepository) {
         this.essRepository = essRepository;
         this.irsClient = irsClient;
-        this.bpdmApiClient = bpdmApiClient;
+        this.bpdmClient = bpdmClient;
         this.vEssRepository = vEssRepository;
     }
 
@@ -113,9 +111,9 @@ public class EssService {
             RegisterJobResponse irsResponse = this.irsClient.registerEssInvestigationJob(registerEssInvestigationJobRequest);
 
             SiteSearchRequest siteSearchRequest = SiteSearchRequest.buildRequest(List.of((this.bpdmConnectionAvailable ? "" : "UNKNOWN")), List.of(request.getBpns()));
-            SiteSearchResponse siteSearchResponse = this.bpdmApiClient.searchForBpnlByBpns(siteSearchRequest);
+            SiteSearchResponse siteSearchResponse = this.bpdmClient.searchForBpnlByBpns(siteSearchRequest);
             List<LegalEntity> legalEntitySearchResponse =
-                    this.bpdmApiClient.searchForLegalNameByBpnl(
+                    this.bpdmClient.searchForLegalNameByBpnl(
                             List.of(siteSearchResponse.content().get(0).bpnLegalEntity()));
             String companyName = legalEntitySearchResponse.get(0).legalName();
 

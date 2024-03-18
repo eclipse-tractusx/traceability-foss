@@ -22,6 +22,7 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Pagination} from '@core/model/pagination.model';
+import {RoleService} from '@core/user/role.service';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {resetMultiSelectionAutoCompleteComponent} from '@page/parts/core/parts.helper';
 import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
@@ -39,7 +40,6 @@ import {BomLifecycleSettingsService, UserSettingView} from '@shared/service/bom-
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {RoleService} from "@core/user/role.service";
 
 
 @Component({
@@ -72,7 +72,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public DEFAULT_PAGE_SIZE = 50;
     public ctrlKeyState = false;
-    isPublisherOpen$ = new BehaviorSubject<boolean>(false);
+    isPublisherOpen$ = new Subject<boolean>();
 
     @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
 
@@ -135,6 +135,17 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
             this.partsFacade.setPartsAsPlanned();
         }
 
+    }
+
+    refreshPartsOnPublish(message: string) {
+      if(message) {
+        this.toastService.error(message);
+      } else {
+        this.toastService.success("requestPublishAssets.success")
+        this.partsFacade.setPartsAsBuilt();
+        this.partsFacade.setPartsAsPlanned();
+        this.partsTableComponents.map(component => component.clearAllRows())
+      }
     }
 
     private resetFilterAndShowToast() {

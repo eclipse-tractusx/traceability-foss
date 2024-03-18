@@ -39,10 +39,6 @@ SPDX-License-Identifier: Apache-2.0
 
     <repositories>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
             <id>oss-sonatype</id>
             <name>oss-sonatype</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
@@ -79,7 +75,6 @@ SPDX-License-Identifier: Apache-2.0
                 </exclusion>
             </exclusions>
         </dependency>
-
         <!-- Remove once org.eclipse.tractusx.irs#irs-registry-client delivers the correct version.-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -168,7 +163,6 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
-            <version>${spring-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -209,7 +203,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-websocket</artifactId>
-            <version>10.1.16</version>
+            <version>${tomcat-embed-websocket.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -296,16 +290,6 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-jackson</artifactId>
             <version>${feign.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-okhttp</artifactId>
-            <version>${feign.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-slf4j</artifactId>
-            <version>${feign-slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.scribejava</groupId>
@@ -456,7 +440,6 @@ SPDX-License-Identifier: Apache-2.0
             <version>1.4.14</version>
         </dependency>
 
-
     </dependencies>
 
     <pluginRepositories>
@@ -520,6 +503,24 @@ SPDX-License-Identifier: Apache-2.0
                         </resource>
                     </resources>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <!-- RELEASE_VERSION -->
+                <version>${openapi-generator-maven-plugin.version}</version>
+                <!-- /RELEASE_VERSION -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/openapi/traceability-foss-backend.json</inputSpec>
+                            <generatorName>html</generatorName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>

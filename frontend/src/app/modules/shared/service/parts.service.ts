@@ -114,11 +114,16 @@ export class PartsService {
   }
 
   public getPart(id: string): Observable<Part> {
+    if(!id || typeof id !== 'string') {
+      throw new Error('invalid ID');
+    }
 
-    let resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ id }`)
+    const encodedId = encodeURIComponent(id);
+
+    let resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ encodedId }`)
       .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)));
 
-    let resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ id }`)
+    let resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ encodedId }`)
       .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)));
 
     return resultsAsBuilt || resultsAsPlanned;

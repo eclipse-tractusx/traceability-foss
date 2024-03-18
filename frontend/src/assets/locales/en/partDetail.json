@@ -1,5 +1,6 @@
 {
   "partDetail": {
+    "tombStoneErrorDetail": "Tombstone Error details",
     "relations": "Relations",
     "overview": "Overview",
     "manufacturerData": "Manufacturer data",

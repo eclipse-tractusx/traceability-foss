@@ -283,7 +283,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 Arguments.of("id", 10L, 10),
                 Arguments.of("id", 200L, 13),
                 Arguments.of("owner", 10L, 4),
-                Arguments.of("semanticDataModel", 10L, 5),
+                Arguments.of("semanticDataModel", 10L, 7),
                 Arguments.of("qualityType", 10L, 5)
         );
     }
@@ -292,7 +292,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
         return Stream.of(
                 Arguments.of("id", "urn:uuid:1", 10L, 3),
                 Arguments.of("owner", "shuldNotMakeDifference", 10L, 4),
-                Arguments.of("semanticDataModel", "shuldNotMakeDifference", 10L, 5),
+                Arguments.of("semanticDataModel", "shuldNotMakeDifference", 10L, 7),
                 Arguments.of("qualityType", "shuldNotMakeDifference", 10L, 5)
         );
     }

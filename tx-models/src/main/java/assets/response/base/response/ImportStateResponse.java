@@ -18,6 +18,9 @@
  ********************************************************************************/
 package assets.response.base.response;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel
 public enum ImportStateResponse {
     TRANSIENT, PERSISTENT, ERROR, IN_SYNCHRONIZATION, UNSET;
 

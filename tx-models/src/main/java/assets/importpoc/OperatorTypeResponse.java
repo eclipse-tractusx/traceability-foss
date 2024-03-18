@@ -21,38 +21,36 @@ package assets.importpoc;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import io.swagger.annotations.ApiModelProperty;
 
 
 @JsonSerialize(
         using = ToStringSerializer.class
 )
 public enum OperatorTypeResponse {
-    @ApiModelProperty("eq")
     EQ("eq", "Equals to"),
-    @ApiModelProperty("neq")
+
     NEQ("neq", "Not equal to"),
-    @ApiModelProperty("lt")
+
     LT("lt", "Less than"),
-    @ApiModelProperty("gt")
+
     GT("gt", "Greater than"),
-    @ApiModelProperty("in")
+
     IN("in", "In"),
-    @ApiModelProperty("lteq")
+
     LTEQ("lteq", "Less than or equal to"),
-    @ApiModelProperty("gteq")
+
     GTEQ("gteq", "Greater than or equal to"),
-    @ApiModelProperty("isA")
+
     ISA("isA", "Is a"),
-    @ApiModelProperty("hasPart")
+
     HASPART("hasPart", "Has part"),
-    @ApiModelProperty("isPartOf")
+
     ISPARTOF("isPartOf", "Is part of"),
-    @ApiModelProperty("isOneOf")
+
     ISONEOF("isOneOf", "Is one of"),
-    @ApiModelProperty("isAllOf")
+
     ISALLOF("isAllOf", "Is all of"),
-    @ApiModelProperty("isNoneOf")
+
     ISNONEOF("isNoneOf", "Is none of");
 
     final String code;

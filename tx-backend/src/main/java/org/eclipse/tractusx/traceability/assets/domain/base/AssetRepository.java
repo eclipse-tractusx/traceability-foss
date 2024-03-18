@@ -29,6 +29,8 @@ public interface AssetRepository {
 
     List<AssetBase> getAssetsById(List<String> assetIds);
 
+    boolean existsById(String assetId);
+
     AssetBase getAssetByChildId(String childId);
 
     List<AssetBase> getAssets();

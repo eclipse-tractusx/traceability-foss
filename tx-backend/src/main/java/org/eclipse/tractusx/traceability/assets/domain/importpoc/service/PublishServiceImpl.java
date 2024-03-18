@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,11 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,18 +45,41 @@ public class PublishServiceImpl implements PublishService {
     @Override
     public void publishAssets(String policyId, List<String> assetIds) {
         //Update assets with policy id
-        List<AssetBase> assetAsPlannedList = assetAsPlannedRepository.getAssetsById(assetIds).stream()
-                .filter(assetAsPlanned -> ImportState.TRANSIENT.equals(assetAsPlanned.getImportState()))
-                .peek(assetAsPlanned -> assetAsPlanned.setImportState(ImportState.IN_SYNCHRONIZATION))
-                .peek(assetAsPlanned -> assetAsPlanned.setPolicyId(policyId))
-                .toList();
-        assetAsPlannedRepository.saveAll(assetAsPlannedList);
+        assetIds.forEach(this::throwIfNotExists);
 
-        List<AssetBase> assetAsBuiltList = assetAsBuiltRepository.getAssetsById(assetIds).stream()
-                .filter(assetAsBuilt -> ImportState.TRANSIENT.equals(assetAsBuilt.getImportState()))
-                .peek(assetAsBuilt -> assetAsBuilt.setImportState(ImportState.IN_SYNCHRONIZATION))
-                .peek(assetAsBuilt -> assetAsBuilt.setPolicyId(policyId))
-                .toList();
-        assetAsBuiltRepository.saveAll(assetAsBuiltList);
+        log.info("Updating status of asPlannedAssets.");
+        updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsPlannedRepository);
+        log.info("Updating status of asBuiltAssets.");
+        updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
     }
+    private void throwIfNotExists(String assetId) {
+        if (!(assetAsBuiltRepository.existsById(assetId) || assetAsPlannedRepository.existsById(assetId))) {
+            throw new PublishAssetException("No asset found with the provided ID: " + assetId);
+        }
+    }
+
+
+    private void updateAssetWithStatusAndPolicy(String policyId, List<String> assetIds, AssetRepository repository) {
+        List<AssetBase> assetList = repository.getAssetsById(assetIds);
+        List<AssetBase> saveList = assetList.stream()
+                .filter(this::validTransientState)
+                .map(asset -> {
+                    asset.setImportState(ImportState.IN_SYNCHRONIZATION);
+                    asset.setImportNote(ImportNote.IN_SYNCHRONIZATION);
+                    asset.setPolicyId(policyId);
+                    return asset;
+                }).toList();
+
+        List<AssetBase> assetBases = repository.saveAll(saveList);
+
+        log.info("Successfully set {} in status IN_SYNCHRONIZATION", assetBases.stream().map(AssetBase::getId).collect(Collectors.joining(", ")));
+    }
+
+    private boolean validTransientState(AssetBase assetBase) {
+        if (ImportState.TRANSIENT.equals(assetBase.getImportState())) {
+            return true;
+        }
+        throw new PublishAssetException("Asset with ID " + assetBase.getId() + " is not in TRANSIENT state.");
+    }
+
 }

@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,5 +31,6 @@ export {
 export { investigationsHandlers, investigationsTestHandlers } from './investigations-mock/investigations.handler';
 export { adminHandler } from './admin-mock/admin.handler';
 export { errorHandler } from './error-mock/error.handler';
+export { policyHandler } from './policy-mock/policy.handler';
 export { essHandler } from './ess-mock/ess.handler';
 export { bpdmHandler } from './bpdm-mock/bpdm.handler';
