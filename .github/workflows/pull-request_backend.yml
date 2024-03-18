@@ -57,7 +57,7 @@ jobs:
         id: pom-version
         run: |
           snapshot_count_root_pom=$(sed -n '/<properties>/,/properties>/p' pom.xml | grep -o '\-SNAPSHOT' | wc -l)
-          if [ "$snapshot_count_root_pom" > 1 ]; then
+          if (( $snapshot_count_root_pom > 1 )); then
             echo "pom_changed=true" >> $GITHUB_OUTPUT
           else
             echo "pom_changed=false" >> $GITHUB_OUTPUT
