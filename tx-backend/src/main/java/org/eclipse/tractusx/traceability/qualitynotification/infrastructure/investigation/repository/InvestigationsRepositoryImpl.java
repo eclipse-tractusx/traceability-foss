@@ -61,7 +61,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@Transactional(dontRollbackOn = ContractNegotiationException.class)
+@Transactional
 public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private final JpaInvestigationRepository jpaInvestigationRepository;
