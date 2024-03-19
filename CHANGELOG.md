@@ -10,11 +10,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
-
 - #606 Added error message into notifications on failure
 
 ### Changed
-
 - #709 Bumped spring-core from 6.0.17 to 6.1.5- #606 cucumber tests retry on error
 - #606 refactored response model to only be used by common model package tx-models
 
