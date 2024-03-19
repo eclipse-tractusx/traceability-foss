@@ -9,6 +9,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+
+### Changed
+- #709 Bumped spring-core from 6.0.17 to 6.1.5
+
+### Removed
+
 ## [10.7.0 - 18.03.2024]
 
 ### Added

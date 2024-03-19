@@ -54,6 +54,16 @@ import java.util.List;
 @Slf4j
 public class RestTemplateConfiguration {
 
+    public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
+    public static final String EDC_ASSET_REST_TEMPLATE = "edcDtrAssetRestTemplate";
+    public static final String DIGITAL_TWIN_REGISTRY_CREATE_SHELL_REST_TEMPLATE = "digitalTwinRegistryCreateShellRestTemplate";
+    public static final String EDC_NOTIFICATION_TEMPLATE = "edcNotificationTemplate";
+    public static final String IRS_ADMIN_TEMPLATE = "irsAdminTemplate";
+    public static final String IRS_REGULAR_TEMPLATE = "irsRegularTemplate";
+    public static final String SUBMODEL_REST_TEMPLATE = "submodelRestTemplate";
+    public static final String DIGITAL_TWIN_REGISTRY_REST_TEMPLATE = "digitalTwinRegistryRestTemplate";
+    public static final String EDC_CLIENT_REST_TEMPLATE= "edcClientRestTemplate";
+
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
     private static final String IRS_API_KEY_HEADER_NAME = "X-API-KEY";
 
@@ -62,7 +72,7 @@ public class RestTemplateConfiguration {
 
 
     /* RestTemplate used by trace x for the edc contracts used within the edc provider.*/
-    @Bean
+    @Bean(EDC_REST_TEMPLATE)
     public RestTemplate edcRestTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
@@ -72,7 +82,7 @@ public class RestTemplateConfiguration {
                 .build();
     }
 
-    @Bean
+    @Bean(EDC_ASSET_REST_TEMPLATE)
     public RestTemplate edcDtrAssetRestTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
@@ -84,14 +94,14 @@ public class RestTemplateConfiguration {
                 .build();
     }
 
-    @Bean
+    @Bean(DIGITAL_TWIN_REGISTRY_CREATE_SHELL_REST_TEMPLATE)
     public RestTemplate digitalTwinRegistryCreateShellRestTemplate() {
         return new RestTemplateBuilder()
                 .build();
     }
 
     /* RestTemplate used by trace x for the notification transfer to the edc controlplane including edc api key*/
-    @Bean
+    @Bean(EDC_NOTIFICATION_TEMPLATE)
     public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
@@ -99,7 +109,7 @@ public class RestTemplateConfiguration {
     }
 
     /* RestTemplate used by trace x for the irs api with the admin api key*/
-    @Bean
+    @Bean(IRS_ADMIN_TEMPLATE)
     public RestTemplate irsAdminTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
@@ -109,7 +119,7 @@ public class RestTemplateConfiguration {
     }
 
     /* RestTemplate used by trace x for the irs api with the regular api key*/
-    @Bean
+    @Bean(IRS_REGULAR_TEMPLATE)
     public RestTemplate irsRegularTemplate(@Autowired TraceabilityProperties traceabilityProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
@@ -120,7 +130,7 @@ public class RestTemplateConfiguration {
     }
 
     /* RestTemplate used by trace x for the submodel server*/
-    @Bean
+    @Bean(SUBMODEL_REST_TEMPLATE)
     public RestTemplate submodelRestTemplate(@Autowired TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getSubmodelBase())
@@ -130,7 +140,7 @@ public class RestTemplateConfiguration {
     }
 
     /* RestTemplate used by the digital twin registry client library*/
-    @Bean
+    @Bean(DIGITAL_TWIN_REGISTRY_REST_TEMPLATE)
     public RestTemplate digitalTwinRegistryRestTemplate(
             final RestTemplateBuilder restTemplateBuilder,
             @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
@@ -141,7 +151,7 @@ public class RestTemplateConfiguration {
     }
 
     /* RestTemplate used by the edc client library*/
-    @Bean
+    @Bean(EDC_CLIENT_REST_TEMPLATE)
     public RestTemplate edcClientRestTemplate() {
         return new RestTemplateBuilder()
                 .build();

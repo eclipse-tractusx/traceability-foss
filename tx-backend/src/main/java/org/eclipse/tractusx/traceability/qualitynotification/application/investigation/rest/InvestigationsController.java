@@ -258,7 +258,7 @@ public class InvestigationsController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{investigationId}")
-    public InvestigationResponse getInvestigation(@PathVariable Long investigationId) {
+    public InvestigationResponse getInvestigation(@PathVariable("investigationId") Long investigationId) {
         log.info(API_LOG_START + "/{}", investigationId);
         return InvestigationResponseMapper.from(investigationService.find(investigationId));
     }
@@ -321,7 +321,7 @@ public class InvestigationsController {
     @PostMapping("/{investigationId}/approve")
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approveInvestigation(@PathVariable Long investigationId) {
+    public void approveInvestigation(@PathVariable("investigationId") Long investigationId) {
         log.info(API_LOG_START + "/{}/approve", investigationId);
         investigationService.approve(investigationId);
     }
@@ -384,7 +384,7 @@ public class InvestigationsController {
     @PostMapping("/{investigationId}/cancel")
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelInvestigation(@PathVariable Long investigationId) {
+    public void cancelInvestigation(@PathVariable("investigationId") Long investigationId) {
         log.info(API_LOG_START + "/{}/cancel", investigationId);
         investigationService.cancel(investigationId);
     }
@@ -446,7 +446,7 @@ public class InvestigationsController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{investigationId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseQualityNotificationRequest closeInvestigationRequest) {
+    public void closeInvestigation(@PathVariable("investigationId") Long investigationId, @Valid @RequestBody CloseQualityNotificationRequest closeInvestigationRequest) {
         CloseQualityNotificationRequest cleanCloseQualityNotificationRequest = sanitize(closeInvestigationRequest);
         log.info(API_LOG_START + "/{}/close with params {}", investigationId, cleanCloseQualityNotificationRequest);
         investigationService.update(investigationId, from(QualityNotificationStatusRequest.CLOSED), cleanCloseQualityNotificationRequest.getReason());
@@ -509,7 +509,7 @@ public class InvestigationsController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @PostMapping("/{investigationId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateQualityNotificationRequest updateInvestigationRequest) {
+    public void updateInvestigation(@PathVariable("investigationId") Long investigationId, @Valid @RequestBody UpdateQualityNotificationRequest updateInvestigationRequest) {
         UpdateQualityNotificationRequest cleanUpdateQualityNotificationRequest = sanitize(updateInvestigationRequest);
         validate(cleanUpdateQualityNotificationRequest);
         log.info(API_LOG_START + "/{}/update with params {}", investigationId, cleanUpdateQualityNotificationRequest);

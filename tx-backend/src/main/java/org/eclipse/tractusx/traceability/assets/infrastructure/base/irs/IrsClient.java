@@ -34,6 +34,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -46,6 +47,9 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
+
+import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_ADMIN_TEMPLATE;
+import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_REGULAR_TEMPLATE;
 
 @Slf4j
 @Component
@@ -60,8 +64,8 @@ public class IrsClient {
     @Value("${traceability.irsPoliciesPath}")
     String policiesPath = null;
 
-    public IrsClient(RestTemplate irsAdminTemplate,
-                     RestTemplate irsRegularTemplate,
+    public IrsClient(@Qualifier(IRS_ADMIN_TEMPLATE) RestTemplate irsAdminTemplate,
+                     @Qualifier(IRS_REGULAR_TEMPLATE) RestTemplate irsRegularTemplate,
                      TraceabilityProperties traceabilityProperties) {
         this.irsAdminTemplate = irsAdminTemplate;
         this.irsRegularTemplate = irsRegularTemplate;
