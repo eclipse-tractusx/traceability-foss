@@ -49,6 +49,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -62,6 +63,7 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
+import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_NOTIFICATION_TEMPLATE;
 
 @Slf4j
 @Component
@@ -75,6 +77,7 @@ public class InvestigationsEDCFacade {
 
     private final EdcProperties edcProperties;
 
+    @Qualifier(EDC_NOTIFICATION_TEMPLATE)
     private final RestTemplate edcNotificationTemplate;
     private final InvestigationRepository investigationRepository;
     private final AlertRepository alertRepository;

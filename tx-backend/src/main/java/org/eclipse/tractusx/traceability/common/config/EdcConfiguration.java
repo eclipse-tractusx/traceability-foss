@@ -26,6 +26,7 @@ import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.irs.edc.client.transformer.EdcTransformer;
 import org.eclipse.tractusx.irs.registryclient.decentral.DigitalTwinRegistryCreateShellService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -35,6 +36,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.DIGITAL_TWIN_REGISTRY_CREATE_SHELL_REST_TEMPLATE;
+import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_ASSET_REST_TEMPLATE;
 
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
@@ -52,22 +56,22 @@ public class EdcConfiguration {
     String shellDescriptorUrl;
 
     @Bean
-    public EdcAssetService edcAssetService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, EdcTransformer edcTransformer, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcAssetService(edcTransformer, edcConfiguration, edcDtrAssetRestTemplate);
+    public EdcAssetService edcAssetService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, EdcTransformer edcTransformer,@Qualifier(EDC_ASSET_REST_TEMPLATE) RestTemplate edcAssetRestTemplate) {
+        return new EdcAssetService(edcTransformer, edcConfiguration, edcAssetRestTemplate);
     }
 
     @Bean
-    public EdcPolicyDefinitionService edcPolicyDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcPolicyDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
+    public EdcPolicyDefinitionService edcPolicyDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration,@Qualifier(EDC_ASSET_REST_TEMPLATE) RestTemplate edcAssetRestTemplate) {
+        return new EdcPolicyDefinitionService(edcConfiguration, edcAssetRestTemplate);
     }
 
     @Bean
-    public EdcContractDefinitionService edcContractDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration, RestTemplate edcDtrAssetRestTemplate) {
-        return new EdcContractDefinitionService(edcConfiguration, edcDtrAssetRestTemplate);
+    public EdcContractDefinitionService edcContractDefinitionService(org.eclipse.tractusx.irs.edc.client.EdcConfiguration edcConfiguration,@Qualifier(EDC_ASSET_REST_TEMPLATE) RestTemplate edcAssetRestTemplate) {
+        return new EdcContractDefinitionService(edcConfiguration, edcAssetRestTemplate);
     }
 
     @Bean
-    public DigitalTwinRegistryCreateShellService dtrCreateShellService(RestTemplate digitalTwinRegistryCreateShellRestTemplate) {
+    public DigitalTwinRegistryCreateShellService dtrCreateShellService(@Qualifier(DIGITAL_TWIN_REGISTRY_CREATE_SHELL_REST_TEMPLATE) RestTemplate digitalTwinRegistryCreateShellRestTemplate) {
         return new DigitalTwinRegistryCreateShellService(digitalTwinRegistryCreateShellRestTemplate, registryUrlWithPath + shellDescriptorUrl);
     }
 }

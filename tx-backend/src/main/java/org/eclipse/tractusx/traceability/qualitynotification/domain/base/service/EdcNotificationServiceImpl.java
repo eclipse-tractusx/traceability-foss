@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
+import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
@@ -49,7 +50,7 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Slf4j
 @RequiredArgsConstructor
 @Service
-@Transactional
+@Transactional(dontRollbackOn = DiscoveryFinderException.class)
 @Profile(NOT_INTEGRATION_TESTS)
 public class EdcNotificationServiceImpl implements EdcNotificationService {
 

@@ -168,13 +168,19 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
-
+        <!--  Fixes CVE-2024-22257  -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>6.2.3</version>
+        </dependency>
 
         <!-- Fixes CVE-2023-34035  -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -576,6 +582,10 @@ SPDX-License-Identifier: Apache-2.0
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+                <configuration>
+                    <parameters>true</parameters>
+                </configuration>
             </plugin>
 
             <!-- Spring Boot Plugin-->

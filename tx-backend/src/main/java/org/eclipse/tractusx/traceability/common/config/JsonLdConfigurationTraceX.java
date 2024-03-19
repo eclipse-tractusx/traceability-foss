@@ -51,7 +51,7 @@ public class JsonLdConfigurationTraceX {
     public static final String NAMESPACE_TRACTUSX = "https://w3id.org/tractusx/v0.0.1/ns/";
     public static final String NAMESPACE_DCT = "https://purl.org/dc/terms/";
 
-    @Bean /* package */ TitaniumJsonLd titaniumJsonLdTraceX(final Monitor monitor) {
+     /* package */ TitaniumJsonLd titaniumJsonLdTraceX(final Monitor monitor) {
         final TitaniumJsonLd titaniumJsonLd = new TitaniumJsonLd(monitor);
         titaniumJsonLd.registerNamespace("odrl", JsonLdConfigurationTraceX.NAMESPACE_ODRL);
         titaniumJsonLd.registerNamespace("dct", NAMESPACE_DCT);
@@ -62,7 +62,7 @@ public class JsonLdConfigurationTraceX {
         return titaniumJsonLd;
     }
 
-    @Bean /* package */ Monitor monitorTraceX() {
+     /* package */ Monitor monitorTraceX() {
         return new ConsoleMonitor();
     }
 
