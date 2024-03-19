@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.submodel.application.rest;
 
 import assets.importpoc.ErrorResponse;
+import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -106,7 +107,7 @@ public class SubmodelController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{submodelId}")
-    public String getSubmodel(@PathVariable String submodelId) {
+    public String getSubmodel(@PathVariable("submodelId") @ApiParam String submodelId) {
         return submodelService.getById(submodelId).getPayload();
     }
 
@@ -162,7 +163,7 @@ public class SubmodelController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{submodelId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void saveSubmodel(@PathVariable String submodelId, @RequestBody String submodelPayload) {
+    public void saveSubmodel(@PathVariable("submodelId") @ApiParam String submodelId, @RequestBody String submodelPayload) {
         submodelService.save(Submodel.builder()
                 .id(submodelId)
                 .payload(submodelPayload)

@@ -259,7 +259,7 @@ public class AlertController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{alertId}")
-    public AlertResponse getAlert(@PathVariable Long alertId) {
+    public AlertResponse getAlert(@PathVariable("alertId") Long alertId) {
         log.info(API_LOG_START + "/{}", alertId);
         return AlertResponseMapper.from(alertService.find(alertId));
     }
@@ -323,7 +323,7 @@ public class AlertController {
     @PostMapping("/{alertId}/approve")
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approveAlert(@PathVariable Long alertId) {
+    public void approveAlert(@PathVariable("alertId") Long alertId) {
         log.info(API_LOG_START + "/{}/approve", alertId);
         alertService.approve(alertId);
     }
@@ -387,7 +387,7 @@ public class AlertController {
     @PostMapping("/{alertId}/cancel")
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelAlert(@PathVariable Long alertId) {
+    public void cancelAlert(@PathVariable("alertId") Long alertId) {
         log.info(API_LOG_START + "/{}/cancel", alertId);
         alertService.cancel(alertId);
     }
@@ -452,7 +452,7 @@ public class AlertController {
     @PostMapping("/{alertId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeAlert(
-            @PathVariable @ApiParam Long alertId,
+            @PathVariable("alertId") @ApiParam Long alertId,
             @Valid @RequestBody CloseQualityNotificationRequest closeAlertRequest) {
         CloseQualityNotificationRequest cleanCloseAlertRequest = sanitize(closeAlertRequest);
         log.info(API_LOG_START + "/{}/close with params {}", alertId, cleanCloseAlertRequest);
@@ -516,7 +516,7 @@ public class AlertController {
     @PostMapping("/{alertId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAlert(
-            @PathVariable Long alertId,
+            @PathVariable("alertId") Long alertId,
             @Valid @RequestBody UpdateQualityNotificationRequest updateAlertRequest) {
         UpdateQualityNotificationRequest cleanUpdateAlertRequest = sanitize(updateAlertRequest);
         validate(cleanUpdateAlertRequest);

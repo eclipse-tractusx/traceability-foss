@@ -293,7 +293,7 @@ public class BpnMappingController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @DeleteMapping("/{bpn}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBpnEdcUrlMapping(@PathVariable String bpn) {
+    public void deleteBpnEdcUrlMapping(@PathVariable("bpn") String bpn) {
         log.info("BpnEdcController [deleteBpnEdcUrlMapping]");
         service.deleteBpnMapping(bpn);
     }
