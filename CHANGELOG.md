@@ -13,7 +13,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #606 Added error message into notifications on failure
 
 ### Changed
-- #709 Bumped spring-core from 6.0.17 to 6.1.5- #606 cucumber tests retry on error
+
+- #709 Bumped spring-core from 6.0.17 to 6.1.5
+- #606 cucumber tests retry on error
 - #606 refactored response model to only be used by common model package tx-models
 
 
@@ -32,7 +34,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #536 added new ImportState to asset PUBLISHED_TO_CORE_SERVICES indicating edc assets and dtr shells were created for given asset
 - #536 added cron job responsible to publish assets in PUBLISHED_TO_CORE_SERVICES import state to edc and dtr
 - #652 add GitHub action to publish Swagger to Swaggerhub
-- #606 Added error message into notifications on failure
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
