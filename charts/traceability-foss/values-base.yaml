@@ -154,6 +154,7 @@ backend:
     clientTokenUri: 'CHANGE_ME'
     jwkSetUri: 'CHANGE_ME'
     resourceClient: 'CHANGE_ME'
+    scope: 'openid'
 
   edc:
     apiKey: 'CHANGE_ME'
