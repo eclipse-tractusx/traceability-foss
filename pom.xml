@@ -64,7 +64,7 @@ SPDX-License-Identifier: Apache-2.0
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <edc-library.version>0.2.1</edc-library.version>
         <!-- versions for 3rd party dependecies -->
-        <eclipse-dash-ip.version>1.0.2</eclipse-dash-ip.version>
+        <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.2.13</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
@@ -180,13 +180,14 @@ SPDX-License-Identifier: Apache-2.0
 
     <pluginRepositories>
         <pluginRepository>
-            <id>dash-licenses-snapshots</id>
-            <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+            <id>dash-licenses-releases</id>
+            <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+
 
     <build>
         <plugins>
