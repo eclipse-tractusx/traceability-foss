@@ -12,7 +12,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 
 ### Changed
-- Bumped spring-core from 6.0.17 to 6.1.5
+- #709 Bumped spring-core from 6.0.17 to 6.1.5
 
 ### Removed
 
