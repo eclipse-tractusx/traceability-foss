@@ -374,7 +374,7 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
-    public AssetAsBuiltResponse getAssetById(@PathVariable String assetId) {
+    public AssetAsBuiltResponse getAssetById(@PathVariable("assetId") String assetId) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetById(assetId));
     }
 
@@ -430,7 +430,7 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/*/children/{childId}")
-    public AssetAsBuiltResponse getAssetChildId(@PathVariable String childId) {
+    public AssetAsBuiltResponse getAssetChildId(@PathVariable("childId") String childId) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetByChildId(childId));
     }
 
@@ -485,7 +485,7 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping("/{assetId}")
-    public AssetAsBuiltResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
+    public AssetAsBuiltResponse updateAsset(@PathVariable("assetId") String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
         return AssetAsBuiltResponseMapper.from(
                 assetBaseService.updateQualityType(assetId, QualityTypeMapper.toDomain(updateAssetRequest.qualityType())));
     }

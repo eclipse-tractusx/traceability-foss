@@ -21,15 +21,16 @@
 
 package org.eclipse.tractusx.traceability.common.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
-@ConfigurationProperties("feign.default")
+@Configuration
 public class FeignDefaultProperties extends FeignProperties {
 
-    public FeignDefaultProperties(Long connectionTimeoutMillis,
-                                  Long readTimeoutMillis,
-                                  int maxIdleConnections,
-                                  Long keepAliveDurationMinutes) {
+    public FeignDefaultProperties(@Value("${feign.default.connectionTimeoutMillis}") Long connectionTimeoutMillis,
+                                  @Value("${feign.default.readTimeoutMillis}") Long readTimeoutMillis,
+                                  @Value("${feign.default.maxIdleConnections}") int maxIdleConnections,
+                                  @Value("${feign.default.keepAliveDurationMinutes}") Long keepAliveDurationMinutes) {
         super(connectionTimeoutMillis, readTimeoutMillis, maxIdleConnections, keepAliveDurationMinutes);
     }
 }

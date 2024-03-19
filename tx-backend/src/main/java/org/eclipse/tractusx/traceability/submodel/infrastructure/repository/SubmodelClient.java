@@ -18,11 +18,14 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
+
+import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.SUBMODEL_REST_TEMPLATE;
 
 @Component
 public class SubmodelClient {
@@ -30,11 +33,11 @@ public class SubmodelClient {
     private final RestTemplate submodelRestTemplate;
 
 
-    public SubmodelClient(RestTemplate submodelRestTemplate) {
+    public SubmodelClient(@Qualifier(SUBMODEL_REST_TEMPLATE) RestTemplate submodelRestTemplate) {
         this.submodelRestTemplate = submodelRestTemplate;
     }
 
-    public void createSubmodel(String submodelId, @RequestBody String payload) {
+    public void createSubmodel(String submodelId, String payload) {
         submodelRestTemplate.exchange("/api/submodel/data/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
     }
 

@@ -38,25 +38,25 @@ SPDX-License-Identifier: Apache-2.0
 
     <properties>
         <springboot.version>3.1.9</springboot.version>
-        <spring-core.version>6.0.17</spring-core.version>
+        <spring-core.version>6.1.5</spring-core.version>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <start-class>org.eclipse.tractusx.traceability.TraceabilityApplication</start-class>
         <!-- versions for Maven plugin -->
+        <spring-boot-maven-plugin.version>3.1.9</spring-boot-maven-plugin.version>
+        <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
         <maven-jxr-plugin.version>3.3.2</maven-jxr-plugin.version>
         <ascii-doctor.maven.plugin.version>2.2.4</ascii-doctor.maven.plugin.version>
         <checkstyle-plugin.version>3.3.1</checkstyle-plugin.version>
-        <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
         <install-plugin.version>3.1.1</install-plugin.version>
         <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
         <jar-plugin.version>3.3.0</jar-plugin.version>
         <owasp-plugin.version>9.0.9</owasp-plugin.version>
         <spotbugs-plugin.version>4.8.3.0</spotbugs-plugin.version>
-        <spring-boot-maven-plugin.version>3.1.3</spring-boot-maven-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
         <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
@@ -286,6 +286,9 @@ SPDX-License-Identifier: Apache-2.0
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${compiler-plugin.version}</version>
+                    <configuration>
+                        <parameters>true</parameters>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
