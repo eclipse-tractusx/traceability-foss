@@ -8,6 +8,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+- #695 OAuth2.0 Client scope configuration
 
 ## [10.7.0 - 18.03.2024]
 
