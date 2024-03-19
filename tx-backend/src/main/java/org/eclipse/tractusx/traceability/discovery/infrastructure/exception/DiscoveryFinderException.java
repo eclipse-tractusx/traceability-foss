@@ -16,15 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.discovery.infrastructure.exception;
 
-package org.eclipse.tractusx.traceability.test.tooling.rest.request;
-
-import lombok.Builder;
-import lombok.Data;
-
-@Builder
-@Data
-public class UpdateQualityNotificationRequest {
-    private UpdateQualityNotificationStatusRequest status;
-    private String reason;
+public class DiscoveryFinderException extends RuntimeException {
+    public DiscoveryFinderException(String message) {
+        super(message);
+    }
 }

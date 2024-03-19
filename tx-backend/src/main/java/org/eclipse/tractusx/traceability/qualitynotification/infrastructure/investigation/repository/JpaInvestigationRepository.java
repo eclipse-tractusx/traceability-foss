@@ -41,5 +41,8 @@ public interface JpaInvestigationRepository extends JpaRepository<InvestigationE
     @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.edcNotificationId = :edcNotificationId")
     Optional<InvestigationEntity> findByNotificationsEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
 
+    @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.id = :id")
+    Optional<InvestigationEntity> findByNotificationMessageId(@Param("id") String id);
+
     List<InvestigationEntity> findAllByStatusIn(List<NotificationStatusBaseEntity> statuses);
 }

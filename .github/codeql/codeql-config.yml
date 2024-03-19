@@ -31,3 +31,5 @@ paths-ignore:
   - '**/*.spec.ts'
   - frontend/src/mockServiceWorker.js
   - tx-backend/src/main/resources/application-integration-spring-boot.yml
+  - docs/src/post-processing
+  - tx-backend/target/generated-sources/jsonschema2pojo

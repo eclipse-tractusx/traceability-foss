@@ -444,16 +444,6 @@ SPDX-License-Identifier: Apache-2.0
 
     </dependencies>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>dash-licenses-snapshots</id>
-            <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <build>
         <finalName>traceability-app-${project.version}</finalName>
         <plugins>
@@ -586,6 +576,10 @@ SPDX-License-Identifier: Apache-2.0
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+                <configuration>
+                    <parameters>true</parameters>
+                </configuration>
             </plugin>
 
             <!-- Spring Boot Plugin-->

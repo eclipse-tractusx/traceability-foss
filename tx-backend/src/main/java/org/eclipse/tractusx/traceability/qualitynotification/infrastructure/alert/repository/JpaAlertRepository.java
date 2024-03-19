@@ -45,5 +45,8 @@ public interface JpaAlertRepository extends JpaRepository<AlertEntity, Long>, Jp
     @Query("SELECT alert FROM AlertEntity alert JOIN alert.notifications notification WHERE notification.edcNotificationId = :edcNotificationId")
     Optional<AlertEntity> findByNotificationsEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
 
+    @Query("SELECT alert FROM AlertEntity alert JOIN alert.notifications notification WHERE notification.id = :id")
+    Optional<AlertEntity> findByNotificationMessageId(@Param("id") String id);
+
     List<AlertEntity> findAllByStatusIn(List<NotificationStatusBaseEntity> statuses);
 }
