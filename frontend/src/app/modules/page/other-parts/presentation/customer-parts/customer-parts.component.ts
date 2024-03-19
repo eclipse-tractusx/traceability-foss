@@ -105,10 +105,10 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {
     if (isAsBuilt) {
       this.assetAsBuiltFilter = assetFilter;
-      this.otherPartsFacade.setCustomerPartsAsBuilt(this.currentPartTablePage['AS_BUILT_CUSTOMER_PAGE'], 50, [], toAssetFilter(this.assetAsBuiltFilter, true));
+      this.otherPartsFacade.setCustomerPartsAsBuilt(this.currentPartTablePage['AS_BUILT_CUSTOMER_PAGE'] ?? 0, 50, [], toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.assetsAsPlannedFilter = assetFilter;
-      this.otherPartsFacade.setCustomerPartsAsPlanned(this.currentPartTablePage['AS_PLANNED_CUSTOMER_PAGE'], 50, [], toAssetFilter(this.assetsAsPlannedFilter, false));
+      this.otherPartsFacade.setCustomerPartsAsPlanned(this.currentPartTablePage['AS_PLANNED_CUSTOMER_PAGE'] ?? 0, 50, [], toAssetFilter(this.assetsAsPlannedFilter, false));
     }
   }
 

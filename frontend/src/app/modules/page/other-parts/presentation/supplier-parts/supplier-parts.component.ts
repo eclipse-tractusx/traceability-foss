@@ -102,10 +102,10 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {
     if (isAsBuilt) {
       this.assetAsBuiltFilter = assetFilter;
-      this.otherPartsFacade.setSupplierPartsAsBuilt(this.currentPartTablePage?.['AS_BUILT_SUPPLIER_PAGE'], 50, [], toAssetFilter(this.assetAsBuiltFilter, true));
+      this.otherPartsFacade.setSupplierPartsAsBuilt(this.currentPartTablePage?.['AS_BUILT_SUPPLIER_PAGE'] ?? 0, 50, [], toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.assetsAsPlannedFilter = assetFilter;
-      this.otherPartsFacade.setSupplierPartsAsPlanned(this.currentPartTablePage?.['AS_PLANNED_SUPPLIER_PAGE'], 50, [], toAssetFilter(this.assetsAsPlannedFilter, false));
+      this.otherPartsFacade.setSupplierPartsAsPlanned(this.currentPartTablePage?.['AS_PLANNED_SUPPLIER_PAGE'] ?? 0, 50, [], toAssetFilter(this.assetsAsPlannedFilter, false));
     }
   }
 
