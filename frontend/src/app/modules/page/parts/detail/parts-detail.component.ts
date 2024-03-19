@@ -102,7 +102,7 @@ export class PartsDetailComponent {
     }));
 
     this.selectedPartDetails$.subscribe(part => {
-      const loweredSemanticDataModel = part.data.semanticDataModel.toString().toLowerCase();
+      const loweredSemanticDataModel = part?.data?.semanticDataModel?.toString()?.toLowerCase();
       if(part?.data?.semanticDataModel) {
         this.isAsPlannedPart = loweredSemanticDataModel === 'partasplanned' || loweredSemanticDataModel === 'tombstoneasplanned'|| loweredSemanticDataModel === 'tombstoneasbuilt' || loweredSemanticDataModel === 'unknown';
       }
