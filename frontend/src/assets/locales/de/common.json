@@ -18,7 +18,12 @@
     "noChildPartsForInvestigation": "Diese Funktion ist für Produkte ohne Bauteile nicht verfügbar.",
     "noCustomerAsPlannedParts": "Produkte von Kunden im Lebenszyklus \"AsPlanned\" sind nicht verfügbar.",
     "illegalAssetStateToPublish": "Ein oder mehrere ausgewählte Produkte befinden sich nicht im erforderlichen Importstatus \"TRANSIENT\" oder \"ERROR\".",
-    "adminContract": "Verträge"
+    "adminContract": "Verträge",
+    "createIncident": "Mitteilung erstellen",
+    "startInvestigation": "Qualitätsuntersuchung für Bauteile erstellen",
+    "notAllowedForNonPersistentPart": "Qualitätsmitteilungen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
+    "onlyAllowedForOwnParts": "Diese Funktion ist nur für eigene Produkte möglich.",
+    "publishAssets": "Produkt veröffentlichen"
   },
   "pageTitle": {
     "dashboard": "Dashboard",

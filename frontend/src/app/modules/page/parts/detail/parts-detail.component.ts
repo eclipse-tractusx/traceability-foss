@@ -1,21 +1,22 @@
-import {Location} from '@angular/common';
-import {Component, Input} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {RoleService} from '@core/user/role.service';
-import {TractionBatteryCode} from '@page/parts/model/aspectModels.model';
-import {Owner} from '@page/parts/model/owner.enum';
+import { Location } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RoleService } from '@core/user/role.service';
+import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
+import { Owner } from '@page/parts/model/owner.enum';
 
-import {ImportState, Part, QualityType} from '@page/parts/model/parts.model';
-import {PartsAssembler} from '@shared/assembler/parts.assembler';
-import {SelectOption} from '@shared/components/select/select.component';
-import {State} from '@shared/model/state';
-import {View} from '@shared/model/view.model';
-import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
+import { ImportState, Part, QualityType } from '@page/parts/model/parts.model';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { SelectOption } from '@shared/components/select/select.component';
+import { NotificationType } from '@shared/model/notification.model';
+import { State } from '@shared/model/state';
+import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
-import {Observable, Subject, Subscription} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-parts-detail',
@@ -55,6 +56,8 @@ export class PartsDetailComponent {
   public qualityTypeControl = new FormControl<QualityType>(null);
   public readonly isOpen$: Observable<boolean>;
   public readonly isPublisherOpen$ = new Subject<boolean>();
+  public readonly isNotificationRequestOpen = new BehaviorSubject<boolean>(false);
+
 
   private readonly isOpenState: State<boolean> = new State<boolean>(false);
 
@@ -99,9 +102,9 @@ export class PartsDetailComponent {
     }));
 
     this.selectedPartDetails$.subscribe(part => {
-
+      const loweredSemanticDataModel = part.data.semanticDataModel.toString().toLowerCase();
       if(part?.data?.semanticDataModel) {
-        this.isAsPlannedPart = part.data.semanticDataModel.toString() === 'PartAsPlanned';
+        this.isAsPlannedPart = loweredSemanticDataModel === 'partasplanned' || loweredSemanticDataModel === 'tombstoneasplanned'|| loweredSemanticDataModel === 'tombstoneasbuilt' || loweredSemanticDataModel === 'unknown';
       }
 
       if(part?.data?.importState === ImportState.PERSISTENT) {
@@ -130,6 +133,7 @@ export class PartsDetailComponent {
     this.route.queryParams.subscribe((params: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}) => {
       this.pageIndexHistory = params;
     })
+    this.selectedPartDetails$.subscribe(next => console.log(next))
   }
 
   public ngOnDestroy(): void {
@@ -199,7 +203,7 @@ export class PartsDetailComponent {
       return 'routing.unauthorized';
     }
     if(!this.isOwnPart) {
-      return 'routing.OnlyAllowedForOwnParts';
+      return 'routing.onlyAllowedForOwnParts';
     } else {
       return 'routing.publishAssets'
     }
@@ -217,5 +221,5 @@ export class PartsDetailComponent {
   }
 
 
-
+  protected readonly NotificationType = NotificationType;
 }

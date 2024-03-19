@@ -61,6 +61,6 @@ export class AssetPublisherComponent {
   }
 
   checkForIllegalAssetStateToPublish(): boolean {
-    return this.selectedAssets.some(part => (part.importState !== ImportState.TRANSIENT && part.importState !== ImportState.ERROR))
+    return this.selectedAssets.some(part => (part?.importState !== ImportState.TRANSIENT && part?.importState !== ImportState.ERROR))
   }
 }

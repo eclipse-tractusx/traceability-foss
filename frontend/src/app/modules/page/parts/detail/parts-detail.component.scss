@@ -245,3 +245,9 @@ mat-card {
 //.action-button-tile:hover {
 //  background-color: #e7e7e7;
 //}
+
+:host {
+  th {
+    z-index: 4 !important;
+  }
+}
