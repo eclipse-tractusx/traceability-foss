@@ -13,6 +13,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Changed
 - Bumped spring-core from 6.0.17 to 6.1.5
+- Fixed CVE-2024-22257 overriding spring-security-core from 6.1.7 to 6.2.3
 
 ### Removed
 
