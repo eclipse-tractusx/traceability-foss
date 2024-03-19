@@ -11,8 +11,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Added
 
+- #606 Added error message into notifications on failure
+
 ### Changed
-- #709 Bumped spring-core from 6.0.17 to 6.1.5
+
+- #709 Bumped spring-core from 6.0.17 to 6.1.5- #606 cucumber tests retry on error
+- #606 refactored response model to only be used by common model package tx-models
+
 
 ### Removed
 
@@ -54,8 +59,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Changed base image from eclipse-temurin:17-jre-alpine to eclipse-temurin:21-jre-alpine
 - Changed build image from maven:3-openjdk-17-slim to maven:3-openjdk-18-slim
 - #742 rework test management strategy for frontend and backend part
-- #606 cucumber tests retry on error
-- #606 refactored response model to only be used by common model package tx-models
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
