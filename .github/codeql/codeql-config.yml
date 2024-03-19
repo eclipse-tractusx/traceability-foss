@@ -22,6 +22,9 @@ query-filters:
       id:
         - java/unused-reference-type
         - java/spring-disabled-csrf-protection
+      problem.severity:
+        - warning
+        - recommendation
 
 paths-ignore:
   - frontend/dist
