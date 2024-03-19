@@ -124,11 +124,12 @@ spring:
             authorization-grant-type: client_credentials
             client-id: ${OAUTH2_CLIENT_ID}
             client-secret: ${OAUTH2_CLIENT_SECRET}
+            scope: ${OAUTH2_CLIENT_SCOPE:openid}
           OKTA:
             client-id: ${OAUTH2_CLIENT_ID}
             client-secret: ${OAUTH2_CLIENT_SECRET}
             authorization-grant-type: client_credentials
-            scope: openid
+            scope: ${OAUTH2_CLIENT_SCOPE:openid}
         provider:
           keycloak:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
