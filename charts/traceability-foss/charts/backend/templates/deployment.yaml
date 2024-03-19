@@ -90,6 +90,8 @@ spec:
               value: {{ .Values.oauth2.clientId | quote }}
             - name: OAUTH2_CLIENT_SECRET
               value: {{ .Values.oauth2.clientSecret | quote }}
+            - name: OAUTH2_CLIENT_SCOPE
+              value: {{ .Values.oauth2.clientScope | quote }}
             - name: OAUTH2_PROVIDER_TOKEN_URI
               value: {{ .Values.oauth2.clientTokenUri | quote }}
             - name: OAUTH2_JWK_SET_URI
