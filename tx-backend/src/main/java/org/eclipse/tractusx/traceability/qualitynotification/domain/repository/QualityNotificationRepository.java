@@ -38,6 +38,8 @@ public interface QualityNotificationRepository {
 
     Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId);
 
+    Optional<QualityNotification> findByNotificationMessageId(String id);
+
     long countQualityNotificationEntitiesBySide(QualityNotificationSide investigationSide);
 
     QualityNotificationId saveQualityNotificationEntity(QualityNotification investigation);
@@ -49,5 +51,7 @@ public interface QualityNotificationRepository {
     long countOpenNotificationsByOwnership(List<Owner> owners);
 
     List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide owner);
+
+    void updateErrorMessage(QualityNotification investigation);
 
 }

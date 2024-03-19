@@ -83,6 +83,7 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .created(alertNotificationEntity.getCreated())
                 .updated(alertNotificationEntity.getUpdated())
                 .type(QualityNotificationType.ALERT)
+                .errorMessage(alertNotificationEntity.getErrorMessage())
                 .build();
     }
 

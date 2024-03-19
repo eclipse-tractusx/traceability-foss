@@ -49,7 +49,7 @@ class UpdateQualityNotificationValidatorTest {
         String reason = "some-reason-for-update";
         String errorMessage = "Update investigation reason can't be present for ACKNOWLEDGED status";
 
-        UpdateQualityNotificationRequest request = new UpdateQualityNotificationRequest();
+        UpdateQualityNotificationRequest request = UpdateQualityNotificationRequest.builder().build();
         request.setReason(reason);
         request.setStatus(acknowledged);
         UpdateQualityNotificationValidationException exception = assertThrows(UpdateQualityNotificationValidationException.class, () -> UpdateQualityNotificationValidator.validate(request));
@@ -61,7 +61,7 @@ class UpdateQualityNotificationValidatorTest {
     @DisplayName("Execute Validation successfully")
     void testSuccessfulValidation() {
         UpdateQualityNotificationStatusRequest accepted = UpdateQualityNotificationStatusRequest.ACCEPTED;
-        UpdateQualityNotificationRequest request = new UpdateQualityNotificationRequest();
+        UpdateQualityNotificationRequest request = UpdateQualityNotificationRequest.builder().build();
         request.setReason("abcdefg12313212321123");
         request.setStatus(accepted);
         UpdateQualityNotificationValidator.validate(request);

@@ -10,6 +10,15 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
+
+### Changed
+- Bumped spring-core from 6.0.17 to 6.1.5
+
+### Removed
+
+## [10.7.0 - 18.03.2024]
+
+### Added
 - #421 Added contract agreement view
 - #515 Service Unavailable Response on Notification failure
 - #536 Added import state PUBLISHED_TO_CORE_SERVICES in frontend
@@ -20,6 +29,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #536 added new ImportState to asset PUBLISHED_TO_CORE_SERVICES indicating edc assets and dtr shells were created for given asset
 - #536 added cron job responsible to publish assets in PUBLISHED_TO_CORE_SERVICES import state to edc and dtr
 - #652 add GitHub action to publish Swagger to Swaggerhub
+- #606 Added error message into notifications on failure
 
 ### Changed
 - Updated RELEASE.md to the latest release guide (added more steps)
@@ -39,8 +49,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Bumped shedlock from 5.11.0 to 5.12.0
 - Overridden transitive commons-compress version by 1.26.1 to fix CVE-2024-26308
 - Overridden transitive commons-codec version by 1.16.1 to fix CVE-2024-26308
+- Update irs-registry-client from version 1.6.0-SNAPSHOT to 1.6.0
 - Updated review-message for check pom for -SNAPSHOT workflow
-- Bymped spring-core from 6.0.17 to 6.1.5
+- Changed base image from eclipse-temurin:17-jre-alpine to eclipse-temurin:21-jre-alpine
+- Changed build image from maven:3-openjdk-17-slim to maven:3-openjdk-18-slim
+- #742 rework test management strategy for frontend and backend part
+- #606 cucumber tests retry on error
+- #606 refactored response model to only be used by common model package tx-models
 
 ### Removed
 - #625 Removed the header and breadcrumbs section from app layout
