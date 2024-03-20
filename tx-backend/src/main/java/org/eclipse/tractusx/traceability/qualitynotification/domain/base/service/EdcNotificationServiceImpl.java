@@ -62,30 +62,37 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
     public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage message) {
         log.info("::asyncNotificationExecutor::message {}", message);
-        Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSendTo());
-        String senderEdcUrl = discovery.getSenderUrl();
-        List<String> receiverUrls = emptyIfNull(discovery.getReceiverUrls());
-        List<Boolean> sendResults = List.of();
+        try {
+            Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSendTo());
 
-        if (message.getType().equals(QualityNotificationType.ALERT)) {
-            log.info("::asyncNotificationExecutor::isQualityAlert");
-            sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
+            String senderEdcUrl = discovery.getSenderUrl();
+            List<String> receiverUrls = emptyIfNull(discovery.getReceiverUrls());
+            List<Boolean> sendResults = List.of();
+
+            if (message.getType().equals(QualityNotificationType.ALERT)) {
+                log.info("::asyncNotificationExecutor::isQualityAlert");
+                sendResults = receiverUrls
+                        .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
+            }
+
+            if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
+                log.info("::asyncNotificationExecutor::isQualityInvestigation");
+                sendResults = receiverUrls
+                        .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
+            }
+
+            Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
+
+            if (Boolean.TRUE.equals(wasSent)) {
+                return CompletableFuture.completedFuture(message);
+            }
+
+            return CompletableFuture.completedFuture(null);
+
+        } catch (DiscoveryFinderException discoveryFinderException) {
+            enrichQualityNotificationByError(discoveryFinderException, message);
+            return CompletableFuture.completedFuture(null);
         }
-
-        if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
-            log.info("::asyncNotificationExecutor::isQualityInvestigation");
-            sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
-        }
-
-        Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
-
-        if (Boolean.TRUE.equals(wasSent)) {
-            return CompletableFuture.completedFuture(message);
-        }
-
-        return CompletableFuture.completedFuture(null);
     }
 
     private boolean handleSendingNotification(QualityNotificationMessage message, String senderEdcUrl, String receiverUrl) {
