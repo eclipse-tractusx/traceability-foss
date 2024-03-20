@@ -133,8 +133,6 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
-        QualityNotification qualityNotification = QualityNotification.builder().build();
-        when(investigationRepository.findByNotificationMessageId(any())).thenReturn(Optional.of(qualityNotification));
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
 
@@ -158,8 +156,6 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
-        QualityNotification qualityNotification = QualityNotification.builder().build();
-        when(investigationRepository.findByNotificationMessageId(any())).thenReturn(Optional.of(qualityNotification));
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
 
@@ -183,8 +179,7 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
-        QualityNotification qualityNotification = QualityNotification.builder().build();
-        when(investigationRepository.findByNotificationMessageId(any())).thenReturn(Optional.of(qualityNotification));
+
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
 
@@ -208,8 +203,7 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
-        QualityNotification qualityNotification = QualityNotification.builder().build();
-        when(investigationRepository.findByNotificationMessageId(any())).thenReturn(Optional.of(qualityNotification));
+
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
 
@@ -234,8 +228,6 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
-        QualityNotification qualityNotification = QualityNotification.builder().build();
-        when(investigationRepository.findByNotificationMessageId(any())).thenReturn(Optional.of(qualityNotification));
 
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
@@ -262,8 +254,6 @@ class EdcNotificationServiceImplTest {
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
-        QualityNotification qualityNotification = QualityNotification.builder().build();
-        when(investigationRepository.findByNotificationMessageId(any())).thenReturn(Optional.of(qualityNotification));
 
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
@@ -288,8 +278,7 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
-        QualityNotification qualityNotification = QualityNotification.builder().build();
-        when(investigationRepository.findByNotificationMessageId(any())).thenReturn(Optional.of(qualityNotification));
+
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
 
@@ -313,8 +302,7 @@ class EdcNotificationServiceImplTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
-        QualityNotification qualityNotification = QualityNotification.builder().build();
-        when(investigationRepository.findByNotificationMessageId(any())).thenReturn(Optional.of(qualityNotification));
+
         // when
         notificationsService.asyncNotificationMessageExecutor(notification);
 
