@@ -22,15 +22,8 @@
 package org.eclipse.tractusx.traceability.common.config;
 
 
-import io.github.resilience4j.core.registry.EntryAddedEvent;
-import io.github.resilience4j.core.registry.EntryRemovedEvent;
-import io.github.resilience4j.core.registry.EntryReplacedEvent;
-import io.github.resilience4j.core.registry.RegistryEventConsumer;
-import io.github.resilience4j.retry.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -42,10 +35,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.thymeleaf.spring6.SpringTemplateEngine;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 
 @Configuration
@@ -63,13 +52,6 @@ public class ApplicationConfig {
         return new InternalResourceViewResolver();
     }
 
-    @Bean
-    public SpringTemplateEngine thymeleafTemplateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.addTemplateResolver(htmlTemplateResolver());
-        templateEngine.addTemplateResolver(textTemplateResolver());
-        return templateEngine;
-    }
 
     @Bean(name = "security-context-async")
     public ThreadPoolTaskExecutor securityContextAsyncExecutor() {
@@ -84,43 +66,5 @@ public class ApplicationConfig {
     @Bean
     public DelegatingSecurityContextAsyncTaskExecutor taskExecutor(@Qualifier("security-context-async") ThreadPoolTaskExecutor threadPoolTaskExecutor) {
         return new DelegatingSecurityContextAsyncTaskExecutor(threadPoolTaskExecutor);
-    }
-
-    public ITemplateResolver htmlTemplateResolver() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCharacterEncoding("UTF-8");
-        return templateResolver;
-    }
-
-    public ITemplateResolver textTemplateResolver() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setSuffix(".txt");
-        templateResolver.setTemplateMode(TemplateMode.TEXT);
-        templateResolver.setCharacterEncoding("UTF-8");
-        return templateResolver;
-    }
-
-
-    @Bean
-    public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
-        final Logger logger = LoggerFactory.getLogger("RetryLogger");
-
-        return new RegistryEventConsumer<>() {
-            @Override
-            public void onEntryAddedEvent(EntryAddedEvent<Retry> entryAddedEvent) {
-                entryAddedEvent.getAddedEntry().getEventPublisher()
-                        .onEvent(event -> logger.info(event.toString()));
-            }
-
-            @Override
-            public void onEntryReplacedEvent(EntryReplacedEvent<Retry> entryReplacedEvent) {
-            }
-
-            @Override
-            public void onEntryRemovedEvent(EntryRemovedEvent<Retry> entryRemoveEvent) {
-            }
-        };
     }
 }

@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.scheduler;
 
-import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.AssetsRefreshJob;
@@ -53,16 +52,5 @@ class AssetsRefreshJobTest {
         Scheduled scheduledAnnotation = AssetsRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(Scheduled.class);
         String cronExpression = scheduledAnnotation.cron();
         assertEquals("0 0 */2 * * ?", cronExpression);
-    }
-
-    @Test
-    void refresh_shouldHaveSchedulerLockAnnotation() throws NoSuchMethodException {
-        Scheduled scheduledAnnotation = AssetsRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(Scheduled.class);
-        assertNotNull(scheduledAnnotation);
-        SchedulerLock schedulerLockAnnotation = AssetsRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(SchedulerLock.class);
-        assertNotNull(schedulerLockAnnotation);
-        assertEquals("data-sync-lock", schedulerLockAnnotation.name());
-        assertEquals("PT5M", schedulerLockAnnotation.lockAtLeastFor());
-        assertEquals("PT15M", schedulerLockAnnotation.lockAtMostFor());
     }
 }

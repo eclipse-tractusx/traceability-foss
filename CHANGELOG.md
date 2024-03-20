@@ -20,6 +20,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #596 Policy management has been moved to different module
 
 ### Removed
+- Shedlock, resilence4j, templateResolver as not used anymore
 
 ## [10.7.0 - 18.03.2024]
 

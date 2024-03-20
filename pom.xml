@@ -73,8 +73,6 @@ SPDX-License-Identifier: Apache-2.0
         <tomcat-embed-websocket.version>10.1.18</tomcat-embed-websocket.version>
         <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
         <jruby.version>9.4.3.0</jruby.version>
-        <resilience4j.version>2.0.2</resilience4j.version>
-        <schedlock.version>5.12.0</schedlock.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <jetbrains-annotation.version>24.1.0</jetbrains-annotation.version>
         <feign-form.version>3.8.0</feign-form.version>
@@ -121,13 +119,6 @@ SPDX-License-Identifier: Apache-2.0
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-bom</artifactId>
-                <version>${resilience4j.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <!-- Update snakeyaml manually to avoid vulnerability CVE-2020-13936; can be removed after Spring updates their dependency -->
             <dependency>
                 <groupId>org.yaml</groupId>
