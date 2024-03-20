@@ -69,7 +69,6 @@ public class EdcNotificationContractService {
             throw new CreateNotificationContractException(e);
         }
 
-
         String accessPolicyId = "";
         try {
             accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(traceabilityProperties.getRightOperand());

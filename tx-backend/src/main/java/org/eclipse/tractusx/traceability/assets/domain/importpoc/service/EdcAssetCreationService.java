@@ -48,6 +48,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyResponseMapper.mapToEdcPolicyRequest;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -109,43 +111,5 @@ public class EdcAssetCreationService {
         }
 
         return submodelAssetId;
-    }
-
-    private EdcCreatePolicyDefinitionRequest mapToEdcPolicyRequest(PolicyResponse policy) {
-        OdrlContext odrlContext = OdrlContext.builder().odrl("http://www.w3.org/ns/odrl/2/").build();
-        EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(mapToPermissions(policy.permissions())).type("Policy").build();
-        return EdcCreatePolicyDefinitionRequest.builder()
-                .policyDefinitionId(policy.policyId())
-                .policy(edcPolicy)
-                .odrlContext(odrlContext)
-                .type("PolicyDefinitionRequestDto")
-                .build();
-    }
-
-    private List<EdcPolicyPermission> mapToPermissions(List<PermissionResponse> permissions) {
-        return permissions.stream().map(permission -> EdcPolicyPermission.builder()
-                .action(permission.action().name())
-                .edcPolicyPermissionConstraints(mapToConstraint(permission.constraints()))
-                .build()
-        ).toList();
-    }
-
-    private EdcPolicyPermissionConstraint mapToConstraint(ConstraintsResponse constraintsResponse) {
-        return EdcPolicyPermissionConstraint.builder()
-                .type("AtomicConstraint")
-                .orExpressions(mapToConstraintExpression(constraintsResponse.or()))
-                .build();
-    }
-
-    private List<EdcPolicyPermissionConstraintExpression> mapToConstraintExpression(List<ConstraintResponse> constraints) {
-        return constraints.stream().map(constraint -> EdcPolicyPermissionConstraintExpression.builder()
-                        .type("Constraint")
-                        .leftOperand(constraint.leftOperand())
-                        .rightOperand(constraint.rightOperand())
-                        .operator(EdcOperator.builder()
-                                .operatorId("odrl:" + constraint.operatorTypeResponse().getCode())
-                                .build())
-                        .build())
-                .toList();
     }
 }

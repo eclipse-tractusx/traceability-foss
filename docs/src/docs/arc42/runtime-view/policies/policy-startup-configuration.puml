@@ -9,7 +9,7 @@ participant "IRS " as IRS
 
 Config -> TraceX : ID 3.0 Trace
 TraceX -> IRS : Get Policies
-IRS -> TraceX: Return policies (Default Policies from IRS (C1: Membership, C2: Framework, C3: ID3.0)
+IRS -> TraceX: Return policies
 TraceX -> IRS : Create(not exists) or update(exists)
 
 @enduml

@@ -19,16 +19,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
+package org.eclipse.tractusx.traceability.assets.domain.base;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 
-import java.util.function.Predicate;
+import java.util.List;
 
-// TODO is this still needed - as we have changed from async runner for IRS Jobs to callback approach this should be deprecated. (MW)
-public class JobRunning implements Predicate<IRSResponse> {
-    @Override
-    public boolean test(IRSResponse jobResponse) {
-        return IrsRepositoryImpl.jobRunning(jobResponse.jobStatus());
-    }
+public interface JobRepository {
+    /**
+     * Finds a list of assets with the given global asset ID and direction.
+     *
+     * @param globalAssetId the global asset ID to search for
+     * @param direction     the direction of the search
+     * @param aspects       the list of aspects
+     */
+    void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+
+    void handleJobFinishedCallback(String jobId, String jobState);
+
+
 }

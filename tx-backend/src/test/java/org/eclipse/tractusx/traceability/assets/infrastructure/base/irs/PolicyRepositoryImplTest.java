@@ -26,64 +26,38 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class IrsRepositoryImplTest {
-    private IrsRepositoryImpl irsRepositoryImpl;
+class PolicyRepositoryImplTest {
+    @InjectMocks
+    private PolicyRepositoryImpl policyRepositoryImpl;
 
     @Mock
     TraceabilityProperties traceabilityProperties;
 
-    @Mock
-    AssetCallbackRepository assetAsBuiltCallbackRepository;
-
-    @Mock
-    AssetCallbackRepository assetAsPlannedCallbackRepository;
-
-    @Mock
-    private BpnRepository bpnRepository;
 
     @Mock
     private IrsClient irsClient;
-
-    @Mock
-    private AssetMapperFactory assetMapperFactory;
-
-
-    @BeforeEach
-    void setUp() {
-        irsRepositoryImpl = new IrsRepositoryImpl(irsClient, bpnRepository, traceabilityProperties, assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository, assetMapperFactory);
-    }
 
 
     @Test
@@ -93,7 +67,7 @@ class IrsRepositoryImplTest {
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
 
         // when
-        irsRepositoryImpl.createIrsPolicyIfMissing();
+        policyRepositoryImpl.createIrsPolicyIfMissing();
 
         // then
         verify(irsClient, times(1))
@@ -113,7 +87,7 @@ class IrsRepositoryImplTest {
         when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
 
         // when
-        irsRepositoryImpl.createIrsPolicyIfMissing();
+        policyRepositoryImpl.createIrsPolicyIfMissing();
 
         // then
         verifyNoMoreInteractions(irsClient);
@@ -134,31 +108,11 @@ class IrsRepositoryImplTest {
         when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-04T16:01:05.309Z"));
 
         // when
-        irsRepositoryImpl.createIrsPolicyIfMissing();
+        policyRepositoryImpl.createIrsPolicyIfMissing();
 
         // then
         verify(irsClient, times(1)).deletePolicy();
         verify(irsClient, times(1)).registerPolicy();
-    }
-
-    @ParameterizedTest
-    @MethodSource("provideDirections")
-    void testFindAssets_completedJob_returnsConvertedAssets(Direction direction) {
-        // Given
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
-
-        // When
-        irsRepositoryImpl.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-
-        // Then
-        verify(irsClient, times(1)).registerJob(any(RegisterJobRequest.class));
-    }
-
-    private static Stream<Arguments> provideDirections() {
-        return Stream.of(
-                Arguments.of(Direction.DOWNWARD),
-                Arguments.of(Direction.UPWARD)
-        );
     }
 
 
