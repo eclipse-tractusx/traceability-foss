@@ -119,11 +119,13 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private void enrichQualityNotificationByError(Exception e, QualityNotificationMessage message) {
         log.info("Retrieving quality notification by message id {}", message.getEdcNotificationId());
-        Optional<QualityNotification> optionalQualityNotificationById = Optional.empty();
-        if (message.getType().equals(QualityNotificationType.INVESTIGATION)){
-            optionalQualityNotificationById   = investigationRepository.findByEdcNotificationId(message.getEdcNotificationId());
+        Optional<QualityNotification> optionalQualityNotificationById;
+        if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
+            log.info("Investigation update");
+            optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(message.getEdcNotificationId());
         } else {
-            optionalQualityNotificationById   = alertRepository.findByEdcNotificationId(message.getEdcNotificationId());
+            log.info("Alert update");
+            optionalQualityNotificationById = alertRepository.findByEdcNotificationId(message.getEdcNotificationId());
         }
 
         log.info("Successfully executed retrieving quality notification by message id");
