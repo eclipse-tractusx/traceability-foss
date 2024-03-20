@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
@@ -57,6 +58,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     private final InvestigationsEDCFacade edcFacade;
     private final DiscoveryService discoveryService;
     private final InvestigationRepository investigationRepository;
+    private final AlertRepository alertRepository;
 
     @Override
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
@@ -117,14 +119,17 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private void enrichQualityNotificationByError(Exception e, QualityNotificationMessage message) {
         log.info("Retrieving quality notification by message id {}", message.getEdcNotificationId());
+        Optional<QualityNotification> optionalQualityNotificationById = Optional.empty();
+        if (message.getType().equals(QualityNotificationType.INVESTIGATION)){
+            optionalQualityNotificationById   = investigationRepository.findByEdcNotificationId(message.getEdcNotificationId());
+        } else {
+            optionalQualityNotificationById   = alertRepository.findByEdcNotificationId(message.getEdcNotificationId());
+        }
 
-        Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(message.getEdcNotificationId());
         log.info("Successfully executed retrieving quality notification by message id");
         if (optionalQualityNotificationById.isPresent()) {
             log.info("Quality Notification for error message enrichment {}", optionalQualityNotificationById.get());
-            optionalQualityNotificationById.get().getNotifications().forEach(message1 -> {
-                log.info("Message found {}", message1);
-            });
+            optionalQualityNotificationById.get().getNotifications().forEach(message1 -> log.info("Message found {}", message1));
             optionalQualityNotificationById.get().secondLatestNotifications().forEach(qmMessage -> {
                 log.info("Message from second latest notification {}", qmMessage);
                 qmMessage.setErrorMessage(e.getMessage());
