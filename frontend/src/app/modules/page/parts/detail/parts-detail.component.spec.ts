@@ -1,15 +1,16 @@
-import { LayoutModule } from '@layout/layout.module';
-import { PartsState } from '@page/parts/core/parts.state';
-import { PartsDetailModule } from '@page/parts/detail/parts-detail.module';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { PartDetailsState } from '@shared/modules/part-details/core/partDetails.state';
-import { screen } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
-import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
+import {LayoutModule} from '@layout/layout.module';
+import {PartsState} from '@page/parts/core/parts.state';
+import {PartsDetailModule} from '@page/parts/detail/parts-detail.module';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {PartsAssembler} from '@shared/assembler/parts.assembler';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {PartDetailsState} from '@shared/modules/part-details/core/partDetails.state';
+import {screen} from '@testing-library/angular';
+import {renderComponent} from '@tests/test-render.utils';
+import {MOCK_part_1} from '../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 
-import { PartsDetailComponent } from './parts-detail.component';
+import {PartsDetailComponent} from './parts-detail.component';
+import {Owner} from "@page/parts/model/owner.enum";
 
 let PartsStateMock: PartsState;
 let PartDetailsStateMock: PartDetailsState;
@@ -65,7 +66,7 @@ describe('PartsDetailComponent', () => {
     expect(componentInstance.partDetailsFacade.selectedPart).toEqual(null);
   });
 
-  fit('should correctly set restriction keys for actions', async () => {
+  it('should correctly set restriction keys for actions', async () => {
     let {fixture} = await renderPartsDetailComponent({roles: ['user']});
     let {componentInstance} = fixture;
 
@@ -85,16 +86,16 @@ describe('PartsDetailComponent', () => {
 
   });
 
-  fit('should correctly set restriction keys for publish assets', async () => {
+  it('should correctly set restriction keys for publish assets', async () => {
     let {fixture} = await renderPartsDetailComponent({roles: ['admin']});
     let {componentInstance} = fixture;
 
     // publish assets success
-    componentInstance.isOwnPart = true;
+    componentInstance.partOwner = Owner.OWN;
     expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.publishAssets")
 
     // publish assets - not own Part
-    componentInstance.isOwnPart = false;
+    componentInstance.partOwner = Owner.CUSTOMER;
     expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.onlyAllowedForOwnParts");
 
     // sucomponent investigation - not as built

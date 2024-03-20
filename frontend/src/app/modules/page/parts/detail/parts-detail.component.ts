@@ -1,22 +1,22 @@
-import { Location } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RoleService } from '@core/user/role.service';
-import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
-import { Owner } from '@page/parts/model/owner.enum';
+import {Location} from '@angular/common';
+import {Component, Input} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {RoleService} from '@core/user/role.service';
+import {TractionBatteryCode} from '@page/parts/model/aspectModels.model';
+import {Owner} from '@page/parts/model/owner.enum';
 
-import { ImportState, Part, QualityType } from '@page/parts/model/parts.model';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { SelectOption } from '@shared/components/select/select.component';
-import { NotificationType } from '@shared/model/notification.model';
-import { State } from '@shared/model/state';
-import { View } from '@shared/model/view.model';
-import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import {ImportState, Part, QualityType} from '@page/parts/model/parts.model';
+import {PartsAssembler} from '@shared/assembler/parts.assembler';
+import {SelectOption} from '@shared/components/select/select.component';
+import {NotificationType} from '@shared/model/notification.model';
+import {State} from '@shared/model/state';
+import {View} from '@shared/model/view.model';
+import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
 
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import {filter, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-parts-detail',
@@ -39,7 +39,7 @@ export class PartsDetailComponent {
 
   public isAsPlannedPart: boolean = false;
   public isPersistentPart: boolean = false;
-  public isOwnPart: boolean = false;
+  public partOwner: Owner | undefined = Owner.UNKNOWN;
   public hasChildren: boolean = false;
 
   public investigationOnSubcomponentsTooltipMessage: string;
@@ -107,9 +107,7 @@ export class PartsDetailComponent {
         this.isPersistentPart = true;
       }
 
-      if(part?.data?.owner === Owner.OWN) {
-        this.isOwnPart = true;
-      }
+      this.partOwner = part?.data?.owner;
 
       if(part?.data?.children?.length > 0 ) {
         this.hasChildren = true;
@@ -182,6 +180,9 @@ export class PartsDetailComponent {
     else if(!this.isPersistentPart) {
       return 'routing.notAllowedForNonPersistentPart';
     }
+    else if(this.partOwner === Owner.CUSTOMER || this.partOwner === Owner.UNKNOWN) {
+      return "routing.notAuthorizedOwner";
+    }
     else if(this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     } else {
@@ -197,7 +198,7 @@ export class PartsDetailComponent {
     if(!this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     }
-    if(!this.isOwnPart) {
+    if(this.partOwner !== Owner.OWN) {
       return 'routing.onlyAllowedForOwnParts';
     } else {
       return 'routing.publishAssets'

@@ -23,7 +23,8 @@
     "startInvestigation": "Start Quality investigation on subcomponents",
     "notAllowedForNonPersistentPart": "Quality notifications can only be created for parts that are in the import state \"PERSISTENT\".",
     "onlyAllowedForOwnParts": "This functionality is only possible for own parts.",
-    "publishAssets": "Publish asset"
+    "publishAssets": "Publish asset",
+    "notAuthorizedOwner": "This functionality is only allowed for own and supplier parts."
   },
   "pageTitle": {
     "dashboard": "Dashboard",

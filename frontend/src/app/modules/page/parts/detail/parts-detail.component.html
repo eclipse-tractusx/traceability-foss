@@ -320,7 +320,7 @@ SPDX-License-Identifier: Apache-2.0
   <app-notification-request
     *ngIf="isNotificationRequestOpen | async"
     [selectedItems]="[(selectedPartDetails$ | async)?.data]"
-    [notificationType]="isOwnPart ? NotificationType.ALERT : NotificationType.INVESTIGATION"
+    [notificationType]="partOwner === Owner.OWN || partOwner === Owner.CUSTOMER ? NotificationType.ALERT : NotificationType.INVESTIGATION"
     (submitted)="isNotificationRequestOpen.next(false)"
   ></app-notification-request>
 </app-sidenav-wrapper>

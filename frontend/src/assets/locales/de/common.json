@@ -23,7 +23,8 @@
     "startInvestigation": "Qualitätsuntersuchung für Bauteile erstellen",
     "notAllowedForNonPersistentPart": "Qualitätsmitteilungen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
     "onlyAllowedForOwnParts": "Diese Funktion ist nur für eigene Produkte möglich.",
-    "publishAssets": "Produkt veröffentlichen"
+    "publishAssets": "Produkt veröffentlichen",
+    "notAuthorizedOwner": "Qualitätsmitteilungen sind nur für Eigene- und Lieferantenprodukte möglich."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
