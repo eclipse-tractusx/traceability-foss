@@ -121,10 +121,8 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
         log.info("Retrieving quality notification by message id {}", message.getEdcNotificationId());
         Optional<QualityNotification> optionalQualityNotificationById;
         if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
-            log.info("Investigation update");
             optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(message.getEdcNotificationId());
         } else {
-            log.info("Alert update");
             optionalQualityNotificationById = alertRepository.findByEdcNotificationId(message.getEdcNotificationId());
         }
 
@@ -136,7 +134,12 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
                 log.info("Message from second latest notification {}", qmMessage);
                 qmMessage.setErrorMessage(e.getMessage());
             });
-            investigationRepository.updateErrorMessage(optionalQualityNotificationById.get());
+
+            if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
+                investigationRepository.updateErrorMessage(optionalQualityNotificationById.get());
+            } else {
+                alertRepository.updateErrorMessage(optionalQualityNotificationById.get());
+            }
         } else {
             log.warn("Quality Notification NOT FOUND for error message enrichment notification id {}", message.getId());
         }
