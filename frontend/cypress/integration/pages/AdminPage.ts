@@ -39,6 +39,17 @@ export class AdminPage {
     return cy.get('td').contains(contractId).parent('tr').find('td mat-checkbox').click();
   }
 
+  static clickCheckBoxForFirstContractInTable() {
+    return cy.get('td').first().parent('tr').find('td mat-checkbox').click();
+  }
+
+  static getContractIdOfFirstContractInTable() {
+    return cy.get('[data-testid="table-component--cell-data"]').first().then(contractId => {
+      return contractId.text();
+    });
+  }
+
+
   static clickExportContractsButton() {
     return cy.get('[data-testid="export-contracts-button"]').click();
   }
