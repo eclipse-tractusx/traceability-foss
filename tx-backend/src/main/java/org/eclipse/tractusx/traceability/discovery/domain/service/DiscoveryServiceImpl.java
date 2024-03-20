@@ -64,7 +64,7 @@ public class DiscoveryServiceImpl implements DiscoveryService {
             });
             optionalDiscoveryFromDiscoveryService.ifPresent(discoveryList::add);
         } catch (Exception e) {
-            throw new DiscoveryFinderException("DiscoverFinder could not determine result.");
+            throw new DiscoveryFinderException("DiscoveryFinder could not determine result.");
         }
 
         Optional<Discovery> optionalDiscoveryFromBpnDatabase = getOptionalDiscoveryFromBpnDatabase(bpn);
