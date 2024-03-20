@@ -27,7 +27,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,12 +49,7 @@ class PolicyServiceImplTest {
     @InjectMocks
     private PolicyServiceImpl policyService;
     @Mock
-    private IrsRepository irsRepository;
-
-    @BeforeEach
-    public void testSetup() {
-        policyService = new PolicyServiceImpl(irsRepository);
-    }
+    private PolicyRepository policyRepository;
 
 
     @Test
@@ -86,7 +81,7 @@ class PolicyServiceImplTest {
                         .build());
 
         // WHEN
-        when(irsRepository.getPolicies()).thenReturn(acceptedPolicies);
+        when(policyRepository.getPolicies()).thenReturn(acceptedPolicies);
         List<PolicyResponse> allPolicies = policyService.getAllPolicies();
 
         // THEN

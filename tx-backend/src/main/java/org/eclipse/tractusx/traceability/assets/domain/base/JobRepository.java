@@ -23,11 +23,10 @@ package org.eclipse.tractusx.traceability.assets.domain.base;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 
 import java.util.List;
 
-public interface IrsRepository {
+public interface JobRepository {
     /**
      * Finds a list of assets with the given global asset ID and direction.
      *
@@ -37,9 +36,7 @@ public interface IrsRepository {
      */
     void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
 
-    void createIrsPolicyIfMissing();
-
     void handleJobFinishedCallback(String jobId, String jobState);
 
-    List<IrsPolicyResponse> getPolicies();
+
 }

@@ -1,7 +1,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.base.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -55,7 +55,7 @@ class AbstractAssetBaseServiceTest {
         }
 
         @Override
-        protected IrsRepository getIrsRepository() {
+        protected JobRepository getJobRepository() {
             return null;
         }
 
