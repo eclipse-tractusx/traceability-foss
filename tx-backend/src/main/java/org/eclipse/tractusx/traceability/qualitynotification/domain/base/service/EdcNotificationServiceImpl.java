@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
@@ -57,35 +58,43 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     private final InvestigationsEDCFacade edcFacade;
     private final DiscoveryService discoveryService;
     private final InvestigationRepository investigationRepository;
+    private final AlertRepository alertRepository;
 
     @Override
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
     public CompletableFuture<QualityNotificationMessage> asyncNotificationMessageExecutor(QualityNotificationMessage message) {
         log.info("::asyncNotificationExecutor::message {}", message);
-        Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSendTo());
-        String senderEdcUrl = discovery.getSenderUrl();
-        List<String> receiverUrls = emptyIfNull(discovery.getReceiverUrls());
-        List<Boolean> sendResults = List.of();
+        try {
+            Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSendTo());
 
-        if (message.getType().equals(QualityNotificationType.ALERT)) {
-            log.info("::asyncNotificationExecutor::isQualityAlert");
-            sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
+            String senderEdcUrl = discovery.getSenderUrl();
+            List<String> receiverUrls = emptyIfNull(discovery.getReceiverUrls());
+            List<Boolean> sendResults = List.of();
+
+            if (message.getType().equals(QualityNotificationType.ALERT)) {
+                log.info("::asyncNotificationExecutor::isQualityAlert");
+                sendResults = receiverUrls
+                        .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
+            }
+
+            if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
+                log.info("::asyncNotificationExecutor::isQualityInvestigation");
+                sendResults = receiverUrls
+                        .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
+            }
+
+            Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
+
+            if (Boolean.TRUE.equals(wasSent)) {
+                return CompletableFuture.completedFuture(message);
+            }
+
+            return CompletableFuture.completedFuture(null);
+
+        } catch (DiscoveryFinderException discoveryFinderException) {
+            enrichQualityNotificationByError(discoveryFinderException, message);
+            return CompletableFuture.completedFuture(null);
         }
-
-        if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
-            log.info("::asyncNotificationExecutor::isQualityInvestigation");
-            sendResults = receiverUrls
-                    .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
-        }
-
-        Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
-
-        if (Boolean.TRUE.equals(wasSent)) {
-            return CompletableFuture.completedFuture(message);
-        }
-
-        return CompletableFuture.completedFuture(null);
     }
 
     private boolean handleSendingNotification(QualityNotificationMessage message, String senderEdcUrl, String receiverUrl) {
@@ -110,19 +119,27 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private void enrichQualityNotificationByError(Exception e, QualityNotificationMessage message) {
         log.info("Retrieving quality notification by message id {}", message.getEdcNotificationId());
+        Optional<QualityNotification> optionalQualityNotificationById;
+        if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
+            optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(message.getEdcNotificationId());
+        } else {
+            optionalQualityNotificationById = alertRepository.findByEdcNotificationId(message.getEdcNotificationId());
+        }
 
-        Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByNotificationMessageId(message.getEdcNotificationId());
         log.info("Successfully executed retrieving quality notification by message id");
         if (optionalQualityNotificationById.isPresent()) {
             log.info("Quality Notification for error message enrichment {}", optionalQualityNotificationById.get());
-            optionalQualityNotificationById.get().getNotifications().forEach(message1 -> {
-                log.info("Message found {}", message1);
-            });
+            optionalQualityNotificationById.get().getNotifications().forEach(message1 -> log.info("Message found {}", message1));
             optionalQualityNotificationById.get().secondLatestNotifications().forEach(qmMessage -> {
                 log.info("Message from second latest notification {}", qmMessage);
                 qmMessage.setErrorMessage(e.getMessage());
             });
-            investigationRepository.updateErrorMessage(optionalQualityNotificationById.get());
+
+            if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
+                investigationRepository.updateErrorMessage(optionalQualityNotificationById.get());
+            } else {
+                alertRepository.updateErrorMessage(optionalQualityNotificationById.get());
+            }
         } else {
             log.warn("Quality Notification NOT FOUND for error message enrichment notification id {}", message.getId());
         }
