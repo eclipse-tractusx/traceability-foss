@@ -91,7 +91,7 @@ describe('PartsDetailComponent', () => {
 
   });
 
-  fit('should correctly set restriction keys for actions as admin', async () => {
+  it('should correctly set restriction keys for actions as admin', async () => {
     let {fixture} = await renderPartsDetailComponent({roles: ['admin']});
     let {componentInstance} = fixture;
 
