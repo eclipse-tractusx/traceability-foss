@@ -66,13 +66,14 @@ describe('PartsDetailComponent', () => {
     expect(componentInstance.partDetailsFacade.selectedPart).toEqual(null);
   });
 
-  it('should correctly set restriction keys for actions', async () => {
+  it('should correctly set restriction keys for actions as user', async () => {
     let {fixture} = await renderPartsDetailComponent({roles: ['user']});
     let {componentInstance} = fixture;
 
     // subcomponent investigation success
     componentInstance.isAsPlannedPart = false;
     componentInstance.hasChildren = true;
+    componentInstance.partOwner = Owner.OWN
 
     expect(componentInstance.setRestrictionMessageKeyForInvestigationOnSubcomponents()).toEqual("routing.startInvestigation");
 
@@ -80,13 +81,17 @@ describe('PartsDetailComponent', () => {
     componentInstance.isPersistentPart = true;
     expect(componentInstance.setRestrictionMessageKeyForIncidentCreation()).toEqual("routing.createIncident")
 
+    // incident creation - customer part
+    componentInstance.partOwner = Owner.CUSTOMER;
+    expect(componentInstance.setRestrictionMessageKeyForIncidentCreation()).toEqual("routing.notAuthorizedOwner");
+
     // publish assets - not admin
     expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.unauthorized");
 
 
   });
 
-  it('should correctly set restriction keys for publish assets', async () => {
+  fit('should correctly set restriction keys for actions as admin', async () => {
     let {fixture} = await renderPartsDetailComponent({roles: ['admin']});
     let {componentInstance} = fixture;
 
@@ -98,6 +103,7 @@ describe('PartsDetailComponent', () => {
     componentInstance.partOwner = Owner.CUSTOMER;
     expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.onlyAllowedForOwnParts");
 
+    componentInstance.partOwner = Owner.OWN
     // sucomponent investigation - not as built
     componentInstance.isAsPlannedPart = true;
     expect(componentInstance.setRestrictionMessageKeyForInvestigationOnSubcomponents()).toEqual("routing.notAllowedForAsPlanned")
