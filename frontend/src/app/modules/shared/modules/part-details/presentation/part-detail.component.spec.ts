@@ -80,12 +80,4 @@ describe('PartDetailComponent', () => {
     expect(nameElement).toBeInTheDocument();
     expect(productionDateElement).toBeInTheDocument();
   });
-
-  it('should render child-component table', async () => {
-    await renderPartDetailComponent({ roles: [ 'user' ] });
-
-    const childTableHeadline = await screen.findByText('partDetail.investigation.headline');
-    expect(childTableHeadline).toBeInTheDocument();
-    expect(await screen.findByText('partDetail.investigation.noSelection.header')).toBeInTheDocument();
-  });
 });

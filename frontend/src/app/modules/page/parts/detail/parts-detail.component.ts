@@ -65,7 +65,7 @@ export class PartsDetailComponent {
   public currentPartId: string;
   public pageIndexHistory: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}
 
-  constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location) {
+  constructor(public readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location) {
     this.isOpen$ = this.isOpenState.observable;
     this.setIsOpen(true);
 
@@ -133,7 +133,6 @@ export class PartsDetailComponent {
     this.route.queryParams.subscribe((params: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}) => {
       this.pageIndexHistory = params;
     })
-    this.selectedPartDetails$.subscribe(next => console.log(next))
   }
 
   public ngOnDestroy(): void {

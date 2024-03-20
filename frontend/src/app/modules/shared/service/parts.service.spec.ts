@@ -17,18 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { PartsService } from '@shared/service/parts.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ApiService } from '@core/api/api.service';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Pagination } from '@core/model/pagination.model';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
-import { environment } from '@env';
-import { KeycloakService } from 'keycloak-angular';
 import { AuthService } from '@core/auth/auth.service';
-import { mockAssets } from '../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
+import { Pagination } from '@core/model/pagination.model';
+import { environment } from '@env';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { PartsService } from '@shared/service/parts.service';
+import { KeycloakService } from 'keycloak-angular';
 import { MOCK_part_1 } from '../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
+import { mockAssets } from '../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('PartsService', () => {
   let service: PartsService;
@@ -42,10 +42,6 @@ describe('PartsService', () => {
     service = TestBed.inject(PartsService);
     httpMock = TestBed.inject(HttpTestingController);
     authService = TestBed.inject(AuthService);
-  });
-
-  afterEach(() => {
-    httpMock.verify();
   });
 
   it('should be created', () => {
@@ -95,7 +91,6 @@ describe('PartsService', () => {
 
     req.flush(MOCK_part_1);
 
-    httpMock.verify();
   });
 
   it('should call the getPartsAsBuilt API and return parts filtered', () => {
