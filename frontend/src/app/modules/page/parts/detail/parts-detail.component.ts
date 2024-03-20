@@ -54,20 +54,16 @@ export class PartsDetailComponent {
   public qualityTypeOptions: SelectOption[];
 
   public qualityTypeControl = new FormControl<QualityType>(null);
-  public readonly isOpen$: Observable<boolean>;
+
   public readonly isPublisherOpen$ = new Subject<boolean>();
   public readonly isNotificationRequestOpen = new BehaviorSubject<boolean>(false);
-
-
-  private readonly isOpenState: State<boolean> = new State<boolean>(false);
+  private readonly isStartInvestigationOpen: State<boolean> = new State<boolean>(false);
 
 
   public currentPartId: string;
   public pageIndexHistory: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}
 
   constructor(public readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location) {
-    this.isOpen$ = this.isOpenState.observable;
-    this.setIsOpen(true);
 
     this.currentPartId = this.route.snapshot.params['partId'];
     this.partDetailsFacade.setPartById(this.currentPartId);
@@ -144,7 +140,7 @@ export class PartsDetailComponent {
   }
 
   public setIsOpen(openState: boolean) {
-    this.isOpenState.update(openState);
+    this.isStartInvestigationOpen.update(openState);
 
     if (!openState) {
       this.partDetailsFacade.selectedPart = null;
@@ -160,7 +156,7 @@ export class PartsDetailComponent {
   // - is as built part
   // - has child parts
   // - role is not admin
-  private setRestrictionMessageKeyForInvestigationOnSubcomponents(): string {
+  setRestrictionMessageKeyForInvestigationOnSubcomponents(): string {
     if(this.isAsPlannedPart) {
       return 'routing.notAllowedForAsPlanned';
     }
@@ -179,7 +175,7 @@ export class PartsDetailComponent {
   // - part owner is own
   // - is persistent
   // - is not admin role
-  private setRestrictionMessageKeyForIncidentCreation(): string {
+  setRestrictionMessageKeyForIncidentCreation(): string {
     if(this.isAsPlannedPart) {
       return 'routing.notAllowedForAsPlanned';
     }
@@ -197,7 +193,7 @@ export class PartsDetailComponent {
   // valid publish assets on asset (allowance of state is handled in publish assets view)
   // - part owner is own
   // - is admin role
-  private setRestrictionMessageKeyForPublishAssets() {
+  setRestrictionMessageKeyForPublishAssets() {
     if(!this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     }

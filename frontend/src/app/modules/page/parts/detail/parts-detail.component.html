@@ -151,16 +151,16 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-header>
       <mat-card-title>{{ 'partDetail.tractionBatteryCodeTitle' | i18n }}</mat-card-title>
     </mat-card-header>
-    <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)" class="part-detail--tractionBattery-content">
-      <ng-container *ngIf="isOpen$ | async">
+    <mat-card-content class="part-detail--tractionBattery-content">
+      <ng-container>
         <app-card-list [list]="tractionBatteryDetails.data" [title]="'partDetail.tractionBattery' | i18n"
                        class="part-detail--tractionBattery-details"></app-card-list>
         <mat-card class="part-detail-subcomponents-table-container">
           <mat-card-header>
             <mat-card-title>{{ 'partDetail.subcomponents' | i18n }}</mat-card-title>
           </mat-card-header>
-          <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)">
-            <ng-container *ngIf="isOpen$ | async">
+          <mat-card-content>
+            <ng-container>
               <section class="part-detail-subcomponents-table-container">
                 <table mat-table
                        [dataSource]="(tractionBatterySubcomponents$ | async)?.data.subcomponents"
@@ -184,11 +184,9 @@ SPDX-License-Identifier: Apache-2.0
                 </table>
               </section>
             </ng-container>
-            <mat-spinner *ngIf="!(isOpen$ | async)"></mat-spinner>
           </mat-card-content>
         </mat-card>
       </ng-container>
-      <mat-spinner *ngIf="!(isOpen$ | async)"></mat-spinner>
     </mat-card-content>
   </mat-card>
 </ng-template>
@@ -199,14 +197,13 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-header>
       <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
     </mat-card-header>
-    <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)" class="part-detail--relation__container">
-      <ng-container *ngIf="isOpen$ | async">
+    <mat-card-content class="part-detail--relation__container">
+      <ng-container>
         <app-part-relation [isStandalone]="false" [showMiniMap]="false"></app-part-relation>
         <mat-icon (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon"
         >open_in_new
         </mat-icon>
       </ng-container>
-      <mat-spinner *ngIf="!(isOpen$ | async)"></mat-spinner>
     </mat-card-content>
   </mat-card>
 </ng-template>

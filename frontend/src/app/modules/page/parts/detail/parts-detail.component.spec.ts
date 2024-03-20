@@ -36,7 +36,7 @@ describe('PartsDetailComponent', () => {
     });
   };
 
-  it('should render an open sidenav with part details', async () => {
+  it('should render part details', async () => {
     const {fixture} = await renderPartsDetailComponent();
     const {componentInstance} = fixture;
     const spy = spyOn(componentInstance.partDetailsFacade, 'setPartById')
@@ -55,4 +55,74 @@ describe('PartsDetailComponent', () => {
     expect(childTableHeadline).toBeInTheDocument();
     expect(await screen.findByText('partDetail.investigation.noSelection.header')).toBeInTheDocument();
   });
+
+
+  it('should set selected part on null if click on relation page', async () => {
+    const {fixture} = await renderPartsDetailComponent({roles: ['user']});
+    const {componentInstance} = fixture;
+
+    componentInstance.openRelationPage(part);
+    expect(componentInstance.partDetailsFacade.selectedPart).toEqual(null);
+  });
+
+  fit('should correctly set restriction keys for actions', async () => {
+    let {fixture} = await renderPartsDetailComponent({roles: ['user']});
+    let {componentInstance} = fixture;
+
+    // subcomponent investigation success
+    componentInstance.isAsPlannedPart = false;
+    componentInstance.hasChildren = true;
+
+    expect(componentInstance.setRestrictionMessageKeyForInvestigationOnSubcomponents()).toEqual("routing.startInvestigation");
+
+    // incident creation success
+    componentInstance.isPersistentPart = true;
+    expect(componentInstance.setRestrictionMessageKeyForIncidentCreation()).toEqual("routing.createIncident")
+
+    // publish assets - not admin
+    expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.unauthorized");
+
+
+  });
+
+  fit('should correctly set restriction keys for publish assets', async () => {
+    let {fixture} = await renderPartsDetailComponent({roles: ['admin']});
+    let {componentInstance} = fixture;
+
+    // publish assets success
+    componentInstance.isOwnPart = true;
+    expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.publishAssets")
+
+    // publish assets - not own Part
+    componentInstance.isOwnPart = false;
+    expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.onlyAllowedForOwnParts");
+
+    // sucomponent investigation - not as built
+    componentInstance.isAsPlannedPart = true;
+    expect(componentInstance.setRestrictionMessageKeyForInvestigationOnSubcomponents()).toEqual("routing.notAllowedForAsPlanned")
+
+    // subcomponent investigation - no child parts
+    componentInstance.isAsPlannedPart = false;
+    componentInstance.hasChildren = false;
+    expect(componentInstance.setRestrictionMessageKeyForInvestigationOnSubcomponents()).toEqual("routing.noChildPartsForInvestigation");
+
+    // subcomponent investigation - not user role
+    componentInstance.hasChildren = true;
+    expect(componentInstance.setRestrictionMessageKeyForInvestigationOnSubcomponents()).toEqual("routing.unauthorized");
+
+    // incident creation - not as built
+    componentInstance.isAsPlannedPart = true;
+    expect(componentInstance.setRestrictionMessageKeyForIncidentCreation()).toEqual("routing.notAllowedForAsPlanned");
+
+    // incident creation - not persistent part
+    componentInstance.isAsPlannedPart = false;
+    componentInstance.isPersistentPart = false;
+    expect(componentInstance.setRestrictionMessageKeyForIncidentCreation()).toEqual("routing.notAllowedForNonPersistentPart");
+
+    // incident creation - not user role
+    componentInstance.isPersistentPart = true;
+    expect(componentInstance.setRestrictionMessageKeyForIncidentCreation()).toEqual("routing.unauthorized")
+
+  });
+
 });
