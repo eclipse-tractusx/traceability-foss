@@ -36,9 +36,9 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.contrac
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -64,19 +64,13 @@ class EdcNotificationContractServiceTest {
     @Mock
     EdcContractDefinitionService edcContractDefinitionService;
 
+    @InjectMocks
     private EdcNotificationContractService edcNotificationContractService;
 
 
     private static final String notificationAssetId = "9";
     private static final String accessPolicyId = "99";
     private static final String contractDefinitionId = "999";
-
-    @BeforeEach
-    void setUp() {
-        edcNotificationContractService = new EdcNotificationContractService(
-                edcNotificationAssetService, edcPolicyDefinitionService, edcContractDefinitionService, traceabilityProperties
-        );
-    }
 
     @Test
     void testHandle() throws CreateEdcAssetException, CreateEdcPolicyDefinitionException, CreateEdcContractDefinitionException {

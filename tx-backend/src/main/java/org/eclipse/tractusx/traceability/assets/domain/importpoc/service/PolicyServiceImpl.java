@@ -22,7 +22,7 @@ import assets.importpoc.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +37,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Service
 public class PolicyServiceImpl implements PolicyService {
 
-    private final IrsRepository irsRepository;
+    private final PolicyRepository policyRepository;
 
     @Override
     public List<PolicyResponse> getAllPolicies() {
@@ -54,6 +54,6 @@ public class PolicyServiceImpl implements PolicyService {
 
     @NotNull
     private List<IrsPolicyResponse> getAcceptedPoliciesOrEmptyList() {
-        return emptyIfNull(irsRepository.getPolicies());
+        return emptyIfNull(policyRepository.getPolicies());
     }
 }

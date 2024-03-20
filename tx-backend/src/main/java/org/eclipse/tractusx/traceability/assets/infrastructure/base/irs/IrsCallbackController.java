@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class IrsCallbackController {
 
-    private final IrsRepository irsRepository;
+    private final JobRepository jobRepository;
 
     @Operation(operationId = "irsCallback",
             summary = "Callback of irs get job details",
@@ -95,7 +95,7 @@ public class IrsCallbackController {
     void handleIrsJobCallback(@RequestParam("id") String jobId, @RequestParam("state") String jobState) {
         // Security measurment for injection
         if (jobId.matches("^[a-zA-Z0-9_-]*$")) {
-            irsRepository.handleJobFinishedCallback(jobId, jobState);
+            jobRepository.handleJobFinishedCallback(jobId, jobState);
         }
     }
 }

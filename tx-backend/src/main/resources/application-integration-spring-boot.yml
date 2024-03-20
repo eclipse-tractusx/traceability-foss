@@ -57,19 +57,6 @@ spring:
 
 jwt:
   resource-client: "Integration-Test"
-
-resilience4j:
-  retry:
-    instances:
-      irs-get:
-        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.JobRunning'
-        maxAttempts: 10
-        waitDuration: 10s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
-      registry:
-        maxAttempts: 1
-        waitDuration: 2s
 server:
   port: 9998
 management:

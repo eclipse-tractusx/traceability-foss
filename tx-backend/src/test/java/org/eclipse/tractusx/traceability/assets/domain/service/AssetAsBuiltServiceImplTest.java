@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -39,7 +39,7 @@ class AssetAsBuiltServiceImplTest {
     private AssetAsBuiltServiceImpl assetService;
 
     @Mock
-    private IrsRepository irsRepository;
+    private JobRepository jobRepository;
 
 
     @Test
@@ -51,8 +51,8 @@ class AssetAsBuiltServiceImplTest {
         assetService.synchronizeAssetsAsync(globalAssetId);
 
         // then
-        verify(irsRepository).createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-        verify(irsRepository).createJobToResolveAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        verify(jobRepository).createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        verify(jobRepository).createJobToResolveAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
     }
 
 
