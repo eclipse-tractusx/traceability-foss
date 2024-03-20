@@ -54,3 +54,6 @@ registry:
       requests:
         cpu: 200m
         memory: 2Gi
+
+  ingress:
+    enabled: true
