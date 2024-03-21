@@ -1,1 +1,35 @@
-<p>contract-detail works!</p>
+<mat-card>
+  <mat-card-header class="flex-row">
+    <mat-card-title><h3 data-testid="admin_contracts_detail_view_header">{{"pageAdmin.contracts.contractDetailed" | i18n}}</h3></mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <app-button
+      [color]="'primary'"
+      (click)="null"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">arrow_back</mat-icon>
+        {{ 'actions.goBack' | i18n }}
+      </div>
+    </app-button>
+
+    <ng-container *viewContainer="selectedContractDetails$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+    <ng-template #mainTmp let-contract="view">
+      <app-card-list
+      [title]="'pageAdmin.contract.overview'"
+      [list]="contract?.data"
+      ></app-card-list>
+    </ng-template>
+
+    <ng-template #errorTmp let-contract="view">
+      <app-data-loading-error [error]="contract.error"></app-data-loading-error>
+    </ng-template>
+
+    <ng-template #loaderTmp>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+
+  </mat-card-content>
+
+</mat-card>

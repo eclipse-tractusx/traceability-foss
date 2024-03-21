@@ -22,9 +22,20 @@ export class ContractsComponent {
   contractFilter: any;
   pagination: TableEventConfig;
 
-  constructor(public readonly adminFacade: AdminFacade, private readonly contractsFacade: ContractsFacade, private readonly router: Router) {
+  constructor(public readonly adminFacade: AdminFacade, private readonly contractsFacade: ContractsFacade, private readonly router: Router) {}
+
+  public ngOnInit() {
     this.contractsView$ = this.contractsFacade.contracts$;
-    this.contractsFacade.setContracts(0,10,[null,null]);
+    this.contractsView$.subscribe(data => {
+      if(data?.data) {
+        return;
+      } else {
+        this.contractsFacade.setContracts(0,10,[null,null]);
+        console.log("newly fetched")
+
+      }
+    })
+
     this.pagination = { page: 0, pageSize: 10, sorting: [ '', null ] };
     this.tableConfig = {
       displayedColumns: [ 'select', 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state', 'menu' ],
@@ -40,11 +51,6 @@ export class ContractsComponent {
       },
       hasPagination: true,
     };
-
-  }
-
-  public ngOnInit() {
-
   }
 
   filterActivated(contractFilter: any): void {
@@ -95,7 +101,8 @@ export class ContractsComponent {
 
   openDetailedView(selectedContract: Record<string, unknown>) {
     this.contractsFacade.selectedContract = selectedContract as unknown as Contract;
-    this.router.navigate([KnownAdminRoutes.CONTRACT+'/'+this.contractsFacade.selectedContract.contractId]);
+    console.log(KnownAdminRoutes.CONTRACT+'/'+this.contractsFacade.selectedContract.contractId)
+    this.router.navigate(['admin/'+KnownAdminRoutes.CONTRACT+'/'+this.contractsFacade.selectedContract.contractId]);
   }
 
   ngOnDestroy() {
