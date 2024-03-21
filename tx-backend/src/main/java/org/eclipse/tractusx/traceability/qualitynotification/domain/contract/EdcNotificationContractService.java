@@ -32,6 +32,7 @@ import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
+import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyMapper;
@@ -94,8 +95,10 @@ public class EdcNotificationContractService {
         } catch (CreateEdcPolicyDefinitionException e) {
             revertNotificationAsset(notificationAssetId);
             throw new CreateNotificationContractException(e);
+        } catch (EdcPolicyDefinitionAlreadyExists alreadyExists) {
+            accessPolicyId = optionalPolicyResponse.get().policyId();
+            log.info("Policy with id " + accessPolicyId + " already exists, using for notification contract.");
         }
-
         String contractDefinitionId = "";
         try {
             contractDefinitionId = edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId);
