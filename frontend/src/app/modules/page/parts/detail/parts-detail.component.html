@@ -273,7 +273,7 @@ SPDX-License-Identifier: Apache-2.0
         (click)="showQualityTypeDropdown = true"
         (keydown.enter)="showQualityTypeDropdown = true"
         class="card-list--value card-list--icon"
-        tabindex="0"
+        [tabindex]="0"
       >
         <app-quality-type [type]="qualityTypeControl.value"></app-quality-type>
         <mat-icon class="ml-2" inline>edit</mat-icon>
