@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyServ
 import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class PolicyServiceImpl implements PolicyService {
 
     private final PolicyRepository policyRepository;
+    private final TraceabilityProperties traceabilityProperties;
 
     @Override
     public List<PolicyResponse> getAllPolicies() {
@@ -57,14 +59,14 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
-    public Optional<PolicyResponse> getFirstPolicyByConstraintRightOperand(String rightOperand) {
+    public Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint() {
         Optional<String> policyId = getAllPolicies().stream()
                 .flatMap(policyResponse -> policyResponse.permissions().stream()
                         .flatMap(permissionResponse -> Stream.concat(
                                         permissionResponse.constraints().and().stream(),
                                         permissionResponse.constraints().or().stream())
                                 .map(constraintResponse -> new AbstractMap.SimpleEntry<>(policyResponse.policyId(), constraintResponse))))
-                .filter(entry -> entry.getValue().rightOperand().equalsIgnoreCase(rightOperand))
+                .filter(entry -> entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperand()))
                 .map(Map.Entry::getKey)
                 .findFirst();
         return policyId.map(this::getPolicyById);

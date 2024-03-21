@@ -86,12 +86,10 @@ class EdcNotificationContractServiceTest {
     @Test
     void testHandle() throws CreateEdcAssetException, CreateEdcPolicyDefinitionException, CreateEdcContractDefinitionException {
         // given
-        String rightOperand = "trace3";
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
-        when(traceabilityProperties.getRightOperand()).thenReturn(rightOperand);
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
-        when(policyService.getFirstPolicyByConstraintRightOperand(traceabilityProperties.getRightOperand())).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
@@ -128,12 +126,10 @@ class EdcNotificationContractServiceTest {
     @Test
     void givenService_whenPolicyDefinitionServiceThrowsException_thenThrowException() throws CreateEdcAssetException, CreateEdcPolicyDefinitionException, DeleteEdcAssetException {
         // given
-        String rightOperand = "trace3";
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
-        when(traceabilityProperties.getRightOperand()).thenReturn(rightOperand);
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
-        when(policyService.getFirstPolicyByConstraintRightOperand(traceabilityProperties.getRightOperand())).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
@@ -147,13 +143,11 @@ class EdcNotificationContractServiceTest {
     @Test
     void givenService_whenContractDefinitionServiceThrowsException_thenThrowException() throws CreateEdcAssetException, CreateEdcContractDefinitionException, DeleteEdcAssetException, DeleteEdcPolicyDefinitionException {
         // given
-        String rightOperand = "trace3";
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
-        when(traceabilityProperties.getRightOperand()).thenReturn(rightOperand);
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
-        when(policyService.getFirstPolicyByConstraintRightOperand(traceabilityProperties.getRightOperand())).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
 

@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import assets.importpoc.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -44,6 +45,9 @@ class PolicyServiceImplTest {
     private PolicyServiceImpl policyService;
     @Mock
     private PolicyRepository policyRepository;
+
+    @Mock
+    private TraceabilityProperties traceabilityProperties;
 
     @Test
     void testGetPolicyByID() {
@@ -73,10 +77,10 @@ class PolicyServiceImplTest {
         IrsPolicyResponse fourthPolicyResponse = createIrsPolicyResponse("test4", OffsetDateTime.now(), "my-constraint4", "");
         List<IrsPolicyResponse> policyResponseList = List.of(firstPolicyResponse, secondPolicyResponse, thirdPolicyResponse, fourthPolicyResponse);
         when(policyRepository.getPolicies()).thenReturn(policyResponseList);
-
+        when(traceabilityProperties.getRightOperand()).thenReturn("my-constraint4");
         // When
 
-        Optional<PolicyResponse> policyResult = policyService.getFirstPolicyByConstraintRightOperand("my-constraint4");
+        Optional<PolicyResponse> policyResult = policyService.getFirstPolicyMatchingApplicationConstraint();
 
         // Then
         assertThat(policyResult).isPresent();
@@ -93,10 +97,11 @@ class PolicyServiceImplTest {
         IrsPolicyResponse fourthPolicyResponse = createIrsPolicyResponse("test4", OffsetDateTime.now(), "my-constraint4", "");
         List<IrsPolicyResponse> policyResponseList = List.of(firstPolicyResponse, secondPolicyResponse, thirdPolicyResponse, fourthPolicyResponse);
         when(policyRepository.getPolicies()).thenReturn(policyResponseList);
+        when(traceabilityProperties.getRightOperand()).thenReturn("not-exists");
 
         // When
 
-        Optional<PolicyResponse> policyResult = policyService.getFirstPolicyByConstraintRightOperand("not-exists");
+        Optional<PolicyResponse> policyResult = policyService.getFirstPolicyMatchingApplicationConstraint();
 
         // Then
         assertThat(policyResult).isEmpty();

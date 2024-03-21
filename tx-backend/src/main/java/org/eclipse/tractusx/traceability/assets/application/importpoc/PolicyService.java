@@ -28,5 +28,5 @@ public interface PolicyService {
 
     PolicyResponse getPolicyById(String id);
 
-    Optional<PolicyResponse> getFirstPolicyByConstraintRightOperand(String rightOperand);
+    Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint();
 }

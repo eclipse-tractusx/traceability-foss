@@ -36,18 +36,6 @@ public class EdcProperties {
     private String idsPath;
 
     @NotBlank
-    @Value("${edc.contractdefinitions}")
-    private String contractDefinitionsPath;
-
-    @NotBlank
-    @Value("${edc.policydefinitions}")
-    private String policyDefinitionsPath;
-
-    @NotBlank
-    @Value("${edc.assets}")
-    private String assetsPath;
-
-    @NotBlank
     @Value("${edc.provider-edc-url}")
     private String providerEdcUrl;
 
