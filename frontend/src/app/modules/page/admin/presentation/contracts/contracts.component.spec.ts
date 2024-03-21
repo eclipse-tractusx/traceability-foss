@@ -1,14 +1,14 @@
-import {TestBed} from '@angular/core/testing';
-import {AdminModule} from '@page/admin/admin.module';
-import {AdminFacade} from '@page/admin/core/admin.facade';
-import {AdminService} from '@page/admin/core/admin.service';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {renderComponent} from '@tests/test-render.utils';
-import {of} from 'rxjs';
-import {getContracts} from '../../../../../mocks/services/admin-mock/admin.model';
+import { TestBed } from '@angular/core/testing';
+import { AdminModule } from '@page/admin/admin.module';
+import { AdminFacade } from '@page/admin/core/admin.facade';
+import { assembleContract } from '@page/admin/core/admin.model';
+import { AdminService } from '@page/admin/core/admin.service';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { renderComponent } from '@tests/test-render.utils';
+import { of } from 'rxjs';
+import { getContracts } from '../../../../../mocks/services/admin-mock/admin.model';
 
-import {ContractTableComponent} from './contract-table.component';
-import {assembleContract} from "@page/admin/core/admin.model";
+import { ContractsComponent } from './contracts.component';
 
 describe('ContractTableComponent', () => {
 
@@ -16,11 +16,11 @@ describe('ContractTableComponent', () => {
         getContracts: jasmine.createSpy().and.returnValue(of(getContracts))
     };
 
-    const renderContractTableComponent = () => renderComponent(ContractTableComponent, {imports: [AdminModule], providers: [{provide: AdminFacade, useValue: mockAdminFacade}]})
+    const renderContractTableComponent = () => renderComponent(ContractsComponent, {imports: [AdminModule], providers: [{provide: AdminFacade, useValue: mockAdminFacade}]})
     let createElementSpy: jasmine.Spy
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [ContractTableComponent],
+            declarations: [ContractsComponent],
             providers: [AdminFacade, AdminService]
         });
         createElementSpy = spyOn(document, 'createElement').and.callThrough();
@@ -49,8 +49,6 @@ describe('ContractTableComponent', () => {
         expect(componentInstance.pagination.pageSize).toEqual(10);
 
         componentInstance.filterActivated(mockFilter);
-        expect(componentInstance.adminFacade.getContracts).toHaveBeenCalledWith(myPagination.page, myPagination.pageSize, [myPagination.sorting], mockFilter);
-
 
         expect(JSON.stringify(componentInstance.contractFilter)).toContain("hello");
 

@@ -20,10 +20,8 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
-import { BpnConfig, Contract } from '@page/admin/core/admin.model';
+import { BpnConfig } from '@page/admin/core/admin.model';
 import { AdminService } from '@page/admin/core/admin.service';
-import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -49,10 +47,6 @@ export class AdminFacade {
 
   public postJsonImport(file: File): Observable<void>{
     return this.adminService.postJsonFile(file);
-  }
-
-  public getContracts(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: any ): Observable<Pagination<Contract>> {
-    return this.adminService.getContracts(page, pageSize, sorting, filter);
   }
 
 }

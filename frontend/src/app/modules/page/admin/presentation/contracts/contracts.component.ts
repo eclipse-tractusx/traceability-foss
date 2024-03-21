@@ -1,32 +1,34 @@
-import {Component} from '@angular/core';
-import {Pagination} from '@core/model/pagination.model';
-import {AdminFacade} from '@page/admin/core/admin.facade';
-import {Contract} from '@page/admin/core/admin.model';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {CreateHeaderFromColumns, TableConfig, TableEventConfig} from '@shared/components/table/table.model';
-import {View} from '@shared/model/view.model';
-import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Pagination } from '@core/model/pagination.model';
+import { AdminFacade } from '@page/admin/core/admin.facade';
+import { Contract, KnownAdminRoutes } from '@page/admin/core/admin.model';
+import { ContractsFacade } from '@page/admin/presentation/contracts/contracts.facade';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-contract-table',
-  templateUrl: './contract-table.component.html',
+  selector: 'app-contracts',
+  templateUrl: './contracts.component.html',
   styleUrls: [],
 })
-export class ContractTableComponent {
-  contracts: Observable<Pagination<Contract>>;
+export class ContractsComponent {
   contractsView$: Observable<View<Pagination<Contract>>>;
   tableConfig: TableConfig;
   selectedContracts: Contract[];
   contractFilter: any;
   pagination: TableEventConfig;
 
-  constructor(public readonly adminFacade: AdminFacade) {
+  constructor(public readonly adminFacade: AdminFacade, private readonly contractsFacade: ContractsFacade, private readonly router: Router) {
+    this.contractsView$ = this.contractsFacade.contracts$;
+    this.contractsFacade.setContracts(0,10,[null,null]);
     this.pagination = { page: 0, pageSize: 10, sorting: [ '', null ] };
     this.tableConfig = {
-      displayedColumns: [ 'select', 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ],
-      header: CreateHeaderFromColumns([ 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state' ], 'pageAdmin.contracts'),
+      displayedColumns: [ 'select', 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state', 'menu' ],
+      header: CreateHeaderFromColumns([ 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state', 'menu' ], 'pageAdmin.contracts'),
       menuActionsConfig: [],
       sortableColumns: {
         select: false,
@@ -42,27 +44,16 @@ export class ContractTableComponent {
   }
 
   public ngOnInit() {
-    this.contracts = this.adminFacade.getContracts(0, 50, null, null);
-    this.contractsView$ = this.contracts.pipe(map(pagination => {
-      return { data: pagination };
-    }));
+
   }
 
   filterActivated(contractFilter: any): void {
     this.contractFilter = contractFilter;
-    this.contracts = this.adminFacade.getContracts(this.pagination.page, this.pagination.pageSize, [ this.pagination.sorting ], contractFilter);
-    this.contractsView$ = this.contracts.pipe(map(pagination => {
-      return { data: pagination };
-    }));
   }
 
   public onTableConfigChange(pagination: TableEventConfig): void {
     this.pagination = pagination;
-    this.contracts = this.adminFacade.getContracts(pagination.page, pagination.pageSize, [ pagination.sorting ], this.contractFilter);
-    this.contractsView$ = this.contracts.pipe(map(pagination => {
-      return { data: pagination };
-    }));
-
+    this.contractsFacade.setContracts(pagination.page, pagination.pageSize, [pagination.sorting] );
   }
 
   multiSelection(selectedContracts: Contract[]) {
@@ -102,7 +93,18 @@ export class ContractTableComponent {
 
   }
 
+  openDetailedView(selectedContract: Record<string, unknown>) {
+    this.contractsFacade.selectedContract = selectedContract as unknown as Contract;
+    this.router.navigate([KnownAdminRoutes.CONTRACT+'/'+this.contractsFacade.selectedContract.contractId]);
+  }
+
+  ngOnDestroy() {
+    this.contractsFacade.unsubscribeContracts();
+  }
+
 
   protected readonly NotificationAction = NotificationAction;
   protected readonly TableType = TableType;
+
+
 }
