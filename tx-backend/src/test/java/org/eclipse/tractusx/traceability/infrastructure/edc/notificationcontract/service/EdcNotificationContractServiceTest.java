@@ -21,14 +21,18 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service;
 
+import assets.importpoc.PolicyResponse;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
@@ -42,10 +46,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.testdata.PolicyTestDataFactory.createIrsPolicyResponse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -54,15 +62,18 @@ import static org.mockito.Mockito.when;
 class EdcNotificationContractServiceTest {
 
     @Mock
-    TraceabilityProperties traceabilityProperties;
+    private TraceabilityProperties traceabilityProperties;
     @Mock
-    EdcAssetService edcNotificationAssetService;
+    private EdcAssetService edcNotificationAssetService;
 
     @Mock
-    EdcPolicyDefinitionService edcPolicyDefinitionService;
+    private EdcPolicyDefinitionService edcPolicyDefinitionService;
 
     @Mock
-    EdcContractDefinitionService edcContractDefinitionService;
+    private EdcContractDefinitionService edcContractDefinitionService;
+
+    @Mock
+    private PolicyService policyService;
 
     @InjectMocks
     private EdcNotificationContractService edcNotificationContractService;
@@ -75,14 +86,14 @@ class EdcNotificationContractServiceTest {
     @Test
     void testHandle() throws CreateEdcAssetException, CreateEdcPolicyDefinitionException, CreateEdcContractDefinitionException {
         // given
-        String rightOperand = "trace3";
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
+        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
-        when(traceabilityProperties.getRightOperand()).thenReturn(rightOperand);
-        when(edcPolicyDefinitionService.createAccessPolicy(rightOperand)).thenReturn(accessPolicyId);
+        when(edcPolicyDefinitionService.createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class))).thenReturn(accessPolicyId);
         when(edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId)).thenReturn(contractDefinitionId);
 
         // when
@@ -115,14 +126,14 @@ class EdcNotificationContractServiceTest {
     @Test
     void givenService_whenPolicyDefinitionServiceThrowsException_thenThrowException() throws CreateEdcAssetException, CreateEdcPolicyDefinitionException, DeleteEdcAssetException {
         // given
-        String rightOperand = "trace3";
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
+        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
-        when(traceabilityProperties.getRightOperand()).thenReturn(rightOperand);
-        doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(anyString());
+        doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class));
 
         // when/then
         assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.handle(request));
@@ -132,13 +143,14 @@ class EdcNotificationContractServiceTest {
     @Test
     void givenService_whenContractDefinitionServiceThrowsException_thenThrowException() throws CreateEdcAssetException, CreateEdcContractDefinitionException, DeleteEdcAssetException, DeleteEdcPolicyDefinitionException {
         // given
-        String rightOperand = "trace3";
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
+        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
-        when(traceabilityProperties.getRightOperand()).thenReturn(rightOperand);
+
         doThrow(CreateEdcContractDefinitionException.class).when(edcContractDefinitionService).createContractDefinition(any(), any());
 
         // when/then

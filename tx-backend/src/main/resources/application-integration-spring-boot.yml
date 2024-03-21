@@ -29,11 +29,14 @@ traceability:
   adminApiKey: testAdminKey
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
+  irsPoliciesPath: "/irs/policies"
   submodelBase: http://localhost:${server.port}
 registry:
   urlWithPath: "http://127.0.0.1"
 
 edc:
+  ids:
+    path: "/api/v1/dsp"
   api-auth-key: "integration-tests"
   provider-edc-url: "http://127.0.0.1"
   provider-dataplane-edc-url: "http://127.0.0.1"
