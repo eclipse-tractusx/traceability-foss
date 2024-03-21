@@ -13,7 +13,7 @@ import { TemplateModule } from '@shared/template.module';
 
 @NgModule({
   declarations: [ PartsDetailComponent, StartInvestigationComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule, RelationsModule, /* remove PartDetailsModule and put StartInvestigationComponent inside declarations when the old part details view gets removed*/],
+  imports: [ CommonModule, TemplateModule, SharedModule, RelationsModule],
   providers: [
     PartDetailsState,
     PartDetailsFacade,
