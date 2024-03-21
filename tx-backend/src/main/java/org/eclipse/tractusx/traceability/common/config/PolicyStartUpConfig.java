@@ -33,11 +33,10 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsRepositoryImpl;
+import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -60,18 +59,17 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @EnableWebMvc
 @EnableAsync(proxyTargetClass = true)
 @EnableConfigurationProperties
-@RequiredArgsConstructor
 @Slf4j
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
+@RequiredArgsConstructor
 @Profile(NOT_INTEGRATION_TESTS)
 public class PolicyStartUpConfig {
 
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
-    @Autowired
-    TraceabilityProperties traceabilityProperties;
-    @Autowired
+    private final TraceabilityProperties traceabilityProperties;
+
     @Lazy
-    IrsRepositoryImpl irsRepositoryImpl;
+    private final PolicyRepository policyRepository;
 
     @PostConstruct
     @ConditionalOnProperty(name = "applicationConfig.registerDecentralRegistryPermissions.enabled", havingValue = "true")
@@ -98,7 +96,7 @@ public class PolicyStartUpConfig {
 
     private List<AcceptedPolicy> createIrsAcceptedPolicies() {
 
-        List<IrsPolicyResponse> irsPolicyResponse = irsRepositoryImpl.getPolicies();
+        List<IrsPolicyResponse> irsPolicyResponse = policyRepository.getPolicies();
         List<AcceptedPolicy> irsPolicies = irsPolicyResponse.stream().map(response -> {
             Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());

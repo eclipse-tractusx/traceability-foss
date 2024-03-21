@@ -29,11 +29,14 @@ traceability:
   adminApiKey: testAdminKey
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
+  irsPoliciesPath: "/irs/policies"
   submodelBase: http://localhost:${server.port}
 registry:
   urlWithPath: "http://127.0.0.1"
 
 edc:
+  ids:
+    path: "/api/v1/dsp"
   api-auth-key: "integration-tests"
   provider-edc-url: "http://127.0.0.1"
   provider-dataplane-edc-url: "http://127.0.0.1"
@@ -57,19 +60,6 @@ spring:
 
 jwt:
   resource-client: "Integration-Test"
-
-resilience4j:
-  retry:
-    instances:
-      irs-get:
-        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.JobRunning'
-        maxAttempts: 10
-        waitDuration: 10s
-        enableExponentialBackoff: true
-        exponentialBackoffMultiplier: 2
-      registry:
-        maxAttempts: 1
-        waitDuration: 2s
 server:
   port: 9998
 management:

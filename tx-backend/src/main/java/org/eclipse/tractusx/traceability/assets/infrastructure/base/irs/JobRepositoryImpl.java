@@ -22,8 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
@@ -32,7 +31,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
@@ -44,16 +42,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory.extractBpnMap;
 
 @Slf4j
 @Service
-public class IrsRepositoryImpl implements IrsRepository {
+public class JobRepositoryImpl implements JobRepository {
 
     private final BpnRepository bpnRepository;
     private final TraceabilityProperties traceabilityProperties;
@@ -67,7 +63,7 @@ public class IrsRepositoryImpl implements IrsRepository {
 
     private final IrsClient irsClient;
 
-    public IrsRepositoryImpl(
+    public JobRepositoryImpl(
             IrsClient irsClient,
             BpnRepository bpnRepository,
             TraceabilityProperties traceabilityProperties,
@@ -144,64 +140,7 @@ public class IrsRepositoryImpl implements IrsRepository {
         }
     }
 
-    @Override
-    public void createIrsPolicyIfMissing() {
-        log.info("Check if irs policy exists");
-        final List<IrsPolicyResponse> irsPolicies = this.irsClient.getPolicies();
-        final List<String> irsPoliciesIds = irsPolicies.stream().map(policyResponse -> policyResponse.payload().policyId()).toList();
-        log.info("Irs has following policies: {}", irsPoliciesIds);
 
-        log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
-
-        IrsPolicyResponse matchingPolicy = findMatchingPolicy(irsPolicies);
-
-        if (matchingPolicy == null) {
-            createMissingPolicies();
-        } else {
-            checkAndUpdatePolicy(matchingPolicy);
-        }
-    }
-
-    private IrsPolicyResponse findMatchingPolicy(List<IrsPolicyResponse> irsPolicies) {
-        return irsPolicies.stream()
-                .filter(irsPolicy -> emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
-                        .flatMap(permission -> {
-                            Constraints constraint = permission.getConstraint();
-                            return constraint != null ? constraint.getAnd().stream() : Stream.empty();
-                        })
-                        .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()))
-                        || emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
-                        .flatMap(permission -> {
-                            Constraints constraint = permission.getConstraint();
-                            return constraint != null ? constraint.getOr().stream() : Stream.empty();
-                        })
-                        .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand())))
-                .findFirst()
-                .orElse(null);
-    }
-
-
-    private void createMissingPolicies() {
-        log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
-        this.irsClient.registerPolicy();
-    }
-
-    private void checkAndUpdatePolicy(IrsPolicyResponse requiredPolicy) {
-        if (isPolicyExpired(requiredPolicy)) {
-            log.info("IRS Policy {} has outdated validity updating new ttl", traceabilityProperties.getRightOperand());
-            this.irsClient.deletePolicy();
-            this.irsClient.registerPolicy();
-        }
-    }
-
-    private boolean isPolicyExpired(IrsPolicyResponse requiredPolicy) {
-        return traceabilityProperties.getValidUntil().isAfter(requiredPolicy.validUntil());
-    }
-
-    @Override
-    public List<IrsPolicyResponse> getPolicies() {
-        return irsClient.getPolicies();
-    }
 
     public static boolean jobCompleted(JobStatus jobStatus) {
         return JOB_STATUS_COMPLETED.equals(jobStatus.state());
