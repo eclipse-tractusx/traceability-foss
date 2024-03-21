@@ -1,0 +1,49 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence Diagram: Policy Handling on notification flow
+participant "TraceX" as TraceX
+participant "IRS " as IRS
+participant "EDC Consumer" as EdcConsumer
+participant "EDC Provider (other) " as EdcProvider
+
+TraceX -> TraceX: Approve, Acknowledge, Accept, Decline or Close Notification
+TraceX -> EdcConsumer: Get catalog of receiver
+EdcConsumer -> EdcProvider: Get catalog of receiver
+EdcProvider -> EdcConsumer: Return catalog
+EdcConsumer -> TraceX: Return catalog
+TraceX -> TraceX: Validate Contract Type, Method and Policy
+
+alt Notification Type: Alert
+    TraceX -> TraceX: Filter for method (update, receive)
+    TraceX -> TraceX: Validate if catalog policy matches the configured policies in IRS Lib (3 Default Policies)
+    alt Method: Update
+        TraceX -> EdcConsumer: Send out alert notification (update method)
+         EdcConsumer -> EdcProvider: Send out alert notification (update method)
+                  EdcProvider -> EdcConsumer: ok
+                  EdcConsumer -> TraceX: ..
+    else Method: Receive
+        TraceX -> EdcConsumer: Send out alert notification (receive method)
+         EdcConsumer -> EdcProvider: Send out alert notification (receive method)
+         EdcProvider -> EdcConsumer: ok
+         EdcConsumer -> TraceX: ..
+    end
+else Notification Type: Investigation
+    TraceX -> TraceX: Filter for method (update, receive)
+    TraceX -> TraceX: Validate if catalog policy matches the configured policies in IRS Lib (3 Default Policies)
+    alt Method: Update
+        TraceX -> EdcConsumer: Send out Investigation notification (update method)
+         EdcConsumer -> EdcProvider: Send out Investigation notification (update method)
+                  EdcProvider -> EdcConsumer: ok
+                  EdcConsumer -> TraceX: ..
+    else Method: Receive
+        TraceX -> EdcConsumer: Send out Investigation notification (receive method)
+         EdcConsumer -> EdcProvider: Send out Investigation notification (receive method)
+                  EdcProvider -> EdcConsumer: ok
+                  EdcConsumer -> TraceX: ..
+    end
+end
+
+@enduml
