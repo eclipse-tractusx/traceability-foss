@@ -18,23 +18,23 @@
  ********************************************************************************/
 
 
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
-import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
-import { setMultiSorting } from '@shared/helper/table-helper';
-import { NotificationType } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {Component, Input, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Pagination} from '@core/model/pagination.model';
+import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
+import {TableSortingUtil} from '@shared/components/table/table-sorting.util';
+import {TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
+import {containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
+import {setMultiSorting} from '@shared/helper/table-helper';
+import {NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-supplier-parts',
@@ -141,7 +141,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     if (pageSize !== 0) {
       pageSizeValue = pageSize;
     }
-    if (this.assetAsBuiltFilter && Object.keys(this.assetAsBuiltFilter).filter(key => this.assetAsBuiltFilter[key].length).length) {
+    if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
       this.otherPartsFacade.setSupplierPartsAsBuilt(0, pageSizeValue, this.tableSupplierAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSizeValue, this.tableSupplierAsBuiltSortList);
@@ -158,7 +158,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
       pageSizeValue = pageSize;
     }
 
-    if (this.assetsAsPlannedFilter && Object.keys(this.assetsAsPlannedFilter).filter(key => this.assetsAsPlannedFilter[key].length).length) {
+    if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
       this.otherPartsFacade.setSupplierPartsAsPlanned(0, pageSizeValue, this.tableSupplierAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
     } else {
       this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSizeValue, this.tableSupplierAsPlannedSortList);

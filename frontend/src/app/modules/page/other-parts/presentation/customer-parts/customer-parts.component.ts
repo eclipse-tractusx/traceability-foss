@@ -18,22 +18,22 @@
  ********************************************************************************/
 
 
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
-import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
-import { setMultiSorting } from '@shared/helper/table-helper';
-import { View } from '@shared/model/view.model';
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { Observable } from 'rxjs';
+import {Component, Input, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Pagination} from '@core/model/pagination.model';
+import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
+import {TableSortingUtil} from '@shared/components/table/table-sorting.util';
+import {TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
+import {containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
+import {setMultiSorting} from '@shared/helper/table-helper';
+import {View} from '@shared/model/view.model';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {Observable} from 'rxjs';
 
 
 @Component({
@@ -134,7 +134,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
       pageSizeValue = pageSize;
     }
 
-    if (this.assetAsBuiltFilter && Object.keys(this.assetAsBuiltFilter).filter(key => this.assetAsBuiltFilter[key].length).length) {
+    if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
       this.otherPartsFacade.setCustomerPartsAsBuilt(0, pageSizeValue, this.tableCustomerAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.otherPartsFacade.setCustomerPartsAsBuilt(page, pageSizeValue, this.tableCustomerAsBuiltSortList);
@@ -150,7 +150,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
       pageSizeValue = pageSize;
     }
 
-    if (this.assetsAsPlannedFilter && Object.keys(this.assetsAsPlannedFilter).filter(key => this.assetsAsPlannedFilter[key].length).length) {
+    if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
       this.otherPartsFacade.setCustomerPartsAsPlanned(0, pageSizeValue, this.tableCustomerAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
     } else {
       this.otherPartsFacade.setCustomerPartsAsPlanned(page, pageSizeValue, this.tableCustomerAsPlannedSortList);
