@@ -18,8 +18,8 @@
 ###############################################################
 
 digital-twin-registry:
-  nameOverride: "Registry-dev"
-  fullnameOverride: "Registry-dev"
+  nameOverride: "tracex-registry-dev"
+  fullnameOverride: "tracex-registry-dev"
   registry:
     authentication: false
     idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
