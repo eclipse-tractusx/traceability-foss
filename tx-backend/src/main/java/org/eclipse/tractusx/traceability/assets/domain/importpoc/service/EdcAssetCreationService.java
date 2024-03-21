@@ -19,24 +19,14 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-import assets.importpoc.ConstraintResponse;
-import assets.importpoc.ConstraintsResponse;
-import assets.importpoc.PermissionResponse;
 import assets.importpoc.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
-import org.eclipse.tractusx.irs.edc.client.asset.model.OdrlContext;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.EdcAssetAlreadyExistsException;
-import org.eclipse.tractusx.irs.edc.client.contract.model.EdcOperator;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
-import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
-import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermission;
-import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraint;
-import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraintExpression;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
@@ -45,10 +35,9 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyResponseMapper.mapToEdcPolicyRequest;
+import static org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyMapper.mapToEdcPolicyRequest;
 
 @Slf4j
 @Service

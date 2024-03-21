@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.contract;
 
+import assets.importpoc.PolicyResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
@@ -28,15 +29,20 @@ import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetE
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyMapper;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -47,6 +53,8 @@ public class EdcNotificationContractService {
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
     private final TraceabilityProperties traceabilityProperties;
+    private final PolicyService policyService;
+
 
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = "/api/qualitynotifications/%s";
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = "/api/qualityalerts/%s";
@@ -69,9 +77,20 @@ public class EdcNotificationContractService {
             throw new CreateNotificationContractException(e);
         }
 
+        Optional<PolicyResponse> optionalPolicyResponse = policyService.getFirstPolicyByConstraintRightOperand(traceabilityProperties.getRightOperand());
+        EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest;
+        if (optionalPolicyResponse.isPresent()) {
+            edcCreatePolicyDefinitionRequest =
+                    PolicyMapper
+                            .mapToEdcPolicyRequest(optionalPolicyResponse.get());
+        } else {
+            throw new CreateNotificationContractException("Could not find a policy within IRS Policy store which matches the given right operand " + traceabilityProperties.getRightOperand());
+        }
+
+
         String accessPolicyId = "";
         try {
-            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(traceabilityProperties.getRightOperand());
+            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(edcCreatePolicyDefinitionRequest);
         } catch (CreateEdcPolicyDefinitionException e) {
             revertNotificationAsset(notificationAssetId);
             throw new CreateNotificationContractException(e);

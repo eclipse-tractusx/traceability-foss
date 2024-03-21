@@ -21,9 +21,12 @@ package org.eclipse.tractusx.traceability.assets.application.importpoc;
 import assets.importpoc.PolicyResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PolicyService {
     List<PolicyResponse> getAllPolicies();
 
     PolicyResponse getPolicyById(String id);
+
+    Optional<PolicyResponse> getFirstPolicyByConstraintRightOperand(String rightOperand);
 }

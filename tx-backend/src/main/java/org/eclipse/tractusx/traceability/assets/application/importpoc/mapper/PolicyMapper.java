@@ -34,7 +34,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConst
 import java.util.List;
 
 @UtilityClass
-public class PolicyResponseMapper {
+public class PolicyMapper {
     public static EdcCreatePolicyDefinitionRequest mapToEdcPolicyRequest(PolicyResponse policy) {
         OdrlContext odrlContext = OdrlContext.builder().odrl("http://www.w3.org/ns/odrl/2/").build();
         EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(mapToPermissions(policy.permissions())).type("Policy").build();

@@ -28,7 +28,11 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -51,6 +55,21 @@ public class PolicyServiceImpl implements PolicyService {
                 .map(IrsPolicyResponse::toResponse)
                 .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
     }
+
+    @Override
+    public Optional<PolicyResponse> getFirstPolicyByConstraintRightOperand(String rightOperand) {
+        Optional<String> policyId = getAllPolicies().stream()
+                .flatMap(policyResponse -> policyResponse.permissions().stream()
+                        .flatMap(permissionResponse -> Stream.concat(
+                                        permissionResponse.constraints().and().stream(),
+                                        permissionResponse.constraints().or().stream())
+                                .map(constraintResponse -> new AbstractMap.SimpleEntry<>(policyResponse.policyId(), constraintResponse))))
+                .filter(entry -> entry.getValue().rightOperand().equalsIgnoreCase(rightOperand))
+                .map(Map.Entry::getKey)
+                .findFirst();
+        return policyId.map(this::getPolicyById);
+    }
+
 
     @NotNull
     private List<IrsPolicyResponse> getAcceptedPoliciesOrEmptyList() {
