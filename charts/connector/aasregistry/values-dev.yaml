@@ -23,9 +23,6 @@ digital-twin-registry:
     authentication: false
     idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
     host: trace-x-registry.dev.demo.catena-x.net
-    dataSource:
-      user: default-user
-      password: password
     ingress:
       enabled: true
       tls: true
@@ -44,3 +41,15 @@ digital-twin-registry:
         requests:
           cpu: 200m
           memory: 2Gi
+  postgresql:
+    primary:
+      persistence:
+        enabled: true
+        size: 1Gi
+    service:
+      ports:
+        postgresql: 5432
+    auth:
+      username: default-user
+      password: password
+      database: default-database
