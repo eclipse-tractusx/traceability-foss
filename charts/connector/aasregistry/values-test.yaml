@@ -17,25 +17,14 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
-registry:
-  enableKeycloak: false
-  postgresql:
-    primary:
-      persistence:
-        enabled: true
-        size: 1Gi
-      resources:
-        limits:
-          cpu: 1500m
-          memory: 2Gi
-        requests:
-          cpu: 200m
-          memory: 2Gi
 
+digital-twin-registry:
+  nameOverride: "tracex-registry-test"
+  fullnameOverride: "tracex-registry-test"
   registry:
     authentication: false
     idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
-    host: trace-x-registry-test.dev.demo.catena-x.net
+    host: trace-x-registry.dev.demo.catena-x.net
     ingress:
       enabled: true
       tls: true
@@ -47,10 +36,22 @@ registry:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
         nginx.ingress.kubernetes.io/use-regex: "true"
 
-    resources:
-      limits:
-        cpu: 1500m
-        memory: 2Gi
-      requests:
-        cpu: 200m
-        memory: 2Gi
+      resources:
+        limits:
+          cpu: 1500m
+          memory: 2Gi
+        requests:
+          cpu: 200m
+          memory: 2Gi
+  postgresql:
+    primary:
+      persistence:
+        enabled: true
+        size: 1Gi
+    service:
+      ports:
+        postgresql: 5432
+    auth:
+      username: default-user
+      password: password
+      database: default-database
