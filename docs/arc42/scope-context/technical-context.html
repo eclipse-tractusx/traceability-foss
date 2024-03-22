@@ -479,7 +479,7 @@ Then once a user is authorized and has proper role within Trace-X backend, the b
 <h3 id="_outdated_registry_api">[Outdated] Registry API</h3>
 <div class="imageblock">
 <div class="content">
-<img src="technical-context-registry.svg" alt="technical context registry" width="772" height="377">
+<img src="technical-context-registry.svg" alt="technical context registry" width="747" height="586">
 </div>
 </div>
 <div class="paragraph">
@@ -507,8 +507,10 @@ Request contains details required to start IRS fetch job provided by the compone
 </div>
 </div>
 <div class="paragraph">
-<p>The Trace-X acts as a consumer of the Portal component. The Trace-X contains a Restful client (REST template) that build a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
-Request contains "bpns" provided by the component during sending notifications. Like described in the above section, the security aspect is required in order to achieve a REST call against the Portal. As a response, the Trace-X gets the corresponding BPN mappings to EDC urls where a notification should be send over. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
+<p>The Trace-X acts as a consumer of the Portal component.
+The Trace-X contains a Restful client (REST template) that builds a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
+The Portal is used to authenticate users and requests against the backend.
+And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
 </div>
 </div>
 <div class="sect2">
@@ -519,7 +521,11 @@ Request contains "bpns" provided by the component during sending notifications. 
 </div>
 </div>
 <div class="paragraph">
-<p>The Trace-X acts as a consumer of the EDC component. In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality. Specific use cases can be viewed in <a href="../runtime-view/index.html">Runtime view</a> section. For this purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
+<p>The Trace-X acts as a consumer and provider of the EDC component.
+In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality.
+Specific use cases can be viewed in <a href="../runtime-view/index.html">Runtime view</a> section.
+For these purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component.
+And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
 </div>
 </div>
 </div>
@@ -527,7 +533,7 @@ Request contains "bpns" provided by the component during sending notifications. 
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-19 12:03:09 UTC
+Last updated 2024-03-22 09:19:06 UTC
 </div>
 </div>
 </body>

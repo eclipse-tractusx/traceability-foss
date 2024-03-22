@@ -474,7 +474,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_building_block_view">Building block view</a>
 <ul class="sectlevel2">
-<li><a href="#_whitebox_overall_system">Whitebox overall system</a></li>
+<li><a href="#_blackbox_overall_system">Blackbox overall system</a></li>
 <li><a href="#_level_1">Level 1</a></li>
 </ul>
 </li>
@@ -485,6 +485,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_data_consumption">Data consumption</a></li>
 <li><a href="#_data_provisioning">Data Provisioning</a></li>
 <li><a href="#_data_souvereignty">Data Souvereignty</a></li>
+<li><a href="#_policies">Policies</a></li>
+<li><a href="#_scheduler">Scheduler</a></li>
 </ul>
 </li>
 <li><a href="#_deployment_view">Deployment view</a></li>
@@ -941,7 +943,7 @@ Then once a user is authorized and has proper role within Trace-X backend, the b
 <h5 id="_outdated_registry_api">[Outdated] Registry API</h5>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/technical-context-registry.svg" alt="technical context registry" width="772" height="377">
+<img src="architecture-constraints/technical-context-registry.svg" alt="technical context registry" width="747" height="586">
 </div>
 </div>
 <div class="paragraph">
@@ -969,8 +971,10 @@ Request contains details required to start IRS fetch job provided by the compone
 </div>
 </div>
 <div class="paragraph">
-<p>The Trace-X acts as a consumer of the Portal component. The Trace-X contains a Restful client (REST template) that build a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
-Request contains "bpns" provided by the component during sending notifications. Like described in the above section, the security aspect is required in order to achieve a REST call against the Portal. As a response, the Trace-X gets the corresponding BPN mappings to EDC urls where a notification should be send over. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
+<p>The Trace-X acts as a consumer of the Portal component.
+The Trace-X contains a Restful client (REST template) that builds a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
+The Portal is used to authenticate users and requests against the backend.
+And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
 </div>
 </div>
 <div class="sect4">
@@ -981,7 +985,11 @@ Request contains "bpns" provided by the component during sending notifications. 
 </div>
 </div>
 <div class="paragraph">
-<p>The Trace-X acts as a consumer of the EDC component. In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality. Specific use cases can be viewed in <a href="../runtime-view/index.html">Runtime view</a> section. For this purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
+<p>The Trace-X acts as a consumer and provider of the EDC component.
+In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality.
+Specific use cases can be viewed in <a href="../runtime-view/index.html">Runtime view</a> section.
+For these purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component.
+And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
 </div>
 </div>
 </div>
@@ -1141,9 +1149,9 @@ It roughly can be broken down into the following parts:</p>
 <h2 id="_building_block_view">Building block view</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_whitebox_overall_system">Whitebox overall system</h3>
+<h3 id="_blackbox_overall_system">Blackbox overall system</h3>
 <div class="sect3">
-<h4 id="_outdated_component_diagram">[Outdated] Component diagram</h4>
+<h4 id="_component_diagram">Component diagram</h4>
 <div class="imageblock">
 <div class="content">
 <img src="architecture-constraints/whitebox-overview.svg" alt="whitebox overview" width="781" height="770">
@@ -1151,7 +1159,7 @@ It roughly can be broken down into the following parts:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_outdated_component_description">[Outdated] Component description</h4>
+<h4 id="_component_description">Component description</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1174,15 +1182,11 @@ It roughly can be broken down into the following parts:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDC Provider</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC Provider Component connects with EDC Consumer component and  forms the end point for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC Provider Component connects with EDC Consumer component and forms the endpoint for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Submodel Server</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The Submodel Server offers endpoints for requesting the Submodel aspects.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IAM/DAPS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DAPS as central Identity Provider</p></td>
 </tr>
 </tbody>
 </table>
@@ -1191,7 +1195,7 @@ It roughly can be broken down into the following parts:</p>
 <div class="sect2">
 <h3 id="_level_1">Level 1</h3>
 <div class="sect3">
-<h4 id="_component_diagram">Component diagram</h4>
+<h4 id="_component_diagram_2">Component diagram</h4>
 <div class="imageblock">
 <div class="content">
 <img src="architecture-constraints/level-1.svg" alt="level 1" width="876" height="663">
@@ -1199,7 +1203,7 @@ It roughly can be broken down into the following parts:</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_component_description">Component description</h4>
+<h4 id="_component_description_2">Component description</h4>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1278,8 +1282,8 @@ The same can be done with as planned assets.</p>
 <img src="architecture-constraints/return-all-assets.svg" alt="return all assets" width="1180" height="542">
 </div>
 </div>
-<div class="sect6">
-<h7 id="_overview">Overview</h7>
+<div class="sect4">
+<h5 id="_overview">Overview</h5>
 <div class="paragraph">
 <p>When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
 If yes, then the endpoint returns a pageable result of assets.</p>
@@ -1301,8 +1305,8 @@ The same can be done with as planned assets.</p>
 <img src="architecture-constraints/return-specific-assets.svg" alt="return specific assets" width="1309" height="542">
 </div>
 </div>
-<div class="sect6">
-<h7 id="_overview_2">Overview</h7>
+<div class="sect4">
+<h5 id="_overview_2">Overview</h5>
 <div class="paragraph">
 <p>When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.</p>
 </div>
@@ -1521,11 +1525,11 @@ If any of required Services are not available or returns Error response upon exe
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/return-all-assets.svg" alt="return all assets" width="1105" height="554">
+<img src="architecture-constraints/return-all-contracts.svg" alt="return all contracts" width="1105" height="554">
 </div>
 </div>
-<div class="sect6">
-<h7 id="_overview_9">Overview</h7>
+<div class="sect4">
+<h5 id="_overview_9">Overview</h5>
 <div class="paragraph">
 <p>In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
 If yes, then the requested assets will be mapped to the related contract agreement id.
@@ -1539,6 +1543,103 @@ These contract agreement ids will be then requested on EDC side via POST (/manag
 </div>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_policies">Policies</h3>
+<div class="sect3">
+<h4 id="_overview_10">Overview</h4>
+<div class="sect4">
+<h5 id="_scenario_1_start_up_interaction_with_irs_policy_store">Scenario 1: Start Up interaction with IRS Policy Store</h5>
+<div class="paragraph">
+<p>Trace-X instance define a constraint which is required for data consumption and provisioning.
+Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
+If a policy with the constraint exists and is valid process ends. If the policy is not valid it will create one with the given constraint.</p>
+</div>
+<div class="paragraph">
+<p>This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on Trace-X given constraint.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/policy-startup-configuration.svg" alt="policy startup configuration" width="487" height="287">
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_scenario_2_start_up_interaction_with_edc">Scenario 2: Start Up interaction with EDC</h5>
+<div class="paragraph">
+<p>Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC Policy Request.
+The EDC Policy Request will be used for creating a policy for the required notification contracts.</p>
+</div>
+<div class="paragraph">
+<p>This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on Trace-X given constraint and reuses it for creating an EDC Policy.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/policy-startup-notification-contract.svg" alt="policy startup notification contract" width="494" height="388">
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</h5>
+<div class="paragraph">
+<p>Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver edc.</p>
+</div>
+<div class="paragraph">
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of catalog offers by the receiver edc, to validate if sending is valid.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/policy-notifications.svg" alt="policy notifications" width="1171" height="1102">
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</h5>
+<div class="paragraph">
+<p>Trace-X instance uses the policy which includes the defined constraint and reuses it for creating edc assets .</p>
+</div>
+<div class="paragraph">
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering edc data assets.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/policy-assets.svg" alt="policy assets" width="560" height="329">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_scheduler">Scheduler</h3>
+<div class="paragraph">
+<p>An overview of the scheduler tasks configured in the system.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Scheduler Name</th>
+<th class="tableblock halign-left valign-top">Execution Interval</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PublishAssetsJob</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every hour at 30min</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines 'as-built' and 'as-planned' assets and initiates their publication for synchronization in the traceability system.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AssetsRefreshJob</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every 2 hours</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invokes the synchronization of asset shell descriptors with the decentralized registry. It ensures the latest asset information is fetched and updated in the system from external sources.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -2277,7 +2378,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-19 12:03:09 UTC
+Last updated 2024-03-22 09:19:06 UTC
 </div>
 </div>
 </body>

@@ -475,6 +475,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_scenario_1_return_asset_contract_agreements">Scenario 1: Return Asset Contract Agreements</a></li>
 </ul>
 </li>
+<li><a href="#_policies">Policies</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_10">Overview</a></li>
+</ul>
+</li>
+<li><a href="#_scheduler">Scheduler</a></li>
 </ul>
 </div>
 </div>
@@ -501,8 +507,8 @@ The same can be done with as planned assets.</p>
 <img src="return-all-assets.svg" alt="return all assets" width="1180" height="542">
 </div>
 </div>
-<div class="sect5">
-<h6 id="_overview">Overview</h6>
+<div class="sect3">
+<h4 id="_overview">Overview</h4>
 <div class="paragraph">
 <p>When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
 If yes, then the endpoint returns a pageable result of assets.</p>
@@ -524,8 +530,8 @@ The same can be done with as planned assets.</p>
 <img src="return-specific-assets.svg" alt="return specific assets" width="1309" height="542">
 </div>
 </div>
-<div class="sect5">
-<h6 id="_overview_2">Overview</h6>
+<div class="sect3">
+<h4 id="_overview_2">Overview</h4>
 <div class="paragraph">
 <p>When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.</p>
 </div>
@@ -752,11 +758,11 @@ If any of required Services are not available or returns Error response upon exe
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="return-all-assets.svg" alt="return all assets" width="1105" height="554">
+<img src="return-all-contracts.svg" alt="return all contracts" width="1105" height="554">
 </div>
 </div>
-<div class="sect5">
-<h6 id="_overview_9">Overview</h6>
+<div class="sect3">
+<h4 id="_overview_9">Overview</h4>
 <div class="paragraph">
 <p>In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
 If yes, then the requested assets will be mapped to the related contract agreement id.
@@ -772,10 +778,111 @@ These contract agreement ids will be then requested on EDC side via POST (/manag
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_policies">Policies</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_overview_10">Overview</h3>
+<div class="sect3">
+<h4 id="_scenario_1_start_up_interaction_with_irs_policy_store">Scenario 1: Start Up interaction with IRS Policy Store</h4>
+<div class="paragraph">
+<p>Trace-X instance define a constraint which is required for data consumption and provisioning.
+Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
+If a policy with the constraint exists and is valid process ends. If the policy is not valid it will create one with the given constraint.</p>
+</div>
+<div class="paragraph">
+<p>This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on Trace-X given constraint.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="policy-startup-configuration.svg" alt="policy startup configuration" width="487" height="287">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scenario_2_start_up_interaction_with_edc">Scenario 2: Start Up interaction with EDC</h4>
+<div class="paragraph">
+<p>Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC Policy Request.
+The EDC Policy Request will be used for creating a policy for the required notification contracts.</p>
+</div>
+<div class="paragraph">
+<p>This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on Trace-X given constraint and reuses it for creating an EDC Policy.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="policy-startup-notification-contract.svg" alt="policy startup notification contract" width="494" height="388">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</h4>
+<div class="paragraph">
+<p>Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver edc.</p>
+</div>
+<div class="paragraph">
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of catalog offers by the receiver edc, to validate if sending is valid.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="policy-notifications.svg" alt="policy notifications" width="1171" height="1102">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</h4>
+<div class="paragraph">
+<p>Trace-X instance uses the policy which includes the defined constraint and reuses it for creating edc assets .</p>
+</div>
+<div class="paragraph">
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering edc data assets.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="policy-assets.svg" alt="policy assets" width="560" height="329">
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_scheduler">Scheduler</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>An overview of the scheduler tasks configured in the system.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Scheduler Name</th>
+<th class="tableblock halign-left valign-top">Execution Interval</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PublishAssetsJob</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every hour at 30min</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines 'as-built' and 'as-planned' assets and initiates their publication for synchronization in the traceability system.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AssetsRefreshJob</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every 2 hours</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invokes the synchronization of asset shell descriptors with the decentralized registry. It ensures the latest asset information is fetched and updated in the system from external sources.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-19 12:03:09 UTC
+Last updated 2024-03-22 09:19:06 UTC
 </div>
 </div>
 </body>

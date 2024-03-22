@@ -161,14 +161,20 @@ Request contains details required to start IRS fetch job provided by the compone
 
 ![arc42_003](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_003.png)
 
-The Trace-X acts as a consumer of the Portal component. The Trace-X contains a Restful client (REST template) that build a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
-Request contains "bpns" provided by the component during sending notifications. Like described in the above section, the security aspect is required in order to achieve a REST call against the Portal. As a response, the Trace-X gets the corresponding BPN mappings to EDC urls where a notification should be send over. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
+The Trace-X acts as a consumer of the Portal component.
+The Trace-X contains a Restful client (REST template) that builds a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
+The Portal is used to authenticate users and requests against the backend.
+And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
 
 #### [Outdated] EDC API
 
 ![arc42_004](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_004.png)
 
-The Trace-X acts as a consumer of the EDC component. In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality. Specific use cases can be viewed in [Runtime view](../runtime-view/index.adoc) section. For this purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
+The Trace-X acts as a consumer and provider of the EDC component.
+In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality.
+Specific use cases can be viewed in [Runtime view](../runtime-view/index.adoc) section.
+For these purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component.
+And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
 
 ## Solution strategy
 
@@ -217,9 +223,9 @@ The backend does a request to the Digital Twin Registry utilizing the Registry c
 
 ## Building block view
 
-## Whitebox overall system
+## Blackbox overall system
 
-### [Outdated] Component diagram
+### Component diagram
 
 ![arc42_005](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_005.png)
 ```bash
@@ -229,15 +235,14 @@ Component Diagram
 
 ```
 
-### [Outdated] Component description
+### Component description
 
 | Components | Description |
 | --- | --- |
 | IRS | The IRS consumes relationship information across the CX-Network and builds the graph view. Within this Documentation, the focus lies on the IRS |
 | EDC Consumer | The EDC Consumer Component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC Consumer consists out of a control plane and a data plane. |
-| EDC Provider | The EDC Provider Component connects with EDC Consumer component and  forms the end point for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications. |
+| EDC Provider | The EDC Provider Component connects with EDC Consumer component and forms the endpoint for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications. |
 | Submodel Server | The Submodel Server offers endpoints for requesting the Submodel aspects. |
-| IAM/DAPS | DAPS as central Identity Provider |
 
 ## Level 1
 
@@ -274,7 +279,7 @@ The same can be done with as planned assets.
 
 ![arc42_007](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_007.png)
 
-##### Overview
+### Overview
 
 When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
 If yes, then the endpoint returns a pageable result of assets.
@@ -289,7 +294,7 @@ The same can be done with as planned assets.
 
 ![arc42_008](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_008.png)
 
-##### Overview
+### Overview
 
 When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.
 
@@ -417,7 +422,7 @@ If any of required Services are not available or returns Error response upon exe
 
 This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).
 
-##### Overview
+### Overview
 
 In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
 If yes, then the requested assets will be mapped to the related contract agreement id.
@@ -426,6 +431,68 @@ These contract agreement ids will be then requested on EDC side via POST (/manag
 The contract information is then returned by the endpoint as a pageable result.
 
 If no asset ids are provided in the request, 50 contract agreement ids are handled by default.
+
+## Policies
+
+### Overview
+
+#### Scenario 1: Start Up interaction with IRS Policy Store
+
+Trace-X instance define a constraint which is required for data consumption and provisioning.
+Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
+If a policy with the constraint exists and is valid process ends. If the policy is not valid it will create one with the given constraint.
+
+This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on Trace-X given constraint.
+
+![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
+```bash
+
+
+
+
+
+
+```
+
+#### Scenario 2: Start Up interaction with EDC
+
+Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC Policy Request.
+The EDC Policy Request will be used for creating a policy for the required notification contracts.
+
+This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on Trace-X given constraint and reuses it for creating an EDC Policy.
+
+![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+```bash
+
+
+
+```
+
+#### Scenario 3: Provisioning of notifications
+
+Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver edc.
+
+This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of catalog offers by the receiver edc, to validate if sending is valid.
+
+![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
+
+#### Scenario 4: Provisioning of assets
+
+Trace-X instance uses the policy which includes the defined constraint and reuses it for creating edc assets .
+
+This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering edc data assets.
+
+![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
+
+## Scheduler
+
+An overview of the scheduler tasks configured in the system.
+
+|     |     |     |
+| --- | --- | --- |
+| Scheduler Name | Execution Interval | Description |
+| PublishAssetsJob | Every hour at 30min | Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines 'as-built' and 'as-planned' assets and initiates their publication for synchronization in the traceability system. |
+| AssetsRefreshJob | Every 2 hours | Invokes the synchronization of asset shell descriptors with the decentralized registry. It ensures the latest asset information is fetched and updated in the system from external sources. |
 
 ## Deployment view
 
@@ -436,12 +503,12 @@ If no asset ids are provided in the request, 50 contract agreement ids are handl
 Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-Relationship Model (ERM) in its current state.
 
 ```bash
-image::./assets/arc42/arc42_015.png[]
+image::./assets/arc42/arc42_019.png[]
 ```
 
 #### Quality Notifications
 
-![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+![arc42_020](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_020.png)
 ```bash
 
 ```
@@ -726,7 +793,7 @@ This section includes concrete quality scenarios to better capture the key quali
 
 The tree structure provides an overview for a sometimes large number of quality requirements.
 
-![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
+![arc42_021](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_021.png)
 
 ## Quality scenarios
 

@@ -258,6 +258,21 @@ Detailed information on the IDs for the manufactured part/batch.
 
 Information about the identifiers at the customer for the respective part/batch.
 
+##### Traction battery code data
+
+If the asset has the "traction battery code" aspect model, an additional section underneath will be displayed.
+In this section there are detailed information about the traction battery and a table with its subcomponents
+
+##### Creation of a quality incident from detailed view
+
+By clicking on the "announcement" icon you can create a quality incident from the detailed view, containing the part information in the currently opened detailed view. If this
+functionality is disabled, a tooltip will provide information explaining the reason. You can trigger the tooltip by hovering above the button.
+
+##### Publish asset from detailed view
+
+By clicking on the "publish" icon, you can publish the currently opened part from the detailed view. If the icon is disabled,
+a tooltip will provide information explaining the reason. You can trigger the tooltip by hovering above the button
+
 ### Other parts
 
 List view of the supplied/delivered parts and batches (Supplier parts / Customer parts).

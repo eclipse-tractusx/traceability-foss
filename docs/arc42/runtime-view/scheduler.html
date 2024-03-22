@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Whitebox overall system</title>
+<title>Scheduler</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,71 +437,44 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Whitebox overall system</h1>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_outdated_component_diagram">[Outdated] Component diagram</a></li>
-<li><a href="#_outdated_component_description">[Outdated] Component description</a></li>
-</ul>
-</div>
+<h1>Scheduler</h1>
 </div>
 <div id="content">
-<div class="sect1">
-<h2 id="_outdated_component_diagram">[Outdated] Component diagram</h2>
-<div class="sectionbody">
-<div class="imageblock">
-<div class="content">
-<img src="whitebox-overview.svg" alt="whitebox overview" width="781" height="770">
+<div class="paragraph">
+<p>An overview of the scheduler tasks configured in the system.</p>
 </div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_outdated_component_description">[Outdated] Component description</h2>
-<div class="sectionbody">
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Components</th>
+<th class="tableblock halign-left valign-top">Scheduler Name</th>
+<th class="tableblock halign-left valign-top">Execution Interval</th>
 <th class="tableblock halign-left valign-top">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IRS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The IRS consumes relationship information across the CX-Network and builds the graph view. Within this Documentation, the focus lies on the IRS</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">PublishAssetsJob</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every hour at 30min</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines 'as-built' and 'as-planned' assets and initiates their publication for synchronization in the traceability system.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EDC Consumer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC Consumer Component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC Consumer consists out of a control plane and a data plane.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EDC Provider</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC Provider Component connects with EDC Consumer component and  forms the end point for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Submodel Server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The Submodel Server offers endpoints for requesting the Submodel aspects.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IAM/DAPS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">DAPS as central Identity Provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AssetsRefreshJob</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Every 2 hours</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Invokes the synchronization of asset shell descriptors with the decentralized registry. It ensures the latest asset information is fetched and updated in the system from external sources.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</div>
-</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-19 12:03:09 UTC
+Last updated 2024-03-22 09:19:06 UTC
 </div>
 </div>
 </body>
