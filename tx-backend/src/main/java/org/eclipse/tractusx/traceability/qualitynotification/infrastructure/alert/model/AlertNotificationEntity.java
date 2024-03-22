@@ -102,6 +102,7 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .assets(notificationAssets)
                 .notificationReferenceId(qualityNotificationMessage.getNotificationReferenceId())
                 .targetDate(qualityNotificationMessage.getTargetDate())
+                .errorMessage(qualityNotificationMessage.getErrorMessage())
                 .severity(qualityNotificationMessage.getSeverity())
                 .edcNotificationId(qualityNotificationMessage.getEdcNotificationId())
                 .status(NotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))

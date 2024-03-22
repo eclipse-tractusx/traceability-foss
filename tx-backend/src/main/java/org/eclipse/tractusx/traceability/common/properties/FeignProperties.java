@@ -21,6 +21,9 @@
 
 package org.eclipse.tractusx.traceability.common.properties;
 
+import lombok.Getter;
+
+@Getter
 public class FeignProperties {
 
     private final Long connectionTimeoutMillis;
@@ -38,19 +41,4 @@ public class FeignProperties {
         this.keepAliveDurationMinutes = keepAliveDurationMinutes;
     }
 
-    public Long getConnectionTimeoutMillis() {
-        return connectionTimeoutMillis;
-    }
-
-    public Long getReadTimeoutMillis() {
-        return readTimeoutMillis;
-    }
-
-    public int getMaxIdleConnections() {
-        return maxIdleConnections;
-    }
-
-    public Long getKeepAliveDurationMinutes() {
-        return keepAliveDurationMinutes;
-    }
 }

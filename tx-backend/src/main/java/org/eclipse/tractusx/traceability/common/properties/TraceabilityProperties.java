@@ -52,8 +52,4 @@ public class TraceabilityProperties {
     private String irsBase;
     private String submodelBase;
 
-    public String getIrsJobCallbackUrl() {
-        return url+"/irs/job/callback?id={id}&state={state}";
-    }
-
 }

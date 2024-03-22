@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,28 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.assets.domain.base;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 
 import java.util.List;
 
-public interface IrsRepository {
-    /**
-     * Finds a list of assets with the given global asset ID and direction.
-     *
-     * @param globalAssetId the global asset ID to search for
-     * @param direction     the direction of the search
-     * @param aspects       the list of aspects
-     */
-    void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+public interface PolicyRepository {
+    List<IrsPolicyResponse> getPolicies();
 
     void createIrsPolicyIfMissing();
-
-    void handleJobFinishedCallback(String jobId, String jobState);
-
-    List<IrsPolicyResponse> getPolicies();
 }

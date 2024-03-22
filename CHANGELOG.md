@@ -8,18 +8,25 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
 ## [UNRELEASED - DD.MM.YYYY]
-
 ### Added
+- #695 OAuth2.0 Client scope configuration
 - #606 Added error message into notifications on failure
+- #596 Added Policy management documentation
+- Added overview of the scheduler tasks in documentation
 
 ### Changed
-
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
 - #606 cucumber tests retry on error
 - #606 refactored response model to only be used by common model package tx-models
-
+- #709 Fixed CVE-2024-22257 overriding spring-security-core from 6.1.7 to 6.2.3
+- #596 Policy management has been moved to different module
+- #762 updated documentation for release 24.5
 
 ### Removed
+- Shedlock, resilence4j, templateResolver as not used anymore
+
+### Added
+- #630 Added Parts extended detailed view
 
 ## [10.7.0 - 18.03.2024]
 
