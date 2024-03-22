@@ -5,8 +5,8 @@
     <mat-list>
       <ng-container *ngFor="let asset of selectedAssets">
         <mat-list-item>
-          <span matListItemTitle>{{asset.nameAtManufacturer}}</span>
-          <span matListItemLine>{{asset.id}}</span>
+          <span matListItemTitle>{{asset?.nameAtManufacturer}}</span>
+          <span matListItemLine>{{asset?.id}}</span>
         </mat-list-item>
       </ng-container>
     </mat-list>
@@ -17,8 +17,8 @@
     <mat-form-field appearance="fill">
       <mat-label>{{'publisher.selectPolicyLabel' | i18n}}</mat-label>
       <mat-select [formControl]="policyFormControl" required>
-        <mat-option *ngFor="let policy of policiesList" [value]="policy.policyId">
-          {{policy.policyId}}
+        <mat-option *ngFor="let policy of policiesList" [value]="policy?.policyId">
+          {{policy?.policyId}}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="policyFormControl.invalid">{{'publisher.selectPolicyError' | i18n}}</mat-error>

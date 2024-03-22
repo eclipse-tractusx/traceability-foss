@@ -23,6 +23,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Removed
 - Shedlock, resilence4j, templateResolver as not used anymore
 
+### Added
+- #630 Added Parts extended detailed view
+
 ## [10.7.0 - 18.03.2024]
 
 ### Added

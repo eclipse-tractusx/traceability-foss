@@ -24,7 +24,6 @@ import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsModule } from '@page/parts/parts.module';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
@@ -42,7 +41,7 @@ describe('StartInvestigationComponent', () => {
   const renderStartInvestigation = async () => {
     const { fixture } = await renderComponent(StartInvestigationComponent, {
       declarations: [ StartInvestigationComponent ],
-      imports: [ PartDetailsModule, PartsModule, OtherPartsModule, LayoutModule ],
+      imports: [ PartsModule, OtherPartsModule, LayoutModule ],
       providers: [ StaticIdService ],
     });
 

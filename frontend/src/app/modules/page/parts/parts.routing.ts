@@ -19,11 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RelationComponent } from '@page/parts/presentation/relation/relation.component';
-import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
-import { PartsComponent } from './presentation/parts.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {PartsDetailComponent} from '@page/parts/detail/parts-detail.component';
+import {RelationComponent} from '@page/parts/presentation/relation/relation.component';
+import {I18NEXT_NAMESPACE_RESOLVER} from 'angular-i18next';
+import {PartsComponent} from './presentation/parts.component';
 
 export /** @type {*} */
 const PARTS_ROUTING: Routes = [
@@ -45,6 +46,13 @@ const PARTS_ROUTING: Routes = [
     path: 'relations/:partId',
     pathMatch: 'full',
     component: RelationComponent,
+    data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+  {
+    path: ':partId',
+    pathMatch: 'full',
+    component: PartsDetailComponent,
     data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },

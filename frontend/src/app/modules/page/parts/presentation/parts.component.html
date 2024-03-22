@@ -126,8 +126,6 @@ SPDX-License-Identifier: Apache-2.0
     </as-split>
   </div>
 
-  <app-part-detail></app-part-detail>
-
   <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
     <app-asset-publisher
     [selectedAssets] = "allSelectedItems$ | async"
