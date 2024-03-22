@@ -120,7 +120,7 @@ SPDX-License-Identifier: Apache-2.0
                 [labelId]="'dashboard-investigations-received'"
                 [hasPagination]="false"
                 [optionalColumns]="['targetDate', 'severity', 'createdBy']"
-                (selected)="onInvestigationSelected($event)"
+                (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
           </mat-card>
@@ -161,7 +161,7 @@ SPDX-License-Identifier: Apache-2.0
                 [labelId]="'dashboard-investigations-created'"
                 [hasPagination]="false"
                 [optionalColumns]="['targetDate', 'severity', 'createdBy']"
-                (selected)="onInvestigationSelected($event)"
+                (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
           </mat-card>

@@ -8,7 +8,6 @@
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "investigations": "Quality investigations",
     "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
@@ -33,7 +32,6 @@
     "about": "About Catena-X Open-Source Traceability",
     "relations": "Part Relations",
     "admin": "Administration Catena-X",
-    "investigations": "Quality Investigations",
     "alerts": "Quality Alerts"
   },
   "layout": {
@@ -88,8 +86,7 @@
       "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
       "refreshTooltip": "Reset individual table column settings to default",
       "saveAction": "Save",
-      "alert": "Quality Alert",
-      "investigation": "Quality Investigation"
+      "alert": "Quality Alert"
     },
     "column": {
       "id": "ID",
