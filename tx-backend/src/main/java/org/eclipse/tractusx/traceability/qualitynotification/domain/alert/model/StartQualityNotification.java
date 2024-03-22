@@ -23,6 +23,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 
 import java.time.Instant;
@@ -41,6 +42,8 @@ public class StartQualityNotification {
 
     private QualityNotificationSeverity severity;
 
+    private QualityNotificationType type;
+
     private boolean isAsBuilt;
 
     private String receiverBpn;
@@ -52,6 +55,7 @@ public class StartQualityNotification {
                 .description(startQualityNotificationRequest.getDescription())
                 .targetDate(startQualityNotificationRequest.getTargetDate())
                 .severity(QualityNotificationSeverity.from(startQualityNotificationRequest.getSeverity()))
+                .type(QualityNotificationType.from(startQualityNotificationRequest.getType()))
                 .receiverBpn(startQualityNotificationRequest.getReceiverBpn())
                 .isAsBuilt(startQualityNotificationRequest.isAsBuilt())
                 .build();

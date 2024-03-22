@@ -40,6 +40,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
@@ -85,6 +86,11 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     @Override
     public long countOpenNotificationsByOwnership(List<Owner> owners) {
         return jpaInvestigationRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(QualityNotificationStatus.ACTIVE_STATES)).stream().map(InvestigationEntity::getAssets).flatMap(Collection::stream).filter(assetAsBuiltEntity -> owners.contains(assetAsBuiltEntity.getOwner())).distinct().toList().size();
+    }
+
+    @Override
+    public long countOpenNotificationsByOwnershipAndNotificationType(List<Owner> owners, QualityNotificationType notificationType) {
+        return 0;
     }
 
     @Override
@@ -155,6 +161,11 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     @Override
     public long countQualityNotificationEntitiesBySide(QualityNotificationSide investigationSide) {
         return jpaInvestigationRepository.countAllBySideEquals(NotificationSideBaseEntity.valueOf(investigationSide.name()));
+    }
+
+    @Override
+    public long countQualityNotificationEntitiesBySideAndNotificationType(QualityNotificationSide investigationSide, QualityNotificationType notificationType) {
+        return 0;
     }
 
     private void handleNotificationUpdate(InvestigationEntity investigationEntity, QualityNotification investigation) {

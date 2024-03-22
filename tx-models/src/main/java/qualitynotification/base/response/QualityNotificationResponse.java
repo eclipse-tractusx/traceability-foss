@@ -82,6 +82,10 @@ public class QualityNotificationResponse {
     @Size(max = 255)
     private QualityNotificationSeverityResponse severity;
 
+    @Schema(example = "ALERT", maxLength = 50)
+    @Size(max = 50)
+    private QualityNotificationTypeResponse type;
+
     @Schema(example = "2099-02-21T21:27:10.734950Z", maxLength = 50)
     @Size(max = 50)
     private String targetDate;

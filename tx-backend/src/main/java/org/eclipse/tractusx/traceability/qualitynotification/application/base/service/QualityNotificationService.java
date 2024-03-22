@@ -31,7 +31,7 @@ import java.util.List;
 
 public interface QualityNotificationService {
 
-    QualityNotificationId start(StartQualityNotification startQualityAlertDomain);
+    QualityNotificationId start(StartQualityNotification startQualityNotification);
 
     QualityNotification find(Long notificationId);
 

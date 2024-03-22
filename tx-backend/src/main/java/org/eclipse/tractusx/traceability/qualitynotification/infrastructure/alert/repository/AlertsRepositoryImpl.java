@@ -38,6 +38,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
@@ -169,6 +170,11 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
     @Override
+    public long countOpenNotificationsByOwnershipAndNotificationType(List<Owner> owners, QualityNotificationType notificationType) {
+        return 0;
+    }
+
+    @Override
     public Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId) {
         return jpaAlertRepository.findByNotificationsEdcNotificationId(edcNotificationId)
                 .map(AlertEntity::toDomain);
@@ -177,6 +183,11 @@ public class AlertsRepositoryImpl implements AlertRepository {
     @Override
     public long countQualityNotificationEntitiesBySide(QualityNotificationSide alertSide) {
         return jpaAlertRepository.countAllBySideEquals(NotificationSideBaseEntity.valueOf(alertSide.name()));
+    }
+
+    @Override
+    public long countQualityNotificationEntitiesBySideAndNotificationType(QualityNotificationSide investigationSide, QualityNotificationType notificationType) {
+        return 0;
     }
 
     private void handleNotificationUpdate(AlertEntity alertEntity, QualityNotification alert) {

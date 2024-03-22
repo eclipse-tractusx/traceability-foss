@@ -59,4 +59,7 @@ public class StartQualityNotificationRequest {
     @Schema(example = "BPN00001123123AS")
     private String receiverBpn;
 
+    @Schema(example = "ALERT")
+    private QualityNotificationTypeRequest type;
+
 }

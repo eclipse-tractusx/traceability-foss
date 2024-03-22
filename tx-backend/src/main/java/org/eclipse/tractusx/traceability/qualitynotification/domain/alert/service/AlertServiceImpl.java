@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
@@ -33,16 +34,16 @@ import org.springframework.stereotype.Service;
 public class AlertServiceImpl extends AbstractQualityNotificationService {
 
 
-    private final AlertRepository alertRepository;
+    private final NotificationRepository notificationRepository;
 
-    public AlertServiceImpl(TraceabilityProperties traceabilityProperties, AlertRepository alertRepository, NotificationPublisherService notificationPublisherService) {
+    public AlertServiceImpl(TraceabilityProperties traceabilityProperties, NotificationRepository alertRepository, NotificationPublisherService notificationPublisherService) {
         super(traceabilityProperties, notificationPublisherService);
-        this.alertRepository = alertRepository;
+        this.notificationRepository = alertRepository;
     }
 
     @Override
     protected QualityNotificationRepository getQualityNotificationRepository() {
-        return alertRepository;
+        return notificationRepository;
     }
 
     @Override

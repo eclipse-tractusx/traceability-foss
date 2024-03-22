@@ -50,6 +50,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.QualityNotificationTypeRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
@@ -273,6 +274,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val startInvestigationRequest = StartQualityNotificationRequest.builder()
                 .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
                 .description("at least 15 characters long investigation description")
+                .type(QualityNotificationTypeRequest.INVESTIGATION)
                 .severity(QualityNotificationSeverityRequest.MAJOR)
                 .isAsBuilt(true)
                 .build();

@@ -43,6 +43,7 @@ public class QualityNotification {
     private String description;
     private Instant createdAt;
     private QualityNotificationSide notificationSide;
+    private QualityNotificationType notificationType;
     @Builder.Default
     private List<String> assetIds = new ArrayList<>();
     private String closeReason;
@@ -53,11 +54,24 @@ public class QualityNotification {
     private List<QualityNotificationMessage> notifications = List.of();
 
 
+    // TODO cleanup afterwards
     public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
         return QualityNotification.builder()
                 .bpn(bpn)
                 .notificationStatus(QualityNotificationStatus.CREATED)
                 .notificationSide(QualityNotificationSide.SENDER)
+                .description(description)
+                .createdAt(createDate)
+                .assetIds(Collections.emptyList())
+                .build();
+    }
+
+    public static QualityNotification startNotification(Instant createDate, BPN bpn, String description, QualityNotificationType notificationType) { // rename to generic
+        return QualityNotification.builder()
+                .bpn(bpn)
+                .notificationStatus(QualityNotificationStatus.CREATED)
+                .notificationSide(QualityNotificationSide.SENDER)
+                .notificationType(notificationType)
                 .description(description)
                 .createdAt(createDate)
                 .assetIds(Collections.emptyList())

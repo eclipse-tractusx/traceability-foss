@@ -33,6 +33,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationNotSupportedException;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,7 @@ public class NotificationPublisherService {
      * @param isAsBuilt   the isAsBuilt of the investigation
      * @return the ID of the newly created investigation
      */
+    // TODO remove
     public QualityNotification startQualityNotification(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
@@ -78,7 +80,27 @@ public class NotificationPublisherService {
                     .map(it -> {
                         String creator = getManufacturerNameByBpn(traceabilityProperties.getBpn().value());
                         String sendToName = getManufacturerNameByBpn(receiverBpn);
-                        return QualityNotificationMessage.create(applicationBPN, receiverBpn, description, targetDate, severity, it, creator, sendToName);
+                        return QualityNotificationMessage.create(applicationBPN, receiverBpn, description, targetDate, severity,QualityNotificationType.INVESTIGATION,  it, creator, sendToName);
+                    })
+                    .forEach(notification::addNotification);
+            return notification;
+        } else {
+            throw new NotificationNotSupportedException();
+        }
+    }
+
+    public QualityNotification startQualityNotification(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, QualityNotificationType type, String receiverBpn, boolean isAsBuilt) {
+        BPN applicationBPN = traceabilityProperties.getBpn();
+        QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description, type);
+        if (isAsBuilt) {
+            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(assetIds).stream().collect(groupingBy(AssetBase::getManufacturerId));
+            assetsAsBuiltBPNMap
+                    .entrySet()
+                    .stream()
+                    .map(it -> {
+                        String creator = getManufacturerNameByBpn(traceabilityProperties.getBpn().value());
+                        String sendToName = getManufacturerNameByBpn(receiverBpn);
+                        return QualityNotificationMessage.create(applicationBPN, receiverBpn, description, targetDate, severity, type, it, creator, sendToName);
                     })
                     .forEach(notification::addNotification);
             return notification;

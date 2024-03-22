@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,26 +17,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Service;
 
-@Slf4j
-@Service("investigationServiceImpl")
-public class InvestigationServiceImpl extends AbstractQualityNotificationService {
+@Service("notificationServiceImpl")
+public class NotificationServiceImpl extends AbstractQualityNotificationService {
+
 
     private final NotificationRepository notificationRepository;
 
-    public InvestigationServiceImpl(TraceabilityProperties traceabilityProperties, NotificationRepository notificationRepository, NotificationPublisherService notificationPublisherService) {
+    public NotificationServiceImpl(TraceabilityProperties traceabilityProperties, NotificationRepository alertRepository, NotificationPublisherService notificationPublisherService) {
         super(traceabilityProperties, notificationPublisherService);
-        this.notificationRepository = notificationRepository;
+        this.notificationRepository = alertRepository;
     }
 
     @Override
@@ -46,8 +45,6 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
 
     @Override
     public RuntimeException getNotFoundException(String message) {
-        return new InvestigationNotFoundException(message);
+        return new AlertNotFoundException(message);
     }
-
-
 }

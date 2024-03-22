@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -42,6 +43,8 @@ public interface QualityNotificationRepository {
 
     long countQualityNotificationEntitiesBySide(QualityNotificationSide investigationSide);
 
+    long countQualityNotificationEntitiesBySideAndNotificationType(QualityNotificationSide investigationSide, QualityNotificationType notificationType);
+
     QualityNotificationId saveQualityNotificationEntity(QualityNotification investigation);
 
     void updateQualityNotificationEntity(QualityNotification investigation);
@@ -49,6 +52,8 @@ public interface QualityNotificationRepository {
     PageResult<QualityNotification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
 
     long countOpenNotificationsByOwnership(List<Owner> owners);
+
+    long countOpenNotificationsByOwnershipAndNotificationType(List<Owner> owners, QualityNotificationType notificationType);
 
     List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, QualityNotificationSide owner);
 

@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.
 import org.junit.jupiter.api.Test;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.QualityNotificationTypeRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
@@ -85,7 +86,7 @@ public class EdcNotificationModelTest {
         partIds.add("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979\n");
         Instant targetDate = Instant.parse("2023-09-22T14:30:00Z".trim());
         QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
-        StartQualityNotificationRequest request = new StartQualityNotificationRequest(partIds, "The description\n", targetDate, severity, true, "BPN00001123123AS\n");
+        StartQualityNotificationRequest request = new StartQualityNotificationRequest(partIds, "The description\n", targetDate, severity, true, "BPN00001123123AS\n", QualityNotificationTypeRequest.ALERT);
 
 
         //WHEN
