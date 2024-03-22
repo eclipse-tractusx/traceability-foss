@@ -183,7 +183,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("totalItems", Matchers.is(8))
                 .body("content", Matchers.hasSize(8))
-                .body("content.status", Matchers.containsInRelativeOrder("ACCEPTED", "ACKNOWLEDGED", "CANCELED", "CLOSED", "CREATED", "DECLINED", "RECEIVED", "SENT"));
+                .body("content.status", Matchers.containsInRelativeOrder("CREATED", "SENT", "RECEIVED", "ACKNOWLEDGED", "CANCELED", "ACCEPTED", "DECLINED", "CLOSED"));
     }
 
     @Test
