@@ -1,4 +1,4 @@
-An overview of the scheduled tasks configured in the system.
+An overview of the scheduler tasks configured in the system.
 
 [options="header"]
 |===

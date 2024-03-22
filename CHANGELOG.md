@@ -12,7 +12,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #695 OAuth2.0 Client scope configuration
 - #606 Added error message into notifications on failure
 - #596 Added Policy management documentation
-- Added overview of the scheduled tasks in documentation
+- Added overview of the scheduler tasks in documentation
 
 ### Changed
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
