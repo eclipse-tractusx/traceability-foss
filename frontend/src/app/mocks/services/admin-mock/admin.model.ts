@@ -224,91 +224,104 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2024-02-26T13:38:07+01:00",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc2",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc3",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc4",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc5",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc6",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc7",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc8",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc9",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc10",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc11",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc12",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       },
       {
         "contractId": "abc13",
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
-        "state": ContractState.FINALIZED
+        "state": ContractState.FINALIZED,
+        "policy": "jsontextaspolicy"
       }
     ],
   };

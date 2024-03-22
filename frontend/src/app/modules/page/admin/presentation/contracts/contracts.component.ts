@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Pagination } from '@core/model/pagination.model';
-import { AdminFacade } from '@page/admin/core/admin.facade';
-import { Contract, KnownAdminRoutes } from '@page/admin/core/admin.model';
-import { ContractsFacade } from '@page/admin/presentation/contracts/contracts.facade';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
-import { View } from '@shared/model/view.model';
-import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
-import { Observable } from 'rxjs';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
+import {Pagination} from '@core/model/pagination.model';
+import {AdminFacade} from '@page/admin/core/admin.facade';
+import {Contract, KnownAdminRoutes} from '@page/admin/core/admin.model';
+import {ContractsFacade} from '@page/admin/presentation/contracts/contracts.facade';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {CreateHeaderFromColumns, TableConfig, TableEventConfig} from '@shared/components/table/table.model';
+import {View} from '@shared/model/view.model';
+import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-contracts',
@@ -101,7 +101,6 @@ export class ContractsComponent {
 
   openDetailedView(selectedContract: Record<string, unknown>) {
     this.contractsFacade.selectedContract = selectedContract as unknown as Contract;
-    console.log(KnownAdminRoutes.CONTRACT+'/'+this.contractsFacade.selectedContract.contractId)
     this.router.navigate(['admin/'+KnownAdminRoutes.CONTRACT+'/'+this.contractsFacade.selectedContract.contractId]);
   }
 

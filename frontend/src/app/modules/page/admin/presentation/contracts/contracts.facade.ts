@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
-import { Contract } from '@page/admin/core/admin.model';
-import { AdminService } from '@page/admin/core/admin.service';
-import { ContractsState } from '@page/admin/presentation/contracts/contracts.state';
-import { provideDataObject } from '@page/parts/core/parts.helper';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { View } from '@shared/model/view.model';
-import { Observable, Subject, Subscription } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Pagination} from '@core/model/pagination.model';
+import {Contract} from '@page/admin/core/admin.model';
+import {AdminService} from '@page/admin/core/admin.service';
+import {ContractsState} from '@page/admin/presentation/contracts/contracts.state';
+import {provideDataObject} from '@page/parts/core/parts.helper';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {View} from '@shared/model/view.model';
+import {Observable, Subject, Subscription} from 'rxjs';
 
 @Injectable()
 export class ContractsFacade {
@@ -42,6 +42,13 @@ export class ContractsFacade {
 
   public set selectedContract(contract: Contract) {
     this.contractsState.selectedContract = {data: contract};
+  }
+
+  public setSelectedContractById(contractId: string): void {
+    this.selectedContractSubscription = this.adminService.getContracts(0, 10, [null,null], {contractId: [contractId]}).subscribe({
+      next: data => (this.contractsState.selectedContract = { data: data.content as unknown as Contract}),
+      error: error => (this.contractsState.selectedContract = {error})
+    })
   }
 
 

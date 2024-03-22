@@ -20,9 +20,9 @@
  ********************************************************************************/
 
 
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Pagination, PaginationResponse } from '@core/model/pagination.model';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {CalendarDateModel} from '@core/model/calendar-date.model';
+import {Pagination, PaginationResponse} from '@core/model/pagination.model';
 
 export enum KnownAdminRoutes {
   BPN = 'configure-bpn',
@@ -53,7 +53,8 @@ export interface Contract {
   counterpartyAddress: string,
   creationDate: CalendarDateModel,
   endDate: CalendarDateModel,
-  state: ContractState
+  state: ContractState,
+  policy: string
 }
 
 export interface ContractResponse {
@@ -61,7 +62,8 @@ export interface ContractResponse {
   counterpartyAddress: string,
   creationDate: string,
   endDate: string,
-  state: ContractState
+  state: ContractState,
+  policy: string
 }
 
 export type ContractsResponse = PaginationResponse<ContractResponse>;
@@ -74,6 +76,7 @@ export function assembleContract(contractResponse: ContractResponse): Contract {
     creationDate: new CalendarDateModel(contractResponse.creationDate),
     endDate: new CalendarDateModel(contractResponse.endDate),
     state: contractResponse.state,
+    policy: contractResponse.policy
   };
 }
 

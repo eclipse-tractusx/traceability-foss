@@ -1,35 +1,80 @@
 <mat-card>
-  <mat-card-header class="flex-row">
-    <mat-card-title><h3 data-testid="admin_contracts_detail_view_header">{{"pageAdmin.contracts.contractDetailed" | i18n}}</h3></mat-card-title>
-  </mat-card-header>
+    <mat-card-header class="flex-row">
+        <mat-card-title><h3
+                data-testid="admin_contracts_detail_view_header">{{"pageAdmin.contracts.contractDetailed" | i18n}}</h3>
+        </mat-card-title>
+    </mat-card-header>
 
-  <mat-card-content>
-    <app-button
-      [color]="'primary'"
-      (click)="null"
-    >
-      <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">arrow_back</mat-icon>
-        {{ 'actions.goBack' | i18n }}
-      </div>
-    </app-button>
+    <mat-card-content>
+        <app-button
+                [color]="'primary'"
+                (click)="navigateBack()"
+        >
+            <div class="flex justify-between items-center">
+                <mat-icon class="mr-2">arrow_back</mat-icon>
+                {{ 'actions.goBack' | i18n }}
+            </div>
+        </app-button>
 
-    <ng-container *viewContainer="selectedContractDetails$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-    <ng-template #mainTmp let-contract="view">
-      <app-card-list
-      [title]="'pageAdmin.contract.overview'"
-      [list]="contract?.data"
-      ></app-card-list>
-    </ng-template>
+        <div class="cards-container">
+            <div class="cards-container-info-card">
+                <ng-container
+                        *viewContainer="selectedContractDetails$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp">
+                </ng-container>
+            </div>
 
-    <ng-template #errorTmp let-contract="view">
-      <app-data-loading-error [error]="contract.error"></app-data-loading-error>
-    </ng-template>
+            <mat-card class="cards-container-json-card">
+                <mat-card-header>
+                    <mat-card-title>{{'pageAdmin.contract.policyDetail'}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="policy--header--container flex justify-between">
+                        <div class="policy--header--container--selector flex">
+                            <app-view-selector
+                            (click)="defaultViewIsActivated = true;"
+                            [isSelected]="defaultViewIsActivated"
+                            >
+                                {{'JSON Viewer' | i18n }}
+                            </app-view-selector>
+                            <app-view-selector
+                            (click)="defaultViewIsActivated = false;"
+                            [isSelected]="!defaultViewIsActivated"
+                            >
+                                {{'JSON Tree Viewer' | i18n}}
+                            </app-view-selector>
+                        </div>
+                        <app-button
+                                [iconName]="'open_in_new'"
+                        >
+                        </app-button>
+                    </div>
+                    <div class="policy--content--container p-1">
+                        <ng-container *ngIf="!defaultViewIsActivated; else jsonViewer">
+                            <ngx-json-viewer [json]="policyJson"></ngx-json-viewer>
+                        </ng-container>
+                        <ng-template #jsonViewer>
+                            <pre>{{policyJson | json}}</pre>
+                        </ng-template>
 
-    <ng-template #loaderTmp>
-      <mat-spinner></mat-spinner>
-    </ng-template>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <ng-template #mainTmp let-contract="view">
+            <app-card-list
+                    [title]="'pageAdmin.contract.overview'"
+                    [list]="contract?.data"
+            ></app-card-list>
+        </ng-template>
 
-  </mat-card-content>
+        <ng-template #errorTmp let-contract="view">
+            <app-data-loading-error [error]="contract.error"></app-data-loading-error>
+        </ng-template>
+
+        <ng-template #loaderTmp>
+            <mat-spinner></mat-spinner>
+        </ng-template>
+
+    </mat-card-content>
 
 </mat-card>
