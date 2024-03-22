@@ -16,6 +16,7 @@ export class ContractDetailComponent {
   selectedContractDetails$: Observable<View<Contract>>;
   policyJson: Object;
   defaultViewIsActivated: boolean = true;
+  isFullscreenMode: boolean = false;
 
   constructor(private readonly contractsFacade: ContractsFacade, private readonly route: ActivatedRoute, private readonly location: Location) {
   }
@@ -40,4 +41,5 @@ export class ContractDetailComponent {
 
   protected readonly TableType = TableType;
   protected readonly JSON = JSON;
+
 }

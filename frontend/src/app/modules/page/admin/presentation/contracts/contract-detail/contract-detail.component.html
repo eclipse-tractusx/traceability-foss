@@ -17,13 +17,13 @@
         </app-button>
 
         <div class="cards-container">
-            <div class="cards-container-info-card">
+            <div class="cards-container-info-card" *ngIf="!isFullscreenMode">
                 <ng-container
                         *viewContainer="selectedContractDetails$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp">
                 </ng-container>
             </div>
 
-            <mat-card class="cards-container-json-card">
+            <mat-card class="cards-container-json-card" [style.grid-column]="isFullscreenMode ? 'span 2' : 'span 1'">
                 <mat-card-header>
                     <mat-card-title>{{'pageAdmin.contract.policyDetail'}}</mat-card-title>
                 </mat-card-header>
@@ -45,6 +45,7 @@
                         </div>
                         <app-button
                                 [iconName]="'open_in_new'"
+                                (click)="isFullscreenMode = !isFullscreenMode"
                         >
                         </app-button>
                     </div>
