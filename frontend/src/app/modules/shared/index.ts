@@ -22,7 +22,6 @@
 export { NotificationModule } from './modules/notification/notification.module';
 export { PartDetailsFacade } from './modules/part-details/core/partDetails.facade';
 export { PartDetailsState } from './modules/part-details/core/partDetails.state';
-export { PartDetailsModule } from './modules/part-details/partDetails.module';
 export { RelationComponentState } from './modules/relations/core/component.state';
 export { LoadedElementsFacade } from './modules/relations/core/loaded-elements.facade';
 export { LoadedElementsState } from './modules/relations/core/loaded-elements.state';

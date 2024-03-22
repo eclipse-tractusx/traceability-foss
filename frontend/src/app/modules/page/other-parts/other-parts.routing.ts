@@ -22,6 +22,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OtherPartsComponent } from '@page/other-parts/presentation/other-parts.component';
+import { PartsDetailComponent } from '@page/parts/detail/parts-detail.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
@@ -30,6 +31,13 @@ const PARTS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: OtherPartsComponent,
+    data: { i18nextNamespaces: [ 'page.otherParts', 'partDetail' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+  {
+    path: ':partId',
+    pathMatch: 'full',
+    component: PartsDetailComponent,
     data: { i18nextNamespaces: [ 'page.otherParts', 'partDetail' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },

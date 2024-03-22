@@ -18,22 +18,23 @@
  ********************************************************************************/
 
 
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
-import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
-import { setMultiSorting } from '@shared/helper/table-helper';
-import { NotificationType } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {Component, Input, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {Pagination} from '@core/model/pagination.model';
+import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
+import {TableSortingUtil} from '@shared/components/table/table-sorting.util';
+import {TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
+import {containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
+import {setMultiSorting} from '@shared/helper/table-helper';
+import {NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-supplier-parts',
@@ -53,8 +54,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
 
-  public tableSupplierAsBuiltSortList: TableHeaderSort[];
-  public tableSupplierAsPlannedSortList: TableHeaderSort[];
+  public tableSupplierAsBuiltSortList: TableHeaderSort[] = [];
+  public tableSupplierAsPlannedSortList: TableHeaderSort[] = [];
 
   private ctrlKeyState = false;
 
@@ -66,10 +67,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   assetAsBuiltFilter: AssetAsBuiltFilter;
   assetsAsPlannedFilter: AssetAsPlannedFilter;
 
+  public currentPartTablePage = {AS_BUILT_SUPPLIER_PAGE: 0, AS_PLANNED_SUPPLIER_PAGE: 0}
+
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
 
     window.addEventListener('keydown', (event) => {
@@ -81,6 +86,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.route.queryParams.subscribe(params => this.setupPageByUrlParams(params));
+
     if (this.bomLifecycle === MainAspectType.AS_BUILT) {
       this.supplierPartsAsBuilt$ = this.otherPartsFacade.supplierPartsAsBuilt$;
       this.tableSupplierAsBuiltSortList = [];
@@ -95,10 +102,10 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {
     if (isAsBuilt) {
       this.assetAsBuiltFilter = assetFilter;
-      this.otherPartsFacade.setSupplierPartsAsBuilt(0, 50, [], toAssetFilter(this.assetAsBuiltFilter, true));
+      this.otherPartsFacade.setSupplierPartsAsBuilt(this.currentPartTablePage?.['AS_BUILT_SUPPLIER_PAGE'] ?? 0, 50, [], toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.assetsAsPlannedFilter = assetFilter;
-      this.otherPartsFacade.setSupplierPartsAsPlanned(0, 50, [], toAssetFilter(this.assetsAsPlannedFilter, false));
+      this.otherPartsFacade.setSupplierPartsAsPlanned(this.currentPartTablePage?.['AS_PLANNED_SUPPLIER_PAGE'] ?? 0, 50, [], toAssetFilter(this.assetsAsPlannedFilter, false));
     }
   }
 
@@ -118,18 +125,23 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public onSelectItem(event: Record<string, unknown>): void {
     this.partDetailsFacade.selectedPart = event as unknown as Part;
+    let tableData = {};
+    for(let component of this.partsTableComponents) {
+      tableData[component.tableType+"_PAGE"] = component.pageIndex;
+    }
+    this.router.navigate([`otherParts/${event?.id}`], {queryParams: tableData})
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
 
     this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+    this.currentPartTablePage['AS_BUILT_SUPPLIER_PAGE'] = page;
 
     let pageSizeValue = 50;
     if (pageSize !== 0) {
       pageSizeValue = pageSize;
     }
-
-    if (this.assetAsBuiltFilter) {
+    if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
       this.otherPartsFacade.setSupplierPartsAsBuilt(0, pageSizeValue, this.tableSupplierAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.otherPartsFacade.setSupplierPartsAsBuilt(page, pageSizeValue, this.tableSupplierAsBuiltSortList);
@@ -139,13 +151,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
+    this.currentPartTablePage['AS_PLANNED_SUPPLIER_PAGE'] = page;
 
     let pageSizeValue = 50;
     if (pageSize !== 0) {
       pageSizeValue = pageSize;
     }
 
-    if (this.assetsAsPlannedFilter) {
+    if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
       this.otherPartsFacade.setSupplierPartsAsPlanned(0, pageSizeValue, this.tableSupplierAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
     } else {
       this.otherPartsFacade.setSupplierPartsAsPlanned(page, pageSizeValue, this.tableSupplierAsPlannedSortList);
@@ -157,6 +170,14 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
     const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableSupplierAsBuiltSortList : this.tableSupplierAsPlannedSortList;
     TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
+  }
+
+  private setupPageByUrlParams(params: Params ) {
+    if(!params) {
+      return;
+    }
+    this.onAsBuiltTableConfigChange({page: params['AS_BUILT_SUPPLIER_PAGE'], pageSize: 50, sorting: null});
+    this.onAsPlannedTableConfigChange({page: params['AS_PLANNED_SUPPLIER_PAGE'], pageSize: 50, sorting: null});
   }
 
   protected readonly MainAspectType = MainAspectType;

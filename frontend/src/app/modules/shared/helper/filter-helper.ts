@@ -16,14 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {HttpParams} from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
   FilterOperator,
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
-import {NotificationFilter} from '../../../mocks/services/investigations-mock/investigations.model';
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate' ];
 
@@ -199,4 +199,10 @@ export function provideFilterListForNotifications( filter?: NotificationFilter, 
   }
 
   return filterList;
+}
+
+export function containsAtleastOneFilterEntry(filter: AssetAsBuiltFilter | AssetAsPlannedFilter): boolean {
+  return Object.keys(filter)
+    .filter(key => filter[key].length)
+    .length > 0
 }

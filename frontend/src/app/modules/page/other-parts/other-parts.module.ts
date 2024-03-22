@@ -22,23 +22,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
-import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
+import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
+import { PartsDetailModule } from '@page/parts/detail/parts-detail.module';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
+import { AngularSplitModule } from 'angular-split';
 import { OtherPartsFacade } from './core/other-parts.facade';
 import { OtherPartsService } from './core/other-parts.service';
 import { OtherPartsState } from './core/other-parts.state';
 import { OtherPartsRoutingModule } from './other-parts.routing';
-import { OtherPartsComponent } from './presentation/other-parts.component';
-import { SupplierPartsComponent } from '@page/other-parts/presentation/supplier-parts/supplier-parts.component';
 import { CustomerPartsComponent } from './presentation/customer-parts/customer-parts.component';
-import { AngularSplitModule } from 'angular-split';
-import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
+import { OtherPartsComponent } from './presentation/other-parts.component';
 
 @NgModule({
   declarations: [ OtherPartsComponent, SupplierPartsComponent, CustomerPartsComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule, OtherPartsRoutingModule, PartDetailsModule, AngularSplitModule ],
+  imports: [ CommonModule, TemplateModule, SharedModule, OtherPartsRoutingModule, PartsDetailModule, AngularSplitModule ],
   providers: [
     OtherPartsState,
     OtherPartsFacade,

@@ -19,7 +19,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
+:host {
+  th {
+    z-index: 4 !important;
+  }
+}
+
+
+mat-card {
+  height: 100% !important;
+}
+
 .part-detail {
+
   &--spinner {
     display: flex;
     justify-content: center;
@@ -27,15 +40,15 @@
   }
 
   &--container {
-    margin-top: 25px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 25px 25px;
+    margin-bottom: 25px;
   }
 
   @media(max-width: 1023px) {
     &--container {
-    grid-template-columns: repeat(1, 1fr);
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 
@@ -152,6 +165,57 @@
     &:hover {
       @apply text-primary;
       cursor: pointer;
+    }
+  }
+
+  &--row {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    grid-template-rows: minmax(23px, auto);
+    align-items: center;
+
+    > span {
+      line-height: 1.25rem;
+    }
+
+    @media (max-width: 1440px) {
+      grid-template-columns: 40% 60%;
+    }
+
+    @media (max-width: 1280px) {
+      grid-template-columns: 50% 50%;
+    }
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 30% 70%;
+    }
+
+    &--textField {
+      display: grid;
+      grid-template-columns: 35% 65%;
+      grid-template-rows: minmax(23px, auto);
+      align-items: start;
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+  }
+
+  &--key {
+    padding-right: 10px;
+    font-weight: bold;
+  }
+
+  &--value {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 15px;
+
+    &--textField {
+      max-height: 100px;
+      overflow-y: auto;
+      white-space: wrap;
+      text-overflow: unset;
     }
   }
 
