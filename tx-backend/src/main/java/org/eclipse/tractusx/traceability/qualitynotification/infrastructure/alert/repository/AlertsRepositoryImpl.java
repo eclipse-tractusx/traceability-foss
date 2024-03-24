@@ -146,18 +146,6 @@ public class AlertsRepositoryImpl implements AlertRepository {
         return jpaAlertRepository.findByNotificationMessageId(id).map(AlertEntity::toDomain);
     }
 
-    @Transactional
-    @Override
-    public long countPartsByStatusAndOwnership(List<QualityNotificationStatus> statuses, Owner owner) {
-        return jpaAlertRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(statuses))
-                .stream()
-                .map(AlertEntity::getAssets)
-                .flatMap(Collection::stream)
-                .filter(assetAsBuiltEntity -> assetAsBuiltEntity.getOwner().equals(owner))
-                .distinct()
-                .toList().size();
-    }
-
     @Override
     public long countOpenNotificationsByOwnership(List<Owner> owners) {
         return jpaAlertRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(QualityNotificationStatus.ACTIVE_STATES))
