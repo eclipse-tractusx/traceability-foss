@@ -68,7 +68,7 @@ import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfig
 @Component
 @RequiredArgsConstructor
 @Transactional(dontRollbackOn = {ContractNegotiationException.class, NoCatalogItemException.class, SendNotificationException.class, NoEndpointDataReferenceException.class})
-public class InvestigationsEDCFacade {
+public class NotificationsEDCFacade {
 
     public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
 

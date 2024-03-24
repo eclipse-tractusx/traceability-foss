@@ -54,7 +54,7 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Profile(NOT_INTEGRATION_TESTS)
 public class EdcNotificationServiceImpl implements EdcNotificationService {
 
-    private final InvestigationsEDCFacade edcFacade;
+    private final NotificationsEDCFacade edcFacade;
     private final DiscoveryService discoveryService;
     private final NotificationRepository notificationRepository;
 

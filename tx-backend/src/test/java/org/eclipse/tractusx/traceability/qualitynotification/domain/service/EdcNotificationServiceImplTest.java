@@ -29,7 +29,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationServiceImpl;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationsEDCFacade;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.NotificationRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,7 +53,7 @@ class EdcNotificationServiceImplTest {
     private EdcNotificationServiceImpl notificationsService;
 
     @Mock
-    private InvestigationsEDCFacade edcFacade;
+    private NotificationsEDCFacade edcFacade;
 
     @Mock
     private DiscoveryService discoveryService;
