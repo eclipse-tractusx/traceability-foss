@@ -47,7 +47,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     private final TraceabilityProperties traceabilityProperties;
     private final NotificationPublisherService notificationPublisherService;
-    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "notifications_severity");
+    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "messages_severity");
 
     protected abstract QualityNotificationRepository getQualityNotificationRepository();
 
@@ -179,7 +179,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
         return switch (fieldName) {
             case "status" -> Arrays.stream(QualityNotificationStatus.values()).map(Enum::name).toList();
             case "side" -> Arrays.stream(QualityNotificationSide.values()).map(Enum::name).toList();
-            case "notifications_severity" ->
+            case "messages_severity" ->
                     Arrays.stream(QualityNotificationSeverity.values()).map(Enum::name).toList();
             default -> null;
         };

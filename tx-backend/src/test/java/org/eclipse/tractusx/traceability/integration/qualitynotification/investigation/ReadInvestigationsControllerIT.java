@@ -31,6 +31,9 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inve
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -215,9 +218,10 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .forEach(
                         number -> {
                             investigationsSupport.storedInvestigation(
-                                    InvestigationEntity.builder()
+                                    NotificationEntity.builder()
                                             .assets(Collections.emptyList())
                                             .bpn(testBpn)
+                                            .type(NotificationTypeEntity.INVESTIGATION)
                                             .status(NotificationStatusBaseEntity.CREATED)
                                             .side(NotificationSideBaseEntity.SENDER)
                                             .createdDate(now)
@@ -250,14 +254,14 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .get("/api/investigations/1234")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Investigation not found for 1234 notification id"));
+                .body("message", Matchers.is("Notification with id: 1234 not found"));
     }
 
     @Test
     void shouldReturnInvestigationById() throws JoseException {
         // given
-        InvestigationNotificationEntity storedInvestigationNotification = investigationNotificationsSupport.storeInvestigationNotification();
-        InvestigationEntity storedInvestigation = storedInvestigationNotification.getInvestigation();
+        NotificationMessageEntity storedInvestigationNotification = investigationNotificationsSupport.storeInvestigationNotification();
+        NotificationEntity storedInvestigation = storedInvestigationNotification.getNotification();
 
         // when/then
         given()

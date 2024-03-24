@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,12 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository;
+package org.eclipse.tractusx.traceability.qualitynotification.domain;
 
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface JpaInvestigationNotificationRepository extends JpaRepository<InvestigationNotificationEntity, String> {
+public class NotificationNotFoundException extends RuntimeException{
+    public NotificationNotFoundException(String notificationId) {
+        super("Notification with id: %s not found".formatted(notificationId));
+    }
 }

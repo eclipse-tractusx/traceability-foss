@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.QualityNotificationTypeRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 
 import java.util.List;
@@ -58,13 +60,10 @@ class DashboardControllerIT extends IntegrationTestSpecification {
     AssetsSupport assetsSupport;
 
     @Autowired
-    InvestigationsSupport investigationsSupport;
+    NotificationSupport notificationSupport;
 
     @Autowired
     JpaAssetAsBuiltRepository assetAsBuiltRepository;
-
-    @Autowired
-    AlertsSupport alertsSupport;
 
     ObjectMapper objectMapper;
 
@@ -116,8 +115,8 @@ class DashboardControllerIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> supplierAssets = assets.stream()
                 .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
                 .toList();
-        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets);
-        alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets);
+        notificationSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets);
+        notificationSupport.storeAlertWithStatusAndAssets(SENT, ownAssets);
 
         // when/then
         given()
@@ -162,12 +161,13 @@ class DashboardControllerIT extends IntegrationTestSpecification {
     void givenPendingInvestigation_whenGetDashboard_thenReturnPendingInvestigation() throws JoseException, JsonProcessingException {
         // given
         assetsSupport.defaultAssetsStored();
-        investigationsSupport.defaultReceivedInvestigationStored();
+        notificationSupport.defaultReceivedInvestigationStored();
         String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978";
         var notificationRequest = StartQualityNotificationRequest.builder()
                 .partIds(List.of(assetId))
                 .description("at least 15 characters long investigation description")
                 .severity(QualityNotificationSeverityRequest.MINOR)
+                .type(QualityNotificationTypeRequest.INVESTIGATION)
                 .isAsBuilt(true)
                 .build();
 

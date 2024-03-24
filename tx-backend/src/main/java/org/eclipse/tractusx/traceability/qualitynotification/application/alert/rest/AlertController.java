@@ -80,7 +80,7 @@ public class AlertController {
     private final BaseRequestFieldMapper fieldMapper;
 
     public AlertController(
-            @Qualifier("alertServiceImpl") QualityNotificationService alertService,
+            @Qualifier("notificationServiceImpl") QualityNotificationService alertService,
             QualityNotificationFieldMapper fieldMapper) {
         this.alertService = alertService;
         this.fieldMapper = fieldMapper;

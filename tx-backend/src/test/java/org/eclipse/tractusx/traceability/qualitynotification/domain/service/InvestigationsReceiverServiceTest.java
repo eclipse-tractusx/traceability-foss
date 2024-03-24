@@ -77,6 +77,7 @@ class InvestigationsReceiverServiceTest {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+        QualityNotificationType notificationType = QualityNotificationType.INVESTIGATION;
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
@@ -90,7 +91,7 @@ class InvestigationsReceiverServiceTest {
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .type(QualityNotificationType.INVESTIGATION)
+                .type(notificationType)
                 .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
@@ -101,11 +102,11 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
-        when(mockQualityNotificationMapper.toQualityNotification(any(BPN.class), anyString(), any(QualityNotificationMessage.class))).thenReturn(investigationTestData);
+        when(mockNotificationMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
+        when(mockQualityNotificationMapper.toQualityNotification(any(BPN.class), anyString(), any(QualityNotificationMessage.class), any(QualityNotificationType.class))).thenReturn(investigationTestData);
 
         // When
-        service.handleReceive(edcNotification);
+        service.handleReceive(edcNotification, notificationType);
         // Then
         Mockito.verify(mockRepository).saveQualityNotificationEntity(investigationTestData);
     }
@@ -117,7 +118,7 @@ class InvestigationsReceiverServiceTest {
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
 
-
+        QualityNotificationType notificationType = QualityNotificationType.INVESTIGATION;
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
@@ -129,7 +130,7 @@ class InvestigationsReceiverServiceTest {
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
-                .type(QualityNotificationType.INVESTIGATION)
+                .type(notificationType)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .targetDate(Instant.now())
@@ -142,11 +143,11 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+        when(mockNotificationMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(mockRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
-        service.handleUpdate(edcNotification);
+        service.handleUpdate(edcNotification, notificationType);
         // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
@@ -157,7 +158,7 @@ class InvestigationsReceiverServiceTest {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
-
+        QualityNotificationType notificationType = QualityNotificationType.INVESTIGATION;
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
@@ -171,7 +172,7 @@ class InvestigationsReceiverServiceTest {
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .type(QualityNotificationType.INVESTIGATION)
+                .type(notificationType)
                 .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
@@ -181,11 +182,11 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+        when(mockNotificationMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(mockRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
-        service.handleUpdate(edcNotification);
+        service.handleUpdate(edcNotification, notificationType);
         // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
@@ -196,7 +197,7 @@ class InvestigationsReceiverServiceTest {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
-
+        QualityNotificationType notificationType = QualityNotificationType.INVESTIGATION;
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
@@ -210,7 +211,7 @@ class InvestigationsReceiverServiceTest {
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .type(QualityNotificationType.INVESTIGATION)
+                .type(notificationType)
                 .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
@@ -220,11 +221,11 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+        when(mockNotificationMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(mockRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
-        service.handleUpdate(edcNotification);
+        service.handleUpdate(edcNotification, notificationType);
         // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
@@ -235,7 +236,7 @@ class InvestigationsReceiverServiceTest {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
-
+        QualityNotificationType notificationType = QualityNotificationType.INVESTIGATION;
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
@@ -249,7 +250,7 @@ class InvestigationsReceiverServiceTest {
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .type(QualityNotificationType.INVESTIGATION)
+                .type(notificationType)
                 .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
@@ -259,11 +260,11 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+        when(mockNotificationMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(mockRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
-        service.handleUpdate(edcNotification);
+        service.handleUpdate(edcNotification, notificationType);
         // Then
         Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }

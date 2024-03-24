@@ -45,7 +45,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.noti
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -59,8 +59,8 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
-@Repository
 @Transactional
+@Component
 public class NotificationRepositoryImpl implements NotificationRepository {
 
     private final JpaNotificationRepository jpaNotificationRepository;
@@ -104,17 +104,16 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     public QualityNotificationId saveQualityNotificationEntity(QualityNotification notification) {
         List<AssetAsBuiltEntity> assetEntities = getAssetEntitiesByNotification(notification);
 
-        if (!assetEntities.isEmpty()) {
-            NotificationEntity notificationEntity = NotificationEntity.from(notification, assetEntities);
-
-            jpaNotificationRepository.save(notificationEntity);
-
-            notification.getNotifications().forEach(notificationMessage -> handleNotificationCreate(notificationEntity, notificationMessage, assetEntities));
-
-            return new QualityNotificationId(notificationEntity.getId());
-        } else {
+        if (assetEntities.isEmpty()) {
             throw new IllegalArgumentException("No assets found for %s asset ids".formatted(String.join(", ", notification.getAssetIds())));
         }
+        NotificationEntity notificationEntity = NotificationEntity.from(notification, assetEntities);
+
+        jpaNotificationRepository.save(notificationEntity);
+
+        notification.getNotifications().forEach(notificationMessage -> handleNotificationCreate(notificationEntity, notificationMessage, assetEntities));
+
+        return new QualityNotificationId(notificationEntity.getId());
     }
 
     @Override
@@ -141,6 +140,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return new PageResult<>(jpaNotificationRepository.findAll(specification, pageable), NotificationEntity::toDomain);
     }
 
+    @Transactional
     @Override
     public long countOpenNotificationsByOwnership(List<Owner> owners) {
         return jpaNotificationRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(QualityNotificationStatus.ACTIVE_STATES))

@@ -25,7 +25,7 @@ import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.stereotype.Component;
@@ -35,14 +35,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlertsReceiverService extends AbstractQualityNotificationReceiverService {
 
-    private final AlertRepository alertRepository;
+    private final NotificationRepository notificationRepository;
     private final NotificationMessageMapper notificationMapper;
     private final QualityNotificationMapper qualityNotificationMapper;
 
 
     @Override
     protected QualityNotificationRepository getRepository() {
-        return alertRepository;
+        return notificationRepository;
     }
 
     @Override

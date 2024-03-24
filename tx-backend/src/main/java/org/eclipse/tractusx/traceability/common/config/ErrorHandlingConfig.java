@@ -44,6 +44,7 @@ import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractExce
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
@@ -155,6 +156,12 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(AlertNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAlertNotFoundException(AlertNotFoundException exception) {
         log.warn("handleAlertNotFoundException", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+    @ExceptionHandler(NotificationNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleNotificationNotFoundException(NotificationNotFoundException exception) {
+        log.warn("handleNotificationNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }

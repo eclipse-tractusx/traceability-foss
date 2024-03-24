@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository;
 
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationTypeEntity;
@@ -28,10 +27,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface JpaNotificationRepository extends JpaRepository<NotificationEntity, Long>, JpaSpecificationExecutor<NotificationEntity> {
 
     long countAllBySideEquals(NotificationSideBaseEntity notificationSide);
@@ -39,11 +40,11 @@ public interface JpaNotificationRepository extends JpaRepository<NotificationEnt
     long countAllBySideEqualsAndTypeEquals(NotificationSideBaseEntity notificationSide, NotificationTypeEntity notificationType);
 
     // TODO findByNotificationMessageEdcNotificationId
-    @Query("SELECT notification FROM NotificationEntity notification JOIN notification.notificationMessages notificationMessage WHERE notificationMessage.edcNotificationId = :edcNotificationId")
+    @Query("SELECT notification FROM NotificationEntity notification JOIN notification.messages notificationMessage WHERE notificationMessage.edcNotificationId = :edcNotificationId")
     Optional<NotificationEntity> findByNotificationsEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
 
     // TODO findByNotificationMessageId
-    @Query("SELECT notification FROM NotificationEntity notification JOIN notification.notificationMessages notificationMessage WHERE notificationMessage.id = :id")
+    @Query("SELECT notification FROM NotificationEntity notification JOIN notification.messages notificationMessage WHERE notificationMessage.id = :id")
     Optional<NotificationEntity> findByNotificationMessageId(@Param("id") String id);
 
     List<NotificationEntity> findAllByStatusIn(List<NotificationStatusBaseEntity> statuses);

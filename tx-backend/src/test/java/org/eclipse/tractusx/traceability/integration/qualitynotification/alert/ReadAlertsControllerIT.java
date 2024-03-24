@@ -31,6 +31,9 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.aler
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -219,20 +222,21 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         IntStream.range(101, 201)
                 .forEach(number ->
                         {
-                            AlertEntity alertEntity = AlertEntity.builder()
+                            NotificationEntity alertNotificationEntity = NotificationEntity.builder()
                                     .assets(Collections.emptyList())
                                     .bpn(testBpn)
                                     .status(NotificationStatusBaseEntity.CREATED)
                                     .side(NotificationSideBaseEntity.RECEIVER)
+                                    .type(NotificationTypeEntity.ALERT)
                                     .createdDate(now)
                                     .build();
 
-                            AlertEntity alert = alertsSupport.storedAlertFullObject(alertEntity);
+                            NotificationEntity alert = alertsSupport.storedAlertFullObject(alertNotificationEntity);
 
-                            AlertNotificationEntity notificationEntity = AlertNotificationEntity
+                            NotificationMessageEntity notificationEntity = NotificationMessageEntity
                                     .builder()
                                     .id(UUID.randomUUID().toString())
-                                    .alert(alert)
+                                    .notification(alert)
                                     .createdBy(senderBPN)
                                     .status(NotificationStatusBaseEntity.CREATED)
                                     .createdByName(senderName)
@@ -241,8 +245,8 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                                     .messageId("messageId")
                                     .build();
 
-                            AlertNotificationEntity persistedNotification = alertNotificationsSupport.storedAlertNotification(notificationEntity);
-                            persistedNotification.setAlert(alert);
+                            NotificationMessageEntity persistedNotification = alertNotificationsSupport.storedAlertNotification(notificationEntity);
+                            persistedNotification.setNotification(alert);
                             alertNotificationsSupport.storedAlertNotification(persistedNotification);
                         }
                 );
@@ -275,14 +279,14 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .get("/api/alerts/1234")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Alert not found for 1234 notification id"));
+                .body("message", Matchers.is("Notification with id: 1234 not found"));
     }
 
     @Test
     void shouldReturnInvestigationById() throws JoseException {
         // given
-        AlertNotificationEntity storedAlertNotification = alertNotificationsSupport.storeAlertNotification();
-        AlertEntity storedAlert = storedAlertNotification.getAlert();
+        NotificationMessageEntity storedAlertNotification = alertNotificationsSupport.storeAlertNotification();
+        NotificationEntity storedAlert = storedAlertNotification.getNotification();
 
         // when/then
         given()

@@ -51,6 +51,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.QualityNotificationTypeRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
@@ -89,7 +90,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void shouldReceiveAlert() {
         // given
         assetsSupport.defaultAssetsStored();
-
+        QualityNotificationType notificationType = QualityNotificationType.ALERT;
         QualityNotificationMessage notificationBuild = QualityNotificationMessage.builder()
                 .id("some-id")
                 .notificationStatus(QualityNotificationStatus.SENT)
@@ -100,15 +101,16 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .sendToName("Receiver manufacturer name")
                 .severity(QualityNotificationSeverity.MINOR)
                 .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
-                .type(QualityNotificationType.ALERT)
+                .type(notificationType)
                 .severity(QualityNotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
         EDCNotification notification = EDCNotificationFactory.createEdcNotification(
                 "it", notificationBuild);
 
+
         // when
-        alertsReceiverService.handleReceive(notification);
+        alertsReceiverService.handleReceive(notification, notificationType);
 
         // then
         alertsSupport.assertAlertsSize(1);
@@ -134,6 +136,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .partIds(partIds)
                 .description(description)
                 .severity(severity)
+                .type(QualityNotificationTypeRequest.ALERT)
                 .receiverBpn(receiverBpn)
                 .isAsBuilt(true)
                 .build();
@@ -285,6 +288,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
                 .description("at least 15 characters long investigation description")
                 .severity(QualityNotificationSeverityRequest.MAJOR)
+                .type(QualityNotificationTypeRequest.ALERT)
                 .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
@@ -350,6 +354,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
+                .type(QualityNotificationTypeRequest.ALERT)
                 .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
@@ -406,6 +411,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
+                .type(QualityNotificationTypeRequest.ALERT)
                 .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();
@@ -488,7 +494,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .post("/api/alerts/1/cancel")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Alert not found for 1 notification id"));
+                .body("message", Matchers.is("Notification with id: 1 not found"));
     }
 
     @Test
@@ -518,6 +524,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
+                .type(QualityNotificationTypeRequest.ALERT)
                 .receiverBpn("BPN")
                 .isAsBuilt(true)
                 .build();

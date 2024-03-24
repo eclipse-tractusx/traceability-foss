@@ -32,6 +32,8 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
@@ -67,12 +69,14 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     InvestigationsReceiverService investigationsReceiverService;
-    @Autowired
-    InvestigationsSupport investigationsSupport;
+
     @Autowired
     AssetsSupport assetsSupport;
     @Autowired
-    InvestigationNotificationsSupport investigationNotificationsSupport;
+    NotificationMessageSupport notificationMessageSupport;
+
+    @Autowired
+    NotificationSupport notificationSupport;
     @Autowired
     AssetAsBuiltRepository assetAsBuiltRepository;
 
@@ -89,6 +93,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         // given
         assetsSupport.defaultAssetsStored();
 
+        QualityNotificationType notificationType = QualityNotificationType.INVESTIGATION;
         QualityNotificationMessage notificationBuild = QualityNotificationMessage.builder()
                 .id("some-id")
                 .notificationStatus(QualityNotificationStatus.SENT)
@@ -99,7 +104,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .sendToName("Receiver manufacturer name")
                 .severity(QualityNotificationSeverity.MINOR)
                 .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
-                .type(QualityNotificationType.INVESTIGATION)
+                .type(notificationType)
                 .severity(QualityNotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
@@ -107,11 +112,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 "it", notificationBuild);
 
         // when
-        investigationsReceiverService.handleReceive(notification);
+        investigationsReceiverService.handleReceive(notification, notificationType);
 
         // then
-        investigationsSupport.assertInvestigationsSize(1);
-        investigationNotificationsSupport.assertNotificationsSize(1);
+        notificationSupport.assertInvestigationsSize(1);
+        notificationMessageSupport.assertNotificationsSize(1);
     }
 
     @Test
@@ -129,6 +134,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val request = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
+                .type(QualityNotificationTypeRequest.INVESTIGATION)
                 .severity(QualityNotificationSeverityRequest.MINOR)
                 .isAsBuilt(true)
                 .build();
@@ -150,7 +156,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        investigationNotificationsSupport.assertNotificationsSize(2);
+        notificationMessageSupport.assertNotificationsSize(2);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
@@ -336,6 +342,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
+                .type(QualityNotificationTypeRequest.INVESTIGATION)
                 .isAsBuilt(true)
                 .build();
 
@@ -350,7 +357,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .statusCode(201)
                 .extract().path("id");
 
-        investigationsSupport.assertInvestigationsSize(1);
+        notificationSupport.assertInvestigationsSize(1);
 
         given()
                 .contentType(ContentType.JSON)
@@ -375,7 +382,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
-        investigationNotificationsSupport.assertNotificationsSize(4);
+        notificationMessageSupport.assertNotificationsSize(4);
     }
 
     @Test
@@ -391,6 +398,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         val startInvestigationRequest = StartQualityNotificationRequest.builder()
                 .partIds(partIds)
                 .description(description)
+                .type(QualityNotificationTypeRequest.INVESTIGATION)
                 .severity(QualityNotificationSeverityRequest.MINOR)
                 .isAsBuilt(true)
                 .build();
@@ -408,7 +416,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .extract().path("id");
 
         // then
-        investigationsSupport.assertInvestigationsSize(1);
+        notificationSupport.assertInvestigationsSize(1);
 
         // when
         given()
@@ -460,9 +468,9 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
 
-        investigationNotificationsSupport.assertNotificationsSize(3);
-        investigationsSupport.assertInvestigationsSize(1);
-        investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.CLOSED);
+        notificationMessageSupport.assertNotificationsSize(3);
+        notificationSupport.assertInvestigationsSize(1);
+        notificationSupport.assertInvestigationStatus(QualityNotificationStatus.CLOSED);
     }
 
     @Test
@@ -474,7 +482,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .post("/api/investigations/1/cancel")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Investigation not found for 1 notification id"));
+                .body("message", Matchers.is("Notification with id: 1 not found"));
     }
 
     @Test
@@ -503,6 +511,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
+                .type(QualityNotificationTypeRequest.INVESTIGATION)
                 .isAsBuilt(true)
                 .build();
 
@@ -523,7 +532,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        investigationNotificationsSupport.assertNotificationsSize(2);
+        notificationMessageSupport.assertNotificationsSize(2);
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))

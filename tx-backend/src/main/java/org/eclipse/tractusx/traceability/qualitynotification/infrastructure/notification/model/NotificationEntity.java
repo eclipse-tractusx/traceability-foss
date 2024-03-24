@@ -70,10 +70,10 @@ public class NotificationEntity extends NotificationBaseEntity {
     private List<AssetAsBuiltEntity> assets;
 
     @OneToMany(mappedBy = "notification")
-    private List<NotificationMessageEntity> notificationMessages;
+    private List<NotificationMessageEntity> messages;
 
     public static QualityNotification toDomain(NotificationEntity notificationEntity) {
-        List<QualityNotificationMessage> messages = emptyIfNull(notificationEntity.getNotificationMessages()).stream()
+        List<QualityNotificationMessage> messages = emptyIfNull(notificationEntity.getMessages()).stream()
                 .map(NotificationMessageEntity::toDomain)
                 .toList();
 

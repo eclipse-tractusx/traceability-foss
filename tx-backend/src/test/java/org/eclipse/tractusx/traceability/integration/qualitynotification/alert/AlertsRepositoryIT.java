@@ -26,8 +26,9 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,7 +41,7 @@ import static org.eclipse.tractusx.traceability.qualitynotification.infrastructu
 class AlertsRepositoryIT extends IntegrationTestSpecification {
 
     @Autowired
-    JpaAlertRepository jpaAlertRepository;
+    JpaNotificationRepository jpaNotificationRepository;
 
     @Autowired
     AlertsSupport alertsSupport;
@@ -68,7 +69,7 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
         alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
-        assertThat(jpaAlertRepository.findAll()).hasSize(3);
+        assertThat(jpaNotificationRepository.findAll()).hasSize(3);
 
         // when
         Long result = repository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.RECEIVED), Owner.SUPPLIER);
@@ -91,7 +92,7 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
-        assertThat(jpaAlertRepository.findAll()).hasSize(3);
+        assertThat(jpaNotificationRepository.findAll()).hasSize(3);
 
         // when
         Long result = repository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.SENT), Owner.OWN);

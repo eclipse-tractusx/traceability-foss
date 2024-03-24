@@ -81,7 +81,7 @@ public class InvestigationsController {
     private final BaseRequestFieldMapper fieldMapper;
 
     public InvestigationsController(
-            @Qualifier("investigationServiceImpl") QualityNotificationService investigationService,
+            @Qualifier("notificationServiceImpl") QualityNotificationService investigationService,
             QualityNotificationFieldMapper fieldMapper) {
         this.investigationService = investigationService;
         this.fieldMapper = fieldMapper;

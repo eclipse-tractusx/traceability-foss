@@ -38,12 +38,12 @@ public class QualityNotificationFieldMapper extends BaseRequestFieldMapper {
             Map.entry("close", "closeReason"),
             Map.entry("accept", "acceptReason"),
             Map.entry("decline", "declineReason"),
-            Map.entry("severity", "notifications_severity"),
-            Map.entry("createdBy", "notifications_createdBy"),
-            Map.entry("createdByName", "notifications_createdByName"),
-            Map.entry("sendTo", "notifications_sendTo"),
-            Map.entry("sendToName", "notifications_sendToName"),
-            Map.entry("targetDate", "notifications_targetDate"),
+            Map.entry("severity", "messages_severity"),
+            Map.entry("createdBy", "messages_createdBy"),
+            Map.entry("createdByName", "messages_createdByName"),
+            Map.entry("sendTo", "messages_sendTo"),
+            Map.entry("sendToName", "messages_sendToName"),
+            Map.entry("targetDate", "messages_targetDate"),
             Map.entry("assetId", "assets_id"),
             Map.entry("type", "type")
 

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,10 +19,11 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationTypeEntity;
@@ -32,33 +33,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Component
-public class AlertsSupport {
+@RequiredArgsConstructor
+public class NotificationSupport {
 
-    @Autowired
-    JpaNotificationRepository jpaNotificationRepository;
+    private final JpaNotificationRepository jpaNotificationRepository;
 
-    @Autowired
-    JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
-
-    public Long defaultReceivedAlertStored() {
+    public Long defaultReceivedInvestigationStored() {
         NotificationEntity entity = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
+                .type(NotificationTypeEntity.INVESTIGATION)
                 .status(NotificationStatusBaseEntity.RECEIVED)
                 .side(NotificationSideBaseEntity.RECEIVER)
-                .type(NotificationTypeEntity.ALERT)
                 .description("some description")
                 .createdDate(Instant.now())
                 .build();
 
-        return storedAlert(entity);
+        return jpaNotificationRepository.save(entity).getId();
     }
 
     public Long storeAlertWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt) {
@@ -81,27 +78,19 @@ public class AlertsSupport {
         return alertId;
     }
 
-    public void assertAlertsSize(int size) {
-        List<NotificationEntity> alerts = jpaNotificationRepository.findAll();
-
-        assert alerts.size() == size;
-    }
-
-    public void assertAlertStatus(QualityNotificationStatus alertStatus) {
-        jpaNotificationRepository.findAll().forEach(alert ->
-                assertThat(alert.getStatus().name()).isEqualTo(alertStatus.name())
-        );
-    }
-
-    void storedAlerts(NotificationEntity... alerts) {
-        jpaNotificationRepository.saveAll(Arrays.asList(alerts));
-    }
-
     public Long storedAlert(NotificationEntity alert) {
         return jpaNotificationRepository.save(alert).getId();
     }
 
-    public NotificationEntity storedAlertFullObject(NotificationEntity alert) {
-        return jpaNotificationRepository.save(alert);
+    public void assertInvestigationsSize(int size) {
+        List<NotificationEntity> investigations = jpaNotificationRepository.findAll();
+
+        assertThat(investigations).hasSize(size);
+    }
+
+    public void assertInvestigationStatus(QualityNotificationStatus investigationStatus) {
+        jpaNotificationRepository.findAll().forEach(
+                investigation -> assertThat(investigation.getStatus().name()).isEqualTo(investigationStatus.name())
+        );
     }
 }

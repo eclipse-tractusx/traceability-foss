@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
@@ -45,6 +45,6 @@ public class NotificationServiceImpl extends AbstractQualityNotificationService 
 
     @Override
     public RuntimeException getNotFoundException(String message) {
-        return new AlertNotFoundException(message);
+        return new NotificationNotFoundException(message);
     }
 }

@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 
@@ -42,17 +43,17 @@ public abstract class AbstractQualityNotificationReceiverService implements Qual
     protected abstract RuntimeException getIllegalUpdateException(String message);
 
     @Override
-    public void handleReceive(EDCNotification edcNotification) {
+    public void handleReceive(EDCNotification edcNotification, QualityNotificationType notificationType) {
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
-        QualityNotificationMessage notification = getNotificationMessageMapper().toNotification(edcNotification);
-        QualityNotification investigation = getQualityNotificationMapper().toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
+        QualityNotificationMessage notification = getNotificationMessageMapper().toNotification(edcNotification, notificationType);
+        QualityNotification investigation = getQualityNotificationMapper().toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification, notificationType);
         QualityNotificationId investigationId = getRepository().saveQualityNotificationEntity(investigation);
         log.info("Stored received edcNotification in investigation with id {}", investigationId);
     }
 
     @Override
-    public void handleUpdate(EDCNotification edcNotification) {
-        QualityNotificationMessage notification = getNotificationMessageMapper().toNotification(edcNotification);
+    public void handleUpdate(EDCNotification edcNotification, QualityNotificationType notificationType) {
+        QualityNotificationMessage notification = getNotificationMessageMapper().toNotification(edcNotification, notificationType);
         QualityNotification qualityNotification = getRepository().findByEdcNotificationId(edcNotification.getNotificationId())
                 .orElseThrow(() -> getNotFoundException(edcNotification.getNotificationId()));
 

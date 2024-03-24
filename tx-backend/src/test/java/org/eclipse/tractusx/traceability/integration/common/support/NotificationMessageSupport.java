@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,12 +17,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository;
+package org.eclipse.tractusx.traceability.integration.common.support;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationMessageRepository;
+import org.springframework.stereotype.Component;
 
-@Repository
-public interface JpaInvestigationNotificationRepository extends JpaRepository<InvestigationNotificationEntity, String> {
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@Component
+@RequiredArgsConstructor
+public class NotificationMessageSupport {
+
+    private final JpaNotificationMessageRepository jpaNotificationMessageRepository;
+    public void assertNotificationsSize(int size) {
+        List<NotificationMessageEntity> notifications = jpaNotificationMessageRepository.findAll();
+        assertThat(notifications).hasSize(size);
+    }
 }

@@ -34,6 +34,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.QualityNotificationTypeRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
@@ -72,6 +73,7 @@ class AlertControllerTest {
                 .partIds(partIds)
                 .description("description")
                 .targetDate(targetDate)
+                .type(QualityNotificationTypeRequest.ALERT)
                 .severity(QualityNotificationSeverityRequest.MINOR)
                 .receiverBpn("BPN00001")
                 .build();

@@ -32,6 +32,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
@@ -110,7 +111,7 @@ public class EdcController {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityNotificationReceive] notificationId:{}", cleanEdcNotification);
         validateIsQualityInvestigation(cleanEdcNotification);
-        investigationsReceiverService.handleReceive(cleanEdcNotification);
+        investigationsReceiverService.handleReceive(cleanEdcNotification, QualityNotificationType.INVESTIGATION);
     }
 
     /**
@@ -171,7 +172,7 @@ public class EdcController {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityNotificationUpdate] notificationId:{}", cleanEdcNotification);
         validateIsQualityInvestigation(cleanEdcNotification);
-        investigationsReceiverService.handleUpdate(cleanEdcNotification);
+        investigationsReceiverService.handleUpdate(cleanEdcNotification, QualityNotificationType.INVESTIGATION);
     }
 
     /**
@@ -231,7 +232,7 @@ public class EdcController {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityalertReceive] notificationId:{}", cleanEdcNotification);
         validateIsAlert(cleanEdcNotification);
-        alertsReceiverService.handleReceive(cleanEdcNotification);
+        alertsReceiverService.handleReceive(cleanEdcNotification, QualityNotificationType.ALERT);
     }
 
     /**
@@ -291,7 +292,7 @@ public class EdcController {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityalertUpdate] notificationId:{}", cleanEdcNotification);
         validateIsAlert(cleanEdcNotification);
-        alertsReceiverService.handleUpdate(cleanEdcNotification);
+        alertsReceiverService.handleUpdate(cleanEdcNotification, QualityNotificationType.ALERT);
     }
 
 

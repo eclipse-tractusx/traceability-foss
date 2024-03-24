@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.AbstractQualityNotificationReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
@@ -37,13 +37,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class InvestigationsReceiverService extends AbstractQualityNotificationReceiverService {
 
-    private final InvestigationRepository investigationsRepository;
+    private final NotificationRepository notificationRepository;
     private final NotificationMessageMapper notificationMapper;
     private final QualityNotificationMapper qualityNotificationMapper;
 
     @Override
     protected QualityNotificationRepository getRepository() {
-        return investigationsRepository;
+        return notificationRepository;
     }
 
     @Override
