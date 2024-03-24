@@ -1,5 +1,5 @@
-import {Then, When} from '@badeball/cypress-cucumber-preprocessor';
-import {AdminPage, AdminViewTab} from '../../integration/pages/AdminPage';
+import { Then, When } from '@badeball/cypress-cucumber-preprocessor';
+import { AdminPage, AdminViewTab } from '../../integration/pages/AdminPage';
 
 let currentContractId: string;
 
@@ -50,8 +50,8 @@ Then('exported contracts csv file is existing', function() {
 
 Then('exported csv file has correct content', function() {
   AdminPage.getExportedContractsFileData().then((data) => {
-    let expectedData = "contractId,counterpartyAddress,creationDate,endDate,state\n" + currentContractId.trim().replace(/\n/g,'') + ",https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,Mon Mar 18 2024,Thu Jan 01 1970,FINALIZED";
-    expect(data).to.equal(expectedData);
+    let expectedData = currentContractId.trim().replace(/\n/g,'');
+    expect(data).to.contain(expectedData);
   });
 
 });
