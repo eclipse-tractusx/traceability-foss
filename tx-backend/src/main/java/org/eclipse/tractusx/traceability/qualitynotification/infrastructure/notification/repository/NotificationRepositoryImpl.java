@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -79,7 +80,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
     @Override
     public Optional<QualityNotification> findByEdcNotificationId(String edcNotificationId) {
-        return jpaNotificationRepository.findByNotificationsEdcNotificationId(edcNotificationId).map(NotificationEntity::toDomain);
+        return jpaNotificationRepository.findByNotificationMessageEdcNotificationId(edcNotificationId).map(NotificationEntity::toDomain);
     }
 
     @Override
@@ -136,7 +137,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .stream()
                 .map(NotificationSpecification::new)
                 .toList();
-        Specification<NotificationEntity> specification = NotificationSpecification.toSpecification(notificationSpecifications);
+        Specification<NotificationEntity> specification = BaseSpecification.toSpecification(notificationSpecifications);
         return new PageResult<>(jpaNotificationRepository.findAll(specification, pageable), NotificationEntity::toDomain);
     }
 

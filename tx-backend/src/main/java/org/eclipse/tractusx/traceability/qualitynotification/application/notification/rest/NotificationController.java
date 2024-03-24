@@ -28,9 +28,9 @@ import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.QualityNotificationFieldMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.notification.service.QualityNotificationService;
-import org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,6 +65,7 @@ import static org.eclipse.tractusx.traceability.qualitynotification.domain.notif
 @Slf4j
 public class NotificationController {
 
+    private static final String RECEIVED_API_CALL_LOG = "Received API call on /notifications";
     private final QualityNotificationService notificationService;
 
     private final BaseRequestFieldMapper fieldMapper;
@@ -81,13 +82,14 @@ public class NotificationController {
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         StartQualityNotificationRequest cleanStartQualityNotificationRequest = sanitize(request);
-        log.info("Received API call on /notifications" + " with params: {}", cleanStartQualityNotificationRequest);
+        log.info(RECEIVED_API_CALL_LOG + " with params: {}", cleanStartQualityNotificationRequest);
         return new QualityNotificationIdResponse(notificationService.start(from(cleanStartQualityNotificationRequest)).value());
     }
 
     @PostMapping("/filter")
     public PageResult<QualityNotificationResponse> getAlerts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
-        log.info("Received API call on /notifications/filter");
+        log.info(RECEIVED_API_CALL_LOG + "/filter");
+
         return NotificationResponseMapper.fromAsPageResult(
                 notificationService.getNotifications(
                         OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), fieldMapper),
@@ -96,7 +98,7 @@ public class NotificationController {
 
     @GetMapping("/{notificationId}")
     public QualityNotificationResponse getAlert(@PathVariable("notificationId") Long notificationId) {
-        log.info("Received API call on /notifications/" + "/{}", notificationId);
+        log.info(RECEIVED_API_CALL_LOG + "/{}", notificationId);
         return NotificationResponseMapper.from(notificationService.find(notificationId));
     }
 
@@ -104,7 +106,7 @@ public class NotificationController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approveAlert(@PathVariable("notificationId") Long notificationId) {
-        log.info("Received API call on /notifications/" + "/{}/approve", notificationId);
+        log.info(RECEIVED_API_CALL_LOG + "/{}/approve", notificationId);
         notificationService.approve(notificationId);
     }
 
@@ -112,7 +114,7 @@ public class NotificationController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelAlert(@PathVariable("notificationId") Long notificationId) {
-        log.info("Received API call on /notifications/" + "/{}/cancel", notificationId);
+        log.info(RECEIVED_API_CALL_LOG + "/{}/cancel", notificationId);
         notificationService.cancel(notificationId);
     }
 
@@ -123,7 +125,7 @@ public class NotificationController {
             @PathVariable("notificationId") @ApiParam Long notificationId,
             @Valid @RequestBody CloseQualityNotificationRequest closeAlertRequest) {
         CloseQualityNotificationRequest cleanCloseAlertRequest = sanitize(closeAlertRequest);
-        log.info("Received API call on /notifications/" + "/{}/close with params {}", notificationId, cleanCloseAlertRequest);
+        log.info(RECEIVED_API_CALL_LOG + "/{}/close with params {}", notificationId, cleanCloseAlertRequest);
         notificationService.update(notificationId, QualityNotificationStatus.from(QualityNotificationStatusRequest.CLOSED), cleanCloseAlertRequest.getReason());
     }
 
@@ -135,7 +137,7 @@ public class NotificationController {
             @Valid @RequestBody UpdateQualityNotificationRequest updateAlertRequest) {
         UpdateQualityNotificationRequest cleanUpdateAlertRequest = sanitize(updateAlertRequest);
         validate(cleanUpdateAlertRequest);
-        log.info("Received API call on /notifications/" + "/{}/update with params {}", notificationId, cleanUpdateAlertRequest);
+        log.info(RECEIVED_API_CALL_LOG + "/{}/update with params {}", notificationId, cleanUpdateAlertRequest);
         notificationService.update(notificationId, QualityNotificationStatus.from(cleanUpdateAlertRequest.getStatus()), cleanUpdateAlertRequest.getReason());
     }
 

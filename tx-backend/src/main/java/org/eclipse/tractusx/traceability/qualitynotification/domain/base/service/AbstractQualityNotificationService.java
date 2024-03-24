@@ -60,15 +60,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     @Override
     public QualityNotificationId start(StartQualityNotification startQualityNotification) {
-        QualityNotification notification = notificationPublisherService.startQualityNotification(
-                startQualityNotification.getTitle(),
-                startQualityNotification.getPartIds(),
-                startQualityNotification.getDescription(),
-                startQualityNotification.getTargetDate(),
-                startQualityNotification.getSeverity(),
-                startQualityNotification.getType(),
-                startQualityNotification.getReceiverBpn(),
-                startQualityNotification.isAsBuilt());
+        QualityNotification notification = notificationPublisherService.startQualityNotification(startQualityNotification);
         QualityNotificationId createdAlertId = getQualityNotificationRepository().saveQualityNotificationEntity(notification);
         log.info("Start Quality Notification {}", notification);
         return createdAlertId;

@@ -19,10 +19,10 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository;
 
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationTypeEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -39,11 +39,9 @@ public interface JpaNotificationRepository extends JpaRepository<NotificationEnt
 
     long countAllBySideEqualsAndTypeEquals(NotificationSideBaseEntity notificationSide, NotificationTypeEntity notificationType);
 
-    // TODO findByNotificationMessageEdcNotificationId
     @Query("SELECT notification FROM NotificationEntity notification JOIN notification.messages notificationMessage WHERE notificationMessage.edcNotificationId = :edcNotificationId")
-    Optional<NotificationEntity> findByNotificationsEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
+    Optional<NotificationEntity> findByNotificationMessageEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
 
-    // TODO findByNotificationMessageId
     @Query("SELECT notification FROM NotificationEntity notification JOIN notification.messages notificationMessage WHERE notificationMessage.id = :id")
     Optional<NotificationEntity> findByNotificationMessageId(@Param("id") String id);
 

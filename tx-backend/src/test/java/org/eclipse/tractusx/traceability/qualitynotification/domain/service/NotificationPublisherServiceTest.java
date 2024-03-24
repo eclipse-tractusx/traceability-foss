@@ -36,6 +36,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.e
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.NotificationNotSupportedException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
@@ -88,20 +89,24 @@ class NotificationPublisherServiceTest {
         // Given
         String title = "title";
         String description = "Test investigation";
-        when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
+        List<String> assets = Arrays.asList("asset-1", "asset-2");
+        Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
+        when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
         String receiverBpn = "someReceiverBpn";
+        StartQualityNotification startNotification = StartQualityNotification.builder()
+                .title(title)
+                .partIds(assets)
+                .description(description)
+                .targetDate(targetDate)
+                .severity(QualityNotificationSeverity.MINOR)
+                .type(QualityNotificationType.INVESTIGATION)
+                .receiverBpn(receiverBpn)
+                .isAsBuilt(true)
+                .build();
 
         // When
-        QualityNotification result = notificationPublisherService.startQualityNotification(
-                title,
-                Arrays.asList("asset-1", "asset-2"),
-                description,
-                Instant.parse("2022-03-01T12:00:00Z"),
-                QualityNotificationSeverity.MINOR,
-                QualityNotificationType.INVESTIGATION,
-                receiverBpn,
-                true);
+        QualityNotification result = notificationPublisherService.startQualityNotification(startNotification);
 
         // Then
         assertThat(result.getTitle()).isEqualTo(title);
@@ -119,17 +124,21 @@ class NotificationPublisherServiceTest {
         String title = "Title";
         String description = "Test investigation";
         String receiverBpn = "someReceiverBpn";
+        Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
+        List<String> assets = Arrays.asList("asset-1", "asset-2");
+        StartQualityNotification startNotification = StartQualityNotification.builder()
+                .title(title)
+                .partIds(assets)
+                .description(description)
+                .targetDate(targetDate)
+                .severity(QualityNotificationSeverity.MINOR)
+                .type(QualityNotificationType.INVESTIGATION)
+                .receiverBpn(receiverBpn)
+                .isAsBuilt(false)
+                .build();
 
         // Then
-        assertThrows(NotificationNotSupportedException.class, () -> notificationPublisherService.startQualityNotification(
-                title,
-                Arrays.asList("asset-1", "asset-2"),
-                description,
-                Instant.parse("2022-03-01T12:00:00Z"),
-                QualityNotificationSeverity.MINOR,
-                QualityNotificationType.INVESTIGATION,
-                receiverBpn,
-                false));
+        assertThrows(NotificationNotSupportedException.class, () -> notificationPublisherService.startQualityNotification(startNotification));
     }
 
     @Test
@@ -137,20 +146,23 @@ class NotificationPublisherServiceTest {
         // Given
         String title = "Title";
         String description = "Test investigation";
-        String receiverBPN = "BPN00001";
+        String receiverBpn = "BPN00001";
+        Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
+        List<String> assets = Arrays.asList("asset-1", "asset-2");
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
-        when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
-
+        when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
+        StartQualityNotification startNotification = StartQualityNotification.builder()
+                .title(title)
+                .partIds(assets)
+                .description(description)
+                .targetDate(targetDate)
+                .severity(QualityNotificationSeverity.MINOR)
+                .type(QualityNotificationType.INVESTIGATION)
+                .receiverBpn(receiverBpn)
+                .isAsBuilt(true)
+                .build();
         // When
-        QualityNotification result = notificationPublisherService.startQualityNotification(
-                title,
-                Arrays.asList("asset-1", "asset-2"),
-                description,
-                Instant.parse("2022-03-01T12:00:00Z"),
-                QualityNotificationSeverity.MINOR,
-                QualityNotificationType.ALERT,
-                receiverBPN,
-                true);
+        QualityNotification result = notificationPublisherService.startQualityNotification(startNotification);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.CREATED);
@@ -160,7 +172,7 @@ class NotificationPublisherServiceTest {
                 .containsExactly(QualityNotificationSeverity.MINOR);
         assertThat(result.getNotifications()).hasSize(1)
                 .first()
-                .hasFieldOrPropertyWithValue("sendTo", receiverBPN);
+                .hasFieldOrPropertyWithValue("sendTo", receiverBpn);
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
 
     }

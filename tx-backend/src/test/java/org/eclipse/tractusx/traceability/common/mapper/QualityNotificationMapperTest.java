@@ -73,7 +73,7 @@ class QualityNotificationMapperTest {
         assertEquals(description, result.getDescription());
         assertEquals(List.of("123"), result.getAssetIds());
         assertEquals(List.of(notification), result.getNotifications());
-        assertEquals(result.getNotificationType(), QualityNotificationType.INVESTIGATION);
+        assertEquals(QualityNotificationType.INVESTIGATION, result.getNotificationType());
     }
 }
 

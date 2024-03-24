@@ -19,7 +19,5 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.QualityNotificationRepository;
-
 public interface NotificationRepository extends QualityNotificationRepository {
 }

@@ -30,16 +30,14 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.NotificationNotSupportedException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.model.StartQualityNotification;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -59,18 +57,27 @@ public class NotificationPublisherService {
     private final Clock clock;
 
 
-    public QualityNotification startQualityNotification(String title, List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, QualityNotificationType type, String receiverBpn, boolean isAsBuilt) {
+    public QualityNotification startQualityNotification(StartQualityNotification startQualityNotification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        QualityNotification notification = QualityNotification.startNotification(title, clock.instant(), applicationBPN, description, type);
-        if (isAsBuilt) {
-            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(assetIds).stream().collect(groupingBy(AssetBase::getManufacturerId));
+        QualityNotification notification = QualityNotification.startNotification(startQualityNotification.getTitle(), clock.instant(), applicationBPN, startQualityNotification.getDescription(), startQualityNotification.getType());
+        if (startQualityNotification.isAsBuilt()) {
+            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(startQualityNotification.getPartIds()).stream().collect(groupingBy(AssetBase::getManufacturerId));
             assetsAsBuiltBPNMap
                     .entrySet()
                     .stream()
                     .map(it -> {
                         String creator = getManufacturerNameByBpn(traceabilityProperties.getBpn().value());
-                        String sendToName = getManufacturerNameByBpn(receiverBpn);
-                        return QualityNotificationMessage.create(applicationBPN, receiverBpn, description, targetDate, severity, type, it, creator, sendToName);
+                        String sendToName = getManufacturerNameByBpn(startQualityNotification.getReceiverBpn());
+                        return QualityNotificationMessage.create(
+                                applicationBPN,
+                                startQualityNotification.getReceiverBpn(),
+                                startQualityNotification.getDescription(),
+                                startQualityNotification.getTargetDate(),
+                                startQualityNotification.getSeverity(),
+                                startQualityNotification.getType(),
+                                it,
+                                creator,
+                                sendToName);
                     })
                     .forEach(notification::addNotification);
             return notification;
