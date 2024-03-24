@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.notification.rest.NotificationController;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -49,7 +49,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification.from;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.notification.model.StartQualityNotification.from;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

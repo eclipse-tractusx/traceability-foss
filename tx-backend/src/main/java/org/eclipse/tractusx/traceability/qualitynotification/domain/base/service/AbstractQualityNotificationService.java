@@ -23,8 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
@@ -32,7 +32,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.QualityNotificationRepository;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
@@ -61,6 +61,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
     @Override
     public QualityNotificationId start(StartQualityNotification startQualityNotification) {
         QualityNotification notification = notificationPublisherService.startQualityNotification(
+                startQualityNotification.getTitle(),
                 startQualityNotification.getPartIds(),
                 startQualityNotification.getDescription(),
                 startQualityNotification.getTargetDate(),

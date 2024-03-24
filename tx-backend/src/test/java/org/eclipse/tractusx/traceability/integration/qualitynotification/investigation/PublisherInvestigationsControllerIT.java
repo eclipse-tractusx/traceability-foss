@@ -30,8 +30,6 @@ import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestPar
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -39,7 +37,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.service.NotificationReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.hamcrest.Matchers;
@@ -68,7 +66,7 @@ import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVIS
 class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Autowired
-    InvestigationsReceiverService investigationsReceiverService;
+    NotificationReceiverService notificationReceiverService;
 
     @Autowired
     AssetsSupport assetsSupport;
@@ -112,7 +110,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 "it", notificationBuild);
 
         // when
-        investigationsReceiverService.handleReceive(notification, notificationType);
+        notificationReceiverService.handleReceive(notification, notificationType);
 
         // then
         notificationSupport.assertInvestigationsSize(1);

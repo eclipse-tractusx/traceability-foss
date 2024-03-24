@@ -36,8 +36,6 @@ import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
@@ -47,6 +45,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -79,8 +78,7 @@ public class InvestigationsEDCFacade {
 
     @Qualifier(EDC_NOTIFICATION_TEMPLATE)
     private final RestTemplate edcNotificationTemplate;
-    private final InvestigationRepository investigationRepository;
-    private final AlertRepository alertRepository;
+    private final NotificationRepository notificationRepository;
 
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
@@ -188,18 +186,11 @@ public class InvestigationsEDCFacade {
                 throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
             } else {
                 String edcNotificationId = message.getEdcNotificationId();
-                if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
-                    Optional<QualityNotification> optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(edcNotificationId);
-                    if (optionalQualityNotificationById.isPresent()) {
-                        optionalQualityNotificationById.ifPresent(investigationRepository::updateQualityNotificationEntity);
-                        log.info("Updated qualitynotification message as investigation with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
-                    }
-                } else {
-                    Optional<QualityNotification> optionalQualityNotificationById = alertRepository.findByEdcNotificationId(edcNotificationId);
-                    if (optionalQualityNotificationById.isPresent()) {
-                        optionalQualityNotificationById.ifPresent(alertRepository::updateQualityNotificationEntity);
-                        log.info("Updated qualitynotification message as alert with id {}.", optionalQualityNotificationById.get().getNotificationId().value());
-                    }
+
+                Optional<QualityNotification> optionalQualityNotificationById = notificationRepository.findByEdcNotificationId(edcNotificationId);
+                if (optionalQualityNotificationById.isPresent()) {
+                    optionalQualityNotificationById.ifPresent(notificationRepository::updateQualityNotificationEntity);
+                    log.info("Updated qualitynotification message as {} with id {}.", message.getType(), optionalQualityNotificationById.get().getNotificationId().value());
                 }
             }
         } catch (Exception e) {

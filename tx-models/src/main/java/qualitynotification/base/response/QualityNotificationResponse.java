@@ -41,6 +41,10 @@ public class QualityNotificationResponse {
     @Size(max = 255)
     private Long id;
 
+    @Schema(example = "Title", maxLength = 255)
+    @Size(max = 255)
+    private String title;
+
     @Schema(example = "CREATED", maxLength = 255)
     @Size(max = 255)
     private QualityNotificationStatusResponse status;

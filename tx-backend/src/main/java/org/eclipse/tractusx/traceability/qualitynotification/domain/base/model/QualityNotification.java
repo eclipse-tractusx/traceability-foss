@@ -23,8 +23,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ import java.util.Optional;
 @Builder(toBuilder = true)
 @Slf4j
 public class QualityNotification {
+    private String title;
     private BPN bpn;
     private QualityNotificationId notificationId;
     private QualityNotificationStatus notificationStatus;
@@ -54,20 +55,9 @@ public class QualityNotification {
     private List<QualityNotificationMessage> notifications = List.of();
 
 
-    // TODO cleanup afterwards
-    public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
+    public static QualityNotification startNotification(String title, Instant createDate, BPN bpn, String description, QualityNotificationType notificationType) {
         return QualityNotification.builder()
-                .bpn(bpn)
-                .notificationStatus(QualityNotificationStatus.CREATED)
-                .notificationSide(QualityNotificationSide.SENDER)
-                .description(description)
-                .createdAt(createDate)
-                .assetIds(Collections.emptyList())
-                .build();
-    }
-
-    public static QualityNotification startNotification(Instant createDate, BPN bpn, String description, QualityNotificationType notificationType) { // rename to generic
-        return QualityNotification.builder()
+                .title(title)
                 .bpn(bpn)
                 .notificationStatus(QualityNotificationStatus.CREATED)
                 .notificationSide(QualityNotificationSide.SENDER)

@@ -40,10 +40,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationTypeEntity;
 
 import java.util.List;
 
@@ -81,6 +77,7 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .map(AssetAsBuiltEntity::getId)
                 .toList();
         return QualityNotification.builder()
+                .title(notificationEntity.getTitle())
                 .notificationId(new QualityNotificationId(notificationEntity.getId()))
                 .bpn(BPN.of(notificationEntity.getBpn()))
                 .notificationStatus(QualityNotificationStatus.fromStringValue(notificationEntity.getStatus().name()))
@@ -98,6 +95,7 @@ public class NotificationEntity extends NotificationBaseEntity {
 
     public static NotificationEntity from(QualityNotification notification, List<AssetAsBuiltEntity> assetEntities) {
         return NotificationEntity.builder()
+                .title(notification.getTitle())
                 .assets(assetEntities)
                 .bpn(notification.getBpn())
                 .description(notification.getDescription())

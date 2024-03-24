@@ -29,7 +29,7 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.QualityNotificationFieldMapper;
-import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
@@ -54,8 +54,8 @@ import qualitynotification.base.response.QualityNotificationResponse;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
-import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
-import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification.from;
+import static org.eclipse.tractusx.traceability.qualitynotification.application.notification.validation.UpdateQualityNotificationValidator.validate;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.notification.model.StartQualityNotification.from;
 
 @RestController
 @RequestMapping(value = "/notifications", consumes = "application/json", produces = "application/json")

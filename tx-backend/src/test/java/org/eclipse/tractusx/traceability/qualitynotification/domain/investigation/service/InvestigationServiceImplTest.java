@@ -18,13 +18,12 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.NotificationNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.NotificationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.NotificationNotFoundException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.service.NotificationServiceImpl;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.service.NotificationServiceImpl;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -33,7 +33,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.service.NotificationReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
@@ -68,7 +68,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
     ObjectMapper objectMapper;
     @Autowired
-    AlertsReceiverService alertsReceiverService;
+    NotificationReceiverService notificationReceiverService;
     @Autowired
     AlertsSupport alertsSupport;
     @Autowired
@@ -110,7 +110,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
 
         // when
-        alertsReceiverService.handleReceive(notification, notificationType);
+        notificationReceiverService.handleReceive(notification, notificationType);
 
         // then
         alertsSupport.assertAlertsSize(1);

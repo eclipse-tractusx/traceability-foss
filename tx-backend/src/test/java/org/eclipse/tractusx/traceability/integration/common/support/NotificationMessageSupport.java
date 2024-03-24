@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationMessageRepository;
 import org.springframework.stereotype.Component;
@@ -34,6 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class NotificationMessageSupport {
 
     private final JpaNotificationMessageRepository jpaNotificationMessageRepository;
+
     public void assertNotificationsSize(int size) {
         List<NotificationMessageEntity> notifications = jpaNotificationMessageRepository.findAll();
         assertThat(notifications).hasSize(size);

@@ -25,7 +25,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
