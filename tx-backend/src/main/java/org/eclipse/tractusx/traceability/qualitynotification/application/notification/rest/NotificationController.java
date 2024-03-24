@@ -28,9 +28,9 @@ import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper.AlertResponseMapper;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationFieldMapper;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.QualityNotificationFieldMapper;
+import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,12 +44,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationStatusRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
 
 import java.util.List;
 
@@ -86,18 +86,18 @@ public class NotificationController {
     }
 
     @PostMapping("/filter")
-    public PageResult<AlertResponse> getAlerts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
+    public PageResult<QualityNotificationResponse> getAlerts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
         log.info("Received API call on /notifications/filter");
-        return AlertResponseMapper.fromAsPageResult(
+        return NotificationResponseMapper.fromAsPageResult(
                 notificationService.getNotifications(
                         OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), fieldMapper),
                         pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(fieldMapper)));
     }
 
     @GetMapping("/{notificationId}")
-    public AlertResponse getAlert(@PathVariable("notificationId") Long notificationId) {
+    public QualityNotificationResponse getAlert(@PathVariable("notificationId") Long notificationId) {
         log.info("Received API call on /notifications/" + "/{}", notificationId);
-        return AlertResponseMapper.from(notificationService.find(notificationId));
+        return NotificationResponseMapper.from(notificationService.find(notificationId));
     }
 
     @PostMapping("/{notificationId}/approve")

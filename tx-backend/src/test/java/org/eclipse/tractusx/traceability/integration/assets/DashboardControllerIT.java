@@ -177,7 +177,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(notificationRequest))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(201);
 

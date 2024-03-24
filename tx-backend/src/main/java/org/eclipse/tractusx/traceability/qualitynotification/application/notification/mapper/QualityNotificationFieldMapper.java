@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper;
+package org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper;
 
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.springframework.stereotype.Component;

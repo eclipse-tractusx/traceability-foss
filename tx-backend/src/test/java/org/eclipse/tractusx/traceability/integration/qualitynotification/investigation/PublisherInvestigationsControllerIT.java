@@ -145,7 +145,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(request))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(201)
                 .body("id", Matchers.isA(Number.class));
@@ -163,7 +163,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -191,7 +191,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(request))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(400);
     }
@@ -219,7 +219,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(request))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(400)
                 .body(Matchers.containsString("Description should have at least 15 characters and at most 1000 characters"));
@@ -242,7 +242,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(request))
                 .header(oAuth2Support.jwtAuthorization(JwtRole.SUPERVISOR))
                 .when()
-                .post("/api/investigations/1/update")
+                .post("/api/notifications/1/update")
                 .then()
                 .statusCode(400)
                 .body(Matchers.containsString("Reason should have at least 15 characters and at most 1000 characters"));
@@ -267,7 +267,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                         .replace("ACCEPTED", "wrongStatus"))
                 .header(oAuth2Support.jwtAuthorization(JwtRole.SUPERVISOR))
                 .when()
-                .post("/api/investigations/1/update")
+                .post("/api/notifications/1/update")
                 .then()
                 .statusCode(400)
                 .body(Matchers.containsString("message\":\"NoSuchElementException: Unsupported UpdateInvestigationStatus: wrongStatus. Must be one of: ACKNOWLEDGED, ACCEPTED, DECLINED"));
@@ -290,7 +290,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(201)
                 .extract().path("id");
@@ -300,7 +300,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -311,7 +311,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/$investigationId/cancel".replace("$investigationId", investigationId.toString()))
+                .post("/api/notifications/$investigationId/cancel".replace("$investigationId", investigationId.toString()))
                 .then()
                 .statusCode(204);
 
@@ -320,7 +320,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -352,7 +352,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(201)
                 .extract().path("id");
@@ -363,7 +363,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations/{investigationId}/approve", investigationId)
+                .post("/api/notifications/{investigationId}/approve", investigationId)
                 .then()
                 .statusCode(204);
 
@@ -373,7 +373,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -410,7 +410,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(201)
                 .extract().path("id");
@@ -423,7 +423,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations/{investigationId}/approve", investigationId)
+                .post("/api/notifications/{investigationId}/approve", investigationId)
                 .then()
                 .statusCode(204);
         // then
@@ -432,7 +432,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -451,7 +451,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(closeInvestigationRequest))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations/{investigationId}/close", investigationId)
+                .post("/api/notifications/{investigationId}/close", investigationId)
                 .then()
                 .statusCode(204);
 
@@ -461,7 +461,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -479,7 +479,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/1/cancel")
+                .post("/api/notifications/1/cancel")
                 .then()
                 .statusCode(404)
                 .body("message", Matchers.is("Notification with id: 1 not found"));
@@ -492,7 +492,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/1/cancel")
+                .post("/api/notifications/1/cancel")
                 .then()
                 .statusCode(401);
     }
@@ -521,7 +521,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(startInvestigationRequest))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(201)
                 .body("id", Matchers.isA(Number.class));
@@ -538,7 +538,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))

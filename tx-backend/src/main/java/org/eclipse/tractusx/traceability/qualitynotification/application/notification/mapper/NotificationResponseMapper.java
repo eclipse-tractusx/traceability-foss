@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,11 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper;
+package org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper;
 
 import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
@@ -29,21 +28,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.response.QualityNotificationReasonResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
 
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationMapper.fromNotifications;
+import static org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.QualityNotificationMapper.fromNotifications;
 
 @UtilityClass
-public class AlertResponseMapper {
+public class NotificationResponseMapper {
 
-    public static AlertResponse from(QualityNotification qualityNotification) {
-        return AlertResponse
+    public static QualityNotificationResponse from(QualityNotification qualityNotification) {
+        return QualityNotificationResponse
                 .builder()
                 .id(qualityNotification.getNotificationId().value())
                 .status(QualityNotificationMapper.from(qualityNotification.getNotificationStatus()))
@@ -66,13 +65,13 @@ public class AlertResponseMapper {
                 .build();
     }
 
-    public static PageResult<AlertResponse> fromAsPageResult(PageResult<QualityNotification> qualityNotificationPageResult) {
-        List<AlertResponse> investigationResponses = qualityNotificationPageResult.content().stream().map(AlertResponseMapper::from).toList();
+    public static PageResult<QualityNotificationResponse> fromAsPageResult(PageResult<QualityNotification> qualityNotificationPageResult) {
+        List<QualityNotificationResponse> investigationResponses = qualityNotificationPageResult.content().stream().map(NotificationResponseMapper::from).toList();
         int pageNumber = qualityNotificationPageResult.page();
         int pageSize = qualityNotificationPageResult.pageSize();
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Page<AlertResponse> investigationDataPage = new PageImpl<>(investigationResponses, pageable, qualityNotificationPageResult.totalItems());
+        Page<QualityNotificationResponse> investigationDataPage = new PageImpl<>(investigationResponses, pageable, qualityNotificationPageResult.totalItems());
         return new PageResult<>(investigationDataPage);
     }
 

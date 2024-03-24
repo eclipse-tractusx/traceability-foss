@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper;
+package org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper;
 
 import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;

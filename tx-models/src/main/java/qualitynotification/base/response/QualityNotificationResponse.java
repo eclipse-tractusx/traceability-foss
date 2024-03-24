@@ -18,6 +18,7 @@
  ********************************************************************************/
 package qualitynotification.base.response;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ import java.util.Optional;
 @SuperBuilder
 @AllArgsConstructor
 @RequiredArgsConstructor
+@ArraySchema(arraySchema = @Schema(description = "Notifications", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
 public class QualityNotificationResponse {
 
     @Schema(example = "66", maxLength = 255)

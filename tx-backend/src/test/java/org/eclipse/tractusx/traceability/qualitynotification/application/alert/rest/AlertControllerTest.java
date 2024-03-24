@@ -19,7 +19,8 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.rest.NotificationController;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
@@ -31,7 +32,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
 import qualitynotification.base.request.QualityNotificationTypeRequest;
@@ -40,6 +40,7 @@ import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.base.response.QualityNotificationReasonResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
 import qualitynotification.base.response.QualityNotificationSeverityResponse;
 import qualitynotification.base.response.QualityNotificationSideResponse;
 import qualitynotification.base.response.QualityNotificationStatusResponse;
@@ -61,7 +62,7 @@ class AlertControllerTest {
 
 
     @InjectMocks
-    private AlertController controller;
+    private NotificationController controller;
 
     @Test
     void givenRequestBody_whenAlertAssets_thenResponse() {
@@ -97,7 +98,7 @@ class AlertControllerTest {
         when(alertService.find(request)).thenReturn(notification);
 
         // when
-        final AlertResponse result = controller.getAlert(request);
+        final QualityNotificationResponse result = controller.getAlert(request);
 
         // then
         assertThat(result)
