@@ -419,6 +419,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
                         "MAJOR",
                         "CRITICAL",
                         "LIFE_THREATENING"
+                )),
+                Arguments.of("type", 200, List.of(
+                        "ALERT",
+                        "INVESTIGATION"
                 ))
         );
     }

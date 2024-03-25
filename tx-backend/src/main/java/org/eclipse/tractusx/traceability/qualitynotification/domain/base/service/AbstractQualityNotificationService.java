@@ -24,6 +24,7 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.application.notification.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.model.StartQualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
@@ -47,7 +48,7 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
 
     private final TraceabilityProperties traceabilityProperties;
     private final NotificationPublisherService notificationPublisherService;
-    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "messages_severity");
+    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "messages_severity", "type");
 
     protected abstract QualityNotificationRepository getQualityNotificationRepository();
 
@@ -174,6 +175,8 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
             case "side" -> Arrays.stream(QualityNotificationSide.values()).map(Enum::name).toList();
             case "messages_severity" ->
                     Arrays.stream(QualityNotificationSeverity.values()).map(Enum::name).toList();
+            case "type" ->
+                    Arrays.stream(QualityNotificationType.values()).map(Enum::name).toList();
             default -> null;
         };
     }

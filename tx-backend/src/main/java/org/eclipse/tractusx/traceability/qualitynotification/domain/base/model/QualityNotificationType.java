@@ -22,8 +22,8 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 import qualitynotification.base.request.QualityNotificationTypeRequest;
 
 public enum QualityNotificationType {
-    INVESTIGATION("INVESTIGATION"),
-    ALERT("ALERT");
+    ALERT("ALERT"),
+    INVESTIGATION("INVESTIGATION");
 
     private final String realName;
 
