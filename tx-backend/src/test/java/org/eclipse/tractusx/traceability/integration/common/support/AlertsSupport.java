@@ -48,6 +48,7 @@ public class AlertsSupport {
 
     public Long defaultReceivedAlertStored() {
         NotificationEntity entity = NotificationEntity.builder()
+                .title("test")
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(NotificationStatusBaseEntity.RECEIVED)

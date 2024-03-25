@@ -45,6 +45,7 @@ public class QualityNotificationFieldMapper extends BaseRequestFieldMapper {
             Map.entry("sendToName", "messages_sendToName"),
             Map.entry("targetDate", "messages_targetDate"),
             Map.entry("assetId", "assets_id"),
+            Map.entry("title", "title"),
             Map.entry("type", "type")
 
     );
