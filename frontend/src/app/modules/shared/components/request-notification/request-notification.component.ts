@@ -97,7 +97,8 @@ export class RequestNotificationComponent {
     const { description, bpn, severity } = this.formGroup.value;
     const { link, queryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
-    this.notificationService.createAlert(partIds, description, severity, bpn, isAsBuilt).subscribe({
+    let type = this.isInvestigation ? "INVESTIGATION" : "ALERT";
+    this.notificationService.createAlert(partIds, description, severity, bpn, isAsBuilt, type).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: (err) => this.onUnsuccessfulSubmit(err.error.message),
     });
