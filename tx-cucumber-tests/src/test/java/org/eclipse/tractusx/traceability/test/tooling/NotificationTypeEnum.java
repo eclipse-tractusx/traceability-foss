@@ -18,14 +18,14 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.test.tooling;
 
+import qualitynotification.base.request.QualityNotificationTypeRequest;
+
 public enum NotificationTypeEnum {
-    ALERT("alerts"),
+    ALERT,
 
-    INVESTIGATION("investigations");
+    INVESTIGATION;
 
-    public final String label;
-
-    NotificationTypeEnum(String label) {
-        this.label = label;
+    public QualityNotificationTypeRequest toRequest() {
+        return QualityNotificationTypeRequest.fromValue(this.name());
     }
 }
