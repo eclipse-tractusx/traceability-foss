@@ -126,7 +126,9 @@
       "sentActiveInvestigations" : "Created",
       "importState": "Import State",
       "importNote": "Import Note",
-      "importDate": "Import Date"
+      "importDate": "Import Date",
+      "type": "Type",
+      "title": "Title"
     }
   },
   "dataLoading": {

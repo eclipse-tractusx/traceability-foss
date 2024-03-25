@@ -44,7 +44,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName'> = [];
+  @Input() optionalColumns: Array<'title'|'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName' | 'type'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
   @Input() notificationType = NotificationType.INVESTIGATION;
@@ -88,7 +88,7 @@ export class NotificationTabComponent implements AfterViewInit {
         createdBy: this.bpnTemplate,
         sendToName: this.userTemplate,
         createdByName: this.userTemplate,
-        sendTo: this.bpnTemplate,
+        sendTo: this.bpnTemplate
       },
     };
 

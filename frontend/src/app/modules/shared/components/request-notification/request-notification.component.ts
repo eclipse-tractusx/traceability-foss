@@ -45,6 +45,7 @@ export class RequestNotificationComponent {
   @Input() set notificationType(notificationType: NotificationType) {
     this.context = notificationType === NotificationType.INVESTIGATION ? 'requestInvestigations' : 'requestAlert';
     this.isInvestigation = notificationType === NotificationType.INVESTIGATION;
+    this.formGroup.addControl('title', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(5) ]));
     this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
     this.formGroup.addControl('severity', new FormControl(Severity.MINOR, [ Validators.required ]));
     if (this.isInvestigation) {

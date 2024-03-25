@@ -130,7 +130,9 @@
       "sentActiveInvestigations" : "Erstellte",
       "importState": "Importstatus",
       "importNote": "Importbemerkung",
-      "importDate": "Importdatum"
+      "importDate": "Importdatum",
+      "type": "Typ",
+      "title": "Titel"
 
     }
   },

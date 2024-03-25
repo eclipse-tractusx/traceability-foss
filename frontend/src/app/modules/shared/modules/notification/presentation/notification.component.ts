@@ -21,13 +21,13 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {TableType} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 @Component({
   selector: 'app-notification',
@@ -38,9 +38,9 @@ export class NotificationComponent {
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() receivedOptionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'createdByName'> = [];
+  @Input() receivedOptionalColumns: Array<'title' | 'targetDate' | 'severity' | 'createdBy' | 'createdByName' | 'type'> = [];
   @Input() receivedSortableColumns: Record<string, boolean> = {};
-  @Input() queuedAndRequestedOptionalColumns: Array<'targetDate' | 'severity' | 'sendTo'| 'sendToName'> = [];
+  @Input() queuedAndRequestedOptionalColumns: Array<'title' | 'targetDate' | 'severity' | 'sendTo' | 'sendToName' | 'type'> = [];
   @Input() queuedAndRequestedSortableColumns: Record<string, boolean> = {};
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];

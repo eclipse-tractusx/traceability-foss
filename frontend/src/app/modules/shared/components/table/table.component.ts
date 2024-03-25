@@ -186,6 +186,8 @@ export class TableComponent {
       displayFilterColumnMappings: displayFilterColumnMappings,
     };
 
+    console.log(this.tableViewConfig, "viewconfig");
+
     for (const controlName in this.tableViewConfig.filterFormGroup) {
       if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);

@@ -119,7 +119,7 @@ SPDX-License-Identifier: Apache-2.0
                 [translationContext]="'commonInvestigation'"
                 [labelId]="'dashboard-investigations-received'"
                 [hasPagination]="false"
-                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                [optionalColumns]="['title', 'targetDate', 'severity', 'createdBy']"
                 (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
@@ -160,7 +160,7 @@ SPDX-License-Identifier: Apache-2.0
                 [translationContext]="'commonInvestigation'"
                 [labelId]="'dashboard-investigations-created'"
                 [hasPagination]="false"
-                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                [optionalColumns]="['title', 'targetDate', 'severity', 'createdBy']"
                 (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
@@ -217,7 +217,7 @@ SPDX-License-Identifier: Apache-2.0
                 [translationContext]="'commonAlert'"
                 [labelId]="'dashboard-alerts-received'"
                 [hasPagination]="false"
-                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                [optionalColumns]="['title','targetDate', 'severity', 'createdBy']"
                 [tableType]="TableType.RECEIVED_ALERT"
                 (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
@@ -259,7 +259,7 @@ SPDX-License-Identifier: Apache-2.0
                 [tableType]="TableType.RECEIVED_ALERT"
                 [labelId]="'dashboard-alerts-created'"
                 [hasPagination]="false"
-                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                [optionalColumns]="['title', 'targetDate', 'severity', 'createdBy']"
                 (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
