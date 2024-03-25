@@ -12,6 +12,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #695 OAuth2.0 Client scope configuration
 - #606 Added error message into notifications on failure
 - #596 Added Policy management documentation
+- Added overview of the scheduler tasks in documentation
 
 ### Changed
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
@@ -20,6 +21,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #709 Fixed CVE-2024-22257 overriding spring-security-core from 6.1.7 to 6.2.3
 - #596 Policy management has been moved to different module
 - #617 Added action bar to top of inbox
+- #762 updated documentation for release 24.5
 
 ### Removed
 - Shedlock, resilence4j, templateResolver as not used anymore

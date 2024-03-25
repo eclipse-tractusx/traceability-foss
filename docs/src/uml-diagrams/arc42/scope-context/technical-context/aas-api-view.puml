@@ -7,6 +7,10 @@ skinparam ranksep 20
 actor "User" as User
 component [**Trace-X**] <<System>> as Trace
 
+node "Eclipse Dataspace Connector" {
+    [**EDC**] <<Component>> as EDC
+}
+
 node "Digital Twin Registry" {
     [**AAS Registry**] <<Component>> as AASR
 }
@@ -16,14 +20,17 @@ node "IAM" {
 }
 
 interface "TRACE API" as TAPI
+interface "EDC API" as EAPI
 interface "OIDC" as IAMAPI
 interface "Registry API" as IRAPI
 
 User -( TAPI
 TAPI - Trace
-Trace --( IRAPI
+Trace --( EAPI
 IRAPI -- AASR
 Trace --down( IAMAPI
 AASR --( IAMAPI
 KIAM -- IAMAPI
+EAPI -- EDC
+EDC --( IRAPI
 @enduml

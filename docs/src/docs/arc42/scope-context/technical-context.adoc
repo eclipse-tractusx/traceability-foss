@@ -41,8 +41,10 @@ Request contains details required to start IRS fetch job provided by the compone
 include::../../../uml-diagrams/arc42/scope-context/technical-context/portal-api-view.puml[]
 ....
 
-The Trace-X acts as a consumer of the Portal component. The Trace-X contains a Restful client (REST template) that build a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
-Request contains "bpns" provided by the component during sending notifications. Like described in the above section, the security aspect is required in order to achieve a REST call against the Portal. As a response, the Trace-X gets the corresponding BPN mappings to EDC urls where a notification should be send over. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
+The Trace-X acts as a consumer of the Portal component.
+The Trace-X contains a Restful client (REST template) that builds a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
+The Portal is used to authenticate users and requests against the backend.
+And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
 
 === [Outdated] EDC API
 
@@ -51,4 +53,8 @@ Request contains "bpns" provided by the component during sending notifications. 
 include::../../../uml-diagrams/arc42/scope-context/technical-context/edc-api-view.puml[]
 ....
 
-The Trace-X acts as a consumer of the EDC component. In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality. Specific use cases can be viewed in xref:../runtime-view/index.adoc[Runtime view] section. For this purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
+The Trace-X acts as a consumer and provider of the EDC component.
+In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality.
+Specific use cases can be viewed in xref:../runtime-view/index.adoc[Runtime view] section.
+For these purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component.
+And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
