@@ -33,12 +33,12 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.service.NotificationReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.service.NotificationReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationFactory;
 import org.hamcrest.Matchers;
@@ -559,5 +559,35 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
+    }
+
+    @Test
+    void shouldReturn404WhenNoNotificationTypeSpecified() throws JsonProcessingException, JoseException {
+        // given
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        );
+        String description = "at least 15 characters long investigation description";
+
+        assetsSupport.defaultAssetsStored();
+
+        val startAlertRequest = StartQualityNotificationRequest.builder()
+                .partIds(partIds)
+                .description(description)
+                .severity(QualityNotificationSeverityRequest.MINOR)
+                .receiverBpn("BPN")
+                .isAsBuilt(true)
+                .build();
+
+        // when
+        given()
+                .contentType(ContentType.JSON)
+                .body(objectMapper.writeValueAsString(startAlertRequest))
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/notifications")
+                .then()
+                .statusCode(400);
     }
 }
