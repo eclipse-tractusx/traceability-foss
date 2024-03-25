@@ -52,6 +52,7 @@ public class NotificationResponseMapper {
                 .createdDate(qualityNotification.getCreatedAt().toString())
                 .assetIds(Collections.unmodifiableList(qualityNotification.getAssetIds()))
                 .channel(QualityNotificationMapper.from(qualityNotification.getNotificationSide()))
+                .type(QualityNotificationMapper.from(qualityNotification.getNotificationType()))
                 .reason(new QualityNotificationReasonResponse(
                         qualityNotification.getCloseReason(),
                         qualityNotification.getAcceptReason(),

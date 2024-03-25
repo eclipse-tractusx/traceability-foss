@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
@@ -54,6 +55,8 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Autowired
     InvestigationNotificationsSupport investigationNotificationSupport;
+    @Autowired
+    AlertsSupport alertsSupport;
 
     @Autowired
     AssetsSupport assetsSupport;
@@ -211,6 +214,92 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("totalItems", Matchers.is(8))
                 .body("content", Matchers.hasSize(8));
+    }
+
+    @Test
+    void givenInvestigationsAndAlerts_whenTypeFilter_thenExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        alertsSupport.defaultReceivedAlertStored();
+        String filter = "type,EQUAL,INVESTIGATION,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(14))
+                .body("content", Matchers.hasSize(10));
+    }
+
+    @Test
+    void givenInvestigationsAndAlerts_whenSortByTypeAsc_thenExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        alertsSupport.defaultReceivedAlertStored();
+        String sortString = "type,ASC";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(15))
+                .body("content", Matchers.hasSize(10))
+                .body("content.type", Matchers.containsInRelativeOrder(
+                        "ALERT",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION"));
+    }
+
+    @Test
+    void givenInvestigationsAndAlerts_whenSortByTypeDesc_thenExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        alertsSupport.defaultReceivedAlertStored();
+        String sortString = "type,DESC";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(15))
+                .body("content", Matchers.hasSize(10))
+                .body("content.type", Matchers.containsInRelativeOrder(
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION"));
     }
 
     @Test

@@ -24,10 +24,13 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import qualitynotification.base.response.QualityNotificationMessageResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
 import qualitynotification.base.response.QualityNotificationSeverityResponse;
 import qualitynotification.base.response.QualityNotificationSideResponse;
 import qualitynotification.base.response.QualityNotificationStatusResponse;
+import qualitynotification.base.response.QualityNotificationTypeResponse;
 
 import java.util.List;
 
@@ -44,6 +47,10 @@ public class QualityNotificationMapper {
 
     public static QualityNotificationStatusResponse from(QualityNotificationStatus qualityNotificationStatus) {
         return QualityNotificationStatusResponse.fromStringValue(qualityNotificationStatus.name());
+    }
+
+    public static QualityNotificationTypeResponse from(QualityNotificationType qualityNotificationType) {
+        return QualityNotificationTypeResponse.valueOf(qualityNotificationType.name());
     }
 
     public static List<QualityNotificationMessageResponse> fromNotifications(List<QualityNotificationMessage> notificationMessages) {
