@@ -27,14 +27,11 @@ export class ContractsComponent {
 
   public ngOnInit() {
     this.contractsView$ = this.contractsFacade.contracts$;
-    // only check one emitted value
     this.contractsView$.pipe(take(1)).subscribe(data => {
       if(data?.data?.content.length) {
-        console.log("content is there, returning")
         return;
       } else {
         this.contractsFacade.setContracts(0,10,[null,null]);
-        console.log("fetching new content")
       }
     })
     console.log("ngOnInit")

@@ -22,7 +22,6 @@ export class ContractDetailComponent {
   }
   ngOnInit(): void {
     if(!this.contractsFacade.selectedContract) {
-      console.log("no selected contract saved")
       this.route.params.subscribe(params => {
         this.contractsFacade.setSelectedContractById(params['contractId']);
       })
