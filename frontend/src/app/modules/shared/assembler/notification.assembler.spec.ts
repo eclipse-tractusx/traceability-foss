@@ -53,7 +53,7 @@ describe('InvestigationsAssembler', () => {
       createdDate: new CalendarDateModel(null),
       targetDate: new CalendarDateModel(null),
       bpn: '',
-      type: NotificationType.INVESTIGATION,
+      type: undefined,
       title: '',
     };
 
