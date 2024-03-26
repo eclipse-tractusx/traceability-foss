@@ -73,7 +73,7 @@ describe('requestNotificationComponent', () => {
   describe('Request Investigation', () => {
     it('should render', async () => {
       await renderRequestNotificationComponent(NotificationType.INVESTIGATION);
-      await shouldRender('requestAlert');
+      await shouldRender('requestInvestigations');
 
     });
 
