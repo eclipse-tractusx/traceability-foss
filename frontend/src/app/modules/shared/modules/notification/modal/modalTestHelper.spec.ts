@@ -39,7 +39,7 @@ import { of } from 'rxjs';
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-accept-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [acceptCall]="call"></app-accept-notification-modal>',
+    '<app-toast-container></app-toast-container><app-accept-notification-modal [translationContext]="TranslationContext.COMMONALERT" [acceptCall]="call"></app-accept-notification-modal>',
 })
 class AcceptModalComponent implements AfterViewInit {
   @ViewChild(AcceptNotificationModalComponent) modal: AcceptNotificationModalComponent;
@@ -56,7 +56,7 @@ class AcceptModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-acknowledge-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [acknowledgeCall]="call"></app-acknowledge-notification-modal>',
+    '<app-toast-container></app-toast-container><app-acknowledge-notification-modal [translationContext]="TranslationContext.COMMONALERT" [acknowledgeCall]="call"></app-acknowledge-notification-modal>',
 })
 class AcknowledgeModalComponent implements AfterViewInit {
   @ViewChild(AcknowledgeNotificationModalComponent) modal: AcknowledgeNotificationModalComponent;
@@ -73,7 +73,7 @@ class AcknowledgeModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-approve-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [approveCall]="call"></app-approve-notification-modal>',
+    '<app-toast-container></app-toast-container><app-approve-notification-modal [translationContext]="TranslationContext.COMMONALERT" [approveCall]="call"></app-approve-notification-modal>',
 })
 class ApproveModalComponent implements AfterViewInit {
   @ViewChild(ApproveNotificationModalComponent) modal: ApproveNotificationModalComponent;
@@ -90,7 +90,7 @@ class ApproveModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-cancel-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [cancelCall]="call"></app-cancel-notification-modal>',
+    '<app-toast-container></app-toast-container><app-cancel-notification-modal [translationContext]="TranslationContext.COMMONALERT" [cancelCall]="call"></app-cancel-notification-modal>',
 })
 class CancelModalComponent implements AfterViewInit {
   @ViewChild(CancelNotificationModalComponent) modal: CancelNotificationModalComponent;
@@ -107,7 +107,7 @@ class CancelModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-decline-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [declineCall]="call"></app-decline-notification-modal>',
+    '<app-toast-container></app-toast-container><app-decline-notification-modal [translationContext]="TranslationContext.COMMONALERT" [declineCall]="call"></app-decline-notification-modal>',
 })
 class DeclineModalComponent implements AfterViewInit {
   @ViewChild(DeclineNotificationModalComponent) modal: DeclineNotificationModalComponent;
@@ -124,7 +124,7 @@ class DeclineModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-close-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [closeCall]="call"></app-close-notification-modal>',
+    '<app-toast-container></app-toast-container><app-close-notification-modal [translationContext]="TranslationContext.COMMONALERT" [closeCall]="call"></app-close-notification-modal>',
 })
 class CloseModalComponent implements AfterViewInit {
   @ViewChild(CloseNotificationModalComponent) modal: CloseNotificationModalComponent;
@@ -142,6 +142,7 @@ export const notificationTemplate: Notification = {
   id: 'id-1',
   description: 'Investigation No 1',
   createdBy: 'BPNA',
+  title: 'Title',
   createdByName: 'CompanyA',
   sendTo: 'BPNB',
   sendToName: 'CompanyB',

@@ -42,9 +42,9 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() notificationsView$: Observable<View<Notifications>>;
   @Input() labelId: string;
   @Input() hasPagination = true;
-  @Input() translationContext: 'commonInvestigation' | 'commonAlert';
+  @Input() translationContext: 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName'> = [];
+  @Input() optionalColumns: Array<'title'|'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName' | 'type'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
   @Input() notificationType = NotificationType.INVESTIGATION;
@@ -55,14 +55,14 @@ export class NotificationTabComponent implements AfterViewInit {
   @Output() investigationsFilterChanged = new EventEmitter<any>();
   @Output() alertsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
-
+  @ViewChild('titleTmp') titleTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
   @ViewChild('severityTmp') severityTemplate: TemplateRef<unknown>;
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
   @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>;
-
+  @ViewChild('typeTmp') typeTemplate: TemplateRef<unknown>;
 
   public tableConfig: TableConfig<keyof Notification>;
 
@@ -70,7 +70,7 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
 
-    const defaultColumns: DisplayColumns<keyof Notification>[] = [ 'description', 'status', 'createdDate' ];
+    const defaultColumns: DisplayColumns<keyof Notification>[] = [ 'description', 'title', 'status', 'createdDate' ];
     const displayedColumns: DisplayColumns<keyof Notification>[] = [ ...defaultColumns, ...this.optionalColumns, 'menu' ];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
 
@@ -81,6 +81,7 @@ export class NotificationTabComponent implements AfterViewInit {
       hasPagination: this.hasPagination,
       menuActionsConfig: this.menuActionsConfig || [],
       cellRenderers: {
+        title: this.titleTemplate,
         status: this.statusTemplate,
         severity: this.severityTemplate,
         description: this.descriptionTemplate,
@@ -89,6 +90,7 @@ export class NotificationTabComponent implements AfterViewInit {
         sendToName: this.userTemplate,
         createdByName: this.userTemplate,
         sendTo: this.bpnTemplate,
+        type: this.typeTemplate
       },
     };
 

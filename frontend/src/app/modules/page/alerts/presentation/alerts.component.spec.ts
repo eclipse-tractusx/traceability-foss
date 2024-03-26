@@ -71,6 +71,9 @@ describe('AlertsComponent', () => {
     const alertsComponent = fixture.componentInstance;
 
     let setTableFunctionSpy = spyOn<any>(alertsComponent, 'setTableSortingList').and.callThrough();
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.received')));
+
     let statusColumnHeader = await screen.findByText('table.column.status');
     await waitFor(() => {
       fireEvent.click(statusColumnHeader);
@@ -106,6 +109,9 @@ describe('AlertsComponent', () => {
     const alertsComponent = fixture.componentInstance;
 
     let setTableFunctionSpy = spyOn<any>(alertsComponent, 'setTableSortingList').and.callThrough();
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.received')));
+
     let descriptionColumnHeader = await screen.findByText('table.column.description');
     await waitFor(() => {
       fireEvent.click(descriptionColumnHeader);

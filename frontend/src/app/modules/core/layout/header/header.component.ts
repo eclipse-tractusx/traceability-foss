@@ -37,8 +37,7 @@ export class HeaderComponent {
     about: 'info',
     parts: 'build',
     otherParts: 'commute',
-    investigations: 'inbox',
-    alerts: 'notification_important',
+    alerts: 'inbox',
     admin: 'apps',
   };
 
