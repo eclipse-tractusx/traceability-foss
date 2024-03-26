@@ -302,15 +302,15 @@ If no asset has been found for the given ID, an AssetNotFoundException is thrown
 
 ## Notifications
 
-## Receive Quality Investigation
+## Receive Quality Notification
 
-This sequence diagram describes the process of receiving a quality investigation from another Traceability partner.
+This sequence diagram describes the process of receiving a quality notification from another Traceability partner.
 
 ![arc42_009](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_009.png)
 
 ### Overview
 
-As for the sending of a quality investigation also for receiving of a notification EDC is used to push data from a sender to a receiver.
+As for the sending of a quality notification also for receiving of a notification EDC is used to push data from a sender to a receiver.
 To enable receiving a notification by a partner you need to
 
 * Create notification endpoint for qualitynotifications/receive
@@ -322,9 +322,9 @@ Trace-X implements a functionality to create the assets and their corresponding 
 
 With the notification asset is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to browse the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to push a notification to the specified http endpoint on the receiver side.
 
-## Send Quality Investigation
+## Send Quality Notification
 
-This sequence diagram describes the process of sending a quality investigation between Traceability applications.
+This sequence diagram describes the process of sending a quality notification between Traceability applications.
 
 ![arc42_010](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_010.png)
 
