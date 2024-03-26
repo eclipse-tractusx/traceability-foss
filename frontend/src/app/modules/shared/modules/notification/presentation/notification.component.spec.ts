@@ -39,7 +39,7 @@ import { delay } from 'rxjs/operators';
 import { buildMockInvestigations } from '../../../../../mocks/services/investigations-mock/investigations.test.model';
 import { NotificationModule } from '../notification.module';
 
-fdescribe('NotificationsInboxComponent', () => {
+describe('NotificationsInboxComponent', () => {
   let clickHandler;
 
   beforeEach(() => (clickHandler = jasmine.createSpy()));
