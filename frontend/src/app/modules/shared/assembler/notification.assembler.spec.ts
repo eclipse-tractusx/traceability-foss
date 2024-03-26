@@ -53,7 +53,7 @@ describe('InvestigationsAssembler', () => {
       targetDate: new CalendarDateModel(null),
       bpn: '',
       notificationType: NotificationType.INVESTIGATION,
-      title: 'Title',
+      title: '',
     };
 
     expect(NotificationAssembler.assembleNotification({} as NotificationResponse, NotificationType.INVESTIGATION)).toEqual(expected);
