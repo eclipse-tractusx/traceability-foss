@@ -18,90 +18,124 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
+<div class="part-detail--header--container flex flex-row justify-between items-center mb-1">
+  <div class="part-detail--header--navigation--container">
+    <app-button
+      [color]="'primary'"
+      (click)="this.navigateToParentPath()"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">arrow_back</mat-icon>
+        {{ 'actions.goBack' | i18n }}
+      </div>
+    </app-button>
+  </div>
+  <div class="part-detail--header--action--container flex flex-row justify-center items-center">
+    <div class="action-button-tile"
+         matTooltip="{{ incidentCreationTooltipMessage | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="500"
+    >
+    <app-button
+      [style.cursor]="'pointer'"
+      iconName="announcement"
+      class="action-button-tile mr-2"
+      [isDisabled]="incidentCreationTooltipMessage !== 'routing.createIncident'"
+      (click)="isNotificationRequestOpen.next(true)"
+    >
+    </app-button>
+    </div>
+    <div class="action-button-tile"
+         matTooltip="{{ publishAssetsTooltipMessage | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="500"
+    >
+      <app-button
+        iconName="published_with_changes"
+        class="action-button-tile"
+        [isDisabled]="publishAssetsTooltipMessage !== 'routing.publishAssets'"
+        (click)="isPublisherOpen$.next(true)"
+        ></app-button>
+  </div>
+  </div>
+</div>
+<div class="part-detail--container">
+  <div class="part-detail--part-info--overview overview">
+    <ng-container
+      *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+    ></ng-container>
+  </div>
+  <div class="part-detail--part-info--relation relation"
+       *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
+    <ng-container
+      *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
+    >
+    </ng-container>
+  </div>
 
-<app-sidenav-wrapper [isOpen]="isOpen$ | async" (sidenavAction)="setIsOpen($event)">
-  <mat-accordion *ngIf="isOpen$ | async" class="example-headers-align" multi>
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <mat-panel-title> {{ 'partDetail.tab.header' | i18n }}</mat-panel-title>
-        <mat-panel-description class="justify-between items-center">
-          {{ 'partDetail.tab.description' | i18n }}
-          <mat-icon>info_circle</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div class="part-detail--container">
-        <div class="part-detail--part-info--overview overview">
-          <ng-container
-            *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
-          ></ng-container>
-        </div>
-        <div class="part-detail--part-info--relation relation" *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
-          <ng-container
-            *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
-          >
-          </ng-container>
-        </div>
-
-        <div class="part-detail--part-info--import-state import-state" *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
-          <ng-container
-            *viewContainer="importStateDetails$ | async; main: importStateDetailsMainTmp; error: errorTmp; loading: loaderTmp">
-          </ng-container>
-        </div>
+  <div class="part-detail--part-info--import-state import-state"
+       *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
+    <ng-container
+      *viewContainer="importStateDetails$ | async; main: importStateDetailsMainTmp; error: errorTmp; loading: loaderTmp">
+    </ng-container>
+  </div>
 
 
-        <div class="part-detail--manufacturer-info manufacturer">
-          <ng-container
-            *viewContainer="
+  <div class="part-detail--manufacturer-info manufacturer">
+    <ng-container
+      *viewContainer="
             manufacturerDetails$ | async;
             main: manufacturerDetailsMainTmp;
             error: errorTmp;
             loading: loaderTmp
           "
-          ></ng-container>
-        </div>
+    ></ng-container>
+  </div>
 
-        <div class="part-detail--specific-info specific">
-          <ng-container
-            *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"
-          ></ng-container>
-        </div>
+  <div class="part-detail--specific-info specific">
+    <ng-container
+      *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+    ></ng-container>
+  </div>
 
-        <div class="part-detail--traction-battery tractionbattery" *ngIf="(selectedPartDetails$ | async)?.data?.tractionBatteryCode">
-          <ng-container
-            *viewContainer="tractionBatteryDetails$ | async; main: tractionBatteryDetailsMainTmp; error: errorTmp; loading: loaderTmp">
-          </ng-container>
-        </div>
+  <div class="part-detail--traction-battery tractionbattery"
+       *ngIf="(selectedPartDetails$ | async)?.data?.tractionBatteryCode">
+    <ng-container
+      *viewContainer="tractionBatteryDetails$ | async; main: tractionBatteryDetailsMainTmp; error: errorTmp; loading: loaderTmp">
+    </ng-container>
+  </div>
 
 
-      </div>
+</div>
 
-    </mat-expansion-panel>
+<mat-expansion-panel *ngIf="showStartInvestigationOnChildParts"
+                     [disabled]="!(selectedPartDetails$ | async)?.data?.children?.length || roleService.isAdmin() || isAsPlannedPart"
+                     matTooltip="{{ investigationOnSubcomponentsTooltipMessage | i18n}}"
+                     matTooltipClass="table--header--tooltip"
+                     matTooltipPosition="above"
+                     [class.mdc-tooltip--multiline]="true"
+                     [matTooltipShowDelay]="1000"
+                     [matTooltipDisabled]="!roleService.isAdmin() && !isAsPlannedPart && (selectedPartDetails$ | async)?.data?.children?.length > 0"
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{ 'partDetail.investigation.tab.header' | i18n }}</mat-panel-title>
+    <mat-panel-description class="justify-between items-center">
+      {{ 'partDetail.investigation.tab.description' | i18n }}
+      <mat-icon>announcement</mat-icon>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
 
-    <mat-expansion-panel *ngIf="showStartInvestigation"
-                         [disabled]="!(selectedPartDetails$ | async)?.data?.children?.length || roleService.isAdmin() || isAsPlannedPart"
-                         matTooltip="{{ authorizationTooltipMessage | i18n}}"
-                         matTooltipClass="table--header--tooltip"
-                         matTooltipPosition="above"
-                         [class.mdc-tooltip--multiline]="true"
-                         [matTooltipShowDelay]="1000"
-                         [matTooltipDisabled]="!roleService.isAdmin() && !isAsPlannedPart && (selectedPartDetails$ | async)?.data?.children?.length > 0"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title>{{ 'partDetail.investigation.tab.header' | i18n }}</mat-panel-title>
-        <mat-panel-description class="justify-between items-center">
-          {{ 'partDetail.investigation.tab.description' | i18n }}
-          <mat-icon>announcement</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <app-start-investigation
-        *ngIf="(selectedPartDetails$ | async)?.data?.children?.length"
-        [part]="selectedPartDetails$ | async"
-        (submitted)="setIsOpen(false)"
-      ></app-start-investigation>
-    </mat-expansion-panel>
-  </mat-accordion>
-</app-sidenav-wrapper>
+  <app-start-investigation
+    *ngIf="(selectedPartDetails$ | async)?.data?.children?.length"
+    [part]="selectedPartDetails$ | async"
+    (submitted)="setIsOpen(false)"
+  ></app-start-investigation>
 
+</mat-expansion-panel>
 <ng-template #manufacturerDetailsMainTmp let-manufacturerDetails="view">
   <app-card-list [list]="manufacturerDetails.data" [title]="'partDetail.manufacturerData' | i18n"></app-card-list>
 </ng-template>
@@ -117,16 +151,16 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-header>
       <mat-card-title>{{ 'partDetail.tractionBatteryCodeTitle' | i18n }}</mat-card-title>
     </mat-card-header>
-    <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)" class="part-detail--tractionBattery-content">
-      <ng-container *ngIf="isOpen$ | async">
+    <mat-card-content class="part-detail--tractionBattery-content">
+      <ng-container>
         <app-card-list [list]="tractionBatteryDetails.data" [title]="'partDetail.tractionBattery' | i18n"
                        class="part-detail--tractionBattery-details"></app-card-list>
         <mat-card class="part-detail-subcomponents-table-container">
           <mat-card-header>
             <mat-card-title>{{ 'partDetail.subcomponents' | i18n }}</mat-card-title>
           </mat-card-header>
-          <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)">
-            <ng-container *ngIf="isOpen$ | async">
+          <mat-card-content>
+            <ng-container>
               <section class="part-detail-subcomponents-table-container">
                 <table mat-table
                        [dataSource]="(tractionBatterySubcomponents$ | async)?.data.subcomponents"
@@ -150,11 +184,9 @@ SPDX-License-Identifier: Apache-2.0
                 </table>
               </section>
             </ng-container>
-            <mat-spinner *ngIf="!(isOpen$ | async)"></mat-spinner>
           </mat-card-content>
         </mat-card>
       </ng-container>
-      <mat-spinner *ngIf="!(isOpen$ | async)"></mat-spinner>
     </mat-card-content>
   </mat-card>
 </ng-template>
@@ -165,14 +197,13 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-header>
       <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
     </mat-card-header>
-    <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)" class="part-detail--relation__container">
-      <ng-container *ngIf="isOpen$ | async">
+    <mat-card-content class="part-detail--relation__container">
+      <ng-container>
         <app-part-relation [isStandalone]="false" [showMiniMap]="false"></app-part-relation>
         <mat-icon (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon"
         >open_in_new
         </mat-icon>
       </ng-container>
-      <mat-spinner *ngIf="!(isOpen$ | async)"></mat-spinner>
     </mat-card-content>
   </mat-card>
 </ng-template>
@@ -242,7 +273,7 @@ SPDX-License-Identifier: Apache-2.0
         (click)="showQualityTypeDropdown = true"
         (keydown.enter)="showQualityTypeDropdown = true"
         class="card-list--value card-list--icon"
-        tabindex="0"
+        [tabindex]="0"
       >
         <app-quality-type [type]="qualityTypeControl.value"></app-quality-type>
         <mat-icon class="ml-2" inline>edit</mat-icon>
@@ -275,3 +306,21 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template let-label="value" #qualityTypeOptionTmp>
   <app-quality-type [type]="label"></app-quality-type>
 </ng-template>
+
+<app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
+  <app-asset-publisher
+    [selectedAssets] = "[((selectedPartDetails$ | async)?.data)]"
+    [isOpen]="isPublisherOpen$"
+    (submitted)="isPublisherOpen$.next(false);"
+  ></app-asset-publisher>
+</app-sidenav-wrapper>
+<!--refreshPartsOnPublish($event);-->
+
+<app-sidenav-wrapper [isOpen]="isNotificationRequestOpen | async" (sidenavAction)="isNotificationRequestOpen.next($event)">
+  <app-notification-request
+    *ngIf="isNotificationRequestOpen | async"
+    [selectedItems]="[(selectedPartDetails$ | async)?.data]"
+    [notificationType]="partOwner === Owner.OWN || partOwner === Owner.CUSTOMER ? NotificationType.ALERT : NotificationType.INVESTIGATION"
+    (submitted)="isNotificationRequestOpen.next(false)"
+  ></app-notification-request>
+</app-sidenav-wrapper>

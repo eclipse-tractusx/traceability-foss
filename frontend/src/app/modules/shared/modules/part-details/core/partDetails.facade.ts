@@ -36,6 +36,15 @@ export class PartDetailsFacade {
   ) {
   }
 
+  public setPartById(urn: string) {
+    if(!urn || typeof urn !== 'string') {
+      return;
+    }
+    this.partsService.getPart(urn).subscribe(part => {
+      this.partDetailsState.selectedPart = { data: part}
+    })
+  }
+
   public get selectedPart$(): Observable<View<Part>> {
     return this.partDetailsState.selectedPart$;
   }

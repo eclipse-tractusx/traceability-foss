@@ -20,17 +20,9 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 
 import assets.importpoc.PolicyResponse;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
-import org.eclipse.tractusx.irs.edc.client.policy.Operator;
-import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
-import org.eclipse.tractusx.irs.edc.client.policy.Permission;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
-import org.junit.jupiter.api.BeforeEach;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,7 +31,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.testdata.PolicyTestDataFactory.createIrsPolicyResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -51,6 +46,8 @@ class PolicyServiceImplTest {
     @Mock
     private PolicyRepository policyRepository;
 
+    @Mock
+    private TraceabilityProperties traceabilityProperties;
 
     @Test
     void testGetPolicyByID() {
@@ -59,26 +56,7 @@ class PolicyServiceImplTest {
         // GIVEN
         String policyId = "policy123";
         OffsetDateTime createdOn = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
-        List<IrsPolicyResponse> acceptedPolicies = List.of(
-                IrsPolicyResponse.builder()
-                        .validUntil(OffsetDateTime.now())
-                        .payload(
-                                Payload.builder()
-                                        .policyId(policyId)
-                                        .policy(
-                                                Policy.builder()
-                                                        .createdOn(createdOn)
-                                                        .permissions(List.of(
-                                                                Permission.builder()
-                                                                        .action(PolicyType.USE)
-                                                                        .constraint(Constraints.builder()
-                                                                                .and(List.of(new Constraint("", new Operator(OperatorType.EQ), "")))
-                                                                                .or(List.of(new Constraint("", new Operator(OperatorType.EQ), "")))
-                                                                                .build())
-                                                                        .build()))
-                                                        .build())
-                                        .build())
-                        .build());
+        List<IrsPolicyResponse> acceptedPolicies = List.of(createIrsPolicyResponse(policyId, createdOn, "", ""));
 
         // WHEN
         when(policyRepository.getPolicies()).thenReturn(acceptedPolicies);
@@ -88,6 +66,46 @@ class PolicyServiceImplTest {
         assertNotNull(allPolicies);
         assertEquals(policyId, allPolicies.get(0).policyId());
         assertEquals(createdOn, allPolicies.get(0).createdOn());
+    }
+
+    @Test
+    void getPolicyByConstraintRightOperand() {
+        // Given
+        IrsPolicyResponse firstPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "my-constraint1", "");
+        IrsPolicyResponse secondPolicyResponse = createIrsPolicyResponse("test2", OffsetDateTime.now(), "my-constraint2", "");
+        IrsPolicyResponse thirdPolicyResponse = createIrsPolicyResponse("test3", OffsetDateTime.now(), "my-constraint3", "");
+        IrsPolicyResponse fourthPolicyResponse = createIrsPolicyResponse("test4", OffsetDateTime.now(), "my-constraint4", "");
+        List<IrsPolicyResponse> policyResponseList = List.of(firstPolicyResponse, secondPolicyResponse, thirdPolicyResponse, fourthPolicyResponse);
+        when(policyRepository.getPolicies()).thenReturn(policyResponseList);
+        when(traceabilityProperties.getRightOperand()).thenReturn("my-constraint4");
+        // When
+
+        Optional<PolicyResponse> policyResult = policyService.getFirstPolicyMatchingApplicationConstraint();
+
+        // Then
+        assertThat(policyResult).isPresent();
+        assertThat(policyResult.get().policyId()).isEqualTo("test4");
+
+    }
+
+    @Test
+    void getPolicyByConstraintRightOperandNotFound() {
+        // Given
+        IrsPolicyResponse firstPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "my-constraint1", "");
+        IrsPolicyResponse secondPolicyResponse = createIrsPolicyResponse("test2", OffsetDateTime.now(), "my-constraint2", "");
+        IrsPolicyResponse thirdPolicyResponse = createIrsPolicyResponse("test3", OffsetDateTime.now(), "my-constraint3", "");
+        IrsPolicyResponse fourthPolicyResponse = createIrsPolicyResponse("test4", OffsetDateTime.now(), "my-constraint4", "");
+        List<IrsPolicyResponse> policyResponseList = List.of(firstPolicyResponse, secondPolicyResponse, thirdPolicyResponse, fourthPolicyResponse);
+        when(policyRepository.getPolicies()).thenReturn(policyResponseList);
+        when(traceabilityProperties.getRightOperand()).thenReturn("not-exists");
+
+        // When
+
+        Optional<PolicyResponse> policyResult = policyService.getFirstPolicyMatchingApplicationConstraint();
+
+        // Then
+        assertThat(policyResult).isEmpty();
+
     }
 
 }

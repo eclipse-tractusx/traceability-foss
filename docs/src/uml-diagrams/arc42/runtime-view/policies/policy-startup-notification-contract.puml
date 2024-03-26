@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence Diagram: TraceX Interaction with EDC on startup
+participant "TraceX" as TraceX
+participant "IRS" as IRS
+participant "EDC " as EDC
+
+TraceX -> IRS: Get Policies
+IRS -> TraceX : return Policies
+TraceX -> TraceX: Find any policy which matches own constraint
+
+alt Policy found
+    TraceX -> TraceX: Use found policy for EdcPolicy creation.
+    TraceX -> EDC : Create notification asset, policy, definition
+else Policy not found
+    TraceX -> TraceX: Corrupt state of application
+end
+
+@enduml
+
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence Diagram: Sending notifications
+participant "TraceX" as TraceX
+participant "TraceXIRSLib" as TraceXIRSLib
+participant "IRS " as IRS
+participant "EDC " as EDC
+
+TraceX -> TraceX: ...
+TraceX -> EDC: Get catalog
+EDC -> TraceX: -> Return catalog
+TraceX -> TraceX: Filter for notification type (alert / investigation) / method(update, receive)
+TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policies in IRS Lib (3 Default Policies)
+TraceXIRSLib -> TraceX: Valid
+TraceX -> EDC: Send out notification
+@enduml
+
+
