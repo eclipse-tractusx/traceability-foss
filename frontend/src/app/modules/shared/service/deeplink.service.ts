@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { ALERT_BASE_ROUTE, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import { ALERT_BASE_ROUTE } from '@core/known-route';
 import { DeeplinkModel } from '@shared/model/deeplink.model';
 import { NotificationColumn } from '@shared/model/notification.model';
 
@@ -36,25 +36,13 @@ export class DeeplinkService {
       case NotificationColumn.RECEIVED_ALERT: {
         received = true;
         route = ALERT_BASE_ROUTE;
-        tabIndex = 0;
+        tabIndex = 1;
         break;
       }
       case NotificationColumn.SENT_ALERT: {
         received = false;
         route = ALERT_BASE_ROUTE;
-        tabIndex = 1;
-        break;
-      }
-      case NotificationColumn.RECEIVED_INVESTIGATION: {
-        received = true;
-        route = INVESTIGATION_BASE_ROUTE;
         tabIndex = 0;
-        break;
-      }
-      case NotificationColumn.SENT_INVESTIGATION: {
-        received = false;
-        route = INVESTIGATION_BASE_ROUTE;
-        tabIndex = 1;
         break;
       }
     }

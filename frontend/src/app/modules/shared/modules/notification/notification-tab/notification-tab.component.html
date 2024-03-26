@@ -48,6 +48,10 @@ SPDX-License-Identifier: Apache-2.0
   <mat-spinner></mat-spinner>
 </ng-template>
 
+<ng-template #titleTmp let-title="value">
+  <p class="notification--table__description">{{ title }}</p>
+</ng-template>
+
 <ng-template #statusTmp let-status="value">
   <div *ngIf="status" class="notification-status notification-status--{{ status }}">
     {{ translationContext + '.status.' + status | i18n }}
@@ -72,4 +76,8 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #bpnTmp let-text="value">
   <p class="notification--table__description">{{ text }}</p>
+</ng-template>
+
+<ng-template #typeTmp let-type="value">
+  <p class="notification--table__description">{{ type }}</p>
 </ng-template>

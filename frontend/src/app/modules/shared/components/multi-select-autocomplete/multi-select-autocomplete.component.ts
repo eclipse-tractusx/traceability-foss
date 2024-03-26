@@ -30,6 +30,7 @@ import {
   AutocompleteStrategyMap,
 } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationType } from '@shared/model/notification.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { firstValueFrom } from 'rxjs';
@@ -171,6 +172,8 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     // apply CamelCase to semanticDataModel labels
     if (this.filterColumn === 'semanticDataModel') {
       displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
+    } else if (this.filterColumn === 'type') {
+      displayValue = [ NotificationType[this.selectedValue[0]], suffix ];
     } else {
       displayValue = [ this.selectedValue[0], suffix ];
     }
@@ -224,6 +227,20 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
               value: option,
             }));
 
+          } else if (this.filterColumn === 'type') {
+
+            // @ts-ignore
+            this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
+              .map(option => ({
+                display: NotificationType[option],
+                value: option,
+              }));
+            this.options = this.searchedOptions;
+            // @ts-ignore
+            this.allOptions = res.map(option => ({
+              display: NotificationType[option],
+              value: option,
+            }));
           } else {
             // add filter for not selected
             // @ts-ignore
