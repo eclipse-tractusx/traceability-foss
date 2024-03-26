@@ -21,15 +21,15 @@
 
 import {CalendarDateModel} from '@core/model/calendar-date.model';
 import {
-  Notification,
-  NotificationResponse,
-  Notifications,
-  NotificationStatus,
-  NotificationType,
+    Notification,
+    NotificationResponse,
+    Notifications,
+    NotificationStatus,
+    NotificationType,
 } from '@shared/model/notification.model';
 import {View} from '@shared/model/view.model';
 import {
-  FormatPartSemanticDataModelToCamelCasePipe
+    FormatPartSemanticDataModelToCamelCasePipe
 } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import {SharedModule} from '@shared/shared.module';
 import {TemplateModule} from '@shared/template.module';
@@ -42,39 +42,39 @@ import {NotificationModule} from '../notification.module';
 import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
 
 describe('NotificationsInboxComponent', () => {
-  let clickHandler;
+    let clickHandler;
 
-  beforeEach(() => (clickHandler = jasmine.createSpy()));
+    beforeEach(() => (clickHandler = jasmine.createSpy()));
 
-  const mapNotificationResponse = (data: NotificationResponse): Notification => {
-    const isFromSender = data.channel === NotificationChannel.SENDER;
-    const createdDate = new CalendarDateModel(data.createdDate);
-    const targetDate = new CalendarDateModel(data.targetDate);
-    const createdBy = data.createdBy
-    const createdByName = data.createdByName
-    const sendTo = data.sendTo
-    const sendToName = data.sendToName;
-    delete data.channel;
+    const mapNotificationResponse = (data: NotificationResponse): Notification => {
+        const isFromSender = data.channel === NotificationChannel.SENDER;
+        const createdDate = new CalendarDateModel(data.createdDate);
+        const targetDate = new CalendarDateModel(data.targetDate);
+        const createdBy = data.createdBy
+        const createdByName = data.createdByName
+        const sendTo = data.sendTo
+        const sendToName = data.sendToName;
+        delete data.channel;
 
-    return { ...data, createdDate, targetDate, isFromSender, createdBy, createdByName, sendTo, sendToName };
-  };
+        return {...data, createdDate, targetDate, isFromSender, createdBy, createdByName, sendTo, sendToName};
+    };
 
-  const renderNotificationsInbox = () => {
-    const qContent = buildMockInvestigations([ NotificationStatus.CREATED ], 'SENDER').map(mapNotificationResponse);
-    const qarContent = buildMockInvestigations([ NotificationStatus.RECEIVED ], 'RECEIVER').map(mapNotificationResponse);
+    const renderNotificationsInbox = () => {
+        const qContent = buildMockInvestigations([NotificationStatus.CREATED], 'SENDER').map(mapNotificationResponse);
+        const qarContent = buildMockInvestigations([NotificationStatus.RECEIVED], 'RECEIVER').map(mapNotificationResponse);
 
-    const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({
-      data: { content: qContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
-    }).pipe(delay(0));
+        const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({
+            data: {content: qContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1},
+        }).pipe(delay(0));
 
-    const receivedNotifications$: Observable<View<Notifications>> = of({
-      data: { content: qarContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
-    }).pipe(delay(0));
-    const menuActionsConfig = [];
-    const notificationType = NotificationType.INVESTIGATION;
-    const isInvestigation = true;
-    return renderComponent(
-      `<app-notification
+        const receivedNotifications$: Observable<View<Notifications>> = of({
+            data: {content: qarContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1},
+        }).pipe(delay(0));
+        const menuActionsConfig = [];
+        const notificationType = NotificationType.INVESTIGATION;
+        const isInvestigation = true;
+        return renderComponent(
+            `<app-notification
           [notificationType]='notificationType'
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
@@ -88,49 +88,49 @@ describe('NotificationsInboxComponent', () => {
           (onReceivedPagination)='clickHandler($event)'
           (onQueuedAndRequestedPagination)='clickHandler($event)'
         ></app-notification>`,
-      {
-        imports: [ SharedModule, NotificationModule, TemplateModule ],
-        providers: [FormatPartSemanticDataModelToCamelCasePipe],
-        translations: [ 'common' ],
-        componentProperties: {
-          queuedAndRequestedNotifications$,
-          receivedNotifications$,
-          clickHandler,
-          menuActionsConfig,
-          notificationType,
-          isInvestigation
-        },
-      },
-    );
-  };
+            {
+                imports: [SharedModule, NotificationModule, TemplateModule],
+                providers: [FormatPartSemanticDataModelToCamelCasePipe],
+                translations: ['common'],
+                componentProperties: {
+                    queuedAndRequestedNotifications$,
+                    receivedNotifications$,
+                    clickHandler,
+                    menuActionsConfig,
+                    notificationType,
+                    isInvestigation
+                },
+            },
+        );
+    };
 
-  it('should render received notifications', async () => {
-    const component = await renderNotificationsInbox();
-    component.detectChanges();
-    expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
-  });
+    it('should render received notifications', async () => {
+        const component = await renderNotificationsInbox();
+        component.detectChanges();
+        expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
+    });
 
-  it('should render received notifications with date and status', async () => {
-    await renderNotificationsInbox();
+    it('should render created notifications with date and status', async () => {
+        await renderNotificationsInbox();
 
-    const descriptionEl = await screen.findByText('Investigation No 1');
-    const row = descriptionEl.closest('tr');
+        const descriptionEl = await screen.findByText('Investigation No 1');
+        const row = descriptionEl.closest('tr');
+        debugger;
+        expect(within(row).getByText('commonInvestigation.status.CREATED')).toBeInTheDocument();
+    });
 
-    expect(within(row).getByText('commonInvestigation.status.RECEIVED')).toBeInTheDocument();
-  });
+    it('should be able to change notifications page', async () => {
+        await renderNotificationsInbox();
 
-  it('should be able to change notifications page', async () => {
-    await renderNotificationsInbox();
+        await screen.findByText('Investigation No 1');
+        fireEvent.click(screen.getByLabelText('pagination.nextPageLabel'));
 
-    await screen.findByText('Investigation No 1');
-    fireEvent.click(screen.getByLabelText('pagination.nextPageLabel'));
+        expect(await screen.findByText('Investigation No 51')).toBeInTheDocument();
+    });
 
-    expect(await screen.findByText('Investigation No 51')).toBeInTheDocument();
-  });
-
-  it('should render queued & requested notifications', async () => {
-    await renderNotificationsInbox();
-    fireEvent.click(screen.getByText('commonInvestigation.tabs.queuedAndRequested'));
-    expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
-  });
+    it('should render queued & requested notifications', async () => {
+        await renderNotificationsInbox();
+        fireEvent.click(screen.getByText('commonInvestigation.tabs.queuedAndRequested'));
+        expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
+    });
 });

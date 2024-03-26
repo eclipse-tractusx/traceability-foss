@@ -36,13 +36,13 @@ export class DeeplinkService {
       case NotificationColumn.RECEIVED_ALERT: {
         received = true;
         route = ALERT_BASE_ROUTE;
-        tabIndex = 0;
+        tabIndex = 1;
         break;
       }
       case NotificationColumn.SENT_ALERT: {
         received = false;
         route = ALERT_BASE_ROUTE;
-        tabIndex = 1;
+        tabIndex = 0;
         break;
       }
     }
