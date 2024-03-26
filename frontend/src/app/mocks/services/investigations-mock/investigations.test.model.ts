@@ -63,7 +63,7 @@ export const buildMockInvestigations = (
 
 const MockEmptyInvestigation: NotificationResponse = {
   id: `${ InvestigationIdPrefix }000`,
-  title: 'Title',
+  title: '',
   description: `Investigation No 000`,
   status: NotificationStatus.CREATED,
   severity: Severity.MINOR,
