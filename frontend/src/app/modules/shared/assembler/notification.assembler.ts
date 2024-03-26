@@ -41,7 +41,7 @@ export class NotificationAssembler {
       id = null,
       assetIds = null,
       channel = null,
-
+      title: _title,
       reason = { accept: '', close: '', decline: '' },
       description = '',
       bpn = '',
@@ -64,6 +64,7 @@ export class NotificationAssembler {
     const createdBy = _createdBy;
     const createdByName = _createdByName;
     const sendTo = _sendTo;
+    const title = _title;
     const sendToName = _sendToName;
     const errorMessage = _errorMessage || undefined;
     const notificationType = myNotificationType || undefined;
@@ -84,6 +85,7 @@ export class NotificationAssembler {
       targetDate,
       bpn,
       notificationType,
+      title
     };
 
     return errorMessage ? { ...assembled, errorMessage: errorMessage } : assembled;

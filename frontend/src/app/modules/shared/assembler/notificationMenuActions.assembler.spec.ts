@@ -68,6 +68,7 @@ describe('NotificationMenuActionsAssembler', () => {
       id: 'id-1',
       description: 'Investigation No 1',
       createdBy: '',
+      title: 'Title',
       createdByName: '',
       sendTo: '',
       sendToName: '',

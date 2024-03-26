@@ -53,6 +53,7 @@ describe('InvestigationsAssembler', () => {
       targetDate: new CalendarDateModel(null),
       bpn: '',
       notificationType: NotificationType.INVESTIGATION,
+      title: 'Title',
     };
 
     expect(NotificationAssembler.assembleNotification({} as NotificationResponse, NotificationType.INVESTIGATION)).toEqual(expected);
@@ -82,6 +83,7 @@ describe('InvestigationsAssembler', () => {
             reason: { close: '', accept: '', decline: '' },
             assetIds: [],
             errorMessage: '',
+            title: 'Title'
           },
           {
             id: 'test-2',
@@ -98,6 +100,7 @@ describe('InvestigationsAssembler', () => {
             reason: { close: '', accept: '', decline: '' },
             channel: 'SENDER',
             assetIds: [],
+            title: 'Title'
           },
         ],
       }, NotificationType.INVESTIGATION),
@@ -123,6 +126,7 @@ describe('InvestigationsAssembler', () => {
           isFromSender: true,
           assetIds: [],
           notificationType: NotificationType.INVESTIGATION,
+          title: 'Title'
         },
         {
           id: 'test-2',
@@ -140,6 +144,7 @@ describe('InvestigationsAssembler', () => {
           isFromSender: true,
           assetIds: [],
           notificationType: NotificationType.INVESTIGATION,
+          title: 'Title'
         },
       ],
     });

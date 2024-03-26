@@ -55,7 +55,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Output() investigationsFilterChanged = new EventEmitter<any>();
   @Output() alertsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
-
+  @ViewChild('titleTmp') titleTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
   @ViewChild('severityTmp') severityTemplate: TemplateRef<unknown>;
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
@@ -81,6 +81,7 @@ export class NotificationTabComponent implements AfterViewInit {
       hasPagination: this.hasPagination,
       menuActionsConfig: this.menuActionsConfig || [],
       cellRenderers: {
+        title: this.titleTemplate,
         status: this.statusTemplate,
         severity: this.severityTemplate,
         description: this.descriptionTemplate,

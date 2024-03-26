@@ -142,6 +142,7 @@ export const notificationTemplate: Notification = {
   id: 'id-1',
   description: 'Investigation No 1',
   createdBy: 'BPNA',
+  title: 'Title',
   createdByName: 'CompanyA',
   sendTo: 'BPNB',
   sendToName: 'CompanyB',

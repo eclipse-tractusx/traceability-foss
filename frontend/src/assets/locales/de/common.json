@@ -8,8 +8,7 @@
     "about": "Über uns",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
-    "investigations": "Qualitätsuntersuchung",
-    "alerts": "Qualitätswarnung",
+    "alerts": "Inbox",
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
@@ -33,8 +32,7 @@
     "about": "Über Catena-X Open-Source Rückverfolgbarkeit",
     "relations": "Beziehungen",
     "admin": "Verwaltung Catena-X",
-    "investigations": "Qualitätsuntersuchung",
-    "alerts": "Qualitätswarnung"
+    "alerts": "Qualitätsthemen"
   },
   "layout": {
     "nav": {
@@ -231,8 +229,8 @@
   "commonAlert": {
     "viewAll": "Alle anzeigen",
     "tabs": {
-      "received": "Zugewiesene",
-      "queuedAndRequested": "Erstellte und Versendete"
+      "received": "Empfangene",
+      "queuedAndRequested": "Versendete"
     },
     "status": {
       "RECEIVED": "Erhalten",
