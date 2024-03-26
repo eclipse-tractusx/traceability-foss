@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.common.mapper;
 
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
@@ -64,7 +65,7 @@ class NotificationMapperTest {
         when(bpnRepository.findManufacturerName(eq(expectedNotification.getSendTo()))).thenReturn(expectedNotification.getSendToName());
 
 
-        QualityNotificationMessage actualNotification = notificationMapper.toNotification(edcNotification);
+        QualityNotificationMessage actualNotification = notificationMapper.toNotification(edcNotification, QualityNotificationType.INVESTIGATION);
         assertNotNull(actualNotification.getId());
         assertEquals(expectedNotification.getNotificationReferenceId(), actualNotification.getNotificationReferenceId());
         assertEquals(expectedNotification.getCreatedBy(), actualNotification.getCreatedBy());
@@ -76,5 +77,6 @@ class NotificationMapperTest {
         assertEquals(expectedNotification.getNotificationStatus(), actualNotification.getNotificationStatus());
         assertEquals(expectedNotification.getAffectedParts(), actualNotification.getAffectedParts());
         assertEquals(expectedNotification.getSeverity(), actualNotification.getSeverity());
+        assertEquals(expectedNotification.getType(), actualNotification.getType());
     }
 }

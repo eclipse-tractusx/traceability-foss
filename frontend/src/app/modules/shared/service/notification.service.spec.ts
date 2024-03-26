@@ -53,7 +53,7 @@ describe('NotificationService', () => {
 
         service.closeNotification(notificationId, reason, isInvestigation).subscribe();
 
-        const req = httpTestingController.expectOne(`${service.determineRequestUrl(isInvestigation)}/${notificationId}/close`);
+        const req = httpTestingController.expectOne(`${service.notificationUrl()}/${notificationId}/close`);
         expect(req.request.method).toBe('POST');
         expect(req.request.body).toEqual( '{"reason":"Test reason"}');
         req.flush({});
@@ -67,7 +67,7 @@ describe('NotificationService', () => {
 
         service.approveNotification(notificationId, isInvestigation).subscribe();
 
-        const req = httpTestingController.expectOne(`${service.determineRequestUrl(isInvestigation)}/${notificationId}/approve`);
+        const req = httpTestingController.expectOne(`${service.notificationUrl()}/${notificationId}/approve`);
         expect(req.request.method).toBe('POST');
         req.flush({});
     });
@@ -79,7 +79,7 @@ describe('NotificationService', () => {
 
         service.cancelNotification(notificationId, isInvestigation).subscribe();
 
-        const req = httpTestingController.expectOne(`${service.determineRequestUrl(isInvestigation)}/${notificationId}/cancel`);
+        const req = httpTestingController.expectOne(`${service.notificationUrl()}/${notificationId}/cancel`);
         expect(req.request.method).toBe('POST');
         req.flush({});
     });
@@ -93,7 +93,7 @@ describe('NotificationService', () => {
 
         service.updateNotification(notificationId, status, reason, isInvestigation).subscribe();
 
-        const req = httpTestingController.expectOne(`${service.determineRequestUrl(isInvestigation)}/${notificationId}/update`);
+        const req = httpTestingController.expectOne(`${service.notificationUrl()}/${notificationId}/update`);
         expect(req.request.method).toBe('POST');
         expect(req.request.body).toEqual('{"reason":"Test reason","status":"ACKNOWLEDGED"}');
         req.flush({});
@@ -109,7 +109,7 @@ describe('NotificationService', () => {
         service.getDistinctFilterValues(channel, fieldNames, startsWith, isInvestigation).subscribe();
 
         const req = httpTestingController.expectOne(
-            `${service.determineRequestUrl(isInvestigation)}/distinctFilterValues?fieldName=SomeField&startWith=Test&size=200&channel=SENDER`
+            `${service.notificationUrl()}/distinctFilterValues?fieldName=SomeField&startWith=Test&size=200&channel=SENDER`
         );
         expect(req.request.method).toBe('GET');
         req.flush({});

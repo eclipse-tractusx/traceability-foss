@@ -27,7 +27,7 @@ import { AcknowledgeNotificationModalComponent } from './acknowledge-notificatio
 describe('AcknowledgeNotificationModalComponent', () => {
   it('should create acknowledge modal', async () => {
     await renderAcknowledgeModal(NotificationStatus.RECEIVED);
-    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.acknowledgeTitle'));
+    const title = await waitFor(() => screen.getByText('commonAlert.modal.acknowledgeTitle'));
     const buttonR = await waitFor(() => screen.getByText('actions.acknowledge'));
 
     expect(title).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('AcknowledgeNotificationModalComponent', () => {
     fireEvent.click(await waitFor(() => screen.getByText('actions.acknowledge')));
 
     await waitFor(() =>
-      expect(screen.getByText('commonInvestigation.modal.successfullyAcknowledged')).toBeInTheDocument(),
+      expect(screen.getByText('commonAlert.modal.successfullyAcknowledged')).toBeInTheDocument(),
     );
   });
 });

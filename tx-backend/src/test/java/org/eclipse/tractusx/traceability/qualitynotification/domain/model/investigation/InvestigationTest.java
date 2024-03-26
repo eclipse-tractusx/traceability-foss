@@ -26,8 +26,8 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

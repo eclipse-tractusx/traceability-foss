@@ -37,10 +37,6 @@ When("user navigate to {string}", function(desiredMenu) {
         cy.get('[href="/dashboard"]').click();
         break;
       }
-      case 'Quality investigations': {
-        cy.get('[href="/investigations"]').click();
-        break;
-      }
       case 'Quality alerts': {
         cy.get('[href="/alerts"]').click();
         break;
