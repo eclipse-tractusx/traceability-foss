@@ -28,7 +28,7 @@ import {
   Notifications,
   NotificationsResponse,
   NotificationStatus,
-  NotificationType, NotificationTypeResponse,
+  NotificationType,
 } from '../model/notification.model';
 
 export class NotificationAssembler {
@@ -54,7 +54,7 @@ export class NotificationAssembler {
       sendToName: _sendToName = '',
       targetDate: _targetDate = '',
       errorMessage: _errorMessage = '',
-      type: _type = null
+      type: _type = null,
     } = response;
 
     const isFromSender = channel === 'SENDER';
@@ -86,7 +86,7 @@ export class NotificationAssembler {
       targetDate,
       bpn,
       type,
-      title
+      title,
     };
 
     return errorMessage ? { ...assembled, errorMessage: errorMessage } : assembled;

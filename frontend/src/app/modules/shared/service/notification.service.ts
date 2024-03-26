@@ -17,18 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {ApiService} from '@core/api/api.service';
-import {environment} from '@env';
-import {NotificationAssembler} from '@shared/assembler/notification.assembler';
-import {PartsAssembler} from '@shared/assembler/parts.assembler';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {provideFilterListForNotifications} from '@shared/helper/filter-helper';
-import {Severity} from '@shared/model/severity.model';
-import type {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {NotificationFilter} from '../../../mocks/services/investigations-mock/investigations.model';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { environment } from '@env';
+import { NotificationAssembler } from '@shared/assembler/notification.assembler';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { provideFilterListForNotifications } from '@shared/helper/filter-helper';
+import { Severity } from '@shared/model/severity.model';
+import type { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
 import {
   Notification,
   NotificationCreateResponse,
@@ -36,9 +37,7 @@ import {
   Notifications,
   NotificationsResponse,
   NotificationStatus,
-  NotificationType,
 } from '../model/notification.model';
-import {NotificationChannel} from '@shared/components/multi-select-autocomplete/table-type.model';
 
 @Injectable({
     providedIn: 'root',
