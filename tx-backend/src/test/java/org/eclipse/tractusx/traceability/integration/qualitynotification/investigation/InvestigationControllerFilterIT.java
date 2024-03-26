@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
@@ -40,20 +41,22 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACCEPTED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.ACKNOWLEDGED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CANCELED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CLOSED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.CREATED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.DECLINED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.ACCEPTED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.ACKNOWLEDGED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.CANCELED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.CLOSED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.CREATED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.DECLINED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.RECEIVED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
 
 class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Autowired
     InvestigationNotificationsSupport investigationNotificationSupport;
+    @Autowired
+    AlertsSupport alertsSupport;
 
     @Autowired
     AssetsSupport assetsSupport;
@@ -75,7 +78,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -96,7 +99,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -118,7 +121,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -146,7 +149,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .when()
                 .log()
                 .uri()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -166,7 +169,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(400);
     }
@@ -183,7 +186,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -204,13 +207,99 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("totalItems", Matchers.is(8))
                 .body("content", Matchers.hasSize(8));
+    }
+
+    @Test
+    void givenInvestigationsAndAlerts_whenTypeFilter_thenExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        alertsSupport.defaultReceivedAlertStored();
+        String filter = "type,EQUAL,INVESTIGATION,AND";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(14))
+                .body("content", Matchers.hasSize(10));
+    }
+
+    @Test
+    void givenInvestigationsAndAlerts_whenSortByTypeAsc_thenExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        alertsSupport.defaultReceivedAlertStored();
+        String sortString = "type,ASC";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(15))
+                .body("content", Matchers.hasSize(10))
+                .body("content.type", Matchers.containsInRelativeOrder(
+                        "ALERT",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION"));
+    }
+
+    @Test
+    void givenInvestigationsAndAlerts_whenSortByTypeDesc_thenExpectedResult() throws JoseException {
+        // given
+        investigationNotificationSupport.defaultInvestigationsStored();
+        alertsSupport.defaultReceivedAlertStored();
+        String sortString = "type,DESC";
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("totalItems", Matchers.is(15))
+                .body("content", Matchers.hasSize(10))
+                .body("content.type", Matchers.containsInRelativeOrder(
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION",
+                        "INVESTIGATION"));
     }
 
     @Test
@@ -226,7 +315,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -247,7 +336,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -268,7 +357,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -289,7 +378,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -311,7 +400,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -333,7 +422,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -354,7 +443,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(400);
     }
@@ -384,7 +473,7 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(null, new SearchCriteriaRequestParam(List.of(filter))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .assertThat()

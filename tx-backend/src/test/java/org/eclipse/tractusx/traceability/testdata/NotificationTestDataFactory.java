@@ -44,6 +44,7 @@ public class NotificationTestDataFactory {
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
+                .type(QualityNotificationType.INVESTIGATION)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .targetDate(Instant.parse("2022-03-01T12:00:00Z"))

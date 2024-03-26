@@ -23,8 +23,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -37,12 +37,14 @@ import java.util.Optional;
 @Builder(toBuilder = true)
 @Slf4j
 public class QualityNotification {
+    private String title;
     private BPN bpn;
     private QualityNotificationId notificationId;
     private QualityNotificationStatus notificationStatus;
     private String description;
     private Instant createdAt;
     private QualityNotificationSide notificationSide;
+    private QualityNotificationType notificationType;
     @Builder.Default
     private List<String> assetIds = new ArrayList<>();
     private String closeReason;
@@ -53,11 +55,13 @@ public class QualityNotification {
     private List<QualityNotificationMessage> notifications = List.of();
 
 
-    public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
+    public static QualityNotification startNotification(String title, Instant createDate, BPN bpn, String description, QualityNotificationType notificationType) {
         return QualityNotification.builder()
+                .title(title)
                 .bpn(bpn)
                 .notificationStatus(QualityNotificationStatus.CREATED)
                 .notificationSide(QualityNotificationSide.SENDER)
+                .notificationType(notificationType)
                 .description(description)
                 .createdAt(createDate)
                 .assetIds(Collections.emptyList())

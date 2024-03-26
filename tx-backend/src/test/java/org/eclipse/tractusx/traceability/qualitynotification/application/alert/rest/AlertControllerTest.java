@@ -19,7 +19,8 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.rest.NotificationController;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
@@ -31,14 +32,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.request.CloseQualityNotificationRequest;
 import qualitynotification.base.request.QualityNotificationSeverityRequest;
+import qualitynotification.base.request.QualityNotificationTypeRequest;
 import qualitynotification.base.request.StartQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationRequest;
 import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.base.response.QualityNotificationReasonResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
 import qualitynotification.base.response.QualityNotificationSeverityResponse;
 import qualitynotification.base.response.QualityNotificationSideResponse;
 import qualitynotification.base.response.QualityNotificationStatusResponse;
@@ -47,7 +49,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.StartQualityNotification.from;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.notification.model.StartQualityNotification.from;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,7 +62,7 @@ class AlertControllerTest {
 
 
     @InjectMocks
-    private AlertController controller;
+    private NotificationController controller;
 
     @Test
     void givenRequestBody_whenAlertAssets_thenResponse() {
@@ -72,6 +74,7 @@ class AlertControllerTest {
                 .partIds(partIds)
                 .description("description")
                 .targetDate(targetDate)
+                .type(QualityNotificationTypeRequest.ALERT)
                 .severity(QualityNotificationSeverityRequest.MINOR)
                 .receiverBpn("BPN00001")
                 .build();
@@ -95,7 +98,7 @@ class AlertControllerTest {
         when(alertService.find(request)).thenReturn(notification);
 
         // when
-        final AlertResponse result = controller.getAlert(request);
+        final QualityNotificationResponse result = controller.getAlert(request);
 
         // then
         assertThat(result)
