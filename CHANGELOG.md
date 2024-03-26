@@ -21,6 +21,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #709 Fixed CVE-2024-22257 overriding spring-security-core from 6.1.7 to 6.2.3
 - #596 Policy management has been moved to different module
 - #762 updated documentation for release 24.5
+- #718 update tj-actions/changed-files from v42 to v43
+- #718 update maven-project-info-reports-plugin from 3.4.5 to 3.5.0
+- #718 update jsonschema2pojo-core from 1.1.1 to 1.2.1
+
 
 ### Removed
 - Shedlock, resilence4j, templateResolver as not used anymore
