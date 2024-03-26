@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import type { NotificationResponse } from '@shared/model/notification.model';
-import { NotificationStatus } from '@shared/model/notification.model';
+import { NotificationStatus, NotificationTypeResponse } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { getRandomAsset } from '../parts-mock/partsAsPlanned/partsAsPlanned.model';
 import { MOCK_part_1 } from '../parts-mock/partsAsPlanned/partsAsPlanned.test.model';
@@ -61,6 +61,7 @@ export const buildMockAlerts = (
     return {
       id: `${ AlertIdPrefix }${ index + 1 }`,
       description: `Alert No ${ index + 1 } ${ getRandomText(getRandomIntFromInterval(15, 500)) }`,
+      title: 'title',
       status,
       severity,
       channel,
@@ -73,6 +74,7 @@ export const buildMockAlerts = (
       targetDate: `2022-${ numberToString(month) }-${ numberToString(day + 1) }T12:34:12`,
       assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
       errorMessage: errorAlert,
+      type: NotificationTypeResponse.ALERT,
     };
   });
 
@@ -80,6 +82,7 @@ const MockEmptyAlert: NotificationResponse = {
   id: `${ AlertIdPrefix }000`,
   description: `Alert No 000`,
   status: NotificationStatus.CREATED,
+  title: 'Title',
   severity: Severity.MINOR,
   createdBy: 'BPN10000000OEM0A',
   createdByName: 'OEM xxxxxxxxxxxxxxx A',
@@ -90,6 +93,7 @@ const MockEmptyAlert: NotificationResponse = {
   targetDate: `2022-02-01T12:34:12`,
   assetIds: [ getRandomAsset().id ],
   channel: 'SENDER',
+  type: NotificationTypeResponse.ALERT,
 };
 
 export const getAlertById = (id: string) => {

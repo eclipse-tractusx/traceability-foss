@@ -27,7 +27,7 @@ import { screen, waitFor } from '@testing-library/angular';
 describe('CancelNotificationModalComponent', () => {
   it('should create cancel modal', async () => {
     await renderCancelModal(NotificationStatus.CREATED);
-    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.cancellationTitle'));
+    const title = await waitFor(() => screen.getByText('commonAlert.modal.cancellationTitle'));
     const buttonR = await waitFor(() => screen.getByText('actions.cancellationConfirm'));
 
     expect(title).toBeInTheDocument();

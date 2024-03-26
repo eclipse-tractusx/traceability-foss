@@ -8,8 +8,7 @@
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "investigations": "Quality investigations",
-    "alerts": "Quality alerts",
+    "alerts": "Inbox",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
@@ -33,8 +32,7 @@
     "about": "About Catena-X Open-Source Traceability",
     "relations": "Part Relations",
     "admin": "Administration Catena-X",
-    "investigations": "Quality Investigations",
-    "alerts": "Quality Alerts"
+    "alerts": "Quality Topics"
   },
   "layout": {
     "nav": {
@@ -88,8 +86,7 @@
       "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
       "refreshTooltip": "Reset individual table column settings to default",
       "saveAction": "Save",
-      "alert": "Quality Alert",
-      "investigation": "Quality Investigation"
+      "alert": "Quality Alert"
     },
     "column": {
       "id": "ID",
@@ -129,7 +126,9 @@
       "sentActiveInvestigations" : "Created",
       "importState": "Import State",
       "importNote": "Import Note",
-      "importDate": "Import Date"
+      "importDate": "Import Date",
+      "type": "Type",
+      "title": "Title"
     }
   },
   "dataLoading": {
@@ -185,6 +184,7 @@
   },
   "requestAlert": {
     "headline": "Create quality alert",
+    "titleDescription": "Title",
     "textAreaDescription": "Add a description about the alert.",
     "success_one": "You queued an alert for {{count}} part",
     "success_other": "You queued an alert for {{count}} parts",
@@ -201,6 +201,8 @@
   "requestNotification": {
     "partDescription": "You selected the following parts:",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
+    "titleLabel": "Title",
+    "titleDescription": "Title",
     "targetDateLabel": "Deadline",
     "bpnLabel": "BPN",
     "bpnDescription": "Please specify the receiver BPN.",
@@ -225,53 +227,11 @@
     "emptyRange": "0 of {{length}}",
     "range": "{{startIndex}} – {{endIndex}} of {{length}}"
   },
-  "commonInvestigation": {
-    "viewAll": "View all",
-    "tabs": {
-      "received": "Received",
-      "queuedAndRequested": "Queued & Requested"
-    },
-    "status": {
-      "SENT": "Requested",
-      "CANCELED": "Cancelled",
-      "CLOSED": "Closed",
-      "CREATED": "Queued",
-      "RECEIVED": "Received",
-      "ACCEPTED": "Accepted",
-      "ACKNOWLEDGED": "Acknowledged",
-      "DECLINED": "Declined"
-    },
-    "modal": {
-      "acceptTitle": "Accept of investigation",
-      "acceptReasonHint": "Enter the reason for accepting this investigation.",
-      "acknowledgeTitle": "Acknowledgment of investigation",
-      "approvalTitle": "Approval of investigation",
-      "closeTitle": "Close of investigation",
-      "closeReasonHint": "Enter the reason for close action.",
-      "cancellationTitle": "Cancellation of investigation",
-      "cancellationHint": "Enter the ID of the investigation to confirm your cancellation.",
-      "cancellationConfirmationLabel": "Yes, I confirm that I want to cancel the investigation with the ID: ",
-      "declineTitle": "Decline of investigation",
-      "declineReasonHint": "Enter the reason for declining this investigation.",
-      "successfullyAccepted": "Investigation was accepted successfully.",
-      "successfullyAcknowledged": "Investigation was acknowledged successfully.",
-      "successfullyApproved": "Investigation was approved successfully.",
-      "successfullyCanceled": "Investigation was canceled successfully.",
-      "successfullyClosed": "Investigation was closed successfully.",
-      "successfullyDeclined": "Investigation was declined successfully.",
-      "failedAccept": "Investigation failed to accept, please try again.",
-      "failedAcknowledge": "Investigation failed to acknowledge, please try again.",
-      "failedApprove": "Investigation failed to send, please try again.",
-      "failedCancel": "Investigation failed to cancel, please try again.",
-      "failedClose": "Investigation failed to close, please try again.",
-      "failedDecline": "Investigation failed to decline, please try again."
-    }
-  },
   "commonAlert": {
     "viewAll": "View all",
     "tabs": {
-      "received": "Received",
-      "queuedAndRequested": "Queued & Requested"
+      "received": "received",
+      "queuedAndRequested": "sent"
     },
     "status": {
       "SENT": "Sent",

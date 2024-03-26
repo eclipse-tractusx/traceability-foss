@@ -8,8 +8,7 @@
     "about": "Über uns",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
-    "investigations": "Qualitätsuntersuchung",
-    "alerts": "Qualitätswarnung",
+    "alerts": "Inbox",
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
@@ -33,8 +32,7 @@
     "about": "Über Catena-X Open-Source Rückverfolgbarkeit",
     "relations": "Beziehungen",
     "admin": "Verwaltung Catena-X",
-    "investigations": "Qualitätsuntersuchung",
-    "alerts": "Qualitätswarnung"
+    "alerts": "Qualitätsthemen"
   },
   "layout": {
     "nav": {
@@ -130,7 +128,9 @@
       "sentActiveInvestigations" : "Erstellte",
       "importState": "Importstatus",
       "importNote": "Importbemerkung",
-      "importDate": "Importdatum"
+      "importDate": "Importdatum",
+      "type": "Typ",
+      "title": "Titel"
 
     }
   },
@@ -184,6 +184,7 @@
   "requestAlert": {
     "headline": "Qualitätswarnung erstellen",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
+    "titleDescription": "Titel",
     "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
     "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt.",
     "serverError": "Serverfehler:"
@@ -202,6 +203,8 @@
     "bpnLabel": "BPN",
     "bpnDescription": "Bitte geben Sie die Empfänger BPN an.",
     "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
+    "titleDescription": "Titel",
+    "titleLabel": "Titel",
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",
     "cancel": "ABBRUCH",
@@ -223,53 +226,11 @@
     "emptyRange": "0 von {{length}}",
     "range": "{{startIndex}} – {{endIndex}} von {{length}}"
   },
-  "commonInvestigation": {
-    "viewAll": "Alle anzeigen",
-    "tabs": {
-      "received": "Zugewiesene",
-      "queuedAndRequested": "Erstellte und Angefragte"
-    },
-    "status": {
-      "RECEIVED": "Erhalten",
-      "CREATED": "Erstellt",
-      "SENT": "Zugestellt",
-      "CANCELED": "Abgebrochen",
-      "CLOSED": "Abgeschlossen",
-      "ACCEPTED": "Akzeptiert",
-      "ACKNOWLEDGED": "Bestätigt",
-      "DECLINED": "Abgelehnt"
-    },
-    "modal": {
-      "acceptTitle": "Annehmen der Untersuchung",
-      "acceptReasonHint": "Geben Sie den Grund für die Annahme dieser Untersuchung ein.",
-      "acknowledgeTitle": "Bestätigung der Untersuchung",
-      "approvalTitle": "Genehmigung der Untersuchung",
-      "closeTitle": "Schließen der Untersuchung",
-      "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
-      "cancellationTitle": "Abbruch der Untersuchung",
-      "cancellationHint": "Geben Sie die ID der Untersuchung ein, um Ihre Abbruchanfrage zu bestätigen.",
-      "cancellationConfirmationLabel": "Ja, ich bestätige die Stornierung der Untersuchung mit der ID: ",
-      "declineTitle": "Ablehnung der Untersuchung",
-      "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Untersuchung ein.",
-      "successfullyAccepted": "Untersuchung wurde erfolgreich angenommen.",
-      "successfullyAcknowledged": "Untersuchung wurde erfolgreich bestätigt",
-      "successfullyApproved": "Untersuchung wurde erfolgreich genehmigt.",
-      "successfullyCanceled": "Untersuchung wurde erfolgreich abgebrochen.",
-      "successfullyClosed": "Untersuchung wurde erfolgreich geschlossen.",
-      "successfullyDeclined": "Untersuchung wurde erfolgreich abgelehnt.",
-      "failedAccept": "Untersuchung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
-      "failedAcknowledge": "Untersuchung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
-      "failedApprove": "Die Qualitätsuntersuchung konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
-      "failedCancel": "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
-      "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
-      "failedDecline": "Untersuchung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
-    }
-  },
   "commonAlert": {
     "viewAll": "Alle anzeigen",
     "tabs": {
-      "received": "Zugewiesene",
-      "queuedAndRequested": "Erstellte und Versendete"
+      "received": "Empfangene",
+      "queuedAndRequested": "Versendete"
     },
     "status": {
       "RECEIVED": "Erhalten",

@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import type { NotificationResponse } from '@shared/model/notification.model';
-import { NotificationStatus } from '@shared/model/notification.model';
+import { NotificationStatus, NotificationTypeResponse } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { getRandomAsset } from '../parts-mock/partsAsPlanned/partsAsPlanned.model';
 import { MOCK_part_1 } from '../parts-mock/partsAsPlanned/partsAsPlanned.test.model';
@@ -56,11 +56,14 @@ export const buildMockInvestigations = (
       createdDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
       assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
       errorMessage: errorInvestigation,
+      title: 'Title',
+      type: NotificationTypeResponse.INVESTIGATION,
     };
   });
 
 const MockEmptyInvestigation: NotificationResponse = {
   id: `${ InvestigationIdPrefix }000`,
+  title: '',
   description: `Investigation No 000`,
   status: NotificationStatus.CREATED,
   severity: Severity.MINOR,
@@ -72,6 +75,7 @@ const MockEmptyInvestigation: NotificationResponse = {
   createdDate: `2022-05-01T12:34:12`,
   assetIds: [ getRandomAsset().id ],
   channel: 'SENDER',
+  type: NotificationTypeResponse.INVESTIGATION,
 };
 
 export const getInvestigationById = (id: string) => {

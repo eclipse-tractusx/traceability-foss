@@ -35,7 +35,7 @@ export interface TableConfig<Columns extends string = string> {
 }
 
 
-export type DisplayColumns<T> = 'select' | 'menu' | 'sendToName' | 'createdByName' | T;
+export type DisplayColumns<T> = 'select' | 'menu' | 'title' | 'sendToName' | 'createdByName' | 'type' | T;
 
 export const CreateHeaderFromColumns = (columns: string[], headerKey: string): Record<string, string> => {
   return columns.reduce((header, column) => ({ ...header, [column]: `${ headerKey }.${ column }` }), {});

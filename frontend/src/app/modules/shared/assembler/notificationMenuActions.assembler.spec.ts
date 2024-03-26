@@ -21,9 +21,8 @@ import { TestBed } from '@angular/core/testing';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
-import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
-import { InvestigationsState } from '@page/investigations/core/investigations.state';
+import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { AlertsState } from '@page/alerts/core/alerts.state';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -33,9 +32,9 @@ import { CloseNotificationModalComponent } from '@shared/modules/notification/mo
 import { KeycloakService } from 'keycloak-angular';
 
 describe('NotificationMenuActionsAssembler', () => {
-  let helperService: AlertHelperService | InvestigationHelperService;
+  let helperService: AlertHelperService;
   let notificationCommonModalComponent: NotificationCommonModalComponent;
-  let notificationActionHelperService: NotificationActionHelperService
+  let notificationActionHelperService: NotificationActionHelperService;
 
   beforeEach(function() {
     TestBed.configureTestingModule({
@@ -48,18 +47,17 @@ describe('NotificationMenuActionsAssembler', () => {
           useClass: MockedKeycloakService,
         },
         AlertHelperService,
-        InvestigationHelperService,
+        AlertsFacade,
+        AlertsState,
         NotificationActionHelperService,
-        InvestigationsFacade,
-        InvestigationsState,
         NotificationCommonModalComponent,
         NotificationMenuActionsAssembler,
         CloseNotificationModalComponent,
       ],
     });
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);
-    helperService = TestBed.inject(InvestigationHelperService);
-    notificationActionHelperService = TestBed.inject(NotificationActionHelperService)
+    helperService = TestBed.inject(AlertHelperService);
+    notificationActionHelperService = TestBed.inject(NotificationActionHelperService);
   });
 
   it('should return menuActions', function() {
@@ -70,6 +68,7 @@ describe('NotificationMenuActionsAssembler', () => {
       id: 'id-1',
       description: 'Investigation No 1',
       createdBy: '',
+      title: 'Title',
       createdByName: '',
       sendTo: '',
       sendToName: '',

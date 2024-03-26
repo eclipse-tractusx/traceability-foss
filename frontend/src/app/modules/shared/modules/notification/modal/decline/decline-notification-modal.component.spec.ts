@@ -27,8 +27,8 @@ import { getRandomText } from '../../../../../../mocks/services/text-generator.h
 describe('DeclineNotificationModalComponent', () => {
   it('should create close modal', async () => {
     await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
-    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.declineTitle'));
-    const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.declineReasonHint'));
+    const title = await waitFor(() => screen.getByText('commonAlert.modal.declineTitle'));
+    const hint2 = await waitFor(() => screen.getByText('commonAlert.modal.declineReasonHint'));
     const buttonR = await waitFor(() => screen.getByText('actions.decline'));
 
     expect(title).toBeInTheDocument();
@@ -73,6 +73,6 @@ describe('DeclineNotificationModalComponent', () => {
     fireEvent.input(textArea, { target: { value: 'Some Text Some Text Some Text' } });
     fireEvent.click(await waitFor(() => screen.getByText('actions.decline')));
 
-    await waitFor(() => expect(screen.getByText('commonInvestigation.modal.successfullyDeclined')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('commonAlert.modal.successfullyDeclined')).toBeInTheDocument());
   });
 });
