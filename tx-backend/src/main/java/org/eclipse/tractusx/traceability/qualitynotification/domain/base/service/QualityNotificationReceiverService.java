@@ -18,11 +18,12 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 
 public interface QualityNotificationReceiverService {
 
-    void handleReceive(EDCNotification edcNotification);
+    void handleReceive(EDCNotification edcNotification, QualityNotificationType notificationType);
 
-    void handleUpdate(EDCNotification edcNotification);
+    void handleUpdate(EDCNotification edcNotification, QualityNotificationType notificationType);
 }

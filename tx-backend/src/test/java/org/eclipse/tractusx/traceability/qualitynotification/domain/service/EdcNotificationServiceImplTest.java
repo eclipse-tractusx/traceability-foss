@@ -21,18 +21,16 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationServiceImpl;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationsEDCFacade;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.NotificationRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,7 +39,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -56,16 +53,14 @@ class EdcNotificationServiceImplTest {
     private EdcNotificationServiceImpl notificationsService;
 
     @Mock
-    private InvestigationsEDCFacade edcFacade;
+    private NotificationsEDCFacade edcFacade;
 
     @Mock
     private DiscoveryService discoveryService;
 
     @Mock
-    private InvestigationRepository investigationRepository;
+    private NotificationRepository notificationRepository;
 
-    @Mock
-    private AlertRepository alertRepository;
 
     @Test
     void testNotificationsServiceUpdateAsync() {

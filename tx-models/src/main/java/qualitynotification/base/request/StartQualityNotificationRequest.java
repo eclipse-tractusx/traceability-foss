@@ -38,6 +38,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StartQualityNotificationRequest {
+
+    @Size(min = 1, max = 255, message = "Specify at least 1 and at most 50 assetIds")
+    @Schema(example = "title", minLength = 1, maxLength = 255)
+    private String title;
+
     @Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")
     @Schema(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]", minLength = 1, maxLength = 100)
     private List<String> partIds;
@@ -58,5 +63,9 @@ public class StartQualityNotificationRequest {
 
     @Schema(example = "BPN00001123123AS")
     private String receiverBpn;
+
+    @Schema(example = "ALERT")
+    @NotNull
+    private QualityNotificationTypeRequest type;
 
 }

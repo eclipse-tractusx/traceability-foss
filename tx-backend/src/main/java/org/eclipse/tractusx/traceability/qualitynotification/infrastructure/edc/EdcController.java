@@ -31,9 +31,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.service.NotificationReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.NotificationType;
 import org.springframework.validation.annotation.Validated;
@@ -50,8 +50,7 @@ import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanit
 @RequiredArgsConstructor
 public class EdcController {
 
-    private final InvestigationsReceiverService investigationsReceiverService;
-    private final AlertsReceiverService alertsReceiverService;
+    private final NotificationReceiverService notificationReceiverService;
 
     /**
      * Receiver API call for EDC Transfer
@@ -110,7 +109,7 @@ public class EdcController {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityNotificationReceive] notificationId:{}", cleanEdcNotification);
         validateIsQualityInvestigation(cleanEdcNotification);
-        investigationsReceiverService.handleReceive(cleanEdcNotification);
+        notificationReceiverService.handleReceive(cleanEdcNotification, QualityNotificationType.INVESTIGATION);
     }
 
     /**
@@ -171,7 +170,7 @@ public class EdcController {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityNotificationUpdate] notificationId:{}", cleanEdcNotification);
         validateIsQualityInvestigation(cleanEdcNotification);
-        investigationsReceiverService.handleUpdate(cleanEdcNotification);
+        notificationReceiverService.handleUpdate(cleanEdcNotification, QualityNotificationType.INVESTIGATION);
     }
 
     /**
@@ -231,7 +230,7 @@ public class EdcController {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityalertReceive] notificationId:{}", cleanEdcNotification);
         validateIsAlert(cleanEdcNotification);
-        alertsReceiverService.handleReceive(cleanEdcNotification);
+        notificationReceiverService.handleReceive(cleanEdcNotification, QualityNotificationType.ALERT);
     }
 
     /**
@@ -291,7 +290,7 @@ public class EdcController {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [qualityalertUpdate] notificationId:{}", cleanEdcNotification);
         validateIsAlert(cleanEdcNotification);
-        alertsReceiverService.handleUpdate(cleanEdcNotification);
+        notificationReceiverService.handleUpdate(cleanEdcNotification, QualityNotificationType.ALERT);
     }
 
 
