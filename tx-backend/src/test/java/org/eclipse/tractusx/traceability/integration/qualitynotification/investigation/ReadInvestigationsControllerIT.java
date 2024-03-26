@@ -27,10 +27,11 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -61,7 +62,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(401);
     }
@@ -71,7 +72,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/123")
+                .get("/api/notifications/123")
                 .then()
                 .statusCode(401);
     }
@@ -84,7 +85,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -105,7 +106,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -128,7 +129,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -152,7 +153,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -176,7 +177,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -197,7 +198,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(400)
                 .body("message", Matchers.is(
@@ -215,9 +216,10 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .forEach(
                         number -> {
                             investigationsSupport.storedInvestigation(
-                                    InvestigationEntity.builder()
+                                    NotificationEntity.builder()
                                             .assets(Collections.emptyList())
                                             .bpn(testBpn)
+                                            .type(NotificationTypeEntity.INVESTIGATION)
                                             .status(NotificationStatusBaseEntity.CREATED)
                                             .side(NotificationSideBaseEntity.SENDER)
                                             .createdDate(now)
@@ -232,7 +234,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(2, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(2))
@@ -247,24 +249,24 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/1234")
+                .get("/api/notifications/1234")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Investigation not found for 1234 notification id"));
+                .body("message", Matchers.is("Notification with id: 1234 not found"));
     }
 
     @Test
     void shouldReturnInvestigationById() throws JoseException {
         // given
-        InvestigationNotificationEntity storedInvestigationNotification = investigationNotificationsSupport.storeInvestigationNotification();
-        InvestigationEntity storedInvestigation = storedInvestigationNotification.getInvestigation();
+        NotificationMessageEntity storedInvestigationNotification = investigationNotificationsSupport.storeInvestigationNotification();
+        NotificationEntity storedInvestigation = storedInvestigationNotification.getNotification();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/{investigationId}", storedInvestigation.getId())
+                .get("/api/notifications/{investigationId}", storedInvestigation.getId())
                 .then()
                 .statusCode(200)
                 .body("id", Matchers.is(storedInvestigation.getId().intValue()))
@@ -285,7 +287,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of("nonExistingField,ASC")), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/investigations/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(400);
     }

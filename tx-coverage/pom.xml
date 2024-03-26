@@ -60,7 +60,7 @@ SPDX-License-Identifier: Apache-2.0
                             tx-backend/src/main/java/org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java
                         </exclude>
                         <exclude>
-                            tx-backend/src/main/java/org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/InvestigationsEDCFacade.java
+                            tx-backend/src/main/java/org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/NotificationsEDCFacade.java
                         </exclude>
                         <exclude>
                             tx-backend/src/main/java/org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/EdcService.java

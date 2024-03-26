@@ -27,10 +27,11 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -62,7 +63,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/123")
+                .get("/api/notifications/123")
                 .then()
                 .statusCode(401);
     }
@@ -72,7 +73,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(401);
     }
@@ -85,7 +86,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -106,7 +107,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -129,7 +130,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -153,7 +154,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -176,7 +177,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -197,7 +198,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(400)
                 .body("message", Matchers.is(
@@ -219,20 +220,21 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         IntStream.range(101, 201)
                 .forEach(number ->
                         {
-                            AlertEntity alertEntity = AlertEntity.builder()
+                            NotificationEntity alertNotificationEntity = NotificationEntity.builder()
                                     .assets(Collections.emptyList())
                                     .bpn(testBpn)
                                     .status(NotificationStatusBaseEntity.CREATED)
                                     .side(NotificationSideBaseEntity.RECEIVER)
+                                    .type(NotificationTypeEntity.ALERT)
                                     .createdDate(now)
                                     .build();
 
-                            AlertEntity alert = alertsSupport.storedAlertFullObject(alertEntity);
+                            NotificationEntity alert = alertsSupport.storedAlertFullObject(alertNotificationEntity);
 
-                            AlertNotificationEntity notificationEntity = AlertNotificationEntity
+                            NotificationMessageEntity notificationEntity = NotificationMessageEntity
                                     .builder()
                                     .id(UUID.randomUUID().toString())
-                                    .alert(alert)
+                                    .notification(alert)
                                     .createdBy(senderBPN)
                                     .status(NotificationStatusBaseEntity.CREATED)
                                     .createdByName(senderName)
@@ -241,8 +243,8 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                                     .messageId("messageId")
                                     .build();
 
-                            AlertNotificationEntity persistedNotification = alertNotificationsSupport.storedAlertNotification(notificationEntity);
-                            persistedNotification.setAlert(alert);
+                            NotificationMessageEntity persistedNotification = alertNotificationsSupport.storedAlertNotification(notificationEntity);
+                            persistedNotification.setNotification(alert);
                             alertNotificationsSupport.storedAlertNotification(persistedNotification);
                         }
                 );
@@ -253,7 +255,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(2, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("content.createdBy", Matchers.hasItems(senderBPN))
@@ -272,24 +274,24 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/1234")
+                .get("/api/notifications/1234")
                 .then()
                 .statusCode(404)
-                .body("message", Matchers.is("Alert not found for 1234 notification id"));
+                .body("message", Matchers.is("Notification with id: 1234 not found"));
     }
 
     @Test
     void shouldReturnInvestigationById() throws JoseException {
         // given
-        AlertNotificationEntity storedAlertNotification = alertNotificationsSupport.storeAlertNotification();
-        AlertEntity storedAlert = storedAlertNotification.getAlert();
+        NotificationMessageEntity storedAlertNotification = alertNotificationsSupport.storeAlertNotification();
+        NotificationEntity storedAlert = storedAlertNotification.getNotification();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/alerts/{alertId}", storedAlert.getId())
+                .get("/api/notifications/{alertId}", storedAlert.getId())
                 .then()
                 .statusCode(200)
                 .body("id", Matchers.is(storedAlert.getId().intValue()))
@@ -306,7 +308,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenNonExistingSortField_whenGetAlerts_thenBadRequest() throws JoseException {
         //GIVEN
-        String sortString= "nonExistingField,ASC";
+        String sortString = "nonExistingField,ASC";
 
         //WHEN
         //THEN
@@ -315,7 +317,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(400);
     }
