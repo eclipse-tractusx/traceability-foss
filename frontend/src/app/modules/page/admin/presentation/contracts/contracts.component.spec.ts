@@ -84,8 +84,8 @@ describe('ContractTableComponent', () => {
 
         let result = componentInstance.convertArrayOfObjectsToCSV([getContracts().content[0]])
 
-        expect(result).toEqual("contractId,counterpartyAddress,creationDate,endDate,state\n" +
-            "abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized");
+        expect(result).toEqual("contractId,counterpartyAddress,creationDate,endDate,state,policy\n" +
+            "abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy");
 
     });
     it('should download CSV file', async () => {

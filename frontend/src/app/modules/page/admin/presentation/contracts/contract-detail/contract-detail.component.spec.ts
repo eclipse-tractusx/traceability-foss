@@ -1,21 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AdminModule } from '@page/admin/admin.module';
+import { ContractsFacade } from '@page/admin/presentation/contracts/contracts.facade';
+import { renderComponent } from '@tests/test-render.utils';
 
 import { ContractDetailComponent } from './contract-detail.component';
 
 describe('ContractDetailComponent', () => {
-  let component: ContractDetailComponent;
-  let fixture: ComponentFixture<ContractDetailComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ContractDetailComponent]
-    });
-    fixture = TestBed.createComponent(ContractDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  const renderContractDetailedComponent = () => renderComponent(ContractDetailComponent, {imports: [AdminModule], providers: [ContractsFacade]})
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should create', async() => {
+    const {fixture} = await renderContractDetailedComponent();
+    const {componentInstance} = fixture;
+    expect(componentInstance).toBeTruthy();
   });
 });

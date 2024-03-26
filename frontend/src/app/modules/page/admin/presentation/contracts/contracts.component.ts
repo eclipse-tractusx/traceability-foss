@@ -1,14 +1,15 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {Pagination} from '@core/model/pagination.model';
-import {AdminFacade} from '@page/admin/core/admin.facade';
-import {Contract, KnownAdminRoutes} from '@page/admin/core/admin.model';
-import {ContractsFacade} from '@page/admin/presentation/contracts/contracts.facade';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {CreateHeaderFromColumns, TableConfig, TableEventConfig} from '@shared/components/table/table.model';
-import {View} from '@shared/model/view.model';
-import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
-import {Observable} from 'rxjs';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Pagination } from '@core/model/pagination.model';
+import { AdminFacade } from '@page/admin/core/admin.facade';
+import { Contract, KnownAdminRoutes } from '@page/admin/core/admin.model';
+import { ContractsFacade } from '@page/admin/presentation/contracts/contracts.facade';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contracts',
@@ -26,15 +27,17 @@ export class ContractsComponent {
 
   public ngOnInit() {
     this.contractsView$ = this.contractsFacade.contracts$;
-    this.contractsView$.subscribe(data => {
-      if(data?.data) {
+    // only check one emitted value
+    this.contractsView$.pipe(take(1)).subscribe(data => {
+      if(data?.data?.content.length) {
+        console.log("content is there, returning")
         return;
       } else {
         this.contractsFacade.setContracts(0,10,[null,null]);
-        console.log("newly fetched")
-
+        console.log("fetching new content")
       }
     })
+    console.log("ngOnInit")
 
     this.pagination = { page: 0, pageSize: 10, sorting: [ '', null ] };
     this.tableConfig = {
