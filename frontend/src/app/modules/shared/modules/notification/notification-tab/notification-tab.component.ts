@@ -62,7 +62,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
   @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>;
-
+  @ViewChild('typeTmp') typeTemplate: TemplateRef<unknown>;
 
   public tableConfig: TableConfig<keyof Notification>;
 
@@ -70,7 +70,7 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
 
-    const defaultColumns: DisplayColumns<keyof Notification>[] = [ 'description', 'status', 'createdDate' ];
+    const defaultColumns: DisplayColumns<keyof Notification>[] = [ 'description', 'title', 'status', 'createdDate' ];
     const displayedColumns: DisplayColumns<keyof Notification>[] = [ ...defaultColumns, ...this.optionalColumns, 'menu' ];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
 
@@ -89,7 +89,8 @@ export class NotificationTabComponent implements AfterViewInit {
         createdBy: this.bpnTemplate,
         sendToName: this.userTemplate,
         createdByName: this.userTemplate,
-        sendTo: this.bpnTemplate
+        sendTo: this.bpnTemplate,
+        type: this.typeTemplate
       },
     };
 

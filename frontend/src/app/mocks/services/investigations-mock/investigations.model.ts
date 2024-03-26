@@ -19,12 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import type {NotificationResponse} from '@shared/model/notification.model';
-import {NotificationStatus, NotificationType} from '@shared/model/notification.model';
-import {Severity} from '@shared/model/severity.model';
-import {getRandomAsset} from '../parts-mock/partsAsPlanned/partsAsPlanned.model';
-import {MOCK_part_1} from '../parts-mock/partsAsPlanned/partsAsPlanned.test.model';
-import {getRandomIntFromInterval, getRandomText} from '../text-generator.helper';
+import type { NotificationResponse } from '@shared/model/notification.model';
+import { NotificationStatus, NotificationType, NotificationTypeResponse } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
+import { getRandomAsset } from '../parts-mock/partsAsPlanned/partsAsPlanned.model';
+import { MOCK_part_1 } from '../parts-mock/partsAsPlanned/partsAsPlanned.test.model';
+import { getRandomIntFromInterval, getRandomText } from '../text-generator.helper';
 
 export const InvestigationIdPrefix = 'id-';
 
@@ -74,7 +74,7 @@ export const buildMockInvestigations = (
             targetDate: `2022-${numberToString(month)}-${numberToString(day + 1)}T11:34:12Z`,
             assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
             errorMessage: errorInvestigation,
-            notificationType: NotificationType.INVESTIGATION,
+            type: NotificationTypeResponse.INVESTIGATION,
         };
     });
 
@@ -93,6 +93,7 @@ const MockEmptyInvestigation: NotificationResponse = {
     targetDate: `2022-02-01T12:34:12`,
     assetIds: [getRandomAsset().id],
     channel: 'SENDER',
+    type: NotificationTypeResponse.INVESTIGATION
 };
 
 export interface NotificationFilter {

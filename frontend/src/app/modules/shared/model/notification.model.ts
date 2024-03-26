@@ -71,11 +71,17 @@ export interface NotificationFilter {
   targetDate?: string;
   bpn?: string;
   errorMessage?: string;
+  title: NotificationTypeResponse;
 }
 
 export enum NotificationType {
   INVESTIGATION = 'Investigation',
   ALERT = 'Alert'
+}
+
+export enum NotificationTypeResponse {
+  INVESTIGATION = 'INVESTIGATION',
+  ALERT = 'ALERT'
 }
 
 export interface NotificationResponse {
@@ -95,6 +101,7 @@ export interface NotificationResponse {
   targetDate?: string;
   bpn?: string;
   errorMessage?: string;
+  type: NotificationTypeResponse
 }
 
 export interface Notification {
@@ -114,7 +121,7 @@ export interface Notification {
   targetDate?: CalendarDateModel;
   bpn?: string;
   errorMessage?: string;
-  notificationType?: NotificationType;
+  type?: NotificationType;
 }
 
 export enum NotificationColumn {

@@ -38,9 +38,9 @@ export class NotificationComponent {
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
   @Input() translationContext: 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() receivedOptionalColumns: Array<'title' | 'targetDate' | 'severity' | 'createdBy' | 'createdByName' | 'type'> = [];
+  @Input() receivedOptionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'createdByName' | 'type'> = [];
   @Input() receivedSortableColumns: Record<string, boolean> = {};
-  @Input() queuedAndRequestedOptionalColumns: Array<'title' | 'targetDate' | 'severity' | 'sendTo' | 'sendToName' | 'type'> = [];
+  @Input() queuedAndRequestedOptionalColumns: Array<'targetDate' | 'severity' | 'sendTo' | 'sendToName' | 'type'> = [];
   @Input() queuedAndRequestedSortableColumns: Record<string, boolean> = {};
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];

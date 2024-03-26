@@ -54,7 +54,6 @@ export class NotificationService {
     public getCreated(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
         const sort = sorting.length ? sorting.map(array => `${array[0]},${array[1]}`) : ['createdDate,desc'];
         const requestUrl = this.notificationUrl() + '/filter';
-        const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
         const additionalFilters = new Set([...provideFilterListForNotifications(filter, fullFilter), 'channel,EQUAL,SENDER,AND']);
 
         const body = {
@@ -70,13 +69,12 @@ export class NotificationService {
 
         return this.apiService
             .post<NotificationsResponse>(requestUrl, body)
-            .pipe(map(data => NotificationAssembler.assembleNotifications(data, notificationType)));
+            .pipe(map(data => NotificationAssembler.assembleNotifications(data)));
     }
 
     public getReceived(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
         const sort = sorting.length ? sorting.map(array => `${array[0]},${array[1]}`) : ['createdDate,desc'];
         const requestUrl = this.notificationUrl() + '/filter';
-        const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
         const additionalFilters = new Set([...provideFilterListForNotifications(filter, fullFilter), 'channel,EQUAL,RECEIVER,AND']);
 
         const body = {
@@ -92,16 +90,15 @@ export class NotificationService {
 
         return this.apiService
             .post<NotificationsResponse>(requestUrl, body)
-            .pipe(map(data => NotificationAssembler.assembleNotifications(data, notificationType)));
+            .pipe(map(data => NotificationAssembler.assembleNotifications(data)));
     }
 
 
     public getNotificationById(id: string, isInvestigation = true): Observable<Notification> {
         const requestUrl = this.notificationUrl();
-        const notificationType = isInvestigation ? NotificationType.INVESTIGATION : NotificationType.ALERT;
         return this.apiService
             .get<NotificationResponse>(`${requestUrl}/${id}`)
-            .pipe(map(notification => NotificationAssembler.assembleNotification(notification, notificationType)));
+            .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
     }
 
     public createAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean, type: string): Observable<string> {

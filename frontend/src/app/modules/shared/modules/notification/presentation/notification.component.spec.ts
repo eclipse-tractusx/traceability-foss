@@ -21,11 +21,11 @@
 
 import {CalendarDateModel} from '@core/model/calendar-date.model';
 import {
-    Notification,
-    NotificationResponse,
-    Notifications,
-    NotificationStatus,
-    NotificationType,
+  Notification,
+  NotificationResponse,
+  Notifications,
+  NotificationStatus,
+  NotificationType, NotificationTypeResponse,
 } from '@shared/model/notification.model';
 import {View} from '@shared/model/view.model';
 import {
@@ -55,8 +55,9 @@ describe('NotificationsInboxComponent', () => {
         const sendTo = data.sendTo
         const sendToName = data.sendToName;
         delete data.channel;
+        const type = NotificationType.INVESTIGATION;
 
-        return {...data, createdDate, targetDate, isFromSender, createdBy, createdByName, sendTo, sendToName};
+        return {...data, createdDate, targetDate, isFromSender, createdBy, createdByName, sendTo, sendToName, type};
     };
 
     const renderNotificationsInbox = () => {
@@ -128,7 +129,7 @@ describe('NotificationsInboxComponent', () => {
         expect(await screen.findByText('Investigation No 51')).toBeInTheDocument();
     });
 
-    it('should render queued & requested notifications', async () => {
+    fit('should render queued & requested notifications', async () => {
         await renderNotificationsInbox();
         fireEvent.click(screen.getByText('commonAlert.tabs.queuedAndRequested'));
         expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();

@@ -28,15 +28,15 @@ import {
   Notifications,
   NotificationsResponse,
   NotificationStatus,
-  NotificationType,
+  NotificationType, NotificationTypeResponse,
 } from '../model/notification.model';
 
 export class NotificationAssembler {
-  public static assembleNotifications(response: NotificationsResponse, notificationType: NotificationType): Notifications {
-    return PaginationAssembler.assemblePagination(NotificationAssembler.assembleNotification, response, notificationType);
+  public static assembleNotifications(response: NotificationsResponse): Notifications {
+    return PaginationAssembler.assemblePagination(NotificationAssembler.assembleNotification, response);
   }
 
-  public static assembleNotification(response: NotificationResponse, myNotificationType: NotificationType): Notification {
+  public static assembleNotification(response: NotificationResponse): Notification {
     const {
       id = null,
       assetIds = null,
@@ -54,6 +54,7 @@ export class NotificationAssembler {
       sendToName: _sendToName = '',
       targetDate: _targetDate = '',
       errorMessage: _errorMessage = '',
+      type: _type = null
     } = response;
 
     const isFromSender = channel === 'SENDER';
@@ -67,7 +68,7 @@ export class NotificationAssembler {
     const title = _title;
     const sendToName = _sendToName;
     const errorMessage = _errorMessage || undefined;
-    const notificationType = myNotificationType || undefined;
+    const type = NotificationType[_type];
 
     let assembled = {
       id,
@@ -84,7 +85,7 @@ export class NotificationAssembler {
       createdDate,
       targetDate,
       bpn,
-      notificationType,
+      type,
       title
     };
 
