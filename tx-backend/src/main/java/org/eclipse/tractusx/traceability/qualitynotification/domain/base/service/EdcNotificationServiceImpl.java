@@ -28,8 +28,6 @@ import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
@@ -37,6 +35,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.excepti
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.NotificationRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -55,10 +54,9 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Profile(NOT_INTEGRATION_TESTS)
 public class EdcNotificationServiceImpl implements EdcNotificationService {
 
-    private final InvestigationsEDCFacade edcFacade;
+    private final NotificationsEDCFacade edcFacade;
     private final DiscoveryService discoveryService;
-    private final InvestigationRepository investigationRepository;
-    private final AlertRepository alertRepository;
+    private final NotificationRepository notificationRepository;
 
     @Override
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
@@ -119,12 +117,8 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private void enrichQualityNotificationByError(Exception e, QualityNotificationMessage message) {
         log.info("Retrieving quality notification by message id {}", message.getEdcNotificationId());
-        Optional<QualityNotification> optionalQualityNotificationById;
-        if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
-            optionalQualityNotificationById = investigationRepository.findByEdcNotificationId(message.getEdcNotificationId());
-        } else {
-            optionalQualityNotificationById = alertRepository.findByEdcNotificationId(message.getEdcNotificationId());
-        }
+
+        Optional<QualityNotification> optionalQualityNotificationById = notificationRepository.findByEdcNotificationId(message.getEdcNotificationId());
 
         log.info("Successfully executed retrieving quality notification by message id");
         if (optionalQualityNotificationById.isPresent()) {
@@ -135,11 +129,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
                 qmMessage.setErrorMessage(e.getMessage());
             });
 
-            if (message.getType().equals(QualityNotificationType.INVESTIGATION)) {
-                investigationRepository.updateErrorMessage(optionalQualityNotificationById.get());
-            } else {
-                alertRepository.updateErrorMessage(optionalQualityNotificationById.get());
-            }
+            notificationRepository.updateErrorMessage(optionalQualityNotificationById.get());
         } else {
             log.warn("Quality Notification NOT FOUND for error message enrichment notification id {}", message.getId());
         }

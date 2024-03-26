@@ -62,6 +62,7 @@ public class SecurityUtils {
                 .severity(request.getSeverity())
                 .isAsBuilt(request.isAsBuilt())
                 .receiverBpn(cleanReceiverBpn)
+                .type(request.getType())
                 .partIds(cleanPartIds)
                 .build();
     }

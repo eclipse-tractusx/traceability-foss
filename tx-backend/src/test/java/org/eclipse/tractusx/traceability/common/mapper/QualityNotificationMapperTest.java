@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -60,10 +61,11 @@ class QualityNotificationMapperTest {
                 .severity(QualityNotificationSeverity.MINOR)
                 .messageId("1")
                 .build();
+        QualityNotificationType type = QualityNotificationType.INVESTIGATION;
 
 
         // When
-        QualityNotification result = mapper.toQualityNotification(new BPN(receiver), description, notification);
+        QualityNotification result = mapper.toQualityNotification(new BPN(receiver), description, notification, type);
 
         // Then
         assertEquals(QualityNotificationStatus.RECEIVED, result.getNotificationStatus());
@@ -71,6 +73,7 @@ class QualityNotificationMapperTest {
         assertEquals(description, result.getDescription());
         assertEquals(List.of("123"), result.getAssetIds());
         assertEquals(List.of(notification), result.getNotifications());
+        assertEquals(QualityNotificationType.INVESTIGATION, result.getNotificationType());
     }
 }
 

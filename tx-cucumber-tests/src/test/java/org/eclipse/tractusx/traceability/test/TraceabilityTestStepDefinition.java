@@ -121,7 +121,7 @@ public class TraceabilityTestStepDefinition {
                 .ignoreExceptions()
                 .until(() -> {
                             try {
-                                QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+                                QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv());
                                 NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
                                 return true;
                             } catch (AssertionError assertionError) {
@@ -134,27 +134,27 @@ public class TraceabilityTestStepDefinition {
 
     @When("I approve quality investigation")
     public void iApproveQualityInvestigation() {
-        restProvider.approveNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+        restProvider.approveNotification(getNotificationIdBasedOnEnv());
     }
 
     @When("I cancel quality investigation")
     public void iCancelQualityInvestigation() {
-        restProvider.cancelNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+        restProvider.cancelNotification(getNotificationIdBasedOnEnv());
     }
 
     @When("I cancel quality alert")
     public void iCancelQualityAlert() {
-        restProvider.cancelNotification(getNotificationIdBasedOnEnv(), ALERT);
+        restProvider.cancelNotification(getNotificationIdBasedOnEnv());
     }
 
     @When("I close quality investigation")
     public void iCloseQualityInvestigation() {
-        restProvider.closeNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+        restProvider.closeNotification(getNotificationIdBasedOnEnv());
     }
 
     @When("I close quality alert")
     public void iCloseQualityAlert() {
-        restProvider.closeNotification(getNotificationIdBasedOnEnv(), ALERT);
+        restProvider.closeNotification(getNotificationIdBasedOnEnv());
     }
 
     @When("I check, if quality investigation has been received")
@@ -164,7 +164,7 @@ public class TraceabilityTestStepDefinition {
                 .atMost(Duration.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
-                            final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(INVESTIGATION);
+                            final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
                             result.stream().map(QualityNotificationResponse::getDescription).forEach(System.out::println);
                             return result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().orElse(null);
                         }, Matchers.notNullValue()
@@ -177,7 +177,7 @@ public class TraceabilityTestStepDefinition {
 
     @When("I check, if quality investigation has not been received")
     public void iCanSeeInvestigationWasNotReceived() {
-        final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(INVESTIGATION);
+        final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
         Optional<QualityNotificationResponse> first = result.stream()
                 .filter(qualityNotificationResponse -> Objects.equals(qualityNotificationResponse.getId(), getNotificationIdBasedOnEnv()))
                 .findFirst();
@@ -186,7 +186,7 @@ public class TraceabilityTestStepDefinition {
 
     @When("I check, if quality alert has not been received")
     public void iCanSeeAlertWasNotReceived() {
-        final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(ALERT);
+        final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
         Optional<QualityNotificationResponse> first = result.stream()
                 .filter(qualityNotificationResponse -> Objects.equals(qualityNotificationResponse.getId(), getNotificationIdBasedOnEnv()))
                 .findFirst();
@@ -195,28 +195,28 @@ public class TraceabilityTestStepDefinition {
 
     @When("I acknowledge quality investigation")
     public void iAcknowledgeQualityInvestigation() {
-        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED, "");
+        restProvider.updateNotification(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED, "");
     }
 
     @When("I accept quality investigation")
     public void iAcceptQualityInvestigation(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED, reason);
+        restProvider.updateNotification(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED, reason);
     }
 
     @When("I decline quality investigation")
     public void iDeclineQualityInvestigation(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED, reason);
+        restProvider.updateNotification(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED, reason);
     }
 
     @When("I decline quality alert")
     public void iDeclineQualityAlert(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED, reason);
+        restProvider.updateNotification(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED, reason);
     }
 
     private Long getNotificationIdBasedOnEnv() {
@@ -275,7 +275,7 @@ public class TraceabilityTestStepDefinition {
                 .ignoreExceptions()
                 .until(() -> {
                             try {
-                                QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), ALERT);
+                                QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv());
                                 NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
                                 return true;
                             } catch (AssertionError assertionError) {
@@ -289,7 +289,7 @@ public class TraceabilityTestStepDefinition {
 
     @When("I approve quality alert")
     public void iApproveQualityAlert() {
-        restProvider.approveNotification(getNotificationIdBasedOnEnv(), ALERT);
+        restProvider.approveNotification(getNotificationIdBasedOnEnv());
     }
 
 
@@ -300,7 +300,7 @@ public class TraceabilityTestStepDefinition {
                 .atMost(Duration.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
-                            final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(ALERT);
+                            final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
                             result.stream().map(QualityNotificationResponse::getDescription).forEach(System.out::println);
                             return result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().orElse(null);
                         }, Matchers.notNullValue()
@@ -313,7 +313,7 @@ public class TraceabilityTestStepDefinition {
 
     @When("I acknowledge quality alert")
     public void iAcknowledgeQualityAlert() {
-        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED, "");
+        restProvider.updateNotification(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED, "");
     }
 
 
@@ -321,6 +321,6 @@ public class TraceabilityTestStepDefinition {
     public void iAcceptQualityAlert(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED, reason);
+        restProvider.updateNotification(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED, reason);
     }
 }

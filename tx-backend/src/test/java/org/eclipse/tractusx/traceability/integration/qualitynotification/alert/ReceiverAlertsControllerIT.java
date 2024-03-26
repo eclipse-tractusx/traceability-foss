@@ -67,7 +67,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.ACKNOWLEDGED.name()))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/alerts/$notExistingAlertId/update".replace("$notExistingAlertId", Long.toString(notExistingAlertId)))
+                .post("/api/notifications/$notExistingAlertId/update".replace("$notExistingAlertId", Long.toString(notExistingAlertId)))
                 .then()
                 .statusCode(404);
 
@@ -77,7 +77,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -102,7 +102,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.ACCEPTED.name()))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/alerts/$notExistingAlertId/update".replace("$notExistingAlertId", Long.toString(notExistingAlertId)))
+                .post("/api/notifications/$notExistingAlertId/update".replace("$notExistingAlertId", Long.toString(notExistingAlertId)))
                 .then()
                 .statusCode(404);
 
@@ -112,7 +112,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -137,7 +137,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.DECLINED.name()))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/alerts/$notExistingAlertId/update".replace("$notExistingAlertId", Long.toString(notExistingAlertId)))
+                .post("/api/notifications/$notExistingAlertId/update".replace("$notExistingAlertId", Long.toString(notExistingAlertId)))
                 .then()
                 .statusCode(404);
 
@@ -147,7 +147,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
@@ -168,7 +168,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .body(request)
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/alerts/{notExistingAlertId}/update", Long.toString(notExistingAlertId))
+                .post("/api/notifications/{notExistingAlertId}/update", Long.toString(notExistingAlertId))
                 .then()
                 .statusCode(400);
 
@@ -178,7 +178,7 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                 .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/alerts/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(200)
                 .body("page", Matchers.is(0))
