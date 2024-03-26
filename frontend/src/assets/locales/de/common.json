@@ -186,6 +186,7 @@
   "requestAlert": {
     "headline": "Qualitätswarnung erstellen",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
+    "titleDescription": "Titel",
     "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
     "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt.",
     "serverError": "Serverfehler:"
@@ -204,6 +205,8 @@
     "bpnLabel": "BPN",
     "bpnDescription": "Bitte geben Sie die Empfänger BPN an.",
     "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
+    "titleDescription": "Titel",
+    "titleLabel": "Titel",
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",
     "cancel": "ABBRUCH",

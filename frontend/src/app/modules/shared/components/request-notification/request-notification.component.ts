@@ -45,7 +45,7 @@ export class RequestNotificationComponent {
   @Input() set notificationType(notificationType: NotificationType) {
     this.context = notificationType === NotificationType.INVESTIGATION ? 'requestInvestigations' : 'requestAlert';
     this.isInvestigation = notificationType === NotificationType.INVESTIGATION;
-    this.formGroup.addControl('title', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(5) ]));
+    this.formGroup.addControl('title', new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]));
     this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
     this.formGroup.addControl('severity', new FormControl(Severity.MINOR, [ Validators.required ]));
     if (this.isInvestigation) {
@@ -98,7 +98,7 @@ export class RequestNotificationComponent {
     const { description, bpn, severity } = this.formGroup.value;
     const { link, queryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
-    let type = this.isInvestigation ? "INVESTIGATION" : "ALERT";
+    let type = this.isInvestigation ? 'INVESTIGATION' : 'ALERT';
     this.notificationService.createAlert(partIds, description, severity, bpn, isAsBuilt, type).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: (err) => this.onUnsuccessfulSubmit(err.error.message),

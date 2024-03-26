@@ -106,25 +106,11 @@ export class NotificationService {
   }
 
   public createAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean, type: string): Observable<string> {
-    const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt, type: type };
+    const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt, type };
 
     return this.apiService.post<NotificationCreateResponse>(`${ this.url }/notifications`, body).pipe(map(({ id }) => id));
   }
 
-  public createInvestigation(
-    partIds: string[],
-    description: string,
-    severity: Severity,
-    dateString: DateTimeString,
-  ): Observable<string> {
-    // targetDate is an optional field
-    const targetDate = null === dateString ? null : new Date(dateString).toISOString();
-    const body = { partIds, description, severity, targetDate, type: "INVESTIGATION" };
-
-    return this.apiService
-      .post<NotificationCreateResponse>(`${ this.url }/notifications`, body)
-      .pipe(map(({ id }) => id));
-  }
 
   public closeNotification(id: string, reason: string, isInvestigation = true): Observable<void> {
     const requestUrl = this.notificationUrl();

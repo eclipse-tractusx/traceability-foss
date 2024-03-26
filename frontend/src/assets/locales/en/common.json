@@ -184,6 +184,7 @@
   },
   "requestAlert": {
     "headline": "Create quality alert",
+    "titleDescription": "Title",
     "textAreaDescription": "Add a description about the alert.",
     "success_one": "You queued an alert for {{count}} part",
     "success_other": "You queued an alert for {{count}} parts",
@@ -200,6 +201,8 @@
   "requestNotification": {
     "partDescription": "You selected the following parts:",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
+    "titleLabel": "Title",
+    "titleDescription": "Title",
     "targetDateLabel": "Deadline",
     "bpnLabel": "BPN",
     "bpnDescription": "Please specify the receiver BPN.",
