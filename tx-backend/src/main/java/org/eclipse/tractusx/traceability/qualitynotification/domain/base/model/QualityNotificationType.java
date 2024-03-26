@@ -19,7 +19,28 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
+import qualitynotification.base.request.QualityNotificationTypeRequest;
+
 public enum QualityNotificationType {
-    INVESTIGATION,
-    ALERT
+    ALERT("ALERT"),
+    INVESTIGATION("INVESTIGATION");
+
+    private final String realName;
+
+    QualityNotificationType(String realName) {
+        this.realName = realName;
+    }
+
+    public static QualityNotificationType fromString(String str) {
+        for (QualityNotificationType s : QualityNotificationType.values()) {
+            if (s.realName.equalsIgnoreCase(str)) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant " + QualityNotificationType.class.getCanonicalName() + "." + str);
+    }
+
+    public static QualityNotificationType from(QualityNotificationTypeRequest qualityNotificationTypeRequest) {
+        return QualityNotificationType.fromString(qualityNotificationTypeRequest.getRealName());
+    }
 }

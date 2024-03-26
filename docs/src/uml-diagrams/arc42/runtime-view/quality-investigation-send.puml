@@ -1,7 +1,7 @@
 @startuml
 
 title
-    ==Send Quality Investigation
+    ==Send Quality Notification
 end title
 
 autonumber "<B>[00]"

@@ -13,6 +13,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #606 Added error message into notifications on failure
 - #596 Added Policy management documentation
 - Added overview of the scheduler tasks in documentation
+- #706 Created notification classes to support both alert and investigations
+- #706 Notification controller having the same endpoints as alerts and investigations controllers
 
 ### Changed
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
@@ -22,9 +24,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #596 Policy management has been moved to different module
 - #616 Merged quality investigations / alerts into a single view
 - #762 updated documentation for release 24.5
+- #706 StartNotificationRequest now requires additional parameter type ("ALERT", "INVESTIGATION") which
+- #706 Search criteria allows to filter by new type parameter
+- #706 Notification response have new title parameter
 
 ### Removed
 - Shedlock, resilence4j, templateResolver as not used anymore
+- #706 Removed alert and investigation specific classes and services to replace them with merged notification classes
 
 ### Added
 - #630 Added Parts extended detailed view

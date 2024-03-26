@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -45,7 +46,7 @@ public class QualityNotificationMapper {
      * @param notification the notification associated with the alert or investigation
      * @return an QualityNotification object representing the notification received by the receiver
      */
-    public QualityNotification toQualityNotification(BPN bpn, String description, QualityNotificationMessage notification) {
+    public QualityNotification toQualityNotification(BPN bpn, String description, QualityNotificationMessage notification, QualityNotificationType notificationType) {
 
         List<String> assetIds = new ArrayList<>();
         notification.getAffectedParts().stream()
@@ -55,6 +56,7 @@ public class QualityNotificationMapper {
                 .bpn(bpn)
                 .notificationStatus(QualityNotificationStatus.RECEIVED)
                 .notificationSide(QualityNotificationSide.RECEIVER)
+                .notificationType(notificationType)
                 .description(description)
                 .createdAt(Instant.now())
                 .assetIds(assetIds)

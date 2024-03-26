@@ -24,7 +24,6 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBu
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
@@ -32,10 +31,13 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationPublisherService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationNotSupportedException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.NotificationNotSupportedException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.model.StartQualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -68,7 +70,7 @@ class NotificationPublisherServiceTest {
     private NotificationPublisherService notificationPublisherService;
 
     @Mock
-    private InvestigationRepository repository;
+    private NotificationRepository repository;
     @Mock
     private AssetAsBuiltRepository assetRepository;
     @Mock
@@ -85,15 +87,29 @@ class NotificationPublisherServiceTest {
     @Test
     void testStartInvestigationSuccessful() {
         // Given
+        String title = "title";
         String description = "Test investigation";
-        when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
+        List<String> assets = Arrays.asList("asset-1", "asset-2");
+        Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
+        when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
         String receiverBpn = "someReceiverBpn";
+        StartQualityNotification startNotification = StartQualityNotification.builder()
+                .title(title)
+                .partIds(assets)
+                .description(description)
+                .targetDate(targetDate)
+                .severity(QualityNotificationSeverity.MINOR)
+                .type(QualityNotificationType.INVESTIGATION)
+                .receiverBpn(receiverBpn)
+                .isAsBuilt(true)
+                .build();
 
         // When
-        QualityNotification result = notificationPublisherService.startQualityNotification(Arrays.asList("asset-1", "asset-2"), description, Instant.parse("2022-03-01T12:00:00Z"), QualityNotificationSeverity.MINOR, receiverBpn, true);
+        QualityNotification result = notificationPublisherService.startQualityNotification(startNotification);
 
         // Then
+        assertThat(result.getTitle()).isEqualTo(title);
         assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.CREATED);
         assertThat(result.getDescription()).isEqualTo(description);
         assertThat(result.getNotificationSide()).isEqualTo(QualityNotificationSide.SENDER);
@@ -105,23 +121,48 @@ class NotificationPublisherServiceTest {
     @Test
     void testThrowNotificationNotSupportedException() {
         // Given
+        String title = "Title";
         String description = "Test investigation";
         String receiverBpn = "someReceiverBpn";
+        Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
+        List<String> assets = Arrays.asList("asset-1", "asset-2");
+        StartQualityNotification startNotification = StartQualityNotification.builder()
+                .title(title)
+                .partIds(assets)
+                .description(description)
+                .targetDate(targetDate)
+                .severity(QualityNotificationSeverity.MINOR)
+                .type(QualityNotificationType.INVESTIGATION)
+                .receiverBpn(receiverBpn)
+                .isAsBuilt(false)
+                .build();
 
         // Then
-        assertThrows(NotificationNotSupportedException.class, () -> notificationPublisherService.startQualityNotification(Arrays.asList("asset-1", "asset-2"), description, Instant.parse("2022-03-01T12:00:00Z"), QualityNotificationSeverity.MINOR, receiverBpn, false));
+        assertThrows(NotificationNotSupportedException.class, () -> notificationPublisherService.startQualityNotification(startNotification));
     }
 
     @Test
     void testStartAlertSuccessful() {
         // Given
+        String title = "Title";
         String description = "Test investigation";
-        String receiverBPN = "BPN00001";
+        String receiverBpn = "BPN00001";
+        Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
+        List<String> assets = Arrays.asList("asset-1", "asset-2");
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
-        when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
-
+        when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
+        StartQualityNotification startNotification = StartQualityNotification.builder()
+                .title(title)
+                .partIds(assets)
+                .description(description)
+                .targetDate(targetDate)
+                .severity(QualityNotificationSeverity.MINOR)
+                .type(QualityNotificationType.INVESTIGATION)
+                .receiverBpn(receiverBpn)
+                .isAsBuilt(true)
+                .build();
         // When
-        QualityNotification result = notificationPublisherService.startQualityNotification(Arrays.asList("asset-1", "asset-2"), description, Instant.parse("2022-03-01T12:00:00Z"), QualityNotificationSeverity.MINOR, receiverBPN, true);
+        QualityNotification result = notificationPublisherService.startQualityNotification(startNotification);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.CREATED);
@@ -131,7 +172,7 @@ class NotificationPublisherServiceTest {
                 .containsExactly(QualityNotificationSeverity.MINOR);
         assertThat(result.getNotifications()).hasSize(1)
                 .first()
-                .hasFieldOrPropertyWithValue("sendTo", receiverBPN);
+                .hasFieldOrPropertyWithValue("sendTo", receiverBpn);
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
 
     }

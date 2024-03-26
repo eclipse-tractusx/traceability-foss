@@ -25,7 +25,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -68,7 +68,7 @@ public class QualityNotificationMessage {
         this.notificationStatus = to;
     }
 
-    public static QualityNotificationMessage create(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
+    public static QualityNotificationMessage create(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, QualityNotificationType notificationType, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
@@ -84,6 +84,7 @@ public class QualityNotificationMessage {
                 .targetDate(targetDate)
                 .severity(severity)
                 .edcNotificationId(notificationId)
+                .type(notificationType)
                 .messageId(messageId)
                 .build();
     }
