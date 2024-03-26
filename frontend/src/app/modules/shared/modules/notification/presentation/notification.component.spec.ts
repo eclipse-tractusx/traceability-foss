@@ -78,7 +78,7 @@ describe('NotificationsInboxComponent', () => {
           [notificationType]='notificationType'
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
-          [translationContext]="'commonInvestigation'"
+          [translationContext]="'commonAlert'"
           [menuActionsConfig]="'menuActionsConfig'"
           [isInvestigation]='isInvestigation'
            [receivedOptionalColumns]="['severity', 'createdBy', 'createdByName', 'targetDate']"
@@ -116,7 +116,7 @@ describe('NotificationsInboxComponent', () => {
         const descriptionEl = await screen.findByText('Investigation No 1');
         const row = descriptionEl.closest('tr');
         debugger;
-        expect(within(row).getByText('commonInvestigation.status.CREATED')).toBeInTheDocument();
+        expect(within(row).getByText('commonAlert.status.CREATED')).toBeInTheDocument();
     });
 
     it('should be able to change notifications page', async () => {
@@ -130,7 +130,7 @@ describe('NotificationsInboxComponent', () => {
 
     it('should render queued & requested notifications', async () => {
         await renderNotificationsInbox();
-        fireEvent.click(screen.getByText('commonInvestigation.tabs.queuedAndRequested'));
+        fireEvent.click(screen.getByText('commonAlert.tabs.queuedAndRequested'));
         expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
     });
 });

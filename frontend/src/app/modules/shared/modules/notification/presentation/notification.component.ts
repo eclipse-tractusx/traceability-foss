@@ -36,7 +36,7 @@ import { map } from 'rxjs/operators';
 export class NotificationComponent {
   @Input() receivedNotifications$: Observable<View<Notifications>>;
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
-  @Input() translationContext: 'commonInvestigation' | 'commonAlert';
+  @Input() translationContext: 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
   @Input() receivedOptionalColumns: Array<'title' | 'targetDate' | 'severity' | 'createdBy' | 'createdByName' | 'type'> = [];
   @Input() receivedSortableColumns: Record<string, boolean> = {};

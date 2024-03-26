@@ -45,7 +45,7 @@ describe('NotificationReasonComponent', () => {
 
     await renderReason({ ...defaultNotification, reason, status });
     expect(screen.getByText(reason.accept)).toBeInTheDocument();
-    expect(screen.getByText('commonInvestigation.status.SENT')).toBeInTheDocument();
+    expect(screen.getByText('commonAlert.status.SENT')).toBeInTheDocument();
     expect(screen.getByText(defaultNotification.createdByName)).toBeInTheDocument();
     expect(screen.getByText(defaultNotification.sendToName)).toBeInTheDocument();
   });

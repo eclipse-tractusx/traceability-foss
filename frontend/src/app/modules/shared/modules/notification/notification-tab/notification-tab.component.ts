@@ -42,7 +42,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() notificationsView$: Observable<View<Notifications>>;
   @Input() labelId: string;
   @Input() hasPagination = true;
-  @Input() translationContext: 'commonInvestigation' | 'commonAlert';
+  @Input() translationContext: 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
   @Input() optionalColumns: Array<'title'|'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName' | 'type'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};

@@ -28,8 +28,8 @@ import { getRandomText } from '../../../../../../mocks/services/text-generator.h
 describe('AcceptNotificationModalComponent', () => {
   it('should create accept modal', async () => {
     await renderAcceptModal(NotificationStatus.ACKNOWLEDGED);
-    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.acceptTitle'));
-    const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.acceptReasonHint'));
+    const title = await waitFor(() => screen.getByText('commonAlert.modal.acceptTitle'));
+    const hint2 = await waitFor(() => screen.getByText('commonAlert.modal.acceptReasonHint'));
     const buttonR = await waitFor(() => screen.getByText('actions.accept'));
 
     expect(title).toBeInTheDocument();
@@ -73,6 +73,6 @@ describe('AcceptNotificationModalComponent', () => {
     fireEvent.input(textArea, { target: { value: 'Some Text Some Text Some Text' } });
 
     fireEvent.click(await waitFor(() => screen.getByText('actions.accept')));
-    await waitFor(() => expect(screen.getByText('commonInvestigation.modal.successfullyAccepted')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('commonAlert.modal.successfullyAccepted')).toBeInTheDocument());
   });
 });
