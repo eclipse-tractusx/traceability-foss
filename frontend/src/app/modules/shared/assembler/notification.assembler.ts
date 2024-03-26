@@ -41,7 +41,7 @@ export class NotificationAssembler {
       id = null,
       assetIds = null,
       channel = null,
-      title: _title,
+      title: _title = '',
       reason = { accept: '', close: '', decline: '' },
       description = '',
       bpn = '',
