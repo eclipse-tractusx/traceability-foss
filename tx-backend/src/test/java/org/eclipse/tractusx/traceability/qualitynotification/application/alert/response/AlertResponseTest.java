@@ -20,14 +20,14 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.response;
 
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper.AlertResponseMapper;
+import org.eclipse.tractusx.traceability.qualitynotification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.Test;
-import qualitynotification.alert.response.AlertResponse;
 import qualitynotification.base.response.QualityNotificationReasonResponse;
+import qualitynotification.base.response.QualityNotificationResponse;
 import qualitynotification.base.response.QualityNotificationSeverityResponse;
 import qualitynotification.base.response.QualityNotificationSideResponse;
 import qualitynotification.base.response.QualityNotificationStatusResponse;
@@ -44,7 +44,7 @@ class AlertResponseTest {
         final QualityNotification notification = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACCEPTED, QualityNotificationStatus.CREATED);
 
         // when
-        final AlertResponse result = AlertResponseMapper.from(notification);
+        final QualityNotificationResponse result = NotificationResponseMapper.from(notification);
 
         // then
         assertThat(result)
@@ -84,7 +84,7 @@ class AlertResponseTest {
         final PageResult<QualityNotification> pagedNotification = new PageResult<>(List.of(notification), page1, pageCount1, pageSize1, totalItems1);
 
         // when
-        final PageResult<AlertResponse> result = AlertResponseMapper.fromAsPageResult(pagedNotification);
+        final PageResult<QualityNotificationResponse> result = NotificationResponseMapper.fromAsPageResult(pagedNotification);
 
         // then
         assertThat(result)
@@ -95,7 +95,7 @@ class AlertResponseTest {
         assertThat(result.content()).hasSize(1)
                 .first()
                 .usingRecursiveComparison()
-                .isEqualTo(AlertResponseMapper.from(notification));
+                .isEqualTo(NotificationResponseMapper.from(notification));
     }
 
 }

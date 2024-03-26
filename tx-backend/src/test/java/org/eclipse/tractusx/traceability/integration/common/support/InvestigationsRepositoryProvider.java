@@ -18,14 +18,14 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public interface InvestigationsRepositoryProvider {
     @Autowired
-    JpaInvestigationRepository jpaInvestigationRepository = null;
+    JpaNotificationRepository jpaNotificationRepository = null;
 
-    default JpaInvestigationRepository jpaInvestigationRepository() {
-        return jpaInvestigationRepository;
+    default JpaNotificationRepository jpaNotificationRepository() {
+        return jpaNotificationRepository;
     }
 }

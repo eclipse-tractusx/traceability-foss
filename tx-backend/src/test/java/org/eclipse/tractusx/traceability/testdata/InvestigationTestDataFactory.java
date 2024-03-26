@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class InvestigationTestDataFactory {
                 .notificationStatus(investigationStatus)
                 .notificationSide(investigationSide)
                 .description(description)
+                .notificationType(QualityNotificationType.INVESTIGATION)
                 .createdAt(createdAt)
                 .assetIds(assetIds)
                 .notifications(notifications)
@@ -110,6 +112,7 @@ public class InvestigationTestDataFactory {
                 .contractAgreementId("agreement")
                 .description(description)
                 .notificationStatus(notificationInvestigationStatus)
+                .type(QualityNotificationType.INVESTIGATION)
                 .affectedParts(List.of(new QualityNotificationAffectedPart("part123")))
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
@@ -126,6 +129,7 @@ public class InvestigationTestDataFactory {
                 .contractAgreementId("agreement")
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.SENT)
+                .type(QualityNotificationType.INVESTIGATION)
                 .affectedParts(List.of(new QualityNotificationAffectedPart("part123")))
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
@@ -142,6 +146,7 @@ public class InvestigationTestDataFactory {
                 .notificationSide(investigationSide)
                 .description(description)
                 .createdAt(createdAt)
+                .notificationType(QualityNotificationType.INVESTIGATION)
                 .assetIds(assetIds)
                 .notifications(notifications)
                 .build();

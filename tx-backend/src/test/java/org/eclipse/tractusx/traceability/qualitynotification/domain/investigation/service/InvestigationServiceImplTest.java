@@ -18,11 +18,12 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.NotificationNotFoundException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.service.NotificationServiceImpl;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,28 +42,28 @@ import static org.mockito.Mockito.when;
 class InvestigationServiceImplTest {
 
     @Mock
-    private InvestigationRepository investigationsRepositoryMock;
+    private NotificationRepository notificationRepository;
     @InjectMocks
-    private InvestigationServiceImpl investigationService;
+    private NotificationServiceImpl notificationService;
 
     @Test
     void testFindNotPresentInvestigationThrowsException() {
         // given
-        when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.empty());
+        when(notificationRepository.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.empty());
 
         // expect
-        assertThrows(InvestigationNotFoundException.class, () -> investigationService.find(0L));
+        assertThrows(NotificationNotFoundException.class, () -> notificationService.find(0L));
     }
 
     @Test
     void testFindExistingInvestigation() {
         // given
-        when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.of(
+        when(notificationRepository.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.of(
                 InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, QualityNotificationStatus.ACKNOWLEDGED)
         ));
 
         // expect
-        QualityNotification investigation = investigationService.find(0L);
+        QualityNotification investigation = notificationService.find(0L);
 
         // then
         assertThat(investigation).isNotNull();
@@ -71,22 +72,22 @@ class InvestigationServiceImplTest {
     @Test
     void testLoadNotPresentInvestigationThrowsException() {
         // given
-        when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.empty());
+        when(notificationRepository.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.empty());
 
         // expect
         QualityNotificationId investigationId = new QualityNotificationId(0L);
-        assertThrows(InvestigationNotFoundException.class, () -> investigationService.loadOrNotFoundException(investigationId));
+        assertThrows(NotificationNotFoundException.class, () -> notificationService.loadOrNotFoundException(investigationId));
     }
 
     @Test
     void testLoadExistingInvestigation() {
         // given
-        when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.of(
+        when(notificationRepository.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.of(
                 InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, QualityNotificationStatus.ACKNOWLEDGED)
         ));
 
         // expect
-        QualityNotification investigation = investigationService.loadOrNotFoundException(new QualityNotificationId(0L));
+        QualityNotification investigation = notificationService.loadOrNotFoundException(new QualityNotificationId(0L));
 
         // then
         assertThat(investigation).isNotNull();
@@ -95,22 +96,22 @@ class InvestigationServiceImplTest {
     @Test
     void testLoadNotPresentInvestigationByEdcNotificationIdThrowsException() {
         // given
-        when(investigationsRepositoryMock.findByEdcNotificationId(any())).thenReturn(Optional.empty());
+        when(notificationRepository.findByEdcNotificationId(any())).thenReturn(Optional.empty());
 
         // expect
-        assertThrows(InvestigationNotFoundException.class, () -> investigationService.loadByEdcNotificationIdOrNotFoundException("0"));
+        assertThrows(NotificationNotFoundException.class, () -> notificationService.loadByEdcNotificationIdOrNotFoundException("0"));
     }
 
     @Test
     void testLoadPresentInvestigationByEdcNotificationId() {
         // given
-        when(investigationsRepositoryMock.findByEdcNotificationId(any())).thenReturn(Optional.of(
+        when(notificationRepository.findByEdcNotificationId(any())).thenReturn(Optional.of(
                         InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, QualityNotificationStatus.ACKNOWLEDGED)
                 )
         );
 
         // when
-        QualityNotification investigation = investigationService.loadByEdcNotificationIdOrNotFoundException("0");
+        QualityNotification investigation = notificationService.loadByEdcNotificationIdOrNotFoundException("0");
 
         // then
         assertThat(investigation).isNotNull();

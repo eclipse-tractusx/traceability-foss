@@ -26,8 +26,11 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationMessageRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.NotificationRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,13 +52,13 @@ import static org.mockito.Mockito.when;
 class InvestigationsRepositoryImplTest {
 
     @InjectMocks
-    private InvestigationsRepositoryImpl investigationsRepository;
+    private NotificationRepositoryImpl investigationsRepository;
 
     @Mock
-    private JpaInvestigationRepository jpaInvestigationRepository;
+    private JpaNotificationRepository jpaNotificationRepository;
 
     @Mock
-    private JpaInvestigationNotificationRepository notificationRepository;
+    private JpaNotificationMessageRepository jpaNotificationMessageRepository;
 
     @Mock
     private JpaAssetAsBuiltRepository assetsRepository;
@@ -70,17 +73,17 @@ class InvestigationsRepositoryImplTest {
         QualityNotificationMessage message = QualityNotificationMessage.builder().notificationStatus(QualityNotificationStatus.ACKNOWLEDGED).affectedParts(List.of(new QualityNotificationAffectedPart("123"))).build();
         QualityNotification qualityNotification = QualityNotification.builder().notificationStatus(QualityNotificationStatus.ACKNOWLEDGED).assetIds(List.of("123")).notificationId(new QualityNotificationId(123L)).bpn(BPN.of("ABC")).notifications(List.of(message)).build();
         AssetAsBuiltEntity assetAsBuiltEntity = AssetAsBuiltEntity.builder().id("123").build();
-        InvestigationEntity entity = InvestigationEntity.builder().assets(List.of(assetAsBuiltEntity)).build();
-        InvestigationNotificationEntity notificationEntity = InvestigationNotificationEntity.from(entity, message, List.of(assetAsBuiltEntity));
+        NotificationEntity entity = NotificationEntity.builder().assets(List.of(assetAsBuiltEntity)).build();
+        NotificationMessageEntity notificationEntity = NotificationMessageEntity.from(entity, message, List.of(assetAsBuiltEntity));
         when(assetsRepository.findByIdIn(any())).thenReturn(List.of(assetAsBuiltEntity));
-        when(jpaInvestigationRepository.findById(any())).thenReturn(Optional.of(entity));
-        when(notificationRepository.findById(notificationEntity.getId())).thenReturn(Optional.of(notificationEntity));
+        when(jpaNotificationRepository.findById(any())).thenReturn(Optional.of(entity));
+        when(jpaNotificationMessageRepository.findById(notificationEntity.getId())).thenReturn(Optional.of(notificationEntity));
         when(clock.instant()).thenReturn(Instant.now());
         when(clock.getZone()).thenReturn(ZoneId.systemDefault());
         // When
         investigationsRepository.updateErrorMessage(qualityNotification);
         // Then
-        verify(notificationRepository, times(1)).save(any());
+        verify(jpaNotificationMessageRepository, times(1)).save(any());
 
     }
 }

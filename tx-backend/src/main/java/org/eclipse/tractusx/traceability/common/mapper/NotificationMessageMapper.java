@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.springframework.stereotype.Component;
 
@@ -42,7 +43,7 @@ public class NotificationMessageMapper { // rename to QualityNotificationMessage
      * @param edcNotification the EDCNotification received by the receiver
      * @return a Notification object representing the notification received by the receiver
      */
-    public QualityNotificationMessage toNotification(EDCNotification edcNotification) {
+    public QualityNotificationMessage toNotification(EDCNotification edcNotification, QualityNotificationType type) {
         String notificationId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
                 .id(notificationId)
@@ -50,6 +51,7 @@ public class NotificationMessageMapper { // rename to QualityNotificationMessage
                 .notificationReferenceId(edcNotification.getNotificationId())
                 .createdBy(edcNotification.getSenderBPN())
                 .createdByName(getManufacturerName(edcNotification.getSenderBPN()))
+                .type(type)
                 .sendTo(edcNotification.getRecipientBPN())
                 .sendToName(getManufacturerName(edcNotification.getRecipientBPN()))
                 .description(edcNotification.getInformation())

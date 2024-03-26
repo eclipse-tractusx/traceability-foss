@@ -56,7 +56,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.ACKNOWLEDGED.name()))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
+                .post("/api/notifications/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
     }
@@ -77,7 +77,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.ACCEPTED.name()))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
+                .post("/api/notifications/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
     }
@@ -98,7 +98,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateQualityNotificationStatusRequest.DECLINED.name()))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations/{notExistingInvestigationId}/update", notExistingInvestigationId)
+                .post("/api/notifications/{notExistingInvestigationId}/update", notExistingInvestigationId)
                 .then()
                 .statusCode(404);
     }
@@ -115,7 +115,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body(request)
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/investigations/{notExistingInvestigationId}/update", Long.toString(notExistingInvestigationId))
+                .post("/api/notifications/{notExistingInvestigationId}/update", Long.toString(notExistingInvestigationId))
                 .then()
                 .statusCode(400);
     }

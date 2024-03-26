@@ -21,12 +21,12 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,17 +41,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AlertsSupport {
 
     @Autowired
-    JpaAlertRepository jpaAlertRepository;
+    JpaNotificationRepository jpaNotificationRepository;
 
     @Autowired
     JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
     public Long defaultReceivedAlertStored() {
-        AlertEntity entity = AlertEntity.builder()
+        NotificationEntity entity = NotificationEntity.builder()
+                .title("test")
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(NotificationStatusBaseEntity.RECEIVED)
                 .side(NotificationSideBaseEntity.RECEIVER)
+                .type(NotificationTypeEntity.ALERT)
                 .description("some description")
                 .createdDate(Instant.now())
                 .build();
@@ -64,41 +66,42 @@ public class AlertsSupport {
     }
 
     public Long storeAlertWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, NotificationSideBaseEntity side) {
-        AlertEntity entity = AlertEntity.builder()
+        NotificationEntity entity = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(status)
                 .side(side)
+                .type(NotificationTypeEntity.ALERT)
                 .createdDate(Instant.now())
                 .build();
         Long alertId = storedAlert(entity);
-        AlertEntity savedAlert = jpaAlertRepository.findById(alertId).get();
+        NotificationEntity savedAlert = jpaNotificationRepository.findById(alertId).get();
         savedAlert.setAssets(assetsAsBuilt);
-        jpaAlertRepository.save(savedAlert);
+        jpaNotificationRepository.save(savedAlert);
         return alertId;
     }
 
     public void assertAlertsSize(int size) {
-        List<AlertEntity> alerts = jpaAlertRepository.findAll();
+        List<NotificationEntity> alerts = jpaNotificationRepository.findAll();
 
         assert alerts.size() == size;
     }
 
     public void assertAlertStatus(QualityNotificationStatus alertStatus) {
-        jpaAlertRepository.findAll().forEach(alert ->
+        jpaNotificationRepository.findAll().forEach(alert ->
                 assertThat(alert.getStatus().name()).isEqualTo(alertStatus.name())
         );
     }
 
-    void storedAlerts(AlertEntity... alerts) {
-        jpaAlertRepository.saveAll(Arrays.asList(alerts));
+    void storedAlerts(NotificationEntity... alerts) {
+        jpaNotificationRepository.saveAll(Arrays.asList(alerts));
     }
 
-    public Long storedAlert(AlertEntity alert) {
-        return jpaAlertRepository.save(alert).getId();
+    public Long storedAlert(NotificationEntity alert) {
+        return jpaNotificationRepository.save(alert).getId();
     }
 
-    public AlertEntity storedAlertFullObject(AlertEntity alert) {
-        return jpaAlertRepository.save(alert);
+    public NotificationEntity storedAlertFullObject(NotificationEntity alert) {
+        return jpaNotificationRepository.save(alert);
     }
 }
