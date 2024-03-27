@@ -54,7 +54,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.jsonschema2pojo</groupId>
             <artifactId>jsonschema2pojo-core</artifactId>
-            <version>1.1.1</version>
+            <version>1.2.1</version>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
@@ -173,6 +173,13 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>6.2.3</version>
+        </dependency>
+
+        <!-- Fixes CVE-2024-22259 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>6.0.18</version>
         </dependency>
 
         <!-- Fixes CVE-2023-34035  -->
