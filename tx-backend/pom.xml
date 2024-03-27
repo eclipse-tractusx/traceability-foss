@@ -321,6 +321,7 @@ SPDX-License-Identifier: Apache-2.0
                     <targetPackage>org.eclipse.tractusx.traceability.generated</targetPackage>
                     <sourceType>JSONSCHEMA</sourceType>
                     <refFragmentPathDelimiters>#/</refFragmentPathDelimiters>
+                    <includeHashcodeAndEquals>false</includeHashcodeAndEquals>
                 </configuration>
                 <executions>
                     <execution>
