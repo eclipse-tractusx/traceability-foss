@@ -199,7 +199,7 @@ npm/npmjs/-/cssom/0.3.8, MIT, approved, clearlydefined
 npm/npmjs/-/cssom/0.4.4, MIT, approved, clearlydefined
 npm/npmjs/-/cssstyle/2.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/custom-event/1.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/cypress/12.17.4, MIT AND BSD-3-Clause AND Apache-2.0 AND (EPL-1.0 AND NTP-0) AND ISC AND JSON AND (BSD-2-Clause AND MIT), restricted, #13501
+npm/npmjs/-/cypress/12.17.4, MIT AND BSD-3-Clause AND Apache-2.0 AND ISC, approved, #13501
 npm/npmjs/-/d3-array/3.2.1, ISC, approved, clearlydefined
 npm/npmjs/-/d3-axis/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/d3-brush/3.0.0, ISC, approved, clearlydefined
@@ -1633,7 +1633,7 @@ npm/npmjs/@types/node/18.16.0, MIT, approved, #9385
 npm/npmjs/@types/node/20.2.3, MIT, approved, clearlydefined
 npm/npmjs/@types/normalize-package-data/2.4.1, MIT, approved, #10792
 npm/npmjs/@types/parse-json/4.0.0, MIT, approved, clearlydefined
-npm/npmjs/@types/qs/6.9.7, MIT, approved, clearlydefined
+npm/npmjs/@types/qs/6.9.7, MIT, approved, #13990
 npm/npmjs/@types/range-parser/1.2.4, MIT, approved, #10795
 npm/npmjs/@types/retry/0.12.0, MIT, approved, clearlydefined
 npm/npmjs/@types/semver/7.3.13, MIT, approved, #4668
