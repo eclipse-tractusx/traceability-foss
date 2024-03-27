@@ -31,6 +31,7 @@ export { RelationsFacade } from './modules/relations/core/relations.facade';
 export { HelperD3 } from './modules/relations/presentation/helper/helper.d3';
 export { RelationsModule } from './modules/relations/relations.module';
 export { PartsAssembler } from './assembler/parts.assembler';
+export { EssAssembler } from './assembler/ess.assembler';
 
 export { Minimap } from './modules/relations/presentation/minimap/minimap.d3';
 export { Tree } from './modules/relations/presentation/tree/tree.d3';

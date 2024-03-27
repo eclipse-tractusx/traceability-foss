@@ -17,7 +17,8 @@
     "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",
     "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available.",
-    "nonTransientPart": "One or more selected parts are not in the required import state \"TRANSIENT\"."
+    "nonTransientPart": "One or more selected parts are not in the required import state \"TRANSIENT\".",
+    "ess": "ESS investigations"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -27,7 +28,8 @@
     "relations": "Part Relations",
     "admin": "Administration Catena-X",
     "investigations": "Quality Investigations",
-    "alerts": "Quality Alerts"
+    "alerts": "Quality Alerts",
+    "ess": "Environmental & Social Standards (ESS) Investigations"
   },
   "layout": {
     "nav": {
@@ -122,7 +124,17 @@
       "sentActiveInvestigations" : "Created",
       "importState": "Import State",
       "importNote": "Import Note",
-      "importDate": "Import Date"
+      "importDate": "Import Date",
+      "rowNumber": "No",
+      "partName": "Part name",
+      "companyName": "Name of company under investigation",
+      "bpns": "BPNS of company under investigation",
+      "jobId": "Job ID",
+      "response": "Response",
+      "impacted": "Result",
+      "created": "Created",
+      "updated": "Time of result",
+      "catenaxSiteId": "SiteId"
     }
   },
   "dataLoading": {
@@ -348,5 +360,51 @@
     "cancel": "Reset",
     "startDate": "Start Date",
     "endDate": "End Date"
+  },
+  "ess": {
+    "investigations": {
+      "info": "Company under investigation"
+    },
+    "headline": "Create ESS investigation",
+    "infoPartSelection": "Please select the product in whose supply chain you want to search for a specific company. You can also select several products. An investigation of the supply chain is started for each selected product.",
+    "infoCompanySearch": "Please define the company to be searched for in the product's supply chain. You can either enter the company data and the corresponding BPNS will be displayed OR you can enter the BPNS directly.",
+    "infoSearchDeactivated": "The company search is currently deactivated due to a missing BPDM connection.",
+    "headlineCompany": "Company under investigation",
+    "partDescription": "some part description",
+    "companyNameLabel": "Company name",
+    "companyNameDescription": "Please enter the company's name.",
+    "companyStreetLabel": "Street",
+    "companyStreetDescription": "Please enter the company's street.",
+    "companyNoLabel": "No",
+    "companyNoDescription": "Please enter the company's street number.",
+    "companyPostalCodeLabel": "Postal code",
+    "companyPostalCodeDescription": "Please enter the company's postal code.",
+    "companyLocationLabel": "City",
+    "companyLocationDescription": "Please enter the company's city.",
+    "companyCountryLabel": "Country",
+    "companyCountryDescription": "Please select the company's country.",
+    "bpnsLabel": "BPNS",
+    "bpnsDescription": "Please enter the company's BPNS.",
+    "bpnssDescription": "Please select the company's BPNS.",
+    "success_one": "You queued an ESS investigation for {{count}} part",
+    "success_other": "You queued an ESS investigation for {{count}} parts",
+    "back": "BACK",
+    "cancel": "CANCEL",
+    "submit": "CREATE"
+  },
+  "page": {
+    "asPlannedParts": "AsPlanned Lifecycle",
+    "selectedParts": {
+      "info_one": "{{count}} Part selected for this page.",
+      "info_other": "{{count}} Parts selected for this page.",
+      "actionStart": "Create ESS investigation",
+      "action": "Create alert"
+    },
+    "selectedEss": {
+      "actionStart": "Create ESS investigation",
+      "action": "Create ESS investigation"
+    },
+    "asBuiltParts": "AsBuilt Lifecycle"
+
   }
 }

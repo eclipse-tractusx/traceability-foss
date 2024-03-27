@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import feign.Param;
+import feign.RequestLine;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
@@ -28,16 +30,15 @@ import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Context;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.*;
+import org.eclipse.tractusx.traceability.bpdm.model.request.RegisterEssInvestigationJobRequest;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
@@ -111,4 +112,13 @@ public class IrsClient {
         }).getBody();
     }
 
+    public RegisterJobResponse registerEssInvestigationJob(RegisterEssInvestigationJobRequest registerJobRequest) {
+        return irsRegularTemplate.exchange("/ess/bpn/investigations", HttpMethod.POST, new HttpEntity<>(registerJobRequest),  new ParameterizedTypeReference<RegisterJobResponse>() {
+        }).getBody();
+    }
+
+    public JobDetailResponse getEssInvestigationJobDetails(String jobId) {
+        return irsRegularTemplate.exchange("/ess/bpn/investigations/" + jobId, HttpMethod.GET, null, new ParameterizedTypeReference<JobDetailResponse>() {
+        }).getBody();
+    }
 }

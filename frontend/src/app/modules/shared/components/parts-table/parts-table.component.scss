@@ -26,15 +26,10 @@
   }
 }
 
-
 table {
   width: 100%;
   @apply font-light;
 }
-
-
-
-
 
 .table--select-all {
   display: inline-flex;
@@ -55,8 +50,6 @@ table {
   .filter-title {
     padding: 25px;
   }
-
-
 }
 
 .menu-column {
@@ -65,7 +58,6 @@ table {
   background-color: white;
   z-index: 1;
 }
-
 
 .table--select-all__dropdown {
   margin-left: -5px;
@@ -118,19 +110,15 @@ table {
   flex: 8;
 }
 
-
 .table--notification--icon {
   color: #888888;
 }
 
 .table--selected__container {
-
-
   z-index: 1;
   display: flex;
   align-items: center;
   min-height: 35px;
-
 }
 
 .table--selected--label {

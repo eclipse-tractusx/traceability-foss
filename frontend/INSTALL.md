@@ -37,6 +37,13 @@ An example value could be: `catena-x.net`
 `CATENAX_PORTAL_URL`
 This variable is optional and points to the CX Portal instance
 
+## ESS investigations
+
+The creation of the ESS investigations offers the possibility to search for a company under investigation.
+This search needs an active connection to a BPDM, connection defined on the backend of Traceability-FOSS.
+In order to enable this search in the frontend, you need to define the
+`bpdmConnectionAvailable` environment variable with the value `true`.
+
 # Helm deployment
 
 ## Configuration of values.yaml

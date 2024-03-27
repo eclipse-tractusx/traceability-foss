@@ -30,6 +30,7 @@ import { Observable } from 'rxjs';
 export class PartsState {
   private readonly _partsAsBuilt$ = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _partsAsPlanned$ = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _partsAsPlanned4Ess$ = new State<View<Pagination<Part>>>({ loader: true });
 
   public get partsAsBuilt$(): Observable<View<Pagination<Part>>> {
     return this._partsAsBuilt$.observable;
@@ -56,4 +57,18 @@ export class PartsState {
   public get partsAsPlanned(): View<Pagination<Part>> {
     return this._partsAsPlanned$.snapshot;
   }
+
+  public get partsAsPlanned4Ess$(): Observable<View<Pagination<Part>>> {
+    return this._partsAsPlanned4Ess$.observable;
+  }
+
+  public set partsAsPlanned4Ess({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._partsAsPlanned4Ess$.update(partsView);
+  }
+
+  public get partsAsPlanned4Ess(): View<Pagination<Part>> {
+    return this._partsAsPlanned4Ess$.snapshot;
+  }
+
 }

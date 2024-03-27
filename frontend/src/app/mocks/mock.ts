@@ -30,6 +30,8 @@ import {
   partsAsBuiltHandlers,
   partsAsPlannedHandlers,
   policyHandler,
+  essHandler,
+  bpdmHandler
 } from './services';
 import { alertsHandlers } from './services/alerts-mock/alerts.handler';
 
@@ -43,6 +45,8 @@ const handlers = [
   ...alertsHandlers,
   ...adminHandler,
   ...errorHandler,
-  ...policyHandler
+  ...policyHandler,
+  ...essHandler,
+  ...bpdmHandler
 ];
 export const worker = setupWorker(...handlers);
