@@ -33,10 +33,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
       - name: Check if CHANGELOG is updated
         id: updated-changelog
-        uses: tj-actions/changed-files@v42
+        uses: tj-actions/changed-files@v44
         with:
           # Avoid using single or double quotes for multiline patterns
           files: |

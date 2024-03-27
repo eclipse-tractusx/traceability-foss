@@ -37,15 +37,13 @@ SPDX-License-Identifier: Apache-2.0
     </modules>
 
     <properties>
-        <springboot.version>3.1.9</springboot.version>
-        <spring-core.version>6.1.5</spring-core.version>
+        <springboot.version>3.2.4</springboot.version>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>org.eclipse.tractusx.traceability.TraceabilityApplication</start-class>
         <!-- versions for Maven plugin -->
-        <spring-boot-maven-plugin.version>3.1.9</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>3.2.4</spring-boot-maven-plugin.version>
         <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
         <maven-jxr-plugin.version>3.3.2</maven-jxr-plugin.version>
@@ -69,19 +67,12 @@ SPDX-License-Identifier: Apache-2.0
         <ascii-doctor-j-diagram.version>2.2.13</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
-        <feign.version>12.3</feign.version>
-        <tomcat-embed-websocket.version>10.1.18</tomcat-embed-websocket.version>
-        <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
         <jruby.version>9.4.3.0</jruby.version>
-        <spring-cloud.version>2022.0.3</spring-cloud.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
         <jetbrains-annotation.version>24.1.0</jetbrains-annotation.version>
-        <feign-form.version>3.8.0</feign-form.version>
-        <feign-slf4j.version>12.4</feign-slf4j.version>
-        <scribe-java.version>8.3.3</scribe-java.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <swagger-annotation.version>1.6.12</swagger-annotation.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <commons-io.version>2.15.0</commons-io.version>
         <jose4j.version>0.9.4</jose4j.version>
         <restito.version>1.1.0</restito.version>
         <testcontainer-postgresql.version>1.19.7</testcontainer-postgresql.version>
@@ -94,9 +85,7 @@ SPDX-License-Identifier: Apache-2.0
         <lombok.version>1.18.30</lombok.version>
         <json-unit-assertj.version>3.2.2</json-unit-assertj.version>
         <cucumber.version>7.15.0</cucumber.version>
-        <org-snakeyaml.version>2.2</org-snakeyaml.version>
-        <jackson.version>2.15.2</jackson.version>
-        <junit-bom.version>5.9.3</junit-bom.version>
+        <junit-bom.version>5.10.2</junit-bom.version>
         <awaitility.version>3.0.0</awaitility.version>
         <irs-client-lib.version>1.6.0</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
@@ -117,24 +106,7 @@ SPDX-License-Identifier: Apache-2.0
         </sonar.coverage.exclusions>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- Update snakeyaml manually to avoid vulnerability CVE-2020-13936; can be removed after Spring updates their dependency -->
-            <dependency>
-                <groupId>org.yaml</groupId>
-                <artifactId>snakeyaml</artifactId>
-                <version>${org-snakeyaml.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-collections4</artifactId>
-                <version>4.4</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <dependencies>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

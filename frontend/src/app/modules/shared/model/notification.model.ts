@@ -36,8 +36,8 @@ export enum NotificationStatus {
 }
 
 export enum NotificationStatusGroup {
-  RECEIVED = 'received',
   QUEUED_AND_REQUESTED = 'queued-and-requested',
+  RECEIVED = 'received',
 }
 
 export interface NotificationCreateResponse {
