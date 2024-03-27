@@ -108,7 +108,7 @@ maven/mavencentral/io.micrometer/micrometer-core/1.12.4, Apache-2.0 AND (Apache-
 maven/mavencentral/io.micrometer/micrometer-jakarta9/1.12.4, Apache-2.0, approved, #12923
 maven/mavencentral/io.micrometer/micrometer-observation/1.12.4, Apache-2.0, approved, #11680
 maven/mavencentral/io.micrometer/micrometer-registry-prometheus/1.11.4, Apache-2.0, approved, #9805
-maven/mavencentral/io.micrometer/micrometer-registry-prometheus/1.12.4, , restricted, clearlydefined
+maven/mavencentral/io.micrometer/micrometer-registry-prometheus/1.12.4, Apache-2.0, approved, #14187
 maven/mavencentral/io.minio/minio/8.5.6, Apache-2.0, approved, #9097
 maven/mavencentral/io.opentelemetry/opentelemetry-api/1.29.0, Apache-2.0, approved, #10088
 maven/mavencentral/io.opentelemetry/opentelemetry-api/1.31.0, Apache-2.0, approved, #11087
@@ -330,12 +330,12 @@ maven/mavencentral/org.hibernate.validator/hibernate-validator/8.0.1.Final, Apac
 maven/mavencentral/org.javassist/javassist/3.29.2-GA, Apache-2.0 AND LGPL-2.1-or-later AND MPL-1.1, approved, #6023
 maven/mavencentral/org.jboss.logging/jboss-logging/3.5.0.Final, Apache-2.0, approved, #9471
 maven/mavencentral/org.jboss.logging/jboss-logging/3.5.3.Final, Apache-2.0, approved, #9471
-maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-common/1.9.0, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-common/1.9.23, , restricted, clearlydefined
+maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-common/1.9.0, Apache-2.0, approved, #14186
+maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-common/1.9.23, Apache-2.0, approved, #14186
 maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.6.10, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.9.23, , restricted, clearlydefined
+maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.9.23, None, restricted, #14188
 maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.6.10, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.9.23, , restricted, clearlydefined
+maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.9.23, None, restricted, #14185
 maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib/1.6.20, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.jetbrains.kotlin/kotlin-stdlib/1.9.23, Apache-2.0, approved, #11827
 maven/mavencentral/org.jetbrains/annotations/24.1.0, Apache-2.0, approved, clearlydefined
@@ -350,7 +350,7 @@ maven/mavencentral/org.junit.platform/junit-platform-launcher/1.10.2, EPL-2.0, a
 maven/mavencentral/org.junit.platform/junit-platform-suite-api/1.10.2, EPL-2.0, approved, #9707
 maven/mavencentral/org.junit.platform/junit-platform-suite-commons/1.10.2, EPL-2.0, approved, #9716
 maven/mavencentral/org.junit.platform/junit-platform-suite-engine/1.10.2, EPL-2.0, approved, #9710
-maven/mavencentral/org.junit.platform/junit-platform-suite/1.10.2, , restricted, clearlydefined
+maven/mavencentral/org.junit.platform/junit-platform-suite/1.10.2, EPL-2.0, approved, #14183
 maven/mavencentral/org.jvnet.mimepull/mimepull/1.9.15, CDDL-1.1 OR GPL-2.0-only WITH Classpath-exception-2.0, approved, CQ21484
 maven/mavencentral/org.latencyutils/LatencyUtils/2.0.3, BSD-2-Clause, approved, CQ17408
 maven/mavencentral/org.mockito/mockito-core/5.7.0, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #11424
@@ -387,7 +387,7 @@ maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-client/3.
 maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-resource-server/3.2.4, Apache-2.0, approved, #11931
 maven/mavencentral/org.springframework.boot/spring-boot-starter-security/3.2.4, Apache-2.0, approved, #12069
 maven/mavencentral/org.springframework.boot/spring-boot-starter-test/3.2.4, Apache-2.0, approved, #12917
-maven/mavencentral/org.springframework.boot/spring-boot-starter-thymeleaf/3.2.4, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-thymeleaf/3.2.4, Apache-2.0, approved, #14184
 maven/mavencentral/org.springframework.boot/spring-boot-starter-tomcat/3.2.4, Apache-2.0, approved, #11923
 maven/mavencentral/org.springframework.boot/spring-boot-starter-validation/3.2.4, Apache-2.0, approved, #12921
 maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.2.4, Apache-2.0, approved, #11916
