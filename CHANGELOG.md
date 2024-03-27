@@ -15,6 +15,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Added overview of the scheduler tasks in documentation
 - #706 Created notification classes to support both alert and investigations
 - #706 Notification controller having the same endpoints as alerts and investigations controllers
+- #736 add contractAgreementId as searchable field for /contracts
 
 ### Changed
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
