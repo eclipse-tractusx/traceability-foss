@@ -108,6 +108,22 @@ Also, it’s possible to select contracts and export/download them as a .csv fil
 
 ![admin_contract_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/admin_contract_view.png)
 
+By clicking on the burger menu of a data row you can get to the detailed view of a contract
+
+##### Contract Detailed View
+
+The Contract Detailed View is divided into two sections.
+
+On the left, you’ll find a
+general overview of the contract data.
+
+On the right, policy details are
+displayed in JSON format. Use the View Selector to switch between
+JSON View and JSON Tree View. Expand the policy details card on the right
+upper side for full-width display.
+
+![admin_contract_detailed_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/admin_contract_detailed_view.png)
+
 ##### Data import functionality
 
 With the admin user role, you have the ability to import data into the system.
