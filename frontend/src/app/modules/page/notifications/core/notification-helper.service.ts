@@ -25,31 +25,31 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class NotificationHelperService {
-  constructor(private readonly alertsFacade: NotificationsFacade) {
+  constructor(private readonly notificationsFacade: NotificationsFacade) {
   }
 
   public approve(id: string): Observable<void> {
-    return this.alertsFacade.approveAlert(id);
+    return this.notificationsFacade.approveNotification(id);
   }
 
   public cancel(id: string): Observable<void> {
-    return this.alertsFacade.cancelAlert(id);
+    return this.notificationsFacade.cancelNotification(id);
   }
 
   public close(id: string, reason: string): Observable<void> {
-    return this.alertsFacade.closeAlert(id, reason);
+    return this.notificationsFacade.closeNotification(id, reason);
   }
 
   public acknowledge(id: string): Observable<void> {
-    return this.alertsFacade.acknowledgeAlert(id);
+    return this.notificationsFacade.acknowledgeNotification(id);
   }
 
   public accept(id: string, reason: string): Observable<void> {
-    return this.alertsFacade.acceptAlert(id, reason);
+    return this.notificationsFacade.acceptNotification(id, reason);
   }
 
   public decline(id: string, reason: string): Observable<void> {
-    return this.alertsFacade.declineAlert(id, reason);
+    return this.notificationsFacade.declineNotification(id, reason);
   }
 
 }

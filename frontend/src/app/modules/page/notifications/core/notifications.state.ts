@@ -25,24 +25,24 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class NotificationsState {
-  private readonly _alertsReceived$ = new State<View<Notifications>>({ loader: true });
-  private readonly _alertsQueuedAndRequested$ = new State<View<Notifications>>({ loader: true });
+  private readonly _notificationsReceived$ = new State<View<Notifications>>({ loader: true });
+  private readonly _notificationsQueuedAndRequested$ = new State<View<Notifications>>({ loader: true });
 
-  public get alertsReceived$(): Observable<View<Notifications>> {
-    return this._alertsReceived$.observable;
+  public get notificationsReceived$(): Observable<View<Notifications>> {
+    return this._notificationsReceived$.observable;
   }
 
-  public set alertsReceived({ data, loader, error }: View<Notifications>) {
-    const alertsView: View<Notifications> = { data, loader, error };
-    this._alertsReceived$.update(alertsView);
+  public set notificationsReceived({ data, loader, error }: View<Notifications>) {
+    const notificationsView: View<Notifications> = { data, loader, error };
+    this._notificationsReceived$.update(notificationsView);
   }
 
-  public get alertsQueuedAndRequested$(): Observable<View<Notifications>> {
-    return this._alertsQueuedAndRequested$.observable;
+  public get notificationsQueuedAndRequested$(): Observable<View<Notifications>> {
+    return this._notificationsQueuedAndRequested$.observable;
   }
 
-  public set alertsQueuedAndRequested({ data, loader, error }: View<Notifications>) {
-    const alertsView: View<Notifications> = { data, loader, error };
-    this._alertsQueuedAndRequested$.update(alertsView);
+  public set notificationsQueuedAndRequested({ data, loader, error }: View<Notifications>) {
+    const notificationsView: View<Notifications> = { data, loader, error };
+    this._notificationsQueuedAndRequested$.update(notificationsView);
   }
 }

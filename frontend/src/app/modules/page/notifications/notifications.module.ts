@@ -20,7 +20,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
-import { AlertsRoutingModule } from '@page/notifications/notifications.routing';
+import { NotificationsRoutingModule } from '@page/notifications/notifications.routing';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
@@ -45,7 +45,7 @@ import { NotificationsComponent } from './presentation/notifications.component';
     CommonModule,
     TemplateModule,
     SharedModule,
-    AlertsRoutingModule,
+    NotificationsRoutingModule,
     NotificationModule,
     PartsModule,
   ],

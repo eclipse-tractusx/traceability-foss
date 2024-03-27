@@ -24,7 +24,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   ABOUT_BASE_ROUTE,
   ADMIN_BASE_ROUTE,
-  ALERT_BASE_ROUTE,
+  NOTIFICATION_BASE_ROUTE,
   DASHBOARD_BASE_ROUTE,
   NO_PERMISSION_BASE_ROUTE,
   OTHER_PARTS_BASE_ROUTE,
@@ -81,7 +81,7 @@ const routes: Routes = [
     canActivate: [ RoleGuard ],
   },
   {
-    path: ALERT_BASE_ROUTE,
+    path: NOTIFICATION_BASE_ROUTE,
     loadChildren: () => import('@page/notifications/notifications.module').then(m => m.NotificationsModule),
     data: {
       breadcrumb: 'alerts',

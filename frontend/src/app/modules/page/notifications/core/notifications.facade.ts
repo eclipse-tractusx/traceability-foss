@@ -29,74 +29,74 @@ import { NotificationFilter } from '../../../../mocks/services/investigations-mo
 
 @Injectable()
 export class NotificationsFacade {
-  private alertReceivedSubscription: Subscription;
-  private alertQueuedAndRequestedSubscription: Subscription;
+  private notificationReceivedSubscription: Subscription;
+  private notificationQueuedAndRequestedSubscription: Subscription;
 
   constructor(
     private readonly notificationService: NotificationService,
-    private readonly alertsState: NotificationsState,
+    private readonly notificationsState: NotificationsState,
   ) {
   }
 
-  public get alertsReceived$(): Observable<View<Notifications>> {
-    return this.alertsState.alertsReceived$;
+  public get notificationsReceived$(): Observable<View<Notifications>> {
+    return this.notificationsState.notificationsReceived$;
   }
 
-  public get alertsQueuedAndRequested$(): Observable<View<Notifications>> {
-    return this.alertsState.alertsQueuedAndRequested$;
+  public get notificationsQueuedAndRequested$(): Observable<View<Notifications>> {
+    return this.notificationsState.notificationsQueuedAndRequested$;
   }
 
-  public getAlert(id: string): Observable<Notification> {
+  public getNotification(id: string): Observable<Notification> {
     return this.notificationService.getNotificationById(id, false);
   }
 
-  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
-    this.alertReceivedSubscription?.unsubscribe();
-    this.alertReceivedSubscription = this.notificationService
+  public setReceivedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
+    this.notificationReceivedSubscription?.unsubscribe();
+    this.notificationReceivedSubscription = this.notificationService
       .getReceived(page, pageSize, sorting, filter, fullFilter, false)
       .subscribe({
-        next: data => (this.alertsState.alertsReceived = { data: provideDataObject(data) }),
-        error: (error: Error) => (this.alertsState.alertsReceived = { error }),
+        next: data => (this.notificationsState.notificationsReceived = { data: provideDataObject(data) }),
+        error: (error: Error) => (this.notificationsState.notificationsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
-    this.alertQueuedAndRequestedSubscription?.unsubscribe();
-    this.alertQueuedAndRequestedSubscription = this.notificationService
+  public setQueuedAndRequestedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
+    this.notificationQueuedAndRequestedSubscription?.unsubscribe();
+    this.notificationQueuedAndRequestedSubscription = this.notificationService
       .getCreated(page, pageSize, sorting, filter, fullFilter, false)
       .subscribe({
-        next: data => (this.alertsState.alertsQueuedAndRequested = { data: provideDataObject(data) }),
-        error: (error: Error) => (this.alertsState.alertsQueuedAndRequested = { error }),
+        next: data => (this.notificationsState.notificationsQueuedAndRequested = { data: provideDataObject(data) }),
+        error: (error: Error) => (this.notificationsState.notificationsQueuedAndRequested = { error }),
       });
   }
 
-  public stopAlerts(): void {
-    this.alertReceivedSubscription?.unsubscribe();
-    this.alertQueuedAndRequestedSubscription?.unsubscribe();
+  public stopNotifications(): void {
+    this.notificationReceivedSubscription?.unsubscribe();
+    this.notificationQueuedAndRequestedSubscription?.unsubscribe();
   }
 
 
-  public closeAlert(alertId: string, reason: string): Observable<void> {
-    return this.notificationService.closeNotification(alertId, reason, false);
+  public closeNotification(notificationId: string, reason: string): Observable<void> {
+    return this.notificationService.closeNotification(notificationId, reason, false);
   }
 
-  public approveAlert(alertId: string): Observable<void> {
-    return this.notificationService.approveNotification(alertId, false);
+  public approveNotification(notificationId: string): Observable<void> {
+    return this.notificationService.approveNotification(notificationId, false);
   }
 
-  public cancelAlert(alertId: string): Observable<void> {
-    return this.notificationService.cancelNotification(alertId, false);
+  public cancelNotification(notificationId: string): Observable<void> {
+    return this.notificationService.cancelNotification(notificationId, false);
   }
 
-  public acknowledgeAlert(alertId: string): Observable<void> {
-    return this.notificationService.updateNotification(alertId, NotificationStatus.ACKNOWLEDGED, null, false);
+  public acknowledgeNotification(notificationId: string): Observable<void> {
+    return this.notificationService.updateNotification(notificationId, NotificationStatus.ACKNOWLEDGED, null, false);
   }
 
-  public acceptAlert(alertId: string, reason: string): Observable<void> {
-    return this.notificationService.updateNotification(alertId, NotificationStatus.ACCEPTED, reason, false);
+  public acceptNotification(notificationId: string, reason: string): Observable<void> {
+    return this.notificationService.updateNotification(notificationId, NotificationStatus.ACCEPTED, reason, false);
   }
 
-  public declineAlert(alertId: string, reason: string): Observable<void> {
-    return this.notificationService.updateNotification(alertId, NotificationStatus.DECLINED, reason, false);
+  public declineNotification(notificationId: string, reason: string): Observable<void> {
+    return this.notificationService.updateNotification(notificationId, NotificationStatus.DECLINED, reason, false);
   }
 }

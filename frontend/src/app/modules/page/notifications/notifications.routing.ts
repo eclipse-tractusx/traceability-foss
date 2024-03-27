@@ -24,7 +24,7 @@ import { NotificationsComponent } from '@page/notifications/presentation/notific
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
-const ALERTS_ROUTING: Routes = [
+const NOTIFICATIONS_ROUTING: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -42,9 +42,9 @@ const ALERTS_ROUTING: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(ALERTS_ROUTING) ],
+  imports: [ RouterModule.forChild(NOTIFICATIONS_ROUTING) ],
   exports: [ RouterModule ],
 })
-export class AlertsRoutingModule {
+export class NotificationsRoutingModule {
 }
 

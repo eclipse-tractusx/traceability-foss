@@ -27,7 +27,7 @@ export const OTHER_PARTS_BASE_ROUTE = 'otherParts';
 export const DASHBOARD_BASE_ROUTE = 'dashboard';
 export const ADMIN_BASE_ROUTE = 'admin';
 export const ABOUT_BASE_ROUTE = 'about';
-export const ALERT_BASE_ROUTE = 'alerts';
+export const NOTIFICATION_BASE_ROUTE = 'alerts';
 export const NO_PERMISSION_BASE_ROUTE = 'no-permissions';
 
 export const NavigableUrls = [
@@ -36,13 +36,13 @@ export const NavigableUrls = [
   DASHBOARD_BASE_ROUTE,
   ADMIN_BASE_ROUTE,
   ABOUT_BASE_ROUTE,
-  ALERT_BASE_ROUTE,
+  NOTIFICATION_BASE_ROUTE,
 ] as const;
 
 export type KnownUrl = (typeof NavigableUrls)[number];
 
 export const getRoute = (urlType: KnownUrl, ...args): PageRoute => {
-  if (urlType === ALERT_BASE_ROUTE) {
+  if (urlType === NOTIFICATION_BASE_ROUTE) {
     return getNotificationInboxRoute(urlType, ...args);
   }
 

@@ -30,9 +30,9 @@ import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
-describe('AlertDetailFacade', () => {
-  let alertDetailFacade: NotificationDetailFacade;
-  let alertDetailState: NotificationDetailState;
+describe('NotificationDetailFacade', () => {
+  let notificationDetailFacade: NotificationDetailFacade;
+  let notificationDetailState: NotificationDetailState;
   let partService: PartsService;
 
   beforeEach(() => {
@@ -51,9 +51,9 @@ describe('AlertDetailFacade', () => {
       ],
     });
 
-    alertDetailFacade = TestBed.inject(NotificationDetailFacade);
+    notificationDetailFacade = TestBed.inject(NotificationDetailFacade);
 
-    alertDetailState = TestBed.inject(NotificationDetailState);
+    notificationDetailState = TestBed.inject(NotificationDetailState);
 
     partService = TestBed.inject(PartsService);
   });
@@ -61,7 +61,7 @@ describe('AlertDetailFacade', () => {
   [
     {
       method: 'sortNotificationParts',
-      prop: 'alertPartsInformation' as any,
+      prop: 'notificationPartsInformation' as any,
     },
     {
       method: 'sortSupplierParts',
@@ -84,11 +84,11 @@ describe('AlertDetailFacade', () => {
 
         it('should pass sortParts', function() {
 
-          spyOnProperty(alertDetailState, object.prop, 'get').and.returnValue({
+          spyOnProperty(notificationDetailState, object.prop, 'get').and.returnValue({
             data: fallacy,
           });
 
-          alertDetailFacade[object.method]('', '');
+          notificationDetailFacade[object.method]('', '');
 
           index == 0
             ? (() => {
@@ -103,13 +103,13 @@ describe('AlertDetailFacade', () => {
 
         it('should set part infos after sort', function() {
 
-          spyOnProperty(alertDetailState, object.prop, 'get').and.returnValue({
+          spyOnProperty(notificationDetailState, object.prop, 'get').and.returnValue({
             data: fallacy,
           });
 
-          this.spyPropSet = spyOnProperty(alertDetailState, object.prop, 'set');
+          this.spyPropSet = spyOnProperty(notificationDetailState, object.prop, 'set');
 
-          alertDetailFacade[object.method]('', '');
+          notificationDetailFacade[object.method]('', '');
 
           index == 0
             ? (() => {

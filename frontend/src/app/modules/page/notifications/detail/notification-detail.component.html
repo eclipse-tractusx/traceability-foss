@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="detail--navigation">
     <app-button
       [color]="'primary'"
-      (click)="this.navigateBackToAlerts()"
+      (click)="this.navigateBackToNotifications()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
@@ -39,7 +39,7 @@ SPDX-License-Identifier: Apache-2.0
          [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
     >
       <app-button
-        *ngIf="actionHelperService.showApproveButton(selectedAlert)"
+        *ngIf="actionHelperService.showApproveButton(selectedNotification)"
         (click)="notificationCommonModalComponent?.show('approve')"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
@@ -59,7 +59,7 @@ SPDX-License-Identifier: Apache-2.0
          [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL)"
     >
       <app-button
-        *ngIf="actionHelperService.showCancelButton(selectedAlert)"
+        *ngIf="actionHelperService.showCancelButton(selectedNotification)"
         (click)="notificationCommonModalComponent?.show('cancel')"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL)"
@@ -79,7 +79,7 @@ SPDX-License-Identifier: Apache-2.0
          [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE)"
     >
       <app-button
-        *ngIf="actionHelperService.showCloseButton(selectedAlert)"
+        *ngIf="actionHelperService.showCloseButton(selectedNotification)"
         (click)="notificationCommonModalComponent?.show('close')"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE)"
@@ -99,7 +99,7 @@ SPDX-License-Identifier: Apache-2.0
          [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
     >
       <app-button
-        *ngIf="actionHelperService.showAcceptButton(selectedAlert)"
+        *ngIf="actionHelperService.showAcceptButton(selectedNotification)"
         (click)="notificationCommonModalComponent?.show('accept')"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
@@ -119,7 +119,7 @@ SPDX-License-Identifier: Apache-2.0
          [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
     >
       <app-button
-        *ngIf="actionHelperService.showAcknowledgeButton(selectedAlert)"
+        *ngIf="actionHelperService.showAcknowledgeButton(selectedNotification)"
         (click)="notificationCommonModalComponent?.show('acknowledge')"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
@@ -139,7 +139,7 @@ SPDX-License-Identifier: Apache-2.0
          [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE)"
     >
       <app-button
-        *ngIf="actionHelperService.showDeclineButton(selectedAlert)"
+        *ngIf="actionHelperService.showDeclineButton(selectedNotification)"
         (click)="notificationCommonModalComponent?.show('decline')"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE)"
@@ -156,7 +156,7 @@ SPDX-License-Identifier: Apache-2.0
 <app-notification-common-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [helperService]="helperService"
-  [selectedNotification]="selectedAlert"
+  [selectedNotification]="selectedNotification"
   [translationContext]="TranslationContext.COMMONALERT"
 ></app-notification-common-modal>
 
@@ -185,7 +185,7 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-content>
       <ng-container
         *viewContainer="
-          alertPartsInformation$ | async;
+          notificationPartsInformation$ | async;
           main: mainNotificationPartsTmp;
           error: errorTmp;
           loading: loaderTmp
@@ -260,7 +260,7 @@ SPDX-License-Identifier: Apache-2.0
     [showHover]="false"
     [noShadow]="true"
     (multiSelect)="onMultiSelect($event)"
-    (clickSelectAction)="isAlertOpen$.next(true)"
+    (clickSelectAction)="isNotificationOpen$.next(true)"
     (configChanged)="onSupplierPartsSort($event)"
     selectedPartsInfoLabel="pageAlert.selectedParts"
     selectedPartsActionLabel="pageAlert.selectPartsAction"
@@ -284,14 +284,14 @@ SPDX-License-Identifier: Apache-2.0
   <mat-spinner></mat-spinner>
 </ng-template>
 
-<app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
+<app-sidenav-wrapper [isOpen]="isNotificationOpen$ | async" (sidenavAction)="isNotificationOpen$.next($event)">
   <app-notification-request
-    *ngIf="isAlertOpen$ | async"
+    *ngIf="isNotificationOpen$ | async"
     [notificationType]="NotificationType.ALERT"
     [selectedItems]="selectedItems$ | async"
     (deselectPart)="removeItemFromSelection($event)"
     (restorePart)="addItemToSelection($event)"
     (clearSelected)="clearSelected()"
-    (submitted)="isAlertOpen$.next(false)"
+    (submitted)="isNotificationOpen$.next(false)"
   ></app-notification-request>
 </app-sidenav-wrapper>

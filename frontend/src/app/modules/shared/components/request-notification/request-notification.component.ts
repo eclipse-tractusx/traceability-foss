@@ -19,7 +19,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
+import { NOTIFICATION_BASE_ROUTE, getRoute } from '@core/known-route';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
@@ -96,7 +96,7 @@ export class RequestNotificationComponent {
     const isAsBuilt = this.selectedItems.map(part => part.semanticDataModel === SemanticDataModel.PARTASPLANNED).includes(true);
 
     const { description, bpn, severity } = this.formGroup.value;
-    const { link, queryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
+    const { link, queryParams } = getRoute(NOTIFICATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
     let type = this.isInvestigation ? 'INVESTIGATION' : 'ALERT';
 
 
