@@ -29,6 +29,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #706 StartNotificationRequest now requires additional parameter type ("ALERT", "INVESTIGATION") which
 - #706 Search criteria allows to filter by new type parameter
 - #706 Notification response have new title parameter
+- #718 update tj-actions/changed-files from v42 to v44
+- #718 update maven-project-info-reports-plugin from 3.4.5 to 3.5.0
+- #718 update jsonschema2pojo-core from 1.1.1 to 1.2.1
 
 ### Removed
 - Shedlock, resilence4j, templateResolver as not used anymore
