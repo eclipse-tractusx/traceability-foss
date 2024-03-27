@@ -20,9 +20,9 @@
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
-import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
-import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -38,10 +38,10 @@ import { filter, first, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alert-detail',
-  templateUrl: './alert-detail.component.html',
-  styleUrls: [ './alert-detail.component.scss' ],
+  templateUrl: './notification-detail.component.html',
+  styleUrls: [ './notification-detail.component.scss' ],
 })
-export class AlertDetailComponent implements AfterViewInit, OnDestroy {
+export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
@@ -71,11 +71,11 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   private paramSubscription: Subscription;
 
   constructor(
-    public readonly helperService: AlertHelperService,
+    public readonly helperService: NotificationHelperService,
     public readonly actionHelperService: NotificationActionHelperService,
-    public readonly alertDetailFacade: AlertDetailFacade,
+    public readonly alertDetailFacade: NotificationDetailFacade,
     private readonly staticIdService: StaticIdService,
-    private readonly alertsFacade: AlertsFacade,
+    private readonly alertsFacade: NotificationsFacade,
     private router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,

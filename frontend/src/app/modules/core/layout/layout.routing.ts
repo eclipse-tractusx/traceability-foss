@@ -82,7 +82,7 @@ const routes: Routes = [
   },
   {
     path: ALERT_BASE_ROUTE,
-    loadChildren: () => import('../../page/alerts/alerts.module').then(m => m.AlertsModule),
+    loadChildren: () => import('@page/notifications/notifications.module').then(m => m.NotificationsModule),
     data: {
       breadcrumb: 'alerts',
       roles: [ 'user', 'admin' ],

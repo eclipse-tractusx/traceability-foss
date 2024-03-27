@@ -17,19 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AlertsModule } from '@page/alerts/alerts.module';
+import { NotificationsModule } from '@page/notifications/notifications.module';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { NotificationService } from '@shared/service/notification.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
-import { AlertsComponent } from './alerts.component';
+import { NotificationsComponent } from './notifications.component';
 
 
 describe('AlertsComponent', () => {
   const renderAlerts = async () => {
-    return await renderComponent(AlertsComponent, {
-      imports: [ AlertsModule ],
+    return await renderComponent(NotificationsComponent, {
+      imports: [ NotificationsModule ],
       providers: [ NotificationService ],
       translations: [ 'page.alert' ],
     });

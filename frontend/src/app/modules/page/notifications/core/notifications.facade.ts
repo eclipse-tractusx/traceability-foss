@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { AlertsState } from '@page/alerts/core/alerts.state';
+import { NotificationsState } from '@page/notifications/core/notifications.state';
 import { provideDataObject } from '@page/parts/core/parts.helper';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
@@ -28,13 +28,13 @@ import { Observable, Subscription } from 'rxjs';
 import { NotificationFilter } from '../../../../mocks/services/investigations-mock/investigations.model';
 
 @Injectable()
-export class AlertsFacade {
+export class NotificationsFacade {
   private alertReceivedSubscription: Subscription;
   private alertQueuedAndRequestedSubscription: Subscription;
 
   constructor(
     private readonly notificationService: NotificationService,
-    private readonly alertsState: AlertsState,
+    private readonly alertsState: NotificationsState,
   ) {
   }
 

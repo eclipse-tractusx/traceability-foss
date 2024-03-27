@@ -18,8 +18,8 @@
  ********************************************************************************/
 
 import { ActivatedRoute } from '@angular/router';
-import { AlertsModule } from '@page/alerts/alerts.module';
-import { AlertDetailComponent } from '@page/alerts/detail/alert-detail.component';
+import { NotificationsModule } from '@page/notifications/notifications.module';
+import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
 import { NotificationService } from '@shared/service/notification.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
@@ -29,8 +29,8 @@ import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanne
 describe('AlertDetailComponent', () => {
 
   const renderAlertDetail = async (id?: string) => {
-    return await renderComponent(AlertDetailComponent, {
-      imports: [ AlertsModule ],
+    return await renderComponent(NotificationDetailComponent, {
+      imports: [ NotificationsModule ],
       providers: [
         NotificationService,
         {

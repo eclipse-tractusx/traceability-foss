@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { AlertDetailState } from '@page/alerts/core/alert-detail.state';
+import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
 import { Part } from '@page/parts/model/parts.model';
 import { Notification } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -29,13 +29,13 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { SortDirection } from '../../../../mocks/services/pagination.helper';
 
 @Injectable()
-export class AlertDetailFacade {
+export class NotificationDetailFacade {
   private notificationPartsInformationDescription: Subscription;
   private supplierPartsSubscription: Subscription;
 
   constructor(
     private readonly partsService: PartsService,
-    private readonly alertDetailState: AlertDetailState,
+    private readonly alertDetailState: NotificationDetailState,
     private readonly formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe,
   ) {
   }

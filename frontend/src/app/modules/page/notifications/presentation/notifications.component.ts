@@ -20,9 +20,9 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
-import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
-import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
@@ -43,9 +43,9 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-alerts',
-  templateUrl: './alerts.component.html',
+  templateUrl: './notifications.component.html',
 })
-export class AlertsComponent {
+export class NotificationsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
 
@@ -67,10 +67,10 @@ export class AlertsComponent {
   private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'createdDate', 'desc' ] };
 
   constructor(
-    public readonly helperService: AlertHelperService,
+    public readonly helperService: NotificationHelperService,
     private readonly actionHelperService: NotificationActionHelperService,
-    private readonly alertsFacade: AlertsFacade,
-    private readonly alertDetailFacade: AlertDetailFacade,
+    private readonly alertsFacade: NotificationsFacade,
+    private readonly alertDetailFacade: NotificationDetailFacade,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,

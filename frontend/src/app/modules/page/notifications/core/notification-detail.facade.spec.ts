@@ -20,8 +20,8 @@
 import { TitleCasePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
-import { AlertDetailState } from '@page/alerts/core/alert-detail.state';
+import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
@@ -31,8 +31,8 @@ import { KeycloakService } from 'keycloak-angular';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('AlertDetailFacade', () => {
-  let alertDetailFacade: AlertDetailFacade;
-  let alertDetailState: AlertDetailState;
+  let alertDetailFacade: NotificationDetailFacade;
+  let alertDetailState: NotificationDetailState;
   let partService: PartsService;
 
   beforeEach(() => {
@@ -45,15 +45,15 @@ describe('AlertDetailFacade', () => {
         KeycloakService,
         PartsService,
         TitleCasePipe,
-        AlertDetailFacade,
-        AlertDetailState,
+        NotificationDetailFacade,
+        NotificationDetailState,
         FormatPartlistSemanticDataModelToCamelCasePipe,
       ],
     });
 
-    alertDetailFacade = TestBed.inject(AlertDetailFacade);
+    alertDetailFacade = TestBed.inject(NotificationDetailFacade);
 
-    alertDetailState = TestBed.inject(AlertDetailState);
+    alertDetailState = TestBed.inject(NotificationDetailState);
 
     partService = TestBed.inject(PartsService);
   });

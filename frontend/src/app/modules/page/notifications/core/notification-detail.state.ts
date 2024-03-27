@@ -25,7 +25,7 @@ import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class AlertDetailState {
+export class NotificationDetailState {
   private readonly _alertPartsInformation$ = new State<View<Part[]>>({ loader: true });
   private readonly _supplierPartsInformation$ = new State<View<Part[]>>({ loader: true });
 

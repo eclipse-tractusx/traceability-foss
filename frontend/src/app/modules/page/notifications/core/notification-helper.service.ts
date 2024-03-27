@@ -18,14 +18,14 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AlertHelperService {
-  constructor(private readonly alertsFacade: AlertsFacade) {
+export class NotificationHelperService {
+  constructor(private readonly alertsFacade: NotificationsFacade) {
   }
 
   public approve(id: string): Observable<void> {

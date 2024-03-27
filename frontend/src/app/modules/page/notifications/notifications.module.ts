@@ -20,13 +20,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
-import { AlertsRoutingModule } from '@page/alerts/alerts.routing';
-import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
-import { AlertDetailState } from '@page/alerts/core/alert-detail.state';
-import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
-import { AlertsState } from '@page/alerts/core/alerts.state';
-import { AlertDetailComponent } from '@page/alerts/detail/alert-detail.component';
+import { AlertsRoutingModule } from '@page/notifications/notifications.routing';
+import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
+import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
+import { NotificationsState } from '@page/notifications/core/notifications.state';
+import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
 import { PartsModule } from '@page/parts/parts.module';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
@@ -34,12 +34,12 @@ import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
-import { AlertsComponent } from './presentation/alerts.component';
+import { NotificationsComponent } from './presentation/notifications.component';
 
 
 @NgModule({
   declarations: [
-    AlertsComponent, AlertDetailComponent,
+    NotificationsComponent, NotificationDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -50,16 +50,16 @@ import { AlertsComponent } from './presentation/alerts.component';
     PartsModule,
   ],
   providers: [
-    AlertsFacade,
-    AlertsState,
-    AlertDetailFacade,
-    AlertDetailState,
-    AlertHelperService,
+    NotificationsFacade,
+    NotificationsState,
+    NotificationDetailFacade,
+    NotificationDetailState,
+    NotificationHelperService,
     FormatPartSemanticDataModelToCamelCasePipe,
     FormatPaginationSemanticDataModelToCamelCasePipe,
     FormatPartlistSemanticDataModelToCamelCasePipe,
     ...getI18nPageProvider('page.alert'),
   ],
 })
-export class AlertsModule {
+export class NotificationsModule {
 }
