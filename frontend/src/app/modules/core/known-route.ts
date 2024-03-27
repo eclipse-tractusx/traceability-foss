@@ -56,7 +56,7 @@ const getNotificationInboxRoute = (
   link: urlType,
   queryParams: notificationStatusGroup
     ? {
-      tabIndex: String(Object.values(NotificationStatusGroup).indexOf(notificationStatusGroup)),
+      tabIndex: '0',
     }
     : undefined,
 });
