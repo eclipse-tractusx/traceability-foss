@@ -50,8 +50,8 @@ export class EssAssembler {
     return mappedPart;
   }
 
-  public static assembleEsss(esss: PaginationResponse<EssResponse>, mainAspectType: MainAspectType): Pagination<Ess> {
-    return PaginationAssembler.assemblePagination(EssAssembler.assembleEss, esss, mainAspectType);
+  public static assembleEssList(essList: PaginationResponse<EssResponse>, mainAspectType: MainAspectType): Pagination<Ess> {
+    return PaginationAssembler.assemblePagination(EssAssembler.assembleEss, essList, mainAspectType);
   }
 
   public static mapSortToApiSort(sorting: TableHeaderSort): string {

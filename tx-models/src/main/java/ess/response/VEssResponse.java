@@ -38,7 +38,7 @@ public class VEssResponse {
 
     @ApiModelProperty(example = "ON")
     @Size(max = 255)
-    private EssStatusType essStatus;
+    private EssStatus essStatus;
 
     @ApiModelProperty(example = "Status: created")
     @Size(max = 255)

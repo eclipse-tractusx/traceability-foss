@@ -38,7 +38,7 @@ public class EssResponse {
 
     @ApiModelProperty(example = "ON")
     @Size(max = 255)
-    private EssStatusType ess_status;
+    private EssStatus ess_status;
 
     @ApiModelProperty(example = "Status: created")
     @Size(max = 255)

@@ -1,6 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,20 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package ess.response;
 
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@ArraySchema(arraySchema = @Schema(description = "BPN Mappings", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-public record EssEdcMappingResponse(@ApiModelProperty(example = "BPNL00000003CSGV") String bpn, @ApiModelProperty(example = "https://trace-x-test-edc.dev.demo.catena-x.net/a1") String url) {
-
-    public String getBpn() {
-        return bpn;
-    }
-
-    public String getUrl() {
-        return url;
-    }
+.alert-text {
+  color: red;
 }

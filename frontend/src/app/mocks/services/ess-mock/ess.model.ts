@@ -18,9 +18,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { EssResponse, EsssResponse } from '@page/ess/model/ess.model';
+import { EssResponse } from '@page/ess/model/ess.model';
 
-export const mockEsss = [
+export const mockEssList = [
   {
     rowNumber: '1',
     manufacturerPartId: 'ZX-55',
@@ -56,55 +56,7 @@ export const mockEsss = [
   }
 ] as EssResponse[];
 
-const MockEmptyEss: EssResponse = {
-  id: 'urn:uuid:a000a0aa-00a0-0000-000a-0a0000a0a000',
-  essStatus: '',
-  message: '',
-  rowNumber: '',
-  manufacturerPartId: '',
-  nameAtManufacturer: '',
-  catenaxSiteId: '',
-  bpns: '',
-  companyName: '',
-  jobId: '',
-  status: '',
-  impacted: '',
-  response: '',
-  created: '',
-  updated: ''
-};
-
-export const getEssById = (id: string) => {
-  return [...mockEsss].find(ess => ess.id === id) || { ...MockEmptyEss, id };
-};
-
 export const getRandomAsset = () => {
-  const esss = [...mockEsss];
-  return esss[Math.floor(Math.random() * esss.length)];
-};
-
-export const MOCK_ess_1 = {
-  id: 'MOCK_ess_1',
-  essStatus: '',
-  message: '',
-  rowNumber: '',
-  manufacturerPartId: '',
-  nameAtManufacturer: '',
-  catenaxSiteId: '',
-  bpns: '',
-  companyName: '',
-  jobId: '',
-  status: '',
-  impacted: '',
-  response: '',
-  created: '',
-  updated: ''
-}
-
-export const mockEsssResponse: EsssResponse = {
-  content: [MOCK_ess_1],
-  page: 0,
-  pageCount: 1,
-  pageSize: 10,
-  totalItems: 5,
+  const essList = [...mockEssList];
+  return essList[Math.floor(Math.random() * essList.length)];
 };

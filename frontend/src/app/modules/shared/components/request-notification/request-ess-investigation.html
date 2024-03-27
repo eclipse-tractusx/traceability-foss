@@ -21,14 +21,12 @@ SPDX-License-Identifier: Apache-2.0
 <h1 class="mb-4 normal-case" *ngIf="showHeadline">{{ 'ess.headline' | i18n }}</h1>
 
 <ng-container *ngIf="this.bpdmConnectionAvailable">
-  <p>Please, define the company to be searched for in the product's supply chain.
-    You can either enter the company data and the corresponding BPNS will be displayed
-    OR you can enter the BPNS directly.</p>&nbsp;
+  <p>{{ 'ess.infoCompanySearch' | i18n }}</p>&nbsp;
 </ng-container>
 
 <ng-container *ngIf="!this.bpdmConnectionAvailable">
-  <p>Please enter the BPNS of the company under investigation.</p>
-  <p class="alert-text">The company search is currently deactivated due to a missing BPDM connection.</p>&nbsp;
+  <p>{{ 'ess.bpnsDescription' | i18n }}</p>
+  <p class="alert-text">{{ 'ess.infoSearchDeactivated' | i18n }}</p>&nbsp;
 </ng-container>
 
 <h3 class="mb-4 normal-case" *ngIf="showHeadline">{{ 'ess.headlineCompany' | i18n }}</h3>
@@ -101,13 +99,13 @@ SPDX-License-Identifier: Apache-2.0
   <div class="flex flex-row justify-start mb-7">
     <div *ngIf="BPNSs.length <= 1" class="mr-6 w-full">
       <app-input
-        [label]="'ess.bpnLabel' | i18n"
-        [hint]="'ess.bpnssDescription' | i18n"
+        [label]="'ess.bpnsLabel' | i18n"
+        [hint]="'ess.bpnsDescription' | i18n"
         class="bpn-config--input"
         formControlName="bpns"/>
     </div>
     <div *ngIf="BPNSs.length > 1" class="w-full">
-      <app-select [label]="'ess.bpnssLabel' | i18n"
+      <app-select [label]="'ess.bpnsLabel' | i18n"
                   [hint]="'ess.bpnssDescription' | i18n"
                   [options]="BPNSs"
                   class="parts-search-input"

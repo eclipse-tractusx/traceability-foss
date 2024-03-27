@@ -39,6 +39,7 @@ import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-request-ess-investigation',
   templateUrl: './request-ess-investigation.html',
+  styleUrls: [ 'request-ess-investigation.scss' ],
 })
 export class RequestEssInvestigationComponent {
 

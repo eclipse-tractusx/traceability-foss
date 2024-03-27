@@ -21,10 +21,10 @@ SPDX-License-Identifier: Apache-2.0
 <div class="ess-table-container">
   <div class="split-container-wrapper">
     <div class="parts-table-wrapper">
-      <ng-container *viewContainer="esss$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp" />
-      <ng-template #mainTmp let-esss="view">
+      <ng-container *viewContainer="essList$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp" />
+      <ng-template #mainTmp let-essList="view">
         <app-ess-table class="ess-table"
-                       [paginationData]="esss.data"
+                       [paginationData]="essList.data"
                        [labelId]="titleId"
                        [multiSelectActive]="true"
                        [selectedPartsInfoLabel]="'page.selectedParts.info'"
@@ -44,15 +44,10 @@ SPDX-License-Identifier: Apache-2.0
     </div>
   </div>
 
-  <app-sidenav-wrapper [isOpen]="isPartOpen$ | async">
+  <app-sidenav-wrapper (sidenavAction)="isPartOpen$.next($event)" [isOpen]="isPartOpen$ | async">
     <div>
       <h1>{{ 'ess.headline' | i18n }}</h1>
-      <p>
-        Please select the product in whose supply chain you want to search for a specific company.
-        You can also select several products. An investigation of the supply chain is started for
-        each selected product.
-      </p>
-
+      <p>{{ 'ess.infoPartSelection' | i18n }}</p>
 
       <div class="searchbar-container" [formGroup]="searchFormGroup">
         <app-input

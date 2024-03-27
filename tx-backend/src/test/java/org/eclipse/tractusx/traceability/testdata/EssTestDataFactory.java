@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.testdata;
 
 import ess.request.EssRequest;
 import ess.response.EssResponse;
-import ess.response.EssStatusType;
+import ess.response.EssStatus;
 import java.util.List;
 import java.util.UUID;
 import org.eclipse.tractusx.traceability.bpdm.model.response.legal.LegalEntity;
@@ -71,7 +71,7 @@ public class EssTestDataFactory {
 
     public static List<EssResponse> createEssResponse(EssEntity ess) {
         return List.of(EssResponse.builder()
-                .ess_status(EssStatusType.ON)
+                .ess_status(EssStatus.ON)
                 .message("some message")
                 .id(ess.getId())
                 .partId(ess.getPartId())

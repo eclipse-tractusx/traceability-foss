@@ -37,28 +37,28 @@ export class EssFacade {
     constructor(private readonly essService: EssService, private readonly essState: EssState) {
     }
 
-    public get esss$(): Observable<View<Pagination<Ess>>> {
-      return this.essState.esss$;
+    public get essList$(): Observable<View<Pagination<Ess>>> {
+        return this.essState.essList$;
     }
 
     public setEss(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], essFilter?: EssFilter, isOrSearch?: boolean): void {
-      this.essSubscription?.unsubscribe();
-      this.essSubscription = this.essService.getEsss(page, pageSize, sorting, essFilter, isOrSearch).subscribe({
-        next: data => (this.essState.esss = {data: data}),
-        error: error => (this.essState.esss = {error}),
-      });
+        this.essSubscription?.unsubscribe();
+        this.essSubscription = this.essService.getEssList(page, pageSize, sorting, essFilter, isOrSearch).subscribe({
+            next: data => (this.essState.essList = {data: data}),
+            error: error => (this.essState.essList = {error}),
+        });
     }
 
     public get partsAsPlanned4Ess$(): Observable<View<Pagination<Ess>>> {
-      return this.essState.partsAsPlanned4Ess$;
+        return this.essState.partsAsPlanned4Ess$;
     }
 
     public setPartsAsPlanned4Ess(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
-      this.partsAsPlanned4EssSubscription?.unsubscribe();
-      this.partsAsPlanned4EssSubscription = this.essService.getEsss(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
-        next: data => (this.essState.partsAsPlanned4Ess = {data}),
-        error: error => (this.essState.partsAsPlanned4Ess = {error}),
-      });
+        this.partsAsPlanned4EssSubscription?.unsubscribe();
+        this.partsAsPlanned4EssSubscription = this.essService.getEssList(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
+          next: data => (this.essState.partsAsPlanned4Ess = {data}),
+          error: error => (this.essState.partsAsPlanned4Ess = {error}),
+        });
     }
 
     public unsubscribeParts(): void {

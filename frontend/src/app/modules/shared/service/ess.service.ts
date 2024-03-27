@@ -24,12 +24,7 @@ import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import {
-  EssFilter,
-  Ess,
-  EssResponse,
-  EsssResponse,
-} from '@page/ess/model/ess.model';
+import { EssFilter, Ess, EssListResponse } from '@page/ess/model/ess.model';
 import { EssAssembler } from '@shared/assembler/ess.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
@@ -47,7 +42,7 @@ export class EssService {
   constructor(private readonly apiService: ApiService) {
   }
 
-  public getEsss(page: number, pageSize: number, sorting: TableHeaderSort[],
+  public getEssList(page: number, pageSize: number, sorting: TableHeaderSort[],
            essFilter?: EssFilter, isOrSearch?: boolean): Observable<Pagination<Ess>> {
     let sort = sorting.map(sortingItem => EssAssembler.mapSortToApiSort(sortingItem));
     let filterOperator = isOrSearch ? "OR" : "AND";
@@ -61,8 +56,8 @@ export class EssService {
       params = enrichFilterAndGetUpdatedParams(essFilter, params, filterOperator);
     }
     return this.apiService
-      .getBy<EsssResponse>(`${this.url}/ess/v`, params)
-      .pipe(map(esss => EssAssembler.assembleEsss(esss, MainAspectType.ESS)));
+      .getBy<EssListResponse>(`${this.url}/ess/v`, params)
+      .pipe(map(essList => EssAssembler.assembleEssList(essList, MainAspectType.ESS)));
   }
 
   public sortParts(data: Ess[], key: string, direction: SortDirection): Ess[] {

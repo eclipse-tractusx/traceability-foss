@@ -21,7 +21,7 @@
 import { environment } from '@env';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../pagination.helper';
-import { getEssById, mockEsss } from './ess.model';
+import { mockEssList } from './ess.model';
 import { mockPartResponses4Ess } from './parts4ess.model';
 
 export const essHandler = [
@@ -35,6 +35,6 @@ export const essHandler = [
   rest.get(`*${environment.apiUrl}/ess/v`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
-    return res(ctx.status(200), ctx.json(applyPagination(mockEsss, pagination)));
+    return res(ctx.status(200), ctx.json(applyPagination(mockEssList, pagination)));
   }),
 ];

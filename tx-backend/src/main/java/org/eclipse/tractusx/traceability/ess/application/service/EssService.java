@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.ess.application.service;
 
 import ess.request.EssRequest;
 import ess.response.EssResponse;
-import ess.response.EssStatusType;
+import ess.response.EssStatus;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.ZoneId;
@@ -128,7 +128,7 @@ public class EssService {
                 .response(null)
                 .build());
             rv.add(EssResponse.builder()
-                .ess_status(EssStatusType.ON)
+                .ess_status(EssStatus.ON)
                 .message("")
                 .id(saved.getId())
                 .partId(saved.getPartId())

@@ -27,20 +27,20 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class EssState {
-  private readonly _esss$ = new State<View<Pagination<Ess>>>({ loader: true });
+  private readonly _essList$ = new State<View<Pagination<Ess>>>({ loader: true });
   private readonly _partsAsPlanned4Ess$ = new State<View<Pagination<Ess>>>({ loader: true });
 
-  public get esss$(): Observable<View<Pagination<Ess>>> {
-    return this._esss$.observable;
+  public get essList$(): Observable<View<Pagination<Ess>>> {
+    return this._essList$.observable;
   }
 
-  public set esss({ data, loader, error }: View<Pagination<Ess>>) {
+  public set essList({ data, loader, error }: View<Pagination<Ess>>) {
     const partsView: View<Pagination<Ess>> = { data, loader, error };
-    this._esss$.update(partsView);
+    this._essList$.update(partsView);
   }
 
-  public get esss(): View<Pagination<Ess>> {
-    return this._esss$.snapshot;
+  public get essList(): View<Pagination<Ess>> {
+    return this._essList$.snapshot;
   }
 
   public get partsAsPlanned4Ess$(): Observable<View<Pagination<Ess>>> {

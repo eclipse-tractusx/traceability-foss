@@ -24,8 +24,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(description = "ESS service status types")
-public enum EssStatusType {
+@ApiModel(description = "ESS service status")
+public enum EssStatus {
 
     @ApiModelProperty("ON")
     ON("On"),
@@ -34,7 +34,7 @@ public enum EssStatusType {
 
     private final String status;
 
-    EssStatusType(String status) {
+    EssStatus(String status) {
         this.status = status;
     }
 

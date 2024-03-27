@@ -55,7 +55,7 @@ export interface EssResponse {
   updated: string;
 }
 
-export type EsssResponse = PaginationResponse<EssResponse>;
+export type EssListResponse = PaginationResponse<EssResponse>;
 
 export interface EssFilter {
   id?: string;

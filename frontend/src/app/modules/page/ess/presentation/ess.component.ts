@@ -49,7 +49,7 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
 
-    public readonly esss$: Observable<View<Pagination<Ess>>>;
+    public readonly essList$: Observable<View<Pagination<Ess>>>;
     public readonly partsAsPlanned4Ess$: Observable<View<Pagination<Part>>>;
 
     public readonly partsAsBuilt$: Observable<View<Pagination<Part>>>;
@@ -78,14 +78,14 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChildren(EssTableComponent) partsTableComponents: QueryList<EssTableComponent>;
 
     constructor(
-        private readonly esssFacade: EssFacade,
+        private readonly essFacade: EssFacade,
         private readonly partsFacade: PartsFacade,
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
         private readonly userSettingService: BomLifecycleSettingsService,
         public toastService: ToastService
     ) {
-        this.esss$ = this.esssFacade.esss$;
+        this.essList$ = this.essFacade.essList$;
         this.partsAsPlanned4Ess$ = this.partsFacade.partsAsPlanned4Ess$;
         this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
         this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -107,7 +107,7 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
     assetFilter: EssFilter | AssetAsPlannedFilter;
 
     public ngOnInit(): void {
-        this.esssFacade.setEss();
+        this.essFacade.setEss();
         this.partsFacade.setPartsAsPlanned4Ess();
         this.partsFacade.setPartsAsBuilt();
         this.partsFacade.setPartsAsPlanned();
@@ -121,7 +121,7 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
     filterActivated(isEss: boolean, assetFilter: any): void {
         this.assetFilter = assetFilter;
         if (isEss) {
-            this.esssFacade.setEss(0, this.DEFAULT_PAGE_SIZE, this.tableEssSortList, toAssetFilter(this.assetFilter, true))
+            this.essFacade.setEss(0, this.DEFAULT_PAGE_SIZE, this.tableEssSortList, toAssetFilter(this.assetFilter, true))
         } else {
             this.partsFacade.setPartsAsPlanned(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toAssetFilter(this.assetFilter, false));
         }
@@ -133,10 +133,10 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
         const searchValue = this.searchFormGroup.get("partSearch").value;
 
         if (searchValue && searchValue !== "") {
-            this.esssFacade.setEss(0, this.DEFAULT_PAGE_SIZE, this.tableEssSortList, toGlobalSearchAssetFilter(searchValue, false), true);
+            this.essFacade.setEss(0, this.DEFAULT_PAGE_SIZE, this.tableEssSortList, toGlobalSearchAssetFilter(searchValue, false), true);
             this.partsFacade.setPartsAsBuilt(0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toGlobalSearchAssetFilter(searchValue, true), true);
         } else {
-            this.esssFacade.setEss();
+            this.essFacade.setEss();
             this.partsFacade.setPartsAsPlanned();
         }
 
@@ -166,24 +166,27 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onEssTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
-      this.setTableSortingList(sorting, MainAspectType.ESS);
-      let pageSizeValue = this.DEFAULT_PAGE_SIZE;
-      if (pageSize !== 0) {
-        pageSizeValue = pageSize;
-      }
-      if (this.assetFilter) {
-        this.esssFacade.setEss(0, pageSizeValue, this.tableEssSortList, toAssetFilter(this.assetFilter, true));
-      } else {
-        this.esssFacade.setEss(page, pageSizeValue, this.tableEssSortList);
-      }
+        this.setTableSortingList(sorting, MainAspectType.ESS);
+        let pageSizeValue = this.DEFAULT_PAGE_SIZE;
+        if (pageSize !== 0) {
+            pageSizeValue = pageSize;
+        }
+        if (this.assetFilter) {
+            this.essFacade.setEss(0, pageSizeValue, this.tableEssSortList, toAssetFilter(this.assetFilter, true));
+        } else {
+            this.essFacade.setEss(page, pageSizeValue, this.tableEssSortList);
+        }
     }
 
     public openCloseEssCreateDialogForm = (status: boolean) =>{
-      this.isEssOpen$.next(status);
+        this.isEssOpen$.next(status);
+        if(status) {
+          this.isPartOpen$.next(false);
+        }
     }
 
     public openClosePartListDialogForm = (status: boolean) =>{
-      this.isPartOpen$.next(status);
+        this.isPartOpen$.next(status);
     }
 
     public onAsPlannedTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {

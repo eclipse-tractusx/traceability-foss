@@ -81,10 +81,6 @@
     @apply font-light lg:text-sm sm:text-xs;
   }
 
-  .alert-text {
-    color: red;
-  }
-
   .large-text {
     @apply font-light lg:text-base sm:text-sm text-dark;
   }

@@ -69,8 +69,8 @@ public class VEssResponseMapper {
         return new PageResult<>(vEssDataPage);
     }
 
-    public static List<VEssResponse> from(final List<VEssEntity> esss) {
-        return esss.stream()
+    public static List<VEssResponse> from(final List<VEssEntity> essList) {
+        return essList.stream()
                 .map(VEssResponseMapper::from)
                 .toList();
     }

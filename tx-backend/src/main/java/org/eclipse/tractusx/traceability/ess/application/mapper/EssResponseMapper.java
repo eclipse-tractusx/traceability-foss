@@ -62,8 +62,8 @@ public class EssResponseMapper {
         return new PageResult<>(essDataPage);
     }
 
-    public static List<EssResponse> from(final List<EssEntity> esss) {
-        return esss.stream()
+    public static List<EssResponse> from(final List<EssEntity> essList) {
+        return essList.stream()
                 .map(EssResponseMapper::from)
                 .toList();
     }

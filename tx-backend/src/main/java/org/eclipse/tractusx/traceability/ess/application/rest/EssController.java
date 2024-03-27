@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.ess.application.rest;
 import com.neovisionaries.i18n.CountryCode;
 import ess.request.EssRequest;
 import ess.response.EssResponse;
-import ess.response.EssStatusType;
+import ess.response.EssStatus;
 import ess.response.VEssResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -134,7 +134,7 @@ public class EssController {
                     EssResponse.builder()
                         .message("The creation of new investigation has been turned off. " +
                                 "Check the value of the 'ess.maxNumberOfNewInvestigations' property.")
-                        .ess_status(EssStatusType.OFF)
+                        .ess_status(EssStatus.OFF)
                         .build();
                 log.info(response.getMessage());
                 return List.of(response);

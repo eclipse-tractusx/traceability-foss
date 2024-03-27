@@ -31,7 +31,7 @@ import { EssModule } from '../ess.module';
 
 describe('Ess', () => {
 
-    const renderEsss = () => {
+    const renderEssList = () => {
 
         return renderComponent(EssComponent, {
             declarations: [SidenavComponent],
@@ -43,13 +43,13 @@ describe('Ess', () => {
 
     it('should call essFacade.setEssWithFilter when filter is set', async () => {
 
-        const {fixture} = await renderEsss();
+        const {fixture} = await renderEssList();
         const {componentInstance} = fixture;
         // Arrange
         const essFilter: EssFilter = {
             id: "123"
         };
-      const essFacade = (componentInstance)['esssFacade'];
+      const essFacade = (componentInstance)['essFacade'];
         const essFacadeSpy = spyOn(essFacade, 'setEss');
 
         componentInstance.filterActivated(true, essFilter);
@@ -60,11 +60,11 @@ describe('Ess', () => {
 
     it('should call essFacade.setEss when filter is not set', async () => {
 
-        const {fixture} = await renderEsss();
+        const {fixture} = await renderEssList();
         const {componentInstance} = fixture;
 
         const essFilter: EssFilter = {};
-        const essFacade = (componentInstance)['esssFacade'];
+        const essFacade = (componentInstance)['essFacade'];
         const essFacadeSpy = spyOn(essFacade, 'setEss');
 
         // Act
