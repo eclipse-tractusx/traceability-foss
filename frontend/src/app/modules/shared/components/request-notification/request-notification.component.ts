@@ -100,7 +100,7 @@ export class RequestNotificationComponent {
     let type = this.isInvestigation ? 'INVESTIGATION' : 'ALERT';
 
 
-    this.notificationService.createAlert(partIds, description, severity, bpn, isAsBuilt, type).subscribe({
+    this.notificationService.createNotification(partIds, description, severity, bpn, isAsBuilt, type).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: (err) => this.onUnsuccessfulSubmit(err.error.message),
     });
