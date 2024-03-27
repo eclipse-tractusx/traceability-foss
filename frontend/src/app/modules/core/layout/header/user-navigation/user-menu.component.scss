@@ -44,12 +44,12 @@
 }
 
 .user-menu-items-container {
-  @apply origin-top-right absolute mt-0.5 w-60 py-1 bg-white shadow-lg z-10;
+  @apply origin-top-right absolute mt-0.5 w-60 py-1 bg-white shadow-lg;
+  z-index: 110;
   opacity: 0;
   right: -5px;
   transition: opacity;
   border-radius: 16px;
-  z-index: 101;
 }
 
 .user-menu-items {

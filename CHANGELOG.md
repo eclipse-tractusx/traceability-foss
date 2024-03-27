@@ -13,6 +13,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #606 Added error message into notifications on failure
 - #596 Added Policy management documentation
 - Added overview of the scheduler tasks in documentation
+- #736 Added Contract Detailed View
 - #706 Created notification classes to support both alert and investigations
 - #706 Notification controller having the same endpoints as alerts and investigations controllers
 - #736 add contractAgreementId as searchable field for /contracts
