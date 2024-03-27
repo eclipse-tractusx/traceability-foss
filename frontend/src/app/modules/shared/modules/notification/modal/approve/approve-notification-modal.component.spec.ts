@@ -27,7 +27,7 @@ import { ApproveNotificationModalComponent } from './approve-notification-modal.
 describe('ApproveNotificationModalComponent', () => {
   it('should create approve modal', async () => {
     await renderApproveModal(NotificationStatus.CREATED);
-    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.approvalTitle'));
+    const title = await waitFor(() => screen.getByText('commonAlert.modal.approvalTitle'));
     const buttonR = await waitFor(() => screen.getByText('actions.confirm'));
 
     expect(title).toBeInTheDocument();
@@ -45,6 +45,6 @@ describe('ApproveNotificationModalComponent', () => {
     await renderApproveModal(NotificationStatus.CREATED);
     fireEvent.click(await waitFor(() => screen.getByText('actions.confirm')));
 
-    await waitFor(() => expect(screen.getByText('commonInvestigation.modal.successfullyApproved')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('commonAlert.modal.successfullyApproved')).toBeInTheDocument());
   });
 });

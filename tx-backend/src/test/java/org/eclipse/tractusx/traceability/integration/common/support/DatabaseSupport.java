@@ -35,8 +35,6 @@ public class DatabaseSupport {
             "assets_as_built_childs",
             "assets_as_built_parents",
             "assets_as_planned_childs",
-            "assets_as_planned_notifications",
-            "assets_as_planned_notification_messages",
             "assets_as_built_notifications",
             "assets_as_built_notification_messages",
             "notification_message",

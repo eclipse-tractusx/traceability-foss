@@ -89,7 +89,7 @@ SPDX-License-Identifier: Apache-2.0
             <mat-icon class="mr-2">drafts
             </mat-icon
             >
-            <span>{{ 'commonInvestigation.tabs.received' | i18n }} </span>
+            <span>{{ 'commonAlert.tabs.received' | i18n }} </span>
           </ng-template>
           <mat-card>
             <mat-card-header>
@@ -104,7 +104,7 @@ SPDX-License-Identifier: Apache-2.0
                   >
                     <div class="flex justify-between items-center">
                       <mat-icon class="mr-2">remove_red_eye</mat-icon>
-                      {{ 'commonInvestigation.viewAll' | i18n }}
+                      {{ 'commonAlert.viewAll' | i18n }}
                     </div>
                   </app-button>
                 </div>
@@ -116,11 +116,11 @@ SPDX-License-Identifier: Apache-2.0
                 [notificationType]="NotificationType.INVESTIGATION"
                 [notificationsView$]="investigationsReceived$"
                 [tableType]="TableType.RECEIVED_INVESTIGATION"
-                [translationContext]="'commonInvestigation'"
+                [translationContext]="'commonAlert'"
                 [labelId]="'dashboard-investigations-received'"
                 [hasPagination]="false"
-                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
-                (selected)="onInvestigationSelected($event)"
+                [optionalColumns]="['title', 'targetDate', 'severity', 'createdBy']"
+                (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
           </mat-card>
@@ -130,7 +130,7 @@ SPDX-License-Identifier: Apache-2.0
             <mat-icon class="mr-2">drafts
             </mat-icon
             >
-            <span>{{ 'commonInvestigation.tabs.queuedAndRequested' | i18n }} </span>
+            <span>{{ 'commonAlert.tabs.queuedAndRequested' | i18n }} </span>
           </ng-template>
           <mat-card>
             <mat-card-header>
@@ -145,7 +145,7 @@ SPDX-License-Identifier: Apache-2.0
                   >
                     <div class="flex justify-between items-center">
                       <mat-icon class="mr-2">remove_red_eye</mat-icon>
-                      {{ 'commonInvestigation.viewAll' | i18n }}
+                      {{ 'commonAlert.viewAll' | i18n }}
                     </div>
                   </app-button>
                 </div>
@@ -157,11 +157,11 @@ SPDX-License-Identifier: Apache-2.0
                 [notificationType]="NotificationType.INVESTIGATION"
                 [tableType]="TableType.CREATED_INVESTIGATION"
                 [notificationsView$]="investigationsCreated$"
-                [translationContext]="'commonInvestigation'"
+                [translationContext]="'commonAlert'"
                 [labelId]="'dashboard-investigations-created'"
                 [hasPagination]="false"
-                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
-                (selected)="onInvestigationSelected($event)"
+                [optionalColumns]="['title', 'targetDate', 'severity', 'createdBy']"
+                (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
           </mat-card>
@@ -217,7 +217,7 @@ SPDX-License-Identifier: Apache-2.0
                 [translationContext]="'commonAlert'"
                 [labelId]="'dashboard-alerts-received'"
                 [hasPagination]="false"
-                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                [optionalColumns]="['title','targetDate', 'severity', 'createdBy']"
                 [tableType]="TableType.RECEIVED_ALERT"
                 (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
@@ -259,7 +259,7 @@ SPDX-License-Identifier: Apache-2.0
                 [tableType]="TableType.RECEIVED_ALERT"
                 [labelId]="'dashboard-alerts-created'"
                 [hasPagination]="false"
-                [optionalColumns]="['targetDate', 'severity', 'createdBy']"
+                [optionalColumns]="['title', 'targetDate', 'severity', 'createdBy']"
                 (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>

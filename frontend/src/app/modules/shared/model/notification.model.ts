@@ -71,6 +71,7 @@ export interface NotificationFilter {
   targetDate?: string;
   bpn?: string;
   errorMessage?: string;
+  title: NotificationTypeResponse;
 }
 
 export enum NotificationType {
@@ -78,12 +79,17 @@ export enum NotificationType {
   ALERT = 'Alert'
 }
 
+export enum NotificationTypeResponse {
+  INVESTIGATION = 'INVESTIGATION',
+  ALERT = 'ALERT'
+}
+
 export interface NotificationResponse {
   id: string;
   description: string;
   status: NotificationStatus;
   severity: Severity;
-
+  title: string;
   createdDate: string;
   createdBy: string;
   createdByName?: string;
@@ -95,6 +101,7 @@ export interface NotificationResponse {
   targetDate?: string;
   bpn?: string;
   errorMessage?: string;
+  type: NotificationTypeResponse
 }
 
 export interface Notification {
@@ -102,7 +109,7 @@ export interface Notification {
   description: string;
   status: NotificationStatus | null;
   severity: Severity | null;
-
+  title: string;
   createdDate: CalendarDateModel;
   createdBy: string;
   createdByName: string;
@@ -114,8 +121,7 @@ export interface Notification {
   targetDate?: CalendarDateModel;
   bpn?: string;
   errorMessage?: string;
-
-  notificationType?: NotificationType;
+  type?: NotificationType;
 }
 
 export enum NotificationColumn {

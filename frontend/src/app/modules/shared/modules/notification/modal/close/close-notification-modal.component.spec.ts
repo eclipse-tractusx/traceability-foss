@@ -28,8 +28,8 @@ import { getRandomText } from '../../../../../../mocks/services/text-generator.h
 describe('CloseNotificationModalComponent', () => {
   it('should create close modal', async () => {
     await renderCloseModal(NotificationStatus.SENT);
-    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.closeTitle'));
-    const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.closeReasonHint'));
+    const title = await waitFor(() => screen.getByText('commonAlert.modal.closeTitle'));
+    const hint2 = await waitFor(() => screen.getByText('commonAlert.modal.closeReasonHint'));
     const buttonR = await waitFor(() => screen.getByText('actions.close'));
 
     expect(title).toBeInTheDocument();
@@ -73,6 +73,6 @@ describe('CloseNotificationModalComponent', () => {
     fireEvent.input(textArea, { target: { value: 'Some Text Some Text Some Text' } });
 
     fireEvent.click(await waitFor(() => screen.getByText('actions.close')));
-    await waitFor(() => expect(screen.getByText('commonInvestigation.modal.successfullyClosed')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('commonAlert.modal.successfullyClosed')).toBeInTheDocument());
   });
 });

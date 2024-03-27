@@ -26,7 +26,6 @@ import {
   ADMIN_BASE_ROUTE,
   ALERT_BASE_ROUTE,
   DASHBOARD_BASE_ROUTE,
-  INVESTIGATION_BASE_ROUTE,
   NO_PERMISSION_BASE_ROUTE,
   OTHER_PARTS_BASE_ROUTE,
   PARTS_BASE_ROUTE,
@@ -77,15 +76,6 @@ const routes: Routes = [
     loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
     data: {
       breadcrumb: 'otherParts',
-      roles: [ 'user', 'admin' ],
-    },
-    canActivate: [ RoleGuard ],
-  },
-  {
-    path: INVESTIGATION_BASE_ROUTE,
-    loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
-    data: {
-      breadcrumb: 'investigations',
       roles: [ 'user', 'admin' ],
     },
     canActivate: [ RoleGuard ],
