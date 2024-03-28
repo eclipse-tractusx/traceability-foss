@@ -61,23 +61,3 @@ export const buildMockInvestigations = (
     };
   });
 
-const MockEmptyInvestigation: NotificationResponse = {
-  id: `${ InvestigationIdPrefix }000`,
-  title: '',
-  description: `Investigation No 000`,
-  status: NotificationStatus.CREATED,
-  severity: Severity.MINOR,
-  createdBy: 'BPN10000000OEM0A',
-  createdByName: 'OEM xxxxxxxxxxxxxxx A',
-  sendTo: 'BPN20000000OEM0B',
-  sendToName: 'OEM xxxxxxxxxxxxxxx B',
-  reason: { close: '', accept: '', decline: '' },
-  createdDate: `2022-05-01T12:34:12`,
-  assetIds: [ getRandomAsset().id ],
-  channel: 'SENDER',
-  type: NotificationTypeResponse.INVESTIGATION,
-};
-
-export const getInvestigationById = (id: string) => {
-  return [].find(investigation => investigation.id === id) || { ...MockEmptyInvestigation, id };
-};
