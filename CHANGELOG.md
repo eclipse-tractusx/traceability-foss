@@ -37,6 +37,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #630 Updated user manual with new part detailed view also for supplier and customer parts
 - #736 fixed bug in request logic of contracts detailed view
 - Improved the release documentation
+- #706 QualityNotification naming in code replaced with Notification
 
 ### Removed
 - Shedlock, resilence4j, templateResolver as not used anymore

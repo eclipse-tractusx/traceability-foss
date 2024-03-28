@@ -30,15 +30,15 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.validation
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
-import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
-import org.eclipse.tractusx.traceability.qualitynotification.application.notification.validation.UpdateQualityNotificationValidationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
+import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationNotFoundException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
@@ -169,8 +169,8 @@ class ErrorHandlingConfigTest {
     }
 
     @Test
-    void givenUpdateQualityNotificationValidationException_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/updateQualityNotificationValidationException"))
+    void givenUpdateNotificationValidationException_handler_respondsBadRequest() throws Exception {
+        mockMvc.perform(get("/updateNotificationValidationException"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -261,9 +261,9 @@ class ErrorHandlingConfigTest {
         @GetMapping("/investigationStatusTransitionNotAllowed")
         public void investigationStatusTransitionNotAllowed() {
             throw new InvestigationStatusTransitionNotAllowed(
-                    new QualityNotificationId(1L),
-                    QualityNotificationStatus.CLOSED,
-                    QualityNotificationStatus.ACCEPTED
+                    new NotificationId(1L),
+                    NotificationStatus.CLOSED,
+                    NotificationStatus.ACCEPTED
             );
         }
 
@@ -311,13 +311,13 @@ class ErrorHandlingConfigTest {
         public void notificationStatusTransitionNotAllowed() {
             throw new NotificationStatusTransitionNotAllowed(
                     "",
-                    QualityNotificationStatus.CLOSED,
-                    QualityNotificationStatus.ACCEPTED);
+                    NotificationStatus.CLOSED,
+                    NotificationStatus.ACCEPTED);
         }
 
-        @GetMapping("/updateQualityNotificationValidationException")
-        public void updateQualityNotificationValidationException() {
-            throw new UpdateQualityNotificationValidationException("");
+        @GetMapping("/updateNotificationValidationException")
+        public void updateNotificationValidationException() {
+            throw new UpdateNotificationValidationException("");
         }
 
         @GetMapping("/createNotificationContractException")

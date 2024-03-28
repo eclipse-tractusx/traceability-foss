@@ -19,13 +19,13 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationTypeEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationMessageRepository;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -162,7 +162,7 @@ public class AlertNotificationsSupport {
                         .status(NotificationStatusBaseEntity.CREATED)
                         .sendTo(OTHER_BPN)
                         .createdBy(OWN_BPN)
-                        .severity(QualityNotificationSeverity.MINOR)
+                        .severity(NotificationSeverity.MINOR)
                         .targetDate(monthFromNow.minus(3L, DAYS))
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a1")
@@ -173,7 +173,7 @@ public class AlertNotificationsSupport {
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .status(NotificationStatusBaseEntity.SENT)
-                        .severity(QualityNotificationSeverity.MAJOR)
+                        .severity(NotificationSeverity.MAJOR)
                         .id("2")
                         .targetDate(monthFromNow.minus(2L, DAYS))
                         .notification(alert2)
@@ -185,7 +185,7 @@ public class AlertNotificationsSupport {
                         .id("3")
                         .sendTo(OWN_BPN)
                         .createdBy(OTHER_BPN)
-                        .severity(QualityNotificationSeverity.CRITICAL)
+                        .severity(NotificationSeverity.CRITICAL)
                         .targetDate(monthFromNow.minus(1L, DAYS))
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .notification(alert3)
@@ -196,7 +196,7 @@ public class AlertNotificationsSupport {
                         .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                         .id("4")
                         .targetDate(monthFromNow)
-                        .severity(QualityNotificationSeverity.LIFE_THREATENING)
+                        .severity(NotificationSeverity.LIFE_THREATENING)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .notification(alert4)
@@ -207,7 +207,7 @@ public class AlertNotificationsSupport {
                         .status(NotificationStatusBaseEntity.ACCEPTED)
                         .id("5")
                         .targetDate(monthFromNow)
-                        .severity(QualityNotificationSeverity.MINOR)
+                        .severity(NotificationSeverity.MINOR)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .notification(alert5)
@@ -217,7 +217,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.DECLINED)
                         .id("6")
-                        .severity(QualityNotificationSeverity.MAJOR)
+                        .severity(NotificationSeverity.MAJOR)
                         .targetDate(monthFromNow.plus(1L, DAYS))
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
@@ -229,7 +229,7 @@ public class AlertNotificationsSupport {
                         .status(NotificationStatusBaseEntity.CANCELED)
                         .id("7")
                         .targetDate(monthFromNow.plus(2L, DAYS))
-                        .severity(QualityNotificationSeverity.CRITICAL)
+                        .severity(NotificationSeverity.CRITICAL)
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .notification(alert7)
@@ -239,7 +239,7 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.CLOSED)
                         .id("8")
-                        .severity(QualityNotificationSeverity.LIFE_THREATENING)
+                        .severity(NotificationSeverity.LIFE_THREATENING)
                         .targetDate(monthFromNow.plus(3L, DAYS))
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
