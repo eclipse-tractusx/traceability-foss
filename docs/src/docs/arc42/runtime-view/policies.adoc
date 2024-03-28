@@ -1,23 +1,24 @@
 = Policies
 
 == Overview
-=== Scenario 1: Start Up interaction with IRS Policy Store
-Trace-X instance define a constraint which is required for data consumption and provisioning.
-Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
-If a policy with the constraint exists and is valid process ends. If the policy is not valid it will create one with the given constraint.
 
-This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on Trace-X given constraint.
+=== Scenario 1: Startup interaction with IRS Policy Store
+The Trace-X instance defines a constraint which is required for data consumption and provisioning.
+Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
+If a policy with the constraint exists and is valid, the process ends. If the policy is not valid, it will create one with the given constraint.
+
+This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on the constraint given by Trace-X.
 
 [plantuml, target=policy-startup-configuration, format=svg]
 ....
 include::../../../uml-diagrams/arc42/runtime-view/policies/policy-startup-configuration.puml[]
 ....
 
-=== Scenario 2: Start Up interaction with EDC
-Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC Policy Request.
-The EDC Policy Request will be used for creating a policy for the required notification contracts.
+=== Scenario 2: Startup interaction with EDC
+The Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC policy request.
+The EDC policy request will be used for creating a policy for the required notification contracts.
 
-This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on Trace-X given constraint and reuses it for creating an EDC Policy.
+This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on the constraint given by Trace-X and reuses it for creating an EDC policy.
 
 [plantuml, target=policy-startup-notification-contract, format=svg]
 ....
@@ -25,9 +26,9 @@ include::../../../uml-diagrams/arc42/runtime-view/policies/policy-startup-notifi
 ....
 
 === Scenario 3: Provisioning of notifications
-Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver edc.
+The Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver EDC.
 
-This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of catalog offers by the receiver edc, to validate if sending is valid.
+This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC.
 
 [plantuml, target=policy-notifications, format=svg]
 ....
@@ -35,9 +36,9 @@ include::../../../uml-diagrams/arc42/runtime-view/policies/policy-notifications.
 ....
 
 === Scenario 4: Provisioning of assets
-Trace-X instance uses the policy which includes the defined constraint and reuses it for creating edc assets .
+The Trace-X instance uses the policy which includes the defined constraint and reuses it for creating EDC assets.
 
-This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering edc data assets.
+This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering EDC data assets.
 
 [plantuml, target=policy-assets, format=svg]
 ....

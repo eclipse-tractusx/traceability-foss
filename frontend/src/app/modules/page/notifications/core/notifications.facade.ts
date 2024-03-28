@@ -21,11 +21,15 @@ import { Injectable } from '@angular/core';
 import { NotificationsState } from '@page/notifications/core/notifications.state';
 import { provideDataObject } from '@page/parts/core/parts.helper';
 import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
+import {
+  Notification,
+  NotificationDeeplinkFilter,
+  Notifications,
+  NotificationStatus,
+} from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { Observable, Subscription } from 'rxjs';
-import { NotificationFilter } from '../../../../mocks/services/investigations-mock/investigations.model';
 
 @Injectable()
 export class NotificationsFacade {
@@ -50,7 +54,7 @@ export class NotificationsFacade {
     return this.notificationService.getNotificationById(id, false);
   }
 
-  public setReceivedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
+  public setReceivedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationDeeplinkFilter, fullFilter?: any): void {
     this.notificationReceivedSubscription?.unsubscribe();
     this.notificationReceivedSubscription = this.notificationService
       .getReceived(page, pageSize, sorting, filter, fullFilter, false)
@@ -60,7 +64,7 @@ export class NotificationsFacade {
       });
   }
 
-  public setQueuedAndRequestedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationFilter, fullFilter?: any): void {
+  public setQueuedAndRequestedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationDeeplinkFilter, fullFilter?: any): void {
     this.notificationQueuedAndRequestedSubscription?.unsubscribe();
     this.notificationQueuedAndRequestedSubscription = this.notificationService
       .getCreated(page, pageSize, sorting, filter, fullFilter, false)

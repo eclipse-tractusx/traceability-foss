@@ -20,8 +20,8 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationMessageRepository;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationMessageRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

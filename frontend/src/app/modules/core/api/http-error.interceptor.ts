@@ -19,15 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError, retry} from 'rxjs/operators';
-import {ToastService} from 'src/app/modules/shared/components/toasts/toast.service';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { ToastService } from 'src/app/modules/shared/components/toasts/toast.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
 
   // List of request.url that should not automatically display a toast but are handled custom (Can be extended later by METHOD)
-  private avoidList = ['/api/alerts', '/api/investigations', '/api/alerts/*/approve', '/api/investigations/*/approve']
+  private avoidList = [ '/api/notifications', '/api/notifications/*/approve' ];
+
   constructor(private readonly toastService: ToastService) {
   }
 
