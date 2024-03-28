@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName "Architects daughter"
 
-title Sequence Diagram: Policy handling on asset provisioning flow
+title Sequence diagram: Policy handling on asset provisioning flow
 participant "Trace-X" as TraceX
 participant "EDC Consumer" as EdcConsumer
 participant "EDC Provider (other)" as EdcProvider
