@@ -27,6 +27,7 @@ import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
+import {getTranslationContext} from "@shared/helper/notification-helper";
 
 @Component({
   selector: 'app-accept-notification-modal',
@@ -60,17 +61,17 @@ export class AcceptNotificationModalComponent {
 
       this.acceptCall(notification.id, reason).subscribe({
         next: () => {
-          this.toastService.success(this.translationContext + '.modal.successfullyAccepted');
+          this.toastService.success(getTranslationContext(notification) + '.modal.successfullyAccepted');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error(this.translationContext + '.modal.failedAccept');
+          this.toastService.error(getTranslationContext(notification) + '.modal.failedAccept');
         },
       });
     };
 
     const options: ModalData = {
-      title: this.translationContext + '.modal.acceptTitle',
+      title: getTranslationContext(notification) + '.modal.acceptTitle',
       buttonRight: 'actions.accept',
       template: this.modal,
       formGroup: this.formGroup,

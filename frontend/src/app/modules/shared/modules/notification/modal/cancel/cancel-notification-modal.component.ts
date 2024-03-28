@@ -26,6 +26,7 @@ import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
+import {getTranslationContext} from "@shared/helper/notification-helper";
 
 @Component({
   selector: 'app-cancel-notification-modal',
@@ -52,18 +53,18 @@ export class CancelNotificationModalComponent {
 
       this.cancelCall(notification.id).subscribe({
         next: () => {
-          this.toastService.success(this.translationContext + '.modal.successfullyCanceled');
+          this.toastService.success(getTranslationContext(notification) + '.modal.successfullyCanceled');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error(this.translationContext + '.modal.failedCancel');
+          this.toastService.error(getTranslationContext(notification) + '.modal.failedCancel');
         },
       });
     };
 
     const options: ModalData = {
-      title: this.translationContext + '.modal.cancellationTitle',
-      type: this.translationContext + '.modal.cancellationConfirmationLabel',
+      title: getTranslationContext(notification) + '.modal.cancellationTitle',
+      type: getTranslationContext(notification) + '.modal.cancellationConfirmationLabel',
       buttonRight: 'actions.cancellationConfirm',
       primaryButtonColour: 'warn',
       notificationId: this.notification.id,

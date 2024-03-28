@@ -206,7 +206,6 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
       .subscribe();
   }
 
-  protected readonly TranslationContext = TranslationContext;
   protected readonly NotificationType = NotificationType;
   protected readonly NotificationAction = NotificationAction;
 

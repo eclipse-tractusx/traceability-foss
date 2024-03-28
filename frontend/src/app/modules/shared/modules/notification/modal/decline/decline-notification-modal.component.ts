@@ -27,6 +27,7 @@ import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
+import {getTranslationContext} from "@shared/helper/notification-helper";
 
 @Component({
   selector: 'app-decline-notification-modal',
@@ -58,17 +59,17 @@ export class DeclineNotificationModalComponent {
 
       this.declineCall(notification.id, reason).subscribe({
         next: () => {
-          this.toastService.success(this.translationContext + '.modal.successfullyDeclined');
+          this.toastService.success(getTranslationContext(notification) + '.modal.successfullyDeclined');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error(this.translationContext + '.modal.failedDecline');
+          this.toastService.error(getTranslationContext(notification) + '.modal.failedDecline');
         },
       });
     };
 
     const options: ModalData = {
-      title: this.translationContext + '.modal.declineTitle',
+      title: getTranslationContext(notification) + '.modal.declineTitle',
       buttonRight: 'actions.decline',
 
       template: this.modal,

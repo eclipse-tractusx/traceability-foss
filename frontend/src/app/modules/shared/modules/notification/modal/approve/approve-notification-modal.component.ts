@@ -19,54 +19,57 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { Notification } from '@shared/model/notification.model';
-import { TranslationContext } from '@shared/model/translation-context.model';
-import { ModalData } from '@shared/modules/modal/core/modal.model';
-import { ModalService } from '@shared/modules/modal/core/modal.service';
-import { Observable } from 'rxjs';
+import {Component, EventEmitter, Input, Output, TemplateRef, ViewChild} from '@angular/core';
+import {ToastService} from '@shared/components/toasts/toast.service';
+import {Notification} from '@shared/model/notification.model';
+import {TranslationContext} from '@shared/model/translation-context.model';
+import {ModalData} from '@shared/modules/modal/core/modal.model';
+import {ModalService} from '@shared/modules/modal/core/modal.service';
+import {Observable} from 'rxjs';
+import {getTranslationContext} from "@shared/helper/notification-helper";
 
 @Component({
-  selector: 'app-approve-notification-modal',
-  templateUrl: './approve-notification-modal.component.html',
+    selector: 'app-approve-notification-modal',
+    templateUrl: './approve-notification-modal.component.html',
 })
 export class ApproveNotificationModalComponent {
-  @ViewChild('Modal') modal: TemplateRef<unknown>;
-  @Input() approveCall: (id: string) => Observable<void>;
-  @Input() translationContext: TranslationContext;
-  @Output() confirmActionCompleted = new EventEmitter<void>();
+    @ViewChild('Modal') modal: TemplateRef<unknown>;
+    @Input() approveCall: (id: string) => Observable<void>;
+    @Input() translationContext: TranslationContext;
+    @Output() confirmActionCompleted = new EventEmitter<void>();
 
-  public notification: Notification;
+    public notification: Notification;
 
-  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
-    this.toastService.retryAction.subscribe(() => this.show(this.notification))
-  }
+    constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
+        this.toastService.retryAction.subscribe(() => this.show(this.notification));
 
-  public show(notification: Notification): void {
-    this.notification = notification;
-    const onConfirm = (isConfirmed: boolean) => {
-      if (!isConfirmed) return;
+    }
 
-      this.approveCall(notification.id).subscribe({
-        next: () => {
-          this.toastService.success(this.translationContext + '.modal.successfullyApproved');
-          this.confirmActionCompleted.emit();
-        },
-        error: (err) => {
-          this.toastService.error(this.translationContext + '.modal.failedApprove', 15000,true);
-        },
-      });
-    };
 
-    const options: ModalData = {
-      title: this.translationContext + '.modal.approvalTitle',
-      buttonRight: 'actions.confirm',
+    public show(notification: Notification): void {
+        this.notification = notification;
+        const onConfirm = (isConfirmed: boolean) => {
+            if (!isConfirmed) return;
 
-      template: this.modal,
-      onConfirm,
-    };
+            this.approveCall(notification.id).subscribe({
+                next: () => {
+                    this.toastService.success(getTranslationContext(notification) + '.modal.successfullyApproved');
+                    this.confirmActionCompleted.emit();
+                },
+                error: (err) => {
+                    this.toastService.error(getTranslationContext(notification)+ '.modal.failedApprove', 15000, true);
+                },
+            });
+        };
 
-    this.confirmModalService.open(options);
-  }
+        const options: ModalData = {
+            title: getTranslationContext(notification) + '.modal.approvalTitle',
+            buttonRight: 'actions.confirm',
+
+            template: this.modal,
+            onConfirm,
+        };
+
+        this.confirmModalService.open(options);
+    }
 }

@@ -27,6 +27,7 @@ import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
+import {getTranslationContext} from "@shared/helper/notification-helper";
 
 @Component({
   selector: 'app-close-notification-modal',
@@ -58,17 +59,17 @@ export class CloseNotificationModalComponent {
 
       this.closeCall(notification.id, reason).subscribe({
         next: () => {
-          this.toastService.success(this.translationContext + '.modal.successfullyClosed');
+          this.toastService.success(getTranslationContext(notification) + '.modal.successfullyClosed');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error(this.translationContext + '.modal.failedClose');
+          this.toastService.error(getTranslationContext(notification) + '.modal.failedClose');
         },
       });
     };
 
     const options: ModalData = {
-      title: this.translationContext + '.modal.closeTitle',
+      title: getTranslationContext(notification) + '.modal.closeTitle',
       buttonRight: 'actions.close',
 
       template: this.modal,

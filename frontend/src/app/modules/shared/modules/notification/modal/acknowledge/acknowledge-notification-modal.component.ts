@@ -26,6 +26,7 @@ import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
+import {getTranslationContext} from "@shared/helper/notification-helper";
 
 @Component({
   selector: 'app-acknowledge-notification-modal',
@@ -49,17 +50,17 @@ export class AcknowledgeNotificationModalComponent {
 
       this.acknowledgeCall(notification.id).subscribe({
         next: () => {
-          this.toastService.success(this.translationContext + '.modal.successfullyAcknowledged');
+          this.toastService.success(getTranslationContext(notification) + '.modal.successfullyAcknowledged');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error(this.translationContext + '.modal.failedAcknowledge');
+          this.toastService.error(getTranslationContext(notification) + '.modal.failedAcknowledge');
         },
       });
     };
 
     const options: ModalData = {
-      title: this.translationContext + '.modal.acknowledgeTitle',
+      title: getTranslationContext(notification) + '.modal.acknowledgeTitle',
       buttonRight: 'actions.acknowledge',
 
       template: this.modal,
