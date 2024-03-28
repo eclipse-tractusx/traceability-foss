@@ -38,7 +38,7 @@ When("user navigate to {string}", function(desiredMenu) {
         break;
       }
       case 'Quality alerts': {
-        cy.get('[href="/alerts"]').click();
+        cy.get('[href="/inbox"]').click();
         break;
       }
       case 'About': {

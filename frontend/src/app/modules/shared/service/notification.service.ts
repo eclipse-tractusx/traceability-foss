@@ -29,10 +29,9 @@ import { provideFilterListForNotifications } from '@shared/helper/filter-helper'
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
 import {
   Notification,
-  NotificationCreateResponse,
+  NotificationCreateResponse, NotificationDeeplinkFilter, NotificationFilter,
   NotificationResponse,
   Notifications,
   NotificationsResponse,
@@ -50,7 +49,7 @@ export class NotificationService {
 
 
     // TODO: merge functions for created and received notifications
-    public getCreated(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
+    public getCreated(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationDeeplinkFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
         const sort = sorting.length ? sorting.map(array => `${array[0]},${array[1]}`) : ['createdDate,desc'];
         const requestUrl = this.notificationUrl() + '/filter';
         const additionalFilters = new Set([...provideFilterListForNotifications(filter, fullFilter), 'channel,EQUAL,SENDER,AND']);
@@ -71,7 +70,7 @@ export class NotificationService {
             .pipe(map(data => NotificationAssembler.assembleNotifications(data)));
     }
 
-    public getReceived(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
+    public getReceived(page: number, pageSize: number, sorting: TableHeaderSort[], filter?: NotificationDeeplinkFilter, fullFilter?: any, isInvestigation = true): Observable<Notifications> {
         const sort = sorting.length ? sorting.map(array => `${array[0]},${array[1]}`) : ['createdDate,desc'];
         const requestUrl = this.notificationUrl() + '/filter';
         const additionalFilters = new Set([...provideFilterListForNotifications(filter, fullFilter), 'channel,EQUAL,RECEIVER,AND']);

@@ -33,7 +33,7 @@ const NOTIFICATIONS_ROUTING: Routes = [
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
   {
-    path: ':alertId',
+    path: ':notificationId',
     pathMatch: 'full',
     component: NotificationDetailComponent,
     data: { i18nextNamespaces: [ 'page.alert' ] },

@@ -71,7 +71,7 @@ export interface NotificationFilter {
   targetDate?: string;
   bpn?: string;
   errorMessage?: string;
-  title: NotificationTypeResponse;
+  title: string;
 }
 
 export enum NotificationType {
@@ -130,6 +130,8 @@ export enum NotificationColumn {
   RECEIVED_INVESTIGATION = 'receivedActiveInvestigations',
   SENT_INVESTIGATION = 'sentActiveInvestigations'
 }
-
+export interface NotificationDeeplinkFilter {
+  notificationIds: string[];
+}
 export type NotificationsResponse = PaginationResponse<NotificationResponse>;
 export type Notifications = Pagination<Notification>;

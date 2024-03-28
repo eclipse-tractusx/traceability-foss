@@ -23,7 +23,8 @@ import {
   FilterOperator,
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
-import { NotificationFilter } from '../../../mocks/services/investigations-mock/investigations.model';
+import { NotificationDeeplinkFilter, NotificationFilter } from '@shared/model/notification.model';
+
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate' ];
 
@@ -181,7 +182,7 @@ export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean
   return filter;
 }
 
-export function provideFilterListForNotifications( filter?: NotificationFilter, fullFilter?: any): string[] {
+export function provideFilterListForNotifications( filter?: NotificationDeeplinkFilter, fullFilter?: any): string[] {
   let filterList: string[] = [];
 
   if (filter && !fullFilter) {
