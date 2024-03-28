@@ -10,7 +10,7 @@ participant IRS
 User -> TraceX: Open asset list
 TraceX -> DTR: lookup assets by configured BPN
 rnote right TraceX
-Once per day, schedule based
+Every 2 hours, schedule based
 end rnote
 TraceX <-- DTR: List<aasID>
 

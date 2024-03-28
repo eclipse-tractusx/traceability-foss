@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const {
       link: alertLink,
       queryParams: alertQueryParams,
-    } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
+    } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
     this.alertLink = alertLink;
     this.alertParams = alertQueryParams;

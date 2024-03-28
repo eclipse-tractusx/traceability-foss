@@ -7,6 +7,8 @@ title: Quality Notification Domain
 
 class QualityNotification {
     bpn : BPN;
+    title : String;
+    type: QualityNotificationType;
     notificationId : QualityNotificationId;
     notificationStatus : QualityNotificationStatus;
     description: String;
@@ -17,6 +19,11 @@ class QualityNotification {
     acceptReason: String;
     declineReason: String;
     messages: List<QualityNotificationMessage>;
+}
+
+enum QualityNotificationType{
+    ALERT;
+    INVESTIGATION;
 }
 
 class QualityNotificationId {
@@ -61,6 +68,7 @@ enum QualityNotificationStatus{
 
 QualityNotification --> QualityNotificationId
 QualityNotification --> BPN
+QualityNotification --> QualityNotificationType
 QualityNotification --> QualityNotificationStatus
 QualityNotification --> QualityNotificationSide
 QualityNotification *-- QualityNotificationMessage

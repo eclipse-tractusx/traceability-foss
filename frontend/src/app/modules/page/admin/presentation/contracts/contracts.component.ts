@@ -34,7 +34,6 @@ export class ContractsComponent {
         this.contractsFacade.setContracts(0,10,[null,null]);
       }
     })
-    console.log("ngOnInit")
 
     this.pagination = { page: 0, pageSize: 10, sorting: [ '', null ] };
     this.tableConfig = {

@@ -17,6 +17,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #706 Created notification classes to support both alert and investigations
 - #706 Notification controller having the same endpoints as alerts and investigations controllers
 - #736 add contractAgreementId as searchable field for /contracts
+- Added capitalization section in guidelines.md
 
 ### Changed
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
@@ -32,6 +33,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #718 update tj-actions/changed-files from v42 to v44
 - #718 update maven-project-info-reports-plugin from 3.4.5 to 3.5.0
 - #718 update jsonschema2pojo-core from 1.1.1 to 1.2.1
+- #718 migrate Spring Boot from 3.1.9 to 3.2.4
+- #630 Updated user manual with new part detailed view also for supplier and customer parts
+- #736 fixed bug in request logic of contracts detailed view
+- Improved the release documentation
 
 ### Removed
 - Shedlock, resilence4j, templateResolver as not used anymore
