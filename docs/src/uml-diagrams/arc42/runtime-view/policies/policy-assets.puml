@@ -3,16 +3,20 @@ skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName "Architects daughter"
 
-title Sequence Diagram: Policy Handling on asset provisioning flow
-participant "TraceX" as TraceX
+title Sequence diagram: Policy handling on asset provisioning flow
+participant "Trace-X" as TraceX
 participant "EDC Consumer" as EdcConsumer
-participant "EDC Provider (other) " as EdcProvider
+participant "EDC Provider (other)" as EdcProvider
 
-TraceX -> TraceX: Publish Asset to Core Services
+activate TraceX
+TraceX -> TraceX: Publish asset to core services
 TraceX -> EdcConsumer: Register policy
+activate EdcConsumer
 EdcConsumer -> EdcProvider: Register policy
-EdcProvider -> EdcConsumer: Return ok
-EdcConsumer -> TraceX: Return ok
+activate EdcProvider
+EdcProvider --> EdcConsumer: Ok
+deactivate EdcProvider
+EdcConsumer --> TraceX: Ok
+deactivate EdcConsumer
 TraceX -> TraceX: Reuse policy for contract definition creation
-
 @enduml
