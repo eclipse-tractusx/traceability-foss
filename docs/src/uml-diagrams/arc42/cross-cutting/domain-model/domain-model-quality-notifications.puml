@@ -3,41 +3,41 @@ skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName "Architects daughter"
 skinparam linetype ortho
-title: Quality Notification Domain
+title: Notification Domain
 
-class QualityNotification {
+class Notification {
     bpn : BPN;
     title : String;
-    type: QualityNotificationType;
-    notificationId : QualityNotificationId;
-    notificationStatus : QualityNotificationStatus;
+    type: NotificationType;
+    notificationId : NotificationId;
+    notificationStatus : NotificationStatus;
     description: String;
     createdAt: Instant;
-    notificationSide: QualityNotificationSide;
+    notificationSide: NotificationSide;
     assetIds: ArrayList<String>();
     closeReason: String;
     acceptReason: String;
     declineReason: String;
-    messages: List<QualityNotificationMessage>;
+    messages: List<NotificationMessage>;
 }
 
-enum QualityNotificationType{
+enum NotificationType{
     ALERT;
     INVESTIGATION;
 }
 
-class QualityNotificationId {
+class NotificationId {
 id: Long;
 }
 
-enum QualityNotificationSide{
+enum NotificationSide{
     SENDER;
     RECEIVER;
 }
 class BPN{
 bpn: String;
 }
-class QualityNotificationMessage {
+class NotificationMessage {
    id: String
    createdBy: String
    createdByName: String
@@ -46,31 +46,31 @@ class QualityNotificationMessage {
    contractAgreementId: String
    notificationReferenceId: String
    targetDate: Instant
-   severity: QualityNotificationSeverity;
+   severity: NotificationSeverity;
    edcNotificationId: String;
    created: LocalDateTime;
    updated: LocalDateTime;
    messageId: String;
-   status: QualityNotificationStatus;
+   status: NotificationStatus;
    errorMessage: String;
 }
 
-enum QualityNotificationStatus{
- CREATED(QualityNotificationSide.SENDER, emptySet()),
-    SENT(QualityNotificationSide.SENDER, Set.of(QualityNotificationSide.SENDER)),
-    RECEIVED(QualityNotificationSide.RECEIVER, emptySet()),
-    ACKNOWLEDGED(QualityNotificationSide.RECEIVER, Set.of(QualityNotificationSide.RECEIVER, QualityNotificationSide.SENDER)),
-    ACCEPTED(QualityNotificationSide.RECEIVER, Set.of(QualityNotificationSide.RECEIVER)),
-    DECLINED(QualityNotificationSide.RECEIVER, Set.of(QualityNotificationSide.RECEIVER)),
-    CANCELED(QualityNotificationSide.SENDER, Set.of(QualityNotificationSide.SENDER)),
-    CLOSED(QualityNotificationSide.SENDER, of(QualityNotificationSide.SENDER, QualityNotificationSide.RECEIVER));
+enum NotificationStatus{
+ CREATED(NotificationSide.SENDER, emptySet()),
+    SENT(NotificationSide.SENDER, Set.of(NotificationSide.SENDER)),
+    RECEIVED(NotificationSide.RECEIVER, emptySet()),
+    ACKNOWLEDGED(NotificationSide.RECEIVER, Set.of(NotificationSide.RECEIVER, NotificationSide.SENDER)),
+    ACCEPTED(NotificationSide.RECEIVER, Set.of(NotificationSide.RECEIVER)),
+    DECLINED(NotificationSide.RECEIVER, Set.of(NotificationSide.RECEIVER)),
+    CANCELED(NotificationSide.SENDER, Set.of(NotificationSide.SENDER)),
+    CLOSED(NotificationSide.SENDER, of(NotificationSide.SENDER, NotificationSide.RECEIVER));
  }
 
-QualityNotification --> QualityNotificationId
-QualityNotification --> BPN
-QualityNotification --> QualityNotificationType
-QualityNotification --> QualityNotificationStatus
-QualityNotification --> QualityNotificationSide
-QualityNotification *-- QualityNotificationMessage
+Notification --> NotificationId
+Notification --> BPN
+Notification --> NotificationType
+Notification --> NotificationStatus
+Notification --> NotificationSide
+Notification *-- NotificationMessage
 @enduml
 
