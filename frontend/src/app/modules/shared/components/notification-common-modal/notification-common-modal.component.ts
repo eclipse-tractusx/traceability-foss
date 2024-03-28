@@ -48,9 +48,9 @@ export class NotificationCommonModalComponent {
   @ViewChild(AcknowledgeNotificationModalComponent) acknowledgeModal: AcknowledgeNotificationModalComponent;
   @ViewChild(DeclineNotificationModalComponent) declineModal: DeclineNotificationModalComponent;
 
-
+// TODO do not delete the facade here. This will lead to a nullpointer exception within the modal call.
   public constructor(
-    @Optional() private readonly alertsFacade: NotificationsFacade,
+    @Optional() private readonly notificationsFacade: NotificationsFacade,
   ) {
   }
 
