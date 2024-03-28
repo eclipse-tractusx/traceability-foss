@@ -33,6 +33,7 @@
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
     "cypress:local": "cypress open --config-file cypress.local.config.ts",
+    "cypress:run-local": "cypress run --config-file cypress.local.config.ts",
     "cypress:run": "cypress run"
   },
   "private": true,
