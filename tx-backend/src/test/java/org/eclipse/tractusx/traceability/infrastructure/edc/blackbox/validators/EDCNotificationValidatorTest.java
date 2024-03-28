@@ -22,9 +22,9 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators
 import jakarta.validation.ConstraintValidatorContext;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.EDCNotificationValidator;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.EDCNotificationValidator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

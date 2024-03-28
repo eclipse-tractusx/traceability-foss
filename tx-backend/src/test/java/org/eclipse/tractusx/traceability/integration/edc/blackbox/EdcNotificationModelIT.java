@@ -23,12 +23,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationContent;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationHeader;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.NotificationType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -72,7 +72,7 @@ class EdcNotificationModelIT extends IntegrationTestSpecification {
         assertThat(edcNotification.content().listOfAffectedItems()).hasSize(1);
         assertThat(edcNotification.content().listOfAffectedItems().stream().findFirst().get()).contains("urn:uuid:171fed54-26aa-4848-a025-81aaca557f37");
 
-        assertThat(edcNotification.convertNotificationStatus()).isEqualTo(QualityNotificationStatus.SENT);
+        assertThat(edcNotification.convertNotificationStatus()).isEqualTo(NotificationStatus.SENT);
         assertThat(edcNotification.convertNotificationType()).isEqualTo(NotificationType.QMINVESTIGATION);
     }
 

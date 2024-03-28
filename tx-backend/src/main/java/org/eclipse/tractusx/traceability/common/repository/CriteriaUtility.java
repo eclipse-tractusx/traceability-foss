@@ -29,7 +29,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +78,7 @@ public class CriteriaUtility {
             String fieldName,
             String startWith,
             Integer resultLimit,
-            QualityNotificationSide side,
+            NotificationSide side,
             Class<?> notificationEntityClass,
             EntityManager entityManager) {
 
