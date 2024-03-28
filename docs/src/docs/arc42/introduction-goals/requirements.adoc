@@ -8,8 +8,8 @@
 * Notifications/Messages regarding quality-related incidents and a tool for inspecting the supply chain.
 
 == Essential features
-* List and view manufactured parts based on BoM AsBuild
-* List and view planned parts based on BoM AsPlanned
+* List, view and publish manufactured parts based on BoM AsBuild
+* List, view and publish planned parts based on BoM AsPlanned
 * Filter and search functionality on part views
 * Show detailed information on manufactured parts from AAS description assets and Aspects
 * Uses Submodels SerialPart, AssemblyPartRelationship and Batch

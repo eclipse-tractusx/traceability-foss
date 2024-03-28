@@ -151,7 +151,6 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
 
-
         <!-- Fixes CVE-2023-34035  -->
         <dependency>
             <groupId>org.springframework.security</groupId>

@@ -70,6 +70,7 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
         return BomLifecycle.AS_BUILT;
     }
 
+    @Override
     protected JobRepository getJobRepository() {
         return jobRepository;
     }

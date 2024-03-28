@@ -65,6 +65,7 @@ public class AssetAsPlannedServiceImpl extends AbstractAssetBaseService {
         return BomLifecycle.AS_PLANNED;
     }
 
+    @Override
     protected JobRepository getJobRepository() {
         return jobRepository;
     }
