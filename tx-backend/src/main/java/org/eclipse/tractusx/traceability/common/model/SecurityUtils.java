@@ -21,12 +21,12 @@ package org.eclipse.tractusx.traceability.common.model;
 
 
 import lombok.experimental.UtilityClass;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
-import qualitynotification.base.request.CloseQualityNotificationRequest;
-import qualitynotification.base.request.StartQualityNotificationRequest;
-import qualitynotification.base.request.UpdateQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationContent;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationHeader;
+import notification.request.CloseNotificationRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationRequest;
 
 import java.util.List;
 
@@ -52,11 +52,11 @@ public class SecurityUtils {
         return null;
     }
 
-    public static StartQualityNotificationRequest sanitize(StartQualityNotificationRequest request) {
+    public static StartNotificationRequest sanitize(StartNotificationRequest request) {
         String cleanDescription = sanitize(request.getDescription());
         String cleanReceiverBpn = sanitize(request.getReceiverBpn());
         List<String> cleanPartIds = sanitize(request.getPartIds());
-        return StartQualityNotificationRequest.builder()
+        return StartNotificationRequest.builder()
                 .description(cleanDescription)
                 .targetDate(request.getTargetDate())
                 .severity(request.getSeverity())
@@ -68,14 +68,14 @@ public class SecurityUtils {
     }
 
 
-    public static CloseQualityNotificationRequest sanitize(CloseQualityNotificationRequest closeInvestigationRequest) {
+    public static CloseNotificationRequest sanitize(CloseNotificationRequest closeInvestigationRequest) {
         String cleanReason = sanitize(closeInvestigationRequest.getReason());
-        return CloseQualityNotificationRequest.builder().reason(cleanReason).build();
+        return CloseNotificationRequest.builder().reason(cleanReason).build();
     }
 
-    public static UpdateQualityNotificationRequest sanitize(UpdateQualityNotificationRequest updateInvestigationRequest) {
+    public static UpdateNotificationRequest sanitize(UpdateNotificationRequest updateInvestigationRequest) {
         String cleanReason = sanitize(updateInvestigationRequest.getReason());
-        return UpdateQualityNotificationRequest.builder().status(updateInvestigationRequest.getStatus()).reason(cleanReason).build();
+        return UpdateNotificationRequest.builder().status(updateInvestigationRequest.getStatus()).reason(cleanReason).build();
     }
 
     public static EDCNotification sanitize(EDCNotification edcNotification) {

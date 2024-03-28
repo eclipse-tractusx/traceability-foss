@@ -36,12 +36,12 @@ import org.awaitility.Duration;
 import org.eclipse.tractusx.traceability.test.tooling.EnvVariablesResolver;
 import org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
-import qualitynotification.base.request.QualityNotificationSeverityRequest;
-import qualitynotification.base.request.StartQualityNotificationRequest;
-import qualitynotification.base.request.UpdateQualityNotificationRequest;
-import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
-import qualitynotification.base.response.QualityNotificationIdResponse;
-import qualitynotification.base.response.QualityNotificationResponse;
+import notification.request.NotificationSeverityRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusRequest;
+import notification.response.NotificationIdResponse;
+import notification.response.NotificationResponse;
 
 import java.time.Instant;
 import java.util.List;
@@ -91,19 +91,19 @@ public class RestProvider {
         System.out.println(host);
     }
 
-    public QualityNotificationIdResponse createNotification(
+    public NotificationIdResponse createNotification(
             List<String> partIds,
             String description,
             Instant targetDate,
             String severity,
             String receiverBpn,
             NotificationTypeEnum notificationType) {
-        final StartQualityNotificationRequest requestBody = StartQualityNotificationRequest.builder()
+        final StartNotificationRequest requestBody = StartNotificationRequest.builder()
                 .partIds(partIds)
                 .isAsBuilt(true)
                 .description(description)
                 .targetDate(targetDate)
-                .severity(QualityNotificationSeverityRequest.fromValue(severity))
+                .severity(NotificationSeverityRequest.fromValue(severity))
                 .type(notificationType.toRequest())
                 .receiverBpn(receiverBpn)
                 .build();
@@ -116,7 +116,7 @@ public class RestProvider {
                 .then()
                 .statusCode(HttpStatus.SC_CREATED)
                 .extract()
-                .as(QualityNotificationIdResponse.class);
+                .as(NotificationIdResponse.class);
 
     }
 
@@ -184,8 +184,8 @@ public class RestProvider {
     }
 
     public void updateNotification(final Long notificationId,
-                                   UpdateQualityNotificationStatusRequest status, String reason) {
-        UpdateQualityNotificationRequest requestBody = UpdateQualityNotificationRequest.builder()
+                                   UpdateNotificationStatusRequest status, String reason) {
+        UpdateNotificationRequest requestBody = UpdateNotificationRequest.builder()
                 .status(status)
                 .reason(reason)
                 .build();
@@ -216,7 +216,7 @@ public class RestProvider {
 
     }
 
-    public List<QualityNotificationResponse> getReceivedNotifications() {
+    public List<NotificationResponse> getReceivedNotifications() {
 
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
@@ -236,10 +236,10 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .body()
-                .jsonPath().getList("content", QualityNotificationResponse.class);
+                .jsonPath().getList("content", NotificationResponse.class);
     }
 
-    public QualityNotificationResponse getNotification(Long investigationId) {
+    public NotificationResponse getNotification(Long investigationId) {
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
@@ -249,7 +249,7 @@ public class RestProvider {
                 .log()
                 .body()
                 .extract()
-                .body().as(QualityNotificationResponse.class);
+                .body().as(NotificationResponse.class);
     }
 
     private RequestSpecification getRequestSpecification() {

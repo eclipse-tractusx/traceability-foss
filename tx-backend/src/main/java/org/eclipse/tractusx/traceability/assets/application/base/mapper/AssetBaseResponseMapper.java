@@ -47,8 +47,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataMo
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
 
 import java.util.List;
 
@@ -137,11 +137,11 @@ public class AssetBaseResponseMapper {
         return SemanticDataModelResponse.valueOf(semanticDataModel.name());
     }
 
-    protected static List<Long> getNotificationIdsInActiveState(List<QualityNotification> notifications) {
+    protected static List<Long> getNotificationIdsInActiveState(List<Notification> notifications) {
         return emptyIfNull(notifications).stream()
-                .filter(QualityNotification::isActiveState)
-                .map(QualityNotification::getNotificationId)
-                .map(QualityNotificationId::value)
+                .filter(Notification::isActiveState)
+                .map(Notification::getNotificationId)
+                .map(NotificationId::value)
                 .toList();
     }
 

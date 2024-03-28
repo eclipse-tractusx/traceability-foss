@@ -18,7 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.repository.JpaNotificationRepository;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public interface InvestigationsRepositoryProvider {

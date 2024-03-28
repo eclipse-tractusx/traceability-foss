@@ -27,13 +27,13 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationTypeEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationMessageEntity;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,7 +84,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
         // then
         investigationNotificationsSupport.assertNotificationsSize(1);
         investigationsSupport.assertInvestigationsSize(1);
-        investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.RECEIVED);
+        investigationsSupport.assertInvestigationStatus(NotificationStatus.RECEIVED);
     }
 
     @Test
@@ -174,7 +174,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
         // then
         investigationNotificationsSupport.assertNotificationsSize(3);
         investigationsSupport.assertInvestigationsSize(1);
-        investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.ACKNOWLEDGED);
+        investigationsSupport.assertInvestigationStatus(NotificationStatus.ACKNOWLEDGED);
     }
 
     @Test
@@ -272,7 +272,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
         // then
         investigationNotificationsSupport.assertNotificationsSize(0);
         investigationsSupport.assertInvestigationsSize(1);
-        investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.RECEIVED);
+        investigationsSupport.assertInvestigationStatus(NotificationStatus.RECEIVED);
     }
 
     private String readFile(final String filePath) throws IOException {
