@@ -436,13 +436,13 @@ If no asset ids are provided in the request, 50 contract agreement ids are handl
 
 ### Overview
 
-#### Scenario 1: Start Up interaction with IRS Policy Store
+#### Scenario 1: Startup interaction with IRS Policy Store
 
-Trace-X instance define a constraint which is required for data consumption and provisioning.
+The Trace-X instance defines a constraint which is required for data consumption and provisioning.
 Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
-If a policy with the constraint exists and is valid process ends. If the policy is not valid it will create one with the given constraint.
+If a policy with the constraint exists and is valid, the process ends. If the policy is not valid, it will create one with the given constraint.
 
-This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on Trace-X given constraint.
+This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on the constraint given by Trace-X.
 
 ![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
 ```bash
@@ -451,18 +451,18 @@ This sequence diagram describes the process of retrieving or creating policies w
 
 
 
-
 ```
 
-#### Scenario 2: Start Up interaction with EDC
+#### Scenario 2: Startup interaction with EDC
 
-Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC Policy Request.
-The EDC Policy Request will be used for creating a policy for the required notification contracts.
+The Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC policy request.
+The EDC policy request will be used for creating a policy for the required notification contracts.
 
-This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on Trace-X given constraint and reuses it for creating an EDC Policy.
+This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on the constraint given by Trace-X and reuses it for creating an EDC policy.
 
 ![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
 ```bash
+
 
 
 
@@ -470,17 +470,17 @@ This sequence diagram describes the process of retrieving the correct policy by 
 
 #### Scenario 3: Provisioning of notifications
 
-Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver edc.
+The Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver EDC.
 
-This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of catalog offers by the receiver edc, to validate if sending is valid.
+This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC.
 
 ![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
 
 #### Scenario 4: Provisioning of assets
 
-Trace-X instance uses the policy which includes the defined constraint and reuses it for creating edc assets .
+The Trace-X instance uses the policy which includes the defined constraint and reuses it for creating EDC assets.
 
-This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering edc data assets.
+This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering EDC data assets.
 
 ![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
 

@@ -445,8 +445,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a>
 <ul class="sectlevel2">
-<li><a href="#_scenario_1_start_up_interaction_with_irs_policy_store">Scenario 1: Start Up interaction with IRS Policy Store</a></li>
-<li><a href="#_scenario_2_start_up_interaction_with_edc">Scenario 2: Start Up interaction with EDC</a></li>
+<li><a href="#_scenario_1_startup_interaction_with_irs_policy_store">Scenario 1: Startup interaction with IRS Policy Store</a></li>
+<li><a href="#_scenario_2_startup_interaction_with_edc">Scenario 2: Startup interaction with EDC</a></li>
 <li><a href="#_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</a></li>
 <li><a href="#_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</a></li>
 </ul>
@@ -459,61 +459,61 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_scenario_1_start_up_interaction_with_irs_policy_store">Scenario 1: Start Up interaction with IRS Policy Store</h3>
+<h3 id="_scenario_1_startup_interaction_with_irs_policy_store">Scenario 1: Startup interaction with IRS Policy Store</h3>
 <div class="paragraph">
-<p>Trace-X instance define a constraint which is required for data consumption and provisioning.
+<p>The Trace-X instance defines a constraint which is required for data consumption and provisioning.
 Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
-If a policy with the constraint exists and is valid process ends. If the policy is not valid it will create one with the given constraint.</p>
+If a policy with the constraint exists and is valid, the process ends. If the policy is not valid, it will create one with the given constraint.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on Trace-X given constraint.</p>
+<p>This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on the constraint given by Trace-X.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="policy-startup-configuration.svg" alt="policy startup configuration" width="487" height="287">
+<img src="policy-startup-configuration.svg" alt="policy startup configuration" width="513" height="392">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scenario_2_start_up_interaction_with_edc">Scenario 2: Start Up interaction with EDC</h3>
+<h3 id="_scenario_2_startup_interaction_with_edc">Scenario 2: Startup interaction with EDC</h3>
 <div class="paragraph">
-<p>Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC Policy Request.
-The EDC Policy Request will be used for creating a policy for the required notification contracts.</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC policy request.
+The EDC policy request will be used for creating a policy for the required notification contracts.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on Trace-X given constraint and reuses it for creating an EDC Policy.</p>
+<p>This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on the constraint given by Trace-X and reuses it for creating an EDC policy.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="policy-startup-notification-contract.svg" alt="policy startup notification contract" width="494" height="388">
+<img src="policy-startup-notification-contract.svg" alt="policy startup notification contract" width="499" height="418">
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</h3>
 <div class="paragraph">
-<p>Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver edc.</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver EDC.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of catalog offers by the receiver edc, to validate if sending is valid.</p>
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="policy-notifications.svg" alt="policy notifications" width="1171" height="1102">
+<img src="policy-notifications.svg" alt="policy notifications" width="1205" height="1134">
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</h3>
 <div class="paragraph">
-<p>Trace-X instance uses the policy which includes the defined constraint and reuses it for creating edc assets .</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint and reuses it for creating EDC assets.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering edc data assets.</p>
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering EDC data assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="policy-assets.svg" alt="policy assets" width="560" height="329">
+<img src="policy-assets.svg" alt="policy assets" width="568" height="329">
 </div>
 </div>
 </div>
@@ -522,7 +522,7 @@ The EDC Policy Request will be used for creating a policy for the required notif
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-03-28 12:08:55 UTC
+Last updated 2024-03-28 12:14:15 UTC
 </div>
 </div>
 </body>
