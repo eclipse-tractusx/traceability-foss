@@ -27,13 +27,13 @@ import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.model.NegotiationResponse;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.NotificationsEDCFacade;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.ContractNegotiationException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -73,9 +73,9 @@ class NotificationsEDCFacadeTest {
         final String senderEdcUrl = "https://sender.com";
         final String agreementId = "negotiationId";
         final String dataReferenceEndpoint = "https://endpoint.com";
-        final QualityNotificationMessage notificationMessage = QualityNotificationMessage.builder()
-                .type(QualityNotificationType.INVESTIGATION)
-                .notificationStatus(QualityNotificationStatus.CREATED)
+        final NotificationMessage notificationMessage = NotificationMessage.builder()
+                .type(NotificationType.INVESTIGATION)
+                .notificationStatus(NotificationStatus.CREATED)
                 .build();
         final CatalogItem catalogItem = CatalogItem.builder()
                 .build();
@@ -102,9 +102,9 @@ class NotificationsEDCFacadeTest {
         // given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
-        final QualityNotificationMessage notificationMessage = QualityNotificationMessage.builder()
-                .type(QualityNotificationType.INVESTIGATION)
-                .notificationStatus(QualityNotificationStatus.CREATED)
+        final NotificationMessage notificationMessage = NotificationMessage.builder()
+                .type(NotificationType.INVESTIGATION)
+                .notificationStatus(NotificationStatus.CREATED)
                 .build();
         final CatalogItem catalogItem = CatalogItem.builder()
                 .build();
@@ -124,9 +124,9 @@ class NotificationsEDCFacadeTest {
         // given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
-        final QualityNotificationMessage notificationMessage = QualityNotificationMessage.builder()
-                .type(QualityNotificationType.INVESTIGATION)
-                .notificationStatus(QualityNotificationStatus.CREATED)
+        final NotificationMessage notificationMessage = NotificationMessage.builder()
+                .type(NotificationType.INVESTIGATION)
+                .notificationStatus(NotificationStatus.CREATED)
                 .build();
         final String idsPath = "/api/v1/dsp";
         when(edcProperties.getIdsPath()).thenReturn(idsPath);

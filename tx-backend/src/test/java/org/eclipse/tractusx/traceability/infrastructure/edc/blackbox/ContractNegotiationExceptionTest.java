@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.ContractNegotiationException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

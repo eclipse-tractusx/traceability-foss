@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.test.validator;
 
 import lombok.Getter;
-import qualitynotification.base.response.QualityNotificationResponse;
+import notification.response.NotificationResponse;
 
 
 import java.util.Arrays;
@@ -44,7 +44,7 @@ public class NotificationValidator {
 
     private final static String UNSUPPORTED_VALIDATION_MESSAGE = "Test validation for following fields %s is not supported currently supported fields are %s. Request developers to implement missing validation :)";
 
-    public static void assertHasFields(QualityNotificationResponse notification, Map<String, String> fieldsToCheck) {
+    public static void assertHasFields(NotificationResponse notification, Map<String, String> fieldsToCheck) {
         checkIfMapHasSupportedValidationRequest(fieldsToCheck);
 
         if (fieldsToCheck.containsKey(STATUS.getFieldName())) {

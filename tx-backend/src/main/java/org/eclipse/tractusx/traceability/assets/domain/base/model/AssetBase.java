@@ -28,7 +28,7 @@ import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 
 import java.util.List;
 
@@ -54,10 +54,10 @@ public class AssetBase {
     private SemanticDataModel semanticDataModel;
     private String classification;
     private List<DetailAspectModel> detailAspectModels;
-    private List<QualityNotification> sentQualityAlerts;
-    private List<QualityNotification> receivedQualityAlerts;
-    private List<QualityNotification> sentQualityInvestigations;
-    private List<QualityNotification> receivedQualityInvestigations;
+    private List<Notification> sentQualityAlerts;
+    private List<Notification> receivedQualityAlerts;
+    private List<Notification> sentQualityInvestigations;
+    private List<Notification> receivedQualityInvestigations;
     private ImportState importState;
     private String importNote;
     private String policyId;

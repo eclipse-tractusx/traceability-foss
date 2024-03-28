@@ -36,9 +36,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import qualitynotification.base.request.QualityNotificationSeverityRequest;
-import qualitynotification.base.request.QualityNotificationTypeRequest;
-import qualitynotification.base.request.StartQualityNotificationRequest;
+import notification.request.NotificationSeverityRequest;
+import notification.request.NotificationTypeRequest;
+import notification.request.StartNotificationRequest;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -47,8 +47,8 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.USER;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.RECEIVED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.notification.model.NotificationStatusBaseEntity.SENT;
+import static org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity.RECEIVED;
+import static org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -161,11 +161,11 @@ class DashboardControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
         notificationSupport.defaultReceivedInvestigationStored();
         String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978";
-        var notificationRequest = StartQualityNotificationRequest.builder()
+        var notificationRequest = StartNotificationRequest.builder()
                 .partIds(List.of(assetId))
                 .description("at least 15 characters long investigation description")
-                .severity(QualityNotificationSeverityRequest.MINOR)
-                .type(QualityNotificationTypeRequest.INVESTIGATION)
+                .severity(NotificationSeverityRequest.MINOR)
+                .type(NotificationTypeRequest.INVESTIGATION)
                 .isAsBuilt(true)
                 .build();
 
