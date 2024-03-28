@@ -67,7 +67,7 @@ describe('requestNotificationComponent', () => {
     deselectPartMock = jasmine.createSpy();
     clearSelectedMock = jasmine.createSpy();
     submittedMock = jasmine.createSpy();
-    notificationServiceMock = jasmine.createSpyObj('NotificationService', ['createAlert' /* add more methods as needed */]);
+    notificationServiceMock = jasmine.createSpyObj('NotificationService', ['createNotification' /* add more methods as needed */]);
   });
 
   describe('Request Investigation', () => {

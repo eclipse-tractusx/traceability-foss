@@ -17,26 +17,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AlertsModule } from '@page/alerts/alerts.module';
+import { NotificationsModule } from '@page/notifications/notifications.module';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { NotificationService } from '@shared/service/notification.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
-import { AlertsComponent } from './alerts.component';
+import { NotificationsComponent } from './notifications.component';
 
 
-describe('AlertsComponent', () => {
-  const renderAlerts = async () => {
-    return await renderComponent(AlertsComponent, {
-      imports: [ AlertsModule ],
+describe('NotificationsComponent', () => {
+  const renderNotifications = async () => {
+    return await renderComponent(NotificationsComponent, {
+      imports: [ NotificationsModule ],
       providers: [ NotificationService ],
       translations: [ 'page.alert' ],
     });
   };
 
   it('should call detail page with correct ID', async () => {
-    const { fixture } = await renderAlerts();
+    const { fixture } = await renderNotifications();
     fireEvent.click((await waitFor(() => screen.getAllByTestId('table-menu-button')))[0]);
 
     const spy = spyOn((fixture.componentInstance as any).router, 'navigate');
@@ -47,16 +47,16 @@ describe('AlertsComponent', () => {
     expect(spy).toHaveBeenCalledWith([ '/alerts/id-84' ], { queryParams: tabInformation });
   });
 
-  it('should call change pagination of received alerts', async () => {
-    await renderAlerts();
+  it('should call change pagination of received notifications', async () => {
+    await renderNotifications();
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
     expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
     expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
   });
 
-  it('should call change pagination of queued & requested alerts', async () => {
-    await renderAlerts();
+  it('should call change pagination of queued & requested notifications', async () => {
+    await renderNotifications();
 
     fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
 
@@ -66,11 +66,11 @@ describe('AlertsComponent', () => {
     expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
   });
 
-  it('should sort received alerts after column status', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
+  it('should sort received notifications after column status', async () => {
+    const { fixture } = await renderNotifications();
+    const notificationsComponent = fixture.componentInstance;
 
-    let setTableFunctionSpy = spyOn<any>(alertsComponent, 'setTableSortingList').and.callThrough();
+    let setTableFunctionSpy = spyOn<any>(notificationsComponent, 'setTableSortingList').and.callThrough();
 
     fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.received')));
 
@@ -82,16 +82,16 @@ describe('AlertsComponent', () => {
 
     expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'status', 'asc' ], 'received');
 
-    expect(alertsComponent['alertReceivedSortList']).toEqual([ [ 'status', 'asc' ] ]);
+    expect(notificationsComponent['notificationReceivedSortList']).toEqual([ [ 'status', 'asc' ] ]);
   });
 
-  it('should sort queued and requested alerts after column status', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
+  it('should sort queued and requested notifications after column status', async () => {
+    const { fixture } = await renderNotifications();
+    const notificationsComponent = fixture.componentInstance;
 
     fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
 
-    let setTableFunctionSpy = spyOn<any>(alertsComponent, 'setTableSortingList').and.callThrough();
+    let setTableFunctionSpy = spyOn<any>(notificationsComponent, 'setTableSortingList').and.callThrough();
     let statusColumnHeader = await screen.findByText('table.column.status');
     await waitFor(() => {
       fireEvent.click(statusColumnHeader);
@@ -100,15 +100,15 @@ describe('AlertsComponent', () => {
 
     expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'status', 'asc' ], 'queued-and-requested');
 
-    expect(alertsComponent['alertQueuedAndRequestedSortList']).toEqual([ [ 'status', 'asc' ] ]);
+    expect(notificationsComponent['notificationQueuedAndRequestedSortList']).toEqual([ [ 'status', 'asc' ] ]);
   });
 
 
   it('should multisort after column description and status', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
+    const { fixture } = await renderNotifications();
+    const notificationsComponent = fixture.componentInstance;
 
-    let setTableFunctionSpy = spyOn<any>(alertsComponent, 'setTableSortingList').and.callThrough();
+    let setTableFunctionSpy = spyOn<any>(notificationsComponent, 'setTableSortingList').and.callThrough();
 
     fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.received')));
 
@@ -124,7 +124,7 @@ describe('AlertsComponent', () => {
         charCode: 17,
       });
     });
-    expect(alertsComponent['ctrlKeyState']).toBeTruthy();
+    expect(notificationsComponent['ctrlKeyState']).toBeTruthy();
     await waitFor(() => {
       fireEvent.click(statusHeader);
     });
@@ -143,12 +143,12 @@ describe('AlertsComponent', () => {
 
     expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'description', 'asc' ], 'received');
     expect(setTableFunctionSpy).toHaveBeenCalledWith([ 'status', 'asc' ], 'received');
-    expect(alertsComponent['alertReceivedSortList']).toEqual([ [ 'status', 'desc' ] ]);
+    expect(notificationsComponent['notificationReceivedSortList']).toEqual([ [ 'status', 'desc' ] ]);
   });
 
   it('should reset sorting after third click', async () => {
-    const { fixture } = await renderAlerts();
-    const alertsComponent = fixture.componentInstance;
+    const { fixture } = await renderNotifications();
+    const notificationsComponent = fixture.componentInstance;
 
     let descriptionColumnHeader = await screen.findByText('table.column.description');
     await waitFor(() => {
@@ -182,7 +182,7 @@ describe('AlertsComponent', () => {
       fireEvent.click(statusColumnHeader);
     });
 
-    expect(alertsComponent['alertReceivedSortList']).toEqual([]);
+    expect(notificationsComponent['notificationReceivedSortList']).toEqual([]);
   });
 
 });

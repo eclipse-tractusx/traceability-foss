@@ -17,8 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 import { Component, EventEmitter, Input, Optional, Output, ViewChild } from '@angular/core';
-import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
@@ -36,7 +36,7 @@ import { DeclineNotificationModalComponent } from '@shared/modules/notification/
 export class NotificationCommonModalComponent {
   @Input() selectedNotification: Notification;
   @Input() translationContext: TranslationContext;
-  @Input() helperService: AlertHelperService;
+  @Input() helperService: NotificationHelperService;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
 
@@ -50,7 +50,7 @@ export class NotificationCommonModalComponent {
 
 
   public constructor(
-    @Optional() private readonly alertsFacade: AlertsFacade,
+    @Optional() private readonly alertsFacade: NotificationsFacade,
   ) {
   }
 

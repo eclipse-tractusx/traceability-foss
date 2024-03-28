@@ -25,26 +25,26 @@ import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class AlertDetailState {
-  private readonly _alertPartsInformation$ = new State<View<Part[]>>({ loader: true });
+export class NotificationDetailState {
+  private readonly _notificationPartsInformation$ = new State<View<Part[]>>({ loader: true });
   private readonly _supplierPartsInformation$ = new State<View<Part[]>>({ loader: true });
 
   private readonly _selected$ = new State<View<Notification>>({ loader: true });
 
-  // Detailed information for parts assigned to an alert
-  public get alertPartsInformation$(): Observable<View<Part[]>> {
-    return this._alertPartsInformation$.observable;
+  // Detailed information for parts assigned to a notification
+  public get notificationPartsInformation$(): Observable<View<Part[]>> {
+    return this._notificationPartsInformation$.observable;
   }
 
-  public get alertPartsInformation(): View<Part[]> {
-    return this._alertPartsInformation$.snapshot;
+  public get notificationPartsInformation(): View<Part[]> {
+    return this._notificationPartsInformation$.snapshot;
   }
 
-  public set alertPartsInformation(view: View<Part[]>) {
-    this._alertPartsInformation$.update(view);
+  public set notificationPartsInformation(view: View<Part[]>) {
+    this._notificationPartsInformation$.update(view);
   }
 
-  // Detailed information for child parts assigned to an alert
+  // Detailed information for child parts assigned to a notification
   public get supplierPartsInformation$(): Observable<View<Part[]>> {
     return this._supplierPartsInformation$.observable;
   }

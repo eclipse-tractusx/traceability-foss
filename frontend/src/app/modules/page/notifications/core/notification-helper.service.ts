@@ -18,38 +18,38 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AlertHelperService {
-  constructor(private readonly alertsFacade: AlertsFacade) {
+export class NotificationHelperService {
+  constructor(private readonly notificationsFacade: NotificationsFacade) {
   }
 
   public approve(id: string): Observable<void> {
-    return this.alertsFacade.approveAlert(id);
+    return this.notificationsFacade.approveNotification(id);
   }
 
   public cancel(id: string): Observable<void> {
-    return this.alertsFacade.cancelAlert(id);
+    return this.notificationsFacade.cancelNotification(id);
   }
 
   public close(id: string, reason: string): Observable<void> {
-    return this.alertsFacade.closeAlert(id, reason);
+    return this.notificationsFacade.closeNotification(id, reason);
   }
 
   public acknowledge(id: string): Observable<void> {
-    return this.alertsFacade.acknowledgeAlert(id);
+    return this.notificationsFacade.acknowledgeNotification(id);
   }
 
   public accept(id: string, reason: string): Observable<void> {
-    return this.alertsFacade.acceptAlert(id, reason);
+    return this.notificationsFacade.acceptNotification(id, reason);
   }
 
   public decline(id: string, reason: string): Observable<void> {
-    return this.alertsFacade.declineAlert(id, reason);
+    return this.notificationsFacade.declineNotification(id, reason);
   }
 
 }
