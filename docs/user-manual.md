@@ -100,26 +100,26 @@ Navigates to the Catena-X portal.
 Only applicable for the admin user role.
 Possibility to check the network status based on logfiles and will provide access to configuration possibilities for the application.
 
-##### Contracts View and export
+##### Contracts view and export
 
-In the Contracts View an admin user can view contract agreements and sort them by the contract ID.
+In the Contracts view an admin user can view contract agreements and sort them by the contract ID.
 
-Also, it’s possible to select contracts and export/download them as a .csv file
+Also, it’s possible to select contracts and export/download them as a .csv file.
 
 ![admin_contract_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/admin_contract_view.png)
 
-By clicking on the burger menu of a data row you can get to the detailed view of a contract
+By clicking on the burger menu of a data row you can get to the detailed view of a contract.
 
-##### Contract Detailed View
+##### Contract detailed view
 
-The Contract Detailed View is divided into two sections.
+The contract detailed view is divided into two sections.
 
 On the left, you’ll find a
 general overview of the contract data.
 
 On the right, policy details are
-displayed in JSON format. Use the View Selector to switch between
-JSON View and JSON Tree View. Expand the policy details card on the right
+displayed in JSON format. Use the view selector to switch between
+JSON view and JSON tree view. Expand the policy details card on the right
 upper side for full-width display.
 
 ![admin_contract_detailed_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/admin_contract_detailed_view.png)
@@ -277,7 +277,7 @@ Information about the identifiers at the customer for the respective part/batch.
 ##### Traction battery code data
 
 If the asset has the "traction battery code" aspect model, an additional section underneath will be displayed.
-In this section there are detailed information about the traction battery and a table with its subcomponents
+In this section there is detailed information about the traction battery and a table with its subcomponents
 
 ##### Creation of a quality incident from detailed view
 

@@ -30,8 +30,8 @@ in which context the service runs and which stakeholders are involved.
 
 ### Essential features
 
-* List and view manufactured parts based on BoM AsBuild
-* List and view planned parts based on BoM AsPlanned
+* List, view and publish manufactured parts based on BoM AsBuild
+* List, view and publish planned parts based on BoM AsPlanned
 * Filter and search functionality on part views
 * Show detailed information on manufactured parts from AAS description assets and Aspects
 * Uses Submodels SerialPart, AssemblyPartRelationship and Batch
@@ -210,7 +210,7 @@ It roughly can be broken down into the following parts:
 * Asset controllers to get the asset information
 * Dashboard controller to get dashboard related summed up information
 * Registry controller to fetch assets from the Digital Twin Registry
-* Notification controllers to get notification information and create EDC notification offers
+* Notification controller to get notification information and create EDC notification offers
 * Submodel controller for providing asset data functionality
 * Import controller for importing Trace-X data for data provisioning
 * Contract controller to get information about contract agreements
@@ -528,7 +528,7 @@ JWT token should also contain two claims:
 The list of values will be converted to roles by Trace-X.
 Currently, Trace-X API handles three roles: ***'User'*** and ***'Supervisor'*** and ***'Admin'.***
 
-You can have a look at the rights and roles matrix in the system overview of the administration guide.
+You can have a look at the [rights and role matrix](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x) in the system overview of the administration guide.
 
 #### Trace-X as EDC client
 
