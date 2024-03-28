@@ -19,22 +19,34 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
-import { Severity } from '@shared/model/severity.model';
-import { TranslationContext } from '@shared/model/translation-context.model';
-import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
-import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
-import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
-import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
-import { NotificationModule } from '@shared/modules/notification/notification.module';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { renderComponent } from '@tests/test-render.utils';
-import { of } from 'rxjs';
+import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
+import {CalendarDateModel} from '@core/model/calendar-date.model';
+import {Notification, NotificationStatus, NotificationType} from '@shared/model/notification.model';
+import {Severity} from '@shared/model/severity.model';
+import {TranslationContext} from '@shared/model/translation-context.model';
+import {
+  AcceptNotificationModalComponent
+} from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
+import {
+  AcknowledgeNotificationModalComponent
+} from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
+import {
+  ApproveNotificationModalComponent
+} from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import {
+  CancelNotificationModalComponent
+} from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
+import {
+  CloseNotificationModalComponent
+} from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import {
+  DeclineNotificationModalComponent
+} from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
+import {NotificationModule} from '@shared/modules/notification/notification.module';
+import {SharedModule} from '@shared/shared.module';
+import {TemplateModule} from '@shared/template.module';
+import {renderComponent} from '@tests/test-render.utils';
+import {of} from 'rxjs';
 
 @Component({
   selector: '',
@@ -151,6 +163,7 @@ export const notificationTemplate: Notification = {
   assetIds: [ 'MOCK_part_1' ],
   status: null,
   severity: Severity.MINOR,
+  type: NotificationType.ALERT,
   createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
 };
 
