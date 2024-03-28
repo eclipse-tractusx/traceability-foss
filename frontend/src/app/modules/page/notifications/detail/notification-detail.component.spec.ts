@@ -18,19 +18,19 @@
  ********************************************************************************/
 
 import { ActivatedRoute } from '@angular/router';
-import { AlertsModule } from '@page/alerts/alerts.module';
-import { AlertDetailComponent } from '@page/alerts/detail/alert-detail.component';
+import { NotificationsModule } from '@page/notifications/notifications.module';
+import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
 import { NotificationService } from '@shared/service/notification.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
-describe('AlertDetailComponent', () => {
+describe('NotificationDetailComponent', () => {
 
-  const renderAlertDetail = async (id?: string) => {
-    return await renderComponent(AlertDetailComponent, {
-      imports: [ AlertsModule ],
+  const renderNotificationDetail = async (id?: string) => {
+    return await renderComponent(NotificationDetailComponent, {
+      imports: [ NotificationsModule ],
       providers: [
         NotificationService,
         {
@@ -48,24 +48,24 @@ describe('AlertDetailComponent', () => {
     });
   };
 
-  it('should render specific text and additional table for received alert', async () => {
-    await renderAlertDetail();
+  it('should render specific text and additional table for received notification', async () => {
+    await renderNotificationDetail();
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.affectedParts')).toBeInTheDocument());
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
   });
 
-  it('should render specific text for queued or requested alerts', async () => {
-    await renderAlertDetail('id-1');
+  it('should render specific text for queued or requested notifications', async () => {
+    await renderNotificationDetail('id-1');
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
   });
 
   it('should render specific text for back button', async () => {
-    await renderAlertDetail('id-1');
+    await renderNotificationDetail('id-1');
     await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
   });
 
   it('should render copy data to clipboard', async () => {
-    await renderAlertDetail('id-1');
+    await renderNotificationDetail('id-1');
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
 
     const spy = spyOn(navigator.clipboard, 'writeText').and.returnValue(new Promise(null));

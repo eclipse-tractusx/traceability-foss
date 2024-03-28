@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { TestBed } from '@angular/core/testing';
-import { ALERT_BASE_ROUTE } from '@core/known-route';
+import { NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { DeeplinkModel } from '@shared/model/deeplink.model';
 import { NotificationColumn } from '@shared/model/notification.model';
 import { DeeplinkService } from '@shared/service/deeplink.service';
@@ -45,7 +45,7 @@ describe('DeeplinkService', () => {
     const received = true;
     const tabIndex = 1;
     const data = [ '123' ];
-    const route = ALERT_BASE_ROUTE;
+    const route = NOTIFICATION_BASE_ROUTE;
     const expected: DeeplinkModel = { received, tabIndex, data, route };
 
     const column = NotificationColumn.RECEIVED_ALERT;
@@ -62,7 +62,7 @@ describe('DeeplinkService', () => {
     const received = false;
     const tabIndex = 0;
     const data = [ '123' ];
-    const route = ALERT_BASE_ROUTE;
+    const route = NOTIFICATION_BASE_ROUTE;
     const expected: DeeplinkModel = { received, tabIndex, data, route };
 
     const column = NotificationColumn.SENT_ALERT;

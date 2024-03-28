@@ -19,32 +19,32 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AlertDetailComponent } from '@page/alerts/detail/alert-detail.component';
-import { AlertsComponent } from '@page/alerts/presentation/alerts.component';
+import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
+import { NotificationsComponent } from '@page/notifications/presentation/notifications.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
-const ALERTS_ROUTING: Routes = [
+const NOTIFICATIONS_ROUTING: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: AlertsComponent,
+    component: NotificationsComponent,
     data: { i18nextNamespaces: [ 'page.alert' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
   {
     path: ':alertId',
     pathMatch: 'full',
-    component: AlertDetailComponent,
+    component: NotificationDetailComponent,
     data: { i18nextNamespaces: [ 'page.alert' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(ALERTS_ROUTING) ],
+  imports: [ RouterModule.forChild(NOTIFICATIONS_ROUTING) ],
   exports: [ RouterModule ],
 })
-export class AlertsRoutingModule {
+export class NotificationsRoutingModule {
 }
 

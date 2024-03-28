@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { AlertDetailState } from '@page/alerts/core/alert-detail.state';
+import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
 import { Part } from '@page/parts/model/parts.model';
 import { Notification } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -29,43 +29,43 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { SortDirection } from '../../../../mocks/services/pagination.helper';
 
 @Injectable()
-export class AlertDetailFacade {
+export class NotificationDetailFacade {
   private notificationPartsInformationDescription: Subscription;
   private supplierPartsSubscription: Subscription;
 
   constructor(
     private readonly partsService: PartsService,
-    private readonly alertDetailState: AlertDetailState,
+    private readonly notificationDetailState: NotificationDetailState,
     private readonly formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe,
   ) {
   }
 
   public get notificationPartsInformation$(): Observable<View<Part[]>> {
-    return this.alertDetailState.alertPartsInformation$;
+    return this.notificationDetailState.notificationPartsInformation$;
   }
 
   public get supplierPartsInformation$(): Observable<View<Part[]>> {
-    return this.alertDetailState.supplierPartsInformation$;
+    return this.notificationDetailState.supplierPartsInformation$;
   }
 
   public get selected$(): Observable<View<Notification>> {
-    return this.alertDetailState.selected$;
+    return this.notificationDetailState.selected$;
   }
 
-  public set selected(selectedAlert: View<Notification>) {
-    this.alertDetailState.selected = selectedAlert;
+  public set selected(selectedNotification: View<Notification>) {
+    this.notificationDetailState.selected = selectedNotification;
   }
 
   public get selected(): View<Notification> {
-    return this.alertDetailState.selected;
+    return this.notificationDetailState.selected;
   }
 
-  public setAlertPartsInformation(notification: Notification): void {
+  public setNotificationPartsInformation(notification: Notification): void {
     this.notificationPartsInformationDescription?.unsubscribe();
-    this.alertDetailState.alertPartsInformation = { loader: true };
+    this.notificationDetailState.notificationPartsInformation = { loader: true };
 
     if (!notification.assetIds.length) {
-      this.alertDetailState.alertPartsInformation = { data: [] };
+      this.notificationDetailState.notificationPartsInformation = { data: [] };
       return;
     }
 
@@ -74,18 +74,18 @@ export class AlertDetailFacade {
       .subscribe({
         next: data => {
           this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
-          this.alertDetailState.alertPartsInformation = { data };
+          this.notificationDetailState.notificationPartsInformation = { data };
         },
-        error: error => (this.alertDetailState.alertPartsInformation = { error }),
+        error: error => (this.notificationDetailState.notificationPartsInformation = { error }),
       });
 
   }
 
   public setAndSupplierPartsInformation(): void {
     this.supplierPartsSubscription?.unsubscribe();
-    this.alertDetailState.supplierPartsInformation = { loader: true };
+    this.notificationDetailState.supplierPartsInformation = { loader: true };
 
-    this.supplierPartsSubscription = this.alertDetailState.alertPartsInformation$
+    this.supplierPartsSubscription = this.notificationDetailState.notificationPartsInformation$
       .pipe(
         filter(view => !!view.data),
         map(({ data }) => this.getIdsFromPartList(data)),
@@ -94,26 +94,26 @@ export class AlertDetailFacade {
       .subscribe({
         next: data => {
           this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
-          this.alertDetailState.supplierPartsInformation = { data };
+          this.notificationDetailState.supplierPartsInformation = { data };
         },
-        error: error => (this.alertDetailState.supplierPartsInformation = { error }),
+        error: error => (this.notificationDetailState.supplierPartsInformation = { error }),
       });
   }
 
   public sortNotificationParts(key: string, direction: SortDirection): void {
-    const { data } = this.alertDetailState.alertPartsInformation;
+    const { data } = this.notificationDetailState.notificationPartsInformation;
     if (!data) return;
 
     const sortedData = this.partsService.sortParts(data, key, direction);
-    this.alertDetailState.alertPartsInformation = { data: [ ...sortedData ] };
+    this.notificationDetailState.notificationPartsInformation = { data: [ ...sortedData ] };
   }
 
   public sortSupplierParts(key: string, direction: SortDirection): void {
-    const { data } = this.alertDetailState.supplierPartsInformation;
+    const { data } = this.notificationDetailState.supplierPartsInformation;
     if (!data) return;
 
     const sortedData = this.partsService.sortParts(data, key, direction);
-    this.alertDetailState.supplierPartsInformation = { data: [ ...sortedData ] };
+    this.notificationDetailState.supplierPartsInformation = { data: [ ...sortedData ] };
   }
 
   public unsubscribeSubscriptions(): void {
