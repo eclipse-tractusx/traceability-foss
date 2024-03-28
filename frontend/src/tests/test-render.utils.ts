@@ -20,10 +20,9 @@
  ********************************************************************************/
 
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, LOCALE_ID, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
+import { APP_INITIALIZER, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
-import { localeIdFactory } from '@core/i18n/global-i18n.providers';
 import { Role } from '@core/user/role.model';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -31,7 +30,6 @@ import { render, RenderComponentOptions, RenderResult, RenderTemplateOptions, wa
 import { Screen } from '@testing-library/dom';
 import { I18NEXT_SERVICE, I18NextModule, ITranslationService } from 'angular-i18next';
 import { KeycloakService } from 'keycloak-angular';
-import { node } from 'webpack';
 
 type RenderFnOptionsExtension = {
   translations?: string[];

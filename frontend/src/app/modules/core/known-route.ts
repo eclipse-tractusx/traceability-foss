@@ -27,7 +27,7 @@ export const OTHER_PARTS_BASE_ROUTE = 'otherParts';
 export const DASHBOARD_BASE_ROUTE = 'dashboard';
 export const ADMIN_BASE_ROUTE = 'admin';
 export const ABOUT_BASE_ROUTE = 'about';
-export const NOTIFICATION_BASE_ROUTE = 'alerts';
+export const NOTIFICATION_BASE_ROUTE = 'inbox';
 export const NO_PERMISSION_BASE_ROUTE = 'no-permissions';
 
 export const NavigableUrls = [

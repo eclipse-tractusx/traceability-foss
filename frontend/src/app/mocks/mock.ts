@@ -24,7 +24,6 @@ import {
   adminHandler,
   dashboardHandler,
   errorHandler,
-  investigationsHandlers,
   otherPartsAsBuiltHandlers,
   otherPartsAsPlannedHandlers,
   partsAsBuiltHandlers,
@@ -39,10 +38,9 @@ const handlers = [
   ...otherPartsAsPlannedHandlers,
   ...partsAsBuiltHandlers,
   ...partsAsPlannedHandlers,
-  ...investigationsHandlers,
   ...alertsHandlers,
   ...adminHandler,
   ...errorHandler,
-  ...policyHandler
+  ...policyHandler,
 ];
 export const worker = setupWorker(...handlers);
