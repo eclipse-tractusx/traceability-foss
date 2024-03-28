@@ -86,18 +86,15 @@ describe('NotificationsInboxComponent', () => {
     const isInvestigation = true;
     return renderComponent(
       `<app-notification
-          [notificationType]='notificationType'
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
           [translationContext]="'commonAlert'"
           [menuActionsConfig]="'menuActionsConfig'"
-          [isInvestigation]='isInvestigation'
            [receivedOptionalColumns]="['severity', 'createdBy', 'createdByName', 'targetDate']"
   [receivedSortableColumns]="{description: true, title: true, status: true, createdDate: true, severity: true, createdBy: true, createdByName: true, targetDate: true, menu: false}"
   [queuedAndRequestedOptionalColumns]="['severity', 'sendTo', 'sendToName', 'targetDate']"
   [queuedAndRequestedSortableColumns]="{description: true, title: true, status: true, createdDate: true, severity: true, sendTo: true, sendToName: true, targetDate: true, menu: false}"
-          (onReceivedPagination)='clickHandler($event)'
-          (onQueuedAndRequestedPagination)='clickHandler($event)'
+
         ></app-notification>`,
       {
         imports: [ SharedModule, NotificationModule, TemplateModule ],

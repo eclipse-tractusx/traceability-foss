@@ -8,7 +8,7 @@
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "alerts": "Inbox",
+    "inbox": "Inbox",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
