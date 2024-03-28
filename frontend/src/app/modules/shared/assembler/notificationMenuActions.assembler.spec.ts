@@ -20,9 +20,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
-import { AlertsState } from '@page/alerts/core/alerts.state';
+import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
+import { NotificationsState } from '@page/notifications/core/notifications.state';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -32,7 +32,7 @@ import { CloseNotificationModalComponent } from '@shared/modules/notification/mo
 import { KeycloakService } from 'keycloak-angular';
 
 describe('NotificationMenuActionsAssembler', () => {
-  let helperService: AlertHelperService;
+  let helperService: NotificationHelperService;
   let notificationCommonModalComponent: NotificationCommonModalComponent;
   let notificationActionHelperService: NotificationActionHelperService;
 
@@ -46,9 +46,9 @@ describe('NotificationMenuActionsAssembler', () => {
           provide: KeycloakService,
           useClass: MockedKeycloakService,
         },
-        AlertHelperService,
-        AlertsFacade,
-        AlertsState,
+        NotificationHelperService,
+        NotificationsFacade,
+        NotificationsState,
         NotificationActionHelperService,
         NotificationCommonModalComponent,
         NotificationMenuActionsAssembler,
@@ -56,7 +56,7 @@ describe('NotificationMenuActionsAssembler', () => {
       ],
     });
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);
-    helperService = TestBed.inject(AlertHelperService);
+    helperService = TestBed.inject(NotificationHelperService);
     notificationActionHelperService = TestBed.inject(NotificationActionHelperService);
   });
 

@@ -100,7 +100,7 @@ export class NotificationService {
             .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
     }
 
-    public createAlert(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean, type: string): Observable<string> {
+    public createNotification(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean, type: string): Observable<string> {
         const body = {partIds, description, severity, receiverBpn: bpn, isAsBuilt, type};
 
         return this.apiService.post<NotificationCreateResponse>(`${this.url}/notifications`, body).pipe(map(({id}) => id));

@@ -19,10 +19,10 @@
 
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
-import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
-import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
-import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { NOTIFICATION_BASE_ROUTE, getRoute } from '@core/known-route';
+import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -38,25 +38,25 @@ import { filter, first, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-alert-detail',
-  templateUrl: './alert-detail.component.html',
-  styleUrls: [ './alert-detail.component.scss' ],
+  templateUrl: './notification-detail.component.html',
+  styleUrls: [ './notification-detail.component.scss' ],
 })
-export class AlertDetailComponent implements AfterViewInit, OnDestroy {
+export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
-  public readonly alertPartsInformation$: Observable<View<Part[]>>;
+  public readonly notificationPartsInformation$: Observable<View<Part[]>>;
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
   public readonly selected$: Observable<View<Notification>>;
 
-  public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
+  public readonly isNotificationOpen$ = new BehaviorSubject<boolean>(false);
   public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
 
-  public readonly notificationPartsTableId = this.staticIdService.generateId('AlertDetail');
-  public readonly supplierPartsTableId = this.staticIdService.generateId('AlertDetail');
+  public readonly notificationPartsTableId = this.staticIdService.generateId('NotificationDetail');
+  public readonly supplierPartsTableId = this.staticIdService.generateId('NotificationDetail');
 
   public notificationPartsTableConfig: TableConfig;
   public supplierPartsTableConfig: TableConfig;
@@ -65,25 +65,25 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   private originTabIndex: number;
 
   private subscription: Subscription;
-  private selectedAlertTmpStore: Notification;
-  public selectedAlert: Notification;
+  private selectedNotificationTmpStore: Notification;
+  public selectedNotification: Notification;
 
   private paramSubscription: Subscription;
 
   constructor(
-    public readonly helperService: AlertHelperService,
+    public readonly helperService: NotificationHelperService,
     public readonly actionHelperService: NotificationActionHelperService,
-    public readonly alertDetailFacade: AlertDetailFacade,
+    public readonly notificationDetailFacade: NotificationDetailFacade,
     private readonly staticIdService: StaticIdService,
-    private readonly alertsFacade: AlertsFacade,
+    private readonly notificationsFacade: NotificationsFacade,
     private router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
   ) {
-    this.alertPartsInformation$ = this.alertDetailFacade.notificationPartsInformation$;
-    this.supplierPartsDetailInformation$ = this.alertDetailFacade.supplierPartsInformation$;
+    this.notificationPartsInformation$ = this.notificationDetailFacade.notificationPartsInformation$;
+    this.supplierPartsDetailInformation$ = this.notificationDetailFacade.supplierPartsInformation$;
 
-    this.selected$ = this.alertDetailFacade.selected$;
+    this.selected$ = this.notificationDetailFacade.selected$;
 
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
@@ -93,7 +93,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if (!this.alertDetailFacade.selected?.data) {
+    if (!this.notificationDetailFacade.selected?.data) {
       this.selectedNotificationBasedOnUrl();
     }
 
@@ -102,7 +102,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
         filter(({ data }) => !!data),
         tap(({ data }) => {
           this.setTableConfigs(data);
-          this.selectedAlert = data;
+          this.selectedNotification = data;
         }),
       )
       .subscribe();
@@ -110,22 +110,22 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
-    this.alertDetailFacade.unsubscribeSubscriptions();
+    this.notificationDetailFacade.unsubscribeSubscriptions();
     this.paramSubscription?.unsubscribe();
   }
 
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
     const [ name, direction ] = sorting || [ '', '' ];
-    this.alertDetailFacade.sortNotificationParts(name, direction);
+    this.notificationDetailFacade.sortNotificationParts(name, direction);
   }
 
   public onSupplierPartsSort({ sorting }: TableEventConfig): void {
     const [ name, direction ] = sorting || [ '', '' ];
-    this.alertDetailFacade.sortSupplierParts(name, direction);
+    this.notificationDetailFacade.sortSupplierParts(name, direction);
   }
 
   public onMultiSelect(event: unknown[]): void {
-    this.selectedAlertTmpStore = Object.assign(this.alertDetailFacade.selected);
+    this.selectedNotificationTmpStore = Object.assign(this.notificationDetailFacade.selected);
     this.selectedItems$.next(event as Part[]);
   }
 
@@ -149,8 +149,8 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
     navigator.clipboard.writeText(semanticModelId).then(_ => this.toastService.info(text));
   }
 
-  public navigateBackToAlerts(): void {
-    const { link } = getRoute(ALERT_BASE_ROUTE);
+  public navigateBackToNotifications(): void {
+    const { link } = getRoute(NOTIFICATION_BASE_ROUTE);
     this.router.navigate([ `/${ link }` ], {
       queryParams: {
         tabIndex: this.originTabIndex,
@@ -160,7 +160,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public handleConfirmActionCompletedEvent(): void {
-    this.alertDetailFacade.selected = { loader: true };
+    this.notificationDetailFacade.selected = { loader: true };
     this.subscription?.unsubscribe();
     this.ngAfterViewInit();
   }
@@ -181,13 +181,13 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
       },
     };
 
-    this.alertDetailFacade.setAlertPartsInformation(data);
+    this.notificationDetailFacade.setNotificationPartsInformation(data);
     this.notificationPartsTableConfig = { ...tableConfig };
 
     if (!this.isReceived) {
       return;
     }
-    this.alertDetailFacade.setAndSupplierPartsInformation();
+    this.notificationDetailFacade.setAndSupplierPartsInformation();
     this.supplierPartsTableConfig = {
       ...tableConfig,
       displayedColumns: [ 'select', ...displayedColumns ],
@@ -196,12 +196,12 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   private selectedNotificationBasedOnUrl(): void {
-    const alertId = this.route.snapshot.paramMap.get('alertId');
-    this.alertsFacade
-      .getAlert(alertId)
+    const notificationId = this.route.snapshot.paramMap.get('alertId');
+    this.notificationsFacade
+      .getNotification(notificationId)
       .pipe(
         first(),
-        tap(notification => (this.alertDetailFacade.selected = { data: notification })),
+        tap(notification => (this.notificationDetailFacade.selected = { data: notification })),
       )
       .subscribe();
   }

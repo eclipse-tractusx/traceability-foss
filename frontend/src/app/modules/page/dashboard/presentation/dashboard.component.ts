@@ -21,7 +21,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
+import { NOTIFICATION_BASE_ROUTE, getRoute } from '@core/known-route';
 import { DashboardStats } from '@page/dashboard/model/dashboard.model';
 import { MetricData } from '@page/dashboard/presentation/dashboard.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const {
       link: alertLink,
       queryParams: alertQueryParams,
-    } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
+    } = getRoute(NOTIFICATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
     this.alertLink = alertLink;
     this.alertParams = alertQueryParams;
@@ -130,7 +130,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onAlertSelected(notification: Notification): void {
-    const { link } = getRoute(ALERT_BASE_ROUTE);
+    const { link } = getRoute(NOTIFICATION_BASE_ROUTE);
     this.router.navigate([ `/${ link }/${ notification.id }` ]).then();
   }
 
