@@ -23,7 +23,7 @@ import {
   FilterOperator,
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
-import { NotificationDeeplinkFilter, NotificationFilter } from '@shared/model/notification.model';
+import { NotificationDeeplinkFilter } from '@shared/model/notification.model';
 
 
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate' ];
@@ -146,7 +146,7 @@ export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
   let filterList: string[] = [];
   if (filter?.notificationIds) {
 
-    if(Array.isArray(filter.notificationIds)) {
+    if (Array.isArray(filter.notificationIds)) {
       filter.notificationIds.forEach(notificationId => {
         filterList.push('id,EQUAL,' + notificationId + ',OR');
       });
@@ -182,7 +182,7 @@ export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean
   return filter;
 }
 
-export function provideFilterListForNotifications( filter?: NotificationDeeplinkFilter, fullFilter?: any): string[] {
+export function provideFilterListForNotifications(filter?: NotificationDeeplinkFilter, fullFilter?: any): string[] {
   let filterList: string[] = [];
 
   if (filter && !fullFilter) {
@@ -193,8 +193,10 @@ export function provideFilterListForNotifications( filter?: NotificationDeeplink
     let params: HttpParams;
     params = enrichFilterAndGetUpdatedParams(fullFilter, new HttpParams(), 'AND');
     let filterParams = params.getAll('filter');
-    if(filterParams){
-      filterParams.forEach(filter => {filterList.push(filter)});
+    if (filterParams) {
+      filterParams.forEach(filter => {
+        filterList.push(filter);
+      });
     }
 
   }
@@ -205,5 +207,5 @@ export function provideFilterListForNotifications( filter?: NotificationDeeplink
 export function containsAtleastOneFilterEntry(filter: AssetAsBuiltFilter | AssetAsPlannedFilter): boolean {
   return Object.keys(filter)
     .filter(key => filter[key].length)
-    .length > 0
+    .length > 0;
 }

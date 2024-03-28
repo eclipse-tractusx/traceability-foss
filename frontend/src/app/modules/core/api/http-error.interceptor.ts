@@ -27,7 +27,7 @@ import { ToastService } from 'src/app/modules/shared/components/toasts/toast.ser
 export class HttpErrorInterceptor implements HttpInterceptor {
 
   // List of request.url that should not automatically display a toast but are handled custom (Can be extended later by METHOD)
-  private avoidList = [ '/api/notifications/', '/api/notifications/*/approve' ];
+  private avoidList = [ '/api/notifications', '/api/notifications/*/approve' ];
 
   constructor(private readonly toastService: ToastService) {
   }
