@@ -64,7 +64,7 @@ describe('NotificationDetailComponent', () => {
     await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
   });
 
-  fit('should render copy data to clipboard', async () => {
+  it('should render copy data to clipboard', async () => {
     await renderNotificationDetail('id-1');
     await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
 
