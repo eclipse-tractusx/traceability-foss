@@ -32,7 +32,7 @@ public class RestAssuredConfig {
     private final ServerProperties serverProperties;
 
     @EventListener(WebServerInitializedEvent.class)
-    void onServletContainerInitialized(WebServerInitializedEvent event) {
+    void onServletContainerInitialized() {
         RestAssured.port = serverProperties.getPort();
     }
 }

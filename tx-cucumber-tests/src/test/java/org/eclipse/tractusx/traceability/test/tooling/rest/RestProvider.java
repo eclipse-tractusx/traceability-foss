@@ -174,7 +174,7 @@ public class RestProvider {
                             ))
                             .then();
                     try {
-                        ValidatableResponse validatableResponse = result.statusCode(HttpStatus.SC_NO_CONTENT);
+                        result.statusCode(HttpStatus.SC_NO_CONTENT);
                         return true;
                     } catch (Exception e) {
                         return false;
