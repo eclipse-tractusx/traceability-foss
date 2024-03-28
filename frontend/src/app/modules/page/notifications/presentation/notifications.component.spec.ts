@@ -44,7 +44,7 @@ describe('NotificationsComponent', () => {
 
     fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
     const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined };
-    expect(spy).toHaveBeenCalledWith([ '/notifications/id-84' ], { queryParams: tabInformation });
+    expect(spy).toHaveBeenCalledWith([ '/inbox/id-84' ], { queryParams: tabInformation });
   });
 
   it('should call change pagination of received notifications', async () => {

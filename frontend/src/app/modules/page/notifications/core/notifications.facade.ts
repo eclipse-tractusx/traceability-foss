@@ -24,7 +24,6 @@ import { TableHeaderSort } from '@shared/components/table/table.model';
 import {
   Notification,
   NotificationDeeplinkFilter,
-  NotificationFilter,
   Notifications,
   NotificationStatus,
 } from '@shared/model/notification.model';
@@ -33,7 +32,9 @@ import { NotificationService } from '@shared/service/notification.service';
 import { Observable, Subscription } from 'rxjs';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NotificationsFacade {
   private notificationReceivedSubscription: Subscription;
   private notificationQueuedAndRequestedSubscription: Subscription;
@@ -87,6 +88,7 @@ export class NotificationsFacade {
   }
 
   public approveNotification(notificationId: string): Observable<void> {
+    console.log(this.notificationService, "service");
     return this.notificationService.approveNotification(notificationId, false);
   }
 
