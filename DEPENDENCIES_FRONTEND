@@ -1634,7 +1634,7 @@ npm/npmjs/@types/node/18.16.0, MIT, approved, #9385
 npm/npmjs/@types/node/20.2.3, MIT, approved, clearlydefined
 npm/npmjs/@types/normalize-package-data/2.4.1, MIT, approved, #10792
 npm/npmjs/@types/parse-json/4.0.0, MIT, approved, clearlydefined
-npm/npmjs/@types/qs/6.9.7, MIT, approved, #13990
+npm/npmjs/@types/qs/6.9.7, MIT, approved, #13991
 npm/npmjs/@types/range-parser/1.2.4, MIT, approved, #10795
 npm/npmjs/@types/retry/0.12.0, MIT, approved, clearlydefined
 npm/npmjs/@types/semver/7.3.13, MIT, approved, #4668
