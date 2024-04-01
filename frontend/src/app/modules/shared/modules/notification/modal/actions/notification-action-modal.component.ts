@@ -37,7 +37,6 @@ import { Observable } from 'rxjs';
 export class NotificationActionModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() callback: (status: NotificationStatus, id: string, reason?: string) => Observable<void>;
-  @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public showTextArea = false;
@@ -111,17 +110,17 @@ export class NotificationActionModalComponent {
     }
 
   }
-// TODO
-  // 1. Title of notification in modal not correct (alert / investigation)
-  // 2. Success has wrong type
+
   public show(notification: Notification, desiredStatus: NotificationStatus): void {
-    const modalData = this.getModalDataBasedOnNotificationStatus(desiredStatus);
     this.notification = notification;
+    const modalData = this.getModalDataBasedOnNotificationStatus(desiredStatus);
 
     if (this.hasTextArea(desiredStatus)){
       this.showTextArea = true;
       this.textAreaControl.setValidators([ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]);
       this.formGroup.reset();
+    } else {
+      this.showTextArea = false;
     }
     const onConfirm = (isConfirmed: boolean) => {
       if (!isConfirmed) return;
@@ -158,7 +157,8 @@ export class NotificationActionModalComponent {
   }
 
 
-  private hasTextArea(desiredStatus: NotificationStatus | NotificationStatus.ACCEPTED | NotificationStatus.ACKNOWLEDGED | NotificationStatus.APPROVED | NotificationStatus.CANCELED | NotificationStatus.CREATED | NotificationStatus.DECLINED | NotificationStatus.RECEIVED | NotificationStatus.SENT) {
+  private hasTextArea(desiredStatus: NotificationStatus) {
+    console.log(desiredStatus, "desired from textarea");
     return desiredStatus === NotificationStatus.CLOSED || desiredStatus === NotificationStatus.ACCEPTED || desiredStatus === NotificationStatus.DECLINED;
   }
 }

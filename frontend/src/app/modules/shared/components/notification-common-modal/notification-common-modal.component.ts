@@ -32,7 +32,7 @@ export class NotificationCommonModalComponent {
   @Input() helperService: NotificationHelperService;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
-  @ViewChild(NotificationActionModalComponent) acknowledgeAndApproveModal: NotificationActionModalComponent;
+  @ViewChild(NotificationActionModalComponent) notificationActionModalComponent: NotificationActionModalComponent;
 
 // TODO do not delete the facade here. This will lead to a nullpointer exception within the modal call.
   public constructor(
@@ -45,34 +45,11 @@ export class NotificationCommonModalComponent {
     this.confirmActionCompleted.emit();
   }
 
-  public show(modalContext: string, notification?: Notification) {
+  public show(desiredStatus: NotificationStatus, notification?: Notification) {
     let notificationToShow = notification || this.selectedNotification;
-    switch (modalContext) {
-      case 'approve': {
-        this.acknowledgeAndApproveModal.show(notificationToShow, NotificationStatus.APPROVED);
-        break;
-      }
-      case 'close': {
-        this.acknowledgeAndApproveModal.show(notificationToShow, NotificationStatus.CLOSED);
-        break;
-      }
-      case 'cancel': {
-        this.acknowledgeAndApproveModal.show(notificationToShow, NotificationStatus.CANCELED);
-        break;
-      }
-      case 'accept': {
-        this.acknowledgeAndApproveModal.show(notificationToShow, NotificationStatus.ACCEPTED);
-        break;
-      }
-      case 'acknowledge': {
-        this.acknowledgeAndApproveModal.show(notificationToShow, NotificationStatus.ACKNOWLEDGED);
-        break;
-      }
-      case 'decline': {
-        this.acknowledgeAndApproveModal.show(notificationToShow, NotificationStatus.DECLINED);
-        break;
-      }
-    }
+    console.log(notificationToShow, "notification");
+    console.log(desiredStatus, "desiredstatus");
+    this.notificationActionModalComponent.show(notificationToShow, desiredStatus);
   }
 
   protected readonly NotificationStatus = NotificationStatus;
