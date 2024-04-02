@@ -52,7 +52,6 @@ export class NotificationsComponent {
   public readonly notificationsReceived$;
   public readonly notificationsQueuedAndRequested$;
 
-  public isInvestigation = false;
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
   public notificationReceivedSortList: TableHeaderSort[] = [];

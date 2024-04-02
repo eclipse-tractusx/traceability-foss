@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
+import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { NotificationService } from '@shared/service/notification.service';
@@ -97,7 +98,7 @@ export class DashboardFacade {
 
   private setReceivedInvestigations(): void {
     this.investigationsReceivedSubscription?.unsubscribe();
-    this.investigationsReceivedSubscription = this.notificationService.getReceived(0, 5, [ [ 'createdDate', 'desc' ] ], null, null, true).subscribe({
+    this.investigationsReceivedSubscription = this.notificationService.getNotifications(0, 5, [ [ 'createdDate', 'desc' ] ], NotificationChannel.RECEIVER, null, null).subscribe({
       next: data => this.dashboardState.setRecentReceivedInvestigations({ data }),
       error: (error: Error) => this.dashboardState.setRecentReceivedInvestigations({ error }),
     });
@@ -105,7 +106,7 @@ export class DashboardFacade {
 
   private setCreatedInvestigations(): void {
     this.investigationsCreatedSubscription?.unsubscribe();
-    this.investigationsCreatedSubscription = this.notificationService.getCreated(0, 5, [ [ 'createdDate', 'desc' ] ], null, null, true).subscribe({
+    this.investigationsCreatedSubscription = this.notificationService.getNotifications(0, 5, [ [ 'createdDate', 'desc' ] ], NotificationChannel.SENDER, null, null).subscribe({
       next: data => this.dashboardState.setRecentCreatedInvestigations({ data }),
       error: (error: Error) => this.dashboardState.setRecentCreatedInvestigations({ error }),
     });
@@ -113,7 +114,7 @@ export class DashboardFacade {
 
   private setReceivedAlerts(): void {
     this.alertsReceivedSubscription?.unsubscribe();
-    this.alertsReceivedSubscription = this.notificationService.getReceived(0, 5, [ [ 'createdDate', 'desc' ] ], null, null, false).subscribe({
+    this.alertsReceivedSubscription = this.notificationService.getNotifications(0, 5, [ [ 'createdDate', 'desc' ] ], NotificationChannel.RECEIVER, null, null).subscribe({
       next: data => this.dashboardState.setRecentReceivedAlerts({ data }),
       error: (error: Error) => this.dashboardState.setRecentReceivedAlerts({ error }),
     });
@@ -122,7 +123,7 @@ export class DashboardFacade {
 
   private setCreatedAlerts(): void {
     this.alertsCreatedSubscription?.unsubscribe();
-    this.alertsCreatedSubscription = this.notificationService.getCreated(0, 5, [ [ 'createdDate', 'desc' ] ], null, null, false).subscribe({
+    this.alertsCreatedSubscription = this.notificationService.getNotifications(0, 5, [ [ 'createdDate', 'desc' ] ], NotificationChannel.SENDER, null, null).subscribe({
       next: data => this.dashboardState.setRecentCreatedAlerts({ data }),
       error: (error: Error) => this.dashboardState.setRecentCreatedAlerts({ error }),
     });
