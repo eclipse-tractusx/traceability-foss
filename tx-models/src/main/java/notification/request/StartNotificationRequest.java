@@ -39,7 +39,7 @@ import java.util.List;
 @AllArgsConstructor
 public class StartNotificationRequest {
 
-    @Size(min = 1, max = 255, message = "Specify at least 1 and at most 50 assetIds")
+    @Size(min = 1, max = 255, message = "Specify at least 1 and at most 255 characters for the title")
     @Schema(example = "title", minLength = 1, maxLength = 255)
     private String title;
 

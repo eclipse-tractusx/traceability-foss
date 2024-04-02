@@ -57,6 +57,7 @@ public class SecurityUtils {
         String cleanReceiverBpn = sanitize(request.getReceiverBpn());
         List<String> cleanPartIds = sanitize(request.getPartIds());
         return StartNotificationRequest.builder()
+                .title(request.getTitle())
                 .description(cleanDescription)
                 .targetDate(request.getTargetDate())
                 .severity(request.getSeverity())
