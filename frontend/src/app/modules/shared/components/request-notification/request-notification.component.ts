@@ -95,10 +95,13 @@ export class RequestNotificationComponent {
     // set asBuilt parameter if one of the selectedItems are a asPlanned Part
     const isAsBuilt = this.selectedItems.map(part => part.semanticDataModel === SemanticDataModel.PARTASPLANNED).includes(true);
 
-    const { description, bpn, severity, title } = this.formGroup.value;
+    let { description, bpn, severity, title } = this.formGroup.value;
     const { link, queryParams } = getRoute(NOTIFICATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
     let type = this.isInvestigation ? 'INVESTIGATION' : 'ALERT';
 
+    if (title === ""){
+      title = null;
+    }
 
     this.notificationService.createNotification(partIds, description, severity, bpn, isAsBuilt, type, title).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
