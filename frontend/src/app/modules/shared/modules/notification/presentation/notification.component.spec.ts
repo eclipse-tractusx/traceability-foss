@@ -83,7 +83,6 @@ describe('NotificationsInboxComponent', () => {
     }).pipe(delay(0));
     const menuActionsConfig = [];
     const notificationType = NotificationType.INVESTIGATION;
-    const isInvestigation = true;
     return renderComponent(
       `<app-notification
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
@@ -105,8 +104,7 @@ describe('NotificationsInboxComponent', () => {
           receivedNotifications$,
           clickHandler,
           menuActionsConfig,
-          notificationType,
-          isInvestigation,
+          notificationType
         },
       },
     );

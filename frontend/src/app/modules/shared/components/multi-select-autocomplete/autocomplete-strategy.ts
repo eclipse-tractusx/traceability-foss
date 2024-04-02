@@ -66,8 +66,7 @@ export class NotificationStrategy extends AutocompleteStrategy {
     return this.notificationService.getDistinctFilterValues(
       notificationChannel,
       filterColumns,
-      searchElement,
-      false,
+      searchElement
     );
   }
 }
