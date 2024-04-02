@@ -53,6 +53,7 @@ public class NotificationResponseMapper {
                 .assetIds(Collections.unmodifiableList(notification.getAssetIds()))
                 .channel(NotificationMessageMapper.from(notification.getNotificationSide()))
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
+                .title(notification.getTitle())
                 .reason(new NotificationReasonResponse(
                         notification.getCloseReason(),
                         notification.getAcceptReason(),

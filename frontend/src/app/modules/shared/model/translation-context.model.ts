@@ -17,5 +17,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 export enum TranslationContext {
-  COMMONALERT = 'commonAlert'
+  COMMONALERT = 'commonAlert',
+  COMMONINVESTIGATION = 'commonInvestigation'
 }

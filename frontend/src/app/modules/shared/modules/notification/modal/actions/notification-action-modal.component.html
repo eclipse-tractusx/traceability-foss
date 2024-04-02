@@ -21,4 +21,8 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #Modal>
   <app-notification-modal-content [notification]="notification"></app-notification-modal-content>
-</ng-template>
+  <form [hidden]="!showTextArea" [formGroup]="formGroup" class="mt-4">
+    <mat-hint>{{ reasonHintLabel | i18n }}</mat-hint>
+    <app-textarea formControlName="reason"></app-textarea>
+  </form>
+  </ng-template>

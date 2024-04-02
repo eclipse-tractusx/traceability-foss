@@ -35,19 +35,17 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
-      [notificationType]="notificationType"
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
-      [translationContext]="'commonAlert'"
+      [translationContext]=translationContext
       [menuActionsConfig]="menuActionsConfig"
       [autocompleteEnabled]="true"
-      [tableType]="isInvestigation ? TableType.CREATED_INVESTIGATION: TableType.CREATED_ALERT"
+      [tableType]="TableType.SENT_NOTIFICATION"
       [optionalColumns]="queuedAndRequestedOptionalColumns"
       [sortableColumns]="queuedAndRequestedSortableColumns"
       [multiSortList]="queuedAndRequestedMultiSortList"
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
-      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
-      (alertsFilterChanged)="alertFilterChanged.emit($event)"
+      (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
@@ -60,11 +58,10 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
     <app-notifications-tab
             *ngIf="menuActionsConfig"
-            [notificationType]="notificationType"
             [notificationsView$]="receivedNotifications$"
             [labelId]="receivedTabLabelId"
             [translationContext]="'commonAlert'"
-            [tableType]="isInvestigation ? TableType.RECEIVED_INVESTIGATION: TableType.RECEIVED_ALERT"
+            [tableType]="TableType.RECEIVED_NOTIFICATION"
             [menuActionsConfig]="menuActionsConfig"
             [optionalColumns]="receivedOptionalColumns"
             [autocompleteEnabled]="true"
@@ -72,8 +69,7 @@ SPDX-License-Identifier: Apache-2.0
             [multiSortList]="receivedMultiSortList"
             (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
             (selected)="selected.emit($event)"
-            (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
-            (alertsFilterChanged)="alertFilterChanged.emit($event)"
+            (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
 </mat-tab-group>

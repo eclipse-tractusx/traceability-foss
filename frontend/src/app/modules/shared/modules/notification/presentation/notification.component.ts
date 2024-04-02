@@ -23,7 +23,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
-import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
+import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
@@ -44,13 +44,10 @@ export class NotificationComponent {
   @Input() queuedAndRequestedSortableColumns: Record<string, boolean> = {};
   @Input() receivedMultiSortList: TableHeaderSort[] = [];
   @Input() queuedAndRequestedMultiSortList: TableHeaderSort[] = [];
-  @Input() notificationType = NotificationType.INVESTIGATION;
-  @Input() isInvestigation: boolean = true;
   @Output() onReceivedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
-  @Output() investigationFilterChanged = new EventEmitter<any>();
-  @Output() alertFilterChanged = new EventEmitter<any>();
+  @Output() notificationsFilterChanged = new EventEmitter<any>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
 

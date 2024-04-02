@@ -20,14 +20,11 @@ SPDX-License-Identifier: Apache-2.0
 <app-notification-common-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [helperService]="helperService"
-  [translationContext]="TranslationContext.COMMONALERT"
 ></app-notification-common-modal>
 
 <app-notification
-  [notificationType]="NotificationType.ALERT"
   [queuedAndRequestedNotifications$]="notificationsQueuedAndRequested$"
   [receivedNotifications$]="notificationsReceived$"
-  [isInvestigation]="isInvestigation"
   [translationContext]="TranslationContext.COMMONALERT"
   [receivedOptionalColumns]="['severity', 'createdBy', 'createdByName', 'type']"
   [receivedMultiSortList]="notificationReceivedSortList"
@@ -37,7 +34,7 @@ SPDX-License-Identifier: Apache-2.0
   [queuedAndRequestedMultiSortList]="notificationQueuedAndRequestedSortList"
   (onReceivedTableConfigChanged)="onReceivedTableConfigChange($event)"
   (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
-  (alertFilterChanged)="filterNotifications($event)"
+  (notificationsFilterChanged)="filterNotifications($event)"
   (selected)="openDetailPage($event)"
   [menuActionsConfig]="menuActionsConfig"
 ></app-notification>

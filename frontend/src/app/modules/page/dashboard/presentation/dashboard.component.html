@@ -114,10 +114,9 @@ SPDX-License-Identifier: Apache-2.0
 
             <mat-card-content>
               <app-notifications-tab
-                [notificationType]="NotificationType.ALERT"
                 [notificationsView$]="alertsCreated$"
                 [translationContext]="'commonAlert'"
-                [tableType]="TableType.RECEIVED_ALERT"
+                [tableType]="TableType.RECEIVED_NOTIFICATION"
                 [labelId]="'dashboard-alerts-created'"
                 [hasPagination]="false"
                 [optionalColumns]="['targetDate', 'severity', 'createdBy', 'type']"
@@ -155,13 +154,12 @@ SPDX-License-Identifier: Apache-2.0
 
             <mat-card-content>
               <app-notifications-tab
-                [notificationType]="NotificationType.ALERT"
                 [notificationsView$]="alertsReceived$"
                 [translationContext]="'commonAlert'"
                 [labelId]="'dashboard-alerts-received'"
                 [hasPagination]="false"
                 [optionalColumns]="['targetDate', 'severity', 'createdBy', 'type']"
-                [tableType]="TableType.RECEIVED_ALERT"
+                [tableType]="TableType.RECEIVED_NOTIFICATION"
                 (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
