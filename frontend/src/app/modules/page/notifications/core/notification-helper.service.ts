@@ -54,6 +54,9 @@ export class NotificationHelperService {
   }
 
   modalCallback(status: NotificationStatus, id: string, reason?: string): Observable<void> {
+    console.log(status, "status");
+    console.log(id, "id");
+    console.log(reason, "reason");
     switch (status) {
       case NotificationStatus.ACKNOWLEDGED:
         return this.notificationsFacade.acknowledgeNotification(id);
