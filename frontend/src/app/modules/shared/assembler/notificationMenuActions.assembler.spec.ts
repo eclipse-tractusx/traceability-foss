@@ -28,7 +28,6 @@ import { NotificationMenuActionsAssembler } from '@shared/assembler/notification
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { KeycloakService } from 'keycloak-angular';
 
 describe('NotificationMenuActionsAssembler', () => {
@@ -52,7 +51,6 @@ describe('NotificationMenuActionsAssembler', () => {
         NotificationActionHelperService,
         NotificationCommonModalComponent,
         NotificationMenuActionsAssembler,
-        CloseNotificationModalComponent,
       ],
     });
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);

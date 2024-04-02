@@ -40,7 +40,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showApproveButton(selectedNotification)"
-        (click)="notificationCommonModalComponent?.show('approve')"
+        (click)="notificationCommonModalComponent?.show(NotificationStatus.APPROVED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
       >
@@ -60,7 +60,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showCancelButton(selectedNotification)"
-        (click)="notificationCommonModalComponent?.show('cancel')"
+        (click)="notificationCommonModalComponent?.show(NotificationStatus.CANCELED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL)"
       >
@@ -80,7 +80,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showCloseButton(selectedNotification)"
-        (click)="notificationCommonModalComponent?.show('close')"
+        (click)="notificationCommonModalComponent?.show(NotificationStatus.CLOSED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE)"
       >
@@ -100,7 +100,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showAcceptButton(selectedNotification)"
-        (click)="notificationCommonModalComponent?.show('accept')"
+        (click)="notificationCommonModalComponent?.show(NotificationStatus.ACCEPTED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
       >
@@ -120,7 +120,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showAcknowledgeButton(selectedNotification)"
-        (click)="notificationCommonModalComponent?.show('acknowledge')"
+        (click)="notificationCommonModalComponent?.show(NotificationStatus.ACKNOWLEDGED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
       >
@@ -140,7 +140,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showDeclineButton(selectedNotification)"
-        (click)="notificationCommonModalComponent?.show('decline')"
+        (click)="notificationCommonModalComponent?.show(NotificationStatus.DECLINED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE)"
       >
@@ -157,7 +157,6 @@ SPDX-License-Identifier: Apache-2.0
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [helperService]="helperService"
   [selectedNotification]="selectedNotification"
-  [translationContext]="TranslationContext.COMMONALERT"
 ></app-notification-common-modal>
 
 <div class="detail--wrapper">

@@ -71,12 +71,13 @@ public abstract class AbstractNotificationService implements NotificationService
     public void update(Long notificationId, NotificationStatus notificationStatus, String reason) {
         Notification notification = loadOrNotFoundException(new NotificationId(notificationId));
 
-        NotificationStatus previousStatus = NotificationStatus.getPreviousStatus(notificationStatus);
+        List<NotificationMessage> messages = notification.getNotifications();
+        NotificationStatus previousStatus = NotificationStatus.getPreviousStatus(notificationStatus, messages);
 
         /* Create a copy of the latest notifications.
         As per asset there will be a notification created on start
         it is possible that several elements with the same previous state are returned.*/
-        notification.getNotifications().stream()
+        messages.stream()
                 .filter(notificationMessage -> notificationMessage.getNotificationStatus().equals(previousStatus))
                 .forEach(notificationMessage -> {
                     NotificationMessage notificationMessageSwitchedSenderAndReceiver = notificationMessage.copyAndSwitchSenderAndReceiver(traceabilityProperties.getBpn());

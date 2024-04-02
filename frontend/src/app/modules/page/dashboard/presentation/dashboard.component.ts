@@ -21,16 +21,11 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NOTIFICATION_BASE_ROUTE, getRoute } from '@core/known-route';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { DashboardStats } from '@page/dashboard/model/dashboard.model';
 import { MetricData } from '@page/dashboard/presentation/dashboard.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import {
-  Notification,
-  Notifications,
-  NotificationStatusGroup,
-  NotificationType,
-} from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -134,6 +129,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.router.navigate([ `/${ link }/${ notification.id }` ]).then();
   }
 
-  protected readonly NotificationType = NotificationType;
   protected readonly TableType = TableType;
 }

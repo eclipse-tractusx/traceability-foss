@@ -47,13 +47,11 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() optionalColumns: Array<'title'|'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName' | 'type'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
-  @Input() notificationType = NotificationType.INVESTIGATION;
   @Input() tableType: TableType;
   @Input() autocompleteEnabled = false;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
-  @Output() investigationsFilterChanged = new EventEmitter<any>();
-  @Output() alertsFilterChanged = new EventEmitter<any>();
+  @Output() notificationsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
   @ViewChild('titleTmp') titleTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -105,18 +103,10 @@ export class NotificationTabComponent implements AfterViewInit {
 
     this.notificationFilter = notificationFilter;
     const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
-    if (this.notificationType === NotificationType.INVESTIGATION) {
-      this.investigationsFilterChanged.emit({
+      this.notificationsFilterChanged.emit({
         channel: channel,
         filter: notificationFilter,
       });
-    }
-    if (this.notificationType === NotificationType.ALERT) {
-      this.alertsFilterChanged.emit({
-        channel: channel,
-        filter: notificationFilter,
-      });
-    }
   }
 
   public selectNotification(notification: Record<string, unknown>): void {
