@@ -28,7 +28,7 @@ import { NotificationActionHelperService } from '@shared/assembler/notification-
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { Notification, NotificationType } from '@shared/model/notification.model';
+import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
 import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
@@ -196,7 +196,7 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   private selectedNotificationBasedOnUrl(): void {
-    const notificationId = this.route.snapshot.paramMap.get('alertId');
+    const notificationId = this.route.snapshot.paramMap.get('notificationId');
     this.notificationsFacade
       .getNotification(notificationId)
       .pipe(
@@ -206,8 +206,8 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
       .subscribe();
   }
 
-  protected readonly TranslationContext = TranslationContext;
   protected readonly NotificationType = NotificationType;
   protected readonly NotificationAction = NotificationAction;
 
+  protected readonly NotificationStatus = NotificationStatus;
 }

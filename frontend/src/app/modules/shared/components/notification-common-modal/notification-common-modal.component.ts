@@ -19,14 +19,8 @@
 import { Component, EventEmitter, Input, Optional, Output, ViewChild } from '@angular/core';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
-import { Notification } from '@shared/model/notification.model';
-import { TranslationContext } from '@shared/model/translation-context.model';
-import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
-import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
-import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
-import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
+import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { NotificationActionModalComponent } from '@shared/modules/notification/modal/actions/notification-action-modal.component';
 
 @Component({
   selector: 'app-notification-common-modal',
@@ -35,18 +29,10 @@ import { DeclineNotificationModalComponent } from '@shared/modules/notification/
 
 export class NotificationCommonModalComponent {
   @Input() selectedNotification: Notification;
-  @Input() translationContext: TranslationContext;
   @Input() helperService: NotificationHelperService;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
-
-  @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
-  @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
-  @ViewChild(CancelNotificationModalComponent) cancelModal: CancelNotificationModalComponent;
-
-  @ViewChild(AcceptNotificationModalComponent) acceptModal: AcceptNotificationModalComponent;
-  @ViewChild(AcknowledgeNotificationModalComponent) acknowledgeModal: AcknowledgeNotificationModalComponent;
-  @ViewChild(DeclineNotificationModalComponent) declineModal: DeclineNotificationModalComponent;
+  @ViewChild(NotificationActionModalComponent) notificationActionModalComponent: NotificationActionModalComponent;
 
 // TODO do not delete the facade here. This will lead to a nullpointer exception within the modal call.
   public constructor(
@@ -59,36 +45,12 @@ export class NotificationCommonModalComponent {
     this.confirmActionCompleted.emit();
   }
 
-  public show(modalContext: string, notification?: Notification) {
+  public show(desiredStatus: NotificationStatus, notification?: Notification) {
     let notificationToShow = notification || this.selectedNotification;
-    switch (modalContext) {
-      case 'approve': {
-        this.approveModal.show(notificationToShow);
-        break;
-      }
-      case 'close': {
-        this.closeModal.show(notificationToShow);
-        break;
-      }
-      case 'cancel': {
-        this.cancelModal.show(notificationToShow);
-        break;
-      }
-      case 'accept': {
-        this.acceptModal.show(notificationToShow);
-        break;
-      }
-      case 'acknowledge': {
-        this.acknowledgeModal.show(notificationToShow);
-        break;
-      }
-      case 'decline': {
-        this.declineModal.show(notificationToShow);
-        break;
-      }
-    }
+    console.log(notificationToShow, "notification");
+    console.log(desiredStatus, "desiredstatus");
+    this.notificationActionModalComponent.show(notificationToShow, desiredStatus);
   }
 
-
-  protected readonly TranslationContext = TranslationContext;
+  protected readonly NotificationStatus = NotificationStatus;
 }

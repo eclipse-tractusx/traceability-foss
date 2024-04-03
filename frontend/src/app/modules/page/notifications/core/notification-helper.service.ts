@@ -19,6 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
+import { NotificationStatus } from '@shared/model/notification.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -51,5 +52,25 @@ export class NotificationHelperService {
   public decline(id: string, reason: string): Observable<void> {
     return this.notificationsFacade.declineNotification(id, reason);
   }
+
+  modalCallback(status: NotificationStatus, id: string, reason?: string): Observable<void> {
+    switch (status) {
+      case NotificationStatus.ACKNOWLEDGED:
+        return this.notificationsFacade.acknowledgeNotification(id);
+      case NotificationStatus.APPROVED:
+        return this.notificationsFacade.approveNotification(id);
+      case NotificationStatus.CANCELED:
+        return this.notificationsFacade.cancelNotification(id);
+      case NotificationStatus.CLOSED:
+        return this.notificationsFacade.closeNotification(id, reason);
+      case NotificationStatus.ACCEPTED:
+        return this.notificationsFacade.acceptNotification(id, reason);
+      case NotificationStatus.DECLINED:
+        return this.notificationsFacade.declineNotification(id, reason);
+      default:
+        return null;
+    }
+  }
+
 
 }

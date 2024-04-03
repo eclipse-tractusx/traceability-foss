@@ -20,6 +20,7 @@
 import { Injectable } from '@angular/core';
 import { NotificationsState } from '@page/notifications/core/notifications.state';
 import { provideDataObject } from '@page/parts/core/parts.helper';
+import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import {
   Notification,
@@ -51,13 +52,13 @@ export class NotificationsFacade {
   }
 
   public getNotification(id: string): Observable<Notification> {
-    return this.notificationService.getNotificationById(id, false);
+    return this.notificationService.getNotificationById(id);
   }
 
   public setReceivedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationDeeplinkFilter, fullFilter?: any): void {
     this.notificationReceivedSubscription?.unsubscribe();
     this.notificationReceivedSubscription = this.notificationService
-      .getReceived(page, pageSize, sorting, filter, fullFilter, false)
+      .getNotifications(page, pageSize, sorting, NotificationChannel.RECEIVER, filter, fullFilter)
       .subscribe({
         next: data => (this.notificationsState.notificationsReceived = { data: provideDataObject(data) }),
         error: (error: Error) => (this.notificationsState.notificationsReceived = { error }),
@@ -67,7 +68,7 @@ export class NotificationsFacade {
   public setQueuedAndRequestedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationDeeplinkFilter, fullFilter?: any): void {
     this.notificationQueuedAndRequestedSubscription?.unsubscribe();
     this.notificationQueuedAndRequestedSubscription = this.notificationService
-      .getCreated(page, pageSize, sorting, filter, fullFilter, false)
+      .getNotifications(page, pageSize, sorting, NotificationChannel.SENDER, filter, fullFilter)
       .subscribe({
         next: data => (this.notificationsState.notificationsQueuedAndRequested = { data: provideDataObject(data) }),
         error: (error: Error) => (this.notificationsState.notificationsQueuedAndRequested = { error }),
@@ -81,26 +82,26 @@ export class NotificationsFacade {
 
 
   public closeNotification(notificationId: string, reason: string): Observable<void> {
-    return this.notificationService.closeNotification(notificationId, reason, false);
+    return this.notificationService.closeNotification(notificationId, reason);
   }
 
   public approveNotification(notificationId: string): Observable<void> {
-    return this.notificationService.approveNotification(notificationId, false);
+    return this.notificationService.approveNotification(notificationId);
   }
 
   public cancelNotification(notificationId: string): Observable<void> {
-    return this.notificationService.cancelNotification(notificationId, false);
+    return this.notificationService.cancelNotification(notificationId);
   }
 
   public acknowledgeNotification(notificationId: string): Observable<void> {
-    return this.notificationService.updateNotification(notificationId, NotificationStatus.ACKNOWLEDGED, null, false);
+    return this.notificationService.updateNotification(notificationId, NotificationStatus.ACKNOWLEDGED, null);
   }
 
   public acceptNotification(notificationId: string, reason: string): Observable<void> {
-    return this.notificationService.updateNotification(notificationId, NotificationStatus.ACCEPTED, reason, false);
+    return this.notificationService.updateNotification(notificationId, NotificationStatus.ACCEPTED, reason);
   }
 
   public declineNotification(notificationId: string, reason: string): Observable<void> {
-    return this.notificationService.updateNotification(notificationId, NotificationStatus.DECLINED, reason, false);
+    return this.notificationService.updateNotification(notificationId, NotificationStatus.DECLINED, reason);
   }
 }

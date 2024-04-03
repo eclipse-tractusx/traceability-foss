@@ -18,7 +18,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { NotificationDeeplinkFilter } from '@shared/model/notification.model';
+import {Notification, NotificationDeeplinkFilter, NotificationType} from '@shared/model/notification.model';
+import {TranslationContext} from "@shared/model/translation-context.model";
 
 export interface DeeplinkNotificationFilter {
   receivedFilter: NotificationDeeplinkFilter,
@@ -36,5 +37,13 @@ export function createDeeplinkNotificationFilter(params: any): DeeplinkNotificat
       sentFilter = { notificationIds: params.notificationIds };
     }
     return { receivedFilter, sentFilter };
+  }
+}
+
+export function getTranslationContext(notification: Notification):TranslationContext{
+  if (notification?.type === NotificationType.ALERT.valueOf()){
+    return TranslationContext.COMMONALERT
+  } else {
+    return TranslationContext.COMMONINVESTIGATION;
   }
 }
