@@ -8,6 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
 ## [UNRELEASED - DD.MM.YYYY]
+
+## [10.8.0 - 03.04.2024]
+
 ### Added
 - #695 OAuth2.0 Client scope configuration
 - #606 Added error message into notifications on failure
@@ -18,6 +21,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #706 Notification controller having the same endpoints as alerts and investigations controllers
 - #736 add contractAgreementId as searchable field for /contracts
 - Added capitalization section in guidelines.md
+- #616 Allow edc notification update with empty asset list
 
 ### Changed
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
