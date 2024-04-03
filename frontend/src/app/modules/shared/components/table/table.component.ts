@@ -68,7 +68,14 @@ export class TableComponent {
       action: (data: Record<string, unknown>) => this.selected.emit(data),
     };
 
-    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, ...menuActions ] : null;
+    const editDetailsMenuAction: MenuActionConfig<unknown> = {
+      label: 'actions.edit',
+      icon: 'edit',
+      action: (data: Record<string, unknown>) => this.editClicked.emit(data),
+    };
+
+    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction,...menuActions ] : null;
+    console.log(menuActionsConfig, "menu");
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
   }
 
@@ -135,6 +142,7 @@ export class TableComponent {
   }
 
   @Output() selected = new EventEmitter<Record<string, unknown>>();
+  @Output() editClicked = new EventEmitter<Record<string, unknown>>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();

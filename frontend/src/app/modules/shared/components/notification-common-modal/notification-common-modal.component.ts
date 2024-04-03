@@ -34,6 +34,7 @@ export class NotificationCommonModalComponent {
 
   @ViewChild(NotificationActionModalComponent) notificationActionModalComponent: NotificationActionModalComponent;
 
+
 // TODO do not delete the facade here. This will lead to a nullpointer exception within the modal call.
   public constructor(
     @Optional() private readonly notificationsFacade: NotificationsFacade,
@@ -47,9 +48,11 @@ export class NotificationCommonModalComponent {
 
   public show(desiredStatus: NotificationStatus, notification?: Notification) {
     let notificationToShow = notification || this.selectedNotification;
-    console.log(notificationToShow, "notification");
-    console.log(desiredStatus, "desiredstatus");
     this.notificationActionModalComponent.show(notificationToShow, desiredStatus);
+  }
+
+  public showEditModal(notification: Notification):void{
+
   }
 
   protected readonly NotificationStatus = NotificationStatus;

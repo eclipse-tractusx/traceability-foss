@@ -53,6 +53,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() notificationsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
+  @Output() editNotificationClicked = new EventEmitter<Notification>();
   @ViewChild('titleTmp') titleTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
   @ViewChild('severityTmp') severityTemplate: TemplateRef<unknown>;
@@ -111,6 +112,10 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public selectNotification(notification: Record<string, unknown>): void {
     this.selected.emit(notification as unknown as Notification);
+  }
+
+  public openEditNotification(notification: Record<string, unknown>): void {
+    this.editNotificationClicked.emit(notification as unknown as Notification);
   }
 
   public onTableConfigChange(tableEventConfig: TableEventConfig): void {

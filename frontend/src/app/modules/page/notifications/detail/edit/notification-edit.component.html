@@ -1,0 +1,109 @@
+<!--
+Copyright (c) 2024 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<div class="detail--header">
+  <div class="detail--navigation">
+    <app-button
+      [color]="'primary'"
+      (click)="this.navigateBackToNotifications()"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">arrow_back</mat-icon>
+        {{ 'actions.goBack' | i18n }}
+      </div>
+    </app-button>
+  </div>
+  <div class="detail--action">
+    <!-- TODO add a save button here -->
+<!--    <div class="detail&#45;&#45;action&#45;&#45;button"
+         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltipClass="table&#45;&#45;header&#45;&#45;tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip&#45;&#45;multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+    >
+      <app-button
+        *ngIf="actionHelperService.showApproveButton(selectedNotification)"
+        (click)="notificationCommonModalComponent?.show(NotificationStatus.APPROVED)"
+        [color]="'primary'"
+        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">share</mat-icon>
+          {{ 'actions.approve' | i18n }}
+        </div>
+      </app-button>
+    </div>-->
+
+  </div>
+</div>
+
+
+<!-- TODO add form to add notification -> should be shared since we use it in create as well-->
+<div class="detail--wrapper">
+<!--  <mat-card>
+  </mat-card>-->
+
+  <mat-card class="detail--table_wrapper--notification">
+    <mat-card-header>
+      <mat-card-title
+      ><h4>
+        {{ 'pageAlert.subHeadline.affectedParts'  | i18n }}
+      </h4></mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container
+        *viewContainer="
+          notificationPartsInformation$ | async;
+          main: mainNotificationPartsTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      ></ng-container>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- TODO add a parts table with selection possiblity -->
+</div>
+
+
+
+<ng-template #mainNotificationPartsTmp let-view="view">
+  <app-table
+    [data]="view.data"
+    [labelId]="notificationPartsTableId"
+    [autocompleteEnabled]="false"
+    [tableConfig]="notificationPartsTableConfig"
+    [showHover]="false"
+    [noShadow]="true"
+    (configChanged)="onNotificationPartsSort($event)"
+  ></app-table>
+</ng-template>
+<ng-template #errorTmp let-view="view">
+  <h1>{{ 'dataLoading.error' | i18n }}</h1>
+  <p>{{ view.error | json }}</p>
+</ng-template>
+
+<ng-template #loaderTmp let-view="view">
+  <mat-spinner></mat-spinner>
+</ng-template>
+
+

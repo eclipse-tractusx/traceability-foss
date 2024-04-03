@@ -42,7 +42,7 @@ import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-alerts',
+  selector: 'app-notification-component',
   templateUrl: './notifications.component.html',
 })
 export class NotificationsComponent {
@@ -123,11 +123,25 @@ export class NotificationsComponent {
   }
 
   public openDetailPage(notification: Notification): void {
+    console.log("TEST");
     this.notificationDetailFacade.selected = { data: notification };
+    const { link, tabInformation } = this.getTabInformation();
+    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
+  }
+
+  public openEditPage(notification: Notification): void {
+    this.notificationDetailFacade.selected = { data: notification };
+    const { link, tabInformation } = this.getTabInformation();
+    this.router.navigate([ `/${ link }/${ notification.id }/edit` ], { queryParams: tabInformation });
+  }
+
+  private getTabInformation(): {link: string, tabInformation: any} {
     const { link } = getRoute(NOTIFICATION_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
     const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
-    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
+    console.log(link, "link");
+    console.log(tabInformation, "tab");
+    return { link, tabInformation };
   }
 
   public handleConfirmActionCompletedEvent() {
