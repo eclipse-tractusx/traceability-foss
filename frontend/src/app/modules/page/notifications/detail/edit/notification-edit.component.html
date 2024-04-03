@@ -63,8 +63,13 @@ SPDX-License-Identifier: Apache-2.0
 
 <!-- TODO add form to add notification -> should be shared since we use it in create as well-->
 <div class="detail--wrapper">
-  <!--  <mat-card>
-    </mat-card>-->
+    <mat-card>
+      <app-notification-new-request
+      (submitted)="submittedByNotificationRequest()"
+      [selectedItems]="affectedParts"
+      [showHeadline]="true">
+      </app-notification-new-request>
+    </mat-card>
 
   <mat-card class="detail--table_wrapper--notification">
     <mat-card-header>

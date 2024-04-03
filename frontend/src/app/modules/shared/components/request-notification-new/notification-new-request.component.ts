@@ -18,9 +18,13 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { Part } from '@page/parts/model/parts.model';
+import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
+import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { Severity } from '@shared/model/severity.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -43,6 +47,13 @@ export class RequestNotificationNewComponent {
   public readonly minDate = new Date();
 
   constructor(private readonly toastService: ToastService, private readonly notificationService: NotificationService) {
+    this.context = 'requestAlert';
+    this.formGroup.addControl('title', new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]));
+    this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
+    this.formGroup.addControl('severity', new FormControl(Severity.MINOR, [ Validators.required ]));
+    this.formGroup.addControl('type', new FormControl('', [ Validators.required ]));
+    this.formGroup.addControl('targetDate', new FormControl(null, [ DateValidators.atLeastNow() ]));
+    this.formGroup.addControl('bpn', new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]));
 
   }
 

@@ -49,6 +49,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
   public readonly selected$: Observable<View<Notification>>;
 
+  public affectedParts = [];
   public readonly isNotificationOpen$ = new BehaviorSubject<boolean>(false);
   public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
@@ -99,6 +100,10 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   // TODO Implement cancel / popup do you really want to leave without saving?
   public clickedCancellation(): void {
 
+  }
+
+  public submittedByNotificationRequest(): void{
+    console.log("submitted");
   }
 
   public ngAfterViewInit(): void {
