@@ -18,6 +18,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #706 Notification controller having the same endpoints as alerts and investigations controllers
 - #736 add contractAgreementId as searchable field for /contracts
 - Added capitalization section in guidelines.md
+- Allow edc notification update with empty asset list
 
 ### Changed
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
