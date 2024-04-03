@@ -24,6 +24,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { BehaviorSubject } from 'rxjs';
@@ -34,9 +35,6 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class RequestNotificationNewComponent {
   @Input() selectedItems: Part[];
-  @Input() showHeadline = true;
-
-  context: string;
 
   formGroup = new FormGroup<any>({});
 
@@ -47,15 +45,19 @@ export class RequestNotificationNewComponent {
   public readonly minDate = new Date();
 
   constructor() {
-    this.context = 'requestAlert';
+
     this.formGroup.addControl('title', new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]));
     this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
     this.formGroup.addControl('severity', new FormControl(Severity.MINOR, [ Validators.required ]));
-    this.formGroup.addControl('type', new FormControl('', [ Validators.required ]));
+    this.formGroup.addControl('type', new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]));
     this.formGroup.addControl('targetDate', new FormControl(null, [ DateValidators.atLeastNow() ]));
     this.formGroup.addControl('bpn', new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]));
-
+    this.formGroup.valueChanges.subscribe(() => {
+      console.log('Form has been changed');
+      // You can perform any action here when the form is changed
+    });
   }
+
 
   protected prepareSubmit(): void {
     this.formGroup.markAllAsTouched();

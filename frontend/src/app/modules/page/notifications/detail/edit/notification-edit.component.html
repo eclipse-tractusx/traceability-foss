@@ -60,14 +60,11 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 
-
-<!-- TODO add form to add notification -> should be shared since we use it in create as well-->
 <div class="detail--wrapper">
     <mat-card>
       <app-notification-new-request
       (submitted)="submittedByNotificationRequest()"
-      [selectedItems]="affectedParts"
-      [showHeadline]="true">
+      [selectedItems]="affectedParts">
       </app-notification-new-request>
     </mat-card>
 
@@ -75,7 +72,7 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-header>
       <mat-card-title
       ><h4>
-        {{ 'pageAlert.subHeadline.affectedParts'  | i18n }}
+        {{ 'requestNotification.affectedParts'  | i18n }}
       </h4></mat-card-title
       >
     </mat-card-header>

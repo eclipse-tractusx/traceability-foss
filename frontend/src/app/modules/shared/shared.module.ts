@@ -34,6 +34,7 @@ import { InputComponent } from '@shared/components/input/input.component';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
+import { NotificationTypeComponent } from '@shared/components/notification-type/notification-type.component';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { RequestNotificationComponent } from '@shared/components/request-notification';
 import { RequestNotificationNewComponent } from '@shared/components/request-notification-new';
@@ -41,6 +42,7 @@ import { SeveritySelectComponent } from '@shared/components/severity-select/seve
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
+import { TypeSelectComponent } from '@shared/components/type-select/type-select.component';
 import { ViewSelectorComponent } from '@shared/components/view-selector/view-selector.component';
 import { NotificationModalContentComponent } from '@shared/modules/notification/modal/content/notification-modal-content.component';
 import { AbbreviateNumberPipe } from '@shared/pipes/abbreviate-number.pipe';
@@ -87,6 +89,7 @@ import { TemplateModule } from './template.module';
     TextWithIconComponent,
     TableComponent,
     TooltipDirective,
+    NotificationTypeComponent,
     RoleDirective,
     I18nPipe,
     AutoFormatPipe,
@@ -119,6 +122,7 @@ import { TemplateModule } from './template.module';
     FormErrorMessageComponent,
     SeverityComponent,
     SeveritySelectComponent,
+    TypeSelectComponent,
     InputComponent,
     BomLifecycleActivatorComponent,
     ViewSelectorComponent,
@@ -144,6 +148,7 @@ import { TemplateModule } from './template.module';
     AutoFormatPipe,
     ViewContainerDirective,
     AvatarComponent,
+    NotificationTypeComponent,
     I18NextModule,
     LanguageSelectorComponent,
     CardIconComponent,
@@ -165,6 +170,7 @@ import { TemplateModule } from './template.module';
     BaseInputComponent,
     SeverityComponent,
     SeveritySelectComponent,
+    TypeSelectComponent,
     InputComponent,
     FormatPaginationSemanticDataModelToCamelCasePipe,
     FlattenObjectPipe,
