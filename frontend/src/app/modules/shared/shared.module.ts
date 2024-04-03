@@ -36,6 +36,7 @@ import { NotificationOverviewComponent } from '@shared/components/notification-o
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { RequestNotificationComponent } from '@shared/components/request-notification';
+import { RequestNotificationNewComponent } from '@shared/components/request-notification-new';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
@@ -107,6 +108,7 @@ import { TemplateModule } from './template.module';
     TextareaComponent,
     ErrorMessagePipe,
     RequestNotificationComponent,
+    RequestNotificationNewComponent,
     QualityTypeComponent,
     ValueToLablePipe,
     NotificationOverviewComponent,
@@ -154,6 +156,7 @@ import { TemplateModule } from './template.module';
     TextareaComponent,
     ErrorMessagePipe,
     RequestNotificationComponent,
+    RequestNotificationNewComponent,
     QualityTypeComponent,
     NotificationOverviewComponent,
     NotificationReasonComponent,

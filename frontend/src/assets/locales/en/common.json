@@ -215,6 +215,10 @@
     "severityDescription": "Select the severity for the problem at hand",
     "serverError": "Server error:"
   },
+  "editNotifications": {
+    "saveButton": "Save",
+    "cancelButton": "Cancel"
+  },
   "requestPublishAssets": {
     "success": "Request to publish assets was successful",
     "error": ""

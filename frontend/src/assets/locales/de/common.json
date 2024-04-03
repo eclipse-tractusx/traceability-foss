@@ -214,6 +214,10 @@
     "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem",
     "serverError": "Serverfehler:"
   },
+  "editNotification": {
+    "saveButton": "Speichern",
+    "cancelButton": "Verwerfen"
+  },
   "requestPublishAssets": {
     "success": "Anfrage zur Veröffentlichung der Produkte war erfolgreich",
     "error": ""

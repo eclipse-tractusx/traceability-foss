@@ -30,36 +30,41 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
   </div>
   <div class="detail--action">
-    <!-- TODO add a save button here -->
-<!--    <div class="detail&#45;&#45;action&#45;&#45;button"
-         matTooltip="{{'routing.unauthorized' | i18n}}"
-         matTooltipClass="table&#45;&#45;header&#45;&#45;tooltip"
-         matTooltipPosition="above"
-         [class.mdc-tooltip&#45;&#45;multiline]="true"
-         [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
-    >
+    <div class="detail--action--button">
       <app-button
-        *ngIf="actionHelperService.showApproveButton(selectedNotification)"
-        (click)="notificationCommonModalComponent?.show(NotificationStatus.APPROVED)"
+        *ngIf="actionHelperService.showSaveButton()"
+        (click)="clickedSave()"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+        [isDisabled]="!actionHelperService.isAtLeastSupervisor()"
       >
         <div class="flex justify-between items-center">
-          <mat-icon class="mr-2">share</mat-icon>
-          {{ 'actions.approve' | i18n }}
+          <mat-icon class="mr-2">save</mat-icon>
+          {{ 'editNotification.saveButton' | i18n }}
         </div>
       </app-button>
-    </div>-->
+    </div>
 
+    <div class="detail--action--button">
+      <app-button
+        *ngIf="actionHelperService.showCancellationButton()"
+        (click)="clickedCancellation()"
+        [color]="'primary'"
+        [isDisabled]="false"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">cancel</mat-icon>
+          {{ 'editNotification.cancelButton' | i18n }}
+        </div>
+      </app-button>
+    </div>
   </div>
 </div>
 
 
 <!-- TODO add form to add notification -> should be shared since we use it in create as well-->
 <div class="detail--wrapper">
-<!--  <mat-card>
-  </mat-card>-->
+  <!--  <mat-card>
+    </mat-card>-->
 
   <mat-card class="detail--table_wrapper--notification">
     <mat-card-header>
@@ -83,7 +88,6 @@ SPDX-License-Identifier: Apache-2.0
 
   <!-- TODO add a parts table with selection possiblity -->
 </div>
-
 
 
 <ng-template #mainNotificationPartsTmp let-view="view">
