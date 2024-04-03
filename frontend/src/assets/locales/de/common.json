@@ -202,6 +202,7 @@
     "investigation": "Qualitätsuntersuchung",
     "alert": "Qualitätswarnung",
     "header": "Qualitätsthema erstellen",
+    "editNotificationHeader": "Qualitätsthema anpassen",
     "affectedParts": "Betroffene Teile",
     "unAffectedParts": "Verfügbare Teile",
     "partDescription": "Sie haben folgende Produkte ausgewählt:",

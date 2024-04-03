@@ -203,6 +203,7 @@
     "investigation": "Quality Investigation",
     "alert": "Quality Alert",
     "header": "Create Notification",
+    "editNotificationHeader": "Edit Notification",
     "affectedParts": "Affected parts",
     "unAffectedParts": "Available parts",
     "partDescription": "You selected the following parts:",

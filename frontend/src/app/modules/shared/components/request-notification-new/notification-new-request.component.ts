@@ -34,11 +34,9 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './notification-new-request.component.html',
 })
 export class RequestNotificationNewComponent {
+  @Input() title: string;
   @Input() selectedItems: Part[];
-
   formGroup = new FormGroup<any>({});
-
-
   @Output() submitted = new EventEmitter<void>();
 
   public readonly isLoading$ = new BehaviorSubject(false);
