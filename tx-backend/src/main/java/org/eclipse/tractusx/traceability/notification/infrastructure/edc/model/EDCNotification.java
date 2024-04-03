@@ -32,8 +32,6 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import java.time.Instant;
 import java.util.List;
 
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotification(@Valid
                               @NotNull
@@ -83,7 +81,7 @@ public record EDCNotification(@Valid
 
     @JsonIgnore
     public List<NotificationAffectedPart> getListOfAffectedItems() {
-        return emptyIfNull(content.listOfAffectedItems()).stream()
+        return content.listOfAffectedItems().stream()
                 .map(NotificationAffectedPart::new).toList();
     }
 
