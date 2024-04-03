@@ -68,7 +68,7 @@ SPDX-License-Identifier: Apache-2.0
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
         <jruby.version>9.4.3.0</jruby.version>
-        <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
         <jetbrains-annotation.version>24.1.0</jetbrains-annotation.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <swagger-annotation.version>1.6.12</swagger-annotation.version>
