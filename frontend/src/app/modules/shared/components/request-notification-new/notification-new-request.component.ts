@@ -46,7 +46,7 @@ export class RequestNotificationNewComponent {
   public readonly isLoading$ = new BehaviorSubject(false);
   public readonly minDate = new Date();
 
-  constructor(private readonly toastService: ToastService, private readonly notificationService: NotificationService) {
+  constructor() {
     this.context = 'requestAlert';
     this.formGroup.addControl('title', new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]));
     this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
