@@ -47,20 +47,13 @@ public class GenericSubmodel {
             property = "aspectType")
     @JsonSubTypes({
             @Type(value = MainAspectAsBuiltRequest.class, names = {
-                    "urn:samm:io.catenax.serial_part:1.0.0#SerialPart",
-                    "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
-                    "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",
                     "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
-                    "urn:bamm:com.catenax.batch:1.0.0#Batch",
-                    "urn:bamm:io.catenax.batch:1.0.0#Batch",
-                    "urn:bamm:io.catenax.batch:1.0.2#Batch",
                     "urn:samm:io.catenax.batch:2.0.0#Batch",
                     "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
             }),
 
             @Type(value = MainAspectAsPlannedRequest.class, names = {
-                    "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
-                    "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
+                    "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
             }),
             @Type(value = PartSiteInformationAsPlannedRequest.class, names = {
                     "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
@@ -82,7 +75,7 @@ public class GenericSubmodel {
                     "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
             })
     })
-    private Object payload;
+    private final Object payload;
 
     private String payloadRaw;
 

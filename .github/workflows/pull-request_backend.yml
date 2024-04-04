@@ -33,10 +33,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           fetch-depth: 0
       - name: Check if CHANGELOG is updated
         id: updated-changelog
-        uses: tj-actions/changed-files@v42
+        uses: tj-actions/changed-files@v44
         with:
           # Avoid using single or double quotes for multiline patterns
           files: |
@@ -47,6 +48,34 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           review-message: "Please add a short description of the feature/fix to the Changelog.md."
+  Check-Pom-for-snapshot-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check pom for -SNAPSHOT
+        id: pom-version
+        run: |
+          snapshot_count_root_pom=$(sed -n '/<properties>/,/properties>/p' pom.xml | grep -o '\-SNAPSHOT' | wc -l)
+          if (( $snapshot_count_root_pom > 1 )); then
+            echo "pom_changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "pom_changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Review Comment
+        uses: ntsd/auto-request-changes-action@v3
+        if: steps.pom-version.outputs.pom_changed == 'true'
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          review-message: "Please remove -SNAPSHOT from property versions. You can find them in pom.xml(tx-root)."
+
+      - name: Print environment variables
+        id: print-env-vars
+        run: |
+          echo ${{steps.pom-version.outputs.pom_changed}}
+
 
   Test-and-Sonar:
     permissions:

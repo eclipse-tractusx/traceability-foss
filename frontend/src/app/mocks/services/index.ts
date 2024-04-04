@@ -28,7 +28,6 @@ export {
   otherPartsAsPlannedHandlers,
   otherPartsAsPlannedHandlersTest,
 } from './otherParts-mock/otherParts.handler';
-export { investigationsHandlers, investigationsTestHandlers } from './investigations-mock/investigations.handler';
 export { adminHandler } from './admin-mock/admin.handler';
 export { errorHandler } from './error-mock/error.handler';
 export { policyHandler } from './policy-mock/policy.handler';

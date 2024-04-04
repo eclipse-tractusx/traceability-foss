@@ -1,0 +1,242 @@
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
+
+:host {
+  th {
+    z-index: 4 !important;
+  }
+}
+
+
+mat-card {
+  height: 100% !important;
+}
+
+.part-detail {
+
+  &--spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &--container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px 25px;
+    margin-bottom: 25px;
+  }
+
+  @media(max-width: 1023px) {
+    &--container {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  &--container > div {
+    min-height: 200px;
+    max-height: 600px;
+  }
+
+  &--open {
+    pointer-events: unset;
+  }
+
+  &--sidenav {
+    @apply flex bg-dustyGrayShadeWildSand;
+    align-items: center;
+    justify-content: center;
+    min-width: 900px;
+    padding: 25px;
+  }
+
+  &--relation__icon {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+
+  &-subcomponents-table-container {
+    flex: 1;
+    height: 350px;
+    overflow: auto;
+  }
+}
+
+.part-detail--tractionBattery-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+
+.part-detail--tractionBattery-details {
+  flex: 1;
+}
+
+.overview {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.relation {
+  grid-column: span 2;
+  grid-row: span 2;
+  mat-card-content {
+    height: 90%;
+  }
+}
+
+.import-state {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.manufacturer {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.specific {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.tractionbattery {
+  grid-column: span 4;
+  grid-row: span 1;
+}
+
+@media(max-width: 1023px) {
+  .overview {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .relation {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .import-state {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .manufacturer {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .specific {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .tractionbattery {
+    grid-column: span 1;
+    grid-row: span 3;
+  }
+}
+
+.card-list {
+  &--icon {
+    display: flex;
+
+    &:hover {
+      @apply text-primary;
+      cursor: pointer;
+    }
+  }
+
+  &--row {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    grid-template-rows: minmax(23px, auto);
+    align-items: center;
+
+    > span {
+      line-height: 1.25rem;
+    }
+
+    @media (max-width: 1440px) {
+      grid-template-columns: 40% 60%;
+    }
+
+    @media (max-width: 1280px) {
+      grid-template-columns: 50% 50%;
+    }
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 30% 70%;
+    }
+
+    &--textField {
+      display: grid;
+      grid-template-columns: 35% 65%;
+      grid-template-rows: minmax(23px, auto);
+      align-items: start;
+      margin-top: 4px;
+      margin-bottom: 10px;
+    }
+  }
+
+  &--key {
+    padding-right: 10px;
+    font-weight: bold;
+  }
+
+  &--value {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 15px;
+
+    &--textField {
+      max-height: 100px;
+      overflow-y: auto;
+      white-space: wrap;
+      text-overflow: unset;
+    }
+  }
+
+  &--qualityType {
+    grid-area: c;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    & > app-select {
+      width: 90%;
+    }
+
+    & > mat-icon {
+      width: 10%;
+      text-align: center;
+      cursor: pointer;
+
+      &:hover {
+        @apply text-primary;
+      }
+    }
+  }
+}

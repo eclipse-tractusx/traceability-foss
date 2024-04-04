@@ -52,7 +52,6 @@ import { BpdmService } from '@shared/service/bpdm.service';
 import { I18NextModule } from 'angular-i18next';
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
-import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
@@ -87,7 +86,6 @@ import { EssTableComponent } from '@shared/components/ess-table/ess-table.compon
     ToastContainerComponent,
     PartsTableComponent,
     ToastMessageComponent,
-    BreadcrumbsComponent,
     ButtonComponent,
     TextWithIconComponent,
     TableComponent,
@@ -140,7 +138,6 @@ import { EssTableComponent } from '@shared/components/ess-table/ess-table.compon
   exports: [
     ToastContainerComponent,
     ToastMessageComponent,
-    BreadcrumbsComponent,
     ButtonComponent,
     TextWithIconComponent,
     TableComponent,

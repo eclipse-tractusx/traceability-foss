@@ -37,8 +37,8 @@ import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
 import _deepClone from 'lodash-es/cloneDeep';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { catchError, filter, map } from 'rxjs/operators';
 import { SortDirection } from '../../../mocks/services/pagination.helper';
 
 @Injectable()
@@ -120,14 +120,20 @@ export class PartsService {
 
     const encodedId = encodeURIComponent(id);
 
-    let resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ encodedId }`)
-      .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)));
+    const resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ encodedId }`).pipe(
+      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)),
+      catchError(() => of(null))
+    );
+    const resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ encodedId }`).pipe(
+      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)),
+      catchError(() =>  of(null))
+    );
 
-    let resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ encodedId }`)
-      .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)));
-
-    return resultsAsBuilt || resultsAsPlanned;
-
+    // Combine both observables and filter out null values from the array
+    return forkJoin([resultsAsBuilt, resultsAsPlanned]).pipe(
+      filter(([partAsBuilt, partAsPlanned]) => partAsBuilt !== null || partAsPlanned !== null),
+      map(([partAsBuilt, partAsPlanned]) => partAsBuilt || partAsPlanned)
+    );
   }
 
 

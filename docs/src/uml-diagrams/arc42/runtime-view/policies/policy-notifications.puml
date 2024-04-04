@@ -1,0 +1,75 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence diagram: Policy handling on notification flow
+participant "Trace-X" as TraceX
+participant "Trace-X IRS Lib" as TraceXIRSLib
+participant "EDC Consumer" as EdcConsumer
+participant "EDC Provider (other) " as EdcProvider
+
+activate TraceX
+TraceX -> TraceX: Approve, acknowledge, accept, decline or close notification
+TraceX -> EdcConsumer: Get catalog of receiver
+activate EdcConsumer
+EdcConsumer -> EdcProvider: Get catalog of receiver
+activate EdcProvider
+EdcProvider --> EdcConsumer: Return catalog
+deactivate EdcProvider
+EdcConsumer --> TraceX: Return catalog
+deactivate EdcConsumer
+TraceX -> TraceX: Validate contract type, method and policy
+
+alt Notification type: Alert
+    TraceX -> TraceX: Filter for method (update, receive)
+    TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policies in IRS Lib (3 default policies)
+    activate TraceXIRSLib
+    TraceXIRSLib --> TraceX: Valid
+    deactivate TraceXIRSLib
+    alt Method: Update
+        TraceX -> EdcConsumer: Send alert notification (update method)
+        activate EdcConsumer
+        EdcConsumer -> EdcProvider: Send alert notification (update method)
+        activate EdcProvider
+        EdcProvider --> EdcConsumer: Ok
+        deactivate EdcProvider
+        EdcConsumer -> TraceX: Ok
+        deactivate EdcConsumer
+    else Method: Receive
+        TraceX -> EdcConsumer: Send alert notification (receive method)
+        activate EdcConsumer
+        EdcConsumer -> EdcProvider: Send alert notification (receive method)
+        activate EdcProvider
+        EdcProvider -> EdcConsumer: Ok
+        deactivate EdcProvider
+        EdcConsumer -> TraceX: Ok
+        deactivate EdcConsumer
+    end
+else Notification Type: Investigation
+    TraceX -> TraceX: Filter for method (update, receive)
+    TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policies in IRS Lib (3 default policies)
+    activate TraceXIRSLib
+    TraceXIRSLib --> TraceX: Valid
+    deactivate TraceXIRSLib
+    alt Method: Update
+        TraceX -> EdcConsumer: Send investigation notification (update method)
+        activate EdcConsumer
+        EdcConsumer -> EdcProvider: Send investigation notification (update method)
+        activate EdcProvider
+        EdcProvider --> EdcConsumer: Ok
+        deactivate EdcProvider
+        EdcConsumer -> TraceX: Ok
+        deactivate EdcConsumer
+    else Method: Receive
+        TraceX -> EdcConsumer: Send investigation notification (receive method)
+        activate EdcConsumer
+        EdcConsumer -> EdcProvider: Send investigation notification (receive method)
+        activate EdcProvider
+        EdcProvider -> EdcConsumer: Ok
+        deactivate EdcProvider
+        EdcConsumer -> TraceX: Ok
+        deactivate EdcConsumer
+    end
+end
+@enduml

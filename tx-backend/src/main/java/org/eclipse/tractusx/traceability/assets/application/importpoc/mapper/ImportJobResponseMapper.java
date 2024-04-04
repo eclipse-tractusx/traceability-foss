@@ -21,11 +21,13 @@ package org.eclipse.tractusx.traceability.assets.application.importpoc.mapper;
 import assets.importpoc.ImportJobStatusResponse;
 import assets.importpoc.ImportReportResponse;
 import assets.response.base.response.ImportStateResponse;
+import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
 
 import java.util.List;
 import java.util.stream.Stream;
 
+@UtilityClass
 public class ImportJobResponseMapper {
     public static ImportReportResponse from(ImportJob importJob) {
 

@@ -67,7 +67,7 @@ describe('requestNotificationComponent', () => {
     deselectPartMock = jasmine.createSpy();
     clearSelectedMock = jasmine.createSpy();
     submittedMock = jasmine.createSpy();
-    notificationServiceMock = jasmine.createSpyObj('NotificationService', ['createInvestigation' /* add more methods as needed */]);
+    notificationServiceMock = jasmine.createSpyObj('NotificationService', ['createNotification' /* add more methods as needed */]);
   });
 
   describe('Request Investigation', () => {
@@ -157,6 +157,7 @@ describe('requestNotificationComponent', () => {
   const shouldSubmitParts = async (shouldFillBpn = false) => {
     const testText = 'This is for a testing purpose.';
     const textArea = (await waitFor(() => screen.getByTestId('BaseInputElement-1'))) as HTMLTextAreaElement;
+
     fireEvent.input(textArea, { target: { value: testText } });
 
     if (shouldFillBpn) {
@@ -168,7 +169,9 @@ describe('requestNotificationComponent', () => {
     expect(submit).toBeInTheDocument();
     expect(textArea.value).toEqual(testText);
     fireEvent.click(submit);
+
     await sleepForTests(2000);
+    debugger;
     expect(textArea.value).toEqual('');
   };
 });

@@ -20,11 +20,15 @@
  ********************************************************************************/
 
 
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {CalendarDateModel} from '@core/model/calendar-date.model';
+import {Pagination, PaginationResponse} from '@core/model/pagination.model';
 
 export enum KnownAdminRoutes {
   BPN = 'configure-bpn',
-  IMPORT = 'configure-import'
+  IMPORT = 'configure-import',
+  CONTRACT = 'contracts',
+  CONTRACT_DETAIL_VIEW = 'contracts/:contractId'
 }
 
 
@@ -43,3 +47,44 @@ export interface BpnConfig {
 }
 
 export type BpnConfigFormGroup = FormGroup<{ bpnConfig: FormArray<FormControl<BpnConfig>> }>;
+
+export interface Contract {
+  contractId: string,
+  counterpartyAddress: string,
+  creationDate: CalendarDateModel,
+  endDate: CalendarDateModel,
+  state: ContractState,
+  policy: string
+}
+
+export interface ContractResponse {
+  contractId: string,
+  counterpartyAddress: string,
+  creationDate: string,
+  endDate: string,
+  state: ContractState,
+  policy: string
+}
+
+export type ContractsResponse = PaginationResponse<ContractResponse>;
+export type Contracts = Pagination<Contract>;
+export function assembleContract(contractResponse: ContractResponse): Contract {
+
+  return {
+    contractId: contractResponse.contractId,
+    counterpartyAddress: contractResponse.counterpartyAddress,
+    creationDate: new CalendarDateModel(contractResponse.creationDate),
+    endDate: new CalendarDateModel(contractResponse.endDate),
+    state: contractResponse.state,
+    policy: contractResponse.policy
+  };
+}
+
+export function assembleContracts(contractResponseList: ContractResponse[]) {
+  return contractResponseList.map(contractResponse => assembleContract(contractResponse));
+}
+
+export enum ContractState {
+  FINALIZED = 'Finalized',
+  TERMINATED = 'Terminated'
+}

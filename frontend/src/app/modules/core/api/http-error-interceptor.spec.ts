@@ -57,7 +57,7 @@ describe('HttpErrorInterceptor', () => {
   it('should intercept', async () => {
     await initErrorInterceptor('403');
     expect(
-      await waitFor(() => screen.getByText('Backend returned code 403: Permission denied error message')),
-    ).toBeInTheDocument();
+      await waitFor(() => screen.queryByText('Backend returned code 403: Permission denied error message')),
+    ).not.toBeInTheDocument();
   });
 });

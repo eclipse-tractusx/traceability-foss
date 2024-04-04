@@ -31,7 +31,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.QueryParam;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
@@ -51,6 +50,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -250,7 +250,7 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("owner") Owner owner) {
+    public List<String> distinctFilterValues(@RequestParam("fieldName") String fieldName, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "startWith", required = false) String startWith, @RequestParam(value = "owner", required = false) Owner owner) {
         return assetService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner);
     }
 
@@ -305,7 +305,7 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
-    public AssetAsPlannedResponse getAssetById(@PathVariable String assetId) {
+    public AssetAsPlannedResponse getAssetById(@PathVariable("assetId") String assetId) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssetById(assetId));
     }
 
@@ -416,7 +416,7 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping("/{assetId}")
-    public AssetAsPlannedResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
+    public AssetAsPlannedResponse updateAsset(@PathVariable("assetId") String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
         return AssetAsPlannedResponseMapper.from(
                 assetService.updateQualityType(assetId, QualityTypeMapper.toDomain(updateAssetRequest.qualityType())));
     }

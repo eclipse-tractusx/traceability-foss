@@ -19,9 +19,17 @@
 
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface JpaSubmodelPayloadRepository extends JpaRepository<SubmodelPayloadEntity, String> {
+
+    List<SubmodelPayloadEntity> findByAssetAsBuilt(AssetAsBuiltEntity assetAsBuilt);
+
+    List<SubmodelPayloadEntity> findByAssetAsPlanned(AssetAsPlannedEntity assetAsPlanned);
 
 }

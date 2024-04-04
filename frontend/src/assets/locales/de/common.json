@@ -8,8 +8,7 @@
     "about": "Über uns",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
-    "investigations": "Qualitätsuntersuchung",
-    "alerts": "Qualitätswarnung",
+    "inbox": "Inbox",
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
@@ -17,7 +16,14 @@
     "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
     "noChildPartsForInvestigation": "Diese Funktion ist für Produkte ohne Bauteile nicht verfügbar.",
     "noCustomerAsPlannedParts": "Produkte von Kunden im Lebenszyklus \"AsPlanned\" sind nicht verfügbar.",
-    "nonTransientPart": "Ein oder mehrere ausgewählte Produkte befinden sich nicht im erforderlichen Importstatus \"TRANSIENT\"."
+    "illegalAssetStateToPublish": "Ein oder mehrere ausgewählte Produkte befinden sich nicht im erforderlichen Importstatus \"TRANSIENT\" oder \"ERROR\".",
+    "adminContract": "Verträge",
+    "createIncident": "Mitteilung erstellen",
+    "startInvestigation": "Qualitätsuntersuchung für Bauteile erstellen",
+    "notAllowedForNonPersistentPart": "Qualitätsmitteilungen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
+    "onlyAllowedForOwnParts": "Diese Funktion ist nur für eigene Produkte möglich.",
+    "publishAssets": "Produkt veröffentlichen",
+    "notAuthorizedOwner": "Qualitätsmitteilungen sind nur für Eigene- und Lieferantenprodukte möglich."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -26,8 +32,7 @@
     "about": "Über Catena-X Open-Source Rückverfolgbarkeit",
     "relations": "Beziehungen",
     "admin": "Verwaltung Catena-X",
-    "investigations": "Qualitätsuntersuchung",
-    "alerts": "Qualitätswarnung"
+    "alerts": "Qualitätsthemen"
   },
   "layout": {
     "nav": {
@@ -124,6 +129,8 @@
       "importState": "Importstatus",
       "importNote": "Importbemerkung",
       "importDate": "Importdatum",
+      "type": "Typ",
+      "title": "Titel",
       "rowNumber": "No",
       "partName": "Teilname",
       "companyName": "Name des untersuchten Unternehmens",
@@ -153,7 +160,8 @@
     "TRANSIENT": "TRANSIENT",
     "IN_SYNCHRONIZATION": "IN SYNCHRONISATION",
     "ERROR": "FEHLER",
-    "UNSET": "UNDEFINIERT"
+    "UNSET": "UNDEFINIERT",
+    "PUBLISHED_TO_CORE_SERVICES": "VERÖFFENTLICHT"
   },
   "severity": {
     "MINOR": "Gering",
@@ -186,14 +194,18 @@
   "requestAlert": {
     "headline": "Qualitätswarnung erstellen",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
+    "titleDescription": "Titel",
     "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
-    "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt."
+    "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt.",
+    "serverError": "Serverfehler:"
+
   },
   "requestInvestigations": {
     "headline": "Qualitätsprüfung anfordern",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
     "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
-    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet."
+    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",
+    "serverError": "Serverfehler:"
   },
   "requestNotification": {
     "partDescription": "Sie haben folgende Produkte ausgewählt:",
@@ -201,12 +213,15 @@
     "bpnLabel": "BPN",
     "bpnDescription": "Bitte geben Sie die Empfänger BPN an.",
     "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
+    "titleDescription": "Titel",
+    "titleLabel": "Titel",
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",
     "cancel": "ABBRUCH",
     "submit": "ZUR WARTESCHLANGE HINZUFÜGEN",
     "severity": "Gefahrenstufe",
-    "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem"
+    "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem",
+    "serverError": "Serverfehler:"
   },
   "requestPublishAssets": {
     "success": "Anfrage zur Veröffentlichung der Produkte war erfolgreich",
@@ -266,8 +281,8 @@
   "commonAlert": {
     "viewAll": "Alle anzeigen",
     "tabs": {
-      "received": "Zugewiesene",
-      "queuedAndRequested": "Erstellte und Versendete"
+      "received": "Empfangene",
+      "queuedAndRequested": "Versendete"
     },
     "status": {
       "RECEIVED": "Erhalten",
@@ -299,7 +314,7 @@
       "successfullyDeclined": "Qualitätswarnung wurde erfolgreich abgelehnt.",
       "failedAccept": "Qualitätswarnung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
       "failedAcknowledge": "Qualitätswarnung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
-      "failedApprove": "Die Qualitätswarnung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
+      "failedApprove": "Die Qualitätswarnung konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
       "failedCancel": "Die Qualitätswarnung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
       "failedClose": "Die Qualitätswarnung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
       "failedDecline": "Qualitätswarnung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
@@ -339,7 +354,8 @@
       "PERSISTENT": "Persistent",
       "IN_SYNCHRONIZATION": "In Synchronisation",
       "ERROR": "Fehler",
-      "UNSET": "Undefiniert"
+      "UNSET": "Undefiniert",
+      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
     }
   },
   "parts": {
@@ -356,6 +372,8 @@
     "startDate": "Startdatum",
     "endDate": "Enddatum"
   },
+  "retry": "Erneut versuchen",
+  ,
   "ess": {
     "investigations": {
       "info": "Name des untersuchten Unternehmens"
@@ -400,6 +418,5 @@
       "action": "ESS-Untersuchung erstellen"
     },
     "asBuiltParts": "AsBuilt Lifecycle"
-
   }
 }

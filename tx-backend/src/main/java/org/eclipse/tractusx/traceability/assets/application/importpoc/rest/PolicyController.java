@@ -31,13 +31,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyResponseMapper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -46,7 +46,7 @@ import java.util.List;
 @RequestMapping(path = "/policies")
 public class PolicyController {
 
-    private  final PolicyService policyService;
+    private final PolicyService policyService;
 
     @Operation(operationId = "policy",
             summary = "Get all policies ",
@@ -54,7 +54,9 @@ public class PolicyController {
             description = "The endpoint returns all policies .",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the policies",
-            content = {@Content(schema = @Schema(implementation = PolicyResponse.class))}),
+            content = {@Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = PolicyResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -100,6 +102,6 @@ public class PolicyController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping()
     public List<PolicyResponse> policy() {
-        return PolicyResponseMapper.fromList(policyService.getAllPolicies());
+        return policyService.getAllPolicies();
     }
 }

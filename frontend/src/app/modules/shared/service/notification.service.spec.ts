@@ -16,102 +16,97 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {NotificationService} from "@shared/service/notification.service";
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {TestBed} from "@angular/core/testing";
-import {NotificationStatus} from "@shared/model/notification.model";
-import {NotificationChannel} from "@shared/components/multi-select-autocomplete/table-type.model";
-import {AuthService} from "@core/auth/auth.service";
-import {ApiService} from "@core/api/api.service";
-import {KeycloakService} from "keycloak-angular";
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { ApiService } from '@core/api/api.service';
+import { AuthService } from '@core/auth/auth.service';
+import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationStatus } from '@shared/model/notification.model';
+import { NotificationService } from '@shared/service/notification.service';
+import { KeycloakService } from 'keycloak-angular';
 
 describe('NotificationService', () => {
-    let service: NotificationService;
-    let httpTestingController: HttpTestingController;
-    let authService: AuthService;
+  let service: NotificationService;
+  let httpTestingController: HttpTestingController;
+  let authService: AuthService;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
-            providers: [NotificationService, ApiService, KeycloakService, AuthService],
-        });
-        service = TestBed.inject(NotificationService);
-        httpTestingController = TestBed.inject(HttpTestingController);
-        authService = TestBed.inject(AuthService);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule ],
+      providers: [ NotificationService, ApiService, KeycloakService, AuthService ],
     });
+    service = TestBed.inject(NotificationService);
+    httpTestingController = TestBed.inject(HttpTestingController);
+    authService = TestBed.inject(AuthService);
+  });
 
-    afterEach(() => {
-        httpTestingController.verify();
-    });
+  afterEach(() => {
+    httpTestingController.verify();
+  });
 
-    it('should close a notification', () => {
-        const notificationId = '123';
-        const reason = 'Test reason';
-        const isInvestigation = true;
-        spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
-
-
-        service.closeNotification(notificationId, reason, isInvestigation).subscribe();
-
-        const req = httpTestingController.expectOne(`${service.determineRequestUrl(isInvestigation)}/${notificationId}/close`);
-        expect(req.request.method).toBe('POST');
-        expect(req.request.body).toEqual( '{"reason":"Test reason"}');
-        req.flush({});
-    });
-
-    it('should approve a notification', () => {
-        const notificationId = '123';
-        const isInvestigation = true;
-        spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
+  it('should close a notification', () => {
+    const notificationId = '123';
+    const reason = 'Test reason';
+    spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
 
 
-        service.approveNotification(notificationId, isInvestigation).subscribe();
+    service.closeNotification(notificationId, reason).subscribe();
 
-        const req = httpTestingController.expectOne(`${service.determineRequestUrl(isInvestigation)}/${notificationId}/approve`);
-        expect(req.request.method).toBe('POST');
-        req.flush({});
-    });
+    const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/close`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual('{"reason":"Test reason"}');
+    req.flush({});
+  });
 
-    it('should cancel a notification', () => {
-        const notificationId = '123';
-        const isInvestigation = true;
-        spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
+  it('should approve a notification', () => {
+    const notificationId = '123';
+    spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
 
-        service.cancelNotification(notificationId, isInvestigation).subscribe();
 
-        const req = httpTestingController.expectOne(`${service.determineRequestUrl(isInvestigation)}/${notificationId}/cancel`);
-        expect(req.request.method).toBe('POST');
-        req.flush({});
-    });
+    service.approveNotification(notificationId).subscribe();
 
-    it('should update a notification', () => {
-        const notificationId = '123';
-        const status = NotificationStatus.ACKNOWLEDGED;
-        const reason = 'Test reason';
-        const isInvestigation = true;
-        spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
+    const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/approve`);
+    expect(req.request.method).toBe('POST');
+    req.flush({});
+  });
 
-        service.updateNotification(notificationId, status, reason, isInvestigation).subscribe();
+  it('should cancel a notification', () => {
+    const notificationId = '123';
+    spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
 
-        const req = httpTestingController.expectOne(`${service.determineRequestUrl(isInvestigation)}/${notificationId}/update`);
-        expect(req.request.method).toBe('POST');
-        expect(req.request.body).toEqual('{"reason":"Test reason","status":"ACKNOWLEDGED"}');
-        req.flush({});
-    });
+    service.cancelNotification(notificationId).subscribe();
 
-    it('should get distinct filter values', () => {
-        const channel: NotificationChannel = NotificationChannel.SENDER;
-        const fieldNames = 'SomeField';
-        const startsWith = 'Test';
-        const isInvestigation = true;
-        spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
+    const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/cancel`);
+    expect(req.request.method).toBe('POST');
+    req.flush({});
+  });
 
-        service.getDistinctFilterValues(channel, fieldNames, startsWith, isInvestigation).subscribe();
+  it('should update a notification', () => {
+    const notificationId = '123';
+    const status = NotificationStatus.ACKNOWLEDGED;
+    const reason = 'Test reason';
+    spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
 
-        const req = httpTestingController.expectOne(
-            `${service.determineRequestUrl(isInvestigation)}/distinctFilterValues?fieldName=SomeField&startWith=Test&size=200&channel=SENDER`
-        );
-        expect(req.request.method).toBe('GET');
-        req.flush({});
-    });
+    service.updateNotification(notificationId, status, reason).subscribe();
+
+    const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/update`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual('{"reason":"Test reason","status":"ACKNOWLEDGED"}');
+    req.flush({});
+  });
+
+  it('should get distinct filter values', () => {
+    const channel: NotificationChannel = NotificationChannel.SENDER;
+    const fieldNames = 'SomeField';
+    const startsWith = 'Test';
+    spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
+
+    service.getDistinctFilterValues(channel, fieldNames, startsWith).subscribe();
+
+    const req = httpTestingController.expectOne(
+      `${ service.notificationUrl() }/distinctFilterValues?fieldName=SomeField&startWith=Test&size=200&channel=SENDER`,
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush({});
+  });
 });

@@ -21,14 +21,14 @@
 package org.eclipse.tractusx.traceability.common.properties;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
-@ConfigurationProperties("edc")
+@Configuration
 public class EdcProperties {
 
     @NotBlank
@@ -36,20 +36,12 @@ public class EdcProperties {
     private String idsPath;
 
     @NotBlank
-    @Value("${edc.contractdefinitions}")
-    private String contractDefinitionsPath;
-
-    @NotBlank
-    @Value("${edc.policydefinitions}")
-    private String policyDefinitionsPath;
-
-    @NotBlank
-    @Value("${edc.assets}")
-    private String assetsPath;
-
-    @NotBlank
     @Value("${edc.provider-edc-url}")
     private String providerEdcUrl;
+
+    @NotBlank
+    @Value("${edc.provider-dataplane-edc-url}")
+    private String providerDataplaneEdcUrl;
 
     @NotBlank
     @Value("${edc.api-auth-key}")

@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { ToastMessage } from './toast-message.model';
 
 @Component({
@@ -30,4 +31,13 @@ import { ToastMessage } from './toast-message.model';
 export class ToastMessageComponent {
   @Input() toastMessage: ToastMessage;
   @Output() removeToast: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
+  constructor(private toastService: ToastService) {
+  }
+
+  handleClick(event: MouseEvent) {
+    event.stopPropagation();
+      this.toastService.emitClick();
+
+
+  }
 }

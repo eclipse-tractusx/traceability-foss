@@ -25,7 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { getI18nPageProvider } from '@core/i18n';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsState } from '@page/parts/core/parts.state';
-import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
+import { PartsDetailModule } from '@page/parts/detail/parts-detail.module';
 import { RelationsModule } from '@shared/modules/relations/relations.module';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
@@ -38,7 +38,7 @@ import { RelationComponent } from './presentation/relation/relation.component';
 
 @NgModule({
   declarations: [ PartsComponent, RelationComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule, AngularSplitModule, MatDialogModule ],
+  imports: [ CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, AngularSplitModule, MatDialogModule, PartsDetailModule ],
   providers: [ PartsState, BomLifecycleSettingsService, PartsFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider([ 'page.parts', 'partDetail' ]) ],
 })
 export class PartsModule {

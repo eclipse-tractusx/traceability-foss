@@ -21,17 +21,19 @@ package org.eclipse.tractusx.traceability.integration.edc.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,6 +43,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -81,7 +84,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
         // then
         investigationNotificationsSupport.assertNotificationsSize(1);
         investigationsSupport.assertInvestigationsSize(1);
-        investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.RECEIVED);
+        investigationsSupport.assertInvestigationStatus(NotificationStatus.RECEIVED);
     }
 
     @Test
@@ -109,28 +112,48 @@ class EdcControllerIT extends IntegrationTestSpecification {
     void shouldAddANotificationToExistingInvestigationOnAPICallback() throws IOException, JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        InvestigationNotificationEntity notification = InvestigationNotificationEntity
+
+        AssetAsBuiltEntity assetAsBuiltEntity = assetsSupport.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb");
+
+        NotificationMessageEntity notification = NotificationMessageEntity
                 .builder()
                 .id("1")
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                 .status(NotificationStatusBaseEntity.CREATED)
+                .assets(List.of(assetAsBuiltEntity))
                 .build();
 
-        InvestigationEntity investigation = InvestigationEntity.builder()
+        NotificationMessageEntity notificationSent = NotificationMessageEntity
+                .builder()
+                .id("2")
+                .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                .status(NotificationStatusBaseEntity.SENT)
+                .assets(List.of(assetAsBuiltEntity))
+                .build();
+
+        NotificationEntity investigation = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(NotificationStatusBaseEntity.SENT)
+                .type(NotificationTypeEntity.INVESTIGATION)
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(Instant.now())
                 .build();
 
-        InvestigationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
+        NotificationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
 
-        InvestigationNotificationEntity notificationEntity = investigationNotificationsSupport.storedNotification(notification);
-        notificationEntity.setInvestigation(persistedInvestigation);
-        InvestigationNotificationEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
+        NotificationMessageEntity notificationEntity = investigationNotificationsSupport.storedNotification(notification);
+        notificationEntity.setNotification(persistedInvestigation);
 
-        investigation.setNotifications(List.of(persistedNotification));
+        NotificationMessageEntity notificationEntitySent = investigationNotificationsSupport.storedNotification(notificationSent);
+        notificationEntitySent.setNotification(persistedInvestigation);
+
+        NotificationMessageEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
+        NotificationMessageEntity persistedNotificationSent = investigationNotificationsSupport.storedNotification(notificationEntitySent);
+        List<NotificationMessageEntity> notificationEntities = new ArrayList<>();
+        notificationEntities.add(persistedNotificationSent);
+        notificationEntities.add(persistedNotification);
+        investigation.setMessages(notificationEntities);
 
         investigationsSupport.storedInvestigationFullObject(investigation);
 
@@ -149,37 +172,38 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .statusCode(200);
 
         // then
-        investigationNotificationsSupport.assertNotificationsSize(2);
+        investigationNotificationsSupport.assertNotificationsSize(3);
         investigationsSupport.assertInvestigationsSize(1);
-        investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.ACKNOWLEDGED);
+        investigationsSupport.assertInvestigationStatus(NotificationStatus.ACKNOWLEDGED);
     }
 
     @Test
     void shouldThrowBadRequestBecauseEdcNotificationMethodIsNotSupported() throws IOException, JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        InvestigationNotificationEntity notification = InvestigationNotificationEntity
+        NotificationMessageEntity notification = NotificationMessageEntity
                 .builder()
                 .id("1")
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                 .build();
 
 
-        InvestigationEntity investigation = InvestigationEntity.builder()
+        NotificationEntity investigation = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(NotificationStatusBaseEntity.SENT)
+                .type(NotificationTypeEntity.INVESTIGATION)
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(Instant.now())
                 .build();
 
-        InvestigationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
+        NotificationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
 
-        InvestigationNotificationEntity notificationEntity = investigationNotificationsSupport.storedNotification(notification);
-        notificationEntity.setInvestigation(persistedInvestigation);
-        InvestigationNotificationEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
+        NotificationMessageEntity notificationEntity = investigationNotificationsSupport.storedNotification(notification);
+        notificationEntity.setNotification(persistedInvestigation);
+        NotificationMessageEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
 
-        investigation.setNotifications(List.of(persistedNotification));
+        investigation.setMessages(List.of(persistedNotification));
 
         investigationsSupport.storedInvestigationFullObject(investigation);
 
@@ -206,9 +230,10 @@ class EdcControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCallUpdateApiWithWrongRequestObject() throws JoseException {
         // given
-        InvestigationEntity investigation = InvestigationEntity.builder()
+        NotificationEntity investigation = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
+                .type(NotificationTypeEntity.INVESTIGATION)
                 .status(NotificationStatusBaseEntity.RECEIVED)
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(Instant.now())
@@ -247,7 +272,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
         // then
         investigationNotificationsSupport.assertNotificationsSize(0);
         investigationsSupport.assertInvestigationsSize(1);
-        investigationsSupport.assertInvestigationStatus(QualityNotificationStatus.RECEIVED);
+        investigationsSupport.assertInvestigationStatus(NotificationStatus.RECEIVED);
     }
 
     private String readFile(final String filePath) throws IOException {

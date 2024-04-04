@@ -33,7 +33,7 @@ SPDX-License-Identifier: Apache-2.0
            matTooltipPosition="above"
            [class.mdc-tooltip--multiline]="true"
            [matTooltipShowDelay]="1000"
-           [matTooltipDisabled]="roleService.hasAccess(['user','supervisor']) && mainAspectType === MainAspectType.AS_BUILT"
+           [matTooltipDisabled]="roleService.hasAccess(['user','supervisor']) && mainAspectType === MainAspectType.AS_BUILT && tableType != TableType.AS_BUILT_CUSTOMER"
       >
         <app-button class="margin-right-05"
           *ngIf="selection?.selected?.length && tableType == TableType.AS_PLANNED_OWN && showEssButton()"
@@ -53,7 +53,7 @@ SPDX-License-Identifier: Apache-2.0
           (click)="clickSelectAction.emit()"
           [variant]="'raised'"
           [color]="'accent'"
-          [isDisabled]="!roleService.hasAccess(['user','supervisor']) || mainAspectType === MainAspectType.AS_PLANNED"
+          [isDisabled]="!roleService.hasAccess(['user','supervisor']) || mainAspectType === MainAspectType.AS_PLANNED || tableType === TableType.AS_BUILT_CUSTOMER"
         >
           <div class="flex justify-between items-center text-dark p-0.5">
             <mat-icon class="mr-2">announcement</mat-icon>

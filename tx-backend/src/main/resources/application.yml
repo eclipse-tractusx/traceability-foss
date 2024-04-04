@@ -28,62 +28,15 @@ traceability:
   adminApiKey: ${IRS_ADMIN_API_KEY}
   regularApiKey: ${IRS_REGULAR_API_KEY}
   irsBase: ${IRS_URL}
+  irsPoliciesPath: "/irs/policies"
   submodelBase: ${SUBMODEL_URL}
-  supportedAspectTypes:
-    asBuiltTypes:
-        mainAsBuiltAspectType:
-          serialParts:
-            - "urn:samm:io.catenax.serial_part:1.0.0#SerialPart"
-            - "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
-            - "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart"
-            - "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
-          batches:
-            - "urn:bamm:com.catenax.batch:1.0.0#Batch"
-            - "urn:bamm:io.catenax.batch:1.0.0#Batch"
-            - "urn:bamm:io.catenax.batch:1.0.2#Batch"
-            - "urn:samm:io.catenax.batch:2.0.0#Batch"
-          justInSequences:
-            - "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
-        detailAsBuiltAspectType:
-          tractionBatteryCodes:
-            - "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
-        relationAsBuiltAspectType:
-          upwardRelations:
-            - "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt"
-          downwardRelations:
-            - "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt"
 
-    asPlannedTypes:
-        mainAsPlannedAspectType:
-          asPlanned:
-            - "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
-            - "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
-        detailAsBuiltAspectType:
-          partSiteInformationAsPlanned:
-            - "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
-        relationAsPlannedAspectType:
-          upwardRelations:
-            - "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
-          downwardRelations:
-            - "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"
 edc:
   ids:
     path: "/api/v1/dsp"
-  negotiation: "/management/v2/contractnegotiations"
-  contractdefinitions: "/management/v2/contractdefinitions"
-  transfer: "/management/v2/transferprocesses"
-  catalog:
-    path: "/management/v2/catalog/request"
-    cache:
-      enabled: false # Set to false to disable caching
-      ttl: P1D # Time after which a cached Item is no longer valid and the real catalog is called instead
-      maxCachedItems: 64000 # Maximum amount of cached catalog items
-  policydefinitions: "/management/v2/policydefinitions"
-  assets: "/management/v2/assets"
   api-auth-key: ${EDC_API_KEY}
-  bpn-provider-url-mappings: { }
   provider-edc-url: ${EDC_PROVIDER_URL}
-  callback-urls: ${EDC_CALLBACK_URL}
+  provider-dataplane-edc-url: ${EDC_PROVIDER_DATAPLANE_URL}
 
 irs-edc-client:
   callback-url: ${EDC_CALLBACK_URL_EDC_CLIENT}
@@ -91,10 +44,14 @@ irs-edc-client:
     request-ttl: PT10M # How long to wait for an async EDC negotiation request to finish, ISO 8601 Duration
     endpoint:
       data: ${EDC_DATA_ENDPOINT_URL}
+      asset: /management/v3/assets
+      contract-definition: /management/v2/contractdefinitions
+      policy-definition: /management/v2/policydefinitions
       catalog: /v2/catalog/request # EDC consumer controlplane catalog path
       contract-negotiation: /v2/contractnegotiations # EDC consumer controlplane contract negotiation path
       transfer-process: /v2/transferprocesses # EDC consumer controlplane transfer process path
       state-suffix: /state # Path of the state suffix for contract negotiation and transfer process
+      contract-agreements: /v2/contractagreements # EDC consumer controlplane contract agreements path
     provider-suffix: /api/v1/dsp # Suffix to add to data requests to the EDC provider controlplane
     catalog-limit: 1000 # Max number of items to fetch from the EDC provider catalog
     catalog-page-size: 50 # Number of items to fetch at one page from the EDC provider catalog when using pagination
@@ -153,11 +110,12 @@ spring:
             authorization-grant-type: client_credentials
             client-id: ${OAUTH2_CLIENT_ID}
             client-secret: ${OAUTH2_CLIENT_SECRET}
+            scope: ${OAUTH2_CLIENT_SCOPE:openid}
           OKTA:
             client-id: ${OAUTH2_CLIENT_ID}
             client-secret: ${OAUTH2_CLIENT_SECRET}
             authorization-grant-type: client_credentials
-            scope: openid
+            scope: ${OAUTH2_CLIENT_SCOPE:openid}
         provider:
           keycloak:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
@@ -186,6 +144,11 @@ cors:
   origins: >
     ${ALLOWED_CORS_ORIGIN_FIRST},
     ${ALLOWED_CORS_ORIGIN_SECOND}
+
+registry:
+  urlWithPath: ${REGISTRY_URL_WITH_PATH:https://registry.net/semantics/registry/api/v3.0}
+  shellDescriptorUrl: /shell-descriptors
+  allowedBpns: ${REGISTRY_ALLOWED_BPNS:BPNL00000003CML1,BPNL00000003CNKC}
 
 digitalTwinRegistryClient:
   shellDescriptorTemplate: /shell-descriptors/{aasIdentifier} # The path to retrieve AAS descriptors from the decentral DTR, must contain the placeholder {aasIdentifier}

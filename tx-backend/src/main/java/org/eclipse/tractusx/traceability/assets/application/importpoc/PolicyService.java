@@ -18,10 +18,15 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import assets.importpoc.PolicyResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PolicyService {
-    List<Policy> getAllPolicies();
+    List<PolicyResponse> getAllPolicies();
+
+    PolicyResponse getPolicyById(String id);
+
+    Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint();
 }

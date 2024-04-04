@@ -25,6 +25,7 @@ import {
   NotificationResponse,
   NotificationStatus,
   NotificationType,
+  NotificationTypeResponse,
 } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { NotificationAssembler } from './notification.assembler';
@@ -32,8 +33,8 @@ import { NotificationAssembler } from './notification.assembler';
 describe('InvestigationsAssembler', () => {
   it('should handle null response', () => {
     const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 50, totalItems: 0 };
-    expect(NotificationAssembler.assembleNotifications(null, NotificationType.INVESTIGATION)).toEqual(emptyPage);
-    expect(NotificationAssembler.assembleNotifications(undefined, NotificationType.INVESTIGATION)).toEqual(emptyPage);
+    expect(NotificationAssembler.assembleNotifications(null)).toEqual(emptyPage);
+    expect(NotificationAssembler.assembleNotifications(undefined)).toEqual(emptyPage);
   });
 
   it('should handle empty values', () => {
@@ -52,15 +53,16 @@ describe('InvestigationsAssembler', () => {
       createdDate: new CalendarDateModel(null),
       targetDate: new CalendarDateModel(null),
       bpn: '',
-      notificationType: NotificationType.INVESTIGATION,
+      type: undefined,
+      title: '',
     };
 
-    expect(NotificationAssembler.assembleNotification({} as NotificationResponse, NotificationType.INVESTIGATION)).toEqual(expected);
+    expect(NotificationAssembler.assembleNotification({} as NotificationResponse)).toEqual(expected);
   });
 
   it('should map properly response', () => {
-    expect(
-      NotificationAssembler.assembleNotifications({
+
+    let actual = NotificationAssembler.assembleNotifications({
         page: 0,
         pageCount: 1,
         pageSize: 5,
@@ -82,6 +84,8 @@ describe('InvestigationsAssembler', () => {
             reason: { close: '', accept: '', decline: '' },
             assetIds: [],
             errorMessage: '',
+            title: 'Title',
+            type: NotificationTypeResponse.INVESTIGATION,
           },
           {
             id: 'test-2',
@@ -98,10 +102,14 @@ describe('InvestigationsAssembler', () => {
             reason: { close: '', accept: '', decline: '' },
             channel: 'SENDER',
             assetIds: [],
+            title: 'Title',
+            type: NotificationTypeResponse.INVESTIGATION,
           },
         ],
-      }, NotificationType.INVESTIGATION),
-    ).toEqual({
+      },
+    );
+
+    const response = {
       page: 0,
       pageCount: 1,
       pageSize: 5,
@@ -122,7 +130,8 @@ describe('InvestigationsAssembler', () => {
           reason: { close: '', accept: '', decline: '' },
           isFromSender: true,
           assetIds: [],
-          notificationType: NotificationType.INVESTIGATION,
+          type: NotificationType.INVESTIGATION,
+          title: 'Title',
         },
         {
           id: 'test-2',
@@ -139,9 +148,14 @@ describe('InvestigationsAssembler', () => {
           reason: { close: '', accept: '', decline: '' },
           isFromSender: true,
           assetIds: [],
-          notificationType: NotificationType.INVESTIGATION,
+          type: NotificationType.INVESTIGATION,
+          title: 'Title',
         },
       ],
-    });
+    };
+
+
+    expect(actual)
+      .toEqual(response);
   });
 });

@@ -21,16 +21,11 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { DashboardStats } from '@page/dashboard/model/dashboard.model';
 import { MetricData } from '@page/dashboard/presentation/dashboard.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import {
-  Notification,
-  Notifications,
-  NotificationStatusGroup,
-  NotificationType,
-} from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -59,6 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public otherPartsMetricData: MetricData[];
   public investigationsMetricData: MetricData[];
   public alertsMetricData: MetricData[];
+
   constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.dashboardStats$ = this.dashboardFacade.dashboardStats$;
     this.investigationsReceived$ = this.dashboardFacade.recentReceivedInvestigations$;
@@ -67,15 +63,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alertsCreated$ = this.dashboardFacade.recentCreatedAlerts$;
 
     const {
-      link: investigationLink,
-      queryParams: investigationQueryParams,
-    } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
-    const {
       link: alertLink,
       queryParams: alertQueryParams,
-    } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
-    this.investigationLink = investigationLink;
-    this.investigationParams = investigationQueryParams;
+    } = getRoute(NOTIFICATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
+
     this.alertLink = alertLink;
     this.alertParams = alertQueryParams;
 
@@ -133,16 +124,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashboardFacade.stopDataLoading();
   }
 
-  public onInvestigationSelected(notification: Notification): void {
-    const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
-    this.router.navigate([ `/${ link }/${ notification.id }` ]).then();
-  }
-
   public onAlertSelected(notification: Notification): void {
-    const { link } = getRoute(ALERT_BASE_ROUTE);
+    const { link } = getRoute(NOTIFICATION_BASE_ROUTE);
     this.router.navigate([ `/${ link }/${ notification.id }` ]).then();
   }
 
-  protected readonly NotificationType = NotificationType;
   protected readonly TableType = TableType;
 }

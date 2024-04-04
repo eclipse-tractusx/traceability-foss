@@ -3,7 +3,7 @@ skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName "Architects daughter"
 skinparam linetype ortho
-title: Domain Model
+title: Asset Domain
 
 class ImportJobs {
     importId : String (max = 255)
@@ -30,6 +30,8 @@ abstract Asset {
         manufacturerName : String  (max = 255) /' BPN Lookup collection irs.bpns[] '/
         nameAtManufacturer : String  (max = 255) /' partTypeInformation.nameAtManufacturer '/
         manufacturerPartId : String (max = 255) /' partTypeInformation.manufacturerPartId '/
+        version: String (max = 20)  /' semantic version String 1.1.1'/
+        semantic-model-id: String (max = 255) /' identification random id of semantic model '/
 
         assetSyncStatus : AssetSyncStatus /' Status of asset in database'/
         owner : OwnerResponse
@@ -55,7 +57,8 @@ end note
 
 
 abstract DetailAspectModelModel {
-    detailSemanticDataModelType : DetailSemanticDataModelType
+    version: String (max = 20) /' semantic version String 1.1.1'/
+    detailSemanticDataModelType : String
     semanticPayload : SemanticPayload
 }
 note left
@@ -86,11 +89,6 @@ enum AssetSyncStatus {
     SYNCHRONIZED,
     IN_SYNCHRONIZATION,
     FORCE_DELETED
-}
-
-enum DetailSemanticDataModelType {
-    TRACTIONBATTERYCODE,
-    PARTSITEINFORMATIONASPLANNED
 }
 
 class AsBuiltAspectModel {
@@ -144,7 +142,6 @@ note left
 end note
 SemanticDataModelType <-- Asset
 AssetSyncStatus <-- Asset
-DetailSemanticDataModelType <-- DetailAspectModelModel
 Asset <|.. AsBuiltAspectModel
 Asset <|... AsPlannedAspectModel
 

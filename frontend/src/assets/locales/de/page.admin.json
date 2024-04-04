@@ -40,6 +40,21 @@
       "description": "Beschreibung",
       "uploadMore": "Mehr Hochladen",
       "noImportStateMessage": "Der Server hat keine weitere Information zurückgegeben."
+    },
+    "contracts": {
+      "contracts": "Verträge",
+      "contractId": "Vertrags-ID",
+      "counterpartyAddress": "Vertragspartner Adresse",
+      "creationDate": "Erstelldatum",
+      "endDate": "Ablaufdatum",
+      "state": "Status",
+      "policies": "Richtlinie",
+      "selectAtleastOne": "Selektieren Sie mindestens einen Vertrag um exportieren zu können.",
+      "exportAsCSV": ".CSV-Datei Export",
+      "overview": "Übersicht",
+      "policyDetail": "Richtlinien details",
+      "jsonViewer": "Json Ansicht",
+      "jsonTreeViewer": "Json-Baumansicht"
     }
   }
 }

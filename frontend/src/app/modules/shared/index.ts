@@ -22,7 +22,6 @@
 export { NotificationModule } from './modules/notification/notification.module';
 export { PartDetailsFacade } from './modules/part-details/core/partDetails.facade';
 export { PartDetailsState } from './modules/part-details/core/partDetails.state';
-export { PartDetailsModule } from './modules/part-details/partDetails.module';
 export { RelationComponentState } from './modules/relations/core/component.state';
 export { LoadedElementsFacade } from './modules/relations/core/loaded-elements.facade';
 export { LoadedElementsState } from './modules/relations/core/loaded-elements.state';
@@ -39,7 +38,6 @@ export { Tree } from './modules/relations/presentation/tree/tree.d3';
 export { CardIconComponent } from './components/card-icon/card-icon.component';
 export { CardListComponent } from './components/card-list/card-list.component';
 export { AvatarComponent } from './components/avatar/avatar.component';
-export { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 export { ButtonComponent } from './components/button/button.component';
 export { ToastContainerComponent } from './components/toasts/toast-container/toast-container.component';
 export { ToastMessage } from './components/toasts/toast-message/toast-message.model';

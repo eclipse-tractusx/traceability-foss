@@ -25,9 +25,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
-import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,8 +36,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import qualitynotification.base.request.QualityNotificationSeverityRequest;
-import qualitynotification.base.request.StartQualityNotificationRequest;
+import notification.request.NotificationSeverityRequest;
+import notification.request.NotificationTypeRequest;
+import notification.request.StartNotificationRequest;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -47,8 +47,8 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.USER;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
-import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
+import static org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity.RECEIVED;
+import static org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -58,13 +58,10 @@ class DashboardControllerIT extends IntegrationTestSpecification {
     AssetsSupport assetsSupport;
 
     @Autowired
-    InvestigationsSupport investigationsSupport;
+    NotificationSupport notificationSupport;
 
     @Autowired
     JpaAssetAsBuiltRepository assetAsBuiltRepository;
-
-    @Autowired
-    AlertsSupport alertsSupport;
 
     ObjectMapper objectMapper;
 
@@ -116,8 +113,8 @@ class DashboardControllerIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> supplierAssets = assets.stream()
                 .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
                 .toList();
-        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
-        alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
+        notificationSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets);
+        notificationSupport.storeAlertWithStatusAndAssets(SENT, ownAssets);
 
         // when/then
         given()
@@ -162,12 +159,13 @@ class DashboardControllerIT extends IntegrationTestSpecification {
     void givenPendingInvestigation_whenGetDashboard_thenReturnPendingInvestigation() throws JoseException, JsonProcessingException {
         // given
         assetsSupport.defaultAssetsStored();
-        investigationsSupport.defaultReceivedInvestigationStored();
+        notificationSupport.defaultReceivedInvestigationStored();
         String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978";
-        var notificationRequest = StartQualityNotificationRequest.builder()
+        var notificationRequest = StartNotificationRequest.builder()
                 .partIds(List.of(assetId))
                 .description("at least 15 characters long investigation description")
-                .severity(QualityNotificationSeverityRequest.MINOR)
+                .severity(NotificationSeverityRequest.MINOR)
+                .type(NotificationTypeRequest.INVESTIGATION)
                 .isAsBuilt(true)
                 .build();
 
@@ -177,7 +175,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(notificationRequest))
                 .when()
-                .post("/api/investigations")
+                .post("/api/notifications")
                 .then()
                 .statusCode(201);
 

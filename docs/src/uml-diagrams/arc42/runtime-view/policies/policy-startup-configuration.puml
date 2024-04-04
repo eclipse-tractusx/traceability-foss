@@ -1,0 +1,85 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+title Sequence diagram: Trace-X interaction with IRS on startup
+participant "Trace-X Config" as Config
+participant "Trace-X" as TraceX
+participant "IRS " as IRS
+
+Config --> TraceX: Constraint
+activate TraceX
+TraceX -> IRS: Get policies
+activate IRS
+IRS --> TraceX: Return policies
+deactivate IRS
+TraceX -> TraceX: Find any policy which matches own constraint
+activate TraceX
+deactivate TraceX
+
+alt Policy found
+TraceX -> IRS: Update policy
+else Policy not found
+TraceX -> IRS: Create policy
+end
+deactivate TraceX
+@enduml
+
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence diagram: Trace-X interaction with EDC on startup (as is)
+participant "Trace-X Config" as Config
+participant "Trace-X" as TraceX
+participant "EDC " as EDC
+Config --> TraceX: ID 3.0 Trace
+TraceX -> EDC: Create notification asset, policy, definition
+@enduml
+
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence diagram: Trace-X interaction with EDC on startup (To be)
+participant "IRS" as IRS
+participant "TraceX" as TraceX
+participant "EDC " as EDC
+activate TraceX
+TraceX -> IRS: Get policies
+activate IRS
+IRS --> TraceX: Return policy(c1,c2,c3,c4)
+deactivate IRS
+TraceX -> EDC: Create notification asset, policy, definition
+@enduml
+
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence diagram: Sending notifications
+participant "Trace-X" as TraceX
+participant "Trace-X IRS Lib" as TraceXIRSLib
+participant "IRS " as IRS
+participant "EDC " as EDC
+
+activate TraceX
+TraceX -> TraceX: ...
+TraceX -> EDC: Get catalog
+activate EDC
+EDC --> TraceX: Return catalog
+deactivate EDC
+TraceX -> TraceX: Filter for notification type (alert/investigation) & method (update/receive)
+activate TraceX
+deactivate TraceX
+TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policies in IRS Lib (3 default policies)
+activate TraceXIRSLib
+TraceXIRSLib --> TraceX: Valid
+deactivate TraceXIRSLib
+TraceX -> EDC: Send notification
+@enduml
+
+

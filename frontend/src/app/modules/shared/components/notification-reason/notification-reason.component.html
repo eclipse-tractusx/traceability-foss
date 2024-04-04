@@ -33,7 +33,7 @@ SPDX-License-Identifier: Apache-2.0
     <div class="message--text message--text__{{ message.direction }} message--text-arrow__{{ message.direction }}">
       <p>{{ message.reason }}</p>
       <div class="message--status">
-        <p>{{ 'commonInvestigation.status.' + message?.status | i18n }}</p>
+        <p>{{ 'commonAlert.status.' + message?.status | i18n }}</p>
         <p class="message--text__date flex items-center" *ngIf="message.date">
           <mat-icon class="message--text__date-icon">access_time
           </mat-icon

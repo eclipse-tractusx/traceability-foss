@@ -1,0 +1,76 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
+title: Notification Domain
+
+class Notification {
+    bpn : BPN;
+    title : String;
+    type: NotificationType;
+    notificationId : NotificationId;
+    notificationStatus : NotificationStatus;
+    description: String;
+    createdAt: Instant;
+    notificationSide: NotificationSide;
+    assetIds: ArrayList<String>();
+    closeReason: String;
+    acceptReason: String;
+    declineReason: String;
+    messages: List<NotificationMessage>;
+}
+
+enum NotificationType{
+    ALERT;
+    INVESTIGATION;
+}
+
+class NotificationId {
+id: Long;
+}
+
+enum NotificationSide{
+    SENDER;
+    RECEIVER;
+}
+class BPN{
+bpn: String;
+}
+class NotificationMessage {
+   id: String
+   createdBy: String
+   createdByName: String
+   sendTo: String
+   sendToName: String
+   contractAgreementId: String
+   notificationReferenceId: String
+   targetDate: Instant
+   severity: NotificationSeverity;
+   edcNotificationId: String;
+   created: LocalDateTime;
+   updated: LocalDateTime;
+   messageId: String;
+   status: NotificationStatus;
+   errorMessage: String;
+}
+
+enum NotificationStatus{
+ CREATED(NotificationSide.SENDER, emptySet()),
+    SENT(NotificationSide.SENDER, Set.of(NotificationSide.SENDER)),
+    RECEIVED(NotificationSide.RECEIVER, emptySet()),
+    ACKNOWLEDGED(NotificationSide.RECEIVER, Set.of(NotificationSide.RECEIVER, NotificationSide.SENDER)),
+    ACCEPTED(NotificationSide.RECEIVER, Set.of(NotificationSide.RECEIVER)),
+    DECLINED(NotificationSide.RECEIVER, Set.of(NotificationSide.RECEIVER)),
+    CANCELED(NotificationSide.SENDER, Set.of(NotificationSide.SENDER)),
+    CLOSED(NotificationSide.SENDER, of(NotificationSide.SENDER, NotificationSide.RECEIVER));
+ }
+
+Notification --> NotificationId
+Notification --> BPN
+Notification --> NotificationType
+Notification --> NotificationStatus
+Notification --> NotificationSide
+Notification *-- NotificationMessage
+@enduml
+

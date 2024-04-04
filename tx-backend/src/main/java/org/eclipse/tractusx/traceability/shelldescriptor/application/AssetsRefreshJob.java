@@ -23,7 +23,6 @@ package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -40,11 +39,6 @@ public class AssetsRefreshJob {
     private final DecentralRegistryService decentralRegistryService;
 
     @Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
-    @SchedulerLock(
-            name = "data-sync-lock",
-            lockAtLeastFor = "PT5M",
-            lockAtMostFor = "PT15M"
-    )
     public void refresh() {
         log.info("Refreshing registry");
         decentralRegistryService.synchronizeAssets();

@@ -22,7 +22,7 @@
 import { Injectable } from '@angular/core';
 import { BpnConfig } from '@page/admin/core/admin.model';
 import { AdminService } from '@page/admin/core/admin.service';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AdminFacade {
@@ -48,4 +48,5 @@ export class AdminFacade {
   public postJsonImport(file: File): Observable<void>{
     return this.adminService.postJsonFile(file);
   }
+
 }

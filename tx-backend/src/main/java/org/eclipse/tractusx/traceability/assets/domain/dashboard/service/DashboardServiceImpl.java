@@ -27,9 +27,9 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.dashboard.model.Dashboard;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -41,8 +41,7 @@ public class DashboardServiceImpl implements DashboardService {
     //TODO: rework this to use Service classes instead of using the Repository directly
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final AssetAsPlannedRepository assetAsPlannedRepository;
-    private final InvestigationRepository investigationsRepository;
-    private final AlertRepository alertRepository;
+    private final NotificationRepository notificationRepository;
 
     @Override
     public Dashboard getDashboard() {
@@ -54,20 +53,20 @@ public class DashboardServiceImpl implements DashboardService {
         long asPlannedOwnParts = assetAsPlannedRepository.countAssetsByOwner(Owner.OWN);
 
 
-        long myPartsWithSentAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.OWN));
-        long myPartsWithReceivedInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.OWN));
+        long myPartsWithSentAlerts = notificationRepository.countOpenNotificationsByOwnershipAndNotificationType(List.of(Owner.OWN), NotificationType.ALERT);
+        long myPartsWithReceivedInvestigations = notificationRepository.countOpenNotificationsByOwnershipAndNotificationType(List.of(Owner.OWN), NotificationType.INVESTIGATION);
 
-        long supplierPartsWithOpenReceivedAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.SUPPLIER));
-        long supplierPartsWithOpenSentInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.SUPPLIER));
+        long supplierPartsWithOpenReceivedAlerts = notificationRepository.countOpenNotificationsByOwnershipAndNotificationType(List.of(Owner.SUPPLIER), NotificationType.ALERT);
+        long supplierPartsWithOpenSentInvestigations = notificationRepository.countOpenNotificationsByOwnershipAndNotificationType(List.of(Owner.SUPPLIER), NotificationType.INVESTIGATION);
 
-        long customerPartsWithOpenReceivedAlerts = alertRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER));
-        long customerPartsWithOpenSentInvestigations = investigationsRepository.countOpenNotificationsByOwnership(List.of(Owner.CUSTOMER));
+        long customerPartsWithOpenReceivedAlerts = notificationRepository.countOpenNotificationsByOwnershipAndNotificationType(List.of(Owner.CUSTOMER), NotificationType.ALERT);
+        long customerPartsWithOpenSentInvestigations = notificationRepository.countOpenNotificationsByOwnershipAndNotificationType(List.of(Owner.CUSTOMER), NotificationType.INVESTIGATION);
 
-        long receivedActiveInvestigations = investigationsRepository.countQualityNotificationEntitiesBySide(QualityNotificationSide.RECEIVER);
-        long sentActiveInvestigations = investigationsRepository.countQualityNotificationEntitiesBySide(QualityNotificationSide.SENDER);
+        long receivedActiveInvestigations = notificationRepository.countNotificationsBySideAndType(NotificationSide.RECEIVER, NotificationType.INVESTIGATION);
+        long sentActiveInvestigations = notificationRepository.countNotificationsBySideAndType(NotificationSide.SENDER, NotificationType.INVESTIGATION);
 
-        long receivedActiveAlerts = alertRepository.countQualityNotificationEntitiesBySide(QualityNotificationSide.RECEIVER);
-        long sentActiveAlerts = alertRepository.countQualityNotificationEntitiesBySide(QualityNotificationSide.SENDER);
+        long receivedActiveAlerts = notificationRepository.countNotificationsBySideAndType(NotificationSide.RECEIVER, NotificationType.ALERT);
+        long sentActiveAlerts = notificationRepository.countNotificationsBySideAndType(NotificationSide.SENDER, NotificationType.ALERT);
 
         return Dashboard.builder()
                 .asBuiltCustomerParts(asBuiltCustomerParts)
@@ -87,6 +86,5 @@ public class DashboardServiceImpl implements DashboardService {
                 .sentActiveAlerts(sentActiveAlerts)
                 .sentActiveInvestigations(sentActiveInvestigations)
                 .build();
-
     }
 }

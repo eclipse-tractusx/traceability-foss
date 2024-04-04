@@ -45,13 +45,6 @@ SPDX-License-Identifier: Apache-2.0
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-                <exclusions>
-                    <!--Fix CVE-2023-24998 -->
-                    <exclusion>
-                        <groupId>commons-fileupload</groupId>
-                        <artifactId>commons-fileupload</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -70,11 +63,6 @@ SPDX-License-Identifier: Apache-2.0
                 <artifactId>springdoc-openapi-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring-core.version}</version>
-            </dependency>
             <!-- Spring Test Dependencies -->
         </dependencies>
     </dependencyManagement>
@@ -85,14 +73,6 @@ SPDX-License-Identifier: Apache-2.0
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${springboot.version}</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                            </exclude>
-                        </excludes>
-                    </configuration>
                     <executions>
                         <execution>
                             <id>repackage</id>

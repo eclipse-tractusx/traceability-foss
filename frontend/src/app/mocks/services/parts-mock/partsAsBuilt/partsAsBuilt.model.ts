@@ -66,7 +66,7 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'TRANSIENT',
+    'importState': 'PUBLISHED_TO_CORE_SERVICES',
     'importNote': 'This is a test import note.'
   },
   {

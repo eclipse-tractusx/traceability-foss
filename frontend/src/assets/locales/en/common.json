@@ -8,8 +8,7 @@
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "investigations": "Quality investigations",
-    "alerts": "Quality alerts",
+    "inbox": "Inbox",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
@@ -17,7 +16,14 @@
     "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",
     "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available.",
-    "nonTransientPart": "One or more selected parts are not in the required import state \"TRANSIENT\".",
+    "illegalAssetStateToPublish": "One or more selected parts are not in the required import state \"TRANSIENT\" or \"ERROR\".",
+    "adminContract": "Contracts",
+    "createIncident": "Create quality notification",
+    "startInvestigation": "Start Quality investigation on subcomponents",
+    "notAllowedForNonPersistentPart": "Quality notifications can only be created for parts that are in the import state \"PERSISTENT\".",
+    "onlyAllowedForOwnParts": "This functionality is only possible for own parts.",
+    "publishAssets": "Publish asset",
+    "notAuthorizedOwner": "This functionality is only allowed for own and supplier parts.",
     "ess": "ESS investigations"
   },
   "pageTitle": {
@@ -27,8 +33,7 @@
     "about": "About Catena-X Open-Source Traceability",
     "relations": "Part Relations",
     "admin": "Administration Catena-X",
-    "investigations": "Quality Investigations",
-    "alerts": "Quality Alerts",
+    "alerts": "Quality Topics",
     "ess": "Environmental & Social Standards (ESS) Investigations"
   },
   "layout": {
@@ -83,8 +88,7 @@
       "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
       "refreshTooltip": "Reset individual table column settings to default",
       "saveAction": "Save",
-      "alert": "Quality Alert",
-      "investigation": "Quality Investigation"
+      "alert": "Quality Alert"
     },
     "column": {
       "id": "ID",
@@ -125,6 +129,8 @@
       "importState": "Import State",
       "importNote": "Import Note",
       "importDate": "Import Date",
+      "type": "Type",
+      "title": "Title",
       "rowNumber": "No",
       "partName": "Part name",
       "companyName": "Name of company under investigation",
@@ -153,7 +159,8 @@
     "TRANSIENT": "TRANSIENT",
     "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
     "ERROR": "ERROR",
-    "UNSET": "UNSET"
+    "UNSET": "UNSET",
+    "PUBLISHED_TO_CORE_SERVICES": "PUBLISHED"
   },
   "severity": {
     "MINOR": "Minor",
@@ -189,19 +196,25 @@
   },
   "requestAlert": {
     "headline": "Create quality alert",
+    "titleDescription": "Title",
     "textAreaDescription": "Add a description about the alert.",
     "success_one": "You queued an alert for {{count}} part",
-    "success_other": "You queued an alert for {{count}} parts"
+    "success_other": "You queued an alert for {{count}} parts",
+    "serverError": "Server error:"
   },
   "requestInvestigations": {
     "headline": "Request quality investigation",
     "textAreaDescription": "Add a description about the investigation.",
     "success_one": "You queued an investigation for {{count}} part",
-    "success_other": "You queued an investigation for {{count}} parts"
+    "success_other": "You queued an investigation for {{count}} parts",
+    "serverError": "Server error:"
+
   },
   "requestNotification": {
     "partDescription": "You selected the following parts:",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
+    "titleLabel": "Title",
+    "titleDescription": "Title",
     "targetDateLabel": "Deadline",
     "bpnLabel": "BPN",
     "bpnDescription": "Please specify the receiver BPN.",
@@ -210,7 +223,8 @@
     "cancel": "CANCEL",
     "submit": "ADD TO QUEUE",
     "severity": "Severity",
-    "severityDescription": "Select the severity for the problem at hand"
+    "severityDescription": "Select the severity for the problem at hand",
+    "serverError": "Server error:"
   },
   "requestPublishAssets": {
     "success": "Request to publish assets was successful",
@@ -270,11 +284,11 @@
   "commonAlert": {
     "viewAll": "View all",
     "tabs": {
-      "received": "Received",
-      "queuedAndRequested": "Queued & Requested"
+      "received": "received",
+      "queuedAndRequested": "sent"
     },
     "status": {
-      "SENT": "Sent",
+      "SENT": "Requested",
       "CANCELED": "Cancelled",
       "CLOSED": "Closed",
       "CREATED": "Queued",
@@ -303,7 +317,7 @@
       "successfullyDeclined": "Alert was declined successfully.",
       "failedAccept": "Alert failed to accept, please try again.",
       "failedAcknowledge": "Alert failed to acknowledge, please try again.",
-      "failedApprove": "Alert failed to approve, please try again.",
+      "failedApprove": "Alert failed to send, please try again.",
       "failedCancel": "Alert failed to cancel, please try again.",
       "failedClose": "Alert failed to close, please try again.",
       "failedDecline": "Alert failed to decline, please try again."
@@ -343,7 +357,8 @@
       "PERSISTENT": "Persistent",
       "IN_SYNCHRONIZATION": "In Synchronization",
       "ERROR": "Error",
-      "UNSET": "Unset"
+      "UNSET": "Unset",
+      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
 
     }
   },
@@ -361,6 +376,7 @@
     "startDate": "Start Date",
     "endDate": "End Date"
   },
+  "retry": "Try again",
   "ess": {
     "investigations": {
       "info": "Company under investigation"

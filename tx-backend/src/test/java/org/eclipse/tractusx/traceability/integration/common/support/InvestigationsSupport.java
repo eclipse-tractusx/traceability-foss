@@ -20,17 +20,16 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,61 +39,49 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class InvestigationsSupport {
 
     @Autowired
-    JpaInvestigationRepository jpaInvestigationRepository;
+    JpaNotificationRepository jpaNotificationRepository;
 
-    public Long defaultReceivedInvestigationStored() {
-        InvestigationEntity entity = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn("BPNL00000003AXS3")
-                .status(NotificationStatusBaseEntity.RECEIVED)
-                .side(NotificationSideBaseEntity.RECEIVER)
-                .description("some description")
-                .createdDate(Instant.now())
-                .build();
-
-        return jpaInvestigationRepository.save(entity).getId();
+    public Long storeInvestigationWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt) {
+        return storeInvestigationWithStatusAndAssets(status, assetsAsBuilt, NotificationSideBaseEntity.RECEIVER);
     }
 
-    public Long storeInvestigationWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, List<AssetAsPlannedEntity> assetsAsPlanned) {
-        return storeInvestigationWithStatusAndAssets(status, assetsAsBuilt, assetsAsPlanned, NotificationSideBaseEntity.RECEIVER);
-    }
-
-    public Long storeInvestigationWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, List<AssetAsPlannedEntity> assetsAsPlanned, NotificationSideBaseEntity side) {
-        InvestigationEntity entity = InvestigationEntity.builder()
+    public Long storeInvestigationWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, NotificationSideBaseEntity side) {
+        NotificationEntity entity = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(status)
+                .type(NotificationTypeEntity.INVESTIGATION)
                 .side(side)
                 .createdDate(Instant.now())
                 .build();
         Long alertId = storedInvestigation(entity);
-        InvestigationEntity savedInvestigation = jpaInvestigationRepository.findById(alertId).get();
+        NotificationEntity savedInvestigation = jpaNotificationRepository.findById(alertId).get();
         savedInvestigation.setAssets(assetsAsBuilt);
-        jpaInvestigationRepository.save(savedInvestigation);
+        jpaNotificationRepository.save(savedInvestigation);
         return alertId;
     }
 
     public void assertInvestigationsSize(int size) {
-        List<InvestigationEntity> investigations = jpaInvestigationRepository.findAll();
+        List<NotificationEntity> investigations = jpaNotificationRepository.findAll();
 
         assertThat(investigations).hasSize(size);
     }
 
-    public void assertInvestigationStatus(QualityNotificationStatus investigationStatus) {
-        jpaInvestigationRepository.findAll().forEach(
+    public void assertInvestigationStatus(NotificationStatus investigationStatus) {
+        jpaNotificationRepository.findAll().forEach(
                 investigation -> assertThat(investigation.getStatus().name()).isEqualTo(investigationStatus.name())
         );
     }
 
-    public Long storedInvestigation(InvestigationEntity investigation) {
-        return jpaInvestigationRepository.save(investigation).getId();
+    public Long storedInvestigation(NotificationEntity investigation) {
+        return jpaNotificationRepository.save(investigation).getId();
     }
 
-    public InvestigationEntity storedInvestigationFullObject(InvestigationEntity investigation) {
-        return jpaInvestigationRepository.save(investigation);
+    public NotificationEntity storedInvestigationFullObject(NotificationEntity investigation) {
+        return jpaNotificationRepository.save(investigation);
     }
 
-    public List<InvestigationEntity> findAllInvestigations() {
-        return jpaInvestigationRepository.findAll();
+    public List<NotificationEntity> findAllInvestigations() {
+        return jpaNotificationRepository.findAll();
     }
 }

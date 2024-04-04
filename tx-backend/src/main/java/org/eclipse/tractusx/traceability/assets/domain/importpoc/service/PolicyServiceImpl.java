@@ -18,32 +18,63 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import assets.importpoc.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
-import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
+import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.AbstractMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class PolicyServiceImpl implements PolicyService {
 
-    private final AcceptedPoliciesProvider acceptedPoliciesProvider;
-    @Override
-    public List<Policy> getAllPolicies() {
-        List<AcceptedPolicy> acceptedPolicies = Optional.ofNullable(acceptedPoliciesProvider.getAcceptedPolicies())
-                .orElse(Collections.emptyList());
+    private final PolicyRepository policyRepository;
+    private final TraceabilityProperties traceabilityProperties;
 
-        return acceptedPolicies.stream()
-                .map(AcceptedPolicy::policy)
-                .collect(Collectors.toList());
+    @Override
+    public List<PolicyResponse> getAllPolicies() {
+        return IrsPolicyResponse.toResponse(getAcceptedPoliciesOrEmptyList());
+    }
+
+    @Override
+    public PolicyResponse getPolicyById(String id) {
+        return getAcceptedPoliciesOrEmptyList().stream()
+                .filter(policy -> policy.payload().policy().getPolicyId().equals(id)).findFirst()
+                .map(IrsPolicyResponse::toResponse)
+                .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
+    }
+
+    @Override
+    public Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint() {
+        Optional<String> policyId = getAllPolicies().stream()
+                .flatMap(policyResponse -> policyResponse.permissions().stream()
+                        .flatMap(permissionResponse -> Stream.concat(
+                                        permissionResponse.constraints().and().stream(),
+                                        permissionResponse.constraints().or().stream())
+                                .map(constraintResponse -> new AbstractMap.SimpleEntry<>(policyResponse.policyId(), constraintResponse))))
+                .filter(entry -> entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperand()))
+                .map(Map.Entry::getKey)
+                .findFirst();
+        return policyId.map(this::getPolicyById);
+    }
+
+
+    @NotNull
+    private List<IrsPolicyResponse> getAcceptedPoliciesOrEmptyList() {
+        return emptyIfNull(policyRepository.getPolicies());
     }
 }

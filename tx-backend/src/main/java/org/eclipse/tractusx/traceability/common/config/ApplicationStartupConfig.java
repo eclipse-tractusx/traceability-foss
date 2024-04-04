@@ -21,11 +21,11 @@ package org.eclipse.tractusx.traceability.common.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
-import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
+import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
+import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;
+import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
+import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
@@ -43,7 +43,7 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Profile(NOT_INTEGRATION_TESTS)
 @RequiredArgsConstructor
 public class ApplicationStartupConfig {
-    private final IrsRepository irsRepository;
+    private final PolicyRepository policyRepository;
     private final EdcNotificationContractService edcNotificationContractService;
     private static final List<CreateNotificationContractRequest> NOTIFICATION_CONTRACTS = List.of(
             new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.UPDATE),
@@ -58,7 +58,7 @@ public class ApplicationStartupConfig {
 
         executor.execute(() -> {
             try {
-                irsRepository.createIrsPolicyIfMissing();
+                policyRepository.createIrsPolicyIfMissing();
             } catch (Exception exception) {
                 log.error("Failed to create Irs Policies: ", exception);
             }

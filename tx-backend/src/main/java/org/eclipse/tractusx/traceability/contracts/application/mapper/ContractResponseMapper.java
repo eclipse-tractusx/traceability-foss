@@ -1,0 +1,48 @@
+/********************************************************************************
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+package org.eclipse.tractusx.traceability.contracts.application.mapper;
+
+import contract.response.ContractResponse;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+
+public class ContractResponseMapper {
+
+    private ContractResponseMapper() {
+    }
+    public static PageResult<ContractResponse> from(PageResult<Contract> contractPageResult) {
+        return new PageResult<>(contractPageResult.content().stream().map(ContractResponseMapper::from).toList(),
+                contractPageResult.page(),
+                contractPageResult.pageCount(),
+                contractPageResult.pageSize(),
+                contractPageResult.totalItems());
+    }
+
+    public static ContractResponse from(Contract contract) {
+        return ContractResponse.builder()
+                .contractId(contract.getContractId())
+                .state(contract.getState())
+                .counterpartyAddress(contract.getCounterpartyAddress())
+                .endDate(contract.getEndDate())
+                .creationDate(contract.getCreationDate())
+                .policy(contract.getPolicy())
+                .build();
+    }
+
+}

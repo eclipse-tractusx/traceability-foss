@@ -19,61 +19,58 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 
 import java.time.Instant;
 import java.util.List;
 
 public class NotificationTestDataFactory {
 
-    public static QualityNotificationMessage createNotificationTestData() {
-        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+    public static NotificationMessage createNotificationTestData() {
+        List<NotificationAffectedPart> affectedParts = List.of(new NotificationAffectedPart("partId"));
 
-        return QualityNotificationMessage.builder()
+        return NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
                 .createdBy("senderBPN")
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
-                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
+                .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
-                .severity(QualityNotificationSeverity.MINOR)
+                .type(NotificationType.INVESTIGATION)
+                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
-                .isInitial(true)
                 .build();
     }
 
-    public static QualityNotificationMessage createNotificationTestData(QualityNotificationType qualityNotificationType) {
-        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+    public static NotificationMessage createNotificationTestData(NotificationType notificationType) {
+        List<NotificationAffectedPart> affectedParts = List.of(new NotificationAffectedPart("partId"));
 
-        return QualityNotificationMessage.builder()
+        return NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
                 .createdBy("senderBPN")
                 .createdByName("senderManufacturerName")
                 .sendTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
-                .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
-                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
+                .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
-                .severity(QualityNotificationSeverity.MINOR)
+                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
-                .isInitial(true)
-                .type(qualityNotificationType)
+                .type(notificationType)
                 .build();
     }
 }

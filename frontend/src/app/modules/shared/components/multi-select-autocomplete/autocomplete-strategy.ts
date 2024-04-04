@@ -17,6 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 import { Injectable } from '@angular/core';
+import { AdminService } from '@page/admin/core/admin.service';
 import { Owner } from '@page/parts/model/owner.enum';
 import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationService } from '@shared/service/notification.service';
@@ -52,7 +53,7 @@ export class PartsStrategy extends AutocompleteStrategy {
 @Injectable({
   providedIn: 'any',
 })
-export class InvestigationStrategy extends AutocompleteStrategy {
+export class NotificationStrategy extends AutocompleteStrategy {
   notificationService: NotificationService;
 
   constructor(notificationService: NotificationService) {
@@ -65,8 +66,7 @@ export class InvestigationStrategy extends AutocompleteStrategy {
     return this.notificationService.getDistinctFilterValues(
       notificationChannel,
       filterColumns,
-      searchElement,
-      true,
+      searchElement
     );
   }
 }
@@ -74,21 +74,18 @@ export class InvestigationStrategy extends AutocompleteStrategy {
 @Injectable({
   providedIn: 'any',
 })
-export class AlertStrategy extends AutocompleteStrategy {
-  notificationService: NotificationService;
+export class ContractsStrategy extends AutocompleteStrategy {
+  adminService: AdminService;
 
-  constructor(notificationService: NotificationService) {
+  constructor(adminService: AdminService) {
     super();
-    this.notificationService = notificationService;
+    this.adminService = adminService;
   }
 
   retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
-    const notificationChannel = channelOfNotification(tableType);
-    return this.notificationService.getDistinctFilterValues(
-      notificationChannel,
+    return this.adminService.getDistinctFilterValues(
       filterColumns,
       searchElement,
-      false,
     );
   }
 }
@@ -100,10 +97,9 @@ export const AutocompleteStrategyMap = new Map<TableType, any>([
   [ TableType.AS_PLANNED_OWN, PartsStrategy ],
   [ TableType.AS_PLANNED_CUSTOMER, PartsStrategy ],
   [ TableType.AS_PLANNED_SUPPLIER, PartsStrategy ],
-  [ TableType.RECEIVED_INVESTIGATION, InvestigationStrategy ],
-  [ TableType.CREATED_INVESTIGATION, InvestigationStrategy ],
-  [ TableType.RECEIVED_ALERT, AlertStrategy ],
-  [ TableType.CREATED_ALERT, AlertStrategy ],
+  [ TableType.RECEIVED_NOTIFICATION, NotificationStrategy ],
+  [ TableType.SENT_NOTIFICATION, NotificationStrategy ],
+  [ TableType.CONTRACTS, ContractsStrategy ],
 ]);
 
 export function getOwnerOfTable(tableType: TableType): Owner {
@@ -124,14 +120,10 @@ export function isAsBuilt(tableType: TableType): boolean {
 }
 
 export function channelOfNotification(tableType: TableType): NotificationChannel {
-  if (tableType === TableType.CREATED_ALERT || tableType === TableType.CREATED_INVESTIGATION) {
+  if (tableType === TableType.SENT_NOTIFICATION) {
     return NotificationChannel.SENDER;
   } else {
     return NotificationChannel.RECEIVER;
   }
 
-}
-
-export function isInvestigation(tableType: TableType): boolean {
-  return [ TableType.RECEIVED_INVESTIGATION, TableType.CREATED_INVESTIGATION ].includes(tableType);
 }

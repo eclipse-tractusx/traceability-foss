@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.base.service;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -47,7 +47,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     protected abstract AssetRepository getAssetRepository();
 
-    protected abstract IrsRepository getIrsRepository();
+    protected abstract JobRepository getJobRepository();
 
     protected abstract List<String> getDownwardAspects();
 
@@ -61,13 +61,13 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                getIrsRepository().createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
+                getJobRepository().createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
             }
 
             if (!getUpwardAspects().isEmpty()) {
 
                 // TODO: change BomLifecycle.AS_BUILT to getBomLifecycle()
-                getIrsRepository().createJobToResolveAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+                getJobRepository().createJobToResolveAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
             }
 
         } catch (Exception e) {
@@ -124,6 +124,11 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
             return getAssetEnumFieldValues(fieldName);
         }
         return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner);
+    }
+
+    @Override
+    public List<String> getAssetIdsInImportState(ImportState... importStates) {
+        return getAssetRepository().findByImportStateIn(importStates).stream().map(AssetBase::getId).toList();
     }
 
     private boolean isSupportedEnumType(String fieldName) {

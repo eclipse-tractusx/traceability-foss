@@ -86,7 +86,12 @@ export class TableComponent {
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
-  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
+  @Input() set paginationData(paginationData: Pagination<unknown>) {
+    if (!paginationData) {
+      return;
+    }
+
+    const { page, pageSize, totalItems, content } = paginationData;
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = content;
@@ -164,14 +169,22 @@ export class TableComponent {
   }
 
   ngOnInit(): void {
+
+    const displayFilterColumnMappings = this.tableType === TableType.CONTRACTS ?
+      PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'creationDate', 'endDate' ], [], true, false)
+      : PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true);
+
+    const filterColumns = this.tableType === TableType.CONTRACTS ?
+      PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, true, false)
+      : PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true);
+
     this.tableViewConfig = {
       displayedColumns: Object.keys(this.tableConfig.sortableColumns),
       filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
-      filterColumns: PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true),
+      filterColumns: filterColumns,
       sortableColumns: this.tableConfig?.sortableColumns,
-      displayFilterColumnMappings: PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true),
+      displayFilterColumnMappings: displayFilterColumnMappings,
     };
-
     for (const controlName in this.tableViewConfig.filterFormGroup) {
       if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
         this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
@@ -214,7 +227,7 @@ export class TableComponent {
     this.emitMultiSelect();
     this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
-    if (this.pageSize === 0){
+    if (this.pageSize === 0) {
       this.pageSize = EmptyPagination.pageSize;
     }
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
@@ -239,6 +252,22 @@ export class TableComponent {
 
   public isSelected(row: unknown): boolean {
     return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
+  }
+
+  shouldDisplayFilter(filterKey: string) {
+    switch (filterKey) {
+      case 'filtercreationDate':
+      case 'filtercounterpartyAddress':
+      case 'filterendDate':
+      case 'filterstate':
+      case 'Menu':
+      case 'Filter':
+        return false;
+
+      default:
+        return true;
+
+    }
   }
 
   private addSelectedValues(newData: unknown[]): void {

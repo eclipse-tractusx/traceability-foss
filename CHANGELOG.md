@@ -5,12 +5,111 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+_**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
+
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
+- #695 OAuth2.0 Client scope configuration
+- #606 Added error message into notifications on failure
+- #596 Added Policy management documentation
+- Added overview of the scheduler tasks in documentation
+- #736 Added Contract Detailed View
+- #706 Created notification classes to support both alert and investigations
+- #706 Notification controller having the same endpoints as alerts and investigations controllers
+- #736 add contractAgreementId as searchable field for /contracts
+- Added capitalization section in guidelines.md
 
 ### Changed
+- #709 Bumped spring-core from 6.0.17 to 6.1.5
+- #606 cucumber tests retry on error
+- #606 refactored response model to only be used by common model package tx-models
+- #709 Fixed CVE-2024-22257 overriding spring-security-core from 6.1.7 to 6.2.3
+- #596 Policy management has been moved to different module
+- #616 Merged quality investigations / alerts into a single view
+- #762 updated documentation for release 24.5
+- #706 StartNotificationRequest now requires additional parameter type ("ALERT", "INVESTIGATION") which
+- #706 Search criteria allows to filter by new type parameter
+- #706 Notification response have new title parameter
+- #718 update tj-actions/changed-files from v42 to v44
+- #718 update maven-project-info-reports-plugin from 3.4.5 to 3.5.0
+- #718 update jsonschema2pojo-core from 1.1.1 to 1.2.1
+- #718 migrate Spring Boot from 3.1.9 to 3.2.4
+- #630 Updated user manual with new part detailed view also for supplier and customer parts
+- #736 fixed bug in request logic of contracts detailed view
+- Improved the release documentation
+- #706 QualityNotification naming in code replaced with Notification
 
 ### Removed
+- Shedlock, resilence4j, templateResolver as not used anymore
+- #706 Removed alert and investigation specific classes and services to replace them with merged notification classes
+
+### Added
+- #630 Added Parts extended detailed view
+
+## [10.7.0 - 18.03.2024]
+
+### Added
+- #421 Added contract agreement view
+- #515 Service Unavailable Response on Notification failure
+- #536 Added import state PUBLISHED_TO_CORE_SERVICES in frontend
+- #420 add /contracts api to fetch contract agreement information from EDC for assets
+- #423 Notification will be created/persisted in case of a edc notification
+- Added a step to the pull-request-backend.yml which checks if the pom.xml(root) properties have some versions ending with -SNAPSHOT
+- Added a PostConstruct method in PolicyStartUpConfig to allow Integration tests to run without errors in stack traces.
+- #536 added new ImportState to asset PUBLISHED_TO_CORE_SERVICES indicating edc assets and dtr shells were created for given asset
+- #536 added cron job responsible to publish assets in PUBLISHED_TO_CORE_SERVICES import state to edc and dtr
+- #652 add GitHub action to publish Swagger to Swaggerhub
+
+### Changed
+- Updated RELEASE.md to the latest release guide (added more steps)
+- #515 Fixed notification toast click area
+- #625 increased height of tables
+- #423 Moved errorMessages from investigation/alert to notification list
+- Updated COMPATIBILITY.md matrix adding release C-X 24.3 and 23.12
+- #536 rework /policies to respond with policies from the IRS policy store
+- #536 sync assets logic was adjusted to create IRS jobs only for assets that are not in TRANSIENT or IN_SYNC states
+- #536 Updated Arc42 documentation and user-manual with publish assets informations
+- Bumped softprops/action-gh-release from v1 to v2
+- Bumped azure/setup-helm from v3 to v4
+- Bumped aquasecurity/trivy-action from 0.17.0 to 0.18.0
+- Bupped cucumber-bom from 7.12.1 to 7.15.0
+- Bumped jetbrains-annotation from 24.0.1 to 24.1.0
+- Bumped commons-logging from 1.2 to 1.3.0
+- Bumped shedlock from 5.11.0 to 5.12.0
+- Overridden transitive commons-compress version by 1.26.1 to fix CVE-2024-26308
+- Overridden transitive commons-codec version by 1.16.1 to fix CVE-2024-26308
+- Update irs-registry-client from version 1.6.0-SNAPSHOT to 1.6.0
+- Updated review-message for check pom for -SNAPSHOT workflow
+- Changed base image from eclipse-temurin:17-jre-alpine to eclipse-temurin:21-jre-alpine
+- Changed build image from maven:3-openjdk-17-slim to maven:3-openjdk-18-slim
+- #742 rework test management strategy for frontend and backend part
+
+### Removed
+- #625 Removed the header and breadcrumbs section from app layout
+
+## [10.6.0 - 04.03.2024]
+
+### Added
+- Added concept #638: Contract agreement admin view
+- Added support for meta key for multi sorting on tables
+
+- Added concept #578: Consistent null values
+### Changed
+- Spring-core bumped from 6.0.16 to 6.0.17
+- Updated user manual
+- JSON Schema generation for valid submodel mapping
+- Added support for meta key for multi sorting on tables
+- Added error description and retry button to error toast when creating notifications
+- Bumped version mikefarah/yq@v4.40.5 to mikefarah/yq@v4.42.1
+- Bumped version lombok from 1.18.28 to 1.18.30
+- Bumped version ts-graphviz/setup-graphviz@v1 to ts-graphviz/setup-graphviz@v2
+- Bumped version Schedlock 5.10.0 to 5.11.0
+- updated yarn.lock file
+- [#542](https://github.com/eclipse-tractusx/traceability-foss/issues/542) Fixed bug where it where filter was reset when sorting in other parts table
+
+### Removed
+- Removed EDC notification asset classes and replaced with IRS lib implementation
+- [#528](https://github.com/eclipse-tractusx/traceability-foss/issues/528) Removed sorting tooltip on quality incidents tables on dashboard page
 
 ## [10.5.0 - 22.02.2024]
 

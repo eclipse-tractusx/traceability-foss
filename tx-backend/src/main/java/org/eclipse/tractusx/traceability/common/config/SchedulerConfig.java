@@ -21,17 +21,12 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
-import net.javacrumbs.shedlock.core.LockProvider;
-import net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateLockProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import javax.sql.DataSource;
-
 import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
-import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_TESTS;
 
 @Configuration
 @Profile(NOT_INTEGRATION_TESTS)
@@ -43,11 +38,6 @@ public class SchedulerConfig {
         threadPoolTaskScheduler.setPoolSize(5);
         threadPoolTaskScheduler.setThreadNamePrefix("ThreadPoolTaskScheduler");
         return threadPoolTaskScheduler;
-    }
-
-    @Bean
-    public LockProvider lockProvider(DataSource dataSource) {
-        return new JdbcTemplateLockProvider(dataSource);
     }
 
 }

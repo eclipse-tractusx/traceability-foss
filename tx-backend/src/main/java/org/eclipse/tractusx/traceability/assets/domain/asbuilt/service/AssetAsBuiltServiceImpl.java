@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltViewRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
@@ -48,7 +48,7 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
 
     private final AssetAsBuiltViewRepository assetAsBuiltViewRepository;
 
-    private final IrsRepository irsRepository;
+    private final JobRepository jobRepository;
 
     @Override
     protected AssetRepository getAssetRepository() {
@@ -71,8 +71,8 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
     }
 
     @Override
-    protected IrsRepository getIrsRepository() {
-        return irsRepository;
+    protected JobRepository getJobRepository() {
+        return jobRepository;
     }
 
     @Override

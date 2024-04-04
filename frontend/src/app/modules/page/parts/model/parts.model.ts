@@ -175,7 +175,8 @@ export enum ImportState {
   PERSISTENT = "PERSISTENT",
   IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION",
   ERROR = "ERROR",
-  UNSET = "UNSET"
+  UNSET = "UNSET",
+  PUBLISHED_TO_CORE_SERVICES="PUBLISHED_TO_CORE_SERVICES"
 }
 
 export enum ImportStateInCamelCase {
@@ -183,7 +184,8 @@ export enum ImportStateInCamelCase {
   PERSISTENT = "Persistent",
   IN_SYNCHRONIZATION = "In Synchronization",
   ERROR = "Error",
-  UNSET = "Unset"
+  UNSET = "Unset",
+  PUBLISHED_TO_CORE_SERVICES="Published to Core Services"
 }
 
 export enum FilterOperator {
