@@ -8,6 +8,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+## Changed
+
+- #823 migrate to irs-helm 6.18.0
+- #636 migrate to digital-twin-registry version 0.4.9 from 0.3.22
+
 ## [10.8.2 - 05.04.2024]
 ### Removed
 - #547 Removed classification check on alert / investigation update callback methods
