@@ -31,12 +31,13 @@ import jakarta.validation.constraints.Min;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
-import org.eclipse.tractusx.traceability.ess.application.mapper.EssFieldMapper;
 import org.eclipse.tractusx.traceability.ess.application.mapper.EssResponseMapper;
 import org.eclipse.tractusx.traceability.ess.application.mapper.VEssResponseMapper;
 import org.eclipse.tractusx.traceability.ess.application.service.EssService;
@@ -49,6 +50,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/ess", produces = "application/json", consumes = "application/json")
 @RestController
 @Slf4j
+@RequiredArgsConstructor
+
 @Tag(name = "ESS")
 public class EssController {
 
@@ -60,11 +63,6 @@ public class EssController {
     @Min(value = 0, message = "The value must be positive or zero. Zero turns off the creation of new investigations.")
     @Value("${ess.maxNumberOfNewInvestigations:0}")
     private Short essMaxNumberOfNewInvestigations;
-
-    public EssController(EssService service, EssFieldMapper fieldMapper) {
-        this.service = service;
-        this.fieldMapper = fieldMapper;
-    }
 
     @GetMapping("/callback")
     public void callback(@RequestParam("jobId") String jobId, @RequestParam("jobState") String jobState) {
