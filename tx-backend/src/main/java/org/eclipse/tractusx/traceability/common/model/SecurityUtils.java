@@ -21,14 +21,17 @@ package org.eclipse.tractusx.traceability.common.model;
 
 
 import lombok.experimental.UtilityClass;
-import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationContent;
-import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationHeader;
 import notification.request.CloseNotificationRequest;
 import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationRequest;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationContent;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationHeader;
 
+import java.util.Collections;
 import java.util.List;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @UtilityClass
 public class SecurityUtils {
@@ -49,7 +52,7 @@ public class SecurityUtils {
                     .map(SecurityUtils::sanitize)
                     .toList();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public static StartNotificationRequest sanitize(StartNotificationRequest request) {
@@ -104,7 +107,7 @@ public class SecurityUtils {
 
     private static EDCNotificationContent sanitize(EDCNotificationContent edcNotificationContent) {
         String cleanInformation = sanitize(edcNotificationContent.information());
-        List<String> cleanStringListOfAffectedItems = sanitize(edcNotificationContent.listOfAffectedItems());
+        List<String> cleanStringListOfAffectedItems = sanitize(emptyIfNull(edcNotificationContent.listOfAffectedItems()));
         return new EDCNotificationContent(cleanInformation, cleanStringListOfAffectedItems);
     }
 }
