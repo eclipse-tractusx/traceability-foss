@@ -27,7 +27,7 @@ import java.util.Objects;
 public enum Aspect {
     BATCH("urn:samm:io.catenax.batch:2.0.0#Batch"),
     SERIAL_PART("urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"),
-    SINGLE_LEVEL_BOM_AS_BUILT("urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt"),
+    SINGLE_LEVEL_BOM_AS_BUILT("urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"),
     SINGLE_LEVEL_USAGE_AS_BUILT("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt"),
     SINGLE_LEVEL_BOM_AS_PLANNED("urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"),
     PART_SITE_INFORMATION_AS_PLANNED("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"),
