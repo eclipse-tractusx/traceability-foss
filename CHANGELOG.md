@@ -6,8 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
-
 ## [UNRELEASED - DD.MM.YYYY]
+
+## [10.8.2 - 05.04.2024]
 ### Removed
 - #547 Removed classification check on alert / investigation update callback methods
 
