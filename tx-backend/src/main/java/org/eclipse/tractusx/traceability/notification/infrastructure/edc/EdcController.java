@@ -168,7 +168,6 @@ public class EdcController {
     public void investigationNotificationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [investigationNotificationUpdate] notificationId:{}", cleanEdcNotification);
-        validateIsInvestigation(cleanEdcNotification);
         notificationReceiverService.handleUpdate(cleanEdcNotification, NotificationType.INVESTIGATION);
     }
 
@@ -288,7 +287,6 @@ public class EdcController {
     public void alertNotificationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [alertNotificationUpdate] notificationId:{}", cleanEdcNotification);
-        validateIsAlert(cleanEdcNotification);
         notificationReceiverService.handleUpdate(cleanEdcNotification, NotificationType.ALERT);
     }
 
