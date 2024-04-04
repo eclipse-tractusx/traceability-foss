@@ -8,6 +8,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
 ## [UNRELEASED - DD.MM.YYYY]
+### Removed
+- #547 Removed classification check on alert / investigation update callback methods
 
 ## [10.8.1 - 04.04.2024]
 
