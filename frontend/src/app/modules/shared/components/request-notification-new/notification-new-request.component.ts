@@ -40,6 +40,7 @@ export class RequestNotificationNewComponent implements  AfterViewInit, OnDestro
   @Input() title: string;
   @Input() selectedItems: Part[];
   private subscription: Subscription;
+  @Input() editMode: boolean;
   formGroup = new FormGroup<any>({});
   public readonly selected$: Observable<View<Notification>>;
   @Output() submitted = new EventEmitter<void>();
@@ -52,9 +53,10 @@ export class RequestNotificationNewComponent implements  AfterViewInit, OnDestro
     this.formGroup.addControl('title', new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]));
     this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
     this.formGroup.addControl('severity', new FormControl(Severity.MINOR, [ Validators.required ]));
-    this.formGroup.addControl('type', new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]));
-    this.formGroup.addControl('targetDate', new FormControl(new Date(Date.now()), []));
+    this.formGroup.addControl('targetDate', new FormControl(null, []));
     this.formGroup.addControl('bpn', new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]));
+    this.formGroup.addControl('type', new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]));
+
     this.formGroup.valueChanges.subscribe((data: any) => {
       console.log('Form has been changed', data);
       // You can perform any action here when the form is changed
@@ -67,7 +69,9 @@ export class RequestNotificationNewComponent implements  AfterViewInit, OnDestro
   }
 
   public ngAfterViewInit(): void {
-
+    if (this.editMode){
+      this.formGroup.get('type').disable();
+    }
     this.subscription = this.selected$
         .pipe(
             filter(({ data }) => !!data),
@@ -79,9 +83,10 @@ export class RequestNotificationNewComponent implements  AfterViewInit, OnDestro
               this.formGroup.controls['description'].setValue(data.description);
               this.formGroup.controls['severity'].setValue(data.severity);
               this.formGroup.controls['type'].setValue(data.type);
-              console.log(data.targetDate.valueOf());
-               /* this.formGroup.controls['targetDate'].patchValue(data.targetDate.valueOf().toString());*/
               this.formGroup.controls['bpn'].setValue(data.sendTo);
+              if (!data.targetDate.isInitial()){
+                this.formGroup.controls['targetDate'].patchValue(data.targetDate.valueOf().toISOString().slice(0, 16));
+              }
             }),
         )
         .subscribe();

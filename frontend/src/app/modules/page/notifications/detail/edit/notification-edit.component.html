@@ -46,15 +46,16 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <div class="detail--wrapper">
-    <mat-card>
+    <mat-card class="notification-request-card">
       <app-notification-new-request
         title="requestNotification.editNotificationHeader"
       (submitted)="submittedByNotificationRequest()"
-      [selectedItems]="affectedParts">
+      [selectedItems]="affectedParts"
+      [editMode]="editMode">
       </app-notification-new-request>
     </mat-card>
 
-  <mat-card class="parts--card">
+  <mat-card class="parts-card">
     <mat-card-header>
       <mat-card-title
       ><h4>

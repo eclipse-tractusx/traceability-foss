@@ -58,7 +58,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public readonly partsAsBuilt$: Observable<View<Pagination<Part>>>;
   public readonly titleId = this.staticIdService.generateId('NotificationDetail');
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
-
+  public readonly editMode = true;
   public readonly notificationPartsInformation$: Observable<View<Part[]>>;
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
   public readonly selected$: Observable<View<Notification>>;
