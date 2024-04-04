@@ -1,13 +1,13 @@
 # Compatibility matrix Trace-X
 
-## Trace-X version [[10.8.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.8.0)] - 2024-04-03
+## Trace-X version [[10.8.1](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.8.1)] - 2024-04-03
 
 ### Catena-X Release?
 
 - [ ] yes
 - [x] no
 
-### Helm Version [1.3.33](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.33)
+### Helm Version [1.3.34](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.34)
 
 | Dependency       | Name of Service              | Version                         | Helm   | Comments                                                                          |
 |------------------|------------------------------|---------------------------------|--------|-----------------------------------------------------------------------------------|
@@ -27,7 +27,17 @@
 | Aspect Model     | TractionBatteryCode          | [1.0.0]                         | -      |                                                                                   |
 | Aspect Model     | SingleLevelUsageAsBuilt      | [1.0.1]                         | -      |                                                                                   |
 | Aspect Model     | SingleLevelBomAsBuilt        | [1.0.0, 2.0.0)                  | -      |                                                                                   |
-| Aspect Model     | SingleLevelBomAsPlanned      | [1.0.1, 1.1.0)                  | -      |                                                                                   |
+| Aspect Model     | SingleLevelBomAsPlanned      | [1.0.1, 1.1.0)                  | -      |
+
+## Trace-X version [[10.8.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.8.0)] - 2024-04-03 - BROKEN do not use
+
+### Catena-X Release?
+
+- [ ] yes
+- [x] no
+
+### Helm Version [1.3.33](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.33) - BROKEN do not use
+
 
 ## Trace-X version [[10.7.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.7.0)] - 2024-03-18
 
