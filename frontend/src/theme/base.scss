@@ -220,12 +220,29 @@ app-notifications-tab {
   .table-wrapper {
     background-color: white;
     @media screen and (max-height: 1049px) {
-      height: 56vh ;
+      height: 56vh;
     }
 
     @media screen and (min-height: 1050px) {
-      height: 70vh ;
-      max-height: 70vh ;
+      height: 70vh;
+      max-height: 70vh;
+    }
+  }
+}
+
+app-notification-edit {
+  .table-wrapper {
+    background-color: white;
+    height:45vh;
+    overflow:auto;
+    @media screen and (max-height: 1049px) {
+      max-height: 45vh;
+      height: 45vh;
+    }
+
+    @media screen and (min-height: 1050px) {
+      height: 45vh;
+      max-height: 45vh;
     }
   }
 }

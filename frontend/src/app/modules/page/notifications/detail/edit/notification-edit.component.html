@@ -69,7 +69,7 @@ SPDX-License-Identifier: Apache-2.0
       </app-notification-new-request>
     </mat-card>
 
-  <mat-card class="detail--table_wrapper--notification">
+  <mat-card class="parts--card">
     <mat-card-header>
       <mat-card-title
       ><h4>
@@ -78,18 +78,68 @@ SPDX-License-Identifier: Apache-2.0
       >
     </mat-card-header>
     <mat-card-content>
-      <ng-container
-        *viewContainer="
-          notificationPartsInformation$ | async;
-          main: mainNotificationPartsTmp;
-          error: errorTmp;
-          loading: loaderTmp
-        "
-      ></ng-container>
+      <div class="parts-table-wrapper">
+        <ng-container
+          *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+        <ng-template #mainTmp let-parts="view">
+          <!-- asBuilt Parts Table-->
+          <app-parts-table class="parts-asBuilt-table"
+                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                           [labelId]="titleId"
+                           [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                           [selectedPartsActionLabel]="'page.selectedParts.action'"
+                           [deselectTrigger]="deselectPartTrigger$ | async"
+                           [addTrigger]="addPartTrigger$ | async"
+                           (selected)="onSelectItem($event)"
+                           (configChanged)="onAsBuiltTableConfigChange($event)"
+                           (multiSelect)="currentSelectedItems$.next($event)"
+                           (clickSelectAction)="isAlertOpen$.next(true)"
+                           (filterActivated)="filterActivated(true, $event )"
+                           [multiSortList]="tableAsBuiltSortList"
+                           [tableHeader]='"page.asBuiltParts" | i18n'
+                           [tableType]="TableType.AS_BUILT_OWN"
+                           [mainAspectType]="MainAspectType.AS_BUILT"
+          ></app-parts-table>
+        </ng-template>
+      </div>
     </mat-card-content>
   </mat-card>
 
-  <!-- TODO add a parts table with selection possiblity -->
+  <mat-card class="parts-card">
+    <mat-card-header>
+      <mat-card-title
+      ><h4>
+        {{ 'requestNotification.notAffectedParts'  | i18n }}
+      </h4></mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+     <div class="parts-table-wrapper">
+        <ng-container
+          *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+       <ng-template #mainTmp let-parts="view">
+         <!-- asBuilt Parts Table-->
+         <app-parts-table class="parts-asBuilt-table"
+                          [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                          [labelId]="titleId"
+                          [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                          [selectedPartsActionLabel]="'page.selectedParts.action'"
+                          [deselectTrigger]="deselectPartTrigger$ | async"
+                          [addTrigger]="addPartTrigger$ | async"
+                          (selected)="onSelectItem($event)"
+                          (configChanged)="onAsBuiltTableConfigChange($event)"
+                          (multiSelect)="currentSelectedItems$.next($event)"
+                          (clickSelectAction)="isAlertOpen$.next(true)"
+                          (filterActivated)="filterActivated(true, $event )"
+                          [multiSortList]="tableAsBuiltSortList"
+                          [tableHeader]='"page.asBuiltParts" | i18n'
+                          [tableType]="TableType.AS_BUILT_OWN"
+                          [mainAspectType]="MainAspectType.AS_BUILT"
+         ></app-parts-table>
+       </ng-template>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 
 
@@ -112,5 +162,3 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #loaderTmp let-view="view">
   <mat-spinner></mat-spinner>
 </ng-template>
-
-

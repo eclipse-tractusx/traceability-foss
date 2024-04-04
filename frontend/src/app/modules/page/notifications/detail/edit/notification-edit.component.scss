@@ -17,22 +17,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+.parts-table-wrapper{
+
+}
 app-notification-new-request{
   padding: 16px 16px 0;
 }
-
+.parts--card{
+  height:45vh;
+}
 .detail--header {
   display: flex;
   justify-content: space-between;
 }
 
 .detail--wrapper {
-  display: grid;
-  grid-template-columns: 50% 50%;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 100%;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .detail--action {
@@ -55,7 +57,10 @@ app-notification-new-request{
     margin-top: 1.5rem;
   }
 }
-
+.mat-mdc-card{
+  width:49%;
+  height:44vh;
+}
 .alert--semantic-model-id__icon {
   width: 14px;
   height: 14px;

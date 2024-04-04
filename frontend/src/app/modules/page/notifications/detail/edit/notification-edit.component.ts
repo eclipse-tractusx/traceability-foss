@@ -20,20 +20,31 @@
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
+import { Pagination } from '@core/model/pagination.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
+import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import {
+  CreateHeaderFromColumns,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
+} from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { containsAtleastOneFilterEntry, toAssetFilter } from '@shared/helper/filter-helper';
 import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
+import {TableType} from "@shared/components/multi-select-autocomplete/table-type.model";
+import {MainAspectType} from "@page/parts/model/mainAspectType.enum";
 
 @Component({
   selector: 'app-notification-edit',
@@ -44,6 +55,9 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
+  public readonly partsAsBuilt$: Observable<View<Pagination<Part>>>;
+  public readonly titleId = this.staticIdService.generateId('NotificationDetail');
+  public readonly deselectPartTrigger$ = new Subject<Part[]>();
 
   public readonly notificationPartsInformation$: Observable<View<Part[]>>;
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
@@ -52,11 +66,11 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public affectedParts = [];
   public readonly isNotificationOpen$ = new BehaviorSubject<boolean>(false);
   public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
-  public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
+  public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
+  public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
 
   public readonly notificationPartsTableId = this.staticIdService.generateId('NotificationDetail');
-  public readonly supplierPartsTableId = this.staticIdService.generateId('NotificationDetail');
 
   public notificationPartsTableConfig: TableConfig;
   public supplierPartsTableConfig: TableConfig;
@@ -67,10 +81,12 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   private subscription: Subscription;
   private selectedNotificationTmpStore: Notification;
   public selectedNotification: Notification;
-
+  public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
 
   constructor(
+    private readonly partsFacade: PartsFacade,
+    private readonly partDetailsFacade: PartDetailsFacade,
     public readonly helperService: NotificationHelperService,
     public readonly actionHelperService: NotificationActionHelperService,
     public readonly notificationDetailFacade: NotificationDetailFacade,
@@ -80,6 +96,8 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
   ) {
+    this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
+    this.partsFacade.setPartsAsBuilt();
     this.notificationPartsInformation$ = this.notificationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.notificationDetailFacade.supplierPartsInformation$;
 
@@ -91,6 +109,46 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     });
 
   }
+
+  // TODO parts table
+  public onSelectItem($event: Record<string, unknown>): void {
+  /*  this.partDetailsFacade.selectedPart = $event as unknown as Part;
+    let tableData = {};
+    for (let component of this.partsTableComponents) {
+      tableData[component.tableType + "_PAGE"] = component.pageIndex;
+    }
+    this.router.navigate([`parts/${$event?.id}`], {queryParams: tableData})*/
+  }
+
+  // TODO parts table
+  public onAsBuiltTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
+/*
+    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+    this.currentPartTablePage['AS_BUILT_OWN_PAGE'] = page;
+    let pageSizeValue = this.DEFAULT_PAGE_SIZE;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+    if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
+      this.partsFacade.setPartsAsBuilt(0, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+    } else {
+      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
+    }
+*/
+
+  }
+  // TODO parts table
+  filterActivated(isAsBuilt: boolean, assetFilter: any): void {
+/*    if (isAsBuilt) {
+      this.assetAsBuiltFilter = assetFilter;
+      this.partsFacade.setPartsAsBuilt(this.currentPartTablePage['AS_BUILT_OWN_PAGE'] ?? 0, this.DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+    } else {
+      this.assetsAsPlannedFilter = assetFilter;
+      this.partsFacade.setPartsAsPlanned(this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] ?? 0, this.DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, false));
+    }*/
+  }
+
+
 
   // TODO implement save / detection change
   public clickedSave(): void {
@@ -224,4 +282,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   protected readonly NotificationAction = NotificationAction;
 
   protected readonly NotificationStatus = NotificationStatus;
+    protected readonly TableType = TableType;
+    protected readonly MainAspectType = MainAspectType;
 }
