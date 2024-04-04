@@ -126,12 +126,17 @@ export class NotificationsComponent {
     console.log("TEST");
     this.notificationDetailFacade.selected = { data: notification };
     const { link, tabInformation } = this.getTabInformation();
-    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
+    const queryParams = {
+      tabInformation,
+      notification
+    }
+    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: queryParams });
   }
 
   public openEditPage(notification: Notification): void {
     this.notificationDetailFacade.selected = { data: notification };
     const { link, tabInformation } = this.getTabInformation();
+
     this.router.navigate([ `/${ link }/${ notification.id }/edit` ], { queryParams: tabInformation });
   }
 

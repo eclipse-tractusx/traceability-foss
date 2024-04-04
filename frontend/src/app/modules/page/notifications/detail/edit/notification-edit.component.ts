@@ -64,7 +64,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public readonly selected$: Observable<View<Notification>>;
 
   public affectedParts = [];
-  public readonly isNotificationOpen$ = new BehaviorSubject<boolean>(false);
   public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
   public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
@@ -78,7 +77,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   private originPageNumber: number;
   private originTabIndex: number;
 
-  private subscription: Subscription;
+
   private selectedNotificationTmpStore: Notification;
   public selectedNotification: Notification;
   public tableAsBuiltSortList: TableHeaderSort[];
@@ -86,8 +85,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private readonly partsFacade: PartsFacade,
-    private readonly partDetailsFacade: PartDetailsFacade,
-    public readonly helperService: NotificationHelperService,
     public readonly actionHelperService: NotificationActionHelperService,
     public readonly notificationDetailFacade: NotificationDetailFacade,
     private readonly staticIdService: StaticIdService,
@@ -100,13 +97,15 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.partsFacade.setPartsAsBuilt();
     this.notificationPartsInformation$ = this.notificationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.notificationDetailFacade.supplierPartsInformation$;
-
     this.selected$ = this.notificationDetailFacade.selected$;
-
+console.log(this.selectedNotification, "selected");
     this.paramSubscription = this.route.queryParams.subscribe(params => {
+
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
     });
+
+
 
   }
 
@@ -169,19 +168,9 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
       this.selectedNotificationBasedOnUrl();
     }
 
-    this.subscription = this.selected$
-      .pipe(
-        filter(({ data }) => !!data),
-        tap(({ data }) => {
-          this.setTableConfigs(data);
-          this.selectedNotification = data;
-        }),
-      )
-      .subscribe();
   }
 
   public ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
     this.notificationDetailFacade.unsubscribeSubscriptions();
     this.paramSubscription?.unsubscribe();
   }
@@ -233,7 +222,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   public handleConfirmActionCompletedEvent(): void {
     this.notificationDetailFacade.selected = { loader: true };
-    this.subscription?.unsubscribe();
     this.ngAfterViewInit();
   }
 

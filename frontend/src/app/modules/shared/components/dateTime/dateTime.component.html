@@ -28,6 +28,7 @@ SPDX-License-Identifier: Apache-2.0
       [attr.min]="minDate || null"
       [attr.max]="maxDate || null"
       [formControl]="control"
+      (change)="changed($event)"
       [errorStateMatcher]="matcher"
       onkeydown="return false"
       (click)="openDatePicker(inputElement)"

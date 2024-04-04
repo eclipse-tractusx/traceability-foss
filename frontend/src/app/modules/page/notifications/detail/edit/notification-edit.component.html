@@ -35,25 +35,10 @@ SPDX-License-Identifier: Apache-2.0
         *ngIf="actionHelperService.showSaveButton()"
         (click)="clickedSave()"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAtLeastSupervisor()"
-      >
+        [isDisabled]="!actionHelperService.isAtLeastSupervisor()">
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2">save</mat-icon>
           {{ 'editNotification.saveButton' | i18n }}
-        </div>
-      </app-button>
-    </div>
-
-    <div class="detail--action--button">
-      <app-button
-        *ngIf="actionHelperService.showCancellationButton()"
-        (click)="clickedCancellation()"
-        [color]="'primary'"
-        [isDisabled]="false"
-      >
-        <div class="flex justify-between items-center">
-          <mat-icon class="mr-2">cancel</mat-icon>
-          {{ 'editNotification.cancelButton' | i18n }}
         </div>
       </app-button>
     </div>

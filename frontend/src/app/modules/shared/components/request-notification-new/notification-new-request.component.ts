@@ -17,45 +17,75 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { Part } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { NotificationType } from '@shared/model/notification.model';
+import {Notification, NotificationType} from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { NotificationService } from '@shared/service/notification.service';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {filter, tap} from "rxjs/operators";
+import {NotificationDetailFacade} from "@page/notifications/core/notification-detail.facade";
+import {View} from "@shared/model/view.model";
 
 @Component({
   selector: 'app-notification-new-request',
   templateUrl: './notification-new-request.component.html',
 })
-export class RequestNotificationNewComponent {
+export class RequestNotificationNewComponent implements  AfterViewInit, OnDestroy{
   @Input() title: string;
   @Input() selectedItems: Part[];
+  private subscription: Subscription;
   formGroup = new FormGroup<any>({});
+  public readonly selected$: Observable<View<Notification>>;
   @Output() submitted = new EventEmitter<void>();
 
   public readonly isLoading$ = new BehaviorSubject(false);
   public readonly minDate = new Date();
-
-  constructor() {
-
+  public selectedNotification: Notification;
+  constructor(public readonly notificationDetailFacade: NotificationDetailFacade,) {
+    this.selected$ = this.notificationDetailFacade.selected$;
     this.formGroup.addControl('title', new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]));
     this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
     this.formGroup.addControl('severity', new FormControl(Severity.MINOR, [ Validators.required ]));
     this.formGroup.addControl('type', new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]));
-    this.formGroup.addControl('targetDate', new FormControl(null, [ DateValidators.atLeastNow() ]));
+    this.formGroup.addControl('targetDate', new FormControl(new Date(Date.now()), []));
     this.formGroup.addControl('bpn', new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]));
-    this.formGroup.valueChanges.subscribe(() => {
-      console.log('Form has been changed');
+    this.formGroup.valueChanges.subscribe((data: any) => {
+      console.log('Form has been changed', data);
       // You can perform any action here when the form is changed
     });
+
+
+  }
+  public ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
+  public ngAfterViewInit(): void {
+
+    this.subscription = this.selected$
+        .pipe(
+            filter(({ data }) => !!data),
+            tap(({ data }) => {
+              // TODO check if we need to set it after form change to the parent comp
+           //   this.setTableConfigs(data);
+              this.selectedNotification = data;
+              this.formGroup.controls['title'].setValue(data.title);
+              this.formGroup.controls['description'].setValue(data.description);
+              this.formGroup.controls['severity'].setValue(data.severity);
+              this.formGroup.controls['type'].setValue(data.type);
+              console.log(data.targetDate.valueOf());
+               /* this.formGroup.controls['targetDate'].patchValue(data.targetDate.valueOf().toString());*/
+              this.formGroup.controls['bpn'].setValue(data.sendTo);
+            }),
+        )
+        .subscribe();
+  }
 
   protected prepareSubmit(): void {
     this.formGroup.markAllAsTouched();
