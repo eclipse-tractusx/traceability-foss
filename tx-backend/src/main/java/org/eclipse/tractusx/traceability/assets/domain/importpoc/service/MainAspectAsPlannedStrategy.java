@@ -43,7 +43,6 @@ import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isAsPlannedMainAspect;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isDownwardRelationshipAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isPartSiteInformationAsPlanned;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.isUpwardRelationshipAsPlanned;
 
@@ -85,7 +84,6 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
 
         List<Descriptions> childRelations = submodels.stream()
-                .filter(genericSubmodel -> isDownwardRelationshipAsPlanned(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
                 .filter(SingleLevelUsageAsPlannedRequest.class::isInstance)
                 .map(SingleLevelUsageAsPlannedRequest.class::cast)

@@ -25,16 +25,15 @@ import java.util.List;
 import java.util.Objects;
 
 public enum Aspect {
-    BATCH("Batch"),
-    SERIAL_PART("SerialPart"),
-    SINGLE_LEVEL_BOM_AS_BUILT("SingleLevelBomAsBuilt"),
-    SINGLE_LEVEL_USAGE_AS_BUILT("SingleLevelUsageAsBuilt"),
-    SINGLE_LEVEL_BOM_AS_PLANNED("SingleLevelBomAsPlanned"),
-    SINGLE_LEVEL_USAGE_AS_PLANNED("SingleLevelUsageAsPlanned"),
-    PART_SITE_INFORMATION_AS_PLANNED("PartSiteInformationAsPlanned"),
-    PART_AS_PLANNED("PartAsPlanned"),
-    JUST_IN_SEQUENCE_PART("JustInSequencePart"),
-    TRACTION_BATTERY_CODE("TractionBatteryCode");
+    BATCH("urn:samm:io.catenax.batch:2.0.0#Batch"),
+    SERIAL_PART("urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"),
+    SINGLE_LEVEL_BOM_AS_BUILT("urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt"),
+    SINGLE_LEVEL_USAGE_AS_BUILT("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt"),
+    SINGLE_LEVEL_BOM_AS_PLANNED("urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"),
+    PART_SITE_INFORMATION_AS_PLANNED("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"),
+    PART_AS_PLANNED("urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"),
+    JUST_IN_SEQUENCE_PART("urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"),
+    TRACTION_BATTERY_CODE("urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode");
 
     private final String aspectName;
 
@@ -98,9 +97,5 @@ public enum Aspect {
 
     public static boolean isUpwardRelationshipAsPlanned(String aspect){
         return aspect.contains(Aspect.SINGLE_LEVEL_BOM_AS_PLANNED.getAspectName());
-    }
-
-    public static boolean isDownwardRelationshipAsPlanned(String aspect){
-        return aspect.contains(Aspect.SINGLE_LEVEL_USAGE_AS_PLANNED.getAspectName());
     }
 }
