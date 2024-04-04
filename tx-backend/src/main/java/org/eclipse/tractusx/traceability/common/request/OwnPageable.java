@@ -74,7 +74,7 @@ public class OwnPageable {
             try {
                 String[] sortParams = sort.split(",");
                 orders.add(new Sort.Order(Sort.Direction.valueOf(sortParams[1].toUpperCase()),
-                        handleEnumColumns(fieldMapper.mapRequestFieldName(sortParams[0]))));
+                        fieldMapper.mapRequestFieldName(sortParams[0])));
             } catch (UnsupportedSearchCriteriaFieldException exception) {
                 throw exception;
             } catch (Exception exception) {
@@ -85,12 +85,5 @@ public class OwnPageable {
             }
         }
         return Sort.by(orders);
-    }
-
-    private static String handleEnumColumns(final String column) {
-        return switch (column) {
-            case "status" -> "statusRank";
-            default -> column;
-        };
     }
 }
