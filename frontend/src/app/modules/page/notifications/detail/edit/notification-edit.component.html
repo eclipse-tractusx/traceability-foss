@@ -55,6 +55,9 @@ SPDX-License-Identifier: Apache-2.0
       </app-notification-new-request>
     </mat-card>
 
+  <div class="parts-card-wrapper">
+
+
   <mat-card class="parts-card">
     <mat-card-header>
       <mat-card-title
@@ -82,7 +85,7 @@ SPDX-License-Identifier: Apache-2.0
                            (clickSelectAction)="isAlertOpen$.next(true)"
                            (filterActivated)="filterActivated(true, $event )"
                            [multiSortList]="tableAsBuiltSortList"
-                           [tableHeader]='"page.asBuiltParts" | i18n'
+                           [tableHeader]='"editNotification.asBuiltParts" | i18n'
                            [tableType]="TableType.AS_BUILT_OWN"
                            [mainAspectType]="MainAspectType.AS_BUILT"
           ></app-parts-table>
@@ -91,11 +94,11 @@ SPDX-License-Identifier: Apache-2.0
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="parts-card">
+<!--  <mat-card class="parts-card">
     <mat-card-header>
       <mat-card-title
       ><h4>
-        {{ 'requestNotification.notAffectedParts'  | i18n }}
+        {{ 'requestNotification.unAffectedParts'  | i18n }}
       </h4></mat-card-title
       >
     </mat-card-header>
@@ -104,7 +107,7 @@ SPDX-License-Identifier: Apache-2.0
         <ng-container
           *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
        <ng-template #mainTmp let-parts="view">
-         <!-- asBuilt Parts Table-->
+         &lt;!&ndash; asBuilt Parts Table&ndash;&gt;
          <app-parts-table class="parts-asBuilt-table"
                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                           [labelId]="titleId"
@@ -125,7 +128,8 @@ SPDX-License-Identifier: Apache-2.0
        </ng-template>
       </div>
     </mat-card-content>
-  </mat-card>
+  </mat-card>-->
+  </div>
 </div>
 
 

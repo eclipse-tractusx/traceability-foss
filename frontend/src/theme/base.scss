@@ -233,15 +233,15 @@ app-notifications-tab {
 app-notification-edit {
   .table-wrapper {
     background-color: white;
-    height:45vh;
+    height:30vh;
     overflow:auto;
     @media screen and (max-height: 1049px) {
       max-height: 45vh;
-      height: 45vh;
+      height: 30vh;
     }
 
     @media screen and (min-height: 1050px) {
-      height: 45vh;
+      height: 25vh;
       max-height: 45vh;
     }
   }

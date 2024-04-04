@@ -204,6 +204,7 @@
     "header": "Qualitätsthema erstellen",
     "editNotificationHeader": "Qualitätsthema anpassen",
     "affectedParts": "Betroffene Teile",
+    "asBuiltParts": "As Built",
     "unAffectedParts": "Verfügbare Teile",
     "partDescription": "Sie haben folgende Produkte ausgewählt:",
     "targetDateDescription": "Bitte geben Sie das Datum an, bis wann Sie eine Antwort erwarten.",
