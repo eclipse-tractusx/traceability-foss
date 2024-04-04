@@ -29,6 +29,8 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Slf4j
 public abstract class AbstractNotificationReceiverService implements NotificationReceiverService {
 
@@ -53,9 +55,11 @@ public abstract class AbstractNotificationReceiverService implements Notificatio
 
     @Override
     public void handleUpdate(EDCNotification edcNotification, NotificationType notificationType) {
-        NotificationMessage notificationMessage = getNotificationMessageMapper().toNotification(edcNotification, notificationType);
+
         Notification notification = getRepository().findByEdcNotificationId(edcNotification.getNotificationId())
                 .orElseThrow(() -> getNotFoundException(edcNotification.getNotificationId()));
+        NotificationMessage notificationMessage = getNotificationMessageMapper().toNotification(edcNotification, notificationType);
+        emptyIfNull(notification.getNotifications()).stream().findFirst().ifPresent(notificationMessage1 -> notificationMessage.setAffectedParts(notificationMessage1.getAffectedParts()));
 
         switch (edcNotification.convertNotificationStatus()) {
             case ACKNOWLEDGED -> notification.acknowledge();
