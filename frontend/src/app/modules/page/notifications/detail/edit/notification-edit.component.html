@@ -49,14 +49,11 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card class="notification-request-card">
       <app-notification-new-request
         title="requestNotification.editNotificationHeader"
-      (submitted)="submittedByNotificationRequest()"
-      [selectedItems]="affectedParts"
       [editMode]="editMode">
       </app-notification-new-request>
     </mat-card>
 
   <div class="parts-card-wrapper">
-
 
   <mat-card class="parts-card">
     <mat-card-header>
@@ -80,7 +77,7 @@ SPDX-License-Identifier: Apache-2.0
           </div>
           <!-- asBuilt Parts Table-->
           <app-parts-table class="parts-asBuilt-table"
-                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                           [paginationData]="filterOnlyAffected(parts.data) | formatPaginationSemanticDataModelToCamelCase"
                            [labelId]="titleId"
                            [selectedPartsActionLabel]="'page.selectedParts.action'"
                            [deselectTrigger]="deselectPartTrigger$ | async"
@@ -88,8 +85,7 @@ SPDX-License-Identifier: Apache-2.0
                            [menuActivated]="false"
                            (selected)="onSelectedItemAffectedParts($event)"
                            (multiSelect)="currentSelectedAffectedParts$.next($event)"
-                           (clickSelectAction)="isAlertOpen$.next(true)"
-                           (filterActivated)="filterActivated(true, $event )"
+                           (filterActivated)="filterAffectedAssets($event)"
                            [multiSortList]="tableAsBuiltSortList"
                            [tableType]="TableType.AS_BUILT_OWN"
                            [mainAspectType]="MainAspectType.AS_BUILT"
@@ -122,16 +118,14 @@ SPDX-License-Identifier: Apache-2.0
          <app-parts-table class="parts-asBuilt-table"
                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                           [labelId]="titleId"
-                          [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                          [menuActivated]="false"
                           [selectedPartsActionLabel]="'page.selectedParts.action'"
                           [deselectTrigger]="deselectPartTrigger$ | async"
                           [addTrigger]="addPartTrigger$ | async"
                           (selected)="onSelectedItemAvailableParts($event)"
                           (multiSelect)="currentSelectedAvailableParts$.next($event)"
-                          (clickSelectAction)="isAlertOpen$.next(true)"
-                          (filterActivated)="filterActivated(true, $event )"
+                          (filterActivated)="filterAvailableAssets($event)"
                           [multiSortList]="tableAsBuiltSortList"
-                          [tableHeader]='"page.asBuiltParts" | i18n'
                           [tableType]="TableType.AS_BUILT_OWN"
                           [mainAspectType]="MainAspectType.AS_BUILT"
          ></app-parts-table>
