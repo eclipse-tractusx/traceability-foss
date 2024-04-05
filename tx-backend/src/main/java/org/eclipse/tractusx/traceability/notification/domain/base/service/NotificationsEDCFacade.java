@@ -97,7 +97,7 @@ public class NotificationsEDCFacade {
 
         CatalogItem catalogItem = getCatalogItem(notification, receiverEdcUrl);
 
-        String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem);
+        String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem, notification.getSendTo());
 
         final EndpointDataReference dataReference = endpointDataReferenceStorage.get(contractAgreementId)
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
@@ -112,11 +112,11 @@ public class NotificationsEDCFacade {
         }
     }
 
-    private String negotiateContractAgreement(final String receiverEdcUrl, final CatalogItem catalogItem) {
+    private String negotiateContractAgreement(final String receiverEdcUrl, final CatalogItem catalogItem, String receiverBpn) {
 
         try {
             log.info("Negotiation of contract agreement for receiverEdcUrl {} and catalogItem {}", receiverEdcUrl, catalogItem);
-            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem, null))
+            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem, null, receiverBpn))
                     .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
@@ -143,7 +143,8 @@ public class NotificationsEDCFacade {
                     .filter(catalogItem -> {
                         log.info("-- catalog item check --");
                         log.info("Item {}: {}", catalogItem.getItemId(), catalogItem);
-                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy());
+                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy(), notification.getSendTo()
+                        );
                         log.info("IsValid : {}", isValid);
                         return isValid;
                     })
