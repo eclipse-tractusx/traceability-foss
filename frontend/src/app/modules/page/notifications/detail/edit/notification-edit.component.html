@@ -75,17 +75,14 @@ SPDX-License-Identifier: Apache-2.0
           <app-parts-table class="parts-asBuilt-table"
                            [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                            [labelId]="titleId"
-                           [selectedPartsInfoLabel]="'page.selectedParts.info'"
                            [selectedPartsActionLabel]="'page.selectedParts.action'"
                            [deselectTrigger]="deselectPartTrigger$ | async"
                            [addTrigger]="addPartTrigger$ | async"
                            (selected)="onSelectItem($event)"
-                           (configChanged)="onAsBuiltTableConfigChange($event)"
                            (multiSelect)="currentSelectedItems$.next($event)"
                            (clickSelectAction)="isAlertOpen$.next(true)"
                            (filterActivated)="filterActivated(true, $event )"
                            [multiSortList]="tableAsBuiltSortList"
-                           [tableHeader]='"editNotification.asBuiltParts" | i18n'
                            [tableType]="TableType.AS_BUILT_OWN"
                            [mainAspectType]="MainAspectType.AS_BUILT"
           ></app-parts-table>
@@ -94,7 +91,7 @@ SPDX-License-Identifier: Apache-2.0
     </mat-card-content>
   </mat-card>
 
-<!--  <mat-card class="parts-card">
+  <mat-card class="parts-card">
     <mat-card-header>
       <mat-card-title
       ><h4>
@@ -107,7 +104,7 @@ SPDX-License-Identifier: Apache-2.0
         <ng-container
           *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
        <ng-template #mainTmp let-parts="view">
-         &lt;!&ndash; asBuilt Parts Table&ndash;&gt;
+
          <app-parts-table class="parts-asBuilt-table"
                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                           [labelId]="titleId"
@@ -128,22 +125,10 @@ SPDX-License-Identifier: Apache-2.0
        </ng-template>
       </div>
     </mat-card-content>
-  </mat-card>-->
+  </mat-card>
   </div>
 </div>
 
-
-<ng-template #mainNotificationPartsTmp let-view="view">
-  <app-table
-    [data]="view.data"
-    [labelId]="notificationPartsTableId"
-    [autocompleteEnabled]="false"
-    [tableConfig]="notificationPartsTableConfig"
-    [showHover]="false"
-    [noShadow]="true"
-    (configChanged)="onNotificationPartsSort($event)"
-  ></app-table>
-</ng-template>
 <ng-template #errorTmp let-view="view">
   <h1>{{ 'dataLoading.error' | i18n }}</h1>
   <p>{{ view.error | json }}</p>
