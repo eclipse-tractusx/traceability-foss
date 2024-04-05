@@ -69,8 +69,15 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-content>
       <div class="parts-table-wrapper">
         <ng-container
-          *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-        <ng-template #mainTmp let-parts="view">
+          *viewContainer="partsAsBuilt$ | async; main: affectedTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+        <ng-template #affectedTmp let-parts="view">
+
+
+          <div>
+            <app-button (click)="removeSelectedPartsToAffectedParts()">
+              Remove
+            </app-button>
+          </div>
           <!-- asBuilt Parts Table-->
           <app-parts-table class="parts-asBuilt-table"
                            [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
@@ -78,8 +85,9 @@ SPDX-License-Identifier: Apache-2.0
                            [selectedPartsActionLabel]="'page.selectedParts.action'"
                            [deselectTrigger]="deselectPartTrigger$ | async"
                            [addTrigger]="addPartTrigger$ | async"
-                           (selected)="onSelectItem($event)"
-                           (multiSelect)="currentSelectedItems$.next($event)"
+                           [menuActivated]="false"
+                           (selected)="onSelectedItemAffectedParts($event)"
+                           (multiSelect)="currentSelectedAffectedParts$.next($event)"
                            (clickSelectAction)="isAlertOpen$.next(true)"
                            (filterActivated)="filterActivated(true, $event )"
                            [multiSortList]="tableAsBuiltSortList"
@@ -105,6 +113,12 @@ SPDX-License-Identifier: Apache-2.0
           *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
        <ng-template #mainTmp let-parts="view">
 
+
+         <div>
+           <app-button (click)="addSelectedPartsToAffectedParts()">
+             Add
+           </app-button>
+         </div>
          <app-parts-table class="parts-asBuilt-table"
                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                           [labelId]="titleId"
@@ -112,9 +126,8 @@ SPDX-License-Identifier: Apache-2.0
                           [selectedPartsActionLabel]="'page.selectedParts.action'"
                           [deselectTrigger]="deselectPartTrigger$ | async"
                           [addTrigger]="addPartTrigger$ | async"
-                          (selected)="onSelectItem($event)"
-                          (configChanged)="onAsBuiltTableConfigChange($event)"
-                          (multiSelect)="currentSelectedItems$.next($event)"
+                          (selected)="onSelectedItemAvailableParts($event)"
+                          (multiSelect)="currentSelectedAvailableParts$.next($event)"
                           (clickSelectAction)="isAlertOpen$.next(true)"
                           (filterActivated)="filterActivated(true, $event )"
                           [multiSortList]="tableAsBuiltSortList"

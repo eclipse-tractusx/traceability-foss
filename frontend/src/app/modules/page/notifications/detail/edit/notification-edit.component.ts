@@ -66,7 +66,8 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public affectedParts = [];
   public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
   public readonly addPartTrigger$ = new Subject<Part>();
-  public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
+  public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
+  public readonly currentSelectedAffectedParts$ = new BehaviorSubject<Part[]>([]);
   public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
 
   public readonly notificationPartsTableId = this.staticIdService.generateId('NotificationDetail');
@@ -99,6 +100,18 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.supplierPartsDetailInformation$ = this.notificationDetailFacade.supplierPartsInformation$;
     this.selected$ = this.notificationDetailFacade.selected$;
 console.log(this.selectedNotification, "selected");
+
+    this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
+      // Do something with the emitted array of parts
+      console.log('Received available:', parts);
+      // Example: Update UI or perform other operations
+    });
+
+    this.currentSelectedAffectedParts$.subscribe((parts: Part[]) => {
+      // Do something with the emitted array of parts
+      console.log('Received affected:', parts);
+      // Example: Update UI or perform other operations
+    });
     this.paramSubscription = this.route.queryParams.subscribe(params => {
 
       this.originPageNumber = params.pageNumber;
@@ -110,7 +123,7 @@ console.log(this.selectedNotification, "selected");
   }
 
   // TODO parts table
-  public onSelectItem($event: Record<string, unknown>): void {
+  public onSelectedItemAvailableParts($event: Record<string, unknown>): void {
   /*  this.partDetailsFacade.selectedPart = $event as unknown as Part;
     let tableData = {};
     for (let component of this.partsTableComponents) {
@@ -118,6 +131,11 @@ console.log(this.selectedNotification, "selected");
     }
     this.router.navigate([`parts/${$event?.id}`], {queryParams: tableData})*/
   }
+
+  public onSelectedItemAffectedParts($event: Record<string, unknown>): void {
+console.log("affected", $event)
+  }
+
 
   // TODO parts table
   public onAsBuiltTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
@@ -175,6 +193,13 @@ console.log(this.selectedNotification, "selected");
     this.paramSubscription?.unsubscribe();
   }
 
+  removeSelectedPartsToAffectedParts(){
+
+  }
+
+  addSelectedPartsToAffectedParts(){
+
+  }
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
     const [ name, direction ] = sorting || [ '', '' ];
     this.notificationDetailFacade.sortNotificationParts(name, direction);

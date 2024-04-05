@@ -115,7 +115,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngSwitchCase="'select'">
         <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
       </ng-container>
-      <ng-container *ngSwitchCase="'menu'">
+      <ng-container   *ngSwitchCase="'menu'">
         <ng-container *ngTemplateOutlet="MenuColumn"></ng-container>
       </ng-container>
       <ng-container *ngSwitchDefault>
@@ -146,9 +146,6 @@ SPDX-License-Identifier: Apache-2.0
             >
               keyboard_arrow_down
             </mat-icon>
-            <app-button>
-              +
-            </app-button>
           </div>
           <mat-menu #selectMenu="matMenu" xPosition="before" class="ml-10">
             <button mat-menu-item (click)="clearCurrentRows()">{{ 'table.clearPage' | i18n }}</button>
@@ -318,12 +315,12 @@ SPDX-License-Identifier: Apache-2.0
       </ng-container>
     </ng-template>
 
-    <ng-template #MenuColumn>
+    <ng-template  #MenuColumn>
       <ng-container matColumnDef="menu" stickyEnd>
         <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
         <td *matCellDef="let row" class="table--menu" mat-cell
             [attr.colspan]="tableConfig.displayedColumns.length">
-          <div class="table--menu__desktop">
+          <div [hidden]="!menuActivated" class="table--menu__desktop">
             <button
               [matMenuTriggerFor]="menu"
               [attr.aria-label]="'table.menuDescription' | i18n"
