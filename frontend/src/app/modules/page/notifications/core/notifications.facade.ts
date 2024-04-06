@@ -28,6 +28,7 @@ import {
   Notifications,
   NotificationStatus,
 } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 import { View } from '@shared/model/view.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { Observable, Subscription } from 'rxjs';
@@ -103,5 +104,9 @@ export class NotificationsFacade {
 
   public declineNotification(notificationId: string, reason: string): Observable<void> {
     return this.notificationService.updateNotification(notificationId, NotificationStatus.DECLINED, reason);
+  }
+
+  public updateEditedNotification(notificationId: string, title: string, bpn: string, severity: string, targetDate: string, description: string): Observable<void> {
+    return this.notificationService.updateEditedNotification(notificationId, title, bpn, severity, targetDate, description);
   }
 }

@@ -17,10 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { getFilterOperatorValue } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { Notification, NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
@@ -35,6 +36,7 @@ import { filter, tap } from 'rxjs/operators';
 export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   @Input() title: string;
   @Input() editMode: boolean;
+  @Output() formGroupChanged = new EventEmitter<FormGroup>();
 
 
   public readonly formGroup = new FormGroup<any>({
@@ -54,6 +56,9 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
 
   constructor(public readonly notificationDetailFacade: NotificationDetailFacade) {
     this.selected$ = this.notificationDetailFacade.selected$;
+    this.formGroup.valueChanges.subscribe(value => {
+      this.formGroupChanged.emit(this.formGroup);
+    })
   }
 
   ngOnInit(): void {
@@ -74,6 +79,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
           if (this.editMode) {
             this.formGroup.get('type').disable();
           }
+          this.formGroupChanged.emit(this.formGroup);
         }),
       )
       .subscribe();

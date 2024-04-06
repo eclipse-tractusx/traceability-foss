@@ -18,13 +18,14 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { Pagination } from '@core/model/pagination.model';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
-import { PartsFacade } from '@page/parts/core/parts.facade';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
@@ -55,13 +56,12 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public readonly titleId = this.staticIdService.generateId('NotificationDetail');
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly editMode = true;
-
+  public notificationFormGroup: FormGroup;
   public readonly selected$: Observable<View<Notification>>;
 
   public affectedPartIds: string[] = [];
-
   public temporaryAffectedParts: string[] = [];
-
+  public temporaryAffectedPartsForRemoval: string[] = [];
   public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
   public readonly currentSelectedAffectedParts$ = new BehaviorSubject<Part[]>([]);
@@ -74,7 +74,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   private paramSubscription: Subscription;
 
   constructor(
-    private readonly partsFacade: PartsFacade,
+    private readonly partsFacade: OtherPartsFacade,
     public readonly actionHelperService: NotificationActionHelperService,
     public readonly notificationDetailFacade: NotificationDetailFacade,
     private readonly staticIdService: StaticIdService,
@@ -83,31 +83,27 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
   ) {
-    this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
-    this.partsFacade.setPartsAsBuilt();
+    this.partsAsBuilt$ = this.partsFacade.supplierPartsAsBuilt$;
+    this.partsFacade.setSupplierPartsAsBuilt();
     this.selected$ = this.notificationDetailFacade.selected$;
 
 
     this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
-      console.log('Received available:', parts);
       this.temporaryAffectedParts = parts.map(part => part.id);
-      console.log(this.temporaryAffectedParts, 'temp affected');
     });
 
     this.currentSelectedAffectedParts$.subscribe((parts: Part[]) => {
-      // Do something with the emitted array of parts
-      console.log('Received affected:', parts);
-      this.temporaryAffectedParts = parts.map(part => part.id);
-      console.log(this.temporaryAffectedParts, 'temp affected');
-      // Example: Update UI or perform other operations
+      this.temporaryAffectedPartsForRemoval = parts.map(part => part.id);
     });
-    this.paramSubscription = this.route.queryParams.subscribe(params => {
 
+    this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
     });
+  }
 
-
+  public notificationFormGroupChange(notificationFormGorup: FormGroup) {
+    this.notificationFormGroup = notificationFormGorup;
   }
 
   // TODO parts table
@@ -130,13 +126,12 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   filterAvailableAssets(assetFilter: any): void {
-    this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+    this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
   }
 
-
-  // TODO implement save / detection change
   public clickedSave(): void {
-
+    const { title, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
+    this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description);
   }
 
   public ngAfterViewInit(): void {
@@ -172,28 +167,33 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   })();
 
   filterOnlyAffected(parts: any): Pagination<Part> {
-    console.log('Incoming parts', parts.content);
-    console.log('affectedPartIds', this.affectedPartIds);
 
     // TODO performance
     const partsFiltered = parts.content.filter(part => this.affectedPartIds.includes(part.id));
 
-    // TODO pagination
+    // TODO fix pagination
     return {
-      page: 0,
-      pageCount: 0,
-      pageSize: 0,
-      totalItems: 0,
+      page: parts.page,
+      pageCount: parts.pageCount,
+      pageSize: parts.pageSize,
+      totalItems: partsFiltered.size,
       content: partsFiltered,
     };
   }
 
-  removeSelectedPartsToAffectedParts() {
-
+  removeAffectedParts() {
+    this.affectedPartIds = this.affectedPartIds.filter(value => this.temporaryAffectedPartsForRemoval.includes(value));
+    this.temporaryAffectedPartsForRemoval = [];
   }
 
-  addSelectedPartsToAffectedParts() {
-    this.temporaryAffectedParts.forEach(value => this.affectedPartIds.push(value));
+  addAffectedParts() {
+    this.temporaryAffectedParts.forEach(value => {
+      if (!this.affectedPartIds.includes(value)) {
+        this.affectedPartIds.push(value);
+      }
+    });
+
+    this.temporaryAffectedParts = [];
   }
 
 
@@ -216,6 +216,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         first(),
         tap(notification => {
           this.notificationDetailFacade.selected = { data: notification };
+          this.selectedNotification = notification;
           this.affectedPartIds = notification.assetIds;
         }),
       )

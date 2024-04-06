@@ -49,7 +49,8 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card class="notification-request-card">
       <app-notification-new-request
         title="requestNotification.editNotificationHeader"
-      [editMode]="editMode">
+      [editMode]="editMode"
+      (formGroupChanged)="notificationFormGroupChange($event)">
       </app-notification-new-request>
     </mat-card>
 
@@ -71,7 +72,7 @@ SPDX-License-Identifier: Apache-2.0
 
 
           <div>
-            <app-button (click)="removeSelectedPartsToAffectedParts()">
+            <app-button (click)="removeAffectedParts()">
               Remove
             </app-button>
           </div>
@@ -111,7 +112,7 @@ SPDX-License-Identifier: Apache-2.0
 
 
          <div>
-           <app-button (click)="addSelectedPartsToAffectedParts()">
+           <app-button (click)="addAffectedParts()">
              Add
            </app-button>
          </div>

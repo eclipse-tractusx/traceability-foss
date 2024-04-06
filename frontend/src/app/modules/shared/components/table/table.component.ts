@@ -38,6 +38,7 @@ import {
   TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
+import { NotificationStatus } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
@@ -72,11 +73,15 @@ export class TableComponent {
       label: 'actions.edit',
       icon: 'edit',
       action: (data: Record<string, unknown>) => this.editClicked.emit(data),
+      condition: data => this.isEditable(data),
     };
 
-    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction,...menuActions ] : null;
-    console.log(menuActionsConfig, "menu");
+    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction, ...menuActions ] : null;
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
+  }
+
+  isEditable(data: any): boolean {
+    return data.status === NotificationStatus.CREATED;
   }
 
   get tableConfig(): TableConfig {

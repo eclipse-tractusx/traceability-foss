@@ -111,6 +111,14 @@ export class NotificationService {
     return this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
   }
 
+  public updateEditedNotification(notificationId: string, title: string, bpn: string, severity: string, targetDate: string, description: string): Observable<void> {
+    const requestUrl = this.notificationUrl();
+    const body = { notificationId, title, bpn, severity, targetDate, description };
+    console.log("executing");
+    return this.apiService.put<void>(`${ requestUrl }/${ notificationId }/update`, body);
+  }
+
+
   public getDistinctFilterValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     const requestUrl = this.notificationUrl();
