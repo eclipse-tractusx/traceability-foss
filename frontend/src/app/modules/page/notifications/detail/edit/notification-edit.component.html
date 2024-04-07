@@ -45,9 +45,10 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 
-<div class="detail--wrapper">
+<div class="detail--wrapper" >
     <mat-card class="notification-request-card">
       <app-notification-new-request
+        data-testid="app-notification-new-request"
         title="requestNotification.editNotificationHeader"
       [editMode]="editMode"
       (formGroupChanged)="notificationFormGroupChange($event)">
@@ -77,7 +78,7 @@ SPDX-License-Identifier: Apache-2.0
             </app-button>
           </div>
           <!-- asBuilt Parts Table-->
-          <app-parts-table class="parts-asBuilt-table"
+          <app-parts-table class="parts-asBuilt-table" data-testid="affectedParts"
                            [paginationData]="filterOnlyAffected(parts.data) | formatPaginationSemanticDataModelToCamelCase"
                            [labelId]="titleId"
                            [selectedPartsActionLabel]="'page.selectedParts.action'"
@@ -116,7 +117,7 @@ SPDX-License-Identifier: Apache-2.0
              Add
            </app-button>
          </div>
-         <app-parts-table class="parts-asBuilt-table"
+         <app-parts-table class="parts-asBuilt-table" data-testid="unAffectedParts"
                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                           [labelId]="titleId"
                           [menuActivated]="false"

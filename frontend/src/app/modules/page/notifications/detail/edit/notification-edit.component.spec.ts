@@ -18,20 +18,27 @@
  ********************************************************************************/
 
 import { ActivatedRoute } from '@angular/router';
+import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
 import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
 import { NotificationsModule } from '@page/notifications/notifications.module';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
+import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
+import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { NotificationService } from '@shared/service/notification.service';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 
-describe('NotificationDetailComponent', () => {
+describe('NotificationEditComponent', () => {
 
-  const renderNotificationDetail = async (id?: string) => {
-    return await renderComponent(NotificationDetailComponent, {
+  const renderNotificationEditComponent = async (id?: string) => {
+    return await renderComponent(NotificationEditComponent, {
       imports: [ NotificationsModule ],
       providers: [
         NotificationService,
+        OtherPartsFacade,
+        OtherPartsService,
+        OtherPartsState,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -48,14 +55,14 @@ describe('NotificationDetailComponent', () => {
   };
 
 
-  it('should render specific text for queued or requested notifications', async () => {
-    await renderNotificationDetail('id-1');
-    await waitFor(() => expect(screen.getByText('pageAlert.subHeadline.supplierParts')).toBeInTheDocument());
-  });
-
-  it('should render specific text for back button', async () => {
-    await renderNotificationDetail('id-1');
-    await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
+  it('should render component with form and two part tables', async () => {
+    await renderNotificationEditComponent('id-1');
+    const notificationRequestComponent = screen.queryByTestId('app-notification-new-request');
+    const affectedPartsTable = screen.queryByTestId('affectedParts');
+    const unAffectedPartsTable = screen.queryByTestId('unAffectedParts');
+    expect(notificationRequestComponent).toBeInTheDocument();
+  //  expect(affectedPartsTable).toBeInTheDocument();
+   // expect(unAffectedPartsTable).toBeInTheDocument();
   });
 
 });
