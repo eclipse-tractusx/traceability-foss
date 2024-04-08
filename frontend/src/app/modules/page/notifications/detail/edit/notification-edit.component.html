@@ -78,7 +78,7 @@ SPDX-License-Identifier: Apache-2.0
             </app-button>
           </div>
           <!-- asBuilt Parts Table-->
-          <app-parts-table class="parts-asBuilt-table" data-testid="affectedParts"
+          <app-parts-table *ngIf="tableType" class="parts-asBuilt-table" data-testid="affectedParts"
                            [paginationData]="filterOnlyAffected(parts.data) | formatPaginationSemanticDataModelToCamelCase"
                            [labelId]="titleId"
                            [selectedPartsActionLabel]="'page.selectedParts.action'"
@@ -89,7 +89,7 @@ SPDX-License-Identifier: Apache-2.0
                            (multiSelect)="currentSelectedAffectedParts$.next($event)"
                            (filterActivated)="filterAffectedAssets($event)"
                            [multiSortList]="tableAsBuiltSortList"
-                           [tableType]="TableType.AS_BUILT_OWN"
+                           [tableType]="tableType"
                            [mainAspectType]="MainAspectType.AS_BUILT"
           ></app-parts-table>
         </ng-template>
@@ -117,7 +117,7 @@ SPDX-License-Identifier: Apache-2.0
              Add
            </app-button>
          </div>
-         <app-parts-table class="parts-asBuilt-table" data-testid="unAffectedParts"
+         <app-parts-table   *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"
                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                           [labelId]="titleId"
                           [menuActivated]="false"
@@ -128,7 +128,7 @@ SPDX-License-Identifier: Apache-2.0
                           (multiSelect)="currentSelectedAvailableParts$.next($event)"
                           (filterActivated)="filterAvailableAssets($event)"
                           [multiSortList]="tableAsBuiltSortList"
-                          [tableType]="TableType.AS_BUILT_OWN"
+                          [tableType]="tableType"
                           [mainAspectType]="MainAspectType.AS_BUILT"
          ></app-parts-table>
        </ng-template>

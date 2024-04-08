@@ -177,7 +177,7 @@ export class PartsTableComponent implements OnInit {
   }
 
   private initializeTableViewSettings(): void {
-
+console.log(this.tableType, "type in parts");
     switch (this.tableType) {
       case TableType.AS_PLANNED_CUSTOMER:
         this.tableViewConfig = new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();

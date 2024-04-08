@@ -26,6 +26,7 @@ import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
+import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
@@ -34,7 +35,7 @@ import { NotificationCommonModalComponent } from '@shared/components/notificatio
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { toAssetFilter } from '@shared/helper/filter-helper';
-import { Notification } from '@shared/model/notification.model';
+import { Notification, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
@@ -49,7 +50,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
-  public readonly partsAsBuilt$: Observable<View<Pagination<Part>>>;
+  public partsAsBuilt$: Observable<View<Pagination<Part>>>;
   public affectedParts: Part[];
   private filteredDataCache: any[] = [];
 
@@ -57,7 +58,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly editMode = true;
   public notificationFormGroup: FormGroup;
-  public readonly selected$: Observable<View<Notification>>;
 
   public affectedPartIds: string[] = [];
   public temporaryAffectedParts: string[] = [];
@@ -70,11 +70,13 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   private originTabIndex: number;
 
   public selectedNotification: Notification;
+  public tableType: TableType;
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
 
   constructor(
     private readonly partsFacade: OtherPartsFacade,
+    private readonly ownPartsFacade: PartsFacade,
     public readonly actionHelperService: NotificationActionHelperService,
     public readonly notificationDetailFacade: NotificationDetailFacade,
     private readonly staticIdService: StaticIdService,
@@ -83,9 +85,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
   ) {
-    this.partsAsBuilt$ = this.partsFacade.supplierPartsAsBuilt$;
-    this.partsFacade.setSupplierPartsAsBuilt();
-    this.selected$ = this.notificationDetailFacade.selected$;
 
 
     this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
@@ -104,6 +103,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   public notificationFormGroupChange(notificationFormGorup: FormGroup) {
     this.notificationFormGroup = notificationFormGorup;
+    console.log(this.notificationFormGroup, 'group updated');
   }
 
   // TODO parts table
@@ -137,8 +137,32 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public ngAfterViewInit(): void {
     if (!this.notificationDetailFacade.selected?.data) {
       this.selectedNotificationBasedOnUrl();
-    }
+    } else {
+      this.selectedNotification = this.notificationDetailFacade.selected?.data;
+      this.affectedPartIds = this.selectedNotification.assetIds;
+      this.setPartsBasedOnNotificationType(this.selectedNotification);
 
+    }
+  }
+
+  private setPartsBasedOnNotificationType(notification: Notification){
+    if (notification.type === NotificationType.INVESTIGATION) {
+      this.setSupplierPartsAsBuilt();
+    } else {
+      this.setOwnPartsAsBuilt();
+    }
+  }
+
+  private setSupplierPartsAsBuilt() {
+    this.tableType = TableType.AS_BUILT_SUPPLIER;
+    this.partsAsBuilt$ = this.partsFacade.supplierPartsAsBuilt$;
+    this.partsFacade.setSupplierPartsAsBuilt();
+  }
+
+  private setOwnPartsAsBuilt() {
+    this.tableType = TableType.AS_BUILT_OWN;
+    this.partsAsBuilt$ = this.ownPartsFacade.partsAsBuilt$;
+    this.ownPartsFacade.setPartsAsBuilt();
   }
 
   public ngOnDestroy(): void {
@@ -218,6 +242,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
           this.notificationDetailFacade.selected = { data: notification };
           this.selectedNotification = notification;
           this.affectedPartIds = notification.assetIds;
+          this.setPartsBasedOnNotificationType(this.selectedNotification);
         }),
       )
       .subscribe();
