@@ -34,6 +34,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @RequiredArgsConstructor
 @Component
 public class NotificationMapper {
@@ -49,7 +51,7 @@ public class NotificationMapper {
     public Notification toNotification(BPN bpn, String description, NotificationMessage notification, NotificationType notificationType) {
 
         List<String> assetIds = new ArrayList<>();
-        notification.getAffectedParts().stream()
+        emptyIfNull(notification.getAffectedParts()).stream()
                 .map(NotificationAffectedPart::assetId)
                 .forEach(assetIds::add);
         return Notification.builder()

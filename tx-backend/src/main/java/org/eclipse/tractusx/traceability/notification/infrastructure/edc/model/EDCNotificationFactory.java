@@ -26,6 +26,8 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 public class EDCNotificationFactory {
 
     private EDCNotificationFactory() {
@@ -60,7 +62,7 @@ public class EDCNotificationFactory {
 
 
     private static List<String> extractAssetIds(NotificationMessage notification) {
-        return notification.getAffectedParts().stream()
+        return emptyIfNull(notification.getAffectedParts()).stream()
                 .map(NotificationAffectedPart::assetId).toList();
     }
 }

@@ -33,6 +33,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Data
 @Builder(toBuilder = true)
 @Slf4j
@@ -135,7 +137,7 @@ public class Notification {
         notifications = Collections.unmodifiableList(updatedNotifications);
 
         List<String> newAssetIds = new ArrayList<>(assetIds); // create a mutable copy of assetIds
-        notification.getAffectedParts().stream()
+        emptyIfNull(notification.getAffectedParts()).stream()
                 .map(NotificationAffectedPart::assetId)
                 .forEach(newAssetIds::add);
 
