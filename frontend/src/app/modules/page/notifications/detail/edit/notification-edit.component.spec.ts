@@ -19,6 +19,7 @@
 
 import { ActivatedRoute } from '@angular/router';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
 import { NotificationsModule } from '@page/notifications/notifications.module';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
@@ -33,7 +34,7 @@ import { of } from 'rxjs';
 
 describe('NotificationEditComponent', () => {
 
-  const renderNotificationEditComponent = async (useParamMap: boolean, id?: string) => {
+  const renderNotificationEditComponent = async (useParamMap: boolean, mock: any, id?: string) => {
 
     const paramMapValue = useParamMap ? { get: () => id || 'id-2' } : {
       get: () => {
@@ -55,6 +56,10 @@ describe('NotificationEditComponent', () => {
             },
             queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
+        },
+        {
+          provide: NotificationsFacade,
+          useValue: mock,
         },
 
       ],
@@ -78,17 +83,15 @@ describe('NotificationEditComponent', () => {
       severity: undefined,
       status: undefined,
       title: '',
-      id: 'abc',
+      id: 'id-1',
     };
-
 
     const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
     notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
 
-    await renderNotificationEditComponent(true, 'id-1');
+    await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const notificationRequestComponent = screen.queryByTestId('app-notification-new-request');
     const affectedParts = screen.queryByTestId('affectedParts');
-
     expect(notificationRequestComponent).toBeInTheDocument();
     expect(affectedParts).toBeInTheDocument();
 
@@ -96,10 +99,6 @@ describe('NotificationEditComponent', () => {
 
   it('should set supplier parts for investigation', async () => {
 
-    const { fixture } = await renderNotificationEditComponent(true, 'id-1');
-    const { componentInstance } = fixture;
-
-    // Arrange
     const notification: Notification = {
       assetIds: [],
       createdBy: '',
@@ -116,24 +115,28 @@ describe('NotificationEditComponent', () => {
       title: '',
       id: 'abc',
     };
+    const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
+    notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
+    const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
+    const { componentInstance } = fixture;
+
+
     const isAvailablePartSubscription = true;
     const assetFilter = {};
 
-    // Act
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuilt');
+    spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuiltSecond');
     componentInstance['setPartsBasedOnNotificationType'](notification, isAvailablePartSubscription, assetFilter);
+    componentInstance['setPartsBasedOnNotificationType'](notification, !isAvailablePartSubscription, assetFilter);
 
-    // Assert
     expect(componentInstance['partsFacade'].setSupplierPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+    expect(componentInstance['partsFacade'].setSupplierPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+
   });
 
 
   it('should set own parts as built for available part subscription with alerts', async () => {
-    const { fixture } = await renderNotificationEditComponent(true, 'id-1');
-    const { componentInstance } = fixture;
 
-
-    // Arrange
     const notification: Notification = {
       assetIds: [],
       createdBy: '',
@@ -150,15 +153,24 @@ describe('NotificationEditComponent', () => {
       title: '',
       id: 'abc',
     };
+
+    const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
+    notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
+
+    const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
+    const { componentInstance } = fixture;
+
     const isAvailablePartSubscription = true;
     const assetFilter = {};
 
-    // Act
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
+    spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecond');
     componentInstance['setPartsBasedOnNotificationType'](notification, isAvailablePartSubscription, assetFilter);
+    componentInstance['setPartsBasedOnNotificationType'](notification, !isAvailablePartSubscription, assetFilter);
 
-    // Assert
     expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+
   });
 
 });
