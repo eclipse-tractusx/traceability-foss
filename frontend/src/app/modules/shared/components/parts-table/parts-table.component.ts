@@ -104,6 +104,7 @@ export class PartsTableComponent implements OnInit {
   }
 
   @Input() set deselectTrigger(deselectItem: unknown[]) {
+    console.log(deselectItem);
     if (!deselectItem) {
       return;
     }

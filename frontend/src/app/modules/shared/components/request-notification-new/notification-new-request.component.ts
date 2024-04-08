@@ -63,6 +63,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
       this.selected$ = this.notificationDetailFacade.selected$;
     }
     this.formGroup.valueChanges.subscribe(value => {
+      //TODO: For Create, check here or in parent if the part tables should update (depending on passed partId, investigation or alert type)
       this.formGroupChanged.emit(this.formGroup);
     })
 

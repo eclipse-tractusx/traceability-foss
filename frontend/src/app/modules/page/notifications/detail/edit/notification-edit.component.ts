@@ -57,12 +57,12 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   public readonly titleId = this.staticIdService.generateId('NotificationDetail');
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
-  public readonly editMode : boolean;
+  public readonly editMode: boolean;
   public notificationFormGroup: FormGroup;
 
   public affectedPartIds: string[] = [];
-  public temporaryAffectedParts: string[] = [];
-  public temporaryAffectedPartsForRemoval: string[] = [];
+  public temporaryAffectedParts: Part[] = [];
+  public temporaryAffectedPartsForRemoval: Part[] = [];
   public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
   public readonly currentSelectedAffectedParts$ = new BehaviorSubject<Part[]>([]);
@@ -90,11 +90,13 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.editMode = this.route.snapshot.url[this.route.snapshot.url.length - 1].path === 'edit';
 
     this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
-      this.temporaryAffectedParts = parts.map(part => part.id);
+      this.temporaryAffectedParts = parts;
+      console.log(parts);
     });
 
     this.currentSelectedAffectedParts$.subscribe((parts: Part[]) => {
-      this.temporaryAffectedPartsForRemoval = parts.map(part => part.id);
+      this.temporaryAffectedPartsForRemoval = parts;
+      console.log(parts);
     });
 
     this.paramSubscription = this.route.queryParams.subscribe(params => {
@@ -134,7 +136,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   public clickedSave(): void {
     const { title, type, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
-    if(this.editMode) {
+    if (this.editMode) {
       this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds);
     } else {
       this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description);
@@ -158,7 +160,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   private setPartsBasedOnNotificationType(notification: Notification, isAvailablePartSubscription: boolean, assetFilter?: any) {
 
-    if (isAvailablePartSubscription){
+    if (isAvailablePartSubscription) {
       if (notification.type === NotificationType.INVESTIGATION) {
         assetFilter ? this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true)) : this.setSupplierPartsAsBuilt();
       } else {
@@ -174,7 +176,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
 
   }
-
 
 
   private setSupplierPartsAsBuilt() {
@@ -233,17 +234,21 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   removeAffectedParts() {
-    this.affectedPartIds = this.affectedPartIds.filter(value => this.temporaryAffectedPartsForRemoval.includes(value));
+    this.affectedPartIds = this.affectedPartIds.filter(value => {
+      return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
+    });
     this.temporaryAffectedPartsForRemoval = [];
+    this.currentSelectedAffectedParts$.next([]);
   }
 
   addAffectedParts() {
     this.temporaryAffectedParts.forEach(value => {
-      if (!this.affectedPartIds.includes(value)) {
-        this.affectedPartIds.push(value);
+      if (!this.affectedPartIds.includes(value.id)) {
+        this.affectedPartIds.push(value.id);
       }
     });
-
+    this.currentSelectedAvailableParts$.next([]);
+    this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.temporaryAffectedParts = [];
   }
 
