@@ -106,3 +106,16 @@ Create a new application in ArgoCD and point it to your repository / Helm chart 
 * API docs: `http://localhost:8080/api/v3/api-docs`
 * Application health liveness endpoint: `http://localhost:8081/actuator/health/liveness`
 * Application health readiness endpoint: `http://localhost:8081/actuator/health/readiness`
+
+
+## ESS investigations
+The creation of the ESS investigations offers the possibility to search for a company under investigation.
+This search needs an active connection to a BPDM, connection defined here, in the backend.
+In order to enable this search in the frontend, you need to define in the `application.yml` the
+`feign.bpdmApi.url` environment variable with a valid URL for an active BPDM.
+
+Beside that, the following variables also must be defined for the IRS jon status check:
+
+`ess.initialDelayForIrsJobStatusCheck` and `ess.fixedDelayForIrsJobStatusCheck` with values in milliseconds.
+
+The value of `ess.maxNumberOfNewInvestigations` must be positive or zero and limits the number of part IDs for which a new ESS investigation will be created. Zero turns off the creation of new investigations.
