@@ -22,6 +22,7 @@ import { ApiService } from '@core/api/api.service';
 import { AuthService } from '@core/auth/auth.service';
 import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationStatus } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -92,6 +93,25 @@ describe('NotificationService', () => {
     const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/update`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual('{"reason":"Test reason","status":"ACKNOWLEDGED"}');
+    req.flush({});
+  });
+
+  it('should update a notification by input', () => {
+    const notificationId = '123';
+    const title = 'title';
+    const bpn = 'BPN';
+    const severity = Severity.CRITICAL;
+    const targetDate = null;
+    const description = 'desc';
+    const affectedPartIds = ['abc', 'def'];
+
+    spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
+
+    service.updateEditedNotification(notificationId, title, bpn, severity, targetDate, description, affectedPartIds).subscribe();
+
+    const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/update`);
+    expect(req.request.method).toBe('PUT');
+    expect(req.request.body).toEqual('{"notificationId":"123","title":"title","bpn":"BPN","severity":"CRITICAL","targetDate":null,"description":"desc","affectedParts":["abc","def"]}');
     req.flush({});
   });
 
