@@ -65,7 +65,9 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         List<String> asBuiltAssetsToSync = asBuiltAssetIds.stream().filter(assetId -> !existingAsBuiltInSyncAndTransientStates.contains(assetId)).toList();
         List<String> asPlannedAssetsToSync = asPlannedAssetIds.stream().filter(assetId -> !existingAsPlannedInSyncAndTransientStates.contains(assetId)).toList();
 
+        log.info("Try to sync {} assets asBuilt", asBuiltAssetsToSync.size());
         asBuiltAssetsToSync.forEach(assetAsBuiltService::synchronizeAssetsAsync);
+        log.info("Try to sync {} assets asPlanned", asPlannedAssetsToSync.size());
         asPlannedAssetsToSync.forEach(assetAsPlannedService::synchronizeAssetsAsync);
     }
 
