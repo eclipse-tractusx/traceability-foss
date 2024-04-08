@@ -203,6 +203,7 @@
     "alert": "Qualitätswarnung",
     "header": "Qualitätsthema erstellen",
     "editNotificationHeader": "Qualitätsthema anpassen",
+    "createNotificationHeader": "Qualitätsthema erstellen",
     "affectedParts": "Betroffene Teile",
     "asBuiltParts": "As Built",
     "unAffectedParts": "Verfügbare Teile",

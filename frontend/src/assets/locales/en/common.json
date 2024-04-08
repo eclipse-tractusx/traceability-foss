@@ -204,6 +204,7 @@
     "alert": "Quality Alert",
     "header": "Create Notification",
     "editNotificationHeader": "Edit Notification",
+    "createNotificationHeader": "Create Notification",
     "affectedParts": "Affected parts",
     "unAffectedParts": "Available parts",
     "partDescription": "You selected the following parts:",

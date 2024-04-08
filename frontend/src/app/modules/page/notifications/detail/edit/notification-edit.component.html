@@ -49,7 +49,7 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card class="notification-request-card">
       <app-notification-new-request
         data-testid="app-notification-new-request"
-        title="requestNotification.editNotificationHeader"
+        [title]="editMode ? 'requestNotification.editNotificationHeader' : 'requestNotification.createNotificationHeader'"
       [editMode]="editMode"
       (formGroupChanged)="notificationFormGroupChange($event)">
       </app-notification-new-request>

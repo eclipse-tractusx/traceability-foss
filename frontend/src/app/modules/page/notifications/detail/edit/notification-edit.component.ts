@@ -57,7 +57,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   public readonly titleId = this.staticIdService.generateId('NotificationDetail');
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
-  public readonly editMode = true;
+  public readonly editMode : boolean;
   public notificationFormGroup: FormGroup;
 
   public affectedPartIds: string[] = [];
@@ -87,6 +87,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly toastService: ToastService,
   ) {
 
+    this.editMode = this.route.snapshot.url[this.route.snapshot.url.length - 1].path === 'edit';
 
     this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
       this.temporaryAffectedParts = parts.map(part => part.id);
@@ -102,8 +103,8 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public notificationFormGroupChange(notificationFormGorup: FormGroup) {
-    this.notificationFormGroup = notificationFormGorup;
+  public notificationFormGroupChange(notificationFormGroup: FormGroup) {
+    this.notificationFormGroup = notificationFormGroup;
   }
 
   // TODO parts table
@@ -132,18 +133,26 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public clickedSave(): void {
-    const { title, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
-    this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds);
+    const { title, type, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
+    if(this.editMode) {
+      this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds);
+    } else {
+      this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description);
+    }
   }
 
   public ngAfterViewInit(): void {
-    if (!this.notificationDetailFacade.selected?.data) {
-      this.selectedNotificationBasedOnUrl();
+    if (this.editMode) {
+      if (!this.notificationDetailFacade.selected?.data) {
+        this.selectedNotificationBasedOnUrl();
+      } else {
+        this.selectedNotification = this.notificationDetailFacade.selected?.data;
+        this.affectedPartIds = this.selectedNotification.assetIds;
+        this.setPartsBasedOnNotificationType(this.selectedNotification, true);
+        this.setPartsBasedOnNotificationType(this.selectedNotification, false);
+      }
     } else {
-      this.selectedNotification = this.notificationDetailFacade.selected?.data;
-      this.affectedPartIds = this.selectedNotification.assetIds;
-      this.setPartsBasedOnNotificationType(this.selectedNotification, true);
-      this.setPartsBasedOnNotificationType(this.selectedNotification, false);
+      // TODO: initialize new Notification?
     }
   }
 
@@ -212,17 +221,15 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
     // TODO performance
     const partsFiltered = parts.content.filter(part => this.affectedPartIds.includes(part.id));
-  console.log("partsFilered", partsFiltered);
+
     // TODO fix pagination
-    let paginationPart = {
+    return {
       page: parts.page,
       pageCount: parts.pageCount,
       pageSize: parts.pageSize,
       totalItems: partsFiltered.length,
       content: partsFiltered,
     };
-    console.log(paginationPart, "pagination");
-    return paginationPart;
   }
 
   removeAffectedParts() {

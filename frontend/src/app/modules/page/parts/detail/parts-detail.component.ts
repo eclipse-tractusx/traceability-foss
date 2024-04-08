@@ -206,16 +206,19 @@ export class PartsDetailComponent {
 
   }
 
-
-  protected readonly NotificationAction = NotificationAction;
-  protected readonly Owner = Owner;
-
   navigateToParentPath() {
     const parentPath = this.router.routerState.snapshot.url.split('/')[1]; //otherParts
     const navigationExtras = this.pageIndexHistory ? {queryParams: this.pageIndexHistory} : null
     this.router.navigate([parentPath], navigationExtras);
   }
 
+  navigateToNotificationCreationView() {
+    console.log(this.router.routerState.snapshot.url);
+    this.router.navigate(['inbox/create'])
+}
 
+
+  protected readonly NotificationAction = NotificationAction;
+  protected readonly Owner = Owner;
   protected readonly NotificationType = NotificationType;
 }

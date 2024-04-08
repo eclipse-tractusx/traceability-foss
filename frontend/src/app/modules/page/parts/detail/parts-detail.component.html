@@ -43,7 +43,7 @@ SPDX-License-Identifier: Apache-2.0
       iconName="announcement"
       class="action-button-tile mr-2"
       [isDisabled]="incidentCreationTooltipMessage !== 'routing.createIncident'"
-      (click)="isNotificationRequestOpen.next(true)"
+      (click)="navigateToNotificationCreationView()"
     >
     </app-button>
     </div>
