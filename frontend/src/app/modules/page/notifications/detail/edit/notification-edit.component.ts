@@ -138,10 +138,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     if (!this.notificationDetailFacade.selected?.data) {
       this.selectedNotificationBasedOnUrl();
     } else {
-      this.selectedNotification = this.notificationDetailFacade.selected?.data;
-      this.affectedPartIds = this.selectedNotification.assetIds;
-      this.setPartsBasedOnNotificationType(this.selectedNotification, true);
-      this.setPartsBasedOnNotificationType(this.selectedNotification, false);
+      this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected?.data);
     }
   }
 
@@ -257,14 +254,18 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         first(),
         tap(notification => {
           this.notificationDetailFacade.selected = { data: notification };
-          this.selectedNotification = notification;
-          this.affectedPartIds = notification.assetIds;
-          this.setPartsBasedOnNotificationType(this.selectedNotification, true);
-          this.setPartsBasedOnNotificationType(this.selectedNotification, false);
+          this.selectNotificationAndLoadPartsBasedOnNotification(notification);
 
         }),
       )
       .subscribe();
+  }
+
+  private selectNotificationAndLoadPartsBasedOnNotification(notification: Notification) {
+    this.selectedNotification = notification;
+    this.affectedPartIds = notification.assetIds;
+    this.setPartsBasedOnNotificationType(this.selectedNotification, true);
+    this.setPartsBasedOnNotificationType(this.selectedNotification, false);
   }
 
   protected readonly TableType = TableType;

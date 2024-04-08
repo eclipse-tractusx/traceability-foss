@@ -56,6 +56,7 @@ describe('NotificationEditComponent', () => {
             queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
         },
+
       ],
     });
   };
@@ -63,9 +64,34 @@ describe('NotificationEditComponent', () => {
 
   it('should render component with form', async () => {
 
+    const notification: Notification = {
+      assetIds: [],
+      createdBy: '',
+      type: NotificationType.INVESTIGATION,
+      createdByName: '',
+      createdDate: undefined,
+      description: '',
+      isFromSender: false,
+      reason: undefined,
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      status: undefined,
+      title: '',
+      id: 'abc',
+    };
+
+
+    const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
+    notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
+
     await renderNotificationEditComponent(true, 'id-1');
     const notificationRequestComponent = screen.queryByTestId('app-notification-new-request');
+    const affectedParts = screen.queryByTestId('affectedParts');
+
     expect(notificationRequestComponent).toBeInTheDocument();
+    expect(affectedParts).toBeInTheDocument();
+
   });
 
   it('should set supplier parts for investigation', async () => {

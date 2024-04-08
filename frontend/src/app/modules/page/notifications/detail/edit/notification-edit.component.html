@@ -65,7 +65,7 @@ SPDX-License-Identifier: Apache-2.0
       </h4></mat-card-title
       >
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content data-testid="affectedParts">
       <div class="parts-table-wrapper">
         <ng-container
           *viewContainer="affectedPartsAsBuilt$ | async; main: affectedTmp; error: errorTmp; loading: loaderTmp"></ng-container>
@@ -78,7 +78,7 @@ SPDX-License-Identifier: Apache-2.0
             </app-button>
           </div>
           <!-- asBuilt Parts Table-->
-          <app-parts-table *ngIf="tableType" class="parts-asBuilt-table" data-testid="affectedParts"
+          <app-parts-table *ngIf="tableType" class="parts-asBuilt-table"
                            [paginationData]="filterOnlyAffected(parts.data) | formatPaginationSemanticDataModelToCamelCase"
                            [labelId]="titleId"
                            [selectedPartsActionLabel]="'page.selectedParts.action'"
