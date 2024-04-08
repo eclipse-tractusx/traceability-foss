@@ -182,26 +182,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription?.unsubscribe();
   }
 
-  filterDataMemoized = (() => {
-    const memo = new Map<string, any[]>();
-
-    return (data: any[]): any[] => {
-      const key = JSON.stringify(data); // Use data as cache key
-
-      // Check if the result is already memoized
-      if (memo.has(key)) {
-        return memo.get(key)!;
-      } else {
-        // Perform filtering operation
-        const filteredData = data.filter(part => this.affectedPartIds.includes(part.id));
-
-        // Cache the result
-        memo.set(key, filteredData);
-        return filteredData;
-      }
-    };
-  })();
-
   filterOnlyAffected(parts: any): Pagination<Part> {
 
     // TODO performance
