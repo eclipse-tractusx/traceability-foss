@@ -106,7 +106,7 @@ export class NotificationsFacade {
     return this.notificationService.updateNotification(notificationId, NotificationStatus.DECLINED, reason);
   }
 
-  public updateEditedNotification(notificationId: string, title: string, bpn: string, severity: string, targetDate: string, description: string): Observable<void> {
-    return this.notificationService.updateEditedNotification(notificationId, title, bpn, severity, targetDate, description);
+  public updateEditedNotification(notificationId: string, title: string, bpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
+    return this.notificationService.updateEditedNotification(notificationId, title, bpn, severity, targetDate, description, affectedPartIds);
   }
 }

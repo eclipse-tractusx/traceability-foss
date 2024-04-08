@@ -124,19 +124,16 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   filterAffectedAssets(assetFilter: any): void {
     this.setPartsBasedOnNotificationType(this.selectedNotification, false, assetFilter);
-
- //   this.setPartsBasedOnNotificationType(this.selectedNotification, false, assetFilter);
   }
 
 
   filterAvailableAssets(assetFilter: any): void {
     this.setPartsBasedOnNotificationType(this.selectedNotification, true, assetFilter);
-    //this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
   }
 
   public clickedSave(): void {
     const { title, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
-    this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description);
+    this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds);
   }
 
   public ngAfterViewInit(): void {
@@ -183,6 +180,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.tableType = TableType.AS_BUILT_OWN;
     this.availablePartsAsBuilt$ = this.ownPartsFacade.partsAsBuilt$;
     this.ownPartsFacade.setPartsAsBuilt();
+    this.ownPartsFacade.setPartsAsBuiltSecond();
   }
 
   public ngOnDestroy(): void {
@@ -214,15 +212,17 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
     // TODO performance
     const partsFiltered = parts.content.filter(part => this.affectedPartIds.includes(part.id));
-
+  console.log("partsFilered", partsFiltered);
     // TODO fix pagination
-    return {
+    let paginationPart = {
       page: parts.page,
       pageCount: parts.pageCount,
       pageSize: parts.pageSize,
-      totalItems: partsFiltered.size,
+      totalItems: partsFiltered.length,
       content: partsFiltered,
     };
+    console.log(paginationPart, "pagination");
+    return paginationPart;
   }
 
   removeAffectedParts() {

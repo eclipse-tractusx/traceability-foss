@@ -111,10 +111,10 @@ export class NotificationService {
     return this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
   }
 
-  public updateEditedNotification(notificationId: string, title: string, bpn: string, severity: string, targetDate: string, description: string): Observable<void> {
+  public updateEditedNotification(notificationId: string, title: string, bpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
     const requestUrl = this.notificationUrl();
-    const body = { notificationId, title, bpn, severity, targetDate, description };
-    console.log("executing");
+    const body = { notificationId, title, bpn, severity, targetDate, description, affectedParts: affectedPartIds };
+    console.log(body, "executing http put request with body");
     return this.apiService.put<void>(`${ requestUrl }/${ notificationId }/update`, body);
   }
 
