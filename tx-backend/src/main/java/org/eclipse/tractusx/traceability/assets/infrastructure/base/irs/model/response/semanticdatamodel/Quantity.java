@@ -16,10 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-export enum MainAspectType {
-  AS_BUILT = 'as_built',
-  AS_PLANNED = 'as_planned'
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
+
+public record Quantity(double quantityNumber, MeasurementUnit measurementUnit) {
 }
-
-
-

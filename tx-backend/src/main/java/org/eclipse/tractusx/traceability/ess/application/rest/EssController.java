@@ -20,7 +20,6 @@
 
 package org.eclipse.tractusx.traceability.ess.application.rest;
 
-import com.neovisionaries.i18n.CountryCode;
 import ess.request.EssRequest;
 import ess.response.EssResponse;
 import ess.response.EssStatus;
@@ -30,7 +29,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +49,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-
 @Tag(name = "ESS")
 public class EssController {
 
@@ -102,21 +99,6 @@ public class EssController {
             log.info(EssController.ESS_OFF);
             return new PageResult<>(List.of());
         }
-    }
-
-    @GetMapping("/countryCodes")
-    public String getCountryCodes() {
-        List<CountryCode> ccs =
-            List.of(CountryCode.values()).stream()
-                .filter(countryCode -> countryCode != CountryCode.UNDEFINED).collect(Collectors.toList());
-        StringBuilder sb = new StringBuilder("[");
-        for (CountryCode cc : ccs) {
-            sb.append(
-                String.format(
-                    "{ \"key2\": \"%s\", \"key3\": \"%s\", \"name\": \"%s\" }",
-                    cc.getAlpha2(), cc.getAlpha3(), cc.getName()));
-        }
-        return sb.append("]").toString();
     }
 
     @PostMapping("")

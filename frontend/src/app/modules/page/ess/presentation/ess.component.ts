@@ -166,7 +166,7 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     public onEssTableConfigChange({page, pageSize, sorting}: TableEventConfig): void {
-        this.setTableSortingList(sorting, MainAspectType.ESS);
+        this.setTableSortingList(sorting);
         let pageSizeValue = this.DEFAULT_PAGE_SIZE;
         if (pageSize !== 0) {
             pageSizeValue = pageSize;
@@ -208,17 +208,17 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
         this.bomLifecycleSize = bomLifecycleSize;
     }
 
-    private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
+    private setTableSortingList(sorting: TableHeaderSort): void {
         // if a sorting Columnlist exists but a column gets resetted:
-        if (!sorting && (this.tableEssSortList || this.tableAsPlannedSortList)) {
-            this.resetTableSortingList(partTable);
+        if (!sorting && this.tableEssSortList) {
+            this.tableEssSortList = [];
             return;
         }
 
         // if CTRL is pressed at to sortList
         if (this.ctrlKeyState) {
             const [columnName] = sorting;
-            const tableSortList = partTable === MainAspectType.ESS ? this.tableEssSortList : this.tableAsPlannedSortList
+            const tableSortList = this.tableEssSortList
 
             // Find the index of the existing entry with the same first item
             const index = tableSortList.findIndex(
@@ -232,25 +232,11 @@ export class EssComponent implements OnInit, OnDestroy, AfterViewInit {
                 // Add the new entry if it doesn't exist
                 tableSortList.push(sorting);
             }
-            if (partTable === MainAspectType.ESS) {
-                this.tableEssSortList = tableSortList
-            } else {
-                this.tableAsPlannedSortList = tableSortList
-            }
+            this.tableEssSortList = tableSortList
         }
         // If CTRL is not pressed just add a list with one entry
-        else if (partTable === MainAspectType.ESS) {
+        else {
             this.tableEssSortList = [sorting];
-        } else {
-            this.tableAsPlannedSortList = [sorting]
-        }
-    }
-
-    private resetTableSortingList(partTable: MainAspectType): void {
-        if (partTable === MainAspectType.ESS) {
-          this.tableEssSortList = [];
-        } else {
-            this.tableAsPlannedSortList = [];
         }
     }
 

@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
 <div class="table-header-wrapper">
   <div class="table-header-container">
     <div class="large-text padding-top-bottom-05 table--header--text">{{tableHeader}}
-      <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2 float-right">
+      <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
         settings
       </mat-icon>
     </div>
@@ -49,7 +49,7 @@ SPDX-License-Identifier: Apache-2.0
         </app-button>
 
         <app-button
-          *ngIf="selection?.selected?.length && (tableType !== TableType.AS_PLANNED_CUSTOMER && tableType !== TableType.AS_BUILT_CUSTOMER) && listType!==TableType.ESS"
+          *ngIf="selection?.selected?.length"
           (click)="clickSelectAction.emit()"
           [variant]="'raised'"
           [color]="'accent'"

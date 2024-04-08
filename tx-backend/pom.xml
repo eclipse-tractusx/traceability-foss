@@ -238,12 +238,6 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>commons-collections4</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.neovisionaries</groupId>
-            <artifactId>nv-i18n</artifactId>
-            <version>1.29</version>
-        </dependency>
-
         <!-- test dependencies spring boot managed -->
         <dependency>
             <groupId>org.mockito</groupId>

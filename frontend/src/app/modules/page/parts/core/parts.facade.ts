@@ -70,7 +70,7 @@ export class PartsFacade {
   public setPartsAsPlanned4Ess(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.partsAsPlanned4EssSubscription?.unsubscribe();
     this.partsAsPlanned4EssSubscription = this.partsService.getPartsAsPlanned4Ess(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
-      next: data => (this.partsState.partsAsPlanned4Ess = {data}),
+      next: data => (this.partsState.partsAsPlanned4Ess = { data: provideDataObject(data) }),
       error: error => (this.partsState.partsAsPlanned4Ess = {error}),
     });
   }

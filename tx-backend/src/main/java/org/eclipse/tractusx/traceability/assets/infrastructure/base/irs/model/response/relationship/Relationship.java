@@ -1,5 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,10 +18,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-export enum MainAspectType {
-  AS_BUILT = 'as_built',
-  AS_PLANNED = 'as_planned'
-}
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship;
 
+public record Relationship(String catenaXId, LinkedItem linkedItem, Aspect aspectType) {
+    public String childCatenaXId() {
+        return linkedItem.childCatenaXId();
+    }
+}
 
 

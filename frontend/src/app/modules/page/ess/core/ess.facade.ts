@@ -22,6 +22,7 @@ import {Injectable} from '@angular/core';
 import {Pagination} from '@core/model/pagination.model';
 import { EssState } from '@page/ess/core/ess.state';
 import { Ess, EssFilter } from '@page/ess/model/ess.model';
+import { provideDataObject } from '@page/parts/core/parts.helper';
 import {AssetAsPlannedFilter} from '@page/parts/model/parts.model';
 import {TableHeaderSort} from '@shared/components/table/table.model';
 import {View} from '@shared/model/view.model';
@@ -44,7 +45,7 @@ export class EssFacade {
     public setEss(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], essFilter?: EssFilter, isOrSearch?: boolean): void {
         this.essSubscription?.unsubscribe();
         this.essSubscription = this.essService.getEssList(page, pageSize, sorting, essFilter, isOrSearch).subscribe({
-            next: data => (this.essState.essList = {data: data}),
+            next: data => (this.essState.essList = { data: provideDataObject(data) }),
             error: error => (this.essState.essList = {error}),
         });
     }
@@ -56,7 +57,7 @@ export class EssFacade {
     public setPartsAsPlanned4Ess(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
         this.partsAsPlanned4EssSubscription?.unsubscribe();
         this.partsAsPlanned4EssSubscription = this.essService.getEssList(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
-          next: data => (this.essState.partsAsPlanned4Ess = {data}),
+          next: data => (this.essState.partsAsPlanned4Ess = { data: provideDataObject(data) }),
           error: error => (this.essState.partsAsPlanned4Ess = {error}),
         });
     }

@@ -57,7 +57,7 @@ export class EssService {
     }
     return this.apiService
       .getBy<EssListResponse>(`${this.url}/ess/v`, params)
-      .pipe(map(essList => EssAssembler.assembleEssList(essList, MainAspectType.ESS)));
+      .pipe(map(essList => EssAssembler.assembleEssList(essList)));
   }
 
   public sortParts(data: Ess[], key: string, direction: SortDirection): Ess[] {
