@@ -18,20 +18,28 @@
  ********************************************************************************/
 
 import { ActivatedRoute } from '@angular/router';
+import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
 import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
-import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
 import { NotificationsModule } from '@page/notifications/notifications.module';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
+import { toAssetFilter } from '@shared/helper/filter-helper';
+import { Notification, NotificationType } from '@shared/model/notification.model';
 import { NotificationService } from '@shared/service/notification.service';
-import { screen, waitFor } from '@testing-library/angular';
+import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 
 describe('NotificationEditComponent', () => {
 
-  const renderNotificationEditComponent = async (id?: string) => {
+  const renderNotificationEditComponent = async (useParamMap: boolean, id?: string) => {
+
+    const paramMapValue = useParamMap ? { get: () => id || 'id-2' } : {
+      get: () => {
+      },
+    };
+
     return await renderComponent(NotificationEditComponent, {
       imports: [ NotificationsModule ],
       providers: [
@@ -43,9 +51,7 @@ describe('NotificationEditComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              paramMap: {
-                get: () => id || 'id-2',
-              },
+              paramMap: paramMapValue,
             },
             queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
@@ -55,14 +61,78 @@ describe('NotificationEditComponent', () => {
   };
 
 
-  it('should render component with form and two part tables', async () => {
-    await renderNotificationEditComponent('id-1');
+  it('should render component with form', async () => {
+
+    await renderNotificationEditComponent(true, 'id-1');
     const notificationRequestComponent = screen.queryByTestId('app-notification-new-request');
-    const affectedPartsTable = screen.queryByTestId('affectedParts');
-    const unAffectedPartsTable = screen.queryByTestId('unAffectedParts');
     expect(notificationRequestComponent).toBeInTheDocument();
-  //  expect(affectedPartsTable).toBeInTheDocument();
-   // expect(unAffectedPartsTable).toBeInTheDocument();
+  });
+
+  it('should set supplier parts for investigation', async () => {
+
+    const { fixture } = await renderNotificationEditComponent(true, 'id-1');
+    const { componentInstance } = fixture;
+
+    // Arrange
+    const notification: Notification = {
+      assetIds: [],
+      createdBy: '',
+      type: NotificationType.INVESTIGATION,
+      createdByName: '',
+      createdDate: undefined,
+      description: '',
+      isFromSender: false,
+      reason: undefined,
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      status: undefined,
+      title: '',
+      id: 'abc',
+    };
+    const isAvailablePartSubscription = true;
+    const assetFilter = {};
+
+    // Act
+    spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuilt');
+    componentInstance['setPartsBasedOnNotificationType'](notification, isAvailablePartSubscription, assetFilter);
+
+    // Assert
+    expect(componentInstance['partsFacade'].setSupplierPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+  });
+
+
+  it('should set own parts as built for available part subscription with alerts', async () => {
+    const { fixture } = await renderNotificationEditComponent(true, 'id-1');
+    const { componentInstance } = fixture;
+
+
+    // Arrange
+    const notification: Notification = {
+      assetIds: [],
+      createdBy: '',
+      type: NotificationType.ALERT,
+      createdByName: '',
+      createdDate: undefined,
+      description: '',
+      isFromSender: false,
+      reason: undefined,
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      status: undefined,
+      title: '',
+      id: 'abc',
+    };
+    const isAvailablePartSubscription = true;
+    const assetFilter = {};
+
+    // Act
+    spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
+    componentInstance['setPartsBasedOnNotificationType'](notification, isAvailablePartSubscription, assetFilter);
+
+    // Assert
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
   });
 
 });

@@ -21,7 +21,6 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
-import { getFilterOperatorValue } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { Notification, NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
@@ -58,7 +57,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     this.selected$ = this.notificationDetailFacade.selected$;
     this.formGroup.valueChanges.subscribe(value => {
       this.formGroupChanged.emit(this.formGroup);
-    })
+    });
   }
 
   ngOnInit(): void {

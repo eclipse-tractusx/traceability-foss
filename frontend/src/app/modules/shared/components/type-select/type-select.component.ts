@@ -23,7 +23,6 @@ import { Component, Inject, Injector, Input } from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { SelectOption } from '@shared/components/select/select.component';
 import { NotificationType } from '@shared/model/notification.model';
-import { Severity } from '@shared/model/severity.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 
 @Component({

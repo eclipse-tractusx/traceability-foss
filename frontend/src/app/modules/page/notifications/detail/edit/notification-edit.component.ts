@@ -86,8 +86,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
   ) {
-
-
     this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
       this.temporaryAffectedParts = parts.map(part => part.id);
     });
@@ -149,7 +147,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   private setPartsBasedOnNotificationType(notification: Notification, isAvailablePartSubscription: boolean, assetFilter?: any) {
 
-    if (isAvailablePartSubscription){
+    if (isAvailablePartSubscription) {
       if (notification.type === NotificationType.INVESTIGATION) {
         assetFilter ? this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true)) : this.setSupplierPartsAsBuilt();
       } else {
@@ -165,7 +163,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
 
   }
-
 
 
   private setSupplierPartsAsBuilt() {
@@ -212,7 +209,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
     // TODO performance
     const partsFiltered = parts.content.filter(part => this.affectedPartIds.includes(part.id));
-  console.log("partsFilered", partsFiltered);
+    console.log('partsFilered', partsFiltered);
     // TODO fix pagination
     let paginationPart = {
       page: parts.page,
@@ -221,7 +218,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
       totalItems: partsFiltered.length,
       content: partsFiltered,
     };
-    console.log(paginationPart, "pagination");
+    console.log(paginationPart, 'pagination');
     return paginationPart;
   }
 
