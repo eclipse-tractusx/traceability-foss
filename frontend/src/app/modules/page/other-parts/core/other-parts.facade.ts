@@ -36,6 +36,7 @@ export class OtherPartsFacade {
   private customerPartsAsPlannedSubscription: Subscription;
 
   private supplierPartsAsBuiltSubscription: Subscription;
+  private supplierPartsAsBuiltSecondSubscription: Subscription;
   private supplierPartsAsPlannedSubscription: Subscription;
 
   constructor(
@@ -54,6 +55,10 @@ export class OtherPartsFacade {
 
   public get supplierPartsAsBuilt$(): Observable<View<Pagination<Part>>> {
     return this.otherPartsState.supplierPartsAsBuilt$;
+  }
+
+  public get supplierPartsAsBuiltSecond$(): Observable<View<Pagination<Part>>> {
+    return this.otherPartsState.supplierPartsAsBuiltSecond$;
   }
 
   public get supplierPartsAsPlanned$(): Observable<View<Pagination<Part>>> {
@@ -82,6 +87,14 @@ export class OtherPartsFacade {
     this.supplierPartsAsBuiltSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
       next: data => (this.otherPartsState.supplierPartsAsBuilt = { data: provideDataObject(data) }),
       error: error => (this.otherPartsState.supplierPartsAsBuilt = { error }),
+    });
+  }
+
+  public setSupplierPartsAsBuiltSecond(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
+    this.supplierPartsAsBuiltSecondSubscription?.unsubscribe();
+    this.supplierPartsAsBuiltSecondSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
+      next: data => (this.otherPartsState.supplierPartsAsBuiltSecond = { data: provideDataObject(data) }),
+      error: error => (this.otherPartsState.supplierPartsAsBuiltSecond = { error }),
     });
   }
 

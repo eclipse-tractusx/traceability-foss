@@ -68,7 +68,7 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-content>
       <div class="parts-table-wrapper">
         <ng-container
-          *viewContainer="partsAsBuilt$ | async; main: affectedTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          *viewContainer="affectedPartsAsBuilt$ | async; main: affectedTmp; error: errorTmp; loading: loaderTmp"></ng-container>
         <ng-template #affectedTmp let-parts="view">
 
 
@@ -108,7 +108,7 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-content>
      <div class="parts-table-wrapper">
         <ng-container
-          *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          *viewContainer="availablePartsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
        <ng-template #mainTmp let-parts="view">
 
 
