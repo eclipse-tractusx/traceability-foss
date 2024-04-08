@@ -44,7 +44,6 @@ describe('OtherPartsFacade', () => {
     otherPartsFacade = new OtherPartsFacade(otherPartsServiceMock, otherPartsState);
   });
 
-  describe('setActiveInvestigationForParts', () => {
     it('should set parts if request is successful', async () => {
 
       const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
@@ -94,5 +93,6 @@ describe('OtherPartsFacade', () => {
         }),
       );
     });
-  });
+
+
 });
