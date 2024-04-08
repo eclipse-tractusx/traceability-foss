@@ -96,6 +96,82 @@ describe('NotificationEditComponent', () => {
     expect(affectedParts).toBeInTheDocument();
 
   });
+  it('should remove affected parts to affectedPartIds and clear temporaryAffectedParts', async () => {
+
+    const notification: Notification = {
+      assetIds: [],
+      createdBy: '',
+      type: NotificationType.INVESTIGATION,
+      createdByName: '',
+      createdDate: undefined,
+      description: '',
+      isFromSender: false,
+      reason: undefined,
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      status: undefined,
+      title: '',
+      id: 'id-1',
+    };
+
+    const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
+    notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
+
+    const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
+    const { componentInstance } = fixture;
+    // Arrange
+    componentInstance.temporaryAffectedPartsForRemoval = [ 'part2', 'part3' ]; // Initialize temporaryAffectedPartsForRemoval
+    componentInstance.affectedPartIds = [ 'part1', 'part2', 'part3', 'part4' ]; // Initialize affectedPartIds
+
+
+    // Act
+    componentInstance.removeAffectedParts(); // Call the method to be tested
+
+    // Assert
+    // Check if all parts from temporaryAffectedParts are added to affectedPartIds
+    expect(componentInstance.affectedPartIds).toEqual([ 'part1', 'part4' ]);
+    // Check if temporaryAffectedParts is cleared
+    expect(componentInstance.temporaryAffectedPartsForRemoval).toEqual([]);
+  });
+
+  it('should add affected parts to affectedPartIds and clear temporaryAffectedParts', async () => {
+
+    const notification: Notification = {
+      assetIds: [],
+      createdBy: '',
+      type: NotificationType.INVESTIGATION,
+      createdByName: '',
+      createdDate: undefined,
+      description: '',
+      isFromSender: false,
+      reason: undefined,
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      status: undefined,
+      title: '',
+      id: 'id-1',
+    };
+
+    const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
+    notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
+
+    const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
+    const { componentInstance } = fixture;
+    // Arrange
+    componentInstance.temporaryAffectedParts = [ 'part1', 'part2', 'part3' ]; // Initialize temporaryAffectedParts
+    componentInstance.affectedPartIds = [ 'part2' ]; // Initialize affectedPartIds
+
+    // Act
+    componentInstance.addAffectedParts(); // Call the method to be tested
+
+    // Assert
+    // Check if all parts from temporaryAffectedParts are added to affectedPartIds
+    expect(componentInstance.affectedPartIds).toEqual([ 'part2', 'part1', 'part3' ]);
+    // Check if temporaryAffectedParts is cleared
+    expect(componentInstance.temporaryAffectedParts).toEqual([]);
+  });
 
   it('should set supplier parts for investigation', async () => {
 

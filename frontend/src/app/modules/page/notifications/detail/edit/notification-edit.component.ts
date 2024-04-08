@@ -195,12 +195,11 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
       totalItems: partsFiltered.length,
       content: partsFiltered,
     };
-    console.log(paginationPart, 'pagination');
     return paginationPart;
   }
 
   removeAffectedParts() {
-    this.affectedPartIds = this.affectedPartIds.filter(value => this.temporaryAffectedPartsForRemoval.includes(value));
+    this.affectedPartIds = this.affectedPartIds.filter(value => !this.temporaryAffectedPartsForRemoval.includes(value));
     this.temporaryAffectedPartsForRemoval = [];
   }
 
