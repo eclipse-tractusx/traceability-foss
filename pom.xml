@@ -86,7 +86,7 @@ SPDX-License-Identifier: Apache-2.0
         <json-unit-assertj.version>3.2.2</json-unit-assertj.version>
         <cucumber.version>7.15.0</cucumber.version>
         <junit-bom.version>5.10.2</junit-bom.version>
-        <awaitility.version>3.0.0</awaitility.version>
+        <awaitility.version>4.2.1</awaitility.version>
         <irs-client-lib.version>1.8.0</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
         <!-- Sonar related properties -->
