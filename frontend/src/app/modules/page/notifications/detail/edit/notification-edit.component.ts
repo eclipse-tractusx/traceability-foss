@@ -156,7 +156,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   private setPartsBasedOnNotificationType(notification: Notification, isAvailablePartSubscription: boolean, assetFilter?: any) {
-
     if (isAvailablePartSubscription) {
       if (notification.type === NotificationType.INVESTIGATION) {
         assetFilter ? this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true)) : this.setSupplierPartsAsBuilt();
@@ -186,6 +185,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   private setOwnPartsAsBuilt() {
     this.tableType = TableType.AS_BUILT_OWN;
     this.availablePartsAsBuilt$ = this.ownPartsFacade.partsAsBuilt$;
+    this.affectedPartsAsBuilt$ = this.ownPartsFacade.partsAsBuiltSecond$;
     this.ownPartsFacade.setPartsAsBuilt();
     this.ownPartsFacade.setPartsAsBuiltSecond();
   }
@@ -224,8 +224,9 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         this.affectedPartIds.push(value.id);
       }
     });
-    this.currentSelectedAvailableParts$.next([]);
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
+    this.currentSelectedAvailableParts$.next([]);
+    console.log(this.temporaryAffectedParts)
     this.temporaryAffectedParts = [];
   }
 

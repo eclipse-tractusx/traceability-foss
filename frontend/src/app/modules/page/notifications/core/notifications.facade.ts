@@ -28,6 +28,7 @@ import {
   Notifications,
   NotificationStatus,
 } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 import { View } from '@shared/model/view.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { Observable, Subscription } from 'rxjs';

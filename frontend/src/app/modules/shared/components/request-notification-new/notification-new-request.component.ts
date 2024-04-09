@@ -58,7 +58,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.editMode)
+
     if(this.editMode) {
       this.selected$ = this.notificationDetailFacade.selected$;
     }
