@@ -51,6 +51,7 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
     private static final String DIGITAL_TWIN_TYPE = "digitalTwinType";
     private static final String AS_BUILT_DIGITAL_TWIN_TYPE = "PartInstance";
+    private static final String AS_PLANNED_DIGITAL_TWIN_TYPE = "PartType";
 
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
@@ -80,7 +81,8 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     }
 
     private boolean isAsPlanned(AssetAdministrationShellDescriptor shellDescriptor) {
-        return !isAsBuilt(shellDescriptor);
+        Optional<IdentifierKeyValuePair> first = shellDescriptor.getSpecificAssetIds().stream().filter(item -> item.getName().equals(DIGITAL_TWIN_TYPE) && item.getValue().equals(AS_PLANNED_DIGITAL_TWIN_TYPE)).findFirst();
+        return first.isPresent();
     }
 }
 
