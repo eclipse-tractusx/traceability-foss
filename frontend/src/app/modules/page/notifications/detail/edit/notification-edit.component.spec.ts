@@ -276,7 +276,7 @@ describe('NotificationEditComponent', () => {
 
   });
 
-  fit('should correctly update form', async () => {
+  it('should correctly update form', async () => {
 
     const notification: Notification = {
       assetIds: [],
