@@ -148,10 +148,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
       if (!this.notificationDetailFacade.selected?.data) {
         this.selectedNotificationBasedOnUrl();
       } else {
-        this.selectedNotification = this.notificationDetailFacade.selected?.data;
-        this.affectedPartIds = this.selectedNotification.assetIds;
-        this.setPartsBasedOnNotificationType(this.selectedNotification, true);
-        this.setPartsBasedOnNotificationType(this.selectedNotification, false);
+        this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected?.data);
       }
     } else {
       // TODO: initialize new Notification?
@@ -197,26 +194,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.notificationDetailFacade.unsubscribeSubscriptions();
     this.paramSubscription?.unsubscribe();
   }
-
-  filterDataMemoized = (() => {
-    const memo = new Map<string, any[]>();
-
-    return (data: any[]): any[] => {
-      const key = JSON.stringify(data); // Use data as cache key
-
-      // Check if the result is already memoized
-      if (memo.has(key)) {
-        return memo.get(key)!;
-      } else {
-        // Perform filtering operation
-        const filteredData = data.filter(part => this.affectedPartIds.includes(part.id));
-
-        // Cache the result
-        memo.set(key, filteredData);
-        return filteredData;
-      }
-    };
-  })();
 
   filterOnlyAffected(parts: any): Pagination<Part> {
 
@@ -272,14 +249,18 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         first(),
         tap(notification => {
           this.notificationDetailFacade.selected = { data: notification };
-          this.selectedNotification = notification;
-          this.affectedPartIds = notification.assetIds;
-          this.setPartsBasedOnNotificationType(this.selectedNotification, true);
-          this.setPartsBasedOnNotificationType(this.selectedNotification, false);
+          this.selectNotificationAndLoadPartsBasedOnNotification(notification);
 
         }),
       )
       .subscribe();
+  }
+
+  private selectNotificationAndLoadPartsBasedOnNotification(notification: Notification) {
+    this.selectedNotification = notification;
+    this.affectedPartIds = notification.assetIds;
+    this.setPartsBasedOnNotificationType(this.selectedNotification, true);
+    this.setPartsBasedOnNotificationType(this.selectedNotification, false);
   }
 
   protected readonly TableType = TableType;
