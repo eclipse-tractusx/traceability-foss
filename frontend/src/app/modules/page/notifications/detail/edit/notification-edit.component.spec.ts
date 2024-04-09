@@ -25,12 +25,19 @@ import { NotificationsModule } from '@page/notifications/notifications.module';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { toAssetFilter } from '@shared/helper/filter-helper';
 import { Notification, NotificationType } from '@shared/model/notification.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
+import {
+  MOCK_part_1,
+  MOCK_part_2,
+  MOCK_part_3,
+} from '../../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 
 describe('NotificationEditComponent', () => {
 
@@ -120,8 +127,15 @@ describe('NotificationEditComponent', () => {
 
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
+
+    let firstPart  = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
+    let secondPart = PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT);
+
+    firstPart.id = 'part2';
+    secondPart.id = 'part3';
+
     // Arrange
-    componentInstance.temporaryAffectedPartsForRemoval = [ 'part2', 'part3' ]; // Initialize temporaryAffectedPartsForRemoval
+    componentInstance.temporaryAffectedPartsForRemoval = [ firstPart, secondPart ]; // Initialize temporaryAffectedPartsForRemoval
     componentInstance.affectedPartIds = [ 'part1', 'part2', 'part3', 'part4' ]; // Initialize affectedPartIds
 
 
@@ -159,8 +173,17 @@ describe('NotificationEditComponent', () => {
 
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
+
+
+    let firstPart  = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
+    let secondPart = PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT);
+    let thirdPart = PartsAssembler.assemblePart(MOCK_part_3, MainAspectType.AS_BUILT);
+    firstPart.id = 'part2';
+    secondPart.id = 'part3';
+    thirdPart.id = 'part1'
+
     // Arrange
-    componentInstance.temporaryAffectedParts = [ 'part1', 'part2', 'part3' ]; // Initialize temporaryAffectedParts
+    componentInstance.temporaryAffectedParts = [ thirdPart, firstPart, secondPart ]; // Initialize temporaryAffectedParts
     componentInstance.affectedPartIds = [ 'part2' ]; // Initialize affectedPartIds
 
     // Act
