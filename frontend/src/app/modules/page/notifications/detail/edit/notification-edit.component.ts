@@ -133,7 +133,10 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   public clickedSave(): void {
     const { title,  description, severity, targetDate, bpn } = this.notificationFormGroup.value;
-    this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds);
+    this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
+      next: () => this.toastService.success('requestNotification.saveSuccess'),
+      error: (error) => this.toastService.error('requestNotification.saveError')
+    });
   }
 
   public ngAfterViewInit(): void {

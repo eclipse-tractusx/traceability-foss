@@ -226,7 +226,9 @@
     "add": "Auswahl hinzufügen",
     "modifyNotAllowed": "Erfordert mindestens eine Selektion innerhalb der Tabelle",
     "textAreaDescription": "",
-    "saveNotAllowed": "Erfordert eine valide Eingabe im Formular"
+    "saveNotAllowed": "Erfordert eine valide Eingabe im Formular",
+    "saveSuccess": "Qualitätsthema wurde erfolgreich aktualisiert",
+    "saveError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten"
   },
   "editNotification": {
     "saveButton": "Speichern",
