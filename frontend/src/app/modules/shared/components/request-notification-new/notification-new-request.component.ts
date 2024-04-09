@@ -46,7 +46,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     'bpn': new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
     'type': new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]),
   });
-  public readonly selected$: Observable<View<Notification>>;
+  public selected$: Observable<View<Notification>>;
 
   public readonly isLoading$ = new BehaviorSubject(false);
   public readonly minDate = new Date();
@@ -54,34 +54,38 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   private subscription: Subscription;
 
   constructor(public readonly notificationDetailFacade: NotificationDetailFacade) {
-    this.selected$ = this.notificationDetailFacade.selected$;
-    this.formGroup.valueChanges.subscribe(value => {
-      this.formGroupChanged.emit(this.formGroup);
-    });
+
   }
 
   ngOnInit(): void {
+    this.selected$ = this.notificationDetailFacade.selected$;
+    this.formGroup.valueChanges.subscribe(value => {
+      this.formGroupChanged.emit(this.formGroup);
+    })
 
-    this.subscription = this.selected$
-      .pipe(
-        filter(({ data }) => !!data),
-        tap(({ data }) => {
-          const { title, description, severity, type, sendTo, targetDate } = data;
-          this.formGroup.setValue({
-            'title': title,
-            'description': description,
-            'severity': severity,
-            'type': type,
-            'bpn': sendTo,
-            'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
-          });
-          if (this.editMode) {
-            this.formGroup.get('type').disable();
-          }
-          this.formGroupChanged.emit(this.formGroup);
-        }),
-      )
-      .subscribe();
+    if(this.selected$) {
+      this.subscription = this.selected$
+        .pipe(
+          filter(({ data }) => !!data),
+          tap(({ data }) => {
+            const { title, description, severity, type, sendTo, targetDate } = data;
+            this.formGroup.setValue({
+              'title': title,
+              'description': description,
+              'severity': severity,
+              'type': type,
+              'bpn': sendTo,
+              'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
+            });
+            if (this.editMode) {
+              this.formGroup.get('type').disable();
+            }
+            this.formGroupChanged.emit(this.formGroup);
+          }),
+        )
+        .subscribe();
+    }
+
   }
 
   public ngOnDestroy(): void {
