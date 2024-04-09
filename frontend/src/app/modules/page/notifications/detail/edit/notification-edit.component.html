@@ -30,12 +30,20 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
   </div>
   <div class="detail--action">
-    <div class="detail--action--button">
+    <div class="detail--action--button"
+         matTooltip="{{'requestNotification.saveNotAllowed' | i18n}}"
+         matTooltipClass="table--header--tooltip"
+         matTooltipPosition="above"
+         [class.mdc-tooltip--multiline]="true"
+         [matTooltipShowDelay]="1000"
+         [style.cursor]="'not-allowed'"
+         [matTooltipDisabled]="!isSaveButtonDisabled"
+    >
       <app-button
         *ngIf="actionHelperService.showSaveButton()"
         (click)="clickedSave()"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAtLeastSupervisor()">
+        [isDisabled]="!actionHelperService.isAtLeastSupervisor() || isSaveButtonDisabled">
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2">save</mat-icon>
           {{ 'editNotification.saveButton' | i18n }}
@@ -72,9 +80,20 @@ SPDX-License-Identifier: Apache-2.0
         <ng-template #affectedTmp let-parts="view">
 
 
-          <div>
-            <app-button (click)="removeAffectedParts()">
-              Remove
+          <div
+            matTooltip="{{'requestNotification.modifyNotAllowed' | i18n}}"
+            matTooltipClass="table--header--tooltip"
+            matTooltipPosition="above"
+            [class.mdc-tooltip--multiline]="true"
+            [matTooltipShowDelay]="1000"
+            [style.cursor]="'not-allowed'"
+            [matTooltipDisabled]="temporaryAffectedPartsForRemoval.length > 0"
+          >
+            <app-button
+              (click)="removeAffectedParts()"
+              [isDisabled]="temporaryAffectedPartsForRemoval.length < 1"
+            >
+              {{'requestNotification.remove' | i18n}}
             </app-button>
           </div>
           <!-- asBuilt Parts Table-->
@@ -112,9 +131,20 @@ SPDX-License-Identifier: Apache-2.0
        <ng-template #mainTmp let-parts="view">
 
 
-         <div>
-           <app-button (click)="addAffectedParts()">
-             Add
+         <div
+           matTooltip="{{'requestNotification.modifyNotAllowed' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="1000"
+           [style.cursor]="'not-allowed'"
+           [matTooltipDisabled]="temporaryAffectedParts.length > 0"
+         >
+           <app-button
+             (click)="addAffectedParts()"
+             [isDisabled]="temporaryAffectedParts.length < 1"
+           >
+             {{'requestNotification.add' | i18n}}
            </app-button>
          </div>
          <app-parts-table   *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"

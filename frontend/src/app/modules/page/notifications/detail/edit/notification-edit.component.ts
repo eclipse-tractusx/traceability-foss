@@ -74,6 +74,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public tableType: TableType;
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
+  isSaveButtonDisabled: boolean;
 
   constructor(
     private readonly partsFacade: OtherPartsFacade,
@@ -101,6 +102,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
+    this.isSaveButtonDisabled = notificationFormGroup.invalid;
     this.notificationFormGroup = notificationFormGroup;
   }
 
@@ -202,8 +204,9 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
-    this.temporaryAffectedPartsForRemoval = [];
+    this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
     this.currentSelectedAffectedParts$.next([]);
+    this.temporaryAffectedPartsForRemoval = [];
   }
 
   addAffectedParts() {
@@ -214,7 +217,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     });
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);
-    console.log(this.temporaryAffectedParts)
     this.temporaryAffectedParts = [];
   }
 
