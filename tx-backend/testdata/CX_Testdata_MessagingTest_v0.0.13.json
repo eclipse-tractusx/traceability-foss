@@ -81,6 +81,10 @@
             {
               "value" : "OMAOYGBDTSRCMYSCX",
               "key" : "van"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -130,6 +134,10 @@
             {
               "value" : "NO-313869652971440618042264",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -187,6 +195,10 @@
             {
               "value" : "NO-584478761469608738361558",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -265,6 +277,10 @@
             {
               "value" : "OMAYSKEITUGNVHKKX",
               "key" : "van"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -314,6 +330,10 @@
             {
               "value" : "NO-989134870198932317923938",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -371,6 +391,10 @@
             {
               "value" : "NO-493575190274381019348907",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -449,6 +473,10 @@
             {
               "value" : "OMAZRXWWMSPTQUEKI",
               "key" : "van"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -498,6 +526,10 @@
             {
               "value" : "NO-004314332935115065980115",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -555,6 +587,10 @@
             {
               "value" : "NO-246880451848384868750731",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -633,6 +669,10 @@
             {
               "value" : "OMAFIVCDHEBNXKNHH",
               "key" : "van"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -682,6 +722,10 @@
             {
               "value" : "NO-477013846751358222215326",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -739,6 +783,10 @@
             {
               "value" : "NO-613963493493659233961306",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -796,6 +844,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -851,6 +903,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -883,6 +939,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -932,6 +992,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -987,6 +1051,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1036,6 +1104,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1091,6 +1163,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1111,6 +1187,12 @@
       "bpnl" : "BPNL00000003CML1",
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2019-04-04T03:19:03.000Z",
             "validTo" : "2024-12-29T10:25:12.000Z"
@@ -1119,7 +1201,8 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "9649571-63",
             "classification" : "product",
-            "nameAtManufacturer" : "a/dev Vehicle Model A"
+            "nameAtManufacturer" : "a/dev Vehicle Model A",
+            "digitalTwinType" : "PartType"
           }
         }
       ],
@@ -1163,6 +1246,12 @@
       "bpnl" : "BPNL00000003CNKC",
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2019-04-04T03:19:03.000Z",
             "validTo" : "2024-12-29T10:25:12.000Z"
@@ -1223,6 +1312,10 @@
             {
               "value" : "12345678ABC",
               "key" : "jisNumber"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1253,6 +1346,10 @@
             {
               "value" : "12345678ABC",
               "key" : "jisNumber"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1288,6 +1385,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2015-05-18T23:10:44.000Z",
             "validTo" : "2025-10-23T14:46:01.000Z"
@@ -1361,6 +1464,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2017-01-03T07:45:04.000Z",
             "validTo" : "2029-11-15T11:57:45.000Z"
@@ -1413,6 +1522,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2018-01-25T08:42:58.000Z",
             "validTo" : "2029-02-10T03:24:30.000Z"
@@ -1486,6 +1601,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2016-04-28T20:00:55.000Z",
             "validTo" : "2027-04-27T00:59:41.000Z"
@@ -1537,6 +1658,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2015-05-18T23:10:44.000Z",
             "validTo" : "2025-10-23T14:46:01.000Z"
@@ -1589,6 +1716,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2013-11-24T00:27:33.000Z",
             "validTo" : "2025-08-16T09:18:35.000Z"
@@ -1620,6 +1753,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2017-07-03T05:23:01.000Z",
             "validTo" : "2032-09-25T10:26:27.000Z"
@@ -1686,6 +1825,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2013-06-18T03:47:22.000Z",
             "validTo" : "2030-12-31T23:33:25.000Z"
@@ -1738,6 +1883,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2015-01-23T16:24:59.000Z",
             "validTo" : "2031-05-04T12:01:38.000Z"
@@ -1796,6 +1947,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2016-04-24T08:26:56.000Z",
             "validTo" : "2031-12-17T23:55:04.000Z"
@@ -1869,6 +2026,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2019-08-17T14:14:30.000Z",
             "validTo" : "2032-08-30T04:32:28.000Z"
@@ -1921,6 +2084,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2016-04-09T20:41:14.000Z",
             "validTo" : "2023-12-09T04:46:33.000Z"
@@ -1973,6 +2142,12 @@
       ],
       "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
+          "localIdentifiers" : [
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
+          ],
           "validityPeriod" : {
             "validFrom" : "2019-11-02T11:14:15.000Z",
             "validTo" : "2024-07-17T02:07:07.000Z"
@@ -2003,6 +2178,10 @@
             {
               "value" : "NO-282209222605524629600815",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2073,6 +2252,10 @@
             {
               "value" : "NO-917923082133064161014067",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2119,6 +2302,10 @@
             {
               "value" : "NO-135342108157438763234738",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2165,6 +2352,10 @@
             {
               "value" : "NO-655858074471261486971940",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2187,6 +2378,10 @@
             {
               "value" : "92879626SFC",
               "key" : "jisNumber"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2221,6 +2416,10 @@
             {
               "value" : "NO-200738629800530338038454",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2243,6 +2442,10 @@
             {
               "value" : "85851549CBX",
               "key" : "jisNumber"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2290,6 +2493,10 @@
             {
               "value" : "NO-570196089623842018037372",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2338,6 +2545,10 @@
             {
               "value" : "BID12345678",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2383,6 +2594,10 @@
             {
               "value" : "NO-570196089623842018037372",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2431,6 +2646,10 @@
             {
               "value" : "BID12345678",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
