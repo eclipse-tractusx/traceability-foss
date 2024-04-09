@@ -113,7 +113,7 @@ public abstract class AbstractNotificationService implements NotificationService
                 notification.getNotifications().stream().map(NotificationMessage::getId).toList();
 
         getNotificationRepository().deleteByIdIn(oldMessageIds);
-
+        notification.clearNotifications();
         notification.createInitialNotifications(affectedParts, traceabilityProperties.getBpn(), editNotification);
         if (editNotification.getBpn() != null) {
             notification.setBpn(BPN.of(editNotification.getBpn()));

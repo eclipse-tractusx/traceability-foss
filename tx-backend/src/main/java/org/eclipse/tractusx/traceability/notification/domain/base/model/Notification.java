@@ -75,6 +75,9 @@ public class Notification {
                 .build();
     }
 
+    public void clearNotifications(){
+        notifications = new ArrayList<>();
+    }
     public void createInitialNotifications(List<AssetBase> affectedParts, BPN applicationBPN, EditNotification editNotification) {
 
 
