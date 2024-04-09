@@ -75,7 +75,7 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     // TODO: consider creating support method on AssetAdministrationShellDescriptor.is(BomLifecycle lifecycle) that will be usable on our code
     // IRS already have BomLifecycle in their domain so we can use it there also
     private boolean isAsBuilt(AssetAdministrationShellDescriptor shellDescriptor) {
-        Optional<IdentifierKeyValuePair> first = shellDescriptor.getSpecificAssetIds().stream().filter(item -> item.getName().equals(DIGITAL_TWIN_TYPE) && item.getName().equals(AS_BUILT_DIGITAL_TWIN_TYPE)).findFirst();
+        Optional<IdentifierKeyValuePair> first = shellDescriptor.getSpecificAssetIds().stream().filter(item -> item.getName().equals(DIGITAL_TWIN_TYPE) && item.getValue().equals(AS_BUILT_DIGITAL_TWIN_TYPE)).findFirst();
         return first.isPresent();
     }
 
