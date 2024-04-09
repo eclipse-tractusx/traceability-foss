@@ -53,7 +53,7 @@ import notification.request.CloseNotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 import notification.request.UpdateNotificationStatusRequest;
 
 import java.time.Instant;
@@ -235,7 +235,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // given
         String description = RandomStringUtils.random(1001);
 
-        UpdateNotificationRequest request = UpdateNotificationRequest
+        UpdateNotificationStatusTransitionRequest request = UpdateNotificationStatusTransitionRequest
                 .builder()
                 .status(UpdateNotificationStatusRequest.ACCEPTED)
                 .reason(description)
@@ -259,7 +259,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         String description = RandomStringUtils.random(15);
 
 
-        UpdateNotificationRequest request = UpdateNotificationRequest
+        UpdateNotificationStatusTransitionRequest request = UpdateNotificationStatusTransitionRequest
                 .builder()
                 .status(UpdateNotificationStatusRequest.ACCEPTED)
                 .reason(description)

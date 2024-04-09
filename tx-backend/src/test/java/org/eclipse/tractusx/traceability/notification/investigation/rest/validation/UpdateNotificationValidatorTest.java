@@ -27,7 +27,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 import notification.request.UpdateNotificationStatusRequest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,7 +44,7 @@ class UpdateNotificationValidatorTest {
         String reason = "some-reason-for-update";
         String errorMessage = "Update investigation reason can't be present for ACKNOWLEDGED status";
 
-        UpdateNotificationRequest request = UpdateNotificationRequest.builder().build();
+        UpdateNotificationStatusTransitionRequest request = UpdateNotificationStatusTransitionRequest.builder().build();
         request.setReason(reason);
         request.setStatus(acknowledged);
         UpdateNotificationValidationException exception = assertThrows(UpdateNotificationValidationException.class, () -> UpdateNotificationValidator.validate(request));
@@ -56,7 +56,7 @@ class UpdateNotificationValidatorTest {
     @DisplayName("Execute Validation successfully")
     void testSuccessfulValidation() {
         UpdateNotificationStatusRequest accepted = UpdateNotificationStatusRequest.ACCEPTED;
-        UpdateNotificationRequest request = UpdateNotificationRequest.builder().build();
+        UpdateNotificationStatusTransitionRequest request = UpdateNotificationStatusTransitionRequest.builder().build();
         request.setReason("abcdefg12313212321123");
         request.setStatus(accepted);
         UpdateNotificationValidator.validate(request);

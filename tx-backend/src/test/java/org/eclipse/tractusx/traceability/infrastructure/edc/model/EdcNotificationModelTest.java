@@ -26,7 +26,7 @@ import notification.request.CloseNotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 import notification.request.UpdateNotificationStatusRequest;
 
 import java.time.Instant;
@@ -127,17 +127,17 @@ public class EdcNotificationModelTest {
     @Test
     public void testSanitizeUpdateNotificationRequest() {
         //GIVEN
-        UpdateNotificationRequest updateNotificationRequest = UpdateNotificationRequest
+        UpdateNotificationStatusTransitionRequest updateNotificationStatusTransitionRequest = UpdateNotificationStatusTransitionRequest
                 .builder()
                 .reason("Reason\n")
                 .status(UpdateNotificationStatusRequest.ACCEPTED)
                 .build();
 
         //WHEN
-        UpdateNotificationRequest cleanUpdateNotificationRequest = sanitize(updateNotificationRequest);
+        UpdateNotificationStatusTransitionRequest cleanUpdateNotificationStatusTransitionRequest = sanitize(updateNotificationStatusTransitionRequest);
 
         //THEN
-        assertEquals("Reason ", cleanUpdateNotificationRequest.getReason());
+        assertEquals("Reason ", cleanUpdateNotificationStatusTransitionRequest.getReason());
     }
 
 }

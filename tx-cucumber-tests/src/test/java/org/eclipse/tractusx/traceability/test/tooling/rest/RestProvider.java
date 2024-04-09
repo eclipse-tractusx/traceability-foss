@@ -38,7 +38,7 @@ import org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import notification.request.NotificationSeverityRequest;
 import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.response.NotificationIdResponse;
 import notification.response.NotificationResponse;
@@ -185,7 +185,7 @@ public class RestProvider {
 
     public void updateNotification(final Long notificationId,
                                    UpdateNotificationStatusRequest status, String reason) {
-        UpdateNotificationRequest requestBody = UpdateNotificationRequest.builder()
+        UpdateNotificationStatusTransitionRequest requestBody = UpdateNotificationStatusTransitionRequest.builder()
                 .status(status)
                 .reason(reason)
                 .build();
