@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.notification.domain.notification.model
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import notification.request.StartNotificationRequest;

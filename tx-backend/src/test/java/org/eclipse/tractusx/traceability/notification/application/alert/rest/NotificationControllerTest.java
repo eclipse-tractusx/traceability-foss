@@ -161,7 +161,7 @@ class NotificationControllerTest {
         controller.closeNotificationById(param, request);
 
         // then
-        verify(notificationService, times(1)).update(param, NotificationStatus.CLOSED, "just because");
+        verify(notificationService, times(1)).updateStatusTransition(param, NotificationStatus.CLOSED, "just because");
     }
 
     @Test
@@ -178,10 +178,10 @@ class NotificationControllerTest {
 
 
         // when
-        controller.updateNotificationById(param, request);
+        controller.updateNotificationStatusById(param, request);
 
         // then
-        verify(notificationService, times(1)).update(param, NotificationStatus.ACCEPTED, "just because I say so");
+        verify(notificationService, times(1)).updateStatusTransition(param, NotificationStatus.ACCEPTED, "just because I say so");
     }
 
 }

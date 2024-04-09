@@ -22,17 +22,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 
 import java.time.Instant;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.groupingBy;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Data
@@ -68,6 +73,50 @@ public class Notification {
                 .createdAt(createDate)
                 .assetIds(Collections.emptyList())
                 .build();
+    }
+
+    public void createInitialNotifications(List<AssetBase> affectedParts, BPN applicationBPN, EditNotification editNotification) {
+
+
+        if (editNotification.getBpn() != null) {
+            Map.Entry<String, List<AssetBase>> receiverAssetsMap = new AbstractMap.SimpleEntry<>(editNotification.getBpn(), affectedParts);
+
+            NotificationMessage notificationMessage = NotificationMessage.create(
+                    applicationBPN,
+                    editNotification.getBpn(),
+                    editNotification.getDescription(),
+                    editNotification.getTargetDate(),
+                    editNotification.getSeverity(),
+                    this.notificationType,
+                    receiverAssetsMap,
+                    applicationBPN.value(),
+                    editNotification.getBpn());
+
+            this.addNotificationMessage(notificationMessage);
+
+
+        } else {
+            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = affectedParts.stream().collect(groupingBy(AssetBase::getManufacturerId));
+            assetsAsBuiltBPNMap
+                    .entrySet()
+                    .stream()
+                    .map(receiverAssetsMapEntry -> {
+                        String receiver = receiverAssetsMapEntry.getKey();
+                        return NotificationMessage.create(
+                                applicationBPN,
+                                receiver,
+                                editNotification.getDescription(),
+                                editNotification.getTargetDate(),
+                                editNotification.getSeverity(),
+                                this.notificationType,
+                                receiverAssetsMapEntry,
+                                applicationBPN.value(),
+                                editNotification.getBpn());
+                    })
+                    .forEach(this::addNotificationMessage);
+        }
+
+
     }
 
     public List<String> getAssetIds() {

@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
-class UpdateNotificationValidatorTest {
+class EditNotificationValidatorTest {
 
     @Test
     @DisplayName("No Validation Success for invalid Reason")

@@ -35,7 +35,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class UpdateNotificationRequest {
+public class EditNotificationRequest {
 
     @Size(min = 1, max = 255, message = "Specify at least 1 and at most 255 characters for the title")
     @Schema(example = "title", minLength = 1, maxLength = 255)

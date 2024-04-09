@@ -61,29 +61,33 @@ public class NotificationPublisherService {
         BPN applicationBPN = traceabilityProperties.getBpn();
         Notification notification = Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType());
         if (startNotification.isAsBuilt()) {
-            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(startNotification.getPartIds()).stream().collect(groupingBy(AssetBase::getManufacturerId));
-            assetsAsBuiltBPNMap
-                    .entrySet()
-                    .stream()
-                    .map(it -> {
-                        String creator = getManufacturerNameByBpn(traceabilityProperties.getBpn().value());
-                        String sendToName = getManufacturerNameByBpn(startNotification.getReceiverBpn());
-                        return NotificationMessage.create(
-                                applicationBPN,
-                                startNotification.getReceiverBpn(),
-                                startNotification.getDescription(),
-                                startNotification.getTargetDate(),
-                                startNotification.getSeverity(),
-                                startNotification.getType(),
-                                it,
-                                creator,
-                                sendToName);
-                    })
-                    .forEach(notification::addNotificationMessage);
+            createMessages(startNotification, applicationBPN, notification, assetAsBuiltRepository);
             return notification;
         } else {
             throw new NotificationNotSupportedException();
         }
+    }
+
+    private void createMessages(StartNotification startNotification, BPN applicationBPN, Notification notification, AssetAsBuiltRepository assetAsBuiltRepository) {
+        Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(startNotification.getPartIds()).stream().collect(groupingBy(AssetBase::getManufacturerId));
+        assetsAsBuiltBPNMap
+                .entrySet()
+                .stream()
+                .map(it -> {
+                    String creator = getManufacturerNameByBpn(applicationBPN.value());
+                    String sendToName = getManufacturerNameByBpn(startNotification.getReceiverBpn());
+                    return NotificationMessage.create(
+                            applicationBPN,
+                            startNotification.getReceiverBpn(),
+                            startNotification.getDescription(),
+                            startNotification.getTargetDate(),
+                            startNotification.getSeverity(),
+                            startNotification.getType(),
+                            it,
+                            creator,
+                            sendToName);
+                })
+                .forEach(notification::addNotificationMessage);
     }
 
     private String getManufacturerNameByBpn(String bpn) {

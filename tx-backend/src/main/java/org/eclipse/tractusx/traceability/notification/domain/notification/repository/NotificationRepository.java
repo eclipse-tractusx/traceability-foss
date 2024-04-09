@@ -45,6 +45,8 @@ public interface NotificationRepository {
 
     void updateNotification(Notification investigation);
 
+    void updateNotificationAndMessage(Notification notification);
+
     PageResult<Notification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
 
     long countOpenNotificationsByOwnershipAndNotificationType(List<Owner> owners, NotificationType notificationType);
@@ -52,5 +54,7 @@ public interface NotificationRepository {
     List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, NotificationSide owner);
 
     void updateErrorMessage(Notification investigation);
+
+    void deleteByIdIn(List<String> messageIds);
 
 }

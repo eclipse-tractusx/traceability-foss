@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
+import notification.request.EditNotificationRequest;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
@@ -41,6 +42,7 @@ import org.eclipse.tractusx.traceability.notification.application.notification.m
 import org.eclipse.tractusx.traceability.notification.application.notification.service.NotificationService;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -454,7 +456,7 @@ public class NotificationController {
             @Valid @RequestBody CloseNotificationRequest closeNotificationRequest) {
         CloseNotificationRequest cleanCloseNotificationRequest = sanitize(closeNotificationRequest);
         log.info(RECEIVED_API_CALL_LOG + "/{}/close with params {}", notificationId, cleanCloseNotificationRequest);
-        notificationService.update(notificationId, NotificationStatus.from(NotificationStatusRequest.CLOSED), cleanCloseNotificationRequest.getReason());
+        notificationService.updateStatusTransition(notificationId, NotificationStatus.from(NotificationStatusRequest.CLOSED), cleanCloseNotificationRequest.getReason());
     }
 
     @Operation(operationId = "updateNotification",
@@ -513,13 +515,13 @@ public class NotificationController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @PostMapping("/{notificationId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateNotificationStatus(
+    public void updateNotificationStatusById(
             @PathVariable("notificationId") Long notificationId,
             @Valid @RequestBody UpdateNotificationStatusTransitionRequest updateNotificationStatusTransitionRequest) {
         UpdateNotificationStatusTransitionRequest cleanUpdateNotificationStatusTransitionRequest = sanitize(updateNotificationStatusTransitionRequest);
         validate(cleanUpdateNotificationStatusTransitionRequest);
         log.info(RECEIVED_API_CALL_LOG + "/{}/update with params {}", notificationId, cleanUpdateNotificationStatusTransitionRequest);
-        notificationService.update(notificationId, NotificationStatus.from(cleanUpdateNotificationStatusTransitionRequest.getStatus()), cleanUpdateNotificationStatusTransitionRequest.getReason());
+        notificationService.updateStatusTransition(notificationId, NotificationStatus.from(cleanUpdateNotificationStatusTransitionRequest.getStatus()), cleanUpdateNotificationStatusTransitionRequest.getReason());
     }
 
     @Operation(operationId = "updateNotification",
@@ -576,15 +578,13 @@ public class NotificationController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
-    @PostMapping("/{notificationId}/updateEd")
+    @PostMapping("/{notificationId}/edit")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateNotificationById(
+    public void editNotification(
             @PathVariable("notificationId") Long notificationId,
-            @Valid @RequestBody UpdateNotificationStatusTransitionRequest updateNotificationStatusTransitionRequest) {
-        UpdateNotificationStatusTransitionRequest cleanUpdateNotificationStatusTransitionRequest = sanitize(updateNotificationStatusTransitionRequest);
-        validate(cleanUpdateNotificationStatusTransitionRequest);
-        log.info(RECEIVED_API_CALL_LOG + "/{}/update with params {}", notificationId, cleanUpdateNotificationStatusTransitionRequest);
-        notificationService.update(notificationId, NotificationStatus.from(cleanUpdateNotificationStatusTransitionRequest.getStatus()), cleanUpdateNotificationStatusTransitionRequest.getReason());
+            @Valid @RequestBody EditNotificationRequest editNotificationRequest) {
+        log.info(RECEIVED_API_CALL_LOG + "/{}/edit with params {}", notificationId, editNotificationRequest);
+        notificationService.editNotification(EditNotification.from(editNotificationRequest, notificationId));
     }
 
     @Operation(operationId = "distinctFilterValues",
