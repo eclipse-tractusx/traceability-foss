@@ -117,8 +117,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public onSelectedItemAffectedParts($event: Record<string, unknown>): void {
-    console.log('affected', $event);
-
+   // console.log('affected', $event);
   }
 
 

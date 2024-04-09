@@ -17,8 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
+import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
 import { NotificationsModule } from '@page/notifications/notifications.module';
@@ -26,9 +28,11 @@ import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { toAssetFilter } from '@shared/helper/filter-helper';
 import { Notification, NotificationType } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
@@ -128,7 +132,7 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    let firstPart  = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
+    let firstPart = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
     let secondPart = PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT);
 
     firstPart.id = 'part2';
@@ -175,12 +179,12 @@ describe('NotificationEditComponent', () => {
     const { componentInstance } = fixture;
 
 
-    let firstPart  = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
+    let firstPart = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
     let secondPart = PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT);
     let thirdPart = PartsAssembler.assemblePart(MOCK_part_3, MainAspectType.AS_BUILT);
     firstPart.id = 'part2';
     secondPart.id = 'part3';
-    thirdPart.id = 'part1'
+    thirdPart.id = 'part1';
 
     // Arrange
     componentInstance.temporaryAffectedParts = [ thirdPart, firstPart, secondPart ]; // Initialize temporaryAffectedParts
@@ -269,6 +273,51 @@ describe('NotificationEditComponent', () => {
 
     expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     expect(componentInstance['ownPartsFacade'].setPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+
+  });
+
+  fit('should correctly update form', async () => {
+
+    const notification: Notification = {
+      assetIds: [],
+      createdBy: '',
+      type: NotificationType.ALERT,
+      createdByName: '',
+      createdDate: undefined,
+      description: '',
+      isFromSender: false,
+      reason: undefined,
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      status: undefined,
+      title: '',
+      id: 'abc',
+    };
+
+    const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
+    notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
+
+    const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
+    const { componentInstance } = fixture;
+
+
+    const formGroup = new FormGroup<any>({
+      'title': new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]),
+      'description': new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]),
+      'severity': new FormControl(Severity.MINOR, [ Validators.required ]),
+      'targetDate': new FormControl(null),
+      'bpn': new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
+      'type': new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]),
+    });
+
+    formGroup.setValue({
+      ...formGroup.value,
+      bpn: 'NOTALLOWED',
+    });
+    componentInstance.notificationFormGroupChange(formGroup);
+    expect(componentInstance.isSaveButtonDisabled).toEqual(true);
+    expect(componentInstance.notificationFormGroup.value['bpn']).toEqual('NOTALLOWED');
 
   });
 
