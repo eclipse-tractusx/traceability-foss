@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## Changed
 - #823 migrate to irs-helm 6.18.0
 - #636 migrate to digital-twin-registry version 0.4.9 from 0.3.22
+- #602 use digitalTwinType instead of semanticId to determine asBuilt or asPlanned assets
 
 
 ### Added
