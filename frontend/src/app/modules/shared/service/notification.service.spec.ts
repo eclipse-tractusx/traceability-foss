@@ -107,7 +107,7 @@ describe('NotificationService', () => {
 
     spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
 
-    service.updateEditedNotification(notificationId, title, bpn, severity, targetDate, description, affectedPartIds).subscribe();
+    service.editNotification(notificationId, title, bpn, severity, targetDate, description, affectedPartIds).subscribe();
 
     const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/edit`);
     expect(req.request.method).toBe('PUT');
