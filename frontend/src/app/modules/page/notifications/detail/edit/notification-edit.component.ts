@@ -149,7 +149,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected.data);
       }
     } else {
-      // TODO: input asset Ids from router
+      // TODO: input asset Ids from router and set notification type based on my parts (alert) / other parts (investigations) origin
       const newNotification: Notification = {
         assetIds: [],
         createdBy: '',
@@ -164,7 +164,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         severity: undefined,
         status: undefined,
         title: '',
-        id: 'abc',
+        id: 'new',
       };
       this.selectNotificationAndLoadPartsBasedOnNotification(newNotification);
     }
