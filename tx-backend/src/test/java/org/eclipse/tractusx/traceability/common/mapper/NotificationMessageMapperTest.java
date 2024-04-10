@@ -71,7 +71,7 @@ class NotificationMessageMapperTest {
         assertEquals(NotificationStatus.RECEIVED, result.getNotificationStatus());
         assertEquals(NotificationSide.RECEIVER, result.getNotificationSide());
         assertEquals(description, result.getDescription());
-        assertEquals(List.of("123"), result.getAssetIds());
+        assertEquals(List.of("123"), result.getAffectedPartIds());
         assertEquals(List.of(notification), result.getNotifications());
         assertEquals(NotificationType.INVESTIGATION, result.getNotificationType());
     }

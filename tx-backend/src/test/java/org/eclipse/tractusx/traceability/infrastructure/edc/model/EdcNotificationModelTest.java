@@ -26,7 +26,7 @@ import notification.request.CloseNotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 import notification.request.UpdateNotificationStatusRequest;
 
 import java.time.Instant;
@@ -92,7 +92,6 @@ public class EdcNotificationModelTest {
                 "The description\n",
                 targetDate,
                 severity,
-                true,
                 "BPN00001123123AS\n",
                 NotificationTypeRequest.ALERT
         );
@@ -102,9 +101,8 @@ public class EdcNotificationModelTest {
         StartNotificationRequest cleanRequest = sanitize(request);
 
         //THEN
-        assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getPartIds().get(1));
+        assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getAffectedPartIds().get(1));
         assertEquals("The description ", cleanRequest.getDescription());
-        assertTrue(cleanRequest.isAsBuilt());
         assertEquals("BPN00001123123AS ", cleanRequest.getReceiverBpn());
 
     }
@@ -127,17 +125,17 @@ public class EdcNotificationModelTest {
     @Test
     public void testSanitizeUpdateNotificationRequest() {
         //GIVEN
-        UpdateNotificationRequest updateNotificationRequest = UpdateNotificationRequest
+        UpdateNotificationStatusTransitionRequest updateNotificationStatusTransitionRequest = UpdateNotificationStatusTransitionRequest
                 .builder()
                 .reason("Reason\n")
                 .status(UpdateNotificationStatusRequest.ACCEPTED)
                 .build();
 
         //WHEN
-        UpdateNotificationRequest cleanUpdateNotificationRequest = sanitize(updateNotificationRequest);
+        UpdateNotificationStatusTransitionRequest cleanUpdateNotificationStatusTransitionRequest = sanitize(updateNotificationStatusTransitionRequest);
 
         //THEN
-        assertEquals("Reason ", cleanUpdateNotificationRequest.getReason());
+        assertEquals("Reason ", cleanUpdateNotificationStatusTransitionRequest.getReason());
     }
 
 }

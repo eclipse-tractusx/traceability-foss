@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,43 +21,41 @@ package org.eclipse.tractusx.traceability.notification.domain.notification.model
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
+import notification.request.EditNotificationRequest;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
-import notification.request.StartNotificationRequest;
 
 import java.time.Instant;
 import java.util.List;
 
-@Builder
-@Getter
+
+
 @Data
-public class StartNotification {
+@Builder
+public class EditNotification {
+
+    private Long id;
 
     private String title;
-
-    private List<String> affectedPartIds;
 
     private String description;
 
     private Instant targetDate;
 
-    private NotificationSeverity severity;
-
-    private NotificationType type;
+    private List<String> affectedPartIds;
 
     private String receiverBpn;
 
+    private NotificationSeverity severity;
 
-    public static StartNotification from(StartNotificationRequest startNotificationRequest) {
-        return StartNotification.builder()
-                .title(startNotificationRequest.getTitle())
-                .affectedPartIds(startNotificationRequest.getAffectedPartIds())
-                .description(startNotificationRequest.getDescription())
-                .targetDate(startNotificationRequest.getTargetDate())
-                .severity(NotificationSeverity.from(startNotificationRequest.getSeverity()))
-                .type(NotificationType.from(startNotificationRequest.getType()))
-                .receiverBpn(startNotificationRequest.getReceiverBpn())
+    public static EditNotification from(EditNotificationRequest editNotificationRequest, Long notificationId) {
+        return EditNotification.builder()
+                .id(notificationId)
+                .title(editNotificationRequest.getTitle())
+                .affectedPartIds(editNotificationRequest.getAffectedPartIds())
+                .description(editNotificationRequest.getDescription())
+                .targetDate(editNotificationRequest.getTargetDate())
+                .severity(NotificationSeverity.fromString(editNotificationRequest.getSeverity() != null ? editNotificationRequest.getSeverity().getRealName() : null))
+                .receiverBpn(editNotificationRequest.getReceiverBpn())
                 .build();
     }
 
