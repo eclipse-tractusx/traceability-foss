@@ -120,6 +120,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         jpaNotificationRepository.save(notificationEntity);
     }
 
+    @Override
     public void updateNotificationAndMessage(Notification notification) {
         NotificationEntity notificationEntity = jpaNotificationRepository.findById(notification.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", notification.getNotificationId().value())));

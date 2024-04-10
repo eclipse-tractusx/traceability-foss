@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.common.model;
 
 import lombok.experimental.UtilityClass;
 import notification.request.CloseNotificationRequest;
+import notification.request.EditNotificationRequest;
 import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusTransitionRequest;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
@@ -70,6 +71,19 @@ public class SecurityUtils {
                 .build();
     }
 
+    public static EditNotificationRequest sanitize(EditNotificationRequest request) {
+        String cleanDescription = sanitize(request.getDescription());
+        String cleanReceiverBpn = sanitize(request.getReceiverBpn());
+        List<String> cleanPartIds = sanitize(request.getAffectedPartIds());
+        return EditNotificationRequest.builder()
+                .title(request.getTitle())
+                .description(cleanDescription)
+                .targetDate(request.getTargetDate())
+                .severity(request.getSeverity())
+                .receiverBpn(cleanReceiverBpn)
+                .affectedPartIds(cleanPartIds)
+                .build();
+    }
 
     public static CloseNotificationRequest sanitize(CloseNotificationRequest closeInvestigationRequest) {
         String cleanReason = sanitize(closeInvestigationRequest.getReason());

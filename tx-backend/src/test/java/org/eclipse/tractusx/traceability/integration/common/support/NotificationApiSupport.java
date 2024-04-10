@@ -20,17 +20,29 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import lombok.RequiredArgsConstructor;
 import notification.request.EditNotificationRequest;
 import notification.request.StartNotificationRequest;
+import notification.response.NotificationResponse;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.hamcrest.Matchers;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 @Component
 @RequiredArgsConstructor
@@ -73,4 +85,18 @@ public class NotificationApiSupport {
                 .statusCode(204);
     }
 
+    public PageResult<NotificationResponse> getNotificationsRequest(Header authHeader){
+        Response response = given()
+                .header(authHeader)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .statusCode(200)
+                .extract().response();
+
+        return response.as(new TypeRef<PageResult<NotificationResponse>>() {});
+
+    }
 }

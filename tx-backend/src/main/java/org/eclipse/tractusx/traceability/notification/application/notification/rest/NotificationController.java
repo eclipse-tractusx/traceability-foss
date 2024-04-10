@@ -32,13 +32,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
+import notification.request.CloseNotificationRequest;
 import notification.request.EditNotificationRequest;
+import notification.request.NotificationStatusRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
+import notification.response.NotificationIdResponse;
+import notification.response.NotificationResponse;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationFieldMapper;
+import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.service.NotificationService;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
@@ -55,12 +61,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import notification.request.CloseNotificationRequest;
-import notification.request.NotificationStatusRequest;
-import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationStatusTransitionRequest;
-import notification.response.NotificationIdResponse;
-import notification.response.NotificationResponse;
 
 import java.util.List;
 
@@ -584,8 +584,9 @@ public class NotificationController {
     public void editNotification(
             @PathVariable("notificationId") Long notificationId,
             @Valid @RequestBody EditNotificationRequest editNotificationRequest) {
-        log.info(RECEIVED_API_CALL_LOG + "/{}/edit with params {}", notificationId, editNotificationRequest);
-        notificationService.editNotification(EditNotification.from(editNotificationRequest, notificationId));
+        EditNotificationRequest cleanEditNotificationRequest = sanitize(editNotificationRequest);
+        log.info(RECEIVED_API_CALL_LOG + "/{}/edit with params {}", notificationId, cleanEditNotificationRequest);
+        notificationService.editNotification(EditNotification.from(cleanEditNotificationRequest, notificationId));
     }
 
     @Operation(operationId = "distinctFilterValues",
