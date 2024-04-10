@@ -78,8 +78,8 @@ export class NotificationService {
       .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
   }
 
-  public createNotification(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean, type: string, title: string): Observable<string> {
-    const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt, type, title };
+  public createNotification(affectedPartIds: string[], description: string, severity: Severity, bpn: string, type: string, title: string): Observable<string> {
+    const body = { affectedPartIds, description, severity, receiverBpn: bpn, type, title };
 
     return this.apiService.post<NotificationCreateResponse>(`${ this.url }/notifications`, body).pipe(map(({ id }) => id));
   }
@@ -111,9 +111,9 @@ export class NotificationService {
     return this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
   }
 
-  public updateEditedNotification(notificationId: string, title: string, bpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
+  public updateEditedNotification(notificationId: string, title: string, receiverBpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
     const requestUrl = this.notificationUrl();
-    const body = { title, bpn, severity, targetDate, description, affectedParts: affectedPartIds };
+    const body = { title, receiverBpn: receiverBpn, severity, targetDate, description, affectedPartIds: affectedPartIds };
     console.log(body, "executing http put request with body");
     return this.apiService.put<void>(`${ requestUrl }/${ notificationId }/update`, body);
   }
