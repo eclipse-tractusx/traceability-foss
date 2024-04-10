@@ -103,7 +103,7 @@ export class RequestNotificationComponent {
       title = null;
     }
 
-    this.notificationService.createNotification(partIds, description, severity, bpn, type, title).subscribe({
+    this.notificationService.createNotification(partIds, description, severity, bpn, type, title, null).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: (err) => this.onUnsuccessfulSubmit(err.error.message),
     });
