@@ -50,22 +50,24 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
-  public availablePartsAsBuilt$: Observable<View<Pagination<Part>>>;
-  public affectedPartsAsBuilt$: Observable<View<Pagination<Part>>>;
-  public affectedParts: Part[];
-  private filteredDataCache: any[] = [];
 
-  public readonly titleId = this.staticIdService.generateId('NotificationDetail');
+
+  public readonly affectedPartsTableLabelId = this.staticIdService.generateId('AffectedPartsTable');
+  public readonly availablePartsTableLabelId = this.staticIdService.generateId('AvailablePartsTable');
+
+  public readonly addPartTrigger$ = new Subject<Part>();
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
+
   public readonly editMode = true;
   public notificationFormGroup: FormGroup;
 
   public affectedPartIds: string[] = [];
   public temporaryAffectedParts: Part[] = [];
   public temporaryAffectedPartsForRemoval: Part[] = [];
-  public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
   public readonly currentSelectedAffectedParts$ = new BehaviorSubject<Part[]>([]);
+  public availablePartsAsBuilt$: Observable<View<Pagination<Part>>>;
+  public affectedPartsAsBuilt$: Observable<View<Pagination<Part>>>;
 
   private originPageNumber: number;
   private originTabIndex: number;
@@ -83,7 +85,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     public readonly notificationDetailFacade: NotificationDetailFacade,
     private readonly staticIdService: StaticIdService,
     private readonly notificationsFacade: NotificationsFacade,
-    private router: Router,
+    private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
   ) {
@@ -118,7 +120,10 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public clickedSave(): void {
     const { title, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
     this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
-      next: () => this.toastService.success('requestNotification.saveSuccess'),
+      next: () => {
+        this.navigateBackToNotifications();
+        this.toastService.success('requestNotification.saveSuccess');
+      },
       error: (error) => this.toastService.error('requestNotification.saveError'),
     });
   }
@@ -172,7 +177,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   filterOnlyAffected(parts: any): Pagination<Part> {
 
-    // TODO performance
     const partsFiltered = parts.content.filter(part => this.affectedPartIds.includes(part.id));
 
     // TODO fix pagination
