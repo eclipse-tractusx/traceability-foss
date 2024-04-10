@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.notification.application.notification.
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
@@ -43,7 +44,9 @@ public interface NotificationService {
 
     void cancel(Long notificationId);
 
-    void update(Long notificationId, NotificationStatus notificationStatus, String reason);
+    void editNotification(EditNotification editNotification);
+
+    void updateStatusTransition(Long notificationId, NotificationStatus notificationStatus, String reason);
 
     PageResult<Notification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
 

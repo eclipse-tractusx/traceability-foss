@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class UpdateNotificationRequest {
+public class UpdateNotificationStatusTransitionRequest {
     @NotNull(message = "status must be present")
     private UpdateNotificationStatusRequest status;
     @Schema(example = "The reason.")

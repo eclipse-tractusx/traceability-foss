@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import notification.request.NotificationSeverityRequest;
 
-@Getter
+
 @ApiModel(description = "Describes the criticality of a notification")
 public enum NotificationSeverity {
     MINOR("MINOR"),
@@ -32,6 +32,10 @@ public enum NotificationSeverity {
     LIFE_THREATENING("LIFE-THREATENING");
 
     private final String realName;
+
+    public String getRealName() {
+        return realName;
+    }
 
     NotificationSeverity(String realName) {
         this.realName = realName;

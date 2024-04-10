@@ -79,6 +79,7 @@ export class NotificationService {
       .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
   }
 
+
   public createNotification(affectedPartIds: string[], description: string, severity: Severity, bpn: string, type: string, title: string, dateString: DateTimeString,
   ): Observable<string> {
     const targetDate = null === dateString ? null : new Date(dateString).toISOString();

@@ -61,7 +61,7 @@ public class NotificationMapper {
                 .notificationType(notificationType)
                 .description(description)
                 .createdAt(Instant.now())
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(List.of(notification))
                 .build();
     }

@@ -32,15 +32,23 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
+import notification.request.CloseNotificationRequest;
+import notification.request.EditNotificationRequest;
+import notification.request.NotificationStatusRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
+import notification.response.NotificationIdResponse;
+import notification.response.NotificationResponse;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationFieldMapper;
+import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.service.NotificationService;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,16 +56,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import notification.request.CloseNotificationRequest;
-import notification.request.NotificationStatusRequest;
-import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationRequest;
-import notification.response.NotificationIdResponse;
-import notification.response.NotificationResponse;
 
 import java.util.List;
 
@@ -136,7 +139,7 @@ public class NotificationController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
-    public NotificationIdResponse alertAssets(@RequestBody @Valid StartNotificationRequest request) {
+    public NotificationIdResponse createNotification(@RequestBody @Valid StartNotificationRequest request) {
         StartNotificationRequest cleanStartNotificationRequest = sanitize(request);
         log.info(RECEIVED_API_CALL_LOG + " with params: {}", cleanStartNotificationRequest);
         return new NotificationIdResponse(notificationService.start(from(cleanStartNotificationRequest)).value());
@@ -149,7 +152,7 @@ public class NotificationController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Notifications", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = NotificationResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE),
+            array = @ArraySchema(arraySchema = @Schema(description = "NotificationData", implementation = NotificationResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE),
             schema = @Schema(implementation = NotificationResponse.class)
     )),
             @ApiResponse(
@@ -197,7 +200,7 @@ public class NotificationController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/filter")
-    public PageResult<NotificationResponse> getAlerts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
+    public PageResult<NotificationResponse> getNotifications(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
         log.info(RECEIVED_API_CALL_LOG + "/filter");
 
         return NotificationResponseMapper.fromAsPageResult(
@@ -257,7 +260,7 @@ public class NotificationController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{notificationId}")
-    public NotificationResponse getAlert(@PathVariable("notificationId") Long notificationId) {
+    public NotificationResponse getNotificationById(@PathVariable("notificationId") Long notificationId) {
         log.info(RECEIVED_API_CALL_LOG + "/{}", notificationId);
         return NotificationResponseMapper.from(notificationService.find(notificationId));
     }
@@ -321,7 +324,7 @@ public class NotificationController {
     @PostMapping("/{notificationId}/approve")
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approveAlert(@PathVariable("notificationId") Long notificationId) {
+    public void approveNotificationById(@PathVariable("notificationId") Long notificationId) {
         log.info(RECEIVED_API_CALL_LOG + "/{}/approve", notificationId);
         notificationService.approve(notificationId);
     }
@@ -385,7 +388,7 @@ public class NotificationController {
     @PostMapping("/{notificationId}/cancel")
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelAlert(@PathVariable("notificationId") Long notificationId) {
+    public void cancelNotificationById(@PathVariable("notificationId") Long notificationId) {
         log.info(RECEIVED_API_CALL_LOG + "/{}/cancel", notificationId);
         notificationService.cancel(notificationId);
     }
@@ -393,7 +396,7 @@ public class NotificationController {
     @Operation(operationId = "closeNotification",
             summary = "Close notification by id",
             tags = {"Notifications"},
-            description = "The endpoint closes alert by id.",
+            description = "The endpoint closes Notification by id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
             @ApiResponse(
@@ -449,12 +452,12 @@ public class NotificationController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{notificationId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void closeAlert(
+    public void closeNotificationById(
             @PathVariable("notificationId") @ApiParam Long notificationId,
-            @Valid @RequestBody CloseNotificationRequest closeAlertRequest) {
-        CloseNotificationRequest cleanCloseAlertRequest = sanitize(closeAlertRequest);
-        log.info(RECEIVED_API_CALL_LOG + "/{}/close with params {}", notificationId, cleanCloseAlertRequest);
-        notificationService.update(notificationId, NotificationStatus.from(NotificationStatusRequest.CLOSED), cleanCloseAlertRequest.getReason());
+            @Valid @RequestBody CloseNotificationRequest closeNotificationRequest) {
+        CloseNotificationRequest cleanCloseNotificationRequest = sanitize(closeNotificationRequest);
+        log.info(RECEIVED_API_CALL_LOG + "/{}/close with params {}", notificationId, cleanCloseNotificationRequest);
+        notificationService.updateStatusTransition(notificationId, NotificationStatus.from(NotificationStatusRequest.CLOSED), cleanCloseNotificationRequest.getReason());
     }
 
     @Operation(operationId = "updateNotification",
@@ -513,13 +516,77 @@ public class NotificationController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
     @PostMapping("/{notificationId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateAlert(
+    public void updateNotificationStatusById(
             @PathVariable("notificationId") Long notificationId,
-            @Valid @RequestBody UpdateNotificationRequest updateAlertRequest) {
-        UpdateNotificationRequest cleanUpdateAlertRequest = sanitize(updateAlertRequest);
-        validate(cleanUpdateAlertRequest);
-        log.info(RECEIVED_API_CALL_LOG + "/{}/update with params {}", notificationId, cleanUpdateAlertRequest);
-        notificationService.update(notificationId, NotificationStatus.from(cleanUpdateAlertRequest.getStatus()), cleanUpdateAlertRequest.getReason());
+            @Valid @RequestBody UpdateNotificationStatusTransitionRequest updateNotificationStatusTransitionRequest) {
+        UpdateNotificationStatusTransitionRequest cleanUpdateNotificationStatusTransitionRequest = sanitize(updateNotificationStatusTransitionRequest);
+        validate(cleanUpdateNotificationStatusTransitionRequest);
+        log.info(RECEIVED_API_CALL_LOG + "/{}/update with params {}", notificationId, cleanUpdateNotificationStatusTransitionRequest);
+        notificationService.updateStatusTransition(notificationId, NotificationStatus.from(cleanUpdateNotificationStatusTransitionRequest.getStatus()), cleanUpdateNotificationStatusTransitionRequest.getReason());
+    }
+
+    @Operation(operationId = "updateNotification",
+            summary = "Update notification by id",
+            tags = {"Notifications"},
+            description = "The endpoint updates notification by their id.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No content.",
+                    content = @Content()),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR', 'ROLE_USER')")
+    @PutMapping("/{notificationId}/edit")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editNotification(
+            @PathVariable("notificationId") Long notificationId,
+            @Valid @RequestBody EditNotificationRequest editNotificationRequest) {
+        EditNotificationRequest cleanEditNotificationRequest = sanitize(editNotificationRequest);
+        log.info(RECEIVED_API_CALL_LOG + "/{}/edit with params {}", notificationId, cleanEditNotificationRequest);
+        notificationService.editNotification(EditNotification.from(cleanEditNotificationRequest, notificationId));
     }
 
     @Operation(operationId = "distinctFilterValues",

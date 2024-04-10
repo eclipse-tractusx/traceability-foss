@@ -36,7 +36,7 @@ import notification.request.CloseNotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.response.NotificationIdResponse;
 import notification.response.NotificationReasonResponse;
@@ -55,10 +55,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AlertControllerTest {
+class NotificationControllerTest {
 
     @Mock
-    private NotificationService alertService;
+    private NotificationService notificationService;
 
 
     @InjectMocks
@@ -71,17 +71,17 @@ class AlertControllerTest {
         final Instant targetDate = Instant.parse("2099-03-11T22:44:06.333826952Z");
         final NotificationId notificationId = new NotificationId(666L);
         final StartNotificationRequest request = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description("description")
                 .targetDate(targetDate)
                 .type(NotificationTypeRequest.ALERT)
                 .severity(NotificationSeverityRequest.MINOR)
                 .receiverBpn("BPN00001")
                 .build();
-        when(alertService.start(Mockito.eq(from(request)))).thenReturn(notificationId);
+        when(notificationService.start(Mockito.eq(from(request)))).thenReturn(notificationId);
 
         // when
-        final NotificationIdResponse result = controller.alertAssets(request);
+        final NotificationIdResponse result = controller.createNotification(request);
 
         // then
         assertThat(result).hasFieldOrPropertyWithValue("id", notificationId.value());
@@ -95,10 +95,10 @@ class AlertControllerTest {
                 NotificationStatus.ACCEPTED,
                 "bpn"
         );
-        when(alertService.find(request)).thenReturn(notification);
+        when(notificationService.find(request)).thenReturn(notification);
 
         // when
-        final NotificationResponse result = controller.getAlert(request);
+        final NotificationResponse result = controller.getNotificationById(request);
 
         // then
         assertThat(result)
@@ -114,7 +114,7 @@ class AlertControllerTest {
                         .map(NotificationMessage::getCreatedByName)
                         .orElse(null))
                 .hasFieldOrPropertyWithValue("createdDate", notification.getCreatedAt().toString())
-                .hasFieldOrPropertyWithValue("assetIds", notification.getAssetIds())
+                .hasFieldOrPropertyWithValue("assetIds", notification.getAffectedPartIds())
                 .hasFieldOrPropertyWithValue("channel", NotificationSideResponse.SENDER)
                 .hasFieldOrPropertyWithValue("reason", new NotificationReasonResponse(
                         notification.getCloseReason(),
@@ -132,10 +132,10 @@ class AlertControllerTest {
         final Long request = 1L;
 
         // when
-        controller.approveAlert(request);
+        controller.approveNotificationById(request);
 
         // then
-        verify(alertService, times(1)).approve(request);
+        verify(notificationService, times(1)).approve(request);
     }
 
     @Test
@@ -144,10 +144,10 @@ class AlertControllerTest {
         final Long request = 1L;
 
         // when
-        controller.cancelAlert(request);
+        controller.cancelNotificationById(request);
 
         // then
-        verify(alertService, times(1)).cancel(request);
+        verify(notificationService, times(1)).cancel(request);
     }
 
     @Test
@@ -158,10 +158,10 @@ class AlertControllerTest {
         CloseNotificationRequest request = CloseNotificationRequest.builder().reason("just because").build();
 
         // when
-        controller.closeAlert(param, request);
+        controller.closeNotificationById(param, request);
 
         // then
-        verify(alertService, times(1)).update(param, NotificationStatus.CLOSED, "just because");
+        verify(notificationService, times(1)).updateStatusTransition(param, NotificationStatus.CLOSED, "just because");
     }
 
     @Test
@@ -170,18 +170,18 @@ class AlertControllerTest {
         final Long param = 1L;
 
 
-        UpdateNotificationRequest request =
-                UpdateNotificationRequest.builder()
+        UpdateNotificationStatusTransitionRequest request =
+                UpdateNotificationStatusTransitionRequest.builder()
                         .status(UpdateNotificationStatusRequest.ACCEPTED)
                         .reason("just because I say so")
                         .build();
 
 
         // when
-        controller.updateAlert(param, request);
+        controller.updateNotificationStatusById(param, request);
 
         // then
-        verify(alertService, times(1)).update(param, NotificationStatus.ACCEPTED, "just because I say so");
+        verify(notificationService, times(1)).updateStatusTransition(param, NotificationStatus.ACCEPTED, "just because I say so");
     }
 
 }
