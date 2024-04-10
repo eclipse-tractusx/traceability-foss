@@ -49,7 +49,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Component
 @RequiredArgsConstructor
-public class NotificationAPISupport {
+public class NotificationApiSupport {
 
     private final JpaNotificationRepository jpaNotificationRepository;
     private final AssetsSupport assetsSupport;
@@ -71,7 +71,6 @@ public class NotificationAPISupport {
                 .description(description)
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)
-                .isAsBuilt(true)
                 .build();
 
         // when

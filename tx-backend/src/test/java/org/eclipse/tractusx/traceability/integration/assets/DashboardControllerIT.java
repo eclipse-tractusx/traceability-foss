@@ -166,7 +166,6 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .description("at least 15 characters long investigation description")
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .isAsBuilt(true)
                 .build();
 
         // when

@@ -11,7 +11,7 @@ import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
-import org.eclipse.tractusx.traceability.integration.common.support.NotificationAPISupport;
+import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
@@ -38,13 +38,15 @@ class EditNotificationIT extends IntegrationTestSpecification {
 
     ObjectMapper objectMapper;
     @Autowired
-    NotificationAPISupport notificationAPISupport;
+    NotificationApiSupport notificationAPISupport;
+
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
     }
+
     @Test
-    void shouldStartAndUpdateInvestigationRemovingOnePart() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldUpdateInvestigation_RemovingOnePart() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         int id = notificationAPISupport.createInvestigation_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR));
 
         // given
@@ -92,7 +94,5 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1))
                 .log().all();
-
-
     }
 }

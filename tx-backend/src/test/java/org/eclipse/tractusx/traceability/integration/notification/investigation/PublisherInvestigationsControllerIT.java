@@ -37,7 +37,7 @@ import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestPar
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.NotificationAPISupport;
+import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
@@ -79,7 +79,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Autowired
     AssetAsBuiltRepository assetAsBuiltRepository;
     @Autowired
-    NotificationAPISupport notificationApiSupport;
+    NotificationApiSupport notificationApiSupport;
 
     ObjectMapper objectMapper;
 
@@ -304,7 +304,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .description("at least 15 characters long investigation description")
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MAJOR)
-                .isAsBuilt(true)
                 .build();
 
         val investigationId = given()
@@ -365,7 +364,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .isAsBuilt(true)
                 .build();
 
         // when
@@ -422,7 +420,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)
-                .isAsBuilt(true)
                 .build();
 
 
@@ -534,7 +531,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .isAsBuilt(true)
                 .build();
 
         // when

@@ -138,7 +138,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .severity(severity)
                 .type(NotificationTypeRequest.ALERT)
                 .receiverBpn(receiverBpn)
-                .isAsBuilt(true)
                 .build();
 
         // when
@@ -290,7 +289,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .severity(NotificationSeverityRequest.MAJOR)
                 .type(NotificationTypeRequest.ALERT)
                 .receiverBpn("BPN")
-                .isAsBuilt(true)
                 .build();
 
         val alertId = given()
@@ -356,7 +354,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
                 .receiverBpn("BPN")
-                .isAsBuilt(true)
                 .build();
 
         // when
@@ -413,7 +410,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
                 .receiverBpn("BPN")
-                .isAsBuilt(true)
                 .build();
 
         // when
@@ -526,7 +522,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
                 .receiverBpn("BPN")
-                .isAsBuilt(true)
                 .build();
 
         // when
@@ -577,7 +572,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .receiverBpn("BPN")
-                .isAsBuilt(true)
                 .build();
 
         // when
