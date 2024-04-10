@@ -96,13 +96,12 @@ class NotificationPublisherServiceTest {
         String receiverBpn = "someReceiverBpn";
         StartNotification startNotification = StartNotification.builder()
                 .title(title)
-                .partIds(assets)
+                .affectedPartIds(assets)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(NotificationSeverity.MINOR)
                 .type(NotificationType.INVESTIGATION)
                 .receiverBpn(receiverBpn)
-                .isAsBuilt(true)
                 .build();
 
         // When
@@ -119,29 +118,6 @@ class NotificationPublisherServiceTest {
     }
 
     @Test
-    void testThrowNotificationNotSupportedException() {
-        // Given
-        String title = "Title";
-        String description = "Test investigation";
-        String receiverBpn = "someReceiverBpn";
-        Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
-        List<String> assets = Arrays.asList("asset-1", "asset-2");
-        StartNotification startNotification = StartNotification.builder()
-                .title(title)
-                .partIds(assets)
-                .description(description)
-                .targetDate(targetDate)
-                .severity(NotificationSeverity.MINOR)
-                .type(NotificationType.INVESTIGATION)
-                .receiverBpn(receiverBpn)
-                .isAsBuilt(false)
-                .build();
-
-        // Then
-        assertThrows(NotificationNotSupportedException.class, () -> notificationPublisherService.startNotification(startNotification));
-    }
-
-    @Test
     void testStartAlertSuccessful() {
         // Given
         String title = "Title";
@@ -153,13 +129,12 @@ class NotificationPublisherServiceTest {
         when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
         StartNotification startNotification = StartNotification.builder()
                 .title(title)
-                .partIds(assets)
+                .affectedPartIds(assets)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(NotificationSeverity.MINOR)
                 .type(NotificationType.INVESTIGATION)
                 .receiverBpn(receiverBpn)
-                .isAsBuilt(true)
                 .build();
         // When
         Notification result = notificationPublisherService.startNotification(startNotification);

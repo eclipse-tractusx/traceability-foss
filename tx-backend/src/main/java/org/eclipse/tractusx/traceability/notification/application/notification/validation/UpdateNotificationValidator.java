@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.notification.application.notification.
 
 import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
-import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 
 import java.util.Set;
 
@@ -39,7 +39,7 @@ public class UpdateNotificationValidator {
     private static final int MINIMUM_REASON_CHARACTERS_SIZE = 15;
     private static final int MAXIMUM_REASON_CHARACTERS_SIZE = 1000;
 
-    public static void validate(UpdateNotificationRequest updateInvestigationRequest) {
+    public static void validate(UpdateNotificationStatusTransitionRequest updateInvestigationRequest) {
         NotificationStatus status = NotificationStatus.fromStringValue(updateInvestigationRequest.getStatus().name());
 
         if (!ALLOWED_STATUSES.contains(status)) {

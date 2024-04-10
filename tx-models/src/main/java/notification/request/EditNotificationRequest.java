@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -28,41 +26,39 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class StartNotificationRequest {
+@RequiredArgsConstructor
+public class EditNotificationRequest {
 
     @Size(min = 1, max = 255, message = "Specify at least 1 and at most 255 characters for the title")
     @Schema(example = "title", minLength = 1, maxLength = 255)
     private String title;
 
-    @Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")
-    @Schema(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]", minLength = 1, maxLength = 100)
-    private List<String> affectedPartIds;
+    @Schema(example = "BPN00001123123AS")
+    private String receiverBpn;
 
-    @Schema(example = "The description", minLength = 15, maxLength = 1000)
-    @Size(min = 15, max = 1000, message = "Description should have at least 15 characters and at most 1000 characters")
-    private String description;
+    @NotNull
+    private NotificationSeverityRequest severity;
 
     @Schema(example = "2099-03-11T22:44:06.333826952Z")
     @Future(message = "Specify at least the current day or a date in future")
     private Instant targetDate;
 
-    @NotNull
-    private NotificationSeverityRequest severity;
+    @Schema(example = "The description", minLength = 15, maxLength = 1000)
+    @Size(min = 15, max = 1000, message = "Description should have at least 15 characters and at most 1000 characters")
+    private String description;
 
-    @Schema(example = "BPN00001123123AS")
-    private String receiverBpn;
-
-    @Schema(example = "ALERT")
-    @NotNull
-    private NotificationTypeRequest type;
-
+    @Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")
+    @Schema(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]", minLength = 1, maxLength = 50)
+    private List<String> affectedPartIds;
 }
+
+
+

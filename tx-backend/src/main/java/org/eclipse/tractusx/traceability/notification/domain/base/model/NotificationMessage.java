@@ -89,6 +89,8 @@ public class NotificationMessage {
                 .build();
     }
 
+
+
     // Important - receiver and sender will be saved in switched order
     public NotificationMessage copyAndSwitchSenderAndReceiver(BPN applicationBpn) {
         final String notificationId = UUID.randomUUID().toString();

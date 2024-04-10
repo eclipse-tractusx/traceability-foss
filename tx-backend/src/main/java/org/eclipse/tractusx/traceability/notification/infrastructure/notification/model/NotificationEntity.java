@@ -88,7 +88,7 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .createdAt(notificationEntity.getCreatedDate())
                 .description(notificationEntity.getDescription())
                 .notificationType(NotificationType.valueOf(notificationEntity.getType().name()))
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(messages)
                 .build();
     }

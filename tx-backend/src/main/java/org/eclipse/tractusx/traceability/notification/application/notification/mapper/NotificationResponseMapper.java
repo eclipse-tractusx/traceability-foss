@@ -50,7 +50,7 @@ public class NotificationResponseMapper {
                 .createdBy(getSenderBPN(notification.getNotifications()))
                 .createdByName(getSenderName(notification.getNotifications()))
                 .createdDate(notification.getCreatedAt().toString())
-                .assetIds(Collections.unmodifiableList(notification.getAssetIds()))
+                .assetIds(Collections.unmodifiableList(notification.getAffectedPartIds()))
                 .channel(NotificationMessageMapper.from(notification.getNotificationSide()))
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())
@@ -61,6 +61,7 @@ public class NotificationResponseMapper {
                 ))
                 .sendTo(getReceiverBPN(notification.getNotifications()))
                 .sendToName(getReceiverName(notification.getNotifications()))
+                // TODO severity should not be inside the notification it should be in the message
                 .severity(NotificationMessageMapper.from(notification.getNotifications().stream().findFirst().map(NotificationMessage::getSeverity).orElse(NotificationSeverity.MINOR)))
                 .targetDate(notification.getNotifications().stream().findFirst().map(NotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
                 .messages(fromNotifications(notification.getNotifications()))
