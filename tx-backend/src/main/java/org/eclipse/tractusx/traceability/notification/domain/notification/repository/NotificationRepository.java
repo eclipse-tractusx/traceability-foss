@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +46,8 @@ public interface NotificationRepository {
 
     void updateNotification(Notification investigation);
 
+    void updateNotificationAndMessage(Notification notification, NotificationSeverity notificationSeverity);
+
     PageResult<Notification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
 
     long countOpenNotificationsByOwnershipAndNotificationType(List<Owner> owners, NotificationType notificationType);
@@ -52,5 +55,7 @@ public interface NotificationRepository {
     List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, NotificationSide owner);
 
     void updateErrorMessage(Notification investigation);
+
+    void deleteByIdIn(List<String> messageIds);
 
 }

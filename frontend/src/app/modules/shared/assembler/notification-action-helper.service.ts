@@ -31,14 +31,6 @@ export class NotificationActionHelperService {
   constructor(private readonly roleService: RoleService) {
   }
 
-  public showSaveButton(): boolean {
-    return true;
-  }
-
-  public showCancellationButton(): boolean {
-    return true;
-  }
-
   public isAtLeastSupervisor(): boolean {
     return this.roleService.isAtLeastSupervisor();
   }

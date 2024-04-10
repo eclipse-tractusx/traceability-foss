@@ -96,6 +96,16 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
     if (!this.notificationDetailFacade.selected?.data) {
       this.selectedNotificationBasedOnUrl();
     }
+
+    this.subscription = this.selected$
+      .pipe(
+        filter(({ data }) => !!data),
+        tap(({ data }) => {
+          this.setTableConfigs(data);
+          this.selectedNotification = data;
+        }),
+      )
+      .subscribe();
   }
 
   public ngOnDestroy(): void {

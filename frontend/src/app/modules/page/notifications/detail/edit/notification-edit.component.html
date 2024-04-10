@@ -40,7 +40,6 @@ SPDX-License-Identifier: Apache-2.0
          [matTooltipDisabled]="!isSaveButtonDisabled"
     >
       <app-button
-        *ngIf="actionHelperService.showSaveButton()"
         (click)="clickedSave()"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAtLeastSupervisor() || isSaveButtonDisabled">
@@ -107,9 +106,8 @@ SPDX-License-Identifier: Apache-2.0
                            [deselectTrigger]="deselectPartTrigger$ | async"
                            [addTrigger]="addPartTrigger$ | async"
                            [menuActivated]="false"
-                           (selected)="onSelectedItemAffectedParts($event)"
                            (multiSelect)="currentSelectedAffectedParts$.next($event)"
-                           (filterActivated)="filterAffectedAssets($event)"
+                           (filterActivated)="filterAffectedParts($event)"
                            [multiSortList]="tableAsBuiltSortList"
                            [tableType]="tableType"
                            [mainAspectType]="MainAspectType.AS_BUILT"
@@ -161,9 +159,8 @@ SPDX-License-Identifier: Apache-2.0
                           [selectedPartsActionLabel]="'page.selectedParts.action'"
                           [deselectTrigger]="deselectPartTrigger$ | async"
                           [addTrigger]="addPartTrigger$ | async"
-                          (selected)="onSelectedItemAvailableParts($event)"
                           (multiSelect)="currentSelectedAvailableParts$.next($event)"
-                          (filterActivated)="filterAvailableAssets($event)"
+                          (filterActivated)="filterAvailableParts($event)"
                           [multiSortList]="tableAsBuiltSortList"
                           [tableType]="tableType"
                           [mainAspectType]="MainAspectType.AS_BUILT"

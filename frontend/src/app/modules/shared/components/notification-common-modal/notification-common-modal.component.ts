@@ -51,9 +51,5 @@ export class NotificationCommonModalComponent {
     this.notificationActionModalComponent.show(notificationToShow, desiredStatus);
   }
 
-  public showEditModal(notification: Notification):void{
-
-  }
-
   protected readonly NotificationStatus = NotificationStatus;
 }

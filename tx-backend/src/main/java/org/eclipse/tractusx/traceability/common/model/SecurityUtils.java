@@ -22,8 +22,9 @@ package org.eclipse.tractusx.traceability.common.model;
 
 import lombok.experimental.UtilityClass;
 import notification.request.CloseNotificationRequest;
+import notification.request.EditNotificationRequest;
 import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationHeader;
@@ -58,28 +59,40 @@ public class SecurityUtils {
     public static StartNotificationRequest sanitize(StartNotificationRequest request) {
         String cleanDescription = sanitize(request.getDescription());
         String cleanReceiverBpn = sanitize(request.getReceiverBpn());
-        List<String> cleanPartIds = sanitize(request.getPartIds());
+        List<String> cleanPartIds = sanitize(request.getAffectedPartIds());
         return StartNotificationRequest.builder()
                 .title(request.getTitle())
                 .description(cleanDescription)
                 .targetDate(request.getTargetDate())
                 .severity(request.getSeverity())
-                .isAsBuilt(request.isAsBuilt())
                 .receiverBpn(cleanReceiverBpn)
                 .type(request.getType())
-                .partIds(cleanPartIds)
+                .affectedPartIds(cleanPartIds)
                 .build();
     }
 
+    public static EditNotificationRequest sanitize(EditNotificationRequest request) {
+        String cleanDescription = sanitize(request.getDescription());
+        String cleanReceiverBpn = sanitize(request.getReceiverBpn());
+        List<String> cleanPartIds = sanitize(request.getAffectedPartIds());
+        return EditNotificationRequest.builder()
+                .title(request.getTitle())
+                .description(cleanDescription)
+                .targetDate(request.getTargetDate())
+                .severity(request.getSeverity())
+                .receiverBpn(cleanReceiverBpn)
+                .affectedPartIds(cleanPartIds)
+                .build();
+    }
 
     public static CloseNotificationRequest sanitize(CloseNotificationRequest closeInvestigationRequest) {
         String cleanReason = sanitize(closeInvestigationRequest.getReason());
         return CloseNotificationRequest.builder().reason(cleanReason).build();
     }
 
-    public static UpdateNotificationRequest sanitize(UpdateNotificationRequest updateInvestigationRequest) {
+    public static UpdateNotificationStatusTransitionRequest sanitize(UpdateNotificationStatusTransitionRequest updateInvestigationRequest) {
         String cleanReason = sanitize(updateInvestigationRequest.getReason());
-        return UpdateNotificationRequest.builder().status(updateInvestigationRequest.getStatus()).reason(cleanReason).build();
+        return UpdateNotificationStatusTransitionRequest.builder().status(updateInvestigationRequest.getStatus()).reason(cleanReason).build();
     }
 
     public static EDCNotification sanitize(EDCNotification edcNotification) {

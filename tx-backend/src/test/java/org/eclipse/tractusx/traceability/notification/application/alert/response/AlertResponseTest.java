@@ -60,7 +60,7 @@ class AlertResponseTest {
                         .map(NotificationMessage::getCreatedByName)
                         .orElse(null))
                 .hasFieldOrPropertyWithValue("createdDate", notification.getCreatedAt().toString())
-                .hasFieldOrPropertyWithValue("assetIds", notification.getAssetIds())
+                .hasFieldOrPropertyWithValue("assetIds", notification.getAffectedPartIds())
                 .hasFieldOrPropertyWithValue("channel", NotificationSideResponse.SENDER)
                 .hasFieldOrPropertyWithValue("reason", new NotificationReasonResponse(
                         notification.getCloseReason(),

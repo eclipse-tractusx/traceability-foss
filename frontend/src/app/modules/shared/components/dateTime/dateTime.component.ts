@@ -47,11 +47,6 @@ export class DateTimeComponent extends BaseInputComponent<Date> {
     super(injector, staticIdService);
   }
 
-
-  changed(value: any){
-    console.log(value, "value");
-  }
-
   openDatePicker(element: any): void{
       element.showPicker();
   }

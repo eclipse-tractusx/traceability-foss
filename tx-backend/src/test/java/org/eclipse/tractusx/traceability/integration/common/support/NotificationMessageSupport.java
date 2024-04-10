@@ -34,7 +34,7 @@ public class NotificationMessageSupport {
 
     private final JpaNotificationMessageRepository jpaNotificationMessageRepository;
 
-    public void assertNotificationsSize(int size) {
+    public void assertMessageSize(int size) {
         List<NotificationMessageEntity> notifications = jpaNotificationMessageRepository.findAll();
         assertThat(notifications).hasSize(size);
     }
