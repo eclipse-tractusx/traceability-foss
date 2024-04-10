@@ -223,14 +223,12 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-
-    const isAvailablePartSubscription = true;
     const assetFilter = {};
 
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuilt');
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuiltSecond');
-    componentInstance['setPartsBasedOnNotificationType'](notification, isAvailablePartSubscription, assetFilter);
-    componentInstance['setPartsBasedOnNotificationType'](notification, !isAvailablePartSubscription, assetFilter);
+    componentInstance['setAvailablePartsBasedOnNotificationType'](notification, assetFilter);
+    componentInstance['setAffectedPartsBasedOnNotificationType'](notification, assetFilter);
 
     expect(componentInstance['partsFacade'].setSupplierPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     expect(componentInstance['partsFacade'].setSupplierPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
@@ -263,13 +261,12 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const isAvailablePartSubscription = true;
     const assetFilter = {};
 
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecond');
-    componentInstance['setPartsBasedOnNotificationType'](notification, isAvailablePartSubscription, assetFilter);
-    componentInstance['setPartsBasedOnNotificationType'](notification, !isAvailablePartSubscription, assetFilter);
+    componentInstance['setAvailablePartsBasedOnNotificationType'](notification, assetFilter);
+    componentInstance['setAffectedPartsBasedOnNotificationType'](notification, assetFilter);
 
     expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     expect(componentInstance['ownPartsFacade'].setPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
