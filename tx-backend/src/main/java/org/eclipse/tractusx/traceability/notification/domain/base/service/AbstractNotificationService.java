@@ -20,12 +20,13 @@ package org.eclipse.tractusx.traceability.notification.domain.base.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.application.notification.service.NotificationService;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
-import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
@@ -33,6 +34,9 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.springframework.data.domain.Pageable;
 
@@ -48,9 +52,12 @@ public abstract class AbstractNotificationService implements NotificationService
 
     private final TraceabilityProperties traceabilityProperties;
     private final NotificationPublisherService notificationPublisherService;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
+
     private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "messages_severity", "type");
 
     protected abstract NotificationRepository getNotificationRepository();
+
 
     protected abstract RuntimeException getNotFoundException(String message);
 
@@ -68,7 +75,7 @@ public abstract class AbstractNotificationService implements NotificationService
     }
 
     @Override
-    public void update(Long notificationId, NotificationStatus notificationStatus, String reason) {
+    public void updateStatusTransition(Long notificationId, NotificationStatus notificationStatus, String reason) {
         Notification notification = loadOrNotFoundException(new NotificationId(notificationId));
 
         List<NotificationMessage> messages = notification.getNotifications();
@@ -96,6 +103,33 @@ public abstract class AbstractNotificationService implements NotificationService
         }
 
         getNotificationRepository().updateNotification(updatedNotification);
+    }
+
+    @Override
+    public void editNotification(EditNotification editNotification) {
+        Notification notification = loadOrNotFoundException(new NotificationId(editNotification.getId()));
+        List<AssetBase> affectedParts = assetAsBuiltRepository.getAssetsById(editNotification.getAffectedPartIds());
+        List<String> oldMessageIds =
+                notification.getNotifications().stream().map(NotificationMessage::getId).toList();
+
+        getNotificationRepository().deleteByIdIn(oldMessageIds);
+        notification.clearNotifications();
+        notification.createInitialNotifications(affectedParts, traceabilityProperties.getBpn(), editNotification);
+        if (editNotification.getReceiverBpn() != null) {
+            notification.setBpn(BPN.of(editNotification.getReceiverBpn()));
+        }
+        if (editNotification.getTitle() != null) {
+            notification.setTitle(editNotification.getTitle());
+        }
+        if (editNotification.getDescription() != null) {
+            notification.setDescription(editNotification.getDescription());
+        }
+        if (editNotification.getAffectedPartIds() != null) {
+            notification.setAffectedPartIds(editNotification.getAffectedPartIds());
+        }
+
+
+        getNotificationRepository().updateNotificationAndMessage(notification, editNotification.getSeverity());
     }
 
     @Override
@@ -174,10 +208,8 @@ public abstract class AbstractNotificationService implements NotificationService
         return switch (fieldName) {
             case "status" -> Arrays.stream(NotificationStatus.values()).map(Enum::name).toList();
             case "side" -> Arrays.stream(NotificationSide.values()).map(Enum::name).toList();
-            case "messages_severity" ->
-                    Arrays.stream(NotificationSeverity.values()).map(Enum::name).toList();
-            case "type" ->
-                    Arrays.stream(NotificationType.values()).map(Enum::name).toList();
+            case "messages_severity" -> Arrays.stream(NotificationSeverity.values()).map(Enum::name).toList();
+            case "type" -> Arrays.stream(NotificationType.values()).map(Enum::name).toList();
             default -> null;
         };
     }

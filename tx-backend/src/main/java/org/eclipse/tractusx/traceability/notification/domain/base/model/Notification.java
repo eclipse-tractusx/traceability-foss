@@ -22,17 +22,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 
 import java.time.Instant;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.groupingBy;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Data
@@ -48,7 +53,7 @@ public class Notification {
     private NotificationSide notificationSide;
     private NotificationType notificationType;
     @Builder.Default
-    private List<String> assetIds = new ArrayList<>();
+    private List<String> affectedPartIds = new ArrayList<>();
     private String closeReason;
     private String acceptReason;
     private String declineReason;
@@ -66,12 +71,59 @@ public class Notification {
                 .notificationType(notificationType)
                 .description(description)
                 .createdAt(createDate)
-                .assetIds(Collections.emptyList())
+                .affectedPartIds(Collections.emptyList())
                 .build();
     }
 
-    public List<String> getAssetIds() {
-        return Collections.unmodifiableList(assetIds);
+    public void clearNotifications(){
+        notifications = new ArrayList<>();
+    }
+    public void createInitialNotifications(List<AssetBase> affectedParts, BPN applicationBPN, EditNotification editNotification) {
+
+
+        if (editNotification.getReceiverBpn() != null) {
+            Map.Entry<String, List<AssetBase>> receiverAssetsMap = new AbstractMap.SimpleEntry<>(editNotification.getReceiverBpn(), affectedParts);
+
+            NotificationMessage notificationMessage = NotificationMessage.create(
+                    applicationBPN,
+                    editNotification.getReceiverBpn(),
+                    editNotification.getDescription(),
+                    editNotification.getTargetDate(),
+                    editNotification.getSeverity(),
+                    this.notificationType,
+                    receiverAssetsMap,
+                    applicationBPN.value(),
+                    editNotification.getReceiverBpn());
+
+            this.addNotificationMessage(notificationMessage);
+
+
+        } else {
+            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = affectedParts.stream().collect(groupingBy(AssetBase::getManufacturerId));
+            assetsAsBuiltBPNMap
+                    .entrySet()
+                    .stream()
+                    .map(receiverAssetsMapEntry -> {
+                        String receiver = receiverAssetsMapEntry.getKey();
+                        return NotificationMessage.create(
+                                applicationBPN,
+                                receiver,
+                                editNotification.getDescription(),
+                                editNotification.getTargetDate(),
+                                editNotification.getSeverity(),
+                                this.notificationType,
+                                receiverAssetsMapEntry,
+                                applicationBPN.value(),
+                                editNotification.getReceiverBpn());
+                    })
+                    .forEach(this::addNotificationMessage);
+        }
+
+
+    }
+
+    public List<String> getAffectedPartIds() {
+        return Collections.unmodifiableList(affectedPartIds);
     }
 
     public String getBpn() {
@@ -136,12 +188,12 @@ public class Notification {
         updatedNotifications.add(notification);
         notifications = Collections.unmodifiableList(updatedNotifications);
 
-        List<String> newAssetIds = new ArrayList<>(assetIds); // create a mutable copy of assetIds
+        List<String> newAssetIds = new ArrayList<>(affectedPartIds); // create a mutable copy of assetIds
         emptyIfNull(notification.getAffectedParts()).stream()
                 .map(NotificationAffectedPart::assetId)
                 .forEach(newAssetIds::add);
 
-        assetIds = Collections.unmodifiableList(newAssetIds); //
+        affectedPartIds = Collections.unmodifiableList(newAssetIds); //
     }
 
     public void addNotificationMessages(List<NotificationMessage> notificationMessages) {
