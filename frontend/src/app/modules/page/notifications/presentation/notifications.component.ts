@@ -19,7 +19,7 @@
 
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NOTIFICATION_BASE_ROUTE, getRoute } from '@core/known-route';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
@@ -138,8 +138,6 @@ export class NotificationsComponent {
     const { link } = getRoute(NOTIFICATION_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
     const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
-    console.log(link, "link");
-    console.log(tabInformation, "tab");
     return { link, tabInformation };
   }
 

@@ -19,14 +19,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { LayoutModule } from '@layout/layout.module';
-import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
-import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
-import { RequestNotificationNewComponent } from '@shared/components/request-notification-new/notification-new-request.component';
-import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
-import { SharedModule } from '@shared/shared.module';
-import { screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
+import {LayoutModule} from '@layout/layout.module';
+import {NotificationDetailFacade} from '@page/notifications/core/notification-detail.facade';
+import {NotificationDetailState} from '@page/notifications/core/notification-detail.state';
+import {
+  RequestNotificationNewComponent
+} from '@shared/components/request-notification-new/notification-new-request.component';
+import {Notification, NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {
+  FormatPartlistSemanticDataModelToCamelCasePipe
+} from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
+import {SharedModule} from '@shared/shared.module';
+import {screen, waitFor} from '@testing-library/angular';
+import {renderComponent} from '@tests/test-render.utils';
+import {of} from 'rxjs';
 
 
 describe('requestNotificationNewComponent', () => {
@@ -62,8 +69,29 @@ describe('requestNotificationNewComponent', () => {
   };
 
   beforeEach(() => {
-    formGroupChangedMock = jasmine.createSpy();
-    notificationDetailFacadeMock = jasmine.createSpyObj('NotificationDetailFacade', [ 'selected$' /* add more methods as needed */ ]);
+
+    const notification: View<Notification> = {
+      data: {
+        assetIds: [],
+        createdBy: '',
+        type: NotificationType.ALERT,
+        createdByName: '',
+        createdDate: undefined,
+        description: '',
+        isFromSender: false,
+        reason: undefined,
+        sendTo: '',
+        sendToName: '',
+        severity: undefined,
+        status: undefined,
+        title: '',
+        id: 'abc',
+      }
+    };
+
+    const notificationDetailFacadeMock = jasmine.createSpyObj('notificationDetailFacade', [ 'selected$' ]);
+    notificationDetailFacadeMock.selected$.and.returnValue(of({ notification }));
+
   });
 
   describe('Request Investigation', () => {

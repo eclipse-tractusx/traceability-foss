@@ -109,9 +109,9 @@ describe('NotificationService', () => {
 
     service.updateEditedNotification(notificationId, title, bpn, severity, targetDate, description, affectedPartIds).subscribe();
 
-    const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/update`);
+    const req = httpTestingController.expectOne(`${ service.notificationUrl() }/${ notificationId }/edit`);
     expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual('{"notificationId":"123","title":"title","bpn":"BPN","severity":"CRITICAL","targetDate":null,"description":"desc","affectedParts":["abc","def"]}');
+    expect(req.request.body).toEqual('{"title":"title","receiverBpn":"BPN","severity":"CRITICAL","targetDate":null,"description":"desc","affectedPartIds":["abc","def"]}');
     req.flush({});
   });
 

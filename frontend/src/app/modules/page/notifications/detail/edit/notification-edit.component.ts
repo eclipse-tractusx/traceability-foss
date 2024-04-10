@@ -74,6 +74,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public tableType: TableType;
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
+  isSaveButtonDisabled: boolean;
 
   constructor(
     private readonly partsFacade: OtherPartsFacade,
@@ -106,6 +107,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
+    this.isSaveButtonDisabled = notificationFormGroup.invalid;
     this.notificationFormGroup = notificationFormGroup;
   }
 
@@ -120,8 +122,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public onSelectedItemAffectedParts($event: Record<string, unknown>): void {
-    console.log('affected', $event);
-
+   // console.log('affected', $event);
   }
 
 
@@ -135,11 +136,14 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public clickedSave(): void {
-    const { title, type, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
-    if (this.editMode) {
-      this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds);
+    const { title,  description, severity, targetDate, bpn } = this.notificationFormGroup.value;
+    if(this.editMode) {
+        this.notificationsFacade.updateEditedNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
+            next: () => this.toastService.success('requestNotification.saveSuccess'),
+            error: (error) => this.toastService.error('requestNotification.saveError')
+        });
     } else {
-      this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description);
+        this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description);
     }
   }
 
@@ -156,6 +160,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   private setPartsBasedOnNotificationType(notification: Notification, isAvailablePartSubscription: boolean, assetFilter?: any) {
+
     if (isAvailablePartSubscription) {
       if (notification.type === NotificationType.INVESTIGATION) {
         assetFilter ? this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true)) : this.setSupplierPartsAsBuilt();
@@ -214,8 +219,9 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
-    this.temporaryAffectedPartsForRemoval = [];
+    this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
     this.currentSelectedAffectedParts$.next([]);
+    this.temporaryAffectedPartsForRemoval = [];
   }
 
   addAffectedParts() {
@@ -226,7 +232,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     });
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);
-    console.log(this.temporaryAffectedParts)
     this.temporaryAffectedParts = [];
   }
 

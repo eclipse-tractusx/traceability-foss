@@ -19,7 +19,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NOTIFICATION_BASE_ROUTE, getRoute } from '@core/known-route';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
@@ -103,7 +103,7 @@ export class RequestNotificationComponent {
       title = null;
     }
 
-    this.notificationService.createNotification(partIds, description, severity, bpn, isAsBuilt, type, title).subscribe({
+    this.notificationService.createNotification(partIds, description, severity, bpn, type, title, null).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: (err) => this.onUnsuccessfulSubmit(err.error.message),
     });

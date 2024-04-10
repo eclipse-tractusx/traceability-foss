@@ -23,6 +23,7 @@ import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { NotificationAssembler } from '@shared/assembler/notification.assembler';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
 import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { provideFilterListForNotifications } from '@shared/helper/filter-helper';
@@ -78,9 +79,11 @@ export class NotificationService {
       .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
   }
 
-  public createNotification(partIds: string[], description: string, severity: Severity, bpn: string, isAsBuilt: boolean, type: string, title: string, targetDate?: string): Observable<string> {
-    const body = { partIds, description, severity, receiverBpn: bpn, isAsBuilt, type, title, targetDate };
-    console.log(body);
+  public createNotification(affectedPartIds: string[], description: string, severity: Severity, bpn: string, type: string, title: string, dateString: DateTimeString,
+  ): Observable<string> {
+    const targetDate = null === dateString ? null : new Date(dateString).toISOString();
+    const body = { affectedPartIds, description, severity, receiverBpn: bpn, type, title, targetDate };
+
     return this.apiService.post<NotificationCreateResponse>(`${ this.url }/notifications`, body).pipe(map(({ id }) => id));
   }
 
@@ -111,11 +114,11 @@ export class NotificationService {
     return this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
   }
 
-  public updateEditedNotification(notificationId: string, title: string, bpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
+  public updateEditedNotification(notificationId: string, title: string, receiverBpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
     const requestUrl = this.notificationUrl();
-    const body = { notificationId, title, bpn, severity, targetDate, description, affectedParts: affectedPartIds };
+    const body = { title, receiverBpn: receiverBpn, severity, targetDate, description, affectedPartIds: affectedPartIds };
     console.log(body, "executing http put request with body");
-    return this.apiService.put<void>(`${ requestUrl }/${ notificationId }/update`, body);
+    return this.apiService.put<void>(`${ requestUrl }/${ notificationId }/edit`, body);
   }
 
 

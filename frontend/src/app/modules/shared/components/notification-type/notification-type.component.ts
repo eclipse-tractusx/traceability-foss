@@ -21,7 +21,6 @@
 
 import { Component, Input } from '@angular/core';
 import { NotificationType } from '@shared/model/notification.model';
-import { Severity } from '@shared/model/severity.model';
 
 @Component({
   selector: 'app-notification-type',
