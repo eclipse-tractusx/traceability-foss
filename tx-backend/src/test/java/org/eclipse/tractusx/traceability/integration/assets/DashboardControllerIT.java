@@ -162,7 +162,7 @@ class DashboardControllerIT extends IntegrationTestSpecification {
         notificationSupport.defaultReceivedInvestigationStored();
         String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978";
         var notificationRequest = StartNotificationRequest.builder()
-                .partIds(List.of(assetId))
+                .affectedPartIds(List.of(assetId))
                 .description("at least 15 characters long investigation description")
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)

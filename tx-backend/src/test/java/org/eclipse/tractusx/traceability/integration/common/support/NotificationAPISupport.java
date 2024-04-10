@@ -46,7 +46,6 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 @Component
 @RequiredArgsConstructor
@@ -68,7 +67,7 @@ public class NotificationAPISupport {
         assetsSupport.defaultAssetsStored();
 
         val request = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)

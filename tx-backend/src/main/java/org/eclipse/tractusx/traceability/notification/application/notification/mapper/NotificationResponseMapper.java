@@ -50,7 +50,7 @@ public class NotificationResponseMapper {
                 .createdBy(getSenderBPN(notification.getNotifications()))
                 .createdByName(getSenderName(notification.getNotifications()))
                 .createdDate(notification.getCreatedAt().toString())
-                .assetIds(Collections.unmodifiableList(notification.getAssetIds()))
+                .assetIds(Collections.unmodifiableList(notification.getAffectedPartIds()))
                 .channel(NotificationMessageMapper.from(notification.getNotificationSide()))
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())

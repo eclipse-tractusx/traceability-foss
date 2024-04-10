@@ -203,7 +203,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         String description = "at least 15 characters long investigation description";
 
         val request = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .build();
         // when/then
@@ -229,7 +229,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         String description = RandomStringUtils.random(1001);
 
         val request = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .build();
@@ -300,7 +300,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         // given
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartNotificationRequest.builder()
-                .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
+                .affectedPartIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
                 .description("at least 15 characters long investigation description")
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MAJOR)
@@ -361,7 +361,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)
@@ -418,7 +418,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)
@@ -530,7 +530,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         String description = "at least 15 characters long investigation description";
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)

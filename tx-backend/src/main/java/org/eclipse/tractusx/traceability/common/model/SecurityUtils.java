@@ -58,16 +58,15 @@ public class SecurityUtils {
     public static StartNotificationRequest sanitize(StartNotificationRequest request) {
         String cleanDescription = sanitize(request.getDescription());
         String cleanReceiverBpn = sanitize(request.getReceiverBpn());
-        List<String> cleanPartIds = sanitize(request.getPartIds());
+        List<String> cleanPartIds = sanitize(request.getAffectedPartIds());
         return StartNotificationRequest.builder()
                 .title(request.getTitle())
                 .description(cleanDescription)
                 .targetDate(request.getTargetDate())
                 .severity(request.getSeverity())
-                .isAsBuilt(request.isAsBuilt())
                 .receiverBpn(cleanReceiverBpn)
                 .type(request.getType())
-                .partIds(cleanPartIds)
+                .affectedPartIds(cleanPartIds)
                 .build();
     }
 

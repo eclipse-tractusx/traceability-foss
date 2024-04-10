@@ -96,7 +96,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         List<AssetAsBuiltEntity> assetEntities = getAssetEntitiesByNotification(notification);
 
         if (assetEntities.isEmpty()) {
-            throw new IllegalArgumentException("No assets found for %s asset ids".formatted(String.join(", ", notification.getAssetIds())));
+            throw new IllegalArgumentException("No assets found for %s asset ids".formatted(String.join(", ", notification.getAffectedPartIds())));
         }
         NotificationEntity notificationEntity = NotificationEntity.from(notification, assetEntities);
 
@@ -126,7 +126,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         notificationEntity.setTitle(notification.getTitle());
         notificationEntity.setDescription(notification.getDescription());
         notificationEntity.setBpn(notification.getBpn());
-        notificationEntity.setAssets(getAssetEntitiesByAssetIds(notification.getAssetIds()));
+        notificationEntity.setAssets(getAssetEntitiesByAssetIds(notification.getAffectedPartIds()));
         notificationEntity.setStatus(NotificationStatusBaseEntity.fromStringValue(notification.getNotificationStatus().name()));
         notificationEntity.setUpdated(clock.instant());
         notificationEntity.setCloseReason(notification.getCloseReason());
@@ -191,7 +191,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     }
 
     private List<AssetAsBuiltEntity> getAssetEntitiesByNotification(Notification notification) {
-        return assetsAsBuiltRepository.findByIdIn(notification.getAssetIds());
+        return assetsAsBuiltRepository.findByIdIn(notification.getAffectedPartIds());
     }
 
     private List<AssetAsBuiltEntity> getAssetEntitiesByAssetIds(List<String> assetIds) {

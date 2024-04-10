@@ -42,7 +42,7 @@ public class EditNotificationRequest {
     private String title;
 
     @Schema(example = "BPN00001123123AS")
-    private String bpn;
+    private String receiverBpn;
 
     @NotNull
     private NotificationSeverityRequest severity;

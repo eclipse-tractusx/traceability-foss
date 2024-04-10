@@ -43,7 +43,7 @@ public class EditNotification {
 
     private List<String> affectedPartIds;
 
-    private String bpn;
+    private String receiverBpn;
 
     private NotificationSeverity severity;
 
@@ -54,7 +54,7 @@ public class EditNotification {
                 .affectedPartIds(editNotificationRequest.getAffectedPartIds())
                 .description(editNotificationRequest.getDescription())
                 .targetDate(editNotificationRequest.getTargetDate())
-                .bpn(editNotificationRequest.getBpn())
+                .receiverBpn(editNotificationRequest.getReceiverBpn())
                 .build();
     }
 

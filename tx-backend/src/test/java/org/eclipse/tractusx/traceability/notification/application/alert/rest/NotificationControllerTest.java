@@ -71,7 +71,7 @@ class NotificationControllerTest {
         final Instant targetDate = Instant.parse("2099-03-11T22:44:06.333826952Z");
         final NotificationId notificationId = new NotificationId(666L);
         final StartNotificationRequest request = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description("description")
                 .targetDate(targetDate)
                 .type(NotificationTypeRequest.ALERT)
@@ -114,7 +114,7 @@ class NotificationControllerTest {
                         .map(NotificationMessage::getCreatedByName)
                         .orElse(null))
                 .hasFieldOrPropertyWithValue("createdDate", notification.getCreatedAt().toString())
-                .hasFieldOrPropertyWithValue("assetIds", notification.getAssetIds())
+                .hasFieldOrPropertyWithValue("assetIds", notification.getAffectedPartIds())
                 .hasFieldOrPropertyWithValue("channel", NotificationSideResponse.SENDER)
                 .hasFieldOrPropertyWithValue("reason", new NotificationReasonResponse(
                         notification.getCloseReason(),

@@ -99,7 +99,7 @@ public class RestProvider {
             String receiverBpn,
             NotificationTypeEnum notificationType) {
         final StartNotificationRequest requestBody = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .isAsBuilt(true)
                 .description(description)
                 .targetDate(targetDate)

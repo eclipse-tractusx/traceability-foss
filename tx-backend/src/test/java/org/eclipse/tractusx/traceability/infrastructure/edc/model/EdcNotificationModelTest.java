@@ -102,7 +102,7 @@ public class EdcNotificationModelTest {
         StartNotificationRequest cleanRequest = sanitize(request);
 
         //THEN
-        assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getPartIds().get(1));
+        assertEquals("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca979 ", cleanRequest.getAffectedPartIds().get(1));
         assertEquals("The description ", cleanRequest.getDescription());
         assertTrue(cleanRequest.isAsBuilt());
         assertEquals("BPN00001123123AS ", cleanRequest.getReceiverBpn());

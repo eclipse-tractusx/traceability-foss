@@ -33,7 +33,6 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.exception.NotificationIllegalUpdate;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.springframework.stereotype.Service;
 
@@ -60,16 +59,12 @@ public class NotificationPublisherService {
     public Notification startNotification(StartNotification startNotification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         Notification notification = Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType());
-        if (startNotification.isAsBuilt()) {
-            createMessages(startNotification, applicationBPN, notification, assetAsBuiltRepository);
-            return notification;
-        } else {
-            throw new NotificationNotSupportedException();
-        }
+        createMessages(startNotification, applicationBPN, notification, assetAsBuiltRepository);
+        return notification;
     }
 
     private void createMessages(StartNotification startNotification, BPN applicationBPN, Notification notification, AssetAsBuiltRepository assetAsBuiltRepository) {
-        Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(startNotification.getPartIds()).stream().collect(groupingBy(AssetBase::getManufacturerId));
+        Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(startNotification.getAffectedPartIds()).stream().collect(groupingBy(AssetBase::getManufacturerId));
         assetsAsBuiltBPNMap
                 .entrySet()
                 .stream()

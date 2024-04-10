@@ -133,7 +133,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         val request = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(severity)
                 .type(NotificationTypeRequest.ALERT)
@@ -185,7 +185,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         val request = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .build();
 
@@ -212,7 +212,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         String description = RandomStringUtils.random(1001);
 
         val request = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .receiverBpn("BPN")
@@ -285,7 +285,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         String filterString = "channel,EQUAL,SENDER,AND";
         assetsSupport.defaultAssetsStored();
         val startAlertRequest = StartNotificationRequest.builder()
-                .partIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
+                .affectedPartIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
                 .description("at least 15 characters long investigation description")
                 .severity(NotificationSeverityRequest.MAJOR)
                 .type(NotificationTypeRequest.ALERT)
@@ -351,7 +351,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         val startAlertRequest = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
@@ -408,7 +408,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         val startAlertRequest = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
@@ -521,7 +521,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         String description = "at least 15 characters long investigation description";
         assetsSupport.defaultAssetsStored();
         val startAlertRequest = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
@@ -573,7 +573,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         val startAlertRequest = StartNotificationRequest.builder()
-                .partIds(partIds)
+                .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .receiverBpn("BPN")

@@ -45,7 +45,7 @@ public class StartNotificationRequest {
 
     @Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")
     @Schema(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]", minLength = 1, maxLength = 100)
-    private List<String> partIds;
+    private List<String> affectedPartIds;
 
     @Schema(example = "The description", minLength = 15, maxLength = 1000)
     @Size(min = 15, max = 1000, message = "Description should have at least 15 characters and at most 1000 characters")
@@ -57,9 +57,6 @@ public class StartNotificationRequest {
 
     @NotNull
     private NotificationSeverityRequest severity;
-
-    @Schema(example = "true")
-    private boolean isAsBuilt = true;
 
     @Schema(example = "BPN00001123123AS")
     private String receiverBpn;

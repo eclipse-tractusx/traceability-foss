@@ -96,7 +96,7 @@ class NotificationPublisherServiceTest {
         String receiverBpn = "someReceiverBpn";
         StartNotification startNotification = StartNotification.builder()
                 .title(title)
-                .partIds(assets)
+                .affectedPartIds(assets)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(NotificationSeverity.MINOR)
@@ -128,7 +128,7 @@ class NotificationPublisherServiceTest {
         List<String> assets = Arrays.asList("asset-1", "asset-2");
         StartNotification startNotification = StartNotification.builder()
                 .title(title)
-                .partIds(assets)
+                .affectedPartIds(assets)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(NotificationSeverity.MINOR)
@@ -153,7 +153,7 @@ class NotificationPublisherServiceTest {
         when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
         StartNotification startNotification = StartNotification.builder()
                 .title(title)
-                .partIds(assets)
+                .affectedPartIds(assets)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(NotificationSeverity.MINOR)

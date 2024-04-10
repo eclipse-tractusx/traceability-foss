@@ -115,8 +115,8 @@ public abstract class AbstractNotificationService implements NotificationService
         getNotificationRepository().deleteByIdIn(oldMessageIds);
         notification.clearNotifications();
         notification.createInitialNotifications(affectedParts, traceabilityProperties.getBpn(), editNotification);
-        if (editNotification.getBpn() != null) {
-            notification.setBpn(BPN.of(editNotification.getBpn()));
+        if (editNotification.getReceiverBpn() != null) {
+            notification.setBpn(BPN.of(editNotification.getReceiverBpn()));
         }
         if (editNotification.getTitle() != null) {
             notification.setTitle(editNotification.getTitle());
@@ -125,7 +125,7 @@ public abstract class AbstractNotificationService implements NotificationService
             notification.setDescription(editNotification.getDescription());
         }
         if (editNotification.getAffectedPartIds() != null) {
-            notification.setAssetIds(editNotification.getAffectedPartIds());
+            notification.setAffectedPartIds(editNotification.getAffectedPartIds());
         }
 
         getNotificationRepository().updateNotificationAndMessage(notification);
