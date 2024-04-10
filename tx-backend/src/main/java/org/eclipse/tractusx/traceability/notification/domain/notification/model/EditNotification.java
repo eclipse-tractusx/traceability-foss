@@ -54,6 +54,7 @@ public class EditNotification {
                 .affectedPartIds(editNotificationRequest.getAffectedPartIds())
                 .description(editNotificationRequest.getDescription())
                 .targetDate(editNotificationRequest.getTargetDate())
+                .severity(NotificationSeverity.fromString(editNotificationRequest.getSeverity() != null ? editNotificationRequest.getSeverity().getRealName() : null))
                 .receiverBpn(editNotificationRequest.getReceiverBpn())
                 .build();
     }

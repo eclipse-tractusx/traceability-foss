@@ -35,6 +35,7 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
@@ -116,12 +117,12 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         notificationEntity.setCloseReason(notification.getCloseReason());
         notificationEntity.setAcceptReason(notification.getAcceptReason());
         notificationEntity.setDeclineReason(notification.getDeclineReason());
-        handleMessageUpdate(notificationEntity, notification);
+        handleMessageUpdate(notificationEntity, notification, null);
         jpaNotificationRepository.save(notificationEntity);
     }
 
     @Override
-    public void updateNotificationAndMessage(Notification notification) {
+    public void updateNotificationAndMessage(Notification notification, NotificationSeverity notificationSeverity) {
         NotificationEntity notificationEntity = jpaNotificationRepository.findById(notification.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", notification.getNotificationId().value())));
         notificationEntity.setTitle(notification.getTitle());
@@ -133,7 +134,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         notificationEntity.setCloseReason(notification.getCloseReason());
         notificationEntity.setAcceptReason(notification.getAcceptReason());
         notificationEntity.setDeclineReason(notification.getDeclineReason());
-        handleMessageUpdate(notificationEntity, notification);
+        handleMessageUpdate(notificationEntity, notification, notificationSeverity);
         jpaNotificationRepository.save(notificationEntity);
     }
 
@@ -199,8 +200,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return assetsAsBuiltRepository.findByIdIn(assetIds);
     }
 
-    private void handleMessageCreate(NotificationEntity notificationEntity, NotificationMessage notificationDomain, List<AssetAsBuiltEntity> assetEntities) {
-        NotificationMessageEntity notificationMessageEntity = toNotificationMessageEntity(notificationEntity, notificationDomain, assetEntities);
+    private void handleMessageCreate(NotificationEntity notificationEntity, NotificationMessage messageDomain, List<AssetAsBuiltEntity> assetEntities) {
+        NotificationMessageEntity notificationMessageEntity = toNotificationMessageEntity(notificationEntity, messageDomain, assetEntities);
 
         Optional<NotificationMessageEntity> optionalNotificationMessage = jpaNotificationMessageRepository.findById(notificationMessageEntity.getId());
 
@@ -216,13 +217,13 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 });
     }
 
-    private NotificationMessageEntity toNotificationMessageEntity(NotificationEntity notificationEntity, NotificationMessage notification, List<AssetAsBuiltEntity> investigationAssets) {
-        List<AssetAsBuiltEntity> notificationAssets = filterNotificationAssets(notification, investigationAssets);
+    private NotificationMessageEntity toNotificationMessageEntity(NotificationEntity notificationEntity, NotificationMessage notificationMessage, List<AssetAsBuiltEntity> investigationAssets) {
+        List<AssetAsBuiltEntity> notificationAssets = filterNotificationAssets(notificationMessage, investigationAssets);
 
         if (notificationAssets.isEmpty()) {
-            throw new IllegalStateException("Investigation with id %s has no notification assets".formatted(notificationEntity.getId()));
+            throw new IllegalStateException("Investigation with id %s has no notificationMessage assets".formatted(notificationEntity.getId()));
         }
-        return NotificationMessageEntity.from(notificationEntity, notification, notificationAssets);
+        return NotificationMessageEntity.from(notificationEntity, notificationMessage, notificationAssets);
     }
 
     private List<AssetAsBuiltEntity> filterNotificationAssets(NotificationMessage notificationMessage, List<AssetAsBuiltEntity> assets) {
@@ -231,8 +232,11 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return assets.stream().filter(it -> notificationAffectedAssetIds.contains(it.getId())).toList();
     }
 
-    private void handleMessageUpdate(NotificationEntity notificationEntity, Notification notification) {
+    private void handleMessageUpdate(NotificationEntity notificationEntity, Notification notification, NotificationSeverity notificationSeverity) {
         for (NotificationMessage notificationMessage : notification.getNotifications()) {
+            if (notificationSeverity != null){
+                notificationMessage.setSeverity(notificationSeverity);
+            }
             List<AssetAsBuiltEntity> assetEntitiesByNotification = getAssetEntitiesByNotification(notification);
             handleMessageCreate(notificationEntity, notificationMessage, assetEntitiesByNotification);
         }

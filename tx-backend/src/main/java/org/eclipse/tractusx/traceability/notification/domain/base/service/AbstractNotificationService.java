@@ -129,7 +129,7 @@ public abstract class AbstractNotificationService implements NotificationService
         }
 
 
-        getNotificationRepository().updateNotificationAndMessage(notification);
+        getNotificationRepository().updateNotificationAndMessage(notification, editNotification.getSeverity());
     }
 
     @Override
