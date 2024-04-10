@@ -1,10 +1,13 @@
 package org.eclipse.tractusx.traceability.integration.notification;
 
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import notification.request.EditNotificationRequest;
 import notification.request.NotificationSeverityRequest;
+import notification.request.NotificationTypeRequest;
+import notification.request.StartNotificationRequest;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
@@ -46,15 +49,86 @@ class EditNotificationIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldUpdateInvestigation_RemovingOnePart() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
-        int id = notificationAPISupport.createInvestigation_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR));
+    void shouldUpdateInvestigation_RemovingOnePartOnly() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+        Header authHeader = oAuth2Support.jwtAuthorization(SUPERVISOR);
+        // given
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        );
+        String description = "at least 15 characters long investigation description";
+        String title ="the title";
+
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .title(title)
+                .type(NotificationTypeRequest.INVESTIGATION)
+                .severity(NotificationSeverityRequest.MINOR)
+                .build();
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest);
+
+        // given
+        List<String> editedPartIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb" // BPN: BPNL00000003AYRE
+        );
+
+        val request = EditNotificationRequest.builder()
+                .affectedPartIds(editedPartIds)
+                .severity(startNotificationRequest.getSeverity())
+                .description(startNotificationRequest.getDescription())
+                .title(startNotificationRequest.getTitle())
+                .build();
+
+        // when
+        notificationAPISupport.editNotificationRequest(authHeader, request, id);
+
+        // then
+        notificationMessageSupport.assertMessageSize(1);
+
+        given()
+                .header(authHeader)
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(1))
+                .log().all();
+    }
+
+    @Test
+    void shouldUpdateInvestigationFields() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
 
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
-                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb" // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
         );
         String description = "at least 15 characters long investigation description";
+
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .type(NotificationTypeRequest.INVESTIGATION)
+                .severity(NotificationSeverityRequest.MINOR)
+                .build();
+
+
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest);
+
+        // given
+        List<String> editedPartIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb" // BPN: BPNL00000003AYRE
+        );
+        String editedDescription = "at least 15 characters long investigation description which was edited";
 
 
         val request = EditNotificationRequest.builder()

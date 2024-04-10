@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.integration.notification.investigation
 import io.restassured.http.ContentType;
 import lombok.val;
 import notification.request.CloseNotificationRequest;
-import notification.request.EditNotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
@@ -123,8 +122,26 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldStartInvestigation() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
 
+
+        // given
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        );
+        String description = "at least 15 characters long investigation description";
+        String title = "the title";
+
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .title(title)
+                .type(NotificationTypeRequest.INVESTIGATION)
+                .severity(NotificationSeverityRequest.MINOR)
+                .build();
+
         // when
-        notificationApiSupport.createInvestigation_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR));
+        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest);
 
         // then
         notificationMessageSupport.assertMessageSize(2);
@@ -140,55 +157,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
-
-    }
-
-
-    @Test
-    void shouldStartAndUpdateInvestigationRemovingOnePart() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
-        int notificationId = notificationApiSupport.createInvestigation_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR));
-
-        // given
-        List<String> partIds = List.of(
-                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
-                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb" // BPN: BPNL00000003AYRE
-        );
-        String description = "at least 15 characters long investigation description";
-
-
-        val request = EditNotificationRequest.builder()
-                .affectedPartIds(partIds)
-                .description(description)
-                .title("the title")
-                .severity(NotificationSeverityRequest.MINOR)
-                .build();
-
-        // when
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .put("/api/notifications/" + notificationId + "/edit")
-                .then()
-                .statusCode(204);
-
-
-        notificationMessageSupport.assertMessageSize(1);
-
-        given()
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/notifications/filter")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("content", Matchers.hasSize(1))
-                .log().all();
-
 
     }
 

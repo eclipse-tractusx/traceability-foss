@@ -25,58 +25,28 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
-import lombok.val;
-import notification.request.NotificationSeverityRequest;
-import notification.request.NotificationTypeRequest;
+import notification.request.EditNotificationRequest;
 import notification.request.StartNotificationRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.hamcrest.Matchers;
-import org.jose4j.lang.JoseException;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
-
 import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Component
 @RequiredArgsConstructor
 public class NotificationApiSupport {
 
-    private final JpaNotificationRepository jpaNotificationRepository;
     private final AssetsSupport assetsSupport;
     private final ObjectMapper objectMapper;
 
-    public int createInvestigation_withDefaultAssetsStored(Header authHeader) throws JsonProcessingException, JoseException {
-        // given
-        List<String> partIds = List.of(
-                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
-                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
-                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
-        );
-        String description = "at least 15 characters long investigation description";
+    public int createNotificationRequest_withDefaultAssetsStored(Header authHeader, StartNotificationRequest startNotificationRequest) throws JsonProcessingException {
 
         assetsSupport.defaultAssetsStored();
-
-        val request = StartNotificationRequest.builder()
-                .affectedPartIds(partIds)
-                .description(description)
-                .type(NotificationTypeRequest.INVESTIGATION)
-                .severity(NotificationSeverityRequest.MINOR)
-                .build();
 
         // when
         Response response = given()
                 .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request))
+                .body(objectMapper.writeValueAsString(startNotificationRequest))
                 .header(authHeader)
                 .when()
                 .post("/api/notifications")
@@ -90,53 +60,17 @@ public class NotificationApiSupport {
 
     }
 
-    public Long defaultReceivedInvestigationStored() {
-        NotificationEntity entity = NotificationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn("BPNL00000003AXS3")
-                .type(NotificationTypeEntity.INVESTIGATION)
-                .status(NotificationStatusBaseEntity.RECEIVED)
-                .side(NotificationSideBaseEntity.RECEIVER)
-                .description("some description")
-                .createdDate(Instant.now())
-                .build();
+    public void editNotificationRequest(Header authHeader, EditNotificationRequest editNotificationRequest, int notificationId) throws JsonProcessingException {
 
-        return jpaNotificationRepository.save(entity).getId();
+        // when
+        given()
+                .contentType(ContentType.JSON)
+                .body(objectMapper.writeValueAsString(editNotificationRequest))
+                .header(authHeader)
+                .when()
+                .put("/api/notifications/" + notificationId + "/edit")
+                .then()
+                .statusCode(204);
     }
 
-    public Long storeAlertWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt) {
-        return storeAlertWithStatusAndAssets(status, assetsAsBuilt, NotificationSideBaseEntity.RECEIVER);
-    }
-
-    public Long storeAlertWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, NotificationSideBaseEntity side) {
-        NotificationEntity entity = NotificationEntity.builder()
-                .assets(Collections.emptyList())
-                .bpn("BPNL00000003AXS3")
-                .status(status)
-                .side(side)
-                .type(NotificationTypeEntity.ALERT)
-                .createdDate(Instant.now())
-                .build();
-        Long alertId = storedAlert(entity);
-        NotificationEntity savedAlert = jpaNotificationRepository.findById(alertId).get();
-        savedAlert.setAssets(assetsAsBuilt);
-        jpaNotificationRepository.save(savedAlert);
-        return alertId;
-    }
-
-    public Long storedAlert(NotificationEntity alert) {
-        return jpaNotificationRepository.save(alert).getId();
-    }
-
-    public void assertInvestigationsSize(int size) {
-        List<NotificationEntity> investigations = jpaNotificationRepository.findAll();
-
-        assertThat(investigations).hasSize(size);
-    }
-
-    public void assertInvestigationStatus(NotificationStatus investigationStatus) {
-        jpaNotificationRepository.findAll().forEach(
-                investigation -> assertThat(investigation.getStatus().name()).isEqualTo(investigationStatus.name())
-        );
-    }
 }
