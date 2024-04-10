@@ -27,6 +27,6 @@ version: 0.0.1
 appVersion: 0.0.1
 
 dependencies:
-  - name: registry
-    version: 0.3.22
+  - name: digital-twin-registry
+    version: 0.4.9
     repository: https://eclipse-tractusx.github.io/sldt-digital-twin-registry
