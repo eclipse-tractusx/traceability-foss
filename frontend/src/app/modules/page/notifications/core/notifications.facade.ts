@@ -17,21 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
-import { NotificationsState } from '@page/notifications/core/notifications.state';
-import { provideDataObject } from '@page/parts/core/parts.helper';
-import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { TableHeaderSort } from '@shared/components/table/table.model';
+import {Injectable} from '@angular/core';
+import {NotificationsState} from '@page/notifications/core/notifications.state';
+import {provideDataObject} from '@page/parts/core/parts.helper';
+import {NotificationChannel} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {TableHeaderSort} from '@shared/components/table/table.model';
 import {
   Notification,
   NotificationDeeplinkFilter,
   Notifications,
   NotificationStatus,
 } from '@shared/model/notification.model';
-import { Severity } from '@shared/model/severity.model';
-import { View } from '@shared/model/view.model';
-import { NotificationService } from '@shared/service/notification.service';
-import { Observable, Subscription } from 'rxjs';
+import {Severity} from '@shared/model/severity.model';
+import {View} from '@shared/model/view.model';
+import {NotificationService} from '@shared/service/notification.service';
+import {Observable, Subscription} from 'rxjs';
+import {DateTimeString} from "@shared/components/dateTime/dateTime.component";
 
 @Injectable()
 export class NotificationsFacade {
@@ -110,8 +111,8 @@ export class NotificationsFacade {
     return this.notificationService.editNotification(notificationId, title, bpn, severity, targetDate, description, affectedPartIds);
   }
 
-  public createNotification(partIds: string[], type: string, title: string, bpn: string, severity: Severity, targetDate: string, description: string): Observable<string> {
-    return this.notificationService.createNotification(partIds, description, severity, bpn, true, type, title, targetDate)
+  public createNotification(partIds: string[], type: string, title: string, bpn: string, severity: Severity, targetDate: DateTimeString, description: string): Observable<string> {
+    return this.notificationService.createNotification(partIds, description, severity, bpn, type, title, targetDate)
   }
 
 }

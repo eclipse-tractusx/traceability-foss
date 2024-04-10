@@ -213,7 +213,6 @@ export class PartsDetailComponent {
   }
 
   navigateToNotificationCreationView() {
-    console.log(this.router.routerState.snapshot.url);
     this.router.navigate(['inbox/create'])
 }
 

@@ -17,29 +17,31 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
-import { Pagination } from '@core/model/pagination.model';
-import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
-import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
-import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { PartsFacade } from '@page/parts/core/parts.facade';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part } from '@page/parts/model/parts.model';
-import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { toAssetFilter } from '@shared/helper/filter-helper';
-import { Notification, NotificationType } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
+import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {getRoute, NOTIFICATION_BASE_ROUTE} from '@core/known-route';
+import {Pagination} from '@core/model/pagination.model';
+import {DEFAULT_PAGE_SIZE, FIRST_PAGE} from '@core/pagination/pagination.model';
+import {NotificationDetailFacade} from '@page/notifications/core/notification-detail.facade';
+import {NotificationsFacade} from '@page/notifications/core/notifications.facade';
+import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
+import {PartsFacade} from '@page/parts/core/parts.facade';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {Part} from '@page/parts/model/parts.model';
+import {NotificationActionHelperService} from '@shared/assembler/notification-action-helper.service';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {
+  NotificationCommonModalComponent
+} from '@shared/components/notification-common-modal/notification-common-modal.component';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {ToastService} from '@shared/components/toasts/toast.service';
+import {toAssetFilter} from '@shared/helper/filter-helper';
+import {Notification, NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import {first, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-notification-edit',
@@ -92,12 +94,10 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
     this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
       this.temporaryAffectedParts = parts;
-      console.log(parts);
     });
 
     this.currentSelectedAffectedParts$.subscribe((parts: Part[]) => {
       this.temporaryAffectedPartsForRemoval = parts;
-      console.log(parts);
     });
 
     this.paramSubscription = this.route.queryParams.subscribe(params => {
@@ -109,6 +109,12 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
     this.isSaveButtonDisabled = notificationFormGroup.invalid;
     this.notificationFormGroup = notificationFormGroup;
+
+    // if user switches type of notification in creation mode, reset affected parts and reload new available parts
+    if(this.selectedNotification.type !== notificationFormGroup.value['type']) {
+      this.selectedNotification.type = notificationFormGroup.value['type'];
+      this.switchSelectedNotificationTypeAndResetParts();
+    }
   }
 
   filterAffectedParts(partsFilter: any): void {
@@ -121,14 +127,17 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public clickedSave(): void {
-    const { title, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
+    const { title,  type, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
     if(this.editMode) {
         this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
             next: () => this.toastService.success('requestNotification.saveSuccess'),
             error: (error) => this.toastService.error('requestNotification.saveError'),
         });
     } else {
-        this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description);
+        this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
+          next: () => this.toastService.success('requestNotification.saveSuccess'),
+          error: (error) => this.toastService.error('requestNotification.saveError')
+        });
     }
   }
 
@@ -140,7 +149,24 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected.data);
       }
     } else {
-      // TODO: initialize new Notification?
+      // TODO: input asset Ids from router
+      const newNotification: Notification = {
+        assetIds: [],
+        createdBy: '',
+        type: NotificationType.INVESTIGATION,
+        createdByName: '',
+        createdDate: undefined,
+        description: '',
+        isFromSender: true,
+        reason: undefined,
+        sendTo: '',
+        sendToName: '',
+        severity: undefined,
+        status: undefined,
+        title: '',
+        id: 'abc',
+      };
+      this.selectNotificationAndLoadPartsBasedOnNotification(newNotification);
     }
   }
 
@@ -250,6 +276,13 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = notification.assetIds;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, false);
+  }
+
+  private switchSelectedNotificationTypeAndResetParts() {
+    this.selectedNotification.assetIds = [];
+    this.affectedPartIds = [];
+    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
   }
 
   protected readonly TableType = TableType;
