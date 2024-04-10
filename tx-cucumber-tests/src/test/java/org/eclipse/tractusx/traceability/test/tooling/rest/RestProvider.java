@@ -100,7 +100,6 @@ public class RestProvider {
             NotificationTypeEnum notificationType) {
         final StartNotificationRequest requestBody = StartNotificationRequest.builder()
                 .affectedPartIds(partIds)
-                .isAsBuilt(true)
                 .description(description)
                 .targetDate(targetDate)
                 .severity(NotificationSeverityRequest.fromValue(severity))
