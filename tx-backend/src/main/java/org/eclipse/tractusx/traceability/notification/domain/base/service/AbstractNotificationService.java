@@ -128,6 +128,7 @@ public abstract class AbstractNotificationService implements NotificationService
             notification.setAffectedPartIds(editNotification.getAffectedPartIds());
         }
 
+
         getNotificationRepository().updateNotificationAndMessage(notification);
     }
 

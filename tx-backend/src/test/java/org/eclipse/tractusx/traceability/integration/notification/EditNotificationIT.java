@@ -10,7 +10,6 @@ import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
 import notification.response.NotificationResponse;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
@@ -130,7 +129,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
         String editedDescription = "at least 15 characters long investigation description which was edited";
 
         String editedTitle = "changed title";
-        val request = EditNotificationRequest.builder()
+        val editNotificationRequest = EditNotificationRequest.builder()
                 .affectedPartIds(partIds)
                 .description(editedDescription)
                 .title(editedTitle)
@@ -139,7 +138,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .build();
 
         // when
-        notificationAPISupport.editNotificationRequest(authHeader, request, id);
+        notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id);
 
         // then
         notificationMessageSupport.assertMessageSize(2);
@@ -147,6 +146,15 @@ class EditNotificationIT extends IntegrationTestSpecification {
         PageResult<NotificationResponse> notificationResponsePageResult
                 = notificationAPISupport.getNotificationsRequest(authHeader);
 
-        assertThat(notificationResponsePageResult.content().size()).isEqualTo(1);
+        NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
+        assertThat(notificationResponse.getId()).isEqualTo(id);
+        assertThat(notificationResponse.getDescription()).isEqualTo(editNotificationRequest.getDescription());
+        assertThat(notificationResponse.getTitle()).isEqualTo(editNotificationRequest.getTitle());
+        assertThat(notificationResponse.getAssetIds()).hasSize(editNotificationRequest.getAffectedPartIds().size());
+        assertThat(notificationResponse.getSeverity().getRealName()).isEqualTo(editNotificationRequest.getSeverity().getRealName());
+        assertThat(notificationResponsePageResult.content()).hasSize(1);
+        assertThat(notificationResponse.getMessages().get(0).getSeverity().getRealName()).isEqualTo(editNotificationRequest.getSeverity().getRealName());
+        assertThat(notificationResponse.getMessages().get(0).getTargetDate()).isEqualTo(editNotificationRequest.getTargetDate());
+
     }
 }

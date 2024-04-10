@@ -61,6 +61,7 @@ public class NotificationResponseMapper {
                 ))
                 .sendTo(getReceiverBPN(notification.getNotifications()))
                 .sendToName(getReceiverName(notification.getNotifications()))
+                // TODO severity should not be inside the notification it should be in the message
                 .severity(NotificationMessageMapper.from(notification.getNotifications().stream().findFirst().map(NotificationMessage::getSeverity).orElse(NotificationSeverity.MINOR)))
                 .targetDate(notification.getNotifications().stream().findFirst().map(NotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
                 .messages(fromNotifications(notification.getNotifications()))
