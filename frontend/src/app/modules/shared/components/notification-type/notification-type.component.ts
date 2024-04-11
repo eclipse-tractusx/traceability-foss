@@ -17,4 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+import { Component, Input } from '@angular/core';
+import { NotificationType } from '@shared/model/notification.model';
+
+@Component({
+  selector: 'app-notification-type',
+  templateUrl: './notification-type.component.html',
+  styleUrls: [ './notification-type.component.scss' ],
+})
+export class NotificationTypeComponent {
+  @Input() notificationType: NotificationType;
+
+  public getIconByNotificationType(notificationType: NotificationType): string {
+    const iconMap = new Map<NotificationType, string>([
+      [ NotificationType.INVESTIGATION, 'search' ],
+      [ NotificationType.ALERT, 'warning' ]
+    ]);
+    return iconMap.get(notificationType) || '';
+  }
+}

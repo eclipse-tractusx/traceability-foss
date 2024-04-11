@@ -17,4 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+import { Component, Inject, Injector, Input } from '@angular/core';
+import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
+import { SelectOption } from '@shared/components/select/select.component';
+import { NotificationType } from '@shared/model/notification.model';
+import { StaticIdService } from '@shared/service/staticId.service';
+
+@Component({
+  selector: 'app-type-select',
+  templateUrl: './type-select.component.html',
+})
+export class TypeSelectComponent extends BaseInputComponent<NotificationType> {
+  @Input() translationContext: string;
+
+  public options: SelectOption[] = Object.values(NotificationType).map(value => ({ label: value, value }));
+
+  constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
+    super(injector, staticIdService);
+  }
+}

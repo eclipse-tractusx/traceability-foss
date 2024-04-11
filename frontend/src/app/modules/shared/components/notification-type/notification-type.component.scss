@@ -17,4 +17,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+.severity {
+  &__container {
+    display: flex;
+    align-items: center;
+    color: currentColor;
+  }
+
+  &__MINOR {
+    @apply text-severityMinor;
+  }
+
+  &__MAJOR {
+    @apply text-severityMajor;
+  }
+
+  &__CRITICAL {
+    @apply text-severityCritical;
+  }
+
+  &__LIFE-THREATENING {
+    @apply text-severityLifeThreatening;
+  }
+}

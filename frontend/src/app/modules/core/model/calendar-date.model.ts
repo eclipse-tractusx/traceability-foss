@@ -41,4 +41,8 @@ export class CalendarDateModel {
   valueOf() {
     return this.date;
   }
+
+  isInitial(): boolean {
+    return this.date.getFullYear() === 1970;
+  }
 }

@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
 import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
 import { NotificationsComponent } from '@page/notifications/presentation/notifications.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
@@ -36,6 +37,13 @@ const NOTIFICATIONS_ROUTING: Routes = [
     path: ':notificationId',
     pathMatch: 'full',
     component: NotificationDetailComponent,
+    data: { i18nextNamespaces: [ 'page.alert' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+  {
+    path: ':notificationId/edit',
+    pathMatch: 'full',
+    component: NotificationEditComponent,
     data: { i18nextNamespaces: [ 'page.alert' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },

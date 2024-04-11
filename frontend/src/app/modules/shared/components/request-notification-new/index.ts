@@ -17,4 +17,4 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+export { RequestNotificationNewComponent } from '@shared/components/request-notification-new/notification-new-request.component';

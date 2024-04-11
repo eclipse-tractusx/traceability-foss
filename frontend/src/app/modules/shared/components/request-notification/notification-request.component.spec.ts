@@ -19,16 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {LayoutModule} from '@layout/layout.module';
-import {OtherPartsModule} from '@page/other-parts/other-parts.module';
-import {NotificationType} from '@shared/model/notification.model';
-import {SharedModule} from '@shared/shared.module';
-import {fireEvent, screen, waitFor} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {sleepForTests} from '../../../../../test';
-import {RequestNotificationComponent} from '@shared/components/request-notification/request-notification.component';
-import {NotificationService} from "@shared/service/notification.service";
-import { of } from 'rxjs';
+import { LayoutModule } from '@layout/layout.module';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
+import { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+import { NotificationType } from '@shared/model/notification.model';
+import { NotificationService } from '@shared/service/notification.service';
+import { SharedModule } from '@shared/shared.module';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { sleepForTests } from '../../../../../test';
 
 
 describe('requestNotificationComponent', () => {
@@ -171,7 +170,6 @@ describe('requestNotificationComponent', () => {
     fireEvent.click(submit);
 
     await sleepForTests(2000);
-    debugger;
     expect(textArea.value).toEqual('');
   };
 });
