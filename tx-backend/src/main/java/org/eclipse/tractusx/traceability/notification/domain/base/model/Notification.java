@@ -23,6 +23,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
@@ -75,15 +76,15 @@ public class Notification {
                 .build();
     }
 
-    public void clearNotifications(){
+    public void clearNotifications() {
         notifications = new ArrayList<>();
     }
-    public void createInitialNotifications(List<AssetBase> affectedParts, BPN applicationBPN, EditNotification editNotification) {
 
+    public void createInitialNotifications(List<AssetBase> affectedParts, BPN applicationBPN, EditNotification editNotification, List<BpnEdcMapping> bpnEdcMappings) {
 
         if (editNotification.getReceiverBpn() != null) {
             Map.Entry<String, List<AssetBase>> receiverAssetsMap = new AbstractMap.SimpleEntry<>(editNotification.getReceiverBpn(), affectedParts);
-
+            Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.getBpn().equals(editNotification.getReceiverBpn())).findFirst().map(BpnEdcMapping::getManufacturerName);
             NotificationMessage notificationMessage = NotificationMessage.create(
                     applicationBPN,
                     editNotification.getReceiverBpn(),
@@ -93,7 +94,7 @@ public class Notification {
                     this.notificationType,
                     receiverAssetsMap,
                     applicationBPN.value(),
-                    editNotification.getReceiverBpn());
+                    sentToName.orElse(null));
 
             this.addNotificationMessage(notificationMessage);
 
@@ -104,17 +105,18 @@ public class Notification {
                     .entrySet()
                     .stream()
                     .map(receiverAssetsMapEntry -> {
-                        String receiver = receiverAssetsMapEntry.getKey();
+                        String sentToBPN = receiverAssetsMapEntry.getKey();
+                        Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.getBpn().equals(sentToBPN)).findFirst().map(BpnEdcMapping::getManufacturerName);
                         return NotificationMessage.create(
                                 applicationBPN,
-                                receiver,
+                                sentToBPN,
                                 editNotification.getDescription(),
                                 editNotification.getTargetDate(),
                                 editNotification.getSeverity(),
                                 this.notificationType,
                                 receiverAssetsMapEntry,
                                 applicationBPN.value(),
-                                editNotification.getReceiverBpn());
+                                sentToName.orElse(null));
                     })
                     .forEach(this::addNotificationMessage);
         }

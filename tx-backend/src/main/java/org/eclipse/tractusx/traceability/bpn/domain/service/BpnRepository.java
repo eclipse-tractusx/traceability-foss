@@ -25,7 +25,6 @@ import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public interface BpnRepository {
 
@@ -42,5 +41,7 @@ public interface BpnRepository {
     String findManufacturerName(String manufacturerId);
 
     void updateManufacturers(Map<String, String> bpns);
+
+    List<BpnEdcMapping> findAllByIdIn(List<String> bpns);
 
 }
