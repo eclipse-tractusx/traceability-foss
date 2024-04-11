@@ -19,14 +19,14 @@ SPDX-License-Identifier: Apache-2.0
 
 
 <div class="table-header-wrapper">
-  <div class="table-header-container">
+  <div *ngIf="tableHeader" class="table-header-container">
     <div class="large-text table--header--text">{{tableHeader}}
       <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
         settings
       </mat-icon>
     </div>
     <div class="table&#45;&#45;selected__container">
-      <p
+      <p *ngIf="selectedPartsInfoLabel"
         class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
       <div class="table--header--select--button"
            matTooltip="{{(mainAspectType === MainAspectType.AS_PLANNED ? 'routing.notAllowedForAsPlanned' : 'routing.unauthorized') | i18n}}"
@@ -115,7 +115,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngSwitchCase="'select'">
         <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
       </ng-container>
-      <ng-container *ngSwitchCase="'menu'">
+      <ng-container   *ngSwitchCase="'menu'">
         <ng-container *ngTemplateOutlet="MenuColumn"></ng-container>
       </ng-container>
       <ng-container *ngSwitchDefault>
@@ -315,12 +315,12 @@ SPDX-License-Identifier: Apache-2.0
       </ng-container>
     </ng-template>
 
-    <ng-template #MenuColumn>
+    <ng-template  #MenuColumn>
       <ng-container matColumnDef="menu" stickyEnd>
         <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
         <td *matCellDef="let row" class="table--menu" mat-cell
             [attr.colspan]="tableConfig.displayedColumns.length">
-          <div class="table--menu__desktop">
+          <div [hidden]="!menuActivated" class="table--menu__desktop">
             <button
               [matMenuTriggerFor]="menu"
               [attr.aria-label]="'table.menuDescription' | i18n"

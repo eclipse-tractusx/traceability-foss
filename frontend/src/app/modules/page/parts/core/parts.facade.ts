@@ -32,6 +32,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 @Injectable()
 export class PartsFacade {
   private partsAsBuiltSubscription: Subscription;
+  private partsAsBuiltSubscriptionSecond: Subscription;
   private partsAsPlannedSubscription: Subscription;
   private readonly unsubscribeTrigger = new Subject<void>();
 
@@ -42,11 +43,23 @@ export class PartsFacade {
     return this.partsState.partsAsBuilt$;
   }
 
+  public get partsAsBuiltSecond$(): Observable<View<Pagination<Part>>> {
+    return this.partsState.partsAsBuilt$;
+  }
+
   public get partsAsPlanned$(): Observable<View<Pagination<Part>>> {
     return this.partsState.partsAsPlanned$;
   }
 
   public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
+    this.partsAsBuiltSubscription?.unsubscribe();
+    this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
+      next: data => (this.partsState.partsAsBuilt = { data: provideDataObject(data) }),
+      error: error => (this.partsState.partsAsBuilt = { error }),
+    });
+  }
+
+  public setPartsAsBuiltSecond(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscription?.unsubscribe();
     this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
       next: data => (this.partsState.partsAsBuilt = { data: provideDataObject(data) }),

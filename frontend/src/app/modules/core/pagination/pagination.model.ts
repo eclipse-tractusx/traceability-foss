@@ -17,4 +17,5 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+export const DEFAULT_PAGE_SIZE = 50
+export const FIRST_PAGE = 0;
