@@ -120,7 +120,7 @@ export class NotificationService {
     if(targetDate) {
       targetDate = new Date(targetDate).toISOString();
     }
-    const body = { title, receiverBpn: receiverBpn, severity, targetDate, description, affectedPartIds: affectedPartIds };
+    const body = { title: title === "" ? null: title, receiverBpn: receiverBpn, severity, targetDate, description, affectedPartIds: affectedPartIds };
     return this.apiService.put<void>(`${ requestUrl }/${ notificationId }/edit`, body);
   }
 
