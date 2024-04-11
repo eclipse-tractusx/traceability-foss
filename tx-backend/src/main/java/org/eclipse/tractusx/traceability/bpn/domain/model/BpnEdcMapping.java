@@ -19,9 +19,6 @@
 
 package org.eclipse.tractusx.traceability.bpn.domain.model;
 
-import lombok.Getter;
-
-@Getter
 public record BpnEdcMapping(String bpn, String url, String manufacturerName) {
 
 }
