@@ -29,8 +29,8 @@ public enum Aspect {
     SERIAL_PART("urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"),
     // TODO: update to urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt, when its available in the semantic hub
     SINGLE_LEVEL_BOM_AS_BUILT("urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"), // We are currently not able to use the 2.0.0 version, because this version is not available in the semantic hub https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built and IRS is not able to map the 2.0.0 version. We have to use the full urn because of https://github.com/eclipse-tractusx/traceability-foss/issues/823 (since irs 4.8.0)
-    SINGLE_LEVEL_USAGE_AS_BUILT("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt"),
-    SINGLE_LEVEL_BOM_AS_PLANNED("urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned"),
+    SINGLE_LEVEL_USAGE_AS_BUILT("urn:bamm:io.catenax.single_level_usage_as_built:1.0.0#SingleLevelUsageAsBuilt"),
+    SINGLE_LEVEL_BOM_AS_PLANNED("urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"),
     PART_SITE_INFORMATION_AS_PLANNED("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"),
     PART_AS_PLANNED("urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"),
     JUST_IN_SEQUENCE_PART("urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"),
