@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
@@ -53,6 +55,7 @@ public abstract class AbstractNotificationService implements NotificationService
     private final TraceabilityProperties traceabilityProperties;
     private final NotificationPublisherService notificationPublisherService;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
+    private final BpnRepository bpnRepository;
 
     private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "messages_severity", "type");
 
@@ -109,12 +112,14 @@ public abstract class AbstractNotificationService implements NotificationService
     public void editNotification(EditNotification editNotification) {
         Notification notification = loadOrNotFoundException(new NotificationId(editNotification.getId()));
         List<AssetBase> affectedParts = assetAsBuiltRepository.getAssetsById(editNotification.getAffectedPartIds());
+        List<BpnEdcMapping> bpnMappings = bpnRepository.findAllByIdIn(affectedParts.stream().map(AssetBase::getManufacturerId).toList());
+
         List<String> oldMessageIds =
                 notification.getNotifications().stream().map(NotificationMessage::getId).toList();
 
         getNotificationRepository().deleteByIdIn(oldMessageIds);
         notification.clearNotifications();
-        notification.createInitialNotifications(affectedParts, traceabilityProperties.getBpn(), editNotification);
+        notification.createInitialNotifications(affectedParts, traceabilityProperties.getBpn(), editNotification, bpnMappings);
         if (editNotification.getReceiverBpn() != null) {
             notification.setBpn(BPN.of(editNotification.getReceiverBpn()));
         }

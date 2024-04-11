@@ -74,6 +74,7 @@ export class TableComponent {
       icon: 'edit',
       action: (data: Record<string, unknown>) => this.editClicked.emit(data),
       condition: data => this.isEditable(data),
+      isAuthorized: this.roleService.isSupervisor(),
     };
 
     const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction, ...menuActions ] : null;

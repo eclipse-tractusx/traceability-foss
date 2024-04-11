@@ -32,7 +32,7 @@ export class NotificationActionHelperService {
   }
 
   public isAtLeastSupervisor(): boolean {
-    return this.roleService.isAtLeastSupervisor();
+    return this.roleService.isSupervisor();
   }
 
   public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
@@ -62,9 +62,9 @@ export class NotificationActionHelperService {
 
   public isAuthorizedForButton(action: NotificationAction): boolean {
     if (action === NotificationAction.APPROVE || action === NotificationAction.CLOSE) {
-      return this.roleService.isAtLeastSupervisor();
+      return this.roleService.isSupervisor();
     } else {
-      return this.roleService.isAtLeastUser();
+      return this.roleService.isUser();
     }
   }
 }
