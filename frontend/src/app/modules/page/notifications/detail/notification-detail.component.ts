@@ -198,7 +198,7 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   private selectedNotificationBasedOnUrl(): void {
     const notificationId = this.route.snapshot.paramMap.get('notificationId');
     this.notificationsFacade
-      .getNotification(notificationId)
+      .getNotificationById(notificationId)
       .pipe(
         first(),
         tap(notification => (this.notificationDetailFacade.selected = { data: notification })),

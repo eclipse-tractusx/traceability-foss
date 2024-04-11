@@ -40,7 +40,6 @@ import { Notification, NotificationType } from '@shared/model/notification.model
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { first, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notification-edit',
@@ -268,16 +267,15 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     const notificationId = this.route.snapshot.paramMap.get('notificationId');
 
     this.notificationsFacade
-      .getNotification(notificationId)
-      .pipe(
-        first(),
-        tap(notification => {
-          this.notificationDetailFacade.selected = { data: notification };
-          this.selectNotificationAndLoadPartsBasedOnNotification(notification);
+      .getNotificationById(notificationId)
+      .subscribe({
+        next: data => {
+          this.selectNotificationAndLoadPartsBasedOnNotification(data);
+        },
+        error: (error: Error) => {
+        },
+      });
 
-        }),
-      )
-      .subscribe();
   }
 
   private selectNotificationAndLoadPartsBasedOnNotification(notification: Notification) {

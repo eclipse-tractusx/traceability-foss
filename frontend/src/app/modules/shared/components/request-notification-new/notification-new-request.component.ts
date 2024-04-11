@@ -35,6 +35,7 @@ import { filter, tap } from 'rxjs/operators';
 export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   @Input() title: string;
   @Input() editMode: boolean;
+  @Input() notification: Notification;
   @Output() formGroupChanged = new EventEmitter<FormGroup>();
 
 
@@ -60,7 +61,31 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   ngOnInit(): void {
 
     if (this.editMode) {
-      this.selected$ = this.notificationDetailFacade.selected$;
+    //  this.selected$ = this.notificationDetailFacade.selected$;
+console.log(this.notification, "noti");
+        const { title, description, severity, type, sendTo, targetDate } = this.notification;
+      this.formGroup.setValue({
+        'title': title,
+        'description': description,
+        'severity': severity,
+        'type': type,
+        'bpn': sendTo,
+        'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
+      });
+      if (this.editMode) {
+        this.formGroup.get('type').disable();
+      }
+      console.log(this.notification, "data?");
+      if (this.notification.type === NotificationType.INVESTIGATION) {
+        this.formGroup.get('bpn').disable();
+      }
+
+      if(this.notification.type === NotificationType.ALERT) {
+        this.formGroup.get('bpn').setValidators(Validators.required);
+      }
+
+      this.formGroupChanged.emit(this.formGroup);
+
     }
     this.formGroup.valueChanges.subscribe(value => {
       //TODO: For Create, check here or in parent if the part tables should update (depending on passed partId, investigation or alert type)
@@ -68,11 +93,12 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     });
 
     if (this.selected$) {
+      console.log("GO?");
       this.subscription = this.selected$
         .pipe(
           filter(({ data }) => !!data),
           tap(({ data }) => {
-            console.log(data);
+           console.log(data, "data...");
             const { title, description, severity, type, sendTo, targetDate } = data;
             this.formGroup.setValue({
               'title': title,
@@ -85,6 +111,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
             if (this.editMode) {
               this.formGroup.get('type').disable();
             }
+            console.log(data, "data?");
             if (data.type === NotificationType.INVESTIGATION) {
               this.formGroup.get('bpn').disable();
             }

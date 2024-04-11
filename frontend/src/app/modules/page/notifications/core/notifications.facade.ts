@@ -53,7 +53,7 @@ export class NotificationsFacade {
     return this.notificationsState.notificationsQueuedAndRequested$;
   }
 
-  public getNotification(id: string): Observable<Notification> {
+  public getNotificationById(id: string): Observable<Notification> {
     return this.notificationService.getNotificationById(id);
   }
 

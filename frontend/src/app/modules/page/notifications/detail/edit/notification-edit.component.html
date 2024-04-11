@@ -52,10 +52,11 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="detail--wrapper" >
     <mat-card class="notification-request-card">
-      <app-notification-new-request
+      <app-notification-new-request *ngIf="selectedNotification"
         data-testid="app-notification-new-request"
         [title]="editMode ? 'requestNotification.editNotificationHeader' : 'requestNotification.createNotificationHeader'"
       [editMode]="editMode"
+        [notification]="selectedNotification"
       (formGroupChanged)="notificationFormGroupChange($event)">
       </app-notification-new-request>
     </mat-card>
