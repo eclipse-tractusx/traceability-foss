@@ -229,7 +229,8 @@
     "textAreaDescription": "",
     "saveNotAllowed": "Erfordert eine valide Eingabe im Formular",
     "saveSuccess": "Qualitätsthema wurde erfolgreich aktualisiert",
-    "saveError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten"
+    "saveError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten",
+    "save": "Qualitätsthema speichern"
   },
   "editNotification": {
     "saveButton": "Speichern",

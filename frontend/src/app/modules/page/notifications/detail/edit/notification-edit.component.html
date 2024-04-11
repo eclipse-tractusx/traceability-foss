@@ -31,21 +31,19 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div class="detail--action">
     <div class="detail--action--button"
-         matTooltip="{{'requestNotification.saveNotAllowed' | i18n}}"
+         matTooltip="{{(isSaveButtonDisabled ? 'requestNotification.saveNotAllowed' : 'requestNotification.save') | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
          [style.cursor]="'not-allowed'"
-         [matTooltipDisabled]="!isSaveButtonDisabled"
     >
       <app-button
         (click)="clickedSave()"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAtLeastSupervisor() || isSaveButtonDisabled">
         <div class="flex justify-between items-center">
-          <mat-icon class="mr-2">save</mat-icon>
-          {{ 'editNotification.saveButton' | i18n }}
+          <mat-icon>save</mat-icon>
         </div>
       </app-button>
     </div>
@@ -80,22 +78,21 @@ SPDX-License-Identifier: Apache-2.0
 
 
           <div
-            matTooltip="{{'requestNotification.modifyNotAllowed' | i18n}}"
+            matTooltip="{{ temporaryAffectedPartsForRemoval.length > 0 ? 'requestNotification.remove' : 'requestNotification.modifyNotAllowed' | i18n}}"
             matTooltipClass="table--header--tooltip"
-            matTooltipPosition="above"
+            matTooltipPosition="before"
             [class.mdc-tooltip--multiline]="true"
             [matTooltipShowDelay]="1000"
             [style.cursor]="'not-allowed'"
-            [matTooltipDisabled]="temporaryAffectedPartsForRemoval.length > 0"
             class="mt-1 mb-2"
           >
             <app-button
               (click)="removeAffectedParts()"
               [isDisabled]="temporaryAffectedPartsForRemoval.length < 1"
-              [variant]="'raised'"
+              [variant]="'stroked'"
               [color]="'primary'"
+              [iconName]="'delete'"
             >
-              {{'requestNotification.remove' | i18n}}
             </app-button>
           </div>
           <!-- asBuilt Parts Table-->
@@ -133,23 +130,22 @@ SPDX-License-Identifier: Apache-2.0
 
 
          <div
-           matTooltip="{{'requestNotification.modifyNotAllowed' | i18n}}"
+           matTooltip="{{temporaryAffectedParts.length > 0 ? 'requestNotification.add' : 'requestNotification.modifyNotAllowed' | i18n}}"
            matTooltipClass="table--header--tooltip"
-           matTooltipPosition="above"
+           matTooltipPosition="before"
            [class.mdc-tooltip--multiline]="true"
            [matTooltipShowDelay]="1000"
            [style.cursor]="'not-allowed'"
-           [matTooltipDisabled]="temporaryAffectedParts.length > 0"
            class="mt-1 mb-2"
          >
            <app-button
              (click)="addAffectedParts()"
              [isDisabled]="temporaryAffectedParts.length < 1"
-             [variant]="'raised'"
+             [variant]="'stroked'"
              [color]="'primary'"
+             [iconName]="'add'"
 
            >
-             {{'requestNotification.add' | i18n}}
            </app-button>
          </div>
          <app-parts-table   *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"

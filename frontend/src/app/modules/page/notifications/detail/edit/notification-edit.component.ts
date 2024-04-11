@@ -25,6 +25,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
+import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
@@ -88,6 +89,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
+    private readonly sharedPartIdsService: SharedPartIdsService
   ) {
 
     this.editMode = this.route.snapshot.url[this.route.snapshot.url.length - 1].path === 'edit';
@@ -109,6 +111,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
     this.isSaveButtonDisabled = notificationFormGroup.invalid;
     this.notificationFormGroup = notificationFormGroup;
+    console.log(notificationFormGroup);
 
     // if user switches type of notification in creation mode, reset affected parts and reload new available parts
     if(this.selectedNotification.type !== notificationFormGroup.value['type']) {
@@ -130,18 +133,25 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     const { title,  type, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
     if(this.editMode) {
         this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
-            next: () => this.toastService.success('requestNotification.saveSuccess'),
+            next: () => {
+              this.navigateBackToNotifications();
+              this.toastService.success('requestNotification.saveSuccess')
+            },
             error: (error) => this.toastService.error('requestNotification.saveError'),
         });
     } else {
         this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
-          next: () => this.toastService.success('requestNotification.saveSuccess'),
+          next: () => {
+            this.toastService.success('requestNotification.saveSuccess')
+            this.navigateBackToNotifications();
+          },
           error: (error) => this.toastService.error('requestNotification.saveError')
         });
     }
   }
 
   public ngAfterViewInit(): void {
+    console.log(this.sharedPartIdsService.sharedPartIds);
     if (this.editMode) {
       if (!this.notificationDetailFacade.selected?.data) {
         this.selectedNotificationBasedOnUrl();
@@ -151,7 +161,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     } else {
       // TODO: input asset Ids from router and set notification type based on my parts (alert) / other parts (investigations) origin
       const newNotification: Notification = {
-        assetIds: [],
+        assetIds: this.sharedPartIdsService.sharedPartIds,
         createdBy: '',
         type: NotificationType.INVESTIGATION,
         createdByName: '',

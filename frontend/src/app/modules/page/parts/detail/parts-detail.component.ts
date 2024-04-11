@@ -1,22 +1,23 @@
-import {Location} from '@angular/common';
-import {Component, Input} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {RoleService} from '@core/user/role.service';
-import {TractionBatteryCode} from '@page/parts/model/aspectModels.model';
-import {Owner} from '@page/parts/model/owner.enum';
+import { Location } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RoleService } from '@core/user/role.service';
+import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
+import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
+import { Owner } from '@page/parts/model/owner.enum';
 
-import {ImportState, Part, QualityType} from '@page/parts/model/parts.model';
-import {PartsAssembler} from '@shared/assembler/parts.assembler';
-import {SelectOption} from '@shared/components/select/select.component';
-import {NotificationType} from '@shared/model/notification.model';
-import {State} from '@shared/model/state';
-import {View} from '@shared/model/view.model';
-import {NotificationAction} from '@shared/modules/notification/notification-action.enum';
+import { ImportState, Part, QualityType } from '@page/parts/model/parts.model';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { SelectOption } from '@shared/components/select/select.component';
+import { NotificationType } from '@shared/model/notification.model';
+import { State } from '@shared/model/state';
+import { View } from '@shared/model/view.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-parts-detail',
@@ -63,7 +64,7 @@ export class PartsDetailComponent {
   public currentPartId: string;
   public pageIndexHistory: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}
 
-  constructor(public readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location) {
+  constructor(public readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location, private sharedPartIdsService: SharedPartIdsService) {
 
     this.currentPartId = this.route.snapshot.params['partId'];
     this.partDetailsFacade.setPartById(this.currentPartId);
@@ -213,7 +214,8 @@ export class PartsDetailComponent {
   }
 
   navigateToNotificationCreationView() {
-    this.router.navigate(['inbox/create'])
+    this.router.navigate(['inbox/create']);
+    this.sharedPartIdsService.sharedPartIds = [this.currentPartId];
 }
 
 

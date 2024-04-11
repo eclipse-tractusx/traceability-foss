@@ -43,7 +43,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     'description': new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]),
     'severity': new FormControl(Severity.MINOR, [ Validators.required ]),
     'targetDate': new FormControl(null),
-    'bpn': new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
+    'bpn': new FormControl(null, [ BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
     'type': new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]),
   });
   public selected$: Observable<View<Notification>>;
@@ -59,19 +59,20 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
 
-    if(this.editMode) {
+    if (this.editMode) {
       this.selected$ = this.notificationDetailFacade.selected$;
     }
     this.formGroup.valueChanges.subscribe(value => {
       //TODO: For Create, check here or in parent if the part tables should update (depending on passed partId, investigation or alert type)
       this.formGroupChanged.emit(this.formGroup);
-    })
+    });
 
-    if(this.selected$) {
+    if (this.selected$) {
       this.subscription = this.selected$
         .pipe(
           filter(({ data }) => !!data),
           tap(({ data }) => {
+            console.log(data);
             const { title, description, severity, type, sendTo, targetDate } = data;
             this.formGroup.setValue({
               'title': title,
@@ -84,6 +85,14 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
             if (this.editMode) {
               this.formGroup.get('type').disable();
             }
+            if (data.type === NotificationType.INVESTIGATION) {
+              this.formGroup.get('bpn').disable();
+            }
+
+            if(data.type === NotificationType.ALERT) {
+              this.formGroup.get('bpn').setValidators(Validators.required);
+            }
+
             this.formGroupChanged.emit(this.formGroup);
           }),
         )

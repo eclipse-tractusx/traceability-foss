@@ -229,7 +229,8 @@
     "textAreaDescription": "",
     "saveNotAllowed": "Requires valid form input",
     "saveSuccess": "Quality topic was updated successfully",
-    "saveError": "An error occurred while updating the quality topic"
+    "saveError": "An error occurred while updating the quality topic",
+    "save": "Save quality topic"
   },
   "editNotification": {
     "saveButton": "Save",
