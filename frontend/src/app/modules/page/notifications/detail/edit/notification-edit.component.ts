@@ -17,31 +17,29 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {getRoute, NOTIFICATION_BASE_ROUTE} from '@core/known-route';
-import {Pagination} from '@core/model/pagination.model';
-import {DEFAULT_PAGE_SIZE, FIRST_PAGE} from '@core/pagination/pagination.model';
-import {NotificationDetailFacade} from '@page/notifications/core/notification-detail.facade';
-import {NotificationsFacade} from '@page/notifications/core/notifications.facade';
-import {SharedPartIdsService} from '@page/notifications/detail/edit/shared-part-ids.service';
-import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
-import {PartsFacade} from '@page/parts/core/parts.facade';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {Part} from '@page/parts/model/parts.model';
-import {NotificationActionHelperService} from '@shared/assembler/notification-action-helper.service';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {
-  NotificationCommonModalComponent
-} from '@shared/components/notification-common-modal/notification-common-modal.component';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {ToastService} from '@shared/components/toasts/toast.service';
-import {toAssetFilter} from '@shared/helper/filter-helper';
-import {Notification, NotificationType} from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {StaticIdService} from '@shared/service/staticId.service';
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
+import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
+import { Pagination } from '@core/model/pagination.model';
+import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
+import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
+import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Part } from '@page/parts/model/parts.model';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { toAssetFilter } from '@shared/helper/filter-helper';
+import { Notification, NotificationType } from '@shared/model/notification.model';
+import { View } from '@shared/model/view.model';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notification-edit',
@@ -90,7 +88,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
-    private readonly sharedPartIdsService: SharedPartIdsService
+    private readonly sharedPartIdsService: SharedPartIdsService,
   ) {
 
     this.editMode = this.route.snapshot.url[this.route.snapshot.url.length - 1].path === 'edit';
@@ -125,23 +123,23 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public clickedSave(): void {
-    const { title,  type, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
-    if(this.editMode) {
-        this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
-            next: () => {
-              this.navigateBackToNotifications();
-              this.toastService.success('requestNotification.saveSuccess')
-            },
-            error: (error) => this.toastService.error('requestNotification.saveError'),
-        });
+    const { title, type, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
+    if (this.editMode) {
+      this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
+        next: () => {
+          this.navigateBackToNotifications();
+          this.toastService.success('requestNotification.saveSuccess');
+        },
+        error: (error) => this.toastService.error('requestNotification.saveError'),
+      });
     } else {
-        this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
-          next: () => {
-            this.toastService.success('requestNotification.saveSuccess')
-            this.navigateBackToNotifications();
-          },
-          error: (error) => this.toastService.error('requestNotification.saveError')
-        });
+      this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
+        next: () => {
+          this.toastService.success('requestNotification.saveSuccess');
+          this.navigateBackToNotifications();
+        },
+        error: (error) => this.toastService.error('requestNotification.saveError'),
+      });
     }
   }
 
