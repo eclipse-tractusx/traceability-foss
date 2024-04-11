@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,23 +17,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package notification.request;
+.severity {
+  &__container {
+    display: flex;
+    align-items: center;
+    color: currentColor;
+  }
 
+  &__MINOR {
+    @apply text-severityMinor;
+  }
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+  &__MAJOR {
+    @apply text-severityMajor;
+  }
 
-@Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
-public class UpdateNotificationRequest {
-    @NotNull(message = "status must be present")
-    private UpdateNotificationStatusRequest status;
-    @Schema(example = "The reason.")
-    private String reason;
+  &__CRITICAL {
+    @apply text-severityCritical;
+  }
+
+  &__LIFE-THREATENING {
+    @apply text-severityLifeThreatening;
+  }
 }

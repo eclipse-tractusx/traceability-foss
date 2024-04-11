@@ -68,7 +68,7 @@ public class InvestigationTestDataFactory {
                 .description(description)
                 .notificationType(NotificationType.INVESTIGATION)
                 .createdAt(createdAt)
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(notifications)
                 .build();
     }
@@ -89,7 +89,7 @@ public class InvestigationTestDataFactory {
                 .notificationSide(investigationSide)
                 .description(description)
                 .createdAt(createdAt)
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(notifications)
                 .build();
     }
@@ -147,7 +147,7 @@ public class InvestigationTestDataFactory {
                 .description(description)
                 .createdAt(createdAt)
                 .notificationType(NotificationType.INVESTIGATION)
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(notifications)
                 .build();
     }
@@ -184,7 +184,7 @@ public class InvestigationTestDataFactory {
                 .notificationSide(investigationSide)
                 .description(description)
                 .createdAt(createdAt)
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(notifications)
                 .build();
     }

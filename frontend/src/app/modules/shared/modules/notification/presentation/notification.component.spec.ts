@@ -121,7 +121,6 @@ describe('NotificationsInboxComponent', () => {
 
     const descriptionEl = await screen.findByText('Investigation No 1');
     const row = descriptionEl.closest('tr');
-    debugger;
     expect(within(row).getByText('commonAlert.status.CREATED')).toBeInTheDocument();
   });
 

@@ -8,13 +8,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+- #780 store api documenation in docs/api to conform with TRG 1.08
+- #622 Notification Update API
+
 ## Changed
 - #823 migrate to irs-helm 6.18.0
 - #636 migrate to digital-twin-registry version 0.4.9 from 0.3.22
-
-
-### Added
-- #780 store api documenation in docs/api to conform with TRG 1.08
+- #622 Added functionallity to edit existing notifications within CREATED state
+- #602 use digitalTwinType instead of semanticId to determine asBuilt or asPlanned assets
 
 ## [10.8.2 - 05.04.2024]
 ### Removed

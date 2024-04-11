@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.notification.domain.notification.service;
 
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
@@ -32,9 +33,14 @@ public class NotificationServiceImpl extends AbstractNotificationService {
 
     private final NotificationRepository notificationRepository;
 
-    public NotificationServiceImpl(TraceabilityProperties traceabilityProperties, NotificationRepository alertRepository, NotificationPublisherService notificationPublisherService) {
-        super(traceabilityProperties, notificationPublisherService);
+
+    public NotificationServiceImpl(TraceabilityProperties traceabilityProperties,
+                                   NotificationRepository alertRepository,
+                                   NotificationPublisherService notificationPublisherService,
+                                   AssetAsBuiltRepository assetAsBuiltRepository) {
+        super(traceabilityProperties, notificationPublisherService, assetAsBuiltRepository);
         this.notificationRepository = alertRepository;
+
     }
 
     @Override

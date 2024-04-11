@@ -19,7 +19,7 @@
 
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NOTIFICATION_BASE_ROUTE, getRoute } from '@core/known-route';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
@@ -42,7 +42,7 @@ import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-alerts',
+  selector: 'app-notification-component',
   templateUrl: './notifications.component.html',
 })
 export class NotificationsComponent {
@@ -123,11 +123,22 @@ export class NotificationsComponent {
   }
 
   public openDetailPage(notification: Notification): void {
+    const { link, tabInformation } = this.getTabInformation();
+    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
+  }
+
+  public openEditPage(notification: Notification): void {
     this.notificationDetailFacade.selected = { data: notification };
+    const { link, tabInformation } = this.getTabInformation();
+
+    this.router.navigate([ `/${ link }/${ notification.id }/edit` ], { queryParams: tabInformation });
+  }
+
+  private getTabInformation(): {link: string, tabInformation: any} {
     const { link } = getRoute(NOTIFICATION_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
     const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
-    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
+    return { link, tabInformation };
   }
 
   public handleConfirmActionCompletedEvent() {

@@ -71,7 +71,7 @@ class InvestigationsRepositoryImplTest {
 
         // Given
         NotificationMessage message = NotificationMessage.builder().notificationStatus(NotificationStatus.ACKNOWLEDGED).affectedParts(List.of(new NotificationAffectedPart("123"))).build();
-        Notification notification = Notification.builder().notificationStatus(NotificationStatus.ACKNOWLEDGED).assetIds(List.of("123")).notificationId(new NotificationId(123L)).bpn(BPN.of("ABC")).notifications(List.of(message)).build();
+        Notification notification = Notification.builder().notificationStatus(NotificationStatus.ACKNOWLEDGED).affectedPartIds(List.of("123")).notificationId(new NotificationId(123L)).bpn(BPN.of("ABC")).notifications(List.of(message)).build();
         AssetAsBuiltEntity assetAsBuiltEntity = AssetAsBuiltEntity.builder().id("123").build();
         NotificationEntity entity = NotificationEntity.builder().assets(List.of(assetAsBuiltEntity)).build();
         NotificationMessageEntity notificationEntity = NotificationMessageEntity.from(entity, message, List.of(assetAsBuiltEntity));

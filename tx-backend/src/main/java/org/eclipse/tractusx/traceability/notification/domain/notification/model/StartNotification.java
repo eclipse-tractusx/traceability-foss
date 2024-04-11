@@ -36,7 +36,7 @@ public class StartNotification {
 
     private String title;
 
-    private List<String> partIds;
+    private List<String> affectedPartIds;
 
     private String description;
 
@@ -46,21 +46,18 @@ public class StartNotification {
 
     private NotificationType type;
 
-    private boolean isAsBuilt;
-
     private String receiverBpn;
 
 
     public static StartNotification from(StartNotificationRequest startNotificationRequest) {
         return StartNotification.builder()
                 .title(startNotificationRequest.getTitle())
-                .partIds(startNotificationRequest.getPartIds())
+                .affectedPartIds(startNotificationRequest.getAffectedPartIds())
                 .description(startNotificationRequest.getDescription())
                 .targetDate(startNotificationRequest.getTargetDate())
                 .severity(NotificationSeverity.from(startNotificationRequest.getSeverity()))
                 .type(NotificationType.from(startNotificationRequest.getType()))
                 .receiverBpn(startNotificationRequest.getReceiverBpn())
-                .isAsBuilt(startNotificationRequest.isAsBuilt())
                 .build();
     }
 
