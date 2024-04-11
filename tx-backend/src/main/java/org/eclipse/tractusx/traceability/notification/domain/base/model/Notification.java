@@ -84,7 +84,7 @@ public class Notification {
 
         if (editNotification.getReceiverBpn() != null) {
             Map.Entry<String, List<AssetBase>> receiverAssetsMap = new AbstractMap.SimpleEntry<>(editNotification.getReceiverBpn(), affectedParts);
-            Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.getBpn().equals(editNotification.getReceiverBpn())).findFirst().map(BpnEdcMapping::getManufacturerName);
+            Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.bpn().equals(editNotification.getReceiverBpn())).findFirst().map(BpnEdcMapping::manufacturerName);
             NotificationMessage notificationMessage = NotificationMessage.create(
                     applicationBPN,
                     editNotification.getReceiverBpn(),
@@ -106,7 +106,7 @@ public class Notification {
                     .stream()
                     .map(receiverAssetsMapEntry -> {
                         String sentToBPN = receiverAssetsMapEntry.getKey();
-                        Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.getBpn().equals(sentToBPN)).findFirst().map(BpnEdcMapping::getManufacturerName);
+                        Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.bpn().equals(sentToBPN)).findFirst().map(BpnEdcMapping::manufacturerName);
                         return NotificationMessage.create(
                                 applicationBPN,
                                 sentToBPN,
