@@ -20,9 +20,9 @@ package org.eclipse.tractusx.traceability.discovery.domain.service;
 
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
-import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -56,7 +56,7 @@ class DiscoveryServiceImplTest {
 
         // given
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de")).senderUrl("sender2.de").build();
-        BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de");
+        BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de", "name");
         when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(true);
         when(bpnRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
@@ -72,7 +72,7 @@ class DiscoveryServiceImplTest {
     void givenTrailingUrl_whenTestGetDiscoveryByBPN_thenSuccessfulBoth() {
         // given
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de/")).senderUrl("sender2.de").build();
-        BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de");
+        BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de", "name");
         when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(true);
         when(bpnRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
