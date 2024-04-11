@@ -23,7 +23,7 @@ import {AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren} fr
 import {FormControl, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Pagination} from '@core/model/pagination.model';
-import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
+import {DEFAULT_PAGE_SIZE, FIRST_PAGE} from '@core/pagination/pagination.model';
 import {RoleService} from '@core/user/role.service';
 import {PartsFacade} from '@page/parts/core/parts.facade';
 import {resetMultiSelectionAutoCompleteComponent} from '@page/parts/core/parts.helper';
@@ -43,6 +43,7 @@ import {BomLifecycleSettingsService, UserSettingView} from '@shared/service/bom-
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {SharedPartIdsService} from "@page/notifications/detail/edit/shared-part-ids.service";
 
 
 @Component({
@@ -83,6 +84,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
         private readonly userSettingService: BomLifecycleSettingsService,
+        private readonly sharedPartIdsService: SharedPartIdsService,
         public toastService: ToastService,
         public roleService: RoleService,
         public router: Router,
@@ -268,8 +270,15 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.onAsPlannedTableConfigChange({page: params['AS_PLANNED_OWN_PAGE'], pageSize: DEFAULT_PAGE_SIZE, sorting: null});
     }
 
+    navigateToNotificationCreationView() {
+        this.sharedPartIdsService.sharedPartIds = this.currentSelectedItems$.value.map(part => part.id);
+        this.router.navigate(['inbox/create'], { queryParams: { initialType: NotificationType.ALERT}});
+    }
+
     protected readonly UserSettingView = UserSettingView;
     protected readonly TableType = TableType;
     protected readonly MainAspectType = MainAspectType;
     protected readonly NotificationType = NotificationType;
+
+
 }

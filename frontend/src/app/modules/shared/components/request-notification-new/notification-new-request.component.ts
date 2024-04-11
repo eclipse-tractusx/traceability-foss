@@ -17,118 +17,117 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
-import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
-import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
-import { Notification, NotificationType } from '@shared/model/notification.model';
-import { Severity } from '@shared/model/severity.model';
-import { View } from '@shared/model/view.model';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {bpnRegex} from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
+import {NotificationDetailFacade} from '@page/notifications/core/notification-detail.facade';
+import {BaseInputHelper} from '@shared/abstraction/baseInput/baseInput.helper';
+import {Notification, NotificationType} from '@shared/model/notification.model';
+import {Severity} from '@shared/model/severity.model';
+import {View} from '@shared/model/view.model';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
+import {filter, tap} from 'rxjs/operators';
 
 @Component({
-  selector: 'app-notification-new-request',
-  templateUrl: './notification-new-request.component.html',
+    selector: 'app-notification-new-request',
+    templateUrl: './notification-new-request.component.html',
 })
 export class RequestNotificationNewComponent implements OnDestroy, OnInit {
-  @Input() title: string;
-  @Input() editMode: boolean;
-  @Input() notification: Notification;
-  @Output() formGroupChanged = new EventEmitter<FormGroup>();
+    @Input() title: string;
+    @Input() editMode: boolean;
+    @Input() notification: Notification;
+    @Output() formGroupChanged = new EventEmitter<FormGroup>();
 
 
-  public readonly formGroup = new FormGroup<any>({
-    'title': new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]),
-    'description': new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]),
-    'severity': new FormControl(Severity.MINOR, [ Validators.required ]),
-    'targetDate': new FormControl(null),
-    'bpn': new FormControl(null, [ BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
-    'type': new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]),
-  });
-  public selected$: Observable<View<Notification>>;
-
-  public readonly isLoading$ = new BehaviorSubject(false);
-  public readonly minDate = new Date();
-
-  private subscription: Subscription;
-
-  constructor(public readonly notificationDetailFacade: NotificationDetailFacade) {
-
-  }
-
-  ngOnInit(): void {
-
-    if (this.editMode) {
-    //  this.selected$ = this.notificationDetailFacade.selected$;
-console.log(this.notification, "noti");
-        const { title, description, severity, type, sendTo, targetDate } = this.notification;
-      this.formGroup.setValue({
-        'title': title,
-        'description': description,
-        'severity': severity,
-        'type': type,
-        'bpn': sendTo,
-        'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
-      });
-      if (this.editMode) {
-        this.formGroup.get('type').disable();
-      }
-      console.log(this.notification, "data?");
-      if (this.notification.type === NotificationType.INVESTIGATION) {
-        this.formGroup.get('bpn').disable();
-      }
-
-      if(this.notification.type === NotificationType.ALERT) {
-        this.formGroup.get('bpn').setValidators(Validators.required);
-      }
-
-      this.formGroupChanged.emit(this.formGroup);
-
-    }
-    this.formGroup.valueChanges.subscribe(value => {
-      //TODO: For Create, check here or in parent if the part tables should update (depending on passed partId, investigation or alert type)
-      this.formGroupChanged.emit(this.formGroup);
+    public readonly formGroup = new FormGroup<any>({
+        'title': new FormControl('', [Validators.maxLength(30), Validators.minLength(0)]),
+        'description': new FormControl('', [Validators.required, Validators.maxLength(1000), Validators.minLength(15)]),
+        'severity': new FormControl(Severity.MINOR, [Validators.required]),
+        'targetDate': new FormControl(null),
+        'bpn': new FormControl(null, [BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn')]),
+        'type': new FormControl({value: NotificationType.INVESTIGATION, disabled: true}, [Validators.required]),
     });
+    public selected$: Observable<View<Notification>>;
 
-    if (this.selected$) {
-      console.log("GO?");
-      this.subscription = this.selected$
-        .pipe(
-          filter(({ data }) => !!data),
-          tap(({ data }) => {
-           console.log(data, "data...");
-            const { title, description, severity, type, sendTo, targetDate } = data;
+    public readonly isLoading$ = new BehaviorSubject(false);
+    public readonly minDate = new Date();
+
+    private subscription: Subscription;
+
+    constructor(public readonly notificationDetailFacade: NotificationDetailFacade) {
+        this.formGroup.get('type').disable();
+    }
+
+    ngOnInit(): void {
+
+        if (this.editMode) {
+            const {title, description, severity, type, sendTo, targetDate} = this.notification;
             this.formGroup.setValue({
-              'title': title,
-              'description': description,
-              'severity': severity,
-              'type': type,
-              'bpn': sendTo,
-              'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
+                'title': title,
+                'description': description,
+                'severity': severity,
+                'type': type,
+                'bpn': sendTo,
+                'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
             });
-            if (this.editMode) {
-              this.formGroup.get('type').disable();
-            }
-            console.log(data, "data?");
-            if (data.type === NotificationType.INVESTIGATION) {
-              this.formGroup.get('bpn').disable();
-            }
-
-            if(data.type === NotificationType.ALERT) {
-              this.formGroup.get('bpn').setValidators(Validators.required);
-            }
 
             this.formGroupChanged.emit(this.formGroup);
-          }),
-        )
-        .subscribe();
+
+        } else {
+            this.formGroup.get('type').setValue(this.notification.type);
+        }
+
+
+        if (this.notification.type === NotificationType.INVESTIGATION) {
+            this.formGroup.get('bpn').disable();
+        }
+
+        if (this.notification.type === NotificationType.ALERT) {
+            this.formGroup.get('bpn').setValidators(Validators.required);
+        }
+
+        this.formGroup.valueChanges.subscribe(value => {
+            //TODO: For Create, check here or in parent if the part tables should update (depending on passed partId, investigation or alert type)
+            this.formGroupChanged.emit(this.formGroup);
+        });
+
+        if (this.selected$) {
+            console.log("GO?");
+            this.subscription = this.selected$
+                .pipe(
+                    filter(({data}) => !!data),
+                    tap(({data}) => {
+                        console.log(data, "data...");
+                        const {title, description, severity, type, sendTo, targetDate} = data;
+                        this.formGroup.setValue({
+                            'title': title,
+                            'description': description,
+                            'severity': severity,
+                            'type': type,
+                            'bpn': sendTo,
+                            'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
+                        });
+                        if (this.editMode) {
+                            this.formGroup.get('type').disable();
+                        }
+                        console.log(data, "data?");
+                        if (data.type === NotificationType.INVESTIGATION) {
+                            this.formGroup.get('bpn').disable();
+                        }
+
+                        if (data.type === NotificationType.ALERT) {
+                            this.formGroup.get('bpn').setValidators(Validators.required);
+                        }
+
+                        this.formGroupChanged.emit(this.formGroup);
+                    }),
+                )
+                .subscribe();
+        }
+
     }
 
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
+    public ngOnDestroy(): void {
+        this.subscription?.unsubscribe();
+    }
 }

@@ -17,29 +17,31 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
-import { Pagination } from '@core/model/pagination.model';
-import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
-import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
-import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
-import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { PartsFacade } from '@page/parts/core/parts.facade';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part } from '@page/parts/model/parts.model';
-import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
-import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
-import { TableHeaderSort } from '@shared/components/table/table.model';
-import { ToastService } from '@shared/components/toasts/toast.service';
-import { toAssetFilter } from '@shared/helper/filter-helper';
-import { Notification, NotificationType } from '@shared/model/notification.model';
-import { View } from '@shared/model/view.model';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {getRoute, NOTIFICATION_BASE_ROUTE} from '@core/known-route';
+import {Pagination} from '@core/model/pagination.model';
+import {DEFAULT_PAGE_SIZE, FIRST_PAGE} from '@core/pagination/pagination.model';
+import {NotificationDetailFacade} from '@page/notifications/core/notification-detail.facade';
+import {NotificationsFacade} from '@page/notifications/core/notifications.facade';
+import {SharedPartIdsService} from '@page/notifications/detail/edit/shared-part-ids.service';
+import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
+import {PartsFacade} from '@page/parts/core/parts.facade';
+import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
+import {Part} from '@page/parts/model/parts.model';
+import {NotificationActionHelperService} from '@shared/assembler/notification-action-helper.service';
+import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
+import {
+  NotificationCommonModalComponent
+} from '@shared/components/notification-common-modal/notification-common-modal.component';
+import {TableHeaderSort} from '@shared/components/table/table.model';
+import {ToastService} from '@shared/components/toasts/toast.service';
+import {toAssetFilter} from '@shared/helper/filter-helper';
+import {Notification, NotificationType} from '@shared/model/notification.model';
+import {View} from '@shared/model/view.model';
+import {StaticIdService} from '@shared/service/staticId.service';
+import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-notification-edit',
@@ -110,13 +112,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
     this.isSaveButtonDisabled = notificationFormGroup.invalid;
     this.notificationFormGroup = notificationFormGroup;
-    console.log(notificationFormGroup);
 
-    // if user switches type of notification in creation mode, reset affected parts and reload new available parts
-    if(this.selectedNotification.type !== notificationFormGroup.value['type']) {
-      this.selectedNotification.type = notificationFormGroup.value['type'];
-      this.switchSelectedNotificationTypeAndResetParts();
-    }
   }
 
   filterAffectedParts(partsFilter: any): void {
@@ -162,7 +158,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
       const newNotification: Notification = {
         assetIds: this.sharedPartIdsService.sharedPartIds,
         createdBy: '',
-        type: NotificationType.INVESTIGATION,
+        type: this.route.snapshot.queryParams['initialType'],
         createdByName: '',
         createdDate: undefined,
         description: '',
@@ -283,13 +279,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = notification.assetIds;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, false);
-  }
-
-  private switchSelectedNotificationTypeAndResetParts() {
-    this.selectedNotification.assetIds = [];
-    this.affectedPartIds = [];
-    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
-    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
   }
 
   protected readonly TableType = TableType;

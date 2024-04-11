@@ -117,6 +117,9 @@ export class NotificationService {
 
   public editNotification(notificationId: string, title: string, receiverBpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
     const requestUrl = this.notificationUrl();
+    if(targetDate) {
+      targetDate = new Date(targetDate).toISOString();
+    }
     const body = { title, receiverBpn: receiverBpn, severity, targetDate, description, affectedPartIds: affectedPartIds };
     return this.apiService.put<void>(`${ requestUrl }/${ notificationId }/edit`, body);
   }

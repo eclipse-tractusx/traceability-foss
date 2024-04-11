@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <h2 class="mb-4 mt-4 normal-case text-center text-primary">{{ 'partDetail.investigation.headline' | i18n }}</h2>
 <div class="start-investigation--wrapper">
-  <ng-container *viewContainer="childParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+ <!-- <ng-container *viewContainer="childParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
 
   <app-notification-request
     *ngIf="(selectedChildParts$ | async)?.length"
@@ -34,6 +34,7 @@ SPDX-License-Identifier: Apache-2.0
     [showHeadline]="false"
     class="start-investigation start-investigation--data"
   ></app-notification-request>
+  -->
 
   <div *ngIf="!(selectedChildParts$ | async)?.length" class="start-investigation start-investigation--no-data">
     <mat-icon color="primary" class="scale-150">no_sim</mat-icon>

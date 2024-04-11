@@ -259,7 +259,7 @@ SPDX-License-Identifier: Apache-2.0
     [showHover]="false"
     [noShadow]="true"
     (multiSelect)="onMultiSelect($event)"
-    (clickSelectAction)="isNotificationOpen$.next(true)"
+    (clickSelectAction)="null"
     (configChanged)="onSupplierPartsSort($event)"
     selectedPartsInfoLabel="pageAlert.selectedParts"
     selectedPartsActionLabel="pageAlert.selectPartsAction"
@@ -282,15 +282,3 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #loaderTmp let-view="view">
   <mat-spinner></mat-spinner>
 </ng-template>
-
-<app-sidenav-wrapper [isOpen]="isNotificationOpen$ | async" (sidenavAction)="isNotificationOpen$.next($event)">
-  <app-notification-request
-    *ngIf="isNotificationOpen$ | async"
-    [notificationType]="NotificationType.ALERT"
-    [selectedItems]="selectedItems$ | async"
-    (deselectPart)="removeItemFromSelection($event)"
-    (restorePart)="addItemToSelection($event)"
-    (clearSelected)="clearSelected()"
-    (submitted)="isNotificationOpen$.next(false)"
-  ></app-notification-request>
-</app-sidenav-wrapper>
