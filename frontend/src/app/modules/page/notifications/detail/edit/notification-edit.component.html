@@ -101,7 +101,7 @@ SPDX-License-Identifier: Apache-2.0
           <!-- asBuilt Parts Table-->
           <app-parts-table *ngIf="tableType" class="parts-asBuilt-table"
                            [paginationData]="filterOnlyAffected(parts.data) | formatPaginationSemanticDataModelToCamelCase"
-                           [labelId]="titleId"
+                           [labelId]="affectedPartsTableLabelId"
                            [selectedPartsActionLabel]="'page.selectedParts.action'"
                            [deselectTrigger]="deselectPartTrigger$ | async"
                            [addTrigger]="addPartTrigger$ | async"
@@ -154,7 +154,7 @@ SPDX-License-Identifier: Apache-2.0
          </div>
          <app-parts-table   *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"
                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                          [labelId]="titleId"
+                          [labelId]="availablePartsTableLabelId"
                           [menuActivated]="false"
                           [selectedPartsActionLabel]="'page.selectedParts.action'"
                           [deselectTrigger]="deselectPartTrigger$ | async"

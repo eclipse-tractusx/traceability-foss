@@ -17,31 +17,29 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {getRoute, NOTIFICATION_BASE_ROUTE} from '@core/known-route';
-import {Pagination} from '@core/model/pagination.model';
-import {DEFAULT_PAGE_SIZE, FIRST_PAGE} from '@core/pagination/pagination.model';
-import {NotificationDetailFacade} from '@page/notifications/core/notification-detail.facade';
-import {NotificationsFacade} from '@page/notifications/core/notifications.facade';
-import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
-import {PartsFacade} from '@page/parts/core/parts.facade';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {Part} from '@page/parts/model/parts.model';
-import {NotificationActionHelperService} from '@shared/assembler/notification-action-helper.service';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {
-  NotificationCommonModalComponent
-} from '@shared/components/notification-common-modal/notification-common-modal.component';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {ToastService} from '@shared/components/toasts/toast.service';
-import {toAssetFilter} from '@shared/helper/filter-helper';
-import {Notification, NotificationType} from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {StaticIdService} from '@shared/service/staticId.service';
-import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
-import {first, tap} from 'rxjs/operators';
+import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
+import { Pagination } from '@core/model/pagination.model';
+import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
+import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Part } from '@page/parts/model/parts.model';
+import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { toAssetFilter } from '@shared/helper/filter-helper';
+import { Notification, NotificationType } from '@shared/model/notification.model';
+import { View } from '@shared/model/view.model';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { first, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notification-edit',
@@ -52,22 +50,24 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
-  public availablePartsAsBuilt$: Observable<View<Pagination<Part>>>;
-  public affectedPartsAsBuilt$: Observable<View<Pagination<Part>>>;
-  public affectedParts: Part[];
-  private filteredDataCache: any[] = [];
 
-  public readonly titleId = this.staticIdService.generateId('NotificationDetail');
+
+  public readonly affectedPartsTableLabelId = this.staticIdService.generateId('AffectedPartsTable');
+  public readonly availablePartsTableLabelId = this.staticIdService.generateId('AvailablePartsTable');
+
+  public readonly addPartTrigger$ = new Subject<Part>();
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
-  public readonly editMode: boolean;
+
+  public readonly editMode: boolean = true;
   public notificationFormGroup: FormGroup;
 
   public affectedPartIds: string[] = [];
   public temporaryAffectedParts: Part[] = [];
   public temporaryAffectedPartsForRemoval: Part[] = [];
-  public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
   public readonly currentSelectedAffectedParts$ = new BehaviorSubject<Part[]>([]);
+  public availablePartsAsBuilt$: Observable<View<Pagination<Part>>>;
+  public affectedPartsAsBuilt$: Observable<View<Pagination<Part>>>;
 
   private originPageNumber: number;
   private originTabIndex: number;
@@ -85,7 +85,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     public readonly notificationDetailFacade: NotificationDetailFacade,
     private readonly staticIdService: StaticIdService,
     private readonly notificationsFacade: NotificationsFacade,
-    private router: Router,
+    private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
   ) {
@@ -211,7 +211,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   filterOnlyAffected(parts: any): Pagination<Part> {
 
-    // TODO performance
     const partsFiltered = parts.content.filter(part => this.affectedPartIds.includes(part.id));
 
     // TODO fix pagination
