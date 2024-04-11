@@ -108,7 +108,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
-    this.isSaveButtonDisabled = notificationFormGroup.invalid;
+    this.isSaveButtonDisabled = notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.notificationFormGroup = notificationFormGroup;
 
   }
@@ -123,12 +123,13 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public clickedSave(): void {
-    const { title, type, description, severity, targetDate, bpn } = this.notificationFormGroup.value;
+    const { title, type, description, severity, targetDate, bpn } = this.notificationFormGroup.getRawValue();
     if (this.editMode) {
       this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
         next: () => {
           this.navigateBackToNotifications();
           this.toastService.success('requestNotification.saveSuccess');
+          this.updateSelectedNotificationState();
         },
         error: (error) => this.toastService.error('requestNotification.saveError'),
       });
@@ -137,6 +138,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         next: () => {
           this.toastService.success('requestNotification.saveSuccess');
           this.navigateBackToNotifications();
+          this.updateSelectedNotificationState();
         },
         error: (error) => this.toastService.error('requestNotification.saveError'),
       });
@@ -230,6 +232,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
+    this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
     this.currentSelectedAffectedParts$.next([]);
     this.temporaryAffectedPartsForRemoval = [];
@@ -241,6 +244,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         this.affectedPartIds.push(value.id);
       }
     });
+    this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);
     this.temporaryAffectedParts = [];
@@ -277,6 +281,14 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = notification.assetIds;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, false);
+  }
+
+  private updateSelectedNotificationState() {
+    this.notificationDetailFacade.selected.data = {
+      ...this.notificationDetailFacade.selected.data,
+      ...this.notificationFormGroup.value,
+      assetIds: this.affectedPartIds,
+    };
   }
 
   protected readonly TableType = TableType;
