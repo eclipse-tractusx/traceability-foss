@@ -5,20 +5,20 @@ Following table describes the quality goals of Trace-X (see chapter quality goal
 |===
 |Quality goal |Matching approaches in the solution
 
-|Running reference application for Catena-X Traceability
-a|* Published open source, Trace-X application can be used as a reference by anyone.
+|Running reference application for Catena-X traceability
+a|* Published open-source, Trace-X application can be used as a reference by anyone.
 
 |Accessible and easy to use
 a|* Established programming languages are used.
-* Backend written in Java
+* Backend written in Java.
 * Frontend written in Typescript based on the Angular framework.
 
 |Cloud agnostic solution
-a|* Helm charts to support the deployment of the application in a Kubernetes environment
+a|* Helm charts to support the deployment of the application in a Kubernetes environment.
 
 |Application reliability
-a|* Data source is the Catena-X notwork. Data is fetched with IRS directly from the data owner and the Digital Twin Registry of CX.
-* Trace-X can be hosted decentralized since it is an open source reference implementation.
+a|* Data source is the Catena-X network. Data is fetched with IRS directly from the data owner and the digital twin registry of CX.
+* Trace-X can be hosted decentralized since it is an open-source reference implementation.
 
 |Security
 a|* Static Application Security Testing (SAST) and Dynamic Application Security Testing (DAST) are executed automatically and regularly with tools as part of the pipeline.
