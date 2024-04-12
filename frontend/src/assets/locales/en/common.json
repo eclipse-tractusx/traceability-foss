@@ -27,12 +27,12 @@
   },
   "pageTitle": {
     "dashboard": "Dashboard",
-    "parts": "My Parts",
-    "otherParts": "Other Parts",
+    "parts": "My parts",
+    "otherParts": "Other parts",
     "about": "About Catena-X Open-Source Traceability",
-    "relations": "Part Relations",
+    "relations": "Part relations",
     "admin": "Administration Catena-X",
-    "alerts": "Quality Topics"
+    "alerts": "Quality topics"
   },
   "layout": {
     "nav": {
@@ -52,6 +52,7 @@
     "close": "Close",
     "decline": "Decline",
     "viewDetails": "View details",
+    "edit": "Edit",
     "help": "Help",
     "add": "Add",
     "saveChanges": "Save changes",
@@ -199,11 +200,19 @@
 
   },
   "requestNotification": {
+    "investigation": "Quality investigation",
+    "alert": "Quality alert",
+    "header": "Create notification",
+    "editNotificationHeader": "Edit notification",
+    "affectedParts": "Affected parts",
+    "unAffectedParts": "Available parts",
     "partDescription": "You selected the following parts:",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
     "titleLabel": "Title",
-    "titleDescription": "Title",
+    "titleDescription": "Specify a short title.",
     "targetDateLabel": "Deadline",
+    "typeDescription": "Type of quality topic.",
+    "typeLabel": "Type",
     "bpnLabel": "BPN",
     "bpnDescription": "Please specify the receiver BPN.",
     "restoreItem": "Do you want to restore your last item?",
@@ -211,8 +220,19 @@
     "cancel": "CANCEL",
     "submit": "ADD TO QUEUE",
     "severity": "Severity",
-    "severityDescription": "Select the severity for the problem at hand",
-    "serverError": "Server error:"
+    "severityDescription": "Select the severity for the problem at hand.",
+    "serverError": "Server error:",
+    "remove": "Remove selection",
+    "add": "Add selection",
+    "modifyNotAllowed": "Requires at least one selection in the parts table.",
+    "textAreaDescription": "Describe the quality issue.",
+    "saveNotAllowed": "Requires valid form input.",
+    "saveSuccess": "Quality topic was updated successfully.",
+    "saveError": "An error occurred while updating the quality topic."
+  },
+  "editNotification": {
+    "saveButton": "Save",
+    "cancelButton": "Cancel"
   },
   "requestPublishAssets": {
     "success": "Request to publish assets was successful",

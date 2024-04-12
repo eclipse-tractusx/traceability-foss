@@ -47,6 +47,7 @@ export class NotificationComponent {
   @Output() onReceivedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
+  @Output() editNotificationClicked = new EventEmitter<Notification>();
   @Output() notificationsFilterChanged = new EventEmitter<any>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));

@@ -26,12 +26,10 @@ import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
-
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -90,6 +88,11 @@ public class BpnRepositoryImpl implements BpnRepository {
     }
 
     @Override
+    public List<BpnEdcMapping> findAllByIdIn(List<String> bpns) {
+        return this.toDTOList(repository.findAllById(bpns));
+    }
+
+    @Override
     public List<BpnEdcMapping> saveAll(List<BpnMappingRequest> bpnEdcMappings) {
         List<BpnEntity> bpnEdcMappingEntities = bpnEdcMappings.stream().map(this::toEntity).toList();
         return repository.saveAll(bpnEdcMappingEntities).stream().map(this::toDTO).toList();
@@ -98,8 +101,13 @@ public class BpnRepositoryImpl implements BpnRepository {
     private BpnEdcMapping toDTO(BpnEntity entity) {
         return new BpnEdcMapping(
                 entity.getManufacturerId(),
-                entity.getUrl()
+                entity.getUrl(),
+                entity.getManufacturerName()
         );
+    }
+
+    private List<BpnEdcMapping> toDTOList(List<BpnEntity> bpnEntities) {
+        return bpnEntities.stream().map(this::toDTO).toList();
     }
 
     private BpnEntity toEntity(BpnMappingRequest bpnEdcMappings) {

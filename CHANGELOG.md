@@ -11,12 +11,21 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #780 store api documenation in docs/api to conform with TRG 1.08
 - #622 Notification Update API
+- #774 Added initial concept for handling multiple BPNs
 
 ## Changed
 - #823 migrate to irs-helm 6.18.0
 - #636 migrate to digital-twin-registry version 0.4.9 from 0.3.22
+- #622 Added functionallity to edit existing notifications within CREATED state
 - #602 use digitalTwinType instead of semanticId to determine asBuilt or asPlanned assets
 - Spell check arc42 documentation and administration guide and make it consistent
+- bump ch.qos.logback:logback-core from 1.4.14 to 1.5.4
+- bump peaceiris/actions-gh-pages from 3.9.3 to 4.0.0
+- bump aquasecurity/trivy-action from 0.18.0 to 0.19.0
+- bump org.springframework.cloud:spring-cloud-dependencies from 2023.0.0 to 2023.0.1
+- bump org.awaitility:awaitility from 3.0.0 to 4.2.1
+- bump org.asciidoctor:asciidoctorj-diagram from 2.2.13 to 2.3.0
+- bump io.cucumber:cucumber-bom from 7.15.0 to 7.16.1
 
 ## [10.8.2 - 05.04.2024]
 ### Removed

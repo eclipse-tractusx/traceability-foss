@@ -38,6 +38,7 @@ import {
   TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
+import { NotificationStatus } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
@@ -68,8 +69,20 @@ export class TableComponent {
       action: (data: Record<string, unknown>) => this.selected.emit(data),
     };
 
-    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, ...menuActions ] : null;
+    const editDetailsMenuAction: MenuActionConfig<unknown> = {
+      label: 'actions.edit',
+      icon: 'edit',
+      action: (data: Record<string, unknown>) => this.editClicked.emit(data),
+      condition: data => this.isEditable(data),
+      isAuthorized: this.roleService.isSupervisor(),
+    };
+
+    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction, ...menuActions ] : null;
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
+  }
+
+  isEditable(data: any): boolean {
+    return data.status === NotificationStatus.CREATED;
   }
 
   get tableConfig(): TableConfig {
@@ -135,6 +148,7 @@ export class TableComponent {
   }
 
   @Output() selected = new EventEmitter<Record<string, unknown>>();
+  @Output() editClicked = new EventEmitter<Record<string, unknown>>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
