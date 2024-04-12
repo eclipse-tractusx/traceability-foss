@@ -213,10 +213,12 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   filterOnlyAffected(parts: any): Pagination<Part> {
+    // Convert affectedPartIds to a Set for faster lookup
+    const affectedPartIdsSet = new Set(this.affectedPartIds);
 
-    const partsFiltered = parts.content.filter(part => this.affectedPartIds.includes(part.id));
+    // Filter parts based on affectedPartIds
+    const partsFiltered = parts.content.filter(part => affectedPartIdsSet.has(part.id));
 
-    // TODO fix pagination
     return {
       page: parts.page,
       pageCount: parts.pageCount,
