@@ -1,6 +1,6 @@
 # OBSOLETE \[Concept\] \[#774\] Messages to multiple BPNs
 
-### Concept no longer needed, as it was decided to go with a different approach.
+### Concept no longer needed, as it was decided to go with a different approach (->[#774](https://github.com/eclipse-tractusx/traceability-foss/issues/774)). If needed, parts of this concept can be reused.
 
 | Key           | Value                                                                    |
 |---------------|--------------------------------------------------------------------------|
