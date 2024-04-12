@@ -103,3 +103,5 @@ irs-edc-client:
   controlplane:
     api-key:
       secret: "integration-tests"
+bpdm:
+  oAuthClientId: OKTA

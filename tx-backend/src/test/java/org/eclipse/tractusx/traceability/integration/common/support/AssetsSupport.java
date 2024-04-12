@@ -33,12 +33,16 @@ public class AssetsSupport {
     @Autowired
     BpnSupport bpnSupport;
 
+    @Autowired
+    OAuth2ApiSupport oAuth2ApiSupport;
+
 
     public String emptyText() {
         return "";
     }
 
     public void defaultAssetsStored() {
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         bpnSupport.providesBpdmLookup();
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests());
     }
