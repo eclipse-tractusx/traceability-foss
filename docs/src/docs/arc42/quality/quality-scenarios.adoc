@@ -6,25 +6,25 @@ The initial letters of the scenario identifiers (IDs) in the following table eac
 |ID |Scenario
 
 |M01
-|A developer with basic knowledge of the Traceability Use Case looks for an introduction to the Traceability architecture. He or she gets the idea of essential design very fast.
+|A developer with basic knowledge of the traceability use case looks for an introduction to the traceability architecture. He or she gets the idea of essential design very fast.
 
 |M02
-|A senior developer looks for a reference implementation of the Traceability Use case functionalities. He or she gets it within the source code.
+|A senior developer looks for a reference implementation of the traceability use case functionalities. He or she gets it within the source code.
 
 |M03
 |A developer wants to implement new features. He or she is able to add it to the source code easily.
 
 |M04
-|A developer wants to implement a new Frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so.
+|A developer wants to implement a new frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so.
 
 |I01
-|An user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.
+|A user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.
 
 |F01
 |The application uses the Catena-X standards to ensure the correct interoperability and exchange with other participants.
 
 |F02
-|An OEM or Tier n supplier needs more information regarding specific parts. He can mark the parts in question and send a top-down notification (Quality Investigation) to the next entity / the partner.
+|An OEM or tier n supplier needs more information regarding specific parts. He can mark the parts in question and send a top-down notification (quality investigation) to the next entity / the partner.
 
 |F03
 |A company wants to have more transparency and a visualized status of the supply / value chain. By using the application they are enabled to work with the structures and enable new features / functionalities.

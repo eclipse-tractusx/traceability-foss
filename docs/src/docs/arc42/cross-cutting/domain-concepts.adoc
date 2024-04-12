@@ -1,10 +1,10 @@
 = Domain concepts
 
-== API Model
+== API model
 
 For detailed information about the API model, please refer to the link:https://catenax-ng.github.io/tx-traceability-foss/docs/api-specification/api-specification.html[API specification].
 
-== Domain Models
+== Domain models
 
 === Assets
 [plantuml, target=level-1, format=svg]
@@ -12,7 +12,7 @@ For detailed information about the API model, please refer to the link:https://c
 include::../../../uml-diagrams/arc42/cross-cutting/domain-model/domain-model.puml[]
 ....
 
-=== Quality Notifications
+=== Quality notifications
 [plantuml, target=level-2, format=svg]
 ....
 include::../../../uml-diagrams/arc42/cross-cutting/domain-model/domain-model-quality-notifications.puml[]

@@ -1,17 +1,17 @@
-= System Overview
+= System overview
 
 The deployment contains the components required to connect Trace-X to an existing Catena-X network. This includes:
 
-* Trace-X Frontend
-* Trace-X Backend
+* Trace-X frontend
+* Trace-X backend
 
 
 Optionally these components can be installed using the Trace-X backend Helm chart as well:
 
-* PostgreSQL for Trace-X Backend
+* PostgreSQL for Trace-X backend
 * pgadmin4
 * IRS
-* EDC Consumer
+* EDC consumer
 
 Everything else needs to be provided externally.
 
@@ -20,7 +20,7 @@ Everything else needs to be provided externally.
 include::../../uml-diagrams/arc42/deployment-view/level-0-int.puml[]
 ....
 
-== Rights and Role matrix of Trace-X
+== Rights and role matrix of Trace-X
 
 Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and **'Admin'**:
 
@@ -29,8 +29,7 @@ Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and 
 | View             | View Dashboard                 | x          | x            | x
 |                  | View Parts                     | x          | x            | x
 |                  | View Other parts               | x          | x            | x
-|                  | View Quality investigations    | x          | x            | x
-|                  | View Quality alerts            | x          | x            | x
+|                  | View Inbox                     | x          | x            | x
 |                  | View Administration            |            |              | x
 
 | Investigation    | Create                         | x          | x            |
@@ -51,7 +50,7 @@ Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and 
 |                  | Decline                        | x          | x            |
 |                  | Close                          |            | x            |
 
-| Administration Panel  | Access "BPN EDC config panel"    |          |            | x
+| Administration panel  | Access "BPN EDC config panel"    |          |            | x
 |                       | Access "Registry lookup Panel"   |          |            | x
 
 |===
