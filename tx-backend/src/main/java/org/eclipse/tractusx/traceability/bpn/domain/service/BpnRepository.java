@@ -22,10 +22,11 @@ package org.eclipse.tractusx.traceability.bpn.domain.service;
 
 import bpn.request.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public interface BpnRepository {
 
@@ -43,4 +44,5 @@ public interface BpnRepository {
 
     void updateManufacturers(Map<String, String> bpns);
 
+    BpnEntity save(BusinessPartnerResponse businessPartner);
 }

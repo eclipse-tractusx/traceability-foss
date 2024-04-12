@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -28,6 +29,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey;
+import org.eclipse.tractusx.traceability.bpn.application.service.BpnService;
 import org.eclipse.tractusx.traceability.generated.JustInSequencePart100Schema;
 import org.eclipse.tractusx.traceability.generated.UrnBammIoCatenaxJustInSequencePart100KeyValueList;
 import org.eclipse.tractusx.traceability.generated.UrnBammIoCatenaxJustInSequencePart100ManufacturingCharacteristic;
@@ -42,21 +44,27 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.Semanti
 
 @Slf4j
 @Component
+@AllArgsConstructor
 public class JustInSequenceMapper implements SubmodelMapper {
+
+
+    private BpnService bpnService;
     @Override
     public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
         JustInSequencePart100Schema justInSequencePart = (JustInSequencePart100Schema) irsSubmodel.getPayload();
 
         String justInSequenceId = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.JIS_NUMBER.getValue());
-        String manufacturerName = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
+        String manufacturerId = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
         String van = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(justInSequencePart.getManufacturingInformation(), justInSequencePart.getPartTypeInformation());
+
+        String manufacturerName = bpnService.findByBpn(manufacturerId);
 
         return AssetBase.builder()
                 .id(justInSequencePart.getCatenaXId())
                 .semanticModelId(justInSequenceId)
                 .detailAspectModels(List.of(detailAspectModel))
-                .manufacturerId(manufacturerName)
+                .manufacturerId(manufacturerId)
                 .manufacturerName(manufacturerName)
                 .nameAtManufacturer(justInSequencePart.getPartTypeInformation().getNameAtManufacturer())
                 .manufacturerPartId(justInSequencePart.getPartTypeInformation().getManufacturerPartId())

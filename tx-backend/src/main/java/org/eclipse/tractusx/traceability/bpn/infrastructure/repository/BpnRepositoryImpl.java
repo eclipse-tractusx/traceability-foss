@@ -26,12 +26,11 @@ import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
-
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Component
@@ -87,6 +86,12 @@ public class BpnRepositoryImpl implements BpnRepository {
         } catch (Exception e) {
             log.warn("Exception in bpn mapping storage", e);
         }
+    }
+
+    @Override
+    public BpnEntity save(BusinessPartnerResponse businessPartner) {
+        BpnEntity entity = BpnEntity.builder().manufacturerId(businessPartner.getBpn()).manufacturerName(businessPartner.getNames().get(0).getValue()).build();
+        return repository.save(entity);
     }
 
     @Override

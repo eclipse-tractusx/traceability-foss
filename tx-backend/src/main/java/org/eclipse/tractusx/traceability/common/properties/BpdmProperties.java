@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,21 +16,26 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.bpn.application.service;
+package org.eclipse.tractusx.traceability.common.properties;
 
-import bpn.request.BpnMappingRequest;
-import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+@RequiredArgsConstructor
+@Getter
+@Configuration
+public class BpdmProperties {
 
-public interface BpnService {
-    String findByBpn(String bpn);
+    @Value("${bpdm.bpnEndpoint}")
+    private final String bpnEndpoint;
+    @Value("${bpdm.oAuthClientId}")
+    private final String oAuthClientId;
+    @Value("${bpdm.timeout.read}")
+    private final String readTimeout;
+    @Value("${bpdm.timeout.connect}")
+    private final String connectTimeout;
 
-    List<BpnEdcMapping> findAllBpnMappings();
 
-    List<BpnEdcMapping> saveAllBpnEdcMappings(List<BpnMappingRequest> bpnEdcMappings);
-
-    List<BpnEdcMapping> updateAllBpnMappings(List<BpnMappingRequest> bpnEdcMappings);
-
-    void deleteBpnMapping(String bpn);
 }

@@ -1,5 +1,10 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021,2022,2023
+ *       2022: ZF Friedrichshafen AG
+ *       2022: ISTOS GmbH
+ *       2022,2023: Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ *       2022,2023: BOSCH AG
+ * Copyright (c) 2021,2022,2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,21 +21,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.bpn.application.service;
+package org.eclipse.tractusx.traceability.bpn.infrastructure.model;
 
-import bpn.request.BpnMappingRequest;
-import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
+/**
+ * Name response
+ */
+@Getter
+@AllArgsConstructor(staticName = "of")
+@NoArgsConstructor
+public class NameResponse {
+    private String value;
 
-public interface BpnService {
-    String findByBpn(String bpn);
-
-    List<BpnEdcMapping> findAllBpnMappings();
-
-    List<BpnEdcMapping> saveAllBpnEdcMappings(List<BpnMappingRequest> bpnEdcMappings);
-
-    List<BpnEdcMapping> updateAllBpnMappings(List<BpnMappingRequest> bpnEdcMappings);
-
-    void deleteBpnMapping(String bpn);
 }

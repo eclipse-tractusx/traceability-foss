@@ -30,12 +30,16 @@ public class AssetsSupport {
     @Autowired
     AssetRepositoryProvider assetRepositoryProvider;
 
+    @Autowired
+    BpnSupport bpnSupport;
+
 
     public String emptyText() {
         return "";
     }
 
     public void defaultAssetsStored() {
+        bpnSupport.providesBpdmLookup();
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests());
     }
 
@@ -44,6 +48,7 @@ public class AssetsSupport {
     }
 
     public void tractionBatteryCodeAssetsStored() {
+        bpnSupport.providesBpdmLookup();
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertTractionBatteryCodeAssetsForTests());
     }
 

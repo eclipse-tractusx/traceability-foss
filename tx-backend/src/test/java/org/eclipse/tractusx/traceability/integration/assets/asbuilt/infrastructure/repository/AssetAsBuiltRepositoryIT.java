@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -48,6 +49,9 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
     @Autowired
     JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
+    @Autowired
+    BpnSupport bpnSupport;
+
     @ParameterizedTest
     @MethodSource("fieldNameTestProvider")
     void givenIdField_whenGetFieldValues_thenSorted(
@@ -57,6 +61,7 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
             Integer expectedSize
     ) {
         // given
+        bpnSupport.providesBpdmLookup();
         assetsSupport.defaultAssetsStored();
 
         // when
@@ -71,6 +76,7 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
     @Test
     void givenAssets_whenGetByImportStateIn_thenReturnProperAssets() {
         // given
+        bpnSupport.providesBpdmLookup();
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity entityInSyncState = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").get();
         entityInSyncState.setImportState(ImportState.IN_SYNCHRONIZATION);

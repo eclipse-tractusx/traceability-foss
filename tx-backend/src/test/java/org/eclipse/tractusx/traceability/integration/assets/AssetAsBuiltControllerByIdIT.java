@@ -106,6 +106,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
     @Test
     void givenInvestigationsForAsset_whenCallAssetById_thenReturnProperCount() throws JoseException {
         // Given
+
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity assetAsBuilt = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(CREATED, List.of(assetAsBuilt));
