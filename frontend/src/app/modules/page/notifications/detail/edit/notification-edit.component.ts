@@ -110,10 +110,41 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
     });
+
+    if (!this.editMode) {
+      this.isSaveButtonDisabled = false;
+    }
+
+    if (this.editMode) {
+      if (!this.notificationDetailFacade.selected?.data) {
+        this.selectedNotificationBasedOnUrl();
+      } else {
+        this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected.data);
+      }
+    } else {
+      // TODO: input asset Ids from router and set notification type based on my parts (alert) / other parts (investigations) origin
+      const newNotification: Notification = {
+        assetIds: this.sharedPartIdsService.sharedPartIds,
+        createdBy: '',
+        type: this.route.snapshot.queryParams['initialType'],
+        createdByName: '',
+        createdDate: undefined,
+        description: '',
+        isFromSender: true,
+        reason: undefined,
+        sendTo: '',
+        sendToName: '',
+        severity: undefined,
+        status: undefined,
+        title: '',
+        id: 'new',
+      };
+      this.selectNotificationAndLoadPartsBasedOnNotification(newNotification);
+    }
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
-    const noChangesOrInvalid = notificationFormGroup.invalid && !this.partsChanged;
+    const noChangesOrInvalid = (notificationFormGroup.invalid && !this.partsChanged) || !this.editMode;
     this.isSaveButtonDisabled = !noChangesOrInvalid;
     this.notificationFormGroup = notificationFormGroup;
 
@@ -152,33 +183,8 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    console.log(this.sharedPartIdsService.sharedPartIds);
-    if (this.editMode) {
-      if (!this.notificationDetailFacade.selected?.data) {
-        this.selectedNotificationBasedOnUrl();
-      } else {
-        this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected.data);
-      }
-    } else {
-      // TODO: input asset Ids from router and set notification type based on my parts (alert) / other parts (investigations) origin
-      const newNotification: Notification = {
-        assetIds: this.sharedPartIdsService.sharedPartIds,
-        createdBy: '',
-        type: this.route.snapshot.queryParams['initialType'],
-        createdByName: '',
-        createdDate: undefined,
-        description: '',
-        isFromSender: true,
-        reason: undefined,
-        sendTo: '',
-        sendToName: '',
-        severity: undefined,
-        status: undefined,
-        title: '',
-        id: 'new',
-      };
-      this.selectNotificationAndLoadPartsBasedOnNotification(newNotification);
-    }
+
+
   }
 
 
