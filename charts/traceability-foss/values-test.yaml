@@ -205,6 +205,9 @@ backend:
     irs: *irs_name
     edc: *edc_name
 
+  bpdm:
+    url: 'https://partners-pool.int.demo.catena-x.net'
+
 #########################
 # PG Admin configuration     #
 #########################
