@@ -1,6 +1,6 @@
 = Cross-cutting concepts
 
-- xref:entity-relationship-model.adoc[Entity Relationship Model]
+- xref:entity-relationship-model.adoc[Entity-relationship model]
 - xref:domain-concepts.adoc[Domain concepts]
 - xref:safety-security.adoc[Safety and security concepts]
 - xref:architecture-design-patterns.adoc[Architecture and design patterns]
