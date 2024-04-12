@@ -96,7 +96,7 @@ describe('requestNotificationNewComponent', () => {
   });
 
   describe('Request Investigation', () => {
-    fit('should render edit mode', async () => {
+    it('should render edit mode', async () => {
       await renderRequestNotificationComponent(true, 'edit', NotificationAssembler.assembleNotification(MockEmptyAlert));
       const headline = await waitFor(() => screen.getByText('edit'), { timeout: 2000 });
       expect(headline).toBeInTheDocument();
