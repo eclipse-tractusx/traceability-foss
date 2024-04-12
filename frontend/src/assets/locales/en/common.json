@@ -8,8 +8,7 @@
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "investigations": "Quality investigations",
-    "alerts": "Quality alerts",
+    "inbox": "Inbox",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
@@ -28,13 +27,12 @@
   },
   "pageTitle": {
     "dashboard": "Dashboard",
-    "parts": "My Parts",
-    "otherParts": "Other Parts",
+    "parts": "My parts",
+    "otherParts": "Other parts",
     "about": "About Catena-X Open-Source Traceability",
-    "relations": "Part Relations",
+    "relations": "Part relations",
     "admin": "Administration Catena-X",
-    "investigations": "Quality Investigations",
-    "alerts": "Quality Alerts"
+    "alerts": "Quality topics"
   },
   "layout": {
     "nav": {
@@ -54,6 +52,7 @@
     "close": "Close",
     "decline": "Decline",
     "viewDetails": "View details",
+    "edit": "Edit",
     "help": "Help",
     "add": "Add",
     "saveChanges": "Save changes",
@@ -88,8 +87,7 @@
       "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
       "refreshTooltip": "Reset individual table column settings to default",
       "saveAction": "Save",
-      "alert": "Quality Alert",
-      "investigation": "Quality Investigation"
+      "alert": "Quality Alert"
     },
     "column": {
       "id": "ID",
@@ -129,7 +127,9 @@
       "sentActiveInvestigations" : "Created",
       "importState": "Import State",
       "importNote": "Import Note",
-      "importDate": "Import Date"
+      "importDate": "Import Date",
+      "type": "Type",
+      "title": "Title"
     }
   },
   "dataLoading": {
@@ -185,6 +185,7 @@
   },
   "requestAlert": {
     "headline": "Create quality alert",
+    "titleDescription": "Title",
     "textAreaDescription": "Add a description about the alert.",
     "success_one": "You queued an alert for {{count}} part",
     "success_other": "You queued an alert for {{count}} parts",
@@ -199,9 +200,19 @@
 
   },
   "requestNotification": {
+    "investigation": "Quality investigation",
+    "alert": "Quality alert",
+    "header": "Create notification",
+    "editNotificationHeader": "Edit notification",
+    "affectedParts": "Affected parts",
+    "unAffectedParts": "Available parts",
     "partDescription": "You selected the following parts:",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
+    "titleLabel": "Title",
+    "titleDescription": "Specify a short title.",
     "targetDateLabel": "Deadline",
+    "typeDescription": "Type of quality topic.",
+    "typeLabel": "Type",
     "bpnLabel": "BPN",
     "bpnDescription": "Please specify the receiver BPN.",
     "restoreItem": "Do you want to restore your last item?",
@@ -209,8 +220,19 @@
     "cancel": "CANCEL",
     "submit": "ADD TO QUEUE",
     "severity": "Severity",
-    "severityDescription": "Select the severity for the problem at hand",
-    "serverError": "Server error:"
+    "severityDescription": "Select the severity for the problem at hand.",
+    "serverError": "Server error:",
+    "remove": "Remove selection",
+    "add": "Add selection",
+    "modifyNotAllowed": "Requires at least one selection in the parts table.",
+    "textAreaDescription": "Describe the quality issue.",
+    "saveNotAllowed": "Requires valid form input.",
+    "saveSuccess": "Quality topic was updated successfully.",
+    "saveError": "An error occurred while updating the quality topic."
+  },
+  "editNotification": {
+    "saveButton": "Save",
+    "cancelButton": "Cancel"
   },
   "requestPublishAssets": {
     "success": "Request to publish assets was successful",
@@ -261,7 +283,7 @@
       "successfullyDeclined": "Investigation was declined successfully.",
       "failedAccept": "Investigation failed to accept, please try again.",
       "failedAcknowledge": "Investigation failed to acknowledge, please try again.",
-      "failedApprove": "Investigation failed to send, please try again.",
+      "failedApprove": "Investigation failed to approve, please try again.",
       "failedCancel": "Investigation failed to cancel, please try again.",
       "failedClose": "Investigation failed to close, please try again.",
       "failedDecline": "Investigation failed to decline, please try again."
@@ -270,11 +292,11 @@
   "commonAlert": {
     "viewAll": "View all",
     "tabs": {
-      "received": "Received",
-      "queuedAndRequested": "Queued & Requested"
+      "received": "received",
+      "queuedAndRequested": "sent"
     },
     "status": {
-      "SENT": "Sent",
+      "SENT": "Requested",
       "CANCELED": "Cancelled",
       "CLOSED": "Closed",
       "CREATED": "Queued",

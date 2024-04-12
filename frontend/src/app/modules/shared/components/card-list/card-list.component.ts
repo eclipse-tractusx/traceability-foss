@@ -30,6 +30,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class CardListComponent {
   @Input() list: Record<string, string>;
   @Input() title: string;
+  @Input() i18nPrefix: string = 'partDetail';
+  @Input() isBoldTitle: boolean = false;
 
   valueAsString(value: any): string {
     return value as string;

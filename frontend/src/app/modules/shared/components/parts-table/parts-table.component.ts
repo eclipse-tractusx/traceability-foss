@@ -60,8 +60,9 @@ import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationColumn } from '@shared/model/notification.model';
 import { DeeplinkService } from '@shared/service/deeplink.service';
-
-
+// TODO
+// 1. for investigations we need this component to provide customer and supplier part in one table
+// 2. for alerts we can use the OWN only
 @Component({
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
@@ -76,6 +77,7 @@ export class PartsTableComponent implements OnInit {
   @Input() labelId: string;
   @Input() noShadow = false;
   @Input() showHover = true;
+  @Input() menuActivated = true;
 
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
@@ -175,7 +177,6 @@ export class PartsTableComponent implements OnInit {
   }
 
   private initializeTableViewSettings(): void {
-
     switch (this.tableType) {
       case TableType.AS_PLANNED_CUSTOMER:
         this.tableViewConfig = new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();

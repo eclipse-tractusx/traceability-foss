@@ -6,13 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
-
 ## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+- #780 store api documenation in docs/api to conform with TRG 1.08
+- #622 Notification Update API
+
+## Changed
+- #823 migrate to irs-helm 6.18.0
+- #636 migrate to digital-twin-registry version 0.4.9 from 0.3.22
+- #622 Added functionallity to edit existing notifications within CREATED state
+- #602 use digitalTwinType instead of semanticId to determine asBuilt or asPlanned assets
+- bump ch.qos.logback:logback-core from 1.4.14 to 1.5.4
+- bump peaceiris/actions-gh-pages from 3.9.3 to 4.0.0
+- bump aquasecurity/trivy-action from 0.18.0 to 0.19.0
+- bump org.springframework.cloud:spring-cloud-dependencies from 2023.0.0 to 2023.0.1
+- bump org.awaitility:awaitility from 3.0.0 to 4.2.1
+- bump org.asciidoctor:asciidoctorj-diagram from 2.2.13 to 2.3.0
+- bump io.cucumber:cucumber-bom from 7.15.0 to 7.16.1
+
+## [10.8.2 - 05.04.2024]
+### Removed
+- #547 Removed classification check on alert / investigation update callback methods
+
+## [10.8.1 - 04.04.2024]
+
 ### Added
 - #695 OAuth2.0 Client scope configuration
 - #606 Added error message into notifications on failure
 - #596 Added Policy management documentation
 - Added overview of the scheduler tasks in documentation
+- #736 Added Contract Detailed View
+- #706 Created notification classes to support both alert and investigations
+- #706 Notification controller having the same endpoints as alerts and investigations controllers
+- #736 add contractAgreementId as searchable field for /contracts
+- Added capitalization section in guidelines.md
+- #616 Allow edc notification update with empty asset list
+- #630 Added Parts extended detailed view
 
 ### Changed
 - #709 Bumped spring-core from 6.0.17 to 6.1.5
@@ -20,13 +50,25 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #606 refactored response model to only be used by common model package tx-models
 - #709 Fixed CVE-2024-22257 overriding spring-security-core from 6.1.7 to 6.2.3
 - #596 Policy management has been moved to different module
+- #616 Merged quality investigations / alerts into a single view
 - #762 updated documentation for release 24.5
+- #706 StartNotificationRequest now requires additional parameter type ("ALERT", "INVESTIGATION") which
+- #706 Search criteria allows to filter by new type parameter
+- #706 Notification response have new title parameter
+- #718 update tj-actions/changed-files from v42 to v44
+- #718 update maven-project-info-reports-plugin from 3.4.5 to 3.5.0
+- #718 update jsonschema2pojo-core from 1.1.1 to 1.2.1
+- #718 migrate Spring Boot from 3.1.9 to 3.2.4
+- #630 Updated user manual with new part detailed view also for supplier and customer parts
+- #736 fixed bug in request logic of contracts detailed view
+- Improved the release documentation
+- #706 QualityNotification naming in code replaced with Notification
 
 ### Removed
 - Shedlock, resilence4j, templateResolver as not used anymore
+- #706 Removed alert and investigation specific classes and services to replace them with merged notification classes
 
-### Added
-- #630 Added Parts extended detailed view
+## [10.8.0 - 03.04.2024] - BROKEN RELEASE - DO NOT USE
 
 ## [10.7.0 - 18.03.2024]
 

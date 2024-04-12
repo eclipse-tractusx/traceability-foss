@@ -19,15 +19,20 @@
 package org.eclipse.tractusx.traceability.integration.common.config;
 
 import io.restassured.RestAssured;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.event.EventListener;
 
 @TestConfiguration
+@RequiredArgsConstructor
 public class RestAssuredConfig {
 
+    private final ServerProperties serverProperties;
+
     @EventListener(WebServerInitializedEvent.class)
-    void onServletContainerInitialized(WebServerInitializedEvent event) {
-        RestAssured.port = event.getWebServer().getPort();
+    void onServletContainerInitialized() {
+        RestAssured.port = serverProperties.getPort();
     }
 }

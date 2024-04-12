@@ -42,17 +42,17 @@ import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortExc
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
-import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractException;
-import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationReceiverBpnMismatchException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationNotSupportedException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
+import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationIllegalUpdate;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationNotFoundException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -152,9 +152,9 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
-    @ExceptionHandler(AlertNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleAlertNotFoundException(AlertNotFoundException exception) {
-        log.warn("handleAlertNotFoundException", exception);
+    @ExceptionHandler(NotificationNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleNotificationNotFoundException(NotificationNotFoundException exception) {
+        log.warn("handleNotificationNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
@@ -201,8 +201,8 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
-    @ExceptionHandler(AlertIllegalUpdate.class)
-    ResponseEntity<ErrorResponse> handleAlertIllegalUpdate(AlertIllegalUpdate exception) {
+    @ExceptionHandler(NotificationIllegalUpdate.class)
+    ResponseEntity<ErrorResponse> handleAlertIllegalUpdate(NotificationIllegalUpdate exception) {
         log.warn("handleAlertIllegalUpdate", exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse(exception.getMessage()));
@@ -250,9 +250,9 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
-    @ExceptionHandler(UpdateQualityNotificationValidationException.class)
-    ResponseEntity<ErrorResponse> handleUpdateQualityNotificationValidationException(UpdateQualityNotificationValidationException exception) {
-        log.warn("handleUpdateQualityNotificationValidationException", exception);
+    @ExceptionHandler(UpdateNotificationValidationException.class)
+    ResponseEntity<ErrorResponse> handleUpdateNotificationValidationException(UpdateNotificationValidationException exception) {
+        log.warn("handleUpdateNotificationValidationException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }

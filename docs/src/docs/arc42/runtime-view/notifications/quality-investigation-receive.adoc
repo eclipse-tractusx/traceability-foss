@@ -1,6 +1,6 @@
-= Receive Quality Investigation
+= Receive Quality Notification
 
-This sequence diagram describes the process of receiving a quality investigation from another Traceability partner.
+This sequence diagram describes the process of receiving a quality notification from another Traceability partner.
 
 [plantuml, target=business-context_quality-investigation, format=svg]
 ....
@@ -8,7 +8,7 @@ include::../../../../uml-diagrams/arc42/runtime-view/quality-investigation-recei
 ....
 
 == Overview
-As for the sending of a quality investigation also for receiving of a notification EDC is used to push data from a sender to a receiver.
+As for the sending of a quality notification also for receiving of a notification EDC is used to push data from a sender to a receiver.
 To enable receiving a notification by a partner you need to
 
 * Create notification endpoint for qualitynotifications/receive

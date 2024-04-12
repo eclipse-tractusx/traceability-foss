@@ -39,9 +39,9 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
 import org.springframework.data.annotation.Immutable;
 
 import java.time.Instant;
@@ -85,17 +85,10 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "assets_as_built_investigations",
+            name = "assets_as_built_notifications",
             joinColumns = @JoinColumn(name = "asset_id"),
-            inverseJoinColumns = @JoinColumn(name = "investigation_id"))
-    private List<InvestigationEntity> investigations = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "assets_as_built_alerts",
-            joinColumns = @JoinColumn(name = "asset_id"),
-            inverseJoinColumns = @JoinColumn(name = "alert_id"))
-    private List<AlertEntity> alerts = new ArrayList<>();
+            inverseJoinColumns = @JoinColumn(name = "notification_id"))
+    private List<NotificationEntity> notifications = new ArrayList<>();
 
     public AssetBase toDomain() {
         return AssetBase.builder()
@@ -121,10 +114,34 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
                 .importState(this.getImportState())
                 .policyId(this.getPolicyId())
                 .detailAspectModels(DetailAspectModel.from(this))
-                .sentQualityAlerts(emptyIfNull(this.alerts).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
-                .receivedQualityAlerts(emptyIfNull(this.alerts).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(AlertEntity::toDomain).toList())
-                .sentQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.SENDER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
-                .receivedQualityInvestigations(emptyIfNull(this.investigations).stream().filter(alert -> NotificationSideBaseEntity.RECEIVER.equals(alert.getSide())).map(InvestigationEntity::toDomain).toList())
+                .sentQualityAlerts(
+                        emptyIfNull(this.notifications).stream()
+                                .filter(notification -> NotificationSideBaseEntity.SENDER.equals(notification.getSide()))
+                                .filter(notification -> NotificationTypeEntity.ALERT.equals(notification.getType()))
+                                .map(NotificationEntity::toDomain)
+                                .toList()
+                )
+                .receivedQualityAlerts(
+                        emptyIfNull(this.notifications).stream()
+                                .filter(notification -> NotificationSideBaseEntity.RECEIVER.equals(notification.getSide()))
+                                .filter(notification -> NotificationTypeEntity.ALERT.equals(notification.getType()))
+                                .map(NotificationEntity::toDomain)
+                                .toList()
+                )
+                .sentQualityInvestigations(
+                        emptyIfNull(this.notifications).stream()
+                                .filter(notification -> NotificationSideBaseEntity.SENDER.equals(notification.getSide()))
+                                .filter(notification -> NotificationTypeEntity.INVESTIGATION.equals(notification.getType()))
+                                .map(NotificationEntity::toDomain)
+                                .toList()
+                )
+                .receivedQualityInvestigations(
+                        emptyIfNull(this.notifications).stream()
+                                .filter(notification -> NotificationSideBaseEntity.RECEIVER.equals(notification.getSide()))
+                                .filter(notification -> NotificationTypeEntity.INVESTIGATION.equals(notification.getType()))
+                                .map(NotificationEntity::toDomain)
+                                .toList()
+                )
                 .tombstone(this.getTombstone())
                 .contractAgreementId(this.getContractAgreementId())
                 .build();

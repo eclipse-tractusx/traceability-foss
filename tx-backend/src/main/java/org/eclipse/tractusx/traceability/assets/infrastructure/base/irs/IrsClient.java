@@ -46,6 +46,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_ADMIN_TEMPLATE;
@@ -73,8 +74,9 @@ public class IrsClient {
     }
 
     public List<IrsPolicyResponse> getPolicies() {
-        return irsAdminTemplate.exchange(policiesPath, HttpMethod.GET, null, new ParameterizedTypeReference<List<IrsPolicyResponse>>() {
+        Map<String, List<IrsPolicyResponse>> body = irsAdminTemplate.exchange(policiesPath, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, List<IrsPolicyResponse>>>() {
         }).getBody();
+        return body == null ? List.of() : body.values().stream().flatMap(List::stream).toList();
     }
 
     public void deletePolicy() {

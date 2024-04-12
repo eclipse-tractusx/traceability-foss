@@ -19,7 +19,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ALERT_BASE_ROUTE, getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
@@ -45,6 +45,7 @@ export class RequestNotificationComponent {
   @Input() set notificationType(notificationType: NotificationType) {
     this.context = notificationType === NotificationType.INVESTIGATION ? 'requestInvestigations' : 'requestAlert';
     this.isInvestigation = notificationType === NotificationType.INVESTIGATION;
+    this.formGroup.addControl('title', new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]));
     this.formGroup.addControl('description', new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]));
     this.formGroup.addControl('severity', new FormControl(Severity.MINOR, [ Validators.required ]));
     if (this.isInvestigation) {
@@ -90,27 +91,23 @@ export class RequestNotificationComponent {
 
     if (this.formGroup.invalid) return;
     const partIds = this.selectedItems.map(part => part.id);
-    if (this.isInvestigation) {
-      const { description, severity, targetDate } = this.formGroup.value;
-      const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
-      this.notificationService.createInvestigation(partIds, description, severity, targetDate).subscribe({
-        next: () => this.onSuccessfulSubmit(link, queryParams),
-        error: (err) => this.onUnsuccessfulSubmit(err.error.message),
-      });
-    } else {
+    // TODO this is not correct behaviour BUG!
+    // set asBuilt parameter if one of the selectedItems are a asPlanned Part
+    const isAsBuilt = this.selectedItems.map(part => part.semanticDataModel === SemanticDataModel.PARTASPLANNED).includes(true);
 
-      // TODO this is not correct behaviour BUG!
-      // set asBuilt parameter if one of the selectedItems are a asPlanned Part
-      const isAsBuilt = this.selectedItems.map(part => part.semanticDataModel === SemanticDataModel.PARTASPLANNED).includes(true);
+    let { description, bpn, severity, title } = this.formGroup.value;
+    const { link, queryParams } = getRoute(NOTIFICATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
+    let type = this.isInvestigation ? 'INVESTIGATION' : 'ALERT';
 
-      const { description, bpn, severity } = this.formGroup.value;
-      const { link, queryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
-
-      this.notificationService.createAlert(partIds, description, severity, bpn, isAsBuilt).subscribe({
-        next: () => this.onSuccessfulSubmit(link, queryParams),
-        error: (err) => this.onUnsuccessfulSubmit(err.error.message),
-      });
+    if (title === ""){
+      title = null;
     }
+
+    this.notificationService.createNotification(partIds, description, severity, bpn, type, title, null).subscribe({
+      next: () => this.onSuccessfulSubmit(link, queryParams),
+      error: (err) => this.onUnsuccessfulSubmit(err.error.message),
+    });
+
   }
 
   protected onSuccessfulSubmit(link: string, linkQueryParams: Record<string, string>): void {
@@ -138,11 +135,11 @@ export class RequestNotificationComponent {
     );
   }
 
-  protected  openErrorToast(errorMessage: string) {
+  protected openErrorToast(errorMessage: string) {
     this.toastService.error({
-      id:`${this.context}.serverError`
-    },
-      5000, true, errorMessage)
+        id: `${ this.context }.serverError`,
+      },
+      5000, true, errorMessage);
   }
 
   public resetForm(): void {

@@ -74,6 +74,3 @@ Check the Angular changelog for security-related updates.
 It’s best practice to upgrade your application with the latest version.
 
 #### Source [SyncFusion](https://www.syncfusion.com/blogs/post/top-5-best-practices-angular-app-security.aspx).
-
-## Veracode scan
-....TBD

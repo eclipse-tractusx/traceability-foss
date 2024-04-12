@@ -70,6 +70,25 @@ describe('Parts facade', () => {
       );
     });
 
+    it('should set second parts if request is successful', async () => {
+      const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuilt').and.returnValue(
+        of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
+      );
+      partsFacade.setPartsAsBuiltSecond(0, 10);
+
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], undefined, undefined));
+
+      const parts = await firstValueFrom(partsState.partsAsBuilt$);
+      await waitFor(() =>
+        expect(parts).toEqual({
+          error: undefined,
+          loader: undefined,
+          data: PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT),
+        }),
+      );
+    });
+
     it('should set parts including filter if request is successful', async () => {
       const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuilt').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),

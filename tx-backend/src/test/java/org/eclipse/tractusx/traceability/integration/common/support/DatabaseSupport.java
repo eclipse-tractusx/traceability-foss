@@ -27,24 +27,21 @@ import java.util.List;
 
 @Component
 public class DatabaseSupport {
+    // TODO: CLEAR NEW TABLES
     private static final List<String> TABLES = List.of(new String[]{
             "submodel_payload",
             "import_job_assets_as_built",
             "import_job_assets_as_planned",
             "assets_as_built_childs",
             "assets_as_built_parents",
-            "assets_as_built_notifications",
-            "assets_as_built_investigations",
-            "asset_as_built_alert_notifications",
-            "assets_as_built_alerts",
             "assets_as_planned_childs",
-            "alert_notification",
-            "alert",
+            "assets_as_built_notifications",
+            "assets_as_built_notification_messages",
+            "notification_message",
+            "notification",
             "assets_as_built",
             "assets_as_planned",
             "bpn_storage",
-            "investigation_notification",
-            "investigation",
             "traction_battery_code_subcomponent",
             "import_job"
     });

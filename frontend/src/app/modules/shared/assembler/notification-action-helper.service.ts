@@ -31,6 +31,10 @@ export class NotificationActionHelperService {
   constructor(private readonly roleService: RoleService) {
   }
 
+  public isAtLeastSupervisor(): boolean {
+    return this.roleService.isSupervisor();
+  }
+
   public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
     return isFromSender && status === NotificationStatus.CREATED;
   }
@@ -57,9 +61,10 @@ export class NotificationActionHelperService {
   }
 
   public isAuthorizedForButton(action: NotificationAction): boolean {
-    if(action === NotificationAction.APPROVE || action === NotificationAction.CLOSE) {
-      return this.roleService.isAtLeastSupervisor();
+    if (action === NotificationAction.APPROVE || action === NotificationAction.CLOSE) {
+      return this.roleService.isSupervisor();
     } else {
-      return this.roleService.isAtLeastUser();
-    }}
+      return this.roleService.isUser();
+    }
+  }
 }

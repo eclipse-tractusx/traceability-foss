@@ -209,7 +209,7 @@ SPDX-License-Identifier: Apache-2.0
 
     <ng-container matColumnDef="expandMenuActions" sticky>
       <td mat-cell *matCellDef="let row" [attr.colspan]="tableConfig.displayedColumns.length">
-        <div [class.expanded]="row === selectedRow" [class.collapsed]="row !== selectedRow" class="expand-element">
+        <div [class.menuExpanded]="row === selectedRow" [class.collapsed]="row !== selectedRow" class="expand-element">
           <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
             <button
               *ngIf="!config.condition || config.condition(row)"

@@ -50,7 +50,11 @@
       "state": "State",
       "policies": "Policies",
       "selectAtleastOne": "Select atleast one contract to use the export functionality.",
-      "exportAsCSV": ".CSV-File Export"
+      "exportAsCSV": ".CSV-File Export",
+      "overview": "Overview",
+      "policyDetail": "Policy detail",
+      "jsonViewer": "Json Viewer",
+      "jsonTreeViewer": "Json Tree Viewer"
     }
   }
 }

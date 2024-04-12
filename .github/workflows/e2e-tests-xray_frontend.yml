@@ -116,6 +116,7 @@ jobs:
           CYPRESS_ADMIN_PW: ${{ secrets.TRACE_X_ADMIN_PW }}
           CYPRESS_USER_LOGIN: ${{ secrets.TRACE_X_USER_LOGIN }}
           CYPRESS_USER_PW: ${{ secrets.TRACE_X_USER_PW }}
+          CYPRESS_REDIRECT_URI: https://traceability-portal-e2e-a.dev.demo.catena-x.net/dashboard
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR

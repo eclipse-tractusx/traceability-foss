@@ -31,17 +31,17 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
+import notification.request.NotificationSeverityRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationStatusRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
+import notification.response.NotificationIdResponse;
+import notification.response.NotificationResponse;
 import org.apache.http.HttpStatus;
-import org.awaitility.Duration;
+import org.awaitility.Durations;
 import org.eclipse.tractusx.traceability.test.tooling.EnvVariablesResolver;
 import org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
-import qualitynotification.base.request.QualityNotificationSeverityRequest;
-import qualitynotification.base.request.StartQualityNotificationRequest;
-import qualitynotification.base.request.UpdateQualityNotificationRequest;
-import qualitynotification.base.request.UpdateQualityNotificationStatusRequest;
-import qualitynotification.base.response.QualityNotificationIdResponse;
-import qualitynotification.base.response.QualityNotificationResponse;
 
 import java.time.Instant;
 import java.util.List;
@@ -91,19 +91,19 @@ public class RestProvider {
         System.out.println(host);
     }
 
-    public QualityNotificationIdResponse createNotification(
+    public NotificationIdResponse createNotification(
             List<String> partIds,
             String description,
             Instant targetDate,
             String severity,
             String receiverBpn,
             NotificationTypeEnum notificationType) {
-        final StartQualityNotificationRequest requestBody = StartQualityNotificationRequest.builder()
-                .partIds(partIds)
-                .isAsBuilt(true)
+        final StartNotificationRequest requestBody = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
                 .description(description)
                 .targetDate(targetDate)
-                .severity(QualityNotificationSeverityRequest.fromValue(severity))
+                .severity(NotificationSeverityRequest.fromValue(severity))
+                .type(notificationType.toRequest())
                 .receiverBpn(receiverBpn)
                 .build();
         return given().log().body()
@@ -111,24 +111,24 @@ public class RestProvider {
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .when()
-                .post("/api/" + notificationType.label)
+                .post("/api/notifications")
                 .then()
                 .statusCode(HttpStatus.SC_CREATED)
                 .extract()
-                .as(QualityNotificationIdResponse.class);
+                .as(NotificationIdResponse.class);
 
     }
 
-    public void approveNotification(final Long notificationId, NotificationTypeEnum notificationType) {
+    public void approveNotification(final Long notificationId) {
         await()
-                .atMost(Duration.FIVE_MINUTES)
+                .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(10, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
                     ValidatableResponse validatableResponse = given().spec(getRequestSpecification())
                             .contentType(ContentType.JSON)
                             .when()
-                            .post("api/" + notificationType.label + "/{notificationId}/approve".replace(
+                            .post("api/notifications/{notificationId}/approve".replace(
                                     "{notificationId}",
                                     notificationId.toString()
                             ))
@@ -144,12 +144,12 @@ public class RestProvider {
 
     }
 
-    public void cancelNotification(final Long notificationId, NotificationTypeEnum notificationType) {
+    public void cancelNotification(final Long notificationId) {
 
         given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .post("api/" + notificationType.label + "/{notificationId}/cancel".replace(
+                .post("api/notifications/{notificationId}/cancel".replace(
                         "{notificationId}",
                         notificationId.toString()
                 ))
@@ -157,9 +157,9 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    public void closeNotification(final Long notificationId, NotificationTypeEnum notificationType) {
+    public void closeNotification(final Long notificationId) {
         await()
-                .atMost(Duration.FIVE_MINUTES)
+                .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(10, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
@@ -167,13 +167,13 @@ public class RestProvider {
                             .contentType(ContentType.JSON)
                             .when()
                             .body("{\"reason\": \"stringstringstr\"}")
-                            .post("api/" + notificationType.label + "/{notificationId}/close".replace(
+                            .post("api/notifications/{notificationId}/close".replace(
                                     "{notificationId}",
                                     notificationId.toString()
                             ))
                             .then();
                     try {
-                        ValidatableResponse validatableResponse = result.statusCode(HttpStatus.SC_NO_CONTENT);
+                        result.statusCode(HttpStatus.SC_NO_CONTENT);
                         return true;
                     } catch (Exception e) {
                         return false;
@@ -182,15 +182,15 @@ public class RestProvider {
 
     }
 
-    public void updateNotification(NotificationTypeEnum notificationType, final Long notificationId,
-                                   UpdateQualityNotificationStatusRequest status, String reason) {
-        UpdateQualityNotificationRequest requestBody = UpdateQualityNotificationRequest.builder()
+    public void updateNotification(final Long notificationId,
+                                   UpdateNotificationStatusRequest status, String reason) {
+        UpdateNotificationStatusTransitionRequest requestBody = UpdateNotificationStatusTransitionRequest.builder()
                 .status(status)
                 .reason(reason)
                 .build();
 
         await()
-                .atMost(Duration.FIVE_MINUTES)
+                .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(10, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
@@ -198,7 +198,7 @@ public class RestProvider {
                             .contentType(ContentType.JSON)
                             .body(requestBody)
                             .when()
-                            .post("api/" + notificationType.label + "/{notificationId}/update".replace(
+                            .post("api/notifications/{notificationId}/update".replace(
                                     "{notificationId}",
                                     notificationId.toString()
                             ))
@@ -215,7 +215,7 @@ public class RestProvider {
 
     }
 
-    public List<QualityNotificationResponse> getReceivedNotifications(NotificationTypeEnum notificationType) {
+    public List<NotificationResponse> getReceivedNotifications() {
 
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
@@ -230,25 +230,25 @@ public class RestProvider {
                         "        ]\n" +
                         "    }\n" +
                         "}")
-                .post("/api/" + notificationType.label + "/filter")
+                .post("/api/notifications/filter")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .body()
-                .jsonPath().getList("content", QualityNotificationResponse.class);
+                .jsonPath().getList("content", NotificationResponse.class);
     }
 
-    public QualityNotificationResponse getNotification(Long investigationId, NotificationTypeEnum notificationType) {
+    public NotificationResponse getNotification(Long investigationId) {
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/" + notificationType.label + "/" + investigationId)
+                .get("/api/notifications/" + investigationId)
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .log()
                 .body()
                 .extract()
-                .body().as(QualityNotificationResponse.class);
+                .body().as(NotificationResponse.class);
     }
 
     private RequestSpecification getRequestSpecification() {

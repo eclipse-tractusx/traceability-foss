@@ -21,10 +21,11 @@
 package org.eclipse.tractusx.traceability.common.mapper;
 
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationContent;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotificationHeader;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationContent;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationHeader;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +34,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -58,13 +58,13 @@ class NotificationMapperTest {
         EDCNotificationContent content = new EDCNotificationContent("information", List.of("partId"));
         EDCNotification edcNotification = new EDCNotification(header, content);
 
-        QualityNotificationMessage expectedNotification = NotificationTestDataFactory.createNotificationTestData();
+        NotificationMessage expectedNotification = NotificationTestDataFactory.createNotificationTestData();
 
         when(bpnRepository.findManufacturerName(eq(expectedNotification.getCreatedBy()))).thenReturn(expectedNotification.getCreatedByName());
         when(bpnRepository.findManufacturerName(eq(expectedNotification.getSendTo()))).thenReturn(expectedNotification.getSendToName());
 
 
-        QualityNotificationMessage actualNotification = notificationMapper.toNotification(edcNotification);
+        NotificationMessage actualNotification = notificationMapper.toNotification(edcNotification, NotificationType.INVESTIGATION);
         assertNotNull(actualNotification.getId());
         assertEquals(expectedNotification.getNotificationReferenceId(), actualNotification.getNotificationReferenceId());
         assertEquals(expectedNotification.getCreatedBy(), actualNotification.getCreatedBy());
@@ -76,5 +76,6 @@ class NotificationMapperTest {
         assertEquals(expectedNotification.getNotificationStatus(), actualNotification.getNotificationStatus());
         assertEquals(expectedNotification.getAffectedParts(), actualNotification.getAffectedParts());
         assertEquals(expectedNotification.getSeverity(), actualNotification.getSeverity());
+        assertEquals(expectedNotification.getType(), actualNotification.getType());
     }
 }

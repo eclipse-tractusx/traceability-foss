@@ -19,16 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {LayoutModule} from '@layout/layout.module';
-import {OtherPartsModule} from '@page/other-parts/other-parts.module';
-import {NotificationType} from '@shared/model/notification.model';
-import {SharedModule} from '@shared/shared.module';
-import {fireEvent, screen, waitFor} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {sleepForTests} from '../../../../../test';
-import {RequestNotificationComponent} from '@shared/components/request-notification/request-notification.component';
-import {NotificationService} from "@shared/service/notification.service";
-import { of } from 'rxjs';
+import { LayoutModule } from '@layout/layout.module';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
+import { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+import { NotificationType } from '@shared/model/notification.model';
+import { NotificationService } from '@shared/service/notification.service';
+import { SharedModule } from '@shared/shared.module';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { sleepForTests } from '../../../../../test';
 
 
 describe('requestNotificationComponent', () => {
@@ -67,7 +66,7 @@ describe('requestNotificationComponent', () => {
     deselectPartMock = jasmine.createSpy();
     clearSelectedMock = jasmine.createSpy();
     submittedMock = jasmine.createSpy();
-    notificationServiceMock = jasmine.createSpyObj('NotificationService', ['createInvestigation' /* add more methods as needed */]);
+    notificationServiceMock = jasmine.createSpyObj('NotificationService', ['createNotification' /* add more methods as needed */]);
   });
 
   describe('Request Investigation', () => {
@@ -157,6 +156,7 @@ describe('requestNotificationComponent', () => {
   const shouldSubmitParts = async (shouldFillBpn = false) => {
     const testText = 'This is for a testing purpose.';
     const textArea = (await waitFor(() => screen.getByTestId('BaseInputElement-1'))) as HTMLTextAreaElement;
+
     fireEvent.input(textArea, { target: { value: testText } });
 
     if (shouldFillBpn) {
@@ -168,6 +168,7 @@ describe('requestNotificationComponent', () => {
     expect(submit).toBeInTheDocument();
     expect(textArea.value).toEqual(testText);
     fireEvent.click(submit);
+
     await sleepForTests(2000);
     expect(textArea.value).toEqual('');
   };
