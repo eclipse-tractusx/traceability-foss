@@ -4,10 +4,10 @@
 |Term |Description
 
 |Aspect
-|Collection of various aspects from the Digital Twin. An aspect can, for example, bundle all information about a specific part.
+|Collection of various aspects from the digital twin. An aspect can, for example, bundle all information about a specific part.
 
 |AAS
-|**A**sset **A**dministration **S**hell (Industry 4.0). Is the implementation of the digital twin for Industry 4.0 and enables interoperability between different companies.
+|**A**sset **A**dministration **S**hell (Industry 4.0) is the implementation of the digital twin for Industry 4.0 and enables interoperability between different companies.
 
 |BoM
 |**B**ill **o**f **M**aterial. BoM is a list of parts and materials that a product contains. Without them, manufacturing would not be possible.
@@ -19,7 +19,7 @@
 |Bill of material lifecycle of the planned entity
 
 |BPN
-|**B**usiness **P**artner **N**umber. A BPN is used to identify a partner in the Catena-X network
+|**B**usiness **P**artner **N**umber. A BPN is used to identify a partner in the Catena-X network.
 
 |CX
 |Abbreviation for Catena-X
@@ -43,7 +43,7 @@
 |**S**mall / **M**edium **E**nterprise
 
 |Trace-X
-|Proper name of open-source software application of Catena-X Use Case Traceability
+|Proper name of open-source software application of Catena-X use case traceability
 
 |UI
 |**U**ser **I**nterface
