@@ -139,7 +139,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: {{ .Values.javaToolOptions | default "" | quote }}
             - name: BPDM_URL
-              value: { { .Values.bpdm.url | default "" | quote } }
+              value: {{ .Values.bpdm.url | default "" | quote }}
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
