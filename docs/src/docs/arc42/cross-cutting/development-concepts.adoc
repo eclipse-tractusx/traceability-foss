@@ -2,27 +2,27 @@
 
 == Build, test, deploy
 
-TraceX is built using Maven and utilizes all the standard concepts of it.
+Trace-X is built using Maven and utilizes all the standard concepts of it.
 Test execution is part of the build process and a minimum test coverage of 80% is enforced.
 
 The project setup contains a multi-module Maven build.
-Commonly used classes (like the TraceX data model) should be extracted into a separate submodule and reused across the project.
+Commonly used classes (like the Trace-X data model) should be extracted into a separate submodule and reused across the project.
 However, this is not a "one-size-fits-all" solution.
 New submodules should be created with care and require a review by the team.
 
-The Maven build alone only leads up to the JAR artifact of TraceX.
-Do create Docker images, the Docker build feature is used.
+The Maven build alone only leads up to the JAR artifact of Trace-X.
+To create Docker images, the Docker build feature is used.
 This copies all resources into a builder image, builds the software and creates a final Docker image at the end that can then be deployed.
 
 Although the Docker image can be deployed in various ways, the standard solution are the provided Helm charts, which describe the required components as well.
 
 == Code generation
 
-There are two methods of code generation in TraceX:
+There are two methods of code generation in Trace-X:
 
 === Lombok
 
-The Lombok library is heavily used to generate boilerplate code (like Constructors, Getters, Setters, Builders...).
+The Lombok library is heavily used to generate boilerplate code (like constructors, getters, setters, builders...).
 This way, code can be written faster and this boilerplate code is excluded from test coverage, which keeps the test base lean.
 
 === Swagger / OpenAPI
@@ -38,24 +38,28 @@ Data migration is handled by flyway.
 
 == Configurability
 
-TraceX utilizes the configuration mechanism provided by Spring Boot.
+Trace-X utilizes the configuration mechanism provided by Spring Boot.
 Configuration properties can be defined in the file `+src/main/resources/application.yml+`
 
 Other profiles should be avoided.
 Instead, the configuration can be overwritten using Spring's external configuration mechanism (see https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html).
-The operator must have total control over the configuration of TraceX.
+The operator must have total control over the configuration of Trace-X.
 
-== Java Style Guide
+== Java style guide
 
 We generally follow the link:https://google.github.io/styleguide/javaguide.html[Google Java Style Guide].
 
-== API Guide
+== API guide
 
-We generally follow the https://swagger.io/specification/
+We generally follow the link:https://swagger.io/specification/[OpenAPI Specification].
 
-== Unit and Functional Testing
+== Docomentation style guide
 
-=== General Unit testing
+We generally follow the link:https://developers.google.com/style[Google developer documentation style guide].
+
+== Unit and functional testing
+
+=== General unit testing
 
 * Code coverage >= 80%
 * Writing methods which provide a response to be better testable (avoid void if feasible).
@@ -68,38 +72,38 @@ E.g:
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/given_when_then_pattern.png[]
 
-=== Integration Testing
+=== Integration testing
 
-Each public api should have at least two integration tests (positive / negative).
+Each public API should have at least two integration tests (positive / negative).
 For integration testing, the `+tx-backend/src/main/resources/application-integration.yml+` is used.
 Additionally, you need to have a local Docker environment running.
 For this, we recommend link:https://rancherdesktop.io/[Rancher Dektop].
 
-== Clean Code
+== Clean code
 
 We follow the rules and behaviour of: https://clean-code-developer.com/.
 
-== Secure Coding standards
+== Secure coding standards
 
-As there is no other guideline of C-X, we fix any Vulnerabilities, Exposures, Flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".
+As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/vulnerability_level.png[]
 
-== TRACE-X Technical class responsibilities
+== Trace-X technical class responsibilities
 
-=== Controllers
+=== Controller
 
-* Have only one dependency to a facade or a service or a validator annotation
-* Have no own logic
-* Including the swagger documentation annotations
-* For each controller exists and Integration Test class
+* Has only one dependency to a facade or a service or a validator annotation
+* Has no own logic
+* Includes the swagger documentation annotations
+* Has an integration test class
 * Uses a static mapper to transform a domain model into the response model
 * Returns a ResponseEntity<T>
 
 === Response object
 
 * Should be a public version of the domain object
-* It is a result of the transformation which will be done in the facade
+* Is a result of the transformation which will be done in the facade
 * Is not necessary if the domain object can be fully public
 * Is not allowed to be implemented in a repository or a DAO
 
@@ -113,27 +117,27 @@ image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main
 * Responsible for retrieving data from storage
 * Performs business logic
 * Can be a http client
-* Returns a jpaEntity → Domain Object
+* Returns a jpaEntity → domain object
 * Should only be implemented in a controller through an interface
 
 === Repository
 
-* Represents an interface to the underlying repository implementation which uses then the spring repository
+* Represents an interface to the underlying repository implementation which then uses the spring repository
 
-=== Domain Object
+=== Domain object
 
-* Mapped from an entity or external data received
-* Will be used as working model until it will be finally transformed to a response object or another domain which will be later on persisted
+* Mapped from an entity or from received external data
+* Will be used as a working model until it will finally be transformed to a response object or another domain which will be persisted later on
 
-=== Config Object
+=== Config object
 
-* Should have the suffix Config at the end of the class
-* Including beans which are automatically created by app startup
+* Should have the suffix .config at the end of the class
+* Includes beans which are automatically created by app startup
 
 === Constructing objects
 
 * Using builder pattern
-** Currently we are using the constructor to create objects in our application.
-Main reason is probably to provide immutable objects.
-** As the handling with big loaded constructors is not easy and error prune, I would recommend using the builder pattern to have a clear understanding about what we creating at the point of implementation.
+** Currently, we are using the constructor to create objects in our application.
+Main reason is to provide immutable objects.
+** As the handling with big loaded constructors is not easy and error prone, it's recommended to use the builder pattern to have a clear understanding about what we are creating at the point of implementation.
 * Using lombok for annotation processing

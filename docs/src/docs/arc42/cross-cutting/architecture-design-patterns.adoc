@@ -1,23 +1,23 @@
 = Architecture and design patterns
 
-== Module / Package structure
+== Module / package structure
 
 * Main domain name
 
-** application
-*** optional: subdomain name (in case of inheritance) → following same structure as main domain
-*** mapper: holds the mapper of transforming domain models to response models
-*** service: holds the interface for implementation in the domain package
-*** rest: holds the controller for providing the api for the domain
-** domain
-*** optional: subdomain name (in case of inheritance)
-*** model: holds the domain model
-*** service: Implementation of the interface provided in the application package
-*** repository: holds the interface for accessing the infrastructure package
-** infrastructure
-*** optional: subdomain name (in case of inheritance)
-*** model: holds the technical entities
-*** repository: holds the data access layer
-**** e.g. JPARepository / Impl
-** All models (Request / Response) used in the API should be saved in the tx-model project.
+** Application
+*** Optional: subdomain name (in case of inheritance) → following same structure as main domain
+*** Mapper: holds the mapper of transforming domain models to response models
+*** Service: holds the interface for implementation in the domain package
+*** REST: holds the controller for providing the api for the domain
+** Domain
+*** Optional: subdomain name (in case of inheritance)
+*** Model: holds the domain model
+*** Service: implementation of the interface provided in the application package
+*** Repository: holds the interface for accessing the infrastructure package
+** Infrastructure
+*** Optional: subdomain name (in case of inheritance)
+*** Model: holds the technical entities
+*** Repository: holds the data access layer
+**** E.g. JPARepository / Impl
+** All models (request / response) used in the API should be saved in the tx-model project.
 To be reusable for cucumber testing.
