@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #780 store api documenation in docs/api to conform with TRG 1.08
 - #622 Notification Update API
+- #586 BPDM lookup feature
 
 ## Changed
 - #823 migrate to irs-helm 6.18.0
