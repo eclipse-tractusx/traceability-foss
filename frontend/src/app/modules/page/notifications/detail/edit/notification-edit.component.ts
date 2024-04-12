@@ -210,6 +210,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.notificationDetailFacade.selected = { data: null };
     this.notificationDetailFacade.unsubscribeSubscriptions();
     this.paramSubscription?.unsubscribe();
   }
