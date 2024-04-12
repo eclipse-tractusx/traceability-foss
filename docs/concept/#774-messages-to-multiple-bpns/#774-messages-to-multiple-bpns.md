@@ -1,4 +1,6 @@
-# \[Concept\] \[#774\] Messages to multiple BPNs
+# OBSOLETE \[Concept\] \[#774\] Messages to multiple BPNs
+
+### Concept no longer needed, as it was decided to go with a different approach.
 
 | Key           | Value                                                                    |
 |---------------|--------------------------------------------------------------------------|
@@ -15,6 +17,8 @@
 5. [References](#references)
 6. [Additional Details](#additional-details)
 
+
+
 # Summary
 A user must be able to send notifications to multiple BPNs.
 He must be able to view each of those and change their status individually.
@@ -25,7 +29,7 @@ Right now, a user can send a notification to only one BPN that he must manually 
 # Requirements
 - [ ] Notification model changed
 - [ ] Notification API changed
-- [ ] Implement funcionality for sending to multiple BPNLs in backend
+- [ ] Implement functionality for sending to multiple BPNLs in backend
 - [ ] Frontend concept implemented
   - [ ] Notification overview
   - [ ] Notification detail view
@@ -373,10 +377,6 @@ Clicking "send" will send messages to all BPNLs, where the last state was "CREAT
 
 For the recipient not much changes, since a notification can only be received by a single BPNL. The overview and the message history should be aligned with the view from the sender.
 The actions remain the same.
-
-#### Notification overview
-In the notification overview the status must be shown for each individual message.
-
 
 #### Create/Edit notifications
 When creating or editing notifications, the user must be able to add/remove multiple BPNLs.
