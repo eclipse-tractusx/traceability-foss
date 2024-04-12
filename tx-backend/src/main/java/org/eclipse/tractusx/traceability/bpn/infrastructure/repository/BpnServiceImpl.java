@@ -17,13 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.domain.service;
+package org.eclipse.tractusx.traceability.bpn.infrastructure.repository;
 
 import bpn.request.BpnMappingRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.bpn.application.service.BpnService;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.client.BpdmClient;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;

@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.bpn.application.service;
+package org.eclipse.tractusx.traceability.bpn.domain.service;
 
 import bpn.request.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;

@@ -29,7 +29,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey;
-import org.eclipse.tractusx.traceability.bpn.application.service.BpnService;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.eclipse.tractusx.traceability.generated.Batch200Schema;
 import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxBatch200KeyValueList;
 import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxBatch200ManufacturingCharacteristic;

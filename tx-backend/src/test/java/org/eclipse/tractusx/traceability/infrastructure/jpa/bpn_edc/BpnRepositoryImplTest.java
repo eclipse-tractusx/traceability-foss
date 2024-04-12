@@ -20,9 +20,9 @@
 package org.eclipse.tractusx.traceability.infrastructure.jpa.bpn_edc;
 
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.JpaBpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepositoryImpl;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.JpaBpnRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

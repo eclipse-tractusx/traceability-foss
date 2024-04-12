@@ -33,7 +33,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

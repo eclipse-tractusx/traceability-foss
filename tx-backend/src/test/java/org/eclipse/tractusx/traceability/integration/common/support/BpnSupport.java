@@ -19,7 +19,7 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

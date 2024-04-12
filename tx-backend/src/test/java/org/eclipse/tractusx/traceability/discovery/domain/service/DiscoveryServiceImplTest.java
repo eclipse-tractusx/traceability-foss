@@ -19,7 +19,7 @@
 package org.eclipse.tractusx.traceability.discovery.domain.service;
 
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
