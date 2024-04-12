@@ -76,7 +76,8 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public tableType: TableType;
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
-  isSaveButtonDisabled: boolean;
+  isSaveButtonDisabled = true;
+  partsChanged = false;
 
   constructor(
     private readonly partsFacade: OtherPartsFacade,
@@ -90,8 +91,12 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly toastService: ToastService,
     private readonly sharedPartIdsService: SharedPartIdsService,
   ) {
-
-    this.editMode = this.route.snapshot.url[this.route.snapshot.url.length - 1].path === 'edit';
+    const urlPartIndex = this.route.snapshot.url?.length !== null ? this.route.snapshot.url.length - 1 : null;
+    if (urlPartIndex) {
+      this.editMode = this.route.snapshot.url[urlPartIndex].path === 'edit';
+    } else {
+      this.editMode = false;
+    }
 
     this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
       this.temporaryAffectedParts = parts;
@@ -108,7 +113,8 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
-    this.isSaveButtonDisabled = notificationFormGroup.invalid || this.affectedPartIds.length < 1;
+    const noChangesOrInvalid = notificationFormGroup.invalid && !this.partsChanged;
+    this.isSaveButtonDisabled = !noChangesOrInvalid;
     this.notificationFormGroup = notificationFormGroup;
 
   }
@@ -234,6 +240,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
+    this.partsChanged = true;
     this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
     this.currentSelectedAffectedParts$.next([]);
@@ -246,6 +253,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         this.affectedPartIds.push(value.id);
       }
     });
+    this.partsChanged = true;
     this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);
