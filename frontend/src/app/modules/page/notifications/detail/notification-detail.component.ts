@@ -114,6 +114,15 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription?.unsubscribe();
   }
 
+  public navigateToDetailView(){
+
+    this.router.navigate([ `/inbox/${ this.selectedNotification.id }/edit` ], {
+      queryParams: {
+        tabIndex: this.originTabIndex,
+        pageNumber: this.originPageNumber,
+      },
+    });
+  }
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
     const [ name, direction ] = sorting || [ '', '' ];
     this.notificationDetailFacade.sortNotificationParts(name, direction);
