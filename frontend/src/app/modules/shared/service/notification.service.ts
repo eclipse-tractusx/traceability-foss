@@ -83,7 +83,7 @@ export class NotificationService {
   ): Observable<string> {
     const targetDate = null === dateString ? null : new Date(dateString).toISOString();
     const upperCaseType = type ? type.toUpperCase() : null;
-    const body = { affectedPartIds, description, severity, receiverBpn: bpn, type: upperCaseType, title, targetDate };
+    const body = { affectedPartIds, description, severity, receiverBpn: bpn, type: upperCaseType, title: title === "" ? null: title, targetDate };
 
     return this.apiService.post<NotificationCreateResponse>(`${ this.url }/notifications`, body).pipe(map(({ id }) => id));
   }
