@@ -28,15 +28,15 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
-import org.awaitility.Duration;
+import notification.request.UpdateNotificationStatusRequest;
+import notification.response.NotificationIdResponse;
+import notification.response.NotificationResponse;
+import org.awaitility.Durations;
 import org.eclipse.tractusx.traceability.test.exteption.MissingStepDefinitionException;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
 import org.eclipse.tractusx.traceability.test.validator.NotificationValidator;
 import org.hamcrest.Matchers;
-import notification.request.UpdateNotificationStatusRequest;
-import notification.response.NotificationIdResponse;
-import notification.response.NotificationResponse;
 
 import java.time.Instant;
 import java.util.Arrays;
@@ -116,7 +116,7 @@ public class TraceabilityTestStepDefinition {
     @When("I check, if quality investigation has proper values")
     public void iCheckIfQualityInvestigationHasProperValues(DataTable dataTable) {
         await()
-                .atMost(Duration.FIVE_MINUTES)
+                .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
@@ -161,7 +161,7 @@ public class TraceabilityTestStepDefinition {
     public void iCanSeeNotificationWasReceived() {
         System.out.println("searching for notificationDescription: " + notificationDescription);
         final NotificationResponse notification = await()
-                .atMost(Duration.FIVE_MINUTES)
+                .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
                             final List<NotificationResponse> result = restProvider.getReceivedNotifications();
@@ -270,7 +270,7 @@ public class TraceabilityTestStepDefinition {
     @When("I check, if quality alert has proper values")
     public void iCheckIfQualityAlertHasProperValues(DataTable dataTable) {
         await()
-                .atMost(Duration.FIVE_MINUTES)
+                .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
@@ -297,7 +297,7 @@ public class TraceabilityTestStepDefinition {
     public void iCanSeeQualityAlertWasReceived() {
         System.out.println("searching for notificationDescription: " + notificationDescription);
         final NotificationResponse notification = await()
-                .atMost(Duration.FIVE_MINUTES)
+                .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
                             final List<NotificationResponse> result = restProvider.getReceivedNotifications();
