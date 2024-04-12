@@ -29,13 +29,12 @@ import org.springframework.context.annotation.Configuration;
 public class BpdmProperties {
 
     @Value("${bpdm.bpnEndpoint}")
-    private final String bpnEndpoint;
+    private String bpnEndpoint;
     @Value("${bpdm.oAuthClientId}")
-    private final String oAuthClientId;
+    private String oAuthClientId;
     @Value("${bpdm.timeout.read}")
-    private final String readTimeout;
+    private String readTimeout;
     @Value("${bpdm.timeout.connect}")
-    private final String connectTimeout;
-
+    private String connectTimeout;
 
 }
