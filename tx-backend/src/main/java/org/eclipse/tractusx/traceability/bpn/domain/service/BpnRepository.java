@@ -45,4 +45,7 @@ public interface BpnRepository {
     void updateManufacturers(Map<String, String> bpns);
 
     BpnEntity save(BusinessPartnerResponse businessPartner);
+
+    List<BpnEdcMapping> findAllByIdIn(List<String> bpns);
+
 }

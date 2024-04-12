@@ -20,25 +20,23 @@
 package org.eclipse.tractusx.traceability.notification.domain.notification.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
-import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.notification.domain.base.service.AbstractNotificationService;
 import org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationPublisherService;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 
 @Service("notificationServiceImpl")
 public class NotificationServiceImpl extends AbstractNotificationService {
-
-
     private final NotificationRepository notificationRepository;
-
 
     public NotificationServiceImpl(TraceabilityProperties traceabilityProperties,
                                    NotificationRepository alertRepository,
                                    NotificationPublisherService notificationPublisherService,
-                                   AssetAsBuiltRepository assetAsBuiltRepository) {
-        super(traceabilityProperties, notificationPublisherService, assetAsBuiltRepository);
+                                   AssetAsBuiltRepository assetAsBuiltRepository, BpnRepository bpnRepository) {
+        super(traceabilityProperties, notificationPublisherService, assetAsBuiltRepository, bpnRepository);
         this.notificationRepository = alertRepository;
 
     }

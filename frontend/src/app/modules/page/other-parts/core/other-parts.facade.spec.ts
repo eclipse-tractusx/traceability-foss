@@ -44,7 +44,6 @@ describe('OtherPartsFacade', () => {
     otherPartsFacade = new OtherPartsFacade(otherPartsServiceMock, otherPartsState);
   });
 
-  describe('setActiveInvestigationForParts', () => {
     it('should set parts if request is successful', async () => {
 
       const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
@@ -65,6 +64,26 @@ describe('OtherPartsFacade', () => {
       );
     });
 
+    it('should set second parts if request is successful', async () => {
+
+      const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
+      otherPartsState.supplierPartsAsBuiltSecond = { data: otherParts };
+
+      otherParts.content = otherParts.content.map(part => {
+        const activeInvestigation = otherParts.content.some(currentPart => currentPart.id === part.id);
+        return { ...part, activeInvestigation };
+      });
+
+      const parts = await firstValueFrom(otherPartsState.supplierPartsAsBuiltSecond$);
+      await waitFor(() =>
+        expect(parts).toEqual({
+          error: undefined,
+          loader: undefined,
+          data: otherParts,
+        }),
+      );
+    });
+
     it('should not set parts if no data in state', async () => {
 
       const parts = await firstValueFrom(otherPartsState.supplierPartsAsBuilt$);
@@ -74,5 +93,6 @@ describe('OtherPartsFacade', () => {
         }),
       );
     });
-  });
+
+
 });

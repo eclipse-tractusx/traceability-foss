@@ -20,17 +20,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
-import { NotificationsRoutingModule } from '@page/notifications/notifications.routing';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { NotificationsState } from '@page/notifications/core/notifications.state';
+import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
 import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
+import { NotificationsRoutingModule } from '@page/notifications/notifications.routing';
 import { PartsModule } from '@page/parts/parts.module';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
-import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -39,7 +40,7 @@ import { NotificationsComponent } from './presentation/notifications.component';
 
 @NgModule({
   declarations: [
-    NotificationsComponent, NotificationDetailComponent,
+    NotificationsComponent, NotificationDetailComponent, NotificationEditComponent,
   ],
   imports: [
     CommonModule,

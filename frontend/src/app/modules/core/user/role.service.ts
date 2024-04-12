@@ -58,11 +58,11 @@ export class RoleService {
 
   }
 
-  public isAtLeastSupervisor(): boolean {
+  public isSupervisor(): boolean {
     return this.hasAccess('supervisor');
   }
 
-  public isAtLeastUser(): boolean {
+  public isUser(): boolean {
     return this.hasAccess('user');
   }
 
