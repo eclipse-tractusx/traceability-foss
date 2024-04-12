@@ -17,19 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {ApiService} from '@core/api/api.service';
-import {environment} from '@env';
-import {NotificationAssembler} from '@shared/assembler/notification.assembler';
-import {PartsAssembler} from '@shared/assembler/parts.assembler';
-import {DateTimeString} from '@shared/components/dateTime/dateTime.component';
-import {NotificationChannel} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {provideFilterListForNotifications} from '@shared/helper/filter-helper';
-import {Severity} from '@shared/model/severity.model';
-import type {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { environment } from '@env';
+import { NotificationAssembler } from '@shared/assembler/notification.assembler';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
+import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { provideFilterListForNotifications } from '@shared/helper/filter-helper';
+import { Severity } from '@shared/model/severity.model';
+import type { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   Notification,
   NotificationCreateResponse,
@@ -82,7 +82,7 @@ export class NotificationService {
   public createNotification(affectedPartIds: string[], description: string, severity: Severity, bpn: string, type: string, title: string, dateString: DateTimeString,
   ): Observable<string> {
     const targetDate = null === dateString ? null : new Date(dateString).toISOString();
-    const upperCaseType = type.toUpperCase();
+    const upperCaseType = type ? type.toUpperCase() : null;
     const body = { affectedPartIds, description, severity, receiverBpn: bpn, type: upperCaseType, title, targetDate };
 
     return this.apiService.post<NotificationCreateResponse>(`${ this.url }/notifications`, body).pipe(map(({ id }) => id));
