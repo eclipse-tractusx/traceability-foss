@@ -64,6 +64,8 @@ describe('NotificationEditComponent', () => {
           useValue: {
             snapshot: {
               paramMap: paramMapValue,
+              queryParams: NotificationType.INVESTIGATION,
+              url: "https://test.net/inbox/97/edit"
             },
             queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
@@ -78,7 +80,7 @@ describe('NotificationEditComponent', () => {
   };
 
 
-  it('should render component with form', async () => {
+  fit('should render component with form', async () => {
 
     const notification: Notification = {
       assetIds: [],
