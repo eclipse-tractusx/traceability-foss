@@ -16,6 +16,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #823 migrate to irs-helm 6.18.0
 - #636 migrate to digital-twin-registry version 0.4.9 from 0.3.22
 - #602 use digitalTwinType instead of semanticId to determine asBuilt or asPlanned assets
+- Spell check arc42 documentation and administration guide and make it consistent
 
 ## [10.8.2 - 05.04.2024]
 ### Removed
