@@ -214,7 +214,7 @@ export class PartsDetailComponent {
   }
 
   navigateToNotificationCreationView() {
-    this.router.navigate(['inbox/create']);
+    this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: this.partOwner === Owner.OWN ? 'Alert' : 'Investigation' } });
     this.sharedPartIdsService.sharedPartIds = [this.currentPartId];
 }
 
