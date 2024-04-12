@@ -76,7 +76,10 @@ public class RestTemplateConfiguration {
     /* RestTemplate used by trace x for the edc contracts used within the edc provider.*/
     @Bean(BPDM_CLIENT_REST_TEMPLATE)
     public RestTemplate bpdmClientRestTemplate(@Autowired BpdmProperties bpdmProperties) {
-        return new RestTemplateBuilder()
+        final var clientRegistration = clientRegistrationRepository.findByRegistrationId(bpdmProperties.getOAuthClientId());
+
+        return new RestTemplateBuilder().additionalInterceptors(
+                        new OAuthClientCredentialsRestTemplateInterceptor(authorizedClientManager(), clientRegistration))
                 .setConnectTimeout(Duration.parse(bpdmProperties.getConnectTimeout()))
                 .setReadTimeout(Duration.parse(bpdmProperties.getReadTimeout()))
                 .build();
