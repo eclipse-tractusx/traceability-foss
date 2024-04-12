@@ -90,12 +90,10 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     });
 
     if (this.selected$) {
-      console.log('GO?');
       this.subscription = this.selected$
         .pipe(
           filter(({ data }) => !!data),
           tap(({ data }) => {
-            console.log(data, 'data...');
             const { title, description, severity, type, sendTo, targetDate } = data;
             this.formGroup.setValue({
               'title': title,
@@ -108,7 +106,6 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
             if (this.editMode) {
               this.formGroup.get('type').disable();
             }
-            console.log(data, 'data?');
             if (data.type === NotificationType.INVESTIGATION) {
               this.formGroup.get('bpn').disable();
             }

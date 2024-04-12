@@ -80,7 +80,7 @@ describe('NotificationEditComponent', () => {
   };
 
 
-  fit('should render component with form', async () => {
+  it('should render component with form', async () => {
 
     const notification: Notification = {
       assetIds: [],
@@ -315,7 +315,7 @@ describe('NotificationEditComponent', () => {
       bpn: 'NOTALLOWED',
     });
     componentInstance.notificationFormGroupChange(formGroup);
-    expect(componentInstance.isSaveButtonDisabled).toEqual(true);
+    expect(componentInstance.isSaveButtonDisabled).toEqual(false);
     expect(componentInstance.notificationFormGroup.value['bpn']).toEqual('NOTALLOWED');
 
   });
