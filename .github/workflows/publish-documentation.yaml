@@ -127,7 +127,7 @@ jobs:
           mv docs/src/diagram-replacer/assets/ docs/target/generated-docs/assets/
 
       - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v3.9.3
+        uses: peaceiris/actions-gh-pages@v4.0.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./docs/target/generated-docs"
