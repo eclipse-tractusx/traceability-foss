@@ -20,6 +20,7 @@
 import {LayoutModule} from '@layout/layout.module';
 import {NotificationDetailFacade} from '@page/notifications/core/notification-detail.facade';
 import {NotificationDetailState} from '@page/notifications/core/notification-detail.state';
+import { NotificationAssembler } from '@shared/assembler/notification.assembler';
 import {
   RequestNotificationNewComponent
 } from '@shared/components/request-notification-new/notification-new-request.component';
@@ -32,6 +33,7 @@ import {SharedModule} from '@shared/shared.module';
 import {screen, waitFor} from '@testing-library/angular';
 import {renderComponent} from '@tests/test-render.utils';
 import {of} from 'rxjs';
+import { MockEmptyAlert } from '../../../../mocks/services/alerts-mock/alerts.test.model';
 
 
 describe('requestNotificationNewComponent', () => {
@@ -40,12 +42,13 @@ describe('requestNotificationNewComponent', () => {
 
   const currentSelectedItems = [ { nameAtManufacturer: 'part_1' }, { nameAtManufacturer: 'part_2' }, { nameAtManufacturer: 'part_3' } ];
 
-  const renderRequestNotificationComponent = async (editMode: boolean, title: string) => {
+  const renderRequestNotificationComponent = async (editMode: boolean, title: string, notification: Notification) => {
     return renderComponent(
       `<app-notification-new-request
         (formGroupChanged)='formGroupChangedMock($event)'
         [editMode]='editMode'
         [title]="title"
+        [notification]="notification"
         ></app-notification-new-request>`,
       {
         declarations: [ RequestNotificationNewComponent ],
@@ -55,7 +58,7 @@ describe('requestNotificationNewComponent', () => {
           notificationDetailFacadeMock,
           formGroupChangedMock,
           currentSelectedItems,
-          title, editMode,
+          title, editMode, notification
         },
         providers: [
           { provide: NotificationDetailFacade },
@@ -93,8 +96,8 @@ describe('requestNotificationNewComponent', () => {
   });
 
   describe('Request Investigation', () => {
-    it('should render edit mode', async () => {
-      await renderRequestNotificationComponent(true, 'edit');
+    fit('should render edit mode', async () => {
+      await renderRequestNotificationComponent(true, 'edit', NotificationAssembler.assembleNotification(MockEmptyAlert));
       const headline = await waitFor(() => screen.getByText('edit'), { timeout: 2000 });
       expect(headline).toBeInTheDocument();
     });
