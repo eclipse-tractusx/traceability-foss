@@ -69,7 +69,6 @@ export class NotificationsComponent {
     public readonly helperService: NotificationHelperService,
     private readonly actionHelperService: NotificationActionHelperService,
     private readonly notificationsFacade: NotificationsFacade,
-    private readonly notificationDetailFacade: NotificationDetailFacade,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,
@@ -128,9 +127,7 @@ export class NotificationsComponent {
   }
 
   public openEditPage(notification: Notification): void {
-    this.notificationDetailFacade.selected = { data: notification };
     const { link, tabInformation } = this.getTabInformation();
-
     this.router.navigate([ `/${ link }/${ notification.id }/edit` ], { queryParams: tabInformation });
   }
 

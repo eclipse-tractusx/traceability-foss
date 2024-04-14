@@ -35,6 +35,7 @@ import { filter, tap } from 'rxjs/operators';
 export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   @Input() title: string;
   @Input() editMode: boolean;
+  @Input() notification: Notification;
   @Output() formGroupChanged = new EventEmitter<FormGroup>();
 
 
@@ -43,8 +44,8 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     'description': new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]),
     'severity': new FormControl(Severity.MINOR, [ Validators.required ]),
     'targetDate': new FormControl(null),
-    'bpn': new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
-    'type': new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]),
+    'bpn': new FormControl(null, [ BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
+    'type': new FormControl({ value: NotificationType.INVESTIGATION, disabled: true }, [ Validators.required ]),
   });
   public selected$: Observable<View<Notification>>;
 
@@ -54,16 +55,41 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   private subscription: Subscription;
 
   constructor(public readonly notificationDetailFacade: NotificationDetailFacade) {
-
   }
 
   ngOnInit(): void {
-    this.selected$ = this.notificationDetailFacade.selected$;
-    this.formGroup.valueChanges.subscribe(value => {
-      this.formGroupChanged.emit(this.formGroup);
-    })
 
-    if(this.selected$) {
+    if (this.editMode) {
+      const { title, description, severity, type, sendTo, targetDate } = this.notification;
+      this.formGroup.setValue({
+        'title': title,
+        'description': description,
+        'severity': severity,
+        'type': type,
+        'bpn': sendTo,
+        'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
+      });
+
+      this.formGroupChanged.emit(this.formGroup);
+
+    }
+
+    this.formGroup.get('type').setValue(this.notification.type);
+    if (this.notification.type === NotificationType.INVESTIGATION) {
+      this.formGroup.get('bpn').disable();
+    }
+
+    if (this.notification.type === NotificationType.ALERT) {
+      this.formGroup.get('bpn').setValidators(Validators.required);
+    }
+    this.formGroupChanged.emit(this.formGroup);
+
+    this.formGroup.valueChanges.subscribe(value => {
+      //TODO: For Create, check here or in parent if the part tables should update (depending on passed partId, investigation or alert type)
+      this.formGroupChanged.emit(this.formGroup);
+    });
+
+    if (this.selected$) {
       this.subscription = this.selected$
         .pipe(
           filter(({ data }) => !!data),
@@ -80,6 +106,14 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
             if (this.editMode) {
               this.formGroup.get('type').disable();
             }
+            if (data.type === NotificationType.INVESTIGATION) {
+              this.formGroup.get('bpn').disable();
+            }
+
+            if (data.type === NotificationType.ALERT) {
+              this.formGroup.get('bpn').setValidators(Validators.required);
+            }
+
             this.formGroupChanged.emit(this.formGroup);
           }),
         )
