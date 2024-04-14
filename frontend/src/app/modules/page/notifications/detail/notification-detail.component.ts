@@ -19,7 +19,7 @@
 
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NOTIFICATION_BASE_ROUTE, getRoute } from '@core/known-route';
+import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
@@ -29,7 +29,6 @@ import { NotificationCommonModalComponent } from '@shared/components/notificatio
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
-import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
 import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -50,7 +49,6 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
   public readonly selected$: Observable<View<Notification>>;
 
-  public readonly isNotificationOpen$ = new BehaviorSubject<boolean>(false);
   public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
@@ -109,11 +107,21 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.notificationDetailFacade.selected = { data: null };
     this.subscription?.unsubscribe();
     this.notificationDetailFacade.unsubscribeSubscriptions();
     this.paramSubscription?.unsubscribe();
   }
 
+  public navigateToDetailView(){
+
+    this.router.navigate([ `/inbox/${ this.selectedNotification.id }/edit` ], {
+      queryParams: {
+        tabIndex: this.originTabIndex,
+        pageNumber: this.originPageNumber,
+      },
+    });
+  }
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
     const [ name, direction ] = sorting || [ '', '' ];
     this.notificationDetailFacade.sortNotificationParts(name, direction);
@@ -198,7 +206,7 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   private selectedNotificationBasedOnUrl(): void {
     const notificationId = this.route.snapshot.paramMap.get('notificationId');
     this.notificationsFacade
-      .getNotification(notificationId)
+      .getNotificationById(notificationId)
       .pipe(
         first(),
         tap(notification => (this.notificationDetailFacade.selected = { data: notification })),

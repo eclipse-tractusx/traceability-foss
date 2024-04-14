@@ -35,6 +35,10 @@ export class NotificationActionHelperService {
     return this.roleService.isSupervisor();
   }
 
+  public showEditButton({ status, isFromSender } = {} as Notification): boolean {
+    return isFromSender && status === NotificationStatus.CREATED;
+  }
+
   public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
     return isFromSender && status === NotificationStatus.CREATED;
   }
