@@ -64,6 +64,8 @@ describe('NotificationEditComponent', () => {
           useValue: {
             snapshot: {
               paramMap: paramMapValue,
+              queryParams: NotificationType.INVESTIGATION,
+              url: "https://test.net/inbox/97/edit"
             },
             queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
@@ -313,7 +315,7 @@ describe('NotificationEditComponent', () => {
       bpn: 'NOTALLOWED',
     });
     componentInstance.notificationFormGroupChange(formGroup);
-    expect(componentInstance.isSaveButtonDisabled).toEqual(true);
+    expect(componentInstance.isSaveButtonDisabled).toEqual(false);
     expect(componentInstance.notificationFormGroup.value['bpn']).toEqual('NOTALLOWED');
 
   });

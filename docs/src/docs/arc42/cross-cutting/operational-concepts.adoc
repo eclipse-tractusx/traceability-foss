@@ -4,27 +4,27 @@
 
 === Configuration
 
-TraceX can be configured using two mechanisms:
+Trace-X can be configured using two mechanisms:
 
 ==== application.yml
 
-If you build TraceX yourself, you can modify the application.yml config that is shipped with TraceX.
+If you build Trace-X yourself, you can modify the application.yml config that is shipped with Trace-X.
 This file contains all possible config entries for the application.
 Once the Docker image has been built, these values can only be overwritten using the Spring external config mechanism (see https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html), e.g. by mounting a config file in the right path or using environment variables.
 
-==== Helm Chart
+==== Helm chart
 
-The most relevant config properties are exposed as environment variables and must be set in the Helm chart so the application can run at all.
-Check the TraceX Helm chart in Git for all available variables.
+The most relevant config properties are exposed as environment variables and must be set in the Helm chart for the application to be able to run.
+Check the Trace-X Helm chart in Git for all available variables.
 
 == Scaling
 
-If the number of consumers raises, TraceX can be scaled up by using more resources for the Deployment Pod.
-Those resources can be used to utilize more parallel threads to handle Job execution.
+If the number of consumers rises, Trace-X can be scaled up by using more resources for the deployment pod.
+Those resources can be used to utilize more parallel threads to handle job execution.
 
 == Clustering
 
-TraceX can run in clustered mode, as each running job is only present in one pod at a time.
+Trace-X can run in clustered mode, as each running job is only present in one pod at a time.
 Note: as soon as a resume feature is implemented, this needs to be addressed here.
 
 == Logging
@@ -33,4 +33,4 @@ Logs are being written directly to stdout and are picked up by the cluster manag
 
 == Monitoring
 
-Currently, there is on monitoring supported in TraceX.
+Currently, there is on monitoring supported in Trace-X.

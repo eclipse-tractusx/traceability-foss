@@ -74,6 +74,7 @@ export class TableComponent {
       icon: 'edit',
       action: (data: Record<string, unknown>) => this.editClicked.emit(data),
       condition: data => this.isEditable(data),
+      isAuthorized: this.roleService.isSupervisor(),
     };
 
     const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction, ...menuActions ] : null;
@@ -192,7 +193,7 @@ export class TableComponent {
       : PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true);
 
     this.tableViewConfig = {
-      displayedColumns: Object.keys(this.tableConfig.sortableColumns),
+      displayedColumns: this.tableConfig?.sortableColumns ? Object.keys(this.tableConfig?.sortableColumns) : [],
       filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
       filterColumns: filterColumns,
       sortableColumns: this.tableConfig?.sortableColumns,

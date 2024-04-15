@@ -158,7 +158,6 @@ export class NotificationActionModalComponent {
 
 
   private hasTextArea(desiredStatus: NotificationStatus) {
-    console.log(desiredStatus, "desired from textarea");
     return desiredStatus === NotificationStatus.CLOSED || desiredStatus === NotificationStatus.ACCEPTED || desiredStatus === NotificationStatus.DECLINED;
   }
 }

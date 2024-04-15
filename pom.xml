@@ -64,11 +64,11 @@ SPDX-License-Identifier: Apache-2.0
         <!-- versions for 3rd party dependecies -->
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
-        <ascii-doctor-j-diagram.version>2.2.13</ascii-doctor-j-diagram.version>
+        <ascii-doctor-j-diagram.version>2.3.0</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
         <jruby.version>9.4.3.0</jruby.version>
-        <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
         <jetbrains-annotation.version>24.1.0</jetbrains-annotation.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <swagger-annotation.version>1.6.12</swagger-annotation.version>
@@ -84,9 +84,9 @@ SPDX-License-Identifier: Apache-2.0
         <commons-collections.version>4.4</commons-collections.version>
         <lombok.version>1.18.30</lombok.version>
         <json-unit-assertj.version>3.2.2</json-unit-assertj.version>
-        <cucumber.version>7.15.0</cucumber.version>
+        <cucumber.version>7.16.1</cucumber.version>
         <junit-bom.version>5.10.2</junit-bom.version>
-        <awaitility.version>3.0.0</awaitility.version>
+        <awaitility.version>4.2.1</awaitility.version>
         <irs-client-lib.version>1.8.0</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
         <!-- Sonar related properties -->

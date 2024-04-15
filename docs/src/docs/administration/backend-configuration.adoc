@@ -1,5 +1,5 @@
 [#_backend_configuration]
-= Backend Configuration
+= Backend configuration
 :icons: font
 :icon-set: fas
 :hide-uri-scheme:
@@ -9,7 +9,7 @@ You can define the URLs as well as most of the secrets yourself.
 
 The OAuth2, Vault configuration / secrets depend on your setup and might need to be provided externally.
 
-== Helm configuration Trace-X Backend (values.yaml)
+== Helm configuration Trace-X backend (values.yaml)
 
 [source,yaml]
 ----
