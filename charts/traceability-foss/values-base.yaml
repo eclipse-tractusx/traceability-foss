@@ -189,7 +189,7 @@ backend:
     edc: 'CHANGE_ME'  # <tractusx-connector.nameOverride
 
   bpdm:
-    url: 'CHANGE_ME'
+    url: 'https://partners-pool.int.demo.catena-x.net'
 
 
 #########################
