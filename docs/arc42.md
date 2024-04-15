@@ -22,7 +22,7 @@ in which context the service runs and which stakeholders are involved.
 
 ### What is the purpose of the Trace-X application
 
-* Empower all companies from SMEs to large OEMs to participate in parts traceability with an Open-Source solution to easily take part in Catena-X Traceability Use Case.
+* Empower all companies from SMEs to large OEMs to participate in parts traceability with an open-source solution to easily take part in the Catena-X traceability use case.
 * It is a standalone application which can be self-hosted.
 * Display the relations of the automotive value chain based on a standardized IT model.
 * Overview and transparency across the supplier network enable faster intervention based on recorded events in the supply chain.
@@ -33,12 +33,12 @@ in which context the service runs and which stakeholders are involved.
 * List, view and publish manufactured parts based on BoM AsBuild
 * List, view and publish planned parts based on BoM AsPlanned
 * Filter and search functionality on part views
-* Show detailed information on manufactured parts from AAS description assets and Aspects
-* Uses Submodels SerialPart, AssemblyPartRelationship and Batch
-* List and view Supplier parts (AssemblyPartRelationship) based on BoM AsBuild lifecycle
+* Show detailed information on manufactured parts from AAS description assets and aspects
+* Uses submodels SerialPart, AssemblyPartRelationship and Batch
+* List and view supplier parts (AssemblyPartRelationship) based on BoM AsBuild lifecycle
 * View parts and parts relations in a visualized parts tree
 * Send and receive top-down notifications (quality investigations) along the supply chain
-* Compliance with Catena-X Guidelines
+* Compliance with Catena-X guidelines
 
 ## Quality goals
 
@@ -46,10 +46,10 @@ The following table entries define overall Trace-X quality goals. The order of t
 
 | Quality goal | Motivation and description |
 | --- | --- |
-| Running reference application for Catena-X Traceability | Consume traceability data, visualize it in a state-of-the-art frontend to the user and enable the exchange of notifications. |
+| Running reference application for Catena-X traceability | Consume traceability data, visualize it in a state-of-the-art frontend to the user and enable the exchange of notifications. |
 | Accessible and easy to use | Enable SMEs to large enterprises. |
-| Cloud agnostic solution | Trace-X is built as reference architecture and able to be run on different cloud solutions. It uses Helm, i.e. Helm charts, so that it can easily be deployed on different systems. |
-| Trustworthy application | Use the Catena-X standards as a basis to fulfill the interoperability (with commercial as well as other solutions) and data sovereignty requirements. |
+| Cloud agnostic solution | Trace-X is built as a reference architecture and able to be run on different cloud solutions. It uses Helm, i.e. Helm charts, so that it can easily be deployed on different systems. |
+| Trustworthy application | Trace-X uses the Catena-X standards as a basis to fulfill the interoperability (with commercial as well as other solutions) and data sovereignty requirements. |
 | Application reliability | The Trace-X architecture is set up so that provided part tree structures are consumed, aggregated and utilized to enable quality related actions such as notifications along the supply chain on which the costumers can rely. |
 | Usability and user experience | Trace-X is aligned with the overarching UUX guidelines. This ensures ease of use for the user as well as a good user experience. |
 | Security | Static Application Security Testing (SAST) and Dynamic Application Security Testing (DAST) are executed automatically and regularly. Findings are recorded and mitigated. |
@@ -60,72 +60,72 @@ The following table presents the stakeholders of Trace-X and their respective in
 
 | Who | Matters and concern |
 | --- | --- |
-| Software Developer | * Make an impact on Catena-X by participating in open-source software. * Example implementation for own use cases and applications. |
-| Operating Environments | * Use Trace-X as a basis for industrialization. * Example implementation for own business applications, further features and fast ramp up. |
-| Catena-X Partners | * Take part in Traceability Use Case. * See relationships in the value chain. * React on quality issues with standardized actions and notifications. |
-| Larger OEMs / Tiers | * Want to use this implementation for further development and integration into their system landscape. |
+| Software developer | * Make an impact on Catena-X by participating in open-source software. * Example implementation for own use cases and applications. |
+| Operating environments | * Use Trace-X as a basis for industrialization. * Example implementation for own business applications, further features and fast ramp up. |
+| Catena-X partners | * Take part in traceability use case. * See relationships in the value chain. * React on quality issues with standardized actions and notifications. |
+| Larger OEMs / tiers | * Want to use this implementation for further development and integration into their system landscape. |
 | SMEs | * Need a solution to view data provided into the Catena-X network. * Act in a standardized way with partners within CX. |
 
-## Architecture Constraints
+## Architecture constraints
 
-### Technical Constraints
-
-| Name | Description |
-| --- | --- |
-| Interoperability | Trace-X must use EDC together with Catena-X approved data models to guarantee interoperability between participants. |
-| Data Sovereignty | Data owners and data consumers have to use usage policies for offering, consuming and therefore transferring data. |
-| Kubernetes for Container Orchestration | Catena-X requires the application to run in a Kubernetes environment, deployed via Helm Charts. |
-| Catena-X UUX Guidance (CX Style Guide) | Frontend follows Catena-X wide UUX consistency according to CX Style Guide |
-
-### Organizational Constraints
+### Technical constraints
 
 | Name | Description |
 | --- | --- |
-| Schedule | Start of development in July 2022. Further development in alignment with the Foundation of the Catena-X Automotive Network e.V. requirements and timeline. |
-| Process model | Iterative and incremental. SAFe Framework is used to align with Catena-X services, prerequisites, components and requirements to be Catena-X compatible. |
+| Interoperability | Trace-X must use the EDC together with Catena-X approved data models to guarantee interoperability between participants. |
+| Data sovereignty | Data owners and data consumers have to use usage policies for offering, consuming and therefore transferring data. |
+| Kubernetes for container orchestration | Catena-X requires the application to run in a Kubernetes environment, deployed via Helm charts. |
+| Catena-X UUX guidance (CX style guide) | The frontend of Trace-X follows Catena-X-wide UUX consistency according to the CX style guide. |
+
+### Organizational constraints
+
+| Name | Description |
+| --- | --- |
+| Schedule | Start of development in July 2022. Further development in alignment with the foundation of the Catena-X Automotive Network e.V. requirements and timeline. |
+| Process model | Iterative and incremental. The SAFe framework is used to align with Catena-X services, prerequisites, components and requirements to be Catena-X compatible. |
 | Catena-X services / requirements | Trace-X needs to be Catena-X compliant and the application has to follow the CX standards as well as interact with the core services and components. |
-| Release as Open Source | The source code, at least parts of it, are made available as open source and can be found in Github Catena-X ng as well as in Eclipse Tractus-X. |
-| Technology Readiness Level (TRL) for Products developed within the CX Consortia | As Trace-X is a reference implementation, the Technology Readiness Level (TRL) must not be above TRL 8. |
+| Release as open source | The source code - at least partially - is made available as open source and can be found in Github Catena-X ng as well as in Eclipse Tractus-X. |
+| Technology Readiness Level (TRL) for products developed within the CX consortia | As Trace-X is a reference implementation, the Technology Readiness Level (TRL) must not be above TRL 8. |
 
-### Political Constraints
-
-| Name | Description |
-| --- | --- |
-| Open Source | FOSS licenses approved be the Eclipse foundation have to be used. |
-
-### Development Conventions
+### Political constraints
 
 | Name | Description |
 | --- | --- |
-| Architecture documentation | Architectural documentation of Trace-X reference application in arc42-Template terminology and structure. |
+| Open source | FOSS licenses approved by the Eclipse foundation have to be used. |
+
+### Development conventions
+
+| Name | Description |
+| --- | --- |
+| Architecture documentation | Architectural documentation of Trace-X reference application in arc42-template terminology and structure. |
 | Language | The project language is English to ensure the best possible accessibility for all participants. Therefore, classes, methods etc. are named in English and the documentation is written in English. |
-| Code Coverage | More than 80% test coverage of the complete source code |
+| Test coverage | More than 80% of the complete source code has to be test covered. |
 
 ## System scope and context
 
-Trace-X is an end user application to visualize and utilize data provided to the Catena-X network. This includes the traceability of manufactured parts and batches as well as the shipped and supplied components. To utilize the CX open ecosystem it is necessary to exchange information on serialized parts and batches with supply chain partners in a standardized, data sovereign and interoperable way. This section describes the environment of Trace-X, its intended users and which  systems and components it interacts with.
+Trace-X is an end-user application to visualize and utilize data provided to the Catena-X network. This includes the traceability of manufactured parts and batches as well as the shipped and supplied components. To utilize the CX open ecosystem it is necessary to exchange information on serialized parts and batches with supply chain partners in a standardized, data-sovereign and interoperable way. This section describes the environment of Trace-X, its intended users and which systems and components it interacts with.
 
 ## Business context
 
-Trace-X exchanges data with any other Traceability applications within the CX ecosystem. This is implemented by integrating the service into the CX network and the usage of required central components and services provided by CX.
+Trace-X exchanges data with any other traceability applications within the CX ecosystem. This is implemented by integrating the service into the CX network and the usage of required central components and services provided by CX.
 
 ![arc42_000](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_000.png)
 
 ### User
 
-Trace-X can be deployed, hosted and run by every party that is part of the Catena-X network. They need to be registered, have a BPN, technical user as well as provide valid credentials. An end-user in Trace-X can have roles provided by the CX Portal (User, Supervisor, Admin). As a prerequisite for Trace-X, valid data must already be provided to CX network since Trace-X only consumes data but has no import interface or data provisioning functionality.
+Trace-X can be deployed, hosted and run by every party that is part of the Catena-X network. They need to be registered, have a BPN and a technical user as well as provide valid credentials. An end-user in Trace-X can have roles provided by the CX portal (user, supervisor, admin).
 
 ### IRS
 
-Item Relationship Service is the component that is used by Trace-X to fetch the data chains from Catena-X network. Data that is provided by IRS gets extracted, aggregated, transformed and is used for further actions in Trace-X. Further information can be found in the [IRS architecture documentation (arc42)](https://eclipse-tractusx.github.io/item-relationship-service/docs/arc42/).
+The Item Relationship Service is the component that is used by Trace-X to fetch data chains from Catena-X network. Data that is provided by IRS gets extracted, aggregated, transformed and is used for further actions in Trace-X. Further information can be found in the [IRS architecture documentation (arc42)](https://eclipse-tractusx.github.io/item-relationship-service/docs/arc42/).
 
 ### Catena-X network
 
-Trace-X and IRS are retrieving necessary information and data from the Catena-X network (Users, digital twins, aspects, submodels, Business Partner information). If CX services are unavailable, Trace-X will not be able to perform most of its work.
+Trace-X and IRS are retrieving necessary information and data from the Catena-X network (users, digital twins, aspects, submodels, business partner information). If CX services are unavailable, Trace-X will not be able to perform most of its work.
 
-### Any other Traceability App
+### Any other traceability app
 
-Trace-X interacts with any other Traceability app using the CX standards. This enables sovereign data exchange as well as receiving and sending notifications to interact between different parties.
+Trace-X interacts with any other traceability app using the CX standards. This enables sovereign data exchange as well as receiving and sending notifications to interact between different parties.
 
 ## Technical context
 
@@ -133,48 +133,49 @@ Trace-X interacts with any other Traceability app using the CX standards. This e
 
 #### Trace-X API
 
-We provide a REST API that is consumed by Trace-X frontend in order to deliver Trace-X related features such as quality-investigations or assets chain visibility.
-Since Trace-X component is a very last component in the Catena-X ecosystem we are mostly depend on the other services and theirs APIs in other to deliver desired functionalities. The development of the services is not a part of the Trace-X application and each of the system that we utilize exposes REST API that we consume and interact directly.
+We provide a REST API that is consumed by Trace-X frontend in order to deliver Trace-X related features such as quality investigations or asset chain visibility.
+Since the Trace-X component is the very last component in the Catena-X ecosystem we are mostly dependent on the other services and theirs APIs in other to deliver desired functionalities. The development of the services is not a part of the Trace-X application and each of the system that we utilize exposes a REST API that we consume and interact with directly.
 
-Trace-X is a Spring Boot based application and is secured with the OpenID connector provider Keycloak and the OAuth2. This means for the company that utilize Trace-X component
-it is required to obtain technical user in order to be authorized to get access to the external components within Catena-X ecosystem.
+Trace-X is a Spring Boot based application and is secured with the OpenID connector provider Keycloak and the OAuth2. This means for the companies, that utilize Trace-X component, it is required to obtain a technical user in order to be authorized to get access to the external components within Catena-X ecosystem.
 
-In order to use Trace-X frontend with Trace-X backend, users need to authenticate themselves in order to be authorized to get access to the Trace-X.
-By the frontend UI users provide valid credentials and the system generates a bearer token that it gets from Keycloak and attaches it to the HTTP header parameter Authorization.
-Then once a user is authorized and has proper role within Trace-X backend, the backend delegates HTTP calls to specific service in their behalf as technical user in order to fulfill specific functionality.
+In order to use the Trace-X frontend with the Trace-X backend, users need to authenticate themselves in order to be authorized to get access to the Trace-X.
+In the frontend UI users provide valid credentials and the system generates a bearer token that it gets from Keycloak and attaches it to the HTTP header parameter Authorization.
+Once a user is authorized and has a proper role in the Trace-X backend, the backend delegates HTTP calls to specific services on their behalf as technical user in order to fulfill specific functionalities.
 
 #### [Outdated] Registry API
 
 ![arc42_001](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_001.png)
 
-The Trace-X acts as a consumer of the Asset Administration Shell Registry component. The Trace-X contains a Restful client (REST template) that build a REST call to the mentioned Digital Twin Registry API based on its known URL (the AAS registry URL is configurable in the Trace-X).
-Requests contain "assetIds" provided by the component during assets synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the AAS Registry. As a response, the Trace-X gets the corresponding shells and shell descriptors utilized then later for assets synchronization. The HTTP(s) transport protocol is used for the REST call communication.
+The Trace-X acts as a consumer of the asset administration shell registry component. Trace-X contains a restful client (REST template) that builds a REST call to the mentioned digital twin registry API based on its known URL (the AAS registry URL is configurable in Trace-X).
+Requests contain "assetIds" provided by the component during asset synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the AAS Registry. As a response, Trace-X gets the corresponding shells and shell descriptors utilized later for asset synchronization.
+The HTTP(s) transport protocol is used for the REST call communication.
 
 #### IRS API
 
 ![arc42_002](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_002.png)
 
-The Trace-X acts as a consumer of the IRS component. The Trace-X contains a Restful client (REST template) that build a REST call to the mentioned IRS API based on its known URL (the IRS URL is configurable in the Trace-X).
-Request contains details required to start IRS fetch job provided by the component during assets synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the IRS. As a response, the Trace-X gets the created job id and periodically pulls for the job details that contains assets that will be uploaded to the system. And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
+Trace-X acts as a consumer of the IRS component. Trace-X contains a restful client (REST template) that build a REST call to the mentioned IRS API based on its known URL (the IRS URL is configurable in Trace-X).
+The request contains details required to start an IRS fetch job provided by the component during asset synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the IRS. As a response, Trace-X gets the created job id and periodically pulls for the job details that contains assets that will be uploaded to the system.
+As mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
 
 #### [Outdated] Portal API
 
 ![arc42_003](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_003.png)
 
-The Trace-X acts as a consumer of the Portal component.
-The Trace-X contains a Restful client (REST template) that builds a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in the Trace-X).
-The Portal is used to authenticate users and requests against the backend.
-And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
+Trace-X acts as a consumer of the portal component.
+Trace-X contains a restful client (REST template) that builds a REST call to the mentioned Portal API based on its known URL (the Portal URL is configurable in Trace-X).
+The portal is used to authenticate users and requests against the backend.
+As mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
 
 #### [Outdated] EDC API
 
 ![arc42_004](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_004.png)
 
 The Trace-X acts as a consumer and provider of the EDC component.
-In Trace-X we communicate with EDC directly only for the sake of fulfilling quality-investigation functionality.
+In Trace-X we communicate with EDC directly only for the sake of fulfilling quality investigation functionality.
 Specific use cases can be viewed in [Runtime view](../runtime-view/index.adoc) section.
-For these purposes the integrated EDC clients in the Trace-X are responsible for creating restful requests to the EDC component.
-And as mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
+For these purposes the integrated EDC clients in Trace-X are responsible for creating restful requests to the EDC component.
+As mentioned above, the transport protocol HTTP(S) is used for the REST call communication.
 
 ## Solution strategy
 
@@ -186,30 +187,30 @@ Following table describes the quality goals of Trace-X (see chapter quality goal
 
 | Quality goal | Matching approaches in the solution |
 | --- | --- |
-| Running reference application for Catena-X Traceability | * Published open source, Trace-X application can be used as a reference by anyone. |
-| Accessible and easy to use | * Established programming languages are used. * Backend written in Java * Frontend written in Typescript based on the Angular framework. |
-| Cloud agnostic solution | * Helm charts to support the deployment of the application in a Kubernetes environment |
-| Application reliability | * Data source is the Catena-X notwork. Data is fetched with IRS directly from the data owner and the Digital Twin Registry of CX. * Trace-X can be hosted decentralized since it is an open source reference implementation. |
+| Running reference application for Catena-X traceability | * Published open-source, Trace-X application can be used as a reference by anyone. |
+| Accessible and easy to use | * Established programming languages are used. * Backend written in Java. * Frontend written in Typescript based on the Angular framework. |
+| Cloud agnostic solution | * Helm charts to support the deployment of the application in a Kubernetes environment. |
+| Application reliability | * Data source is the Catena-X network. Data is fetched with IRS directly from the data owner and the digital twin registry of CX. * Trace-X can be hosted decentralized since it is an open-source reference implementation. |
 | Security | * Static Application Security Testing (SAST) and Dynamic Application Security Testing (DAST) are executed automatically and regularly with tools as part of the pipeline. |
 
 ## Technology
 
-Trace-X is developed using Java and the Spring Boot framework for the Backend and Typescript based on the Angular framework for the Frontend. This decision was taken due to the support of the frameworks as well as technical knowledge of the team members.
+Trace-X is developed using Java and the Spring Boot framework for the backend and Typescript based on the Angular framework for the frontend. This decision was taken due to the support of the frameworks as well as technical knowledge of the team members.
 
 The application can be hosted using Docker and Kubernetes. This is commonly used and widespread. With this the application has no vendor lock in regarding the hosting provider.
 
-The communication between Frontend and Backend is done using REST APIs. This is the standard method in the Catena-X landscape and makes the application components easy to use for any third party client.
+The communication between frontend and backend is done using REST APIs. This is the standard method in the Catena-X landscape and makes the application components easy to use for any third party client.
 
-As the database to store parts information etc. PostgreSQL Database is used.
+For the database PostgreSQL is used.
 
 ## Structure
 
-Trace-X is divided into two components: Frontend and Backend.
+Trace-X is divided into two components: frontend and backend.
 It roughly can be broken down into the following parts:
 
-* Asset controllers to get the asset information
+* Asset controllers to get asset information
 * Dashboard controller to get dashboard related summed up information
-* Registry controller to fetch assets from the Digital Twin Registry
+* Registry controller to fetch assets from the digital twin registry
 * Notification controller to get notification information and create EDC notification offers
 * Submodel controller for providing asset data functionality
 * Import controller for importing Trace-X data for data provisioning
@@ -219,7 +220,7 @@ It roughly can be broken down into the following parts:
 * Policy controller to retrieve information about policies
 * BPN controller to retrieve information about business partners
 
-The backend does a request to the Digital Twin Registry utilizing the Registry controller. Extracted data from the response is made available through the Asset controller and the Dashboard controller to the Frontend.
+The backend does a request to the digital twin registry utilizing the registry controller. Extracted data from the response is made available through the asset controller and the dashboard controller to the frontend.
 
 ## Building block view
 
@@ -239,10 +240,10 @@ Component Diagram
 
 | Components | Description |
 | --- | --- |
-| IRS | The IRS consumes relationship information across the CX-Network and builds the graph view. Within this Documentation, the focus lies on the IRS |
-| EDC Consumer | The EDC Consumer Component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC Consumer consists out of a control plane and a data plane. |
-| EDC Provider | The EDC Provider Component connects with EDC Consumer component and forms the endpoint for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications. |
-| Submodel Server | The Submodel Server offers endpoints for requesting the Submodel aspects. |
+| IRS | The IRS consumes relationship information across the CX-network and builds the graph view. Within this documentation, the focus lies on the IRS. |
+| EDC consumer | The EDC consumer component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC consumer consists out of a control plane and a data plane. |
+| EDC provider | The EDC provider component connects with EDC consumer component and forms the endpoint for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications. |
+| Submodel server | The submodel server offers endpoints for requesting the submodel aspects. |
 
 ## Level 1
 
@@ -254,24 +255,24 @@ Component Diagram
 
 | Components | Description |
 | --- | --- |
-| **Trace-X** | Trace-X is a system allowing the user to review the parts/assets catalogue, start a quality investigations and receive quality alerts |
-| **Trace-X API** | The **Trace-X API** is the Interface over which the Data Consumer is communicating. |
-| **AssetsController** | The **AssetsController** provides a REST Interface for retrieving the parts/assets information. |
-| **DashboardController** | The **DashboardController** provides a REST Interface for retrieving overall statistics displayed on a dashboard screen. |
-| **RegistryController** | The **RegistryController** provides a REST Interface for retrieving the data from parts registry. |
-| **ImportController** | The **ImportController** provides a REST Interface for importing assets and publishing them in the Catena-X network. |
+| **Trace-X** | **Trace-X** is a system allowing the user to review the parts/assets catalogue, start a quality investigations and receive quality alerts. |
+| **Trace-X API** | The **Trace-X API** is the interface over which the data consumer is communicating. |
+| **AssetsController** | The **AssetsController** provides a REST interface for retrieving the parts/assets information. |
+| **DashboardController** | The **DashboardController** provides a REST interface for retrieving overall statistics displayed on a dashboard screen. |
+| **RegistryController** | The **RegistryController** provides a REST interface for retrieving the data from parts registry. |
+| **ImportController** | The **ImportController** provides a REST interface for importing assets and publishing them in the Catena-X network. |
 | **AssetRepository** | The **AssetRepository** is a component responsible for storing and getting assets from database. |
 | **BPNRepository** | The **BPNRepository** is a component which stores BPN -> company name mappings. |
-| **NotificationsRepository** | The **NotificationsRepository** is a component responsible for storing and holding status of sent/received notifications |
-| **Database** | Place for storing assets, relations as well as sent/received notifications |
+| **NotificationsRepository** | The **NotificationsRepository** is a component responsible for storing and holding status of sent/received notifications. |
+| **Database** | The **database** is a place for storing assets, relations as well as sent/received notifications. |
 
 ## Runtime view
 
-This section describes the different functionalities of TraceX-FOSS application
+This section describes the different functionalities of Trace-X application.
 
 ## Assets
 
-## Scenario 1: Return Assets
+## Scenario 1: Return assets
 
 This section describes what happens when user lists stored assets.
 In this example, the user requests as built assets.
@@ -281,12 +282,12 @@ The same can be done with as planned assets.
 
 ### Overview
 
-When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
+When a user requests stored assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
 If yes, then the endpoint returns a pageable result of assets.
 
 The returned pageable result can be empty if no suitable asset has been found.
 
-## Scenario 2: Return specific Assets
+## Scenario 2: Return specific assets
 
 This section describes what happens when user searches for a specific asset.
 This example shows the request of one as built asset.
@@ -296,15 +297,15 @@ The same can be done with as planned assets.
 
 ### Overview
 
-When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.
+When a user requests a specific asset, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise asset for the given assetId, if it is found.
 
 If no asset has been found for the given ID, an AssetNotFoundException is thrown.
 
 ## Notifications
 
-## Receive Quality Notification
+## Receive quality notification
 
-This sequence diagram describes the process of receiving a quality notification from another Traceability partner.
+This sequence diagram describes the process of receiving a quality notification from another traceability partner.
 
 ![arc42_009](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_009.png)
 
@@ -320,11 +321,11 @@ To enable receiving a notification by a partner you need to
 
 Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel.
 
-With the notification asset is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to browse the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to push a notification to the specified http endpoint on the receiver side.
+With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to find the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to push a notification to the specified http endpoint on the receiver side.
 
-## Send Quality Notification
+## Send quality notification
 
-This sequence diagram describes the process of sending a quality notification between Traceability applications.
+This sequence diagram describes the process of sending a quality notification between traceability applications.
 
 ![arc42_010](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_010.png)
 
@@ -338,9 +339,9 @@ To enable sending respective more precisely receiving a notification by a partne
 * Create EDC usage policies
 * Create EDC contract definitions
 
-Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel. With the notification asset is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be pushed by the sender.
+Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel. With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be pushed by the sender.
 
-In the above UML sequence diagram the sending of quality notifications from Trace-X to a receiver (any other Traceability application) is described.
+In the above UML sequence diagram the sending of quality notifications from Trace-X to a receiver (any other traceability application) is described.
 
 ## Data consumption
 
@@ -350,16 +351,16 @@ This sequence diagram describes the process of fetching data from a DTR and the 
 
 ### Overview
 
-Data is fetched by a Trace-X instance using Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X Consumer EDC. Data has to be provided to the Catena-X network using a EDC Provider, since Trace-X is not a data provider and therefore no possibility for data provisioning with Trace-X exists.
+Data is fetched by a Trace-X instance using Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
 For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X, a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, parts tree / parts relations.
 
 ## Data Provisioning
 
-This sequence diagrams describes the process of importing data from a Trace-X Dataformat
+This sequence diagrams describes the process of importing data from a Trace-X dataformat
 
-### Modul 1
+### Module 1
 
-Data will be imported by the Trace-X Frontend into Trace-X backend and will be persisted as asset by a Trace-X instance in a transient state.
+Data will be imported by the Trace-X frontend into the Trace-X backend and will be persisted as an asset in a transient state.
 The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.
 
 ![arc42_012](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_012.png)
@@ -367,16 +368,16 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 
 ```
 
-### Modul 2
+### Module 2
 
-The frontend is able to select assets and publish / syncronize them with the shared services. DTR / EDC / Submodel API.
+The frontend is able to select assets and publish / synchronize them with the shared services. DTR / EDC / submodel API.
 
 ![arc42_013](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_013.png)
 ```bash
 
 ```
 
-### Modul 3
+### Module 3
 
 The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.
 
@@ -392,7 +393,7 @@ In this example, the user requests an import report.
 
 ### Overview
 
-When a user requests an import report, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
+When a user requests an import report, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
 If yes, then the endpoint returns an import report to the given importJobId.
 
 If the importJobId is not known to Trace-X, an HTTP 404 error is returned.
@@ -403,22 +404,22 @@ This section describes user interaction when publishing assets
 
 ### Overview
 
-When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then endpoint starts to publish assets to network.
+When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then the endpoint starts to publish assets to network.
 
-## Scenario 3: Publish assets Error on EDC or DTR
+## Scenario 3: Publish assets - error on EDC or DTR
 
-This section describes user interaction when publishing assets fails due to EDC or DTR error ( for example services are unavailable )
+This section describes user interaction when publishing assets fails due to EDC or DTR error (for example when the services are unavailable).
 
 ### Overview
 
-When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then endpoint starts to publish assets to network.
-If any of required Services are not available or returns Error response upon executing flow assets are set to ERROR state and user can retry publishing them at any time when services are available
+When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then the endpoint starts to publish assets to network.
+If any of required services are not available or return an error response upon executing, flow assets are set to ERROR state and the user can retry publishing them at any time when services are available again.
 
-## Data Souvereignty
+## Data sovereignty
 
-## Scenario 1: Return Asset Contract Agreements
+## Scenario 1: Return asset contract agreements
 
 This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).
 
@@ -436,13 +437,13 @@ If no asset ids are provided in the request, 50 contract agreement ids are handl
 
 ### Overview
 
-#### Scenario 1: Startup interaction with IRS Policy Store
+#### Scenario 1: Startup interaction with the IRS policy store
 
 The Trace-X instance defines a constraint which is required for data consumption and provisioning.
 Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
 If a policy with the constraint exists and is valid, the process ends. If the policy is not valid, it will create one with the given constraint.
 
-This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on the constraint given by Trace-X.
+This sequence diagram describes the process of retrieving or creating policies within the IRS policy store based on the constraint given by Trace-X.
 
 ![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
 ```bash
@@ -458,7 +459,7 @@ This sequence diagram describes the process of retrieving or creating policies w
 The Trace-X instance uses the policy which includes the defined constraint and transforms it into a valid EDC policy request.
 The EDC policy request will be used for creating a policy for the required notification contracts.
 
-This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on the constraint given by Trace-X and reuses it for creating an EDC policy.
+This sequence diagram describes the process of retrieving the correct policy by IRS policy store based on the constraint given by Trace-X and reuses it for creating an EDC policy.
 
 ![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
 ```bash
@@ -490,7 +491,7 @@ An overview of the scheduler tasks configured in the system.
 
 |     |     |     |
 | --- | --- | --- |
-| Scheduler Name | Execution Interval | Description |
+| Scheduler name | Execution interval | Description |
 | PublishAssetsJob | Every hour at 30min | Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines 'as-built' and 'as-planned' assets and initiates their publication for synchronization in the traceability system. |
 | AssetsRefreshJob | Every 2 hours | Invokes the synchronization of asset shell descriptors with the decentralized registry. It ensures the latest asset information is fetched and updated in the system from external sources. |
 
@@ -498,15 +499,15 @@ An overview of the scheduler tasks configured in the system.
 
 ## Cross-cutting concepts
 
-## Entity Relationship Model
+## Entity-relationship model
 
-Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-Relationship Model (ERM) in its current state.
+Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-relationship model (ERM) in its current state.
 
 ```bash
 image::./assets/arc42/arc42_019.png[]
 ```
 
-#### Quality Notifications
+#### Quality notifications
 
 ![arc42_020](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_020.png)
 ```bash
@@ -515,13 +516,13 @@ image::./assets/arc42/arc42_019.png[]
 
 ## Safety and security concepts
 
-### Authentication / Authorization
+### Authentication / authorization
 
 #### Trace-X API
 
-The Trace-X is secured using OAuth2.0 / Open ID Connect.
+The Trace-X API is secured using OAuth2.0 / Open ID Connect.
 Every request to the Trace-X API requires a valid bearer token.
-JWT token should also contain two claims:
+The JWT token should also contain two claims:
 
 * 'bpn' which is equal to the configuration value from `API_ALLOWED_BPN` property
 * 'resource_access' with the specific key for C-X environments.
@@ -533,7 +534,7 @@ You can have a look at the [rights and role matrix](https://github.com/eclipse-t
 #### Trace-X as EDC client
 
 The Trace-X accesses the Catena-X network via the EDC consumer connector.
-This component requires authentication via a Verifiable Credential (VC), which is provided to the EDC via the Managed Identity Wallet.
+This component requires authentication via a Verifiable Credential (VC), which is provided to the EDC via the managed identity wallet.
 
 The VC identifies and authenticates the EDC and is used to acquire access permissions for the data transferred via EDC.
 
@@ -543,39 +544,39 @@ Credentials must never be stored in Git!
 
 ## Architecture and design patterns
 
-### Module / Package structure
+### Module / package structure
 
 * Main domain name
-  * application
-    * optional: subdomain name (in case of inheritance) → following same structure as main domain
-    * mapper: holds the mapper of transforming domain models to response models
-    * service: holds the interface for implementation in the domain package
-    * rest: holds the controller for providing the api for the domain
-  * domain
-    * optional: subdomain name (in case of inheritance)
-    * model: holds the domain model
-    * service: Implementation of the interface provided in the application package
-    * repository: holds the interface for accessing the infrastructure package
-  * infrastructure
-    * optional: subdomain name (in case of inheritance)
-    * model: holds the technical entities
-    * repository: holds the data access layer
-      * e.g. JPARepository / Impl
-  * All models (Request / Response) used in the API should be saved in the tx-model project.
+  * Application
+    * Optional: subdomain name (in case of inheritance) → following same structure as main domain
+    * Mapper: holds the mapper of transforming domain models to response models
+    * Service: holds the interface for implementation in the domain package
+    * REST: holds the controller for providing the api for the domain
+  * Domain
+    * Optional: subdomain name (in case of inheritance)
+    * Model: holds the domain model
+    * Service: implementation of the interface provided in the application package
+    * Repository: holds the interface for accessing the infrastructure package
+  * Infrastructure
+    * Optional: subdomain name (in case of inheritance)
+    * Model: holds the technical entities
+    * Repository: holds the data access layer
+      * E.g. JPARepository / Impl
+  * All models (request / response) used in the API should be saved in the tx-model project.
   To be reusable for cucumber testing.
 
 ## "Under-the-hood" concepts
 
 ### Exception and error handling
 
-There are two types of potential errors in TraceX:
+There are two types of potential errors in Trace-X:
 
 #### Technical errors
 
 Technical errors occur when there is a problem with the application itself, its configuration or directly connected infrastructure, e.g. the Postgres database.
 Usually, the application cannot solve these problems by itself and requires some external support (manual work or automated recovery mechanisms, e.g. Kubernetes liveness probes).
 
-These errors are printed mainly to the application log and are relevant for the healthchecks.
+These errors are printed mainly to the application log and are relevant for the health-checks.
 
 #### Functional errors
 
@@ -598,7 +599,7 @@ Of course, when using only RuntimeExceptions, this is not necessary - but those 
 
 ##### Central fallback exception handler
 
-There will always be some exception that cannot be handled inside of the code correctly - or it may just have been unforeseen.
+There will always be some exception that cannot be handled inside the code correctly - or it may just have been unforeseen.
 A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
 In some cases, this is as simple as a HTTP 500.
 
@@ -612,27 +613,27 @@ This way, we avoid opening potential attack vectors.
 
 ### Build, test, deploy
 
-TraceX is built using Maven and utilizes all the standard concepts of it.
+Trace-X is built using Maven and utilizes all the standard concepts of it.
 Test execution is part of the build process and a minimum test coverage of 80% is enforced.
 
 The project setup contains a multi-module Maven build.
-Commonly used classes (like the TraceX data model) should be extracted into a separate submodule and reused across the project.
+Commonly used classes (like the Trace-X data model) should be extracted into a separate submodule and reused across the project.
 However, this is not a "one-size-fits-all" solution.
 New submodules should be created with care and require a review by the team.
 
-The Maven build alone only leads up to the JAR artifact of TraceX.
-Do create Docker images, the Docker build feature is used.
+The Maven build alone only leads up to the JAR artifact of Trace-X.
+To create Docker images, the Docker build feature is used.
 This copies all resources into a builder image, builds the software and creates a final Docker image at the end that can then be deployed.
 
 Although the Docker image can be deployed in various ways, the standard solution are the provided Helm charts, which describe the required components as well.
 
 ### Code generation
 
-There are two methods of code generation in TraceX:
+There are two methods of code generation in Trace-X:
 
 #### Lombok
 
-The Lombok library is heavily used to generate boilerplate code (like Constructors, Getters, Setters, Builders...).
+The Lombok library is heavily used to generate boilerplate code (like constructors, getters, setters, builders...).
 This way, code can be written faster and this boilerplate code is excluded from test coverage, which keeps the test base lean.
 
 #### Swagger / OpenAPI
@@ -648,24 +649,28 @@ Data migration is handled by flyway.
 
 ### Configurability
 
-TraceX utilizes the configuration mechanism provided by Spring Boot.
+Trace-X utilizes the configuration mechanism provided by Spring Boot.
 Configuration properties can be defined in the file `src/main/resources/application.yml`
 
 Other profiles should be avoided.
 Instead, the configuration can be overwritten using Spring’s external configuration mechanism (see <https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html).>
-The operator must have total control over the configuration of TraceX.
+The operator must have total control over the configuration of Trace-X.
 
-### Java Style Guide
+### Java style guide
 
 We generally follow the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
 
-### API Guide
+### API guide
 
-We generally follow the <https://swagger.io/specification/>
+We generally follow the [OpenAPI Specification](https://swagger.io/specification/).
 
-### Unit and Functional Testing
+### Docomentation style guide
 
-#### General Unit testing
+We generally follow the [Google developer documentation style guide](https://developers.google.com/style).
+
+### Unit and functional testing
+
+#### General unit testing
 
 * Code coverage >= 80%
 * Writing methods which provide a response to be better testable (avoid void if feasible).
@@ -678,38 +683,38 @@ E.g:
 
 ![given_when_then_pattern](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/given_when_then_pattern.png)
 
-#### Integration Testing
+#### Integration testing
 
-Each public api should have at least two integration tests (positive / negative).
+Each public API should have at least two integration tests (positive / negative).
 For integration testing, the `tx-backend/src/main/resources/application-integration.yml` is used.
 Additionally, you need to have a local Docker environment running.
 For this, we recommend [Rancher Dektop](https://rancherdesktop.io/).
 
-### Clean Code
+### Clean code
 
 We follow the rules and behaviour of: <https://clean-code-developer.com/.>
 
-### Secure Coding standards
+### Secure coding standards
 
-As there is no other guideline of C-X, we fix any Vulnerabilities, Exposures, Flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".
+As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".
 
 ![vulnerability_level](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/vulnerability_level.png)
 
-### TRACE-X Technical class responsibilities
+### Trace-X technical class responsibilities
 
-#### Controllers
+#### Controller
 
-* Have only one dependency to a facade or a service or a validator annotation
-* Have no own logic
-* Including the swagger documentation annotations
-* For each controller exists and Integration Test class
+* Has only one dependency to a facade or a service or a validator annotation
+* Has no own logic
+* Includes the swagger documentation annotations
+* Has an integration test class
 * Uses a static mapper to transform a domain model into the response model
 * Returns a ResponseEntity&lt;T>
 
 #### Response object
 
 * Should be a public version of the domain object
-* It is a result of the transformation which will be done in the facade
+* Is a result of the transformation which will be done in the facade
 * Is not necessary if the domain object can be fully public
 * Is not allowed to be implemented in a repository or a DAO
 
@@ -723,29 +728,29 @@ As there is no other guideline of C-X, we fix any Vulnerabilities, Exposures, Fl
 * Responsible for retrieving data from storage
 * Performs business logic
 * Can be a http client
-* Returns a jpaEntity → Domain Object
+* Returns a jpaEntity → domain object
 * Should only be implemented in a controller through an interface
 
 #### Repository
 
-* Represents an interface to the underlying repository implementation which uses then the spring repository
+* Represents an interface to the underlying repository implementation which then uses the spring repository
 
-#### Domain Object
+#### Domain object
 
-* Mapped from an entity or external data received
-* Will be used as working model until it will be finally transformed to a response object or another domain which will be later on persisted
+* Mapped from an entity or from received external data
+* Will be used as a working model until it will finally be transformed to a response object or another domain which will be persisted later on
 
-#### Config Object
+#### Config object
 
-* Should have the suffix Config at the end of the class
-* Including beans which are automatically created by app startup
+* Should have the suffix .config at the end of the class
+* Includes beans which are automatically created by app startup
 
 #### Constructing objects
 
 * Using builder pattern
-  * Currently we are using the constructor to create objects in our application.
-  Main reason is probably to provide immutable objects.
-  * As the handling with big loaded constructors is not easy and error prune, I would recommend using the builder pattern to have a clear understanding about what we creating at the point of implementation.
+  * Currently, we are using the constructor to create objects in our application.
+  Main reason is to provide immutable objects.
+  * As the handling with big loaded constructors is not easy and error prone, it’s recommended to use the builder pattern to have a clear understanding about what we are creating at the point of implementation.
 * Using lombok for annotation processing
 
 ## Operational concepts
@@ -754,27 +759,27 @@ As there is no other guideline of C-X, we fix any Vulnerabilities, Exposures, Fl
 
 #### Configuration
 
-TraceX can be configured using two mechanisms:
+Trace-X can be configured using two mechanisms:
 
 ##### application.yml
 
-If you build TraceX yourself, you can modify the application.yml config that is shipped with TraceX.
+If you build Trace-X yourself, you can modify the application.yml config that is shipped with Trace-X.
 This file contains all possible config entries for the application.
 Once the Docker image has been built, these values can only be overwritten using the Spring external config mechanism (see <https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html),> e.g. by mounting a config file in the right path or using environment variables.
 
-##### Helm Chart
+##### Helm chart
 
-The most relevant config properties are exposed as environment variables and must be set in the Helm chart so the application can run at all.
-Check the TraceX Helm chart in Git for all available variables.
+The most relevant config properties are exposed as environment variables and must be set in the Helm chart for the application to be able to run.
+Check the Trace-X Helm chart in Git for all available variables.
 
 ### Scaling
 
-If the number of consumers raises, TraceX can be scaled up by using more resources for the Deployment Pod.
-Those resources can be used to utilize more parallel threads to handle Job execution.
+If the number of consumers rises, Trace-X can be scaled up by using more resources for the deployment pod.
+Those resources can be used to utilize more parallel threads to handle job execution.
 
 ### Clustering
 
-TraceX can run in clustered mode, as each running job is only present in one pod at a time.
+Trace-X can run in clustered mode, as each running job is only present in one pod at a time.
 Note: as soon as a resume feature is implemented, this needs to be addressed here.
 
 ### Logging
@@ -783,7 +788,7 @@ Logs are being written directly to stdout and are picked up by the cluster manag
 
 ### Monitoring
 
-Currently, there is on monitoring supported in TraceX.
+Currently, there is on monitoring supported in Trace-X.
 
 ## Quality requirements
 
@@ -801,13 +806,13 @@ The initial letters of the scenario identifiers (IDs) in the following table eac
 
 | ID | Scenario |
 | --- | --- |
-| M01 | A developer with basic knowledge of the Traceability Use Case looks for an introduction to the Traceability architecture. He or she gets the idea of essential design very fast. |
-| M02 | A senior developer looks for a reference implementation of the Traceability Use case functionalities. He or she gets it within the source code. |
+| M01 | A developer with basic knowledge of the traceability use case looks for an introduction to the traceability architecture. He or she gets the idea of essential design very fast. |
+| M02 | A senior developer looks for a reference implementation of the traceability use case functionalities. He or she gets it within the source code. |
 | M03 | A developer wants to implement new features. He or she is able to add it to the source code easily. |
-| M04 | A developer wants to implement a new Frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so. |
-| I01 | An user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network. |
+| M04 | A developer wants to implement a new frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so. |
+| I01 | A user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network. |
 | F01 | The application uses the Catena-X standards to ensure the correct interoperability and exchange with other participants. |
-| F02 | An OEM or Tier n supplier needs more information regarding specific parts. He can mark the parts in question and send a top-down notification (Quality Investigation) to the next entity / the partner. |
+| F02 | An OEM or tier n supplier needs more information regarding specific parts. He can mark the parts in question and send a top-down notification (quality investigation) to the next entity / the partner. |
 | F03 | A company wants to have more transparency and a visualized status of the supply / value chain. By using the application they are enabled to work with the structures and enable new features / functionalities. |
 | F04 | Notifications are sent using the EDC to ensure interoperability and reliability to the CX network. |
 | E01 | Notifications between traceability apps need to be send out and received within a specified timeframe to minimize the negative impact of e.g. recalled serialized products/batches on the value chain. |
@@ -816,12 +821,12 @@ The initial letters of the scenario identifiers (IDs) in the following table eac
 
 | Term | Description |
 | --- | --- |
-| Aspect | Collection of various aspects from the Digital Twin. An aspect can, for example, bundle all information about a specific part. |
-| AAS | ***A****sset **A****dministration **S***hell (Industry 4.0). Is the implementation of the digital twin for Industry 4.0 and enables interoperability between different companies. |
+| Aspect | Collection of various aspects from the digital twin. An aspect can, for example, bundle all information about a specific part. |
+| AAS | ***A****sset **A****dministration **S***hell (Industry 4.0) is the implementation of the digital twin for Industry 4.0 and enables interoperability between different companies. |
 | BoM | ***B****ill **o****f **M***aterial. BoM is a list of parts and materials that a product contains. Without them, manufacturing would not be possible. |
 | BoM AsBuilt | Bill of material lifecycle of the built entity |
 | BoM AsPlanned | Bill of material lifecycle of the planned entity |
-| BPN | ***B****usiness **P****artner **N***umber. A BPN is used to identify a partner in the Catena-X network |
+| BPN | ***B****usiness **P****artner **N***umber. A BPN is used to identify a partner in the Catena-X network. |
 | CX | Abbreviation for Catena-X |
 | Data Sovereignty | Ability to keep control over own data, that is shared with other participants |
 | EDC | ***E****clipse **D****ataspace **C***onnector. The connector version used in Catena-X |
@@ -829,5 +834,5 @@ The initial letters of the scenario identifiers (IDs) in the following table eac
 | Interoperability | Communication and interaction with other components or Catena-X partners/players |
 | IRS | ***I****tem **R****elationship **S***ervice. Component to provide data chains. [IRS architecture documentation (arc42)](https://eclipse-tractusx.github.io/item-relationship-service/docs/arc42/) |
 | SME | ***S****mall / **M****edium **E***nterprise |
-| Trace-X | Proper name of open-source software application of Catena-X Use Case Traceability |
+| Trace-X | Proper name of open-source software application of Catena-X use case traceability |
 | UI | ***U****ser **I***nterface |

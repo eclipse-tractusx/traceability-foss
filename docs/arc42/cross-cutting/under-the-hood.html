@@ -458,7 +458,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_exception_and_error_handling">Exception and error handling</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are two types of potential errors in TraceX:</p>
+<p>There are two types of potential errors in Trace-X:</p>
 </div>
 <div class="sect2">
 <h3 id="_technical_errors">Technical errors</h3>
@@ -467,7 +467,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 Usually, the application cannot solve these problems by itself and requires some external support (manual work or automated recovery mechanisms, e.g. Kubernetes liveness probes).</p>
 </div>
 <div class="paragraph">
-<p>These errors are printed mainly to the application log and are relevant for the healthchecks.</p>
+<p>These errors are printed mainly to the application log and are relevant for the health-checks.</p>
 </div>
 </div>
 <div class="sect2">
@@ -499,7 +499,7 @@ On the other hand, you still have the possibility to derive various, meaningful 
 <div class="sect3">
 <h4 id="_central_fallback_exception_handler">Central fallback exception handler</h4>
 <div class="paragraph">
-<p>There will always be some exception that cannot be handled inside of the code correctly - or it may just have been unforeseen.
+<p>There will always be some exception that cannot be handled inside the code correctly - or it may just have been unforeseen.
 A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
 In some cases, this is as simple as a HTTP 500.</p>
 </div>
@@ -518,7 +518,7 @@ This way, we avoid opening potential attack vectors.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-11 12:27:09 UTC
+Last updated 2024-04-15 06:22:07 UTC
 </div>
 </div>
 </body>

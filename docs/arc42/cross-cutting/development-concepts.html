@@ -452,25 +452,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_migration">Migration</a></li>
 <li><a href="#_configurability">Configurability</a></li>
-<li><a href="#_java_style_guide">Java Style Guide</a></li>
-<li><a href="#_api_guide">API Guide</a></li>
-<li><a href="#_unit_and_functional_testing">Unit and Functional Testing</a>
+<li><a href="#_java_style_guide">Java style guide</a></li>
+<li><a href="#_api_guide">API guide</a></li>
+<li><a href="#_docomentation_style_guide">Docomentation style guide</a></li>
+<li><a href="#_unit_and_functional_testing">Unit and functional testing</a>
 <ul class="sectlevel2">
-<li><a href="#_general_unit_testing">General Unit testing</a></li>
-<li><a href="#_integration_testing">Integration Testing</a></li>
+<li><a href="#_general_unit_testing">General unit testing</a></li>
+<li><a href="#_integration_testing">Integration testing</a></li>
 </ul>
 </li>
-<li><a href="#_clean_code">Clean Code</a></li>
-<li><a href="#_secure_coding_standards">Secure Coding standards</a></li>
-<li><a href="#_trace_x_technical_class_responsibilities">TRACE-X Technical class responsibilities</a>
+<li><a href="#_clean_code">Clean code</a></li>
+<li><a href="#_secure_coding_standards">Secure coding standards</a></li>
+<li><a href="#_trace_x_technical_class_responsibilities">Trace-X technical class responsibilities</a>
 <ul class="sectlevel2">
-<li><a href="#_controllers">Controllers</a></li>
+<li><a href="#_controller">Controller</a></li>
 <li><a href="#_response_object">Response object</a></li>
 <li><a href="#_facade">Facade</a></li>
 <li><a href="#_serviceimpl">ServiceImpl</a></li>
 <li><a href="#_repository">Repository</a></li>
-<li><a href="#_domain_object">Domain Object</a></li>
-<li><a href="#_config_object">Config Object</a></li>
+<li><a href="#_domain_object">Domain object</a></li>
+<li><a href="#_config_object">Config object</a></li>
 <li><a href="#_constructing_objects">Constructing objects</a></li>
 </ul>
 </li>
@@ -482,18 +483,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_build_test_deploy">Build, test, deploy</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TraceX is built using Maven and utilizes all the standard concepts of it.
+<p>Trace-X is built using Maven and utilizes all the standard concepts of it.
 Test execution is part of the build process and a minimum test coverage of 80% is enforced.</p>
 </div>
 <div class="paragraph">
 <p>The project setup contains a multi-module Maven build.
-Commonly used classes (like the TraceX data model) should be extracted into a separate submodule and reused across the project.
+Commonly used classes (like the Trace-X data model) should be extracted into a separate submodule and reused across the project.
 However, this is not a "one-size-fits-all" solution.
 New submodules should be created with care and require a review by the team.</p>
 </div>
 <div class="paragraph">
-<p>The Maven build alone only leads up to the JAR artifact of TraceX.
-Do create Docker images, the Docker build feature is used.
+<p>The Maven build alone only leads up to the JAR artifact of Trace-X.
+To create Docker images, the Docker build feature is used.
 This copies all resources into a builder image, builds the software and creates a final Docker image at the end that can then be deployed.</p>
 </div>
 <div class="paragraph">
@@ -505,12 +506,12 @@ This copies all resources into a builder image, builds the software and creates 
 <h2 id="_code_generation">Code generation</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are two methods of code generation in TraceX:</p>
+<p>There are two methods of code generation in Trace-X:</p>
 </div>
 <div class="sect2">
 <h3 id="_lombok">Lombok</h3>
 <div class="paragraph">
-<p>The Lombok library is heavily used to generate boilerplate code (like Constructors, Getters, Setters, Builders&#8230;&#8203;).
+<p>The Lombok library is heavily used to generate boilerplate code (like constructors, getters, setters, builders&#8230;&#8203;).
 This way, code can be written faster and this boilerplate code is excluded from test coverage, which keeps the test base lean.</p>
 </div>
 </div>
@@ -538,18 +539,18 @@ The annotations are then used to automatically generate the OpenAPI specificatio
 <h2 id="_configurability">Configurability</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TraceX utilizes the configuration mechanism provided by Spring Boot.
+<p>Trace-X utilizes the configuration mechanism provided by Spring Boot.
 Configuration properties can be defined in the file <code>src/main/resources/application.yml</code></p>
 </div>
 <div class="paragraph">
 <p>Other profiles should be avoided.
 Instead, the configuration can be overwritten using Spring&#8217;s external configuration mechanism (see <a href="https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html" class="bare">https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html</a>).
-The operator must have total control over the configuration of TraceX.</p>
+The operator must have total control over the configuration of Trace-X.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_java_style_guide">Java Style Guide</h2>
+<h2 id="_java_style_guide">Java style guide</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>We generally follow the <a href="https://google.github.io/styleguide/javaguide.html">Google Java Style Guide</a>.</p>
@@ -557,18 +558,26 @@ The operator must have total control over the configuration of TraceX.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_api_guide">API Guide</h2>
+<h2 id="_api_guide">API guide</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>We generally follow the <a href="https://swagger.io/specification/" class="bare">https://swagger.io/specification/</a></p>
+<p>We generally follow the <a href="https://swagger.io/specification/">OpenAPI Specification</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_unit_and_functional_testing">Unit and Functional Testing</h2>
+<h2 id="_docomentation_style_guide">Docomentation style guide</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We generally follow the <a href="https://developers.google.com/style">Google developer documentation style guide</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_unit_and_functional_testing">Unit and functional testing</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_general_unit_testing">General Unit testing</h3>
+<h3 id="_general_unit_testing">General unit testing</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -602,9 +611,9 @@ E.g:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_integration_testing">Integration Testing</h3>
+<h3 id="_integration_testing">Integration testing</h3>
 <div class="paragraph">
-<p>Each public api should have at least two integration tests (positive / negative).
+<p>Each public API should have at least two integration tests (positive / negative).
 For integration testing, the <code>tx-backend/src/main/resources/application-integration.yml</code> is used.
 Additionally, you need to have a local Docker environment running.
 For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.</p>
@@ -613,7 +622,7 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 </div>
 </div>
 <div class="sect1">
-<h2 id="_clean_code">Clean Code</h2>
+<h2 id="_clean_code">Clean code</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>We follow the rules and behaviour of: <a href="https://clean-code-developer.com/" class="bare">https://clean-code-developer.com/</a>.</p>
@@ -621,10 +630,10 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 </div>
 </div>
 <div class="sect1">
-<h2 id="_secure_coding_standards">Secure Coding standards</h2>
+<h2 id="_secure_coding_standards">Secure coding standards</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As there is no other guideline of C-X, we fix any Vulnerabilities, Exposures, Flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".</p>
+<p>As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -634,23 +643,23 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 </div>
 </div>
 <div class="sect1">
-<h2 id="_trace_x_technical_class_responsibilities">TRACE-X Technical class responsibilities</h2>
+<h2 id="_trace_x_technical_class_responsibilities">Trace-X technical class responsibilities</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_controllers">Controllers</h3>
+<h3 id="_controller">Controller</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Have only one dependency to a facade or a service or a validator annotation</p>
+<p>Has only one dependency to a facade or a service or a validator annotation</p>
 </li>
 <li>
-<p>Have no own logic</p>
+<p>Has no own logic</p>
 </li>
 <li>
-<p>Including the swagger documentation annotations</p>
+<p>Includes the swagger documentation annotations</p>
 </li>
 <li>
-<p>For each controller exists and Integration Test class</p>
+<p>Has an integration test class</p>
 </li>
 <li>
 <p>Uses a static mapper to transform a domain model into the response model</p>
@@ -669,7 +678,7 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 <p>Should be a public version of the domain object</p>
 </li>
 <li>
-<p>It is a result of the transformation which will be done in the facade</p>
+<p>Is a result of the transformation which will be done in the facade</p>
 </li>
 <li>
 <p>Is not necessary if the domain object can be fully public</p>
@@ -707,7 +716,7 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 <p>Can be a http client</p>
 </li>
 <li>
-<p>Returns a jpaEntity → Domain Object</p>
+<p>Returns a jpaEntity → domain object</p>
 </li>
 <li>
 <p>Should only be implemented in a controller through an interface</p>
@@ -720,33 +729,33 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 <div class="ulist">
 <ul>
 <li>
-<p>Represents an interface to the underlying repository implementation which uses then the spring repository</p>
+<p>Represents an interface to the underlying repository implementation which then uses the spring repository</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_domain_object">Domain Object</h3>
+<h3 id="_domain_object">Domain object</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Mapped from an entity or external data received</p>
+<p>Mapped from an entity or from received external data</p>
 </li>
 <li>
-<p>Will be used as working model until it will be finally transformed to a response object or another domain which will be later on persisted</p>
+<p>Will be used as a working model until it will finally be transformed to a response object or another domain which will be persisted later on</p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_config_object">Config Object</h3>
+<h3 id="_config_object">Config object</h3>
 <div class="ulist">
 <ul>
 <li>
-<p>Should have the suffix Config at the end of the class</p>
+<p>Should have the suffix .config at the end of the class</p>
 </li>
 <li>
-<p>Including beans which are automatically created by app startup</p>
+<p>Includes beans which are automatically created by app startup</p>
 </li>
 </ul>
 </div>
@@ -760,11 +769,11 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 <div class="ulist">
 <ul>
 <li>
-<p>Currently we are using the constructor to create objects in our application.
-Main reason is probably to provide immutable objects.</p>
+<p>Currently, we are using the constructor to create objects in our application.
+Main reason is to provide immutable objects.</p>
 </li>
 <li>
-<p>As the handling with big loaded constructors is not easy and error prune, I would recommend using the builder pattern to have a clear understanding about what we creating at the point of implementation.</p>
+<p>As the handling with big loaded constructors is not easy and error prone, it&#8217;s recommended to use the builder pattern to have a clear understanding about what we are creating at the point of implementation.</p>
 </li>
 </ul>
 </div>
@@ -780,7 +789,7 @@ Main reason is probably to provide immutable objects.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-11 12:27:09 UTC
+Last updated 2024-04-15 06:22:07 UTC
 </div>
 </div>
 </body>

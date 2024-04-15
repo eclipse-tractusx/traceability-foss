@@ -462,21 +462,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_configuration">Configuration</h3>
 <div class="paragraph">
-<p>TraceX can be configured using two mechanisms:</p>
+<p>Trace-X can be configured using two mechanisms:</p>
 </div>
 <div class="sect3">
 <h4 id="_application_yml">application.yml</h4>
 <div class="paragraph">
-<p>If you build TraceX yourself, you can modify the application.yml config that is shipped with TraceX.
+<p>If you build Trace-X yourself, you can modify the application.yml config that is shipped with Trace-X.
 This file contains all possible config entries for the application.
 Once the Docker image has been built, these values can only be overwritten using the Spring external config mechanism (see <a href="https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html" class="bare">https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html</a>), e.g. by mounting a config file in the right path or using environment variables.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_helm_chart">Helm Chart</h4>
+<h4 id="_helm_chart">Helm chart</h4>
 <div class="paragraph">
-<p>The most relevant config properties are exposed as environment variables and must be set in the Helm chart so the application can run at all.
-Check the TraceX Helm chart in Git for all available variables.</p>
+<p>The most relevant config properties are exposed as environment variables and must be set in the Helm chart for the application to be able to run.
+Check the Trace-X Helm chart in Git for all available variables.</p>
 </div>
 </div>
 </div>
@@ -486,8 +486,8 @@ Check the TraceX Helm chart in Git for all available variables.</p>
 <h2 id="_scaling">Scaling</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>If the number of consumers raises, TraceX can be scaled up by using more resources for the Deployment Pod.
-Those resources can be used to utilize more parallel threads to handle Job execution.</p>
+<p>If the number of consumers rises, Trace-X can be scaled up by using more resources for the deployment pod.
+Those resources can be used to utilize more parallel threads to handle job execution.</p>
 </div>
 </div>
 </div>
@@ -495,7 +495,7 @@ Those resources can be used to utilize more parallel threads to handle Job execu
 <h2 id="_clustering">Clustering</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>TraceX can run in clustered mode, as each running job is only present in one pod at a time.
+<p>Trace-X can run in clustered mode, as each running job is only present in one pod at a time.
 Note: as soon as a resume feature is implemented, this needs to be addressed here.</p>
 </div>
 </div>
@@ -512,14 +512,14 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 <h2 id="_monitoring">Monitoring</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Currently, there is on monitoring supported in TraceX.</p>
+<p>Currently, there is on monitoring supported in Trace-X.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-11 12:27:09 UTC
+Last updated 2024-04-15 06:22:07 UTC
 </div>
 </div>
 </body>

@@ -443,13 +443,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_module_package_structure">Module / Package structure</a></li>
+<li><a href="#_module_package_structure">Module / package structure</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_module_package_structure">Module / Package structure</h2>
+<h2 id="_module_package_structure">Module / package structure</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -458,59 +458,59 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>application</p>
+<p>Application</p>
 <div class="ulist">
 <ul>
 <li>
-<p>optional: subdomain name (in case of inheritance) → following same structure as main domain</p>
+<p>Optional: subdomain name (in case of inheritance) → following same structure as main domain</p>
 </li>
 <li>
-<p>mapper: holds the mapper of transforming domain models to response models</p>
+<p>Mapper: holds the mapper of transforming domain models to response models</p>
 </li>
 <li>
-<p>service: holds the interface for implementation in the domain package</p>
+<p>Service: holds the interface for implementation in the domain package</p>
 </li>
 <li>
-<p>rest: holds the controller for providing the api for the domain</p>
+<p>REST: holds the controller for providing the api for the domain</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>domain</p>
+<p>Domain</p>
 <div class="ulist">
 <ul>
 <li>
-<p>optional: subdomain name (in case of inheritance)</p>
+<p>Optional: subdomain name (in case of inheritance)</p>
 </li>
 <li>
-<p>model: holds the domain model</p>
+<p>Model: holds the domain model</p>
 </li>
 <li>
-<p>service: Implementation of the interface provided in the application package</p>
+<p>Service: implementation of the interface provided in the application package</p>
 </li>
 <li>
-<p>repository: holds the interface for accessing the infrastructure package</p>
+<p>Repository: holds the interface for accessing the infrastructure package</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>infrastructure</p>
+<p>Infrastructure</p>
 <div class="ulist">
 <ul>
 <li>
-<p>optional: subdomain name (in case of inheritance)</p>
+<p>Optional: subdomain name (in case of inheritance)</p>
 </li>
 <li>
-<p>model: holds the technical entities</p>
+<p>Model: holds the technical entities</p>
 </li>
 <li>
-<p>repository: holds the data access layer</p>
+<p>Repository: holds the data access layer</p>
 <div class="ulist">
 <ul>
 <li>
-<p>e.g. JPARepository / Impl</p>
+<p>E.g. JPARepository / Impl</p>
 </li>
 </ul>
 </div>
@@ -519,7 +519,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </li>
 <li>
-<p>All models (Request / Response) used in the API should be saved in the tx-model project.
+<p>All models (request / response) used in the API should be saved in the tx-model project.
 To be reusable for cucumber testing.</p>
 </li>
 </ul>
@@ -532,7 +532,7 @@ To be reusable for cucumber testing.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-11 12:27:09 UTC
+Last updated 2024-04-15 06:22:07 UTC
 </div>
 </div>
 </body>

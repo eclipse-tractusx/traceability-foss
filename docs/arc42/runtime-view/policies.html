@@ -445,7 +445,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_overview">Overview</a>
 <ul class="sectlevel2">
-<li><a href="#_scenario_1_startup_interaction_with_irs_policy_store">Scenario 1: Startup interaction with IRS Policy Store</a></li>
+<li><a href="#_scenario_1_startup_interaction_with_the_irs_policy_store">Scenario 1: Startup interaction with the IRS policy store</a></li>
 <li><a href="#_scenario_2_startup_interaction_with_edc">Scenario 2: Startup interaction with EDC</a></li>
 <li><a href="#_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</a></li>
 <li><a href="#_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</a></li>
@@ -459,14 +459,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_scenario_1_startup_interaction_with_irs_policy_store">Scenario 1: Startup interaction with IRS Policy Store</h3>
+<h3 id="_scenario_1_startup_interaction_with_the_irs_policy_store">Scenario 1: Startup interaction with the IRS policy store</h3>
 <div class="paragraph">
 <p>The Trace-X instance defines a constraint which is required for data consumption and provisioning.
 Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
 If a policy with the constraint exists and is valid, the process ends. If the policy is not valid, it will create one with the given constraint.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of retrieving or creating policies within the IRS Policy Store based on the constraint given by Trace-X.</p>
+<p>This sequence diagram describes the process of retrieving or creating policies within the IRS policy store based on the constraint given by Trace-X.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -481,7 +481,7 @@ If a policy with the constraint exists and is valid, the process ends. If the po
 The EDC policy request will be used for creating a policy for the required notification contracts.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of retrieving the correct policy by IRS Policy Store based on the constraint given by Trace-X and reuses it for creating an EDC policy.</p>
+<p>This sequence diagram describes the process of retrieving the correct policy by IRS policy store based on the constraint given by Trace-X and reuses it for creating an EDC policy.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -522,7 +522,7 @@ The EDC policy request will be used for creating a policy for the required notif
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-11 12:27:09 UTC
+Last updated 2024-04-15 06:22:07 UTC
 </div>
 </div>
 </body>

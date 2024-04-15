@@ -1,4 +1,4 @@
-# Administration Guide
+# Administration guide
 
 ### Notice
 
@@ -13,25 +13,25 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 * Copyright (c) 2022,2023 BOSCH AG
 * Source URL: <https://github.com/eclipse-tractusx/traceability-foss>
 
-## System Overview
+## System overview
 
 The deployment contains the components required to connect Trace-X to an existing Catena-X network. This includes:
 
-* Trace-X Frontend
-* Trace-X Backend
+* Trace-X frontend
+* Trace-X backend
 
 Optionally these components can be installed using the Trace-X backend Helm chart as well:
 
-* PostgreSQL for Trace-X Backend
+* PostgreSQL for Trace-X backend
 * pgadmin4
 * IRS
-* EDC Consumer
+* EDC consumer
 
 Everything else needs to be provided externally.
 
 ![adminguide_000](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/adminguide/adminguide_000.png)
 
-### Rights and Role matrix of Trace-X
+### Rights and role matrix of Trace-X
 
 Currently, Trace-X API handles three roles: ***'User'*** and ***'Supervisor'*** and ***'Admin'***:
 
@@ -41,10 +41,10 @@ Currently, Trace-X API handles three roles: ***'User'*** and ***'Supervisor'*** 
 | View | View Dashboard | x | x | x |
 |  | View Parts | x | x | x |
 |  | View Other parts | x | x | x |
-|  | View Quality investigations | x | x | x |
-|  | View Quality alerts | x | x | x |
+|  | View Quality notifications | x | x | x |
 |  | View Administration |  |  | x |
-| Investigation | Create | x | x |  |
+| Edit | Edit Quality notifications |  | x |  |
+| Quality notification | Create | x | x |  |
 |  | Send (Approve) |  | x |  |
 |  | Read | x | x | x |
 |  | Cancel | x | x |  |
@@ -52,16 +52,9 @@ Currently, Trace-X API handles three roles: ***'User'*** and ***'Supervisor'*** 
 |  | Accept | x | x |  |
 |  | Decline | x | x |  |
 |  | Close |  | x |  |
-| Alert | Create | x | x |  |
-|  | Send (Approve) |  | x |  |
-|  | Read | x | x | x |
-|  | Cancel | x | x |  |
-|  | Acknowledge | x | x |  |
-|  | Accept | x | x |  |
-|  | Decline | x | x |  |
-|  | Close |  | x |  |
-| Administration Panel | Access "BPN EDC config panel" |  |  | x |
+| Administration panel | Access "BPN EDC config panel" |  |  | x |
 |  | Access "Registry lookup Panel" |  |  | x |
+|  | Access "Data Import Interface" |  |  | x |
 
 ## Installation
 
@@ -111,14 +104,14 @@ Create a new application in ArgoCD and point it to your repository / Helm chart 
 
 ## Configuration
 
-## Frontend Configuration
+## Frontend configuration
 
 Take the following template and adjust the configuration parameters (&lt;placeholders> mark the relevant spots).
 You can define the URLs as well as most of the secrets yourself.
 
 The OAuth2, Vault configuration / secrets depend on your setup and might need to be provided externally.
 
-### Helm configuration Trace-X Frontend (values.yaml)
+### Helm configuration Trace-X frontend (values.yaml)
 
 values.yaml <https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml>
 
@@ -152,14 +145,14 @@ Following Tractus-X Helm Best Practices <https://eclipse-tractusx.github.io/docs
 
 Following Tractus-X Helm Best Practices <https://eclipse-tractusx.github.io/docs/release/>
 
-## Backend Configuration
+## Backend configuration
 
 Take the following template and adjust the configuration parameters (&lt;placeholders> mark the relevant spots).
 You can define the URLs as well as most of the secrets yourself.
 
 The OAuth2, Vault configuration / secrets depend on your setup and might need to be provided externally.
 
-### Helm configuration Trace-X Backend (values.yaml)
+### Helm configuration Trace-X backend (values.yaml)
 
 ```yaml
                   operator: DoesNotExist
@@ -565,61 +558,61 @@ Enables &lt;true> or disables &lt;false> pgadmin4 console for the PostgreSQL dat
 
 Enables &lt;true> or disables &lt;false> a K8S Ingress for the pgadmin4 console
 
-## Portal Configuration
+## Portal configuration
 
 The following process is required to successfully connect to the portal:
 
-### Company Registration
+### Company registration
 
-[How To](https://portal.int.demo.catena-x.net/documentation)
+[How-to](https://portal.int.demo.catena-x.net/documentation)
 
 #### Additional info
 
 Each instance of trace-x reflects an own company, which is associated with one BPN.
 
-### User Registration
+### User registration
 
-[How To](https://portal.int.demo.catena-x.net/documentation/)
-
-#### Additional info
-
-The user registration is a self service. Each user can have one or multiple trace-x roles assigned.
-
-### Connector Registration
-
-[How To](https://portal.int.demo.catena-x.net/documentation/)
+[How-to](https://portal.int.demo.catena-x.net/documentation/)
 
 #### Additional info
 
-A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane url.
+The user registration is a self-service. Each user can have one or multiple Trace-X roles assigned.
 
-### App Registration
+### Connector registration
 
-[How To](https://portal.int.demo.catena-x.net/documentation/)
+[How-to](https://portal.int.demo.catena-x.net/documentation/)
 
 #### Additional info
 
-A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane url.
+A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane URL.
 
-### Create App Subscription
+### App registration
 
-[How To](https://portal.int.demo.catena-x.net/documentation/)
+[How-to](https://portal.int.demo.catena-x.net/documentation/)
+
+#### Additional info
+
+A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane URL.
+
+### Create app subscription
+
+[How-to](https://portal.int.demo.catena-x.net/documentation/)
 
 #### Additional info
 
 An app subscription is necessary to be able to setup a frontend url which will be authorized through keycloak and accessible with the portal.
 
-### Activate App Subscription
+### Activate App subscription
 
-[How To](https://portal.int.demo.catena-x.net/documentation/)
+[How-to](https://portal.int.demo.catena-x.net/documentation/)
 
 #### Additional info
 
-The app subscription needs to be activated from all instances which want to participate in the trace-x use case.
+The app subscription needs to be activated from all instances which want to participate in the Trace-X use case.
 
-### Retrieve Wallet Configuration
+### Retrieve wallet configuration
 
-[How To](https://portal.int.demo.catena-x.net/documentation/)
+[How-to](https://portal.int.demo.catena-x.net/documentation/)
 
 ## Troubleshooting
 

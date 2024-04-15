@@ -456,8 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_dashboard">Dashboard</a></li>
 <li><a href="#_parts">Parts</a></li>
 <li><a href="#_other_parts">Other parts</a></li>
-<li><a href="#_quality_investigation">Quality investigation</a></li>
-<li><a href="#_quality_alert">Quality alert</a></li>
+<li><a href="#_inbox">Inbox</a></li>
 <li><a href="#_about">About</a></li>
 <li><a href="#_help">Help</a></li>
 <li><a href="#_go_to_cx_portal">Go to CX Portal</a></li>
@@ -489,20 +488,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_customer_part_details">Customer part details</a></li>
 </ul>
 </li>
-<li><a href="#_quality_investigation_2">Quality investigation</a>
+<li><a href="#_inbox_2">Inbox</a>
 <ul class="sectlevel2">
-<li><a href="#_quality_investigation_context_action">Quality investigation context action</a></li>
-<li><a href="#_quality_investigation_detail_view">Quality investigation detail view</a></li>
-<li><a href="#_quality_investigation_status">Quality investigation status</a></li>
-<li><a href="#_quality_investigation_status_flow">Quality investigation status flow</a></li>
-</ul>
-</li>
-<li><a href="#_quality_alert_2">Quality alert</a>
-<ul class="sectlevel2">
-<li><a href="#_quality_alert_context_action">Quality alert context action</a></li>
-<li><a href="#_quality_alert_detail_view">Quality alert detail view</a></li>
-<li><a href="#_quality_alert_status">Quality alert status</a></li>
-<li><a href="#_quality_alert_status_flow">Quality alert status flow</a></li>
+<li><a href="#_quality_notification_createedit_view">Quality notification create/edit view</a></li>
+<li><a href="#_quality_notifications_context_action">Quality notifications context action</a></li>
+<li><a href="#_quality_notification_detail_view">Quality notification detail view</a></li>
+<li><a href="#_quality_notification_status">Quality notification  status</a></li>
+<li><a href="#_quality_notification_status_flow">Quality notification status flow</a></li>
 </ul>
 </li>
 </ul>
@@ -640,11 +632,6 @@ A list of user or technical roles can be found below:</p>
 <p>Provides a fast overview about the amount of manufactured and supplied / customer (other) parts and batches, as well as the amount of open investigations and alerts.
 Lists the five newest quality investigations and alerts to get an overview of the current state.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/dashboard.png" alt="dashboard">
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_parts">Parts</h3>
@@ -659,15 +646,9 @@ Lists the five newest quality investigations and alerts to get an overview of th
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quality_investigation">Quality investigation</h3>
+<h3 id="_inbox">Inbox</h3>
 <div class="paragraph">
-<p>Navigates to the inbox and outgoing investigations.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_quality_alert">Quality alert</h3>
-<div class="paragraph">
-<p>Navigates to the inbox and outgoing alerts.</p>
+<p>Navigates to the inbox (sent/received) quality notifications.</p>
 </div>
 </div>
 <div class="sect2">
@@ -909,7 +890,7 @@ With a click on it a dialog opens where you can change the settings of the corre
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/table-settings-dialog.png" alt="table settings dialog">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/other-parts-table-settings-dialog.png" alt="other parts table settings dialog">
 </div>
 </div>
 <div class="paragraph">
@@ -1185,10 +1166,10 @@ Information on the quality status of the supplier part/batch.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_quality_investigation_2">Quality investigation</h2>
+<h2 id="_inbox_2">Inbox</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Inbox for received quality investigations and "Queued &amp; Requested" inbox for outgoing draft as well as already sent investigations.</p>
+<p>Inbox for received/sent quality notifications.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigations-list-view.png" alt="investigations list view"></span></p>
@@ -1203,14 +1184,14 @@ Information on the quality status of the supplier part/batch.</p>
 <p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigations-autosuggestion-filtering.png" alt="investigations autosuggestion filtering"></span></p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-drafts.png" alt="notification drafts"></span> Received investigations.</p>
+<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-drafts.png" alt="notification drafts"></span> Received quality notifications.</p>
 </div>
 <div class="paragraph">
-<p>Investigations received by a customer.
+<p>Quality notifications received by a customer.
 Those notifications specify a defect or request to investigate on a specific part / batch on your side and give feedback to the customer.</p>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-send.png" alt="notification send"></span> Queued &amp; Requested investigations.</p>
+<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-send.png" alt="notification send"></span> Sent quality notifications.</p>
 </div>
 <div class="paragraph">
 <p>Notifications in the context of quality investigations that are in queued/draft status or already requested/sent to the supplier.
@@ -1227,17 +1208,32 @@ Those notifications specify a defect or request to investigate on a specific par
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_quality_investigation_context_action">Quality investigation context action</h3>
+<h3 id="_quality_notification_createedit_view">Quality notification create/edit view</h3>
 <div class="paragraph">
-<p>Select the three dots icon on the right side of an investigation entry to open the context menu.
-From there it is possible to open the investigation detailed view or change the status of an investigation.
+<p>A quality notification can be started by the following options:
+- Part detail view if a part has child elements an quality notification with type INVESTIGATION can be created.
+- Part table if parts are selected an quality notification with type ALERT can be created.
+- Other parts table if parts are selected an quality notification with type INVESTIGATION can be created.</p>
+</div>
+<div class="paragraph">
+<p>A quality notification can be edited by clicking on the context menu on an item within the inbox.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigation-create-view.png" alt="investigation create view"></span></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_quality_notifications_context_action">Quality notifications context action</h3>
+<div class="paragraph">
+<p>Select the three dots icon on the right side of an quality notification entry to open the context menu.
+From there it is possible to open the quality notification detailed view or change the status of it.
 Only the possible status transition will show up.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-context-action.png" alt="notification context action"></span></p>
 </div>
 <div class="paragraph">
-<p>Changing the status of an investigation will open a modal in which the details to the status change can be provided and completed.</p>
+<p>Changing the status of a quality notification will open a modal in which the details to the status change can be provided and completed.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigation-context-action-modal.png" alt="investigation context action modal"></span></p>
@@ -1247,9 +1243,9 @@ Only the possible status transition will show up.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quality_investigation_detail_view">Quality investigation detail view</h3>
+<h3 id="_quality_notification_detail_view">Quality notification detail view</h3>
 <div class="paragraph">
-<p>The investigation detail view can be opened by selecting the corresponding option in the context menu.</p>
+<p>The quality notification detail view can be opened by selecting the corresponding option in the context menu.</p>
 </div>
 <div class="paragraph">
 <p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigation-detail-view.png" alt="investigation detail view"></span></p>
@@ -1257,7 +1253,7 @@ Only the possible status transition will show up.</p>
 <div class="sect3">
 <h4 id="_overview_4">Overview</h4>
 <div class="paragraph">
-<p>General information about the notification.</p>
+<p>General information about the quality notification.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1267,9 +1263,15 @@ Only the possible status transition will show up.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_supplier_parts_2">Supplier parts</h4>
+<h4 id="_supplier_parts_if_type_is_investigation">Supplier parts (If type is investigation)</h4>
 <div class="paragraph">
-<p>Detailed information for child parts assigned to a notification</p>
+<p>Detailed information for child parts assigned to a quality notification.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_own_parts_if_type_is_alert">Own parts (If type is alert)</h4>
+<div class="paragraph">
+<p>Detailed information for parent parts assigned to a quality notification.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1279,7 +1281,7 @@ Only the possible status transition will show up.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_quality_investigation_action">Quality investigation action</h4>
+<h4 id="_quality_notification_action">Quality notification action</h4>
 <div class="paragraph">
 <p>All possible state transitions are displayed in form of buttons (upper right corner).
 There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.</p>
@@ -1287,9 +1289,9 @@ There the desired action can be selected to open a modal in which the details to
 </div>
 </div>
 <div class="sect2">
-<h3 id="_quality_investigation_status">Quality investigation status</h3>
+<h3 id="_quality_notification_status">Quality notification  status</h3>
 <div class="paragraph">
-<p>Following status for a quality investigation (notification) are possible:</p>
+<p>Following status for a quality notification are possible:</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1305,15 +1307,15 @@ There the desired action can be selected to open a modal in which the details to
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Queued</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A quality investigation that was created by a user but not yet sent to the receiver.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A quality notification that was created by a user but not yet sent to the receiver.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Requested</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Created quality investigation that is already sent to the receiver.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Created quality notification that is already sent to the receiver.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cancelled</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Created quality investigation that is not yet sent to the receiver and got cancelled on sender side before doing so. It is no longer valid / necessary.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Created quality notification that is not yet sent to the receiver and got cancelled on sender side before doing so. It is no longer valid / necessary.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Received</p></td>
@@ -1333,188 +1335,15 @@ There the desired action can be selected to open a modal in which the details to
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Closed</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The sender closed the quality investigation and no further handling with it is possible.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The sender closed the quality notification and no further handling with it is possible.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_quality_investigation_status_flow">Quality investigation status flow</h3>
+<h3 id="_quality_notification_status_flow">Quality notification status flow</h3>
 <div class="paragraph">
-<p>Notifications always have a status.
-The transition from one status to a subsequent status is described in the below state model.</p>
-</div>
-<div class="paragraph">
-<p>The Sender can change the status to closed from any status.
-The receiver can never change the status to closed.</p>
-</div>
-<div class="paragraph">
-<p>The legend in the below state diagram describes who can set the status.
-One exception to this rule: the transition from status SENT to status RECEIVED is done automatically once the sender receives the Http status code 201.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notificationstatemodel.png" alt="Notification state model">
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_quality_alert_2">Quality alert</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Inbox for received quality alerts and "Queued &amp; Requested" inbox for outgoing draft as well as already sent alerts.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alerts-list-view.png" alt="alerts list view"></span></p>
-</div>
-<div class="paragraph">
-<p>The tables can be sorted, filtered and searched. Choosing filter input field for column and typing in any character will show filter suggestions that can be used for search functionality that starts with given characters or phrase.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alerts-autosuggestion-filtering.png" alt="alerts autosuggestion filtering"></span></p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-drafts.png" alt="notification drafts"></span> Received alerts.</p>
-</div>
-<div class="paragraph">
-<p>Alerts received by a supplier.
-Those notifications specify a defect or request to informed on a specific part / batch on your side to be informed and give feedback to the supplier.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-send.png" alt="notification send"></span> Queued &amp; Requested alerts.</p>
-</div>
-<div class="paragraph">
-<p>Notifications in the context of quality alerts that are in queued/draft status or already requested/sent to the customer.
-Those notifications specify a defect or request to inform on a specific part / batch on the customer side and give feedback back to you.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Queued status: Quality alert is created but not yet released.</p>
-</li>
-<li>
-<p>Requested status: Quality alert is sent to the customer.</p>
-</li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="_quality_alert_context_action">Quality alert context action</h3>
-<div class="paragraph">
-<p>Select the three dots icon on the right side of an alert entry to open the context menu.
-From there it is possible to open the alert detailed view or change the status of an alert.
-Only the possible status transitions will show up.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-context-action.png" alt="notification context action"></span></p>
-</div>
-<div class="paragraph">
-<p>Changing the status of an alert will open a modal in which the details to the status change can be provided and completed.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alert-context-action-modal.png" alt="alert context action modal"></span></p>
-</div>
-<div class="paragraph">
-<p>A pop-up will notify you if the status transition was successful.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_quality_alert_detail_view">Quality alert detail view</h3>
-<div class="paragraph">
-<p>The alert detail view can be opened by selecting the corresponding option in the context menu.</p>
-</div>
-<div class="paragraph">
-<p><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alert-detail-view.png" alt="alert detail view"></span></p>
-</div>
-<div class="sect3">
-<h4 id="_overview_5">Overview</h4>
-<div class="paragraph">
-<p>General information about the notification.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_affected_parts_2">Affected parts</h4>
-<div class="paragraph">
-<p>Listed parts that are assigned to the selected alert.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_supplier_parts_3">Supplier parts</h4>
-<div class="paragraph">
-<p>Detailed information for child parts assigned to a notification</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_message_history_2">Message History</h4>
-<div class="paragraph">
-<p>Displays all state transitions including the reason/description of the transition that were done on the notification to get an overview of the correspondence between sender and receiver.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_quality_investigation_action_2">Quality investigation action</h4>
-<div class="paragraph">
-<p>All possible state transitions are displayed in form of buttons (upper right corner).
-There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_quality_alert_status">Quality alert status</h3>
-<div class="paragraph">
-<p>Following status for a quality alert (notification) are possible:</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Status</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Queued</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A quality alert that was created by a user but not yet sent to the receiver.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Requested</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Created quality alert that is already sent to the receiver.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cancelled</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Created quality alert that is not yet sent to the receiver and got cancelled on sender side before doing so. It is no longer valid / necessary.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Received</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Received notification from a sender which needs to be aware of.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Acknowledged</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The receiver acknowledged to work on the received inquiry.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Accepted</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The receiver accepted the inquiry. Issue on part/batch is known.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Declined</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The receiver declined the inquiry. No issue on part/batch is known.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Closed</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The sender closed the quality alert and no further handling with it is possible.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_quality_alert_status_flow">Quality alert status flow</h3>
-<div class="paragraph">
-<p>Notifications always have a status.
+<p>Quality notifications always have a status.
 The transition from one status to a subsequent status is described in the below state model.</p>
 </div>
 <div class="paragraph">
@@ -1536,7 +1365,7 @@ One exception to this rule: the transition from status SENT to status RECEIVED i
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-11 12:27:09 UTC
+Last updated 2024-04-15 06:22:07 UTC
 </div>
 </div>
 </body>
