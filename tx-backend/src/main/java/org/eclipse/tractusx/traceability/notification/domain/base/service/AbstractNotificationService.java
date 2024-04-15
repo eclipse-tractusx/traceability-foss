@@ -123,9 +123,9 @@ public abstract class AbstractNotificationService implements NotificationService
         if (editNotification.getReceiverBpn() != null) {
             notification.setBpn(BPN.of(editNotification.getReceiverBpn()));
         }
-        if (editNotification.getTitle() != null) {
-            notification.setTitle(editNotification.getTitle());
-        }
+
+        notification.setTitle(editNotification.getTitle());
+
         if (editNotification.getDescription() != null) {
             notification.setDescription(editNotification.getDescription());
         }
