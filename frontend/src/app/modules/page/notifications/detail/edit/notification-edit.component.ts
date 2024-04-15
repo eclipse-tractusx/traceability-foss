@@ -76,8 +76,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public tableType: TableType;
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
-  isSaveButtonDisabled = true;
-  partsChanged = false;
+  isSaveButtonDisabled: boolean = false;
 
   constructor(
     private readonly partsFacade: OtherPartsFacade,
@@ -112,7 +111,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     });
 
     if (!this.editMode) {
-      this.isSaveButtonDisabled = false;
+      this.isSaveButtonDisabled = true;
     }
 
     if (this.editMode) {
@@ -139,15 +138,15 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         title: '',
         id: 'new',
       };
+      this.affectedPartIds = newNotification.assetIds;
       this.selectNotificationAndLoadPartsBasedOnNotification(newNotification);
     }
+
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
-    const noChangesOrInvalid = (notificationFormGroup.invalid && !this.partsChanged) || !this.editMode;
-    this.isSaveButtonDisabled = !noChangesOrInvalid;
+    this.isSaveButtonDisabled = notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.notificationFormGroup = notificationFormGroup;
-
   }
 
   filterAffectedParts(partsFilter: any): void {
@@ -247,7 +246,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
-    this.partsChanged = true;
     this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
     this.currentSelectedAffectedParts$.next([]);
@@ -260,7 +258,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         this.affectedPartIds.push(value.id);
       }
     });
-    this.partsChanged = true;
     this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);

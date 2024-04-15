@@ -31,7 +31,7 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div class="detail--action">
     <div class="detail--action--button"
-         matTooltip="{{(isSaveButtonDisabled ? 'requestNotification.saveNotAllowed' : 'requestNotification.save') | i18n}}"
+         matTooltip="{{(isSaveButtonDisabled ? ( affectedPartIds.length < 1 ? 'requestNotification.noPartsSelected' : 'requestNotification.saveNotAllowed') : 'requestNotification.save') | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
@@ -79,7 +79,7 @@ SPDX-License-Identifier: Apache-2.0
 
 
           <div
-            matTooltip="{{ temporaryAffectedPartsForRemoval.length > 0 ? 'requestNotification.remove' : 'requestNotification.modifyNotAllowed' | i18n}}"
+            matTooltip="{{ temporaryAffectedPartsForRemoval.length > 0 ? 'requestNotification.remove' : 'requestNotification.modifyAffectedNotAllowed' | i18n}}"
             matTooltipClass="table--header--tooltip"
             matTooltipPosition="before"
             [class.mdc-tooltip--multiline]="true"
@@ -131,7 +131,7 @@ SPDX-License-Identifier: Apache-2.0
 
 
          <div
-           matTooltip="{{temporaryAffectedParts.length > 0 ? 'requestNotification.add' : 'requestNotification.modifyNotAllowed' | i18n}}"
+           matTooltip="{{temporaryAffectedParts.length > 0 ? 'requestNotification.add' : 'requestNotification.modifyAvailableNotAllowed' | i18n}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="before"
            [class.mdc-tooltip--multiline]="true"
