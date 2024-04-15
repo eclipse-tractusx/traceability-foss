@@ -77,6 +77,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
   isSaveButtonDisabled: boolean = false;
+  initialSaveDisable: boolean = true;
 
   constructor(
     private readonly partsFacade: OtherPartsFacade,
@@ -115,6 +116,10 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     }
 
     if (this.editMode) {
+      this.initialSaveDisable = true;
+    }
+
+    if (this.editMode) {
       if (!this.notificationDetailFacade.selected?.data) {
         this.selectedNotificationBasedOnUrl();
       } else {
@@ -147,6 +152,10 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
     this.isSaveButtonDisabled = notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.notificationFormGroup = notificationFormGroup;
+    if (this.notificationFormGroup.dirty) {
+      this.initialSaveDisable = false;
+    }
+
   }
 
   filterAffectedParts(partsFilter: any): void {
@@ -245,6 +254,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
+    this.initialSaveDisable = false;
     this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
     this.currentSelectedAffectedParts$.next([]);
@@ -257,6 +267,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         this.affectedPartIds.push(value.id);
       }
     });
+    this.initialSaveDisable = false;
     this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);

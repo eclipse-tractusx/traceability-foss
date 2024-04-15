@@ -41,7 +41,7 @@ SPDX-License-Identifier: Apache-2.0
       <app-button
         (click)="clickedSave()"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAtLeastSupervisor() || isSaveButtonDisabled">
+        [isDisabled]="!actionHelperService.isAtLeastSupervisor() || isSaveButtonDisabled || initialSaveDisable">
         <div class="flex justify-between items-center">
           <mat-icon>save</mat-icon>
         </div>
