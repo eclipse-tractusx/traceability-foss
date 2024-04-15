@@ -28,11 +28,13 @@ import {
   DASHBOARD_BASE_ROUTE,
   NO_PERMISSION_BASE_ROUTE,
   OTHER_PARTS_BASE_ROUTE,
+  ESS_BASE_ROUTE,
   PARTS_BASE_ROUTE,
 } from '@core/known-route';
 import { RoleGuard } from '@core/user/role.guard';
 import { AdminComponent } from '@page/admin/presentation/admin.component';
 import { ErrorPageType } from '@page/error-page/model/error-page.model';
+import { EssComponent } from '@page/ess/presentation/ess.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
@@ -109,6 +111,16 @@ const routes: Routes = [
     },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
     canActivate: [ RoleGuard ],
+  },
+  {
+    path: ESS_BASE_ROUTE,
+    loadChildren: () => import('../../page/ess/ess.module').then(m => m.EssModule),
+    component: EssComponent,
+    data: {
+      breadcrumb: 'ess',
+      roles: ['user'],
+    },
+    canActivate: [RoleGuard],
   },
 ];
 

@@ -61,7 +61,6 @@ import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-he
 import { NotificationColumn } from '@shared/model/notification.model';
 import { DeeplinkService } from '@shared/service/deeplink.service';
 
-
 @Component({
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
@@ -79,12 +78,17 @@ export class PartsTableComponent implements OnInit {
 
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
+  @Input() selectedPartEssActionLabel: string;
 
   @Input() tableHeader: string;
   @Input() multiSortList: TableHeaderSort[];
 
   @Input() tableType: TableType;
   @Input() mainAspectType: MainAspectType;
+  /*TODO check listType*/
+  @Input() listType = TableType.AS_PLANNED_OWN;
+
+  @Input() buttonContainerClass:string;
 
   public tableConfig: TableConfig;
 
@@ -123,6 +127,7 @@ export class PartsTableComponent implements OnInit {
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
+  @Output() clickSelectEssAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
 
   constructor(
@@ -350,6 +355,10 @@ export class PartsTableComponent implements OnInit {
       defaultFilterColumns: this.tableViewConfig.filterColumns,
     };
     this.dialog.open(TableSettingsComponent, config);
+  }
+
+  public showEssButton(): boolean {
+    return this.roleService.isAtLeastSupervisor();
   }
 
   protected readonly TableType = TableType;

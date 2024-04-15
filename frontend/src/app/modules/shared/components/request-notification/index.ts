@@ -20,3 +20,4 @@
  ********************************************************************************/
 
 export { RequestNotificationComponent } from '@shared/components/request-notification/request-notification.component';
+export { RequestEssInvestigationComponent } from '@shared/components/request-notification/request-ess-investigation.component';

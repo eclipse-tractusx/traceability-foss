@@ -32,7 +32,8 @@
     "about": "Über Catena-X Open-Source Rückverfolgbarkeit",
     "relations": "Beziehungen",
     "admin": "Verwaltung Catena-X",
-    "alerts": "Qualitätsthemen"
+    "alerts": "Qualitätsthemen",
+    "ess": "Umwelt- und Sozialstandards (ESS) Ermittlungen"
   },
   "layout": {
     "nav": {
@@ -130,7 +131,17 @@
       "importNote": "Importbemerkung",
       "importDate": "Importdatum",
       "type": "Typ",
-      "title": "Titel"
+      "title": "Titel",
+      "rowNumber": "No",
+      "partName": "Teilname",
+      "companyName": "Name des untersuchten Unternehmens",
+      "bpns": "BPNS des untersuchten Unternehmens",
+      "jobId": "Job ID",
+      "response": "Rückmeldung",
+      "impacted": "Ergebniss",
+      "created": "Erstellt",
+      "updated": "Zeitpunkt des Ergebnisses",
+      "catenaxSiteId": "SiteId"
 
     }
   },
@@ -362,5 +373,51 @@
     "startDate": "Startdatum",
     "endDate": "Enddatum"
   },
-  "retry": "Erneut versuchen"
+  "retry": "Erneut versuchen",
+  ,
+  "ess": {
+    "investigations": {
+      "info": "Name des untersuchten Unternehmens"
+    },
+    "headline": "ESS-Untersuchung erstellen",
+    "infoPartSelection": "Bitte wählen Sie ein Produkt aus, dessen Lieferkette durchsucht werden soll. Es ist auch möglich mehrere Produkte auszuwählen. Jeweils eine ESS-Untersuchung wird für jedes ausgewählte Produkt erstellt.",
+    "infoCompanySearch": "Bitte definieren sie das Unternehmen was in der Lieferkette des Produktes gesucht werden soll. Entweder die Firmendaten angeben und das entsprechende BPNS wird angezeigt ODER den BPNS direkt angeben.",
+    "infoSearchDeactivated": "Die Suche nach Unternehmen ist aktuell deaktiviert weil keine BPDM Verbindung besteht.",
+    "headlineCompany": "Name des untersuchten Unternehmens",
+    "partDescription": "some part description",
+    "companyNameLabel": "Name des Unternehmens",
+    "companyNameDescription": "Geben Sie bitte den Namen des Unternehmens ein.",
+    "companyStreetLabel": "Strasse",
+    "companyStreetDescription": "Geben Sie bitte die Strasse des Standorts ein.",
+    "companyNoLabel": "Nr",
+    "companyNoDescription": "Geben Sie bitte die Hausnummer des Standorts ein.",
+    "companyPostalCodeLabel": "PLZ",
+    "companyPostalCodeDescription": "Geben Sie bitte die PLZ des Standorts ein.",
+    "companyLocationLabel": "Stadt",
+    "companyLocationDescription": "Geben Sie bitte die Stadt des Standorts ein.",
+    "companyCountryLabel": "Land",
+    "companyCountryDescription": "Geben Sie bitte das Land des Standorts ein.",
+    "bpnsLabel": "BPNS",
+    "bpnsDescription": "Geben Sie bitte die BPNS des Unternehmens ein.",
+    "bpnssDescription": "Wählen Sie bitte die BPNS des Unternehmens aus.",
+    "success_one": "Es wurde eine ESS-Untersuchung für {{count}} Teile erstellt",
+    "success_other": "Es wurde eine ESS-Untersuchung für {{count}} Teile erstellt",
+    "back": "ZURÜCK",
+    "cancel": "CANCEL",
+    "submit": "ERSTELLEN"
+  },
+  "page": {
+    "asPlannedParts": "AsPlanned Lifecycle",
+    "selectedParts": {
+      "info_one": "{{count}} Teile auf dieser Seite ausgewählt.",
+      "info_other": "{{count}} Teile auf dieser Seite ausgewählt.",
+      "actionStart": "ESS-Untersuchung erstellen",
+      "action": "Create alert"
+    },
+    "selectedEss": {
+      "actionStart": "ESS-Untersuchung erstellen",
+      "action": "ESS-Untersuchung erstellen"
+    },
+    "asBuiltParts": "AsBuilt Lifecycle"
+  }
 }

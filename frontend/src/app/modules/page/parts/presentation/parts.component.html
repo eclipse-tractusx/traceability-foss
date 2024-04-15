@@ -106,12 +106,14 @@ SPDX-License-Identifier: Apache-2.0
                              [labelId]="titleId"
                              [selectedPartsInfoLabel]="'page.selectedParts.info'"
                              [selectedPartsActionLabel]="'page.selectedParts.action'"
+                             [selectedPartEssActionLabel]="'page.selectedParts.actionEss'"
                              [deselectTrigger]="deselectPartTrigger$ | async"
                              [addTrigger]="addPartTrigger$ | async"
                              (selected)="onSelectItem($event)"
                              (configChanged)="onAsPlannedTableConfigChange($event)"
                              (multiSelect)="currentSelectedAsPlannedItems$.next($event)"
                              (clickSelectAction)="isAlertOpen$.next(true)"
+                             (clickSelectEssAction)="isEssOpen$.next(true)"
                              (filterActivated)="filterActivated(false, $event)"
                              [multiSortList]="tableAsPlannedSortList"
                              [tableHeader]='"page.asPlannedParts" | i18n'
@@ -132,6 +134,17 @@ SPDX-License-Identifier: Apache-2.0
     [isOpen]="isPublisherOpen$"
     (submitted)="isPublisherOpen$.next(false); refreshPartsOnPublish($event);"
     ></app-asset-publisher>
+  </app-sidenav-wrapper>
+
+  <app-sidenav-wrapper [isOpen]="isEssOpen$ | async" (sidenavAction)="isEssOpen$.next($event)">
+    <app-request-ess-investigation
+      *ngIf="isEssOpen$ | async"
+      [selectedItems]="currentSelectedItems$ | async"
+      (deselectPart)="deselectPartTrigger$.next([$event])"
+      (restorePart)="addPartTrigger$.next($event)"
+      (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
+      (submitted)="isEssOpen$.next(false)"
+    ></app-request-ess-investigation>
   </app-sidenav-wrapper>
 
   <app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">

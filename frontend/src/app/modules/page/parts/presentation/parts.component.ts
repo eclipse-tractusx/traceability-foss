@@ -56,6 +56,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly partsAsPlanned$: Observable<View<Pagination<Part>>>;
 
     public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
+    public readonly isEssOpen$ = new BehaviorSubject<boolean>(false);
 
     public readonly deselectPartTrigger$ = new Subject<Part[]>();
     public readonly addPartTrigger$ = new Subject<Part>();

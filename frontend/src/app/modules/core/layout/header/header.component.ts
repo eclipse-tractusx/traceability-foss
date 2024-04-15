@@ -22,6 +22,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { KnownUrl, NavigableUrls } from '@core/known-route';
+import { environment } from '@env';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -38,6 +39,7 @@ export class HeaderComponent {
     parts: 'build',
     otherParts: 'commute',
     inbox: 'inbox',
+    ess: 'youtube_searched_for',
     admin: 'apps',
   };
 

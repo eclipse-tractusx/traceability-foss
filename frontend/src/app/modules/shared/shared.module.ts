@@ -36,6 +36,7 @@ import { NotificationOverviewComponent } from '@shared/components/notification-o
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { RequestNotificationComponent } from '@shared/components/request-notification';
+import { RequestEssInvestigationComponent } from '@shared/components/request-notification';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
@@ -47,6 +48,7 @@ import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
+import { BpdmService } from '@shared/service/bpdm.service';
 import { I18NextModule } from 'angular-i18next';
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
@@ -76,6 +78,8 @@ import { I18nPipe } from './pipes/i18n.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
+import { EssService } from '@shared/service/ess.service';
+import { EssTableComponent } from '@shared/components/ess-table/ess-table.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +111,7 @@ import { TemplateModule } from './template.module';
     TextareaComponent,
     ErrorMessagePipe,
     RequestNotificationComponent,
+    RequestEssInvestigationComponent,
     QualityTypeComponent,
     ValueToLablePipe,
     NotificationOverviewComponent,
@@ -126,7 +131,8 @@ import { TemplateModule } from './template.module';
     AbbreviateNumberPipe,
     CardMetricComponent,
     AssetPublisherComponent,
-    ChipComponent
+    ChipComponent,
+    EssTableComponent
   ],
   imports: [ TemplateModule, RouterModule, I18NextModule ],
   exports: [
@@ -154,6 +160,7 @@ import { TemplateModule } from './template.module';
     TextareaComponent,
     ErrorMessagePipe,
     RequestNotificationComponent,
+    RequestEssInvestigationComponent,
     QualityTypeComponent,
     NotificationOverviewComponent,
     NotificationReasonComponent,
@@ -175,7 +182,8 @@ import { TemplateModule } from './template.module';
     AbbreviateNumberPipe,
     CardMetricComponent,
     AssetPublisherComponent,
-    ChipComponent
+    ChipComponent,
+    EssTableComponent
   ],
   providers: [
     FormatDatePipe,
@@ -188,6 +196,8 @@ import { TemplateModule } from './template.module';
       provide: MatPaginatorIntl,
       useClass: PaginatorIntlService,
     },
+    BpdmService,
+    EssService
   ],
 })
 export class SharedModule {

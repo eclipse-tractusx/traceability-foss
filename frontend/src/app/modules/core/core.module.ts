@@ -48,6 +48,7 @@ import { ErrorPageModule } from '@page/error-page/error-page.module';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
+import { EssModule } from '@page/ess/ess.module';
 
 registerLocaleData(localeDe, 'de', localeDeExtra);
 
@@ -67,6 +68,7 @@ registerLocaleData(localeDe, 'de', localeDeExtra);
     OtherPartsModule,
     AdminModule,
     I18NextModule.forRoot(),
+    EssModule,
   ],
   providers: [
     ApiService,

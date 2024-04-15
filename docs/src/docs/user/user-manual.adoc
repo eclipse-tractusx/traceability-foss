@@ -84,6 +84,10 @@ Navigates to the inbox and outgoing investigations.
 
 Navigates to the inbox and outgoing alerts.
 
+=== ESS investigations
+
+Navigates to the list of ESS investigations.
+
 === About
 
 Navigates to an overview with helpful information and links about the Catena-X Open-Source Traceability application.
@@ -229,6 +233,13 @@ The following table explains the different import state an asset can have:
 |error
 |An error occurred along the import state transition.
 |===
+
+=== Parts selection -> Create ESS investigation
+
+Select one or multiple child components/parts/batches that are parts as planned.
+Selection will enable you to create an ESS investigation to a manufacturer.
+
+Once the investigation is created you will get a pop-up and can directly navigate to the list of investigations.
 
 === Table column settings
 
@@ -640,3 +651,71 @@ The legend in the below state diagram describes who can set the status.
 One exception to this rule: the transition from status SENT to status RECEIVED is done automatically once the sender receives the Http status code 201.
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notificationstatemodel.png[Notification state model]
+
+== ESS investigations
+
+List of already created ESS investigations. Such investigation, is a request to an IRS where, for an asset as planned, you can find out if a manufacturer is under investigations or not in any kind of environmental and/or social standard violation.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/ess-investigations-list-view.png[]
+
+The request, registered in Traceability-FOSS and sent to IRS, contains with the following information:
+
+|===
+|Entity |Description
+
+|Manufacturer part ID
+|The chosen part ID.
+
+|BPNS
+|The site ID of the company under investigation.
+
+|Name of company under investigation
+|The name of company under investigation.
+
+|Status
+|Value indicating the status of this investigation job, returned by IRS.
+
+|Result
+|The result of this ESS investigation job, returned by IRS.
+
+|Created
+|The date and time when this investigation has been created.
+
+|Time of result
+|The date and time when this investigation has been finished by IRS.
+|===
+
+=== Creating new investigation
+
+By clicking on the "Create ESS investigation" button, situated on the left side of the investigation list, you start a three-steps wizard.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/ess-investigations-start-create.png[]
+
+==== Choosing the part ID
+
+In the side panel you will get a list with parts as planned, so you can choose one or more part IDs:
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/ess-investigation-part-selection.png[]
+
+By clicking the second "Create ESS investigation" button, situated on the right side of this list, you will open a third panel, to choose or enter a BPNS.
+
+==== Choosing the BPNS
+
+In order to have a correct BPNS, this form offers a look-up for this, based on the company information, like name, location, street name, etc.
+
+But also, if you are sure about it, you can enter the BPNS without searching for a company.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/ess-investigation-bpns-selection.png[]
+
+By clicking on the "Create" button you finalize the creation of the new investigation.
+
+Every investigation has the "INITIAL" status. This is update based on subsequent IRS interrogations, based on the job ID assigned the investigation. This interrogation is done by a scheduled task, running in the backend. How often should this run, you can set by defining the ess.initialDelayForIrsJobStatusCheck environment variable.
+
+=== Creating new investigation using the parts as planned list
+
+You also can create such investigation using the parts as planned list.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/ess-investigation-part-list.png[]
+
+By clicking the "Create ESS investigation" button, situated on the right side of this list, you will open a panel to choose or enter a BPNS.
+

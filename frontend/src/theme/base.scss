@@ -85,6 +85,23 @@
     @apply font-light lg:text-base sm:text-sm text-dark;
   }
 
+  .padding-top-bottom-05 {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+
+  .margin-right-05 {
+    margin-right: 0.5em;
+  }
+
+  .padding-bottom-1 {
+    padding-bottom: 1em;
+  }
+
+  .float-right {
+    float: right;
+  }
+
   .small-text {
     @apply font-light lg:text-xs sm:text-tiny text-dark;
   }
@@ -171,6 +188,13 @@ app-parts-table {
   }
 }
 
+app-ess-table {
+  /* Avoid sticky head to be over sidenav component*/
+  th {
+    z-index: 1 !important;
+  }
+}
+
 as-split {
 
   @media screen and (max-height: 1049px) {
@@ -237,6 +261,13 @@ app-parts, app-notification-tab {
   }
 }
 
+app-ess, app-notification-tab {
+  .table-wrapper {
+    background-color: white;
+    height: 45vh;
+  }
+}
+
 app-multiselect {
   .mat-date-range-input-container {
     text-align: center !important;
@@ -254,7 +285,7 @@ app-multiselect {
   bottom: 0;
 }
 
-app-parts, app-other-parts, app-notifications-tab {
+app-ess, app-parts, app-other-parts, app-notifications-tab {
 
   .mat-mdc-table .mdc-data-table__row:last-child {
     border-bottom: 1px solid lightgrey;

@@ -28,6 +28,7 @@ export const DASHBOARD_BASE_ROUTE = 'dashboard';
 export const ADMIN_BASE_ROUTE = 'admin';
 export const ABOUT_BASE_ROUTE = 'about';
 export const NOTIFICATION_BASE_ROUTE = 'inbox';
+export const ESS_BASE_ROUTE = 'ess';
 export const NO_PERMISSION_BASE_ROUTE = 'no-permissions';
 
 export const NavigableUrls = [
@@ -37,6 +38,7 @@ export const NavigableUrls = [
   ADMIN_BASE_ROUTE,
   ABOUT_BASE_ROUTE,
   NOTIFICATION_BASE_ROUTE,
+  ESS_BASE_ROUTE,
 ] as const;
 
 export type KnownUrl = (typeof NavigableUrls)[number];

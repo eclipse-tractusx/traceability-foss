@@ -11,7 +11,7 @@
  * https://www.apache.org/licenses/LICENSE-2.0.
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * distributed under the License is distributed on an 'AS IS' BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
@@ -25,6 +25,42 @@ import { ImportState, PartResponse, QualityType, SemanticDataModel } from '@page
 import { otherPartsAssets } from '../../otherParts-mock/otherParts.model';
 
 export const mockBmwAsPlannedAssets = [
+  {
+    'id': '0733946c-59c6-41ae-9570-cb43a6e4c79e',
+    'idShort': 'c79e',
+    'semanticModelId': 'NO-341449848714937445621543',
+    'businessPartner': 'BPNL00000003AYRE',
+    'manufacturerName': 'BMW AG',
+    'nameAtManufacturer': 'Vehicle Model A',
+    'manufacturerPartId': 'ZX-55',
+    'owner': 'OWN',
+    'childRelations': [],
+    'parentRelations': [],
+    'activeAlert': false,
+    'underInvestigation': false,
+    'qualityType': 'Ok',
+    'van': '--',
+    'semanticDataModel': 'SERIALPART',
+    'classification': 'product',
+    'detailAspectModels': [
+      {
+        'type': 'AS_PLANNED',
+        'data': {
+          'validityPeriodFrom': '2019-04-04T03:19:03.000Z',
+          'functionValidUntil': '2024-12-29T10:25:12.000Z'
+        }
+      },
+      {
+        'type': 'PART_SITE_INFORMATION_AS_PLANNED',
+        'data': {
+          'functionValidUntil': '2025-02-08T04:30:48.000Z',
+          'function': 'production',
+          'functionValidFrom': '2019-08-21T02:10:36.000Z',
+          'catenaXSiteId': '0733946c-59c6-41ae-9570-cb43a6e4c79e'
+        }
+      }
+    ]
+  },
   {
     'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01',
     'idShort': '--',

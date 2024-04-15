@@ -33,6 +33,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 export class PartsFacade {
   private partsAsBuiltSubscription: Subscription;
   private partsAsPlannedSubscription: Subscription;
+  private partsAsPlanned4EssSubscription: Subscription;
   private readonly unsubscribeTrigger = new Subject<void>();
 
   constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {
@@ -44,6 +45,10 @@ export class PartsFacade {
 
   public get partsAsPlanned$(): Observable<View<Pagination<Part>>> {
     return this.partsState.partsAsPlanned$;
+  }
+
+  public get partsAsPlanned4Ess$(): Observable<View<Pagination<Part>>> {
+    return this.partsState.partsAsPlanned4Ess$;
   }
 
   public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
@@ -62,9 +67,18 @@ export class PartsFacade {
     });
   }
 
+  public setPartsAsPlanned4Ess(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
+    this.partsAsPlanned4EssSubscription?.unsubscribe();
+    this.partsAsPlanned4EssSubscription = this.partsService.getPartsAsPlanned4Ess(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
+      next: data => (this.partsState.partsAsPlanned4Ess = { data: provideDataObject(data) }),
+      error: error => (this.partsState.partsAsPlanned4Ess = {error}),
+    });
+  }
+
   public unsubscribeParts(): void {
     this.partsAsBuiltSubscription?.unsubscribe();
     this.partsAsPlannedSubscription?.unsubscribe();
+    this.partsAsPlanned4EssSubscription?.unsubscribe();
     this.unsubscribeTrigger.next();
   }
 }
