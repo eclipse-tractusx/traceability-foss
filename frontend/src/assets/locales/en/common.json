@@ -226,8 +226,11 @@
     "remove": "Remove selection",
     "add": "Add selection",
     "modifyNotAllowed": "Requires at least one selection in the parts table.",
+    "modifyAffectedNotAllowed" : "Requires at least one selection in the affected parts table.",
+    "modifyAvailableNotAllowed" : "Requires at least one selection in the affected parts table.",
     "textAreaDescription": "Describe the quality issue.",
     "saveNotAllowed": "Requires valid form input.",
+    "noPartsSelected" : "Requires at least one affected part",
     "saveSuccess": "Quality topic was updated successfully.",
     "saveError": "An error occurred while updating the quality topic.",
     "save": "Save quality topic"

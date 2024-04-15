@@ -226,8 +226,11 @@
     "remove": "Auswahl entfernen",
     "add": "Auswahl hinzufügen",
     "modifyNotAllowed": "Erfordert mindestens eine Selektion innerhalb der Tabelle",
+    "modifyAffectedNotAllowed" : "Erfordert mindestens eine Selektion in der Tabelle für betroffene Teile.",
+    "modifyAvailableNotAllowed" : "Erfordert mindestens eine Selektion in der Tabelle für verfügbare Teile.",
     "textAreaDescription": "Beschreiben Sie das Problem.",
     "saveNotAllowed": "Erfordert eine valide Eingabe im Formular.",
+    "noPartsSelected" : "Erfordert mindestens ein betroffenes Teil",
     "saveSuccess": "Qualitätsthema wurde erfolgreich aktualisiert.",
     "saveError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten.",
     "save": "Qualitätsthema speichern"
