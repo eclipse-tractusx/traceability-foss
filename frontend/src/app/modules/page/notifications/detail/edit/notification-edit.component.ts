@@ -183,7 +183,6 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit(): void {
 
-
   }
 
 
