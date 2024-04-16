@@ -1,4 +1,4 @@
-= Scenario 2: Return specific Assets
+= Scenario 2: Return specific assets
 
 This section describes what happens when user searches for a specific asset.
 This example shows the request of one as built asset.
@@ -11,6 +11,6 @@ include::../../../../uml-diagrams/arc42/runtime-view/assets/return-specific-asse
 
 == Overview
 
-When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.
+When a user requests a specific asset, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise asset for the given assetId, if it is found.
 
 If no asset has been found for the given ID, an AssetNotFoundException is thrown.

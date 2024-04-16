@@ -52,7 +52,7 @@ export class ErrorPageComponent {
     });
 
     // if user has no sufficient permissions to use this app
-    if (!roleService.isAtLeastUser() && !roleService.isAdmin()) {
+    if (!roleService.isUser() && !roleService.isAdmin()) {
       this.actionUrl = '';
       this.actionLabel = '';
       this.showSignOutButton = true;

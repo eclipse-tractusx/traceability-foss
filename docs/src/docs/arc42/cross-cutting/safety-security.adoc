@@ -1,25 +1,24 @@
 = Safety and security concepts
 
-== Authentication / Authorization
+== Authentication / authorization
 
 === Trace-X API
 
-The Trace-X is secured using OAuth2.0 / Open ID Connect.
+The Trace-X API is secured using OAuth2.0 / Open ID Connect.
 Every request to the Trace-X API requires a valid bearer token.
-JWT token should also contain two claims:
+The JWT token should also contain two claims:
 
 - 'bpn' which is equal to the configuration value from `API_ALLOWED_BPN` property
 - 'resource_access' with the specific key for C-X environments.
 The list of values will be converted to roles by Trace-X.
 Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and **'Admin'.**
 
-// TODO: Add Link to the role matrix
-You can have a look at the rights and roles matrix in the system overview of the administration guide.
+You can have a look at the https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x[rights and role matrix] in the system overview of the administration guide.
 
 === Trace-X as EDC client
 
 The Trace-X accesses the Catena-X network via the EDC consumer connector.
-This component requires authentication via a Verifiable Credential (VC), which is provided to the EDC via the Managed Identity Wallet.
+This component requires authentication via a Verifiable Credential (VC), which is provided to the EDC via the managed identity wallet.
 
 The VC identifies and authenticates the EDC and is used to acquire access permissions for the data transferred via EDC.
 

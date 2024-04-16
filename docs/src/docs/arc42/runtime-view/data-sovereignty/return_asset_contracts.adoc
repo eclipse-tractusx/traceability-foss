@@ -1,4 +1,4 @@
-= Scenario 1: Return Asset Contract Agreements
+= Scenario 1: Return asset contract agreements
 
 This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).
 

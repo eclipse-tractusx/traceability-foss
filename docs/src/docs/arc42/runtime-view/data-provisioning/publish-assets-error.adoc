@@ -1,6 +1,6 @@
-= Scenario 3: Publish assets Error on EDC or DTR
+= Scenario 3: Publish assets - error on EDC or DTR
 
-This section describes user interaction when publishing assets fails due to EDC or DTR error ( for example services are unavailable )
+This section describes user interaction when publishing assets fails due to EDC or DTR error (for example when the services are unavailable).
 
 [plantuml,target=publish-assets-error,format=svg]
 ....
@@ -9,6 +9,6 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-provisioning/publish-a
 
 == Overview
 
-When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then endpoint starts to publish assets to network.
-If any of required Services are not available or returns Error response upon executing flow assets are set to ERROR state and user can retry publishing them at any time when services are available
+When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then the endpoint starts to publish assets to network.
+If any of required services are not available or return an error response upon executing, flow assets are set to ERROR state and the user can retry publishing them at any time when services are available again.

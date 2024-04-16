@@ -23,23 +23,12 @@ SPDX-License-Identifier: Apache-2.0
 <div class="start-investigation--wrapper">
   <ng-container *viewContainer="childParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
 
-  <app-notification-request
-    *ngIf="(selectedChildParts$ | async)?.length"
-    [notificationType]="NotificationType.INVESTIGATION"
-    (deselectPart)="removeChildPartFromSelection($event)"
-    (restorePart)="addChildPartToSelection($event)"
-    (clearSelected)="clearSelectedChildParts()"
-    (submitted)="submitted.emit()"
-    [selectedItems]="selectedChildParts$ | async"
-    [showHeadline]="false"
-    class="start-investigation start-investigation--data"
-  ></app-notification-request>
-
-  <div *ngIf="!(selectedChildParts$ | async)?.length" class="start-investigation start-investigation--no-data">
-    <mat-icon color="primary" class="scale-150">no_sim</mat-icon>
-    <h3 class="upper-case">{{ 'partDetail.investigation.noSelection.header' | i18n }}</h3>
-    <p>{{ 'partDetail.investigation.noSelection.text' | i18n }}</p>
-  </div>
+  <app-button
+    [isDisabled]="(childParts$ | async)?.data?.length < 1"
+    (click)="navigateToNotificationCreationView()"
+  >
+    Create Investigation
+  </app-button>
 </div>
 
 <ng-template #mainTmp let-view="view">

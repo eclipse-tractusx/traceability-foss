@@ -19,22 +19,24 @@
 
 package org.eclipse.tractusx.traceability.integration.openapi;
 
-import org.apache.commons.io.FileUtils;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.apache.commons.io.FileUtils.writeStringToFile;
 
 class OpenApiDocumentationIT extends IntegrationTestSpecification {
 
-    private static final String DOCUMENTATION_FILENAME = "./openapi/traceability-foss-backend.json";
+    private static final List<String> API_DOCUMENTATION_LOCATIONS = List.of("./openapi/traceability-foss-backend.json",
+            "../docs/api/traceability-foss-backend.json");
 
     @Test
-    void shouldGenerateOpenapiDocumentation() throws IOException {
+    void shouldGenerateOpenapiDocumentation() {
         // when
         var response = given()
                 .when()
@@ -44,6 +46,13 @@ class OpenApiDocumentationIT extends IntegrationTestSpecification {
         response.then()
                 .statusCode(200);
 
-        FileUtils.writeStringToFile(new File(DOCUMENTATION_FILENAME), response.body().print(), StandardCharsets.UTF_8);
+        API_DOCUMENTATION_LOCATIONS.forEach(location -> {
+            try {
+                writeStringToFile(new File(location), response.body().print(), StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        ;
     }
 }

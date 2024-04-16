@@ -9,5 +9,5 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-provisioning/publish-a
 
 == Overview
 
-When a user publishes assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then endpoint starts to publish assets to network.
+When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
+If yes, then the endpoint starts to publish assets to network.

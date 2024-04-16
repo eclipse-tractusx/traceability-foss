@@ -20,28 +20,29 @@
 package org.eclipse.tractusx.traceability.testdata;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InvestigationTestDataFactory {
-    public static QualityNotification createInvestigationTestData(QualityNotificationStatus investigationStatus, final String bpnString) {
-        QualityNotificationId investigationId = new QualityNotificationId(1L);
+    public static Notification createInvestigationTestData(NotificationStatus investigationStatus, final String bpnString) {
+        NotificationId investigationId = new NotificationId(1L);
         BPN bpn = new BPN(bpnString);
-        QualityNotificationSide investigationSide = QualityNotificationSide.SENDER;
+        NotificationSide investigationSide = NotificationSide.SENDER;
         String description = "Test Investigation";
         Instant createdAt = Instant.now();
         List<String> assetIds = List.of("asset123", "asset456");
 
-        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+        NotificationMessage notification = NotificationMessage.builder()
                 .id("1")
                 .notificationReferenceId("notificationId")
                 .createdBy("senderBPN")
@@ -51,56 +52,57 @@ public class InvestigationTestDataFactory {
                 .contractAgreementId("agreement")
                 .description(description)
                 .notificationStatus(investigationStatus)
-                .affectedParts(List.of(new QualityNotificationAffectedPart("part123")))
+                .affectedParts(List.of(new NotificationAffectedPart("part123")))
                 .targetDate(Instant.now())
-                .severity(QualityNotificationSeverity.MINOR)
+                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("1")
                 .messageId("messageId")
                 .build();
-        List<QualityNotificationMessage> notifications = List.of(notification);
+        List<NotificationMessage> notifications = List.of(notification);
 
-        return QualityNotification.builder()
+        return Notification.builder()
                 .notificationId(investigationId)
                 .bpn(bpn)
                 .notificationStatus(investigationStatus)
                 .notificationSide(investigationSide)
                 .description(description)
+                .notificationType(NotificationType.INVESTIGATION)
                 .createdAt(createdAt)
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(notifications)
                 .build();
     }
 
 
-    public static QualityNotification createInvestigationTestDataWithNotificationList(QualityNotificationStatus investigationStatus, String bpnString, List<QualityNotificationMessage> notifications) {
-        QualityNotificationId investigationId = new QualityNotificationId(1L);
+    public static Notification createInvestigationTestDataWithNotificationList(NotificationStatus investigationStatus, String bpnString, List<NotificationMessage> notifications) {
+        NotificationId investigationId = new NotificationId(1L);
         BPN bpn = new BPN(bpnString);
-        QualityNotificationSide investigationSide = QualityNotificationSide.SENDER;
+        NotificationSide investigationSide = NotificationSide.SENDER;
         String description = "Test Investigation";
         Instant createdAt = Instant.now();
         List<String> assetIds = List.of("asset123", "asset456");
 
-        return QualityNotification.builder()
+        return Notification.builder()
                 .notificationId(investigationId)
                 .bpn(bpn)
                 .notificationStatus(investigationStatus)
                 .notificationSide(investigationSide)
                 .description(description)
                 .createdAt(createdAt)
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(notifications)
                 .build();
     }
 
-    public static QualityNotification createInvestigationTestData(QualityNotificationStatus investigationStatus, QualityNotificationStatus notificationInvestigationStatus) {
-        QualityNotificationId investigationId = new QualityNotificationId(1L);
+    public static Notification createInvestigationTestData(NotificationStatus investigationStatus, NotificationStatus notificationInvestigationStatus) {
+        NotificationId investigationId = new NotificationId(1L);
         BPN bpn = new BPN("bpn123");
-        QualityNotificationSide investigationSide = QualityNotificationSide.SENDER;
+        NotificationSide investigationSide = NotificationSide.SENDER;
         String description = "Test Investigation";
         Instant createdAt = Instant.now();
         List<String> assetIds = List.of("asset123", "asset456");
 
-        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+        NotificationMessage notification = NotificationMessage.builder()
                 .id("1")
                 .notificationReferenceId("notificationId")
                 .createdBy("senderBPN")
@@ -110,13 +112,14 @@ public class InvestigationTestDataFactory {
                 .contractAgreementId("agreement")
                 .description(description)
                 .notificationStatus(notificationInvestigationStatus)
-                .affectedParts(List.of(new QualityNotificationAffectedPart("part123")))
-                .severity(QualityNotificationSeverity.MINOR)
+                .type(NotificationType.INVESTIGATION)
+                .affectedParts(List.of(new NotificationAffectedPart("part123")))
+                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
                 .build();
 
-        QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
+        NotificationMessage notification2 = NotificationMessage.builder()
                 .id("1")
                 .notificationReferenceId("notificationId")
                 .createdBy("senderBPN")
@@ -125,37 +128,39 @@ public class InvestigationTestDataFactory {
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
                 .description(description)
-                .notificationStatus(QualityNotificationStatus.SENT)
-                .affectedParts(List.of(new QualityNotificationAffectedPart("part123")))
-                .severity(QualityNotificationSeverity.MINOR)
+                .notificationStatus(NotificationStatus.SENT)
+                .type(NotificationType.INVESTIGATION)
+                .affectedParts(List.of(new NotificationAffectedPart("part123")))
+                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
                 .build();
-        List<QualityNotificationMessage> notifications = new ArrayList<>();
+        List<NotificationMessage> notifications = new ArrayList<>();
         notifications.add(notification);
         notifications.add(notification2);
 
-        return QualityNotification.builder()
+        return Notification.builder()
                 .notificationId(investigationId)
                 .bpn(bpn)
                 .notificationStatus(investigationStatus)
                 .notificationSide(investigationSide)
                 .description(description)
                 .createdAt(createdAt)
-                .assetIds(assetIds)
+                .notificationType(NotificationType.INVESTIGATION)
+                .affectedPartIds(assetIds)
                 .notifications(notifications)
                 .build();
     }
 
-    public static QualityNotification createInvestigationTestData(QualityNotificationSide investigationSide) {
-        QualityNotificationId investigationId = new QualityNotificationId(1L);
+    public static Notification createInvestigationTestData(NotificationSide investigationSide) {
+        NotificationId investigationId = new NotificationId(1L);
         BPN bpn = new BPN("bpn123");
         String description = "Test Investigation";
         Instant createdAt = Instant.now();
         List<String> assetIds = List.of("asset123", "asset456");
 
 
-        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+        NotificationMessage notification = NotificationMessage.builder()
                 .id("1")
                 .notificationReferenceId("notificationId")
                 .createdBy("senderBPN")
@@ -164,22 +169,22 @@ public class InvestigationTestDataFactory {
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
                 .description(description)
-                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
-                .affectedParts(List.of(new QualityNotificationAffectedPart("part123")))
-                .severity(QualityNotificationSeverity.MINOR)
+                .notificationStatus(NotificationStatus.ACKNOWLEDGED)
+                .affectedParts(List.of(new NotificationAffectedPart("part123")))
+                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
                 .build();
-        List<QualityNotificationMessage> notifications = List.of(notification);
+        List<NotificationMessage> notifications = List.of(notification);
 
-        return QualityNotification.builder()
+        return Notification.builder()
                 .notificationId(investigationId)
                 .bpn(bpn)
-                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
+                .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .notificationSide(investigationSide)
                 .description(description)
                 .createdAt(createdAt)
-                .assetIds(assetIds)
+                .affectedPartIds(assetIds)
                 .notifications(notifications)
                 .build();
     }

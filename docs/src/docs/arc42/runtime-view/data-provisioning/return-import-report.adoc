@@ -10,7 +10,7 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-provisioning/import-re
 
 == Overview
 
-When a user requests an import report, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
+When a user requests an import report, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
 If yes, then the endpoint returns an import report to the given importJobId.
 
 If the importJobId is not known to Trace-X, an HTTP 404 error is returned.

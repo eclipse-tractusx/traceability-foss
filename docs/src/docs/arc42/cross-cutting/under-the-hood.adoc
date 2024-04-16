@@ -2,14 +2,14 @@
 
 == Exception and error handling
 
-There are two types of potential errors in TraceX:
+There are two types of potential errors in Trace-X:
 
 === Technical errors
 
 Technical errors occur when there is a problem with the application itself, its configuration or directly connected infrastructure, e.g. the Postgres database.
 Usually, the application cannot solve these problems by itself and requires some external support (manual work or automated recovery mechanisms, e.g. Kubernetes liveness probes).
 
-These errors are printed mainly to the application log and are relevant for the healthchecks.
+These errors are printed mainly to the application log and are relevant for the health-checks.
 
 === Functional errors
 
@@ -32,7 +32,7 @@ Of course, when using only RuntimeExceptions, this is not necessary - but those 
 
 ==== Central fallback exception handler
 
-There will always be some exception that cannot be handled inside of the code correctly - or it may just have been unforeseen.
+There will always be some exception that cannot be handled inside the code correctly - or it may just have been unforeseen.
 A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
 In some cases, this is as simple as a HTTP 500.
 

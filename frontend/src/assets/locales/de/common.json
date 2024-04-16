@@ -8,8 +8,7 @@
     "about": "Über uns",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
-    "investigations": "Qualitätsuntersuchung",
-    "alerts": "Qualitätswarnung",
+    "inbox": "Inbox",
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
@@ -33,8 +32,7 @@
     "about": "Über Catena-X Open-Source Rückverfolgbarkeit",
     "relations": "Beziehungen",
     "admin": "Verwaltung Catena-X",
-    "investigations": "Qualitätsuntersuchung",
-    "alerts": "Qualitätswarnung"
+    "alerts": "Qualitätsthemen"
   },
   "layout": {
     "nav": {
@@ -49,6 +47,7 @@
     "approve": "Genehmigen",
     "close": "Schließen",
     "viewDetails": "Details anzeigen",
+    "edit": "Ändern",
     "cancellationConfirm": "Abbruch bestätigen",
     "accept": "Akzeptieren",
     "acknowledge": "Bestätigen",
@@ -130,7 +129,9 @@
       "sentActiveInvestigations" : "Erstellte",
       "importState": "Importstatus",
       "importNote": "Importbemerkung",
-      "importDate": "Importdatum"
+      "importDate": "Importdatum",
+      "type": "Typ",
+      "title": "Titel"
 
     }
   },
@@ -184,6 +185,7 @@
   "requestAlert": {
     "headline": "Qualitätswarnung erstellen",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
+    "titleDescription": "Titel",
     "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
     "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt.",
     "serverError": "Serverfehler:"
@@ -197,18 +199,45 @@
     "serverError": "Serverfehler:"
   },
   "requestNotification": {
+    "investigation": "Qualitätsuntersuchung",
+    "alert": "Qualitätswarnung",
+    "header": "Qualitätsthema erstellen",
+    "editNotificationHeader": "Qualitätsthema anpassen",
+    "createNotificationHeader": "Qualitätsthema erstellen",
+    "affectedParts": "Betroffene Teile",
+    "asBuiltParts": "As Built",
+    "unAffectedParts": "Verfügbare Teile",
     "partDescription": "Sie haben folgende Produkte ausgewählt:",
     "targetDateDescription": "Bitte geben Sie das Datum an, bis wann Sie eine Antwort erwarten.",
     "bpnLabel": "BPN",
     "bpnDescription": "Bitte geben Sie die Empfänger BPN an.",
     "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
+    "titleDescription": "Wählen Sie einen kurzen Titel.",
+    "titleLabel": "Titel",
+    "typeDescription": "Typ des Qualitätsthemas.",
+    "typeLabel": "Type",
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",
     "cancel": "ABBRUCH",
     "submit": "ZUR WARTESCHLANGE HINZUFÜGEN",
     "severity": "Gefahrenstufe",
-    "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem",
-    "serverError": "Serverfehler:"
+    "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem.",
+    "serverError": "Serverfehler:",
+    "remove": "Auswahl entfernen",
+    "add": "Auswahl hinzufügen",
+    "modifyNotAllowed": "Erfordert mindestens eine Selektion innerhalb der Tabelle",
+    "modifyAffectedNotAllowed" : "Erfordert mindestens eine Selektion in der Tabelle für betroffene Teile.",
+    "modifyAvailableNotAllowed" : "Erfordert mindestens eine Selektion in der Tabelle für verfügbare Teile.",
+    "textAreaDescription": "Beschreiben Sie das Problem.",
+    "saveNotAllowed": "Erfordert eine valide Eingabe im Formular.",
+    "noPartsSelected" : "Erfordert mindestens ein betroffenes Teil",
+    "saveSuccess": "Qualitätsthema wurde erfolgreich aktualisiert.",
+    "saveError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten.",
+    "save": "Qualitätsthema speichern"
+  },
+  "editNotification": {
+    "saveButton": "Speichern",
+    "cancelButton": "Verwerfen"
   },
   "requestPublishAssets": {
     "success": "Anfrage zur Veröffentlichung der Produkte war erfolgreich",
@@ -259,7 +288,7 @@
       "successfullyDeclined": "Untersuchung wurde erfolgreich abgelehnt.",
       "failedAccept": "Untersuchung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
       "failedAcknowledge": "Untersuchung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
-      "failedApprove": "Die Qualitätsuntersuchung konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
+      "failedApprove": "Die Untersuchung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
       "failedCancel": "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
       "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
       "failedDecline": "Untersuchung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
@@ -268,8 +297,8 @@
   "commonAlert": {
     "viewAll": "Alle anzeigen",
     "tabs": {
-      "received": "Zugewiesene",
-      "queuedAndRequested": "Erstellte und Versendete"
+      "received": "Empfangene",
+      "queuedAndRequested": "Versendete"
     },
     "status": {
       "RECEIVED": "Erhalten",

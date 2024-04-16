@@ -84,7 +84,7 @@ SPDX-License-Identifier: Apache-2.0
                              (selected)="onSelectItem($event)"
                              (configChanged)="onAsBuiltTableConfigChange($event)"
                              (multiSelect)="currentSelectedItems$.next($event)"
-                             (clickSelectAction)="isAlertOpen$.next(true)"
+                             (clickSelectAction)="navigateToNotificationCreationView()"
                              (filterActivated)="filterActivated(true, $event )"
                              [multiSortList]="tableAsBuiltSortList"
                              [tableHeader]='"page.asBuiltParts" | i18n'
@@ -132,18 +132,6 @@ SPDX-License-Identifier: Apache-2.0
     [isOpen]="isPublisherOpen$"
     (submitted)="isPublisherOpen$.next(false); refreshPartsOnPublish($event);"
     ></app-asset-publisher>
-  </app-sidenav-wrapper>
-
-  <app-sidenav-wrapper [isOpen]="isAlertOpen$ | async" (sidenavAction)="isAlertOpen$.next($event)">
-    <app-notification-request
-      *ngIf="isAlertOpen$ | async"
-      [selectedItems]="currentSelectedItems$ | async"
-      [notificationType]="NotificationType.ALERT"
-      (deselectPart)="deselectPartTrigger$.next([$event])"
-      (restorePart)="addPartTrigger$.next($event)"
-      (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
-      (submitted)="isAlertOpen$.next(false)"
-    ></app-notification-request>
   </app-sidenav-wrapper>
 
 
