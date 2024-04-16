@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.groupingBy;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.AFTER_LOCAL_DATE;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.BEFORE_LOCAL_DATE;
+import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.EXCLUDE;
 import static org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy.NOTIFICATION_COUNT_EQUAL;
 
 @Getter
@@ -58,7 +59,7 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         String fieldName = getJoinTableFieldName(criteria.getKey());
         Path<Object> fieldPath = getFieldPath(root, criteria);
 
-        if(SearchCriteriaStrategy.EXCLUDE.equals(criteria.getStrategy())){
+        if (SearchCriteriaStrategy.EXCLUDE.equals(criteria.getStrategy())) {
             return builder.notEqual(
                     fieldPath.as(String.class),
                     expectedFieldValue);
@@ -173,6 +174,10 @@ public abstract class BaseSpecification<T> implements Specification<T> {
             result = combineSpecificationsWith(
                     specifications.stream().map(baseSpec -> (Specification<T>) baseSpec).toList(),
                     SearchCriteriaOperator.AND);
+        } else if (hasExcludePredicate(specifications)) {
+            result = combineSpecificationsWith(
+                    specifications.stream().map(baseSpec -> (Specification<T>) baseSpec).toList(),
+                    SearchCriteriaOperator.AND);
         } else {
             result = combineSpecificationsWith(
                     specifications.stream().map(baseSpec -> (Specification<T>) baseSpec).toList(),
@@ -213,6 +218,10 @@ public abstract class BaseSpecification<T> implements Specification<T> {
 
     private static <T> boolean hasBeforePredicate(List<BaseSpecification<T>> specifications) {
         return !specifications.stream().filter(spec -> BEFORE_LOCAL_DATE.equals(spec.getSearchCriteriaFilter().getStrategy())).toList().isEmpty();
+    }
+
+    private static <T> boolean hasExcludePredicate(List<BaseSpecification<T>> specifications) {
+        return !specifications.stream().filter(spec -> EXCLUDE.equals(spec.getSearchCriteriaFilter().getStrategy())).toList().isEmpty();
     }
 
     private static <T> boolean isBeforePredicate(BaseSpecification<T> specification) {

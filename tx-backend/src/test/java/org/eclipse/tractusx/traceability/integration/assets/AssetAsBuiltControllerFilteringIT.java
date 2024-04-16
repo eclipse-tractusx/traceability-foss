@@ -85,7 +85,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     void givenExcludeFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=id,EXCLUDE,urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,AND&filter=id,EXCLUDE,urn:uuid:ff82a14d-8730-488f-b965-89eeb2010991,AND";
+        final String filter = "?filter=id,EXCLUDE,urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,AND&filter=id,EXCLUDE,urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc,AND";
 
         // then
         given()
@@ -96,7 +96,25 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built" + filter)
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(13));
+                .body("totalItems", equalTo(11));
+    }
+
+    @Test
+    void givenExcludeFilterMultiFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        final String filter = "?filter=id,EXCLUDE,urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,AND&filter=id,EQUAL,urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc,AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter)
+                .then()
+                .statusCode(200)
+                .body("totalItems", equalTo(1));
     }
 
     @Test
@@ -479,7 +497,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
 
         for (int i = 0; i < assets.size(); i++) {
             for (int j = i; j > 0; j--) {
-                alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assets.get(i)),SENDER);
+                alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assets.get(i)), SENDER);
             }
         }
 
