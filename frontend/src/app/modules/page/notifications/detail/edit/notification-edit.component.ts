@@ -217,12 +217,11 @@ export class NotificationEditComponent implements OnDestroy {
 
 
   private setAvailablePartsBasedOnNotificationType(notification: Notification, assetFilter?: any) {
-    console.log('setAvailablePartsBasedOnNotificationType');
+    // TODO add a filter here which excludes the affectedAssetIds from the resultset
     if (notification.type === NotificationType.INVESTIGATION) {
       this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     } else {
       this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
-
     }
   }
 
@@ -232,13 +231,12 @@ export class NotificationEditComponent implements OnDestroy {
     if (this.affectedPartIds) {
       partsFilter = this.enrichPartsFilterByAffectedAssetIds(null);
     }
-    console.log('setAffectedPartsBasedOnNotificationType', partsFilter);
     if (notification.type === NotificationType.INVESTIGATION) {
       this.partsFacade.setSupplierPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
     } else {
       this.ownPartsFacade.setPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
-
     }
+
   }
 
   public ngOnDestroy(): void {
@@ -267,10 +265,19 @@ export class NotificationEditComponent implements OnDestroy {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
-    this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
-    this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
-    this.currentSelectedAffectedParts$.next([]);
-    this.temporaryAffectedPartsForRemoval = [];
+    console.log(this.affectedPartIds, "test");
+    if (!this.affectedPartIds || this.affectedPartIds.length === 0){
+      console.log("empty")
+
+    } else {
+      this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
+      this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
+      this.currentSelectedAffectedParts$.next([]);
+      this.temporaryAffectedPartsForRemoval = [];
+      this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+      this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
+    }
+
   }
 
   addAffectedParts() {
@@ -283,6 +290,8 @@ export class NotificationEditComponent implements OnDestroy {
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);
     this.temporaryAffectedParts = [];
+    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
   }
 
 
