@@ -98,11 +98,10 @@ SPDX-License-Identifier: Apache-2.0
           </div>
           <!-- asBuilt Parts Table-->
           <app-parts-table *ngIf="tableType" class="parts-asBuilt-table"
-                           [paginationData]="filterOnlyAffected(parts.data) | formatPaginationSemanticDataModelToCamelCase"
+                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                            [labelId]="affectedPartsTableLabelId"
                            [selectedPartsActionLabel]="'page.selectedParts.action'"
                            [deselectTrigger]="deselectPartTrigger$ | async"
-                           [addTrigger]="addPartTrigger$ | async"
                            [menuActivated]="false"
                            (multiSelect)="currentSelectedAffectedParts$.next($event)"
                            (filterActivated)="filterAffectedParts($event)"
@@ -132,9 +131,9 @@ SPDX-License-Identifier: Apache-2.0
 
          <div
            matTooltip="{{temporaryAffectedParts.length > 0 ? 'requestNotification.add' : 'requestNotification.modifyAvailableNotAllowed' | i18n}}"
-           matTooltipClass="table--header--tooltip"
+           matTooltipClass="table&#45;&#45;header&#45;&#45;tooltip"
            matTooltipPosition="before"
-           [class.mdc-tooltip--multiline]="true"
+           [class.mdc-tooltip&#45;&#45;multiline]="true"
            [matTooltipShowDelay]="1000"
            [style.cursor]="'not-allowed'"
            class="mt-1 mb-2"
@@ -149,13 +148,12 @@ SPDX-License-Identifier: Apache-2.0
            >
            </app-button>
          </div>
-         <app-parts-table   *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"
+         <app-parts-table *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"
                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                           [labelId]="availablePartsTableLabelId"
                           [menuActivated]="false"
                           [selectedPartsActionLabel]="'page.selectedParts.action'"
                           [deselectTrigger]="deselectPartTrigger$ | async"
-                          [addTrigger]="addPartTrigger$ | async"
                           (multiSelect)="currentSelectedAvailableParts$.next($event)"
                           (filterActivated)="filterAvailableParts($event)"
                           [multiSortList]="tableAsBuiltSortList"

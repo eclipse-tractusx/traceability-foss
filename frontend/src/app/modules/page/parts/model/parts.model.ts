@@ -139,6 +139,7 @@ export interface Relation {
 
 export interface AssetAsBuiltFilter {
   id?: string,
+  ids?: string[],
   idShort?: string,
   name?: string,
   manufacturerName?: string,

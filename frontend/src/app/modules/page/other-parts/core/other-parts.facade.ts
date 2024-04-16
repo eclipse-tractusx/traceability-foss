@@ -93,7 +93,7 @@ export class OtherPartsFacade {
   public setSupplierPartsAsBuiltSecond(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.supplierPartsAsBuiltSecondSubscription?.unsubscribe();
     this.supplierPartsAsBuiltSecondSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
-      next: data => (this.otherPartsState.supplierPartsAsBuiltSecond = { data: provideDataObject(data) }),
+      next: data =>  (this.otherPartsState.supplierPartsAsBuiltSecond = { data: provideDataObject(data) }),
       error: error => (this.otherPartsState.supplierPartsAsBuiltSecond = { error }),
     });
   }
@@ -108,6 +108,7 @@ export class OtherPartsFacade {
 
   public unsubscribeParts(): void {
     this.customerPartsAsBuiltSubscription?.unsubscribe();
+    this.supplierPartsAsBuiltSecondSubscription?.unsubscribe();
     this.customerPartsAsPlannedSubscription?.unsubscribe();
     this.supplierPartsAsBuiltSubscription?.unsubscribe();
     this.supplierPartsAsPlannedSubscription?.unsubscribe();
