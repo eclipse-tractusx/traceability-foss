@@ -82,6 +82,24 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void givenExcludeFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        final String filter = "?filter=id,EXCLUDE,urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,AND&filter=id,EXCLUDE,urn:uuid:ff82a14d-8730-488f-b965-89eeb2010991,AND";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .get("/api/assets/as-built" + filter)
+                .then()
+                .statusCode(200)
+                .body("totalItems", equalTo(13));
+    }
+
+    @Test
     void givenIdAndIdShortFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();

@@ -58,6 +58,12 @@ public abstract class BaseSpecification<T> implements Specification<T> {
         String fieldName = getJoinTableFieldName(criteria.getKey());
         Path<Object> fieldPath = getFieldPath(root, criteria);
 
+        if(SearchCriteriaStrategy.EXCLUDE.equals(criteria.getStrategy())){
+            return builder.notEqual(
+                    fieldPath.as(String.class),
+                    expectedFieldValue);
+        }
+
         if (SearchCriteriaStrategy.EQUAL.equals(criteria.getStrategy()) || NOTIFICATION_COUNT_EQUAL.equals(criteria.getStrategy())) {
             return builder.equal(
                     fieldPath.as(String.class),
