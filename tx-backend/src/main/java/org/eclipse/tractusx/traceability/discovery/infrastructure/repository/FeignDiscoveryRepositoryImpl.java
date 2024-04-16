@@ -45,7 +45,7 @@ public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
 
     @Override
     public Optional<Discovery> retrieveDiscoveryByFinderAndEdcDiscoveryService(String bpn) {
-        DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of("bpn"));
+        DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(bpn));
         DiscoveryResponse discoveryEndpoints = discoveryFinderClient.findDiscoveryEndpoints(request);
         List<EdcDiscoveryResult> discoveryResults = new ArrayList<>();
         discoveryEndpoints.endpoints().forEach(discoveryEndpoint -> {

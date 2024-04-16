@@ -20,12 +20,12 @@
 ################################################################################
 
 traceability:
-  bpn: BPNL00000003AXS3
+  bpn: BPNL00000003CML1
   url: localhost:${server.port}/api
   leftOperand: "PURPOSE"
   operatorType: "eq"
-  rightOperand: "ID Trace 3.1"
-  validUntil: "2023-07-04T16:01:05.309Z"
+  rightOperand: "ID 3.0 Trace"
+  validUntil: "2050-07-04T16:01:05.309Z"
   adminApiKey: testAdminKey
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
@@ -74,7 +74,7 @@ logging:
 
 digitalTwinRegistryClient:
   oAuthClientId: keycloak
-  discoveryFinderUrl: ""
+  discoveryFinderUrl: "/v1.0/administration/connectors/discovery/search"
 
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
@@ -103,3 +103,6 @@ irs-edc-client:
   controlplane:
     api-key:
       secret: "integration-tests"
+    datareference:
+      storage:
+        duration: PT1H

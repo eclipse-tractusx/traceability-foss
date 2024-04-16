@@ -33,6 +33,10 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
@@ -79,6 +83,17 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Autowired
     AssetAsPlannedRepository assetAsPlannedRepository;
 
+    @Autowired
+    EdcSupport edcSupport;
+
+    @Autowired
+    DiscoveryFinderSupport discoveryFinderSupport;
+
+    @Autowired
+    OAuth2ApiSupport oauth2ApiSupport;
+
+    @Autowired
+    IrsApiSupport irsApiSupport;
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
@@ -406,9 +421,21 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .partIds(partIds)
                 .description(description)
                 .severity(QualityNotificationSeverityRequest.MINOR)
-                .receiverBpn("BPN")
+                .receiverBpn("BPNL00000003CNKC")
                 .isAsBuilt(true)
                 .build();
+
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.DFCWillCreateDiscovery();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        edcSupport.edcWillReturnCatalogDupl();
+        edcSupport.edcWillCreateContractNegotiation();
+        edcSupport.edcWillReturnContractNegotiationOnlyState();
+        edcSupport.edcWillReturnContractNegotiationState();
+        edcSupport.edcWillCreateTransferprocesses();
+        edcSupport.edcWillReturnTransferprocessesOnlyState();
+        edcSupport.edcWillReturnTransferprocessesState();
+
 
         // when
         val alertId = given()

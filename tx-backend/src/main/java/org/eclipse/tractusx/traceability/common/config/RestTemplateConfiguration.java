@@ -43,6 +43,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -154,6 +155,7 @@ public class RestTemplateConfiguration {
     @Bean(EDC_CLIENT_REST_TEMPLATE)
     public RestTemplate edcClientRestTemplate() {
         return new RestTemplateBuilder()
+                .errorHandler(new DefaultResponseErrorHandler())
                 .build();
     }
 

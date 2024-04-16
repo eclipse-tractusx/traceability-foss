@@ -49,6 +49,7 @@ public class RestitoConfig {
         @Override
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
+                    "spring.security.oauth2.client.provider.keycloak.token-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_TOKEN_PATH,
                     "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_JWK_PATH,
                     "spring.security.oauth2.client.provider.OKTA.token-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_TOKEN_PATH,
                     "feign.bpnApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
@@ -61,7 +62,8 @@ public class RestitoConfig {
                     "irs-edc-client.controlplane.endpoint.data=http://localhost:" + STUB_SERVER_PORT + "/management",
                     "registry.urlWithPath=http://127.0.0.1:" + STUB_SERVER_PORT + "/semantics/registry/api/v3.0",
                     "edc.parts-provider-edc-controlplane-url=http://localhost:" + STUB_SERVER_PORT,
-                    "edc.callbackUrls=http://localhost:" + STUB_SERVER_PORT + "/callback/redirect"
+                    "edc.callbackUrls=http://localhost:" + STUB_SERVER_PORT + "/callback/redirect",
+                    "digitalTwinRegistryClient.discoveryFinderUrl=http://localhost:" + STUB_SERVER_PORT + "/v1.0/administration/connectors/discovery/search"
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
     }

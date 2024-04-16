@@ -37,7 +37,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.excepti
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
-import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -46,13 +45,11 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional(dontRollbackOn = DiscoveryFinderException.class)
-@Profile(NOT_INTEGRATION_TESTS)
 public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private final InvestigationsEDCFacade edcFacade;
@@ -92,6 +89,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             return CompletableFuture.completedFuture(null);
 
         } catch (DiscoveryFinderException discoveryFinderException) {
+            log.error(discoveryFinderException.getMessage(), discoveryFinderException);
             enrichQualityNotificationByError(discoveryFinderException, message);
             return CompletableFuture.completedFuture(null);
         }
