@@ -116,12 +116,10 @@ export class NotificationEditComponent implements OnDestroy {
 
   private handleEditNotification() {
     if (this.notificationDetailFacade.selected?.data) {
-      console.log('Data exists in state loading.');
       this.tableType = this.notificationDetailFacade.selected.data.type === NotificationType.INVESTIGATION ? TableType.AS_BUILT_SUPPLIER : TableType.AS_BUILT_OWN;
 
       this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected.data);
     } else {
-      console.log('Data does not exists in state extracting id from url and loading data.');
       this.getNotificationByIdAndSelectNotificationAndLoadPartsBasedOnNotification();
 
     }
@@ -178,7 +176,7 @@ export class NotificationEditComponent implements OnDestroy {
     let filter: AssetAsBuiltFilter = {
       excludeIds: [],
       ids: [],
-      ...partsFilter
+      ...partsFilter,
 
     };
 
@@ -192,14 +190,9 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
   filterAvailableParts(partsFilter: any): void {
-    if (this.cachedAvailablePartsFilter === JSON.stringify(partsFilter)) {
-      console.log('FILTER DID NOT CHANGE');
-    } else {
-      console.log(partsFilter, 'filter in available');
-      this.cachedAvailablePartsFilter = JSON.stringify(partsFilter);
+    if (this.cachedAvailablePartsFilter !== JSON.stringify(partsFilter)) {
       this.setAvailablePartsBasedOnNotificationType(this.selectedNotification, partsFilter);
     }
-
   }
 
   public clickedSave(): void {
@@ -211,7 +204,7 @@ export class NotificationEditComponent implements OnDestroy {
           this.toastService.success('requestNotification.saveSuccess');
           this.updateSelectedNotificationState();
         },
-        error: (error) => this.toastService.error('requestNotification.saveError'),
+        error: () => this.toastService.error('requestNotification.saveError'),
       });
     } else {
       this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
@@ -220,7 +213,7 @@ export class NotificationEditComponent implements OnDestroy {
           this.navigateBackToNotifications();
           this.updateSelectedNotificationState();
         },
-        error: (error) => this.toastService.error('requestNotification.saveError'),
+        error: () => this.toastService.error('requestNotification.saveError'),
       });
     }
   }
@@ -254,22 +247,6 @@ export class NotificationEditComponent implements OnDestroy {
     this.notificationDetailFacade.selected = { data: null };
     this.notificationDetailFacade.unsubscribeSubscriptions();
     this.paramSubscription?.unsubscribe();
-  }
-
-  filterOnlyAffected(parts: any): Pagination<Part> {
-    // Convert affectedPartIds to a Set for faster lookup
-    const affectedPartIdsSet = new Set(this.affectedPartIds);
-
-    // Filter parts based on affectedPartIds
-    const partsFiltered = parts.content.filter(part => affectedPartIdsSet.has(part.id));
-
-    return {
-      page: parts.page,
-      pageCount: parts.pageCount,
-      pageSize: parts.pageSize,
-      totalItems: partsFiltered.length,
-      content: partsFiltered,
-    };
   }
 
   removeAffectedParts() {
@@ -322,10 +299,9 @@ export class NotificationEditComponent implements OnDestroy {
       .getNotificationById(notificationId)
       .subscribe({
         next: data => {
-          console.log('getNotificationById');
           this.selectNotificationAndLoadPartsBasedOnNotification(data);
         },
-        error: (error: Error) => {
+        error: () => {
         },
       });
 

@@ -50,7 +50,6 @@ export function provideDataObject(data: Pagination<any>){
   } else {
     usedData = data;
   }
-  console.log(usedData,"data returned");
   return usedData
 }
 
