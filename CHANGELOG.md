@@ -13,7 +13,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 -
 ### Removed
 -
-## [10.8.2 - 17.04.2024]
+## [10.8.3 - 17.04.2024]
 
 ### Added
 - #780 store api documenation in docs/api to conform with TRG 1.08
