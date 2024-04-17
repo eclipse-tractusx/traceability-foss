@@ -20,5 +20,5 @@ SPDX-License-Identifier: Apache-2.0
 <p class="regular-text severity__container">
   <mat-icon class="mr-2">{{ getIconByNotificationType(notificationType) }}</mat-icon
   >
-  {{ 'requestNotification.' + notificationType.toLowerCase() | i18n }}
+  {{ 'requestNotification.' + notificationType?.toLowerCase() | i18n }}
 </p>

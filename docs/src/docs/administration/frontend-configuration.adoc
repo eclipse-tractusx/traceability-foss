@@ -1,5 +1,5 @@
 [#_frontend_configuration]
-= Frontend Configuration
+= Frontend configuration
 //:allow-uri-read:
 :icons: font
 :icon-set: fas
@@ -10,7 +10,7 @@ You can define the URLs as well as most of the secrets yourself.
 
 The OAuth2, Vault configuration / secrets depend on your setup and might need to be provided externally.
 
-== Helm configuration Trace-X Frontend (values.yaml)
+== Helm configuration Trace-X frontend (values.yaml)
 
 values.yaml https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml
 

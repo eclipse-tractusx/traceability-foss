@@ -42,6 +42,11 @@ edc:
   provider-dataplane-edc-url: "http://127.0.0.1"
 
 spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
   security:
     oauth2:
       client:
@@ -68,9 +73,12 @@ management:
 
 logging:
   level:
+    org.hibernate.sql: DEBUG
     org.springframework.web.client.RestTemplate: INFO
     org.springframework.security: INFO
     org.springframework: INFO
+
+
 
 digitalTwinRegistryClient:
   oAuthClientId: keycloak

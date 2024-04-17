@@ -40,7 +40,7 @@ SPDX-License-Identifier: Apache-2.0
                      (selected)="onSelectItem($event)"
                      (configChanged)="onAsBuiltTableConfigChange($event)"
                      (multiSelect)="currentSelectedItems$.next($event)"
-                     (clickSelectAction)="isInvestigationOpen$.next(true)"
+                     (clickSelectAction)="navigateToNotificationCreationView()"
                      [tableHeader]='"page.asBuiltParts" | i18n'
                      [multiSortList]="tableSupplierAsBuiltSortList"
                      (filterActivated)="filterActivated(true, $event )"
@@ -89,16 +89,4 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #loaderTmp let-parts="view">
   <mat-spinner></mat-spinner>
 </ng-template>
-
-<app-sidenav-wrapper [isOpen]="isInvestigationOpen$ | async" (sidenavAction)="isInvestigationOpen$.next($event)">
-  <app-notification-request
-    *ngIf="isInvestigationOpen$ | async"
-    [notificationType]="NotificationType.INVESTIGATION"
-    [selectedItems]="currentSelectedItems$ | async"
-    (deselectPart)="deselectPartTrigger$.next([$event])"
-    (restorePart)="addPartTrigger$.next($event)"
-    (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
-    (submitted)="isInvestigationOpen$.next(false)"
-  ></app-notification-request>
-</app-sidenav-wrapper>
 

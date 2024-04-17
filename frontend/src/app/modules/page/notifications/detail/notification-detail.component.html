@@ -39,6 +39,18 @@ SPDX-License-Identifier: Apache-2.0
          [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
     >
       <app-button
+        *ngIf="actionHelperService.showEditButton(selectedNotification)"
+        (click)="navigateToDetailView()"
+        [color]="'primary'"
+        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">edit</mat-icon>
+          {{ 'actions.edit' | i18n }}
+        </div>
+      </app-button>
+
+      <app-button
         *ngIf="actionHelperService.showApproveButton(selectedNotification)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.APPROVED)"
         [color]="'primary'"
@@ -259,7 +271,6 @@ SPDX-License-Identifier: Apache-2.0
     [showHover]="false"
     [noShadow]="true"
     (multiSelect)="onMultiSelect($event)"
-    (clickSelectAction)="isNotificationOpen$.next(true)"
     (configChanged)="onSupplierPartsSort($event)"
     selectedPartsInfoLabel="pageAlert.selectedParts"
     selectedPartsActionLabel="pageAlert.selectPartsAction"
@@ -282,15 +293,3 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #loaderTmp let-view="view">
   <mat-spinner></mat-spinner>
 </ng-template>
-
-<app-sidenav-wrapper [isOpen]="isNotificationOpen$ | async" (sidenavAction)="isNotificationOpen$.next($event)">
-  <app-notification-request
-    *ngIf="isNotificationOpen$ | async"
-    [notificationType]="NotificationType.ALERT"
-    [selectedItems]="selectedItems$ | async"
-    (deselectPart)="removeItemFromSelection($event)"
-    (restorePart)="addItemToSelection($event)"
-    (clearSelected)="clearSelected()"
-    (submitted)="isNotificationOpen$.next(false)"
-  ></app-notification-request>
-</app-sidenav-wrapper>

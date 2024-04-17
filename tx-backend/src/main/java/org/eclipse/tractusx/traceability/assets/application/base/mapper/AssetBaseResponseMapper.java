@@ -63,7 +63,6 @@ public class AssetBaseResponseMapper {
         List<DetailAspectModelResponse> list = emptyIfNull(detailAspectModels).stream()
                 .map(AssetBaseResponseMapper::from)
                 .toList();
-        log.info(list.toString());
         return list;
     }
 

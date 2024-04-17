@@ -35,6 +35,7 @@ import {View} from '@shared/model/view.model';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {SharedPartIdsService} from "@page/notifications/detail/edit/shared-part-ids.service";
 
 @Component({
   selector: 'app-supplier-parts',
@@ -74,7 +75,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly sharedPartIdsService: SharedPartIdsService
   ) {
 
     window.addEventListener('keydown', (event) => {
@@ -178,6 +180,11 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     }
     this.onAsBuiltTableConfigChange({page: params['AS_BUILT_SUPPLIER_PAGE'], pageSize: 50, sorting: null});
     this.onAsPlannedTableConfigChange({page: params['AS_PLANNED_SUPPLIER_PAGE'], pageSize: 50, sorting: null});
+  }
+
+  navigateToNotificationCreationView() {
+    this.sharedPartIdsService.sharedPartIds = this.currentSelectedItems$.value.map(part => part.id);
+    this.router.navigate(['inbox/create'], {queryParams: {initialType: NotificationType.INVESTIGATION}});
   }
 
   protected readonly MainAspectType = MainAspectType;
