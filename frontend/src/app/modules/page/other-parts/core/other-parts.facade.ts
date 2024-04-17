@@ -114,8 +114,6 @@ export class OtherPartsFacade {
     });
   }
 
-
-
   public unsubscribeParts(): void {
     this.customerPartsAsBuiltSubscription?.unsubscribe();
     this.supplierPartsAsBuiltSecondSubscription?.unsubscribe();

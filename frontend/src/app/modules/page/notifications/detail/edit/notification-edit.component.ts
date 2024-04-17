@@ -181,9 +181,6 @@ export class NotificationEditComponent implements OnDestroy {
       ...partsFilter
 
     };
-/*    if (!partsFilter) {
-      filter = partsFilter;
-    }*/
 
     if (exclude) {
       filter.excludeIds = this.affectedPartIds;

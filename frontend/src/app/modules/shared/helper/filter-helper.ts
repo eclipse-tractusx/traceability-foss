@@ -110,7 +110,7 @@ export function isExcludeAssetIdsFilter(key: string): boolean {
 }
 
 export function isStartsWithFilter(key: string): boolean {
-  return !isDateFilter(key) && !isNotificationCountFilter(key) && !isAssetIdsFilter(key);
+  return !isDateFilter(key) && !isNotificationCountFilter(key) && !isAssetIdsFilter(key) && !isExcludeAssetIdsFilter(key);
 }
 
 export function isNotificationCountFilter(key: string): boolean {
