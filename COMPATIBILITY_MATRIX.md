@@ -1,6 +1,6 @@
 # Compatibility matrix Trace-X
 
-## Trace-X version [[10.8.3](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.8.3)] - 2024-04-17
+## Trace-X version [[10.8.4](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.8.4)] - 2024-04-17
 - No changes to 10.8.1
 ## Trace-X version [[10.8.1](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.8.1)] - 2024-04-03
 
