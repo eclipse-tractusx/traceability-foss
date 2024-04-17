@@ -140,6 +140,10 @@ spec:
               value: {{ .Values.javaToolOptions | default "" | quote }}
             - name: BPDM_URL
               value: {{ .Values.bpdm.url | quote }}
+            - name: BPDM_OAUTH2_CLIENT_ID
+              value: {{ .Values.bpdm.clientId | quote }}
+            - name: BPDM_OAUTH2_CLIENT_SECRET
+              value: {{ .Values.bpdm.clientSecret | quote }}
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
