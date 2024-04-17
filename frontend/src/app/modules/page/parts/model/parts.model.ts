@@ -139,6 +139,8 @@ export interface Relation {
 
 export interface AssetAsBuiltFilter {
   id?: string,
+  ids?: string[],
+  excludeIds?: string[],
   idShort?: string,
   name?: string,
   manufacturerName?: string,
@@ -194,7 +196,8 @@ export enum FilterOperator {
   STARTS_WITH = 'STARTS_WITH',
   BEFORE_LOCAL_DATE = 'BEFORE_LOCAL_DATE',
   AFTER_LOCAL_DATE = 'AFTER_LOCAL_DATE',
-  NOTIFICATION_COUNT_EQUAL = 'NOTIFICATION_COUNT_EQUAL'
+  NOTIFICATION_COUNT_EQUAL = 'NOTIFICATION_COUNT_EQUAL',
+  EXCLUDE = 'EXCLUDE'
 }
 
 export function getFilterOperatorValue(operator: FilterOperator) {

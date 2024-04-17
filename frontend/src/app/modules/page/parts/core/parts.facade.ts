@@ -44,7 +44,7 @@ export class PartsFacade {
   }
 
   public get partsAsBuiltSecond$(): Observable<View<Pagination<Part>>> {
-    return this.partsState.partsAsBuilt$;
+    return this.partsState.partsAsBuiltSecond$;
   }
 
   public get partsAsPlanned$(): Observable<View<Pagination<Part>>> {
@@ -60,10 +60,10 @@ export class PartsFacade {
   }
 
   public setPartsAsBuiltSecond(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
-    this.partsAsBuiltSubscription?.unsubscribe();
-    this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
-      next: data => (this.partsState.partsAsBuilt = { data: provideDataObject(data) }),
-      error: error => (this.partsState.partsAsBuilt = { error }),
+    this.partsAsBuiltSubscriptionSecond?.unsubscribe();
+    this.partsAsBuiltSubscriptionSecond = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
+      next: data => (this.partsState.partsAsBuiltSecond = { data: provideDataObject(data) }),
+      error: error => (this.partsState.partsAsBuiltSecond = { error }),
     });
   }
 
@@ -77,6 +77,7 @@ export class PartsFacade {
 
   public unsubscribeParts(): void {
     this.partsAsBuiltSubscription?.unsubscribe();
+    this.partsAsBuiltSubscriptionSecond?.unsubscribe();
     this.partsAsPlannedSubscription?.unsubscribe();
     this.unsubscribeTrigger.next();
   }
