@@ -225,7 +225,7 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilter = {};
+    const assetFilter = {excludeIds: [], ids: []};
 
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuilt');
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuiltSecond');
@@ -263,7 +263,7 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilter = {};
+    const assetFilter = {excludeIds: [], ids: []};
 
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecond');
@@ -310,13 +310,17 @@ describe('NotificationEditComponent', () => {
       'type': new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]),
     });
 
-    formGroup.setValue({
+
+    formGroup.patchValue({
       ...formGroup.value,
-      bpn: 'NOTALLOWED',
+      bpn: 'BPNL00000003CML1',
+      description: 'This is a test description with min 15 characters',
     });
+    formGroup.markAsDirty();
+    componentInstance.affectedPartIds = [ MOCK_part_1.id ];
     componentInstance.notificationFormGroupChange(formGroup);
     expect(componentInstance.isSaveButtonDisabled).toEqual(false);
-    expect(componentInstance.notificationFormGroup.value['bpn']).toEqual('NOTALLOWED');
+    expect(componentInstance.notificationFormGroup.value['bpn']).toEqual('BPNL00000003CML1');
 
   });
 
