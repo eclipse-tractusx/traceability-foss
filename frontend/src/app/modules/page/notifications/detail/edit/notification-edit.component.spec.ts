@@ -225,7 +225,7 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilter = {};
+    const assetFilter = {excludeIds: [], ids: []};
 
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuilt');
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuiltSecond');
@@ -263,7 +263,7 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilter = {};
+    const assetFilter = {excludeIds: [], ids: []};
 
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecond');

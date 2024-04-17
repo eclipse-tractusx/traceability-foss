@@ -77,13 +77,40 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
       params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
     }
 
+    // has single value
+    if (isAssetIdsFilter(key)) {
+      operator = getFilterOperatorValue(FilterOperator.EQUAL);
+      const keyOverride = "id";
+      const filterOperatorOverride = "OR";
+      for (let value of filterValues){
+        params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
+      }
+    }
+
+    if (isExcludeAssetIdsFilter(key)) {
+      operator = getFilterOperatorValue(FilterOperator.EXCLUDE);
+      const keyOverride = "id";
+      const filterOperatorOverride = "AND";
+      for (let value of filterValues){
+        params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
+      }
+    }
+
   }
 
   return params;
 }
 
+export function isAssetIdsFilter(key: string): boolean {
+  return 'ids' === key;
+}
+
+export function isExcludeAssetIdsFilter(key: string): boolean {
+  return 'excludeIds' === key;
+}
+
 export function isStartsWithFilter(key: string): boolean {
-  return !isDateFilter(key) && !isNotificationCountFilter(key);
+  return !isDateFilter(key) && !isNotificationCountFilter(key) && !isAssetIdsFilter(key) && !isExcludeAssetIdsFilter(key);
 }
 
 export function isNotificationCountFilter(key: string): boolean {
@@ -102,7 +129,7 @@ export function isSameDate(startDate: string, endDate: string): boolean {
   return startDate === endDate;
 }
 
-export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
+export function toAssetFilter(formValues: any, isAsBuilt: boolean, ids?: string[]): AssetAsPlannedFilter | AssetAsBuiltFilter {
 
   const transformedFilter: any = {};
 
@@ -127,6 +154,10 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
       }
       transformedFilter[key] = formValues[key];
     }
+  }
+
+  if (ids){
+    transformedFilter['ids'] = ids;
   }
 
   const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
