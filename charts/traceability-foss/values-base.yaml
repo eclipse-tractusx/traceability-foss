@@ -190,6 +190,8 @@ backend:
 
   bpdm:
     url: 'https://partners-pool.int.demo.catena-x.net'
+    clientId: <path:traceability-foss/data/int/bpdm#client_id>
+    clientSecret: <path:traceability-foss/data/int/bpdm#client_secret>
 
 
 #########################
