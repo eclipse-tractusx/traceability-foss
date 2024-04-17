@@ -29,7 +29,7 @@ import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-par
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part } from '@page/parts/model/parts.model';
+import { AssetAsBuiltFilter, Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -167,18 +167,31 @@ export class NotificationEditComponent implements OnDestroy {
       return;
     } else {
       this.cachedAffectedPartsFilter = JSON.stringify(partsFilter);
-      this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+      this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, partsFilter);
     }
 
   }
 
 
-  private enrichPartsFilterByAffectedAssetIds(partsFilter: any) {
-    if (partsFilter) {
-      partsFilter.ids = this.affectedPartIds;
+  private enrichPartsFilterByAffectedAssetIds(partsFilter: any, exclude?: boolean) {
+
+    let filter: AssetAsBuiltFilter = {
+      excludeIds: [],
+      ids: [],
+      ...partsFilter
+
+    };
+/*    if (!partsFilter) {
+      filter = partsFilter;
+    }*/
+
+    if (exclude) {
+      filter.excludeIds = this.affectedPartIds;
     } else {
-      return { ids: this.affectedPartIds };
+      filter.ids = this.affectedPartIds;
     }
+    return filter;
+
   }
 
   filterAvailableParts(partsFilter: any): void {
@@ -217,7 +230,9 @@ export class NotificationEditComponent implements OnDestroy {
 
 
   private setAvailablePartsBasedOnNotificationType(notification: Notification, assetFilter?: any) {
-    // TODO add a filter here which excludes the affectedAssetIds from the resultset
+    if (this.affectedPartIds) {
+      assetFilter = this.enrichPartsFilterByAffectedAssetIds(null, true);
+    }
     if (notification.type === NotificationType.INVESTIGATION) {
       this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     } else {
@@ -225,9 +240,8 @@ export class NotificationEditComponent implements OnDestroy {
     }
   }
 
-  private setAffectedPartsBasedOnNotificationType(notification: Notification) {
+  private setAffectedPartsBasedOnNotificationType(notification: Notification, partsFilter?: any) {
 
-    let partsFilter = null;
     if (this.affectedPartIds) {
       partsFilter = this.enrichPartsFilterByAffectedAssetIds(null);
     }
@@ -265,9 +279,8 @@ export class NotificationEditComponent implements OnDestroy {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
-    console.log(this.affectedPartIds, "test");
-    if (!this.affectedPartIds || this.affectedPartIds.length === 0){
-      console.log("empty")
+    if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
+      this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
 
     } else {
       this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;

@@ -98,6 +98,14 @@ export class OtherPartsFacade {
     });
   }
 
+  public setSupplierPartsAsBuiltSecondEmpty(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
+    this.supplierPartsAsBuiltSecondSubscription?.unsubscribe();
+    this.supplierPartsAsBuiltSecondSubscription = this.otherPartsService.getOtherPartsAsBuilt(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
+      next: data =>  (this.otherPartsState.supplierPartsAsBuiltSecond = { data: provideDataObject(null) }),
+      error: error => (this.otherPartsState.supplierPartsAsBuiltSecond = { error }),
+    });
+  }
+
   public setSupplierPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.supplierPartsAsPlannedSubscription?.unsubscribe();
     this.supplierPartsAsPlannedSubscription = this.otherPartsService.getOtherPartsAsPlanned(page, pageSize, sorting, Owner.SUPPLIER, filter, isOrSearch).subscribe({
@@ -105,6 +113,8 @@ export class OtherPartsFacade {
       error: error => (this.otherPartsState.supplierPartsAsPlanned = { error }),
     });
   }
+
+
 
   public unsubscribeParts(): void {
     this.customerPartsAsBuiltSubscription?.unsubscribe();

@@ -87,6 +87,15 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
       }
     }
 
+    if (isExcludeAssetIdsFilter(key)) {
+      operator = getFilterOperatorValue(FilterOperator.EXCLUDE);
+      const keyOverride = "id";
+      const filterOperatorOverride = "AND";
+      for (let value of filterValues){
+        params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
+      }
+    }
+
   }
 
   return params;
@@ -94,6 +103,10 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
 
 export function isAssetIdsFilter(key: string): boolean {
   return 'ids' === key;
+}
+
+export function isExcludeAssetIdsFilter(key: string): boolean {
+  return 'excludeIds' === key;
 }
 
 export function isStartsWithFilter(key: string): boolean {
