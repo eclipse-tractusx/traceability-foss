@@ -78,7 +78,7 @@ export class NotificationEditComponent implements OnDestroy {
   public tableType: TableType;
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
-  isSaveButtonDisabled: boolean = false;
+  isSaveButtonDisabled: boolean;
 
   constructor(
     private readonly partsFacade: OtherPartsFacade,
@@ -108,8 +108,10 @@ export class NotificationEditComponent implements OnDestroy {
     });
 
     if (this.editMode) {
+      this.isSaveButtonDisabled = true;
       this.handleEditNotification();
     } else {
+      this.isSaveButtonDisabled = false;
       this.handleCreateNotification();
     }
   }
@@ -156,8 +158,8 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
-    this.isSaveButtonDisabled = notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.notificationFormGroup = notificationFormGroup;
+    this.isSaveButtonDisabled = (notificationFormGroup.invalid || this.affectedPartIds.length < 1) || !this.notificationFormGroup.dirty;
   }
 
   filterAffectedParts(partsFilter: any): void {
@@ -251,11 +253,13 @@ export class NotificationEditComponent implements OnDestroy {
 
   removeAffectedParts() {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
+      this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
+
     if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
       this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
-
+      this.isSaveButtonDisabled = true;
     } else {
       this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
       this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
