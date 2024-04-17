@@ -123,11 +123,6 @@ spring:
             client-secret: ${OAUTH2_CLIENT_SECRET}
             authorization-grant-type: client_credentials
             scope: ${OAUTH2_CLIENT_SCOPE:openid}
-          bpdm:
-            client-id: ${BPDM_OAUTH2_CLIENT_ID}
-            client-secret: ${BPDM_OAUTH2_CLIENT_SECRET}
-            authorization-grant-type: client_credentials
-            scope: ${OAUTH2_CLIENT_SCOPE:openid}
         provider:
           keycloak:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
