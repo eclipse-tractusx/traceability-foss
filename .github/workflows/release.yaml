@@ -58,8 +58,8 @@ jobs:
 
       - name: Update the frontend package.json appVersion
         run: |
-          npm install -g json
-          json -I -f frontend/package.json -e "this.version='${{ github.ref_name }}'"
+          sudo npm install -g json
+          sudo json -I -f frontend/package.json -e "this.version='${{ github.ref_name }}'"
 
       - name: Prepare Helm release
         uses: peter-evans/create-pull-request@v6
