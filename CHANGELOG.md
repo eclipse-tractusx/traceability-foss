@@ -15,6 +15,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #834 Added possiblity to exclude elements from the results of the asset api filter
 
 ## Changed
+- #834 Behaviour of parts selection in edit / create notification view
 - #823 migrate to irs-helm 6.18.0
 - #636 migrate to digital-twin-registry version 0.4.9 from 0.3.22
 - #622 Added functionallity to edit existing notifications within CREATED state
