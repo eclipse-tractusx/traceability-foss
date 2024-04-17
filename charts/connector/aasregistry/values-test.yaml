@@ -23,7 +23,7 @@ digital-twin-registry:
   fullnameOverride: "tracex-registry-test"
   registry:
     authentication: false
-    idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
+    idpIssuerUri: https://centralidp-v2.int.demo.catena-x.net/auth/realms/CX-Central
     host: trace-x-registry-test.dev.demo.catena-x.net
     ingress:
       enabled: true

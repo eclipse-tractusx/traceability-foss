@@ -92,9 +92,9 @@ configuration:
       clientId: &service_account_id <path:traceability-foss/data/int-bmw/keycloak/oauth2#clientId> # sa399
       clientPassword: &service_account_password <path:traceability-foss/data/int-bmw/keycloak/oauth2#clientSecret>
     auth:
-      keycloakUrl: &portal_auth_keycloak_url 'https://centralidp.int.demo.catena-x.net/auth'
-      tokenUri: &central_idp_token_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-      jwkUri: &central_idp_jwk_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
+      keycloakUrl: &portal_auth_keycloak_url 'https://centralidp-v2.int.demo.catena-x.net/auth'
+      tokenUri: &central_idp_token_uri 'https://centralidp-v2.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+      jwkUri: &central_idp_jwk_uri 'https://centralidp-v2.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
       resourceClient: &central_idp_resource_client 'app398'
     miw:
       url: &portal_miw_url <path:traceability-foss/data/int-bmw/edc/wallet#ssi.miw.url>
