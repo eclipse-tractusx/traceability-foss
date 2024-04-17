@@ -258,7 +258,14 @@ export class NotificationEditComponent implements OnDestroy {
     });
 
     if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
-      this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
+      if ( this.selectedNotification.type === NotificationType.INVESTIGATION){
+        this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
+        this.partsFacade.setSupplierPartsAsBuilt();
+      } else{
+        this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
+        this.ownPartsFacade.setPartsAsBuilt();
+      }
+
       this.isSaveButtonDisabled = true;
     } else {
       this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
