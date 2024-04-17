@@ -21,8 +21,12 @@ SPDX-License-Identifier: Apache-2.0
 
 <div *ngIf="additionalTableHeader" class="table-header-wrapper">
   <div class="table-header-container">
-    <div class="large-text table--header--text">{{tableHeader | i18n}}</div>
-  </div>
+    <div class="large-text table--header--text">{{ tableHeader | i18n }}
+      <mat-icon (click)="openDialog()" *ngIf="tableSettingsEnabled"
+                class="cursor-pointer table&#45;&#45;settings&#45;&#45;button ml-2">
+        settings
+      </mat-icon>
+    </div>
 </div>
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper" [ngClass]="labelId?.startsWith('dashboard') ? 'rows-dashboard' : ''">
   <ng-container *ngIf="tableHeader && !additionalTableHeader"><p
@@ -57,7 +61,7 @@ SPDX-License-Identifier: Apache-2.0
   >
     <ng-container *ngIf="autocompleteEnabled">
 
-    <tr *matHeaderRowDef="tableViewConfig?.displayedColumns; sticky: true" mat-header-row
+      <tr *matHeaderRowDef="tableConfig.displayedColumns; sticky: true" mat-header-row
         data-testid="table-component--head-row" class="table--header--row"></tr>
 
     </ng-container>
@@ -67,7 +71,7 @@ SPDX-License-Identifier: Apache-2.0
           data-testid="table-component--head-row" class="table--header--row"></tr>
     </ng-container>
     <ng-container *ngIf="autocompleteEnabled">
-    <tr class="filter-row" mat-header-row *matHeaderRowDef="tableViewConfig?.filterColumns; sticky: true"></tr>
+      <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     </ng-container>
     <ng-container matColumnDef="{{ filter.headerKey }}"
                   *ngFor="let filter of tableViewConfig?.displayFilterColumnMappings">

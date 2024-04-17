@@ -49,6 +49,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() multiSortList: TableHeaderSort[] = [];
   @Input() tableType: TableType;
   @Input() autocompleteEnabled = false;
+  @Input() tableSettingsEnabled = false;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() notificationsFilterChanged = new EventEmitter<any>();

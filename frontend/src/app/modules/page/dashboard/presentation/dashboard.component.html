@@ -120,6 +120,7 @@ SPDX-License-Identifier: Apache-2.0
                 [labelId]="'dashboard-alerts-created'"
                 [hasPagination]="false"
                 [optionalColumns]="['targetDate', 'severity', 'createdBy', 'type']"
+                [tableSettingsEnabled]="false"
                 (selected)="onAlertSelected($event)"
               ></app-notifications-tab>
             </mat-card-content>
