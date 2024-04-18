@@ -50,11 +50,14 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() tableType: TableType;
   @Input() autocompleteEnabled = false;
   @Input() tableSettingsEnabled = false;
+  @Input() tableHeader = '';
+  @Input() tableHeaderMenuEnabled = false;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() notificationsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
   @Output() editNotificationClicked = new EventEmitter<Notification>();
+  @Output() multiSelect = new EventEmitter<any[]>();
   @ViewChild('titleTmp') titleTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
   @ViewChild('severityTmp') severityTemplate: TemplateRef<unknown>;
@@ -121,6 +124,10 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public onTableConfigChange(tableEventConfig: TableEventConfig): void {
     this.tableConfigChanged.emit(tableEventConfig);
+  }
+
+  public emitMultiSelect(selected: Notification[]) {
+    this.multiSelect.emit(selected);
   }
 
   protected readonly NotificationType = NotificationType;

@@ -26,8 +26,9 @@ SPDX-License-Identifier: Apache-2.0
   <app-table
     [paginationData]="notifications.data"
     [additionalTableHeader]="true"
+    [tableHeaderMenuEnabled]="tableHeaderMenuEnabled"
     [autocompleteEnabled]="autocompleteEnabled"
-    [tableHeader]="('pageTitle.alerts')"
+    [tableHeader]="tableHeader"
     [tableConfig]="tableConfig"
     [noShadow]="true"
     [labelId]="labelId"
@@ -39,6 +40,7 @@ SPDX-License-Identifier: Apache-2.0
     (configChanged)="onTableConfigChange($event)"
     (editClicked)="openEditNotification($event)"
     (filterActivated)="filterActivated($event)"
+    (multiSelect)="emitMultiSelect($event)"
   ></app-table>
 </ng-template>
 

@@ -32,7 +32,9 @@
     "about": "About Catena-X Open-Source Traceability",
     "relations": "Part relations",
     "admin": "Administration Catena-X",
-    "alerts": "Quality topics"
+    "alerts" : "Quality topics",
+    "receivedQualityTopics" : "Received quality topics",
+    "sentQualityTopics" : "Sent quality topics"
   },
   "layout": {
     "nav": {
@@ -89,6 +91,14 @@
       "saveAction": "Save",
       "alert": "Quality Alert"
     },
+    "createNotification" : "Create quality topic",
+    "sendNotification" : "Send quality topics",
+    "cancelNotification" : "Cancel quality topics",
+    "addParts" : "Add parts to quality topics",
+    "viewDetails" : "View details",
+    "more" : "More actions",
+    "selectAtLeastOne" : "Actions require atleast one selection in the table",
+    "unauthorized" : "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "column": {
       "id": "ID",
       "idShort": "ID Short",
@@ -297,8 +307,8 @@
   "commonAlert": {
     "viewAll": "View all",
     "tabs": {
-      "received": "received",
-      "queuedAndRequested": "sent"
+      "received" : "Received",
+      "queuedAndRequested" : "Sent"
     },
     "status": {
       "SENT": "Requested",

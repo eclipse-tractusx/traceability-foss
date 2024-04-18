@@ -3,6 +3,7 @@ import { TableFilterConfiguration } from '@shared/components/parts-table/parts-c
 export class NotificationsSentConfigurationModel extends TableFilterConfiguration {
   constructor() {
     const sortableColumns = {
+      select: false,
       description: true,
       title: true,
       status: true,
@@ -16,6 +17,6 @@ export class NotificationsSentConfigurationModel extends TableFilterConfiguratio
 
     const dateFields = [ 'createdDate' ];
     const singleSearchFields = [];
-    super(sortableColumns, dateFields, singleSearchFields, false);
+    super(sortableColumns, dateFields, singleSearchFields, true);
   }
 }

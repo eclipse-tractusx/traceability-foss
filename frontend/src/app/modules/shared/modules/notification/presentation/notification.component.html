@@ -35,6 +35,8 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
+      [tableHeader]="'pageTitle.sentQualityTopics'"
+      [tableHeaderMenuEnabled]="true"
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
       [translationContext]=translationContext
@@ -48,6 +50,7 @@ SPDX-License-Identifier: Apache-2.0
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
       (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
       (selected)="selected.emit($event)"
+      (multiSelect)="currentSelectedItems$.next($event)"
       (editNotificationClicked)="editNotificationClicked.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
@@ -59,20 +62,22 @@ SPDX-License-Identifier: Apache-2.0
       <span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
     </ng-template>
     <app-notifications-tab
-            *ngIf="menuActionsConfig"
-            [notificationsView$]="receivedNotifications$"
-            [labelId]="receivedTabLabelId"
-            [translationContext]="'commonAlert'"
-            [tableType]="TableType.RECEIVED_NOTIFICATION"
-            [menuActionsConfig]="menuActionsConfig"
-            [optionalColumns]="receivedOptionalColumns"
-            [autocompleteEnabled]="true"
-            [sortableColumns]="receivedSortableColumns"
-            [multiSortList]="receivedMultiSortList"
-            [tableSettingsEnabled]="true"
-            (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
-            (selected)="selected.emit($event)"
-            (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
+      *ngIf="menuActionsConfig"
+      [tableHeader]="'pageTitle.receivedQualityTopics'"
+      [tableHeaderMenuEnabled]="true"
+      [notificationsView$]="receivedNotifications$"
+      [labelId]="receivedTabLabelId"
+      [translationContext]="'commonAlert'"
+      [tableType]="TableType.RECEIVED_NOTIFICATION"
+      [menuActionsConfig]="menuActionsConfig"
+      [optionalColumns]="receivedOptionalColumns"
+      [autocompleteEnabled]="true"
+      [sortableColumns]="receivedSortableColumns"
+      [multiSortList]="receivedMultiSortList"
+      [tableSettingsEnabled]="true"
+      (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
+      (selected)="selected.emit($event)"
+      (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
 </mat-tab-group>

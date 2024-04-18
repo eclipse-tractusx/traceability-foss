@@ -26,6 +26,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
@@ -39,6 +40,7 @@ import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts
 import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
 import { PartsAsPlannedCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
 import { PartsAsPlannedSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
+import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import {
@@ -65,6 +67,7 @@ export class TableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
   @Input() additionalTableHeader = false;
+  @Input() tableHeaderMenuEnabled = false;
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
@@ -91,6 +94,7 @@ export class TableComponent {
 
     const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction, ...menuActions ] : null;
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
+    console.log(this.tableConfig);
   }
 
   isEditable(data: any): boolean {
@@ -194,14 +198,16 @@ export class TableComponent {
   public defaultColumns: string[];
 
   constructor(
-    private readonly roleService: RoleService,
+    public readonly roleService: RoleService,
     private dialog: MatDialog,
     private tableSettingsService: TableSettingsService,
     private toastService: ToastService,
+    private readonly router: Router,
   ) {
 
   }
 
+  // TODO: refactor
   private initializeTableViewSettings(): void {
     switch (this.tableType) {
       case TableType.AS_PLANNED_CUSTOMER:
@@ -239,11 +245,36 @@ export class TableComponent {
         this.setupTableViewSettings();
       });
       this.setupTableViewSettings();
+    } else {
+      console.log('default');
+      const displayFilterColumnMappings = this.tableType === TableType.CONTRACTS ?
+        PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'creationDate', 'endDate' ], [], true, false)
+        : PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true);
+
+      const filterColumns = this.tableType === TableType.CONTRACTS ?
+        PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, true, false)
+        : PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true);
+
+      this.tableViewConfig = {
+        displayedColumns: this.tableConfig?.sortableColumns ? Object.keys(this.tableConfig?.sortableColumns) : [],
+        filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
+        filterColumns: filterColumns,
+        sortableColumns: this.tableConfig?.sortableColumns,
+        displayFilterColumnMappings: displayFilterColumnMappings,
+      };
+      for (const controlName in this.tableViewConfig.filterFormGroup) {
+        if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
+          this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
+        }
+      }
     }
+
 
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
+
+    console.log(this.tableConfig, this.tableViewConfig);
   }
 
   private setupTableViewSettings() {
@@ -410,5 +441,11 @@ export class TableComponent {
     this.dialog.open(TableSettingsComponent, config);
   }
 
+  navigateToNavigationCreationView() {
+    this.router.navigate([ 'inbox/create' ]);
+  }
+
   protected readonly MainAspectType = MainAspectType;
+
+
 }
