@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SharedPartIdsService } from './shared-part-ids.service';
+import { SharedPartService } from './shared-part.service';
 
 describe('SharedAssetIdService', () => {
-  let service: SharedPartIdsService;
+  let service: SharedPartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SharedPartIdsService);
+    service = TestBed.inject(SharedPartService);
   });
 
   it('should be created', () => {
