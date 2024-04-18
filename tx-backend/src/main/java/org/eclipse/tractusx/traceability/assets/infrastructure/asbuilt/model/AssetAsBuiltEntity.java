@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model;
 
 import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
@@ -42,9 +43,9 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
 
 import java.time.Instant;
@@ -67,10 +68,9 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     private String nameAtCustomer;
     private String customerPartId;
     private String productType;
-    private String tractionBatteryCode;
 
     @ElementCollection
-    @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "traction_battery_code")})
+    @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
     private List<TractionBatteryCodeSubcomponents> subcomponents;
 
 
@@ -118,7 +118,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .classification(asset.getClassification())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .productType(tractionBatteryCodeObj.getProductType())
-                .tractionBatteryCode(tractionBatteryCodeObj.getTractionBatteryCode())
                 .subcomponents(tractionBatteryCodeObj.getSubcomponents())
                 .importState(asset.getImportState())
                 .importNote(asset.getImportNote())
@@ -219,6 +218,8 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @Data
     @Embeddable
     public static class TractionBatteryCodeSubcomponents {
+        @Column(name = "traction_battery_code")
+        private String tractionBatteryCode;
         private String subcomponentTractionBatteryCode;
         private String productType;
     }

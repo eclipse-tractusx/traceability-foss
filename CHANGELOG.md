@@ -10,7 +10,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 -
 ### Changed
--
+
+- #828 fix duplicates in traction_battery_code_subcomponent table
 ### Removed
 -
 ## [10.8.4 - 17.04.2024]
