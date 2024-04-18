@@ -79,7 +79,7 @@ describe('Parts facade', () => {
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], undefined, undefined));
 
-      const parts = await firstValueFrom(partsState.partsAsBuilt$);
+      const parts = await firstValueFrom(partsState.partsAsBuiltSecond$);
       await waitFor(() =>
         expect(parts).toEqual({
           error: undefined,
