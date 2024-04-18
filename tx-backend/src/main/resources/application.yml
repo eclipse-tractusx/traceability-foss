@@ -102,7 +102,7 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        format_sql: false
+        format_sql: true
   main:
     allow-bean-definition-overriding: true
   datasource:
