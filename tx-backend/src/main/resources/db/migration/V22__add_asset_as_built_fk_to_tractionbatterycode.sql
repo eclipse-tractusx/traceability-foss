@@ -1,6 +1,3 @@
-ALTER TABLE assets_as_built
-    ADD CONSTRAINT unique_traction_battery_code UNIQUE(traction_battery_code);
-
 ALTER TABLE traction_battery_code_subcomponent
     ADD COLUMN "asset_as_built_id" varchar(255) NULL;
 ALTER TABLE traction_battery_code_subcomponent
