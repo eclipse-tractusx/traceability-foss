@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.assets.domain.base.model.aspect;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.logging.log4j.util.Strings;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataTractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
@@ -34,6 +33,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +63,12 @@ public class DetailAspectModel {
                 .build();
         List<DetailAspectModel> detailAspectModels = new ArrayList<>(List.of(detailAspectModelAsBuilt));
 
-        if (!Strings.isEmpty(entity.getTractionBatteryCode())) {
+        if (!CollectionUtils.isEmpty(entity.getSubcomponents())) {
             DetailAspectModel detailAspectModelTractionBatteryCode = DetailAspectModel.
                     builder()
                     .type(DetailAspectType.TRACTION_BATTERY_CODE)
                     .data(DetailAspectDataTractionBatteryCode.builder()
-                            .tractionBatteryCode(entity.getTractionBatteryCode())
+                            .tractionBatteryCode(entity.getSubcomponents().get(0).getTractionBatteryCode())
                             .productType(entity.getProductType())
                             .subcomponents(TractionBatteryCode.toDomain(entity))
                             .build()
@@ -94,12 +94,12 @@ public class DetailAspectModel {
                 .build();
         List<DetailAspectModel> detailAspectModels = new ArrayList<>(List.of(detailAspectModelAsBuilt));
 
-        if (!Strings.isEmpty(entity.getTractionBatteryCode())) {
+        if (!CollectionUtils.isEmpty(entity.getSubcomponents())) {
             DetailAspectModel detailAspectModelTractionBatteryCode = DetailAspectModel.
                     builder()
                     .type(DetailAspectType.TRACTION_BATTERY_CODE)
                     .data(DetailAspectDataTractionBatteryCode.builder()
-                            .tractionBatteryCode(entity.getTractionBatteryCode())
+                            .tractionBatteryCode(entity.getSubcomponents().get(0).getTractionBatteryCode())
                             .productType(entity.getProductType())
                             .subcomponents(TractionBatteryCode.toDomain(entity))
                             .build()

@@ -98,11 +98,6 @@ management:
     port: 8081
 
 spring:
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
   main:
     allow-bean-definition-overriding: true
   datasource:

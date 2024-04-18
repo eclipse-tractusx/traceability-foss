@@ -25,7 +25,6 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.Deta
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,30 +40,38 @@ public class TractionBatteryCode {
 
 
     public static TractionBatteryCode from(List<DetailAspectModel> detailAspectModels) {
-        Optional<DetailAspectModel> tractionBatteryCodeAspectModel = emptyIfNull(detailAspectModels)
+        Optional<DetailAspectModel> tractionBatteryCodeAspectModelOptional = emptyIfNull(detailAspectModels)
                 .stream()
                 .filter(detailAspectModel -> DetailAspectType.TRACTION_BATTERY_CODE.equals(detailAspectModel.getType()))
                 .findFirst();
 
-        String tractionBatteryCode = tractionBatteryCodeAspectModel.map(detailAspectModel -> (DetailAspectDataTractionBatteryCode) detailAspectModel.getData())
-                .map(DetailAspectDataTractionBatteryCode::getTractionBatteryCode).orElse("");
+        if (tractionBatteryCodeAspectModelOptional.isEmpty()) {
+            return TractionBatteryCode.builder().build();
+        }
 
-        String productType = tractionBatteryCodeAspectModel.map(detailAspectModel -> (DetailAspectDataTractionBatteryCode) detailAspectModel.getData())
-                .map(DetailAspectDataTractionBatteryCode::getProductType).orElse("");
+        DetailAspectDataTractionBatteryCode tractionBatteryCodeAspectModel = (DetailAspectDataTractionBatteryCode) tractionBatteryCodeAspectModelOptional.get().getData();
 
-        List<AssetAsBuiltEntity.TractionBatteryCodeSubcomponents> subcomponents = tractionBatteryCodeAspectModel.map(detailAspectModel -> (DetailAspectDataTractionBatteryCode) detailAspectModel.getData())
-                .map(DetailAspectDataTractionBatteryCode::getSubcomponents)
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(TractionBatteryCode::convertSubcomponents).toList();
+        String tractionBatteryCode = tractionBatteryCodeAspectModel.getTractionBatteryCode();
+
+        String productType = tractionBatteryCodeAspectModel.getProductType();
+
+        List<AssetAsBuiltEntity.TractionBatteryCodeSubcomponents> subcomponents = TractionBatteryCode.convertSubcomponents(tractionBatteryCodeAspectModel);
 
         return TractionBatteryCode.builder().productType(productType).tractionBatteryCode(tractionBatteryCode).subcomponents(subcomponents).build();
 
     }
 
-    private static AssetAsBuiltEntity.TractionBatteryCodeSubcomponents convertSubcomponents(DetailAspectDataTractionBatteryCodeSubcomponent detailAspectDataTractionBatteryCode) {
-        return AssetAsBuiltEntity.TractionBatteryCodeSubcomponents.builder().subcomponentTractionBatteryCode(detailAspectDataTractionBatteryCode.getTractionBatteryCode())
-                .productType(detailAspectDataTractionBatteryCode.getProductType()).build();
+    private static List<AssetAsBuiltEntity.TractionBatteryCodeSubcomponents> convertSubcomponents(DetailAspectDataTractionBatteryCode tractionBatteryCodeAspectModel) {
+
+        String tractionBatteryCode1 = tractionBatteryCodeAspectModel.getTractionBatteryCode();
+        return tractionBatteryCodeAspectModel.getSubcomponents().stream().map(subComponent -> {
+            return AssetAsBuiltEntity.TractionBatteryCodeSubcomponents.builder()
+                    .tractionBatteryCode(tractionBatteryCode1)
+                    .subcomponentTractionBatteryCode(subComponent.getTractionBatteryCode())
+                    .productType(subComponent.getProductType())
+                    .build();
+        }).toList();
+
     }
 
     public static List<DetailAspectDataTractionBatteryCodeSubcomponent> toDomain(AssetAsBuiltEntity entity) {
