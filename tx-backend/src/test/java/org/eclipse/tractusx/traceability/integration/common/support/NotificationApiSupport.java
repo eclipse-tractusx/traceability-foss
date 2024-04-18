@@ -51,7 +51,7 @@ public class NotificationApiSupport {
     private final AssetsSupport assetsSupport;
     private final ObjectMapper objectMapper;
 
-    public int createNotificationRequest_withDefaultAssetsStored(Header authHeader, StartNotificationRequest startNotificationRequest) throws JsonProcessingException {
+    public int createNotificationRequest_withDefaultAssetsStored(Header authHeader, StartNotificationRequest startNotificationRequest, int expectedStatusCode) throws JsonProcessingException {
 
         assetsSupport.defaultAssetsStored();
 
@@ -63,7 +63,7 @@ public class NotificationApiSupport {
                 .when()
                 .post("/api/notifications")
                 .then()
-                .statusCode(201)
+                .statusCode(expectedStatusCode)
                 .body("id", Matchers.isA(Number.class))
                 .extract()
                 .response();

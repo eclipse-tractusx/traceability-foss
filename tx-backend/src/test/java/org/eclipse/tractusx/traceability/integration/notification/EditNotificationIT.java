@@ -68,7 +68,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)
                 .build();
-        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest);
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
 
         // given
         List<String> editedPartIds = List.of(
@@ -123,7 +123,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .build();
 
 
-        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest);
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
 
         // given
         String editedDescription = "at least 15 characters long investigation description which was edited";

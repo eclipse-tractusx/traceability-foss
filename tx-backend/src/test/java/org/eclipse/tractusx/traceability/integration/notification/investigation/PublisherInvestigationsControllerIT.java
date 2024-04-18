@@ -141,7 +141,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .build();
 
         // when
-        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest);
+        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest, 201);
 
         // then
         notificationMessageSupport.assertMessageSize(2);
@@ -158,6 +158,27 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
 
+    }
+
+    @Test
+    void givenMissingPartIds_whenStartInvestigation_thenBadRequest() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+
+
+        // given
+
+        String description = "at least 15 characters long investigation description";
+        String title = "the title";
+
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .description(description)
+                .title(title)
+                .type(NotificationTypeRequest.INVESTIGATION)
+                .severity(NotificationSeverityRequest.MINOR)
+                .build();
+
+        // when
+        // then
+        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest, 400);
     }
 
     @Test
