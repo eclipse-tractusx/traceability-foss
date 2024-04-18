@@ -8,9 +8,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
--
+- #844 Validation for BPN to Notification API (Create / Edit)
+
 ### Changed
--
+- #844 Prefilled bpn on investigation creation
 ### Removed
 -
 ## [10.8.4 - 17.04.2024]

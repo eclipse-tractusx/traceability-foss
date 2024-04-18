@@ -19,6 +19,7 @@
 
 package notification.request;
 
+import bpn.request.ValidBPN;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
@@ -41,7 +42,9 @@ public class EditNotificationRequest {
     @Schema(example = "title", minLength = 1, maxLength = 255)
     private String title;
 
-    @Schema(example = "BPN00001123123AS")
+    @NotNull
+    @ValidBPN
+    @Schema(example = "BPNL00000003CNKC")
     private String receiverBpn;
 
     @NotNull

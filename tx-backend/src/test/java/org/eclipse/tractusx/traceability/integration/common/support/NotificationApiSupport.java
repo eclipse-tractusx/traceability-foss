@@ -64,15 +64,14 @@ public class NotificationApiSupport {
                 .post("/api/notifications")
                 .then()
                 .statusCode(expectedStatusCode)
-                .body("id", Matchers.isA(Number.class))
                 .extract()
                 .response();
 
-        return response.path("id");
+        return response.path("id") != null ? response.path("id") : 9999;
 
     }
 
-    public void editNotificationRequest(Header authHeader, EditNotificationRequest editNotificationRequest, int notificationId) throws JsonProcessingException {
+    public void editNotificationRequest(Header authHeader, EditNotificationRequest editNotificationRequest, int notificationId, int expectedStatusCode) throws JsonProcessingException {
 
         // when
         given()
@@ -82,7 +81,7 @@ public class NotificationApiSupport {
                 .when()
                 .put("/api/notifications/" + notificationId + "/edit")
                 .then()
-                .statusCode(204);
+                .statusCode(expectedStatusCode);
     }
 
     public PageResult<NotificationResponse> getNotificationsRequest(Header authHeader){
