@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoleService } from '@core/user/role.service';
-import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
+import { SharedPartService } from '@page/notifications/detail/edit/shared-part.service';
 import { TractionBatteryCode } from '@page/parts/model/aspectModels.model';
 import { Owner } from '@page/parts/model/owner.enum';
 
@@ -64,7 +64,7 @@ export class PartsDetailComponent {
   public currentPartId: string;
   public pageIndexHistory: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}
 
-  constructor(public readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location, private sharedPartIdsService: SharedPartIdsService) {
+  constructor(public readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location, private sharedPartService: SharedPartService) {
 
     this.currentPartId = this.route.snapshot.params['partId'];
     this.partDetailsFacade.setPartById(this.currentPartId);
@@ -215,7 +215,8 @@ export class PartsDetailComponent {
 
   navigateToNotificationCreationView() {
     this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: this.partOwner === Owner.OWN ? 'Alert' : 'Investigation' } });
-    this.sharedPartIdsService.sharedPartIds = [this.currentPartId];
+    this.sharedPartService.affectedParts = [this.partDetailsFacade.selectedPart];
+
 }
 
 

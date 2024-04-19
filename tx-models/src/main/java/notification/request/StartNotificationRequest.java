@@ -21,6 +21,7 @@
 
 package notification.request;
 
+import bpn.request.ValidBPN;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
@@ -58,7 +59,9 @@ public class StartNotificationRequest {
     @NotNull
     private NotificationSeverityRequest severity;
 
-    @Schema(example = "BPN00001123123AS")
+    @NotNull
+    @ValidBPN
+    @Schema(example = "BPNL00000003CNKC")
     private String receiverBpn;
 
     @Schema(example = "ALERT")
