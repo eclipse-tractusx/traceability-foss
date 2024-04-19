@@ -45,8 +45,8 @@ import org.eclipse.tractusx.traceability.integration.common.support.AssetsSuppor
 import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -63,12 +63,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import notification.request.CloseNotificationRequest;
-import notification.request.NotificationSeverityRequest;
-import notification.request.NotificationTypeRequest;
-import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationStatusTransitionRequest;
-import notification.request.UpdateNotificationStatusRequest;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -361,7 +355,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldApproveAlertStatus() throws JsonProcessingException, JoseException , com.fasterxml.jackson.core.JsonProcessingException{
+    void shouldApproveAlertStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("additionalProperty1", "value1");
         EndpointDataReference endpointDataReference = EndpointDataReference.Builder

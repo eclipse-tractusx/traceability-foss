@@ -28,6 +28,8 @@ import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.request.UpdateNotificationStatusTransitionRequest;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
@@ -35,10 +37,15 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -58,7 +65,9 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -79,7 +88,20 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     AssetAsBuiltRepository assetAsBuiltRepository;
     @Autowired
     NotificationApiSupport notificationApiSupport;
+    @Autowired
+    EdcSupport edcSupport;
 
+    @Autowired
+    DiscoveryFinderSupport discoveryFinderSupport;
+
+    @Autowired
+    OAuth2ApiSupport oauth2ApiSupport;
+
+    @Autowired
+    IrsApiSupport irsApiSupport;
+
+    @Autowired
+    EndpointDataReferenceStorage endpointDataReferenceStorage;
     ObjectMapper objectMapper;
 
     @BeforeEach
@@ -362,6 +384,30 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldApproveInvestigationStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("additionalProperty1", "value1");
+        EndpointDataReference endpointDataReference = EndpointDataReference.Builder
+                .newInstance()
+                .id("id")
+                .endpoint("http://localhost:" + RestitoConfig.getStubServer().getPort() + "/endpointdatareference")
+                .authKey("X-Api-Key")
+                .authCode("integration-tests")
+                .properties(additionalProperties)
+                .build();
+
+        endpointDataReferenceStorage.put("NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky", endpointDataReference);
+
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.DFCWillCreateDiscovery();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        edcSupport.edcWillReturnCatalogDupl();
+        edcSupport.edcWillCreateContractNegotiation();
+        edcSupport.edcWillReturnContractNegotiationOnlyState();
+        edcSupport.edcWillReturnContractNegotiationState();
+        edcSupport.edcWillCreateTransferprocesses();
+        edcSupport.edcWillReturnTransferprocessesOnlyState();
+        edcSupport.edcWillReturnTransferprocessesState();
+        edcSupport.edcWillSendRequest();
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
@@ -412,6 +458,31 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCloseInvestigationStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("additionalProperty1", "value1");
+        EndpointDataReference endpointDataReference = EndpointDataReference.Builder
+                .newInstance()
+                .id("id")
+                .endpoint("http://localhost:" + RestitoConfig.getStubServer().getPort() + "/endpointdatareference")
+                .authKey("X-Api-Key")
+                .authCode("integration-tests")
+                .properties(additionalProperties)
+                .build();
+
+        endpointDataReferenceStorage.put("NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky", endpointDataReference);
+
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.DFCWillCreateDiscovery();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        edcSupport.edcWillReturnCatalogDupl();
+        edcSupport.edcWillCreateContractNegotiation();
+        edcSupport.edcWillReturnContractNegotiationOnlyState();
+        edcSupport.edcWillReturnContractNegotiationState();
+        edcSupport.edcWillCreateTransferprocesses();
+        edcSupport.edcWillReturnTransferprocessesOnlyState();
+        edcSupport.edcWillReturnTransferprocessesState();
+        edcSupport.edcWillSendRequest();
+
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
