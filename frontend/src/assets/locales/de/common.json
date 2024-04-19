@@ -98,6 +98,7 @@
     "addParts" : "Teile hinzufügen",
     "viewDetails" : "Details anzeigen",
     "more" : "Mehr Aktionen",
+    "editNotification" : "Qualitätsthemen bearbeiten",
     "selectAtLeastOne" : "Aktionen erfordern mindestens eine Selektion in der Tabelle",
     "unauthorized" : "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "noFunctionality" : "Funktionalität wurde noch nicht implementiert.",

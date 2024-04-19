@@ -97,6 +97,7 @@
     "addParts" : "Add parts to quality topics",
     "viewDetails" : "View details",
     "more" : "More actions",
+    "editNotification" : "Edit quality topics",
     "selectAtLeastOne" : "Actions require atleast one selection in the table",
     "unauthorized" : "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "noFunctionality" : "Functionality is not implemented yet",
