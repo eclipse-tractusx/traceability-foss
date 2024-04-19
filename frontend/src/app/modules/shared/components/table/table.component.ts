@@ -77,35 +77,7 @@ export class TableComponent {
 
     const { menuActionsConfig: menuActions, displayedColumns: dc, columnRoles, hasPagination = true } = tableConfig;
     const displayedColumns = dc.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user') || this.roleService.hasAccess('admin'));
-
-    const viewDetailsMenuAction: MenuActionConfig<unknown> = {
-      label: 'actions.viewDetails',
-      icon: 'remove_red_eye',
-      action: (data: Record<string, unknown>) => this.selected.emit(data),
-    };
-
-    const editDetailsMenuAction: MenuActionConfig<unknown> = {
-      label: 'actions.edit',
-      icon: 'edit',
-      action: (data: Record<string, unknown>) => this.editClicked.emit(data),
-      condition: data => this.isEditable(data),
-      isAuthorized: this.roleService.isSupervisor(),
-    };
-
-    const addActionIfNotExists = (action: MenuActionConfig<unknown>, label: string) => {
-      if (!menuActions) {
-        return;
-      }
-      if (!menuActions.some(a => a.label === label)) {
-        additionalActions.push(action);
-      }
-    };
-
-    const additionalActions: MenuActionConfig<unknown>[] = [];
-    addActionIfNotExists(viewDetailsMenuAction, 'actions.viewDetails');
-    addActionIfNotExists(editDetailsMenuAction, 'actions.edit');
-
-    const menuActionsConfig = menuActions ? [ ...additionalActions, ...menuActions ] : null;
+    const menuActionsConfig = this.menuActionsWithAddedDefaultActions(menuActions);
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
 
   }
@@ -453,6 +425,26 @@ export class TableComponent {
   navigateToNavigationCreationView() {
     this.router.navigate([ 'inbox/create' ]);
   }
+
+  private menuActionsWithAddedDefaultActions(menuActionsConfig: MenuActionConfig<unknown>[] = []): MenuActionConfig<unknown>[] {
+    const viewDetailsMenuAction: MenuActionConfig<unknown> = {
+      label: 'actions.viewDetails',
+      icon: 'remove_red_eye',
+      action: (data: Record<string, unknown>) => this.selected.emit(data),
+    };
+
+    const editDetailsMenuAction: MenuActionConfig<unknown> = {
+      label: 'actions.edit',
+      icon: 'edit',
+      action: (data: Record<string, unknown>) => this.editClicked.emit(data),
+      condition: data => this.isEditable(data),
+      isAuthorized: this.roleService.isSupervisor(),
+    };
+    const defaultActionsToAdd: MenuActionConfig<unknown>[] = [ viewDetailsMenuAction, editDetailsMenuAction ]
+      .filter(action => !menuActionsConfig.some(a => a.label === action.label));
+
+    return [ ...defaultActionsToAdd, ...menuActionsConfig ];
+  };
 
   protected readonly MainAspectType = MainAspectType;
 
