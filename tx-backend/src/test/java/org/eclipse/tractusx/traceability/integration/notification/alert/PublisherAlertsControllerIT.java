@@ -17,11 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.integration.qualitynotification.alert;
+package org.eclipse.tractusx.traceability.integration.notification.alert;
 
 import io.restassured.http.ContentType;
 import lombok.val;
+import notification.request.CloseNotificationRequest;
+import notification.request.NotificationSeverityRequest;
+import notification.request.NotificationTypeRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationStatusRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -30,9 +38,14 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -49,16 +62,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import notification.request.CloseNotificationRequest;
-import notification.request.NotificationSeverityRequest;
-import notification.request.NotificationTypeRequest;
-import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationStatusTransitionRequest;
-import notification.request.UpdateNotificationStatusRequest;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -91,6 +100,9 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     IrsApiSupport irsApiSupport;
+
+    @Autowired
+    EndpointDataReferenceStorage endpointDataReferenceStorage;
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
@@ -349,6 +361,31 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldApproveAlertStatus() throws JsonProcessingException, JoseException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("additionalProperty1", "value1");
+        EndpointDataReference endpointDataReference = EndpointDataReference.Builder
+                .newInstance()
+                .id("id")
+                .endpoint("http://localhost:" + RestitoConfig.getStubServer().getPort() + "/endpointdatareference")
+                .authKey("X-Api-Key")
+                .authCode("integration-tests")
+                .properties(additionalProperties)
+                .build();
+
+        endpointDataReferenceStorage.put("NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky", endpointDataReference);
+
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.DFCWillCreateDiscovery();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        edcSupport.edcWillReturnCatalogDupl();
+        edcSupport.edcWillCreateContractNegotiation();
+        edcSupport.edcWillReturnContractNegotiationOnlyState();
+        edcSupport.edcWillReturnContractNegotiationState();
+        edcSupport.edcWillCreateTransferprocesses();
+        edcSupport.edcWillReturnTransferprocessesOnlyState();
+        edcSupport.edcWillReturnTransferprocessesState();
+        edcSupport.edcWillSendRequest();
+
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
@@ -364,7 +401,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPN")
+                .receiverBpn("BPNL00000003CNKC")
                 .build();
 
         // when
@@ -406,6 +443,31 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldCloseAlertStatus() throws JsonProcessingException, JoseException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("additionalProperty1", "value1");
+        EndpointDataReference endpointDataReference = EndpointDataReference.Builder
+                .newInstance()
+                .id("id")
+                .endpoint("http://localhost:" + RestitoConfig.getStubServer().getPort() + "/endpointdatareference")
+                .authKey("X-Api-Key")
+                .authCode("integration-tests")
+                .properties(additionalProperties)
+                .build();
+
+        endpointDataReferenceStorage.put("NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky", endpointDataReference);
+
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.DFCWillCreateDiscovery();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        edcSupport.edcWillReturnCatalogDupl();
+        edcSupport.edcWillCreateContractNegotiation();
+        edcSupport.edcWillReturnContractNegotiationOnlyState();
+        edcSupport.edcWillReturnContractNegotiationState();
+        edcSupport.edcWillCreateTransferprocesses();
+        edcSupport.edcWillReturnTransferprocessesOnlyState();
+        edcSupport.edcWillReturnTransferprocessesState();
+        edcSupport.edcWillSendRequest();
+
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
@@ -422,17 +484,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .type(NotificationTypeRequest.ALERT)
                 .receiverBpn("BPNL00000003CNKC")
                 .build();
-
-        irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.DFCWillCreateDiscovery();
-        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        edcSupport.edcWillReturnCatalogDupl();
-        edcSupport.edcWillCreateContractNegotiation();
-        edcSupport.edcWillReturnContractNegotiationOnlyState();
-        edcSupport.edcWillReturnContractNegotiationState();
-        edcSupport.edcWillCreateTransferprocesses();
-        edcSupport.edcWillReturnTransferprocessesOnlyState();
-        edcSupport.edcWillReturnTransferprocessesState();
 
 
         // when

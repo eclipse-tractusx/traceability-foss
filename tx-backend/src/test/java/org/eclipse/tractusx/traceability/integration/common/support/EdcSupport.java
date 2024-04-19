@@ -47,24 +47,7 @@ public class EdcSupport {
 
     private static final Condition EDC_API_KEY_HEADER = withHeader("X-Api-Key", "integration-tests");
 
-    public void edcWillApproveInvestigations() {
-        whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile(
-                        "/api/investigations/[\\w]+/approve")),
-                withHeader("Content-Type", "application/json")
-        ).then(
-                status(HttpStatus.NO_CONTENT_204)
-        );
-    }
 
-    public void edcWillApproveAlerts() {
-        whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/api/alerts/[\\w\\-]+/approve")),
-                withHeader("Content-Type", "application/json")
-        ).then(
-                status(HttpStatus.NO_CONTENT_204)
-        );
-    }
 
     public void edcWillCreateNotificationAsset() {
         whenHttp(restitoProvider.stubServer()).match(
@@ -297,6 +280,15 @@ public class EdcSupport {
         ).then(
                 status(HttpStatus.OK_200),
                 restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/transferprocessesstate_response_200.json")
+        );
+    }
+
+    public void edcWillSendRequest() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/endpointdatareference"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200)
         );
     }
     public void verifyCreateNotificationAssetEndpointCalledTimes(int times) {

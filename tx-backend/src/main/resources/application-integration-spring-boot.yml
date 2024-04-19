@@ -20,7 +20,7 @@
 ################################################################################
 
 traceability:
-  bpn: BPNL00000003CML1
+  bpn: BPNL00000003AXS3
   url: localhost:${server.port}/api
   leftOperand: "PURPOSE"
   operatorType: "eq"
@@ -103,6 +103,3 @@ irs-edc-client:
   controlplane:
     api-key:
       secret: "integration-tests"
-    datareference:
-      storage:
-        duration: PT1H
