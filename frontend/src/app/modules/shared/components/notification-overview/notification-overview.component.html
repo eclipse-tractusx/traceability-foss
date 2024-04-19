@@ -25,14 +25,20 @@ SPDX-License-Identifier: Apache-2.0
     <span class="card-list--value" title="{{ notification?.id }}">{{ notification?.id }}</span>
   </div>
   <div *ngIf="showNotification" class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.title' | i18n }}</span>
+    <span data-testId="title-view" class="card-list--value detail--text__title" title="{{ notification?.title }}">{{
+        notification?.title
+      }}</span>
+  </div>
+  <div *ngIf="showNotification" class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.description' | i18n }}</span>
-    <span class="card-list--value detail--text__description" title="{{ notification?.description }}">{{
+    <span data-testId="description-view" class="card-list--value detail--text__description" title="{{ notification?.description }}">{{
       notification?.description
       }}</span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.status' | i18n }}</span>
-    <span
+    <span data-testId="description-status"
       class="notification-status card-list--value notification-status--{{ notification?.status }}"
       title="{{ 'commonAlert.status.' + notification?.status | i18n }}"
     >
@@ -42,6 +48,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.createdDate' | i18n }}</span>
     <ng-container
+      data-testId="date-view"
       [ngTemplateOutlet]="dateTmp"
       [ngTemplateOutletContext]="{
         value: notification.createdDate | formatDate : { dateStyle: 'long', timeStyle: 'short' }
@@ -51,31 +58,32 @@ SPDX-License-Identifier: Apache-2.0
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.createdBy' | i18n }}</span>
     <span class="card-list--value">
-      <span>{{notification.createdBy}}</span>
+      <span data-testId="createdBy-view">{{notification.createdBy}}</span>
     </span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.createdByName' | i18n }}</span>
     <span class="card-list--value">
-      <span>{{notification.createdByName}}</span>
+      <span data-testId="createdByName-view">{{notification.createdByName}}</span>
     </span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.sendTo' | i18n }}</span>
     <span class="card-list--value">
-        <span>{{notification.sendTo}}</span>
+        <span data-testId="sendTo-view">{{notification.sendTo}}</span>
     </span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.sendToName' | i18n }}</span>
     <span class="card-list--value">
-        <span>{{notification.sendToName}}</span>
+        <span data-testId="sendToName-view">{{notification.sendToName}}</span>
     </span>
   </div>
 
   <div *ngIf="notification?.targetDate" class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.targetDate' | i18n }}</span>
     <ng-container
+      data-testId="targetDate-view"
       [ngTemplateOutlet]="dateTmp"
       [ngTemplateOutletContext]="{
         value: notification.targetDate | formatDate : { dateStyle: 'long', timeStyle: 'short' }
@@ -86,7 +94,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.severity' | i18n }}</span>
     <span class="card-list--value">
-      <app-severity [severity]="notification?.severity"></app-severity>
+      <app-severity data-testId="severity-view" [severity]="notification?.severity"></app-severity>
     </span>
   </div>
 </div>
