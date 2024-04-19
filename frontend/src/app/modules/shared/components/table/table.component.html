@@ -27,94 +27,94 @@ SPDX-License-Identifier: Apache-2.0
         settings
       </mat-icon>
     </div>
-  </div>
-  <div *ngIf="tableHeaderMenuEnabled" class="table-header--action--container flex mt-1">
-    <div class="mr-0.5"
-         matTooltip="{{ (roleService.isAdmin() ? 'routing.unauthorized':'table.createNotification') | i18n}}"
-         matTooltipClass="table--header--tooltip"
-         matTooltipPosition="above"
-         [class.mdc-tooltip--multiline]="true"
-         [matTooltipShowDelay]="500"
-    >
-      <app-button
-        [iconName]="'announcement'"
-        (click)="navigateToNavigationCreationView()"
-        [isDisabled]="roleService.isAdmin()"
-      ></app-button>
-    </div>
-    <mat-divider class="mx-0.25" [vertical]="true"></mat-divider>
-    <div class="ml-0.5"
-         matTooltip="{{'table.more' | i18n}}"
-         matTooltipClass="table--header--tooltip"
-         matTooltipPosition="above"
-         [class.mdc-tooltip--multiline]="true"
-         [matTooltipShowDelay]="500"
-    >
-      <app-button
-        [iconName]="'more_horiz'"
-        [matMenuTriggerFor]="actionMenu"
+    <div *ngIf="tableHeaderMenuEnabled" class="table-header--action--container flex mt-1">
+      <div class="mr-0.5"
+           matTooltip="{{ (roleService.isAdmin() ? 'routing.unauthorized':'table.createNotification') | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500"
       >
-      </app-button>
-    </div>
-    <mat-menu #actionMenu="matMenu" xPosition="after" class="ml-10">
-      <div
-        matTooltip="{{(roleService.isAdmin() ? 'table.unauthorized':'table.selectAtLeastOne') | i18n}}"
-        matTooltipClass="table--header--tooltip"
-        matTooltipPosition="above"
-        [class.mdc-tooltip--multiline]="true"
-        [matTooltipShowDelay]="500"
-        [matTooltipDisabled]="selection.selected.length > 0 && !roleService.isAdmin()"
-      >
-        <button mat-menu-item
-                matTooltip="{{'table.onlyNotificationInStatusCreatedAllowed' | i18n}}"
-                matTooltipClass="table--header--tooltip"
-                matTooltipPosition="above"
-                [class.mdc-tooltip--multiline]="true"
-                [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
-                [matTooltipShowDelay]="500"
-                [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
-                (click)="toastService.warning('table.noFunctionality')">
-          <mat-icon>send</mat-icon>
-          {{ 'table.sendNotification' | i18n }}
-        </button>
-        <button mat-menu-item
-                matTooltip="{{'table.onlyNotificationInStatusCreatedAllowed' | i18n}}"
-                matTooltipClass="table--header--tooltip"
-                matTooltipPosition="above"
-                [class.mdc-tooltip--multiline]="true"
-                [matTooltipShowDelay]="500"
-                [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
-                [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
-                (click)="toastService.warning('table.noFunctionality')">
-          <mat-icon>cancel</mat-icon>
-          {{ 'table.cancelNotification' | i18n }}
-        </button>
-        <button mat-menu-item
-                matTooltip="{{'table.noFunctionality' | i18n}}"
-                matTooltipClass="table--header--tooltip"
-                matTooltipPosition="above"
-                [class.mdc-tooltip--multiline]="true"
-                [matTooltipShowDelay]="500"
-                [matTooltipDisabled]="selection.selected.length < 1"
-                [disabled]="true"
-                (click)="null">
-          <mat-icon>edit</mat-icon>
-          {{ 'table.editNotification' | i18n }}
-        </button>
-        <button mat-menu-item
-                matTooltip="{{'table.noFunctionality' | i18n}}"
-                matTooltipClass="table--header--tooltip"
-                matTooltipPosition="above"
-                [class.mdc-tooltip--multiline]="true"
-                [matTooltipShowDelay]="500"
-                [matTooltipDisabled]="selection.selected.length < 1"
-                [disabled]="true"
-                (click)="null">
-          <mat-icon>remove_red_eye</mat-icon>
-          {{ 'table.viewDetails' | i18n }}
-        </button>
+        <app-button
+          [iconName]="'announcement'"
+          (click)="navigateToNavigationCreationView()"
+          [isDisabled]="roleService.isAdmin()"
+        ></app-button>
       </div>
-    </mat-menu>
+      <mat-divider class="mx-0.25" [vertical]="true"></mat-divider>
+      <div class="ml-0.5"
+           matTooltip="{{'table.more' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500"
+      >
+        <app-button
+          [iconName]="'more_horiz'"
+          [matMenuTriggerFor]="actionMenu"
+        >
+        </app-button>
+      </div>
+      <mat-menu #actionMenu="matMenu" xPosition="after" class="ml-10">
+        <div
+          matTooltip="{{(roleService.isAdmin() ? 'table.unauthorized':'table.selectAtLeastOne') | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+          [matTooltipDisabled]="selection.selected.length > 0 && !roleService.isAdmin()"
+        >
+          <button mat-menu-item
+                  matTooltip="{{'table.onlyNotificationInStatusCreatedAllowed' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
+                  [matTooltipShowDelay]="500"
+                  [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
+                  (click)="toastService.warning('table.noFunctionality')">
+            <mat-icon>send</mat-icon>
+            {{ 'table.sendNotification' | i18n }}
+          </button>
+          <button mat-menu-item
+                  matTooltip="{{'table.onlyNotificationInStatusCreatedAllowed' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
+                  [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
+                  (click)="toastService.warning('table.noFunctionality')">
+            <mat-icon>cancel</mat-icon>
+            {{ 'table.cancelNotification' | i18n }}
+          </button>
+          <button mat-menu-item
+                  matTooltip="{{'table.noFunctionality' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="selection.selected.length < 1"
+                  [disabled]="true"
+                  (click)="null">
+            <mat-icon>edit</mat-icon>
+            {{ 'table.editNotification' | i18n }}
+          </button>
+          <button mat-menu-item
+                  matTooltip="{{'table.noFunctionality' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="selection.selected.length < 1"
+                  [disabled]="true"
+                  (click)="null">
+            <mat-icon>remove_red_eye</mat-icon>
+            {{ 'table.viewDetails' | i18n }}
+          </button>
+        </div>
+      </mat-menu>
+    </div>
   </div>
 </div>
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper"
