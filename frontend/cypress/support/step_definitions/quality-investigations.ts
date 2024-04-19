@@ -78,7 +78,7 @@ When('{string} deadline', function(deadline: string) {
 
 
 When('request the {string}', function(notificationType: string) {
-  cy.get('span').contains('ADD TO QUEUE').click();
+  cy.get('[data-testid="save-button"]').click();
 });
 
 
@@ -120,20 +120,10 @@ When('user clicks save', function() {
   cy.get('[data-testid="save-button"]').click();
 });
 
-When('popup with information about queued {string} is shown', function(notificationType: string) {
-  switch (notificationType) {
-    case 'investigation': {
-      cy.contains(/You queued an investigation for 1 part/i).should('be.visible');
-      break;
-    }
-    case 'alert': {
-      cy.contains(/You queued an alert for 1 part/i).should('be.visible');
-      break;
-    }
-    default: {
-      throw new Error('Set notificationType \'' + notificationType + '\' is not one of valid types [investigation, alert].');
-      break;
-    }
+When('popup shows successful {string} notification', function(type: string) {
+  switch (type){
+    case "created": cy.contains(/Quality topic was created successfully./i).should('be.visible');
+    case "edited": cy.contains(/Quality topic was updated successfully./i).should('be.visible');
   }
 });
 
