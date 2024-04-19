@@ -7,14 +7,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+
 ### Added
-
-- Added @Preauthorize annotation to dashboard controller
+- #726 Added @Preauthorize annotation to dashboard controller
 ### Changed
-
+- #843 Refactored e2e tests, added edit notification e2e test case
 - #828 fix duplicates in traction_battery_code_subcomponent table
+
 ### Removed
 -
+
 ## [10.8.4 - 17.04.2024]
 
 ### Added
