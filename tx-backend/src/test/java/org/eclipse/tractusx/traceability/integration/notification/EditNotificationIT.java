@@ -66,9 +66,10 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .description(description)
                 .title(title)
                 .type(NotificationTypeRequest.INVESTIGATION)
+                .receiverBpn("BPNL00000003CNKC")
                 .severity(NotificationSeverityRequest.MINOR)
                 .build();
-        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest);
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
 
         // given
         List<String> editedPartIds = List.of(
@@ -81,10 +82,11 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .severity(startNotificationRequest.getSeverity())
                 .description(startNotificationRequest.getDescription())
                 .title(startNotificationRequest.getTitle())
+                .receiverBpn("BPNL00000003CNKC")
                 .build();
 
         // when
-        notificationAPISupport.editNotificationRequest(authHeader, request, id);
+        notificationAPISupport.editNotificationRequest(authHeader, request, id, 204);
 
         // then
         notificationMessageSupport.assertMessageSize(1);
@@ -120,10 +122,11 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .title(title)
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)
+                .receiverBpn("BPNL00000003AYRE")
                 .build();
 
 
-        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest);
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
 
         // given
         String editedDescription = "at least 15 characters long investigation description which was edited";
@@ -135,13 +138,14 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .title(editedTitle)
                 .affectedPartIds(startNotificationRequest.getAffectedPartIds())
                 .severity(NotificationSeverityRequest.CRITICAL)
+                .receiverBpn("BPNL00000003AYRE")
                 .build();
 
         // when
-        notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id);
+        notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id, 204);
 
         // then
-        notificationMessageSupport.assertMessageSize(2);
+        notificationMessageSupport.assertMessageSize(1);
 
         PageResult<NotificationResponse> notificationResponsePageResult
                 = notificationAPISupport.getNotificationsRequest(authHeader);
@@ -155,6 +159,56 @@ class EditNotificationIT extends IntegrationTestSpecification {
         assertThat(notificationResponsePageResult.content()).hasSize(1);
         assertThat(notificationResponse.getMessages().get(0).getSeverity().getRealName()).isEqualTo(editNotificationRequest.getSeverity().getRealName());
         assertThat(notificationResponse.getMessages().get(0).getTargetDate()).isEqualTo(editNotificationRequest.getTargetDate());
+
+    }
+
+    @Test
+    void shouldNotUpdateInvestigationFields_whenBpnWrongFormatted() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+        Header authHeader = oAuth2Support.jwtAuthorization(SUPERVISOR);
+        // given
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        );
+        String description = "at least 15 characters long investigation description";
+        String title = "the initial title";
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .title(title)
+                .type(NotificationTypeRequest.INVESTIGATION)
+                .severity(NotificationSeverityRequest.MINOR)
+                .receiverBpn("BPNL00000003CNKC")
+                .build();
+
+
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
+
+        // given
+        String editedDescription = "at least 15 characters long investigation description which was edited";
+
+        String editedTitle = "changed title";
+        val editNotificationRequest = EditNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(editedDescription)
+                .title(editedTitle)
+                .receiverBpn("WRONG_FORMAT")
+                .affectedPartIds(startNotificationRequest.getAffectedPartIds())
+                .severity(NotificationSeverityRequest.CRITICAL)
+                .build();
+
+        // when
+        notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id, 400);
+
+        // then
+
+        PageResult<NotificationResponse> notificationResponsePageResult
+                = notificationAPISupport.getNotificationsRequest(authHeader);
+
+        NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
+        assertThat(notificationResponse.getSendTo()).isEqualTo("BPNL00000003CNKC");
+
 
     }
 }

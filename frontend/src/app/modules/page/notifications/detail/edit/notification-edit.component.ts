@@ -25,7 +25,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
-import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
+import { SharedPartService } from '@page/notifications/detail/edit/shared-part.service';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
@@ -51,7 +51,6 @@ export class NotificationEditComponent implements OnDestroy {
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
-
   public readonly affectedPartsTableLabelId = this.staticIdService.generateId('AffectedPartsTable');
   public readonly availablePartsTableLabelId = this.staticIdService.generateId('AvailablePartsTable');
 
@@ -60,7 +59,7 @@ export class NotificationEditComponent implements OnDestroy {
   public readonly editMode: boolean = true;
   public notificationFormGroup: FormGroup;
 
-  public affectedPartIds: string[] = [];
+  public affectedPartIds: string[] = this.sharedPartService?.affectedParts?.map(value => value.id) || [];
   public temporaryAffectedParts: Part[] = [];
   public temporaryAffectedPartsForRemoval: Part[] = [];
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
@@ -90,7 +89,7 @@ export class NotificationEditComponent implements OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
-    private readonly sharedPartIdsService: SharedPartIdsService,
+    private readonly sharedPartService: SharedPartService,
   ) {
     this.editMode = this.determineEditModeOrCreateMode();
 
@@ -128,9 +127,10 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
   private handleCreateNotification() {
+
     this.isSaveButtonDisabled = true;
     const newNotification: Notification = {
-      assetIds: this.sharedPartIdsService.sharedPartIds,
+      assetIds: this.sharedPartService?.affectedParts?.map(value => value.id) || [],
       createdBy: '',
       type: this.route.snapshot.queryParams['initialType'] ?? null,
       createdByName: '',
@@ -167,6 +167,9 @@ export class NotificationEditComponent implements OnDestroy {
 
     this.notificationFormGroup = notificationFormGroup;
     this.isSaveButtonDisabled = (notificationFormGroup.invalid || this.affectedPartIds.length < 1) || !this.notificationFormGroup.dirty;
+    if (this.notificationFormGroup && this.notificationFormGroup.get('type').value === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.get('bpn').value && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
+      this.notificationFormGroup.get('bpn').setValue(this.sharedPartService.affectedParts[0].businessPartner);
+    }
   }
 
   filterAffectedParts(partsFilter: any): void {
@@ -176,9 +179,7 @@ export class NotificationEditComponent implements OnDestroy {
       this.cachedAffectedPartsFilter = JSON.stringify(partsFilter);
       this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, partsFilter);
     }
-
   }
-
 
   private enrichPartsFilterByAffectedAssetIds(partsFilter: any, exclude?: boolean) {
 
@@ -241,13 +242,16 @@ export class NotificationEditComponent implements OnDestroy {
 
   private setAffectedPartsBasedOnNotificationType(notification: Notification, partsFilter?: any) {
 
-    if (this.affectedPartIds) {
+    if (this.affectedPartIds.length > 0) {
       partsFilter = this.enrichPartsFilterByAffectedAssetIds(null);
-    }
-    if (notification.type === NotificationType.INVESTIGATION) {
-      this.partsFacade.setSupplierPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      if (notification.type === NotificationType.INVESTIGATION) {
+        this.partsFacade.setSupplierPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      } else {
+        this.ownPartsFacade.setPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      }
     } else {
-      this.ownPartsFacade.setPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
+      this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
     }
 
   }
@@ -265,10 +269,10 @@ export class NotificationEditComponent implements OnDestroy {
     });
 
     if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
-      if ( this.selectedNotification.type === NotificationType.INVESTIGATION){
+      if (this.selectedNotification.type === NotificationType.INVESTIGATION) {
         this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
         this.partsFacade.setSupplierPartsAsBuilt();
-      } else{
+      } else {
         this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
         this.ownPartsFacade.setPartsAsBuilt();
       }
@@ -329,10 +333,10 @@ export class NotificationEditComponent implements OnDestroy {
     this.selectedNotification = notification;
     this.affectedPartIds = notification.assetIds;
     this.tableType = notification.type === NotificationType.INVESTIGATION ? TableType.AS_BUILT_SUPPLIER : TableType.AS_BUILT_OWN;
-    this.affectedPartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuiltSecond$ : this.ownPartsFacade.partsAsBuiltSecond$;
-    this.availablePartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+    this.affectedPartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuiltSecond$ : this.ownPartsFacade.partsAsBuiltSecond$;
+    this.availablePartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
   }
 
   private updateSelectedNotificationState() {

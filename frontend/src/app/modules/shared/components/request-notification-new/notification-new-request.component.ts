@@ -44,7 +44,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     'description': new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]),
     'severity': new FormControl(Severity.MINOR, [ Validators.required ]),
     'targetDate': new FormControl(null),
-    'bpn': new FormControl(null, [ BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
+    'bpn': new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
     'type': new FormControl({ value: NotificationType.INVESTIGATION, disabled: true }, [ Validators.required ]),
   });
   public selected$: Observable<View<Notification>>;

@@ -59,7 +59,7 @@ public class SecurityUtils {
     public static StartNotificationRequest sanitize(StartNotificationRequest request) {
         String cleanDescription = sanitize(request.getDescription());
         String cleanReceiverBpn = sanitize(request.getReceiverBpn());
-        List<String> cleanPartIds = sanitize(request.getAffectedPartIds());
+        List<String> cleanPartIds = sanitize(emptyIfNull(request.getAffectedPartIds()));
         return StartNotificationRequest.builder()
                 .title(request.getTitle())
                 .description(cleanDescription)
@@ -74,7 +74,7 @@ public class SecurityUtils {
     public static EditNotificationRequest sanitize(EditNotificationRequest request) {
         String cleanDescription = sanitize(request.getDescription());
         String cleanReceiverBpn = sanitize(request.getReceiverBpn());
-        List<String> cleanPartIds = sanitize(request.getAffectedPartIds());
+        List<String> cleanPartIds = sanitize(emptyIfNull(request.getAffectedPartIds()));
         return EditNotificationRequest.builder()
                 .title(request.getTitle())
                 .description(cleanDescription)
