@@ -65,25 +65,49 @@ SPDX-License-Identifier: Apache-2.0
           [matTooltipDisabled]="selection.selected.length > 0 && !roleService.isAdmin()"
         >
           <button mat-menu-item
-                  [disabled]="selection.selected.length < 1 || roleService.isAdmin()"
-                  (click)="null">
+                  matTooltip="{{'table.onlyNotificationInStatusCreatedAllowed' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
+                  [matTooltipShowDelay]="500"
+                  [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
+                  (click)="toastService.warning('table.noFunctionality')">
             <mat-icon>send</mat-icon>
             {{ 'table.sendNotification' | i18n }}
           </button>
           <button mat-menu-item
-                  [disabled]="selection.selected.length < 1 || roleService.isAdmin()"
-                  (click)="null">
+                  matTooltip="{{'table.onlyNotificationInStatusCreatedAllowed' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
+                  [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
+                  (click)="toastService.warning('table.noFunctionality')">
             <mat-icon>cancel</mat-icon>
             {{ 'table.cancelNotification' | i18n }}
           </button>
           <button mat-menu-item
-                  [disabled]="selection.selected.length < 1 || roleService.isAdmin()"
+                  matTooltip="{{'table.noFunctionality' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="selection.selected.length < 1"
+                  [disabled]="true"
                   (click)="null">
             <mat-icon>add_comment</mat-icon>
             {{ 'table.addParts' | i18n }}
           </button>
           <button mat-menu-item
-                  [disabled]="selection.selected.length < 1 || roleService.isAdmin()"
+                  matTooltip="{{'table.noFunctionality' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="selection.selected.length < 1"
+                  [disabled]="true"
                   (click)="null">
             <mat-icon>remove_red_eye</mat-icon>
             {{ 'table.viewDetails' | i18n }}

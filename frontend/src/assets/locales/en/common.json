@@ -99,6 +99,8 @@
     "more" : "More actions",
     "selectAtLeastOne" : "Actions require atleast one selection in the table",
     "unauthorized" : "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
+    "noFunctionality" : "Functionality is not implemented yet",
+    "onlyNotificationInStatusCreatedAllowed" : "Action only allowed with a selection of notifications in status \"Queued\".",
     "column": {
       "id": "ID",
       "idShort": "ID Short",

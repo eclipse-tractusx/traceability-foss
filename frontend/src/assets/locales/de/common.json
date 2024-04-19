@@ -100,6 +100,8 @@
     "more" : "Mehr Aktionen",
     "selectAtLeastOne" : "Aktionen erfordern mindestens eine Selektion in der Tabelle",
     "unauthorized" : "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
+    "noFunctionality" : "Funktionalität wurde noch nicht implementiert.",
+    "onlyNotificationInStatusCreatedAllowed" : "Aktion erfordert eine Selektion an Qualitätsthemen im Status \"Erstellt\".",
     "column": {
       "id": "ID",
       "idShort": "Kurz-ID",

@@ -92,9 +92,22 @@ export class TableComponent {
       isAuthorized: this.roleService.isSupervisor(),
     };
 
-    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction, ...menuActions ] : null;
+    const addActionIfNotExists = (action: MenuActionConfig<unknown>, label: string) => {
+      if (!menuActions) {
+        return;
+      }
+      if (!menuActions.some(a => a.label === label)) {
+        additionalActions.push(action);
+      }
+    };
+
+    const additionalActions: MenuActionConfig<unknown>[] = [];
+    addActionIfNotExists(viewDetailsMenuAction, 'actions.viewDetails');
+    addActionIfNotExists(editDetailsMenuAction, 'actions.edit');
+
+    const menuActionsConfig = menuActions ? [ ...additionalActions, ...menuActions ] : null;
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
-    console.log(this.tableConfig);
+
   }
 
   isEditable(data: any): boolean {
@@ -151,7 +164,7 @@ export class TableComponent {
     }
 
     this.removeSelectedValues(deselectItem);
-    this.emitMultiSelect();
+    this.handleSelectionChange();
   }
 
   @Input() set addTrigger(newItem: unknown) {
@@ -160,7 +173,7 @@ export class TableComponent {
     }
 
     this.selection.select(newItem);
-    this.emitMultiSelect();
+    this.handleSelectionChange();
   }
 
   @Output() selected = new EventEmitter<Record<string, unknown>>();
@@ -182,6 +195,8 @@ export class TableComponent {
   public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
 
+  public notificationsSelectedOnlyInStatusCreated: boolean;
+
   private pageSize: number;
   private sorting: TableHeaderSort;
 
@@ -201,7 +216,7 @@ export class TableComponent {
     public readonly roleService: RoleService,
     private dialog: MatDialog,
     private tableSettingsService: TableSettingsService,
-    private toastService: ToastService,
+    public toastService: ToastService,
     private readonly router: Router,
   ) {
 
@@ -246,7 +261,6 @@ export class TableComponent {
       });
       this.setupTableViewSettings();
     } else {
-      console.log('default');
       const displayFilterColumnMappings = this.tableType === TableType.CONTRACTS ?
         PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'creationDate', 'endDate' ], [], true, false)
         : PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true);
@@ -269,12 +283,10 @@ export class TableComponent {
       }
     }
 
-
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
 
-    console.log(this.tableConfig, this.tableViewConfig);
   }
 
   private setupTableViewSettings() {
@@ -327,14 +339,10 @@ export class TableComponent {
   private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
     const headerKey = 'table.column';
     this.tableConfig = {
+      ...this.tableConfig,
       displayedColumns: displayedColumnsForTable,
       header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
       sortableColumns: sortableColumns,
-      menuActionsConfig: [ {
-        label: 'actions.viewDetails',
-        icon: 'remove_red_eye',
-        action: (data: Record<string, unknown>) => this.selected.emit(data),
-      } ],
     };
     this.displayedColumns = displayedColumns;
 
@@ -364,7 +372,7 @@ export class TableComponent {
       ? this.removeSelectedValues(this.dataSource.data)
       : this.addSelectedValues(this.dataSource.data);
 
-    this.emitMultiSelect();
+    this.handleSelectionChange();
   }
 
   public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
@@ -375,7 +383,7 @@ export class TableComponent {
 
   public updateSortingOfData({ active, direction }: Sort): void {
     this.selection.clear();
-    this.emitMultiSelect();
+    this.handleSelectionChange();
     this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
     if (this.pageSize === 0) {
@@ -386,7 +394,7 @@ export class TableComponent {
 
   public toggleSelection(row: unknown): void {
     this.isSelected(row) ? this.removeSelectedValues([ row ]) : this.addSelectedValues([ row ]);
-    this.emitMultiSelect();
+    this.handleSelectionChange();
   }
 
   public selectElement(row: Record<string, unknown>) {
@@ -397,7 +405,8 @@ export class TableComponent {
     }
   }
 
-  private emitMultiSelect(): void {
+  private handleSelectionChange(): void {
+    this.notificationsSelectedOnlyInStatusCreated = this.selection.selected.every(notification => notification?.['status'] === NotificationStatus.CREATED);
     this.multiSelect.emit(this.selection.selected);
   }
 
@@ -446,6 +455,5 @@ export class TableComponent {
   }
 
   protected readonly MainAspectType = MainAspectType;
-
 
 }
