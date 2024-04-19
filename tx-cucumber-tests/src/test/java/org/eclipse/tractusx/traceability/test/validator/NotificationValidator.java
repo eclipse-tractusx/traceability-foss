@@ -28,6 +28,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.ACCEPT_REASON;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.AFFECTED_PART_ID;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.ASSET_ID_COUNT;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.CHANNEL;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.CLOSE_REASON;
@@ -117,6 +118,10 @@ public class NotificationValidator {
             assertThat(notification.getTitle())
                     .isEqualTo(fieldsToCheck.get(TITLE.getFieldName()));
         }
+
+        if (fieldsToCheck.containsKey(AFFECTED_PART_ID.getFieldName())) {
+            assertThat(notification.getAssetIds()).contains(fieldsToCheck.get(AFFECTED_PART_ID.getFieldName()));
+        }
     }
 
     private static void checkIfMapHasSupportedValidationRequest(Map<String, String> fieldsToCheck) {
@@ -149,6 +154,7 @@ public class NotificationValidator {
         ASSET_ID_COUNT("assetIdCount"),
         TYPE("type"),
         TITLE("title"),
+        AFFECTED_PART_ID("affectedPartId"),
         TARGET_DATE("targetDate");
 
         private final String fieldName;
