@@ -50,120 +50,120 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 
-<div class="detail--wrapper" >
-    <mat-card class="notification-request-card">
-      <app-notification-new-request *ngIf="selectedNotification"
-        data-testid="app-notification-new-request"
-        [title]="editMode ? 'requestNotification.editNotificationHeader' : 'requestNotification.createNotificationHeader'"
-      [editMode]="editMode"
-        [notification]="selectedNotification"
-      (formGroupChanged)="notificationFormGroupChange($event)">
-      </app-notification-new-request>
-    </mat-card>
+<div class="detail--wrapper">
+  <mat-card class="notification-request-card">
+    <app-notification-new-request *ngIf="selectedNotification"
+                                  data-testid="app-notification-new-request"
+                                  [title]="editMode ? 'requestNotification.editNotificationHeader' : 'requestNotification.createNotificationHeader'"
+                                  [editMode]="editMode"
+                                  [notification]="selectedNotification"
+                                  (formGroupChanged)="notificationFormGroupChange($event)">
+    </app-notification-new-request>
+  </mat-card>
 
   <div class="parts-card-wrapper">
 
-  <mat-card class="parts-card">
-    <mat-card-header>
-      <mat-card-title
-      ><h4>
-        {{ 'requestNotification.affectedParts'  | i18n }}
-      </h4></mat-card-title
-      >
-    </mat-card-header>
-    <mat-card-content data-testid="affectedParts">
-      <div class="parts-table-wrapper">
-        <ng-container
-          *viewContainer="affectedPartsAsBuilt$ | async; main: affectedTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-        <ng-template #affectedTmp let-parts="view">
+    <mat-card class="parts-card">
+      <mat-card-header>
+        <mat-card-title
+        ><h4>
+          {{ 'requestNotification.affectedParts'  | i18n }}
+        </h4></mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content data-testid="affectedParts">
+        <div class="parts-table-wrapper">
+          <ng-container
+            *viewContainer="affectedPartsAsBuilt$ | async; main: affectedTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          <ng-template #affectedTmp let-parts="view">
 
 
-          <div
-            matTooltip="{{ affectedPartIds.length > 0 ? 'requestNotification.remove' : 'requestNotification.modifyAffectedNotAllowed' | i18n}}"
-            matTooltipClass="table--header--tooltip"
-            matTooltipPosition="before"
-            [class.mdc-tooltip--multiline]="true"
-            [matTooltipShowDelay]="1000"
-            [style.cursor]="'not-allowed'"
-            class="mt-1 mb-2"
-          >
-            <app-button
-              (click)="removeAffectedParts()"
-              [isDisabled]="affectedPartIds.length < 1"
-              [variant]="'stroked'"
-              [color]="'primary'"
-              [iconName]="'delete'"
+            <div
+              matTooltip="{{ affectedPartIds.length > 0 ? 'requestNotification.remove' : 'requestNotification.modifyAffectedNotAllowed' | i18n}}"
+              matTooltipClass="table--header--tooltip"
+              matTooltipPosition="before"
+              [class.mdc-tooltip--multiline]="true"
+              [matTooltipShowDelay]="1000"
+              [style.cursor]="'not-allowed'"
+              class="mt-1 mb-2"
             >
-            </app-button>
-          </div>
-          <!-- asBuilt Parts Table-->
-          <app-parts-table *ngIf="tableType" class="parts-asBuilt-table"
-                           [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                           [labelId]="affectedPartsTableLabelId"
-                           [selectedPartsActionLabel]="'page.selectedParts.action'"
-                           [deselectTrigger]="deselectPartTrigger$ | async"
-                           [menuActivated]="false"
-                           (multiSelect)="currentSelectedAffectedParts$.next($event)"
-                           (filterActivated)="filterAffectedParts($event)"
-                           [multiSortList]="tableAsBuiltSortList"
-                           [tableType]="tableType"
-                           [mainAspectType]="MainAspectType.AS_BUILT"
-          ></app-parts-table>
-        </ng-template>
-      </div>
-    </mat-card-content>
-  </mat-card>
+              <app-button
+                (click)="removeAffectedParts()"
+                [isDisabled]="affectedPartIds.length < 1"
+                [variant]="'stroked'"
+                [color]="'primary'"
+                [iconName]="'delete'"
+              >
+              </app-button>
+            </div>
+            <!-- asBuilt Parts Table-->
+            <app-parts-table *ngIf="tableType" class="parts-asBuilt-table"
+                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                             [labelId]="affectedPartsTableLabelId"
+                             [selectedPartsActionLabel]="'page.selectedParts.action'"
+                             [deselectTrigger]="deselectPartTrigger$ | async"
+                             [menuActivated]="false"
+                             (multiSelect)="currentSelectedAffectedParts$.next($event)"
+                             (filterActivated)="filterAffectedParts($event)"
+                             [multiSortList]="tableAsBuiltSortList"
+                             [tableType]="tableType"
+                             [mainAspectType]="MainAspectType.AS_BUILT"
+            ></app-parts-table>
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-  <mat-card class="parts-card">
-    <mat-card-header>
-      <mat-card-title
-      ><h4>
-        {{ 'requestNotification.unAffectedParts'  | i18n }}
-      </h4></mat-card-title
-      >
-    </mat-card-header>
-    <mat-card-content>
-     <div class="parts-table-wrapper">
-        <ng-container
-          *viewContainer="availablePartsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-       <ng-template #mainTmp let-parts="view">
+    <mat-card class="parts-card">
+      <mat-card-header>
+        <mat-card-title
+        ><h4>
+          {{ 'requestNotification.unAffectedParts'  | i18n }}
+        </h4></mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <div class="parts-table-wrapper">
+          <ng-container
+            *viewContainer="availablePartsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          <ng-template #mainTmp let-parts="view">
 
 
-         <div
-           matTooltip="{{temporaryAffectedParts.length > 0 ? 'requestNotification.add' : 'requestNotification.modifyAvailableNotAllowed' | i18n}}"
-           matTooltipClass="table--header--tooltip"
-           matTooltipPosition="before"
-           [class.mdc-tooltip--multiline]="true"
-           [matTooltipShowDelay]="1000"
-           [style.cursor]="'not-allowed'"
-           class="mt-1 mb-2"
-         >
-           <app-button
-             (click)="addAffectedParts()"
-             [isDisabled]="temporaryAffectedParts.length < 1"
-             [variant]="'stroked'"
-             [color]="'primary'"
-             [iconName]="'add'"
+            <div
+              matTooltip="{{temporaryAffectedParts.length > 0 ? 'requestNotification.add' : 'requestNotification.modifyAvailableNotAllowed' | i18n}}"
+              matTooltipClass="table--header--tooltip"
+              matTooltipPosition="before"
+              [class.mdc-tooltip--multiline]="true"
+              [matTooltipShowDelay]="1000"
+              [style.cursor]="'not-allowed'"
+              class="mt-1 mb-2"
+            >
+              <app-button
+                (click)="addAffectedParts()"
+                [isDisabled]="temporaryAffectedParts.length < 1"
+                [variant]="'stroked'"
+                [color]="'primary'"
+                [iconName]="'add'"
 
-           >
-           </app-button>
-         </div>
-         <app-parts-table *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"
-                          [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                          [labelId]="availablePartsTableLabelId"
-                          [menuActivated]="false"
-                          [selectedPartsActionLabel]="'page.selectedParts.action'"
-                          [deselectTrigger]="deselectPartTrigger$ | async"
-                          (multiSelect)="currentSelectedAvailableParts$.next($event)"
-                          (filterActivated)="filterAvailableParts($event)"
-                          [multiSortList]="tableAsBuiltSortList"
-                          [tableType]="tableType"
-                          [mainAspectType]="MainAspectType.AS_BUILT"
-         ></app-parts-table>
-       </ng-template>
-      </div>
-    </mat-card-content>
-  </mat-card>
+              >
+              </app-button>
+            </div>
+            <app-parts-table *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"
+                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                             [labelId]="availablePartsTableLabelId"
+                             [menuActivated]="false"
+                             [selectedPartsActionLabel]="'page.selectedParts.action'"
+                             [deselectTrigger]="deselectPartTrigger$ | async"
+                             (multiSelect)="currentSelectedAvailableParts$.next($event)"
+                             (filterActivated)="filterAvailableParts($event)"
+                             [multiSortList]="tableAsBuiltSortList"
+                             [tableType]="tableType"
+                             [mainAspectType]="MainAspectType.AS_BUILT"
+            ></app-parts-table>
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
 
