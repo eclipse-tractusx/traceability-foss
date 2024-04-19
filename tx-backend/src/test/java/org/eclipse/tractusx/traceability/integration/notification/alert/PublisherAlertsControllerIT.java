@@ -304,7 +304,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCancelAlert() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldCancelAlert() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         assetsSupport.defaultAssetsStored();
@@ -560,7 +560,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldBeCreatedBySender() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldBeCreatedBySender() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(

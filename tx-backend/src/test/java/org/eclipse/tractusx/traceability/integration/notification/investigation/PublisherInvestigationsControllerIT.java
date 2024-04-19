@@ -335,7 +335,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCancelInvestigation() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldCancelInvestigation() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartNotificationRequest.builder()
@@ -382,7 +382,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldApproveInvestigationStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldApproveInvestigationStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("additionalProperty1", "value1");
@@ -583,7 +583,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldBeCreatedBySender() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldBeCreatedBySender() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
