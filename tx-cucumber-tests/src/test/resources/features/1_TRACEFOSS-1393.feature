@@ -10,6 +10,35 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
 	#
 	#- (-) New table is added which shows "Quality Alerts"
 
+	#Check if *edit* of quality notification is processed correctly which contains following checks:
+	# * create notification 
+	# * edit notification in status created
+	# * validate the values have been updated
+	@TRACEFOSS-3354 @TRACEFOSS-3128 @TRACEFOSS-1920 @TRACEFOSS-2910 @TRACEFOSS-1101 @TRACEFOSS-1673 @TEST-904 @TRACEFOSS-2715 @TEST-1217 @INTEGRATION_TEST
+	Scenario: [BE] Check edit notification of quality notification
+		When I am logged into TRACE_X_A application
+		When I use assets with ids 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
+		And I create quality notification
+		  | "severity"    | "MAJOR" |
+		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1864" |
+		  | "type" | "ALERT" |
+		  | "title" | "Initial title" |
+		Then I check, if quality notification has proper values
+		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1864" |
+		  | "status"      | "CREATED" |
+		When I use assets with ids 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03'  
+		When I edit quality notification
+		  | "severity"    | "MINOR" |
+		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1864 edited" |
+		  | "title" | "New Title" |
+		  
+		Then I check, if quality notification has proper values
+		  | "status" | "CREATED" |
+		  | "severity"    | "MINOR" |
+		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1864 edited" |
+		  | "title" | "New Title" |
+		  | "affectedPartId" | "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03" |	
+
 	#Check if *CANCELLATION* of quality alerts is processed correctly which contains following checks:
 	#* correct CANCELLATION on receiver side
 	#* correct reception of status update on sender side
@@ -18,15 +47,16 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Create (POST) quality alerts (Rest API)
 	Scenario: [BE] Check correct processing of CANCELLATION of quality alerts
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
-		And I create quality alert
+		And I create quality notification
 		  | "severity"    | "MAJOR" |
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1864" |
-		Then I check, if quality alert has proper values
+		  | "type" | "ALERT" |
+		Then I check, if quality notification has proper values
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1864" |
 		  | "status"      | "CREATED" |
-		When I cancel quality alert
-		Then I check, if quality alert has proper values
+		When I cancel quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "CANCELED" |
 		  
 		When I am logged into TRACE_X_B application
-		Then I check, if quality alert has not been received
+		Then I check, if quality notification has not been received

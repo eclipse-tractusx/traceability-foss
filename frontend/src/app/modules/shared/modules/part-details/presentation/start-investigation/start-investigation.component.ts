@@ -21,7 +21,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
+import { SharedPartService } from '@page/notifications/detail/edit/shared-part.service';
 import { Part } from '@page/parts/model/parts.model';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { NotificationType } from '@shared/model/notification.model';
@@ -75,7 +75,7 @@ export class StartInvestigationComponent {
   constructor(
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
-    private sharedPartIdsService: SharedPartIdsService,
+    private sharedPartService: SharedPartService,
     private readonly router: Router,
   ) {
     this.childParts$ = this.childPartsState.observable;
@@ -95,20 +95,6 @@ export class StartInvestigationComponent {
     };
   }
 
-  public removeChildPartFromSelection(part: Part): void {
-    this.selectedChildPartsState.update([ ...this.selectedChildPartsState.snapshot.filter(c => c.id !== part.id) ]);
-    this.deselectPartTrigger$.next([ part ]);
-  }
-
-  public addChildPartToSelection(part: Part): void {
-    this.selectedChildPartsState.update([ ...this.selectedChildPartsState.snapshot, part ]);
-    this.addPartTrigger$.next(part);
-  }
-
-  public clearSelectedChildParts(): void {
-    this.selectedChildPartsState.reset();
-  }
-
   public onMultiSelect(parts: unknown[]): void {
     this.selectedChildPartsState.update(parts as Part[]);
   }
@@ -121,7 +107,7 @@ export class StartInvestigationComponent {
   }
 
   navigateToNotificationCreationView() {
-    this.sharedPartIdsService.sharedPartIds = this.childPartsState.snapshot.data.map(part => part.id);
+    this.sharedPartService.affectedParts = this.childPartsState.snapshot.data;
     this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: NotificationType.INVESTIGATION } });
   }
 

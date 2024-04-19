@@ -225,15 +225,21 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilter = {};
+    // TODO CONTINUE
+
+    const assetFilterAffected = {excludeIds: [], ids: ['1']};
+    const assetFilterAvailable = {excludeIds: ['1'], ids: []};
+
+    componentInstance.affectedPartIds= ['1'];
+
 
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuilt');
     spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuiltSecond');
-    componentInstance['setAvailablePartsBasedOnNotificationType'](notification, assetFilter);
-    componentInstance['setAffectedPartsBasedOnNotificationType'](notification, assetFilter);
+    componentInstance['setAvailablePartsBasedOnNotificationType'](notification, assetFilterAvailable);
+    componentInstance['setAffectedPartsBasedOnNotificationType'](notification, assetFilterAffected);
 
-    expect(componentInstance['partsFacade'].setSupplierPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
-    expect(componentInstance['partsFacade'].setSupplierPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+    expect(componentInstance['partsFacade'].setSupplierPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilterAvailable, true));
+    expect(componentInstance['partsFacade'].setSupplierPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilterAffected, true));
 
   });
 
@@ -263,15 +269,18 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilter = {};
+    const assetFilterAffected = {excludeIds: [], ids: ['1']};
+    const assetFilterAvailable = {excludeIds: ['1'], ids: []};
+
+    componentInstance.affectedPartIds= ['1'];
 
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecond');
-    componentInstance['setAvailablePartsBasedOnNotificationType'](notification, assetFilter);
-    componentInstance['setAffectedPartsBasedOnNotificationType'](notification, assetFilter);
+    componentInstance['setAvailablePartsBasedOnNotificationType'](notification, assetFilterAvailable);
+    componentInstance['setAffectedPartsBasedOnNotificationType'](notification, assetFilterAffected);
 
-    expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
-    expect(componentInstance['ownPartsFacade'].setPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilterAvailable, true));
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilterAffected, true));
 
   });
 
@@ -310,11 +319,13 @@ describe('NotificationEditComponent', () => {
       'type': new FormControl(NotificationType.INVESTIGATION, [ Validators.required ]),
     });
 
-    formGroup.setValue({
+
+    formGroup.patchValue({
       ...formGroup.value,
       bpn: 'BPNL00000003CML1',
       description: 'This is a test description with min 15 characters',
     });
+    formGroup.markAsDirty();
     componentInstance.affectedPartIds = [ MOCK_part_1.id ];
     componentInstance.notificationFormGroupChange(formGroup);
     expect(componentInstance.isSaveButtonDisabled).toEqual(false);

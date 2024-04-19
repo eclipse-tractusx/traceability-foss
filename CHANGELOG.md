@@ -7,13 +7,26 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+### Added
+- #844 Validation for BPN to Notification API (Create / Edit)
+- #726 Added @Preauthorize annotation to dashboard controller
+### Changed
+- #844 Prefilled bpn on investigation creation
+- #843 Refactored e2e tests, added edit notification e2e test case
+- #828 fix duplicates in traction_battery_code_subcomponent table
+### Removed
+-
+## [10.8.4 - 17.04.2024]
 
 ### Added
 - #780 store api documenation in docs/api to conform with TRG 1.08
 - #622 Notification Update API
 - #774 Added initial concept for handling multiple BPNs
+- #834 Added possiblity to exclude elements from the results of the asset api filter
 
 ## Changed
+- XXX Updated insomnia collection
+- #834 Behaviour of parts selection in edit / create notification view
 - #823 migrate to irs-helm 6.18.0
 - #636 migrate to digital-twin-registry version 0.4.9 from 0.3.22
 - #622 Added functionallity to edit existing notifications within CREATED state

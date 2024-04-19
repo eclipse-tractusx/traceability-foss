@@ -46,6 +46,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFin
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -62,6 +63,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import notification.request.CloseNotificationRequest;
+import notification.request.NotificationSeverityRequest;
+import notification.request.NotificationTypeRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
+import notification.request.UpdateNotificationStatusRequest;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -88,6 +95,8 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     AssetAsBuiltRepository assetAsBuiltRepository;
     @Autowired
     AssetAsPlannedRepository assetAsPlannedRepository;
+    @Autowired
+    NotificationApiSupport notificationApiSupport;
 
     @Autowired
     EdcSupport edcSupport;
@@ -151,7 +160,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         );
         String description = "at least 15 characters long investigation description";
         NotificationSeverityRequest severity = NotificationSeverityRequest.MINOR;
-        String receiverBpn = "BPN";
 
         assetsSupport.defaultAssetsStored();
 
@@ -160,7 +168,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(severity)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn(receiverBpn)
+                .receiverBpn("BPNL00000003CNKC")
                 .build();
 
         // when
@@ -302,7 +310,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCancelAlert() throws JsonProcessingException, JoseException {
+    void shouldCancelAlert() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         assetsSupport.defaultAssetsStored();
@@ -311,18 +319,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description("at least 15 characters long investigation description")
                 .severity(NotificationSeverityRequest.MAJOR)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPN")
+                .receiverBpn("BPNL00000003CNKC")
                 .build();
 
-        val alertId = given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(201)
-                .extract().path("id");
+        val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
+
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
@@ -341,7 +342,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/notifications/$alertId/cancel".replace("$alertId", alertId.toString()))
+                .post("/api/notifications/$alertId/cancel".replace("$alertId", String.valueOf(id)))
                 .then()
                 .statusCode(204);
 
@@ -360,7 +361,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldApproveAlertStatus() throws JsonProcessingException, JoseException {
+    void shouldApproveAlertStatus() throws JsonProcessingException, JoseException , com.fasterxml.jackson.core.JsonProcessingException{
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("additionalProperty1", "value1");
         EndpointDataReference endpointDataReference = EndpointDataReference.Builder
@@ -405,15 +406,8 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .build();
 
         // when
-        var alertId = given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(201)
-                .extract().path("id");
+        val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
+
 
         alertsSupport.assertAlertsSize(1);
 
@@ -421,7 +415,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/notifications/$alertId/approve".replace("$alertId", alertId.toString()))
+                .post("/api/notifications/$alertId/approve".replace("$alertId", String.valueOf(id)))
                 .then()
                 .statusCode(204);
 
@@ -442,7 +436,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCloseAlertStatus() throws JsonProcessingException, JoseException {
+    void shouldCloseAlertStatus() throws JsonProcessingException, JoseException , com.fasterxml.jackson.core.JsonProcessingException {
         Map<String, Object> additionalProperties = new HashMap<>();
         additionalProperties.put("additionalProperty1", "value1");
         EndpointDataReference endpointDataReference = EndpointDataReference.Builder
@@ -485,17 +479,9 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .receiverBpn("BPNL00000003CNKC")
                 .build();
 
-
         // when
-        val alertId = given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(201)
-                .extract().path("id");
+        val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
+
 
         // then
         alertsSupport.assertAlertsSize(1);
@@ -505,7 +491,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/notifications/$alertId/approve".replace("$alertId", alertId.toString()))
+                .post("/api/notifications/$alertId/approve".replace("$alertId", String.valueOf(id)))
                 .then()
                 .statusCode(204);
 
@@ -534,7 +520,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .body(objectMapper.writeValueAsString(closeAlertRequest))
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .when()
-                .post("/api/notifications/$alertId/close".replace("$alertId", alertId.toString()))
+                .post("/api/notifications/$alertId/close".replace("$alertId", String.valueOf(id)))
                 .then()
                 .statusCode(204);
 
@@ -580,7 +566,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldBeCreatedBySender() throws JsonProcessingException, JoseException {
+    void shouldBeCreatedBySender() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
@@ -595,19 +581,12 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPN")
+                .receiverBpn("BPNL00000003CNKC")
                 .build();
 
         // when
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(201)
-                .body("id", Matchers.isA(Number.class));
+        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
+
 
         // then
         partIds.forEach(partId -> {

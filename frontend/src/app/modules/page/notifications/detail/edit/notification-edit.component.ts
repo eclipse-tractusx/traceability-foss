@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
@@ -25,11 +25,11 @@ import { Pagination } from '@core/model/pagination.model';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
-import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
+import { SharedPartService } from '@page/notifications/detail/edit/shared-part.service';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part } from '@page/parts/model/parts.model';
+import { AssetAsBuiltFilter, Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -46,28 +46,29 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
   templateUrl: './notification-edit.component.html',
   styleUrls: [ './notification-edit.component.scss' ],
 })
-export class NotificationEditComponent implements AfterViewInit, OnDestroy {
+export class NotificationEditComponent implements OnDestroy {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
-
   public readonly affectedPartsTableLabelId = this.staticIdService.generateId('AffectedPartsTable');
   public readonly availablePartsTableLabelId = this.staticIdService.generateId('AvailablePartsTable');
 
-  public readonly addPartTrigger$ = new Subject<Part>();
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
 
   public readonly editMode: boolean = true;
   public notificationFormGroup: FormGroup;
 
-  public affectedPartIds: string[] = [];
+  public affectedPartIds: string[] = this.sharedPartService?.affectedParts?.map(value => value.id) || [];
   public temporaryAffectedParts: Part[] = [];
   public temporaryAffectedPartsForRemoval: Part[] = [];
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
   public readonly currentSelectedAffectedParts$ = new BehaviorSubject<Part[]>([]);
   public availablePartsAsBuilt$: Observable<View<Pagination<Part>>>;
   public affectedPartsAsBuilt$: Observable<View<Pagination<Part>>>;
+
+  public cachedAffectedPartsFilter: string;
+  public cachedAvailablePartsFilter: string;
 
   private originPageNumber: number;
   private originTabIndex: number;
@@ -76,7 +77,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   public tableType: TableType;
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
-  isSaveButtonDisabled: boolean = false;
+  isSaveButtonDisabled: boolean;
 
   constructor(
     private readonly partsFacade: OtherPartsFacade,
@@ -88,14 +89,9 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
-    private readonly sharedPartIdsService: SharedPartIdsService,
+    private readonly sharedPartService: SharedPartService,
   ) {
-    const urlPartIndex = this.route.snapshot.url?.length !== null ? this.route.snapshot.url.length - 1 : null;
-    if (urlPartIndex) {
-      this.editMode = this.route.snapshot.url[urlPartIndex].path === 'edit';
-    } else {
-      this.editMode = false;
-    }
+    this.editMode = this.determineEditModeOrCreateMode();
 
     this.currentSelectedAvailableParts$.subscribe((parts: Part[]) => {
       this.temporaryAffectedParts = parts;
@@ -110,52 +106,96 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
       this.originTabIndex = params?.tabIndex;
     });
 
-    if (!this.editMode) {
-      this.isSaveButtonDisabled = true;
-    }
-
     if (this.editMode) {
-      if (!this.notificationDetailFacade.selected?.data) {
-        this.selectedNotificationBasedOnUrl();
-      } else {
-        this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected.data);
-      }
+      this.isSaveButtonDisabled = true;
+      this.handleEditNotification();
     } else {
-      // TODO: input asset Ids from router and set notification type based on my parts (alert) / other parts (investigations) origin
-      const newNotification: Notification = {
-        assetIds: this.sharedPartIdsService.sharedPartIds,
-        createdBy: '',
-        type: this.route.snapshot.queryParams['initialType'],
-        createdByName: '',
-        createdDate: undefined,
-        description: '',
-        isFromSender: true,
-        reason: undefined,
-        sendTo: '',
-        sendToName: '',
-        severity: undefined,
-        status: undefined,
-        title: '',
-        id: 'new',
-      };
-      this.affectedPartIds = newNotification.assetIds;
-      this.selectNotificationAndLoadPartsBasedOnNotification(newNotification);
+      this.isSaveButtonDisabled = false;
+      this.handleCreateNotification();
     }
+  }
 
+  private handleEditNotification() {
+    if (this.notificationDetailFacade.selected?.data) {
+      this.tableType = this.notificationDetailFacade.selected.data.type === NotificationType.INVESTIGATION ? TableType.AS_BUILT_SUPPLIER : TableType.AS_BUILT_OWN;
+
+      this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected.data);
+    } else {
+      this.getNotificationByIdAndSelectNotificationAndLoadPartsBasedOnNotification();
+
+    }
+  }
+
+  private handleCreateNotification() {
+
+    this.isSaveButtonDisabled = true;
+    const newNotification: Notification = {
+      assetIds: this.sharedPartService?.affectedParts?.map(value => value.id) || [],
+      createdBy: '',
+      type: this.route.snapshot.queryParams['initialType'],
+      createdByName: '',
+      createdDate: undefined,
+      description: '',
+      isFromSender: true,
+      reason: undefined,
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      status: undefined,
+      title: '',
+      id: 'new',
+    };
+    this.selectNotificationAndLoadPartsBasedOnNotification(newNotification);
+  }
+
+  private determineEditModeOrCreateMode() {
+    const urlPartIndex = this.route.snapshot.url?.length !== null ? this.route.snapshot.url.length - 1 : null;
+    if (urlPartIndex) {
+      return this.route.snapshot.url[urlPartIndex].path === 'edit';
+    } else {
+      return false;
+    }
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
-    this.isSaveButtonDisabled = notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.notificationFormGroup = notificationFormGroup;
+    this.isSaveButtonDisabled = (notificationFormGroup.invalid || this.affectedPartIds.length < 1) || !this.notificationFormGroup.dirty;
+    if (this.notificationFormGroup && this.notificationFormGroup.get('type').value === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.get('bpn').value && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
+      this.notificationFormGroup.get('bpn').setValue(this.sharedPartService.affectedParts[0].businessPartner);
+    }
   }
 
   filterAffectedParts(partsFilter: any): void {
-    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, partsFilter);
+    if (this.cachedAffectedPartsFilter === JSON.stringify(partsFilter)) {
+      return;
+    } else {
+      this.cachedAffectedPartsFilter = JSON.stringify(partsFilter);
+      this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, partsFilter);
+    }
   }
 
+  private enrichPartsFilterByAffectedAssetIds(partsFilter: any, exclude?: boolean) {
+
+    let filter: AssetAsBuiltFilter = {
+      excludeIds: [],
+      ids: [],
+      ...partsFilter,
+
+    };
+
+    if (exclude) {
+      filter.excludeIds = this.affectedPartIds;
+    } else {
+      filter.ids = this.affectedPartIds;
+    }
+    return filter;
+
+  }
 
   filterAvailableParts(partsFilter: any): void {
-    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification, partsFilter);
+    if (this.cachedAvailablePartsFilter !== JSON.stringify(partsFilter)) {
+      this.setAvailablePartsBasedOnNotificationType(this.selectedNotification, partsFilter);
+    }
   }
 
   public clickedSave(): void {
@@ -164,10 +204,10 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
       this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
         next: () => {
           this.navigateBackToNotifications();
-          this.toastService.success('requestNotification.saveSuccess');
+          this.toastService.success('requestNotification.saveEditSuccess');
           this.updateSelectedNotificationState();
         },
-        error: (error) => this.toastService.error('requestNotification.saveError'),
+        error: () => this.toastService.error('requestNotification.saveEditError'),
       });
     } else {
       this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
@@ -176,47 +216,37 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
           this.navigateBackToNotifications();
           this.updateSelectedNotificationState();
         },
-        error: (error) => this.toastService.error('requestNotification.saveError'),
+        error: () => this.toastService.error('requestNotification.saveError'),
       });
     }
   }
 
-  public ngAfterViewInit(): void {
-
-  }
-
 
   private setAvailablePartsBasedOnNotificationType(notification: Notification, assetFilter?: any) {
+    if (this.affectedPartIds) {
+      assetFilter = this.enrichPartsFilterByAffectedAssetIds(null, true);
+    }
     if (notification.type === NotificationType.INVESTIGATION) {
-      assetFilter ? this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true)) : this.setSupplierPartsAsBuilt();
+      this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     } else {
-      assetFilter ? this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true)) : this.setOwnPartsAsBuilt();
+      this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     }
   }
 
-  private setAffectedPartsBasedOnNotificationType(notification: Notification, assetFilter?: any) {
-    if (notification.type === NotificationType.INVESTIGATION) {
-      assetFilter ? this.partsFacade.setSupplierPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true)) : this.setSupplierPartsAsBuilt();
+  private setAffectedPartsBasedOnNotificationType(notification: Notification, partsFilter?: any) {
+
+    if (this.affectedPartIds.length > 0) {
+      partsFilter = this.enrichPartsFilterByAffectedAssetIds(null);
+      if (notification.type === NotificationType.INVESTIGATION) {
+        this.partsFacade.setSupplierPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      } else {
+        this.ownPartsFacade.setPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      }
     } else {
-      assetFilter ? this.ownPartsFacade.setPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true)) : this.setOwnPartsAsBuilt();
+      this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
+      this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
     }
-  }
 
-
-  private setSupplierPartsAsBuilt() {
-    this.tableType = TableType.AS_BUILT_SUPPLIER;
-    this.availablePartsAsBuilt$ = this.partsFacade.supplierPartsAsBuilt$;
-    this.affectedPartsAsBuilt$ = this.partsFacade.supplierPartsAsBuiltSecond$;
-    this.partsFacade.setSupplierPartsAsBuilt();
-    this.partsFacade.setSupplierPartsAsBuiltSecond();
-  }
-
-  private setOwnPartsAsBuilt() {
-    this.tableType = TableType.AS_BUILT_OWN;
-    this.availablePartsAsBuilt$ = this.ownPartsFacade.partsAsBuilt$;
-    this.affectedPartsAsBuilt$ = this.ownPartsFacade.partsAsBuiltSecond$;
-    this.ownPartsFacade.setPartsAsBuilt();
-    this.ownPartsFacade.setPartsAsBuiltSecond();
   }
 
   public ngOnDestroy(): void {
@@ -225,30 +255,31 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription?.unsubscribe();
   }
 
-  filterOnlyAffected(parts: any): Pagination<Part> {
-    // Convert affectedPartIds to a Set for faster lookup
-    const affectedPartIdsSet = new Set(this.affectedPartIds);
-
-    // Filter parts based on affectedPartIds
-    const partsFiltered = parts.content.filter(part => affectedPartIdsSet.has(part.id));
-
-    return {
-      page: parts.page,
-      pageCount: parts.pageCount,
-      pageSize: parts.pageSize,
-      totalItems: partsFiltered.length,
-      content: partsFiltered,
-    };
-  }
-
   removeAffectedParts() {
     this.affectedPartIds = this.affectedPartIds.filter(value => {
+      this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
       return !this.temporaryAffectedPartsForRemoval.some(part => part.id === value);
     });
-    this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
-    this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
-    this.currentSelectedAffectedParts$.next([]);
-    this.temporaryAffectedPartsForRemoval = [];
+
+    if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
+      if (this.selectedNotification.type === NotificationType.INVESTIGATION) {
+        this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
+        this.partsFacade.setSupplierPartsAsBuilt();
+      } else {
+        this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
+        this.ownPartsFacade.setPartsAsBuilt();
+      }
+
+      this.isSaveButtonDisabled = true;
+    } else {
+      this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
+      this.deselectPartTrigger$.next(this.temporaryAffectedPartsForRemoval);
+      this.currentSelectedAffectedParts$.next([]);
+      this.temporaryAffectedPartsForRemoval = [];
+      this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+      this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
+    }
+
   }
 
   addAffectedParts() {
@@ -261,6 +292,8 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);
     this.temporaryAffectedParts = [];
+    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
   }
 
 
@@ -274,7 +307,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private selectedNotificationBasedOnUrl(): void {
+  private getNotificationByIdAndSelectNotificationAndLoadPartsBasedOnNotification(): void {
     const notificationId = this.route.snapshot.paramMap.get('notificationId');
 
     this.notificationsFacade
@@ -283,7 +316,7 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
         next: data => {
           this.selectNotificationAndLoadPartsBasedOnNotification(data);
         },
-        error: (error: Error) => {
+        error: () => {
         },
       });
 
@@ -292,8 +325,11 @@ export class NotificationEditComponent implements AfterViewInit, OnDestroy {
   private selectNotificationAndLoadPartsBasedOnNotification(notification: Notification) {
     this.selectedNotification = notification;
     this.affectedPartIds = notification.assetIds;
+    this.tableType = notification.type === NotificationType.INVESTIGATION ? TableType.AS_BUILT_SUPPLIER : TableType.AS_BUILT_OWN;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
-    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, false);
+    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+    this.affectedPartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuiltSecond$ : this.ownPartsFacade.partsAsBuiltSecond$;
+    this.availablePartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
   }
 
   private updateSelectedNotificationState() {

@@ -51,7 +51,7 @@ public class NotificationApiSupport {
     private final AssetsSupport assetsSupport;
     private final ObjectMapper objectMapper;
 
-    public int createNotificationRequest_withDefaultAssetsStored(Header authHeader, StartNotificationRequest startNotificationRequest) throws JsonProcessingException {
+    public int createNotificationRequest_withDefaultAssetsStored(Header authHeader, StartNotificationRequest startNotificationRequest, int expectedStatusCode) throws JsonProcessingException {
 
         assetsSupport.defaultAssetsStored();
 
@@ -63,16 +63,15 @@ public class NotificationApiSupport {
                 .when()
                 .post("/api/notifications")
                 .then()
-                .statusCode(201)
-                .body("id", Matchers.isA(Number.class))
+                .statusCode(expectedStatusCode)
                 .extract()
                 .response();
 
-        return response.path("id");
+        return response.path("id") != null ? response.path("id") : 9999;
 
     }
 
-    public void editNotificationRequest(Header authHeader, EditNotificationRequest editNotificationRequest, int notificationId) throws JsonProcessingException {
+    public void editNotificationRequest(Header authHeader, EditNotificationRequest editNotificationRequest, int notificationId, int expectedStatusCode) throws JsonProcessingException {
 
         // when
         given()
@@ -82,7 +81,7 @@ public class NotificationApiSupport {
                 .when()
                 .put("/api/notifications/" + notificationId + "/edit")
                 .then()
-                .statusCode(204);
+                .statusCode(expectedStatusCode);
     }
 
     public PageResult<NotificationResponse> getNotificationsRequest(Header authHeader){
