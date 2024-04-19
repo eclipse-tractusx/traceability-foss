@@ -18,24 +18,24 @@
  ********************************************************************************/
 
 
-import {Component, Input, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
-import {Pagination} from '@core/model/pagination.model';
-import {OtherPartsFacade} from '@page/other-parts/core/other-parts.facade';
-import {MainAspectType} from '@page/parts/model/mainAspectType.enum';
-import {AssetAsBuiltFilter, AssetAsPlannedFilter, Part} from '@page/parts/model/parts.model';
-import {TableType} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
-import {TableSortingUtil} from '@shared/components/table/table-sorting.util';
-import {TableEventConfig, TableHeaderSort} from '@shared/components/table/table.model';
-import {containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
-import {setMultiSorting} from '@shared/helper/table-helper';
-import {NotificationType} from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
-import {StaticIdService} from '@shared/service/staticId.service';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {SharedPartIdsService} from "@page/notifications/detail/edit/shared-part-ids.service";
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Pagination } from '@core/model/pagination.model';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
+import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { setMultiSorting } from '@shared/helper/table-helper';
+import { NotificationType } from '@shared/model/notification.model';
+import { View } from '@shared/model/view.model';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { SharedPartService } from '@page/notifications/detail/edit/shared-part.service';
 
 @Component({
   selector: 'app-supplier-parts',
@@ -68,7 +68,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   assetAsBuiltFilter: AssetAsBuiltFilter;
   assetsAsPlannedFilter: AssetAsPlannedFilter;
 
-  public currentPartTablePage = {AS_BUILT_SUPPLIER_PAGE: 0, AS_PLANNED_SUPPLIER_PAGE: 0}
+  public currentPartTablePage = { AS_BUILT_SUPPLIER_PAGE: 0, AS_PLANNED_SUPPLIER_PAGE: 0 };
 
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
@@ -76,7 +76,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     private readonly staticIdService: StaticIdService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly sharedPartIdsService: SharedPartIdsService
+    private readonly sharedPartService: SharedPartService,
   ) {
 
     window.addEventListener('keydown', (event) => {
@@ -128,10 +128,10 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   public onSelectItem(event: Record<string, unknown>): void {
     this.partDetailsFacade.selectedPart = event as unknown as Part;
     let tableData = {};
-    for(let component of this.partsTableComponents) {
-      tableData[component.tableType+"_PAGE"] = component.pageIndex;
+    for (let component of this.partsTableComponents) {
+      tableData[component.tableType + '_PAGE'] = component.pageIndex;
     }
-    this.router.navigate([`otherParts/${event?.id}`], {queryParams: tableData})
+    this.router.navigate([ `otherParts/${ event?.id }` ], { queryParams: tableData });
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
@@ -174,20 +174,20 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     TableSortingUtil.setTableSortingList(sorting, tableSortList, this.ctrlKeyState);
   }
 
-  private setupPageByUrlParams(params: Params ) {
-    if(!params) {
+  private setupPageByUrlParams(params: Params) {
+    if (!params) {
       return;
     }
-    this.onAsBuiltTableConfigChange({page: params['AS_BUILT_SUPPLIER_PAGE'], pageSize: 50, sorting: null});
-    this.onAsPlannedTableConfigChange({page: params['AS_PLANNED_SUPPLIER_PAGE'], pageSize: 50, sorting: null});
+    this.onAsBuiltTableConfigChange({ page: params['AS_BUILT_SUPPLIER_PAGE'], pageSize: 50, sorting: null });
+    this.onAsPlannedTableConfigChange({ page: params['AS_PLANNED_SUPPLIER_PAGE'], pageSize: 50, sorting: null });
   }
 
   navigateToNotificationCreationView() {
-    this.sharedPartIdsService.sharedPartIds = this.currentSelectedItems$.value.map(part => part.id);
-    this.router.navigate(['inbox/create'], {queryParams: {initialType: NotificationType.INVESTIGATION}});
+    this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
+    this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: NotificationType.INVESTIGATION } });
   }
 
   protected readonly MainAspectType = MainAspectType;
   protected readonly TableType = TableType;
-    protected readonly NotificationType = NotificationType;
+  protected readonly NotificationType = NotificationType;
 }

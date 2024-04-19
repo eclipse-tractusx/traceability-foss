@@ -43,7 +43,7 @@ import {BomLifecycleSettingsService, UserSettingView} from '@shared/service/bom-
 import {StaticIdService} from '@shared/service/staticId.service';
 import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {SharedPartIdsService} from "@page/notifications/detail/edit/shared-part-ids.service";
+import {SharedPartService} from "@page/notifications/detail/edit/shared-part.service";
 
 
 @Component({
@@ -84,7 +84,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         private readonly partDetailsFacade: PartDetailsFacade,
         private readonly staticIdService: StaticIdService,
         private readonly userSettingService: BomLifecycleSettingsService,
-        private readonly sharedPartIdsService: SharedPartIdsService,
+        private readonly sharedPartService: SharedPartService,
         public toastService: ToastService,
         public roleService: RoleService,
         public router: Router,
@@ -271,7 +271,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     navigateToNotificationCreationView() {
-        this.sharedPartIdsService.sharedPartIds = this.currentSelectedItems$.value.map(part => part.id);
+      this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
         this.router.navigate(['inbox/create'], { queryParams: { initialType: NotificationType.ALERT}});
     }
 
