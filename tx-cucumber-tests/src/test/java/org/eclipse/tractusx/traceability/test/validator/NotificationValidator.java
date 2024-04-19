@@ -22,13 +22,13 @@ package org.eclipse.tractusx.traceability.test.validator;
 import lombok.Getter;
 import notification.response.NotificationResponse;
 
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.ACCEPT_REASON;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.AFFECTED_PART_ID;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.ASSET_ID_COUNT;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.CHANNEL;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.CLOSE_REASON;
@@ -39,6 +39,8 @@ import static org.eclipse.tractusx.traceability.test.validator.NotificationValid
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.SEVERITY;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.STATUS;
 import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.TARGET_DATE;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.TITLE;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.TYPE;
 
 public class NotificationValidator {
 
@@ -104,8 +106,21 @@ public class NotificationValidator {
         }
 
         if (fieldsToCheck.containsKey(ASSET_ID_COUNT.getFieldName())) {
-            assertThat(notification.getAssetIds().size())
-                    .isEqualTo(Integer.valueOf(fieldsToCheck.get(ASSET_ID_COUNT.getFieldName())));
+            assertThat(notification.getAssetIds()).hasSize(Integer.parseInt(fieldsToCheck.get(ASSET_ID_COUNT.getFieldName())));
+        }
+
+        if (fieldsToCheck.containsKey(TYPE.getFieldName())) {
+            assertThat(notification.getType().name())
+                    .isEqualTo(fieldsToCheck.get(TYPE.getFieldName()));
+        }
+
+        if (fieldsToCheck.containsKey(TITLE.getFieldName())) {
+            assertThat(notification.getTitle())
+                    .isEqualTo(fieldsToCheck.get(TITLE.getFieldName()));
+        }
+
+        if (fieldsToCheck.containsKey(AFFECTED_PART_ID.getFieldName())) {
+            assertThat(notification.getAssetIds()).contains(fieldsToCheck.get(AFFECTED_PART_ID.getFieldName()));
         }
     }
 
@@ -137,6 +152,9 @@ public class NotificationValidator {
         CREATED_BY("createdBy"),
         SEND_TO("sendTo"),
         ASSET_ID_COUNT("assetIdCount"),
+        TYPE("type"),
+        TITLE("title"),
+        AFFECTED_PART_ID("affectedPartId"),
         TARGET_DATE("targetDate");
 
         private final String fieldName;
