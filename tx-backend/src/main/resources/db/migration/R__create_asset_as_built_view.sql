@@ -1,3 +1,4 @@
+-- ${flyway:timestamp}
 create
 or replace view assets_as_built_view as
 select asset.*,
