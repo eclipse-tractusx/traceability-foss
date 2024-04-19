@@ -119,7 +119,7 @@ public class TraceabilityTestStepDefinition {
         assertThat(dataTable).isNotNull();
     }
 
-    @When("I edit, quality notification")
+    @When("I edit quality notification")
     public void iEditQualityNotification(DataTable dataTable) {
         final Map<String, String> input = normalize(dataTable.asMap());
 

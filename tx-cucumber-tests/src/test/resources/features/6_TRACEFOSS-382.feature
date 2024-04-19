@@ -35,26 +35,27 @@ Feature: Create Request for quality investigation / store in queue
 	Scenario: [BE] Check correct processing of several parts in quality investigation 
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd,urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
-		And I create quality investigation
+		And I create quality notification
 		  | "severity"    | "MINOR"                           |
 		  | "description" | "Testing severity TRACEFOSS-1652" |
-		Then I check, if quality investigation has proper values
+		  | "type" | "INVESTIGATION" |
+		Then I check, if quality notification has proper values
 		  | "description"  | "Testing severity TRACEFOSS-1652" |
 		  | "status"       | "CREATED"                         |
 		  | "assetIdCount" | "2"                               |
-		When I approve quality investigation
-		Then I check, if quality investigation has proper values
+		When I approve quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "SENT" |
 		When I am logged into TRACE_X_B application
-		Then I check, if quality investigation has been received
-		Then I check, if quality investigation has proper values
+		Then I check, if quality notification has been received
+		Then I check, if quality notification has proper values
 		  | "description"  | "Testing severity TRACEFOSS-1652" |
 		  | "status"       | "RECEIVED"                        |
 		  | "assetIdCount" | "2"                               |
-		When I acknowledge quality investigation
-		Then I check, if quality investigation has proper values
+		When I acknowledge quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "ACKNOWLEDGED" |
 		When I am logged into TRACE_X_A application
-		Then I check, if quality investigation has proper values
+		Then I check, if quality notification has proper values
 		  | "status"       | "ACKNOWLEDGED" |
 		  | "assetIdCount" | "2"            |
