@@ -20,6 +20,7 @@ SPDX-License-Identifier: Apache-2.0
 <form [formGroup]="formGroup">
   <div class="w-full">
     <app-type-select
+      data-testid="type-input"
       [translationContext]="'requestNotification'"
       [hint]="'requestNotification.typeDescription' | i18n"
       formControlName="type">
@@ -32,6 +33,7 @@ SPDX-License-Identifier: Apache-2.0
       [hint]="'requestNotification.titleDescription' | i18n"
       class="title--input"
       formControlName="title"
+      data-testid="title-input"
     ></app-input>
   </div>
 
@@ -41,11 +43,13 @@ SPDX-License-Identifier: Apache-2.0
       [hint]="'requestNotification.bpnDescription' | i18n"
       class="bpn-config--input"
       formControlName="bpn"
+      data-testid="bpn-input"
     ></app-input>
   </div>
 
   <div class="w-full">
     <app-severity-select
+      data-testid="severity-input"
       [translationContext]="'requestNotification'"
       [hint]="'requestNotification.severityDescription' | i18n"
       formControlName="severity">
@@ -62,6 +66,7 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 
   <app-textarea
+    data-testid="description-input"
     [label]="'requestNotification.textAreaLabel' | i18n"
     [hint]="'requestNotification.textAreaDescription' | i18n"
     formControlName="description"
