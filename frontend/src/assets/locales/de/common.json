@@ -241,8 +241,10 @@
     "textAreaDescription": "Beschreiben Sie das Problem.",
     "saveNotAllowed": "Erfordert eine valide Eingabe im Formular.",
     "noPartsSelected" : "Erfordert mindestens ein betroffenes Teil",
-    "saveSuccess": "Qualitätsthema wurde erfolgreich aktualisiert.",
-    "saveError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten.",
+    "saveSuccess": "Qualitätsthema wurde erfolgreich erstellt.",
+    "saveError": "Bei der Erstellung des Qualitätsthemas ist ein Fehler aufgetreten.",
+    "saveEditSuccess": "Qualitätsthema wurde erfolgreich aktualisiert.",
+    "saveEditError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten.",
     "save": "Qualitätsthema speichern"
   },
   "editNotification": {

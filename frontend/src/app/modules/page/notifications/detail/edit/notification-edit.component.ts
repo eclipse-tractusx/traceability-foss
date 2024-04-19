@@ -211,10 +211,10 @@ export class NotificationEditComponent implements OnDestroy {
       this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
         next: () => {
           this.navigateBackToNotifications();
-          this.toastService.success('requestNotification.saveSuccess');
+          this.toastService.success('requestNotification.saveEditSuccess');
           this.updateSelectedNotificationState();
         },
-        error: () => this.toastService.error('requestNotification.saveError'),
+        error: () => this.toastService.error('requestNotification.saveEditError'),
       });
     } else {
       this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({

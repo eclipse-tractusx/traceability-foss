@@ -241,8 +241,10 @@
     "textAreaDescription": "Describe the quality issue.",
     "saveNotAllowed": "Requires valid form input.",
     "noPartsSelected" : "Requires at least one affected part",
-    "saveSuccess": "Quality topic was updated successfully.",
-    "saveError": "An error occurred while updating the quality topic.",
+    "saveSuccess": "Quality topic was created successfully.",
+    "saveError": "An error occurred while creating the quality topic.",
+    "saveEditSuccess": "Quality topic was updated successfully.",
+    "saveEditError": "An error occurred while updating the quality topic.",
     "save": "Save quality topic"
   },
   "editNotification": {
