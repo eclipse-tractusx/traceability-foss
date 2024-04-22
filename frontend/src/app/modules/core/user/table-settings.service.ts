@@ -19,7 +19,16 @@
 
 import { Injectable } from '@angular/core';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { NotificationsReceivedConfigurationModel } from '@shared/components/parts-table/notifications-received-configuration.model';
+import { NotificationsSentConfigurationModel } from '@shared/components/parts-table/notifications-sent-configuration.model';
+import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
+import { PartsAsBuiltCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
+import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
+import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
+import { PartsAsPlannedCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
+import { PartsAsPlannedSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -28,6 +37,9 @@ import { Subject } from 'rxjs';
 export class TableSettingsService {
   private settingsKey = 'TableViewSettings';
   private changeEvent = new Subject<void>();
+
+  constructor(private readonly toastService: ToastService) {
+  }
 
   storeTableSettings(tableSettingsList: any): void {
     // before setting anything, all maps in new tableSettingList should be stringified
@@ -80,6 +92,7 @@ export class TableSettingsService {
       }
     }
     if (isInvalid) {
+      this.toastService.warning('table.tableSettings.invalid', 10000);
       localStorage.removeItem(this.settingsKey);
     }
     return isInvalid;
@@ -92,4 +105,34 @@ export class TableSettingsService {
   getEvent() {
     return this.changeEvent.asObservable();
   }
+
+  initializeTableViewSettings(tableType: TableType): TableViewConfig {
+    switch (tableType) {
+      case TableType.AS_PLANNED_CUSTOMER:
+        return new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_PLANNED_OWN:
+        return new PartsAsPlannedConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_PLANNED_SUPPLIER:
+        return new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_BUILT_OWN:
+        return new PartsAsBuiltConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_BUILT_CUSTOMER:
+        return new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
+        break;
+      case TableType.AS_BUILT_SUPPLIER:
+        return new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
+        break;
+      case TableType.SENT_NOTIFICATION:
+        return new NotificationsSentConfigurationModel().filterConfiguration();
+        break;
+      case TableType.RECEIVED_NOTIFICATION:
+        return new NotificationsReceivedConfigurationModel().filterConfiguration();
+        break;
+    }
+  }
+
 }

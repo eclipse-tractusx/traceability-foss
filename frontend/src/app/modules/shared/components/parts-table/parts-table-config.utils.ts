@@ -66,4 +66,5 @@ export class PartsTableConfigUtils {
     return [ first, ...filterColumnsMapping, last ].filter(value => value !== null);
 
   }
+
 }

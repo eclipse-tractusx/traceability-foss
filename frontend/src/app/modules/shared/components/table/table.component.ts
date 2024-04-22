@@ -32,14 +32,6 @@ import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { NotificationsReceivedConfigurationModel } from '@shared/components/parts-table/notifications-received-configuration.model';
-import { NotificationsSentConfigurationModel } from '@shared/components/parts-table/notifications-sent-configuration.model';
-import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
-import { PartsAsBuiltCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
-import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
-import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
-import { PartsAsPlannedCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
-import { PartsAsPlannedSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
@@ -194,40 +186,10 @@ export class TableComponent {
 
   }
 
-  // TODO: refactor
-  private initializeTableViewSettings(): void {
-    switch (this.tableType) {
-      case TableType.AS_PLANNED_CUSTOMER:
-        this.tableViewConfig = new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_PLANNED_OWN:
-        this.tableViewConfig = new PartsAsPlannedConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_PLANNED_SUPPLIER:
-        this.tableViewConfig = new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_BUILT_OWN:
-        this.tableViewConfig = new PartsAsBuiltConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_BUILT_CUSTOMER:
-        this.tableViewConfig = new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_BUILT_SUPPLIER:
-        this.tableViewConfig = new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
-        break;
-      case TableType.SENT_NOTIFICATION:
-        this.tableViewConfig = new NotificationsSentConfigurationModel().filterConfiguration();
-        break;
-      case TableType.RECEIVED_NOTIFICATION:
-        this.tableViewConfig = new NotificationsReceivedConfigurationModel().filterConfiguration();
-        break;
-    }
-  }
-
   ngOnInit(): void {
 
     if (this.tableSettingsEnabled) {
-      this.initializeTableViewSettings();
+      this.tableViewConfig = this.tableSettingsService.initializeTableViewSettings(this.tableType);
       this.tableSettingsService.getEvent().subscribe(() => {
         this.setupTableViewSettings();
       });
@@ -262,9 +224,7 @@ export class TableComponent {
   }
 
   private setupTableViewSettings() {
-    if (this.tableSettingsService.storedTableSettingsInvalid(this.tableViewConfig, this.tableType)) {
-      this.toastService.warning('table.tableSettings.invalid', 10000);
-    }
+
     const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
     // check if there are table settings list
     if (tableSettingsList) {
@@ -422,7 +382,7 @@ export class TableComponent {
     this.dialog.open(TableSettingsComponent, config);
   }
 
-  navigateToNavigationCreationView() {
+  navigateToNotificationCreationView() {
     this.router.navigate([ 'inbox/create' ]);
   }
 
