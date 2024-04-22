@@ -110,28 +110,20 @@ export class TableSettingsService {
     switch (tableType) {
       case TableType.AS_PLANNED_CUSTOMER:
         return new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
-        break;
       case TableType.AS_PLANNED_OWN:
         return new PartsAsPlannedConfigurationModel().filterConfiguration();
-        break;
       case TableType.AS_PLANNED_SUPPLIER:
         return new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
-        break;
       case TableType.AS_BUILT_OWN:
         return new PartsAsBuiltConfigurationModel().filterConfiguration();
-        break;
       case TableType.AS_BUILT_CUSTOMER:
         return new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
-        break;
       case TableType.AS_BUILT_SUPPLIER:
         return new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
-        break;
       case TableType.SENT_NOTIFICATION:
         return new NotificationsSentConfigurationModel().filterConfiguration();
-        break;
       case TableType.RECEIVED_NOTIFICATION:
         return new NotificationsReceivedConfigurationModel().filterConfiguration();
-        break;
     }
   }
 
