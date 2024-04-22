@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+import { CreateHeaderFromColumns } from '@shared/components/table/table.model';
 
 export class PartsTableConfigUtils {
 
@@ -65,6 +66,30 @@ export class PartsTableConfigUtils {
     }
     return [ first, ...filterColumnsMapping, last ].filter(value => value !== null);
 
+  }
+
+  public static getDefaultColumnVisibilityMap(displayedColumns: string[]): Map<string, boolean> {
+    const initialColumnMap = new Map<string, boolean>();
+    for (const column of displayedColumns) {
+      initialColumnMap.set(column, true);
+    }
+    return initialColumnMap;
+  }
+
+  static setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
+    const headerKey = 'table.column';
+    const tableConfig = {
+      displayedColumns: displayedColumnsForTable,
+      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
+      sortableColumns: sortableColumns,
+    };
+    const newFilterFormGroup = { ...filterFormGroup };
+    for (const controlName in filterFormGroup) {
+      if (filterFormGroup.hasOwnProperty(controlName)) {
+        newFilterFormGroup[controlName] = filterFormGroup[controlName];
+      }
+    }
+    return { tableConfig, newFilterFormGroup };
   }
 
 }

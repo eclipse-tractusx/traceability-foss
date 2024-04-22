@@ -236,7 +236,7 @@ export class TableComponent {
         // if no, create new a table setting for this.tabletype and put it into the list. Additionally, intitialize default table configuration
         tableSettingsList[this.tableType] = {
           columnsForDialog: this.tableViewConfig.displayedColumns,
-          columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
+          columnSettingsOptions: PartsTableConfigUtils.getDefaultColumnVisibilityMap(this.tableViewConfig.displayedColumns),
           columnsForTable: this.tableViewConfig.displayedColumns,
           filterColumnsForTable: this.tableViewConfig.filterColumns,
         };
@@ -248,7 +248,7 @@ export class TableComponent {
       const newTableSettingsList = {
         [this.tableType]: {
           columnsForDialog: this.tableViewConfig.displayedColumns,
-          columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
+          columnSettingsOptions: PartsTableConfigUtils.getDefaultColumnVisibilityMap(this.tableViewConfig.displayedColumns),
           columnsForTable: this.tableViewConfig.displayedColumns,
           filterColumnsForTable: this.tableViewConfig.filterColumns,
         },
@@ -257,14 +257,6 @@ export class TableComponent {
       this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
     }
 
-  }
-
-  private getDefaultColumnVisibilityMap(): Map<string, boolean> {
-    const initialColumnMap = new Map<string, boolean>();
-    for (const column of this.tableViewConfig.displayedColumns) {
-      initialColumnMap.set(column, true);
-    }
-    return initialColumnMap;
   }
 
 
