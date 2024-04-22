@@ -16,7 +16,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #828 fix duplicates in traction_battery_code_subcomponent table
 - #XXX Updated spring boot from 3.2.4 to 3.2.5
 - #XXX Bumped logback-core & logback-classic from 1.5.4 to 1.5.5
-- #XXX Updated jackson dependencies from 2.15.4 to 2.17.0 to fix #CVE-2023-35116
 ### Removed
 -
 ## [10.8.4 - 17.04.2024]
