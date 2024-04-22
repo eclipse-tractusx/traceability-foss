@@ -20,6 +20,9 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
+import notification.request.NotificationSeverityRequest;
+import notification.request.NotificationTypeRequest;
+import notification.request.StartNotificationRequest;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
@@ -36,9 +39,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
-import notification.request.NotificationSeverityRequest;
-import notification.request.NotificationTypeRequest;
-import notification.request.StartNotificationRequest;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -153,6 +153,20 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .when().get("/api/dashboard")
                 .then().statusCode(401);
+    }
+
+    @Test
+    void givenNoRoles_whenGetDashboard_thenReturn403() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorizationWithNoRole())
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when().get("/api/dashboard")
+                .then().statusCode(403);
     }
 
     @Test
