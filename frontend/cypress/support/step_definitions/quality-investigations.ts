@@ -101,18 +101,55 @@ Then('selected parts are marked as {string}', function(notificationType: string)
 
 
 Then('user changes field {string} to be {string}', function(field: string, value: string) {
+  cy.wait(1000);
   switch (field) {
     case 'severity':
-      cy.get('[data-testid="test-severity-input"]').select(value);
+      cy.get('div').contains('Severity').click(); // First the dropdown has to be opened.
+      cy.get('p').contains(value).click();
       break;
     case 'title':
-      cy.get('[data-testid="test-title-input"]').type(value);
+      cy.get('[data-testId="title-input"]').clear().type(value);
+      break;
+    case 'bpn':
+      cy.get('[data-testId="bpn-input"]').clear().type(value);
       break;
     case 'description':
-      cy.get('[data-testid="test-description-input"]').type(value);
+      cy.get('[data-testId="description-input"]').clear().type(value);
       break;
     default:
-      throw new Error('Set field ' + field + ' is not one of valid fields [severity, title, description');
+      throw new Error('Set field ' + field + ' is not one of valid fields [severity, title, description, bpn]');
+  }
+});
+
+Then('selected {string} field {string} value is {string}', function(notificationType: string, field: string, value: string) {
+  cy.wait(1000);
+  switch (field) {
+    case 'severity':
+      cy.get('[data-testid="severity-view"]').should('contain.text', value);
+      break;
+    case 'title':
+      cy.get('[data-testid="title-view"]').should('contain.text', value);
+      break;
+    case 'description':
+      cy.get('[data-testid="description-view"]').should('contain.text', value);
+      break;
+    case 'status':
+      cy.get('[data-testid="status-view"]').should('contain.text', value);
+      break;
+    case 'createdBy':
+      cy.get('[data-testid="createdBy-view"]').should('contain.text', value);
+      break;
+    case 'createdByName':
+      cy.get('[data-testid="createdByName-view"]').should('contain.text', value);
+      break;
+    case 'sendTo':
+      cy.get('[data-testid="sentTo-view"]').should('contain.text', value);
+      break;
+    case 'sendToName':
+      cy.get('[data-testid="sentToName-view"]').should('contain.text', value);
+      break;
+    default:
+      throw new Error('Set field ' + field + ' is not one of valid fields [severity, title, description, status, createdBy, createdByName, sendTo, sendToName]');
   }
 });
 
@@ -121,9 +158,11 @@ When('user clicks save', function() {
 });
 
 When('popup shows successful {string} notification', function(type: string) {
-  switch (type){
-    case "created": cy.contains(/Quality topic was created successfully./i).should('be.visible');
-    case "edited": cy.contains(/Quality topic was updated successfully./i).should('be.visible');
+  if (type === 'created') {
+    cy.contains(/Quality topic was created successfully./i).should('be.visible');
+  }
+  if (type === 'edited') {
+    cy.contains(/Quality topic was updated successfully./i).should('be.visible');
   }
 });
 
@@ -134,7 +173,8 @@ When('user navigate to {string} with button in popup', function(popupClick: stri
 
 
 When('open details of created {string}', () => {
-  cy.get('[data-testid="table-menu-button"]').first().click(); //the first investigation will be opened
+  cy.wait(2000);
+  cy.get('[data-testid="table-menu-button"]').first().click({ force: true }); //the first investigation will be opened
   if (!(cy.get('[data-testid="table-menu-button--actions.viewDetails"]').should('exist'))) { //this is necessary because sometimes the page reload and the first click disappear
     cy.get('[data-testid="table-menu-button"]').first().click();
     cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
