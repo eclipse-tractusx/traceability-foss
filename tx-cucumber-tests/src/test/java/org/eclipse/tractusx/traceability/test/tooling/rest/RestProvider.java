@@ -142,9 +142,9 @@ public class RestProvider {
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .when()
-                .post("/api/notifications/" + notificationId + "/edit")
+                .put("/api/notifications/" + notificationId + "/edit")
                 .then()
-                .statusCode(HttpStatus.SC_CREATED);
+                .statusCode(HttpStatus.SC_NO_CONTENT);
 
     }
 
