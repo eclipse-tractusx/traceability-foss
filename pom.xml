@@ -63,6 +63,7 @@ SPDX-License-Identifier: Apache-2.0
         <edc-library.version>0.2.1</edc-library.version>
         <!-- versions for 3rd party dependecies -->
         <logback.version>1.5.5</logback.version>
+        <jackson.version>2.17.0</jackson.version>
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.3.0</ascii-doctor-j-diagram.version>
@@ -141,6 +142,17 @@ SPDX-License-Identifier: Apache-2.0
             <version>${junit-bom.version}</version>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.17.0</version>
+            </dependency>
+        </dependencies>
+
+    </dependencyManagement>
 
     <pluginRepositories>
         <pluginRepository>
