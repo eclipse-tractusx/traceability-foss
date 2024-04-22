@@ -10,6 +10,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #844 Validation for BPN to Notification API (Create / Edit)
 - #726 Added @Preauthorize annotation to dashboard controller
+- #837 Added digital twin type to data provisioning workflow to be able to lookup shells created by trace-x
+
 ### Changed
 - #844 Prefilled bpn on investigation creation
 - #843 Refactored e2e tests, added edit notification e2e test case
