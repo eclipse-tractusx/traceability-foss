@@ -15,8 +15,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #843 Refactored e2e tests, added edit notification e2e test case
 - #828 fix duplicates in traction_battery_code_subcomponent table
 ### Removed
-
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
+
 ## [10.8.4 - 17.04.2024]
 
 ### Added
