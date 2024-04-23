@@ -188,6 +188,8 @@ export class PartsTableComponent implements OnInit {
 
   private setupTableViewSettings() {
 
+    this.tableSettingsService.storedTableSettingsInvalid(this.tableViewConfig, this.tableType);
+
     const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
     // check if there are table settings list
     if (tableSettingsList) {
