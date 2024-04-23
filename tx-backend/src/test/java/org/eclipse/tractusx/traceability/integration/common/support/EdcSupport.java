@@ -86,16 +86,6 @@ public class EdcSupport {
         );
     }
 
-    public void edcWillReturnCatalog() {
-        whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/catalog/request"),
-                EDC_API_KEY_HEADER
-        ).then(
-                status(HttpStatus.OK_200),
-                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/catalog_response_200.json")
-        );
-    }
-
     public void edcWillReturnCatalogDupl() {
         whenHttp(restitoProvider.stubServer()).match(
                 post("/management/v2/catalog/request"),

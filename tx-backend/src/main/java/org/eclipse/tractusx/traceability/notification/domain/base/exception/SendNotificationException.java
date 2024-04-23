@@ -27,9 +27,4 @@ public class SendNotificationException extends RuntimeException {
     public SendNotificationException(final String message) {
         super(message);
     }
-
-    public SendNotificationException(final String message, final Exception cause) {
-        super(message, cause);
-
-    }
 }

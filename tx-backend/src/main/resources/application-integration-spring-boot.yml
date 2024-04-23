@@ -82,7 +82,7 @@ logging:
 
 digitalTwinRegistryClient:
   oAuthClientId: keycloak
-  discoveryFinderUrl: "/v1.0/administration/connectors/discovery/search"
+  discoveryFinderUrl: ""
 
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
