@@ -40,7 +40,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showEditButton(selectedNotification)"
-        (click)="navigateToDetailView()"
+        (click)="navigateToEditView()"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
       >
