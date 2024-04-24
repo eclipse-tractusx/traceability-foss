@@ -334,7 +334,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
+                  "value" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
                   "type" : "Submodel"
                 }
               ],

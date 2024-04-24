@@ -59,7 +59,7 @@ public class JsonFileValidator {
             Map.entry("urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt", "/schema/semantichub/SingleLevelUsageAsBuilt_1.0.1-schema.json"),
             Map.entry("urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode", "/schema/semantichub/TractionBatteryCode_1.0.0-schema.json"),
             Map.entry("urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned", "/schema/semantichub/PartAsPlanned_1.0.1-schema.json"),
-            Map.entry("urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned", "/schema/semantichub/SingleLevelBomAsPlanned_1.1.0-schema.json")
+            Map.entry("urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned", "/schema/semantichub/SingleLevelBomAsPlanned_1.1.0-schema.json")
     );
 
     private final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
