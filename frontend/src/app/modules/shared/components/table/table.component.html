@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
 <div *ngIf="additionalTableHeader" class="table-header-wrapper">
   <div class="table-header-container">
     <div class="large-text table--header--text">{{ tableHeader | i18n }}
-      <mat-icon (click)="openDialog()" *ngIf="tableSettingsEnabled"
+      <mat-icon (click)="openDialog()" *ngIf="tableSettingsEnabled" (keydown)="openDialog()"
                 class="cursor-pointer table&#45;&#45;settings&#45;&#45;button ml-2">
         settings
       </mat-icon>
@@ -38,6 +38,7 @@ SPDX-License-Identifier: Apache-2.0
         <app-button
           [iconName]="'announcement'"
           (click)="navigateToNotificationCreationView()"
+          (keydown)="null"
           [isDisabled]="roleService.isAdmin()"
         ></app-button>
       </div>
