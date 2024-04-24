@@ -34,6 +34,10 @@ public class BpnValidator implements ConstraintValidator<ValidBPN, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value != null && Pattern.matches(BPN_REGEX, value);
+        if (value == null) {
+            return true;
+        } else {
+            return Pattern.matches(BPN_REGEX, value);
+        }
     }
 }
