@@ -61,7 +61,7 @@
             "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
             "customers" : [
               {
-                "parentItems" : [
+                "parentParts" : [
                   {
                     "quantity" : {
                       "quantityNumber" : 1,
@@ -142,7 +142,7 @@
             "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
             "customers" : [
               {
-                "parentItems" : [
+                "parentParts" : [
                   {
                     "quantity" : {
                       "quantityNumber" : 1,
@@ -223,7 +223,7 @@
             "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
             "customers" : [
               {
-                "parentItems" : [
+                "parentParts" : [
                   {
                     "quantity" : {
                       "quantityNumber" : 1,
@@ -304,7 +304,7 @@
             "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
             "customers" : [
               {
-                "parentItems" : [
+                "parentParts" : [
                   {
                     "quantity" : {
                       "quantityNumber" : 1,
@@ -360,7 +360,7 @@
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
             "customers" : [
               {
-                "parentItems" : [
+                "parentParts" : [
                   {
                     "quantity" : {
                       "quantityNumber" : 1,
@@ -487,7 +487,7 @@
           "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
-            "childItems" : [
+            "childParts" : [
               {
                 "validityPeriod" : {
                   "validFrom" : "2023-03-21T08:17:29.187+01:00",
@@ -499,7 +499,7 @@
                 },
                 "createdOn" : "2022-09-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
-                "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+                "childCatenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
                 "businessPartner" : "BPNL00000003CML1"
               }
             ]
@@ -579,13 +579,13 @@
           "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
-            "childItems" : [
+            "childParts" : [
               {
                 "validityPeriod" : {
                   "validFrom" : "2023-03-21T08:17:29.187+01:00",
                   "validTo" : "2024-07-01T16:10:00.000+01:00"
                 },
-                "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
+                "childCatenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
                 "quantity" : {
                   "quantityNumber" : 1,
                   "measurementUnit" : "unit:litre"
@@ -673,13 +673,13 @@
           "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
-            "childItems" : [
+            "childParts" : [
               {
                 "validityPeriod" : {
                   "validFrom" : "2023-03-21T08:17:29.187+01:00",
                   "validTo" : "2024-07-01T16:10:00.000+01:00"
                 },
-                "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
+                "childCatenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
                 "quantity" : {
                   "quantityNumber" : 6,
                   "measurementUnit" : "unit:litre"
@@ -731,13 +731,13 @@
           "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
-            "childItems" : [
+            "childParts" : [
               {
                 "validityPeriod" : {
                   "validFrom" : "2023-03-21T08:17:29.187+01:00",
                   "validTo" : "2024-07-01T16:10:00.000+01:00"
                 },
-                "catenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
+                "childCatenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
                 "quantity" : {
                   "quantityNumber" : 1,
                   "measurementUnit" : "unit:litre"
@@ -803,13 +803,13 @@
           "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
-            "childItems" : [
+            "childParts" : [
               {
                 "validityPeriod" : {
                   "validFrom" : "2023-03-21T08:17:29.187+01:00",
                   "validTo" : "2024-07-01T16:10:00.000+01:00"
                 },
-                "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
+                "childCatenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
                 "quantity" : {
                   "quantityNumber" : 0.3301,
                   "measurementUnit" : "unit:kilogram"
@@ -1047,7 +1047,7 @@
             "customers" : [
               {
                 "businessPartner" : "BPNL00000003AXS3",
-                "parentItems" : [],
+                "parentParts" : [],
                 "createdOn" : "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
               }
