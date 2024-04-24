@@ -1,5 +1,4 @@
 import { FormControl } from '@angular/forms';
-import { CreateHeaderFromColumns } from '@shared/components/table/table.model';
 
 export class PartsTableConfigUtils {
 
@@ -74,22 +73,6 @@ export class PartsTableConfigUtils {
       initialColumnMap.set(column, true);
     }
     return initialColumnMap;
-  }
-
-  static setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
-    const headerKey = 'table.column';
-    const tableConfig = {
-      displayedColumns: displayedColumnsForTable,
-      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
-      sortableColumns: sortableColumns,
-    };
-    const newFilterFormGroup = { ...filterFormGroup };
-    for (const controlName in filterFormGroup) {
-      if (filterFormGroup.hasOwnProperty(controlName)) {
-        newFilterFormGroup[controlName] = filterFormGroup[controlName];
-      }
-    }
-    return { tableConfig, newFilterFormGroup };
   }
 
 }
