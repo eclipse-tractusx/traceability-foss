@@ -22,21 +22,27 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
+import { TableSettingsService } from '@core/user/table-settings.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import {
+  CreateHeaderFromColumns,
   MenuActionConfig,
   TableConfig,
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
@@ -53,6 +59,7 @@ export class TableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
   @Input() additionalTableHeader = false;
+  @Input() tableHeaderMenuEnabled = false;
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
@@ -62,23 +69,9 @@ export class TableComponent {
 
     const { menuActionsConfig: menuActions, displayedColumns: dc, columnRoles, hasPagination = true } = tableConfig;
     const displayedColumns = dc.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user') || this.roleService.hasAccess('admin'));
-
-    const viewDetailsMenuAction: MenuActionConfig<unknown> = {
-      label: 'actions.viewDetails',
-      icon: 'remove_red_eye',
-      action: (data: Record<string, unknown>) => this.selected.emit(data),
-    };
-
-    const editDetailsMenuAction: MenuActionConfig<unknown> = {
-      label: 'actions.edit',
-      icon: 'edit',
-      action: (data: Record<string, unknown>) => this.editClicked.emit(data),
-      condition: data => this.isEditable(data),
-      isAuthorized: this.roleService.isSupervisor(),
-    };
-
-    const menuActionsConfig = menuActions ? [ viewDetailsMenuAction, editDetailsMenuAction, ...menuActions ] : null;
+    const menuActionsConfig = this.menuActionsWithAddedDefaultActions(menuActions);
     this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
+
   }
 
   isEditable(data: any): boolean {
@@ -135,7 +128,7 @@ export class TableComponent {
     }
 
     this.removeSelectedValues(deselectItem);
-    this.emitMultiSelect();
+    this.handleSelectionChange();
   }
 
   @Input() set addTrigger(newItem: unknown) {
@@ -144,7 +137,7 @@ export class TableComponent {
     }
 
     this.selection.select(newItem);
-    this.emitMultiSelect();
+    this.handleSelectionChange();
   }
 
   @Output() selected = new EventEmitter<Record<string, unknown>>();
@@ -155,6 +148,7 @@ export class TableComponent {
   @Output() filterActivated = new EventEmitter<any>();
   @Input()
   public autocompleteEnabled = false;
+  @Input() tableSettingsEnabled: boolean = false;
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
@@ -164,6 +158,8 @@ export class TableComponent {
   public isDataLoading: boolean;
   public selectedRow: Record<string, unknown>;
   public isMenuOpen: boolean;
+
+  public notificationsSelectedOnlyInStatusCreated: boolean;
 
   private pageSize: number;
   private sorting: TableHeaderSort;
@@ -175,40 +171,115 @@ export class TableComponent {
   filterFormGroup = new FormGroup({});
 
   // input notification type map to parttable type,
-  @Input()
-  tableType: TableType = TableType.AS_BUILT_OWN;
+  @Input() tableType: TableType = TableType.AS_BUILT_OWN;
 
-  constructor(private readonly roleService: RoleService) {
+  public displayedColumns: string[];
+  public defaultColumns: string[];
+
+  constructor(
+    public readonly roleService: RoleService,
+    private dialog: MatDialog,
+    private tableSettingsService: TableSettingsService,
+    public toastService: ToastService,
+    private readonly router: Router,
+  ) {
 
   }
 
   ngOnInit(): void {
 
-    const displayFilterColumnMappings = this.tableType === TableType.CONTRACTS ?
-      PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'creationDate', 'endDate' ], [], true, false)
-      : PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true);
+    if (this.tableSettingsEnabled) {
+      this.tableViewConfig = this.tableSettingsService.initializeTableViewSettings(this.tableType);
+      this.tableSettingsService.getEvent().subscribe(() => {
+        this.setupTableViewSettings();
+      });
+      this.setupTableViewSettings();
+    } else {
+      const displayFilterColumnMappings = this.tableType === TableType.CONTRACTS ?
+        PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'creationDate', 'endDate' ], [], true, false)
+        : PartsTableConfigUtils.generateFilterColumnsMapping(this.tableConfig?.sortableColumns, [ 'createdDate', 'targetDate' ], [], false, true);
 
-    const filterColumns = this.tableType === TableType.CONTRACTS ?
-      PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, true, false)
-      : PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true);
+      const filterColumns = this.tableType === TableType.CONTRACTS ?
+        PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, true, false)
+        : PartsTableConfigUtils.createFilterColumns(this.tableConfig?.displayedColumns, false, true);
 
-    this.tableViewConfig = {
-      displayedColumns: this.tableConfig?.sortableColumns ? Object.keys(this.tableConfig?.sortableColumns) : [],
-      filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
-      filterColumns: filterColumns,
-      sortableColumns: this.tableConfig?.sortableColumns,
-      displayFilterColumnMappings: displayFilterColumnMappings,
-    };
-    for (const controlName in this.tableViewConfig.filterFormGroup) {
-      if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
-        this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
+      this.tableViewConfig = {
+        displayedColumns: this.tableConfig?.sortableColumns ? Object.keys(this.tableConfig?.sortableColumns) : [],
+        filterFormGroup: PartsTableConfigUtils.createFormGroup(this.tableConfig?.displayedColumns),
+        filterColumns: filterColumns,
+        sortableColumns: this.tableConfig?.sortableColumns,
+        displayFilterColumnMappings: displayFilterColumnMappings,
+      };
+      for (const controlName in this.tableViewConfig.filterFormGroup) {
+        if (this.tableViewConfig.filterFormGroup.hasOwnProperty(controlName)) {
+          this.filterFormGroup.addControl(controlName, this.tableViewConfig.filterFormGroup[controlName]);
+        }
       }
     }
 
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
+
   }
+
+  private setupTableViewSettings() {
+
+    this.tableSettingsService.storedTableSettingsInvalid(this.tableViewConfig, this.tableType);
+
+    const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
+    // check if there are table settings list
+    if (tableSettingsList) {
+      // if yes, check if there is a table-setting for this table type
+      if (tableSettingsList[this.tableType]) {
+        // if yes, get the effective displayedcolumns from the settings and set the tableconfig after it.
+        this.setupTableConfigurations(tableSettingsList[this.tableType].columnsForTable, tableSettingsList[this.tableType].filterColumnsForTable, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
+      } else {
+        // if no, create new a table setting for this.tabletype and put it into the list. Additionally, intitialize default table configuration
+        tableSettingsList[this.tableType] = {
+          columnsForDialog: this.tableViewConfig.displayedColumns,
+          columnSettingsOptions: PartsTableConfigUtils.getDefaultColumnVisibilityMap(this.tableViewConfig.displayedColumns),
+          columnsForTable: this.tableViewConfig.displayedColumns,
+          filterColumnsForTable: this.tableViewConfig.filterColumns,
+        };
+        this.tableSettingsService.storeTableSettings(tableSettingsList);
+        this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
+      }
+    } else {
+      // if no, create new list and a settings entry for this.tabletype with default values and set correspondingly the tableconfig
+      const newTableSettingsList = {
+        [this.tableType]: {
+          columnsForDialog: this.tableViewConfig.displayedColumns,
+          columnSettingsOptions: PartsTableConfigUtils.getDefaultColumnVisibilityMap(this.tableViewConfig.displayedColumns),
+          columnsForTable: this.tableViewConfig.displayedColumns,
+          filterColumnsForTable: this.tableViewConfig.filterColumns,
+        },
+      };
+      this.tableSettingsService.storeTableSettings(newTableSettingsList);
+      this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
+    }
+
+  }
+
+
+  private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
+    const headerKey = 'table.column';
+    this.tableConfig = {
+      ...this.tableConfig,
+      displayedColumns: displayedColumnsForTable,
+      header: CreateHeaderFromColumns(displayedColumnsForTable, headerKey),
+      sortableColumns: sortableColumns,
+    };
+    this.displayedColumns = displayedColumns;
+
+    for (const controlName in filterFormGroup) {
+      if (filterFormGroup.hasOwnProperty(controlName)) {
+        this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
+      }
+    }
+
+  }
+
 
   public areAllRowsSelected(): boolean {
     return this.dataSource.data.every(data => this.isSelected(data));
@@ -227,7 +298,7 @@ export class TableComponent {
       ? this.removeSelectedValues(this.dataSource.data)
       : this.addSelectedValues(this.dataSource.data);
 
-    this.emitMultiSelect();
+    this.handleSelectionChange();
   }
 
   public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
@@ -238,7 +309,7 @@ export class TableComponent {
 
   public updateSortingOfData({ active, direction }: Sort): void {
     this.selection.clear();
-    this.emitMultiSelect();
+    this.handleSelectionChange();
     this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
     this.isDataLoading = true;
     if (this.pageSize === 0) {
@@ -249,7 +320,7 @@ export class TableComponent {
 
   public toggleSelection(row: unknown): void {
     this.isSelected(row) ? this.removeSelectedValues([ row ]) : this.addSelectedValues([ row ]);
-    this.emitMultiSelect();
+    this.handleSelectionChange();
   }
 
   public selectElement(row: Record<string, unknown>) {
@@ -260,7 +331,8 @@ export class TableComponent {
     }
   }
 
-  private emitMultiSelect(): void {
+  private handleSelectionChange(): void {
+    this.notificationsSelectedOnlyInStatusCreated = this.selection.selected.every(notification => notification?.['status'] === NotificationStatus.CREATED);
     this.multiSelect.emit(this.selection.selected);
   }
 
@@ -292,5 +364,42 @@ export class TableComponent {
     removeSelectedValues(this.selection, itemsToRemove);
   }
 
+  openDialog() {
+    const config = new MatDialogConfig();
+    config.data = {
+      title: 'table.tableSettings.title',
+      panelClass: 'custom',
+      tableType: this.tableType,
+      defaultColumns: this.tableViewConfig.displayedColumns,
+      defaultFilterColumns: this.tableViewConfig.filterColumns,
+    };
+    this.dialog.open(TableSettingsComponent, config);
+  }
+
+  navigateToNotificationCreationView() {
+    this.router.navigate([ 'inbox/create' ]);
+  }
+
+  private menuActionsWithAddedDefaultActions(menuActionsConfig: MenuActionConfig<unknown>[] = []): MenuActionConfig<unknown>[] {
+    const viewDetailsMenuAction: MenuActionConfig<unknown> = {
+      label: 'actions.viewDetails',
+      icon: 'remove_red_eye',
+      action: (data: Record<string, unknown>) => this.selected.emit(data),
+    };
+
+    const editDetailsMenuAction: MenuActionConfig<unknown> = {
+      label: 'actions.edit',
+      icon: 'edit',
+      action: (data: Record<string, unknown>) => this.editClicked.emit(data),
+      condition: data => this.isEditable(data),
+      isAuthorized: this.roleService.isSupervisor(),
+    };
+    const defaultActionsToAdd: MenuActionConfig<unknown>[] = [ viewDetailsMenuAction, editDetailsMenuAction ]
+      .filter(action => !menuActionsConfig.some(a => a.label === action.label));
+
+    return [ ...defaultActionsToAdd, ...menuActionsConfig ];
+  };
+
   protected readonly MainAspectType = MainAspectType;
+
 }

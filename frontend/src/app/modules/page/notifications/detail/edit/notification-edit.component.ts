@@ -132,7 +132,7 @@ export class NotificationEditComponent implements OnDestroy {
     const newNotification: Notification = {
       assetIds: this.sharedPartService?.affectedParts?.map(value => value.id) || [],
       createdBy: '',
-      type: this.route.snapshot.queryParams['initialType'],
+      type: this.route.snapshot.queryParams['initialType'] ?? null,
       createdByName: '',
       createdDate: undefined,
       description: '',
@@ -158,6 +158,13 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
+    // if user switches type of notification in creation mode, reset affected parts and reload new available parts
+    if (this.selectedNotification.type !== notificationFormGroup.value['type']) {
+      this.selectedNotification.type = notificationFormGroup.value['type'];
+      // TODO: comment back in if todos inside the function were handled
+      // this.switchSelectedNotificationTypeAndResetParts();
+    }
+
     this.notificationFormGroup = notificationFormGroup;
     this.isSaveButtonDisabled = (notificationFormGroup.invalid || this.affectedPartIds.length < 1) || !this.notificationFormGroup.dirty;
     if (this.notificationFormGroup && this.notificationFormGroup.get('type').value === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.get('bpn').value && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
@@ -338,6 +345,17 @@ export class NotificationEditComponent implements OnDestroy {
       ...this.notificationFormGroup.value,
       assetIds: this.affectedPartIds,
     };
+  }
+
+  private switchSelectedNotificationTypeAndResetParts() {
+    this.selectedNotification.assetIds = [];
+    this.affectedPartIds = [];
+    // TODO: to switch notifications we need to build a proper request to make them empty
+    //this.affectedPartsAsBuilt$ = this.partsFacade ...
+    // TODO: comment back in if the upper todo was handled
+    //this.availablePartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
+    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
   }
 
   protected readonly TableType = TableType;
