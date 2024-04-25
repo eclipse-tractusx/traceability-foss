@@ -4,16 +4,11 @@ tractusx-connector:
   enabled: true
 
   iatp:
-    # Decentralized IDentifier
-    id: <path:traceability-irs/data/dev/controlplane#DID>
     sts:
-      dim:
-        url: <path:traceability-irs/data/dev/controlplane#dimUrl>
       oauth:
-        token_url: <path:traceability-irs/data/dev/controlplane#iatp.oauth.tokenurl>
         client:
-          id: <path:traceability-irs/data/dev/controlplane#dimClientId>
-          secret_alias: edc-test-miw-keycloak-secret
+          id: <path:traceability-irs/data/dev/controlplane#ssi.oauth.client.id.provider1>
+          secret_alias: dev-provider1-miw-secret
 
   controlplane:
     ingresses:
