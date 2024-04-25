@@ -34,6 +34,11 @@ tractusx-connector:
         memory: 1.5Gi
 
   dataplane:
+    token:
+      signer:
+        privatekey_alias: tracex-dev-daps-cert-provider-key
+      verifier:
+        publickey_alias: tracex-dev-daps-cert-provider
     ingresses:
       - enabled: true
         hostname: "trace-x-test-edc-dataplane.dev.demo.catena-x.net"
