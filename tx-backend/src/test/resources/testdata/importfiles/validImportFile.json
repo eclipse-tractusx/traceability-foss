@@ -14,10 +14,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "22782277-50",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-313869652971440618042264",
                 "key" : "partInstanceId"
               }
@@ -30,7 +26,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "22782277-50",
               "customerPartId" : "22782277-50",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Door f-l",
               "nameAtCustomer" : "b/test Door front-left"
             }
@@ -93,10 +95,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "3880383-57",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-989134870198932317923938",
                 "key" : "partInstanceId"
               }
@@ -109,7 +107,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "3880383-57",
               "customerPartId" : "3880383-57",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door f-l",
               "nameAtCustomer" : "Door front-left"
             }
@@ -172,10 +176,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "9069675-60",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-004314332935115065980115",
                 "key" : "partInstanceId"
               }
@@ -188,7 +188,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "9069675-60",
               "customerPartId" : "9069675-60",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door f-l",
               "nameAtCustomer" : "Door front-left"
             }
@@ -251,10 +257,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "9879317-51",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-477013846751358222215326",
                 "key" : "partInstanceId"
               }
@@ -267,7 +269,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "9879317-51",
               "customerPartId" : "9879317-51",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door f-l",
               "nameAtCustomer" : "Door front-left"
             }
@@ -925,16 +933,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "8840374-09",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-917923082133064161014067",
@@ -949,7 +953,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "8840374-09",
               "customerPartId" : "8840374-09",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test ZB ZELLE",
               "nameAtCustomer" : "ZB ZELLE"
             }
@@ -976,16 +986,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "1142469-27",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-655858074471261486971940",
@@ -1000,7 +1006,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "1142469-27",
               "customerPartId" : "1142469-27",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key",
               "nameAtCustomer" : "Door Key"
             }
@@ -1037,16 +1049,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003AXS3",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "8840837-48",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-570196089623842018037372",
@@ -1061,7 +1069,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "8840838-04",
               "customerPartId" : "8840838-04",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "HV MODUL",
               "nameAtCustomer" : "HV MODUL"
             }

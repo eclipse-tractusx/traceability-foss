@@ -6,16 +6,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003CML1",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "3500076-05",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "OMAOYGBDTSRCMYSCX",
@@ -37,7 +33,13 @@
             "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
             "partTypeInformation" : {
               "manufacturerPartId" : "3500076-05",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "a/dev Vehicle Hybrid"
             }
           }
@@ -69,16 +71,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003CML1",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "4922009-56",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "OMAYSKEITUGNVHKKX",
@@ -100,7 +98,13 @@
             "catenaXId" : "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
             "partTypeInformation" : {
               "manufacturerPartId" : "4922009-56",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "a/dev Vehicle Hybrid"
             }
           }
@@ -132,16 +136,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003CML1",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "6683834-82",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-493575190274381019348907",
@@ -160,7 +160,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "6683834-82",
               "customerPartId" : "6683834-82",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Door Key",
               "nameAtCustomer" : "Door Key"
             }
@@ -198,16 +204,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003CML1",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "5519583-63",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "OMAZRXWWMSPTQUEKI",
@@ -229,7 +231,13 @@
             "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
             "partTypeInformation" : {
               "manufacturerPartId" : "5519583-63",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Vehicle Hybrid"
             }
           }
@@ -261,16 +269,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003CML1",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "8770123-80",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-246880451848384868750731",
@@ -289,7 +293,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "8770123-80",
               "customerPartId" : "8770123-80",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "a/dev Door Key",
               "nameAtCustomer" : "Door Key"
             }
@@ -327,7 +337,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -1028,7 +1038,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -1107,7 +1117,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -1162,7 +1172,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -1231,7 +1241,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {

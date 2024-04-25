@@ -1154,10 +1154,6 @@
             "key" : "manufacturerId"
           },
           {
-            "value" : "KR-09",
-            "key" : "manufacturerPartId"
-          },
-          {
             "value" : "OMA-TGFAYUHXFLHHUQQMPLTE",
             "key" : "partInstanceId"
           },
@@ -1173,7 +1169,13 @@
         "catenaXId" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
         "partTypeInformation" : {
           "manufacturerPartID" : "KR-09",
-          "classification" : "product",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Vehicle Hybrid"
         }
       }
@@ -1233,10 +1235,6 @@
             "key" : "manufacturerId"
           },
           {
-            "value" : "83238F4-36",
-            "key" : "manufacturerPartId"
-          },
-          {
             "value" : "NO-354879221683258717359442",
             "key" : "partInstanceId"
           }
@@ -1249,7 +1247,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "83238F4-36",
           "customerPartId" : "83238F4-36",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "ECU",
           "nameAtCustomer" : "ECU"
         }
@@ -1310,10 +1314,6 @@
             "key" : "manufacturerId"
           },
           {
-            "value" : "1O222E8-43",
-            "key" : "manufacturerPartId"
-          },
-          {
             "value" : "NO-733616531805581150452604",
             "key" : "partInstanceId"
           }
@@ -1326,7 +1326,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "1O222E8-43",
           "customerPartId" : "1O222E8-43",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Transmission",
           "nameAtCustomer" : "Transmission"
         }
@@ -1398,16 +1404,12 @@
     },
     {
       "identification" : "urn:uuid:20c37755-2cb1-4eaf-be09-b44c9b9031fe",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AYRE",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "95657362-83",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-369202025208677072946181",
@@ -1422,7 +1424,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "95657362-83",
           "customerPartId" : "95657362-83",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Battery",
           "nameAtCustomer" : "Battery"
         }
@@ -1430,16 +1438,12 @@
     },
     {
       "identification" : "urn:uuid:2f11ec59-b8e8-4494-b3d8-0bbb7d1517b5",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B0Q0",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "55269I8-71",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-340460948192054950891951",
@@ -1454,7 +1458,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "55269I8-71",
           "customerPartId" : "55269I8-71",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Engineering Plastics",
           "nameAtCustomer" : "Engineering Plastics"
         }
@@ -1462,16 +1472,12 @@
     },
     {
       "identification" : "urn:uuid:985ae9ac-e810-4b69-b3c1-23dfb1f057b6",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AXS3",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "91471Z0-84",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-182660425740222655242543",
@@ -1486,7 +1492,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "91471Z0-84",
           "customerPartId" : "91471Z0-84",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Glue",
           "nameAtCustomer" : "Glue"
         }
@@ -1494,16 +1506,12 @@
     },
     {
       "identification" : "urn:uuid:bc51058d-fc37-42e8-b7ce-3be50754124f",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B0Q0",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "01697F7-65",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-947880349904267845729159",
@@ -1518,7 +1526,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "01697F7-65",
           "customerPartId" : "01697F7-65",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Engineering Plastics",
           "nameAtCustomer" : "Engineering Plastics"
         }
@@ -1545,16 +1559,12 @@
     },
     {
       "identification" : "urn:uuid:cbc837f1-d369-4ff8-9539-42e7bd249204",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B3NX",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "65847F9-69",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-628797496367807957077265",
@@ -1569,7 +1579,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "65847F9-69",
           "customerPartId" : "65847F9-69",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Sensor",
           "nameAtCustomer" : "Sensor"
         }
@@ -1596,16 +1612,12 @@
     },
     {
       "identification" : "urn:uuid:162535e9-7baa-47b4-b778-17bc45427546",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AXS3",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "31008B0-49",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-825423826078402432465664",
@@ -1620,7 +1632,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "31008B0-49",
           "customerPartId" : "31008B0-49",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Glue",
           "nameAtCustomer" : "Glue"
         }
@@ -1628,16 +1646,12 @@
     },
     {
       "identification" : "urn:uuid:9aeaac21-7d98-44cc-813c-8ba8a6618564",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B3NX",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "37754B7-76",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-159040131155901488695376",
@@ -1652,7 +1666,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "37754B7-76",
           "customerPartId" : "37754B7-76",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Sensor",
           "nameAtCustomer" : "Sensor"
         }
@@ -1698,16 +1718,12 @@
     },
     {
       "identification" : "urn:uuid:326acfa7-07d3-4ad0-bc91-67330c56071e",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AYRE",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "8840838-04",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-397646649734958738335866",
@@ -1722,7 +1738,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "8840838-04",
           "customerPartId" : "8840838-04",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "HV MODUL",
           "nameAtCustomer" : "HV MODUL"
         }
@@ -1730,16 +1752,12 @@
     },
     {
       "identification" : "urn:uuid:140e0654-765e-4136-ba36-7b1d85832377",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B0Q0",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "74268H5-13",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-565359302028822441908953",
@@ -1754,7 +1772,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "74268H5-13",
           "customerPartId" : "74268H5-13",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "Engineering Plastics",
           "nameAtCustomer" : "Engineering Plastics"
         }
@@ -1762,16 +1786,12 @@
     },
     {
       "identification" : "urn:uuid:263e254d-8b7c-4911-b46a-d8bef28970f7",
-      "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload" : {
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B0Q0",
             "key" : "manufacturerId"
-          },
-          {
-            "value" : "98801V5-17",
-            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-056604022229087145032390",
@@ -1786,7 +1806,13 @@
         "partTypeInformation" : {
           "manufacturerPartID" : "98801V5-17",
           "customerPartId" : "98801V5-17",
-          "classification" : "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer" : "NTIER Product",
           "nameAtCustomer" : "NTIER Product"
         }

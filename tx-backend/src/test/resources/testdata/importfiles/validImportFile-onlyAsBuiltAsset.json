@@ -14,10 +14,6 @@
                 "key": "manufacturerId"
               },
               {
-                "value": "3500011-11",
-                "key": "manufacturerPartId"
-              },
-              {
                 "value": "OMAOYGBDTSRCMYSCX",
                 "key": "partInstanceId"
               },
@@ -33,7 +29,13 @@
             "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111",
             "partTypeInformation": {
               "manufacturerPartId": "3500011-11",
-              "classification": "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer": "a/dev Test Produkt AB"
             }
           }

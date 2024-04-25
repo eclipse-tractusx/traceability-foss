@@ -121,10 +121,6 @@
             "key": "manufacturerId"
           },
           {
-            "value": "KR-09",
-            "key": "manufacturerPartId"
-          },
-          {
             "value": "OMA-TGFAYUHXFLHHUQQMPLTE",
             "key": "partInstanceId"
           },
@@ -141,7 +137,13 @@
         "partTypeInformation": {
           "manufacturerPartId": "KR-09",
           "customerPartId": "KR-09",
-          "classification": "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer": "a/dev Door Key",
           "nameAtCustomer": "Door Key"
         }

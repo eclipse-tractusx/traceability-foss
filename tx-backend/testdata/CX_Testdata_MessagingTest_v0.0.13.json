@@ -71,10 +71,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "3500076-05",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "OMAOYGBDTSRCMYSCX",
               "key" : "partInstanceId"
             },
@@ -94,7 +90,13 @@
           "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
           "partTypeInformation" : {
             "manufacturerPartId" : "3500076-05",
-            "classification" : "product",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "a/dev Vehicle Hybrid"
           }
         }
@@ -128,10 +130,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "22782277-50",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-313869652971440618042264",
               "key" : "partInstanceId"
             },
@@ -148,7 +146,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "22782277-50",
             "customerPartId" : "22782277-50",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "Door f-l",
             "nameAtCustomer" : "b/test Door front-left"
           }
@@ -189,10 +193,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "95657762-59",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-584478761469608738361558",
               "key" : "partInstanceId"
             },
@@ -209,7 +209,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "95657762-59",
             "customerPartId" : "95657762-59",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "Door Key",
             "nameAtCustomer" : "Door Key"
           }
@@ -267,10 +273,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "4922009-56",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "OMAYSKEITUGNVHKKX",
               "key" : "partInstanceId"
             },
@@ -290,7 +292,13 @@
           "catenaXId" : "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
           "partTypeInformation" : {
             "manufacturerPartId" : "4922009-56",
-            "classification" : "product",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "a/dev Vehicle Hybrid"
           }
         }
@@ -324,10 +332,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "3880383-57",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-989134870198932317923938",
               "key" : "partInstanceId"
             },
@@ -344,7 +348,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "3880383-57",
             "customerPartId" : "3880383-57",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "b/test Door f-l",
             "nameAtCustomer" : "Door front-left"
           }
@@ -385,10 +395,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "6683834-82",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-493575190274381019348907",
               "key" : "partInstanceId"
             },
@@ -405,7 +411,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "6683834-82",
             "customerPartId" : "6683834-82",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "Door Key",
             "nameAtCustomer" : "Door Key"
           }
@@ -463,10 +475,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "5519583-63",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "OMAZRXWWMSPTQUEKI",
               "key" : "partInstanceId"
             },
@@ -486,7 +494,13 @@
           "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
           "partTypeInformation" : {
             "manufacturerPartId" : "5519583-63",
-            "classification" : "product",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "Vehicle Hybrid"
           }
         }
@@ -520,10 +534,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "9069675-60",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-004314332935115065980115",
               "key" : "partInstanceId"
             },
@@ -540,7 +550,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "9069675-60",
             "customerPartId" : "9069675-60",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "b/test Door f-l",
             "nameAtCustomer" : "Door front-left"
           }
@@ -581,10 +597,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "8770123-80",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-246880451848384868750731",
               "key" : "partInstanceId"
             },
@@ -601,7 +613,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "8770123-80",
             "customerPartId" : "8770123-80",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "a/dev Door Key",
             "nameAtCustomer" : "Door Key"
           }
@@ -659,10 +677,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "9321782-89",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "OMAFIVCDHEBNXKNHH",
               "key" : "partInstanceId"
             },
@@ -682,7 +696,13 @@
           "catenaXId" : "urn:uuid:4d33bfa6-0f1f-43a5-ad63-c3fe07a2d076",
           "partTypeInformation" : {
             "manufacturerPartId" : "9321782-89",
-            "classification" : "product",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "Vehicle Hybrid"
           }
         }
@@ -716,10 +736,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "9879317-51",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-477013846751358222215326",
               "key" : "partInstanceId"
             },
@@ -736,7 +752,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "9879317-51",
             "customerPartId" : "9879317-51",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "b/test Door f-l",
             "nameAtCustomer" : "Door front-left"
           }
@@ -777,10 +799,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "5756987-94",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-613963493493659233961306",
               "key" : "partInstanceId"
             },
@@ -797,7 +815,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "5756987-94",
             "customerPartId" : "5756987-94",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "a/dev Door Key",
             "nameAtCustomer" : "Door Key"
           }
@@ -2307,10 +2331,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "8840837-48",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-282209222605524629600815",
               "key" : "partInstanceId"
             },
@@ -2327,7 +2347,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "8840837-48",
             "customerPartId" : "9560617-12",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "a/dev HV MODUL",
             "nameAtCustomer" : "HV MODUL"
           }
@@ -2381,10 +2407,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "8840374-09",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-917923082133064161014067",
               "key" : "partInstanceId"
             },
@@ -2401,7 +2423,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "8840374-09",
             "customerPartId" : "8840374-09",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "b/test ZB ZELLE",
             "nameAtCustomer" : "ZB ZELLE"
           }
@@ -2431,10 +2459,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "4683655-00",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-135342108157438763234738",
               "key" : "partInstanceId"
             },
@@ -2451,7 +2475,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "4683655-00",
             "customerPartId" : "4683655-00",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "a/dev ZB ZELLE",
             "nameAtCustomer" : "ZB ZELLE"
           }
@@ -2481,10 +2511,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "1142469-27",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-655858074471261486971940",
               "key" : "partInstanceId"
             },
@@ -2501,7 +2527,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "1142469-27",
             "customerPartId" : "1142469-27",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "b/test Door Key",
             "nameAtCustomer" : "Door Key"
           }
@@ -2545,10 +2577,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "1261027-41",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-200738629800530338038454",
               "key" : "partInstanceId"
             },
@@ -2565,7 +2593,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "1261027-41",
             "customerPartId" : "1261027-41",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "a/dev Door Key",
             "nameAtCustomer" : "Door Key"
           }
@@ -2622,10 +2656,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "8840837-48",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-570196089623842018037372",
               "key" : "partInstanceId"
             },
@@ -2642,7 +2672,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "8840838-04",
             "customerPartId" : "8840838-04",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "HV MODUL",
             "nameAtCustomer" : "HV MODUL"
           }
@@ -2723,10 +2759,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "8840837-48",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-570196089623842018037372",
               "key" : "partInstanceId"
             },
@@ -2743,7 +2775,13 @@
           "partTypeInformation" : {
             "manufacturerPartId" : "8840838-04",
             "customerPartId" : "8840838-04",
-            "classification" : "component",
+            "partClassification" : [
+              {
+                "classificationStandard": "classificationStandard",
+                "classificationID":  "classificationID",
+                "classificationDescription": "classificationDescription"
+              }
+            ],
             "nameAtManufacturer" : "HV MODUL",
             "nameAtCustomer" : "HV MODUL"
           }

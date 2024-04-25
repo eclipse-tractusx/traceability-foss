@@ -451,6 +451,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .extract().as(ImportResponse.class);
 

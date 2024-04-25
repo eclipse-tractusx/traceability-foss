@@ -6,16 +6,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "22782277-50",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-313869652971440618042264",
@@ -34,7 +30,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "22782277-50",
               "customerPartId" : "22782277-50",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Door f-l",
               "nameAtCustomer" : "b/test Door front-left"
             }
@@ -91,16 +93,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
                 "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "3880383-57",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-989134870198932317923938",
@@ -119,7 +117,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "3880383-57",
               "customerPartId" : "3880383-57",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door f-l",
               "nameAtCustomer" : "Door front-left"
             }
@@ -176,7 +180,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -261,7 +265,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -961,7 +965,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -1016,7 +1020,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -1085,7 +1089,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {

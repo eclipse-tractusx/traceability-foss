@@ -141,7 +141,8 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .parentRelations(parentRelations)
                 .childRelations(childRelations)
                 .owner(Owner.OWN)
-                .classification(asBuiltAspect.partTypeInformation().classification())
+                // TODO enrich
+                .classification(null)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())
                 .importState(ImportState.TRANSIENT)
