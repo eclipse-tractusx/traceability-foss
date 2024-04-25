@@ -58,9 +58,9 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    const { title, description, severity, type, sendTo, targetDate } = this.notification;
 
     if (this.editMode) {
-      const { title, description, severity, type, sendTo, targetDate } = this.notification;
       this.formGroup.setValue({
         'title': title,
         'description': description,

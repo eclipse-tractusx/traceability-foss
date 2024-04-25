@@ -159,15 +159,14 @@ export class NotificationEditComponent implements OnDestroy {
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
     // if user switches type of notification in creation mode, reset affected parts and reload new available parts
-    if (this.selectedNotification.type !== notificationFormGroup.value['type']) {
-      this.selectedNotification.type = notificationFormGroup.value['type'];
-      // TODO: comment back in if todos inside the function were handled
-      // this.switchSelectedNotificationTypeAndResetParts();
+    if (this.selectedNotification.type !== notificationFormGroup.getRawValue().type) {
+      this.selectedNotification.type = notificationFormGroup.getRawValue().type;
+      this.switchSelectedNotificationTypeAndResetParts();
     }
 
     this.notificationFormGroup = notificationFormGroup;
     this.isSaveButtonDisabled = (notificationFormGroup.invalid || this.affectedPartIds.length < 1) || !this.notificationFormGroup.dirty;
-    if (this.notificationFormGroup && this.notificationFormGroup.get('type').value === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.get('bpn').value && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
+    if (this.notificationFormGroup && this.notificationFormGroup.getRawValue().type === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.getRawValue().bpn && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
       this.notificationFormGroup.get('bpn').setValue(this.sharedPartService.affectedParts[0].businessPartner);
     }
   }
@@ -197,6 +196,14 @@ export class NotificationEditComponent implements OnDestroy {
     }
     return filter;
 
+  }
+
+  paginationChangedAffectedParts(event: any){
+    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, this.cachedAffectedPartsFilter, event);
+  }
+
+  paginationChangedAvailableParts(event: any){
+    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification, this.cachedAvailablePartsFilter, event);
   }
 
   filterAvailableParts(partsFilter: any): void {
@@ -229,25 +236,25 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
 
-  private setAvailablePartsBasedOnNotificationType(notification: Notification, assetFilter?: any) {
+  private setAvailablePartsBasedOnNotificationType(notification: Notification, assetFilter?: any, pagination?: any) {
     if (this.affectedPartIds) {
       assetFilter = this.enrichPartsFilterByAffectedAssetIds(null, true);
     }
     if (notification.type === NotificationType.INVESTIGATION) {
-      this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+      this.partsFacade.setSupplierPartsAsBuilt(pagination?.page || FIRST_PAGE, pagination?.pageSize || DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     } else {
-      this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+      this.ownPartsFacade.setPartsAsBuilt(pagination?.page || FIRST_PAGE, pagination?.pageSize || DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     }
   }
 
-  private setAffectedPartsBasedOnNotificationType(notification: Notification, partsFilter?: any) {
+  private setAffectedPartsBasedOnNotificationType(notification: Notification, partsFilter?: any, pagination?: any) {
 
     if (this.affectedPartIds.length > 0) {
       partsFilter = this.enrichPartsFilterByAffectedAssetIds(null);
       if (notification.type === NotificationType.INVESTIGATION) {
-        this.partsFacade.setSupplierPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+        this.partsFacade.setSupplierPartsAsBuiltSecond(pagination?.page || FIRST_PAGE, pagination?.pageSize || DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
       } else {
-        this.ownPartsFacade.setPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+        this.ownPartsFacade.setPartsAsBuiltSecond(pagination?.page || FIRST_PAGE, pagination?.pageSize || DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
       }
     } else {
       this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
@@ -330,7 +337,9 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
   private selectNotificationAndLoadPartsBasedOnNotification(notification: Notification) {
+    console.log(notification, "selected from selectNotificationAndLoadPartsBasedOnNotification");
     this.selectedNotification = notification;
+
     this.affectedPartIds = notification.assetIds;
     this.tableType = notification.type === NotificationType.INVESTIGATION ? TableType.AS_BUILT_SUPPLIER : TableType.AS_BUILT_OWN;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
@@ -350,12 +359,10 @@ export class NotificationEditComponent implements OnDestroy {
   private switchSelectedNotificationTypeAndResetParts() {
     this.selectedNotification.assetIds = [];
     this.affectedPartIds = [];
-    // TODO: to switch notifications we need to build a proper request to make them empty
-    //this.affectedPartsAsBuilt$ = this.partsFacade ...
-    // TODO: comment back in if the upper todo was handled
-    //this.availablePartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
+    this.affectedPartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuiltSecond$ : this.ownPartsFacade.partsAsBuiltSecond$;
+    this.availablePartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
   }
 
   protected readonly TableType = TableType;
