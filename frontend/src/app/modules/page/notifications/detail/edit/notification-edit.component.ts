@@ -306,9 +306,7 @@ export class NotificationEditComponent implements OnDestroy {
     this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
     this.deselectPartTrigger$.next(this.temporaryAffectedParts);
     this.currentSelectedAvailableParts$.next([]);
-/*    this.currentSelectedAffectedParts$.next([]);*/
     this.temporaryAffectedParts = [];
-    console.log(this.selectedNotification, "selected");
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
   }
@@ -331,9 +329,6 @@ export class NotificationEditComponent implements OnDestroy {
       .getNotificationById(notificationId)
       .subscribe({
         next: data => {
-          console.log(data.type, "data.type from next");
-          console.log(data, "data from next");
-
           this.selectNotificationAndLoadPartsBasedOnNotification(data);
         },
         error: () => {
