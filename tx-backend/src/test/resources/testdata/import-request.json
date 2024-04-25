@@ -63,8 +63,8 @@
             "parentItems" : [
                   {
                     "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
+                      "value" : 1,
+                      "unit" : "unit:piece"
                     },
                     "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
                     "createdOn" : "2023-05-29T14:48:54.709Z",
@@ -142,8 +142,8 @@
             "parentItems" : [
                   {
                     "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
+                      "value" : 1,
+                      "unit" : "unit:piece"
                     },
                     "catenaXId" : "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
                     "createdOn" : "2023-07-15T14:48:54.709Z",
@@ -301,8 +301,8 @@
                 "parentItems" : [
                   {
                     "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
+                      "value" : 1,
+                      "unit" : "unit:piece"
                     },
                     "catenaXId" : "urn:uuid:4d33bfa6-0f1f-43a5-ad63-c3fe07a2d076",
                     "createdOn" : "2023-03-03T14:48:54.709Z",
@@ -361,8 +361,8 @@
                 "parentItems" : [
                   {
                     "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
+                      "value" : 1,
+                      "unit" : "unit:piece"
                     },
                     "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
                     "createdOn" : "2023-08-08T14:48:54.709Z",
@@ -756,8 +756,8 @@
                 },
                 "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:litre"
                 },
                 "businessPartner" : "BPNL00000003CML1",
                 "createdOn" : "2022-02-10T14:48:54.709Z",
