@@ -31,8 +31,8 @@
                   "validTo" : "2024-07-01T16:10:00.000+01:00"
                 },
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "createdOn" : "2022-09-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
