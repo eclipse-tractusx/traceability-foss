@@ -113,7 +113,6 @@ describe('TableSettingsComponent', () => {
     expect(component.tableType).toEqual(TableType.AS_BUILT_OWN);
     expect(component.defaultColumns).toEqual([ 'column1', 'column2' ]);
     expect(component.defaultFilterColumns).toEqual([ 'filtercolumn1', 'filtercolumn2' ]);
-    expect(component.isCustomerTable).toEqual(false);
   });
 
   it('should call save method and update tableSettingsService', () => {

@@ -21,6 +21,7 @@
 
 package notification.request;
 
+import bpn.request.ValidBPN;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
@@ -55,14 +56,16 @@ public class StartNotificationRequest {
     @Future(message = "Specify at least the current day or a date in future")
     private Instant targetDate;
 
-    @NotNull
+    @NotNull(message = "Field: severity must not be null.")
     private NotificationSeverityRequest severity;
 
-    @Schema(example = "BPN00001123123AS")
+    @NotNull(message = "Field: receiverBpn must not be null.")
+    @ValidBPN
+    @Schema(example = "BPNL00000003CNKC")
     private String receiverBpn;
 
     @Schema(example = "ALERT")
-    @NotNull
+    @NotNull(message = "Field: type must not be null.")
     private NotificationTypeRequest type;
 
 }

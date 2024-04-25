@@ -25,7 +25,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
-import { SharedPartIdsService } from '@page/notifications/detail/edit/shared-part-ids.service';
+import { SharedPartService } from '@page/notifications/detail/edit/shared-part.service';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
@@ -51,7 +51,6 @@ export class NotificationEditComponent implements OnDestroy {
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
-
   public readonly affectedPartsTableLabelId = this.staticIdService.generateId('AffectedPartsTable');
   public readonly availablePartsTableLabelId = this.staticIdService.generateId('AvailablePartsTable');
 
@@ -60,7 +59,7 @@ export class NotificationEditComponent implements OnDestroy {
   public readonly editMode: boolean = true;
   public notificationFormGroup: FormGroup;
 
-  public affectedPartIds: string[] = [];
+  public affectedPartIds: string[] = this.sharedPartService?.affectedParts?.map(value => value.id) || [];
   public temporaryAffectedParts: Part[] = [];
   public temporaryAffectedPartsForRemoval: Part[] = [];
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
@@ -90,7 +89,7 @@ export class NotificationEditComponent implements OnDestroy {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
-    private readonly sharedPartIdsService: SharedPartIdsService,
+    private readonly sharedPartService: SharedPartService,
   ) {
     this.editMode = this.determineEditModeOrCreateMode();
 
@@ -128,11 +127,12 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
   private handleCreateNotification() {
+
     this.isSaveButtonDisabled = true;
     const newNotification: Notification = {
-      assetIds: this.sharedPartIdsService.sharedPartIds,
+      assetIds: this.sharedPartService?.affectedParts?.map(value => value.id) || [],
       createdBy: '',
-      type: this.route.snapshot.queryParams['initialType'],
+      type: this.route.snapshot.queryParams['initialType'] ?? null,
       createdByName: '',
       createdDate: undefined,
       description: '',
@@ -158,8 +158,17 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
+    // if user switches type of notification in creation mode, reset affected parts and reload new available parts
+    if (this.selectedNotification.type !== notificationFormGroup.getRawValue().type) {
+      this.selectedNotification.type = notificationFormGroup.getRawValue().type;
+      this.switchSelectedNotificationTypeAndResetParts();
+    }
+
     this.notificationFormGroup = notificationFormGroup;
     this.isSaveButtonDisabled = (notificationFormGroup.invalid || this.affectedPartIds.length < 1) || !this.notificationFormGroup.dirty;
+    if (this.notificationFormGroup && this.notificationFormGroup.getRawValue().type === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.getRawValue().bpn && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
+      this.notificationFormGroup.get('bpn').setValue(this.sharedPartService.affectedParts[0].businessPartner);
+    }
   }
 
   filterAffectedParts(partsFilter: any): void {
@@ -169,9 +178,7 @@ export class NotificationEditComponent implements OnDestroy {
       this.cachedAffectedPartsFilter = JSON.stringify(partsFilter);
       this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, partsFilter);
     }
-
   }
-
 
   private enrichPartsFilterByAffectedAssetIds(partsFilter: any, exclude?: boolean) {
 
@@ -191,6 +198,14 @@ export class NotificationEditComponent implements OnDestroy {
 
   }
 
+  paginationChangedAffectedParts(event: any){
+    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification, this.cachedAffectedPartsFilter, event);
+  }
+
+  paginationChangedAvailableParts(event: any){
+    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification, this.cachedAvailablePartsFilter, event);
+  }
+
   filterAvailableParts(partsFilter: any): void {
     if (this.cachedAvailablePartsFilter !== JSON.stringify(partsFilter)) {
       this.setAvailablePartsBasedOnNotificationType(this.selectedNotification, partsFilter);
@@ -203,10 +218,10 @@ export class NotificationEditComponent implements OnDestroy {
       this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
         next: () => {
           this.navigateBackToNotifications();
-          this.toastService.success('requestNotification.saveSuccess');
+          this.toastService.success('requestNotification.saveEditSuccess');
           this.updateSelectedNotificationState();
         },
-        error: () => this.toastService.error('requestNotification.saveError'),
+        error: () => this.toastService.error('requestNotification.saveEditError'),
       });
     } else {
       this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
@@ -221,26 +236,29 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
 
-  private setAvailablePartsBasedOnNotificationType(notification: Notification, assetFilter?: any) {
+  private setAvailablePartsBasedOnNotificationType(notification: Notification, assetFilter?: any, pagination?: any) {
     if (this.affectedPartIds) {
       assetFilter = this.enrichPartsFilterByAffectedAssetIds(null, true);
     }
     if (notification.type === NotificationType.INVESTIGATION) {
-      this.partsFacade.setSupplierPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+      this.partsFacade.setSupplierPartsAsBuilt(pagination?.page || FIRST_PAGE, pagination?.pageSize || DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     } else {
-      this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
+      this.ownPartsFacade.setPartsAsBuilt(pagination?.page || FIRST_PAGE, pagination?.pageSize || DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(assetFilter, true));
     }
   }
 
-  private setAffectedPartsBasedOnNotificationType(notification: Notification, partsFilter?: any) {
+  private setAffectedPartsBasedOnNotificationType(notification: Notification, partsFilter?: any, pagination?: any) {
 
-    if (this.affectedPartIds) {
+    if (this.affectedPartIds.length > 0) {
       partsFilter = this.enrichPartsFilterByAffectedAssetIds(null);
-    }
-    if (notification.type === NotificationType.INVESTIGATION) {
-      this.partsFacade.setSupplierPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      if (notification.type === NotificationType.INVESTIGATION) {
+        this.partsFacade.setSupplierPartsAsBuiltSecond(pagination?.page || FIRST_PAGE, pagination?.pageSize || DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      } else {
+        this.ownPartsFacade.setPartsAsBuiltSecond(pagination?.page || FIRST_PAGE, pagination?.pageSize || DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      }
     } else {
-      this.ownPartsFacade.setPartsAsBuiltSecond(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(partsFilter, true));
+      this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
+      this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
     }
 
   }
@@ -258,10 +276,10 @@ export class NotificationEditComponent implements OnDestroy {
     });
 
     if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
-      if ( this.selectedNotification.type === NotificationType.INVESTIGATION){
+      if (this.selectedNotification.type === NotificationType.INVESTIGATION) {
         this.partsFacade.setSupplierPartsAsBuiltSecondEmpty();
         this.partsFacade.setSupplierPartsAsBuilt();
-      } else{
+      } else {
         this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
         this.ownPartsFacade.setPartsAsBuilt();
       }
@@ -319,13 +337,15 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
   private selectNotificationAndLoadPartsBasedOnNotification(notification: Notification) {
+    console.log(notification, "selected from selectNotificationAndLoadPartsBasedOnNotification");
     this.selectedNotification = notification;
+
     this.affectedPartIds = notification.assetIds;
     this.tableType = notification.type === NotificationType.INVESTIGATION ? TableType.AS_BUILT_SUPPLIER : TableType.AS_BUILT_OWN;
-    this.affectedPartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuiltSecond$ : this.ownPartsFacade.partsAsBuiltSecond$;
-    this.availablePartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+    this.affectedPartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuiltSecond$ : this.ownPartsFacade.partsAsBuiltSecond$;
+    this.availablePartsAsBuilt$ = notification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
   }
 
   private updateSelectedNotificationState() {
@@ -334,6 +354,15 @@ export class NotificationEditComponent implements OnDestroy {
       ...this.notificationFormGroup.value,
       assetIds: this.affectedPartIds,
     };
+  }
+
+  private switchSelectedNotificationTypeAndResetParts() {
+    this.selectedNotification.assetIds = [];
+    this.affectedPartIds = [];
+    this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
+    this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
+    this.affectedPartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuiltSecond$ : this.ownPartsFacade.partsAsBuiltSecond$;
+    this.availablePartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
   }
 
   protected readonly TableType = TableType;

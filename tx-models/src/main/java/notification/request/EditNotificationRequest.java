@@ -19,6 +19,7 @@
 
 package notification.request;
 
+import bpn.request.ValidBPN;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
@@ -41,10 +42,12 @@ public class EditNotificationRequest {
     @Schema(example = "title", minLength = 1, maxLength = 255)
     private String title;
 
-    @Schema(example = "BPN00001123123AS")
+    @NotNull(message = "Field: receiverBpn must not be null.")
+    @ValidBPN
+    @Schema(example = "BPNL00000003CNKC")
     private String receiverBpn;
 
-    @NotNull
+    @NotNull(message = "Field: severity must not be null.")
     private NotificationSeverityRequest severity;
 
     @Schema(example = "2099-03-11T22:44:06.333826952Z")
@@ -52,11 +55,13 @@ public class EditNotificationRequest {
     private Instant targetDate;
 
     @Schema(example = "The description", minLength = 15, maxLength = 1000)
+    @NotNull(message = "Field: description must not be null.")
     @Size(min = 15, max = 1000, message = "Description should have at least 15 characters and at most 1000 characters")
     private String description;
 
     @Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")
     @Schema(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]", minLength = 1, maxLength = 50)
+    @NotNull(message = "Field: affectedPartIds must not be null.")
     private List<String> affectedPartIds;
 }
 

@@ -66,4 +66,13 @@ export class PartsTableConfigUtils {
     return [ first, ...filterColumnsMapping, last ].filter(value => value !== null);
 
   }
+
+  public static getDefaultColumnVisibilityMap(displayedColumns: string[]): Map<string, boolean> {
+    const initialColumnMap = new Map<string, boolean>();
+    for (const column of displayedColumns) {
+      initialColumnMap.set(column, true);
+    }
+    return initialColumnMap;
+  }
+
 }
