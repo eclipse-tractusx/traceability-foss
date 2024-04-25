@@ -20,10 +20,6 @@
               {
                 "value" : "OMAOYGBDTSRCMYSCX",
                 "key" : "van"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -35,9 +31,9 @@
               "manufacturerPartId" : "3500076-05",
               "partClassification" : [
                 {
-                  "classificationStandard": "classificationStandard",
-                  "classificationID":  "classificationID",
-                  "classificationDescription": "classificationDescription"
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
                 }
               ],
               "nameAtManufacturer" : "a/dev Vehicle Hybrid"
@@ -85,10 +81,6 @@
               {
                 "value" : "OMAYSKEITUGNVHKKX",
                 "key" : "van"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -100,9 +92,9 @@
               "manufacturerPartId" : "4922009-56",
               "partClassification" : [
                 {
-                  "classificationStandard": "classificationStandard",
-                  "classificationID":  "classificationID",
-                  "classificationDescription": "classificationDescription"
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
                 }
               ],
               "nameAtManufacturer" : "a/dev Vehicle Hybrid"
@@ -146,11 +138,8 @@
               {
                 "value" : "NO-493575190274381019348907",
                 "key" : "partInstanceId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
+
             ],
             "manufacturingInformation" : {
               "date" : "2022-02-04T14:48:54.000Z",
@@ -162,9 +151,9 @@
               "customerPartId" : "6683834-82",
               "partClassification" : [
                 {
-                  "classificationStandard": "classificationStandard",
-                  "classificationID":  "classificationID",
-                  "classificationDescription": "classificationDescription"
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
                 }
               ],
               "nameAtManufacturer" : "Door Key",
@@ -173,25 +162,23 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:1.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
             "customers" : [
+              "BPNL00000003CNKC"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-                    "createdOn" : "2023-12-05T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
+                "createdOn" : "2023-12-05T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "businessPartner" : "BPNL00000003CNKC",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "isOnlyPotentialParent": false
               }
             ]
           }
@@ -218,10 +205,6 @@
               {
                 "value" : "OMAZRXWWMSPTQUEKI",
                 "key" : "van"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -233,9 +216,9 @@
               "manufacturerPartId" : "5519583-63",
               "partClassification" : [
                 {
-                  "classificationStandard": "classificationStandard",
-                  "classificationID":  "classificationID",
-                  "classificationDescription": "classificationDescription"
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
                 }
               ],
               "nameAtManufacturer" : "Vehicle Hybrid"
@@ -279,10 +262,6 @@
               {
                 "value" : "NO-246880451848384868750731",
                 "key" : "partInstanceId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -295,9 +274,9 @@
               "customerPartId" : "8770123-80",
               "partClassification" : [
                 {
-                  "classificationStandard": "classificationStandard",
-                  "classificationID":  "classificationID",
-                  "classificationDescription": "classificationDescription"
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
                 }
               ],
               "nameAtManufacturer" : "a/dev Door Key",
@@ -306,25 +285,23 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:1.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
             "customers" : [
+              "BPNL00000003CNKC"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
-                    "createdOn" : "2023-04-13T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
+                "createdOn" : "2023-04-13T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "businessPartner" : "BPNL00000003CNKC",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "isOnlyPotentialParent" : false
               }
             ]
           }
@@ -345,16 +322,8 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "5756987-94",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-613963493493659233961306",
                 "key" : "partInstanceId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -365,32 +334,36 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "5756987-94",
               "customerPartId" : "5756987-94",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "a/dev Door Key",
               "nameAtCustomer" : "Door Key"
             }
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:1.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74",
             "customers" : [
+              "BPNL00000003CNKC"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
-                    "createdOn" : "2023-08-21T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
-                "businessPartner" : "BPNL00000003CNKC",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
+                "createdOn" : "2023-08-21T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "isOnlyPotentialParent" : false,
+                "businessPartner" : "BPNL00000003CNKC"
               }
             ]
           }
@@ -413,10 +386,6 @@
               {
                 "value" : "NO-341449848714937445621543",
                 "key" : "batchId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -426,7 +395,13 @@
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
             "partTypeInformation" : {
               "manufacturerPartId" : "9858559-85",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "a/dev Door Key"
             }
           }
@@ -449,10 +424,6 @@
               {
                 "value" : "NO-341449848714937445621543",
                 "key" : "batchId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -462,7 +433,13 @@
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
             "partTypeInformation" : {
               "manufacturerPartId" : "9623673-66",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "a/dev Door Key"
             }
           }
@@ -504,10 +481,6 @@
               {
                 "value" : "NO-341449848714937445621543",
                 "key" : "batchId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -517,31 +490,35 @@
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
             "partTypeInformation" : {
               "manufacturerPartId" : "4902203-92",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "a/dev Door Key"
             }
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:1.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
             "customers" : [
+              "BPNL00000003CNKC"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
-                    "createdOn" : "2022-07-03T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
-                "businessPartner" : "BPNL00000003CNKC",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
+                "createdOn" : "2022-07-03T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "isOnlyPotentialParent" : false,
+                "businessPartner" : "BPNL00000003CNKC"
               }
             ]
           }
@@ -554,13 +531,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "localIdentifiers" : [
-              {
-                "value" : "PartType",
-                "key" : "digitalTwinType"
-              }
+
             ],
             "validityPeriod" : {
               "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -571,7 +545,15 @@
               "manufacturerPartId" : "9649571-63",
               "classification" : "product",
               "nameAtManufacturer" : "a/dev Vehicle Model A"
-            }
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -628,10 +610,6 @@
               {
                 "value" : "12345678ABC",
                 "key" : "jisNumber"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -642,7 +620,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "8397292-13",
               "customerPartId" : "PRT-12345",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Mirror left",
               "nameAtCustomer" : "a/dev side element A"
             }
@@ -656,13 +640,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "localIdentifiers" : [
-              {
-                "value" : "PartType",
-                "key" : "digitalTwinType"
-              }
+
             ],
             "validityPeriod" : {
               "validFrom" : "2015-05-18T23:10:44.000Z",
@@ -673,7 +654,15 @@
               "manufacturerPartId" : "38049661-08",
               "classification" : "product",
               "nameAtManufacturer" : "a/dev OEM A High Voltage Battery"
-            }
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -720,13 +709,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "localIdentifiers" : [
-              {
-                "value" : "PartType",
-                "key" : "digitalTwinType"
-              }
+
             ],
             "validityPeriod" : {
               "validFrom" : "2018-01-25T08:42:58.000Z",
@@ -734,10 +720,18 @@
             },
             "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
             "partTypeInformation" : {
-              "manufacturerPartId" : "8840838-04",
+              "manufacturerPartId" : "7805659-25",
               "classification" : "product",
-              "nameAtManufacturer" : "a/dev HV Modul"
-            }
+              "nameAtManufacturer" : "b/test Vehicle Model B"
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -784,13 +778,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "localIdentifiers" : [
-              {
-                "value" : "PartType",
-                "key" : "digitalTwinType"
-              }
+
             ],
             "validityPeriod" : {
               "validFrom" : "2013-11-24T00:27:33.000Z",
@@ -801,7 +792,15 @@
               "manufacturerPartId" : "7A047C7-01",
               "classification" : "product",
               "nameAtManufacturer" : "a/dev N Tier A CathodeMaterial"
-            }
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -826,13 +825,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "localIdentifiers" : [
-              {
-                "value" : "PartType",
-                "key" : "digitalTwinType"
-              }
+
             ],
             "validityPeriod" : {
               "validFrom" : "2013-06-18T03:47:22.000Z",
@@ -843,7 +839,15 @@
               "manufacturerPartId" : "6740244-02",
               "classification" : "product",
               "nameAtManufacturer" : "a/dev Sub Tier A Sensor"
-            }
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -868,13 +872,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "localIdentifiers" : [
-              {
-                "value" : "PartType",
-                "key" : "digitalTwinType"
-              }
+
             ],
             "validityPeriod" : {
               "validFrom" : "2015-01-23T16:24:59.000Z",
@@ -885,7 +886,15 @@
               "manufacturerPartId" : "7A987KK-04",
               "classification" : "product",
               "nameAtManufacturer" : "a/dev N Tier A Plastics"
-            }
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -932,13 +941,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "localIdentifiers" : [
-              {
-                "value" : "PartType",
-                "key" : "digitalTwinType"
-              }
+
             ],
             "validityPeriod" : {
               "validFrom" : "2019-08-17T14:14:30.000Z",
@@ -949,7 +955,15 @@
               "manufacturerPartId" : "6775244-06",
               "classification" : "product",
               "nameAtManufacturer" : "a/dev Sub Tier B Glue"
-            }
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -974,13 +988,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "localIdentifiers" : [
-              {
-                "value" : "PartType",
-                "key" : "digitalTwinType"
-              }
+
             ],
             "validityPeriod" : {
               "validFrom" : "2016-04-09T20:41:14.000Z",
@@ -991,7 +1002,15 @@
               "manufacturerPartId" : "6004474-20",
               "classification" : "product",
               "nameAtManufacturer" : "a/dev Vehicle Model B"
-            }
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -1046,16 +1065,8 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "8840837-48",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-282209222605524629600815",
                 "key" : "partInstanceId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -1125,16 +1136,8 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "4683655-00",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-135342108157438763234738",
                 "key" : "partInstanceId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -1180,16 +1183,8 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "1261027-41",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-200738629800530338038454",
                 "key" : "partInstanceId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -1213,10 +1208,6 @@
               {
                 "value" : "85851549CBX",
                 "key" : "jisNumber"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -1249,16 +1240,8 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "8840837-48",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-570196089623842018037372",
                 "key" : "partInstanceId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -1295,15 +1278,23 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:1.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4070e",
             "customers" : [
+              "BPNL00000003CML1"
+            ],
+            "parentItems" : [
               {
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "createdOn" : "2023-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "businessPartner" : "BPNL00000003CML1",
-                "parentItems" : [],
-                "createdOn" : "2022-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+                "isOnlyPotentialParent" : false
               }
             ]
           }
@@ -1326,10 +1317,6 @@
               {
                 "value" : "BID12345678",
                 "key" : "batchId"
-              },
-              {
-                "value" : "PartInstance",
-                "key" : "digitalTwinType"
               }
             ],
             "manufacturingInformation" : {
@@ -1339,7 +1326,13 @@
             "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fca4f",
             "partTypeInformation" : {
               "manufacturerPartId" : "123-0.740-3434-A",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Sealant"
             }
           }
