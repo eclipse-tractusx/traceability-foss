@@ -72,7 +72,7 @@ public class GenericSubmodel {
                     "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
             }),
             @Type(value = SingleLevelBomAsPlannedRequest.class, names = {
-                    "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned"
+                    "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned"
             })
     })
     private final Object payload;

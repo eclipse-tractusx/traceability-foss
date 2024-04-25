@@ -496,7 +496,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
             "childItems" : [
@@ -506,8 +506,8 @@
                   "validTo" : "2024-07-01T16:10:00.000+01:00"
                 },
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "createdOn" : "2022-09-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
@@ -588,7 +588,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
             "childItems" : [
@@ -599,8 +599,8 @@
                 },
                 "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "businessPartner" : "BPNL00000003AYRE",
                 "createdOn" : "2022-12-03T14:48:54.709Z",
@@ -682,7 +682,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
             "childItems" : [
@@ -693,8 +693,8 @@
                 },
                 "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
                 "quantity" : {
-                  "quantityNumber" : 6,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "businessPartner" : "BPNL00000003CML1",
                 "createdOn" : "2022-02-08T14:48:54.709Z",
@@ -740,7 +740,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
             "childItems" : [
@@ -751,8 +751,8 @@
                 },
                 "catenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "businessPartner" : "BPNL00000003CML1",
                 "createdOn" : "2022-02-09T14:48:54.709Z",
@@ -812,7 +812,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:1.1.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
             "childItems" : [
@@ -823,8 +823,8 @@
                 },
                 "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
                 "quantity" : {
-                  "quantityNumber" : 0.3301,
-                  "measurementUnit" : "unit:kilogram"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "businessPartner" : "BPNL00000003CML1",
                 "createdOn" : "2022-02-13T14:48:54.709Z",

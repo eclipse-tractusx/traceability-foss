@@ -40,8 +40,8 @@ public record SingleLevelBomAsPlannedRequest(String catenaXId, List<ChildItem> c
     }
 
     public record Quantity(
-            double quantityNumber,
-            String measurementUnit
+            double value,
+            String unit
     ) {
     }
 }
