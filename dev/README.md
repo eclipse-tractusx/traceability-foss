@@ -237,34 +237,5 @@ and adding an SingleLevelBomAsBuilt Aspect with the corresponding childCatenaXId
 
 Is achieved through adding the SingleLevelusageBuilt - Codeblock and the corresponding parent catenaXId above, see example below (Only SingleLevelUsageBuilt expanded):
 
-```json
-[{
-  "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
-  "bpnl" : "BPNL00000003CNKC",
-  "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt": "[...]",
-  "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : "[...]"
-  }, {
-  "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
-  "bpnl" : "BPNL00000003AZQP",
-  "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : "",
-  "urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt": [
-    {
-      "parentParts": [
-        {
-          "parentCatenaXId": "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-          "quantity": {
-            "quantityNumber": 1,
-            "measurementUnit": "unit:piece"
-          },
-          "createdOn": "2023-02-03T14:48:54.709Z",
-          "lastModifiedOn": "2023-02-03T14:48:54.709Z"
-        }
-      ],
-      "catenaXId": "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37"
-    }
-  ]
-}
-]
-```
 ...AZQP -> CNKC -> ...
 

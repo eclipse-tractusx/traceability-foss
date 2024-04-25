@@ -1904,7 +1904,22 @@
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
         {
           "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
-          "childItems" : []
+          "childItems" : [
+            {
+              "validityPeriod" : {
+                "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                "validTo" : "2024-07-01T16:10:00.000+01:00"
+              },
+              "catenaXId" : "urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1",
+              "quantity" : {
+                "value" : 1,
+                "unit" : "unit:piece"
+              },
+              "businessPartner" : "BPNL00000003CNKC",
+              "createdOn" : "2022-01-03T14:48:54.709Z",
+              "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
