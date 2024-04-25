@@ -101,9 +101,6 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
         AssetBase.AssetBaseBuilder assetBaseBuilder = AssetBase.builder();
         if (partAsPlannedV2 != null) {
-            DetailAspectModel asPlannedDetailAspect = extractDetailAspectModelsAsPlanned(partAsPlannedV2.validityPeriod());
-            detailAspectModels.add(asPlannedDetailAspect);
-
             assetBaseBuilder
                     .id(assetImportRequestV2.assetMetaInfoRequest().catenaXId())
                     .manufacturerId(traceabilityProperties.getBpn().value())
@@ -139,13 +136,6 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
         return detailAspectModels;
     }
 
-    public static DetailAspectModel extractDetailAspectModelsAsPlanned(MainAspectAsPlannedRequest.ValidityPeriod validityPeriod) {
-        DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
-                .validityPeriodFrom(OffsetDateTime.parse(validityPeriod.validFrom()))
-                .validityPeriodTo(OffsetDateTime.parse(validityPeriod.validTo()))
-                .build();
-        return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.AS_PLANNED).build();
-    }
 
 
 }

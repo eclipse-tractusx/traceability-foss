@@ -63,7 +63,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -120,7 +120,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -181,7 +181,7 @@
     {
       "catenaXId" : "urn:uuid:1d2d8480-90a5-4a17-9ecb-2ff039d35fec",
       "bpnl" : "BPNL00000003CSGV",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -259,7 +259,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -316,7 +316,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -377,7 +377,7 @@
     {
       "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -455,7 +455,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -512,7 +512,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -573,7 +573,7 @@
     {
       "catenaXId" : "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -651,7 +651,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -708,7 +708,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -769,7 +769,7 @@
     {
       "catenaXId" : "urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -1185,7 +1185,7 @@
     {
       "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1203,7 +1203,15 @@
             "classification" : "product",
             "nameAtManufacturer" : "a/dev Vehicle Model A",
             "digitalTwinType" : "PartType"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
@@ -1244,7 +1252,7 @@
     {
       "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1261,7 +1269,15 @@
             "manufacturerPartId" : "7805659-25",
             "classification" : "product",
             "nameAtManufacturer" : "b/test Vehicle Model B"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned" : [
@@ -1302,7 +1318,7 @@
     {
       "catenaXId" : "urn:uuid:580d3adf-1981-44a0-a214-13d6ceed6841",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart" : [
+      "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart" : [
         {
           "localIdentifiers" : [
             {
@@ -1319,7 +1335,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "HUN"
           },
           "catenaXId" : "urn:uuid:580d3adf-1981-44a0-a214-13d6ceed6841",
@@ -1336,7 +1352,7 @@
     {
       "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart" : [
+      "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart" : [
         {
           "localIdentifiers" : [
             {
@@ -1353,7 +1369,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "HUN"
           },
           "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842",
@@ -1383,7 +1399,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1400,7 +1416,15 @@
             "manufacturerPartId" : "38049661-08",
             "classification" : "product",
             "nameAtManufacturer" : "a/dev OEM A High Voltage Battery"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
@@ -1462,7 +1486,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1479,7 +1503,15 @@
             "manufacturerPartId" : "2586427-48",
             "classification" : "product",
             "nameAtManufacturer" : "b/test Vehicle Model A"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
@@ -1520,7 +1552,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1537,7 +1569,15 @@
             "manufacturerPartId" : "8840838-04",
             "classification" : "product",
             "nameAtManufacturer" : "a/dev HV Modul"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
@@ -1599,7 +1639,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1616,7 +1656,15 @@
             "manufacturerPartId" : "8840374-09",
             "classification" : "product",
             "nameAtManufacturer" : "b/test ZB ZELLE"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
@@ -1656,7 +1704,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1673,7 +1721,15 @@
             "manufacturerPartId" : "6288246-67",
             "classification" : "product",
             "nameAtManufacturer" : "b/test OEM A High Voltage Battery"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
@@ -1714,7 +1770,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1731,7 +1787,15 @@
             "manufacturerPartId" : "7A047C7-01",
             "classification" : "product",
             "nameAtManufacturer" : "a/dev N Tier A CathodeMaterial"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ]
     },
@@ -1751,7 +1815,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1768,7 +1832,15 @@
             "manufacturerPartId" : "32494586-73",
             "classification" : "product",
             "nameAtManufacturer" : "b/test Tier A Gearbox"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
@@ -1823,7 +1895,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1840,7 +1912,15 @@
             "manufacturerPartId" : "6740244-02",
             "classification" : "product",
             "nameAtManufacturer" : "a/dev Sub Tier A Sensor"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
@@ -1881,7 +1961,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1898,7 +1978,15 @@
             "manufacturerPartId" : "7A987KK-04",
             "classification" : "product",
             "nameAtManufacturer" : "a/dev N Tier A Plastics"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
@@ -1960,7 +2048,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -1977,7 +2065,15 @@
             "manufacturerPartId" : "8583898-48",
             "classification" : "product",
             "nameAtManufacturer" : "b/test Tier B ECU1"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
@@ -2039,7 +2135,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -2056,7 +2152,15 @@
             "manufacturerPartId" : "6775244-06",
             "classification" : "product",
             "nameAtManufacturer" : "a/dev Sub Tier B Glue"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned" : [
@@ -2097,7 +2201,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -2114,7 +2218,15 @@
             "manufacturerPartId" : "6004474-20",
             "classification" : "product",
             "nameAtManufacturer" : "a/dev Vehicle Model B"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned" : [
@@ -2155,7 +2267,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
             {
@@ -2172,14 +2284,22 @@
             "manufacturerPartId" : "1987361-42",
             "classification" : "product",
             "nameAtManufacturer" : "b/test Tire Model A"
-          }
+          },
+          "partSitesInformationAsPlanned": [
+            {
+              "catenaXsiteId": "BPNS123456789A",
+              "function": "production",
+              "functionValidFrom": "2024-04-25T10:00:00Z",
+              "functionValidUntil": "2024-04-30T10:00:00Z"
+            }
+          ]
         }
       ]
     },
     {
       "catenaXId" : "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -2253,7 +2373,7 @@
     {
       "catenaXId" : "urn:uuid:b0acf3e1-3fbe-46c0-aa0b-0724caae7772",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -2303,7 +2423,7 @@
     {
       "catenaXId" : "urn:uuid:1233b405-5ac8-4867-93f8-6fdf37733737",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -2353,7 +2473,7 @@
     {
       "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -2387,7 +2507,7 @@
           }
         }
       ],
-      "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart" : [
+      "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart" : [
         {
           "localIdentifiers" : [
             {
@@ -2400,7 +2520,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "HUN"
           },
           "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
@@ -2417,7 +2537,7 @@
     {
       "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -2451,7 +2571,7 @@
           }
         }
       ],
-      "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart" : [
+      "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart" : [
         {
           "localIdentifiers" : [
             {
@@ -2464,7 +2584,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "HUN"
           },
           "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
@@ -2494,7 +2614,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {
@@ -2595,7 +2715,7 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart" : [
+      "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart" : [
         {
           "localIdentifiers" : [
             {

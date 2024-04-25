@@ -102,7 +102,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+                  "value" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -188,7 +188,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+                  "value" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -274,7 +274,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+                  "value" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -376,7 +376,7 @@
   "submodels" : [
     {
       "identification" : "urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8",
-      "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+      "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
       "payload" : {
         "validityPeriod" : {
           "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -387,7 +387,15 @@
           "manufacturerPartId" : "ZX-55",
           "classification" : "product",
           "nameAtManufacturer" : "Vehicle Model A"
-        }
+        },
+        "partSitesInformationAsPlanned": [
+          {
+            "catenaXsiteId": "BPNS123456789A",
+            "function": "production",
+            "functionValidFrom": "2024-04-25T10:00:00Z",
+            "functionValidUntil": "2024-04-30T10:00:00Z"
+          }
+        ]
       }
     },
     {
@@ -407,7 +415,7 @@
     },
     {
       "identification" : "urn:uuid:81d16457-d9af-4b4d-a124-84d3ae17d951",
-      "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+      "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
       "payload" : {
         "validityPeriod" : {
           "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -418,7 +426,15 @@
           "manufacturerPartId" : "ZX-55",
           "classification" : "product",
           "nameAtManufacturer" : "Vehicle Model B"
-        }
+        },
+        "partSitesInformationAsPlanned": [
+          {
+            "catenaXsiteId": "BPNS123456789A",
+            "function": "production",
+            "functionValidFrom": "2024-04-25T10:00:00Z",
+            "functionValidUntil": "2024-04-30T10:00:00Z"
+          }
+        ]
       }
     },
     {

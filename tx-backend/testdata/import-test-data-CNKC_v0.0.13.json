@@ -514,7 +514,15 @@
               "manufacturerPartId" : "7805659-25",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Vehicle Model B"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -561,7 +569,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
+          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -1043,7 +1051,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
+          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
           "payload" : {
             "localIdentifiers" : [
               {

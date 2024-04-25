@@ -608,7 +608,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
+          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -1197,7 +1197,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
+          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
           "payload" : {
             "localIdentifiers" : [
               {

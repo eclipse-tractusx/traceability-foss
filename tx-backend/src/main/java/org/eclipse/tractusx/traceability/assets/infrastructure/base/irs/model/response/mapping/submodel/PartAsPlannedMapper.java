@@ -23,7 +23,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
-import org.eclipse.tractusx.traceability.generated.PartAsPlanned101Schema;
+import org.eclipse.tractusx.traceability.generated.PartAsPlanned200Schema;
 import org.springframework.stereotype.Component;
 
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED;
@@ -33,7 +33,7 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.Semanti
 public class PartAsPlannedMapper implements SubmodelMapper {
     @Override
     public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
-        PartAsPlanned101Schema partAsPlanned = (PartAsPlanned101Schema) irsSubmodel.getPayload();
+        PartAsPlanned200Schema partAsPlanned = (PartAsPlanned200Schema) irsSubmodel.getPayload();
 
         return AssetBase
                 .builder()
@@ -50,6 +50,6 @@ public class PartAsPlannedMapper implements SubmodelMapper {
 
     @Override
     public boolean validMapper(IrsSubmodel submodel) {
-        return submodel.getPayload() instanceof PartAsPlanned101Schema;
+        return submodel.getPayload() instanceof PartAsPlanned200Schema;
     }
 }

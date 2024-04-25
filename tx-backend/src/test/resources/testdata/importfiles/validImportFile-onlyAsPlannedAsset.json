@@ -6,7 +6,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "validityPeriod" : {
               "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -17,7 +17,15 @@
               "manufacturerPartId" : "7805659-25",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Vehicle Model B"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {

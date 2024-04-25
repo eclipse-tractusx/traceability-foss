@@ -6,7 +6,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -83,7 +83,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -162,7 +162,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -241,7 +241,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -472,18 +472,22 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
-            "validityPeriod" : {
-              "validFrom" : "2019-04-04T03:19:03.000Z",
-              "validTo" : "2024-12-29T10:25:12.000Z"
-            },
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
             "partTypeInformation" : {
               "manufacturerPartId" : "7805659-25",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Vehicle Model B"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -530,7 +534,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
+          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -564,18 +568,23 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
-            "validityPeriod" : {
-              "validFrom" : "2017-01-03T07:45:04.000Z",
-              "validTo" : "2029-11-15T11:57:45.000Z"
-            },
+
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
             "partTypeInformation" : {
               "manufacturerPartId" : "2586427-48",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Vehicle Model A"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -622,18 +631,23 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
-            "validityPeriod" : {
-              "validFrom" : "2016-04-28T20:00:55.000Z",
-              "validTo" : "2027-04-27T00:59:41.000Z"
-            },
+
             "catenaXId" : "urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1",
             "partTypeInformation" : {
               "manufacturerPartId" : "8840374-09",
               "classification" : "product",
               "nameAtManufacturer" : "b/test ZB ZELLE"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -658,18 +672,23 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
-            "validityPeriod" : {
-              "validFrom" : "2015-05-18T23:10:44.000Z",
-              "validTo" : "2025-10-23T14:46:01.000Z"
-            },
+
             "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
             "partTypeInformation" : {
               "manufacturerPartId" : "6288246-67",
               "classification" : "product",
               "nameAtManufacturer" : "b/test OEM A High Voltage Battery"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -716,18 +735,23 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
-            "validityPeriod" : {
-              "validFrom" : "2017-07-03T05:23:01.000Z",
-              "validTo" : "2032-09-25T10:26:27.000Z"
-            },
+
             "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
             "partTypeInformation" : {
               "manufacturerPartId" : "32494586-73",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Tier A Gearbox"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -788,18 +812,22 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
-            "validityPeriod" : {
-              "validFrom" : "2016-04-24T08:26:56.000Z",
-              "validTo" : "2031-12-17T23:55:04.000Z"
-            },
             "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
             "partTypeInformation" : {
               "manufacturerPartId" : "8583898-48",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Tier B ECU1"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -846,18 +874,23 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
-            "validityPeriod" : {
-              "validFrom" : "2019-11-02T11:14:15.000Z",
-              "validTo" : "2024-07-17T02:07:07.000Z"
-            },
+
             "catenaXId" : "urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8",
             "partTypeInformation" : {
               "manufacturerPartId" : "1987361-42",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Tire Model A"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
@@ -882,7 +915,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -933,7 +966,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -964,7 +997,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
+          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -994,7 +1027,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {

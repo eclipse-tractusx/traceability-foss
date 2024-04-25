@@ -6,7 +6,7 @@
       },
       "submodels": [
         {
-          "aspectType": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType": "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload": {
             "localIdentifiers": [
               {

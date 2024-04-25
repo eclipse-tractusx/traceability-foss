@@ -47,13 +47,13 @@ public class GenericSubmodel {
             property = "aspectType")
     @JsonSubTypes({
             @Type(value = MainAspectAsBuiltRequest.class, names = {
-                    "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+                    "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
                     "urn:samm:io.catenax.batch:3.0.0#Batch",
-                    "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
+                    "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart"
             }),
 
             @Type(value = MainAspectAsPlannedRequest.class, names = {
-                    "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
+                    "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned"
             }),
             @Type(value = PartSiteInformationAsPlannedRequest.class, names = {
                     "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
