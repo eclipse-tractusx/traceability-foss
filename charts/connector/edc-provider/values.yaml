@@ -9,6 +9,18 @@ tractusx-connector:
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
 
+  iatp:
+    # Decentralized IDentifier
+    id: <path:traceability-irs/data/dev/controlplane#DID>
+    sts:
+      dim:
+        url: <path:traceability-irs/data/dev/controlplane#dimUrl>
+      oauth:
+        token_url: <path:traceability-irs/data/dev/controlplane#iatp.oauth.tokenurl>
+        client:
+          id: <path:traceability-irs/data/dev/controlplane#dimClientId>
+          secret_alias: edc-test-miw-keycloak-secret
+
   controlplane:
     ingresses:
       - enabled: false
@@ -22,15 +34,6 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
-    ssi:
-      miw:
-        url: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
-      oauth:
-        tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>
-        client:
-          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
-          secretAlias: edc-miw-keycloak-secret
 
     endpoints:
       # -- default api for health checks, should not be added to any ingress
