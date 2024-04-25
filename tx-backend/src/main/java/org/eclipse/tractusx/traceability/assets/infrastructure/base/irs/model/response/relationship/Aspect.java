@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 public enum Aspect {
-    BATCH("urn:samm:io.catenax.batch:2.0.0#Batch"),
+    BATCH("urn:samm:io.catenax.batch:3.0.0#Batch"),
     SERIAL_PART("urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"),
     SINGLE_LEVEL_BOM_AS_BUILT("urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"), // We are currently not able to use the 2.0.0 version, because this version is not available in the semantic hub https://github.com/eclipse-tractusx/sldt-semantic-models/tree/main/io.catenax.single_level_bom_as_built and IRS is not able to map the 2.0.0 version. We have to use the full urn because of https://github.com/eclipse-tractusx/traceability-foss/issues/823 (since irs 4.8.0)
     SINGLE_LEVEL_USAGE_AS_BUILT("urn:bamm:io.catenax.single_level_usage_as_built:1.0.0#SingleLevelUsageAsBuilt"),

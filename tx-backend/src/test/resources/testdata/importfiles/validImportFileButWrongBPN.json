@@ -323,7 +323,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -378,7 +378,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -429,7 +429,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {

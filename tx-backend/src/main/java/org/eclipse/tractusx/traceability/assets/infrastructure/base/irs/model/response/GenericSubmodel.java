@@ -48,7 +48,7 @@ public class GenericSubmodel {
     @JsonSubTypes({
             @Type(value = MainAspectAsBuiltRequest.class, names = {
                     "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
-                    "urn:samm:io.catenax.batch:2.0.0#Batch",
+                    "urn:samm:io.catenax.batch:3.0.0#Batch",
                     "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
             }),
 

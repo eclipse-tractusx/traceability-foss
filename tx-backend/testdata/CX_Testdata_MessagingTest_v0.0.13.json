@@ -830,7 +830,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284b170",
       "bpnl" : "BPNL00000003CSGV",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -851,7 +851,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284b170",
@@ -889,7 +889,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
       "bpnl" : "BPNL00000003CML1",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -910,7 +910,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
@@ -925,7 +925,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
       "bpnl" : "BPNL00000003CML1",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -946,7 +946,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
@@ -978,7 +978,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -999,7 +999,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
@@ -1037,7 +1037,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -1058,7 +1058,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
@@ -1090,7 +1090,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
       "bpnl" : "BPNL00000003CML1",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -1111,7 +1111,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
@@ -1149,7 +1149,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -1170,7 +1170,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03",
@@ -2550,7 +2550,7 @@
     {
       "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fca4f",
       "bpnl" : "BPNL00000003CML1",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -2567,7 +2567,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "HUN"
           },
           "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fca4f",
@@ -2651,7 +2651,7 @@
     {
       "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -2668,7 +2668,7 @@
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54",
+            "date" : "2022-02-04T14:48:54Z",
             "country" : "HUN"
           },
           "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f",

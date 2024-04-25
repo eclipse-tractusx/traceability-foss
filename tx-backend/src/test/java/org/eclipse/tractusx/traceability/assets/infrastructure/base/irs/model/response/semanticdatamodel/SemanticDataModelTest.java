@@ -43,7 +43,7 @@ class SemanticDataModelTest {
     @ParameterizedTest
     @ValueSource(strings = {
             "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
-            "urn:samm:io.catenax.batch:2.0.0#Batch",
+            "urn:samm:io.catenax.batch:3.0.0#Batch",
             "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"})
     void test_IsAsBuilt(String aspectType) {
         //GIVEN

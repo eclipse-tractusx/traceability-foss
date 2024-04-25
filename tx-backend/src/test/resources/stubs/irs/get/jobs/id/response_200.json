@@ -1221,7 +1221,7 @@
     },
     {
       "identification" : "urn:uuid:318f4d45-7856-4467-8238-4959b56e8912",
-      "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+      "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
       "payload" : {
         "localIdentifiers" : [
           {

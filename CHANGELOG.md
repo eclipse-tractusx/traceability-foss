@@ -19,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #XXX Updated spring boot from 3.2.4 to 3.2.5
 - #XXX Bumped logback-core & logback-classic from 1.5.4 to 1.5.5
 - #603 Upgraded SingleLevelBomAsBuilt, SingleLevelBomAsPlanned & SingleLevelBomAsBuilt to 3.0.0
+- #603 Upgraded Batch from 2.0.0 to 3.0.0
 
 ### Removed
 -

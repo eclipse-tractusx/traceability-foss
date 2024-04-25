@@ -326,7 +326,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -339,7 +339,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
@@ -380,7 +380,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -393,7 +393,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
@@ -431,7 +431,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -444,7 +444,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2022-02-04T14:48:54",
+              "date" : "2022-02-04T14:48:54Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03",

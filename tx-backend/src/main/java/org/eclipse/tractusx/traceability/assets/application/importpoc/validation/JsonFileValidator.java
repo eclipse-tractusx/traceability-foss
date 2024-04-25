@@ -51,7 +51,7 @@ public class JsonFileValidator {
 
     public static final Map<String, String> SUPPORTED_SCHEMA_VALIDATION = Map.ofEntries(
             Map.entry("base", "/schema/tracex/schema_V1.json"),
-            Map.entry("urn:samm:io.catenax.batch:2.0.0#Batch", "/schema/semantichub/Batch_2.0.0-schema.json"),
+            Map.entry("urn:samm:io.catenax.batch:3.0.0#Batch", "/schema/semantichub/Batch_3.0.0-schema.json"),
             Map.entry("urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart", "/schema/semantichub/JustInSequencePart_1.0.0-schema.json"),
             Map.entry("urn:bamm:io.catenax.serial_part:1.0.1#SerialPart", "/schema/semantichub/SerialPart_1.0.1-schema.json"),
             Map.entry("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned", "/schema/semantichub/PartSiteInformationAsPlanned_1.0.0-schema.json"),
