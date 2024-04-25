@@ -39,7 +39,7 @@
           }
         },
         {
-          "aspectType": "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType": "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload": {
             "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111",
             "childItems": [

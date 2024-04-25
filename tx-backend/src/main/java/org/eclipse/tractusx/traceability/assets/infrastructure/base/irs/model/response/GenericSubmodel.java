@@ -63,7 +63,7 @@ public class GenericSubmodel {
                     "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
             }),
             @Type(value = SingleLevelBomAsBuiltRequest.class, names = {
-                    "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+                    "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
             }),
             @Type(value = SingleLevelUsageAsBuiltRequest.class, names = {
                     "urn:bamm:io.catenax.single_level_usage_as_built:1.0.0#SingleLevelUsageAsBuilt"

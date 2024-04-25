@@ -43,7 +43,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
             "childItems" : [
@@ -106,7 +106,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
             "childItems" : [
@@ -235,7 +235,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
             "childItems" : [
@@ -458,7 +458,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
             "childItems" : [
@@ -1251,7 +1251,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4070e",
             "childItems" : [

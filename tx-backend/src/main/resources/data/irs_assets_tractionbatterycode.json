@@ -88,7 +88,7 @@
             "identification" : "urn:uuid:50de024d-60b3-49cd-ac74-37d81ce4bb7b",
             "semanticId" : {
               "value" : [
-                "urn:bamm:com.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+                "urn:bamm:com.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
               ]
             },
             "endpoints" : [

@@ -37,7 +37,7 @@
           }
         },
         {
-          "invalidaspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "invalidaspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
             "childItems" : [
@@ -118,7 +118,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaX1Id" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
             "invalidchildItems" : [
@@ -199,7 +199,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
             "childItems" : [
@@ -280,7 +280,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
             "childItems" : [
@@ -411,7 +411,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
             "childItems" : [
@@ -1022,7 +1022,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
             "childItems" : [

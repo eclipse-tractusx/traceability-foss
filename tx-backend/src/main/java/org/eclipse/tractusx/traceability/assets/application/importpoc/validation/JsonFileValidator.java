@@ -55,7 +55,7 @@ public class JsonFileValidator {
             Map.entry("urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart", "/schema/semantichub/JustInSequencePart_1.0.0-schema.json"),
             Map.entry("urn:bamm:io.catenax.serial_part:1.0.1#SerialPart", "/schema/semantichub/SerialPart_1.0.1-schema.json"),
             Map.entry("urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned", "/schema/semantichub/PartSiteInformationAsPlanned_1.0.0-schema.json"),
-            Map.entry("urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt", "/schema/semantichub/SingleLevelBomAsBuilt_2.0.0-schema.json"),
+            Map.entry("urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt", "/schema/semantichub/SingleLevelBomAsBuilt_2.0.0-schema.json"),
             Map.entry("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt", "/schema/semantichub/SingleLevelUsageAsBuilt_2.0.0-schema.json"),
             Map.entry("urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode", "/schema/semantichub/TractionBatteryCode_1.0.0-schema.json"),
             Map.entry("urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned", "/schema/semantichub/PartAsPlanned_1.0.1-schema.json"),
