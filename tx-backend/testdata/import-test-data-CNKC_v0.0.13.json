@@ -47,8 +47,8 @@
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2023-02-20T14:48:54.709Z",
@@ -132,8 +132,8 @@
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2020-05-02T14:48:54.709Z",
@@ -217,8 +217,8 @@
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2018-09-17T14:48:54.709Z",
@@ -302,8 +302,8 @@
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2022-06-28T14:48:54.709Z",
@@ -441,8 +441,8 @@
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2019-08-15T14:48:54.709Z",
@@ -1119,8 +1119,8 @@
               {
                 "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f",
                 "quantity" : {
-                  "quantityNumber" : 2.5,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "businessPartner" : "BPNL00000003CNKC",

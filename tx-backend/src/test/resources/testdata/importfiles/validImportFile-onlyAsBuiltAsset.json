@@ -45,8 +45,8 @@
             "childItems": [
               {
                 "quantity": {
-                  "quantityNumber": 1,
-                  "measurementUnit": "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives": true,
                 "createdOn": "2022-02-03T14:48:54.709Z",

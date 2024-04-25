@@ -1186,11 +1186,8 @@
         "childParts" : [
           {
             "quantity" : {
-              "quantityNumber" : 1,
-              "measurementUnit" : {
-                "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#piece",
-                "lexicalValue" : "piece"
-              }
+              "value" : 2.5,
+              "unit" : "unit:litre"
             },
             "lifecycleContext" : "AsBuilt",
             "assembledOn" : "2022-02-03T14:48:54.709Z",
@@ -1266,11 +1263,8 @@
         "childParts" : [
           {
             "quantity" : {
-              "quantityNumber" : "0.3301",
-              "measurementUnit" : {
-                "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#kilogram",
-                "lexicalValue" : "kilogram"
-              }
+              "value" : 2.5,
+              "unit" : "unit:litre"
             },
             "lifecycleContext" : "AsBuilt",
             "assembledOn" : "2022-02-03T14:48:54.709Z",
@@ -1346,11 +1340,8 @@
         "childParts" : [
           {
             "quantity" : {
-              "quantityNumber" : "0.2014",
-              "measurementUnit" : {
-                "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#kilogram",
-                "lexicalValue" : "kilogram"
-              }
+              "value" : 2.5,
+              "unit" : "unit:litre"
             },
             "lifecycleContext" : "AsBuilt",
             "assembledOn" : "2022-02-03T14:48:54.709Z",
@@ -1394,11 +1385,8 @@
         "childParts" : [
           {
             "quantity" : {
-              "quantityNumber" : 1,
-              "measurementUnit" : {
-                "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#piece",
-                "lexicalValue" : "piece"
-              }
+              "value" : 2.5,
+              "unit" : "unit:litre"
             },
             "lifecycleContext" : "AsBuilt",
             "assembledOn" : "2022-02-03T14:48:54.709Z",
@@ -1544,11 +1532,8 @@
         "childParts" : [
           {
             "quantity" : {
-              "quantityNumber" : "0.1908",
-              "measurementUnit" : {
-                "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#kilogram",
-                "lexicalValue" : "kilogram"
-              }
+              "value" : 2.5,
+              "unit" : "unit:litre"
             },
             "lifecycleContext" : "AsBuilt",
             "assembledOn" : "2022-02-03T14:48:54.709Z",
@@ -1595,7 +1580,18 @@
       "aspectType" : "urn:bamm:com.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
       "payload" : {
         "catenaXId" : "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef",
-        "childParts" : []
+        "childParts" : [
+          {
+            "quantity" : {
+              "value" : 2.5,
+              "unit" : "unit:litre"
+            },
+            "lifecycleContext" : "AsBuilt",
+            "assembledOn" : "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+            "childCatenaXId" : "urn:uuid:186359fb-4584-40e4-a59b-ed842d3d80d9"
+          }
+        ]
       }
     },
     {
@@ -1670,11 +1666,8 @@
         "childParts" : [
           {
             "quantity" : {
-              "quantityNumber" : "0.1908",
-              "measurementUnit" : {
-                "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#kilogram",
-                "lexicalValue" : "kilogram"
-              }
+              "value" : 2.5,
+              "unit" : "unit:litre"
             },
             "lifecycleContext" : "AsBuilt",
             "assembledOn" : "2022-02-03T14:48:54.709Z",
@@ -1689,7 +1682,18 @@
       "aspectType" : "urn:bamm:com.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
       "payload" : {
         "catenaXId" : "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978",
-        "childParts" : []
+        "childParts" : [
+          {
+            "quantity" : {
+              "value" : 2.5,
+              "unit" : "unit:litre"
+            },
+            "lifecycleContext" : "AsBuilt",
+            "assembledOn" : "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+            "childCatenaXId" : "urn:uuid:f7cf62fe-9e25-472b-9148-66ebcc291f31"
+          }
+        ]
       }
     },
     {
