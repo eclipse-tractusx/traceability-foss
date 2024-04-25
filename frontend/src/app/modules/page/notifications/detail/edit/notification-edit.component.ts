@@ -159,15 +159,14 @@ export class NotificationEditComponent implements OnDestroy {
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
     // if user switches type of notification in creation mode, reset affected parts and reload new available parts
-    if (this.selectedNotification.type !== notificationFormGroup.value['type']) {
-      this.selectedNotification.type = notificationFormGroup.value['type'];
-      // TODO: comment back in if todos inside the function were handled
-      // this.switchSelectedNotificationTypeAndResetParts();
+    if (this.selectedNotification.type !== notificationFormGroup.getRawValue().type) {
+      this.selectedNotification.type = notificationFormGroup.getRawValue().type;
+      this.switchSelectedNotificationTypeAndResetParts();
     }
 
     this.notificationFormGroup = notificationFormGroup;
     this.isSaveButtonDisabled = (notificationFormGroup.invalid || this.affectedPartIds.length < 1) || !this.notificationFormGroup.dirty;
-    if (this.notificationFormGroup && this.notificationFormGroup.get('type').value === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.get('bpn').value && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
+    if (this.notificationFormGroup && this.notificationFormGroup.getRawValue().type === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.getRawValue().bpn && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
       this.notificationFormGroup.get('bpn').setValue(this.sharedPartService.affectedParts[0].businessPartner);
     }
   }
@@ -350,12 +349,10 @@ export class NotificationEditComponent implements OnDestroy {
   private switchSelectedNotificationTypeAndResetParts() {
     this.selectedNotification.assetIds = [];
     this.affectedPartIds = [];
-    // TODO: to switch notifications we need to build a proper request to make them empty
-    //this.affectedPartsAsBuilt$ = this.partsFacade ...
-    // TODO: comment back in if the upper todo was handled
-    //this.availablePartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
+    this.affectedPartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuiltSecond$ : this.ownPartsFacade.partsAsBuiltSecond$;
+    this.availablePartsAsBuilt$ = this.selectedNotification.type === NotificationType.INVESTIGATION ? this.partsFacade.supplierPartsAsBuilt$ : this.ownPartsFacade.partsAsBuilt$;
   }
 
   protected readonly TableType = TableType;
