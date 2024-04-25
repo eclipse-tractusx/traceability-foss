@@ -35,6 +35,12 @@ tractusx-connector:
           enabled: true
           secretName: tls-secret
 
+    bdrs:
+      # time that a cached BPN/DID resolution map is valid in seconds, default is 10 min
+      cache_validity_seconds: 600
+      server:
+        # URL of the BPN/DID Resolution Service - required:
+        url: <path:traceability-irs/data/dev/controlplane#bdrsUrl>
     endpoints:
       # -- default api for health checks, should not be added to any ingress
       default:
