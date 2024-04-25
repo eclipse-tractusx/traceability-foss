@@ -337,10 +337,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "5894914-94",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-341449848714937445621543",
                 "key" : "batchId"
               }
@@ -352,7 +348,13 @@
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
             "partTypeInformation" : {
               "manufacturerPartId" : "5894914-94",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key"
             }
           }
@@ -397,10 +399,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "6245773-32",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-341449848714937445621543",
                 "key" : "batchId"
               }
@@ -412,7 +410,13 @@
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
             "partTypeInformation" : {
               "manufacturerPartId" : "6245773-32",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key"
             }
           }
@@ -452,10 +456,6 @@
                 "key" : "manufacturerId"
               },
               {
-                "value" : "9770171-23",
-                "key" : "manufacturerPartId"
-              },
-              {
                 "value" : "NO-341449848714937445621543",
                 "key" : "batchId"
               }
@@ -467,7 +467,13 @@
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03",
             "partTypeInformation" : {
               "manufacturerPartId" : "9770171-23",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key"
             }
           }
@@ -562,7 +568,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "3578115-43",
               "customerPartId" : "PRT-12345",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Mirror left",
               "nameAtCustomer" : "b/test side element A"
             }
@@ -1025,7 +1037,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "1417058-05",
               "customerPartId" : "PRT-12345",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key",
               "nameAtCustomer" : "Door Key"
             }

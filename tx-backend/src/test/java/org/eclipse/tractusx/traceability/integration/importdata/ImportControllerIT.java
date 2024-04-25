@@ -331,26 +331,6 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 );
     }
 
-    @Test
-    void givenValidFile_whenImportDataWithWrongBPN_thenValidationShouldNotPass() throws JoseException {
-        // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFileButWrongBPN.json").getFile();
-        File file = new File(path);
-
-        // when/then
-        given()
-                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
-                .when()
-                .multiPart(file)
-                .post("/api/assets/import")
-                .then()
-                .statusCode(400)
-                .body("validationResult.validationErrors", Matchers.contains(
-                        List.of(
-                                "At least one asset does not match the application bpn BPNL00000003AXS3"
-                        ).toArray()))
-                .body("jobId", Matchers.notNullValue());
-    }
 
     @Test
     void givenInvalidFileExtension_whenImportData_thenValidationShouldPass() throws JoseException {

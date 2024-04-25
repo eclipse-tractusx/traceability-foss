@@ -553,7 +553,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "3578115-43",
               "customerPartId" : "PRT-12345",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Mirror left",
               "nameAtCustomer" : "b/test side element A"
             }
@@ -1035,7 +1041,13 @@
             "partTypeInformation" : {
               "manufacturerPartId" : "1417058-05",
               "customerPartId" : "PRT-12345",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key",
               "nameAtCustomer" : "Door Key"
             }
