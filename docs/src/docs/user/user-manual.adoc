@@ -422,7 +422,7 @@ Inbox for received/sent quality notifications.
 
 image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigations-list-view.png[]
 
-The tables can be sorted, filtered and searched. The global search bar at the top returns other part results from both tables.
+The tables can be sorted, filtered and searched.
 
 Choosing the filter input field for any column and typing in any character will show filter suggestions.
 
@@ -440,6 +440,29 @@ Those notifications specify a defect or request to investigate on a specific par
 
 * Queued status: Quality investigation is created but not yet released.
 * Requested status: Quality investigation is sent to the supplier.
+
+=== Create a new quality notification
+
+By clicking the announcement icon in the upper left corner of the table, you will be navigated to the notification creation view, in where you can start a quality notification from blank.
+
+=== Table Actions
+
+Similar to the parts table, the inbox provide a variety on actions you can apply to the listed notifications.
+Some actions are related to a single notification, while other can be executed on multiple notifications at a time.
+
+==== Actions on a single notification
+
+Through a click on the three dots on the right of a notification list row you open the menu actions, which you can choose from.
+Generally, there are the actions to edit the notification (if it's not sent yet) or view details about it.
+Additionally, there are the options to apply action alongside the lifecycle of a quality notification.
+
+==== Actions on multiple notifications
+
+Notifications can be selected with the checkboxes on the left of the table.
+With the selection, there is a context menu for actions on mulitple (selected) notifications.
+The "more" menu is opened by clicking on the horizontally aligned three dots icon.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/inbox-multiselect-actions.png[]
 
 === Quality notification create/edit view
 

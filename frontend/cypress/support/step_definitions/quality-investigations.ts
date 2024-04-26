@@ -108,13 +108,16 @@ Then('user changes field {string} to be {string}', function(field: string, value
       cy.get('p').contains(value).click();
       break;
     case 'title':
-      cy.get('[data-testId="title-input"]').type(value);
+      cy.get('[data-testId="title-input"]').clear().type(value);
+      break;
+    case 'bpn':
+      cy.get('[data-testId="bpn-input"]').clear().type(value);
       break;
     case 'description':
       cy.get('[data-testId="description-input"]').clear().type(value);
       break;
     default:
-      throw new Error('Set field ' + field + ' is not one of valid fields [severity, title, description');
+      throw new Error('Set field ' + field + ' is not one of valid fields [severity, title, description, bpn]');
   }
 });
 
@@ -129,10 +132,7 @@ Then('selected {string} field {string} value is {string}', function(notification
       break;
     case 'description':
       cy.get('[data-testid="description-view"]').should('contain.text', value);
-      break
-    case 'targetDate':
-      cy.get('[data-testid="targetDate-view"]').should('contain.text', value);
-      break
+      break;
     case 'status':
       cy.get('[data-testid="status-view"]').should('contain.text', value);
       break;
@@ -149,7 +149,7 @@ Then('selected {string} field {string} value is {string}', function(notification
       cy.get('[data-testid="sentToName-view"]').should('contain.text', value);
       break;
     default:
-      throw new Error('Set field ' + field + ' is not one of valid fields [severity, title, description, targetDate, status, createdBy, createdByName, sendTo, sendToName]');
+      throw new Error('Set field ' + field + ' is not one of valid fields [severity, title, description, status, createdBy, createdByName, sendTo, sendToName]');
   }
 });
 
@@ -174,7 +174,7 @@ When('user navigate to {string} with button in popup', function(popupClick: stri
 
 When('open details of created {string}', () => {
   cy.wait(2000);
-  cy.get('[data-testid="table-menu-button"]').first().click({force: true}); //the first investigation will be opened
+  cy.get('[data-testid="table-menu-button"]').first().click({ force: true }); //the first investigation will be opened
   if (!(cy.get('[data-testid="table-menu-button--actions.viewDetails"]').should('exist'))) { //this is necessary because sometimes the page reload and the first click disappear
     cy.get('[data-testid="table-menu-button"]').first().click();
     cy.get('[data-testid="table-menu-button--actions.viewDetails"]').first().click();
