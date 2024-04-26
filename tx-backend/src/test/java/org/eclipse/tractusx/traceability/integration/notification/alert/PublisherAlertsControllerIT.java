@@ -28,7 +28,6 @@ import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.request.UpdateNotificationStatusTransitionRequest;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
@@ -38,7 +37,6 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
-import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -66,9 +64,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -356,32 +352,11 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldApproveAlertStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
-        Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put("additionalProperty1", "value1");
-        EndpointDataReference endpointDataReference = EndpointDataReference.Builder
-                .newInstance()
-                .id("id")
-                .endpoint("http://localhost:" + RestitoConfig.getStubServer().getPort() + "/endpointdatareference")
-                .authKey("X-Api-Key")
-                .authCode("integration-tests")
-                .properties(additionalProperties)
-                .build();
-
-        endpointDataReferenceStorage.put("NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky", endpointDataReference);
-
-        irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.DFCWillCreateDiscovery();
-        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        edcSupport.edcWillReturnCatalogDupl();
-        edcSupport.edcWillCreateContractNegotiation();
-        edcSupport.edcWillReturnContractNegotiationOnlyState();
-        edcSupport.edcWillReturnContractNegotiationState();
-        edcSupport.edcWillCreateTransferprocesses();
-        edcSupport.edcWillReturnTransferprocessesOnlyState();
-        edcSupport.edcWillReturnTransferprocessesState();
-        edcSupport.edcWillSendRequest();
-
         // given
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoint();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
@@ -430,33 +405,13 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCloseAlertStatus() throws JsonProcessingException, JoseException , com.fasterxml.jackson.core.JsonProcessingException {
-        Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put("additionalProperty1", "value1");
-        EndpointDataReference endpointDataReference = EndpointDataReference.Builder
-                .newInstance()
-                .id("id")
-                .endpoint("http://localhost:" + RestitoConfig.getStubServer().getPort() + "/endpointdatareference")
-                .authKey("X-Api-Key")
-                .authCode("integration-tests")
-                .properties(additionalProperties)
-                .build();
-
-        endpointDataReferenceStorage.put("NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky", endpointDataReference);
-
-        irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.DFCWillCreateDiscovery();
-        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        edcSupport.edcWillReturnCatalogDupl();
-        edcSupport.edcWillCreateContractNegotiation();
-        edcSupport.edcWillReturnContractNegotiationOnlyState();
-        edcSupport.edcWillReturnContractNegotiationState();
-        edcSupport.edcWillCreateTransferprocesses();
-        edcSupport.edcWillReturnTransferprocessesOnlyState();
-        edcSupport.edcWillReturnTransferprocessesState();
-        edcSupport.edcWillSendRequest();
-
+    void shouldCloseAlertStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException, JsonProcessingException {
         // given
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoint();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
+
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE

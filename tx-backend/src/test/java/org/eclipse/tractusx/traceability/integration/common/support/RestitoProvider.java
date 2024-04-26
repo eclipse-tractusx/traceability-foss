@@ -24,6 +24,7 @@ import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig
 import org.springframework.stereotype.Component;
 
 import static com.xebialabs.restito.semantics.Action.resourceContent;
+import static com.xebialabs.restito.semantics.Action.stringContent;
 
 @Component
 public class RestitoProvider {
@@ -35,4 +36,10 @@ public class RestitoProvider {
     public Action jsonResponseFromFile(String location) {
         return resourceContent(location);
     }
+
+    public Action jsonResponseString(String mockResponse) {
+        return stringContent(mockResponse);
+    }
+
+
 }

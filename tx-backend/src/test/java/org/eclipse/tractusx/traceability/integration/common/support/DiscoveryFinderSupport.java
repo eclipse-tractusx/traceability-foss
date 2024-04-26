@@ -20,7 +20,11 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.status;
@@ -32,14 +36,27 @@ public class DiscoveryFinderSupport {
     @Autowired
     RestitoProvider restitoProvider;
 
+    @Autowired
+    ResourceLoader resourceLoader;
 
-    public void DFCWillCreateDiscovery() {
-        whenHttp(restitoProvider.stubServer()).match(
-                post("/v1.0/administration/connectors/discovery/search")
 
-        ).then(
-                status(HttpStatus.OK_200),
-                restitoProvider.jsonResponseFromFile("stubs/discovery.post.data/discovery_finder_response_200.json")
-        );
+    public void discoveryFinderWillReturnConnectorEndpoint() {
+        try {
+            String jsonString = resourceLoader.getResource("classpath:stubs/discovery.post.data/discovery_finder_search_response_200.json").getContentAsString(StandardCharsets.UTF_8);
+            String discoveryFinderMock = jsonString.replace("${Placeholder}", "https://tracex-discovery-mock-e2e-a.dev.demo.catena-x.net/api/administration/connectors/discovery");
+
+
+            whenHttp(restitoProvider.stubServer()).match(
+                    post("/v1.0/administration/connectors/discovery")
+
+            ).then(
+                    status(HttpStatus.OK_200),
+                    // restitoProvider.jsonResponseString(jsonString));
+                    restitoProvider.jsonResponseFromFile("stubs/discovery.post.data/discovery_finder_search_response_200.json"));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+
     }
 }
