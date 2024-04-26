@@ -43,16 +43,15 @@ public class DiscoveryFinderSupport {
     public void discoveryFinderWillReturnConnectorEndpoint() {
         try {
             String jsonString = resourceLoader.getResource("classpath:stubs/discovery.post.data/discovery_finder_search_response_200.json").getContentAsString(StandardCharsets.UTF_8);
-            String discoveryFinderMock = jsonString.replace("${Placeholder}", "https://tracex-discovery-mock-e2e-a.dev.demo.catena-x.net/api/administration/connectors/discovery");
-
+            String discoveryFinderMock = jsonString.replace("${Placeholder}", "http://localhost:" + restitoProvider.stubServer().getPort() + "/v1.0/administration/connectors/discovery");
 
             whenHttp(restitoProvider.stubServer()).match(
                     post("/v1.0/administration/connectors/discovery")
 
             ).then(
                     status(HttpStatus.OK_200),
-                    // restitoProvider.jsonResponseString(jsonString));
-                    restitoProvider.jsonResponseFromFile("stubs/discovery.post.data/discovery_finder_search_response_200.json"));
+                    restitoProvider.jsonResponseFromString(discoveryFinderMock));
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

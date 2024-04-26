@@ -23,6 +23,8 @@ import com.xebialabs.restito.server.StubServer;
 import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
 import org.springframework.stereotype.Component;
 
+import static com.xebialabs.restito.semantics.Action.composite;
+import static com.xebialabs.restito.semantics.Action.contentType;
 import static com.xebialabs.restito.semantics.Action.resourceContent;
 import static com.xebialabs.restito.semantics.Action.stringContent;
 
@@ -37,8 +39,8 @@ public class RestitoProvider {
         return resourceContent(location);
     }
 
-    public Action jsonResponseString(String mockResponse) {
-        return stringContent(mockResponse);
+    public Action jsonResponseFromString(String mockResponse) {
+        return composite(contentType("application/json"), stringContent(mockResponse));
     }
 
 
