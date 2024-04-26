@@ -354,7 +354,8 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void shouldApproveAlertStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoint();
+        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
+        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
         String filterString = "channel,EQUAL,SENDER,AND";
@@ -408,7 +409,8 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     void shouldCloseAlertStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException, JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoint();
+        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
+        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
 

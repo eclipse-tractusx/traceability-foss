@@ -381,7 +381,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     void shouldApproveInvestigationStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoint();
+        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
+        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
         List<String> partIds = List.of(
@@ -435,7 +436,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     void shouldCloseInvestigationStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException, JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoint();
+        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
+        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
 

@@ -40,10 +40,28 @@ public class DiscoveryFinderSupport {
     ResourceLoader resourceLoader;
 
 
-    public void discoveryFinderWillReturnConnectorEndpoint() {
+    public void discoveryFinderWillReturnEndpointAddress() {
         try {
-            String jsonString = resourceLoader.getResource("classpath:stubs/discovery.post.data/discovery_finder_search_response_200.json").getContentAsString(StandardCharsets.UTF_8);
+            String jsonString = resourceLoader.getResource("classpath:stubs/discovery.post.data/discovery_finder_response_200.json").getContentAsString(StandardCharsets.UTF_8);
             String discoveryFinderMock = jsonString.replace("${Placeholder}", "http://localhost:" + restitoProvider.stubServer().getPort() + "/v1.0/administration/connectors/discovery");
+
+            whenHttp(restitoProvider.stubServer()).match(
+                    post("/v1.0/administration/connectors/discovery/search")
+
+            ).then(
+                    status(HttpStatus.OK_200),
+                    restitoProvider.jsonResponseFromString(discoveryFinderMock));
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public void discoveryFinderWillReturnConnectorEndpoints() {
+        try {
+            String jsonString = resourceLoader.getResource("classpath:stubs/discovery.post.data/discovery_finder_connector_response_200.json").getContentAsString(StandardCharsets.UTF_8);
+            String discoveryFinderMock = jsonString.replace("${Placeholder}", "http://localhost:" + restitoProvider.stubServer().getPort() + "/");
 
             whenHttp(restitoProvider.stubServer()).match(
                     post("/v1.0/administration/connectors/discovery")
@@ -55,7 +73,5 @@ public class DiscoveryFinderSupport {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
-
     }
 }
