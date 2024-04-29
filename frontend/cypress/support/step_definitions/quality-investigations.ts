@@ -108,10 +108,12 @@ Then('user changes field {string} to be {string}', function(field: string, value
       cy.get('p').contains(value).click();
       break;
     case 'title':
-      cy.get('[data-testId="title-input"]').clear().type(value);
+      cy.get('[data-testId="title-input"]').type(value);
       break;
     case 'bpn':
-      cy.get('[data-testId="bpn-input"]').clear().type(value);
+      cy.get('[data-testId="bpn-input"]').type('{selectall}');
+      cy.get('[data-testId="bpn-input"]').type('{del}');
+      cy.get('[data-testId="bpn-input"]').type(value);
       break;
     case 'description':
       cy.get('[data-testId="description-input"]').clear().type(value);
@@ -143,10 +145,10 @@ Then('selected {string} field {string} value is {string}', function(notification
       cy.get('[data-testid="createdByName-view"]').should('contain.text', value);
       break;
     case 'sendTo':
-      cy.get('[data-testid="sentTo-view"]').should('contain.text', value);
+      cy.get('[data-testid="sendTo-view"]').should('contain.text', value);
       break;
     case 'sendToName':
-      cy.get('[data-testid="sentToName-view"]').should('contain.text', value);
+      cy.get('[data-testid="sendToName-view"]').should('contain.text', value);
       break;
     default:
       throw new Error('Set field ' + field + ' is not one of valid fields [severity, title, description, status, createdBy, createdByName, sendTo, sendToName]');
