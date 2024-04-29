@@ -6,65 +6,63 @@
 
 The following process is required to successfully connect to the portal:
 
-1) Company registration with BPN, Company Name
+- Company registration with BPN, Company Name
 
-2) User Registration with E-Mail
+- User Registration with E-Mail
 
-3) Get e-mail to reset your password
+- Get e-mail to reset your password
 
-4) Reset the password and log in
+- Reset the password and log in
 
-#### IF you want to create a catena x app. Otherwise continue on 9)
+- Make sure your user has the role App Management
 
-5) Make sure your user has the role App Management
+- Navigate to App Overview
 
-6) Navigate to App Overview
+- Create app
 
-7) Create app
+- Choose a selection of managed roles which is necessary (currently: BPDM, Dataspace Discovery, Semantic Model Management, Identity Wallet Management)
 
-a) Choose a selection of managed roles which is necessary (currently: BPDM, Dataspace Discovery, Semantic Model Management, Identity Wallet Management)
+- Wait for app approval by portal
 
-8) Wait for app approval by portal
+- Subscribe to the app
 
-9) Subscribe to the app
+-  As app creator navigate to subscription management - click on configure
 
-10) As app creator navigate to subscription management - click on configure
+-  Add the frontend url of the application and click approve
 
-11) Add the frontend url of the application and click approve
+-  Save technical user and secret
 
-12) Save technical user and secret
+-  Navigate to Register Connector
 
-13) Navigate to Register Connector
+-  Add managed connector
 
-14) Add managed connector
+-  Select existing technical user (from app subscription)
 
-15) Select existing technical user (from app subscription)
+-  Enter name "EDC Provider A"
 
-16) Enter name "EDC Provider A"
+-  Enter base url of controlplane (EDC)
 
-17) Enter base url of controlplane (EDC)
+-  Confirm
 
-18) Confirm
+-  Go to other company which want to participate (subscribe)
 
-19) Go to other company which want to participate (subscribe)
+-  Login and navigate to app overview
 
-20) Login and navigate to app overview
+-  Search for the app created
 
-21) Search for the app created
+-  Subscribe to the app
 
-22) Subscribe to the app
+-  Go to the app creator company
 
-23) Go to the app creator company
+-  Navigate to the inbox of the portal
 
-24) Navigate to the inbox of the portal
+-  Click on the nav link to give approval for the company which want to subscribe
 
-25) Click on the nav link to give approval for the company which want to subscribe
+-  Enter name "EDC Provider B"
 
-26) Enter name "EDC Provider B"
+-  Enter base url of controlplane (EDC)
 
-27) Enter base url of controlplane (EDC)
-
-28) Make sure to popuplate the new client id, secrets and app id within trace-x for each company to let it run properly with the new portal configuration.
+-  Make sure to popuplate the new client id, secrets and app id within trace-x for each company to let it run properly with the new portal configuration.
 
 == Company registration
 https://portal.int.demo.catena-x.net/documentation[How-to]
