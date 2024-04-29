@@ -97,7 +97,7 @@ configuration:
       keycloakUrl: &portal_auth_keycloak_url <path:traceability-foss/data/int-b/frontend#catenax_portal_keycloak_url>
       tokenUri: &central_idp_token_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
       jwkUri: &central_idp_jwk_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
-      resourceClient: &central_idp_resource_client 'app90'
+      resourceClient: &central_idp_resource_client <path:traceability-foss/data/int-b/keycloak/oauth2#appId>
     miw:
       url: &portal_miw_url <path:traceability-foss/data/int-b/edc/wallet#ssi.miw.url>
       authorityId: &portal_miw_authorityid <path:traceability-foss/data/int-b/edc/wallet#ssi.miw.authorityId>
