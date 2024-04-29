@@ -64,7 +64,7 @@
             "identification" : "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218",
             "semanticId" : {
               "value" : [
-                "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
+                "urn:samm:io.catenax.serial_part:3.0.0#SerialPart"
               ]
             },
             "endpoints" : [
@@ -88,7 +88,7 @@
             "identification" : "urn:uuid:50de024d-60b3-49cd-ac74-37d81ce4bb7b",
             "semanticId" : {
               "value" : [
-                "urn:bamm:com.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
+                "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
               ]
             },
             "endpoints" : [
@@ -113,16 +113,12 @@
   "submodels": [
     {
       "identification": "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218",
-      "aspectType": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
       "payload": {
         "localIdentifiers": [
           {
             "value": "BPNL00000003AYRE",
             "key": "manufacturerId"
-          },
-          {
-            "value": "KR-09",
-            "key": "manufacturerPartId"
           },
           {
             "value": "OMA-TGFAYUHXFLHHUQQMPLTE",
@@ -141,7 +137,13 @@
         "partTypeInformation": {
           "manufacturerPartId": "KR-09",
           "customerPartId": "KR-09",
-          "classification": "component",
+          "partClassification" : [
+            {
+              "classificationStandard": "classificationStandard",
+              "classificationID":  "classificationID",
+              "classificationDescription": "classificationDescription"
+            }
+          ],
           "nameAtManufacturer": "a/dev Door Key",
           "nameAtCustomer": "Door Key"
         }
@@ -149,7 +151,7 @@
     },
     {
       "identification": "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0217",
-      "aspectType": "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode",
+      "aspectType": "urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode",
       "payload": {
         "tractionBatteryCode": "X12MCPM27KLPCLX2M2382320",
         "subcomponents": [
