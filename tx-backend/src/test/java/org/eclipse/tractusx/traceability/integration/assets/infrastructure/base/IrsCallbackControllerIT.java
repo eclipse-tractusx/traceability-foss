@@ -78,7 +78,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .statusCode(200);
 
         // then
-        assertThat(bpnSupportRepository.findAll()).hasSize(7);
+        assertThat(bpnSupportRepository.findAll()).hasSize(6);
         assetsSupport.assertAssetAsBuiltSize(16);
         assetsSupport.assertAssetAsPlannedSize(0);
         String contractAgreementId = given()
@@ -180,7 +180,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .statusCode(200);
 
         // then
-        assertThat(bpnSupportRepository.findAll()).hasSize(7);
+        assertThat(bpnSupportRepository.findAll()).hasSize(6);
         assetsSupport.assertAssetAsBuiltSize(16);
         assetsSupport.assertAssetAsPlannedSize(0);
     }
