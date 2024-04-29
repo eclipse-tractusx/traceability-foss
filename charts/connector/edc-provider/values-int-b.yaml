@@ -2,6 +2,14 @@ tractusx-connector:
   enabled: true
   participant:
     id: BPNL00000003CNKC
+
+  iatp:
+    sts:
+      oauth:
+        client:
+          id: <path:traceability-foss/data/int-b/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-int-b-provider
+
   controlplane:
     ingresses:
       - enabled: true

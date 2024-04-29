@@ -4,6 +4,14 @@ tractusx-connector:
   fullnameOverride: "tx-edc-provider-int-a"
   participant:
     id: BPNL00000003CML1
+
+  iatp:
+    sts:
+      oauth:
+        client:
+          id: <path:traceability-foss/data/int-a/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-int-a-provider
+
   controlplane:
     ingresses:
       - enabled: true

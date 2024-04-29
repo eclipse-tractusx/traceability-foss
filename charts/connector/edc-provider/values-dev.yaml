@@ -3,6 +3,13 @@ tractusx-connector:
     id: BPNL00000003CML1
   enabled: true
 
+  iatp:
+    sts:
+      oauth:
+        client:
+          id: <path:traceability-foss/data/dev/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-dev-a-provider
+
   controlplane:
     ingresses:
       - enabled: true
