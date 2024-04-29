@@ -41,12 +41,7 @@ import { TableSettingsService } from '@core/user/table-settings.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
-import { PartsAsBuiltCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
-import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
-import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
-import { PartsAsPlannedCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
-import { PartsAsPlannedSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
+import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
 import {
@@ -176,34 +171,11 @@ export class PartsTableComponent implements OnInit {
     return isDateFilter(key);
   }
 
-  private initializeTableViewSettings(): void {
-    switch (this.tableType) {
-      case TableType.AS_PLANNED_CUSTOMER:
-        this.tableViewConfig = new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_PLANNED_OWN:
-        this.tableViewConfig = new PartsAsPlannedConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_PLANNED_SUPPLIER:
-        this.tableViewConfig = new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_BUILT_OWN:
-        this.tableViewConfig = new PartsAsBuiltConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_BUILT_CUSTOMER:
-        this.tableViewConfig = new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
-        break;
-      case TableType.AS_BUILT_SUPPLIER:
-        this.tableViewConfig = new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
-        break;
-    }
-  }
-
   private pageSize: number;
   private sorting: TableHeaderSort;
 
   ngOnInit() {
-    this.initializeTableViewSettings();
+    this.tableViewConfig = this.tableSettingsService.initializeTableViewSettings(this.tableType);
     this.tableSettingsService.getEvent().subscribe(() => {
       this.setupTableViewSettings();
     });
@@ -216,9 +188,8 @@ export class PartsTableComponent implements OnInit {
 
   private setupTableViewSettings() {
 
-    if (this.tableSettingsService.storedTableSettingsInvalid(this.tableViewConfig, this.tableType)) {
-      this.toastService.warning('table.tableSettings.invalid', 10000);
-    }
+    this.tableSettingsService.storedTableSettingsInvalid(this.tableViewConfig, this.tableType);
+
     const tableSettingsList = this.tableSettingsService.getStoredTableSettings();
     // check if there are table settings list
     if (tableSettingsList) {
@@ -230,7 +201,7 @@ export class PartsTableComponent implements OnInit {
         // if no, create new a table setting for this.tabletype and put it into the list. Additionally, intitialize default table configuration
         tableSettingsList[this.tableType] = {
           columnsForDialog: this.tableViewConfig.displayedColumns,
-          columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
+          columnSettingsOptions: PartsTableConfigUtils.getDefaultColumnVisibilityMap(this.tableViewConfig.displayedColumns),
           columnsForTable: this.tableViewConfig.displayedColumns,
           filterColumnsForTable: this.tableViewConfig.filterColumns,
         };
@@ -242,7 +213,7 @@ export class PartsTableComponent implements OnInit {
       const newTableSettingsList = {
         [this.tableType]: {
           columnsForDialog: this.tableViewConfig.displayedColumns,
-          columnSettingsOptions: this.getDefaultColumnVisibilityMap(),
+          columnSettingsOptions: PartsTableConfigUtils.getDefaultColumnVisibilityMap(this.tableViewConfig.displayedColumns),
           columnsForTable: this.tableViewConfig.displayedColumns,
           filterColumnsForTable: this.tableViewConfig.filterColumns,
         },
@@ -250,14 +221,6 @@ export class PartsTableComponent implements OnInit {
       this.tableSettingsService.storeTableSettings(newTableSettingsList);
       this.setupTableConfigurations(this.tableViewConfig.displayedColumns, this.tableViewConfig.filterColumns, this.tableViewConfig.sortableColumns, this.tableViewConfig.displayFilterColumnMappings, this.tableViewConfig.filterFormGroup);
     }
-  }
-
-  private getDefaultColumnVisibilityMap(): Map<string, boolean> {
-    const initialColumnMap = new Map<string, boolean>();
-    for (const column of this.tableViewConfig.displayedColumns) {
-      initialColumnMap.set(column, true);
-    }
-    return initialColumnMap;
   }
 
 
