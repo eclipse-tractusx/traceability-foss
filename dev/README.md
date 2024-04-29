@@ -213,7 +213,7 @@ Is achieved by defining the order of the BPNLs of the desired manufacturers. See
 and adding an SingleLevelBomAsBuilt Aspect with the corresponding childCatenaXId:
 ```json
 {
-"urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt" : [ {
+"urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt" : [ {
 "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
 "childParts" : [ {
 "quantity" : {

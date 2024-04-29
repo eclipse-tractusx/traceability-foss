@@ -6,7 +6,7 @@
       },
       "submodels": [
         {
-          "aspectType": "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
+          "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload": {
             "localIdentifiers": [
               {
@@ -41,7 +41,7 @@
           }
         },
         {
-          "aspectType": "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+          "aspectType": "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload": {
             "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111",
             "childItems": [
@@ -60,7 +60,7 @@
           }
         },
         {
-          "aspectType": "urn:bamm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "aspectType": "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload": {
             "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111",
             "customers": [

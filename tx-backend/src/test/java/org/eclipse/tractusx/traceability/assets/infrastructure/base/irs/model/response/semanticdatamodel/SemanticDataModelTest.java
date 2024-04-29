@@ -27,8 +27,8 @@ class SemanticDataModelTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
-            "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
+            "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+            "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
     })
     void test_IsAsPlanned(String aspectType) {
         //GIVEN
@@ -42,9 +42,9 @@ class SemanticDataModelTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
-            "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
+            "urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
             "urn:samm:io.catenax.batch:3.0.0#Batch",
-            "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart"})
+            "urn:samm:io.catenax.serial_part:3.0.0#SerialPart"})
     void test_IsAsBuilt(String aspectType) {
         //GIVEN
         SemanticDataModel semanticDataModel = new SemanticDataModel();

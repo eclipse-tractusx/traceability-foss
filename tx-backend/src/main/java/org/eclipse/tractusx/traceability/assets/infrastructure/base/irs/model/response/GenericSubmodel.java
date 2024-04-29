@@ -47,32 +47,32 @@ public class GenericSubmodel {
             property = "aspectType")
     @JsonSubTypes({
             @Type(value = MainAspectAsBuiltRequest.class, names = {
-                    "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
+                    "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
                     "urn:samm:io.catenax.batch:3.0.0#Batch",
-                    "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart"
+                    "urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart"
             }),
 
             @Type(value = MainAspectAsPlannedRequest.class, names = {
-                    "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned"
+                    "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned"
             }),
             @Type(value = PartSiteInformationAsPlannedRequest.class, names = {
-                    "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
+                    "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
             }),
 
             @Type(value = DetailAspectDataTractionBatteryCode.class, names = {
-                    "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
+                    "urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
             }),
             @Type(value = SingleLevelBomAsBuiltRequest.class, names = {
-                    "urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
+                    "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
             }),
             @Type(value = SingleLevelUsageAsBuiltRequest.class, names = {
-                    "urn:bamm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt"
+                    "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt"
             }),
             @Type(value = SingleLevelUsageAsPlannedRequest.class, names = {
-                    "urn:bamm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
+                    "urn:samm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned"
             }),
             @Type(value = SingleLevelBomAsPlannedRequest.class, names = {
-                    "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned"
+                    "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned"
             })
     })
     private final Object payload;

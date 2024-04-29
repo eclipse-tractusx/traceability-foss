@@ -21,22 +21,22 @@ public class IrsSubmodel {
             property = "aspectType")
     @JsonSubTypes({
             @JsonSubTypes.Type(value = SerialPart300Schema.class, names = {
-                    "urn:bamm:io.catenax.serial_part:3.0.0#SerialPart",
+                    "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
             }),
             @JsonSubTypes.Type(value = Batch300Schema.class, names = {
                     "urn:samm:io.catenax.batch:3.0.0#Batch"
             }),
             @JsonSubTypes.Type(value = PartAsPlanned200Schema.class, names = {
-                    "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+                    "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
             }),
             @JsonSubTypes.Type(value = PartSiteInformationAsPlanned100Schema.class, names = {
-                    "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
+                    "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
             }),
             @JsonSubTypes.Type(value = JustInSequencePart300Schema.class, names = {
-                    "urn:bamm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart"
+                    "urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart"
             }),
             @JsonSubTypes.Type(value = TractionBatteryCode100Schema.class, names = {
-                    "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
+                    "urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
             })
     })
     private Object payload;

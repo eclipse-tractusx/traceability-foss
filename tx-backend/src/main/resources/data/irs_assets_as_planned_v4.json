@@ -102,7 +102,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+                  "value" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -132,7 +132,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+                  "value" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -188,7 +188,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+                  "value" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -218,7 +218,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+                  "value" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -274,7 +274,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+                  "value" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -304,7 +304,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+                  "value" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -334,7 +334,7 @@
             "semanticId" : {
               "keys" : [
                 {
-                  "value" : "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
+                  "value" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
                   "type" : "Submodel"
                 }
               ],
@@ -364,7 +364,7 @@
   "submodels" : [
     {
       "identification" : "urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8",
-      "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+      "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
       "payload" : {
         "validityPeriod" : {
           "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -388,7 +388,7 @@
     },
     {
       "identification" : "urn:uuid:6507e9fc-2544-4ce1-a41c-b0aa57d7b30a",
-      "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+      "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
       "payload" : {
         "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
         "sites" : [
@@ -403,7 +403,7 @@
     },
     {
       "identification" : "urn:uuid:81d16457-d9af-4b4d-a124-84d3ae17d951",
-      "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+      "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
       "payload" : {
         "validityPeriod" : {
           "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -427,7 +427,7 @@
     },
     {
       "identification" : "urn:uuid:3331cecf-8183-4966-aa4c-d99d61d20c0b",
-      "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+      "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
       "payload" : {
         "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
         "sites" : [

@@ -6,7 +6,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "validityPeriod" : {
               "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -29,7 +29,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02",
             "childItems" : [
@@ -51,7 +51,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02",
             "sites" : [

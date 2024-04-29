@@ -302,8 +302,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertThat(result.validationResult().validationErrors())
                 .containsExactlyInAnyOrder(
                         "Missing property aspectType",
-                        "For Asset with ID: invalidUUID And aspectType: urn:bamm:io.catenax.serial_part:3.0.0#SerialPart Following error occurred: object has missing required properties ([\"localIdentifiers\"])",
-                        "For Asset with ID: urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a And aspectType: urn:bamm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt Following error occurred: object has missing required properties ([\"catenaXId\",\"childItems\"])"
+                        "For Asset with ID: invalidUUID And aspectType: urn:samm:io.catenax.serial_part:3.0.0#SerialPart Following error occurred: object has missing required properties ([\"localIdentifiers\"])",
+                        "For Asset with ID: urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a And aspectType: urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt Following error occurred: object has missing required properties ([\"catenaXId\",\"childItems\"])"
                 );
     }
 
