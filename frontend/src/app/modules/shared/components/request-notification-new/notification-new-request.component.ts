@@ -44,7 +44,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     'description': new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]),
     'severity': new FormControl(Severity.MINOR, [ Validators.required ]),
     'targetDate': new FormControl(null),
-    'bpn': new FormControl(null, [ BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
+    'bpn': new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
     'type': new FormControl({ value: NotificationType.INVESTIGATION, disabled: true }, [ Validators.required ]),
   });
   public selected$: Observable<View<Notification>>;
@@ -58,9 +58,9 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    const { title, description, severity, type, sendTo, targetDate } = this.notification;
 
     if (this.editMode) {
-      const { title, description, severity, type, sendTo, targetDate } = this.notification;
       this.formGroup.setValue({
         'title': title,
         'description': description,
@@ -72,9 +72,16 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
 
       this.formGroupChanged.emit(this.formGroup);
 
+    } else {
+      // when clicking new notification without part context enable switching
+      if (!this.notification.type) {
+        this.formGroup.get('type').setValue(NotificationType.INVESTIGATION);
+        this.formGroup.get('type').enable();
+      } else {
+        this.formGroup.get('type').setValue(this.notification.type);
+      }
     }
 
-    this.formGroup.get('type').setValue(this.notification.type);
     if (this.notification.type === NotificationType.INVESTIGATION) {
       this.formGroup.get('bpn').disable();
     }
@@ -84,7 +91,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     }
     this.formGroupChanged.emit(this.formGroup);
 
-    this.formGroup.valueChanges.subscribe(value => {
+    this.formGroup.valueChanges.subscribe(() => {
       //TODO: For Create, check here or in parent if the part tables should update (depending on passed partId, investigation or alert type)
       this.formGroupChanged.emit(this.formGroup);
     });

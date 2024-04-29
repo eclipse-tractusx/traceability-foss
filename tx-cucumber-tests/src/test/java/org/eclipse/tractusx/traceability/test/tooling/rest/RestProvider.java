@@ -31,6 +31,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
+import notification.request.EditNotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusRequest;
@@ -97,6 +98,7 @@ public class RestProvider {
             Instant targetDate,
             String severity,
             String receiverBpn,
+            String title,
             NotificationTypeEnum notificationType) {
         final StartNotificationRequest requestBody = StartNotificationRequest.builder()
                 .affectedPartIds(partIds)
@@ -105,6 +107,7 @@ public class RestProvider {
                 .severity(NotificationSeverityRequest.fromValue(severity))
                 .type(notificationType.toRequest())
                 .receiverBpn(receiverBpn)
+                .title(title)
                 .build();
         return given().log().body()
                 .spec(getRequestSpecification())
@@ -116,6 +119,32 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_CREATED)
                 .extract()
                 .as(NotificationIdResponse.class);
+
+    }
+
+    public void editNotification(Long notificationId,
+                                 List<String> partIds,
+                                 String description,
+                                 Instant targetDate,
+                                 String severity,
+                                 String title,
+                                 String receiverBpn) {
+        final EditNotificationRequest requestBody = EditNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .targetDate(targetDate)
+                .severity(NotificationSeverityRequest.fromValue(severity))
+                .receiverBpn(receiverBpn)
+                .title(title)
+                .build();
+        given().log().body()
+                .spec(getRequestSpecification())
+                .contentType(ContentType.JSON)
+                .body(requestBody)
+                .when()
+                .put("/api/notifications/" + notificationId + "/edit")
+                .then()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
 
     }
 

@@ -18,10 +18,8 @@
  ********************************************************************************/
 
 
-import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
-
-
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
+import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 
 
 export class TableFilterConfiguration implements TableViewConfig {
@@ -31,12 +29,12 @@ export class TableFilterConfiguration implements TableViewConfig {
   filterFormGroup: any;
   sortableColumns: any;
 
-  constructor(sortableColumns: any, dateFields?: any, singleSearchFields?: any) {
+  constructor(sortableColumns: any, dateFields?: any, singleSearchFields?: any, hasFilterColumn?: boolean) {
     this.displayedColumns = Object.keys(sortableColumns);
     this.filterFormGroup = PartsTableConfigUtils.createFormGroup(this.displayedColumns);
-    this.filterColumns = PartsTableConfigUtils.createFilterColumns(this.displayedColumns);
+    this.filterColumns = PartsTableConfigUtils.createFilterColumns(this.displayedColumns, hasFilterColumn);
     this.sortableColumns = sortableColumns;
-    this.displayFilterColumnMappings = PartsTableConfigUtils.generateFilterColumnsMapping(sortableColumns, dateFields, singleSearchFields);
+    this.displayFilterColumnMappings = PartsTableConfigUtils.generateFilterColumnsMapping(sortableColumns, dateFields, singleSearchFields, hasFilterColumn);
 
   }
 

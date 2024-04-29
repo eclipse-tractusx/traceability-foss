@@ -138,10 +138,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .title(title)
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)
+                .receiverBpn("BPNL00000003CNKC")
                 .build();
 
         // when
-        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest);
+        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest, 201);
 
         // then
         notificationMessageSupport.assertMessageSize(2);
@@ -158,6 +159,54 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
 
+    }
+
+    @Test
+    void givenMissingPartIds_whenStartInvestigation_thenBadRequest() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+
+
+        // given
+
+        String description = "at least 15 characters long investigation description";
+        String title = "the title";
+
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .description(description)
+                .title(title)
+                .type(NotificationTypeRequest.INVESTIGATION)
+                .severity(NotificationSeverityRequest.MINOR)
+                .build();
+
+        // when
+        // then
+        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest, 400);
+    }
+
+    @Test
+    void givenMissingBPN_whenStartInvestigation_thenBadRequest() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+
+
+        // given
+        // given
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        );
+        String description = "at least 15 characters long investigation description";
+        String title = "the title";
+
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .title(title)
+                .type(NotificationTypeRequest.INVESTIGATION)
+                .severity(NotificationSeverityRequest.MINOR)
+                .build();
+
+        // when
+        // then
+        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest, 400);
     }
 
     @Test
@@ -264,7 +313,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCancelInvestigation() throws JsonProcessingException, JoseException {
+    void shouldCancelInvestigation() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartNotificationRequest.builder()
@@ -272,17 +321,10 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .description("at least 15 characters long investigation description")
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MAJOR)
+                .receiverBpn("BPNL00000003CNKC")
                 .build();
 
-        val investigationId = given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(201)
-                .extract().path("id");
+        val investigationId = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startInvestigationRequest, 201);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
@@ -300,7 +342,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/api/notifications/$investigationId/cancel".replace("$investigationId", investigationId.toString()))
+                .post("/api/notifications/$investigationId/cancel".replace("$investigationId", String.valueOf(investigationId)))
                 .then()
                 .statusCode(204);
 
@@ -318,7 +360,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldApproveInvestigationStatus() throws JsonProcessingException, JoseException {
+    void shouldApproveInvestigationStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
@@ -332,18 +374,12 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)
+                .receiverBpn("BPNL00000003CNKC")
                 .build();
 
         // when
-        val investigationId = given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(201)
-                .extract().path("id");
+        val investigationId = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startInvestigationRequest, 201);
+
 
         notificationSupport.assertInvestigationsSize(1);
 
@@ -374,7 +410,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCloseInvestigationStatus() throws JsonProcessingException, JoseException {
+    void shouldCloseInvestigationStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
@@ -387,20 +423,11 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .affectedPartIds(partIds)
                 .description(description)
                 .type(NotificationTypeRequest.INVESTIGATION)
+                .receiverBpn("BPNL00000003CNKC")
                 .severity(NotificationSeverityRequest.MINOR)
                 .build();
 
-
-        // when
-        val investigationId = given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(201)
-                .extract().path("id");
+        val investigationId = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startInvestigationRequest, 201);
 
         // then
         notificationSupport.assertInvestigationsSize(1);
@@ -485,7 +512,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldBeCreatedBySender() throws JsonProcessingException, JoseException {
+    void shouldBeCreatedBySender() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
@@ -498,19 +525,12 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
+                .receiverBpn("BPNL00000003CNKC")
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .build();
 
         // when
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startInvestigationRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(201)
-                .body("id", Matchers.isA(Number.class));
+        notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startInvestigationRequest, 201);
 
         // then
         partIds.forEach(partId -> {

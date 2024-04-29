@@ -37,32 +37,33 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Enable Quality Alerts
 	Scenario: [BE] Check correct processing of CLOSURE of quality alerts
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
-		And I create quality alert
+		And I create quality notification
 		  | "severity"    | "MAJOR" |
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1863" |
-		Then I check, if quality alert has proper values
+		  | "type" | "ALERT" |
+		Then I check, if quality notification has proper values
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1863" |
 		  | "status"      | "CREATED" |
-		When I approve quality alert
-		Then I check, if quality alert has proper values
+		When I approve quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "SENT" |
 		When I am logged into TRACE_X_B application
-		Then I check, if quality alert has been received
-		And I check, if quality alert has proper values
+		Then I check, if quality notification has been received
+		And I check, if quality notification has proper values
 		  | "status"      | "RECEIVED" |
-		When I acknowledge quality alert
-		Then I check, if quality alert has proper values
+		When I acknowledge quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "ACKNOWLEDGED" |
 		  
 		When I am logged into TRACE_X_A application
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has proper values
 		  | "status" | "ACKNOWLEDGED" |
 		When I close quality alert
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has proper values
 		  | "status" | "CLOSED" | 
 		  
 		When I am logged into TRACE_X_B application  
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has proper values
 		  | "status" | "CLOSED" |	
 
 	#Check if *bpn names* of *sender and receiver* are processed correctly for created quality alerts which contains following checks:
@@ -72,20 +73,21 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Enable Quality Alerts
 	Scenario: [BE] Check correct processing of bpn names in quality alerts
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
-		And I create quality alert
+		And I create quality notification
 		  | "description" | "Testing BPNs TRACEFOSS-1547" |
 		  | "severity"    | "MINOR" |
-		Then I check, if quality alert has proper values
+		  | "type"    | "ALERT" |
+		Then I check, if quality notification has proper values
 		  | "description" | "Testing BPNs TRACEFOSS-1547" |
 		  | "createdBy" | "BPNL00000003CML1" |
 		  | "sendTo" | "BPNL00000003CNKC" |
 		  | "status"      | "CREATED" |
-		When I approve quality alert
-		Then I check, if quality alert has proper values
+		When I approve quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "SENT" |
 		When I am logged into TRACE_X_B application
-		Then I check, if quality alert has been received
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has been received
+		Then I check, if quality notification has proper values
 		  | "description" | "Testing BPNs TRACEFOSS-1547" |
 		  | "createdBy" | "BPNL00000003CML1" |
 		  | "sendTo" | "BPNL00000003CNKC" |
@@ -98,19 +100,20 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Enable Quality Alerts
 	Scenario: [BE] Check correct processing of targetDate = null in quality alerts
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
-		And I create quality alert
+		And I create quality notification
 		  | "severity"    | "MINOR" |
 		  | "description" | "Testing without targetDate TRACEFOSS-1546" |
-		Then I check, if quality alert has proper values
+		  | "type" | "ALERT" |
+		Then I check, if quality notification has proper values
 		  | "description" | "Testing without targetDate TRACEFOSS-1546" |
 		  | "targetDate"  | "" |
 		  | "status"      | "CREATED" |
-		When I approve quality alert
-		Then I check, if quality alert has proper values
+		When I approve quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "SENT" |
 		When I am logged into TRACE_X_B application
-		Then I check, if quality alert has been received
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has been received
+		Then I check, if quality notification has proper values
 		  | "description" | "Testing without targetDate TRACEFOSS-1546" |
 		  | "targetDate"  | "" |
 		  | "status"      | "RECEIVED" |	
@@ -123,33 +126,34 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Enable Quality Alerts
 	Scenario: [BE] Check correct processing of DECLINATION of quality alerts
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
-		And I create quality alert
+		And I create quality notification
 		  | "severity"    | "MAJOR" |
 		  | "description" | "Testing DECLINATION TRACEFOSS-1545" |
-		Then I check, if quality alert has proper values
+		  | "type" | "ALERT" |
+		Then I check, if quality notification has proper values
 		  | "severity"    | "MAJOR" |
 		  | "description" | "Testing DECLINATION TRACEFOSS-1545" |
 		  | "status"      | "CREATED" |
-		When I approve quality alert
-		Then I check, if quality alert has proper values
+		When I approve quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "SENT" |
 		When I am logged into TRACE_X_B application
-		Then I check, if quality alert has been received
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has been received
+		Then I check, if quality notification has proper values
 		  | "severity"    | "MAJOR" |
 		  | "description" | "Testing DECLINATION TRACEFOSS-1545" |
 		  | "status"      | "RECEIVED" |
-		When I acknowledge quality alert
-		Then I check, if quality alert has proper values
+		When I acknowledge quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "ACKNOWLEDGED" |
-		When I decline quality alert
+		When I decline quality notification
 		  | "reason" | "declined in TRACEFOSS-1545" |
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has proper values
 		  | "status" | "DECLINED" |
 		When I am logged into TRACE_X_A application
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has proper values
 		  | "status" | "DECLINED" |
-		And I check, if quality alert has proper values
+		And I check, if quality notification has proper values
 		  | "declineReason" | "declined in TRACEFOSS-1545" |	
 
 	#Check if *ACCEPTANCE* of quality alerts is processed correctly which contains following checks:
@@ -160,33 +164,34 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Enable Quality Alerts
 	Scenario: [BE] Check correct processing of ACCEPTANCE of quality alerts
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
-		And I create quality alert
+		And I create quality notification
 		  | "severity"    | "MAJOR" |
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1544" |
-		Then I check, if quality alert has proper values
+		  | "type" | "ALERT" |
+		Then I check, if quality notification has proper values
 		  | "severity"    | "MAJOR" |
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1544" |
 		  | "status"      | "CREATED" |
-		When I approve quality alert
-		Then I check, if quality alert has proper values
+		When I approve quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "SENT" |
 		When I am logged into TRACE_X_B application
-		Then I check, if quality alert has been received
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has been received
+		Then I check, if quality notification has proper values
 		  | "severity"    | "MAJOR" |
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1544" |
 		  | "status"      | "RECEIVED" |
-		When I acknowledge quality alert
-		Then I check, if quality alert has proper values
+		When I acknowledge quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "ACKNOWLEDGED" |
-		When I accept quality alert
+		When I accept quality notification
 		  | "reason" | "accepted in TRACEFOSS-1544" |
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has proper values
 		  | "status" | "ACCEPTED" |
 		When I am logged into TRACE_X_A application
-		Then I check, if quality alert has proper values
+		Then I check, if quality notification has proper values
 		  | "status" | "ACCEPTED" |
-		And I check, if quality alert has proper values
+		And I check, if quality notification has proper values
 		  | "acceptReason" | "accepted in TRACEFOSS-1544" |	
 
 	#Check if *targetDate* is processed correctly for created quality alerts which contains following checks:

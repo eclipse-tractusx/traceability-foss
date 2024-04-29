@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -29,11 +28,10 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
-import org.eclipse.tractusx.traceability.generated.SerialPart101Schema;
-import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxSerialPart101KeyValueList;
-import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxSerialPart101ManufacturingCharacteristic;
-import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxSerialPart101PartTypeInformationCharacteristic;
+import org.eclipse.tractusx.traceability.generated.SerialPart300Schema;
+import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxSerialPart300KeyValueList;
+import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxSerialPart300ManufacturingCharacteristic;
+import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxSerialPart300PartTypeInformationCharacteristic;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -43,32 +41,27 @@ import java.util.Set;
 import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
 
 @Slf4j
-@AllArgsConstructor
 @Component
 public class SerialPartMapper implements SubmodelMapper {
-
-    private BpnService bpnService;
-
     @Override
     public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
-        SerialPart101Schema serialPart = (SerialPart101Schema) irsSubmodel.getPayload();
+        SerialPart300Schema serialPart = (SerialPart300Schema) irsSubmodel.getPayload();
 
         String serialPartId = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.PART_INSTANCE_ID.getValue());
-        String manufacturerId = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
+        String manufacturerName = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
         String van = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(serialPart.getManufacturingInformation(), serialPart.getPartTypeInformation());
-
-        String manufacturerName = bpnService.findByBpn(manufacturerId);
 
         return AssetBase.builder()
                 .id(serialPart.getCatenaXId())
                 .semanticModelId(serialPartId)
                 .detailAspectModels(List.of(detailAspectModel))
-                .manufacturerId(manufacturerId)
+                .manufacturerId(manufacturerName)
                 .manufacturerName(manufacturerName)
                 .nameAtManufacturer(serialPart.getPartTypeInformation().getNameAtManufacturer())
                 .manufacturerPartId(serialPart.getPartTypeInformation().getManufacturerPartId())
-                .classification(serialPart.getPartTypeInformation().getClassification().value())
+                // TODO change model to be able to save something here
+                .classification(null)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(SERIALPART)
                 .van(van)
@@ -80,11 +73,11 @@ public class SerialPartMapper implements SubmodelMapper {
 
     @Override
     public boolean validMapper(IrsSubmodel submodel) {
-        return submodel.getPayload() instanceof SerialPart101Schema;
+        return submodel.getPayload() instanceof SerialPart300Schema;
     }
 
-    private static DetailAspectModel extractDetailAspectModelsAsBuilt(UrnSammIoCatenaxSerialPart101ManufacturingCharacteristic manufacturingInformation,
-                                                                      UrnSammIoCatenaxSerialPart101PartTypeInformationCharacteristic partTypeInformation) {
+    private static DetailAspectModel extractDetailAspectModelsAsBuilt(UrnSammIoCatenaxSerialPart300ManufacturingCharacteristic manufacturingInformation,
+                                                                      UrnSammIoCatenaxSerialPart300PartTypeInformationCharacteristic partTypeInformation) {
 
         OffsetDateTime offsetDateTime = MapperHelper.getOffsetDateTime(manufacturingInformation.getDate());
 
@@ -98,8 +91,8 @@ public class SerialPartMapper implements SubmodelMapper {
         return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
     }
 
-    private String getValue(Set<UrnSammIoCatenaxSerialPart101KeyValueList> localIdentifiers, String key) {
-        UrnSammIoCatenaxSerialPart101KeyValueList object = localIdentifiers.stream()
+    private String getValue(Set<UrnSammIoCatenaxSerialPart300KeyValueList> localIdentifiers, String key) {
+        UrnSammIoCatenaxSerialPart300KeyValueList object = localIdentifiers.stream()
                 .filter(localId -> localId.getKey().equalsIgnoreCase(key))
                 .findFirst()
                 .orElseGet(() -> null);

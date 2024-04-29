@@ -19,6 +19,8 @@
 
 import { TestBed } from '@angular/core/testing';
 import { TableSettingsService } from '@core/user/table-settings.service';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 
 describe('TableSettingsService', () => {
   let service: TableSettingsService;
@@ -35,4 +37,127 @@ describe('TableSettingsService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  describe('should correctly initialize the table view settings', () => {
+    it('should return PartsAsPlannedCustomerConfigurationModel for AS_PLANNED_CUSTOMER', () => {
+      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_PLANNED_CUSTOMER);
+      expect(result.displayedColumns.length).toBe(8);
+    });
+
+    it('should return PartsAsPlannedConfigurationModel for AS_PLANNED_OWN', () => {
+      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_PLANNED_OWN);
+      expect(result.displayedColumns.length).toBe(19);
+    });
+
+    it('should return PartsAsPlannedSupplierConfigurationModel for AS_PLANNED_SUPPLIER', () => {
+      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_PLANNED_SUPPLIER);
+      expect(result.displayedColumns.length).toBe(8);
+    });
+
+    it('should return PartsAsBuiltConfigurationModel for AS_BUILT_OWN', () => {
+      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_BUILT_OWN);
+      expect(result.displayedColumns.length).toBe(21);
+    });
+
+    it('should return PartsAsBuiltCustomerConfigurationModel for AS_BUILT_CUSTOMER', () => {
+      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_BUILT_CUSTOMER);
+      expect(result.displayedColumns.length).toBe(13);
+    });
+
+    it('should return PartsAsBuiltSupplierConfigurationModel for AS_BUILT_SUPPLIER', () => {
+      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_BUILT_SUPPLIER);
+      expect(result.displayedColumns.length).toBe(13);
+    });
+
+    it('should return NotificationsSentConfigurationModel for SENT_NOTIFICATION', () => {
+      const result: TableViewConfig = service.initializeTableViewSettings(TableType.SENT_NOTIFICATION);
+      expect(result.displayedColumns.length).toBe(10);
+    });
+
+    it('should return NotificationsReceivedConfigurationModel for RECEIVED_NOTIFICATION', () => {
+      const result: TableViewConfig = service.initializeTableViewSettings(TableType.RECEIVED_NOTIFICATION);
+      expect(result.displayedColumns.length).toBe(10);
+    });
+  });
+
+  describe('YourService', () => {
+
+    it('should return false if storage is empty', () => {
+      spyOn(service, 'getStoredTableSettings').and.returnValue(null);
+      const tableViewConfig: TableViewConfig = {
+        displayedColumns: [],
+        filterFormGroup: null,
+        sortableColumns: {},
+        displayFilterColumnMappings: [],
+        filterColumns: [],
+      };
+      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_CUSTOMER);
+      expect(result).toBe(false);
+    });
+
+    it('should return false if stored columns match displayed columns', () => {
+      const storage = {
+        [TableType.AS_PLANNED_CUSTOMER]: {
+          columnsForDialog: [ 'col1', 'col2', 'menu' ], // Sample stored columns
+        },
+      };
+      spyOn(service, 'getStoredTableSettings').and.returnValue(storage);
+      const tableViewConfig: TableViewConfig = {
+        displayedColumns: [],
+        filterFormGroup: null,
+        sortableColumns: {},
+        displayFilterColumnMappings: [],
+        filterColumns: [],
+      };
+      tableViewConfig.displayedColumns = [ 'col1', 'col2', 'menu' ]; // Sample displayed columns
+      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_CUSTOMER);
+      expect(result).toBe(false);
+    });
+
+    it('should return true if stored columns do not match displayed columns', () => {
+      const storage = {
+        [TableType.AS_PLANNED_CUSTOMER]: {
+          columnsForDialog: [ 'col1', 'col2', 'menu' ], // Sample stored columns
+        },
+      };
+      spyOn(service, 'getStoredTableSettings').and.returnValue(storage);
+      const tableViewConfig: TableViewConfig = {
+        displayedColumns: [],
+        filterFormGroup: null,
+        sortableColumns: {},
+        displayFilterColumnMappings: [],
+        filterColumns: [],
+      };
+      tableViewConfig.displayedColumns = [ 'col1', 'col3', 'menu' ]; // Different displayed columns
+      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_CUSTOMER);
+      expect(result).toBe(true);
+    });
+
+    it('should show warning toast and remove storage if settings are invalid', () => {
+      const storage = {
+        [TableType.AS_PLANNED_CUSTOMER]: {
+          columnsForDialog: [ 'col1', 'col2', 'menu' ], // Sample stored columns
+        },
+      };
+      spyOn(service, 'getStoredTableSettings').and.returnValue(storage);
+      spyOn(service['toastService'], 'warning');
+      spyOn(localStorage, 'removeItem');
+
+      const tableViewConfig: TableViewConfig = {
+        displayedColumns: [],
+        filterFormGroup: null,
+        sortableColumns: {},
+        displayFilterColumnMappings: [],
+        filterColumns: [],
+      };
+      tableViewConfig.displayedColumns = [ 'col1', 'col3', 'menu' ]; // Different displayed columns
+      service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_CUSTOMER);
+
+      expect(service['toastService'].warning).toHaveBeenCalledWith('table.tableSettings.invalid', 10000);
+      expect(localStorage.removeItem).toHaveBeenCalled();
+    });
+  });
+
+
+
 });

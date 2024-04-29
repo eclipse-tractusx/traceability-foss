@@ -67,6 +67,14 @@ export class PartsFacade {
     });
   }
 
+  public setPartsAsBuiltSecondEmpty(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
+    this.partsAsBuiltSubscriptionSecond?.unsubscribe();
+    this.partsAsBuiltSubscriptionSecond = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
+      next: data => (this.partsState.partsAsBuiltSecond = { data: provideDataObject(null) }),
+      error: error => (this.partsState.partsAsBuiltSecond = { error }),
+    });
+  }
+
   public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.partsAsPlannedSubscription?.unsubscribe();
     this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({

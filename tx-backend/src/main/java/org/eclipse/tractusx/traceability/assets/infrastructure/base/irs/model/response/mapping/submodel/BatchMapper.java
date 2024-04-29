@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -29,11 +28,10 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
-import org.eclipse.tractusx.traceability.generated.Batch200Schema;
-import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxBatch200KeyValueList;
-import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxBatch200ManufacturingCharacteristic;
-import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxBatch200PartTypeInformationCharacteristic;
+import org.eclipse.tractusx.traceability.generated.Batch300Schema;
+import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxBatch300KeyValueList;
+import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxBatch300ManufacturingCharacteristic;
+import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxBatch300PartTypeInformationCharacteristic;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -44,31 +42,33 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.Semanti
 
 @Slf4j
 @Component
-@AllArgsConstructor
 public class BatchMapper implements SubmodelMapper {
-
-    private BpnService bpnService;
     @Override
     public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
 
-        Batch200Schema batch = (Batch200Schema) irsSubmodel.getPayload();
+        Batch300Schema batch = (Batch300Schema) irsSubmodel.getPayload();
 
         String batchId = getValue(batch.getLocalIdentifiers(), LocalIdKey.BATCH_ID.getValue());
         String manufacturerId = getValue(batch.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
         String van = getValue(batch.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(batch.getManufacturingInformation(), batch.getPartTypeInformation());
 
-        String manufacturerName = bpnService.findByBpn(manufacturerId);
-
         return AssetBase.builder()
                 .id(batch.getCatenaXId())
                 .semanticModelId(batchId)
                 .detailAspectModels(List.of(detailAspectModel))
                 .manufacturerId(manufacturerId)
-                .manufacturerName(manufacturerName)
                 .nameAtManufacturer(batch.getPartTypeInformation().getNameAtManufacturer())
                 .manufacturerPartId(batch.getPartTypeInformation().getManufacturerPartId())
-                .classification(batch.getPartTypeInformation().getClassification().value())
+                // TODO
+                /*
+                  {
+        "classificationStandard": "ISO 12345",
+        "classificationID": "6789",
+        "classificationDescription": "Standard for widgets"
+      }
+                * */
+                .classification(null)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(BATCH)
                 .van(van)
@@ -79,11 +79,11 @@ public class BatchMapper implements SubmodelMapper {
 
     @Override
     public boolean validMapper(IrsSubmodel submodel) {
-        return submodel.getPayload() instanceof Batch200Schema;
+        return submodel.getPayload() instanceof Batch300Schema;
     }
 
-    private static DetailAspectModel extractDetailAspectModelsAsBuilt(UrnSammIoCatenaxBatch200ManufacturingCharacteristic manufacturingInformation,
-                                                                      UrnSammIoCatenaxBatch200PartTypeInformationCharacteristic partTypeInformation) {
+    private static DetailAspectModel extractDetailAspectModelsAsBuilt(UrnSammIoCatenaxBatch300ManufacturingCharacteristic manufacturingInformation,
+                                                                      UrnSammIoCatenaxBatch300PartTypeInformationCharacteristic partTypeInformation) {
 
         OffsetDateTime offsetDateTime = MapperHelper.getOffsetDateTime(manufacturingInformation.getDate());
 
@@ -97,8 +97,8 @@ public class BatchMapper implements SubmodelMapper {
         return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
     }
 
-    private String getValue(Set<UrnSammIoCatenaxBatch200KeyValueList> localIdentifiers, String key) {
-        UrnSammIoCatenaxBatch200KeyValueList object = localIdentifiers.stream()
+    private String getValue(Set<UrnSammIoCatenaxBatch300KeyValueList> localIdentifiers, String key) {
+        UrnSammIoCatenaxBatch300KeyValueList object = localIdentifiers.stream()
                 .filter(localId -> localId.getKey().equalsIgnoreCase(key))
                 .findFirst()
                 .orElseGet(() -> null);
