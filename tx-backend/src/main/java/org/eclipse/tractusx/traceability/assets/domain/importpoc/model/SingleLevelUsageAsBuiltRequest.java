@@ -20,15 +20,13 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
 import java.util.List;
 
-public record SingleLevelUsageAsBuiltRequest(String catenaXId, List<Customer> customers) {
+public record SingleLevelUsageAsBuiltRequest(String catenaXId, List<String> customers, List<ParentItem> parentItems) {
 
-    public record Customer(List<ParentItem> parentItems, String businessPartner, String createdOn, String lastModifiedOn) {
+    public record ParentItem(Quantity quantity, String catenaXId, String createdOn, String lastModifiedOn,
+                             String businessPartner, boolean isOnlyPotentialParent) {
     }
 
-    public record ParentItem(Quantity quantity, String catenaXId, String createdOn, String lastModifiedOn) {
-    }
-
-    public record Quantity(int quantityNumber, String measurementUnit) {
+    public record Quantity(int value, String unit) {
     }
 
 }

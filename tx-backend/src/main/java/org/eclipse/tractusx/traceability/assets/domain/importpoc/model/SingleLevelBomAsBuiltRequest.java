@@ -32,7 +32,7 @@ public record SingleLevelBomAsBuiltRequest(String catenaXId, List<ChildItem> chi
     ) {
     }
 
-    public record Quantity(int quantityNumber, String measurementUnit) {
+    public record Quantity(int value, String unit) {
     }
 }
 

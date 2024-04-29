@@ -29,6 +29,7 @@ import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.SecurityAttribute;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.SemanticId;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.SubmodelDescriptor;
+import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.irs.registryclient.decentral.DigitalTwinRegistryCreateShellService;
 import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShellException;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -143,7 +144,19 @@ public class DtrService {
     }
 
     List<IdentifierKeyValuePair> aasIdentifiersFromAsset(AssetBase assetBase) {
+
+        final String digitalTwinType = assetBase.getBomLifecycle().equals(BomLifecycle.AS_BUILT) ? "PartInstance" : "PartType";
+
         return List.of(
+                IdentifierKeyValuePair.builder()
+                        .name("digitalTwinType")
+                        .value(digitalTwinType)
+                        .externalSubjectId(
+                                Reference.builder()
+                                        .type(EXTERNAL_REFERENCE)
+                                        .keys(getExternalSubjectIds())
+                                        .build())
+                        .build(),
                 IdentifierKeyValuePair.builder()
                         .name("manufacturerId")
                         .value(assetBase.getManufacturerId())

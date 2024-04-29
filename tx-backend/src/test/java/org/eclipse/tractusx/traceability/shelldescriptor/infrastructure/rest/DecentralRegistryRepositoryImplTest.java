@@ -58,7 +58,7 @@ class DecentralRegistryRepositoryImplTest {
                                                 .keys(List.of(
                                                                 SemanticId.builder()
                                                                         .type("GlobalReference")
-                                                                        .value("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SerialPart").build()
+                                                                        .value("urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SerialPart").build()
                                                         )
                                                 )
                                                 .build()
@@ -76,7 +76,7 @@ class DecentralRegistryRepositoryImplTest {
                                                 .keys(List.of(
                                                                 SemanticId.builder()
                                                                         .type("GlobalReference")
-                                                                        .value("urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#PartAsPlanned").build()
+                                                                        .value("urn:samm:io.catenax.single_level_usage_as_built:2.0.0#PartAsPlanned").build()
                                                         )
                                                 )
                                                 .build()
