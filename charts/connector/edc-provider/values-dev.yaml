@@ -3,13 +3,6 @@ tractusx-connector:
     id: BPNL00000003CML1
   enabled: true
 
-  iatp:
-    sts:
-      oauth:
-        client:
-          id: <path:traceability-foss/data/dev/controlplane#ssi.oauth.client.id.provider1>
-          secret_alias: dev-provider1-miw-secret
-
   controlplane:
     ingresses:
       - enabled: true
