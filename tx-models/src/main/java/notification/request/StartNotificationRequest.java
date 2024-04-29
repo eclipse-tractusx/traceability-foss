@@ -56,16 +56,16 @@ public class StartNotificationRequest {
     @Future(message = "Specify at least the current day or a date in future")
     private Instant targetDate;
 
-    @NotNull
+    @NotNull(message = "Field: severity must not be null.")
     private NotificationSeverityRequest severity;
 
-    @NotNull
+    @NotNull(message = "Field: receiverBpn must not be null.")
     @ValidBPN
     @Schema(example = "BPNL00000003CNKC")
     private String receiverBpn;
 
     @Schema(example = "ALERT")
-    @NotNull
+    @NotNull(message = "Field: type must not be null.")
     private NotificationTypeRequest type;
 
 }
