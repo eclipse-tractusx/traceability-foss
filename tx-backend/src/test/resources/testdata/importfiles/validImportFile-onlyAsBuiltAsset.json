@@ -6,16 +6,12 @@
       },
       "submodels": [
         {
-          "aspectType": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload": {
             "localIdentifiers": [
               {
                 "value": "BPNL00000003AXS3",
                 "key": "manufacturerId"
-              },
-              {
-                "value": "3500011-11",
-                "key": "manufacturerPartId"
               },
               {
                 "value": "OMAOYGBDTSRCMYSCX",
@@ -33,20 +29,26 @@
             "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111",
             "partTypeInformation": {
               "manufacturerPartId": "3500011-11",
-              "classification": "product",
+              "partClassification" : [
+                {
+                  "classificationStandard": "classificationStandard",
+                  "classificationID":  "classificationID",
+                  "classificationDescription": "classificationDescription"
+                }
+              ],
               "nameAtManufacturer": "a/dev Test Produkt AB"
             }
           }
         },
         {
-          "aspectType": "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType": "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload": {
             "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111",
             "childItems": [
               {
                 "quantity": {
-                  "quantityNumber": 1,
-                  "measurementUnit": "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives": true,
                 "createdOn": "2022-02-03T14:48:54.709Z",
@@ -58,27 +60,26 @@
           }
         },
         {
-          "aspectType": "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt",
+          "aspectType": "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload": {
             "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111",
             "customers": [
-              {
+              "BPNL00000003CNKC"
+            ],
+
                 "parentItems": [
                   {
                     "quantity": {
-                      "quantityNumber": 1,
-                      "measurementUnit": "unit:piece"
+                      "value": 1,
+                      "unit": "unit:piece"
                     },
                     "catenaXId": "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
                     "createdOn": "2023-04-13T14:48:54.709Z",
-                    "lastModifiedOn": "2023-02-03T14:48:54.709Z"
+                    "lastModifiedOn": "2023-02-03T14:48:54.709Z",
+                    "businessPartner": "BPNL00000003CNKC",
+                    "isOnlyPotentialParent": false
                   }
-                ],
-                "businessPartner": "BPNL00000003CNKC",
-                "createdOn": "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn": "2023-02-03T14:48:54.709Z"
-              }
-            ]
+                ]
           }
         }
 

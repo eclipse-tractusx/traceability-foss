@@ -64,6 +64,7 @@ public class AssetBase {
     private String tombstone;
     private String contractAgreementId;
 
+
     public BomLifecycle getBomLifecycle() {
         if (semanticDataModel.isAsBuilt()) {
             return BomLifecycle.AS_BUILT;

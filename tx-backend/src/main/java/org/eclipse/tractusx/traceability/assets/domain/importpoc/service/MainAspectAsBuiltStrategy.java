@@ -80,18 +80,19 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .map(childItem -> new Descriptions(childItem.catenaXId(), null, null, null))
                 .toList();
 
-
         List<Descriptions> childRelations = submodels.stream()
                 .filter(genericSubmodel -> isDownwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
                 .map(GenericSubmodel::getPayload)
                 .filter(SingleLevelUsageAsBuiltRequest.class::isInstance)
                 .map(SingleLevelUsageAsBuiltRequest.class::cast)
                 .findFirst()
-                .map(SingleLevelUsageAsBuiltRequest::customers)
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(SingleLevelUsageAsBuiltRequest.Customer::parentItems)
-                .flatMap(parentItems -> parentItems.stream().map(parentItem -> new Descriptions(parentItem.catenaXId(), null, null, null))).toList();
+                .map(SingleLevelUsageAsBuiltRequest::parentItems)
+                .map(parentItems -> parentItems.stream()
+                        .map(parentItem -> new Descriptions(
+                                parentItem.catenaXId(),
+                                null,
+                                null,
+                                null)).toList()).orElse(Collections.emptyList());
 
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
@@ -140,7 +141,8 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
                 .parentRelations(parentRelations)
                 .childRelations(childRelations)
                 .owner(Owner.OWN)
-                .classification(asBuiltAspect.partTypeInformation().classification())
+                // TODO enrich
+                .classification(null)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())
                 .importState(ImportState.TRANSIENT)

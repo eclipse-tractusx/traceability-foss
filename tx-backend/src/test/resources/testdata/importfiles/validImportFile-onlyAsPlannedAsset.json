@@ -6,7 +6,7 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
             "validityPeriod" : {
               "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -17,11 +17,19 @@
               "manufacturerPartId" : "7805659-25",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Vehicle Model B"
-            }
+            },
+            "partSitesInformationAsPlanned": [
+              {
+                "catenaXsiteId": "BPNS123456789A",
+                "function": "production",
+                "functionValidFrom": "2024-04-25T10:00:00Z",
+                "functionValidUntil": "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02",
             "childItems" : [
@@ -31,8 +39,8 @@
                   "validTo" : "2024-07-01T16:10:00.000+01:00"
                 },
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "createdOn" : "2022-09-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
@@ -43,7 +51,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb02",
             "sites" : [

@@ -6,16 +6,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003XXX1",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "22782277-50",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-313869652971440618042264",
@@ -23,28 +19,34 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
             "partTypeInformation" : {
               "manufacturerPartId" : "22782277-50",
               "customerPartId" : "22782277-50",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Door f-l",
               "nameAtCustomer" : "b/test Door front-left"
             }
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2023-02-20T14:48:54.709Z",
@@ -56,25 +58,23 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
             "customers" : [
+              "BPNL00000003CML1"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
-                    "createdOn" : "2023-05-29T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+                "createdOn" : "2023-05-29T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "businessPartner" : "BPNL00000003CML1",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "isOnlyPotentialParent" : false
               }
             ]
           }
@@ -87,16 +87,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "3880383-57",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-989134870198932317923938",
@@ -104,28 +100,34 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
             "partTypeInformation" : {
               "manufacturerPartId" : "3880383-57",
               "customerPartId" : "3880383-57",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door f-l",
               "nameAtCustomer" : "Door front-left"
             }
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2020-05-02T14:48:54.709Z",
@@ -137,25 +139,23 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
             "customers" : [
+              "BPNL00000003CML1"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
-                    "createdOn" : "2023-07-15T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "businessPartner" : "BPNL00000003CML1",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "isOnlyPotentialParent" : false
               }
             ]
           }
@@ -168,16 +168,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "9069675-60",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-004314332935115065980115",
@@ -185,28 +181,34 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
             "partTypeInformation" : {
               "manufacturerPartId" : "9069675-60",
               "customerPartId" : "9069675-60",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door f-l",
               "nameAtCustomer" : "Door front-left"
             }
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2018-09-17T14:48:54.709Z",
@@ -218,25 +220,23 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
             "customers" : [
+              "BPNL00000003CML1"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
-                    "createdOn" : "2023-02-16T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
+                "createdOn" : "2023-02-16T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "businessPartner" : "BPNL00000003CML1",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "isOnlyPotentialParent" : false
               }
             ]
           }
@@ -249,16 +249,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "9879317-51",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-477013846751358222215326",
@@ -266,28 +262,34 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
             "partTypeInformation" : {
               "manufacturerPartId" : "9879317-51",
               "customerPartId" : "9879317-51",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door f-l",
               "nameAtCustomer" : "Door front-left"
             }
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2022-06-28T14:48:54.709Z",
@@ -299,25 +301,23 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
             "customers" : [
+              "BPNL00000003CSGV"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:4d33bfa6-0f1f-43a5-ad63-c3fe07a2d076",
-                    "createdOn" : "2023-03-03T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:4d33bfa6-0f1f-43a5-ad63-c3fe07a2d076",
+                "createdOn" : "2023-03-03T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "businessPartner" : "BPNL00000003CSGV",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "isOnlyPotentialParent" : false
               }
             ]
           }
@@ -330,11 +330,11 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -343,37 +343,41 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
             "partTypeInformation" : {
               "manufacturerPartId" : "5894914-94",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key"
             }
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
             "customers" : [
+              "BPNL00000003CML1"
+            ],
+            "parentItems" : [
               {
-                "parentItems" : [
-                  {
-                    "quantity" : {
-                      "quantityNumber" : 1,
-                      "measurementUnit" : "unit:piece"
-                    },
-                    "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
-                    "createdOn" : "2023-08-08T14:48:54.709Z",
-                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
-                  }
-                ],
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
+                "createdOn" : "2023-08-08T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "businessPartner" : "BPNL00000003CML1",
-                "createdOn" : "2023-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+                "isOnlyPotentialParent" : false
               }
             ]
           }
@@ -386,11 +390,11 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -399,26 +403,32 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
             "partTypeInformation" : {
               "manufacturerPartId" : "6245773-32",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key"
             }
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
             "childItems" : [
               {
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
                 "createdOn" : "2019-08-15T14:48:54.709Z",
@@ -437,11 +447,11 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:samm:io.catenax.batch:2.0.0#Batch",
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -450,13 +460,19 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03",
             "partTypeInformation" : {
               "manufacturerPartId" : "9770171-23",
-              "classification" : "component",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "b/test Door Key"
             }
           }
@@ -469,8 +485,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
+            "localIdentifiers" : [
+            ],
             "validityPeriod" : {
               "validFrom" : "2019-04-04T03:19:03.000Z",
               "validTo" : "2024-12-29T10:25:12.000Z"
@@ -480,11 +498,19 @@
               "manufacturerPartId" : "7805659-25",
               "classification" : "product",
               "nameAtManufacturer" : "b/test Vehicle Model B"
-            }
+            },
+            "partSitesInformationAsPlanned" : [
+              {
+                "catenaXsiteId" : "BPNS123456789A",
+                "function" : "production",
+                "functionValidFrom" : "2024-04-25T10:00:00Z",
+                "functionValidUntil" : "2024-04-30T10:00:00Z"
+              }
+            ]
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
             "childItems" : [
@@ -494,8 +520,8 @@
                   "validTo" : "2024-07-01T16:10:00.000+01:00"
                 },
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:piece"
+                  "value" : 1,
+                  "unit" : "unit:litre"
                 },
                 "createdOn" : "2022-09-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
@@ -506,7 +532,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
             "sites" : [
@@ -527,11 +553,11 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
+          "aspectType" : "urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
               },
               {
@@ -540,14 +566,20 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "HUN"
             },
             "catenaXId" : "urn:uuid:580d3adf-1981-44a0-a214-13d6ceed6841",
             "partTypeInformation" : {
               "manufacturerPartId" : "3578115-43",
               "customerPartId" : "PRT-12345",
-              "classification" : "product",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
               "nameAtManufacturer" : "Mirror left",
               "nameAtCustomer" : "b/test side element A"
             }
@@ -561,8 +593,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
+            "localIdentifiers" : [
+            ],
             "validityPeriod" : {
               "validFrom" : "2017-01-03T07:45:04.000Z",
               "validTo" : "2029-11-15T11:57:45.000Z"
@@ -576,7 +610,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
             "childItems" : [
@@ -587,8 +621,8 @@
                 },
                 "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef127c",
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:litre"
                 },
                 "businessPartner" : "BPNL00000003AYRE",
                 "createdOn" : "2022-12-03T14:48:54.709Z",
@@ -598,7 +632,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
             "sites" : [
@@ -619,8 +653,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
+            "localIdentifiers" : [
+            ],
             "validityPeriod" : {
               "validFrom" : "2016-04-28T20:00:55.000Z",
               "validTo" : "2027-04-27T00:59:41.000Z"
@@ -634,7 +670,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:c7a2b803-f8fe-4b79-b6fc-967ce847c9a1",
             "sites" : [
@@ -655,8 +691,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
+            "localIdentifiers" : [
+            ],
             "validityPeriod" : {
               "validFrom" : "2015-05-18T23:10:44.000Z",
               "validTo" : "2025-10-23T14:46:01.000Z"
@@ -670,7 +708,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
             "childItems" : [
@@ -681,8 +719,8 @@
                 },
                 "catenaXId" : "urn:uuid:e5c96ab5-896a-482c-8761-efd74777ca98",
                 "quantity" : {
-                  "quantityNumber" : 6,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:litre"
                 },
                 "businessPartner" : "BPNL00000003CML1",
                 "createdOn" : "2022-02-08T14:48:54.709Z",
@@ -692,7 +730,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:aad27ddb-43aa-4e42-98c2-01e529ef128c",
             "sites" : [
@@ -713,8 +751,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
+            "localIdentifiers" : [
+            ],
             "validityPeriod" : {
               "validFrom" : "2017-07-03T05:23:01.000Z",
               "validTo" : "2032-09-25T10:26:27.000Z"
@@ -728,7 +768,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
             "childItems" : [
@@ -739,8 +779,8 @@
                 },
                 "catenaXId" : "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:litre"
                 },
                 "businessPartner" : "BPNL00000003CML1",
                 "createdOn" : "2022-02-09T14:48:54.709Z",
@@ -753,8 +793,8 @@
                 },
                 "catenaXId" : "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
                 "quantity" : {
-                  "quantityNumber" : 1,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:litre"
                 },
                 "businessPartner" : "BPNL00000003CML1",
                 "createdOn" : "2022-02-10T14:48:54.709Z",
@@ -764,7 +804,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
             "sites" : [
@@ -785,8 +825,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
+            "localIdentifiers" : [
+            ],
             "validityPeriod" : {
               "validFrom" : "2016-04-24T08:26:56.000Z",
               "validTo" : "2031-12-17T23:55:04.000Z"
@@ -800,7 +842,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
             "childItems" : [
@@ -811,8 +853,8 @@
                 },
                 "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
                 "quantity" : {
-                  "quantityNumber" : 0.3301,
-                  "measurementUnit" : "unit:kilogram"
+                  "value" : 1,
+                  "unit" : "unit:litre"
                 },
                 "businessPartner" : "BPNL00000003CML1",
                 "createdOn" : "2022-02-13T14:48:54.709Z",
@@ -822,7 +864,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
             "sites" : [
@@ -843,8 +885,10 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
           "payload" : {
+            "localIdentifiers" : [
+            ],
             "validityPeriod" : {
               "validFrom" : "2019-11-02T11:14:15.000Z",
               "validTo" : "2024-07-17T02:07:07.000Z"
@@ -858,7 +902,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+          "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
           "payload" : {
             "catenaXId" : "urn:uuid:e8c48a8e-d2d7-43d9-a867-65c70c85f5b8",
             "sites" : [
@@ -879,16 +923,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "8840374-09",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-917923082133064161014067",
@@ -896,7 +936,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:b0acf3e1-3fbe-46c0-aa0b-0724caae7772",
@@ -910,7 +950,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode",
+          "aspectType" : "urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode",
           "payload" : {
             "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
             "subcomponents" : [
@@ -930,16 +970,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "1142469-27",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-655858074471261486971940",
@@ -947,7 +983,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
@@ -961,7 +997,7 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart",
+          "aspectType" : "urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
           "payload" : {
             "localIdentifiers" : [
               {
@@ -970,7 +1006,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "HUN"
             },
             "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
@@ -991,16 +1027,12 @@
       },
       "submodels" : [
         {
-          "aspectType" : "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
           "payload" : {
             "localIdentifiers" : [
               {
-                "value" : "BPNL00000003AXS3",
+                "value" : "BPNL00000003CNKC",
                 "key" : "manufacturerId"
-              },
-              {
-                "value" : "8840837-48",
-                "key" : "manufacturerPartId"
               },
               {
                 "value" : "NO-570196089623842018037372",
@@ -1008,7 +1040,7 @@
               }
             ],
             "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
+              "date" : "2022-02-04T14:48:54.000Z",
               "country" : "DEU"
             },
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
@@ -1022,18 +1054,18 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
             "childItems" : [
               {
                 "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f",
                 "quantity" : {
-                  "quantityNumber" : 2.5,
-                  "measurementUnit" : "unit:litre"
+                  "value" : 1,
+                  "unit" : "unit:piece"
                 },
                 "hasAlternatives" : true,
-                "businessPartner" : "BPNL00000003AXS3",
+                "businessPartner" : "BPNL00000003CNKC",
                 "createdOn" : "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
               }
@@ -1041,15 +1073,23 @@
           }
         },
         {
-          "aspectType" : "urn:bamm:io.catenax.single_level_usage_as_built:2.0.0#SingleLevelUsageAsBuilt",
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
           "payload" : {
             "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
             "customers" : [
+              "BPNL00000003CNKC"
+            ],
+            "parentItems" : [
               {
-                "businessPartner" : "BPNL00000003AXS3",
-                "parentItems" : [],
-                "createdOn" : "2022-02-03T14:48:54.709Z",
-                "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "createdOn" : "2023-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL00000003CNKC",
+                "isOnlyPotentialParent" : false
               }
             ]
           }

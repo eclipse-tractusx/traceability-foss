@@ -10,6 +10,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination
 - #726 Added @Preauthorize annotation to dashboard controller
+- #837 Added digital twin type to data provisioning workflow to be able to lookup shells created by trace-x
+
 ### Changed
 - #844 Prefilled bpn on investigation creation
 - #843 Refactored e2e tests, added edit notification e2e test case
@@ -17,6 +19,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #617 redesigned inbox table
 - #XXX Updated spring boot from 3.2.4 to 3.2.5
 - #XXX Bumped logback-core & logback-classic from 1.5.4 to 1.5.5
+- #603 Upgraded SingleLevelBomAsBuilt, SingleLevelBomAsPlanned & SingleLevelBomAsBuilt to 3.0.0
+- #603 Upgraded Batch, SerialPart and JustInSequencePart to 3.0.0
+- #603 Upgraded PartAsPlanned to 2.0.0
+
 ### Removed
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
 
