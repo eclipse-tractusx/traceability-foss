@@ -31,28 +31,26 @@ Those can be individually edited and sent to the specific BPN.
 # Out of scope
 - A hierarchical parent object, that ties all the duplicated notifications together. For now, the user must search/filter for all individual notifications if he wants to interact with all of them.
 In the future, the idea is to bundle all duplicated notifications in a parent object that can be searched/filtered for.
+- A duplication process for the user. In case the user wants to retroactively add BPNs to an existing notification or send a notification to a BPN that was not selected during the creation of this notification,
+he must create a new notification and copy the data. In the future, there might be the possibility to add a "Duplicate notification" or "Copy notification" process to Trace-X, but that is out of scope for this concept.
 
 # Concept
 ## Backend
 
 #### Alert creation
 When an alert is created, multiple BPNs can be selected. For each of the recipients the notification will be duplicated.
-The data will be identical except for the "sendTo" and "sendToName" fields.
+The data will be identical except for the "createdFor" and "createdForName" fields.
 If the data must be changed, the user can do it afterward in the "edit notification" view.
 
 #### Investigation creation
 When an investigation is created, multiple parts can be selected. Whenever a part from a different BPN is selected, the notification will be duplicated.
-The data will be identical except for the "sendTo", "sendToName" and "assetIds" fields. Each notification will only contain parts from the same BPN.
+The data will be identical except for the "createdFor", "createdForName" and "assetIds" fields. Each notification will only contain parts from the same BPN.
 If the data must be changed, the user can do it afterward in the "edit notification" view.
 
-#### Edit alerts
-When editing an alert, only one BPN is shown since alerts to multiple BPNs are separate duplicated alerts. Removing this BPN is not possible.
-Adding BPNs is possible. In case a BPN is added, a duplicated alert will be created with the new BPN as receiver. The original alert will be unaffected.
-
-#### Edit investigations
-When editing investigations, BPNs can not be added or removed. Parts can be added or removed.
-For each investigation only the parts of the selected BPN are shown. Removing parts will not affect the BPN selection. Removing *all* parts is not possible.
-Adding parts with different BPNs is possible. In that case, a duplicated alert will be created with the new BPN as receiver. The original investigation will be unaffected.
+#### Edit notifications
+When editing notifications, only parts with the identical BPN as the "createdFor" BPN will be shown and the user may not add BPNs manually.
+There is no possibility to create a new notification from the "Edit notifications" process.
+If the user wants to send an existing notification to a different BPN, he must copy the data and use the "Create notification" process.
 
 ### Data model
 The data model must be changed to reflect the needed changes. The suggestion is to remove the "message" object (which reflected individual notifications).
@@ -67,25 +65,20 @@ Additionally, the error messages should have more relevant information and shoul
     "description": "Notification description",
     "createdBy": "BPNL00000003CNKC",
     "createdByName": "TEST_BPN_IRS_1",
-    "sendTo": "BPNL00000003CML1",
-    "sendToName": "TEST_BPN_DFT_1",
-    "createdDate": "2024-04-09T00:00:00.000000Z",
-+   "sentDate": "2024-04-10T01:00:00.000000Z",
-+   "acknowledgedDate": "2024-04-12T01:00:00.000000Z",
-+   "acceptedDate": null,
-+   "declinedDate": null,
+-   "sendTo": "BPNL00000003CML1",
+-   "sendToName": "TEST_BPN_DFT_1",
++   "createdFor": "BPNL00000003CML1",
++   "createdForName": "TEST_BPN_DFT_1",
+-   "createdDate": "2024-04-09T00:00:00.000000Z",
     "assetIds": [
         "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02"
     ],
     "channel": "SENDER",
 -   "reason": {
-+   "message": {
-        "close": null,
-        "accept": null,
-        "decline": null
-    },
-    "sendTo": "BPNL00000003CML1",
-    "sendToName": "TEST_BPN_DFT_1",
+-       "close": null,
+-       "accept": null,
+-       "decline": null
+-   },
     "severity": "MINOR",
     "type": "ALERT",
     "targetDate": null,
@@ -101,15 +94,43 @@ Additionally, the error messages should have more relevant information and shoul
 +           "date": "2024-04-10T00:00:00.000000Z"
 +       }
 +   ]
++   "messageHistory": [
++       {
++           "createdDate": "2024-04-09T00:00:00.000000Z"
++       },
++       {
++           "sentDate": "2024-04-10T01:00:00.000000Z",
++           "receiver": "BPNL00000003CML1"
++       },
++       {
++           "acknowledgedDate": "2024-04-12T01:00:00.000000Z",
++           "receiver": "BPNL00000003CNKC"
++       },
++       {
++           "acceptedDate": null,
++           "acceptedMessage": null,
++           "receiver": "BPNL00000003CNKC"
++       },
++       {
++           "declinedDate": null,
++           "declinedMessage": null,
++           "receiver": "BPNL00000003CNKC"
++       },
++       {
++           "closedDate": null,
++           "closedMessage": null,
++           "receiver": "BPNL00000003CML1"
++       }
++   ]
 -   "messages": []
 }
 ```
 
 ## Frontend
 ![multiple-bpns-modals.png](multiple-bpns-modals.png)
-See https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764586657591852&cot=10
+![notification-creation-bpn-selection.png](notification-creation-bpn-selection.png)
 
-Apart from these modals, nothing else must be changed in the frontend
+See https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764586657591852&cot=10
 
 # Additional Details
 Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
