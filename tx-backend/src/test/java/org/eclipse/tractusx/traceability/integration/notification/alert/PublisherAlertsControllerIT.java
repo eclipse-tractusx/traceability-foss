@@ -28,7 +28,6 @@ import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.request.UpdateNotificationStatusTransitionRequest;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -100,8 +99,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Autowired
     IrsApiSupport irsApiSupport;
 
-    @Autowired
-    EndpointDataReferenceStorage endpointDataReferenceStorage;
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();

@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import lombok.extern.slf4j.Slf4j;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
@@ -31,6 +32,7 @@ import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.post;
 
 @Component
+@Slf4j
 public class DiscoveryFinderSupport {
 
     @Autowired
@@ -53,7 +55,7 @@ public class DiscoveryFinderSupport {
                     restitoProvider.jsonResponseFromString(discoveryFinderMock));
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            log.error("Could not retrieve endpointAddress " + e);
         }
     }
 
@@ -71,7 +73,7 @@ public class DiscoveryFinderSupport {
                     restitoProvider.jsonResponseFromString(discoveryFinderMock));
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            log.error("Could not retrieve connector endpoints " + e);
         }
     }
 }
