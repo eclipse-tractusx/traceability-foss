@@ -21,11 +21,13 @@ Those can be individually edited and sent to the specific BPN.
 # Requirements
 - For alerts, when selecting multiple BPNs, a duplicated alert for each of the selected BPNs is created.
 - For investigations, when selecting parts from different BPNs, a duplicated investigation for each of the BPNs is created.
-- When editing notifications and either an additional receiver BPN or part with a different BPN is added, a duplicate of the notification will be created.
 - The data model is changed to make this process possible.
 - Notifications are tied to single BPNs and cannot be sent to multiple BPNs anymore.
-- In the frontend, the specified modals are created.
-- The frontend modals appear when a user is creating/editing notifications and triggers a notification duplication.
+- BPN selection is possibly for alerts.
+  - Autocomplete filter -> Selection shows all matching BPNs (if there are more than 10, this selection is scrollable).
+  - Selected BPNs are shown as chips that can be removed.
+- BPN selection is disabled for investigations, instead the BPNs are "pulled" from the selected parts.
+- The frontend modals appear when a user is creating notifications and triggers a notification duplication.
 - In the modal the user has the chance to cancel or approve the process.
 
 # Out of scope
