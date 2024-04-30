@@ -8,15 +8,22 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 ### Added
-- #844 Validation for BPN to Notification API (Create / Edit)
+- #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination
 - #726 Added @Preauthorize annotation to dashboard controller
 - #849 Added concept: Notifications to multiple BPNs
+- #837 Added digital twin type to data provisioning workflow to be able to lookup shells created by trace-x
+
 ### Changed
 - #844 Prefilled bpn on investigation creation
 - #843 Refactored e2e tests, added edit notification e2e test case
 - #828 fix duplicates in traction_battery_code_subcomponent table
+- #617 redesigned inbox table
 - #XXX Updated spring boot from 3.2.4 to 3.2.5
 - #XXX Bumped logback-core & logback-classic from 1.5.4 to 1.5.5
+- #603 Upgraded SingleLevelBomAsBuilt, SingleLevelBomAsPlanned & SingleLevelBomAsBuilt to 3.0.0
+- #603 Upgraded Batch, SerialPart and JustInSequencePart to 3.0.0
+- #603 Upgraded PartAsPlanned to 2.0.0
+
 ### Removed
 -
 ## [10.8.4 - 17.04.2024]

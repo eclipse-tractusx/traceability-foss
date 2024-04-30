@@ -45,8 +45,8 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
-  public readonly notificationPartsInformation$: Observable<View<Part[]>>;
-  public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
+  public notificationPartsInformation$: Observable<View<Part[]>>;
+  public supplierPartsDetailInformation$: Observable<View<Part[]>>;
   public readonly selected$: Observable<View<Notification>>;
 
   public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
@@ -113,7 +113,7 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription?.unsubscribe();
   }
 
-  public navigateToDetailView(){
+  public navigateToEditView() {
 
     this.router.navigate([ `/inbox/${ this.selectedNotification.id }/edit` ], {
       queryParams: {

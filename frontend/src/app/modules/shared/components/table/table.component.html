@@ -21,12 +21,107 @@ SPDX-License-Identifier: Apache-2.0
 
 <div *ngIf="additionalTableHeader" class="table-header-wrapper">
   <div class="table-header-container">
-    <div class="large-text table--header--text">{{tableHeader | i18n}}</div>
+    <div class="large-text table--header--text">{{ tableHeader | i18n }}
+      <mat-icon (click)="openDialog()" *ngIf="tableSettingsEnabled" (keydown)="openDialog()"
+                class="cursor-pointer table&#45;&#45;settings&#45;&#45;button ml-2">
+        settings
+      </mat-icon>
+    </div>
+    <div *ngIf="tableHeaderMenuEnabled" class="table-header--action--container flex mt-1">
+      <div class="mr-0.5"
+           matTooltip="{{ (roleService.isAdmin() ? 'routing.unauthorized':'table.createNotification') | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500"
+      >
+        <app-button
+          [iconName]="'announcement'"
+          (click)="navigateToNotificationCreationView()"
+          (keydown)="null"
+          [isDisabled]="roleService.isAdmin()"
+        ></app-button>
+      </div>
+      <mat-divider class="mx-0.25" [vertical]="true"></mat-divider>
+      <div class="ml-0.5"
+           matTooltip="{{'table.more' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500"
+      >
+        <app-button
+          [iconName]="'more_horiz'"
+          [matMenuTriggerFor]="actionMenu"
+        >
+        </app-button>
+      </div>
+      <mat-menu #actionMenu="matMenu" xPosition="after" class="ml-10">
+        <div
+          matTooltip="{{(roleService.isAdmin() ? 'table.unauthorized':'table.selectAtLeastOne') | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+          [matTooltipDisabled]="selection.selected.length > 0 && !roleService.isAdmin()"
+        >
+          <button mat-menu-item
+                  matTooltip="{{'table.onlyNotificationInStatusCreatedAllowed' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
+                  [matTooltipShowDelay]="500"
+                  [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
+                  (click)="toastService.warning('table.noFunctionality')">
+            <mat-icon>send</mat-icon>
+            {{ 'table.sendNotification' | i18n }}
+          </button>
+          <button mat-menu-item
+                  matTooltip="{{'table.onlyNotificationInStatusCreatedAllowed' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
+                  [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
+                  (click)="toastService.warning('table.noFunctionality')">
+            <mat-icon>cancel</mat-icon>
+            {{ 'table.cancelNotification' | i18n }}
+          </button>
+          <button mat-menu-item
+                  matTooltip="{{'table.noFunctionality' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="selection.selected.length < 1"
+                  [disabled]="true"
+                  (click)="null">
+            <mat-icon>edit</mat-icon>
+            {{ 'table.editNotification' | i18n }}
+          </button>
+          <button mat-menu-item
+                  matTooltip="{{'table.noFunctionality' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="selection.selected.length < 1"
+                  [disabled]="true"
+                  (click)="null">
+            <mat-icon>remove_red_eye</mat-icon>
+            {{ 'table.viewDetails' | i18n }}
+          </button>
+        </div>
+      </mat-menu>
+    </div>
   </div>
 </div>
-<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper" [ngClass]="labelId?.startsWith('dashboard') ? 'rows-dashboard' : ''">
+<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper"
+     [ngClass]="labelId?.startsWith('dashboard') ? 'rows-dashboard' : ''">
   <ng-container *ngIf="tableHeader && !additionalTableHeader"><p
-    class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
+    class="large-text table--header">{{ tableHeader | i18n }}</p></ng-container>
   <ng-container *ngIf="selectedPartsInfoLabel">
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
       <p class="regular-text">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
@@ -57,8 +152,8 @@ SPDX-License-Identifier: Apache-2.0
   >
     <ng-container *ngIf="autocompleteEnabled">
 
-    <tr *matHeaderRowDef="tableViewConfig?.displayedColumns; sticky: true" mat-header-row
-        data-testid="table-component--head-row" class="table--header--row"></tr>
+      <tr *matHeaderRowDef="tableConfig.displayedColumns; sticky: true" mat-header-row
+          data-testid="table-component--head-row" class="table--header--row"></tr>
 
     </ng-container>
 
@@ -67,7 +162,7 @@ SPDX-License-Identifier: Apache-2.0
           data-testid="table-component--head-row" class="table--header--row"></tr>
     </ng-container>
     <ng-container *ngIf="autocompleteEnabled">
-    <tr class="filter-row" mat-header-row *matHeaderRowDef="tableViewConfig?.filterColumns; sticky: true"></tr>
+      <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     </ng-container>
     <ng-container matColumnDef="{{ filter.headerKey }}"
                   *ngFor="let filter of tableViewConfig?.displayFilterColumnMappings">
@@ -82,7 +177,9 @@ SPDX-License-Identifier: Apache-2.0
                          [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
                          [tableType]="tableType"
                          ngDefaultControl
-                         [formControl]="filterFormGroup.controls[filter.filterKey]"></app-multiselect>
+                         [formControl]="filterFormGroup.controls[filter.filterKey]">
+
+        </app-multiselect>
       </th>
     </ng-container>
 
@@ -209,7 +306,8 @@ SPDX-License-Identifier: Apache-2.0
 
     <ng-container matColumnDef="expandMenuActions" sticky>
       <td mat-cell *matCellDef="let row" [attr.colspan]="tableConfig.displayedColumns.length">
-        <div [class.menuExpanded]="row === selectedRow" [class.collapsed]="row !== selectedRow" class="expand-element">
+        <div [class.menuExpanded]="row === selectedRow" [class.collapsed]="row !== selectedRow"
+             class="expand-element">
           <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
             <button
               *ngIf="!config.condition || config.condition(row)"
@@ -257,8 +355,8 @@ SPDX-License-Identifier: Apache-2.0
 
         </th>
         <td
-                *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data"
-                [ngClass]="{'max-width-column': labelId === 'contracts' && column === 'contractId' }">
+          *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data"
+          [ngClass]="{'max-width-column': labelId === 'contracts' && column === 'contractId' }">
           <ng-container
             [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
             [ngTemplateOutletContext]="{ value: element[column], row: element }"
