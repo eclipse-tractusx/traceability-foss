@@ -152,7 +152,8 @@ export interface AssetAsBuiltFilter {
   semanticModelId?: string,
   semanticDataModel?: string[],
   manufacturingDate?: string,
-  manufacturingCountry?: string
+  manufacturingCountry?: string,
+  owner?: Owner
 }
 
 export interface AssetAsPlannedFilter {
@@ -170,6 +171,7 @@ export interface AssetAsPlannedFilter {
   catenaXSiteId?: string,
   functionValidFrom?: string,
   functionValidUntil?: string,
+  owner?: Owner
 }
 
 export enum ImportState {

@@ -56,7 +56,7 @@ export class PartsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('filter', 'owner,EQUAL,OWN,AND');
+ /*     .set('filter', 'owner,EQUAL,OWN,AND');*/
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     });
@@ -77,7 +77,7 @@ export class PartsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('filter', 'owner,EQUAL,OWN,AND');
+   /*   .set('filter', 'owner,EQUAL,OWN,AND');*/
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);

@@ -105,6 +105,7 @@
     "column": {
       "id": "ID",
       "idShort": "ID Short",
+      "owner": "Owner",
       "name": "Name",
       "manufacturerName": "Manufacturer",
       "partId": "Part number",
@@ -354,6 +355,11 @@
   "bomLifecycleActivator": {
     "asBuilt": "As Built",
     "asPlanned": "As Planned"
+  },
+  "quickFilter": {
+    "own": "OWN",
+    "supplier": "SUPPLIER",
+    "customer": "CUSTOMER"
   },
   "multiSelect": {
     "filterLabel": "Filter",

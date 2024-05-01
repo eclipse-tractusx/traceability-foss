@@ -42,6 +42,7 @@ import {NotificationOverviewComponent} from '@shared/components/notification-ove
 import {NotificationReasonComponent} from '@shared/components/notification-reason/notification-reason.component';
 import {NotificationTypeComponent} from '@shared/components/notification-type/notification-type.component';
 import {PartsTableComponent} from '@shared/components/parts-table/parts-table.component';
+import { QuickFilterComponent } from '@shared/components/quick-filter/quick-filter.component';
 import {RequestNotificationNewComponent} from '@shared/components/request-notification-new';
 import {SeveritySelectComponent} from '@shared/components/severity-select/severity-select.component';
 import {SeverityComponent} from '@shared/components/severity/severity.component';
@@ -137,6 +138,7 @@ import {TemplateModule} from './template.module';
     TypeSelectComponent,
     InputComponent,
     BomLifecycleActivatorComponent,
+    QuickFilterComponent,
     ViewSelectorComponent,
     MultiSelectAutocompleteComponent,
     CountryFlagGeneratorComponent,
@@ -188,6 +190,7 @@ import {TemplateModule} from './template.module';
     FormatPartSemanticDataModelToCamelCasePipe,
     FormatPartlistSemanticDataModelToCamelCasePipe,
     BomLifecycleActivatorComponent,
+    QuickFilterComponent,
     ViewSelectorComponent,
     PartsTableComponent,
     MultiSelectAutocompleteComponent,
