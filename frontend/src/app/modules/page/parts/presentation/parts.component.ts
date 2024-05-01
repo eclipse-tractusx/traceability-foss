@@ -34,6 +34,7 @@ import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/mode
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { QuickFilterComponent } from '@shared/components/quick-filter/quick-filter.component';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
@@ -79,7 +80,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public currentPartTablePage = { AS_BUILT_OWN_PAGE: 0, AS_PLANNED_OWN_PAGE: 0 };
 
   @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
-
+  @ViewChildren(QuickFilterComponent) quickFilterComponents: QueryList<QuickFilterComponent>;
   constructor(
     private readonly partsFacade: PartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
@@ -133,7 +134,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   triggerPartSearch() {
 
-    this.resetFilterAndShowToast();
+    this.resetFilterAndShowToast(true);
+
     const searchValue = this.searchFormGroup.get('partSearch').value;
 
     if (searchValue && searchValue !== '') {
@@ -148,9 +150,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   updatePartsByOwner(owner: Owner) {
-  console.log(owner, "Owner");
     this.resetFilterAndShowToast();
-
     let filter = {};
     if (owner != Owner.UNKNOWN) {
       filter = {
@@ -172,8 +172,11 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private resetFilterAndShowToast() {
+  private resetFilterAndShowToast(resetOwner?: boolean) {
     let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
+    if (resetOwner){
+      this.quickFilterComponents.get(0).owner = Owner.UNKNOWN;
+    }
     if (filterIsSet) {
       this.toastService.info('parts.input.global-search.toastInfo');
     }
