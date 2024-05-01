@@ -73,6 +73,7 @@ describe('PartsTableComponent', () => {
     // Expect that the event was emitted with the correct data
     expect(componentInstance.displayedColumns).toEqual([
       'Filter',
+      'filterowner',
       'filterid',
       'filteridShort',
       'filternameAtManufacturer', // nameAtManufacturer
@@ -105,6 +106,7 @@ describe('PartsTableComponent', () => {
 
     expect(componentInstance.displayedColumns).toEqual([
       'Filter',
+      'filterowner',
       'filterid',
       'filteridShort',
       'filternameAtManufacturer',
