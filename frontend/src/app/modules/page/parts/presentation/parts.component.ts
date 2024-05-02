@@ -131,9 +131,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   maximizeClicked(tableType: TableType) {
-    console.log(this.bomLifecycleSize, 'size');
     if (tableType === TableType.AS_BUILT_OWN) {
-
       if (this.bomLifecycleSize.asBuiltSize === 100) {
         this.bomLifecycleSize = {
           asBuiltSize: 50,
@@ -145,7 +143,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
           asPlannedSize: 0,
         };
       }
-
     }
 
     if (tableType === TableType.AS_PLANNED_OWN) {

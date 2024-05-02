@@ -20,19 +20,35 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="table-header-wrapper">
   <div *ngIf="tableHeader" class="table-header-container">
-    <div class="large-text table--header--text">{{tableHeader}}
+    <div class="large-text table--header--text">{{ tableHeader }}</div>
+    <div>
 
+      <div>
+        <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
+          settings
+        </mat-icon>
+      </div>
+      <div>
+        <mat-icon (click)="maximizeClicked.emit(tableType)" class="table&#45;&#45;settings&#45;&#45;button ml-2">
+          crop_free
+        </mat-icon>
+      </div>
+      <div>
+        <p *ngIf="selectedPartsInfoLabel"
+           class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+      </div>
 
-      <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
-        settings
-      </mat-icon>
-      <mat-icon (click)="maximizeClicked.emit(tableType)" class="table&#45;&#45;settings&#45;&#45;button ml-2">
-        crop_free
-      </mat-icon>
     </div>
+
+
     <div class="table&#45;&#45;selected__container">
-      <p *ngIf="selectedPartsInfoLabel"
-        class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+      <mat-icon (click)="maximizeClicked.emit(tableType)" class="">
+        announcement
+      </mat-icon>
+      <mat-icon (click)="maximizeClicked.emit(tableType)" class="">
+        published_with_changes
+      </mat-icon>
+
       <div class="table--header--select--button"
            matTooltip="{{(mainAspectType === MainAspectType.AS_PLANNED ? 'routing.notAllowedForAsPlanned' : 'routing.unauthorized') | i18n}}"
            matTooltipClass="table--header--tooltip"
@@ -120,7 +136,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container *ngSwitchCase="'select'">
         <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
       </ng-container>
-      <ng-container   *ngSwitchCase="'menu'">
+      <ng-container *ngSwitchCase="'menu'">
         <ng-container *ngTemplateOutlet="MenuColumn"></ng-container>
       </ng-container>
       <ng-container *ngSwitchDefault>
@@ -159,23 +175,24 @@ SPDX-License-Identifier: Apache-2.0
         </th>
         <td *matCellDef="let row" mat-cell>
           <div class="flex justify-start items-center">
-          <mat-checkbox
-            [checked]="isSelected(row)"
-            (click)="$event.stopPropagation()"
-            (change)="toggleSelection(row)"
-            data-testid="select-one--test-id"
-            color="primary"
-          >
-          </mat-checkbox>
-          <ng-container *ngIf="row['tombStoneErrorDetail']">
-            <mat-icon          matTooltip="{{'table.tombStone' | i18n}}"
-                               matTooltipClass="table--header--tooltip"
-                               matTooltipPosition="above"
-                               [class.mdc-tooltip--multiline]="true"
-                               [matTooltipShowDelay]="1000"
-                               class="text-error"
-            >nearby_error</mat-icon>
-          </ng-container>
+            <mat-checkbox
+              [checked]="isSelected(row)"
+              (click)="$event.stopPropagation()"
+              (change)="toggleSelection(row)"
+              data-testid="select-one--test-id"
+              color="primary"
+            >
+            </mat-checkbox>
+            <ng-container *ngIf="row['tombStoneErrorDetail']">
+              <mat-icon matTooltip="{{'table.tombStone' | i18n}}"
+                        matTooltipClass="table--header--tooltip"
+                        matTooltipPosition="above"
+                        [class.mdc-tooltip--multiline]="true"
+                        [matTooltipShowDelay]="1000"
+                        class="text-error"
+              >nearby_error
+              </mat-icon>
+            </ng-container>
           </div>
         </td>
       </ng-container>
@@ -320,7 +337,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-container>
     </ng-template>
 
-    <ng-template  #MenuColumn>
+    <ng-template #MenuColumn>
       <ng-container matColumnDef="menu" stickyEnd>
         <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
         <td *matCellDef="let row" class="table--menu" mat-cell
