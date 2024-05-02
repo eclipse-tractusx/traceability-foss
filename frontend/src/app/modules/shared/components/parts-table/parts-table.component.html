@@ -21,8 +21,13 @@ SPDX-License-Identifier: Apache-2.0
 <div class="table-header-wrapper">
   <div *ngIf="tableHeader" class="table-header-container">
     <div class="large-text table--header--text">{{tableHeader}}
+
+
       <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
         settings
+      </mat-icon>
+      <mat-icon (click)="maximizeClicked.emit(tableType)" class="table&#45;&#45;settings&#45;&#45;button ml-2">
+        crop_free
       </mat-icon>
     </div>
     <div class="table&#45;&#45;selected__container">

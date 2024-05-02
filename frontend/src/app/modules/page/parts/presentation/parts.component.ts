@@ -122,6 +122,61 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  splitAreaChanged(data: any){
+    this.bomLifecycleSize = {
+      asBuiltSize: data.sizes[0],
+      asPlannedSize: data.sizes[1]
+    }
+  }
+
+  maximizeClicked(tableType: TableType){
+console.log(this.bomLifecycleSize, "size");
+   if (tableType === TableType.AS_BUILT_OWN){
+
+     if (this.bomLifecycleSize.asBuiltSize < 50){
+       this.bomLifecycleSize = {
+         asBuiltSize: 50,
+         asPlannedSize: 0
+       }
+     } else if(this.bomLifecycleSize.asBuiltSize === 100){
+       this.bomLifecycleSize = {
+         asBuiltSize: 50,
+         asPlannedSize: 0
+       }
+     }
+
+     else{
+       this.bomLifecycleSize = {
+         asBuiltSize: 100,
+         asPlannedSize: 0
+       }
+     }
+
+   }
+
+    if (tableType === TableType.AS_PLANNED_OWN){
+      if (this.bomLifecycleSize.asPlannedSize < 50){
+        this.bomLifecycleSize = {
+          asBuiltSize: 0,
+          asPlannedSize: 50
+        }
+      } else if(this.bomLifecycleSize.asPlannedSize === 100){
+        this.bomLifecycleSize = {
+          asBuiltSize: 0,
+          asPlannedSize: 50
+        }
+      }
+
+      else{
+        this.bomLifecycleSize = {
+          asBuiltSize: 0,
+          asPlannedSize: 100
+        }
+      }
+    }
+  }
+
+
   filterActivated(isAsBuilt: boolean, assetFilter: any): void {
     if (isAsBuilt) {
       this.assetAsBuiltFilter = assetFilter;

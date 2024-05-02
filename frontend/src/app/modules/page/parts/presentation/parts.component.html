@@ -65,8 +65,8 @@ SPDX-License-Identifier: Apache-2.0
     </div>
   </div>
   <div class="split-container-wrapper">
-    <as-split direction="horizontal" class="split-container">
-      <as-split-area data-testid="as-split-area-1-component--test-id" [size]="bomLifecycleSize.asBuiltSize"
+    <as-split  (dragEnd)="splitAreaChanged($event)" direction="horizontal" class="split-container">
+      <as-split-area  data-testid="as-split-area-1-component--test-id"  [size]="bomLifecycleSize.asBuiltSize"
                      class="split-area">
 
 
@@ -88,6 +88,7 @@ SPDX-License-Identifier: Apache-2.0
                              (clickSelectAction)="navigateToNotificationCreationView()"
                              (filterActivated)="filterActivated(true, $event )"
                              [multiSortList]="tableAsBuiltSortList"
+                             (maximizeClicked)="maximizeClicked($event)"
                              [tableHeader]='"page.asBuiltParts" | i18n'
                              [tableType]="TableType.AS_BUILT_OWN"
                              [mainAspectType]="MainAspectType.AS_BUILT"
@@ -116,6 +117,7 @@ SPDX-License-Identifier: Apache-2.0
                              (filterActivated)="filterActivated(false, $event)"
                              [multiSortList]="tableAsPlannedSortList"
                              [tableHeader]='"page.asPlannedParts" | i18n'
+                             (maximizeClicked)="maximizeClicked($event)"
                              [tableType]="TableType.AS_PLANNED_OWN"
                              [mainAspectType]="MainAspectType.AS_PLANNED"
             ></app-parts-table>
