@@ -4,8 +4,13 @@ tractusx-connector:
     id: BPNL00000003CNKC
 
   iatp:
+    # Decentralized IDentifier
+    id: <path:traceability-foss/data/int-b/iatp#DID>
     sts:
+      dim:
+        url: <path:traceability-foss/data/int-b/iatp#dimUrl>
       oauth:
+        token_url: <path:traceability-foss/data/int-b/iatp#iatp.oauth.tokenurl>
         client:
           id: <path:traceability-foss/data/int-b/iatp#dimClientId>
           secret_alias: edc-miw-keycloak-secret-int-b-provider
