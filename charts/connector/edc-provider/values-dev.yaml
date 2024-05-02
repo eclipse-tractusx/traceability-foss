@@ -2,6 +2,14 @@ tractusx-connector:
   participant:
     id: BPNL00000003CML1
   enabled: true
+
+  iatp:
+    sts:
+      oauth:
+        client:
+          id: <path:traceability-foss/data/dev/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-dev-a-provider
+
   controlplane:
     ingresses:
       - enabled: true
@@ -16,15 +24,6 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
-    ssi:
-      miw:
-        url: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.miw.authorityId>
-      oauth:
-        tokenurl: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.oauth.tokenurl>
-        client:
-          id: <path:traceability-foss/data/dev/edc-provider/wallet#ssi.oauth.client.id> # sa676
-          secretAlias: edc-miw-keycloak-secret-dev-a-provider
 
     resources:
       limits:
@@ -35,6 +34,11 @@ tractusx-connector:
         memory: 1.5Gi
 
   dataplane:
+    token:
+      signer:
+        privatekey_alias: daps-cert-edc-dev-consumer-private
+      verifier:
+        publickey_alias: daps-cert-edc-dev-consumer-public
     ingresses:
       - enabled: true
         hostname: "trace-x-edc-dataplane.dev.demo.catena-x.net"

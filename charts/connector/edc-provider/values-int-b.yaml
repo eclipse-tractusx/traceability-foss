@@ -2,6 +2,19 @@ tractusx-connector:
   enabled: true
   participant:
     id: BPNL00000003CNKC
+
+  iatp:
+    # Decentralized IDentifier
+    id: <path:traceability-foss/data/int-b/iatp#DID>
+    sts:
+      dim:
+        url: <path:traceability-foss/data/int-b/iatp#dimUrl>
+      oauth:
+        token_url: <path:traceability-foss/data/int-b/iatp#iatp.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/int-b/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-int-b
+
   controlplane:
     ingresses:
       - enabled: true
@@ -38,6 +51,11 @@ tractusx-connector:
         memory: 1.5Gi
 
   dataplane:
+    token:
+      signer:
+        privatekey_alias: daps-cert-key-int-b
+      verifier:
+        publickey_alias: daps-cert-int-b
     ingresses:
       - enabled: true
         hostname: "trace-x-edc-int-b-dataplane.int.demo.catena-x.net"

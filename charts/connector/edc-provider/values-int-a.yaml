@@ -4,6 +4,18 @@ tractusx-connector:
   fullnameOverride: "tx-edc-provider-int-a"
   participant:
     id: BPNL00000003CML1
+
+  iatp:
+    # Decentralized IDentifier
+    id: <path:traceability-foss/data/int-a/iatp#DID>
+    sts:
+      dim:
+        url: <path:traceability-foss/data/int-a/iatp#dimUrl>
+      oauth:
+        token_url: <path:traceability-foss/data/int-a/iatp#iatp.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/int-a/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-int-a
   controlplane:
     ingresses:
       - enabled: true
@@ -40,6 +52,11 @@ tractusx-connector:
         memory: 1.5Gi
 
   dataplane:
+    token:
+      signer:
+        privatekey_alias: daps-cert-key-int-a
+      verifier:
+        publickey_alias: daps-cert-int-a
     ingresses:
       - enabled: true
         hostname: "trace-x-edc-int-a-dataplane.int.demo.catena-x.net"

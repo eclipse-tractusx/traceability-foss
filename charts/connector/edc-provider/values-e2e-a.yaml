@@ -2,6 +2,18 @@ tractusx-connector:
   participant:
     id: BPNL00000003CML1
   enabled: true
+  iatp:
+    # Decentralized IDentifier
+    id: <path:traceability-foss/data/e2e-a/iatp#DID>
+    sts:
+      dim:
+        url: <path:traceability-foss/data/e2e-a/iatp#dimUrl>
+      oauth:
+        token_url: <path:traceability-foss/data/e2e-a/iatp#iatp.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/e2e-a/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-e2e-a-provider
+
   controlplane:
     ingresses:
       - enabled: true
@@ -36,6 +48,11 @@ tractusx-connector:
         memory: 1.5Gi
 
   dataplane:
+    token:
+      signer:
+        privatekey_alias: daps-cert-edc-e2e-a-consumer-private
+      verifier:
+        publickey_alias: daps-cert-edc-e2e-a-consumer-public
     ingresses:
       - enabled: true
         hostname: "trace-x-edc-e2e-a-dataplane.dev.demo.catena-x.net"

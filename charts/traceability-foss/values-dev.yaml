@@ -303,7 +303,17 @@ tractusx-connector:
   fullnameOverride: *edc_name
   participant:
     id: *bpn
-
+  iatp:
+    # Decentralized IDentifier
+    id: <path:traceability-foss/data/dev/iatp#DID>
+    sts:
+      dim:
+        url: <path:traceability-foss/data/dev/iatp#dimUrl>
+      oauth:
+        token_url: <path:traceability-foss/data/dev/iatp#iatp.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/dev/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-dev-a-provider
   controlplane:
     ingresses:
       - enabled: true
@@ -332,6 +342,11 @@ tractusx-connector:
         authKey: *edc_api_key
 
   dataplane:
+    token:
+      signer:
+        privatekey_alias: daps-cert-edc-dev-consumer-private
+      verifier:
+        publickey_alias: daps-cert-edc-dev-consumer-public
     ingresses:
       - enabled: true
         hostname: *edc_dataplane_hostname

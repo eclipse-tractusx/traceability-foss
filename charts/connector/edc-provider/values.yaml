@@ -9,6 +9,18 @@ tractusx-connector:
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
 
+  iatp:
+    # Decentralized IDentifier
+    id: <path:traceability-foss/data/dev/iatp#DID>
+    sts:
+      dim:
+        url: <path:traceability-foss/data/dev/iatp#dimUrl>
+      oauth:
+        token_url: <path:traceability-foss/data/dev/iatp#iatp.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/dev/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-dev-a-provider
+
   controlplane:
     ingresses:
       - enabled: false
@@ -22,16 +34,13 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
-    ssi:
-      miw:
-        url: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
-      oauth:
-        tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>
-        client:
-          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
-          secretAlias: edc-miw-keycloak-secret
 
+    bdrs:
+      # time that a cached BPN/DID resolution map is valid in seconds, default is 10 min
+      cache_validity_seconds: 600
+      server:
+        # URL of the BPN/DID Resolution Service - required:
+        url: <path:traceability-foss/data/dev/iatp#bdrsUrl>
     endpoints:
       # -- default api for health checks, should not be added to any ingress
       default:
@@ -88,6 +97,18 @@ tractusx-connector:
         memory: 1.5Gi
 
   dataplane:
+    token:
+      refresh:
+        expiry_seconds: 300
+        expiry_tolerance_seconds: 10
+        # optional URL that can be provided where clients go to refresh tokens.
+        refresh_endpoint:
+      signer:
+        # alias under which the private key is stored in the vault (JWK or PEM format)
+        privatekey_alias:
+      verifier:
+        # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
+        publickey_alias:
     ingresses:
       - enabled: false
         annotations:
