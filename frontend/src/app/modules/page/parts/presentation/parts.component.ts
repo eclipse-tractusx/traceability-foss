@@ -81,6 +81,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
   @ViewChildren(QuickFilterComponent) quickFilterComponents: QueryList<QuickFilterComponent>;
+
   constructor(
     private readonly partsFacade: PartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
@@ -122,56 +123,42 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
-  splitAreaChanged(data: any){
+  splitAreaChanged(data: any) {
     this.bomLifecycleSize = {
       asBuiltSize: data.sizes[0],
-      asPlannedSize: data.sizes[1]
-    }
+      asPlannedSize: data.sizes[1],
+    };
   }
 
-  maximizeClicked(tableType: TableType){
-console.log(this.bomLifecycleSize, "size");
-   if (tableType === TableType.AS_BUILT_OWN){
+  maximizeClicked(tableType: TableType) {
+    console.log(this.bomLifecycleSize, 'size');
+    if (tableType === TableType.AS_BUILT_OWN) {
 
-     if (this.bomLifecycleSize.asBuiltSize < 50){
-       this.bomLifecycleSize = {
-         asBuiltSize: 50,
-         asPlannedSize: 0
-       }
-     } else if(this.bomLifecycleSize.asBuiltSize === 100){
-       this.bomLifecycleSize = {
-         asBuiltSize: 50,
-         asPlannedSize: 0
-       }
-     }
-
-     else{
-       this.bomLifecycleSize = {
-         asBuiltSize: 100,
-         asPlannedSize: 0
-       }
-     }
-
-   }
-
-    if (tableType === TableType.AS_PLANNED_OWN){
-      if (this.bomLifecycleSize.asPlannedSize < 50){
+      if (this.bomLifecycleSize.asBuiltSize === 100) {
         this.bomLifecycleSize = {
-          asBuiltSize: 0,
-          asPlannedSize: 50
-        }
-      } else if(this.bomLifecycleSize.asPlannedSize === 100){
+          asBuiltSize: 50,
+          asPlannedSize: 0,
+        };
+      } else {
         this.bomLifecycleSize = {
-          asBuiltSize: 0,
-          asPlannedSize: 50
-        }
+          asBuiltSize: 100,
+          asPlannedSize: 0,
+        };
       }
 
-      else{
+    }
+
+    if (tableType === TableType.AS_PLANNED_OWN) {
+      if (this.bomLifecycleSize.asPlannedSize === 100) {
         this.bomLifecycleSize = {
           asBuiltSize: 0,
-          asPlannedSize: 100
-        }
+          asPlannedSize: 50,
+        };
+      } else {
+        this.bomLifecycleSize = {
+          asBuiltSize: 0,
+          asPlannedSize: 100,
+        };
       }
     }
   }
@@ -229,7 +216,7 @@ console.log(this.bomLifecycleSize, "size");
 
   private resetFilterAndShowToast(resetOwner?: boolean) {
     let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
-    if (resetOwner){
+    if (resetOwner) {
       this.quickFilterComponents.get(0).owner = Owner.UNKNOWN;
     }
     if (filterIsSet) {
