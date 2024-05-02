@@ -1541,6 +1541,97 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 <div class="paragraph">
 <p>The following process is required to successfully connect to the portal:</p>
 </div>
+<div class="ulist">
+<ul>
+<li>
+<p>Company registration with BPN, Company Name</p>
+</li>
+<li>
+<p>User Registration with E-Mail</p>
+</li>
+<li>
+<p>Get e-mail to reset your password</p>
+</li>
+<li>
+<p>Reset the password and log in</p>
+</li>
+<li>
+<p>Make sure your user has the role App Management</p>
+</li>
+<li>
+<p>Navigate to App Overview</p>
+</li>
+<li>
+<p>Create app</p>
+</li>
+<li>
+<p>Choose a selection of managed roles which is necessary (currently: BPDM, Dataspace Discovery, Semantic Model Management, Identity Wallet Management)</p>
+</li>
+<li>
+<p>Wait for app approval by portal</p>
+</li>
+<li>
+<p>Subscribe to the app</p>
+</li>
+<li>
+<p>As app creator navigate to subscription management - click on configure</p>
+</li>
+<li>
+<p>Add the frontend url of the application and click approve</p>
+</li>
+<li>
+<p>Save technical user and secret</p>
+</li>
+<li>
+<p>Navigate to Register Connector</p>
+</li>
+<li>
+<p>Add managed connector</p>
+</li>
+<li>
+<p>Select existing technical user (from app subscription)</p>
+</li>
+<li>
+<p>Enter name "EDC Provider A"</p>
+</li>
+<li>
+<p>Enter base url of controlplane (EDC)</p>
+</li>
+<li>
+<p>Confirm</p>
+</li>
+<li>
+<p>Go to other company which want to participate (subscribe)</p>
+</li>
+<li>
+<p>Login and navigate to app overview</p>
+</li>
+<li>
+<p>Search for the app created</p>
+</li>
+<li>
+<p>Subscribe to the app</p>
+</li>
+<li>
+<p>Go to the app creator company</p>
+</li>
+<li>
+<p>Navigate to the inbox of the portal</p>
+</li>
+<li>
+<p>Click on the nav link to give approval for the company which want to subscribe</p>
+</li>
+<li>
+<p>Enter name "EDC Provider B"</p>
+</li>
+<li>
+<p>Enter base url of controlplane (EDC)</p>
+</li>
+<li>
+<p>Make sure to popuplate the new client id, secrets and app id within trace-x for each company to let it run properly with the new portal configuration.</p>
+</li>
+</ul>
+</div>
 <div class="sect3">
 <h4 id="_company_registration">Company registration</h4>
 <div class="paragraph">
@@ -1633,7 +1724,7 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-04-25 19:55:32 UTC
+Last updated 2024-05-02 10:48:19 UTC
 </div>
 </div>
 </body>
