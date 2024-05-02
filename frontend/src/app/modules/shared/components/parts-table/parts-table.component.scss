@@ -124,13 +124,20 @@ table {
 }
 
 .table--selected__container {
-
-
   z-index: 1;
   display: flex;
   align-items: center;
   min-height: 35px;
 
+}
+
+.icon-container{
+  width:50%;
+  display:flex;
+}
+.selected-text-container{
+  width:50%;
+  text-align:right;
 }
 
 .table--selected--label {

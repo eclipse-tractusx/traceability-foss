@@ -20,35 +20,28 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="table-header-wrapper">
   <div *ngIf="tableHeader" class="table-header-container">
-    <div class="large-text table--header--text">{{ tableHeader }}</div>
-    <div>
-
-      <div>
+    <div class="large-text table--header--text">{{ tableHeader }}
         <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
           settings
         </mat-icon>
-      </div>
-      <div>
         <mat-icon (click)="maximizeClicked.emit(tableType)" class="table&#45;&#45;settings&#45;&#45;button ml-2">
           crop_free
         </mat-icon>
-      </div>
-      <div>
-        <p *ngIf="selectedPartsInfoLabel"
-           class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
-      </div>
+</div>
 
-    </div>
-
-
-    <div class="table&#45;&#45;selected__container">
+    <div class="table--selected__container">
+      <div class="icon-container">
       <mat-icon (click)="maximizeClicked.emit(tableType)" class="">
         announcement
       </mat-icon>
       <mat-icon (click)="maximizeClicked.emit(tableType)" class="">
         published_with_changes
       </mat-icon>
-
+      </div>
+      <div class="selected-text-container">
+        <p *ngIf="selectedPartsInfoLabel"
+           class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+      </div>
       <div class="table--header--select--button"
            matTooltip="{{(mainAspectType === MainAspectType.AS_PLANNED ? 'routing.notAllowedForAsPlanned' : 'routing.unauthorized') | i18n}}"
            matTooltipClass="table--header--tooltip"
