@@ -89,7 +89,8 @@ public class BpnRepositoryImpl implements BpnRepository {
 
     @Override
     public BpnEntity save(BusinessPartnerResponse businessPartner) {
-        BpnEntity entity = BpnEntity.builder().manufacturerId(businessPartner.getBpn()).manufacturerName(businessPartner.getNames().get(0).getValue()).build();
+        String value = businessPartner.getNames() == null ? null : businessPartner.getNames().get(0).getValue();
+        BpnEntity entity = BpnEntity.builder().manufacturerId(businessPartner.getBpn()).manufacturerName(value).build();
         return repository.save(entity);
     }
 

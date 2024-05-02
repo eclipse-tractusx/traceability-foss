@@ -34,6 +34,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asplanned.AsPlannedDetailMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.relationship.RelationshipMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.SubmodelMapper;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -63,6 +64,7 @@ public class AssetMapperFactory {
     private final List<AsPlannedDetailMapper> asPlannedDetailMappers;
     private final List<AsBuiltDetailMapper> asBuiltDetailMappers;
     private final ObjectMapper objectMapper;
+    private final BpnService bpnService;
 
     public List<AssetBase> mapToAssetBaseList(IRSResponse irsResponse) {
 
@@ -98,7 +100,7 @@ public class AssetMapperFactory {
                         assetBase.setContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
 
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
-                        enrichManufacturingInformation(irsResponse, bpnMap, assetBase);
+                        enrichManufacturingInformation(irsResponse, bpnMap, assetBase, bpnService);
                         enrichAssetBase(tractionBatteryCode, assetBase);
                         enrichAssetBase(partSiteInformationAsPlanned, assetBase);
 

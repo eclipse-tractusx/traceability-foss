@@ -46,7 +46,7 @@ public class BpnServiceImpl implements BpnService {
     @Override
     public String findByBpn(String bpn) {
         String manufacturerName = bpnRepository.findManufacturerName(bpn);
-        if (manufacturerName == null) {
+        if (manufacturerName == null && bpn != null) {
             BusinessPartnerResponse businessPartner = bpdmClient.getBusinessPartner(bpn);
             BpnEntity bpnEntity = bpnRepository.save(businessPartner);
             manufacturerName = bpnEntity.getManufacturerName();

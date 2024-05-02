@@ -9,6 +9,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -71,16 +72,13 @@ public class MapperHelper {
                 .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
     }
 
-    public static void enrichManufacturingInformation(IRSResponse irsResponse, Map<String, String> bpnMap, AssetBase assetBase) {
+    public static void enrichManufacturingInformation(IRSResponse irsResponse, Map<String, String> bpnMap, AssetBase assetBase, BpnService bpnService) {
         if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
             String bpn = irsResponse.jobStatus().parameter().bpn();
             assetBase.setManufacturerId(bpn);
-            assetBase.setManufacturerName(bpnMap.get(bpn));
+            assetBase.setManufacturerName(bpnService.findByBpn(bpn));
         } else {
-            String bpnName = bpnMap.get(assetBase.getManufacturerId());
-            if (bpnName != null) {
-                assetBase.setManufacturerName(bpnName);
-            }
+            assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
         }
     }
 }

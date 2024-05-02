@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.eclipse.tractusx.traceability.generated.JustInSequencePart300Schema;
 import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxJustInSequencePart300KeyValueList;
 import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxJustInSequencePart300ManufacturingCharacteristic;
@@ -43,12 +44,19 @@ import static org.eclipse.tractusx.traceability.assets.domain.base.model.Semanti
 @Slf4j
 @Component
 public class JustInSequenceMapper implements SubmodelMapper {
+
+    private final BpnService bpnService;
+
+    public JustInSequenceMapper(BpnService bpnService) {
+        this.bpnService = bpnService;
+    }
+
     @Override
     public AssetBase extractSubmodel(IrsSubmodel irsSubmodel) {
         JustInSequencePart300Schema justInSequencePart = (JustInSequencePart300Schema) irsSubmodel.getPayload();
 
         String justInSequenceId = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.JIS_NUMBER.getValue());
-        String manufacturerName = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
+        String manufacturerId = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
         String van = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(justInSequencePart.getManufacturingInformation(), justInSequencePart.getPartTypeInformation());
 
@@ -56,8 +64,7 @@ public class JustInSequenceMapper implements SubmodelMapper {
                 .id(justInSequencePart.getCatenaXId())
                 .semanticModelId(justInSequenceId)
                 .detailAspectModels(List.of(detailAspectModel))
-                .manufacturerId(manufacturerName)
-                .manufacturerName(manufacturerName)
+                .manufacturerId(manufacturerId)
                 .nameAtManufacturer(justInSequencePart.getPartTypeInformation().getNameAtManufacturer())
                 .manufacturerPartId(justInSequencePart.getPartTypeInformation().getManufacturerPartId())
                 // TODO extend data model to include all classification attributes

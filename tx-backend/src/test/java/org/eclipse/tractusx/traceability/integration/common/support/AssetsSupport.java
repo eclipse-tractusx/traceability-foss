@@ -57,6 +57,7 @@ public class AssetsSupport {
     }
 
     public void defaultAssetsAsPlannedStored() {
+        bpnSupport.providesBpdmLookup();
         assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests());
     }
 

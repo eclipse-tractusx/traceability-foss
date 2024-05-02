@@ -18,10 +18,12 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.bpn.infrastructure.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
 import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -30,6 +32,7 @@ import java.util.Map;
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.BPDM_CLIENT_REST_TEMPLATE;
 
 @Service
+@Slf4j
 public class BpdmClient {
 
     private static final String PLACEHOLDER_BPID = "partnerId";
@@ -43,11 +46,17 @@ public class BpdmClient {
         this.bpdmProperties = bpdmProperties;
     }
 
-    public BusinessPartnerResponse getBusinessPartner(final String idValue) {
+    public BusinessPartnerResponse getBusinessPartner(final String bpn) {
         final UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(bpdmProperties.getBpnEndpoint());
-        final Map<String, String> values = Map.of(PLACEHOLDER_BPID, idValue, PLACEHOLDER_ID_TYPE, ID_TYPE);
+        final Map<String, String> values = Map.of(PLACEHOLDER_BPID, bpn, PLACEHOLDER_ID_TYPE, ID_TYPE);
 
-        return bpdmRestTemplate.getForObject(uriBuilder.build(values), BusinessPartnerResponse.class);
+        try {
+            return bpdmRestTemplate.getForObject(uriBuilder.build(values), BusinessPartnerResponse.class);
+        } catch (HttpClientErrorException httpClientErrorException) {
+            log.warn("Could not request BPDM service.", httpClientErrorException);
+            return BusinessPartnerResponse.builder().bpn(bpn).build();
+        }
+
     }
 
 

@@ -33,6 +33,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,6 +53,8 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 public class JobRepositoryImpl implements JobRepository {
 
     private final BpnRepository bpnRepository;
+
+    private final BpnService bpnService;
     private final TraceabilityProperties traceabilityProperties;
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
@@ -66,12 +69,13 @@ public class JobRepositoryImpl implements JobRepository {
     public JobRepositoryImpl(
             IrsClient irsClient,
             BpnRepository bpnRepository,
-            TraceabilityProperties traceabilityProperties,
+            BpnService bpnService, TraceabilityProperties traceabilityProperties,
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
             AssetCallbackRepository assetAsPlannedCallbackRepository, AssetMapperFactory assetMapperFactory) {
         this.bpnRepository = bpnRepository;
+        this.bpnService = bpnService;
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;

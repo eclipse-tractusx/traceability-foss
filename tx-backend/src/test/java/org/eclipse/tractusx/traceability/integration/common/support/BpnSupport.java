@@ -78,10 +78,18 @@ public class BpnSupport {
 
     public void providesBpdmLookup() {
         whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/api/catena/legal-entities/[\\w]+"))
+                matchesUri(Pattern.compile("/api/catena/legal-entities/.+"))
         ).then(
                 status(HttpStatus.OK_200),
                 restitoProvider.jsonResponseFromFile("stubs/bpdm/response_200.json")
+        );
+    }
+
+    public void returnsBpdmLookup401Unauthorized() {
+        whenHttp(restitoProvider.stubServer()).match(
+                matchesUri(Pattern.compile("/api/catena/legal-entities/.+"))
+        ).then(
+                status(HttpStatus.UNAUTHORIZED_401)
         );
     }
 }
