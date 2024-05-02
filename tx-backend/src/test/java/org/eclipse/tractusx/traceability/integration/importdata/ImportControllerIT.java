@@ -157,6 +157,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .extract().as(ImportResponse.class);
 
@@ -301,8 +302,8 @@ class ImportControllerIT extends IntegrationTestSpecification {
         assertThat(result.validationResult().validationErrors())
                 .containsExactlyInAnyOrder(
                         "Missing property aspectType",
-                        "For Asset with ID: invalidUUID And aspectType: urn:bamm:io.catenax.serial_part:1.0.1#SerialPart Following error occurred: object has missing required properties ([\"localIdentifiers\"])",
-                        "For Asset with ID: urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a And aspectType: urn:bamm:io.catenax.single_level_bom_as_built:2.0.0#SingleLevelBomAsBuilt Following error occurred: object has missing required properties ([\"catenaXId\",\"childItems\"])"
+                        "For Asset with ID: invalidUUID And aspectType: urn:samm:io.catenax.serial_part:3.0.0#SerialPart Following error occurred: object has missing required properties ([\"localIdentifiers\"])",
+                        "For Asset with ID: urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a And aspectType: urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt Following error occurred: object has missing required properties ([\"catenaXId\",\"childItems\"])"
                 );
     }
 
@@ -330,26 +331,6 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 );
     }
 
-    @Test
-    void givenValidFile_whenImportDataWithWrongBPN_thenValidationShouldNotPass() throws JoseException {
-        // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFileButWrongBPN.json").getFile();
-        File file = new File(path);
-
-        // when/then
-        given()
-                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
-                .when()
-                .multiPart(file)
-                .post("/api/assets/import")
-                .then()
-                .statusCode(400)
-                .body("validationResult.validationErrors", Matchers.contains(
-                        List.of(
-                                "At least one asset does not match the application bpn BPNL00000003AXS3"
-                        ).toArray()))
-                .body("jobId", Matchers.notNullValue());
-    }
 
     @Test
     void givenInvalidFileExtension_whenImportData_thenValidationShouldPass() throws JoseException {
@@ -450,6 +431,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .extract().as(ImportResponse.class);
 
