@@ -56,8 +56,7 @@ import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-he
 import { NotificationColumn } from '@shared/model/notification.model';
 import { DeeplinkService } from '@shared/service/deeplink.service';
 // TODO
-// 1. for investigations we need this component to provide customer and supplier part in one table
-// 2. for alerts we can use the OWN only
+// 1. Create alert, Create Investigation, Publish Asset buttons needs to be integrated in the html actions
 @Component({
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
@@ -69,6 +68,7 @@ export class PartsTableComponent implements OnInit {
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
   @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
 
+  publishDisabled: boolean;
   @Input() labelId: string;
   @Input() noShadow = false;
   @Input() showHover = true;
@@ -132,6 +132,13 @@ export class PartsTableComponent implements OnInit {
     ) {
   }
 
+  public publishIsDisabled():boolean{
+    return false;
+  }
+
+  public isAllowedToPublish():boolean{
+    return this.roleService.hasAccess(['admin']);
+  }
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);

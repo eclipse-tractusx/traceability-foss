@@ -131,9 +131,24 @@ table {
 
 }
 
+.publish--disabled{
+  cursor:none!important;
+}
+
+.publish--icon{
+  cursor: pointer;
+}
+
 .icon-container{
   width:50%;
   display:flex;
+  mat-icon{
+    width: 28px;
+    height: 28px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333333;
+  }
 }
 .selected-text-container{
   width:50%;

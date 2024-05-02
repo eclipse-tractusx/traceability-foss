@@ -34,7 +34,12 @@ SPDX-License-Identifier: Apache-2.0
       <mat-icon (click)="maximizeClicked.emit(tableType)" class="">
         announcement
       </mat-icon>
-      <mat-icon (click)="maximizeClicked.emit(tableType)" class="">
+      <mat-icon [ngClass]="{ 'publish--disabled': !isAllowedToPublish() }" (click)="maximizeClicked.emit(tableType)" class="publish--icon ml-2"
+                matTooltip="{{'routing.unauthorized' | i18n}}"
+                matTooltipClass="table--header--tooltip"
+                matTooltipPosition="above"
+                [matTooltipDisabled]="isAllowedToPublish()"
+      >
         published_with_changes
       </mat-icon>
       </div>
