@@ -407,6 +407,18 @@ tractusx-connector:
     # Explicitly declared url for reaching the ids api (e.g. if ingresses not used)
 
   dataplane:
+    token:
+      refresh:
+        expiry_seconds: 300
+        expiry_tolerance_seconds: 10
+        # optional URL that can be provided where clients go to refresh tokens.
+        refresh_endpoint:
+      signer:
+        # alias under which the private key is stored in the vault (JWK or PEM format)
+        privatekey_alias:
+      verifier:
+        # alias under which the public key is stored in the vault, that belongs to the private key ("privatekey_alias", JWK or PEM format)
+        publickey_alias:
     ingresses:
       - enabled: true
         hostname: 'CHANGE_ME'

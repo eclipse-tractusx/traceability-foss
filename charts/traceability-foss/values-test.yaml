@@ -343,6 +343,11 @@ tractusx-connector:
         authKey: *edc_api_key
 
   dataplane:
+    token:
+      signer:
+        privatekey_alias: daps-cert-edc-test-consumer-private
+      verifier:
+        publickey_alias: daps-cert-edc-test-consumer-public
     ingresses:
       - enabled: true
         hostname: *edc_dataplane_hostname
