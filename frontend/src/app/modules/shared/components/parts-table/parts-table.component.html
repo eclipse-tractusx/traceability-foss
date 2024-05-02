@@ -31,17 +31,26 @@ SPDX-License-Identifier: Apache-2.0
 
     <div class="table--selected__container">
       <div class="icon-container">
-      <mat-icon (click)="maximizeClicked.emit(tableType)" class="">
-        announcement
-      </mat-icon>
-      <mat-icon [ngClass]="{ 'publish--disabled': !isAllowedToPublish() }" (click)="maximizeClicked.emit(tableType)" class="publish--icon ml-2"
-                matTooltip="{{'routing.unauthorized' | i18n}}"
-                matTooltipClass="table--header--tooltip"
-                matTooltipPosition="above"
-                [matTooltipDisabled]="isAllowedToPublish()"
-      >
+        <div
+          matTooltip="{{(!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() ? 'routing.partMismatch' : 'table.createNotification') | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="1000"
+        >
+          <mat-icon (click)="createQualityNotificationClicked()">
+            announcement
+          </mat-icon>
+
+        </div>
+        <div *ngIf="atLeastOneSelected()" matTooltip="{{'routing.unauthorized' | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [matTooltipDisabled]="isAllowedToPublish()">
+      <mat-icon matTooltip="{{'actions.publishAssets' | i18n}}" [ngClass]="{ 'publish--disabled': !isAllowedToPublish() }" (click)="publishIconClicked()" class="publish--icon ml-2">
         published_with_changes
       </mat-icon>
+        </div>
       </div>
       <div class="selected-text-container">
         <p *ngIf="selectedPartsInfoLabel"

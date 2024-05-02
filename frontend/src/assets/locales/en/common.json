@@ -12,6 +12,7 @@
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
+    "partMismatch": "Selected parts must have same owner to create quality topic (OWN, SUPPLIER)",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",

@@ -333,6 +333,10 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  openPublisherSideNav(): void{
+    this.isPublisherOpen$.next(true);
+  }
+
   navigateToNotificationCreationView() {
     this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
     this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: NotificationType.ALERT } });
