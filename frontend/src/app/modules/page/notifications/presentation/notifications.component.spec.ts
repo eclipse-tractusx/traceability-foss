@@ -26,7 +26,7 @@ import { renderComponent } from '@tests/test-render.utils';
 import { NotificationsComponent } from './notifications.component';
 
 
-fdescribe('NotificationsComponent', () => {
+describe('NotificationsComponent', () => {
   const renderNotifications = async () => {
     return await renderComponent(NotificationsComponent, {
       imports: [ NotificationsModule ],
