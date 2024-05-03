@@ -95,7 +95,7 @@ configuration:
       url: &portal_backend_url 'https://portal-backend.dev.demo.catena-x.net/api'
     discoveryFinderUrl: &discovery_finder_url 'https://tracex-discovery-mock-dev.dev.demo.catena-x.net/api/v1.0/administration/connectors/discovery/search'
     serviceAccount:
-      clientId: &service_account_id <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id> #sa267
+      clientId: &service_account_id <path:traceability-foss/data/dev/keycloak/oauth2#clientId> #sa81
       clientPassword: &service_account_password <path:traceability-foss/data/dev/keycloak/oauth2#clientSecret>
     auth:
       keycloakUrl: &portal_auth_keycloak_url <path:traceability-foss/data/test/frontend#catenax_portal_keycloak_url>
