@@ -64,7 +64,9 @@
     "delete": "Löschen",
     "goToQueue": "Zur Warteschlange",
     "goBack": "Zurück",
-    "publishAssets": "Produkte veröffentlichen"
+    "publishAssets": "Produkte veröffentlichen",
+    "maximizeTable": "Volle Breite",
+    "userSettings": "Tabellen Einstellung"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",

@@ -20,14 +20,39 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="table-header-wrapper">
   <div *ngIf="tableHeader" class="table-header-container">
-    <div class="large-text table--header--text">{{ tableHeader }}
-        <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
-          settings
-        </mat-icon>
+    <div class="large-text table--header--first--column">
+      <div class="text--container">
+      {{ tableHeader }}
+      </div>
 
-        <mat-icon (click)="maximizeClicked.emit(tableType)" class="table&#45;&#45;settings&#45;&#45;button ml-2">
-          crop_free
-        </mat-icon>
+      <div class="right-icon-container">
+      <div class="action-button-tile-usersettings"
+           matTooltip="{{'actions.userSettings'| i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500">
+        <app-button
+          iconName="settings"
+          class="action-button-tile ml-2"
+          (click)="openDialog()"
+        ></app-button>
+      </div>
+
+      <div class="action-button-tile-maximizeTable"
+           matTooltip="{{'actions.maximizeTable'| i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500">
+        <app-button
+          iconName="crop_free"
+          class="action-button-tile ml-2"
+          (click)="maximizeClickedMethod()"
+        ></app-button>
+      </div>
+
+      </div>
 </div>
 
     <div class="table--selected__container">

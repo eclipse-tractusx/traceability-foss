@@ -38,6 +38,7 @@ import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
+import { UserService } from '@core/user/user.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 import { Part } from '@page/parts/model/parts.model';
@@ -55,6 +56,7 @@ import {
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
+import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
 import { DeeplinkService } from '@shared/service/deeplink.service';
 // TODO
 // 1. Create alert, Create Investigation, Publish Asset buttons needs to be integrated in the html actions
@@ -127,6 +129,7 @@ export class PartsTableComponent implements OnInit {
 
   constructor(
     private readonly tableSettingsService: TableSettingsService,
+    public readonly userSettingsService: BomLifecycleSettingsService,
     private dialog: MatDialog,
     private router: Router,
     private deeplinkService: DeeplinkService,
@@ -134,6 +137,9 @@ export class PartsTableComponent implements OnInit {
   ) {
   }
 
+  public maximizeClickedMethod():void{
+    this.maximizeClicked.emit(this.tableType);
+  }
   public atLeastOneSelected(): boolean {
     return this.selection.selected?.length > 0;
   }
@@ -162,8 +168,8 @@ export class PartsTableComponent implements OnInit {
   }
 
   public publishIconClicked(): void {
-    console.log(this.isAllowedToPublish(), "allowedtopublish?");
-    console.log(this.atLeastOneSelected(), "at least one?");
+    console.log(this.isAllowedToPublish(), 'allowedtopublish?');
+    console.log(this.atLeastOneSelected(), 'at least one?');
     this.publishIconClickedEvent.emit();
   }
 
@@ -220,8 +226,6 @@ export class PartsTableComponent implements OnInit {
     });
     this.selection.changed.subscribe((change: SelectionChange<Part>) => {
       // Handle selection change here
-      console.log('Selection changed:', change);
-      console.log('all', this.selection.selected);
       if (this.isAllowedToCreateInvestigation()) {
         this.notificationType = NotificationType.INVESTIGATION;
       }
@@ -230,7 +234,9 @@ export class PartsTableComponent implements OnInit {
       } else {
         this.notificationType = null;
       }
+
     });
+
 
   }
 
@@ -368,4 +374,6 @@ export class PartsTableComponent implements OnInit {
   protected readonly TableType = TableType;
   protected readonly MainAspectType = MainAspectType;
   protected readonly NotificationType = NotificationType;
+  protected readonly UserService = UserService;
+  protected readonly UserSettingView = UserSettingView;
 }

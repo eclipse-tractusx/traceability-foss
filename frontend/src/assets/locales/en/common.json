@@ -62,7 +62,9 @@
     "delete": "Delete",
     "goToQueue": "Go to Queue",
     "goBack": "Back",
-    "publishAssets": "Publish assets"
+    "publishAssets": "Publish assets",
+    "maximizeTable": "Full width",
+    "userSettings": "Table settings"
   },
   "publisher": {
     "selectedAssets": "Assets selected",

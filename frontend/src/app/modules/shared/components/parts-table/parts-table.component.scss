@@ -32,7 +32,21 @@ table {
   @apply font-light;
 }
 
+.table--header--first--column{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
 
+  .right-icon-container{
+    display:flex;
+  }
+
+  .action-button-tile-maximizeTable.activated{
+      background:#9b9b9b!important;
+
+  }
+
+}
 
 
 
