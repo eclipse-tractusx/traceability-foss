@@ -162,6 +162,8 @@ export class PartsTableComponent implements OnInit {
   }
 
   public publishIconClicked(): void {
+    console.log(this.isAllowedToPublish(), "allowedtopublish?");
+    console.log(this.atLeastOneSelected(), "at least one?");
     this.publishIconClickedEvent.emit();
   }
 

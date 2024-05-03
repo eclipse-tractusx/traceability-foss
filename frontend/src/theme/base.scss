@@ -184,6 +184,10 @@ as-split {
 }
 
 app-parts{
+  .parts-search-input .mat-mdc-form-field-subscript-wrapper{
+    margin-bottom: -1.25em;
+
+  }
   .table-wrapper {
     @media screen and (max-height: 1049px) {
       height: 52vh !important;

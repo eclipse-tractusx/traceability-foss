@@ -24,6 +24,7 @@ SPDX-License-Identifier: Apache-2.0
         <mat-icon (click)="openDialog()" class="table&#45;&#45;settings&#45;&#45;button ml-2">
           settings
         </mat-icon>
+
         <mat-icon (click)="maximizeClicked.emit(tableType)" class="table&#45;&#45;settings&#45;&#45;button ml-2">
           crop_free
         </mat-icon>
@@ -31,51 +32,45 @@ SPDX-License-Identifier: Apache-2.0
 
     <div class="table--selected__container">
       <div class="icon-container">
-        <div
-          matTooltip="{{(!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() ? 'routing.partMismatch' : 'table.createNotification') | i18n}}"
-          matTooltipClass="table--header--tooltip"
-          matTooltipPosition="above"
-          [class.mdc-tooltip--multiline]="true"
-          [matTooltipShowDelay]="1000"
-        >
-          <mat-icon (click)="createQualityNotificationClicked()">
-            announcement
-          </mat-icon>
 
-        </div>
-        <div *ngIf="atLeastOneSelected()" matTooltip="{{'routing.unauthorized' | i18n}}"
+        <div class="action-button-tile"
+             matTooltip="{{(!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() ? 'routing.partMismatch' : 'table.createNotification') | i18n}}"
              matTooltipClass="table--header--tooltip"
              matTooltipPosition="above"
-             [matTooltipDisabled]="isAllowedToPublish()">
-      <mat-icon matTooltip="{{'actions.publishAssets' | i18n}}" [ngClass]="{ 'publish--disabled': !isAllowedToPublish() }" (click)="publishIconClicked()" class="publish--icon ml-2">
-        published_with_changes
-      </mat-icon>
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500"
+             [matTooltipDisabled]="isAllowedToPublish() && atLeastOneSelected()">
+          <app-button
+            iconName="announcement"
+            class="action-button-tile"
+            [isDisabled]="!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation()"
+            (click)="createQualityNotificationClicked()"
+          ></app-button>
         </div>
+
+
+        <div class="action-button-tile"
+             matTooltip="{{(isAllowedToPublish()  ? 'requestNotification.modifyNotAllowed' : 'routing.unauthorized') | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500"
+             [matTooltipDisabled]="isAllowedToPublish() && atLeastOneSelected()">
+          <app-button
+            iconName="published_with_changes"
+            class="action-button-tile"
+            matTooltip="{{'actions.publishAssets'| i18n}}"
+            [matTooltipShowDelay]="500"
+            matTooltipPosition="above"
+            [isDisabled]="!isAllowedToPublish() || !atLeastOneSelected()"
+            (click)="publishIconClicked()"
+          ></app-button>
+        </div>
+
       </div>
       <div class="selected-text-container">
         <p *ngIf="selectedPartsInfoLabel"
            class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
-      </div>
-      <div class="table--header--select--button"
-           matTooltip="{{(mainAspectType === MainAspectType.AS_PLANNED ? 'routing.notAllowedForAsPlanned' : 'routing.unauthorized') | i18n}}"
-           matTooltipClass="table--header--tooltip"
-           matTooltipPosition="above"
-           [class.mdc-tooltip--multiline]="true"
-           [matTooltipShowDelay]="1000"
-           [matTooltipDisabled]="roleService.hasAccess(['user','supervisor']) && mainAspectType === MainAspectType.AS_BUILT && tableType != TableType.AS_BUILT_CUSTOMER"
-      >
-        <app-button
-          *ngIf="selection?.selected?.length"
-          (click)="clickSelectAction.emit()"
-          [variant]="'raised'"
-          [color]="'accent'"
-          [isDisabled]="!roleService.hasAccess(['user','supervisor']) || mainAspectType === MainAspectType.AS_PLANNED || tableType === TableType.AS_BUILT_CUSTOMER"
-        >
-          <div class="flex justify-between items-center text-dark p-0.5">
-            <mat-icon class="mr-2">announcement</mat-icon>
-            {{ selectedPartsActionLabel | i18n }}
-          </div>
-        </app-button>
       </div>
     </div>
   </div>
