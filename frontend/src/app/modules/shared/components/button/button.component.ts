@@ -21,7 +21,7 @@
 
 import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
+
 
 type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
 
@@ -44,6 +44,5 @@ export class ButtonComponent {
   @Input() label: string;
   @Input() iconName: string;
   @Input() isDisabled: boolean = false;
-  protected readonly UserSettingView = UserSettingView;
   protected readonly TableType = TableType;
 }

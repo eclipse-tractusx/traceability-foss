@@ -31,24 +31,21 @@ export class BomLifecycleSettingsService {
     asBuiltSize: 50,
     asPlannedSize: 50,
   };
+  private PART_TABLE_KEY = 'PART';
 
-  getUserSettings(userSettingView: UserSettingView): BomLifecycleSize {
-    const settingsJson = localStorage.getItem(userSettingView.toString());
+  getUserSettings(): BomLifecycleSize {
+    const settingsJson = localStorage.getItem(this.PART_TABLE_KEY);
     if (settingsJson) {
       return JSON.parse(settingsJson);
     }
     return this.DEFAULT;
   };
 
-  setUserSettings(settings: BomLifecycleSize, userSettingView: UserSettingView): void {
-    localStorage.setItem(userSettingView.toString(), JSON.stringify(settings));
+  setUserSettings(settings: BomLifecycleSize): void {
+    localStorage.setItem(this.PART_TABLE_KEY, JSON.stringify(settings));
   }
 
-  clearUserSettings(userSettingView: UserSettingView): void {
-    localStorage.removeItem(userSettingView.toString());
+  clearUserSettings(): void {
+    localStorage.removeItem(this.PART_TABLE_KEY);
   }
-}
-
-export enum UserSettingView {
-  PARTS = 'parts', OTHER_PARTS = 'other_parts'
 }

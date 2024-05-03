@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { TestBed } from '@angular/core/testing';
-import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
+import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
 
 describe('BomLifecycleConfigUserSetting', () => {
 
@@ -30,8 +30,7 @@ describe('BomLifecycleConfigUserSetting', () => {
   });
 
   afterEach(() => {
-    service.clearUserSettings(UserSettingView.PARTS);
-    service.clearUserSettings(UserSettingView.OTHER_PARTS);
+    service.clearUserSettings();
   });
 
   it('should be created', () => {
@@ -39,7 +38,7 @@ describe('BomLifecycleConfigUserSetting', () => {
   });
 
   it('should return default settings when no settings are stored for PARTS', () => {
-    const defaultSettings = service.getUserSettings(UserSettingView.PARTS);
+    const defaultSettings = service.getUserSettings();
     expect(defaultSettings).toEqual({
       asBuiltSize: 50,
       asPlannedSize: 50,
@@ -51,8 +50,8 @@ describe('BomLifecycleConfigUserSetting', () => {
       asBuiltSize: 0,
       asPlannedSize: 100,
     };
-    service.setUserSettings(newSettings, UserSettingView.PARTS);
-    const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
+    service.setUserSettings(newSettings);
+    const retrievedSettings = service.getUserSettings();
     expect(retrievedSettings).toEqual(newSettings);
   });
 
@@ -61,9 +60,9 @@ describe('BomLifecycleConfigUserSetting', () => {
       asBuiltSize: 0,
       asPlannedSize: 100,
     };
-    service.setUserSettings(newSettings, UserSettingView.PARTS);
-    service.clearUserSettings(UserSettingView.PARTS);
-    const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
+    service.setUserSettings(newSettings);
+    service.clearUserSettings();
+    const retrievedSettings = service.getUserSettings();
     expect(retrievedSettings).toEqual({
       asBuiltSize: 50,
       asPlannedSize: 50,

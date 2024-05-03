@@ -42,7 +42,7 @@ import { setMultiSorting } from '@shared/helper/table-helper';
 import { NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
+import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -106,7 +106,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings(UserSettingView.PARTS);
+  public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings();
 
   public searchFormGroup = new FormGroup({});
   public searchControl: FormControl;
@@ -128,7 +128,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       asBuiltSize: data.sizes[0],
       asPlannedSize: data.sizes[1],
     };
-    this.userSettingService.setUserSettings(this.bomLifecycleSize, UserSettingView.PARTS);
+    this.userSettingService.setUserSettings(this.bomLifecycleSize);
   }
 
   maximizeClicked(tableType: TableType) {
@@ -144,7 +144,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
           asPlannedSize: 0,
         };
       }
-      this.userSettingService.setUserSettings(this.bomLifecycleSize, UserSettingView.PARTS);
+      this.userSettingService.setUserSettings(this.bomLifecycleSize);
     }
 
     if (tableType === TableType.AS_PLANNED_OWN) {
@@ -159,7 +159,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
           asPlannedSize: 100,
         };
       }
-      this.userSettingService.setUserSettings(this.bomLifecycleSize, UserSettingView.PARTS);
+      this.userSettingService.setUserSettings(this.bomLifecycleSize);
     }
   }
 
@@ -189,7 +189,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
   }
-
 
   updatePartsByOwner(owner: Owner) {
     this.resetFilterAndShowToast();
@@ -336,22 +335,22 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  openPublisherSideNav(): void{
+  openPublisherSideNav(): void {
     this.isPublisherOpen$.next(true);
   }
 
   navigateToNotificationCreationView(type?: NotificationType) {
-    console.log(type, "type");
+    console.log(type, 'type');
     this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
-    console.log(this.sharedPartService.affectedParts, "parts?");
-    if (this.sharedPartService?.affectedParts.length > 0 && type){
-      this.router.navigate([ 'inbox/create' ], { queryParams: { initialType:  type } });
+    console.log(this.sharedPartService.affectedParts, 'parts?');
+    if (this.sharedPartService?.affectedParts.length > 0 && type) {
+      this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: type } });
     } else {
       this.router.navigate([ 'inbox/create' ]);
     }
   }
 
-  protected readonly UserSettingView = UserSettingView;
+
   protected readonly TableType = TableType;
   protected readonly MainAspectType = MainAspectType;
   protected readonly NotificationType = NotificationType;
