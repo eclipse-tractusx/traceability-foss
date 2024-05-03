@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.irs.component.Relationship;
 import org.eclipse.tractusx.irs.component.enums.Direction;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -44,7 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -70,7 +68,6 @@ public class AssetMapperFactory {
 
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
 
-        Map<String, String> bpnMap = extractBpnMap(irsResponse);
 
         List<DetailAspectModel> tractionBatteryCode = extractTractionBatteryCode(irsResponse);
 
@@ -79,13 +76,12 @@ public class AssetMapperFactory {
         if (tombstones != null) {
             log.info("Found {} tombstones", tombstones.size());
         }
-        return toAssetBase(irsResponse, descriptionMap, bpnMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
+        return toAssetBase(irsResponse, descriptionMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
     }
 
     @NotNull
     private List<AssetBase> toAssetBase(IRSResponse irsResponse,
-                                        Map<String, List<Descriptions>> descriptionMap,
-                                        Map<String, String> bpnMap, List<DetailAspectModel> tractionBatteryCode,
+                                        Map<String, List<Descriptions>> descriptionMap, List<DetailAspectModel> tractionBatteryCode,
                                         List<DetailAspectModel> partSiteInformationAsPlanned,
                                         List<AssetBase> tombstones) {
         List<AssetBase> submodelAssets = new ArrayList<>(irsResponse
@@ -100,7 +96,7 @@ public class AssetMapperFactory {
                         assetBase.setContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
 
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
-                        enrichManufacturingInformation(irsResponse, bpnMap, assetBase, bpnService);
+                        enrichManufacturingInformation(irsResponse, assetBase, bpnService);
                         enrichAssetBase(tractionBatteryCode, assetBase);
                         enrichAssetBase(partSiteInformationAsPlanned, assetBase);
 
@@ -140,20 +136,6 @@ public class AssetMapperFactory {
                 })
                 .filter(Objects::nonNull)
                 .toList();
-    }
-
-    @NotNull
-    public static Map<String, String> extractBpnMap(IRSResponse irsResponse) {
-        return irsResponse
-                .bpns()
-                .stream()
-                .map(bpn -> {
-                    Bpn bpn1 = Bpn.withManufacturerId(bpn.getManufacturerId());
-                    bpn1.updateManufacturerName(bpn.getManufacturerName());
-                    return bpn1;
-                }).filter(bpn -> bpn.getManufacturerName() != null)
-                .collect(Collectors.toMap(Bpn::getManufacturerId,
-                        Bpn::getManufacturerName));
     }
 
     private static void enrichUpwardAndDownwardDescriptions(Map<String, List<Descriptions>> descriptionsMap, AssetBase assetBase) {

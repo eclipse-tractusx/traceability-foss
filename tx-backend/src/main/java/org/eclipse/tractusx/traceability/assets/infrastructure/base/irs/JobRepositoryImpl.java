@@ -40,13 +40,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory.extractBpnMap;
 
 @Slf4j
 @Service
@@ -106,13 +104,6 @@ public class JobRepositoryImpl implements JobRepository {
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponseIRS.jobStatus().globalAssetId(), jobResponseIRS.jobStatus().state(), runtime);
 
         if (jobCompleted(jobResponseIRS.jobStatus())) {
-            try {
-                Map<String, String> bpnMap = extractBpnMap(jobResponseIRS);
-                bpnRepository.updateManufacturers(bpnMap);
-            } catch (Exception e) {
-                log.warn("BPN Mapping Exception", e);
-            }
-
             List<AssetBase> assets = assetMapperFactory.mapToAssetBaseList(jobResponseIRS);
 
             assets.forEach(assetBase -> {

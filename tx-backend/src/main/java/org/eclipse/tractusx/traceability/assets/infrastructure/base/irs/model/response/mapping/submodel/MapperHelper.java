@@ -72,7 +72,7 @@ public class MapperHelper {
                 .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
     }
 
-    public static void enrichManufacturingInformation(IRSResponse irsResponse, Map<String, String> bpnMap, AssetBase assetBase, BpnService bpnService) {
+    public static void enrichManufacturingInformation(IRSResponse irsResponse, AssetBase assetBase, BpnService bpnService) {
         if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
             String bpn = irsResponse.jobStatus().parameter().bpn();
             assetBase.setManufacturerId(bpn);
