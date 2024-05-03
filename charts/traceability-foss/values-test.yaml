@@ -260,6 +260,8 @@ irs-helm:
     descriptorEndpoint: *dtr_shell_descriptor_url
     shellLookupEndpoint: *dtr_shell_lookup_url
 
+  semanticshub:
+    url: *semantichub_models_url
   bpdm:
     url: *partners_pool_url
 
