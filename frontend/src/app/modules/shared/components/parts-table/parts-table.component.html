@@ -58,7 +58,7 @@ SPDX-License-Identifier: Apache-2.0
     <div class="table--selected__container">
       <div class="icon-container">
 
-        <div class="action-button-tile"
+        <div *ngIf="tableType === TableType.AS_BUILT_OWN" class="action-button-tile"
              matTooltip="{{(!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() ? 'routing.partMismatch' : 'table.createNotification') | i18n}}"
              matTooltipClass="table--header--tooltip"
              matTooltipPosition="above"

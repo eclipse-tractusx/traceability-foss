@@ -38,6 +38,7 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { toAssetFilter } from '@shared/helper/filter-helper';
 import { Notification, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { Location } from '@angular/common';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 
@@ -89,6 +90,7 @@ export class NotificationEditComponent implements OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
     private readonly sharedPartService: SharedPartService,
+    private location: Location
   ) {
     this.editMode = this.determineEditModeOrCreateMode();
 
@@ -223,7 +225,7 @@ export class NotificationEditComponent implements OnDestroy {
     if (this.editMode) {
       this.notificationsFacade.editNotification(this.selectedNotification.id, title, bpn, severity, targetDate, description, this.affectedPartIds).subscribe({
         next: () => {
-          this.navigateBackToNotifications();
+          this.navigateBack();
           this.toastService.success('requestNotification.saveEditSuccess');
           this.updateSelectedNotificationState();
         },
@@ -233,7 +235,7 @@ export class NotificationEditComponent implements OnDestroy {
       this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
         next: () => {
           this.toastService.success('requestNotification.saveSuccess');
-          this.navigateBackToNotifications();
+          this.navigateBack();
           this.updateSelectedNotificationState();
         },
         error: () => this.toastService.error('requestNotification.saveError'),
@@ -301,14 +303,8 @@ export class NotificationEditComponent implements OnDestroy {
   }
 
 
-  public navigateBackToNotifications(): void {
-    const { link } = getRoute(NOTIFICATION_BASE_ROUTE);
-    this.router.navigate([ `/${ link }` ], {
-      queryParams: {
-        tabIndex: this.originTabIndex,
-        pageNumber: this.originPageNumber,
-      },
-    });
+  public navigateBack(): void {
+    this.location.back();
   }
 
   private getNotificationByIdAndSelectNotificationAndLoadPartsBasedOnNotification(): void {
