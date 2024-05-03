@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Owner } from '@page/parts/model/owner.enum';
 
 @Component({
@@ -30,7 +30,7 @@ export class QuickFilterComponent {
   @Output() buttonClickEvent = new EventEmitter<Owner>();
 
   emitQuickFilter(owner: Owner) {
-    if (this.owner === owner){
+    if (this.owner === owner) {
       this.owner = Owner.UNKNOWN;
     } else {
       this.owner = owner;

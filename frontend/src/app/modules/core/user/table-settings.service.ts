@@ -22,11 +22,7 @@ import { TableType } from '@shared/components/multi-select-autocomplete/table-ty
 import { NotificationsReceivedConfigurationModel } from '@shared/components/parts-table/notifications-received-configuration.model';
 import { NotificationsSentConfigurationModel } from '@shared/components/parts-table/notifications-sent-configuration.model';
 import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
-import { PartsAsBuiltCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-built-customer-configuration.model';
-import { PartsAsBuiltSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-built-supplier-configuration.model';
 import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
-import { PartsAsPlannedCustomerConfigurationModel } from '@shared/components/parts-table/parts-as-planned-customer-configuration.model';
-import { PartsAsPlannedSupplierConfigurationModel } from '@shared/components/parts-table/parts-as-planned-supplier-configuration.model';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Subject } from 'rxjs';
@@ -108,18 +104,10 @@ export class TableSettingsService {
 
   initializeTableViewSettings(tableType: TableType): TableViewConfig {
     switch (tableType) {
-      case TableType.AS_PLANNED_CUSTOMER:
-        return new PartsAsPlannedCustomerConfigurationModel().filterConfiguration();
       case TableType.AS_PLANNED_OWN:
         return new PartsAsPlannedConfigurationModel().filterConfiguration();
-      case TableType.AS_PLANNED_SUPPLIER:
-        return new PartsAsPlannedSupplierConfigurationModel().filterConfiguration();
       case TableType.AS_BUILT_OWN:
         return new PartsAsBuiltConfigurationModel().filterConfiguration();
-      case TableType.AS_BUILT_CUSTOMER:
-        return new PartsAsBuiltCustomerConfigurationModel().filterConfiguration();
-      case TableType.AS_BUILT_SUPPLIER:
-        return new PartsAsBuiltSupplierConfigurationModel().filterConfiguration();
       case TableType.SENT_NOTIFICATION:
         return new NotificationsSentConfigurationModel().filterConfiguration();
       case TableType.RECEIVED_NOTIFICATION:

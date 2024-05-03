@@ -16,7 +16,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { Owner } from '@page/parts/model/owner.enum';
 import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
 export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {

@@ -18,7 +18,6 @@
  ********************************************************************************/
 import { Pipe, PipeTransform } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
-import { Owner } from '@page/parts/model/owner.enum';
 import { SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 
 @Pipe({

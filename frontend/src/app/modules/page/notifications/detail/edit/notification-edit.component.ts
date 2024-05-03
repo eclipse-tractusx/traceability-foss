@@ -75,7 +75,7 @@ export class NotificationEditComponent implements OnDestroy {
   private originTabIndex: number;
 
   public selectedNotification: Notification;
-  public tableType: TableType;
+
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
   isSaveButtonDisabled: boolean;
@@ -118,8 +118,6 @@ export class NotificationEditComponent implements OnDestroy {
 
   private handleEditNotification() {
     if (this.notificationDetailFacade.selected?.data) {
-      this.tableType = this.notificationDetailFacade.selected.data.type === NotificationType.INVESTIGATION ? TableType.AS_BUILT_SUPPLIER : TableType.AS_BUILT_OWN;
-
       this.selectNotificationAndLoadPartsBasedOnNotification(this.notificationDetailFacade.selected.data);
     } else {
       this.getNotificationByIdAndSelectNotificationAndLoadPartsBasedOnNotification();
@@ -327,7 +325,6 @@ export class NotificationEditComponent implements OnDestroy {
     this.selectedNotification = notification;
 
     this.affectedPartIds = notification.assetIds;
-    this.tableType = notification.type === NotificationType.INVESTIGATION ? TableType.AS_BUILT_SUPPLIER : TableType.AS_BUILT_OWN;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
     this.affectedPartsAsBuilt$ = this.ownPartsFacade.partsAsBuiltSecond$;

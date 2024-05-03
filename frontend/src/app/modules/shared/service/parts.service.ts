@@ -56,7 +56,7 @@ export class PartsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
- /*     .set('filter', 'owner,EQUAL,OWN,AND');*/
+
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
     });
@@ -77,7 +77,6 @@ export class PartsService {
     let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-   /*   .set('filter', 'owner,EQUAL,OWN,AND');*/
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
@@ -136,13 +135,12 @@ export class PartsService {
 
   }
 
-  public getDistinctFilterValues(isAsBuilt: boolean, owner: Owner, fieldNames: string, startsWith: string) {
+  public getDistinctFilterValues(isAsBuilt: boolean, fieldNames: string, startsWith: string) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     let params = new HttpParams()
       .set('fieldName', mappedFieldName)
       .set('startWith', startsWith)
       .set('size', 200)
-      .set('owner', owner);
 
 
     if (isAsBuilt) {

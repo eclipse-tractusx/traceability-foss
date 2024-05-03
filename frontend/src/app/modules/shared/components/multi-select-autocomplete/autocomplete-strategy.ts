@@ -39,11 +39,9 @@ export class PartsStrategy extends AutocompleteStrategy {
   }
 
   retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
-    const tableOwner = getOwnerOfTable(tableType);
     const asBuilt = isAsBuilt(tableType);
     return this.partsService.getDistinctFilterValues(
       asBuilt,
-      tableOwner,
       filterColumns,
       searchElement,
     );
@@ -92,30 +90,15 @@ export class ContractsStrategy extends AutocompleteStrategy {
 
 export const AutocompleteStrategyMap = new Map<TableType, any>([
   [ TableType.AS_BUILT_OWN, PartsStrategy ],
-  [ TableType.AS_BUILT_SUPPLIER, PartsStrategy ],
-  [ TableType.AS_BUILT_CUSTOMER, PartsStrategy ],
   [ TableType.AS_PLANNED_OWN, PartsStrategy ],
-  [ TableType.AS_PLANNED_CUSTOMER, PartsStrategy ],
-  [ TableType.AS_PLANNED_SUPPLIER, PartsStrategy ],
   [ TableType.RECEIVED_NOTIFICATION, NotificationStrategy ],
   [ TableType.SENT_NOTIFICATION, NotificationStrategy ],
   [ TableType.CONTRACTS, ContractsStrategy ],
 ]);
 
-export function getOwnerOfTable(tableType: TableType): Owner {
-  if (tableType === TableType.AS_BUILT_OWN || tableType === TableType.AS_PLANNED_OWN) {
-    return Owner.OWN;
-  } else if (tableType === TableType.AS_BUILT_CUSTOMER || tableType === TableType.AS_PLANNED_CUSTOMER) {
-    return Owner.CUSTOMER;
-  } else if (tableType === TableType.AS_BUILT_SUPPLIER || tableType === TableType.AS_PLANNED_SUPPLIER) {
-    return Owner.SUPPLIER;
-  } else {
-    return Owner.UNKNOWN;
-  }
-}
 
 export function isAsBuilt(tableType: TableType): boolean {
-  const isAsBuiltElement = [ TableType.AS_BUILT_SUPPLIER, TableType.AS_BUILT_OWN, TableType.AS_BUILT_CUSTOMER ];
+  const isAsBuiltElement = [ TableType.AS_BUILT_OWN ];
   return isAsBuiltElement.includes(tableType);
 }
 
