@@ -31,7 +31,7 @@ dependencies:
     repository: https://helm.runix.net
     version: 1.23.1
     condition: pgadmin4.enabled
-  - name: item-relationship-service
+  - name: irs-helm
     repository: https://eclipse-tractusx.github.io/item-relationship-service
     version: 6.18.0
     condition: irs-helm.enabled
