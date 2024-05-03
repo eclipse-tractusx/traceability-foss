@@ -20,8 +20,11 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="parts-table-container">
-  <div class="searchbar-wrapper">
-    <div class="searchbar-container" [formGroup]="searchFormGroup">
+  <div class="search--and--quick--filter--wrapper">
+    <div class="quick--filter--wrapper">
+      <app-quick-filter (buttonClickEvent)="updatePartsByOwner($event)"></app-quick-filter>
+    </div>
+    <div class="searchbar--container" [formGroup]="searchFormGroup">
       <app-input
         [label]="'parts.input.global-search.placeholder' | i18n"
         [suffixIconHover]="true"
@@ -37,9 +40,7 @@ SPDX-License-Identifier: Apache-2.0
       ></app-input>
     </div>
   </div>
-  <div class="app-bom-lifecycle-activator-container">
-    <app-quick-filter (buttonClickEvent)="updatePartsByOwner($event)"></app-quick-filter>
-  </div>
+
   <div class="split-container-wrapper">
     <as-split  (dragEnd)="splitAreaChanged($event)" direction="horizontal" class="split-container">
       <as-split-area  data-testid="as-split-area-1-component--test-id"  [size]="bomLifecycleSize.asBuiltSize"

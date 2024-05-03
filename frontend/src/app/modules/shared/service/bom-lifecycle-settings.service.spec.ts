@@ -41,23 +41,15 @@ describe('BomLifecycleConfigUserSetting', () => {
   it('should return default settings when no settings are stored for PARTS', () => {
     const defaultSettings = service.getUserSettings(UserSettingView.PARTS);
     expect(defaultSettings).toEqual({
-      asBuiltActive: true,
-      asPlannedActive: true,
-    });
-  });
-
-  it('should return default settings when no settings are stored for OTHER_PARTS', () => {
-    const defaultSettings = service.getUserSettings(UserSettingView.OTHER_PARTS);
-    expect(defaultSettings).toEqual({
-      asBuiltActive: true,
-      asPlannedActive: true,
+      asBuiltSize: 50,
+      asPlannedSize: 50,
     });
   });
 
   it('should store and retrieve user settings', () => {
     const newSettings = {
-      asBuiltActive: false,
-      asPlannedActive: true,
+      asBuiltSize: 0,
+      asPlannedSize: 100,
     };
     service.setUserSettings(newSettings, UserSettingView.PARTS);
     const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
@@ -66,15 +58,15 @@ describe('BomLifecycleConfigUserSetting', () => {
 
   it('should clear user settings', () => {
     const newSettings = {
-      asBuiltActive: false,
-      asPlannedActive: true,
+      asBuiltSize: 0,
+      asPlannedSize: 100,
     };
     service.setUserSettings(newSettings, UserSettingView.PARTS);
     service.clearUserSettings(UserSettingView.PARTS);
     const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
     expect(retrievedSettings).toEqual({
-      asBuiltActive: true,
-      asPlannedActive: true,
+      asBuiltSize: 0,
+      asPlannedSize: 100,
     });
   });
 

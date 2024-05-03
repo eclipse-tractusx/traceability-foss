@@ -22,7 +22,6 @@
 import {LayoutModule} from '@layout/layout.module';
 import {SidenavComponent} from '@layout/sidenav/sidenav.component';
 import {SidenavService} from '@layout/sidenav/sidenav.service';
-import {OtherPartsModule} from '@page/other-parts/other-parts.module';
 import {AssetAsBuiltFilter, AssetAsPlannedFilter} from '@page/parts/model/parts.model';
 import {PartsComponent} from '@page/parts/presentation/parts.component';
 import {TableHeaderSort} from '@shared/components/table/table.model';
@@ -39,7 +38,7 @@ describe('Parts', () => {
 
     return renderComponent(PartsComponent, {
       declarations: [ SidenavComponent ],
-      imports: [ PartsModule, SharedModule, LayoutModule, OtherPartsModule ],
+      imports: [ PartsModule, SharedModule, LayoutModule],
       providers: [ { provide: SidenavService }, { provide: PartDetailsFacade } ],
       roles: [ 'admin', 'wip' ],
     });

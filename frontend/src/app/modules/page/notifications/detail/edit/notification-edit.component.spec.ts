@@ -24,9 +24,6 @@ import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configu
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
 import { NotificationsModule } from '@page/notifications/notifications.module';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
-import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
@@ -56,9 +53,6 @@ describe('NotificationEditComponent', () => {
       imports: [ NotificationsModule ],
       providers: [
         NotificationService,
-        OtherPartsFacade,
-        OtherPartsService,
-        OtherPartsState,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -233,8 +227,8 @@ describe('NotificationEditComponent', () => {
     componentInstance.affectedPartIds= ['1'];
 
 
-    spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuilt');
-    spyOn(componentInstance['partsFacade'], 'setSupplierPartsAsBuiltSecond');
+    spyOn(componentInstance['partsFacade'], 'setPartsAsBuilt');
+    spyOn(componentInstance['partsFacade'], 'setPartsAsBuiltSecond');
     componentInstance['setAvailablePartsBasedOnNotificationType'](notification, assetFilterAvailable);
     componentInstance['setAffectedPartsBasedOnNotificationType'](notification, assetFilterAffected);
 

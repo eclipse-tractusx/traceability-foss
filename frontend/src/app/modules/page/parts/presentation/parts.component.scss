@@ -21,7 +21,20 @@
 
 .parts-table-container {
   width: 100%;
+
+  .search--and--quick--filter--wrapper {
+    display: flex;
+  }
+  .quick--filter--wrapper{
+  }
+  .searchbar--container{
+    flex-grow: 1;
+  }
+
+
 }
+
+
 
 
 
