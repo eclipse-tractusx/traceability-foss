@@ -210,6 +210,9 @@ export class PartsTableComponent implements OnInit {
     return isDateFilter(key);
   }
 
+  public isOwner(key: string) {
+    return key === "owner";
+  }
   private pageSize: number;
   private sorting: TableHeaderSort;
 

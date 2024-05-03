@@ -85,6 +85,11 @@
     "clearAll": "Alle Markierungen aufheben",
     "multiSortingTooltip": "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
     "filterTitle" : "Filter",
+    "owner": {
+      "own": "Eigen",
+      "supplier": "Lieferant",
+      "customer": "Kunde"
+    },
     "tableSettings": {
       "invalid": "Auf Grund eines Fehlers werden die Tabelleneinstellungen zurückgesetzt",
       "title": "Tabellenspalten Einstellungen",

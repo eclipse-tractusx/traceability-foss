@@ -292,8 +292,16 @@ SPDX-License-Identifier: Apache-2.0
   </span>
 </ng-template>
 
+                          <ng-template #ownerElement>
+  <ng-container *ngIf="isOwner(column); else autoFormatRef">
+
+      {{'table.owner.' + element[column]?.toLowerCase() | i18n}}
+
+  </ng-container>
+</ng-template>
+
 <ng-template #notificationCountElement>
-  <ng-container *ngIf="isNotificationCountColumn(column); else autoFormatRef">
+  <ng-container *ngIf="isNotificationCountColumn(column); else ownerElement">
     <span (click)="deeplinkToNotification(column, element[column])"
           class="table--notification--cell--notification--count">
       {{ element[column]?.length }}

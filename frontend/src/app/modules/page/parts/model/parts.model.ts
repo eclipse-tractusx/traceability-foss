@@ -132,6 +132,7 @@ export enum SemanticDataModelInCamelCase {
   UNKNOWN = 'Unknown'
 }
 
+
 export interface Relation {
   id: string;
   idShort: string;

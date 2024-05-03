@@ -18,6 +18,7 @@
  ********************************************************************************/
 import { Pipe, PipeTransform } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
+import { Owner } from '@page/parts/model/owner.enum';
 import { SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 
 @Pipe({
@@ -28,7 +29,6 @@ export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTra
   transform(value: Pagination<any>): Pagination<any> {
     const transformedContent = value.content.map(part => {
       switch (part.semanticDataModel.toString().toLowerCase()) {
-
         case 'batch': {
           part.semanticDataModel = SemanticDataModelInCamelCase.BATCH;
           break;
@@ -49,7 +49,6 @@ export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTra
           part.semanticDataModel = SemanticDataModelInCamelCase.UNKNOWN;
           break;
         }
-
       }
       return {
         ...part,

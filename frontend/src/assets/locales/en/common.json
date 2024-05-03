@@ -83,6 +83,11 @@
     "clearAll": "Clear all selections",
     "multiSortingTooltip": "First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click: reset sorting",
     "filterTitle": "Filter",
+    "owner": {
+      "own": "Own",
+      "supplier": "Supplier",
+      "customer": "Customer"
+    },
     "tableSettings": {
       "invalid": "Due to an error table settings have been reset",
       "title": "Table column settings",
