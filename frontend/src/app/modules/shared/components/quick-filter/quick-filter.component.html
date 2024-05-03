@@ -19,17 +19,23 @@ SPDX-License-Identifier: Apache-2.0
 <div class="button-container">
   <app-view-selector data-testid="as-built-button"
                      [isSelected]="owner === Owner.OWN"
-                     label="Own Activator" variant="flat" color="accent" (click)="emitQuickFilter(Owner.OWN)">
+                     label="Own Activator" variant="flat" color="accent"
+                     (click)="emitQuickFilter(Owner.OWN)"
+                     (keydown)="handleKeyDownByOwner($event, Owner.OWN)">
     {{ 'quickFilter.own' | i18n }}
   </app-view-selector>
   <app-view-selector data-testid="as-built-button"
                      [isSelected]="owner === Owner.SUPPLIER"
-                     label="Supplier activator" variant="flat" color="accent" (click)="emitQuickFilter(Owner.SUPPLIER)">
+                     label="Supplier activator" variant="flat" color="accent"
+                     (click)="emitQuickFilter(Owner.SUPPLIER)"
+                     (keydown)="handleKeyDownByOwner($event, Owner.SUPPLIER)">
     {{ 'quickFilter.supplier' | i18n }}
   </app-view-selector>
   <app-view-selector data-testid="as-built-button"
                      [isSelected]="owner === Owner.CUSTOMER"
-                     label="Customer Activator" variant="flat" color="accent" (click)="emitQuickFilter(Owner.CUSTOMER)">
+                     label="Customer Activator" variant="flat" color="accent"
+                     (click)="emitQuickFilter(Owner.CUSTOMER)"
+                     (keydown)="handleKeyDownByOwner($event, Owner.CUSTOMER)">
     {{ 'quickFilter.customer' | i18n }}
   </app-view-selector>
 </div>

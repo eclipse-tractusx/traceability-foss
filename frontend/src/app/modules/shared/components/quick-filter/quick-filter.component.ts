@@ -39,5 +39,12 @@ export class QuickFilterComponent {
   }
 
 
+  handleKeyDownByOwner(event: KeyboardEvent, owner: Owner) {
+    if (event.key === 'Enter') {
+      this.emitQuickFilter(owner);
+    }
+  }
+
+
   protected readonly Owner = Owner;
 }
