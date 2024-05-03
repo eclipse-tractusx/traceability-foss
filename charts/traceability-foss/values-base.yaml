@@ -344,15 +344,6 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
-    ssi:
-      miw:
-        url: 'CHANGE_ME'
-        authorityId: 'CHANGE_ME'
-      oauth:
-        tokenurl: 'CHANGE_ME'
-        client:
-          id: 'CHANGE_ME'
-          secretAlias: 'CHANGE_ME'
 
     endpoints:
       # -- default api for health checks, should not be added to any ingress

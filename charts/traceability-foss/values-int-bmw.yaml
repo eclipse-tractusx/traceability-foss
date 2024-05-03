@@ -96,13 +96,6 @@ configuration:
       tokenUri: &central_idp_token_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
       jwkUri: &central_idp_jwk_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
       resourceClient: &central_idp_resource_client 'app398'
-    miw:
-      url: &portal_miw_url <path:traceability-foss/data/int-bmw/edc/wallet#ssi.miw.url>
-      authorityId: &portal_miw_authorityid <path:traceability-foss/data/int-bmw/edc/wallet#ssi.miw.authorityId>
-      oauth:
-        client:
-          id: &portal_miw_client_id <path:traceability-foss/data/int-bmw/edc/wallet#ssi.oauth.client.id> # sa662
-          secretAlias: &portal_miw_client_secret_alias edc-miw-keycloak-secret-int-bmw
 
   semanticHub: &semantichub_models_url 'https://semantics.int.demo.catena-x.net/hub/api/v1/models'
 
@@ -321,15 +314,6 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
-    ssi:
-      miw:
-        url: *portal_miw_url
-        authorityId: *portal_miw_authorityid
-      oauth:
-        tokenurl: *central_idp_token_uri
-        client:
-          id: *portal_miw_client_id
-          secretAlias: *portal_miw_client_secret_alias
     endpoints:
       management:
         authKey: *edc_api_key

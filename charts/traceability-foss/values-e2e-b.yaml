@@ -101,13 +101,6 @@ configuration:
       keycloakUrl: &portal_auth_keycloak_url <path:traceability-foss/data/e2e/b/frontend#catenax_portal_keycloak_url>
       tokenUri: &central_idp_token_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
       resourceClient: &central_idp_resource_client 'Cl17-CX-Part' # proposal for removing this from vault or changing path to oauth folder to reuse for both BE and FE preferable changing vault
-    miw:
-      url: &portal_miw_url <path:traceability-foss/data/e2e-b/edc-consumer/wallet#ssi.miw.url>
-      authorityId: &portal_miw_authorityid <path:traceability-foss/data/e2e-b/edc-consumer/wallet#ssi.miw.authorityId>
-      oauth:
-        client:
-          id: &portal_miw_client_id <path:traceability-foss/data/e2e-b/edc-consumer/wallet#ssi.oauth.client.id> # sa673
-          secretAlias: &portal_miw_client_secret_alias edc-miw-keycloak-secret-e2e-b-consumer
 
   semanticHub: &semantichub_models_url 'https://semantics.int.demo.catena-x.net/hub/api/v1/models'
 
@@ -330,15 +323,6 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
-    ssi:
-      miw:
-        url: *portal_miw_url
-        authorityId: *portal_miw_authorityid
-      oauth:
-        tokenurl: *central_idp_token_uri
-        client:
-          id: *portal_miw_client_id
-          secretAlias: *portal_miw_client_secret_alias
     endpoints:
       management:
         authKey: *edc_api_key

@@ -30,16 +30,6 @@ tractusx-connector:
           enabled: true
           secretName: tls-secret
 
-    ssi:
-      miw:
-        url: <path:traceability-foss/data/dev-b/edc-provider/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/dev-b/edc-provider/wallet#ssi.miw.authorityId>
-      oauth:
-        tokenurl: <path:traceability-foss/data/dev-b/edc-provider/wallet#ssi.oauth.tokenurl>
-        client:
-          id: <path:traceability-foss/data/e2e-b/edc-provider/wallet#ssi.oauth.client.id> # sa674
-          secretAlias: edc-miw-keycloak-secret-e2e-b-provider
-
     resources:
       limits:
         cpu: 400m
