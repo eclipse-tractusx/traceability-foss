@@ -1928,22 +1928,28 @@
   ],
   "bpns": [
     {
-      "manufacturerId": "BPNL00000003AYRE"
+      "manufacturerId": "BPNL00000003AYRE",
+      "manufacturerName": "Manufacturer Name 1"
     },
     {
-      "manufacturerId": "BPNL00000003B5MJ"
+      "manufacturerId": "BPNL00000003B5MJ",
+      "manufacturerName": "Manufacturer Name 2"
     },
     {
-      "manufacturerId": "BPNL00000003B2OM"
+      "manufacturerId": "BPNL00000003B2OM",
+      "manufacturerName": "Manufacturer Name 3"
     },
     {
-      "manufacturerId": "BPNL00000003B0Q0"
+      "manufacturerId": "BPNL00000003B0Q0",
+      "manufacturerName": "Manufacturer Name 4"
     },
     {
-      "manufacturerId": "BPNL00000003AXS3"
+      "manufacturerId": "BPNL00000003AXS3",
+      "manufacturerName": "Manufacturer Name 5"
     },
     {
-      "manufacturerId": "BPNL00000003B3NX"
+      "manufacturerId": "BPNL00000003B3NX",
+      "manufacturerName": "Manufacturer Name 6"
     }
   ]
 }
