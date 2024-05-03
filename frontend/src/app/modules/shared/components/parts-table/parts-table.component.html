@@ -36,6 +36,7 @@ SPDX-License-Identifier: Apache-2.0
           iconName="settings"
           class="action-button-tile ml-2"
           (click)="openDialog()"
+          (keydown)="handleKeyDownOpenDialog($event)"
         ></app-button>
       </div>
 
@@ -49,6 +50,7 @@ SPDX-License-Identifier: Apache-2.0
           iconName="crop_free"
           class="action-button-tile ml-2"
           (click)="maximizeClickedMethod()"
+          (keydown)="handleKeyDownMaximizedClickedMethod($event)"
         ></app-button>
       </div>
 
@@ -70,6 +72,7 @@ SPDX-License-Identifier: Apache-2.0
             class="action-button-tile"
             [isDisabled]="!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation()"
             (click)="createQualityNotificationClicked()"
+            (keydown)="handleKeyDownQualityNotificationClicked($event)"
           ></app-button>
         </div>
 
@@ -89,6 +92,7 @@ SPDX-License-Identifier: Apache-2.0
             matTooltipPosition="above"
             [isDisabled]="!isAllowedToPublish() || !atLeastOneSelected()"
             (click)="publishIconClicked()"
+            (keydown)="handleKeyDownPublishIconClicked($event)"
           ></app-button>
         </div>
 

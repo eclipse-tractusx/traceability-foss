@@ -17,10 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { Location } from '@angular/common';
 import { Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
 import { Pagination } from '@core/model/pagination.model';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
@@ -38,7 +38,6 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { toAssetFilter } from '@shared/helper/filter-helper';
 import { Notification, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { Location } from '@angular/common';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 
@@ -90,7 +89,7 @@ export class NotificationEditComponent implements OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
     private readonly sharedPartService: SharedPartService,
-    private location: Location
+    private location: Location,
   ) {
     this.editMode = this.determineEditModeOrCreateMode();
 

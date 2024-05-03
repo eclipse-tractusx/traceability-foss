@@ -137,9 +137,22 @@ export class PartsTableComponent implements OnInit {
   ) {
   }
 
-  public maximizeClickedMethod():void{
+  handleKeyDownOpenDialog(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.openDialog();
+    }
+  }
+
+  handleKeyDownMaximizedClickedMethod(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.maximizeClickedMethod();
+    }
+  }
+
+  public maximizeClickedMethod(): void {
     this.maximizeClicked.emit(this.tableType);
   }
+
   public atLeastOneSelected(): boolean {
     return this.selection.selected?.length > 0;
   }
@@ -156,13 +169,25 @@ export class PartsTableComponent implements OnInit {
     return !hasDifferentOwner;
   }
 
+  handleKeyDownQualityNotificationClicked(event: KeyboardEvent){
+    if (event.key === 'Enter') {
+      this.createQualityNotificationClicked();
+    }
+  }
+
   public createQualityNotificationClicked(): void {
-    console.log(this.notificationType, "type?");
+    console.log(this.notificationType, 'type?');
     this.createQualityNotificationClickedEvent.emit(this.notificationType);
   }
 
   public isAllowedToPublish(): boolean {
     return this.roleService.hasAccess([ 'admin' ]);
+  }
+
+  handleKeyDownPublishIconClicked(event: KeyboardEvent): void{
+    if (event.key === 'Enter') {
+      this.publishIconClicked();
+    }
   }
 
   public publishIconClicked(): void {
@@ -209,8 +234,9 @@ export class PartsTableComponent implements OnInit {
   }
 
   public isOwner(key: string) {
-    return key === "owner";
+    return key === 'owner';
   }
+
   private pageSize: number;
   private sorting: TableHeaderSort;
 
@@ -227,8 +253,7 @@ export class PartsTableComponent implements OnInit {
       // Handle selection change here
       if (this.isAllowedToCreateInvestigation()) {
         this.notificationType = NotificationType.INVESTIGATION;
-      }
-      else if (this.isAllowedToCreateAlert()) {
+      } else if (this.isAllowedToCreateAlert()) {
         this.notificationType = NotificationType.ALERT;
       } else {
         this.notificationType = null;

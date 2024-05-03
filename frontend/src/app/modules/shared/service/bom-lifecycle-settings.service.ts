@@ -18,10 +18,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import {
-  BomLifecycleConfig,
-  BomLifecycleSize,
-} from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 
 @Injectable({
   providedIn: 'root',
