@@ -292,7 +292,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // given
 
         bpnSupport.returnsBpdmLookup401Unauthorized();
-        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
         String jobState = "COMPLETED";
@@ -312,7 +311,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // then
         assetsSupport.assertAssetAsBuiltSize(16);
         assetsSupport.assertAssetAsPlannedSize(0);
-        String contractAgreementId = given()
+        String manufacturerName = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -322,8 +321,8 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().path("contractAgreementId");
-        assertThat(contractAgreementId).isNotEmpty();
+                .extract().path("manufacturerName");
+        assertThat(manufacturerName).isNull();
     }
 
 

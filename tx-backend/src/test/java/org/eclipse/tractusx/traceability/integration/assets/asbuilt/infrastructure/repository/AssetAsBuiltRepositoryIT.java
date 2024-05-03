@@ -49,9 +49,6 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
     @Autowired
     JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 
-    @Autowired
-    BpnSupport bpnSupport;
-
     @ParameterizedTest
     @MethodSource("fieldNameTestProvider")
     void givenIdField_whenGetFieldValues_thenSorted(
@@ -61,7 +58,6 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
             Integer expectedSize
     ) {
         // given
-        bpnSupport.providesBpdmLookup();
         assetsSupport.defaultAssetsStored();
 
         // when
@@ -76,7 +72,6 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
     @Test
     void givenAssets_whenGetByImportStateIn_thenReturnProperAssets() {
         // given
-        bpnSupport.providesBpdmLookup();
         assetsSupport.defaultAssetsStored();
         AssetAsBuiltEntity entityInSyncState = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").get();
         entityInSyncState.setImportState(ImportState.IN_SYNCHRONIZATION);

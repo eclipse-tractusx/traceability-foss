@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
@@ -38,7 +37,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-@Slf4j
 public class AssetTestData {
 
     @Autowired
@@ -55,7 +53,6 @@ public class AssetTestData {
             IRSResponse response = mapper.readValue(file, IRSResponse.class);
             return assetMapperFactory.mapToAssetBaseList(response);
         } catch (IOException e) {
-            log.error("unable to read and convert assets", e);
             return Collections.emptyList();
         }
     }
