@@ -353,6 +353,23 @@ describe('Parts', () => {
     expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
   });
 
+  it('should set asPlanned to full size when and save user settings', async () => {
+
+    // Arrange
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const userSettingsService = (componentInstance as any)['userSettingService'];
+    const setUserSettingsSpy = spyOn(userSettingsService, 'setUserSettings');
+
+    componentInstance.bomLifecycleSize.asPlannedSize = 50;
+    // Act
+    componentInstance.maximizeClicked(TableType.AS_PLANNED_OWN);
+
+    // Assert
+    const expectedBomLifeCycle = {asBuiltSize: 0, asPlannedSize: 100}
+    expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
+  });
+
   it('should not filter if filter search is unset', async () => {
 
     const { fixture } = await renderParts();
