@@ -188,6 +188,9 @@ backend:
     irs: 'CHANGE_ME'  # <irs-helm.nameOverride>
     edc: 'CHANGE_ME'  # <tractusx-connector.nameOverride
 
+  bpdm:
+    url: 'https://partners-pool.int.demo.catena-x.net'
+
 
 #########################
 # PG Admin configuration     #
