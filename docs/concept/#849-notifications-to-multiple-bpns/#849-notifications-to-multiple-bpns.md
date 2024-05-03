@@ -21,14 +21,16 @@ Those can be individually edited and sent to the specific BPN.
 # Requirements
 - For alerts, when selecting multiple BPNs, a duplicated alert for each of the selected BPNs is created.
 - For investigations, when selecting parts from different BPNs, a duplicated investigation for each of the BPNs is created.
-- The data model is changed to make this process possible.
+- A case attribute is added to notifications, that can be set during creation and edit processes.
+- The case attribute is shown in the inbox table and can be searched and filtered for.
 - Notifications are tied to single BPNs and cannot be sent to multiple BPNs anymore.
-- BPN selection is possibly for alerts.
+- BPN selection is only possibly for alerts.
   - Autocomplete filter -> Selection shows all matching BPNs (if there are more than 10, this selection is scrollable).
   - Selected BPNs are shown as chips that can be removed.
 - BPN selection is disabled for investigations, instead the BPNs are "pulled" from the selected parts.
 - The frontend modals appear when a user is creating notifications and triggers a notification duplication.
 - In the modal the user has the chance to cancel or approve the process.
+- During the "Edit notification" process, the "Available parts" table is filtered to show only the parts from the currently selected BPNs.
 
 # Out of scope
 - A duplication process for the user. In case the user wants to retroactively add BPNs to an existing notification or send a notification to a BPN that was not selected during the creation of this notification,
@@ -37,8 +39,7 @@ he must create a new notification and copy the data. In the future, there might 
 # Concept
 ## Backend
 Messages within one notification can only be sent between **two** BPNs. To make it possible to send notifications to multiple BPNs, notifications are duplicated during the creation process.
-A unique grouping label will be set for each notification created during the same process to identify notifications belonging to the same 'topic'. This label can be added/removed afterwards.
-It is an optional field and during the creation process, it will be checked if the case is already in use. If it is, the user will be notified to change the case.
+An optional grouping label can be set for each notification created during the same process to identify notifications belonging to the same 'topic'. This label can be added/removed afterwards.
 
 ```diff
 {
