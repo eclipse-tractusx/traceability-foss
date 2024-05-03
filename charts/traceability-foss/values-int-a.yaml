@@ -95,8 +95,8 @@ configuration:
       clientPassword: &service_account_password <path:traceability-foss/data/int-a/keycloak/oauth2#clientSecret>
     auth:
       keycloakUrl: &portal_auth_keycloak_url <path:traceability-foss/data/int-a/frontend#catenax_portal_keycloak_url>
-      tokenUri: &central_idp_token_uri 'https://centralidp-v2.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
-      jwkUri: &central_idp_jwk_uri 'https://centralidp-v2.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
+      tokenUri: &central_idp_token_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token'
+      jwkUri: &central_idp_jwk_uri 'https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs'
       resourceClient: &central_idp_resource_client 'app88'
     miw:
       url: &portal_miw_url <path:traceability-foss/data/int-a/edc/wallet#ssi.miw.url>
