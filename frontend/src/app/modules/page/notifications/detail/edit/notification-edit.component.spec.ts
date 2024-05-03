@@ -25,6 +25,7 @@ import { NotificationsFacade } from '@page/notifications/core/notifications.faca
 import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
 import { NotificationsModule } from '@page/notifications/notifications.module';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Owner } from '@page/parts/model/owner.enum';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { toAssetFilter } from '@shared/helper/filter-helper';
@@ -219,21 +220,19 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    // TODO CONTINUE
-
-    const assetFilterAffected = {excludeIds: [], ids: ['1']};
-    const assetFilterAvailable = {excludeIds: ['1'], ids: []};
+    const assetFilterAffected = {excludeIds: [], ids: ['1'], owner: Owner.SUPPLIER};
+    const assetFilterAvailable = {excludeIds: ['1'], ids: [], owner: Owner.SUPPLIER};
 
     componentInstance.affectedPartIds= ['1'];
 
 
-    spyOn(componentInstance['partsFacade'], 'setPartsAsBuilt');
-    spyOn(componentInstance['partsFacade'], 'setPartsAsBuiltSecond');
+    spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
+    spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecond');
     componentInstance['setAvailablePartsBasedOnNotificationType'](notification, assetFilterAvailable);
     componentInstance['setAffectedPartsBasedOnNotificationType'](notification, assetFilterAffected);
 
-    expect(componentInstance['partsFacade'].setSupplierPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilterAvailable, true));
-    expect(componentInstance['partsFacade'].setSupplierPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilterAffected, true));
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilterAvailable, true));
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuiltSecond).toHaveBeenCalledWith(FIRST_PAGE, DEFAULT_PAGE_SIZE, componentInstance.tableAsBuiltSortList, toAssetFilter(assetFilterAffected, true));
 
   });
 
@@ -263,8 +262,8 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilterAffected = {excludeIds: [], ids: ['1']};
-    const assetFilterAvailable = {excludeIds: ['1'], ids: []};
+    const assetFilterAffected = {excludeIds: [], ids: ['1'], owner: Owner.OWN};
+    const assetFilterAvailable = {excludeIds: ['1'], ids: [], owner: Owner.OWN};
 
     componentInstance.affectedPartIds= ['1'];
 
