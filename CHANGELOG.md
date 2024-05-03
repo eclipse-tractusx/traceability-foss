@@ -22,6 +22,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #603 Upgraded SingleLevelBomAsBuilt, SingleLevelBomAsPlanned & SingleLevelBomAsBuilt to 3.0.0
 - #603 Upgraded Batch, SerialPart and JustInSequencePart to 3.0.0
 - #603 Upgraded PartAsPlanned to 2.0.0
+- #778 update EDC from 0.5.3 to 0.7.0
 
 ### Removed
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
