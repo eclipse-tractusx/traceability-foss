@@ -52,10 +52,9 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { ToastService } from '@shared/components/toasts/toast.service';
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
-import { Notification, NotificationColumn, NotificationType } from '@shared/model/notification.model';
+import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
 import { DeeplinkService } from '@shared/service/deeplink.service';
 // TODO
 // 1. Create alert, Create Investigation, Publish Asset buttons needs to be integrated in the html actions
@@ -125,42 +124,44 @@ export class PartsTableComponent implements OnInit {
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
   @Output() maximizeClicked = new EventEmitter<TableType>();
+
   constructor(
     private readonly tableSettingsService: TableSettingsService,
     private dialog: MatDialog,
     private router: Router,
-    private toastService: ToastService,
     private deeplinkService: DeeplinkService,
-    public roleService: RoleService
-    ) {
+    public roleService: RoleService,
+  ) {
   }
 
-  public atLeastOneSelected():boolean{
+  public atLeastOneSelected(): boolean {
     return this.selection.selected?.length > 0;
   }
 
-  public isAllowedToCreateInvestigation(): boolean{
+  public isAllowedToCreateInvestigation(): boolean {
     const selected = this.selection.selected as Part[];
     const hasDifferentOwner = selected.some(value => value.owner !== Owner.SUPPLIER);
-    return !hasDifferentOwner; }
-
-  public isAllowedToCreateAlert(): boolean {
-    const selected = this.selection.selected as Part[];
-    const hasDifferentOwner = selected.some(value => value.owner !== Owner.OWN)
     return !hasDifferentOwner;
   }
 
-  public createQualityNotificationClicked():void{
-    if (!this.isAllowedToCreateInvestigation() && !this.isAllowedToCreateAlert()){
-      return
+  public isAllowedToCreateAlert(): boolean {
+    const selected = this.selection.selected as Part[];
+    const hasDifferentOwner = selected.some(value => value.owner !== Owner.OWN);
+    return !hasDifferentOwner;
+  }
+
+  public createQualityNotificationClicked(): void {
+    if (!this.isAllowedToCreateInvestigation() && !this.isAllowedToCreateAlert()) {
+      return;
     }
     this.createQualityNotificationClickedEvent.emit(this.notificationType);
   }
 
-  public isAllowedToPublish():boolean{
-    return this.roleService.hasAccess(['admin']);
+  public isAllowedToPublish(): boolean {
+    return this.roleService.hasAccess([ 'admin' ]);
   }
-  public publishIconClicked(): void{
+
+  public publishIconClicked(): void {
     this.publishIconClickedEvent.emit();
   }
 
@@ -218,14 +219,13 @@ export class PartsTableComponent implements OnInit {
     this.selection.changed.subscribe((change: SelectionChange<Part>) => {
       // Handle selection change here
       console.log('Selection changed:', change);
-      console.log("all", this.selection.selected);
-      if (this.isAllowedToCreateInvestigation()){
+      console.log('all', this.selection.selected);
+      if (this.isAllowedToCreateInvestigation()) {
         this.notificationType = NotificationType.INVESTIGATION;
       }
-      if (this.isAllowedToCreateAlert()){
+      if (this.isAllowedToCreateAlert()) {
         this.notificationType = NotificationType.ALERT;
-      }
-      else {
+      } else {
         this.notificationType = null;
       }
     });

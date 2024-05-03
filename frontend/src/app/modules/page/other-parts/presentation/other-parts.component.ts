@@ -66,7 +66,7 @@ export class OtherPartsComponent implements OnDestroy, OnInit {
   }
 
 
-  public bomLifecycleSize: BomLifecycleSize = this.userSettings.getSize(UserSettingView.OTHER_PARTS);
+  public bomLifecycleSize: BomLifecycleSize = this.userSettings.getUserSettings(UserSettingView.OTHER_PARTS);
 
   public ngOnDestroy(): void {
     this.otherPartsFacade.unsubscribeParts();

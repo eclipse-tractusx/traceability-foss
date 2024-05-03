@@ -27,12 +27,12 @@ import {
   providedIn: 'root',
 })
 export class BomLifecycleSettingsService {
-  private readonly DEFAULT: BomLifecycleConfig = {
-    asBuiltActive: true,
-    asPlannedActive: true,
+  private readonly DEFAULT: BomLifecycleSize = {
+    asBuiltSize: 50,
+    asPlannedSize: 50,
   };
 
-  getUserSettings(userSettingView: UserSettingView): BomLifecycleConfig {
+  getUserSettings(userSettingView: UserSettingView): BomLifecycleSize {
     const settingsJson = localStorage.getItem(userSettingView.toString());
     if (settingsJson) {
       return JSON.parse(settingsJson);
@@ -40,31 +40,7 @@ export class BomLifecycleSettingsService {
     return this.DEFAULT;
   };
 
-  getSize(userSettingView: UserSettingView): BomLifecycleSize {
-    let size: BomLifecycleSize;
-    const userSettings: BomLifecycleConfig = this.getUserSettings(userSettingView);
-
-
-    if (userSettings.asPlannedActive && userSettings.asBuiltActive) {
-      size = {
-        asBuiltSize: 50,
-        asPlannedSize: 50,
-      };
-    } else if (userSettings.asPlannedActive) {
-      size = {
-        asBuiltSize: 0,
-        asPlannedSize: 100,
-      };
-    } else if (userSettings.asBuiltActive) {
-      size = {
-        asBuiltSize: 100,
-        asPlannedSize: 0,
-      };
-    }
-    return size;
-  }
-
-  setUserSettings(settings: BomLifecycleConfig, userSettingView: UserSettingView): void {
+  setUserSettings(settings: BomLifecycleSize, userSettingView: UserSettingView): void {
     localStorage.setItem(userSettingView.toString(), JSON.stringify(settings));
   }
 

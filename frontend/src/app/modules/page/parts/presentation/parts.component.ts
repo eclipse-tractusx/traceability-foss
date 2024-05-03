@@ -106,7 +106,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getSize(UserSettingView.PARTS);
+  public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings(UserSettingView.PARTS);
 
   public searchFormGroup = new FormGroup({});
   public searchControl: FormControl;
@@ -128,6 +128,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       asBuiltSize: data.sizes[0],
       asPlannedSize: data.sizes[1],
     };
+    this.userSettingService.setUserSettings(this.bomLifecycleSize, UserSettingView.PARTS);
   }
 
   maximizeClicked(tableType: TableType) {
@@ -143,6 +144,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
           asPlannedSize: 0,
         };
       }
+      this.userSettingService.setUserSettings(this.bomLifecycleSize, UserSettingView.PARTS);
     }
 
     if (tableType === TableType.AS_PLANNED_OWN) {
@@ -157,6 +159,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
           asPlannedSize: 100,
         };
       }
+      this.userSettingService.setUserSettings(this.bomLifecycleSize, UserSettingView.PARTS);
     }
   }
 
