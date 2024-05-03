@@ -25,7 +25,6 @@ import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Owner } from '@page/parts/model/owner.enum';
 import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
@@ -55,7 +54,7 @@ export class PartsService {
 
     let params = new HttpParams()
       .set('page', page)
-      .set('size', pageSize)
+      .set('size', pageSize);
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
@@ -76,7 +75,7 @@ export class PartsService {
     let filterOperator = isOrSearch ? 'OR' : 'AND';
     let params = new HttpParams()
       .set('page', page)
-      .set('size', pageSize)
+      .set('size', pageSize);
 
     sort.forEach(sortingItem => {
       params = params.append('sort', sortingItem);
@@ -92,7 +91,7 @@ export class PartsService {
   }
 
   public getPart(id: string): Observable<Part> {
-    if(!id || typeof id !== 'string') {
+    if (!id || typeof id !== 'string') {
       throw new Error('invalid ID');
     }
 
@@ -100,17 +99,17 @@ export class PartsService {
 
     const resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ encodedId }`).pipe(
       map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)),
-      catchError(() => of(null))
+      catchError(() => of(null)),
     );
     const resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ encodedId }`).pipe(
       map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)),
-      catchError(() =>  of(null))
+      catchError(() => of(null)),
     );
 
     // Combine both observables and filter out null values from the array
-    return forkJoin([resultsAsBuilt, resultsAsPlanned]).pipe(
-      filter(([partAsBuilt, partAsPlanned]) => partAsBuilt !== null || partAsPlanned !== null),
-      map(([partAsBuilt, partAsPlanned]) => partAsBuilt || partAsPlanned)
+    return forkJoin([ resultsAsBuilt, resultsAsPlanned ]).pipe(
+      filter(([ partAsBuilt, partAsPlanned ]) => partAsBuilt !== null || partAsPlanned !== null),
+      map(([ partAsBuilt, partAsPlanned ]) => partAsBuilt || partAsPlanned),
     );
   }
 
@@ -140,7 +139,7 @@ export class PartsService {
     let params = new HttpParams()
       .set('fieldName', mappedFieldName)
       .set('startWith', startsWith)
-      .set('size', 200)
+      .set('size', 200);
 
 
     if (isAsBuilt) {

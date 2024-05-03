@@ -340,9 +340,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   navigateToNotificationCreationView(type?: NotificationType) {
-    console.log(type, 'type');
     this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
-    console.log(this.sharedPartService.affectedParts, 'parts?');
     if (this.sharedPartService?.affectedParts.length > 0 && type) {
       this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: type } });
     } else {

@@ -176,7 +176,6 @@ export class PartsTableComponent implements OnInit {
   }
 
   public createQualityNotificationClicked(): void {
-    console.log(this.notificationType, 'type?');
     this.createQualityNotificationClickedEvent.emit(this.notificationType);
   }
 
