@@ -136,7 +136,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       if (this.bomLifecycleSize.asBuiltSize === 100) {
         this.bomLifecycleSize = {
           asBuiltSize: 50,
-          asPlannedSize: 0,
+          asPlannedSize: 50,
         };
       } else {
         this.bomLifecycleSize = {
@@ -150,7 +150,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (tableType === TableType.AS_PLANNED_OWN) {
       if (this.bomLifecycleSize.asPlannedSize === 100) {
         this.bomLifecycleSize = {
-          asBuiltSize: 0,
+          asBuiltSize: 50,
           asPlannedSize: 50,
         };
       } else {
