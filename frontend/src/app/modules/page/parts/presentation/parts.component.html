@@ -55,7 +55,7 @@ SPDX-License-Identifier: Apache-2.0
             <app-parts-table class="parts-asBuilt-table"
                              [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                              (publishIconClickedEvent)="openPublisherSideNav()"
-                             (createQualityNotificationClickedEvent)="navigateToNotificationCreationView()"
+                             (createQualityNotificationClickedEvent)="navigateToNotificationCreationView($event)"
                              [labelId]="titleId"
                              [selectedPartsInfoLabel]="'page.selectedParts.info'"
                              [selectedPartsActionLabel]="'page.selectedParts.action'"

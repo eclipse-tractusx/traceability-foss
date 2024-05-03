@@ -157,9 +157,7 @@ export class PartsTableComponent implements OnInit {
   }
 
   public createQualityNotificationClicked(): void {
-    if (!this.isAllowedToCreateInvestigation() && !this.isAllowedToCreateAlert()) {
-      return;
-    }
+    console.log(this.notificationType, "type?");
     this.createQualityNotificationClickedEvent.emit(this.notificationType);
   }
 
@@ -229,7 +227,7 @@ export class PartsTableComponent implements OnInit {
       if (this.isAllowedToCreateInvestigation()) {
         this.notificationType = NotificationType.INVESTIGATION;
       }
-      if (this.isAllowedToCreateAlert()) {
+      else if (this.isAllowedToCreateAlert()) {
         this.notificationType = NotificationType.ALERT;
       } else {
         this.notificationType = null;

@@ -340,9 +340,15 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isPublisherOpen$.next(true);
   }
 
-  navigateToNotificationCreationView() {
+  navigateToNotificationCreationView(type?: NotificationType) {
+    console.log(type, "type");
     this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
-    this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: NotificationType.ALERT } });
+    console.log(this.sharedPartService.affectedParts, "parts?");
+    if (this.sharedPartService?.affectedParts.length > 0 && type){
+      this.router.navigate([ 'inbox/create' ], { queryParams: { initialType:  type } });
+    } else {
+      this.router.navigate([ 'inbox/create' ]);
+    }
   }
 
   protected readonly UserSettingView = UserSettingView;
