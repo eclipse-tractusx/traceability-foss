@@ -233,7 +233,7 @@ backend:
 
   dependencies:
     enabled: false
-    irs: 'CHANGE_ME'  # <item-relationship-service.nameOverride>
+    irs: 'CHANGE_ME'  # <irs-helm.nameOverride>
     edc: 'CHANGE_ME'  # <tractusx-connector.nameOverride
 
 #########################
@@ -292,7 +292,7 @@ postgresql:
 #########################
 # IRS configuration     #
 #########################
-item-relationship-service:
+irs-helm:
   enabled: false
 
 ###################################
