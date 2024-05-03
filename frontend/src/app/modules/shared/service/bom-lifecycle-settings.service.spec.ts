@@ -65,8 +65,8 @@ describe('BomLifecycleConfigUserSetting', () => {
     service.clearUserSettings(UserSettingView.PARTS);
     const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
     expect(retrievedSettings).toEqual({
-      asBuiltSize: 0,
-      asPlannedSize: 100,
+      asBuiltSize: 50,
+      asPlannedSize: 50,
     });
   });
 
