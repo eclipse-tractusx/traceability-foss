@@ -26,7 +26,6 @@ import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { SharedPartService } from '@page/notifications/detail/edit/shared-part.service';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';

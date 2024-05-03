@@ -183,7 +183,7 @@ as-split {
 
 }
 
-app-parts, app-other-parts {
+app-parts{
   .table-wrapper {
     @media screen and (max-height: 1049px) {
       height: 52vh !important;
@@ -198,21 +198,6 @@ app-parts, app-other-parts {
 
   .mat-mdc-paginator-page-size {
     margin-bottom: 3px !important;
-  }
-}
-
-app-other-parts {
-  .table-wrapper {
-    background-color: white;
-    @media screen and (max-height: 1049px) {
-      height: 33vh !important;
-      max-height: 56vh !important
-    }
-
-    @media screen and (min-height: 1050px) {
-      height: 56vh !important;
-      max-height: 56vh !important;
-    }
   }
 }
 
@@ -271,7 +256,7 @@ app-multiselect {
   bottom: 0;
 }
 
-app-parts, app-other-parts, app-notifications-tab {
+app-parts, app-notifications-tab {
 
   .mat-mdc-table .mdc-data-table__row:last-child {
     border-bottom: 1px solid lightgrey;
