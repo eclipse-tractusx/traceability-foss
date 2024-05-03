@@ -366,8 +366,8 @@
   },
   "quickFilter": {
     "own": "Eigene",
-    "supplier": "Lieferant",
-    "customer": "Kunde"
+    "supplier": "LIEFERANT",
+    "customer": "KUNDE"
   },
   "multiSelect": {
     "filterLabel": "Filter",
