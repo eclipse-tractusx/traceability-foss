@@ -56,7 +56,7 @@ import {
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
-import { BomLifecycleSettingsService, UserSettingView } from '@shared/service/bom-lifecycle-settings.service';
+import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
 import { DeeplinkService } from '@shared/service/deeplink.service';
 // TODO
 // 1. Create alert, Create Investigation, Publish Asset buttons needs to be integrated in the html actions
@@ -166,8 +166,6 @@ export class PartsTableComponent implements OnInit {
   }
 
   public publishIconClicked(): void {
-    console.log(this.isAllowedToPublish(), 'allowedtopublish?');
-    console.log(this.atLeastOneSelected(), 'at least one?');
     this.publishIconClickedEvent.emit();
   }
 
@@ -376,5 +374,4 @@ export class PartsTableComponent implements OnInit {
   protected readonly MainAspectType = MainAspectType;
   protected readonly NotificationType = NotificationType;
   protected readonly UserService = UserService;
-  protected readonly UserSettingView = UserSettingView;
 }
