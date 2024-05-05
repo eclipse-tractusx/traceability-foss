@@ -42,7 +42,7 @@ SPDX-License-Identifier: Apache-2.0
         (click)="clickedSave()"
         [color]="'primary'"
         data-testid="save-button"
-        [isDisabled]="!actionHelperService.isAtLeastSupervisor() || isSaveButtonDisabled">
+        [isDisabled]="!actionHelperService.isAllowedToEdit() || isSaveButtonDisabled">
         <div class="flex justify-between items-center">
           <mat-icon>save</mat-icon>
         </div>
