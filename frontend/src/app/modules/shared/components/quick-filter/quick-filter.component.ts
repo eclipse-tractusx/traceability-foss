@@ -45,6 +45,5 @@ export class QuickFilterComponent {
     }
   }
 
-
   protected readonly Owner = Owner;
 }
