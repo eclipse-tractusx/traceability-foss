@@ -313,15 +313,15 @@ tractusx-connector:
     id: *bpn
   iatp:
     # Decentralized IDentifier
-    id: <path:traceability-foss/data/int-a/iatp#DID>
+    id: <path:traceability-foss/data/dev/iatp#DID>
     sts:
       dim:
-        url: <path:traceability-foss/data/int-a/iatp#dimUrl>
+        url: <path:traceability-foss/data/dev/iatp#dimUrl>
       oauth:
-        token_url: <path:traceability-foss/data/int-a/iatp#iatp.oauth.tokenurl>
+        token_url: <path:traceability-foss/data/dev/iatp#iatp.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/int-a/iatp#dimClientId>
-          secret_alias: edc-miw-keycloak-secret-int-a
+          id: <path:traceability-foss/data/dev/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-dev-a-provider
   controlplane:
     ingresses:
       - enabled: true
