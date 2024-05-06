@@ -22,10 +22,12 @@ package org.eclipse.tractusx.traceability.bpn.infrastructure.repository;
 import bpn.request.BpnMappingRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.NameResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -89,7 +91,9 @@ public class BpnRepositoryImpl implements BpnRepository {
 
     @Override
     public BpnEntity save(BusinessPartnerResponse businessPartner) {
-        String value = businessPartner.getNames() == null ? null : businessPartner.getNames().get(0).getValue();
+        String value = businessPartner.getNames() == null ? null : businessPartner.getNames().stream()
+                .filter(it -> StringUtils.isNotBlank(it.getValue()))
+                .findFirst().map(NameResponse::getValue).orElse(null);
         BpnEntity entity = BpnEntity.builder().manufacturerId(businessPartner.getBpn()).manufacturerName(value).build();
         return repository.save(entity);
     }

@@ -73,7 +73,7 @@ public class RestTemplateConfiguration {
     private final ClientRegistrationRepository clientRegistrationRepository;
 
 
-    /* RestTemplate used by trace x for the edc contracts used within the edc provider.*/
+    /* RestTemplate used by trace x for the resolution of manufacturer names by BPN.*/
     @Bean(BPDM_CLIENT_REST_TEMPLATE)
     public RestTemplate bpdmClientRestTemplate(@Autowired BpdmProperties bpdmProperties) {
         final var clientRegistration = clientRegistrationRepository.findByRegistrationId(bpdmProperties.getOAuthClientId());

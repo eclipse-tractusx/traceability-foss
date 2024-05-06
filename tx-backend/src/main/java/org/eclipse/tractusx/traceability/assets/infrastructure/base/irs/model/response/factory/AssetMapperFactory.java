@@ -47,7 +47,6 @@ import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichAssetBase;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichManufacturingInformation;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getContractAgreementId;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getOwner;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getShortId;
@@ -94,9 +93,10 @@ public class AssetMapperFactory {
                         assetBase.setOwner(getOwner(assetBase, irsResponse));
                         assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
+                        assetBase.setManufacturerId(getManufacturerId(irsResponse, assetBase));
+                        assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
 
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
-                        enrichManufacturingInformation(irsResponse, assetBase, bpnService);
                         enrichAssetBase(tractionBatteryCode, assetBase);
                         enrichAssetBase(partSiteInformationAsPlanned, assetBase);
 
@@ -185,6 +185,13 @@ public class AssetMapperFactory {
 
     private Optional<AsBuiltDetailMapper> getAsBuiltDetailMapper(IrsSubmodel irsSubmodel) {
         return asBuiltDetailMappers.stream().filter(asBuiltDetailMapper -> asBuiltDetailMapper.validMapper(irsSubmodel)).findFirst();
+    }
+
+    private String getManufacturerId(IRSResponse irsResponse, AssetBase assetBase){
+        if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
+            return irsResponse.jobStatus().parameter().bpn();
+        }
+        return assetBase.getManufacturerId();
     }
 
 }

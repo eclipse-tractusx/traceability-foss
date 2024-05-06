@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.bpn.infrastructure.repository;
 
 import bpn.request.BpnMappingRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
@@ -33,15 +34,11 @@ import java.util.List;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class BpnServiceImpl implements BpnService {
 
     private final BpnRepository bpnRepository;
     private final BpdmClient bpdmClient;
-
-    public BpnServiceImpl(BpnRepository bpnRepository, BpdmClient bpdmClient) {
-        this.bpnRepository = bpnRepository;
-        this.bpdmClient = bpdmClient;
-    }
 
     @Override
     public String findByBpn(String bpn) {
