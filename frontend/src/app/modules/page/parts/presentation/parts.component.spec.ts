@@ -22,9 +22,10 @@
 import {LayoutModule} from '@layout/layout.module';
 import {SidenavComponent} from '@layout/sidenav/sidenav.component';
 import {SidenavService} from '@layout/sidenav/sidenav.service';
-import {OtherPartsModule} from '@page/other-parts/other-parts.module';
+import { Owner } from '@page/parts/model/owner.enum';
 import {AssetAsBuiltFilter, AssetAsPlannedFilter} from '@page/parts/model/parts.model';
 import {PartsComponent} from '@page/parts/presentation/parts.component';
+import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import {TableHeaderSort} from '@shared/components/table/table.model';
 import {toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
@@ -39,7 +40,7 @@ describe('Parts', () => {
 
     return renderComponent(PartsComponent, {
       declarations: [ SidenavComponent ],
-      imports: [ PartsModule, SharedModule, LayoutModule, OtherPartsModule ],
+      imports: [ PartsModule, SharedModule, LayoutModule],
       providers: [ { provide: SidenavService }, { provide: PartDetailsFacade } ],
       roles: [ 'admin', 'wip' ],
     });
@@ -292,6 +293,98 @@ describe('Parts', () => {
     // Assert
     expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
     expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+  });
+
+  it('should updatePartsByOwner', async () => {
+
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    // Arrange
+    const searchValue = 'searchTerm';
+
+    const partsFacade = (componentInstance as any)['partsFacade'];
+    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+    componentInstance.searchControl.setValue(searchValue);
+
+
+    // Act
+    componentInstance.updatePartsByOwner(Owner.OWN);
+
+    let filter = {owner: Owner.OWN};
+
+    // Assert
+    expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], filter, true);
+    expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], filter, true);
+  });
+
+  it('should reset asBuilt to half size when already on full width and save user settings', async () => {
+
+    // Arrange
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const userSettingsService = (componentInstance as any)['userSettingService'];
+    const setUserSettingsSpy = spyOn(userSettingsService, 'setUserSettings');
+
+    componentInstance.bomLifecycleSize.asBuiltSize = 100;
+    // Act
+    componentInstance.maximizeClicked(TableType.AS_BUILT_OWN);
+
+    // Assert
+
+    const expectedBomLifeCycle = {asBuiltSize: 50, asPlannedSize: 50}
+    expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
+  });
+
+  it('should set asBuilt to full size when and save user settings', async () => {
+
+    // Arrange
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const userSettingsService = (componentInstance as any)['userSettingService'];
+    const setUserSettingsSpy = spyOn(userSettingsService, 'setUserSettings');
+
+    componentInstance.bomLifecycleSize.asBuiltSize = 50;
+    // Act
+    componentInstance.maximizeClicked(TableType.AS_BUILT_OWN);
+
+    // Assert
+    const expectedBomLifeCycle = {asBuiltSize: 100, asPlannedSize: 0}
+    expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
+  });
+
+  it('should reset asPlanned to half size when already on full width and save user settings', async () => {
+
+    // Arrange
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const userSettingsService = (componentInstance as any)['userSettingService'];
+    const setUserSettingsSpy = spyOn(userSettingsService, 'setUserSettings');
+
+    componentInstance.bomLifecycleSize.asPlannedSize = 100;
+    // Act
+    componentInstance.maximizeClicked(TableType.AS_PLANNED_OWN);
+
+    // Assert
+    const expectedBomLifeCycle = {asBuiltSize: 50, asPlannedSize: 50}
+    expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
+  });
+
+  it('should set asPlanned to full size when and save user settings', async () => {
+
+    // Arrange
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const userSettingsService = (componentInstance as any)['userSettingService'];
+    const setUserSettingsSpy = spyOn(userSettingsService, 'setUserSettings');
+
+    componentInstance.bomLifecycleSize.asPlannedSize = 50;
+    // Act
+    componentInstance.maximizeClicked(TableType.AS_PLANNED_OWN);
+
+    // Assert
+    const expectedBomLifeCycle = {asBuiltSize: 0, asPlannedSize: 100}
+    expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
   });
 
   it('should not filter if filter search is unset', async () => {

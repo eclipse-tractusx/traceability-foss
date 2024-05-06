@@ -36,7 +36,6 @@ export class HeaderComponent {
     dashboard: 'dashboard',
     about: 'info',
     parts: 'build',
-    otherParts: 'commute',
     inbox: 'inbox',
     admin: 'apps',
   };

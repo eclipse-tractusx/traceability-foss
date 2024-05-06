@@ -27,7 +27,6 @@ import {
   NOTIFICATION_BASE_ROUTE,
   DASHBOARD_BASE_ROUTE,
   NO_PERMISSION_BASE_ROUTE,
-  OTHER_PARTS_BASE_ROUTE,
   PARTS_BASE_ROUTE,
 } from '@core/known-route';
 import { RoleGuard } from '@core/user/role.guard';
@@ -67,15 +66,6 @@ const routes: Routes = [
     loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
     data: {
       breadcrumb: 'parts',
-      roles: [ 'user', 'admin' ],
-    },
-    canActivate: [ RoleGuard ],
-  },
-  {
-    path: OTHER_PARTS_BASE_ROUTE,
-    loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
-    data: {
-      breadcrumb: 'otherParts',
       roles: [ 'user', 'admin' ],
     },
     canActivate: [ RoleGuard ],

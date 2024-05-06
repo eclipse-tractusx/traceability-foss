@@ -20,7 +20,6 @@
  ********************************************************************************/
 
 import { LayoutModule } from '@layout/layout.module';
-import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsModule } from '@page/parts/parts.module';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
@@ -40,7 +39,7 @@ describe('StartInvestigationComponent', () => {
   const renderStartInvestigation = async () => {
     const { fixture } = await renderComponent(StartInvestigationComponent, {
       declarations: [ StartInvestigationComponent ],
-      imports: [ PartsModule, OtherPartsModule, LayoutModule ],
+      imports: [ PartsModule, LayoutModule ],
       providers: [ StaticIdService ],
     });
 
@@ -61,23 +60,6 @@ describe('StartInvestigationComponent', () => {
     fireEvent.click(await getTableCheckbox(screen, 0));
   });
 
-  /*
-    it('should render selected items and remove them again', async function() {
-      await renderStartInvestigation();
-
-      fireEvent.click(await getTableCheckbox(screen, 0));
-      const matChipElement = await waitFor(() => screen.getByTestId('mat-chip--' + PartsAssembler.assemblePart(MOCK_part_2).name));
-      expect(matChipElement).toBeInTheDocument();
-      fireEvent.click(matChipElement.lastElementChild.firstChild);
-
-      const historyElement = await waitFor(() => screen.getByTestId('mat-chip-history--' + PartsAssembler.assemblePart(MOCK_part_2).name));
-      expect(historyElement).toBeInTheDocument();
-      fireEvent.click(historyElement);
-
-      const restoredElement = await waitFor(() => screen.getByTestId('mat-chip--' + PartsAssembler.assemblePart(MOCK_part_2).name));
-      expect(restoredElement).toBeInTheDocument();
-    });
-  */
   it('should sort table data', async () => {
     const fixture = await renderStartInvestigation();
     const spy = spyOn((fixture.componentInstance as any).childPartsState, 'update').and.callThrough();

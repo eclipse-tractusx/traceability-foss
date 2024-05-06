@@ -28,7 +28,6 @@ export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTra
   transform(value: Pagination<any>): Pagination<any> {
     const transformedContent = value.content.map(part => {
       switch (part.semanticDataModel.toString().toLowerCase()) {
-
         case 'batch': {
           part.semanticDataModel = SemanticDataModelInCamelCase.BATCH;
           break;
@@ -49,7 +48,6 @@ export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTra
           part.semanticDataModel = SemanticDataModelInCamelCase.UNKNOWN;
           break;
         }
-
       }
       return {
         ...part,
