@@ -342,6 +342,9 @@ tractusx-connector:
       server:
         # URL of the BPN/DID Resolution Service - required:
         url: <path:traceability-foss/data/dev/iatp#bdrsUrl>
+    env:
+      # workaround till 0.7.1 chart
+      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: <path:traceability-foss/data/dev/iatp#trustedIssuer>
     endpoints:
       management:
         authKey: *edc_api_key
