@@ -354,6 +354,9 @@ backend:
     irs: "CHANGEME"  # <irs-helm.nameOverride>
     edc: "CHANGEME"  # <tractusx-connector.nameOverride
 
+  bpdm:
+    url: "<https://replace.me">
+
 #########################
 # PG Admin configuration     #
 #########################
