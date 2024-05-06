@@ -17,25 +17,38 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.domain.service;
+package org.eclipse.tractusx.traceability.bpn.infrastructure.repository;
 
 import bpn.request.BpnMappingRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.bpn.application.service.BpnService;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.client.BpdmClient;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class BpnServiceImpl implements BpnService {
 
     private final BpnRepository bpnRepository;
+    private final BpdmClient bpdmClient;
 
-    public BpnServiceImpl(BpnRepository bpnRepository) {
-        this.bpnRepository = bpnRepository;
+    @Override
+    public String findByBpn(String bpn) {
+        String manufacturerName = bpnRepository.findManufacturerName(bpn);
+        if (manufacturerName == null && bpn != null) {
+            BusinessPartnerResponse businessPartner = bpdmClient.getBusinessPartner(bpn);
+            BpnEntity bpnEntity = bpnRepository.save(businessPartner);
+            manufacturerName = bpnEntity.getManufacturerName();
+        }
+        return manufacturerName;
     }
 
     @Override

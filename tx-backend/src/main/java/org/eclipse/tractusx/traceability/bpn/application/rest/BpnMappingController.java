@@ -35,7 +35,7 @@ import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.bpn.application.mapper.BpnMapper;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnServiceImpl;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -60,7 +60,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BpnMappingController {
 
-    private final BpnServiceImpl service;
+    private final BpnService service;
 
     @Operation(operationId = "getBpnEdcs",
             summary = "Get BPN EDC URL mappings",

@@ -58,6 +58,7 @@ public class IntegrationTestSpecification {
 
     @BeforeEach
     void beforeEach() throws JoseException {
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         oAuth2ApiSupport.oauth2ApiReturnsJwkCerts(oAuth2Support.jwk());
     }
 

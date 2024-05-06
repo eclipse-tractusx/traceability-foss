@@ -16,23 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package org.eclipse.tractusx.traceability.integration.common.support;
+package org.eclipse.tractusx.traceability.bpn.domain.service;
 
 import bpn.request.BpnMappingRequest;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 
 import java.util.List;
 
-@Component
-public class BpnEdcMappingSupport {
-    @Autowired
-    BpnRepository bpnRepository;
+public interface BpnService {
+    String findByBpn(String bpn);
 
-    public void defaultBpnEdcMappingStored() {
-        var bpnEdcMappingRequests = List.of(new BpnMappingRequest("BPNL00000003TEST", "https://test123.de"), new BpnMappingRequest("BPNL00000002TEST", "https://test456.de"));
-        bpnRepository.saveAll(bpnEdcMappingRequests);
-    }
+    List<BpnEdcMapping> findAllBpnMappings();
+
+    List<BpnEdcMapping> saveAllBpnEdcMappings(List<BpnMappingRequest> bpnEdcMappings);
+
+    List<BpnEdcMapping> updateAllBpnMappings(List<BpnMappingRequest> bpnEdcMappings);
+
+    void deleteBpnMapping(String bpn);
 }
