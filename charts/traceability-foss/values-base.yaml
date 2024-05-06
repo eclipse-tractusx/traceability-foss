@@ -249,7 +249,7 @@ postgresql:
 #########################
 # IRS configuration     #
 #########################
-irs-helm:
+item-relationship-service:
   bpn: 'CHANGE_ME'
   enabled: true
 

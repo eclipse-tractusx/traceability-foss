@@ -231,7 +231,7 @@ postgresql:
 #########################
 # IRS configuration     #
 #########################
-irs-helm:
+item-relationship-service:
   nameOverride: *irs_name
   fullnameOverride: *irs_name
   bpn: *bpnIrs

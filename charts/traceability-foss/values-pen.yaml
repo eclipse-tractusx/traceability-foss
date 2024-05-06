@@ -292,7 +292,7 @@ postgresql:
 #########################
 # IRS configuration     #
 #########################
-irs-helm:
+item-relationship-service:
   enabled: false
 
 ###################################
