@@ -65,6 +65,8 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
         </dependency>
+
+
         <!-- tx-application modules -->
         <dependency>
             <groupId>org.eclipse.tractusx.traceability</groupId>
