@@ -233,7 +233,7 @@ backend:
 
   dependencies:
     enabled: false
-    irs: 'CHANGE_ME'  # <irs-helm.nameOverride>
+    irs: 'CHANGE_ME'  # <item-relationship-service.nameOverride>
     edc: 'CHANGE_ME'  # <tractusx-connector.nameOverride
 
 #########################
