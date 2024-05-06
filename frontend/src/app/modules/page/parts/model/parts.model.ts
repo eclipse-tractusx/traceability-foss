@@ -132,6 +132,7 @@ export enum SemanticDataModelInCamelCase {
   UNKNOWN = 'Unknown'
 }
 
+
 export interface Relation {
   id: string;
   idShort: string;
@@ -152,7 +153,8 @@ export interface AssetAsBuiltFilter {
   semanticModelId?: string,
   semanticDataModel?: string[],
   manufacturingDate?: string,
-  manufacturingCountry?: string
+  manufacturingCountry?: string,
+  owner?: Owner
 }
 
 export interface AssetAsPlannedFilter {
@@ -170,6 +172,7 @@ export interface AssetAsPlannedFilter {
   catenaXSiteId?: string,
   functionValidFrom?: string,
   functionValidUntil?: string,
+  owner?: Owner
 }
 
 export enum ImportState {

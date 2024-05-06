@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,10 +16,34 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Owner } from '@page/parts/model/owner.enum';
 
-// mat-tab is disabled, need to explicitly reactivate tooltip event
-#customer-parts--asPlanned--tab--tooltip--label {
-  pointer-events: auto;
+@Component({
+  selector: 'app-quick-filter',
+  templateUrl: './quick-filter.component.html',
+  styleUrls: [ './quick-filter.component.scss' ],
+})
+export class QuickFilterComponent {
+
+  owner: Owner;
+  @Output() buttonClickEvent = new EventEmitter<Owner>();
+
+  emitQuickFilter(owner: Owner) {
+    if (this.owner === owner) {
+      this.owner = Owner.UNKNOWN;
+    } else {
+      this.owner = owner;
+    }
+    this.buttonClickEvent.emit(this.owner);
+  }
+
+
+  handleKeyDownByOwner(event: KeyboardEvent, owner: Owner) {
+    if (event.key === 'Enter') {
+      this.emitQuickFilter(owner);
+    }
+  }
+
+  protected readonly Owner = Owner;
 }
-
-

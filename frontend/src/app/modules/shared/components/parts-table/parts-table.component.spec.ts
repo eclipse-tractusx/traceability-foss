@@ -21,6 +21,7 @@ import { Sort } from '@angular/material/sort';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { NotificationType } from '@shared/model/notification.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
@@ -57,6 +58,51 @@ describe('PartsTableComponent', () => {
     expect(await waitFor(() => screen.getByTestId('table-component--test-id'))).toBeInTheDocument();
   });
 
+  it('should emit maximizeClicked event when Enter key is pressed', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+    spyOn(componentInstance.maximizeClicked, 'emit');
+    componentInstance.tableType = TableType.AS_BUILT_OWN;
+
+    const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+    componentInstance.handleKeyDownMaximizedClickedMethod(keyboardEvent);
+
+    expect(componentInstance.maximizeClicked.emit).toHaveBeenCalledWith(componentInstance.tableType);
+  });
+
+  it('should not emit maximizeClicked event when key other than Enter is pressed', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+    spyOn(componentInstance.maximizeClicked, 'emit');
+
+    const keyboardEvent = new KeyboardEvent('keydown', { key: 'Space' });
+    componentInstance.handleKeyDownMaximizedClickedMethod(keyboardEvent);
+
+    expect(componentInstance.maximizeClicked.emit).not.toHaveBeenCalled();
+  });
+
+  it('should emit createQualityNotificationClickedEvent when Enter key is pressed', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+    spyOn(componentInstance.createQualityNotificationClickedEvent, 'emit');
+    componentInstance.notificationType = NotificationType.ALERT;
+
+    const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+    componentInstance.handleKeyDownQualityNotificationClicked(keyboardEvent);
+
+    expect(componentInstance.createQualityNotificationClickedEvent.emit).toHaveBeenCalledWith(componentInstance.notificationType);
+  });
+
+  it('should not emit createQualityNotificationClickedEvent when key other than Enter is pressed', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+    spyOn(componentInstance.createQualityNotificationClickedEvent, 'emit');
+
+    const keyboardEvent = new KeyboardEvent('keydown', { key: 'Space' });
+    componentInstance.handleKeyDownQualityNotificationClicked(keyboardEvent);
+
+    expect(componentInstance.createQualityNotificationClickedEvent.emit).not.toHaveBeenCalled();
+  });
 
   it('should have correct sizes for split areas', async () => {
     const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
@@ -73,6 +119,7 @@ describe('PartsTableComponent', () => {
     // Expect that the event was emitted with the correct data
     expect(componentInstance.displayedColumns).toEqual([
       'Filter',
+      'filterowner',
       'filterid',
       'filteridShort',
       'filternameAtManufacturer', // nameAtManufacturer
@@ -105,6 +152,7 @@ describe('PartsTableComponent', () => {
 
     expect(componentInstance.displayedColumns).toEqual([
       'Filter',
+      'filterowner',
       'filterid',
       'filteridShort',
       'filternameAtManufacturer',

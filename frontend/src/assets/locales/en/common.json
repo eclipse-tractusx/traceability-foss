@@ -4,14 +4,14 @@
     "home": "Home",
     "dashboard": "Dashboard",
     "parts": "Parts",
-    "otherParts": "Other parts",
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "inbox": "Inbox",
+    "inbox": "Quality Notification",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
+    "partMismatch": "Selected parts must have same owner to create quality topic (OWN, SUPPLIER)",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",
@@ -28,7 +28,6 @@
   "pageTitle": {
     "dashboard": "Dashboard",
     "parts": "My parts",
-    "otherParts": "Other parts",
     "about": "About Catena-X Open-Source Traceability",
     "relations": "Part relations",
     "admin": "Administration Catena-X",
@@ -63,7 +62,9 @@
     "delete": "Delete",
     "goToQueue": "Go to Queue",
     "goBack": "Back",
-    "publishAssets": "Publish assets"
+    "publishAssets": "Publish assets",
+    "maximizeTable": "Full width",
+    "userSettings": "Table settings"
   },
   "publisher": {
     "selectedAssets": "Assets selected",
@@ -82,6 +83,11 @@
     "clearAll": "Clear all selections",
     "multiSortingTooltip": "First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click: reset sorting",
     "filterTitle": "Filter",
+    "owner": {
+      "own": "Own",
+      "supplier": "Supplier",
+      "customer": "Customer"
+    },
     "tableSettings": {
       "invalid": "Due to an error table settings have been reset",
       "title": "Table column settings",
@@ -105,6 +111,7 @@
     "column": {
       "id": "ID",
       "idShort": "ID Short",
+      "owner": "Owner",
       "name": "Name",
       "manufacturerName": "Manufacturer",
       "partId": "Part number",
@@ -354,6 +361,11 @@
   "bomLifecycleActivator": {
     "asBuilt": "As Built",
     "asPlanned": "As Planned"
+  },
+  "quickFilter": {
+    "own": "OWN",
+    "supplier": "SUPPLIER",
+    "customer": "CUSTOMER"
   },
   "multiSelect": {
     "filterLabel": "Filter",

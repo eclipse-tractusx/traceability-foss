@@ -392,7 +392,7 @@ export class TableComponent {
       icon: 'edit',
       action: (data: Record<string, unknown>) => this.editClicked.emit(data),
       condition: data => this.isEditable(data),
-      isAuthorized: this.roleService.isSupervisor(),
+      isAuthorized: this.roleService.isSupervisor() || this.roleService.isUser(),
     };
     const defaultActionsToAdd: MenuActionConfig<unknown>[] = [ viewDetailsMenuAction, editDetailsMenuAction ]
       .filter(action => !menuActionsConfig.some(a => a.label === action.label));
