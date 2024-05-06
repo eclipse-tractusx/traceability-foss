@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.notification.domain.notification.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.domain.base.service.AbstractNotificationService;
 import org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationPublisherService;

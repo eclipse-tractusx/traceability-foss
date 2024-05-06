@@ -181,3 +181,6 @@ dependencies:
   enabled: false
   irs: CHANGEME #<irs-helm.nameOverride>
   edc: CHANGEME #<tractusx-connector.nameOverride>-controlplane
+
+bpdm:
+  url: "https://replace.me"

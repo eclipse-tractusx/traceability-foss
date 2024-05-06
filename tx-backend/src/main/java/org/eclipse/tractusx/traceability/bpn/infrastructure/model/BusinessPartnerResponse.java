@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,23 +16,23 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.bpn.infrastructure.model;
 
-package org.eclipse.tractusx.traceability.integration.common.support;
-
-import bpn.request.BpnMappingRequest;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 import java.util.List;
 
-@Component
-public class BpnEdcMappingSupport {
-    @Autowired
-    BpnRepository bpnRepository;
+/**
+ * Bpn Response
+ */
+@Value
+@Builder
+@Jacksonized
+public class BusinessPartnerResponse {
 
-    public void defaultBpnEdcMappingStored() {
-        var bpnEdcMappingRequests = List.of(new BpnMappingRequest("BPNL00000003TEST", "https://test123.de"), new BpnMappingRequest("BPNL00000002TEST", "https://test456.de"));
-        bpnRepository.saveAll(bpnEdcMappingRequests);
-    }
+    private String bpn;
+    private List<NameResponse> names;
+
 }

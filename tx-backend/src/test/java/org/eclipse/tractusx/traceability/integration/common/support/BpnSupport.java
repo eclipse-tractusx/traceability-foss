@@ -19,7 +19,8 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
+import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,11 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+
+import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
+import static com.xebialabs.restito.semantics.Action.status;
+import static com.xebialabs.restito.semantics.Condition.matchesUri;
 
 @Component
 public class BpnSupport {
@@ -36,10 +42,15 @@ public class BpnSupport {
     @Autowired
     AssetRepositoryProvider assetRepositoryProvider;
 
+
+    @Autowired
+    RestitoProvider restitoProvider;
+
     @Value("${traceability.bpn}")
     String bpn = null;
 
     public void cachedBpnsForDefaultAssets() {
+        providesBpdmLookup();
         List<String> assetIds = assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests().stream().map(AssetBase::getManufacturerId).toList();
         Map<String, String> bpnMappings = new HashMap<>();
 
@@ -63,5 +74,22 @@ public class BpnSupport {
 
     public String testBpn() {
         return bpn;
+    }
+
+    public void providesBpdmLookup() {
+        whenHttp(restitoProvider.stubServer()).match(
+                matchesUri(Pattern.compile("/api/catena/legal-entities/.+"))
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/bpdm/response_200.json")
+        );
+    }
+
+    public void returnsBpdmLookup401Unauthorized() {
+        whenHttp(restitoProvider.stubServer()).match(
+                matchesUri(Pattern.compile("/api/catena/legal-entities/.+"))
+        ).then(
+                status(HttpStatus.UNAUTHORIZED_401)
+        );
     }
 }
