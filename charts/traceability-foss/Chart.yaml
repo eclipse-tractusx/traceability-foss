@@ -43,7 +43,7 @@ dependencies:
   - name: item-relationship-service
     repository: https://eclipse-tractusx.github.io/item-relationship-service
     version: 7.0.1
-    condition: irs-helm.enabled
+    condition: item-relationship-service.enabled
   - name: tractusx-connector
     repository: https://eclipse-tractusx.github.io/tractusx-edc
     version: 0.7.0
