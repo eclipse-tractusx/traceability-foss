@@ -20,6 +20,3 @@ export enum MainAspectType {
   AS_BUILT = 'as_built',
   AS_PLANNED = 'as_planned'
 }
-
-
-

@@ -42,7 +42,7 @@ SPDX-License-Identifier: Apache-2.0
         *ngIf="actionHelperService.showEditButton(selectedNotification)"
         (click)="navigateToEditView()"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+        [isDisabled]="!actionHelperService.isAllowedToEdit()"
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2">edit</mat-icon>

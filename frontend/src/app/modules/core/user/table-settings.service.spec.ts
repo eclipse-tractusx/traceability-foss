@@ -39,34 +39,15 @@ describe('TableSettingsService', () => {
   });
 
   describe('should correctly initialize the table view settings', () => {
-    it('should return PartsAsPlannedCustomerConfigurationModel for AS_PLANNED_CUSTOMER', () => {
-      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_PLANNED_CUSTOMER);
-      expect(result.displayedColumns.length).toBe(8);
-    });
 
     it('should return PartsAsPlannedConfigurationModel for AS_PLANNED_OWN', () => {
       const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_PLANNED_OWN);
-      expect(result.displayedColumns.length).toBe(19);
-    });
-
-    it('should return PartsAsPlannedSupplierConfigurationModel for AS_PLANNED_SUPPLIER', () => {
-      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_PLANNED_SUPPLIER);
-      expect(result.displayedColumns.length).toBe(8);
+      expect(result.displayedColumns.length).toBe(20);
     });
 
     it('should return PartsAsBuiltConfigurationModel for AS_BUILT_OWN', () => {
       const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_BUILT_OWN);
-      expect(result.displayedColumns.length).toBe(21);
-    });
-
-    it('should return PartsAsBuiltCustomerConfigurationModel for AS_BUILT_CUSTOMER', () => {
-      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_BUILT_CUSTOMER);
-      expect(result.displayedColumns.length).toBe(13);
-    });
-
-    it('should return PartsAsBuiltSupplierConfigurationModel for AS_BUILT_SUPPLIER', () => {
-      const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_BUILT_SUPPLIER);
-      expect(result.displayedColumns.length).toBe(13);
+      expect(result.displayedColumns.length).toBe(22);
     });
 
     it('should return NotificationsSentConfigurationModel for SENT_NOTIFICATION', () => {
@@ -91,13 +72,13 @@ describe('TableSettingsService', () => {
         displayFilterColumnMappings: [],
         filterColumns: [],
       };
-      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_CUSTOMER);
+      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_OWN);
       expect(result).toBe(false);
     });
 
     it('should return false if stored columns match displayed columns', () => {
       const storage = {
-        [TableType.AS_PLANNED_CUSTOMER]: {
+        [TableType.AS_PLANNED_OWN]: {
           columnsForDialog: [ 'col1', 'col2', 'menu' ], // Sample stored columns
         },
       };
@@ -110,13 +91,13 @@ describe('TableSettingsService', () => {
         filterColumns: [],
       };
       tableViewConfig.displayedColumns = [ 'col1', 'col2', 'menu' ]; // Sample displayed columns
-      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_CUSTOMER);
+      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_OWN);
       expect(result).toBe(false);
     });
 
     it('should return true if stored columns do not match displayed columns', () => {
       const storage = {
-        [TableType.AS_PLANNED_CUSTOMER]: {
+        [TableType.AS_PLANNED_OWN]: {
           columnsForDialog: [ 'col1', 'col2', 'menu' ], // Sample stored columns
         },
       };
@@ -129,13 +110,13 @@ describe('TableSettingsService', () => {
         filterColumns: [],
       };
       tableViewConfig.displayedColumns = [ 'col1', 'col3', 'menu' ]; // Different displayed columns
-      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_CUSTOMER);
+      const result = service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_OWN);
       expect(result).toBe(true);
     });
 
     it('should show warning toast and remove storage if settings are invalid', () => {
       const storage = {
-        [TableType.AS_PLANNED_CUSTOMER]: {
+        [TableType.AS_PLANNED_OWN]: {
           columnsForDialog: [ 'col1', 'col2', 'menu' ], // Sample stored columns
         },
       };
@@ -151,7 +132,7 @@ describe('TableSettingsService', () => {
         filterColumns: [],
       };
       tableViewConfig.displayedColumns = [ 'col1', 'col3', 'menu' ]; // Different displayed columns
-      service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_CUSTOMER);
+      service.storedTableSettingsInvalid(tableViewConfig, TableType.AS_PLANNED_OWN);
 
       expect(service['toastService'].warning).toHaveBeenCalledWith('table.tableSettings.invalid', 10000);
       expect(localStorage.removeItem).toHaveBeenCalled();

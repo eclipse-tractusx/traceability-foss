@@ -25,10 +25,6 @@ import { AdminPage } from '../../integration/pages/AdminPage';
 
 When("user navigate to {string}", function(desiredMenu) {
     switch (desiredMenu) {
-      case 'Other parts': {
-        cy.get('[href="/otherParts"]').click();
-        break;
-      }
       case 'Parts': {
         cy.get('[href="/parts"]').click();
         break;
@@ -50,7 +46,7 @@ When("user navigate to {string}", function(desiredMenu) {
         break;
       }
       default: {
-        throw new Error("Set header menu '" + desiredMenu + "' is not one of valid status [Dashboard, Parts, Other parts, Quality investigations, Quality alerts, About, Administration].");
+        throw new Error("Set header menu '" + desiredMenu + "' is not one of valid status [Dashboard, Parts, Quality investigations, Quality alerts, About, Administration].");
       }
     }
 });

@@ -29,7 +29,6 @@ import { LayoutModule } from '@layout/layout.module';
 import { AboutModule } from '@page/about/about.module';
 import { AdminModule } from '@page/admin/admin.module';
 import { DashboardModule } from '@page/dashboard/dashboard.module';
-import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsModule } from '@page/parts/parts.module';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { I18NextModule } from 'angular-i18next';
@@ -64,7 +63,6 @@ registerLocaleData(localeDe, 'de', localeDeExtra);
     AboutModule,
     DashboardModule,
     PartsModule,
-    OtherPartsModule,
     AdminModule,
     I18NextModule.forRoot(),
   ],
