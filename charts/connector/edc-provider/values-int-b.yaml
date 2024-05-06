@@ -10,7 +10,7 @@ tractusx-connector:
       dim:
         url: <path:traceability-foss/data/dev/iatp#dimUrl>
       oauth:
-        token_url: <path:traceability-foss/data/dev/iatp#iatp.oauth.tokenurl>
+        token_url: <path:traceability-foss/data/dev-b/iatp#iatp.oauth.tokenurl>
         client:
           id: <path:traceability-foss/data/dev-b/iatp#dimClientId>
           secret_alias: edc-miw-keycloak-secret-dev-b-provider
