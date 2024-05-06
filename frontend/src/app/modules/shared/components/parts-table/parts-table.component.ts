@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { SelectionModel } from '@angular/cdk/collections';
+import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import {
   Component,
   ElementRef,
@@ -38,7 +38,10 @@ import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
+import { UserService } from '@core/user/user.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { Owner } from '@page/parts/model/owner.enum';
+import { Part } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
@@ -50,14 +53,13 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { ToastService } from '@shared/components/toasts/toast.service';
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
-import { NotificationColumn } from '@shared/model/notification.model';
+import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
+import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
 import { DeeplinkService } from '@shared/service/deeplink.service';
 // TODO
-// 1. for investigations we need this component to provide customer and supplier part in one table
-// 2. for alerts we can use the OWN only
+// 1. Create alert, Create Investigation, Publish Asset buttons needs to be integrated in the html actions
 @Component({
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
@@ -69,6 +71,7 @@ export class PartsTableComponent implements OnInit {
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
   @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
 
+  @Output() publishIconClickedEvent = new EventEmitter<void>();
   @Input() labelId: string;
   @Input() noShadow = false;
   @Input() showHover = true;
@@ -117,21 +120,78 @@ export class PartsTableComponent implements OnInit {
   }
 
   @Output() selected = new EventEmitter<Record<string, unknown>>();
+  @Output() createQualityNotificationClickedEvent = new EventEmitter<NotificationType>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
+  @Output() maximizeClicked = new EventEmitter<TableType>();
 
   constructor(
     private readonly tableSettingsService: TableSettingsService,
+    public readonly userSettingsService: BomLifecycleSettingsService,
     private dialog: MatDialog,
     private router: Router,
-    private toastService: ToastService,
     private deeplinkService: DeeplinkService,
-    public roleService: RoleService
-    ) {
+    public roleService: RoleService,
+  ) {
   }
 
+  handleKeyDownOpenDialog(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.openDialog();
+    }
+  }
+
+  handleKeyDownMaximizedClickedMethod(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.maximizeClickedMethod();
+    }
+  }
+
+  public maximizeClickedMethod(): void {
+    this.maximizeClicked.emit(this.tableType);
+  }
+
+  public atLeastOneSelected(): boolean {
+    return this.selection.selected?.length > 0;
+  }
+
+  public isAllowedToCreateInvestigation(): boolean {
+    const selected = this.selection.selected as Part[];
+    const hasDifferentOwner = selected.some(value => value.owner !== Owner.SUPPLIER);
+    return !hasDifferentOwner;
+  }
+
+  public isAllowedToCreateAlert(): boolean {
+    const selected = this.selection.selected as Part[];
+    const hasDifferentOwner = selected.some(value => value.owner !== Owner.OWN);
+    return !hasDifferentOwner;
+  }
+
+  handleKeyDownQualityNotificationClicked(event: KeyboardEvent){
+    if (event.key === 'Enter') {
+      this.createQualityNotificationClicked();
+    }
+  }
+
+  public createQualityNotificationClicked(): void {
+    this.createQualityNotificationClickedEvent.emit(this.notificationType);
+  }
+
+  public isAllowedToPublish(): boolean {
+    return this.roleService.hasAccess([ 'admin' ]);
+  }
+
+  handleKeyDownPublishIconClicked(event: KeyboardEvent): void{
+    if (event.key === 'Enter') {
+      this.publishIconClicked();
+    }
+  }
+
+  public publishIconClicked(): void {
+    this.publishIconClickedEvent.emit();
+  }
 
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
@@ -140,6 +200,7 @@ export class PartsTableComponent implements OnInit {
   public pageIndex: number;
   public isDataLoading: boolean;
   public isMenuOpen: boolean;
+  public notificationType: NotificationType;
 
   // TODO remove it and set only in tableViewConfig
   public displayedColumns: string[];
@@ -171,6 +232,10 @@ export class PartsTableComponent implements OnInit {
     return isDateFilter(key);
   }
 
+  public isOwner(key: string) {
+    return key === 'owner';
+  }
+
   private pageSize: number;
   private sorting: TableHeaderSort;
 
@@ -183,6 +248,19 @@ export class PartsTableComponent implements OnInit {
     this.filterFormGroup.valueChanges.subscribe((formValues) => {
       this.filterActivated.emit(formValues);
     });
+    this.selection.changed.subscribe((change: SelectionChange<Part>) => {
+      // Handle selection change here
+      if (this.isAllowedToCreateInvestigation()) {
+        this.notificationType = NotificationType.INVESTIGATION;
+      } else if (this.isAllowedToCreateAlert()) {
+        this.notificationType = NotificationType.ALERT;
+      } else {
+        this.notificationType = null;
+      }
+
+    });
+
+
   }
 
 
@@ -318,4 +396,6 @@ export class PartsTableComponent implements OnInit {
 
   protected readonly TableType = TableType;
   protected readonly MainAspectType = MainAspectType;
+  protected readonly NotificationType = NotificationType;
+  protected readonly UserService = UserService;
 }

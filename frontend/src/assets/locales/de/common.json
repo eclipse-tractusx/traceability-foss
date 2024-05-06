@@ -8,10 +8,11 @@
     "about": "Über uns",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
-    "inbox": "Inbox",
+    "inbox": "Qualitätsthemen",
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
+    "partMismatch": "Die ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (OWN, SUPPLIER)",
     "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
     "noChildPartsForInvestigation": "Diese Funktion ist für Produkte ohne Bauteile nicht verfügbar.",
@@ -63,7 +64,9 @@
     "delete": "Löschen",
     "goToQueue": "Zur Warteschlange",
     "goBack": "Zurück",
-    "publishAssets": "Produkte veröffentlichen"
+    "publishAssets": "Produkte veröffentlichen",
+    "maximizeTable": "Volle Breite",
+    "userSettings": "Tabellen Einstellung"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",
@@ -82,6 +85,11 @@
     "clearAll": "Alle Markierungen aufheben",
     "multiSortingTooltip": "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
     "filterTitle" : "Filter",
+    "owner": {
+      "own": "Eigen",
+      "supplier": "Lieferant",
+      "customer": "Kunde"
+    },
     "tableSettings": {
       "invalid": "Auf Grund eines Fehlers werden die Tabelleneinstellungen zurückgesetzt",
       "title": "Tabellenspalten Einstellungen",
@@ -106,6 +114,7 @@
     "column": {
       "id": "ID",
       "idShort": "Kurz-ID",
+      "owner": "Eigentümer",
       "name": "Name",
       "manufacturerName": "Hersteller",
       "businessPartner": "Business Partner Nummer",
@@ -354,6 +363,11 @@
   "bomLifecycleActivator": {
     "asBuilt": "As Built",
     "asPlanned": "As Planned"
+  },
+  "quickFilter": {
+    "own": "Eigene",
+    "supplier": "LIEFERANT",
+    "customer": "KUNDE"
   },
   "multiSelect": {
     "filterLabel": "Filter",

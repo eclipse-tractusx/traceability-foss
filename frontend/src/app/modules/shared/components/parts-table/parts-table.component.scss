@@ -32,7 +32,21 @@ table {
   @apply font-light;
 }
 
+.table--header--first--column{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
 
+  .right-icon-container{
+    display:flex;
+  }
+
+  .action-button-tile-maximizeTable.activated{
+      background:#9b9b9b!important;
+
+  }
+
+}
 
 
 
@@ -124,13 +138,36 @@ table {
 }
 
 .table--selected__container {
-
-
   z-index: 1;
   display: flex;
   align-items: center;
   min-height: 35px;
 
+}
+
+.publish--disabled{
+  cursor:none!important;
+}
+
+.publish--icon{
+  cursor: pointer;
+}
+
+.icon-container{
+  width:50%;
+  display:flex;
+  margin-left: -20px;
+  mat-icon{
+    width: 28px;
+    height: 28px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333333;
+  }
+}
+.selected-text-container{
+  width:50%;
+  text-align:right;
 }
 
 .table--selected--label {

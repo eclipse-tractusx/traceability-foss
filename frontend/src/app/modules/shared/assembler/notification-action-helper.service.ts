@@ -64,6 +64,10 @@ export class NotificationActionHelperService {
     return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
   }
 
+  public isAllowedToEdit() {
+    return this.roleService.isSupervisor() || this.roleService.isUser();
+  }
+
   public isAuthorizedForButton(action: NotificationAction): boolean {
     if (action === NotificationAction.APPROVE || action === NotificationAction.CLOSE) {
       return this.roleService.isSupervisor();

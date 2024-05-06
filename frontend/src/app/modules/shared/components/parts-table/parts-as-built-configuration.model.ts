@@ -22,6 +22,7 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
   constructor() {
     const sortableColumns = {
       select: false,
+      owner: true,
       id: true,
       idShort: true,
       nameAtManufacturer: true,
@@ -42,7 +43,6 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
       importState: true,
       importNote: true,
       menu: false,
-
     };
 
     const dateFields = [ 'manufacturingDate' ];
