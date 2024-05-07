@@ -400,7 +400,11 @@
       "IN_SYNCHRONIZATION": "In Synchronisation",
       "ERROR": "Fehler",
       "UNSET": "Undefiniert",
-      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
+      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht",
+      "OWN": "Eigen",
+      "SUPPLIER": "Lieferant",
+      "CUSTOMER": "Kunde",
+      "UNKNOWN": "Unbekannt"
     }
   },
   "parts": {

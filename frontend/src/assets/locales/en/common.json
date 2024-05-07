@@ -399,6 +399,10 @@
       "ERROR": "Error",
       "UNSET": "Unset",
       "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
+      "OWN": "Own",
+      "SUPPLIER": "Supplier",
+      "CUSTOMER": "Customer",
+      "UNKNOWN": "Unknown"
 
     }
   },
