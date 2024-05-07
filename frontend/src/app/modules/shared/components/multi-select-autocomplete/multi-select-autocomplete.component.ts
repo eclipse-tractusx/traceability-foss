@@ -177,6 +177,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     } else if (this.filterColumn === 'type') {
       displayValue = [ NotificationType[this.selectedValue[0]], suffix ];
     } else if (this.filterColumn === 'owner') {
+      console.log("owner transformed to: ", OwnerDisplay[this.selectedValue[0]]);
       displayValue = [ OwnerDisplay[this.selectedValue[0]], suffix ];
     }
 
@@ -249,12 +250,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
             }));
           } else if (this.filterColumn === 'owner') {
             // @ts-ignore
+
             this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
               .map(option => ({
                 display: OwnerDisplay[option],
                 value: option,
               }));
             this.options = this.searchedOptions;
+            console.log(this.options, "options");
             // @ts-ignore
             this.allOptions = res.map(option => ({
               display: OwnerDisplay[option],
