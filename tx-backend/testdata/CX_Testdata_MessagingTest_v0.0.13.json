@@ -77,10 +77,14 @@
             {
               "value" : "OMAOYGBDTSRCMYSCX",
               "key" : "van"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2023-02-04T14:48:54Z",
+            "date" : "2018-09-28T04:15:57.000Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
@@ -128,10 +132,14 @@
             {
               "value" : "NO-313869652971440618042264",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
@@ -187,10 +195,14 @@
             {
               "value" : "NO-584478761469608738361558",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1d2d8480-90a5-4a17-9ecb-2ff039d35fec",
@@ -267,10 +279,14 @@
             {
               "value" : "OMAYSKEITUGNVHKKX",
               "key" : "van"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2015-03-07T19:38:12.000Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12",
@@ -318,10 +334,14 @@
             {
               "value" : "NO-989134870198932317923938",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
@@ -377,10 +397,14 @@
             {
               "value" : "NO-493575190274381019348907",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
@@ -457,10 +481,14 @@
             {
               "value" : "OMAZRXWWMSPTQUEKI",
               "key" : "van"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2015-02-04T14:48:54Z",
+            "date" : "2015-07-04T14:30:31.000Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
@@ -508,10 +536,14 @@
             {
               "value" : "NO-004314332935115065980115",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
@@ -567,10 +599,14 @@
             {
               "value" : "NO-246880451848384868750731",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
@@ -647,10 +683,14 @@
             {
               "value" : "OMAFIVCDHEBNXKNHH",
               "key" : "van"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2015-02-04T14:48:54Z",
+            "date" : "2015-01-03T03:16:41.000Z",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:4d33bfa6-0f1f-43a5-ad63-c3fe07a2d076",
@@ -698,10 +738,14 @@
             {
               "value" : "NO-477013846751358222215326",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
@@ -757,10 +801,14 @@
             {
               "value" : "NO-613963493493659233961306",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74",
@@ -820,6 +868,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -875,6 +927,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -907,6 +963,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -956,6 +1016,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1007,6 +1071,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1058,6 +1126,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1115,6 +1187,10 @@
             {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1142,7 +1218,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -1159,7 +1238,7 @@
               }
             ],
             "nameAtManufacturer" : "a/dev Vehicle Model A",
-
+            "digitalTwinType" : "PartType"
           },
           "partSitesInformationAsPlanned" : [
             {
@@ -1212,7 +1291,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -1288,6 +1370,10 @@
             {
               "value" : "12345678ABC",
               "key" : "jisNumber"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1318,6 +1404,10 @@
             {
               "value" : "12345678ABC",
               "key" : "jisNumber"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -1354,7 +1444,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2015-05-18T23:10:44.000Z",
@@ -1438,7 +1531,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2017-01-03T07:45:04.000Z",
@@ -1501,7 +1597,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2018-01-25T08:42:58.000Z",
@@ -1585,7 +1684,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2016-04-28T20:00:55.000Z",
@@ -1647,7 +1749,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2015-05-18T23:10:44.000Z",
@@ -1710,7 +1815,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2013-11-24T00:27:33.000Z",
@@ -1752,7 +1860,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2017-07-03T05:23:01.000Z",
@@ -1829,7 +1940,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2013-06-18T03:47:22.000Z",
@@ -1892,7 +2006,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2015-01-23T16:24:59.000Z",
@@ -1976,7 +2093,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2016-04-24T08:26:56.000Z",
@@ -2060,7 +2180,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2019-08-17T14:14:30.000Z",
@@ -2123,7 +2246,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2016-04-09T20:41:14.000Z",
@@ -2186,7 +2312,10 @@
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned" : [
         {
           "localIdentifiers" : [
-
+            {
+              "value" : "PartType",
+              "key" : "digitalTwinType"
+            }
           ],
           "validityPeriod" : {
             "validFrom" : "2019-11-02T11:14:15.000Z",
@@ -2222,10 +2351,14 @@
             {
               "value" : "NO-282209222605524629600815",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b",
@@ -2294,10 +2427,14 @@
             {
               "value" : "NO-917923082133064161014067",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:b0acf3e1-3fbe-46c0-aa0b-0724caae7772",
@@ -2342,10 +2479,14 @@
             {
               "value" : "NO-135342108157438763234738",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:1233b405-5ac8-4867-93f8-6fdf37733737",
@@ -2390,10 +2531,14 @@
             {
               "value" : "NO-655858074471261486971940",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
@@ -2418,6 +2563,10 @@
             {
               "value" : "92879626SFC",
               "key" : "jisNumber"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2448,10 +2597,14 @@
             {
               "value" : "NO-200738629800530338038454",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
@@ -2476,6 +2629,10 @@
             {
               "value" : "85851549CBX",
               "key" : "jisNumber"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2528,10 +2685,14 @@
             {
               "value" : "NO-570196089623842018037372",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4070e",
@@ -2582,6 +2743,10 @@
             {
               "value" : "BID12345678",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
@@ -2624,10 +2789,14 @@
             {
               "value" : "NO-570196089623842018037372",
               "key" : "partInstanceId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
-            "date" : "2022-02-04T14:48:54Z",
+            "date" : "2022-02-04T14:48:54",
             "country" : "DEU"
           },
           "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
@@ -2678,6 +2847,10 @@
             {
               "value" : "BID12345678",
               "key" : "batchId"
+            },
+            {
+              "value" : "PartInstance",
+              "key" : "digitalTwinType"
             }
           ],
           "manufacturingInformation" : {
