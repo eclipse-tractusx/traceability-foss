@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination
 - #726 Added @Preauthorize annotation to dashboard controller
 - #837 Added digital twin type to data provisioning workflow to be able to lookup shells created by trace-x
+- #859 Enable autocomplete API to filter for given assets
 
 ### Changed
 - #844 Prefilled bpn on investigation creation
