@@ -25,9 +25,10 @@ import org.eclipse.tractusx.irs.registryclient.decentral.EdcRetrieverException;
 import org.eclipse.tractusx.irs.registryclient.decentral.EndpointDataForConnectorsService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import static com.zaxxer.hikari.hibernate.HikariConfigurationUtil.CONFIG_PREFIX;
-
+@Configuration
 public class DecentralRegistryClientConfig {
 
 
