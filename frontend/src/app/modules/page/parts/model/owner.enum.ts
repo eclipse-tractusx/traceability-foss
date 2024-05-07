@@ -22,12 +22,3 @@ export enum Owner {
   CUSTOMER = 'CUSTOMER',
   UNKNOWN = 'UNKNOWN'
 }
-
-
-
-export enum OwnerDisplay {
-  OWN = "Owner",
-  SUPPLIER = 'Supplier',
-  CUSTOMER = 'Customer',
-  UNKNOWN = 'Unknown'
-}
