@@ -58,7 +58,8 @@
               "createdOn" : "2022-02-03T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
-              "businessPartner" : "BPNL00000003CNKC"
+              "businessPartner" : "BPNL00000003CNKC",
+              "hasAlternatives": false
             }
           ]
         }
@@ -113,7 +114,8 @@
               "createdOn" : "2023-02-20T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:1d2d8480-90a5-4a17-9ecb-2ff039d35fec",
-              "businessPartner" : "BPNL00000003CSGV"
+              "businessPartner" : "BPNL00000003CSGV",
+              "hasAlternatives": false
             }
           ]
         }
@@ -248,7 +250,8 @@
               "createdOn" : "2021-01-15T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-              "businessPartner" : "BPNL00000003CNKC"
+              "businessPartner" : "BPNL00000003CNKC",
+              "hasAlternatives": false
             }
           ]
         }
@@ -303,7 +306,8 @@
               "createdOn" : "2020-05-02T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
-              "businessPartner" : "BPNL00000003CML1"
+              "businessPartner" : "BPNL00000003CML1",
+              "hasAlternatives": false
             }
           ]
         }
@@ -438,7 +442,8 @@
               "createdOn" : "2022-11-22T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
-              "businessPartner" : "BPNL00000003CNKC"
+              "businessPartner" : "BPNL00000003CNKC",
+              "hasAlternatives": false
             }
           ]
         }
@@ -493,7 +498,8 @@
               "createdOn" : "2018-09-17T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
-              "businessPartner" : "BPNL00000003CML1"
+              "businessPartner" : "BPNL00000003CML1",
+              "hasAlternatives": false
             }
           ]
         }
@@ -628,7 +634,8 @@
               "createdOn" : "2021-10-24T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d",
-              "businessPartner" : "BPNL00000003CNKC"
+              "businessPartner" : "BPNL00000003CNKC",
+              "hasAlternatives": false
             }
           ]
         }
@@ -683,7 +690,8 @@
               "createdOn" : "2022-06-28T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74",
-              "businessPartner" : "BPNL00000003CML1"
+              "businessPartner" : "BPNL00000003CML1",
+              "hasAlternatives": false
             }
           ]
         }
@@ -933,7 +941,8 @@
               "createdOn" : "2016-01-20T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
-              "businessPartner" : "BPNL00000003CNKC"
+              "businessPartner" : "BPNL00000003CNKC",
+              "hasAlternatives": false
             }
           ]
         }
@@ -1039,7 +1048,8 @@
               "createdOn" : "2019-08-15T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
               "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
-              "businessPartner" : "BPNL00000003CML1"
+              "businessPartner" : "BPNL00000003CML1",
+              "hasAlternatives": false
             }
           ]
         }
@@ -2547,7 +2557,7 @@
                 "unit" : "unit:litre"
               },
               "hasAlternatives" : true,
-              "businessPartner" : "BPNL00000003CML1",
+              "businessPartner" : "BPNL00000003CML1",,
               "createdOn" : "2022-02-03T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
             }
