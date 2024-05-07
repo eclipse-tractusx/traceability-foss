@@ -21,7 +21,19 @@
 
 .parts-table-container {
   width: 100%;
+
+  .search--and--quick--filter--wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .searchbar--container {
+    flex-grow: 1;
+  }
 }
+
+
 
 
 

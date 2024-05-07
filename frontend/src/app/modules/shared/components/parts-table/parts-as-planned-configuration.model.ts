@@ -23,6 +23,7 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
   constructor() {
     const sortableColumns = {
       select: false,
+      owner: true,
       id: true,
       idShort: true,
       nameAtManufacturer: true,

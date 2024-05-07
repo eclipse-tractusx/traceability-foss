@@ -18,61 +18,31 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import {
-  BomLifecycleConfig,
-  BomLifecycleSize,
-} from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BomLifecycleSettingsService {
-  private readonly DEFAULT: BomLifecycleConfig = {
-    asBuiltActive: true,
-    asPlannedActive: true,
+  private readonly DEFAULT: BomLifecycleSize = {
+    asBuiltSize: 50,
+    asPlannedSize: 50,
   };
+  private PART_TABLE_KEY = 'PART';
 
-  getUserSettings(userSettingView: UserSettingView): BomLifecycleConfig {
-    const settingsJson = localStorage.getItem(userSettingView.toString());
+  getUserSettings(): BomLifecycleSize {
+    const settingsJson = localStorage.getItem(this.PART_TABLE_KEY);
     if (settingsJson) {
       return JSON.parse(settingsJson);
     }
     return this.DEFAULT;
   };
 
-  getSize(userSettingView: UserSettingView): BomLifecycleSize {
-    let size: BomLifecycleSize;
-    const userSettings: BomLifecycleConfig = this.getUserSettings(userSettingView);
-
-
-    if (userSettings.asPlannedActive && userSettings.asBuiltActive) {
-      size = {
-        asBuiltSize: 50,
-        asPlannedSize: 50,
-      };
-    } else if (userSettings.asPlannedActive) {
-      size = {
-        asBuiltSize: 0,
-        asPlannedSize: 100,
-      };
-    } else if (userSettings.asBuiltActive) {
-      size = {
-        asBuiltSize: 100,
-        asPlannedSize: 0,
-      };
-    }
-    return size;
+  setUserSettings(settings: BomLifecycleSize): void {
+    localStorage.setItem(this.PART_TABLE_KEY, JSON.stringify(settings));
   }
 
-  setUserSettings(settings: BomLifecycleConfig, userSettingView: UserSettingView): void {
-    localStorage.setItem(userSettingView.toString(), JSON.stringify(settings));
+  clearUserSettings(): void {
+    localStorage.removeItem(this.PART_TABLE_KEY);
   }
-
-  clearUserSettings(userSettingView: UserSettingView): void {
-    localStorage.removeItem(userSettingView.toString());
-  }
-}
-
-export enum UserSettingView {
-  PARTS = 'parts', OTHER_PARTS = 'other_parts'
 }

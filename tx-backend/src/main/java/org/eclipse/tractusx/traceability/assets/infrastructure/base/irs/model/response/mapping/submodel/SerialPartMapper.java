@@ -48,7 +48,7 @@ public class SerialPartMapper implements SubmodelMapper {
         SerialPart300Schema serialPart = (SerialPart300Schema) irsSubmodel.getPayload();
 
         String serialPartId = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.PART_INSTANCE_ID.getValue());
-        String manufacturerName = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
+        String manufacturerId = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
         String van = getValue(serialPart.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(serialPart.getManufacturingInformation(), serialPart.getPartTypeInformation());
 
@@ -56,8 +56,7 @@ public class SerialPartMapper implements SubmodelMapper {
                 .id(serialPart.getCatenaXId())
                 .semanticModelId(serialPartId)
                 .detailAspectModels(List.of(detailAspectModel))
-                .manufacturerId(manufacturerName)
-                .manufacturerName(manufacturerName)
+                .manufacturerId(manufacturerId)
                 .nameAtManufacturer(serialPart.getPartTypeInformation().getNameAtManufacturer())
                 .manufacturerPartId(serialPart.getPartTypeInformation().getManufacturerPartId())
                 // TODO change model to be able to save something here

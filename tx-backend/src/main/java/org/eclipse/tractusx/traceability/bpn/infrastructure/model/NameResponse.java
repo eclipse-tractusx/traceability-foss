@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,10 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.bpn.infrastructure.model;
 
-// mat-tab is disabled, need to explicitly reactivate tooltip event
-#customer-parts--asPlanned--tab--tooltip--label {
-  pointer-events: auto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+/**
+ * Name response
+ */
+@Getter
+@AllArgsConstructor(staticName = "of")
+@NoArgsConstructor
+public class NameResponse {
+    private String value;
+
 }
-
-

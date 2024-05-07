@@ -20,7 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.mapper;
 
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;

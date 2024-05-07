@@ -45,7 +45,6 @@ class AssetAsPlannedControllerDetailInformationIT extends IntegrationTestSpecifi
     @Test
     void shouldNotReturnAassetsDetailInformationWhenUserIsNotAuthenticated() {
         //GIVEN
-        bpnSupport.cachedBpnsForAsPlannedAssets();
         assetsSupport.defaultAssetsAsPlannedStored();
 
         //THEN
@@ -64,7 +63,6 @@ class AssetAsPlannedControllerDetailInformationIT extends IntegrationTestSpecifi
     @Test
     void shouldReturnAssetsDetailInformation() throws JoseException {
         //GIVEN
-        bpnSupport.cachedBpnsForAsPlannedAssets();
         assetsSupport.defaultAssetsAsPlannedStored();
 
         //THEN

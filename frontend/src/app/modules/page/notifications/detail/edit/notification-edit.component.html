@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="detail--navigation">
     <app-button
       [color]="'primary'"
-      (click)="this.navigateBackToNotifications()"
+      (click)="this.navigateBack()"
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">arrow_back</mat-icon>
@@ -42,7 +42,7 @@ SPDX-License-Identifier: Apache-2.0
         (click)="clickedSave()"
         [color]="'primary'"
         data-testid="save-button"
-        [isDisabled]="!actionHelperService.isAtLeastSupervisor() || isSaveButtonDisabled">
+        [isDisabled]="!actionHelperService.isAllowedToEdit() || isSaveButtonDisabled">
         <div class="flex justify-between items-center">
           <mat-icon>save</mat-icon>
         </div>
@@ -98,7 +98,7 @@ SPDX-License-Identifier: Apache-2.0
               </app-button>
             </div>
             <!-- asBuilt Parts Table-->
-            <app-parts-table *ngIf="tableType" class="parts-asBuilt-table"
+            <app-parts-table class="parts-asBuilt-table"
                              [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                              [labelId]="affectedPartsTableLabelId"
                              (configChanged)="paginationChangedAffectedParts($event)"
@@ -108,7 +108,7 @@ SPDX-License-Identifier: Apache-2.0
                              (multiSelect)="currentSelectedAffectedParts$.next($event)"
                              (filterActivated)="filterAffectedParts($event)"
                              [multiSortList]="tableAsBuiltSortList"
-                             [tableType]="tableType"
+                             [tableType]="TableType.AS_BUILT_OWN"
                              [mainAspectType]="MainAspectType.AS_BUILT"
             ></app-parts-table>
           </ng-template>
@@ -145,12 +145,10 @@ SPDX-License-Identifier: Apache-2.0
                 [isDisabled]="temporaryAffectedParts.length < 1"
                 [variant]="'stroked'"
                 [color]="'primary'"
-                [iconName]="'add'"
-
-              >
+                [iconName]="'add'">
               </app-button>
             </div>
-            <app-parts-table *ngIf="tableType" class="parts-asBuilt-table" data-testid="unAffectedParts"
+            <app-parts-table class="parts-asBuilt-table" data-testid="unAffectedParts"
                              [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
                              [labelId]="availablePartsTableLabelId"
                              (configChanged)="paginationChangedAvailableParts($event)"
@@ -160,7 +158,7 @@ SPDX-License-Identifier: Apache-2.0
                              (multiSelect)="currentSelectedAvailableParts$.next($event)"
                              (filterActivated)="filterAvailableParts($event)"
                              [multiSortList]="tableAsBuiltSortList"
-                             [tableType]="tableType"
+                             [tableType]="TableType.AS_BUILT_OWN"
                              [mainAspectType]="MainAspectType.AS_BUILT"
             ></app-parts-table>
           </ng-template>

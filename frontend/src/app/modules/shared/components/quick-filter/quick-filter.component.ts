@@ -16,29 +16,34 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from '@shared/components/parts-table/parts-config.model';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Owner } from '@page/parts/model/owner.enum';
 
-export class PartsAsBuiltCustomerConfigurationModel extends TableFilterConfiguration {
+@Component({
+  selector: 'app-quick-filter',
+  templateUrl: './quick-filter.component.html',
+  styleUrls: [ './quick-filter.component.scss' ],
+})
+export class QuickFilterComponent {
 
-  constructor() {
-    const sortableColumns = {
-      select: false,
-      semanticDataModel: true,
-      nameAtManufacturer: true,
-      businessPartner: true,
-      manufacturerName: true,
-      manufacturerPartId: true,
-      semanticModelId: true,
-      manufacturingDate: true,
-      receivedActiveAlerts: true,
-      receivedActiveInvestigations: true,
-      sentActiveAlerts: true,
-      sentActiveInvestigations: true,
-      menu: false,
-    };
-    const dateFields = [ 'manufacturingDate' ];
-    const singleSearchFields = [ 'receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations' ];
-    super(sortableColumns, dateFields, singleSearchFields);
+  owner: Owner;
+  @Output() buttonClickEvent = new EventEmitter<Owner>();
+
+  emitQuickFilter(owner: Owner) {
+    if (this.owner === owner) {
+      this.owner = Owner.UNKNOWN;
+    } else {
+      this.owner = owner;
+    }
+    this.buttonClickEvent.emit(this.owner);
   }
-}
 
+
+  handleKeyDownByOwner(event: KeyboardEvent, owner: Owner) {
+    if (event.key === 'Enter') {
+      this.emitQuickFilter(owner);
+    }
+  }
+
+  protected readonly Owner = Owner;
+}

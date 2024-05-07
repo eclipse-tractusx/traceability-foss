@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,20 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.bpn.application.service;
 
-import bpn.request.BpnMappingRequest;
-import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
+package org.eclipse.tractusx.traceability.notification.domain.notification.exception;
 
+import org.eclipse.tractusx.traceability.common.model.BPN;
 
-import java.util.List;
+public class NotificationSenderAndReceiverBPNEqualException extends IllegalArgumentException {
 
-public interface BpnService {
-    List<BpnEdcMapping> findAllBpnMappings();
+    public NotificationSenderAndReceiverBPNEqualException(String message) {
+        super(message);
+    }
 
-    List<BpnEdcMapping> saveAllBpnEdcMappings(List<BpnMappingRequest> bpnEdcMappings);
-
-    List<BpnEdcMapping> updateAllBpnMappings(List<BpnMappingRequest> bpnEdcMappings);
-
-    void deleteBpnMapping(String bpn);
+    public NotificationSenderAndReceiverBPNEqualException(BPN bpn, String investigationId) {
+        super("Quality Notification with id %s rejected. Sender BPN: %s is same as receiver BPN.".formatted(investigationId, bpn));
+    }
 }

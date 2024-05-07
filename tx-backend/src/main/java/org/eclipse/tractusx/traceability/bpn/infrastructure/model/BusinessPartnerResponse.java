@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,22 +16,23 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
+package org.eclipse.tractusx.traceability.bpn.infrastructure.model;
 
-export class PartsAsPlannedCustomerConfigurationModel extends TableFilterConfiguration {
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
-  constructor() {
-    const sortableColumns = {
-      select: false,
-      semanticDataModel: true,
-      nameAtManufacturer: true,
-      businessPartner: true,
-      manufacturerName: true,
-      manufacturerPartId: true,
-      semanticModelId: true,
-      menu: false,
-    };
-    super(sortableColumns);
-  }
+import java.util.List;
+
+/**
+ * Bpn Response
+ */
+@Value
+@Builder
+@Jacksonized
+public class BusinessPartnerResponse {
+
+    private String bpn;
+    private List<NameResponse> names;
+
 }
-

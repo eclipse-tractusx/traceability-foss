@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.irs.component.Relationship;
 import org.eclipse.tractusx.irs.component.enums.Direction;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -34,6 +33,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asplanned.AsPlannedDetailMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.relationship.RelationshipMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.SubmodelMapper;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -43,12 +43,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichAssetBase;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichManufacturingInformation;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getContractAgreementId;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getOwner;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getShortId;
@@ -63,12 +61,12 @@ public class AssetMapperFactory {
     private final List<AsPlannedDetailMapper> asPlannedDetailMappers;
     private final List<AsBuiltDetailMapper> asBuiltDetailMappers;
     private final ObjectMapper objectMapper;
+    private final BpnService bpnService;
 
     public List<AssetBase> mapToAssetBaseList(IRSResponse irsResponse) {
 
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
 
-        Map<String, String> bpnMap = extractBpnMap(irsResponse);
 
         List<DetailAspectModel> tractionBatteryCode = extractTractionBatteryCode(irsResponse);
 
@@ -77,13 +75,12 @@ public class AssetMapperFactory {
         if (tombstones != null) {
             log.info("Found {} tombstones", tombstones.size());
         }
-        return toAssetBase(irsResponse, descriptionMap, bpnMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
+        return toAssetBase(irsResponse, descriptionMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
     }
 
     @NotNull
     private List<AssetBase> toAssetBase(IRSResponse irsResponse,
-                                        Map<String, List<Descriptions>> descriptionMap,
-                                        Map<String, String> bpnMap, List<DetailAspectModel> tractionBatteryCode,
+                                        Map<String, List<Descriptions>> descriptionMap, List<DetailAspectModel> tractionBatteryCode,
                                         List<DetailAspectModel> partSiteInformationAsPlanned,
                                         List<AssetBase> tombstones) {
         List<AssetBase> submodelAssets = new ArrayList<>(irsResponse
@@ -96,9 +93,10 @@ public class AssetMapperFactory {
                         assetBase.setOwner(getOwner(assetBase, irsResponse));
                         assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
+                        assetBase.setManufacturerId(getManufacturerId(irsResponse, assetBase));
+                        assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
 
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
-                        enrichManufacturingInformation(irsResponse, bpnMap, assetBase);
                         enrichAssetBase(tractionBatteryCode, assetBase);
                         enrichAssetBase(partSiteInformationAsPlanned, assetBase);
 
@@ -138,20 +136,6 @@ public class AssetMapperFactory {
                 })
                 .filter(Objects::nonNull)
                 .toList();
-    }
-
-    @NotNull
-    public static Map<String, String> extractBpnMap(IRSResponse irsResponse) {
-        return irsResponse
-                .bpns()
-                .stream()
-                .map(bpn -> {
-                    Bpn bpn1 = Bpn.withManufacturerId(bpn.getManufacturerId());
-                    bpn1.updateManufacturerName(bpn.getManufacturerName());
-                    return bpn1;
-                }).filter(bpn -> bpn.getManufacturerName() != null)
-                .collect(Collectors.toMap(Bpn::getManufacturerId,
-                        Bpn::getManufacturerName));
     }
 
     private static void enrichUpwardAndDownwardDescriptions(Map<String, List<Descriptions>> descriptionsMap, AssetBase assetBase) {
@@ -201,6 +185,13 @@ public class AssetMapperFactory {
 
     private Optional<AsBuiltDetailMapper> getAsBuiltDetailMapper(IrsSubmodel irsSubmodel) {
         return asBuiltDetailMappers.stream().filter(asBuiltDetailMapper -> asBuiltDetailMapper.validMapper(irsSubmodel)).findFirst();
+    }
+
+    private String getManufacturerId(IRSResponse irsResponse, AssetBase assetBase){
+        if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
+            return irsResponse.jobStatus().parameter().bpn();
+        }
+        return assetBase.getManufacturerId();
     }
 
 }

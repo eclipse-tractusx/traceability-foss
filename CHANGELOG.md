@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination
 - #726 Added @Preauthorize annotation to dashboard controller
 - #837 Added digital twin type to data provisioning workflow to be able to lookup shells created by trace-x
+- #783 Validation that receiver of a notification must not be same as sender.
 
 ### Changed
 - #844 Prefilled bpn on investigation creation
@@ -22,6 +23,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #603 Upgraded SingleLevelBomAsBuilt, SingleLevelBomAsPlanned & SingleLevelBomAsBuilt to 3.0.0
 - #603 Upgraded Batch, SerialPart and JustInSequencePart to 3.0.0
 - #603 Upgraded PartAsPlanned to 2.0.0
+- #918 Merged parts and other parts into one table
 - #778 update EDC from 0.5.3 to 0.7.0
 
 ### Removed
@@ -34,6 +36,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #622 Notification Update API
 - #774 Added initial concept for handling multiple BPNs
 - #834 Added possiblity to exclude elements from the results of the asset api filter
+- #586 BPDM lookup feature
 
 ## Changed
 - XXX Updated insomnia collection

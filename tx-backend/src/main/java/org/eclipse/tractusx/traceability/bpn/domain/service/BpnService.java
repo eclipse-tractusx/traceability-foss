@@ -16,30 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {TableFilterConfiguration} from '@shared/components/parts-table/parts-config.model';
+package org.eclipse.tractusx.traceability.bpn.domain.service;
 
-export class PartsAsBuiltSupplierConfigurationModel extends TableFilterConfiguration {
-  constructor() {
-    const sortableColumns = {
-      select: false,
-      semanticDataModel: true,
-      nameAtManufacturer: true,
-      businessPartner: true,
-      manufacturerName: true,
-      manufacturerPartId: true,
-      semanticModelId: true,
-      manufacturingDate: true,
-      receivedActiveAlerts: true,
-      receivedActiveInvestigations: true,
-      sentActiveAlerts: true,
-      sentActiveInvestigations: true,
-      menu: false,
-    };
-    const dateFields = [ 'manufacturingDate' ];
-    const singleSearchFields = [ 'receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations' ];
-    super(sortableColumns, dateFields, singleSearchFields);
-  }
+import bpn.request.BpnMappingRequest;
+import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 
+import java.util.List;
 
+public interface BpnService {
+    String findByBpn(String bpn);
+
+    List<BpnEdcMapping> findAllBpnMappings();
+
+    List<BpnEdcMapping> saveAllBpnEdcMappings(List<BpnMappingRequest> bpnEdcMappings);
+
+    List<BpnEdcMapping> updateAllBpnMappings(List<BpnMappingRequest> bpnEdcMappings);
+
+    void deleteBpnMapping(String bpn);
 }
-
