@@ -49,22 +49,25 @@ public class RequestResponseLoggingInterceptor implements ClientHttpRequestInter
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
                                         final ClientHttpRequestExecution execution) throws IOException {
         ClientHttpResponse response = execution.execute(request, body);
-        ;
+        InputStreamReader isr = null;
+        BufferedReader br = null;
         try {
             String requestBody = new String(body, StandardCharsets.UTF_8);
             LOGGER.info("Request body: {}", requestBody.replaceAll("[\r\n]+", " "));
-            InputStreamReader isr = new InputStreamReader(
+            isr = new InputStreamReader(
                     response.getBody(), StandardCharsets.UTF_8);
-            String bodys = new BufferedReader(isr).lines()
+            br = new BufferedReader(isr);
+            String bodys = br.lines()
                     .collect(Collectors.joining("\n"));
             LOGGER.info("Response body: {}", bodys.replaceAll("[\r\n]+", " "));
             return response;
-        } catch (IOException e) {
-            log.error(e.getMessage());
+        } finally {
+            if (isr != null)
+                isr.close();
+
+            if (br != null)
+                br.close();
         }
-
-
-        return response;
     }
 
 }
