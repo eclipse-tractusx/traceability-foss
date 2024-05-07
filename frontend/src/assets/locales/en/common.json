@@ -88,6 +88,15 @@
       "supplier": "Supplier",
       "customer": "Customer"
     },
+    "semanticDataModel": {
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
+      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+    },
     "tableSettings": {
       "invalid": "Due to an error table settings have been reset",
       "title": "Table column settings",
@@ -399,12 +408,11 @@
       "IN_SYNCHRONIZATION": "In Synchronization",
       "ERROR": "Error",
       "UNSET": "Unset",
-      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
+      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht",
       "OWN": "Own",
       "SUPPLIER": "Supplier",
       "CUSTOMER": "Customer",
       "UNKNOWN": "Unknown"
-
     }
   },
   "parts": {

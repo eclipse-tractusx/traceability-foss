@@ -90,6 +90,15 @@
       "supplier": "Lieferant",
       "customer": "Kunde"
     },
+    "semanticDataModel": {
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
+      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+    },
     "tableSettings": {
       "invalid": "Auf Grund eines Fehlers werden die Tabelleneinstellungen zurückgesetzt",
       "title": "Tabellenspalten Einstellungen",

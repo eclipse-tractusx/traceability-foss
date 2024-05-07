@@ -297,10 +297,16 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
                           <ng-template #ownerElement>
-  <ng-container *ngIf="isOwner(column); else autoFormatRef">
+  <ng-container *ngIf="isOwner(column); else semanticDataModelElement">
 
       {{'table.owner.' + element[column]?.toLowerCase() | i18n}}
 
+  </ng-container>
+</ng-template>
+
+                                                    <ng-template #semanticDataModelElement>
+  <ng-container *ngIf="isSemanticDataModel(column); else autoFormatRef">
+      {{'table.semanticDataModel.' + element[column] | i18n}}
   </ng-container>
 </ng-template>
 

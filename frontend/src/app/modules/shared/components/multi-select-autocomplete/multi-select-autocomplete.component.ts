@@ -172,15 +172,15 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
     // apply CamelCase to semanticDataModel labels
 
-    if (this.filterColumn === 'semanticDataModel') {
+/*    if (this.filterColumn === 'semanticDataModel') {
       displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
     } else if (this.filterColumn === 'type') {
       displayValue = [ NotificationType[this.selectedValue[0]], suffix ];
-    }
+    }*/
 
-    else {
+
       displayValue = [ this.selectedValue[0], suffix ];
-    }
+
 
     // if no value selected, return empty string
     if (!this.selectedValue.length) {
@@ -217,7 +217,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       this.isLoadingSuggestions = true;
       try {
         firstValueFrom(this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement)).then((res) => {
-          if (this.filterColumn === 'semanticDataModel') {
+   /*       if (this.filterColumn === 'semanticDataModel') {
             // @ts-ignore
             this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
               .map(option => ({
@@ -245,7 +245,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
               display: NotificationType[option],
               value: option,
             }));
-          }  else {
+          } */
             // add filter for not selected
             // @ts-ignore
             this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
@@ -254,7 +254,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
             // @ts-ignore
             this.allOptions = res.map(option => ({ display: option, value: option }));
             this.handleAllSelectedCheckbox();
-          }
+
 
           this.suggestionError = !this.searchedOptions?.length;
         }).catch((error) => {
