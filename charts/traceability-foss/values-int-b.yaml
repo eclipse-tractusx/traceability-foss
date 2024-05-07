@@ -121,6 +121,7 @@ frontend:
     CATENAX_PORTAL_BACKEND_DOMAIN: *portal_domain
     CATENAX_PORTAL_URL: *portal_url
     CATENAX_PORTAL_CLIENT_ID: *central_idp_resource_client
+    BPN: *bpn
 
   ingress:
     hosts:
