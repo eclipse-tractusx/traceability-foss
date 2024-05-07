@@ -7,6 +7,23 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+
+
+## [UNRELEASED - 07.05.2024]
+
+### Added
+- #779 Created new enum type for status
+- #779 Added asset_as_build view to after updating status column type
+- #779 Added new dependency hypersistence-utils-hibernate-63 to map enum to string
+
+### changed
+- #779 feat: reactivate natural sorting order of notification by status
+- #779 updated status column type of notification and notification_message
+
+### Removed
+- #779 Dropped asset_as_build view to update status column type varchar to enum but added again
+
+## [UNRELEASED - DD.MM.YYYY]
 ### Added
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination
 - #726 Added @Preauthorize annotation to dashboard controller
