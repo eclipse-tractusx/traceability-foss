@@ -180,7 +180,7 @@ config:
 
 dependencies:
   enabled: false
-  irs: CHANGEME #<irs-helm.nameOverride>
+  irs: CHANGEME #<item-relationship-service.nameOverride>
   edc: CHANGEME #<tractusx-connector.nameOverride>-controlplane
 
 bpdm:
