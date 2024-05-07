@@ -19,6 +19,8 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.alert;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import lombok.val;
 import notification.request.CloseNotificationRequest;
@@ -58,8 +60,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -297,7 +297,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCancelAlert() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldCancelAlert() throws JoseException, JsonProcessingException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         assetsSupport.defaultAssetsStored();
@@ -348,7 +348,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldApproveAlertStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldApproveAlertStatus() throws JoseException, JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
@@ -403,7 +403,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCloseAlertStatus() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException, JsonProcessingException {
+    void shouldCloseAlertStatus() throws JoseException, JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
@@ -514,7 +514,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldBeCreatedBySender() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldBeCreatedBySender() throws JoseException, JsonProcessingException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
