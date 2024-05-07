@@ -154,8 +154,8 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
-    public List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner) {
-        return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, AssetAsPlannedEntity.class, entityManager);
+    public List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner, List<String> inAssetIds) {
+        return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, inAssetIds, AssetAsPlannedEntity.class, entityManager);
     }
 
     @Transactional
