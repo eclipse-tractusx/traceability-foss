@@ -26,6 +26,11 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #603 Upgraded PartAsPlanned to 2.0.0
 - #918 Merged parts and other parts into one table
 - #778 update EDC from 0.5.3 to 0.7.0
+- #xxx update of lombok from 1.18.30 to 1.18.32
+- #xxx update of findsecbugs plugin from 1.12.0 to 1.13.0
+- #xxx update of commons-compress from 1.26.0 to 1.26.1
+- #xxx update of logback from 1.5.5 to 1.5.6
+- #xxx update of cucumber-bom from 7.16.1 to 7.17.0
 
 ### Removed
 
