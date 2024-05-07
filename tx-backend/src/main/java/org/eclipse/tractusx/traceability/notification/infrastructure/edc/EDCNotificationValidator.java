@@ -23,8 +23,9 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.springframework.stereotype.Component;
 
 /**
@@ -72,10 +73,14 @@ public class EDCNotificationValidator implements ConstraintValidator<ValidEDCNot
         if (senderBPN == null) {
             throw new InvestigationReceiverBpnMismatchException("BPN of sender cannot be null.");
         }
+        if (applicationBPN.value().equals(senderBPN)) {
+            throw new NotificationSenderAndReceiverBPNEqualException(BPN.of(senderBPN), edcNotification.getNotificationId());
+        }
         if (!senderBPN.equals(applicationBPN.value()) && !recipientBPN.equals(applicationBPN.value())) {
             final String senderBPNIsNotSameAsReceiverError = String.format("BPN {%s} is not eligible to handle BPN: {%s}", applicationBPN.value(), senderBPN);
             throw new InvestigationReceiverBpnMismatchException(senderBPNIsNotSameAsReceiverError);
         }
+
 
         return true;
     }

@@ -37,12 +37,12 @@ import java.util.List;
 public class PolicyMapper {
     public static EdcCreatePolicyDefinitionRequest mapToEdcPolicyRequest(PolicyResponse policy) {
         OdrlContext odrlContext = OdrlContext.builder().odrl("http://www.w3.org/ns/odrl/2/").build();
-        EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(mapToPermissions(policy.permissions())).type("Policy").build();
+        EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(mapToPermissions(policy.permissions())).type("odrl:Set").build();
         return EdcCreatePolicyDefinitionRequest.builder()
                 .policyDefinitionId(policy.policyId())
                 .policy(edcPolicy)
                 .odrlContext(odrlContext)
-                .type("PolicyDefinitionRequestDto")
+                .type("odrl:Set")
                 .build();
     }
 

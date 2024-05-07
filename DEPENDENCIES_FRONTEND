@@ -231,7 +231,7 @@ npm/npmjs/-/d3-timer/3.0.1, ISC, approved, clearlydefined
 npm/npmjs/-/d3-transition/3.0.1, ISC, approved, clearlydefined
 npm/npmjs/-/d3-zoom/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/d3/7.8.4, ISC, approved, clearlydefined
-npm/npmjs/-/dashdash/1.14.1, MIT, restricted, clearlydefined
+npm/npmjs/-/dashdash/1.14.1, MIT AND CDDL-1.0, approved, #14596
 npm/npmjs/-/data-urls/2.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/date-format/4.0.14, MIT, approved, clearlydefined
 npm/npmjs/-/dayjs/1.11.7, MIT, approved, #9149
@@ -592,7 +592,7 @@ npm/npmjs/-/js-tokens/4.0.0, MIT, approved, #2401
 npm/npmjs/-/js-yaml/3.14.1, MIT, approved, clearlydefined
 npm/npmjs/-/js-yaml/4.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/js2xmlparser/4.0.2, Apache-2.0, approved, clearlydefined
-npm/npmjs/-/jsbn/0.1.1, MIT, restricted, clearlydefined
+npm/npmjs/-/jsbn/0.1.1, LicenseRef-scancode-mit-addition, approved, #14597
 npm/npmjs/-/jsdoc-type-pratt-parser/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/jsdom/16.7.0, LGPL-2.0-or-later AND MIT, approved, #1370
 npm/npmjs/-/jsesc/0.5.0, MIT, approved, clearlydefined
