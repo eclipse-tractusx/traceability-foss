@@ -67,9 +67,8 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     const { title, description, severity, type, sendTo, targetDate } = this.notification;
-
     if (this.editMode) {
-      this.formGroup.setValue({
+      this.formGroup.patchValue({
         'title': title,
         'description': description,
         'severity': severity,
@@ -95,7 +94,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     }
 
     if (this.notification.type === NotificationType.ALERT) {
-      this.formGroup.get('bpn').setValidators(Validators.required);
+
     }
     this.formGroupChanged.emit(this.formGroup);
 
@@ -126,7 +125,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
             }
 
             if (data.type === NotificationType.ALERT) {
-              this.formGroup.get('bpn').setValidators(Validators.required);
+
             }
 
             this.formGroupChanged.emit(this.formGroup);
