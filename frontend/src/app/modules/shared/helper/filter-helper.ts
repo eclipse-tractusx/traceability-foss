@@ -237,6 +237,6 @@ export function provideFilterListForNotifications(filter?: NotificationDeeplinkF
 
 export function containsAtleastOneFilterEntry(filter: AssetAsBuiltFilter | AssetAsPlannedFilter): boolean {
   return Object.keys(filter)
-    .filter(key => filter[key].length)
+    .filter(key => filter[key]?.length)
     .length > 0;
 }
