@@ -877,10 +877,6 @@
               "key" : "manufacturerId"
             },
             {
-              "value" : "9858559-85",
-              "key" : "manufacturerPartId"
-            },
-            {
               "value" : "NO-341449848714937445621543",
               "key" : "batchId"
             }
@@ -907,10 +903,6 @@
             {
               "value" : "BPNL00000003CML1",
               "key" : "manufacturerId"
-            },
-            {
-              "value" : "9623673-66",
-              "key" : "manufacturerPartId"
             },
             {
               "value" : "NO-341449848714937445621543",
