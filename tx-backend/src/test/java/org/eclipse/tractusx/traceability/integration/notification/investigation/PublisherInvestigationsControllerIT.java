@@ -28,7 +28,6 @@ import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.request.UpdateNotificationStatusTransitionRequest;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
@@ -96,8 +95,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Autowired
     IrsApiSupport irsApiSupport;
 
-    @Autowired
-    EndpointDataReferenceStorage endpointDataReferenceStorage;
     ObjectMapper objectMapper;
 
     @BeforeEach
