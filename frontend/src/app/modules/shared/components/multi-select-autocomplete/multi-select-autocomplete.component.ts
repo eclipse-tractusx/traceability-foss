@@ -25,6 +25,7 @@ import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
+import { Owner, OwnerDisplay } from '@page/parts/model/owner.enum';
 import {
   AutocompleteStrategy,
   AutocompleteStrategyMap,
@@ -170,11 +171,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     }
 
     // apply CamelCase to semanticDataModel labels
+
     if (this.filterColumn === 'semanticDataModel') {
       displayValue = [ this.formatPartSemanticDataModelToCamelCasePipe.transformModel(this.selectedValue[0]), suffix ];
     } else if (this.filterColumn === 'type') {
       displayValue = [ NotificationType[this.selectedValue[0]], suffix ];
-    } else {
+    } else if (this.filterColumn === 'owner') {
+      displayValue = [ OwnerDisplay[this.selectedValue[0]], suffix ];
+    }
+
+    else {
       displayValue = [ this.selectedValue[0], suffix ];
     }
 
@@ -239,6 +245,19 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
             // @ts-ignore
             this.allOptions = res.map(option => ({
               display: NotificationType[option],
+              value: option,
+            }));
+          } else if (this.filterColumn === 'owner') {
+            // @ts-ignore
+            this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
+              .map(option => ({
+                display: OwnerDisplay[option],
+                value: option,
+              }));
+            this.options = this.searchedOptions;
+            // @ts-ignore
+            this.allOptions = res.map(option => ({
+              display: OwnerDisplay[option],
               value: option,
             }));
           } else {
