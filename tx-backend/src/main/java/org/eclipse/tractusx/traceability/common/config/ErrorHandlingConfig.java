@@ -44,6 +44,7 @@ import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractExce
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
@@ -176,6 +177,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(InvestigationReceiverBpnMismatchException.class)
     ResponseEntity<ErrorResponse> handleInvestigationReceiverBpnMismatchException(InvestigationReceiverBpnMismatchException exception) {
         log.warn("handleInvestigationReceiverBpnMismatchException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(NotificationSenderAndReceiverBPNEqualException.class)
+    ResponseEntity<ErrorResponse> handleNotificationSenderAndReceiverBPNEqualException(NotificationSenderAndReceiverBPNEqualException exception) {
+        log.warn("handleNotificationSenderAndReceiverBPNEqualException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }

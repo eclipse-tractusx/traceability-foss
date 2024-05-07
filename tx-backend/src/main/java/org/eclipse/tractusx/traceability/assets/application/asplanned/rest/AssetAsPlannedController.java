@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
@@ -53,6 +54,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -250,8 +252,17 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@RequestParam("fieldName") String fieldName, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "startWith", required = false) String startWith, @RequestParam(value = "owner", required = false) Owner owner) {
-        return assetService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner);
+    public List<String> distinctFilterValues(
+            @RequestParam("fieldName") String fieldName,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "startWith", required = false) String startWith,
+            @RequestParam(value = "owner", required = false) Owner owner,
+            @RequestParam(value = "inAssetIds", required = false) String[] inAssetIds) {
+        List<String> inAssetIdsList = List.of();
+        if (ArrayUtils.isNotEmpty(inAssetIds)) {
+            inAssetIdsList = Arrays.asList(inAssetIds);
+        }
+        return assetService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner, inAssetIdsList);
     }
 
     @Operation(operationId = "assetById",
