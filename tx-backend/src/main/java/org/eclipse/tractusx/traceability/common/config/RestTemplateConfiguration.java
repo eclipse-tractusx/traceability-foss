@@ -180,7 +180,7 @@ public class RestTemplateConfiguration {
         if (CollectionUtils.isEmpty(interceptors)) {
             interceptors = new ArrayList<>();
         }
-        interceptors.add(new IrsClientRestTemplateInterceptor());
+        interceptors.add(new RequestResponseLoggingInterceptor());
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
         restTemplate.setInterceptors(interceptors);
         return restTemplate;

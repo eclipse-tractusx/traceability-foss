@@ -40,23 +40,31 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
-public class IrsClientRestTemplateInterceptor implements ClientHttpRequestInterceptor {
+public class RequestResponseLoggingInterceptor implements ClientHttpRequestInterceptor {
 
-    static Logger LOGGER = LoggerFactory.getLogger(IrsClientRestTemplateInterceptor.class);
+    static Logger LOGGER = LoggerFactory.getLogger(RequestResponseLoggingInterceptor.class);
 
     @Override
     @NotNull
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
                                         final ClientHttpRequestExecution execution) throws IOException {
-
-        String requestBody = new String(body, StandardCharsets.UTF_8);
-        LOGGER.info("Request body: {}", requestBody.replaceAll("[\r\n]+", " "));
         ClientHttpResponse response = execution.execute(request, body);
-        InputStreamReader isr = new InputStreamReader(
-                response.getBody(), StandardCharsets.UTF_8);
-        String bodys = new BufferedReader(isr).lines()
-                .collect(Collectors.joining("\n"));
-        LOGGER.info("Response body: {}", bodys.replaceAll("[\r\n]+", " "));
+        ;
+        try {
+            String requestBody = new String(body, StandardCharsets.UTF_8);
+            LOGGER.info("Request body: {}", requestBody.replaceAll("[\r\n]+", " "));
+            InputStreamReader isr = new InputStreamReader(
+                    response.getBody(), StandardCharsets.UTF_8);
+            String bodys = new BufferedReader(isr).lines()
+                    .collect(Collectors.joining("\n"));
+            LOGGER.info("Response body: {}", bodys.replaceAll("[\r\n]+", " "));
+            return response;
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+
+
         return response;
     }
+
 }
