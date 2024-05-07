@@ -93,9 +93,6 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
       this.formGroup.get('bpn').disable();
     }
 
-    if (this.notification.type === NotificationType.ALERT) {
-
-    }
     this.formGroupChanged.emit(this.formGroup);
 
     this.formGroup.valueChanges.subscribe(() => {
@@ -122,10 +119,6 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
             }
             if (data.type === NotificationType.INVESTIGATION) {
               this.formGroup.get('bpn').disable();
-            }
-
-            if (data.type === NotificationType.ALERT) {
-
             }
 
             this.formGroupChanged.emit(this.formGroup);
