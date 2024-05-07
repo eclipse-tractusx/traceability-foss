@@ -401,7 +401,7 @@ postgresql:
 #########################
 # IRS configuration     #
 #########################
-irs-helm:
+item-relationship-service:
   enabled: false  # <irs-helm.enabled>
   nameOverride: "tracex-irs"
   fullnameOverride: "tracex-irs"
