@@ -639,7 +639,7 @@
     "@id": "b57e72e4-e7a0-4c5f-b447-41921a61aa92",
     "@type": "dcat:DataService",
     "dct:terms": "connector",
-    "dct:endpointUrl": "https://trace-x-edc-e2e-b.dev.demo.catena-x.net/api/v1/dsp"
+    "dct:endpointUrl" : "https://test.net/api/v1/dsp"
   },
   "edc:participantId": "BPNL00000003CNKC",
   "@context": {
