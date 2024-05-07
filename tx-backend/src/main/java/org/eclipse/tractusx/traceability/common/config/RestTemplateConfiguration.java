@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -36,6 +37,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -154,9 +159,17 @@ public class RestTemplateConfiguration {
     /* RestTemplate used by the edc client library*/
     @Bean(EDC_CLIENT_REST_TEMPLATE)
     public RestTemplate edcClientRestTemplate() {
-        return new RestTemplateBuilder()
-                .errorHandler(new DefaultResponseErrorHandler())
-                .build();
+        ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
+        RestTemplate restTemplate = new RestTemplate(factory);
+
+        List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
+        if (CollectionUtils.isEmpty(interceptors)) {
+            interceptors = new ArrayList<>();
+        }
+        interceptors.add(new IrsClientRestTemplateInterceptor());
+        restTemplate.setInterceptors(interceptors);
+        restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
+        return restTemplate;
     }
 
     private RestTemplateBuilder oAuthRestTemplate(final RestTemplateBuilder restTemplateBuilder,
