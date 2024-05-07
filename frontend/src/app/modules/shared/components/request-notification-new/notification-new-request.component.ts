@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
@@ -27,6 +27,7 @@ import { Severity } from '@shared/model/severity.model';
 import { View } from '@shared/model/view.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { environment } from '../../../../../environments/environment.dev';
 
 @Component({
   selector: 'app-notification-new-request',
@@ -38,23 +39,30 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   @Input() notification: Notification;
   @Output() formGroupChanged = new EventEmitter<FormGroup>();
 
-
+  public bpnValidator = (control: FormControl): ValidationErrors | null => {
+    const value = control.value as string;
+    if (value === this.applicationBPN) {
+      return { invalidBpn: true };
+    }
+    return null;
+  };
   public readonly formGroup = new FormGroup<any>({
     'title': new FormControl('', [ Validators.maxLength(30), Validators.minLength(0) ]),
     'description': new FormControl('', [ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]),
     'severity': new FormControl(Severity.MINOR, [ Validators.required ]),
     'targetDate': new FormControl(null),
-    'bpn': new FormControl(null, [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
+    'bpn': new FormControl(null, [ Validators.required, this.bpnValidator, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
     'type': new FormControl({ value: NotificationType.INVESTIGATION, disabled: true }, [ Validators.required ]),
   });
   public selected$: Observable<View<Notification>>;
 
   public readonly isLoading$ = new BehaviorSubject(false);
   public readonly minDate = new Date();
-
+  private applicationBPN = environment.bpn;
   private subscription: Subscription;
 
   constructor(public readonly notificationDetailFacade: NotificationDetailFacade) {
+
   }
 
   ngOnInit(): void {
@@ -128,6 +136,8 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     }
 
   }
+
+
 
   public ngOnDestroy(): void {
     this.subscription?.unsubscribe();

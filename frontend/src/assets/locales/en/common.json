@@ -206,7 +206,8 @@
     "maxDate": "Please select a date that is before {{- maxDate}}.",
     "minDate": "Please select a date that is after {{- minDate}}.",
     "currentDate": "Please select a date that is after {{- currentDate}}.",
-    "generic": "Please enter valid data."
+    "generic": "Please enter valid data.",
+    "invalidBpn": "Must not be own BPN."
   },
   "unitTest": {
     "test01": "This is for unit tests purposes.",
