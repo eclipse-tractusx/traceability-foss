@@ -27,7 +27,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #778 update EDC from 0.5.3 to 0.7.0
 
 ### Removed
--
+
+- #602 digitalTwinType instead of semanticId. DigitalTwinType causes problems in release 24.05
+
 ## [10.8.4 - 17.04.2024]
 
 ### Added
