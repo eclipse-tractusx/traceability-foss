@@ -1,5 +1,48 @@
 {
-  "submodels" : [
+  "policies" : {
+    "ID 3.1 Trace": {
+      "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/"
+      },
+      "@type": "PolicyDefinitionRequestDto",
+      "@id": "id-3.1-trace",
+      "policy": {
+        "@type": "odrl:Set",
+        "odrl:permission": [
+          {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+              "@type": "AtomicConstraint",
+              "odrl:or": [
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "PURPOSE",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "ID 3.1 Trace"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "https://catenax.io/schema/TestDataContainer/1.0.0" : [
+    {
+      "catenaXId" : "urn:uuid:0fed587c-7ab4-4597-9841-1718e9693003",
+      "bpnl" : "BPNL00000003CML1",
+      "PlainObject" : [
+        {
+          "BPN_OEM_C" : "BPNL00000003CML1",
+          "BPN_OEM_A" : "BPNL00000003CSGV",
+          "BPN_OEM_B" : "BPNL00000003AZQP",
+          "BPN_OEM_D" : "BPNL00000003CNKC",
+          "CREATION_DATE" : "2022-09-26T12:43:51.079Z"
+        }
+      ]
+    },
     {
       "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
       "bpnl" : "BPNL00000003CML1",
