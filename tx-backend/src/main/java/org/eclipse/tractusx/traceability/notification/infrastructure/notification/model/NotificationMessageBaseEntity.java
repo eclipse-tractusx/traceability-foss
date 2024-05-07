@@ -18,15 +18,13 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.notification.infrastructure.notification.model;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PreUpdate;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -52,6 +50,8 @@ public class NotificationMessageBaseEntity {
     private LocalDateTime updated;
     private String messageId;
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "status")
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private NotificationStatusBaseEntity status;
     private String errorMessage;
 

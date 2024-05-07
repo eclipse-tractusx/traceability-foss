@@ -28,6 +28,8 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 
@@ -51,6 +53,8 @@ public class NotificationBaseEntity {
     @Enumerated(EnumType.STRING)
     private NotificationSideBaseEntity side;
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "status")
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private NotificationStatusBaseEntity status;
 
 }
