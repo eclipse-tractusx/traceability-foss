@@ -65,7 +65,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCreateAnInvestigationIncludingNotificationOnAPICallClass() throws IOException, JoseException {
+    void shouldRejectInvestigationNotificationOnAPICallClass_whenAppBpnEqualsSenderBpn() throws IOException, JoseException {
         // given
         assetsSupport.defaultAssetsStored();
         String notificationJson = readFile("/testdata/edc_notification_okay.json");
@@ -79,12 +79,11 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .when()
                 .post("/api/qualitynotifications/receive")
                 .then()
-                .statusCode(200);
+                .statusCode(400);
 
         // then
-        investigationNotificationsSupport.assertNotificationsSize(1);
-        investigationsSupport.assertInvestigationsSize(1);
-        investigationsSupport.assertInvestigationStatus(NotificationStatus.RECEIVED);
+        investigationNotificationsSupport.assertNotificationsSize(0);
+        investigationsSupport.assertInvestigationsSize(0);
     }
 
     @Test
@@ -133,7 +132,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
 
         NotificationEntity investigation = NotificationEntity.builder()
                 .assets(Collections.emptyList())
-                .bpn("BPNL00000003AXS3")
+                .bpn("BPNL00000003AXB3")
                 .status(NotificationStatusBaseEntity.SENT)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .side(NotificationSideBaseEntity.SENDER)
