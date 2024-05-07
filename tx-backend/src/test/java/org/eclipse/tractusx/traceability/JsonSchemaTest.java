@@ -38,7 +38,6 @@ public class JsonSchemaTest {
 
 
     public static final Map<String, String> SUPPORTED_SCHEMA_VALIDATION = Map.ofEntries(
-            Map.entry("base", "/schema/tracex/schema_V2_test.json"),
             Map.entry("urn:samm:io.catenax.batch:3.0.0#Batch", "/schema/semantichub/Batch_3.0.0-schema.json"),
             Map.entry("urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart", "/schema/semantichub/JustInSequencePart_3.0.0-schema.json"),
             Map.entry("urn:samm:io.catenax.serial_part:3.0.0#SerialPart", "/schema/semantichub/SerialPart_3.0.0-schema.json"),
