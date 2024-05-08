@@ -17,6 +17,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #778 Added counterPartyId to getCatalogRequest
 
 ### Changed
+- #837 migrate to irs-helm 7.1.1
+- #837 migrate to irs-decentral-client-library to 2.0.2-SNAPSHOT
 - #844 Prefilled bpn on investigation creation
 - #843 Refactored e2e tests, added edit notification e2e test case
 - #828 fix duplicates in traction_battery_code_subcomponent table
