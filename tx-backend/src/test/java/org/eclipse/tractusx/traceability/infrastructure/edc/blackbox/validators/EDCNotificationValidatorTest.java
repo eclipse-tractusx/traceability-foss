@@ -86,6 +86,7 @@ class EDCNotificationValidatorTest {
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of(bpn));
         when(edcNotification.getSenderBPN()).thenReturn(bpn);
         when(edcNotification.getRecipientBPN()).thenReturn(bpn);
+        when(edcNotification.getNotificationId()).thenReturn("123");
         assertThrows(NotificationSenderAndReceiverBPNEqualException.class, () -> validator.isValid(edcNotification, context));
     }
 
