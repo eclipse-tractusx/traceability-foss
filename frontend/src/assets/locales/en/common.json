@@ -7,11 +7,11 @@
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "inbox": "Quality Notification",
+    "inbox": "Quality notifications",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
-    "partMismatch": "Selected parts must have same owner to create quality topic (OWN, SUPPLIER)",
+    "partMismatch": "Selected parts must have same owner to create quality topic (Own, Supplier)",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",
@@ -87,6 +87,15 @@
       "own": "Own",
       "supplier": "Supplier",
       "customer": "Customer"
+    },
+    "semanticDataModel": {
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
+      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode"
     },
     "tableSettings": {
       "invalid": "Due to an error table settings have been reset",
@@ -197,7 +206,8 @@
     "maxDate": "Please select a date that is before {{- maxDate}}.",
     "minDate": "Please select a date that is after {{- minDate}}.",
     "currentDate": "Please select a date that is after {{- currentDate}}.",
-    "generic": "Please enter valid data."
+    "generic": "Please enter valid data.",
+    "invalidBpn": "Must not be own BPN."
   },
   "unitTest": {
     "test01": "This is for unit tests purposes.",
@@ -390,7 +400,8 @@
       "BATCH": "Batch",
       "SERIALPART": "SerialPart",
       "PARTASPLANNED": "PartAsPlanned",
-      "UNKNOWN": "Unknown",
+      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
+      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
       "JUSTINSEQUENCE": "JustInSequence",
       "TRACTIONBATTERYCODE": "TractionBatteryCode",
       "TRANSIENT": "Transient",
@@ -398,15 +409,18 @@
       "IN_SYNCHRONIZATION": "In Synchronization",
       "ERROR": "Error",
       "UNSET": "Unset",
-      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
-
+      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht",
+      "OWN": "Own",
+      "SUPPLIER": "Supplier",
+      "CUSTOMER": "Customer",
+      "UNKNOWN": "Unknown"
     }
   },
   "parts": {
     "input": {
       "global-search": {
         "placeholder": "Search by entering C-X ID, partInstanceId or partNumber / BPN",
-        "toastInfo": "By using global search on view level, the local filters on table level was removed."
+        "toastInfo": "Any local filters on table level were removed."
       }
     }
   },

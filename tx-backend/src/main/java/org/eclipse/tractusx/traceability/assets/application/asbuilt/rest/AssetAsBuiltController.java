@@ -33,7 +33,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.QueryParam;
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
@@ -53,8 +53,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -254,8 +256,17 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("owner") Owner owner) {
-        return assetBaseService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner);
+    public List<String> distinctFilterValues(
+            @RequestParam("fieldName") String fieldName,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "startWith", required = false) String startWith,
+            @RequestParam(value = "owner", required = false) Owner owner,
+            @RequestParam(value = "inAssetIds", required = false) String[] inAssetIds) {
+        List<String> inAssetIdsList = List.of();
+        if (ArrayUtils.isNotEmpty(inAssetIds)) {
+            inAssetIdsList = Arrays.asList(inAssetIds);
+        }
+        return assetBaseService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner, inAssetIdsList);
     }
 
     @Operation(operationId = "assetsCountryMap",

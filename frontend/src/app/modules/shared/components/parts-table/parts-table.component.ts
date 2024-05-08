@@ -236,6 +236,10 @@ export class PartsTableComponent implements OnInit {
     return key === 'owner';
   }
 
+  public isSemanticDataModel(key: string) {
+    return key === 'semanticDataModel';
+  }
+
   private pageSize: number;
   private sorting: TableHeaderSort;
 
