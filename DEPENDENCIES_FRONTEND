@@ -598,7 +598,7 @@ npm/npmjs/-/jsdom/16.7.0, LGPL-2.0-or-later AND MIT, approved, #1370
 npm/npmjs/-/jsesc/0.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/jsesc/2.5.2, MIT, approved, clearlydefined
 npm/npmjs/-/json-parse-even-better-errors/2.3.1, MIT, approved, clearlydefined
-npm/npmjs/-/json-parse-even-better-errors/3.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/json-parse-even-better-errors/3.0.0, MIT, approved, #14658
 npm/npmjs/-/json-schema-traverse/0.4.1, MIT, approved, clearlydefined
 npm/npmjs/-/json-schema-traverse/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/json-schema/0.4.0, AFL-2.1 OR BSD-3-Clause, approved, #2410
@@ -734,7 +734,7 @@ npm/npmjs/-/no-case/3.0.4, MIT, approved, clearlydefined
 npm/npmjs/-/node-addon-api/3.2.1, MIT, approved, clearlydefined
 npm/npmjs/-/node-fetch/2.6.7, MIT, approved, #6954
 npm/npmjs/-/node-forge/1.3.1, (BSD-3-Clause OR GPL-2.0-only) AND MIT, approved, #3014
-npm/npmjs/-/node-gyp-build/4.8.0, MIT, approved, clearlydefined
+npm/npmjs/-/node-gyp-build/4.8.0, MIT, approved, #14661
 npm/npmjs/-/node-gyp/9.3.1, MIT AND BSD-3-Clause, approved, #3783
 npm/npmjs/-/node-hook/1.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/node-releases/2.0.10, MIT, approved, #1954
@@ -940,7 +940,7 @@ npm/npmjs/-/semver/6.3.1, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.3.8, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.5.3, ISC, approved, clearlydefined
 npm/npmjs/-/semver/7.5.4, ISC, approved, clearlydefined
-npm/npmjs/-/semver/7.6.0, ISC, approved, clearlydefined
+npm/npmjs/-/semver/7.6.0, ISC, approved, #14659
 npm/npmjs/-/send/0.18.0, MIT, approved, clearlydefined
 npm/npmjs/-/serialize-javascript/6.0.1, BSD-3-Clause, approved, #12680
 npm/npmjs/-/serialize-javascript/6.0.2, BSD-3-Clause, approved, #12680
@@ -1113,7 +1113,7 @@ npm/npmjs/-/uuid/9.0.0, MIT AND (BSD-3-Clause AND MIT), approved, #6869
 npm/npmjs/-/v8-compile-cache-lib/3.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/v8-compile-cache/2.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/validate-npm-package-license/3.0.4, Apache-2.0 AND (Apache-2.0 AND BSD-2-Clause), approved, #2562
-npm/npmjs/-/validate-npm-package-name/5.0.0, ISC, approved, clearlydefined
+npm/npmjs/-/validate-npm-package-name/5.0.0, ISC, approved, #14653
 npm/npmjs/-/vary/1.1.2, MIT, approved, clearlydefined
 npm/npmjs/-/verror/1.10.0, MIT, approved, clearlydefined
 npm/npmjs/-/verror/1.10.1, MIT, approved, clearlydefined
@@ -1525,7 +1525,7 @@ npm/npmjs/@nodelib/fs.scandir/2.1.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.stat/2.0.5, MIT, approved, clearlydefined
 npm/npmjs/@nodelib/fs.walk/1.2.8, MIT, approved, clearlydefined
 npm/npmjs/@npmcli/fs/2.1.0, ISC, approved, clearlydefined
-npm/npmjs/@npmcli/fs/3.1.0, ISC, approved, clearlydefined
+npm/npmjs/@npmcli/fs/3.1.0, ISC AND MIT, approved, #14656
 npm/npmjs/@npmcli/git/4.0.3, ISC, approved, #7598
 npm/npmjs/@npmcli/installed-package-contents/2.0.1, ISC, approved, clearlydefined
 npm/npmjs/@npmcli/move-file/2.0.0, MIT, approved, clearlydefined
