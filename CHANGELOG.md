@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+
+## [11.0.0 - 08.05.2024]
 ### Added
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination
 - #726 Added @Preauthorize annotation to dashboard controller
@@ -24,22 +26,21 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #843 Refactored e2e tests, added edit notification e2e test case
 - #828 fix duplicates in traction_battery_code_subcomponent table
 - #617 redesigned inbox table
-- #XXX Updated spring boot from 3.2.4 to 3.2.5
-- #XXX Bumped logback-core & logback-classic from 1.5.4 to 1.5.5
 - #603 Upgraded SingleLevelBomAsBuilt, SingleLevelBomAsPlanned & SingleLevelBomAsBuilt to 3.0.0
 - #603 Upgraded Batch, SerialPart and JustInSequencePart to 3.0.0
 - #603 Upgraded PartAsPlanned to 2.0.0
 - #918 Merged parts and other parts into one table
 - #918 Fixed translations and normal case for autocomplete values
 - #778 update EDC from 0.5.3 to 0.7.0
-- #xxx update of lombok from 1.18.30 to 1.18.32
-- #xxx update of findsecbugs plugin from 1.12.0 to 1.13.0
-- #xxx update of commons-compress from 1.26.0 to 1.26.1
-- #xxx update of logback from 1.5.5 to 1.5.6
-- #xxx update of cucumber-bom from 7.16.1 to 7.17.0
+- #XXX update of lombok from 1.18.30 to 1.18.32
+- #XXX update of findsecbugs plugin from 1.12.0 to 1.13.0
+- #XXX update of commons-compress from 1.26.0 to 1.26.1
+- #XXX update of logback from 1.5.5 to 1.5.6
+- #XXX update of cucumber-bom from 7.16.1 to 7.17.0
+- #XXX Updated spring boot from 3.2.4 to 3.2.5
+- #XXX Bumped logback-core & logback-classic from 1.5.4 to 1.5.5
 
 ### Removed
-
 - #602 digitalTwinType instead of semanticId. DigitalTwinType causes problems in release 24.05
 
 ## [10.8.4 - 17.04.2024]
