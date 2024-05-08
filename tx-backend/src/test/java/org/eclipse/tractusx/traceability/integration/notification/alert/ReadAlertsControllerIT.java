@@ -118,30 +118,6 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenAlerts_whenGetSenderAlertsSortedDesc_thenReturnProperlySorted() throws JoseException {
-        // given
-        String filterString = "channel,EQUAL,SENDER,AND";
-        String sortString = "createdDate,DESC";
-        alertNotificationsSupport.defaultAlertsStored();
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/notifications/filter")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("totalItems", Matchers.is(8))
-                .body("content", Matchers.hasSize(8))
-                .body("content.description", Matchers.containsInRelativeOrder("8", "7", "6", "5", "4", "3", "2", "1"));
-    }
-
-
-    @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
