@@ -62,6 +62,7 @@ SPDX-License-Identifier: Apache-2.0
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <edc-library.version>0.2.1</edc-library.version>
         <!-- versions for 3rd party dependecies -->
+        <hypersistence-utils-hibernate.version>3.7.5</hypersistence-utils-hibernate.version>
         <logback.version>1.5.5</logback.version>
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.37.3</nimbus-jose-jwt.version>
