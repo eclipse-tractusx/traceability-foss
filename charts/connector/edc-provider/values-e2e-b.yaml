@@ -5,15 +5,15 @@ tractusx-connector:
 
   iatp:
     # Decentralized IDentifier
-    id: <path:traceability-foss/data/e2e-b/iatp#DID>
+    id: <path:traceability-foss/data/dev-b/iatp#DID>
     sts:
       dim:
-        url: <path:traceability-foss/data/e2e-b/iatp#dimUrl>
+        url: <path:traceability-foss/data/dev/iatp#dimUrl>
       oauth:
-        token_url: <path:traceability-foss/data/e2e-b/iatp#iatp.oauth.tokenurl>
+        token_url: <path:traceability-foss/data/dev-b/iatp#iatp.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/e2e-b/iatp#dimClientId>
-          secret_alias: edc-miw-keycloak-secret-e2e-b-provider
+          id: <path:traceability-foss/data/dev-b/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-dev-b-provider
 
   controlplane:
     ingresses:
@@ -29,7 +29,15 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
-
+    bdrs:
+      # time that a cached BPN/DID resolution map is valid in seconds, default is 10 min
+      cache_validity_seconds: 600
+      server:
+        # URL of the BPN/DID Resolution Service - required:
+        url: <path:traceability-foss/data/dev/iatp#bdrsUrl>
+    env:
+      # workaround till 0.7.1 chart
+      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: <path:traceability-foss/data/dev/iatp#trustedIssuer>
     resources:
       limits:
         cpu: 400m
