@@ -56,6 +56,7 @@ public class ImportAssetMapper implements AssetBaseMappers<List<ImportRequest.As
     private final AssetBaseMapperProvider assetBaseMapperProvider;
     private final TraceabilityProperties traceabilityProperties;
 
+    @Override
     public List<AssetBase> toAssetBaseList(List<ImportRequest.AssetImportRequest> assetImportRequestList) {
         List<AssetBase> assetBaseList = new ArrayList<>();
         assetImportRequestList.forEach(assetImportRequest -> {

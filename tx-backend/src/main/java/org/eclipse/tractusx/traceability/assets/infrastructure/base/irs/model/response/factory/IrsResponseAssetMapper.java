@@ -56,6 +56,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
     private final ObjectMapper objectMapper;
     private final BpnService bpnService;
 
+    @Override
     public List<AssetBase> toAssetBaseList(IRSResponse irsResponse) {
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
         List<DetailAspectModel> tractionBatteryCode = MapperHelper.extractTractionBatteryCode(irsResponse.submodels(), irsResponse.jobStatus().globalAssetId(), assetBaseMapperProvider);
