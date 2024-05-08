@@ -27,6 +27,6 @@ public class NotificationSenderAndReceiverBPNEqualException extends IllegalArgum
     }
 
     public NotificationSenderAndReceiverBPNEqualException(String bpn, Long notificationId) {
-        super("Quality notification with id %s cannot be edited. Sender BPN %s is same as receiver BPN.".formatted(bpn, notificationId));
+        super("Quality notification with id %s cannot be edited. Sender BPN %s is same as receiver BPN.".formatted(notificationId, bpn));
     }
 }
