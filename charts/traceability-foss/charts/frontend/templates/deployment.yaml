@@ -80,6 +80,7 @@ spec:
               value: "{{ .Values.image.tag }}"
             - name: BPN
               value: "{{ .Values.image.BPN }}"
+
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

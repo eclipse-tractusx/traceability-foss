@@ -278,6 +278,33 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .body("size()", is(6));
     }
 
+    @Test
+    void givenInAssetListIsProvided_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        String fieldName = "id";
+        String resultLimit = "100";
+        String owner = "SUPPLIER";
+        String inAssetIds = "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef,urn:uuid:16bb1a7e-8ed8-48ca-a839-5f38b704fcae";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("owner", owner)
+                .param("inAssetIds", inAssetIds)
+                .get("/api/assets/as-built/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(2));
+    }
+
     private static Stream<Arguments> fieldNameTestProvider() {
         return Stream.of(
                 Arguments.of("id", 10L, 10),

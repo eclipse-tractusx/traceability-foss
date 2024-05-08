@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators
 import jakarta.validation.ConstraintValidatorContext;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.EDCNotificationValidator;
@@ -64,20 +65,6 @@ class EDCNotificationValidatorTest {
 
     }
 
-
-    @Test
-    void testIsValidSenderBpnMatch() {
-        // Given
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPN_OF_APPLICATION"));
-        when(edcNotification.getSenderBPN()).thenReturn("BPN_OF_APPLICATION");
-        when(edcNotification.getRecipientBPN()).thenReturn("OTHER");
-        // When
-        boolean result = validator.isValid(edcNotification, context);
-
-        // Then
-        assertTrue(result);
-    }
-
     @Test
     void testReceiverIsApplicationOwner() {
         // Given
@@ -90,6 +77,16 @@ class EDCNotificationValidatorTest {
 
         // Then
         assertTrue(result);
+    }
+
+    @Test
+    void testSenderAndReceiverSameBPNException(){
+        String bpn = "APPLICATION_BON";
+        // Given
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of(bpn));
+        when(edcNotification.getSenderBPN()).thenReturn(bpn);
+        when(edcNotification.getRecipientBPN()).thenReturn(bpn);
+        assertThrows(NotificationSenderAndReceiverBPNEqualException.class, () -> validator.isValid(edcNotification, context));
     }
 
     @Test

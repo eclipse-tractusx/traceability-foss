@@ -33,25 +33,26 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnRepository;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory.extractBpnMap;
 
 @Slf4j
 @Service
 public class JobRepositoryImpl implements JobRepository {
 
     private final BpnRepository bpnRepository;
+
+    private final BpnService bpnService;
     private final TraceabilityProperties traceabilityProperties;
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
@@ -66,12 +67,13 @@ public class JobRepositoryImpl implements JobRepository {
     public JobRepositoryImpl(
             IrsClient irsClient,
             BpnRepository bpnRepository,
-            TraceabilityProperties traceabilityProperties,
+            BpnService bpnService, TraceabilityProperties traceabilityProperties,
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
             AssetCallbackRepository assetAsPlannedCallbackRepository, AssetMapperFactory assetMapperFactory) {
         this.bpnRepository = bpnRepository;
+        this.bpnService = bpnService;
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
@@ -102,13 +104,6 @@ public class JobRepositoryImpl implements JobRepository {
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponseIRS.jobStatus().globalAssetId(), jobResponseIRS.jobStatus().state(), runtime);
 
         if (jobCompleted(jobResponseIRS.jobStatus())) {
-            try {
-                Map<String, String> bpnMap = extractBpnMap(jobResponseIRS);
-                bpnRepository.updateManufacturers(bpnMap);
-            } catch (Exception e) {
-                log.warn("BPN Mapping Exception", e);
-            }
-
             List<AssetBase> assets = assetMapperFactory.mapToAssetBaseList(jobResponseIRS);
 
             assets.forEach(assetBase -> {

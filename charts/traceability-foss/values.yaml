@@ -272,11 +272,10 @@ backend:
   traceability:
     bpn: "CHANGEME"  # <traceability.bpn>
     url: ""  # backend url example: https://<backend.ingress.hosts>
-    leftOperand: 'PURPOSE'
-    operatorType: 'eq'
-    rightOperand: 'ID 3.0 Trace'
-    validUntil: '2024-09-30T23:59:59.99Z'
-
+    leftOperand: "PURPOSE"
+    operatorType: "eq"
+    rightOperand: "ID 3.0 Trace"
+    validUntil: "2024-09-30T23:59:59.99Z"
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql:5432/trace
     username: "traceuser"
@@ -292,7 +291,7 @@ backend:
   edc:
     apiKey: "CHANGEME"  # <tractusx-connector.controlplane.endpoints.management.authKey>
     providerUrl: "CHANGEME"  #  example: https://<tractusx-connector.controlplane.ingress.hosts>
-    callbackUrl: "CHANGEME"  # example: http://<item-relationship-service.nameOverride>:8181/internal/endpoint-data-reference
+    callbackUrl: "CHANGEME"  # example: http://<irs-helm.nameOverride>:8181/internal/endpoint-data-reference
     callbackUrlEdcClient: "CHANGEME"  # example: https://<backend.ingress.hosts>/api/internal/endpoint-data-reference
     dataEndpointUrl: "CHANGEME"  # example: https://<tractusx-connector.controlplane.ingress.hosts>/management"
     partsProviderControlplaneUrl: "CHANGEME"  # host of the parts provider EDC
@@ -302,9 +301,9 @@ backend:
     baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search
 
   irs:
-    baseUrl: "https://replace.me"  # https://<item-relationship-service.ingress.host>
+    baseUrl: "https://replace.me"  # https://<irs-helm.ingress.host>
   registry:
-    urlWithPath: "https://replace.me"  # digitalTwinRegistry /semantics/registry/api/v3
+    urlWithPath: "https://replace.me"  # digitalTwinRegistry /semantics/registry/api/v3.0
     allowedBpns: "BPN1,BPN2"  # "," separated list of allowed bpns for creating shells
   portal:
     baseUrl: "https://replace.me"
@@ -316,8 +315,11 @@ backend:
   #  required for init containers checking for dependant pod readiness before starting up backend
   dependencies:
     enabled: false  # enable dependency check init containers
-    irs: "CHANGEME"  # <item-relationship-service.nameOverride>
+    irs: "CHANGEME"  # <irs-helm.nameOverride>
     edc: "CHANGEME"  # <tractusx-connector.nameOverride
+
+  bpdm:
+    url: "https://replace.me"
 
 #########################
 # PG Admin configuration     #
@@ -370,10 +372,10 @@ item-relationship-service:
 
   resources:
     limits:
-      cpu: 1000m
+      cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 500m
+      cpu: 250m
       memory: 512Mi
 ###################################
 # EDC Consumer configuration  #

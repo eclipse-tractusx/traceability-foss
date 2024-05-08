@@ -12,7 +12,7 @@
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
-    "partMismatch": "Die ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (OWN, SUPPLIER)",
+    "partMismatch": "Die ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Eigen, Lieferant)",
     "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
     "noChildPartsForInvestigation": "Diese Funktion ist für Produkte ohne Bauteile nicht verfügbar.",
@@ -89,6 +89,15 @@
       "own": "Eigen",
       "supplier": "Lieferant",
       "customer": "Kunde"
+    },
+    "semanticDataModel": {
+      "BATCH": "Batch",
+      "SERIALPART": "SerialPart",
+      "PARTASPLANNED": "PartAsPlanned",
+      "JUSTINSEQUENCE": "JustInSequence",
+      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
+      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
+      "TRACTIONBATTERYCODE": "TractionBatteryCode"
     },
     "tableSettings": {
       "invalid": "Auf Grund eines Fehlers werden die Tabelleneinstellungen zurückgesetzt",
@@ -198,11 +207,12 @@
     "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein. Momentan: {{current}}",
     "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{- pattern}}.",
     "url": "Bitte geben Sie eine valide URL ein.",
-    "bpn": "Bitte geben Sie eine valide BPN ein.",
+    "bpn": "Bitte geben Sie eine valide BPN ein. BPN {{applicationBpn}} ist nicht erlaubt.",
     "maxDate": "Bitte wählen Sie ein Datum vor dem {{- maxDate}}.",
     "minDate": "Bitte wählen Sie ein Datum nach dem {{- minDate}}.",
     "currentDate": "Bitte wählen Sie ein Datum nach dem {{- currentDate}}.",
-    "generic": "Die Eingabe ist ungültig."
+    "generic": "Die Eingabe ist ungültig.",
+    "invalidBpn": "Die eigene BPN darf nicht verwendet werden."
   },
   "requestAlert": {
     "headline": "Qualitätswarnung erstellen",
@@ -392,15 +402,20 @@
       "BATCH": "Batch",
       "SERIALPART": "SerialPart",
       "PARTASPLANNED": "PartAsPlanned",
-      "UNKNOWN": "Unknown",
       "JUSTINSEQUENCE": "JustInSequence",
+      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
+      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
       "TRACTIONBATTERYCODE": "TractionBatteryCode",
       "TRANSIENT": "Transient",
       "PERSISTENT": "Persistent",
       "IN_SYNCHRONIZATION": "In Synchronisation",
       "ERROR": "Fehler",
       "UNSET": "Undefiniert",
-      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht"
+      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht",
+      "OWN": "Eigen",
+      "SUPPLIER": "Lieferant",
+      "CUSTOMER": "Kunde",
+      "UNKNOWN": "Unbekannt"
     }
   },
   "parts": {

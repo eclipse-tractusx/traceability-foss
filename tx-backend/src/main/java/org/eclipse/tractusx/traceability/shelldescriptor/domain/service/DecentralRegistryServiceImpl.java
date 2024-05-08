@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.Shell;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
-import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
@@ -37,7 +36,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
+
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -49,9 +52,9 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     private final TraceabilityProperties traceabilityProperties;
     private final DecentralRegistryRepository decentralRegistryRepository;
 
-    private static final String DIGITAL_TWIN_TYPE = "digitalTwinType";
-    private static final String AS_BUILT_DIGITAL_TWIN_TYPE = "PartInstance";
-    private static final String AS_PLANNED_DIGITAL_TWIN_TYPE = "PartType";
+
+    private static final List<String> AS_BUILT_ASPECT_TYPES = List.of(SERIALPART.getValue(), BATCH.getValue(), JUSTINSEQUENCE.getValue());
+    private static final List<String> AS_PLANNED_ASPECT_TYPES = List.of(PARTASPLANNED.getValue());
 
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
@@ -76,13 +79,11 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     // TODO: consider creating support method on AssetAdministrationShellDescriptor.is(BomLifecycle lifecycle) that will be usable on our code
     // IRS already have BomLifecycle in their domain so we can use it there also
     private boolean isAsBuilt(AssetAdministrationShellDescriptor shellDescriptor) {
-        Optional<IdentifierKeyValuePair> first = shellDescriptor.getSpecificAssetIds().stream().filter(item -> item.getName().equals(DIGITAL_TWIN_TYPE) && item.getValue().equals(AS_BUILT_DIGITAL_TWIN_TYPE)).findFirst();
-        return first.isPresent();
+        return !shellDescriptor.filterDescriptorsByAspectTypes(AS_BUILT_ASPECT_TYPES).isEmpty();
     }
 
     private boolean isAsPlanned(AssetAdministrationShellDescriptor shellDescriptor) {
-        Optional<IdentifierKeyValuePair> first = shellDescriptor.getSpecificAssetIds().stream().filter(item -> item.getName().equals(DIGITAL_TWIN_TYPE) && item.getValue().equals(AS_PLANNED_DIGITAL_TWIN_TYPE)).findFirst();
-        return first.isPresent();
+        return !shellDescriptor.filterDescriptorsByAspectTypes(AS_PLANNED_ASPECT_TYPES).isEmpty();
     }
 }
 

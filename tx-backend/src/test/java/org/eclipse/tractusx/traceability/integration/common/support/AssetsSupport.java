@@ -30,12 +30,20 @@ public class AssetsSupport {
     @Autowired
     AssetRepositoryProvider assetRepositoryProvider;
 
+    @Autowired
+    BpnSupport bpnSupport;
+
+    @Autowired
+    OAuth2ApiSupport oAuth2ApiSupport;
+
 
     public String emptyText() {
         return "";
     }
 
     public void defaultAssetsStored() {
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        bpnSupport.providesBpdmLookup();
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests());
     }
 
@@ -44,10 +52,12 @@ public class AssetsSupport {
     }
 
     public void tractionBatteryCodeAssetsStored() {
+        bpnSupport.providesBpdmLookup();
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertTractionBatteryCodeAssetsForTests());
     }
 
     public void defaultAssetsAsPlannedStored() {
+        bpnSupport.providesBpdmLookup();
         assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests());
     }
 

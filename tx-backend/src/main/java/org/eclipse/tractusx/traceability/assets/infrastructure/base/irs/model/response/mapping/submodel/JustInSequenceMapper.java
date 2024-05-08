@@ -48,7 +48,7 @@ public class JustInSequenceMapper implements SubmodelMapper {
         JustInSequencePart300Schema justInSequencePart = (JustInSequencePart300Schema) irsSubmodel.getPayload();
 
         String justInSequenceId = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.JIS_NUMBER.getValue());
-        String manufacturerName = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
+        String manufacturerId = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.MANUFACTURER_ID.getValue());
         String van = getValue(justInSequencePart.getLocalIdentifiers(), LocalIdKey.VAN.getValue());
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(justInSequencePart.getManufacturingInformation(), justInSequencePart.getPartTypeInformation());
 
@@ -56,8 +56,7 @@ public class JustInSequenceMapper implements SubmodelMapper {
                 .id(justInSequencePart.getCatenaXId())
                 .semanticModelId(justInSequenceId)
                 .detailAspectModels(List.of(detailAspectModel))
-                .manufacturerId(manufacturerName)
-                .manufacturerName(manufacturerName)
+                .manufacturerId(manufacturerId)
                 .nameAtManufacturer(justInSequencePart.getPartTypeInformation().getNameAtManufacturer())
                 .manufacturerPartId(justInSequencePart.getPartTypeInformation().getManufacturerPartId())
                 // TODO extend data model to include all classification attributes

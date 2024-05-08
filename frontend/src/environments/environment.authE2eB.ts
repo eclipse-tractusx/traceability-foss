@@ -28,4 +28,5 @@ export const environment = {
   clientId: 'Cl17-CX-Part',
   api: '',
   gitTag: 'local',
+  bpn: 'BPNL00000003CNKC'
 };

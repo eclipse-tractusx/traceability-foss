@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,32 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.bpn.infrastructure.model;
 
-package org.eclipse.tractusx.traceability.bpn.domain.service;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-
-import bpn.request.BpnMappingRequest;
-import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
-
-import java.util.List;
-import java.util.Map;
-
-public interface BpnRepository {
-
-    BpnEdcMapping findByIdOrThrowNotFoundException(String bpn);
-
-    List<BpnEdcMapping> findAllWhereUrlNotNull();
-
-    boolean existsWhereUrlNotNull(String bpn);
-
-    List<BpnEdcMapping> saveAll(List<BpnMappingRequest> bpnEdcMappings);
-
-    void deleteById(String bpn);
-
-    String findManufacturerName(String manufacturerId);
-
-    void updateManufacturers(Map<String, String> bpns);
-
-    List<BpnEdcMapping> findAllByIdIn(List<String> bpns);
+/**
+ * Name response
+ */
+@Getter
+@AllArgsConstructor(staticName = "of")
+@NoArgsConstructor
+public class NameResponse {
+    private String value;
 
 }
