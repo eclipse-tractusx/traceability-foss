@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,18 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.relationship;
 
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.repository;
-
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 
-import java.util.List;
-import java.util.Map;
+public interface SubmodelRelationshipMapper {
 
-public interface SubmodelPayloadRepository {
-    void savePayloadForAssetAsBuilt(String assetId, List<IrsSubmodel> submodels);
+    Descriptions extractDescription(IrsSubmodel irsSubmodel);
 
-    void savePayloadForAssetAsPlanned(String assetId, List<IrsSubmodel> submodels);
+    boolean validMapper(IrsSubmodel irsSubmodel);
 
-    Map<String, String> getAspectTypesAndPayloadsByAssetId(String assetId);
 }

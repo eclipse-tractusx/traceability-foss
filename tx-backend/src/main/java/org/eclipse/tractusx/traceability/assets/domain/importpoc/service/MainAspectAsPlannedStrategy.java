@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
@@ -33,7 +32,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspec
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.PartSiteInformationAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
 import java.time.OffsetDateTime;
@@ -52,11 +51,11 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
     // TODO the mapping method here is almost the same as in SemanticDataModel.toDomainAsPlanned
     @Override
     public AssetBase mapToAssetBase(ImportRequest.AssetImportRequest assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
-        List<GenericSubmodel> submodels = assetImportRequestV2.submodels();
+        List<IrsSubmodel> submodels = assetImportRequestV2.submodels();
 
         MainAspectAsPlannedRequest partAsPlannedV2 = submodels.stream()
                 .filter(genericSubmodel -> isAsPlannedMainAspect(genericSubmodel.getAspectType()))
-                .map(GenericSubmodel::getPayload)
+                .map(IrsSubmodel::getPayload)
                 .filter(MainAspectAsPlannedRequest.class::isInstance)
                 .map(MainAspectAsPlannedRequest.class::cast)
                 .findFirst()
@@ -64,7 +63,7 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
         PartSiteInformationAsPlannedRequest partSiteInformationAsPlannedRequest = submodels.stream()
                 .filter(genericSubmodel -> isPartSiteInformationAsPlanned(genericSubmodel.getAspectType()))
-                .map(GenericSubmodel::getPayload)
+                .map(IrsSubmodel::getPayload)
                 .filter(PartSiteInformationAsPlannedRequest.class::isInstance)
                 .map(PartSiteInformationAsPlannedRequest.class::cast)
                 .findFirst()
@@ -72,7 +71,7 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
         List<Descriptions> parentRelations = submodels.stream()
                 .filter(genericSubmodel -> isUpwardRelationshipAsPlanned(genericSubmodel.getAspectType()))
-                .map(GenericSubmodel::getPayload)
+                .map(IrsSubmodel::getPayload)
                 .filter(SingleLevelBomAsPlannedRequest.class::isInstance)
                 .map(SingleLevelBomAsPlannedRequest.class::cast)
                 .findFirst()
@@ -84,7 +83,7 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
 
         List<Descriptions> childRelations = submodels.stream()
-                .map(GenericSubmodel::getPayload)
+                .map(IrsSubmodel::getPayload)
                 .filter(SingleLevelUsageAsPlannedRequest.class::isInstance)
                 .map(SingleLevelUsageAsPlannedRequest.class::cast)
                 .findFirst()
@@ -135,7 +134,6 @@ public class MainAspectAsPlannedStrategy implements MappingStrategy {
 
         return detailAspectModels;
     }
-
 
 
 }

@@ -32,7 +32,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportReq
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.MainAspectAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsBuiltRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 
 import java.time.OffsetDateTime;
@@ -52,10 +52,10 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
     @Override
     public AssetBase mapToAssetBase(ImportRequest.AssetImportRequest assetImportRequestV2, TraceabilityProperties traceabilityProperties) {
 
-        List<GenericSubmodel> submodels = assetImportRequestV2.submodels();
+        List<IrsSubmodel> submodels = assetImportRequestV2.submodels();
         MainAspectAsBuiltRequest asBuiltAspect = submodels.stream()
                 .filter(genericSubmodel -> isAsBuiltMainAspect(genericSubmodel.getAspectType()))
-                .map(GenericSubmodel::getPayload)
+                .map(IrsSubmodel::getPayload)
                 .filter(MainAspectAsBuiltRequest.class::isInstance)
                 .map(MainAspectAsBuiltRequest.class::cast)
                 .findFirst()
@@ -63,14 +63,14 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
 
         List<DetailAspectDataTractionBatteryCode> detailAspectDataTractionBatteryCodes = submodels.stream()
                 .filter(genericSubmodel -> isTractionBatteryCode(genericSubmodel.getAspectType()))
-                .map(GenericSubmodel::getPayload)
+                .map(IrsSubmodel::getPayload)
                 .filter(DetailAspectDataTractionBatteryCode.class::isInstance)
                 .map(DetailAspectDataTractionBatteryCode.class::cast)
                 .toList();
 
         List<Descriptions> parentRelations = submodels.stream()
                 .filter(genericSubmodel -> isUpwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
-                .map(GenericSubmodel::getPayload)
+                .map(IrsSubmodel::getPayload)
                 .filter(SingleLevelBomAsBuiltRequest.class::isInstance)
                 .map(SingleLevelBomAsBuiltRequest.class::cast)
                 .findFirst()
@@ -82,7 +82,7 @@ public class MainAspectAsBuiltStrategy implements MappingStrategy {
 
         List<Descriptions> childRelations = submodels.stream()
                 .filter(genericSubmodel -> isDownwardRelationshipAsBuilt(genericSubmodel.getAspectType()))
-                .map(GenericSubmodel::getPayload)
+                .map(IrsSubmodel::getPayload)
                 .filter(SingleLevelUsageAsBuiltRequest.class::isInstance)
                 .map(SingleLevelUsageAsBuiltRequest.class::cast)
                 .findFirst()

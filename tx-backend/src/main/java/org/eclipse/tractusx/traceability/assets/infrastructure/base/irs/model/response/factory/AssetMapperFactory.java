@@ -64,12 +64,8 @@ public class AssetMapperFactory {
     private final BpnService bpnService;
 
     public List<AssetBase> mapToAssetBaseList(IRSResponse irsResponse) {
-
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
-
-
         List<DetailAspectModel> tractionBatteryCode = extractTractionBatteryCode(irsResponse);
-
         List<DetailAspectModel> partSiteInformationAsPlanned = extractPartSiteInformationAsPlanned(irsResponse);
         List<AssetBase> tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper);
         if (tombstones != null) {
@@ -77,6 +73,7 @@ public class AssetMapperFactory {
         }
         return toAssetBase(irsResponse, descriptionMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
     }
+
 
     @NotNull
     private List<AssetBase> toAssetBase(IRSResponse irsResponse,
@@ -87,7 +84,7 @@ public class AssetMapperFactory {
                 .submodels()
                 .stream()
                 .map(irsSubmodel -> {
-                    Optional<SubmodelMapper> mapper = getSubmodelMapper(irsSubmodel);
+                    Optional<SubmodelMapper> mapper = getMainSubmodelMapper(irsSubmodel);
                     if (mapper.isPresent()) {
                         AssetBase assetBase = mapper.get().extractSubmodel(irsSubmodel);
                         assetBase.setOwner(getOwner(assetBase, irsResponse));
@@ -171,7 +168,11 @@ public class AssetMapperFactory {
         return descriptionMap;
     }
 
-    private Optional<SubmodelMapper> getSubmodelMapper(IrsSubmodel irsSubmodel) {
+    private Optional<SubmodelMapper> getMainSubmodelMapper(IrsSubmodel irsSubmodel) {
+        return baseMappers.stream().filter(assetBaseMapper -> assetBaseMapper.validMapper(irsSubmodel)).findFirst();
+    }
+
+    private Optional<SubmodelMapper> getRelationshipSubmodelMapper(IrsSubmodel irsSubmodel) {
         return baseMappers.stream().filter(assetBaseMapper -> assetBaseMapper.validMapper(irsSubmodel)).findFirst();
     }
 

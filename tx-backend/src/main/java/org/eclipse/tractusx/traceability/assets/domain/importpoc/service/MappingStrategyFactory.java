@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +38,7 @@ public class MappingStrategyFactory {
 
     public Optional<AssetBase> mapToAssetBase(ImportRequest.AssetImportRequest importRequestV2, TraceabilityProperties traceabilityProperties) {
 
-        Optional<String> isMainAspectSubmodel = importRequestV2.submodels().stream().filter(genericSubmodel -> isMainAspect(genericSubmodel.getAspectType())).map(GenericSubmodel::getAspectType).findFirst();
+        Optional<String> isMainAspectSubmodel = importRequestV2.submodels().stream().filter(genericSubmodel -> isMainAspect(genericSubmodel.getAspectType())).map(IrsSubmodel::getAspectType).findFirst();
 
         if (isMainAspectSubmodel.isEmpty()) {
             return Optional.empty();
