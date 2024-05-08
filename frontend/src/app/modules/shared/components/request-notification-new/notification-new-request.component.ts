@@ -27,7 +27,7 @@ import { Severity } from '@shared/model/severity.model';
 import { View } from '@shared/model/view.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { environment } from '../../../../../environments/environment.dev';
+import {environment} from '@env';
 
 @Component({
   selector: 'app-notification-new-request',
