@@ -127,7 +127,6 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .build();
         int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
 
-        // given
         List<String> editedPartIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb" // BPN: BPNL00000003AYRE
