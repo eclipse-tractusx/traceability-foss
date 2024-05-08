@@ -10,11 +10,16 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination
 - #726 Added @Preauthorize annotation to dashboard controller
+- #849 Added concept: Notifications to multiple BPNs
 - #837 Added digital twin type to data provisioning workflow to be able to lookup shells created by trace-x
 - #783 Validation that receiver of a notification must not be same as sender.
+- #831 Added concept: Notification data model revision
 - #859 Enable autocomplete API to filter for given assets
+- #778 Added counterPartyId to getCatalogRequest
 
 ### Changed
+- #837 migrate to irs-helm 7.1.1
+- #837 migrate to irs-decentral-client-library to 2.0.2-SNAPSHOT
 - #844 Prefilled bpn on investigation creation
 - #843 Refactored e2e tests, added edit notification e2e test case
 - #828 fix duplicates in traction_battery_code_subcomponent table
@@ -25,7 +30,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #603 Upgraded Batch, SerialPart and JustInSequencePart to 3.0.0
 - #603 Upgraded PartAsPlanned to 2.0.0
 - #918 Merged parts and other parts into one table
+- #918 Fixed translations and normal case for autocomplete values
 - #778 update EDC from 0.5.3 to 0.7.0
+- #xxx update of lombok from 1.18.30 to 1.18.32
+- #xxx update of findsecbugs plugin from 1.12.0 to 1.13.0
+- #xxx update of commons-compress from 1.26.0 to 1.26.1
+- #xxx update of logback from 1.5.5 to 1.5.6
+- #xxx update of cucumber-bom from 7.16.1 to 7.17.0
 
 ### Removed
 
