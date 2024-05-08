@@ -322,7 +322,6 @@ export class NotificationEditComponent implements OnDestroy {
 
   private selectNotificationAndLoadPartsBasedOnNotification(notification: Notification) {
     this.selectedNotification = notification;
-    console.log(this.selectedNotification, "sleecte");
     this.affectedPartIds = notification.assetIds;
     this.setAvailablePartsBasedOnNotificationType(this.selectedNotification);
     this.setAffectedPartsBasedOnNotificationType(this.selectedNotification);
