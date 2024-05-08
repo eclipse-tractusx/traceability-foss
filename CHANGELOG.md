@@ -13,6 +13,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #849 Added concept: Notifications to multiple BPNs
 - #837 Added digital twin type to data provisioning workflow to be able to lookup shells created by trace-x
 - #783 Validation that receiver of a notification must not be same as sender.
+- #831 Added concept: Notification data model revision
 - #859 Enable autocomplete API to filter for given assets
 - #778 Added counterPartyId to getCatalogRequest
 
