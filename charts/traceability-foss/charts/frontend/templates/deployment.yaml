@@ -78,6 +78,9 @@ spec:
               value: "{{ .Values.image.CATENAX_PORTAL_URL }}"
             - name: GIT_TAG
               value: "{{ .Values.image.tag }}"
+            - name: BPN
+              value: "{{ .Values.image.BPN }}"
+
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

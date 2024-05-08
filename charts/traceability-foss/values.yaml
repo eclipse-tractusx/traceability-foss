@@ -44,6 +44,7 @@ frontend:
     CATENAX_PORTAL_BACKEND_DOMAIN: "CHANGEME"  # portal backend domain example: catena-x.net
     CATENAX_PORTAL_URL: "CHANGEME"  # portal url example: https://portal.net/
     CATENAX_PORTAL_CLIENT_ID: "CHANGEME"  # application id created on portal
+    BPN: "CHANGEME"
 
   ##
   ## Image pull secret to create to obtain the container image
