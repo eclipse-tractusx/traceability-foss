@@ -1,5 +1,30 @@
 # Compatibility matrix Trace-X
+## Trace-X version [[11.0.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/11.0.0] - 2024-05-08
 
+### Catena-X Release?
+
+- [x] yes
+- [ ] no
+
+### Helm Version [1.3.37](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.37)
+
+| Dependency       | Name of Service              | Version             | Helm     | Comments                                                                          |
+|------------------|------------------------------|---------------------|----------|-----------------------------------------------------------------------------------|
+| EDC              | edc-postgresql               | 15.4.0-debian-11-r45 | 12.12.10 | Enterprise Data Connector for PostgreSQL                                         |
+| IRS              | irs-helm                     | 5.1.1               | 7.1.1    | Helm charts for Item Relationship Service                                         |
+| EDC              | tractusx-connector           | 0.7.0               | 0.7.0    | Connector for Data Transfer and Registration                                      |
+| Discovery Finder | discovery service            | 0.2.5               | -        | Service for discovering and registering artifacts                                 |
+| Portal           | portal                       | 1.8.0               | -        | Web portal for interacting with Trace-X                                           |
+| SD-Factory       | SD-Factory                   | 2.1.7               | -        | Service Discovery Factory for managing dependencies                               |
+| Aspect Model     | SerialPart                   | 3.0.0               | -        |                                                                                   |
+| Aspect Model     | Batch                        | 3.0.0               | -        |                                                                                   |
+| Aspect Model     | PartAsPlanned                | 2.0.0               | -        |                                                                                   |
+| Aspect Model     | PartSiteInformationAsPlanned | 1.0.0               | -        |                                                                                   |
+| Aspect Model     | JustInSequencePart           | 3.0.0               | -        |                                                                                   |
+| Aspect Model     | TractionBatteryCode          | 1.0.0               | -        |                                                                                   |
+| Aspect Model     | SingleLevelUsageAsBuilt      | 3.0.0               | -        |                                                                                   |
+| Aspect Model     | SingleLevelBomAsBuilt        | 3.0.0               | -        |                                                                                   |
+| Aspect Model     | SingleLevelBomAsPlanned      | 3.0.0               | -        |
 ## Trace-X version [[10.8.4](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.8.4)] - 2024-04-17
 - No changes to 10.8.1
 ## Trace-X version [[10.8.1](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/10.8.1)] - 2024-04-03
