@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.notification.domain.base.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
@@ -37,6 +38,7 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
@@ -71,6 +73,7 @@ public abstract class AbstractNotificationService implements NotificationService
 
     @Override
     public NotificationId start(StartNotification startNotification) {
+        validateReceiverIsNotOwnBpn(startNotification.getReceiverBpn());
         Notification notification = notificationPublisherService.startNotification(startNotification);
         NotificationId createdAlertId = getNotificationRepository().saveNotification(notification);
         log.info("Start Quality Notification {}", notification);
@@ -110,6 +113,7 @@ public abstract class AbstractNotificationService implements NotificationService
 
     @Override
     public void editNotification(EditNotification editNotification) {
+        validateReceiverIsNotOwnBpn(editNotification.getReceiverBpn());
         Notification notification = loadOrNotFoundException(new NotificationId(editNotification.getId()));
         List<AssetBase> affectedParts = assetAsBuiltRepository.getAssetsById(editNotification.getAffectedPartIds());
         List<BpnEdcMapping> bpnMappings = bpnRepository.findAllByIdIn(affectedParts.stream().map(AssetBase::getManufacturerId).toList());
@@ -218,4 +222,11 @@ public abstract class AbstractNotificationService implements NotificationService
             default -> null;
         };
     }
+
+    private void validateReceiverIsNotOwnBpn(String bpn) {
+        if (traceabilityProperties.getBpn().value().equals(bpn)) {
+            throw new NotificationSenderAndReceiverBPNEqualException(bpn);
+        }
+    }
+
 }

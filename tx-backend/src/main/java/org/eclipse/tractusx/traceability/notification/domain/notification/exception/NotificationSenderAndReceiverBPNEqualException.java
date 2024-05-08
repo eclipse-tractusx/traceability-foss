@@ -30,4 +30,7 @@ public class NotificationSenderAndReceiverBPNEqualException extends IllegalArgum
     public NotificationSenderAndReceiverBPNEqualException(BPN bpn, String investigationId) {
         super("Quality Notification with id %s rejected. Sender BPN: %s is same as receiver BPN.".formatted(investigationId, bpn));
     }
+    public NotificationSenderAndReceiverBPNEqualException(BPN bpn) {
+        super("Quality Notification cannot be created. Sender BPN: %s is same as receiver BPN.".formatted(bpn));
+    }
 }
