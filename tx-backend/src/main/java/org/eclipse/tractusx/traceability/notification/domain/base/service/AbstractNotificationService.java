@@ -20,7 +20,6 @@ package org.eclipse.tractusx.traceability.notification.domain.base.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.Bpn;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
@@ -73,7 +72,7 @@ public abstract class AbstractNotificationService implements NotificationService
 
     @Override
     public NotificationId start(StartNotification startNotification) {
-        validateReceiverIsNotOwnBpn(startNotification.getReceiverBpn());
+        validateReceiverIsNotOwnBpn(startNotification.getReceiverBpn(), null);
         Notification notification = notificationPublisherService.startNotification(startNotification);
         NotificationId createdAlertId = getNotificationRepository().saveNotification(notification);
         log.info("Start Quality Notification {}", notification);
@@ -113,7 +112,7 @@ public abstract class AbstractNotificationService implements NotificationService
 
     @Override
     public void editNotification(EditNotification editNotification) {
-        validateReceiverIsNotOwnBpn(editNotification.getReceiverBpn());
+        validateReceiverIsNotOwnBpn(editNotification.getReceiverBpn(), editNotification.getId());
         Notification notification = loadOrNotFoundException(new NotificationId(editNotification.getId()));
         List<AssetBase> affectedParts = assetAsBuiltRepository.getAssetsById(editNotification.getAffectedPartIds());
         List<BpnEdcMapping> bpnMappings = bpnRepository.findAllByIdIn(affectedParts.stream().map(AssetBase::getManufacturerId).toList());
@@ -223,10 +222,15 @@ public abstract class AbstractNotificationService implements NotificationService
         };
     }
 
-    private void validateReceiverIsNotOwnBpn(String bpn) {
+    private void validateReceiverIsNotOwnBpn(String bpn, Long notificationId) {
         if (traceabilityProperties.getBpn().value().equals(bpn)) {
-            throw new NotificationSenderAndReceiverBPNEqualException(bpn);
+            if (notificationId != null) {
+                throw new NotificationSenderAndReceiverBPNEqualException(bpn, notificationId);
+            } else {
+                throw new NotificationSenderAndReceiverBPNEqualException(bpn);
+            }
         }
+
     }
 
 }
