@@ -8,6 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Changed
+- #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
+
 ## [11.0.0 - 08.05.2024]
 ### Added
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination
