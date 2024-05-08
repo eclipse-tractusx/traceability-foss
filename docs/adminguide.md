@@ -155,6 +155,7 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 ### Helm configuration Trace-X backend (values.yaml)
 
 ```yaml
+                - key: app.kubernetes.io/name
                   operator: DoesNotExist
             topologyKey: kubernetes.io/hostname
 

@@ -693,7 +693,8 @@ You can define the URLs as well as most of the secrets yourself.</p>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="yaml">                  <span class="na">operator</span><span class="pi">:</span> <span class="s">DoesNotExist</span>
+<pre class="rouge highlight"><code data-lang="yaml">                <span class="pi">-</span> <span class="na">key</span><span class="pi">:</span> <span class="s">app.kubernetes.io/name</span>
+                  <span class="na">operator</span><span class="pi">:</span> <span class="s">DoesNotExist</span>
             <span class="na">topologyKey</span><span class="pi">:</span> <span class="s">kubernetes.io/hostname</span>
 
   <span class="na">ingress</span><span class="pi">:</span>
@@ -1174,7 +1175,7 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-05-07 15:39:38 UTC
+Last updated 2024-05-08 11:43:42 UTC
 </div>
 </div>
 </body>
