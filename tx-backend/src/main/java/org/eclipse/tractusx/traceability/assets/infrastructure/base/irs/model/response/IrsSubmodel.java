@@ -8,15 +8,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Getter;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsBuiltRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelBomAsPlannedRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsBuiltRequest;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.SingleLevelUsageAsPlannedRequest;
 import org.eclipse.tractusx.traceability.generated.Batch300Schema;
 import org.eclipse.tractusx.traceability.generated.JustInSequencePart300Schema;
 import org.eclipse.tractusx.traceability.generated.PartAsPlanned200Schema;
 import org.eclipse.tractusx.traceability.generated.PartSiteInformationAsPlanned100Schema;
 import org.eclipse.tractusx.traceability.generated.SerialPart300Schema;
+import org.eclipse.tractusx.traceability.generated.SingleLevelBomAsBuilt300Schema;
+import org.eclipse.tractusx.traceability.generated.SingleLevelBomAsPlanned300Schema;
+import org.eclipse.tractusx.traceability.generated.SingleLevelUsageAsBuilt300Schema;
 import org.eclipse.tractusx.traceability.generated.TractionBatteryCode100Schema;
 
 @Getter
@@ -45,13 +44,13 @@ public class IrsSubmodel {
             @JsonSubTypes.Type(value = TractionBatteryCode100Schema.class, names = {
                     "urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
             }),
-            @JsonSubTypes.Type(value = SingleLevelBomAsBuiltRequest.class, names = {
+            @JsonSubTypes.Type(value = SingleLevelBomAsBuilt300Schema.class, names = {
                     "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
             }),
-            @JsonSubTypes.Type(value = SingleLevelUsageAsBuiltRequest.class, names = {
+            @JsonSubTypes.Type(value = SingleLevelUsageAsBuilt300Schema.class, names = {
                     "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt"
             }),
-            @JsonSubTypes.Type(value = SingleLevelBomAsPlannedRequest.class, names = {
+            @JsonSubTypes.Type(value = SingleLevelBomAsPlanned300Schema.class, names = {
                     "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned"
             })
     })

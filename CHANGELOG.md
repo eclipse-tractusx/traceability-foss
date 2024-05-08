@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+### Changed
+- #837 Moved data import and IrsResponseMappers under same interface and shared methods
 
 ## [11.0.0 - 08.05.2024]
 ### Added
