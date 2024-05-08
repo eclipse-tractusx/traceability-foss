@@ -108,9 +108,9 @@ configuration:
 
   digitalTwinRegistry:
     allowedBpns: &allowed_bpns 'BPNL00000003CML1,BPNL00000003CNKC'
-    url: &dtr_url 'https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3'
-    descriptorEndpoint: &dtr_shell_descriptor_url 'https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3/shell-descriptors/{aasIdentifier}'
-    shellLookupEndpoint: &dtr_shell_lookup_url 'https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3/lookup/shells?assetIds={assetIds}'
+    url: &dtr_url 'https://trace-x-registry-dev.dev.demo.catena-x.net/semantics/registry/api/v3'
+    descriptorEndpoint: &dtr_shell_descriptor_url 'https://trace-x-registry-dev.dev.demo.catena-x.net/semantics/registry/api/v3/shell-descriptors/{aasIdentifier}'
+    shellLookupEndpoint: &dtr_shell_lookup_url 'https://trace-x-registry-dev.dev.demo.catena-x.net/semantics/registry/api/v3/lookup/shells?assetIds={assetIds}'
 
 #########################
 # Frontend Chart Values configuration     #
