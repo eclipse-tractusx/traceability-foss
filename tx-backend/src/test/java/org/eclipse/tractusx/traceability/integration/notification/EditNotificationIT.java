@@ -106,6 +106,45 @@ class EditNotificationIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void shouldThrowBadRequestWhenUpdateInvestigation_SenderAndReceiverBpnIsSame() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+        Header authHeader = oAuth2Support.jwtAuthorization(SUPERVISOR);
+        // given
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        );
+        String description = "at least 15 characters long investigation description";
+        String title = "the title";
+
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .title(title)
+                .type(NotificationTypeRequest.INVESTIGATION)
+                .receiverBpn("BPNL00000003CNKC")
+                .severity(NotificationSeverityRequest.MINOR)
+                .build();
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
+
+        List<String> editedPartIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb" // BPN: BPNL00000003AYRE
+        );
+
+        val request = EditNotificationRequest.builder()
+                .affectedPartIds(editedPartIds)
+                .severity(startNotificationRequest.getSeverity())
+                .description(startNotificationRequest.getDescription())
+                .title(startNotificationRequest.getTitle())
+                .receiverBpn("BPNL00000003AXS3")
+                .build();
+
+        // when
+        notificationAPISupport.editNotificationRequest(authHeader, request, id, 400);
+    }
+
+    @Test
     void shouldUpdateInvestigationFields() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         Header authHeader = oAuth2Support.jwtAuthorization(SUPERVISOR);
         // given

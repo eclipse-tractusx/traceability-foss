@@ -27,6 +27,7 @@ export class FormatPartlistSemanticDataModelToCamelCasePipe implements PipeTrans
   transform(partList: Part[] | any[]): Part[] | any[] {
 
     partList.forEach(part => {
+      console.log(part.semanticDataModel.toString().toLowerCase());
       switch (part.semanticDataModel.toString().toLowerCase()) {
 
         case 'batch': {
@@ -43,6 +44,14 @@ export class FormatPartlistSemanticDataModelToCamelCasePipe implements PipeTrans
         }
         case 'justinsequence': {
           part.semanticDataModel = SemanticDataModelInCamelCase.JUSTINSEQUENCE;
+          break;
+        }
+        case 'tombstoneasbuilt': {
+          part.semanticDataModel = SemanticDataModelInCamelCase.TOMBSTONEASBUILT;
+          break;
+        }
+        case 'tombstoneasplanned': {
+          part.semanticDataModel = SemanticDataModelInCamelCase.TOMBSTONEASPLANNED;
           break;
         }
         default: {

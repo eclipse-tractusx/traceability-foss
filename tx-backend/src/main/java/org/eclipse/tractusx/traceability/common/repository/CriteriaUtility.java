@@ -28,6 +28,7 @@ import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 
@@ -44,6 +45,7 @@ public class CriteriaUtility {
             String startWith,
             Integer resultLimit,
             Owner owner,
+            List<String> inAssetIds,
             Class<?> assetEntityClass,
             EntityManager entityManager) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -68,6 +70,11 @@ public class CriteriaUtility {
         if (nonNull(owner)) {
             predicates.add(builder.equal(root.get("owner").as(String.class), owner.name()));
         }
+
+        if (!CollectionUtils.isEmpty(inAssetIds)) {
+            predicates.add(root.get("id").as(String.class).in(inAssetIds));
+        }
+
         cq.where(predicates.toArray(new Predicate[0]));
         return entityManager.createQuery(cq)
                 .setMaxResults(resultLimit)

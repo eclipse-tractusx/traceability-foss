@@ -52,7 +52,7 @@ class AssetAsPlannedRepositoryIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsAsPlannedStored();
 
         // when
-        List<String> result = assetAsPlannedRepository.getFieldValues(fieldName, startWith, resultLimit, null);
+        List<String> result = assetAsPlannedRepository.getFieldValues(fieldName, startWith, resultLimit, null, List.of());
 
         // then
         assertThat(result)

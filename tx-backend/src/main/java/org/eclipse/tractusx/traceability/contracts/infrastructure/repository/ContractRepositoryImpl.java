@@ -70,7 +70,8 @@ public class ContractRepositoryImpl implements ContractRepository {
             Page<ContractAgreementView> contractAgreementInfoViews = contractAgreementInfoViewRepository.findAll(specification, pageable);
 
             if (contractAgreementInfoViews.getContent().isEmpty()) {
-                throw new ContractException("Cannot find contract agreement Ids for asset ids in searchCriteria: " + searchCriteria.getSearchCriteriaFilterList());
+                log.warn("Cannot find contract agreement Ids for asset ids in searchCriteria: " + searchCriteria.getSearchCriteriaFilterList());
+                return new PageResult<>(List.of(), 0, 0, 0, 0L);
             }
 
             return new PageResult<>(fetchEdcContractAgreements(contractAgreementInfoViews),

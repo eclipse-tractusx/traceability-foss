@@ -79,6 +79,7 @@ export class ErrorMessagePipe implements PipeTransform {
       [ 'required', _ => getErrorMapping('required') ],
       [ 'url', _ => getErrorMapping('url') ],
       [ 'bpn', _ => getErrorMapping('bpn') ],
+      [ 'invalidBpn', _ => getErrorMapping('invalidBpn' ) ],
       [ 'email', _ => getErrorMapping('email') ],
       [ 'generic', _ => getErrorMapping('generic') ],
     ]);

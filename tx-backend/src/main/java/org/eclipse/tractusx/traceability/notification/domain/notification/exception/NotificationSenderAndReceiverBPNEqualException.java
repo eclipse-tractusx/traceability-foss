@@ -19,15 +19,14 @@
 
 package org.eclipse.tractusx.traceability.notification.domain.notification.exception;
 
-import org.eclipse.tractusx.traceability.common.model.BPN;
 
 public class NotificationSenderAndReceiverBPNEqualException extends IllegalArgumentException {
 
-    public NotificationSenderAndReceiverBPNEqualException(String message) {
-        super(message);
+    public NotificationSenderAndReceiverBPNEqualException(String bpn) {
+        super("Quality notification cannot be created. Sender BPN %s is same as receiver BPN.".formatted(bpn));
     }
 
-    public NotificationSenderAndReceiverBPNEqualException(BPN bpn, String investigationId) {
-        super("Quality Notification with id %s rejected. Sender BPN: %s is same as receiver BPN.".formatted(investigationId, bpn));
+    public NotificationSenderAndReceiverBPNEqualException(String bpn, Long notificationId) {
+        super("Quality notification with id %s cannot be edited. Sender BPN %s is same as receiver BPN.".formatted(notificationId, bpn));
     }
 }

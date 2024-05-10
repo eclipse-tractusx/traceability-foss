@@ -65,6 +65,8 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
         </dependency>
+
+
         <!-- tx-application modules -->
         <dependency>
             <groupId>org.eclipse.tractusx.traceability</groupId>
@@ -85,53 +87,6 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <!-- EDC Client -->
-        <dependency>
-            <groupId>org.eclipse.edc</groupId>
-            <artifactId>connector-core</artifactId>
-            <version>${edc-library.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>runtime-metamodel</artifactId>
-                    <groupId>org.eclipse.edc</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.edc</groupId>
-            <artifactId>dsp</artifactId>
-            <version>${edc-library.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>runtime-metamodel</artifactId>
-                    <groupId>org.eclipse.edc</groupId>
-                </exclusion>
-                <!-- Fixes CVE-2023-36478  https://github.com/catenax-ng/tx-traceability-foss/security/code-scanning/6770
-                Can be removed once org.eclipse.edc delivers at least jetty-http 11.0.16
-                -->
-                <exclusion>
-                    <artifactId>websocket-jakarta-server</artifactId>
-                    <groupId>org.eclipse.jetty.websocket</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.edc</groupId>
-            <artifactId>json-ld</artifactId>
-            <version>${edc-library.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>runtime-metamodel</artifactId>
-                    <groupId>org.eclipse.edc</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <artifactId>runtime-metamodel</artifactId>
-            <groupId>org.eclipse.edc</groupId>
-            <version>${edc-library.version}</version>
         </dependency>
 
         <dependency>
@@ -227,7 +182,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
-            <version>1.26.0</version>
+            <version>${commons-compress.version}</version>
         </dependency>
 
         <dependency>

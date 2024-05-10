@@ -132,6 +132,7 @@ public class NotificationsEDCFacade {
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
                                     .counterPartyAddress(receiverEdcUrl + edcProperties.getIdsPath())
+                                    .counterPartyId(notification.getSendTo())
                                     .querySpec(QuerySpec.Builder.newInstance()
                                             .filter(
                                                     List.of(new Criterion(NAMESPACE_EDC + "notificationtype", "=", propertyNotificationTypeValue),

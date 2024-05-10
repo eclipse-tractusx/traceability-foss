@@ -244,6 +244,33 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 .body("size()", is(6));
     }
 
+    @Test
+    void givenInAssetListIsProvided_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsAsPlannedStored();
+        String fieldName = "id";
+        String resultLimit = "100";
+        String owner = "OWN";
+        String inAssetIds = "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("owner", owner)
+                .param("inAssetIds", inAssetIds)
+                .get("/api/assets/as-planned/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body("size()", is(1));
+    }
+
     private static Stream<Arguments> fieldNameTestProvider() {
         return Stream.of(
                 Arguments.of("id", 10L, 2),
