@@ -142,14 +142,14 @@ class ContractControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldReturn404IfAssetIdIsUnknown() throws JoseException {
+    void shouldReturnEmptyIfAssetIdIsUnknown() throws JoseException {
         //GIVEN
         edcSupport.edcWillReturnOnlyOneContractAgreement();
         edcSupport.edcWillReturnContractAgreementNegotiation();
         assetsSupport.defaultAssetsStored();
 
         //WHEN//THEN
-        given()
+        PageResult<ContractResponse> contractResponsePageResult = given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -158,7 +158,11 @@ class ContractControllerIT extends IntegrationTestSpecification {
                 .post("/api/contracts")
                 .then()
                 .log().all()
-                .statusCode(404);
+                .statusCode(200)
+                .extract().body().as(new TypeRef<>() {
+                });
+        //THEN
+        assertThat(contractResponsePageResult.content()).isEmpty();
     }
 
 }
