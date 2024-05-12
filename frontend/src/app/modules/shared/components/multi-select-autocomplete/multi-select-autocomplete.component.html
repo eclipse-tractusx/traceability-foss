@@ -33,7 +33,7 @@ SPDX-License-Identifier: Apache-2.0
              (input)="filterItem(searchInput.value)"
              [placeholder]="('multiSelect.searchPlaceholder' | i18n)">
       <mat-spinner *ngIf="isLoadingSuggestions" [diameter]="20"></mat-spinner>
-      <div class="box-search-icon" onkeydown="filterItem(''); clickClear()" (click)="filterItem(''); clickClear()">
+      <div class="box-search-icon" (click)="filterItem(''); clickClear()">
         <button mat-icon-button class="search-button">
           <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>
         </button>
