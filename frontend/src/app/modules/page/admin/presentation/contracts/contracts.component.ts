@@ -31,7 +31,7 @@ export class ContractsComponent {
       if(data?.data?.content.length) {
         return;
       } else {
-        this.contractsFacade.setContracts(0,10,[null,null]);
+        this.contractsFacade.setContracts(0,[null,null], 10);
       }
     })
 
@@ -58,7 +58,7 @@ export class ContractsComponent {
 
   public onTableConfigChange(pagination: TableEventConfig): void {
     this.pagination = pagination;
-    this.contractsFacade.setContracts(pagination.page, pagination.pageSize, [pagination.sorting] );
+    this.contractsFacade.setContracts(pagination.page, [pagination.sorting], pagination.pageSize );
   }
 
   multiSelection(selectedContracts: Contract[]) {

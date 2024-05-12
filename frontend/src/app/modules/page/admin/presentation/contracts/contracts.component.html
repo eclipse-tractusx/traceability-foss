@@ -16,6 +16,7 @@
       <app-button variant="raised"
                   color="primary"
                   iconName="ios_share"
+                  onkeydown="exportContractsAsCSV()"
                   (click)="exportContractsAsCSV()"
                   [isDisabled]="!selectedContracts?.length"
                   [attr.data-testid]="'export-contracts-button'"

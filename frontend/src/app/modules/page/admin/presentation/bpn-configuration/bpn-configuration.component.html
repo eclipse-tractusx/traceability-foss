@@ -53,7 +53,7 @@ SPDX-License-Identifier: Apache-2.0
           ></app-input>
 
           <app-button class="bpn-config--button" color="primary" variant="raised">
-            <app-text-with-icon (click)="addEntry()" iconName="add">{{ 'actions.add' | i18n }}</app-text-with-icon>
+            <app-text-with-icon onkeydown="addEntry()" (click)="addEntry()" iconName="add">{{ 'actions.add' | i18n }}</app-text-with-icon>
           </app-button>
         </div>
       </div>
@@ -76,6 +76,7 @@ SPDX-License-Identifier: Apache-2.0
           variant="raised"
           color="primary"
           [isDisabled]="!(info.deleted.length + info.added.length + info.changed.length)"
+          onkeydown="saveData()"
           (click)="saveData()"
         >
           {{ 'actions.saveChanges' | i18n }}
@@ -106,7 +107,7 @@ SPDX-License-Identifier: Apache-2.0
                     color="accent"
                     variant="raised"
                   >
-                    <app-text-with-icon (click)="onBpnRemove(i)" iconName="delete"
+                    <app-text-with-icon onkeydown="onBpnRemove(i)" (click)="onBpnRemove(i)" iconName="delete"
                     >{{ 'actions.remove' | i18n }}
                     </app-text-with-icon>
                   </app-button>
@@ -151,7 +152,7 @@ SPDX-License-Identifier: Apache-2.0
                     color="warn"
                     variant="raised"
                   >
-                    <app-text-with-icon (click)="onBpnDelete(i, bpnConfig)" iconName="delete">{{
+                    <app-text-with-icon onkeydown="onBpnDelete(i, bpnConfig)" (click)="onBpnDelete(i, bpnConfig)" iconName="delete">{{
                       'actions.delete' | i18n
                       }}</app-text-with-icon>
                   </app-button>

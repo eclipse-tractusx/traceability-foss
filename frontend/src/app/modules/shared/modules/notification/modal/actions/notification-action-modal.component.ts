@@ -24,7 +24,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { getTranslationContext } from '@shared/helper/notification-helper';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
-import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
@@ -59,7 +58,7 @@ export class NotificationActionModalComponent {
           buttonRight: 'actions.accept',
           successMessage: context + '.modal.successfullyAccepted',
           errorMessage: context + '.modal.failedAccept',
-          reasonHint: context + '.modal.acceptReasonHint'
+          reasonHint: context + '.modal.acceptReasonHint',
         };
       }
       case NotificationStatus.DECLINED: {
@@ -70,7 +69,7 @@ export class NotificationActionModalComponent {
           buttonRight: 'actions.decline',
           successMessage: context + '.modal.successfullyDeclined',
           errorMessage: context + '.modal.failedDecline',
-          reasonHint: context + '.modal.declineReasonHint'
+          reasonHint: context + '.modal.declineReasonHint',
         };
       }
       case NotificationStatus.ACKNOWLEDGED: {
@@ -104,7 +103,7 @@ export class NotificationActionModalComponent {
           buttonRight: 'actions.close',
           successMessage: context + '.modal.successfullyClosed',
           errorMessage: context + '.modal.failedClose',
-          reasonHint: context + '.modal.closeReasonHint'
+          reasonHint: context + '.modal.closeReasonHint',
         };
       }
     }
@@ -115,7 +114,7 @@ export class NotificationActionModalComponent {
     this.notification = notification;
     const modalData = this.getModalDataBasedOnNotificationStatus(desiredStatus);
 
-    if (this.hasTextArea(desiredStatus)){
+    if (this.hasTextArea(desiredStatus)) {
       this.showTextArea = true;
       this.textAreaControl.setValidators([ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]);
       this.formGroup.reset();
@@ -149,7 +148,7 @@ export class NotificationActionModalComponent {
       options.notificationId = this.notification.id;
       options.type = getTranslationContext(this.notification) + '.modal.cancellationConfirmationLabel';
     }
-    if (this.hasTextArea(desiredStatus)){
+    if (this.hasTextArea(desiredStatus)) {
       options.formGroup = this.formGroup;
     }
 
