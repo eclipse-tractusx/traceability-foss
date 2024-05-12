@@ -10,6 +10,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
+- #XXX Fixed some sonar issues in frontend application
 
 ## [11.0.0 - 08.05.2024]
 ### Added
