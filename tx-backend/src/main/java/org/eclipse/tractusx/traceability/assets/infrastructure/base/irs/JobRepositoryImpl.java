@@ -32,7 +32,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -60,7 +60,7 @@ public class JobRepositoryImpl implements JobRepository {
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
 
     private static final String JOB_STATUS_RUNNING = "RUNNING";
-    private final AssetMapperFactory assetMapperFactory;
+    private final IrsResponseAssetMapper assetMapperFactory;
 
     private final IrsClient irsClient;
 
@@ -71,7 +71,7 @@ public class JobRepositoryImpl implements JobRepository {
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
-            AssetCallbackRepository assetAsPlannedCallbackRepository, AssetMapperFactory assetMapperFactory) {
+            AssetCallbackRepository assetAsPlannedCallbackRepository, IrsResponseAssetMapper assetMapperFactory) {
         this.bpnRepository = bpnRepository;
         this.bpnService = bpnService;
         this.traceabilityProperties = traceabilityProperties;
@@ -104,7 +104,7 @@ public class JobRepositoryImpl implements JobRepository {
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", jobResponseIRS.jobStatus().globalAssetId(), jobResponseIRS.jobStatus().state(), runtime);
 
         if (jobCompleted(jobResponseIRS.jobStatus())) {
-            List<AssetBase> assets = assetMapperFactory.mapToAssetBaseList(jobResponseIRS);
+            List<AssetBase> assets = assetMapperFactory.toAssetBaseList(jobResponseIRS);
 
             assets.forEach(assetBase -> {
                 if (assetBase.getBomLifecycle() == AS_BUILT) {
