@@ -31,7 +31,7 @@ export interface TreeElement {
   title: string;
   text?: string;
 
-  state?: State;
+  state?: State | string;
   children?: string[];
   parents?: string[];
 }
@@ -41,7 +41,7 @@ export interface TreeStructure {
   title: string;
   text?: string;
 
-  state: State;
+  state: State | string;
   children?: TreeStructure[];
   relations?: TreeStructure[];
 }
