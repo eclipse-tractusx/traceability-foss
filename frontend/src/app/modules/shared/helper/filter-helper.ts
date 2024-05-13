@@ -58,67 +58,48 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, para
     }
 
     // has multiple values
-    enrichEqualFilter(key, filter, operator, filterOperator, params);
+    if (isStartsWithFilter(key) && Array.isArray(filter[key])) {
+      operator = getFilterOperatorValue(FilterOperator.EQUAL);
+
+      for (const value of filter[key]) {
+        params = params.append('filter', `${ key },${ operator },${ value },${ filterOperator }`);
+      }
+    }
 
     // has single value
-    enrichStartsWithFilter(key, filter, operator, filterOperator, params, filterValues)
+    if (isStartsWithFilter(key) && !Array.isArray(filter[key])) {
+      operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
+      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+    }
 
-    enrichNotificationCountFilter(key, operator, filterOperator, params, filterValues);
+    if (isNotificationCountFilter(key) && filterValues && filterValues.length != 0) {
+      operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
+      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
+    }
 
     // has single value
-    enrichAssetIdAndExclusionFilter(key, operator, filterValues, params);
+    if (isAssetIdsFilter(key)) {
+      operator = getFilterOperatorValue(FilterOperator.EQUAL);
+      const keyOverride = "id";
+      const filterOperatorOverride = "OR";
+      for (let value of filterValues){
+        params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
+      }
+    }
+
+    if (isExcludeAssetIdsFilter(key)) {
+      operator = getFilterOperatorValue(FilterOperator.EXCLUDE);
+      const keyOverride = "id";
+      const filterOperatorOverride = "AND";
+      for (let value of filterValues){
+        params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
+      }
+    }
 
   }
 
   return params;
 }
-
-function enrichNotificationCountFilter(key: string, operator: any, filterOperator: any, params: any, filterValues: any){
-  if (isNotificationCountFilter(key) && filterValues && filterValues.length != 0) {
-    operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
-    params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
-  }
-}
-
-function enrichStartsWithFilter(key: string, filter: any, operator: any, filterOperator: any, params: any, filterValues: any){
-  if (isStartsWithFilter(key) && !Array.isArray(filter[key])) {
-    operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
-    params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
-  }
-}
-
-
-function enrichEqualFilter(key: string, filter: any, operator: any, filterOperator: any, params: any){
-  if (isStartsWithFilter(key) && Array.isArray(filter[key])) {
-    operator = getFilterOperatorValue(FilterOperator.EQUAL);
-
-    for (const value of filter[key]) {
-      params = params.append('filter', `${ key },${ operator },${ value },${ filterOperator }`);
-    }
-  }
-}
-
-function enrichAssetIdAndExclusionFilter(key: string, operator: string, filterValues: string, params: any) {
-  if (isAssetIdsFilter(key)) {
-    operator = getFilterOperatorValue(FilterOperator.EQUAL);
-    const keyOverride = 'id';
-    const filterOperatorOverride = 'OR';
-    for (let value of filterValues) {
-      params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
-    }
-  }
-
-  if (isExcludeAssetIdsFilter(key)) {
-    operator = getFilterOperatorValue(FilterOperator.EXCLUDE);
-    const keyOverride = 'id';
-    const filterOperatorOverride = 'AND';
-    for (let value of filterValues) {
-      params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
-    }
-  }
-  return operator;
-}
-
 
 export function isAssetIdsFilter(key: string): boolean {
   return 'ids' === key;
@@ -152,32 +133,28 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean, ids?: string[
 
   const transformedFilter: any = {};
 
-  function enrichNotificationCountFilter() {
-    for (const key in formValues) {
-      if (formValues[key] !== null && formValues[key] !== undefined) {
-        if ('receivedActiveAlerts' === key) {
-          transformedFilter['receivedQualityAlertIdsInStatusActive'] = formValues[key];
-          continue;
-        }
-        if ('sentActiveAlerts' === key) {
-          transformedFilter['sentQualityAlertIdsInStatusActive'] = formValues[key];
-          continue;
-        }
-        if ('receivedActiveInvestigations' === key) {
-          transformedFilter['receivedQualityInvestigationIdsInStatusActive'] = formValues[key];
-          continue;
-        }
-        if ('sentActiveInvestigations' === key) {
-          transformedFilter['sentQualityInvestigationIdsInStatusActive'] = formValues[key];
-          continue;
-        }
-        transformedFilter[key] = formValues[key];
+  // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
+  for (const key in formValues) {
+    if (formValues[key] !== null && formValues[key] !== undefined) {
+      if ('receivedActiveAlerts' === key) {
+        transformedFilter['receivedQualityAlertIdsInStatusActive'] = formValues[key];
+        continue;
       }
+      if ('sentActiveAlerts' === key) {
+        transformedFilter['sentQualityAlertIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('receivedActiveInvestigations' === key) {
+        transformedFilter['receivedQualityInvestigationIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      if ('sentActiveInvestigations' === key) {
+        transformedFilter['sentQualityInvestigationIdsInStatusActive'] = formValues[key];
+        continue;
+      }
+      transformedFilter[key] = formValues[key];
     }
   }
-
-// Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
-  enrichNotificationCountFilter();
 
   if (ids){
     transformedFilter['ids'] = ids;
