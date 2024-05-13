@@ -36,13 +36,14 @@ SPDX-License-Identifier: Apache-2.0
     </ng-container>
 
     <app-button
+      onkeydown="showFullText = !showFullText"
       (click)="showFullText = !showFullText"
       class="sidenav--toggle-button"
       variant="miniFab"
       [iconName]="showFullText ? 'keyboard_arrow_left' : 'keyboard_arrow_right'"
     ></app-button>
 
-    <div (click)="showFullText = !showFullText" class="sidenav--toggle"></div>
+    <div onkeydown="showFullText = !showFullText" (click)="showFullText = !showFullText" class="sidenav--toggle"></div>
   </div>
 
   <div class="sidenav--content">
