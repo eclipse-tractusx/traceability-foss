@@ -208,6 +208,7 @@ SPDX-License-Identifier: Apache-2.0
           <div class="flex justify-start items-center">
             <mat-checkbox
               [checked]="isSelected(row)"
+              onkeydown="$event.stopPropagation()"
               (click)="$event.stopPropagation()"
               (change)="toggleSelection(row)"
               data-testid="select-one--test-id"

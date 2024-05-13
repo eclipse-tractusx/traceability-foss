@@ -29,6 +29,7 @@ SPDX-License-Identifier: Apache-2.0
       [color]="suffixIconColor"
       [class.cursor-pointer]="suffixIconHover"
       [attr.data-testId]="htmlId + '-icon'"
+      onkeydown="suffixIconClick.emit()"
       (click)="suffixIconClick.emit()"
       matSuffix
     >{{ suffixIcon }}</mat-icon
@@ -38,6 +39,7 @@ SPDX-License-Identifier: Apache-2.0
       [color]="suffixIconColor"
       [class.cursor-pointer]="suffixIconHover"
       [attr.data-testId]="htmlId + '-icon-clear'"
+      onkeydown="clearIconClick()"
       (click)="clearIconClick()"
       matSuffix
     >clear

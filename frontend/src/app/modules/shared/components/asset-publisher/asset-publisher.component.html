@@ -37,6 +37,7 @@
                   class="custom-button_import"
                   color="primary"
                   [isDisabled]="policyFormControl.invalid || checkForIllegalAssetStateToPublish()"
+                  onkeydown="publish()"
                   (click)="publish()">
         {{'publisher.publish' | i18n}}
       </app-button>

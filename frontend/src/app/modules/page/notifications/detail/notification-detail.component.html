@@ -21,6 +21,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="detail--navigation">
     <app-button
       [color]="'primary'"
+      onkeydown="this.navigateBackToNotifications()"
       (click)="this.navigateBackToNotifications()"
     >
       <div class="flex justify-between items-center">
@@ -40,6 +41,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showEditButton(selectedNotification)"
+        onkeydown="navigateToEditView()"
         (click)="navigateToEditView()"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAllowedToEdit()"
@@ -52,6 +54,7 @@ SPDX-License-Identifier: Apache-2.0
 
       <app-button
         *ngIf="actionHelperService.showApproveButton(selectedNotification)"
+        onkeydown="notificationCommonModalComponent?.show(NotificationStatus.APPROVED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.APPROVED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
@@ -72,6 +75,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showCancelButton(selectedNotification)"
+        onkeydown="notificationCommonModalComponent?.show(NotificationStatus.CANCELED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.CANCELED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL)"
@@ -92,6 +96,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showCloseButton(selectedNotification)"
+        onkeydown="notificationCommonModalComponent?.show(NotificationStatus.CLOSED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.CLOSED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE)"
@@ -112,6 +117,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showAcceptButton(selectedNotification)"
+        onkeydown="notificationCommonModalComponent?.show(NotificationStatus.ACCEPTED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.ACCEPTED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
@@ -132,6 +138,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showAcknowledgeButton(selectedNotification)"
+        onkeydown="notificationCommonModalComponent?.show(NotificationStatus.ACKNOWLEDGED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.ACKNOWLEDGED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
@@ -152,6 +159,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <app-button
         *ngIf="actionHelperService.showDeclineButton(selectedNotification)"
+        onkeydown="notificationCommonModalComponent?.show(NotificationStatus.DECLINED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.DECLINED)"
         [color]="'primary'"
         [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE)"
@@ -240,7 +248,7 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <ng-template #semanticModelIdTmp let-row="row">
-  <app-button (click)="copyToClipboard(row.semanticModelId)" [attr.data-testId]="'copy-button--' + row.id">
+  <app-button onkeydown="copyToClipboard(row.semanticModelId)" (click)="copyToClipboard(row.semanticModelId)" [attr.data-testId]="'copy-button--' + row.id">
     <div class="flex justify-around items-center">
       {{ row.semanticModelId }}
       <mat-icon class="alert--semantic-model-id__icon">filter_none</mat-icon>

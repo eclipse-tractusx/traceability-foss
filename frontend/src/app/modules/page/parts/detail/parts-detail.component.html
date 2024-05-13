@@ -22,6 +22,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="part-detail--header--navigation--container">
     <app-button
       [color]="'primary'"
+      onkeydown="this.navigateToParentPath()"
       (click)="this.navigateToParentPath()"
     >
       <div class="flex justify-between items-center">
@@ -43,6 +44,7 @@ SPDX-License-Identifier: Apache-2.0
       iconName="announcement"
       class="action-button-tile mr-2"
       [isDisabled]="incidentCreationTooltipMessage !== 'routing.createIncident'"
+      onkeydown="navigateToNotificationCreationView()"
       (click)="navigateToNotificationCreationView()"
     >
     </app-button>
@@ -58,6 +60,7 @@ SPDX-License-Identifier: Apache-2.0
         iconName="published_with_changes"
         class="action-button-tile"
         [isDisabled]="publishAssetsTooltipMessage !== 'routing.publishAssets'"
+        onkeydown="isPublisherOpen$.next(true)"
         (click)="isPublisherOpen$.next(true)"
         ></app-button>
   </div>
@@ -314,4 +317,3 @@ SPDX-License-Identifier: Apache-2.0
     (submitted)="isPublisherOpen$.next(false);"
   ></app-asset-publisher>
 </app-sidenav-wrapper>
-<!--refreshPartsOnPublish($event);-->

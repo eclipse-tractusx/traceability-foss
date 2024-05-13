@@ -27,6 +27,7 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #partRelationMainTmp let-partDetails="view">
   <div class="part-relation--button-container">
     <app-button
+      onkeydown="decreaseSize()"
       (click)="decreaseSize()"
       [label]="'relation.decrease' | i18n"
       data-testid="tree--zoom__increase"
@@ -34,6 +35,7 @@ SPDX-License-Identifier: Apache-2.0
     >+
     </app-button>
     <app-button
+      onkeydown="increaseSize()"
       (click)="increaseSize()"
       [label]="'relation.increase' | i18n"
       data-testid="tree--zoom__decrease"

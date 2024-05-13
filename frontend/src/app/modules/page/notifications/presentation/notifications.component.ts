@@ -20,7 +20,6 @@
 import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, NOTIFICATION_BASE_ROUTE } from '@core/known-route';
-import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
@@ -131,7 +130,7 @@ export class NotificationsComponent {
     this.router.navigate([ `/${ link }/${ notification.id }/edit` ], { queryParams: tabInformation });
   }
 
-  private getTabInformation(): {link: string, tabInformation: any} {
+  private getTabInformation(): { link: string, tabInformation: any } {
     const { link } = getRoute(NOTIFICATION_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
     const tabInformation: NotificationTabInformation = { tabIndex: tabIndex, pageNumber: this.pagination.page };
@@ -152,13 +151,13 @@ export class NotificationsComponent {
   protected readonly NotificationType = NotificationType;
 
   filterNotifications(filterContext: any) {
-    if(filterContext.channel === NotificationChannel.RECEIVER) {
+    if (filterContext.channel === NotificationChannel.RECEIVER) {
       this.receivedFilter = filterContext.filter;
     } else {
       this.requestedFilter = filterContext.filter;
     }
-    if(filterContext.channel === NotificationChannel.RECEIVER) {
-      this.notificationsFacade.setReceivedNotifications(this.pagination.page, this.pagination.pageSize, this.notificationReceivedSortList,null, this.receivedFilter);
+    if (filterContext.channel === NotificationChannel.RECEIVER) {
+      this.notificationsFacade.setReceivedNotifications(this.pagination.page, this.pagination.pageSize, this.notificationReceivedSortList, null, this.receivedFilter);
     } else {
       this.notificationsFacade.setQueuedAndRequestedNotifications(this.pagination.page, this.pagination.pageSize, this.notificationQueuedAndRequestedSortList, null, this.requestedFilter);
     }
