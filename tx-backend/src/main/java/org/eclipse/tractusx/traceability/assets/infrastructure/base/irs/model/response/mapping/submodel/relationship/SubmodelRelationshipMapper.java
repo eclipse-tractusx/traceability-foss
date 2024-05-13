@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,34 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.relationship;
 
-import java.util.List;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 
-public record SingleLevelUsageAsPlannedRequest(
-        List<ParentPart> parentParts,
-        String businessPartner,
-        String catenaXId
-) {
+public interface SubmodelRelationshipMapper {
 
-    public record ParentPart(
-            ValidityPeriod validityPeriod,
-            String parentCatenaXId,
-            Quantity quantity,
-            String createdOn,
-            String lastModifiedOn
-    ) {
-    }
+    Descriptions extractDescription(IrsSubmodel irsSubmodel);
 
-    public record ValidityPeriod(
-            String validFrom,
-            String validTo
-    ) {
-    }
+    boolean validMapper(IrsSubmodel irsSubmodel);
 
-    public record Quantity(
-            double quantityNumber,
-            String measurementUnit
-    ) {
-    }
 }

@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJobStatus;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.ImportJobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.ImportAssetMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,6 +43,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.createAssetAsBuiltTestdata;
+import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.createAssetAsPlannedTestdata;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -65,12 +69,15 @@ class ImportServiceImplTest {
     @Mock
     private ImportJobRepository importJobRepository;
 
+    @Mock
+    private ImportAssetMapper assetMapper;
+
     @BeforeEach
     public void testSetup() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
-        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, new MappingStrategyFactory(), submodelPayloadRepository, importJobRepository);
+        importService = new ImportServiceImpl(objectMapper, assetAsPlannedRepository, assetAsBuiltRepository, traceabilityProperties, submodelPayloadRepository, importJobRepository, assetMapper);
 
     }
 
@@ -86,6 +93,7 @@ class ImportServiceImplTest {
                 file
         );
 
+        when(assetMapper.toAssetBaseList(any())).thenReturn(List.of(createAssetAsBuiltTestdata(), createAssetAsPlannedTestdata()));
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPNL00000003CML1"));
         importService.importAssets(multipartFile, new ImportJob(UUID.randomUUID(), Instant.now(), null, ImportJobStatus.RUNNING, List.of(), List.of()));
         verify(assetAsBuiltRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());

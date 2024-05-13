@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.testdata;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -37,13 +38,13 @@ public class AssetTestDataFactory {
 
 
     public static AssetBase createAssetTestDataWithRelations(List<Descriptions> parents, List<Descriptions> childs) {
-        AssetBase assetTestData = createAssetTestData();
+        AssetBase assetTestData = createAssetAsBuiltTestdata();
         assetTestData.setParentRelations(parents);
         assetTestData.setChildRelations(childs);
         return assetTestData;
     }
 
-    public static AssetBase createAssetTestData() {
+    public static AssetBase createAssetAsBuiltTestdata() {
 
 
         DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
@@ -82,6 +83,40 @@ public class AssetTestDataFactory {
                 .idShort("a/devNTierAPlastics")
                 .semanticModelId("456")
                 .semanticDataModel(SemanticDataModel.SERIALPART)
+                .parentRelations(AssetTestDataFactory.provideParentRelations())
+                .childRelations(AssetTestDataFactory.provideChildRelations())
+                .van("OMAOYGBDTSRCMYSCX")
+                .qualityType(QualityType.CRITICAL)
+                .owner(Owner.OWN)
+                .manufacturerName("manuName")
+                .manufacturerId("BPNL00000003CML1")
+                .detailAspectModels(detailAspectModels)
+                .build();
+    }
+
+    public static AssetBase createAssetAsPlannedTestdata() {
+
+
+        DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInfoAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
+                .catenaXSiteId("abc")
+                .function("function")
+                .functionValidFrom(OffsetDateTime.now())
+                .functionValidUntil(OffsetDateTime.now().plusDays(1L))
+                .build();
+
+        DetailAspectModel detailAspectModel = DetailAspectModel.builder()
+                .data(detailAspectDataPartSiteInfoAsPlanned)
+                .type(DetailAspectType.AS_PLANNED)
+                .build();
+
+        ArrayList<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        detailAspectModels.add(detailAspectModel);
+
+        return AssetBase.builder()
+                .id("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01")
+                .idShort("a/devNTierAPlastics")
+                .semanticModelId("456")
+                .semanticDataModel(SemanticDataModel.PARTASPLANNED)
                 .parentRelations(AssetTestDataFactory.provideParentRelations())
                 .childRelations(AssetTestDataFactory.provideChildRelations())
                 .van("OMAOYGBDTSRCMYSCX")

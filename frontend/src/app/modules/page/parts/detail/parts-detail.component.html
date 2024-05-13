@@ -22,6 +22,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="part-detail--header--navigation--container">
     <app-button
       [color]="'primary'"
+      onkeydown="this.navigateToParentPath()"
       (click)="this.navigateToParentPath()"
     >
       <div class="flex justify-between items-center">
@@ -43,6 +44,7 @@ SPDX-License-Identifier: Apache-2.0
       iconName="announcement"
       class="action-button-tile mr-2"
       [isDisabled]="incidentCreationTooltipMessage !== 'routing.createIncident'"
+      onkeydown="navigateToNotificationCreationView()"
       (click)="navigateToNotificationCreationView()"
     >
     </app-button>
@@ -58,6 +60,7 @@ SPDX-License-Identifier: Apache-2.0
         iconName="published_with_changes"
         class="action-button-tile"
         [isDisabled]="publishAssetsTooltipMessage !== 'routing.publishAssets'"
+        onkeydown="isPublisherOpen$.next(true)"
         (click)="isPublisherOpen$.next(true)"
         ></app-button>
   </div>
@@ -168,7 +171,6 @@ SPDX-License-Identifier: Apache-2.0
                 >
                   <ng-container matColumnDef="position">
                     <th mat-header-cell *matHeaderCellDef> {{'partDetail.position' | i18n}} </th>
-                    <!--TODO: Adjust when getting position porperty from BE, currently hardcoded for displaying purposes-->
                     <td mat-cell *matCellDef="let i=index">000{{i + 1}}</td>
                   </ng-container>
                   <ng-container matColumnDef="productType">
@@ -200,7 +202,7 @@ SPDX-License-Identifier: Apache-2.0
     <mat-card-content class="part-detail--relation__container">
       <ng-container>
         <app-part-relation [isStandalone]="false" [showMiniMap]="false"></app-part-relation>
-        <mat-icon (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon"
+        <mat-icon onkeydown="openRelationPage(partDetails.data)" (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon"
         >open_in_new
         </mat-icon>
       </ng-container>
@@ -314,4 +316,3 @@ SPDX-License-Identifier: Apache-2.0
     (submitted)="isPublisherOpen$.next(false);"
   ></app-asset-publisher>
 </app-sidenav-wrapper>
-<!--refreshPartsOnPublish($event);-->

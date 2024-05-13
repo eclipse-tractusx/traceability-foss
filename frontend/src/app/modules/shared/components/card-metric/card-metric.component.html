@@ -6,9 +6,4 @@
     <p class="text-2xl p-2.5 text-center">{{(value | number) | abbreviateNumber}}
       <span class="text-2xl" *ngIf="value >= 1000000 && value <= 99999999">{{'pageDashboard.million' | i18n}}</span></p>
   </mat-card-content>
-  <!-- that is how you could add a unit footer
-    <mat-card-footer>
-        <p class="text-end mr-2.5 font-regular text-gray">{{footerLabelKey}}</p>
-    </mat-card-footer>
-    -->
 </mat-card>

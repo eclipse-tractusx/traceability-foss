@@ -19,6 +19,7 @@ SPDX-License-Identifier: Apache-2.0
 <mat-form-field>
 
   <mat-select *ngIf="!isDate" #selectElem [placeholder]="placeholder" [formControl]="formControl"
+              onkeydown="filterItem('')"
               (click)="filterItem('')"
               [multiple]="true"
               (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown">
@@ -32,7 +33,7 @@ SPDX-License-Identifier: Apache-2.0
              (input)="filterItem(searchInput.value)"
              [placeholder]="('multiSelect.searchPlaceholder' | i18n)">
       <mat-spinner *ngIf="isLoadingSuggestions" [diameter]="20"></mat-spinner>
-      <div class="box-search-icon" (click)="filterItem(''); clickClear()">
+      <div class="box-search-icon" onkeydown="filterItem(''); clickClear()" (click)="filterItem(''); clickClear()">
         <button mat-icon-button class="search-button">
           <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>
         </button>
@@ -69,7 +70,7 @@ SPDX-License-Identifier: Apache-2.0
       </ng-container>
     </ng-container>
 
-    <mat-option *ngIf="singleSearch" (click)="changeSearchTextOptionSingleSearch()" [value]=this.searchElement
+    <mat-option *ngIf="singleSearch" onkeydown="changeSearchTextOptionSingleSearch()" (click)="changeSearchTextOptionSingleSearch()" [value]=this.searchElement
                 [style.display]="this.shouldHideTextSearchOptionFieldSingleSearch() ? 'none': 'flex'">{{this.searchElement}}
     </mat-option>
     <mat-select-trigger *ngIf="selectedValue?.length > 1">

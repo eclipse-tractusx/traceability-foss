@@ -42,8 +42,10 @@ SPDX-License-Identifier: Apache-2.0
                         <mat-icon class="icon_uploadFile">upload_file</mat-icon>
                         <p class="file-name">{{file.name}}</p>
                         <app-button variant="raised" class="custom-button_clear" color="warn"
+                                    onkeydown="clearFile()"
                                     (click)="clearFile()">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
                         <app-button variant="raised" class="custom-button_upload" color="primary"
+                                    onkeydown="uploadFile(file)"
                                     (click)="uploadFile(file)">{{ 'pageAdmin.importJson.upload_file' | i18n }}</app-button>
                     </div>
                 </div>
@@ -51,6 +53,7 @@ SPDX-License-Identifier: Apache-2.0
             <ng-container *ngIf="assetResponse.length">
                 <div class="status-container">
                     <app-button variant="stroked" class="custom-button_upload" color="primary"
+                                onkeydown="displayUploader = true; clearFile()"
                                 (click)="displayUploader = true; clearFile()">{{'pageAdmin.importStatus.uploadMore' | i18n}}</app-button>
                     <div class="status-assets-container mt-2">
                         <h4 class="pb-2.5">{{ 'pageAdmin.importStatus.importStatus' | i18n }}:</h4>

@@ -21,6 +21,7 @@ SPDX-License-Identifier: Apache-2.0
     <div class="dialog--header--container pt-0.5 pr-0.5">
       <p mat-dialog-title class="dialog--header--text">{{title | i18n}}</p>
       <mat-icon
+        onkeydown="dialogRef.close()"
         (click)="dialogRef.close()"
       >close
       </mat-icon>
@@ -29,6 +30,7 @@ SPDX-License-Identifier: Apache-2.0
 
       <div class="dialog--content--menu--order">
         <mat-icon
+          onkeydown="handleSortListItem('down')"
           (click)="handleSortListItem('down')"
           matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
           matTooltipClass="table--header--tooltip"
@@ -38,6 +40,7 @@ SPDX-License-Identifier: Apache-2.0
         >arrow_downward
         </mat-icon>
         <mat-icon
+          onkeydown="handleSortListItem('up')"
           (click)="handleSortListItem('up')"
           matTooltip="{{'table.tableSettings.orderTooltip' | i18n}}"
           matTooltipClass="table--header--tooltip"
@@ -62,6 +65,7 @@ SPDX-License-Identifier: Apache-2.0
                         [value]="item"
                         [class.selected-item]="selectedColumn === item"
                         (change)="$event ? handleCheckBoxChange(item, $event.checked) : null"
+                        onkeydown="handleListItemClick($event, item)"
                         (click)="handleListItemClick($event, item)"
                         class="dialog--columns--columns--list"
           >
@@ -100,6 +104,7 @@ SPDX-License-Identifier: Apache-2.0
            [matTooltipShowDelay]="1000"
       >
         <mat-icon
+          onkeydown="resetColumns()"
           (click)="resetColumns()"
         >refresh
         </mat-icon>

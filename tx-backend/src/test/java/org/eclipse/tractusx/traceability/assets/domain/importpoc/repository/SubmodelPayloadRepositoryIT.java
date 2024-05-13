@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +50,7 @@ class SubmodelPayloadRepositoryIT extends IntegrationTestSpecification {
         String jsonString = Files.readString(Path.of(filePath));
         String assetId = "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb";
         ImportRequest importRequest = objectMapper.readValue(jsonString, ImportRequest.class);
-        List<GenericSubmodel> submodels = importRequest.assets().stream()
+        List<IrsSubmodel> submodels = importRequest.assets().stream()
                 .filter(asset -> Objects.equals(asset.assetMetaInfoRequest().catenaXId(), assetId)).findFirst()
                 .map(ImportRequest.AssetImportRequest::submodels).get();
 
