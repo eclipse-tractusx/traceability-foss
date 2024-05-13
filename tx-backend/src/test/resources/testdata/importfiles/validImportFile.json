@@ -1023,35 +1023,6 @@
               "nameAtCustomer" : "Door Key"
             }
           }
-        },
-        {
-          "aspectType" : "urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart",
-          "payload" : {
-            "localIdentifiers" : [
-              {
-                "value" : "92879626SFC",
-                "key" : "jisNumber"
-              }
-            ],
-            "manufacturingInformation" : {
-              "date" : "2018-09-28T04:15:57.000Z",
-              "country" : "HUN"
-            },
-            "catenaXId" : "urn:uuid:da978a30-4dde-4d76-808a-b7946763ff0d",
-            "partTypeInformation" : {
-              "manufacturerPartId" : "1417058-05",
-              "customerPartId" : "PRT-12345",
-              "partClassification" : [
-                {
-                  "classificationStandard": "classificationStandard",
-                  "classificationID":  "classificationID",
-                  "classificationDescription": "classificationDescription"
-                }
-              ],
-              "nameAtManufacturer" : "b/test Door Key",
-              "nameAtCustomer" : "Door Key"
-            }
-          }
         }
       ]
     },

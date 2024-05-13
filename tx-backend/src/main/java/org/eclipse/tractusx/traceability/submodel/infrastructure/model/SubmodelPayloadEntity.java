@@ -33,7 +33,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 
 import java.util.List;
 
@@ -63,7 +63,7 @@ public class SubmodelPayloadEntity {
     @ToString.Exclude
     private AssetAsPlannedEntity assetAsPlanned;
 
-    public static List<SubmodelPayloadEntity> from(AssetAsBuiltEntity asset, List<GenericSubmodel> submodels) {
+    public static List<SubmodelPayloadEntity> from(AssetAsBuiltEntity asset, List<IrsSubmodel> submodels) {
         return submodels.stream().map(submodel -> SubmodelPayloadEntity.builder()
                         .aspectType(submodel.getAspectType())
                         .json(submodel.getPayloadRaw())
@@ -72,7 +72,7 @@ public class SubmodelPayloadEntity {
                 .toList();
     }
 
-    public static List<SubmodelPayloadEntity> from(AssetAsPlannedEntity asset, List<GenericSubmodel> submodels) {
+    public static List<SubmodelPayloadEntity> from(AssetAsPlannedEntity asset, List<IrsSubmodel> submodels) {
         return submodels.stream().map(submodel -> SubmodelPayloadEntity.builder()
                         .aspectType(submodel.getAspectType())
                         .json(submodel.getPayloadRaw())

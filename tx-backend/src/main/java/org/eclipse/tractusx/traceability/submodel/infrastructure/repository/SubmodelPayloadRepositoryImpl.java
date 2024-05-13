@@ -26,7 +26,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.GenericSubmodel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
 import org.springframework.stereotype.Repository;
 
@@ -45,13 +45,13 @@ public class SubmodelPayloadRepositoryImpl implements SubmodelPayloadRepository 
     private static final String ASSET_NOT_FOUND_EXCEPTION_TEMPLATE = "Asset with id: '%s' not found while saving submodels";
 
     @Override
-    public void savePayloadForAssetAsBuilt(String assetId, List<GenericSubmodel> submodels) {
+    public void savePayloadForAssetAsBuilt(String assetId, List<IrsSubmodel> submodels) {
         AssetAsBuiltEntity asset = jpaAssetAsBuiltRepository.findById(assetId).orElseThrow(() -> new AssetNotFoundException(ASSET_NOT_FOUND_EXCEPTION_TEMPLATE.formatted(assetId)));
         jpaSubmodelPayloadRepository.saveAll(SubmodelPayloadEntity.from(asset, submodels));
     }
 
     @Override
-    public void savePayloadForAssetAsPlanned(String assetId, List<GenericSubmodel> submodels) {
+    public void savePayloadForAssetAsPlanned(String assetId, List<IrsSubmodel> submodels) {
         AssetAsPlannedEntity asset = jpaAssetAsPlannedRepository.findById(assetId).orElseThrow(() -> new AssetNotFoundException(ASSET_NOT_FOUND_EXCEPTION_TEMPLATE.formatted(assetId)));
         jpaSubmodelPayloadRepository.saveAll(SubmodelPayloadEntity.from(asset, submodels));
     }
@@ -61,7 +61,7 @@ public class SubmodelPayloadRepositoryImpl implements SubmodelPayloadRepository 
         Optional<AssetAsBuiltEntity> assetAsBuilt = jpaAssetAsBuiltRepository.findById(assetId);
         Optional<AssetAsPlannedEntity> assetAsPlanned = jpaAssetAsPlannedRepository.findById(assetId);
 
-        if(assetAsBuilt.isPresent()) {
+        if (assetAsBuilt.isPresent()) {
             return toTypesAndPayloadsMap(jpaSubmodelPayloadRepository.findByAssetAsBuilt(assetAsBuilt.get()));
         } else if (assetAsPlanned.isPresent()) {
             return toTypesAndPayloadsMap(jpaSubmodelPayloadRepository.findByAssetAsPlanned(assetAsPlanned.get()));

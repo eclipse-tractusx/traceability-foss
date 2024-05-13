@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.ImportJobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.ImportAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.importJob.model.ImportJobEntity;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
@@ -54,31 +55,22 @@ public class ImportServiceImpl implements ImportService {
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final TraceabilityProperties traceabilityProperties;
-    private final MappingStrategyFactory strategyFactory;
     private final SubmodelPayloadRepository submodelPayloadRepository;
     private final ImportJobRepository importJobRepository;
+    private final ImportAssetMapper assetMapper;
 
 
     @Override
     public Map<AssetBase, Boolean> importAssets(MultipartFile file, ImportJob importJob) {
         try {
             ImportRequest importRequest = objectMapper.readValue(file.getBytes(), ImportRequest.class);
-
-            Map<BomLifecycle, List<AssetBase>> assetToUploadByBomLifecycle =
-                    importRequest.assets()
-                            .stream()
-                            .map(assetImportItem -> strategyFactory.mapToAssetBase(assetImportItem, traceabilityProperties))
-                            .filter(Optional::isPresent)
-                            .map(Optional::get)
-                            .collect(Collectors.groupingBy(AssetBase::getBomLifecycle));
-
+            Map<BomLifecycle, List<AssetBase>> assetToUploadByBomLifecycle = assetMapper.toAssetBaseList(importRequest.assets()).stream().collect(Collectors.groupingBy(AssetBase::getBomLifecycle));
             assetToUploadByBomLifecycle.values().stream().flatMap(Collection::stream)
                     .forEach(mappedAsset -> {
                         if (!mappedAsset.isOwnAsset(traceabilityProperties.getBpn().toString())) {
                             throw new ImportException("At least one asset does not match the application bpn " + traceabilityProperties.getBpn().value());
                         }
                     });
-
 
             List<AssetBase> persistedAsBuilt = assetAsBuiltRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetToUploadByBomLifecycle.get(BomLifecycle.AS_BUILT));
             List<AssetBase> persistedAsPlanned = assetAsPlannedRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetToUploadByBomLifecycle.get(BomLifecycle.AS_PLANNED));

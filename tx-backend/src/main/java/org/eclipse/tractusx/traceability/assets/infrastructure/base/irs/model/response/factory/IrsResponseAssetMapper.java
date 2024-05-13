@@ -21,17 +21,14 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.Relationship;
-import org.eclipse.tractusx.irs.component.enums.Direction;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.TombstoneMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asbuilt.AsBuiltDetailMapper;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asplanned.AsPlannedDetailMapper;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.AssetBaseMappers;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.relationship.RelationshipMapper;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.SubmodelMapper;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.jetbrains.annotations.NotNull;
@@ -43,10 +40,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichAssetBase;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.enrichUpwardAndDownwardDescriptions;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getContractAgreementId;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getOwner;
 import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper.getShortId;
@@ -54,40 +50,26 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.m
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class AssetMapperFactory {
+public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
 
-    private final List<SubmodelMapper> baseMappers;
-    private final List<RelationshipMapper> relationshipMappers;
-    private final List<AsPlannedDetailMapper> asPlannedDetailMappers;
-    private final List<AsBuiltDetailMapper> asBuiltDetailMappers;
+    private final AssetBaseMapperProvider assetBaseMapperProvider;
     private final ObjectMapper objectMapper;
     private final BpnService bpnService;
 
-    public List<AssetBase> mapToAssetBaseList(IRSResponse irsResponse) {
-
+    @Override
+    public List<AssetBase> toAssetBaseList(IRSResponse irsResponse) {
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
-
-
-        List<DetailAspectModel> tractionBatteryCode = extractTractionBatteryCode(irsResponse);
-
-        List<DetailAspectModel> partSiteInformationAsPlanned = extractPartSiteInformationAsPlanned(irsResponse);
+        List<DetailAspectModel> tractionBatteryCode = MapperHelper.extractTractionBatteryCode(irsResponse.submodels(), irsResponse.jobStatus().globalAssetId(), assetBaseMapperProvider);
+        List<DetailAspectModel> partSiteInformationAsPlanned = MapperHelper.extractPartSiteInformationAsPlanned(irsResponse.submodels(), assetBaseMapperProvider);
         List<AssetBase> tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper);
         if (tombstones != null) {
             log.info("Found {} tombstones", tombstones.size());
         }
-        return toAssetBase(irsResponse, descriptionMap, tractionBatteryCode, partSiteInformationAsPlanned, tombstones);
-    }
-
-    @NotNull
-    private List<AssetBase> toAssetBase(IRSResponse irsResponse,
-                                        Map<String, List<Descriptions>> descriptionMap, List<DetailAspectModel> tractionBatteryCode,
-                                        List<DetailAspectModel> partSiteInformationAsPlanned,
-                                        List<AssetBase> tombstones) {
         List<AssetBase> submodelAssets = new ArrayList<>(irsResponse
                 .submodels()
                 .stream()
                 .map(irsSubmodel -> {
-                    Optional<SubmodelMapper> mapper = getSubmodelMapper(irsSubmodel);
+                    Optional<SubmodelMapper> mapper = assetBaseMapperProvider.getMainSubmodelMapper(irsSubmodel);
                     if (mapper.isPresent()) {
                         AssetBase assetBase = mapper.get().extractSubmodel(irsSubmodel);
                         assetBase.setOwner(getOwner(assetBase, irsResponse));
@@ -95,11 +77,9 @@ public class AssetMapperFactory {
                         assetBase.setContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setManufacturerId(getManufacturerId(irsResponse, assetBase));
                         assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
-
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
                         enrichAssetBase(tractionBatteryCode, assetBase);
                         enrichAssetBase(partSiteInformationAsPlanned, assetBase);
-
                         return assetBase;
                     }
                     return null;
@@ -107,87 +87,28 @@ public class AssetMapperFactory {
                 .filter(Objects::nonNull)
                 .toList());
 
-        submodelAssets.addAll(tombstones);
+        if (tombstones != null) {
+            submodelAssets.addAll(tombstones);
+        }
         return submodelAssets;
     }
 
 
     @NotNull
-    private List<DetailAspectModel> extractPartSiteInformationAsPlanned(IRSResponse irsResponse) {
-        return irsResponse
-                .submodels()
-                .stream()
-                .flatMap(irsSubmodel -> {
-                    Optional<AsPlannedDetailMapper> mapper = getAsPlannedDetailMapper(irsSubmodel);
-                    return mapper.map(asPlannedDetailMapper -> asPlannedDetailMapper.extractDetailAspectModel(irsSubmodel).stream()).orElseGet(Stream::empty);
-                })
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-    @NotNull
-    private List<DetailAspectModel> extractTractionBatteryCode(IRSResponse irsResponse) {
-        return irsResponse
-                .submodels()
-                .stream()
-                .flatMap(irsSubmodel -> {
-                    Optional<AsBuiltDetailMapper> mapper = getAsBuiltDetailMapper(irsSubmodel);
-                    return mapper.map(asBuiltDetailMapper -> asBuiltDetailMapper.extractDetailAspectModel(irsSubmodel, irsResponse.jobStatus().globalAssetId()).stream()).orElseGet(Stream::empty);
-                })
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
-    private static void enrichUpwardAndDownwardDescriptions(Map<String, List<Descriptions>> descriptionsMap, AssetBase assetBase) {
-        List<Descriptions> upwardDescriptions = new ArrayList<>();
-        List<Descriptions> downwardDescriptions = new ArrayList<>();
-
-        List<Descriptions> descriptions = descriptionsMap.get(assetBase.getId());
-        for (Descriptions description : emptyIfNull(descriptions)) {
-            if (description.direction() == Direction.UPWARD) {
-                upwardDescriptions.add(description);
-            } else if (description.direction() == Direction.DOWNWARD) {
-                downwardDescriptions.add(description);
-            }
-        }
-
-        assetBase.setChildRelations(downwardDescriptions);
-        assetBase.setParentRelations(upwardDescriptions);
-    }
-
-    @NotNull
     private Map<String, List<Descriptions>> extractRelationshipToDescriptionMap(IRSResponse irsResponse) {
         Map<String, List<Descriptions>> descriptionMap = new HashMap<>();
-
         irsResponse.relationships().forEach(relationship -> {
-            Optional<RelationshipMapper> relationshipMapper = getRelationshipMapper(relationship);
+            Optional<RelationshipMapper> relationshipMapper = assetBaseMapperProvider.getRelationshipMapper(relationship);
             if (relationshipMapper.isPresent()) {
                 Descriptions descriptions = relationshipMapper.get().extractDescription(relationship);
                 String catenaXIdString = String.valueOf(relationship.getCatenaXId());
                 descriptionMap.computeIfAbsent(catenaXIdString, key -> new ArrayList<>()).add(descriptions);
             }
-
         });
         return descriptionMap;
     }
 
-    private Optional<SubmodelMapper> getSubmodelMapper(IrsSubmodel irsSubmodel) {
-        return baseMappers.stream().filter(assetBaseMapper -> assetBaseMapper.validMapper(irsSubmodel)).findFirst();
-    }
-
-    private Optional<RelationshipMapper> getRelationshipMapper(Relationship relationship) {
-        return relationshipMappers.stream().filter(relationshipMapper -> relationshipMapper.validMapper(relationship)).findFirst();
-    }
-
-    private Optional<AsPlannedDetailMapper> getAsPlannedDetailMapper(IrsSubmodel irsSubmodel) {
-        return asPlannedDetailMappers.stream().filter(asPlannedDetailMapper -> asPlannedDetailMapper.validMapper(irsSubmodel)).findFirst();
-    }
-
-    private Optional<AsBuiltDetailMapper> getAsBuiltDetailMapper(IrsSubmodel irsSubmodel) {
-        return asBuiltDetailMappers.stream().filter(asBuiltDetailMapper -> asBuiltDetailMapper.validMapper(irsSubmodel)).findFirst();
-    }
-
-    private String getManufacturerId(IRSResponse irsResponse, AssetBase assetBase){
+    private String getManufacturerId(IRSResponse irsResponse, AssetBase assetBase) {
         if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
             return irsResponse.jobStatus().parameter().bpn();
         }

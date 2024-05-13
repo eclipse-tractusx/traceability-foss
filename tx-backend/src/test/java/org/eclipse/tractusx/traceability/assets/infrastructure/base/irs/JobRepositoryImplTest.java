@@ -31,7 +31,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetMapperFactory;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
@@ -76,7 +76,7 @@ class JobRepositoryImplTest {
     private IrsClient irsClient;
 
     @Mock
-    private AssetMapperFactory assetMapperFactory;
+    private IrsResponseAssetMapper assetMapperFactory;
 
     @ParameterizedTest
     @MethodSource("provideDirections")
