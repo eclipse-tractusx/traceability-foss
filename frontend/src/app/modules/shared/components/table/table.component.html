@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
 <div *ngIf="additionalTableHeader" class="table-header-wrapper">
   <div class="table-header-container">
     <div class="large-text table--header--text">{{ tableHeader | i18n }}
-      <mat-icon (click)="openDialog()" *ngIf="tableSettingsEnabled" (keydown)="openDialog()"
+      <mat-icon onkeydown="openDialog()" (click)="openDialog()" *ngIf="tableSettingsEnabled" (keydown)="openDialog()"
                 class="cursor-pointer table&#45;&#45;settings&#45;&#45;button ml-2">
         settings
       </mat-icon>
@@ -37,6 +37,7 @@ SPDX-License-Identifier: Apache-2.0
       >
         <app-button
           [iconName]="'announcement'"
+          onkeydown="navigateToNotificationCreationView()"
           (click)="navigateToNotificationCreationView()"
           (keydown)="null"
           [isDisabled]="roleService.isAdmin()"
@@ -73,6 +74,7 @@ SPDX-License-Identifier: Apache-2.0
                   [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
                   [matTooltipShowDelay]="500"
                   [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
+                  onkeydown="toastService.warning('table.noFunctionality')"
                   (click)="toastService.warning('table.noFunctionality')">
             <mat-icon>send</mat-icon>
             {{ 'table.sendNotification' | i18n }}
@@ -85,6 +87,7 @@ SPDX-License-Identifier: Apache-2.0
                   [matTooltipShowDelay]="500"
                   [matTooltipDisabled]="notificationsSelectedOnlyInStatusCreated || selection.selected.length < 1"
                   [disabled]="selection.selected.length < 1 || roleService.isAdmin() || !notificationsSelectedOnlyInStatusCreated"
+                  onkeydown="toastService.warning('table.noFunctionality')"
                   (click)="toastService.warning('table.noFunctionality')">
             <mat-icon>cancel</mat-icon>
             {{ 'table.cancelNotification' | i18n }}
@@ -97,6 +100,7 @@ SPDX-License-Identifier: Apache-2.0
                   [matTooltipShowDelay]="500"
                   [matTooltipDisabled]="selection.selected.length < 1"
                   [disabled]="true"
+                  onkeydown="null"
                   (click)="null">
             <mat-icon>edit</mat-icon>
             {{ 'table.editNotification' | i18n }}
@@ -109,6 +113,7 @@ SPDX-License-Identifier: Apache-2.0
                   [matTooltipShowDelay]="500"
                   [matTooltipDisabled]="selection.selected.length < 1"
                   [disabled]="true"
+                  onkeydown="null"
                   (click)="null">
             <mat-icon>remove_red_eye</mat-icon>
             {{ 'table.viewDetails' | i18n }}
@@ -127,6 +132,7 @@ SPDX-License-Identifier: Apache-2.0
       <p class="regular-text">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
       <app-button
         *ngIf="selection?.selected?.length"
+        onkeydown="clickSelectAction.emit()"
         (click)="clickSelectAction.emit()"
         [variant]="'raised'"
         [color]="'accent'"
@@ -189,6 +195,7 @@ SPDX-License-Identifier: Apache-2.0
       [class.no-hover]="!showHover"
       [ngClass]="{'error': row?.errorMessage }"
       (click)="selectElement(row)"
+      onkeydown="selectElement(row)"
       mat-row
       data-testid="table-component--body-row"
     ></tr>
@@ -255,6 +262,7 @@ SPDX-License-Identifier: Apache-2.0
         <td *matCellDef="let row" mat-cell>
           <mat-checkbox
             [checked]="isSelected(row)"
+            onkeydown="$event.stopPropagation()"
             (click)="$event.stopPropagation()"
             (change)="toggleSelection(row)"
             data-testid="select-one--test-id"
@@ -291,6 +299,7 @@ SPDX-License-Identifier: Apache-2.0
                   class="menu-action-button"
                   [class.menu-action-button--unauthorized]="(config.isAuthorized === false) ? 'unauthorized' : ''"
                   (click)="config.isAuthorized === false ? null : config.action(row)"
+                  onkeydown="config.isAuthorized === false ? null : config.action(row)"
                   [attr.data-testId]="'table-menu-button--' + config.label"
                   mat-menu-item
                 >
@@ -312,6 +321,7 @@ SPDX-License-Identifier: Apache-2.0
             <button
               *ngIf="!config.condition || config.condition(row)"
               (click)="config.action(row)"
+              onkeydown="config.action(row)"
               [attr.data-testId]="'table-menu-button-expand--' + config.label"
               mat-menu-item
             >
