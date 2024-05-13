@@ -48,9 +48,9 @@ tractusx-connector:
   dataplane:
     token:
       signer:
-        privatekey_alias: tracex-dev-daps-cert-provider-key
+        privatekey_alias: daps-cert-edc-dev-consumer-private
       verifier:
-        publickey_alias: tracex-dev-daps-cert-provider
+        publickey_alias: daps-cert-edc-dev-consumer-public
     ingresses:
       - enabled: true
         hostname: "trace-x-test-edc-dataplane.dev.demo.catena-x.net"
