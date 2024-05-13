@@ -104,6 +104,7 @@ SPDX-License-Identifier: Apache-2.0
            [matTooltipShowDelay]="1000"
       >
         <mat-icon
+          onkeydown="resetColumns()"
           (click)="resetColumns()"
         >refresh
         </mat-icon>
