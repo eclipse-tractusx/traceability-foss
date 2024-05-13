@@ -36,23 +36,10 @@ Then('select part with id {string}', function(id: string) {
 });
 
 
-Then('start {string} creation with description {string}', function(notificationType: string, description: string) {
+Then('start notification creation with description {string}', function(notificationType: string, description: string) {
   const date = new Date().getTime();
   notificationDescription = description + '_' + date;
-  switch (notificationType) {
-    case 'investigation': {
-      cy.get('div').contains('Start investigation').click();
-      break;
-    }
-    case 'alert': {
-      cy.get('div').contains('Create alert').click();
-      break;
-    }
-    default: {
-      throw new Error('Set notification type \'' + notificationType + '\' is not one of valid types [investigation, alert].');
-      break;
-    }
-  }
+  cy.get('[data-testid="create-notification-button"]').click();
   cy.get('mat-label').contains(/^Description$/i).click().type(notificationDescription);
 });
 
@@ -196,31 +183,31 @@ When('user {string} selected {string}', function(action: string) {
 //within opened detail view of quality investigation
   switch (action) {
     case 'edit': {
-      cy.get('div').contains('Edit').click();
+      cy.get('[data-testid="edit-button-icon"]').click();
       break;
     }
     case 'approve': {
-      cy.get('div').contains('Approve').click();
+      cy.get('[data-testid="approve-button-icon"]').click();
       break;
     }
     case 'cancel': {
-      cy.get('div').contains('Cancel').click();
+      cy.get('[data-testid="cancel-button-icon"]').click();
       break;
     }
     case 'close': {
-      cy.get('div').contains('Close').click();
+      cy.get('[data-testid="close-button-icon"]').click();
       break;
     }
     case 'acknowledge': {
-      cy.get('div').contains('Acknowledge').click();
+      cy.get('[data-testid="acknowledge-button-icon"]').click();
       break;
     }
     case 'accept': {
-      cy.get('div').contains('Accept').click();
+      cy.get('[data-testid="accept-button-icon"]').click();
       break;
     }
     case 'decline': {
-      cy.get('div').contains('Decline').click();
+      cy.get('[data-testid="decline-button-icon"]').click();
       break;
     }
     default: {
@@ -248,6 +235,7 @@ Then('selected {string} has been {string} as expected', function(notificationTyp
       break;
     }
     case 'approved': {
+      cy.wait(3000);
       // same as "requested"
       cy.get('[title="Requested"]', { timeout: 10000 }).should('be.visible');
       break;
