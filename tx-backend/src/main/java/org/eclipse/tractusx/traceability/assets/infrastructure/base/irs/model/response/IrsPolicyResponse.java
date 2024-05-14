@@ -34,6 +34,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 /**
  * Policy representation for get all policies response
  */
@@ -104,8 +106,8 @@ public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
 
     private static ConstraintsResponse map(Permission permission) {
         return ConstraintsResponse.builder()
-                .and(mapConstraints(permission.getConstraint().getAnd()))
-                .or(mapConstraints(permission.getConstraint().getOr()))
+                .and(mapConstraints(emptyIfNull(permission.getConstraint().getAnd())))
+                .or(mapConstraints(emptyIfNull(permission.getConstraint().getOr())))
                 .build();
 
     }
