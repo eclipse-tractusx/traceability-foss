@@ -70,6 +70,7 @@ SPDX-License-Identifier: Apache-2.0
           <app-button
             iconName="announcement"
             class="action-button-tile"
+            [attr.data-testid]="'create-notification-button'"
             [isDisabled]="!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation()"
             (click)="createQualityNotificationClicked()"
             (keydown)="handleKeyDownQualityNotificationClicked($event)"
@@ -208,6 +209,7 @@ SPDX-License-Identifier: Apache-2.0
           <div class="flex justify-start items-center">
             <mat-checkbox
               [checked]="isSelected(row)"
+              onkeydown="$event.stopPropagation()"
               (click)="$event.stopPropagation()"
               (change)="toggleSelection(row)"
               data-testid="select-one--test-id"
@@ -312,7 +314,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #notificationCountElement>
   <ng-container *ngIf="isNotificationCountColumn(column); else ownerElement">
-    <span (click)="deeplinkToNotification(column, element[column])"
+    <span onkeydown="deeplinkToNotification(column, element[column])" (click)="deeplinkToNotification(column, element[column])"
           class="table--notification--cell--notification--count">
       {{ element[column]?.length }}
     </span>

@@ -21,6 +21,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="detail--navigation">
     <app-button
       [color]="'primary'"
+      onkeydown="this.navigateBack()"
       (click)="this.navigateBack()"
     >
       <div class="flex justify-between items-center">
@@ -39,6 +40,7 @@ SPDX-License-Identifier: Apache-2.0
          [style.cursor]="'not-allowed'"
     >
       <app-button
+        onkeydown="clickedSave()"
         (click)="clickedSave()"
         [color]="'primary'"
         data-testid="save-button"
@@ -89,6 +91,7 @@ SPDX-License-Identifier: Apache-2.0
               class="mt-1 mb-2"
             >
               <app-button
+                onkeydown="removeAffectedParts()"
                 (click)="removeAffectedParts()"
                 [isDisabled]="affectedPartIds.length < 1"
                 [variant]="'stroked'"
@@ -141,6 +144,7 @@ SPDX-License-Identifier: Apache-2.0
               class="mt-1 mb-2"
             >
               <app-button
+                onkeydown="addAffectedParts()"
                 (click)="addAffectedParts()"
                 [isDisabled]="temporaryAffectedParts.length < 1"
                 [variant]="'stroked'"

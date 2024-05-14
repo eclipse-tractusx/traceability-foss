@@ -7,9 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+### Changed
+- #837 Moved data import and IrsResponseMappers under same interface and shared methods
 
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
+- #XXX Fixed some sonar issues in frontend application
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
 
 ## [11.0.0 - 08.05.2024]
@@ -30,8 +33,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #843 Refactored e2e tests, added edit notification e2e test case
 - #828 fix duplicates in traction_battery_code_subcomponent table
 - #617 redesigned inbox table
-- #XXX Updated spring boot from 3.2.4 to 3.2.5
-- #XXX Bumped logback-core & logback-classic from 1.5.4 to 1.5.5
 - #603 Upgraded SingleLevelBomAsBuilt, SingleLevelBomAsPlanned & SingleLevelBomAsBuilt to 3.0.0
 - #603 Upgraded Batch, SerialPart and JustInSequencePart to 3.0.0
 - #603 Upgraded PartAsPlanned to 2.0.0

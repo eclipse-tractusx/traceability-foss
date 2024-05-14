@@ -90,7 +90,7 @@ class NotificationPublisherServiceTest {
         String description = "Test investigation";
         List<String> assets = Arrays.asList("asset-1", "asset-2");
         Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
-        when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
+        when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetAsBuiltTestdata()));
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
         String receiverBpn = "someReceiverBpn";
         StartNotification startNotification = StartNotification.builder()
@@ -125,7 +125,7 @@ class NotificationPublisherServiceTest {
         Instant targetDate = Instant.parse("2022-03-01T12:00:00Z");
         List<String> assets = Arrays.asList("asset-1", "asset-2");
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
-        when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
+        when(assetRepository.getAssetsById(assets)).thenReturn(List.of(AssetTestDataFactory.createAssetAsBuiltTestdata()));
         StartNotification startNotification = StartNotification.builder()
                 .title(title)
                 .affectedPartIds(assets)

@@ -58,7 +58,7 @@ export class ContractsComponent {
 
   public onTableConfigChange(pagination: TableEventConfig): void {
     this.pagination = pagination;
-    this.contractsFacade.setContracts(pagination.page, pagination.pageSize, [pagination.sorting] );
+    this.contractsFacade.setContracts(pagination.page, pagination.pageSize,[pagination.sorting]);
   }
 
   multiSelection(selectedContracts: Contract[]) {

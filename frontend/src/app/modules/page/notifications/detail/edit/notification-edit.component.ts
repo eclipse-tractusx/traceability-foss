@@ -232,7 +232,10 @@ export class NotificationEditComponent implements OnDestroy {
     } else {
       this.notificationsFacade.createNotification(this.affectedPartIds, type, title, bpn, severity, targetDate, description).subscribe({
         next: () => {
-          this.toastService.success('requestNotification.saveSuccess');
+          this.toastService.success('requestNotification.saveSuccess', 5000, [ {
+            text: 'actions.goToQueue',
+            link: '/inbox',
+          } ]);
           this.navigateBack();
           this.updateSelectedNotificationState();
         },

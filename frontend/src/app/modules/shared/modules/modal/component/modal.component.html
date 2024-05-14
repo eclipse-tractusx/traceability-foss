@@ -36,6 +36,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
     <app-button [ngClass]="data.buttonLeft ? '' : 'centered-button'"
                 *ngIf="data.buttonRight"
+                onkeydown="confirm()"
                 (click)="confirm()"
                 [color]="data.primaryButtonColour || 'primary'"
                 variant="raised"

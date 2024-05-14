@@ -25,6 +25,7 @@ SPDX-License-Identifier: Apache-2.0
 
   <app-button
     [isDisabled]="(childParts$ | async)?.data?.length < 1"
+    onkeydown="navigateToNotificationCreationView()"
     (click)="navigateToNotificationCreationView()"
   >
     Create Investigation
