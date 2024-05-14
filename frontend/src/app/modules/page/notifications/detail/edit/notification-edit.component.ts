@@ -276,7 +276,11 @@ export class NotificationEditComponent implements OnDestroy {
 
     if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
       this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
-      this.ownPartsFacade.setPartsAsBuilt();
+      this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, {
+        excludeIds: [],
+        ids: [],
+        owner: this.selectedNotification.type === NotificationType.INVESTIGATION ? Owner.SUPPLIER : Owner.OWN,
+      });
       this.isSaveButtonDisabled = true;
     } else {
       this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
