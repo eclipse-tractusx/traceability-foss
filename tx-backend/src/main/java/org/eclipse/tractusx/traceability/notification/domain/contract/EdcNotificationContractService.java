@@ -95,6 +95,7 @@ public class EdcNotificationContractService {
             boolean exists = edcPolicyDefinitionService.policyDefinitionExists(edcCreatePolicyDefinitionRequest.getPolicyDefinitionId());
             if (exists) {
                 log.info("Policy with id " + edcCreatePolicyDefinitionRequest.getPolicyDefinitionId() + "already exists and contains necessary application constraints. Reusing for notification contract.");
+                accessPolicyId = edcCreatePolicyDefinitionRequest.getPolicyDefinitionId();
             } else{
                 accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(edcCreatePolicyDefinitionRequest);
             }
