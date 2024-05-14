@@ -5,7 +5,7 @@
   "edc:protocol" : "dataspace-protocol-http",
   "edc:state" : "FINALIZED",
   "edc:counterPartyId" : "BPNL00000003CML1",
-  "edc:counterPartyAddress" : "https://test.net/api/v1/dsp",
+  "edc:counterPartyAddress" : "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
   "edc:callbackAddresses" : [],
   "edc:createdAt" : 1708590580001,
   "edc:contractAgreementId" : "ODA3MmUyNTQtOGNlZi00YzQ2LTljNGYtNGYzNjE2YjQ5NTZl:cmVnaXN0cnktYXNzZXQ=:MDljNDMzY2EtODI5OS00OGE3LWI0MjYtNzZmZjJmODE1ZWE2",
