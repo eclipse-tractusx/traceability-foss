@@ -71,7 +71,7 @@ public class PolicyRepositoryImpl implements PolicyRepository {
                     irsPolicy.payload().policy().getPermissions().forEach(permission -> {
                         Constraints constraint = permission.getConstraint();
                         if (constraint != null) {
-                            constraint.getOr().forEach(constraint1 -> log.info("From IRS Policy Response -> Leftoperand {} operator {} and rightOperand {}", constraint1.getLeftOperand(), constraint1.getOperator(), constraint1.getRightOperand()));
+                            constraint.getAnd().forEach(constraint1 -> log.info("From IRS Policy Response -> Leftoperand {} operator {} and rightOperand {}", constraint1.getLeftOperand(), constraint1.getOperator(), constraint1.getRightOperand()));
                         }
                     });
 
