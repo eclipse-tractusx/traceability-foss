@@ -19,9 +19,6 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.investigation;
 
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import lombok.val;
 import notification.request.CloseNotificationRequest;
@@ -39,13 +36,9 @@ import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestPar
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -60,6 +53,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -84,17 +79,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     AssetAsBuiltRepository assetAsBuiltRepository;
     @Autowired
     NotificationApiSupport notificationApiSupport;
-    @Autowired
-    EdcSupport edcSupport;
-
-    @Autowired
-    DiscoveryFinderSupport discoveryFinderSupport;
-
-    @Autowired
-    OAuth2ApiSupport oauth2ApiSupport;
-
-    @Autowired
-    IrsApiSupport irsApiSupport;
 
     ObjectMapper objectMapper;
 
@@ -136,7 +120,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldStartInvestigation() throws JoseException, JsonProcessingException {
+    void shouldStartInvestigation() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
 
 
         // given
@@ -178,7 +162,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenMissingPartIds_whenStartInvestigation_thenBadRequest() throws JoseException, JsonProcessingException {
+    void givenMissingPartIds_whenStartInvestigation_thenBadRequest() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
 
 
         // given
@@ -199,7 +183,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenMissingBPN_whenStartInvestigation_thenBadRequest() throws JoseException, JsonProcessingException {
+    void givenMissingBPN_whenStartInvestigation_thenBadRequest() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
 
 
         // given
@@ -226,7 +210,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenMissingSeverity_whenStartInvestigation_thenBadRequest() throws JoseException, JsonProcessingException {
+    void givenMissingSeverity_whenStartInvestigation_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
@@ -251,7 +235,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenDescriptionExceedsMaxLength_whenStartInvestigation_thenBadRequest() throws JoseException, JsonProcessingException {
+    void givenDescriptionExceedsMaxLength_whenStartInvestigation_thenBadRequest() throws JsonProcessingException, JoseException {
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
@@ -329,7 +313,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCancelInvestigation() throws JoseException, JsonProcessingException {
+    void shouldCancelInvestigation() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         assetsSupport.defaultAssetsStored();
         val startInvestigationRequest = StartNotificationRequest.builder()
@@ -376,13 +360,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldApproveInvestigationStatus() throws JoseException, JsonProcessingException {
+    void shouldApproveInvestigationStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
-        irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
-        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
-        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
@@ -431,14 +410,8 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCloseInvestigationStatus() throws JoseException, JsonProcessingException {
+    void shouldCloseInvestigationStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
-        irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
-        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
-        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
-
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
@@ -539,7 +512,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldBeCreatedBySender() throws JoseException, JsonProcessingException {
+    void shouldBeCreatedBySender() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE

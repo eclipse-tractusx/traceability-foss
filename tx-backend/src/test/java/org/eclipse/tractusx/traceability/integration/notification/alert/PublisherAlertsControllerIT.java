@@ -19,16 +19,8 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.alert;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import lombok.val;
-import notification.request.CloseNotificationRequest;
-import notification.request.NotificationSeverityRequest;
-import notification.request.NotificationTypeRequest;
-import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationStatusRequest;
-import notification.request.UpdateNotificationStatusTransitionRequest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
@@ -41,11 +33,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -60,6 +48,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import notification.request.CloseNotificationRequest;
+import notification.request.NotificationSeverityRequest;
+import notification.request.NotificationTypeRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
+import notification.request.UpdateNotificationStatusRequest;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -86,18 +82,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     AssetAsPlannedRepository assetAsPlannedRepository;
     @Autowired
     NotificationApiSupport notificationApiSupport;
-
-    @Autowired
-    EdcSupport edcSupport;
-
-    @Autowired
-    DiscoveryFinderSupport discoveryFinderSupport;
-
-    @Autowired
-    OAuth2ApiSupport oauth2ApiSupport;
-
-    @Autowired
-    IrsApiSupport irsApiSupport;
 
     @BeforeEach
     void setUp() {
@@ -297,7 +281,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCancelAlert() throws JoseException, JsonProcessingException {
+    void shouldCancelAlert() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         assetsSupport.defaultAssetsStored();
@@ -348,13 +332,8 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldApproveAlertStatus() throws JoseException, JsonProcessingException {
+    void shouldApproveAlertStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
-        irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
-        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
-        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
@@ -403,14 +382,8 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldCloseAlertStatus() throws JoseException, JsonProcessingException {
+    void shouldCloseAlertStatus() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
-        irsApiSupport.irsApiReturnsPolicies();
-        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
-        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
-        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
-
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
@@ -514,7 +487,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldBeCreatedBySender() throws JoseException, JsonProcessingException {
+    void shouldBeCreatedBySender() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
