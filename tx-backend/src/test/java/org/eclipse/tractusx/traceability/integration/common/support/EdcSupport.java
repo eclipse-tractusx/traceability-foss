@@ -20,10 +20,15 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import com.xebialabs.restito.semantics.Condition;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
+import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
@@ -44,8 +49,38 @@ public class EdcSupport {
     @Autowired
     RestitoProvider restitoProvider;
 
-    private static final Condition EDC_API_KEY_HEADER = withHeader("X-Api-Key", "integration-tests");
+    private static final String uuidRegex = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
 
+    private static final Condition EDC_API_KEY_HEADER = withHeader("X-Api-Key", "integration-tests");
+    @Autowired
+    EndpointDataReferenceStorage endpointDataReferenceStorage;
+
+    public void performSupportActionsForAsyncNotificationMessageExecutor() {
+        edcWillCallCallbackController();
+        edcWillReturnCatalog();
+        edcWillCreateContractNegotiation();
+        edcWillReturnContractNegotiationOnlyState();
+        edcWillReturnContractNegotiationState();
+        edcWillCreateTransferprocesses();
+        edcWillReturnTransferprocessesOnlyState();
+        edcWillReturnTransferprocessesState();
+        edcWillSendRequest();
+    }
+
+    public void edcWillCallCallbackController() {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put("additionalProperty1", "value1");
+        EndpointDataReference endpointDataReference = EndpointDataReference.Builder
+                .newInstance()
+                .id("id")
+                .endpoint("http://localhost:" + RestitoConfig.getStubServer().getPort() + "/endpointdatareference")
+                .authKey("X-Api-Key")
+                .authCode("integration-tests")
+                .properties(additionalProperties)
+                .build();
+
+        endpointDataReferenceStorage.put("NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky", endpointDataReference);
+    }
     public void edcWillCreateNotificationAsset() {
         whenHttp(restitoProvider.stubServer()).match(
                 post("/management/v2/assets"),
@@ -80,6 +115,16 @@ public class EdcSupport {
                 EDC_API_KEY_HEADER
         ).then(
                 noContent()
+        );
+    }
+
+    public void edcWillReturnCatalog() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v2/catalog/request"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/catalog_response_200.json")
         );
     }
 
@@ -200,6 +245,75 @@ public class EdcSupport {
         );
     }
 
+    public void edcWillCreateContractNegotiation() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v2/contractnegotiations"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/contractnegotiation_response_200.json")
+        );
+    }
+
+    public void edcWillReturnContractNegotiationOnlyState() {
+        whenHttp(restitoProvider.stubServer()).match(
+                matchesUri(Pattern.compile("/management/v2/contractnegotiations/" + uuidRegex + "/state")),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/contractnegotiationonlystate_response_200.json")
+        );
+    }
+
+    public void edcWillReturnContractNegotiationState() {
+        whenHttp(restitoProvider.stubServer()).match(
+                matchesUri(Pattern.compile("/management/v2/contractnegotiations/" + uuidRegex)),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/contractnegotiationstate_response_200.json")
+        );
+    }
+
+    public void edcWillCreateTransferprocesses() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v2/transferprocesses"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/transferprocesses_response_200.json")
+        );
+    }
+
+    public void edcWillReturnTransferprocessesOnlyState() {
+        whenHttp(restitoProvider.stubServer()).match(
+                matchesUri(Pattern.compile("/management/v2/transferprocesses/" + uuidRegex + "/state")),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/transferprocessesonlystate_response_200.json")
+        );
+    }
+
+    public void edcWillReturnTransferprocessesState() {
+        whenHttp(restitoProvider.stubServer()).match(
+                matchesUri(Pattern.compile("/management/v2/transferprocesses/" + uuidRegex)),
+                EDC_API_KEY_HEADER
+
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/transferprocessesstate_response_200.json")
+        );
+    }
+
+    public void edcWillSendRequest() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/endpointdatareference"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200)
+        );
+    }
     public void verifyCreateNotificationAssetEndpointCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,
                 post("/management/v2/assets")
