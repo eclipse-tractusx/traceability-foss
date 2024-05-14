@@ -16,23 +16,26 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.integration.common.support;
 
-import com.xebialabs.restito.semantics.Action;
-import com.xebialabs.restito.server.StubServer;
-import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
-import org.springframework.stereotype.Component;
+package org.eclipse.tractusx.traceability.notification.domain.base.service;
 
-import static com.xebialabs.restito.semantics.Action.resourceContent;
 
-@Component
-public class RestitoProvider {
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
-    public StubServer stubServer() {
-        return RestitoConfig.getStubServer();
-    }
+import java.util.concurrent.CompletableFuture;
 
-    public Action jsonResponseFromFile(String location) {
-        return resourceContent(location);
+import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.INTEGRATION_SPRING_BOOT;
+
+@Slf4j
+@Service
+@Profile(INTEGRATION_SPRING_BOOT)
+public class EdcNotificationMockServiceImpl implements EdcNotificationService {
+    @Override
+    public CompletableFuture<NotificationMessage> asyncNotificationMessageExecutor(NotificationMessage message) {
+        log.info("EdcNotificationMockServiceImpl: {}", message);
+        return CompletableFuture.completedFuture(message);
     }
 }
