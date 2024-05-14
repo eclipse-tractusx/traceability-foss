@@ -90,14 +90,22 @@ public class EdcNotificationContractService {
 
 
         String accessPolicyId = "";
+
         try {
-            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(edcCreatePolicyDefinitionRequest);
+            boolean exists = edcPolicyDefinitionService.policyDefinitionExists(edcCreatePolicyDefinitionRequest.getPolicyDefinitionId());
+            if (exists) {
+                log.info("Policy with id " + edcCreatePolicyDefinitionRequest.getPolicyDefinitionId() + "already exists and contains necessary application constraints. Reusing for notification contract.");
+            } else{
+                accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(edcCreatePolicyDefinitionRequest);
+            }
         } catch (CreateEdcPolicyDefinitionException e) {
             revertNotificationAsset(notificationAssetId);
             throw new CreateNotificationContractException(e);
         } catch (EdcPolicyDefinitionAlreadyExists alreadyExists) {
             accessPolicyId = optionalPolicyResponse.get().policyId();
             log.info("Policy with id " + accessPolicyId + " already exists, using for notification contract.");
+        } catch(org.eclipse.tractusx.irs.edc.client.policy.model.exception.GetEdcPolicyDefinitionException edcPolicyDefinitionException){
+            log.warn("EdcPolicyDefinition could not be queried {}", edcPolicyDefinitionException.getMessage());
         }
         String contractDefinitionId = "";
         try {
