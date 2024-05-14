@@ -90,7 +90,7 @@ public class JsonFileValidator {
             reader.close();
 
         } catch (ProcessingException | IOException e) {
-            throw new JsonFileProcessingException(e);
+            return List.of("Json file is not processable." + e.getMessage());
         }
         errors.addAll(validateAspectPayload(file));
         return errors;
