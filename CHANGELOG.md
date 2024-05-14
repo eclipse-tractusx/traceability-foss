@@ -15,6 +15,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #XXX Fixed some sonar issues in frontend application
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
 
+### Removed
+
+- XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
+
 ## [11.0.0 - 08.05.2024]
 ### Added
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination

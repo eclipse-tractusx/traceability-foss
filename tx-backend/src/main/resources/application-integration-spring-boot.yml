@@ -24,8 +24,8 @@ traceability:
   url: localhost:${server.port}/api
   leftOperand: "PURPOSE"
   operatorType: "eq"
-  rightOperand: "ID Trace 3.1"
-  validUntil: "2023-07-04T16:01:05.309Z"
+  rightOperand: "ID 3.0 Trace"
+  validUntil: "2050-07-04T16:01:05.309Z"
   adminApiKey: testAdminKey
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
