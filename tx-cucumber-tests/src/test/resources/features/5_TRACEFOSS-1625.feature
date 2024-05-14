@@ -18,13 +18,13 @@ Feature: [BE][FE]Handling of several parts in one quality alert
 	#* correct sending of several parts in *one* alert
 	#* correct reception of several parts in *one* alert on receiver side
 	#* correct update of *one* alert with several parts
-	@TRACEFOSS-1670 @TRACEFOSS-3128 @TRACEFOSS-2910 @TRACEFOSS-2715 @TEST-904 @TEST-1217 @TRACEFOSS-1920 @TRACEFOSS-1673 @TRACEFOSS-1101 @INTEGRATION_TEST @[QUALITY_ALERTS]
+  @TRACEFOSS-1670 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TRACEFOSS-2715 @TEST-904 @TEST-1217 @TRACEFOSS-1920 @TRACEFOSS-1673 @TRACEFOSS-1101 @INTEGRATION_TEST @[QUALITY_ALERTS]
 	Scenario: [BE] Check correct processing of several parts in quality alerts
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22,urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02'
 		And I create quality notification
 		  | "severity"    | "MINOR"                           |
-		  | "description" | "Testing severity TRACEFOSS-1670 |
+      | "description" | "Testing severity TRACEFOSS-1670" |
 		  | "type" | "ALERT" |
 		Then I check, if quality notification has proper values
 		  | "description"  | "Testing severity TRACEFOSS-1670" |
