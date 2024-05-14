@@ -63,6 +63,15 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     private IrsPolicyResponse findMatchingPolicy(List<IrsPolicyResponse> irsPolicies) {
         return irsPolicies.stream()
                 .filter(irsPolicy -> {
+                    // Logging all policy constraints
+                    irsPolicy.payload().policy().getPermissions().forEach(permission -> {
+                        Constraints constraint = permission.getConstraint();
+                        if (constraint != null) {
+                            log.info("Policy constraint or: " + constraint.getOr());
+                            log.info("Policy constraint and: " + constraint.getOr());
+                        }
+                    });
+
                     // Check if all constraints exist in the policy
                     boolean firstConstraintExists = emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
                             .flatMap(permission -> {
@@ -90,6 +99,7 @@ public class PolicyRepositoryImpl implements PolicyRepository {
                             })
                             .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperandSecond()));
 
+                    // Return true if both constraints exist
                     return firstConstraintExists && secondConstraintExists;
                 })
                 .findFirst()
