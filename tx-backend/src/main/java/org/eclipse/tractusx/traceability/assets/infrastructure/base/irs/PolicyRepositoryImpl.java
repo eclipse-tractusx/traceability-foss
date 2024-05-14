@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -42,6 +43,7 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     public List<IrsPolicyResponse> getPolicies() {
         return irsClient.getPolicies();
     }
+
     @Override
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
@@ -49,7 +51,9 @@ public class PolicyRepositoryImpl implements PolicyRepository {
         final List<String> irsPoliciesIds = irsPolicies.stream().map(policyResponse -> policyResponse.payload().policyId()).toList();
         log.info("Irs has following policies: {}", irsPoliciesIds);
 
-        log.info("Required constraints from application yaml are : {}", traceabilityProperties.getRightOperand());
+        log.info("Required constraints - 2 -");
+        log.info("First constraint requirements: leftOperand {} operator {} and rightOperand {}", traceabilityProperties.getLeftOperand(), traceabilityProperties.getOperatorType(), traceabilityProperties.getRightOperand());
+        log.info("Second constraint requirements: eftOperand {} operator {} and rightOperand {}", traceabilityProperties.getLeftOperandSecond(), traceabilityProperties.getOperatorTypeSecond(), traceabilityProperties.getRightOperandSecond());
 
         IrsPolicyResponse matchingPolicy = findMatchingPolicy(irsPolicies);
 
@@ -67,8 +71,7 @@ public class PolicyRepositoryImpl implements PolicyRepository {
                     irsPolicy.payload().policy().getPermissions().forEach(permission -> {
                         Constraints constraint = permission.getConstraint();
                         if (constraint != null) {
-                            log.info("Policy constraint or: " + constraint.getOr());
-                            log.info("Policy constraint and: " + constraint.getOr());
+                            constraint.getOr().forEach(constraint1 -> log.info("From IRS Policy Response -> Leftoperand {} operator {} and rightOperand {}", constraint1.getLeftOperand(), constraint1.getOperator(), constraint1.getRightOperand()));
                         }
                     });
 
