@@ -27,6 +27,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #995 disable creation and editof notifications for admin role
 - #991 make menu table headers unvisible to not block column and filters of tables
 
+### Removed
+
+- XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
+
 ## [11.0.0 - 08.05.2024]
 ### Added
 - #844 Validation for BPN to Notification API (Create / Edit), Fixed pagination

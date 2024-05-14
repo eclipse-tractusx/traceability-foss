@@ -1,0 +1,653 @@
+{
+  "@id" : "1c4edfcd-d772-4a95-9d24-c549ee8f69cc",
+  "@type" : "dcat:Catalog",
+  "dcat:dataset" : [
+    {
+      "@id" : "d0cde3b9-9a01-47d3-8058-9562828f6d0f",
+      "@type" : "dcat:Dataset",
+      "odrl:hasPolicy" : {
+        "@id" : "NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:MTJjNjRlNmQtMzdlYi00NWQ4LTg1YTItYjAyM2ZjOTRiMmJj",
+        "@type" : "odrl:Set",
+        "odrl:permission" : {
+          "odrl:target" : "d0cde3b9-9a01-47d3-8058-9562828f6d0f",
+          "odrl:action" : {
+            "odrl:type" : "USE"
+          },
+          "odrl:constraint" : {
+            "odrl:or" : [
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.0 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.1 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "R2_Traceability"
+              },
+              {
+                "odrl:leftOperand" : "FrameworkAgreement.traceability",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              },
+              {
+                "odrl:leftOperand" : "Membership",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition" : [],
+        "odrl:obligation" : [],
+        "odrl:target" : "d0cde3b9-9a01-47d3-8058-9562828f6d0f"
+      },
+      "dcat:distribution" : [
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        },
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        }
+      ],
+      "edc:type" : "qualityalert",
+      "edc:notificationtype" : "qualityalert",
+      "edc:policy-id" : "use-eu",
+      "edc:description" : "QUALITY_ALERT RECEIVE",
+      "edc:id" : "d0cde3b9-9a01-47d3-8058-9562828f6d0f",
+      "edc:contenttype" : "application/json",
+      "edc:notificationmethod" : "receive"
+    },
+    {
+      "@id" : "1d24ae52-be16-4a68-88c4-d5691bd66a67",
+      "@type" : "dcat:Dataset",
+      "odrl:hasPolicy" : {
+        "@id" : "NDEyM2U4MTMtN2Q3ZC00NTg4LWI5YTUtY2ZmNDE5YzE1NjU3:MWQyNGFlNTItYmUxNi00YTY4LTg4YzQtZDU2OTFiZDY2YTY3:ZjgyMmExZjgtMWI0Ny00NmJlLWEzYzQtYzY5MDg4ZjBhNzk0",
+        "@type" : "odrl:Set",
+        "odrl:permission" : {
+          "odrl:target" : "1d24ae52-be16-4a68-88c4-d5691bd66a67",
+          "odrl:action" : {
+            "odrl:type" : "USE"
+          },
+          "odrl:constraint" : {
+            "odrl:or" : [
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.0 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.1 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "R2_Traceability"
+              },
+              {
+                "odrl:leftOperand" : "FrameworkAgreement.traceability",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              },
+              {
+                "odrl:leftOperand" : "Membership",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition" : [],
+        "odrl:obligation" : [],
+        "odrl:target" : "1d24ae52-be16-4a68-88c4-d5691bd66a67"
+      },
+      "dcat:distribution" : [
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        },
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        }
+      ],
+      "edc:type" : "qualityalert",
+      "edc:notificationtype" : "qualityalert",
+      "edc:policy-id" : "use-eu",
+      "edc:description" : "QUALITY_ALERT RECEIVE",
+      "edc:id" : "1d24ae52-be16-4a68-88c4-d5691bd66a67",
+      "edc:contenttype" : "application/json",
+      "edc:notificationmethod" : "receive"
+    },
+    {
+      "@id" : "81c2c9c8-8df4-4dd8-aec8-e3d1ab3ab48d",
+      "@type" : "dcat:Dataset",
+      "odrl:hasPolicy" : {
+        "@id" : "OGFlNDY0NDUtOTlhZC00ZWVlLWFjMjItM2Y4MjEwNjI2NzEy:ODFjMmM5YzgtOGRmNC00ZGQ4LWFlYzgtZTNkMWFiM2FiNDhk:MGVkZmZjNjUtNDI0Yi00NTE1LWExOTUtZjVhMGE2Y2UzOTg3",
+        "@type" : "odrl:Set",
+        "odrl:permission" : {
+          "odrl:target" : "81c2c9c8-8df4-4dd8-aec8-e3d1ab3ab48d",
+          "odrl:action" : {
+            "odrl:type" : "USE"
+          },
+          "odrl:constraint" : {
+            "odrl:or" : [
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.0 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.1 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "R2_Traceability"
+              },
+              {
+                "odrl:leftOperand" : "FrameworkAgreement.traceability",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              },
+              {
+                "odrl:leftOperand" : "Membership",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition" : [],
+        "odrl:obligation" : [],
+        "odrl:target" : "81c2c9c8-8df4-4dd8-aec8-e3d1ab3ab48d"
+      },
+      "dcat:distribution" : [
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        },
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        }
+      ],
+      "edc:notificationtype" : "qualityalert",
+      "edc:type" : "qualityalert",
+      "edc:policy-id" : "use-eu",
+      "edc:description" : "QUALITY_ALERT RECEIVE",
+      "edc:id" : "81c2c9c8-8df4-4dd8-aec8-e3d1ab3ab48d",
+      "edc:contenttype" : "application/json",
+      "edc:notificationmethod" : "receive"
+    },
+    {
+      "@id" : "3bb053ef-5490-4bfd-994a-1ce3f023c0ae",
+      "@type" : "dcat:Dataset",
+      "odrl:hasPolicy" : {
+        "@id" : "NTFkZmQ2ZDktZGQ0OS00Y2FkLWJhN2EtZDkwODI0YmMyYzlk:M2JiMDUzZWYtNTQ5MC00YmZkLTk5NGEtMWNlM2YwMjNjMGFl:ZWE0NzgyMWMtNzFiOC00Yjc3LThlM2YtNDU4ZWI2NGYwNzhk",
+        "@type" : "odrl:Set",
+        "odrl:permission" : {
+          "odrl:target" : "3bb053ef-5490-4bfd-994a-1ce3f023c0ae",
+          "odrl:action" : {
+            "odrl:type" : "USE"
+          },
+          "odrl:constraint" : {
+            "odrl:or" : [
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.0 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.1 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "R2_Traceability"
+              },
+              {
+                "odrl:leftOperand" : "FrameworkAgreement.traceability",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              },
+              {
+                "odrl:leftOperand" : "Membership",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition" : [],
+        "odrl:obligation" : [],
+        "odrl:target" : "3bb053ef-5490-4bfd-994a-1ce3f023c0ae"
+      },
+      "dcat:distribution" : [
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        },
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        }
+      ],
+      "edc:type" : "qualityalert",
+      "edc:notificationtype" : "qualityalert",
+      "edc:policy-id" : "use-eu",
+      "edc:description" : "QUALITY_ALERT RECEIVE",
+      "edc:id" : "3bb053ef-5490-4bfd-994a-1ce3f023c0ae",
+      "edc:contenttype" : "application/json",
+      "edc:notificationmethod" : "receive"
+    },
+    {
+      "@id" : "1c6fcdd0-8a7d-479f-bf64-96461f5a3573",
+      "@type" : "dcat:Dataset",
+      "odrl:hasPolicy" : {
+        "@id" : "ODM4MDc5NjMtYmNjYy00NDA1LWE4ZWItZGEzYjJmYzZlOTA0:MWM2ZmNkZDAtOGE3ZC00NzlmLWJmNjQtOTY0NjFmNWEzNTcz:MzA1MDFiNDctYjQzYy00NDE5LWIzNGYtY2VlNTdiY2JkMzVj",
+        "@type" : "odrl:Set",
+        "odrl:permission" : {
+          "odrl:target" : "1c6fcdd0-8a7d-479f-bf64-96461f5a3573",
+          "odrl:action" : {
+            "odrl:type" : "USE"
+          },
+          "odrl:constraint" : {
+            "odrl:or" : [
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.0 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.1 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "R2_Traceability"
+              },
+              {
+                "odrl:leftOperand" : "FrameworkAgreement.traceability",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              },
+              {
+                "odrl:leftOperand" : "Membership",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition" : [],
+        "odrl:obligation" : [],
+        "odrl:target" : "1c6fcdd0-8a7d-479f-bf64-96461f5a3573"
+      },
+      "dcat:distribution" : [
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        },
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        }
+      ],
+      "edc:notificationtype" : "qualityalert",
+      "edc:type" : "qualityalert",
+      "edc:policy-id" : "use-eu",
+      "edc:description" : "QUALITY_ALERT RECEIVE",
+      "edc:id" : "1c6fcdd0-8a7d-479f-bf64-96461f5a3573",
+      "edc:contenttype" : "application/json",
+      "edc:notificationmethod" : "receive"
+    },
+    {
+      "@id" : "d28abf01-ac5a-4f2f-907e-ddd27c09e5cb",
+      "@type" : "dcat:Dataset",
+      "odrl:hasPolicy" : {
+        "@id" : "ZmViM2UzNjktYzNkOS00NWE5LWJlNjQtNmJmYTk2ZjU4ODI0:ZDI4YWJmMDEtYWM1YS00ZjJmLTkwN2UtZGRkMjdjMDllNWNi:YzM0ZWZhNGMtMWVkYS00ZDk3LWFlOGUtZmUwNmU5MmViMWJi",
+        "@type" : "odrl:Set",
+        "odrl:permission" : {
+          "odrl:target" : "d28abf01-ac5a-4f2f-907e-ddd27c09e5cb",
+          "odrl:action" : {
+            "odrl:type" : "USE"
+          },
+          "odrl:constraint" : {
+            "odrl:or" : [
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.0 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.1 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "R2_Traceability"
+              },
+              {
+                "odrl:leftOperand" : "FrameworkAgreement.traceability",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              },
+              {
+                "odrl:leftOperand" : "Membership",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition" : [],
+        "odrl:obligation" : [],
+        "odrl:target" : "d28abf01-ac5a-4f2f-907e-ddd27c09e5cb"
+      },
+      "dcat:distribution" : [
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        },
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        }
+      ],
+      "edc:notificationtype" : "qualityalert",
+      "edc:type" : "qualityalert",
+      "edc:policy-id" : "use-eu",
+      "edc:description" : "QUALITY_ALERT RECEIVE",
+      "edc:id" : "d28abf01-ac5a-4f2f-907e-ddd27c09e5cb",
+      "edc:contenttype" : "application/json",
+      "edc:notificationmethod" : "receive"
+    },
+    {
+      "@id" : "0dbb1c29-63ac-458a-89fb-27935abd61e0",
+      "@type" : "dcat:Dataset",
+      "odrl:hasPolicy" : {
+        "@id" : "M2IxMmEwYWYtZjc5ZS00NjVlLWIxY2YtZWRhMjMyODRjMDNh:MGRiYjFjMjktNjNhYy00NThhLTg5ZmItMjc5MzVhYmQ2MWUw:NGJjYzZjYTMtNmQ1ZS00NDNjLTk5MGQtNDM5OWQyZDk4ZTgw",
+        "@type" : "odrl:Set",
+        "odrl:permission" : {
+          "odrl:target" : "0dbb1c29-63ac-458a-89fb-27935abd61e0",
+          "odrl:action" : {
+            "odrl:type" : "USE"
+          },
+          "odrl:constraint" : {
+            "odrl:or" : [
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.0 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.1 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "R2_Traceability"
+              },
+              {
+                "odrl:leftOperand" : "FrameworkAgreement.traceability",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              },
+              {
+                "odrl:leftOperand" : "Membership",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition" : [],
+        "odrl:obligation" : [],
+        "odrl:target" : "0dbb1c29-63ac-458a-89fb-27935abd61e0"
+      },
+      "dcat:distribution" : [
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        },
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        }
+      ],
+      "edc:type" : "qualityalert",
+      "edc:notificationtype" : "qualityalert",
+      "edc:policy-id" : "use-eu",
+      "edc:description" : "QUALITY_ALERT RECEIVE",
+      "edc:id" : "0dbb1c29-63ac-458a-89fb-27935abd61e0",
+      "edc:contenttype" : "application/json",
+      "edc:notificationmethod" : "receive"
+    },
+    {
+      "@id" : "62403fc0-6af0-488e-b0a8-ccb74425a4d0",
+      "@type" : "dcat:Dataset",
+      "odrl:hasPolicy" : {
+        "@id" : "NzU3MTk2ZDItMDgzYS00NGFkLTg4MjItNGY3ZDE0ZTNkMzQ1:NjI0MDNmYzAtNmFmMC00ODhlLWIwYTgtY2NiNzQ0MjVhNGQw:MDEwZWNmYjMtNzA5MC00Mzg0LTllODktMDlhZGU5MzY3OWVj",
+        "@type" : "odrl:Set",
+        "odrl:permission" : {
+          "odrl:target" : "62403fc0-6af0-488e-b0a8-ccb74425a4d0",
+          "odrl:action" : {
+            "odrl:type" : "USE"
+          },
+          "odrl:constraint" : {
+            "odrl:or" : [
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.0 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "ID 3.1 Trace"
+              },
+              {
+                "odrl:leftOperand" : "PURPOSE",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "R2_Traceability"
+              },
+              {
+                "odrl:leftOperand" : "FrameworkAgreement.traceability",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              },
+              {
+                "odrl:leftOperand" : "Membership",
+                "odrl:operator" : {
+                  "@id" : "odrl:eq"
+                },
+                "odrl:rightOperand" : "active"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition" : [],
+        "odrl:obligation" : [],
+        "odrl:target" : "62403fc0-6af0-488e-b0a8-ccb74425a4d0"
+      },
+      "dcat:distribution" : [
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "HttpProxy"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        },
+        {
+          "@type" : "dcat:Distribution",
+          "dct:format" : {
+            "@id" : "AmazonS3"
+          },
+          "dcat:accessService" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92"
+        }
+      ],
+      "edc:type" : "qualityalert",
+      "edc:notificationtype" : "qualityalert",
+      "edc:policy-id" : "use-eu",
+      "edc:description" : "QUALITY_ALERT RECEIVE",
+      "edc:id" : "62403fc0-6af0-488e-b0a8-ccb74425a4d0",
+      "edc:contenttype" : "application/json",
+      "edc:notificationmethod" : "receive"
+    }
+  ],
+  "dcat:service" : {
+    "@id" : "b57e72e4-e7a0-4c5f-b447-41921a61aa92",
+    "@type" : "dcat:DataService",
+    "dct:terms" : "connector",
+    "dct:endpointUrl" : "https://test.net/api/v1/dsp"
+  },
+  "edc:participantId" : "BPNL00000003CNKC",
+  "@context" : {
+    "dct" : "https://purl.org/dc/terms/",
+    "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
+    "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+    "dcat" : "https://www.w3.org/ns/dcat/",
+    "odrl" : "http://www.w3.org/ns/odrl/2/",
+    "dspace" : "https://w3id.org/dspace/v0.8/"
+  }
+}
