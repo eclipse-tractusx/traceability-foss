@@ -45,13 +45,11 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 @Transactional(dontRollbackOn = DiscoveryFinderException.class)
-@Profile(NOT_INTEGRATION_TESTS)
 public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     private final NotificationsEDCFacade edcFacade;
