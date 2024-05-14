@@ -67,11 +67,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 200m
-        memory: 512Mi
+        cpu: 1500m
+        memory: 1.5Gi
       requests:
-        cpu: 100m
-        memory: 512Mi
+        cpu: 500m
+        memory: 1.5Gi
 
   postgresql:
     enabled: true

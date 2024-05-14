@@ -45,10 +45,10 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 400m
+        cpu: 1500m
         memory: 1.5Gi
       requests:
-        cpu: 200m
+        cpu: 500m
         memory: 1.5Gi
 
   dataplane:

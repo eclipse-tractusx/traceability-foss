@@ -415,11 +415,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 768m
-        memory: 768Mi
+        cpu: 1500m
+        memory: 1500Mi
       requests:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 250m
+        memory: 1500Mi
     # Explicitly declared url for reaching the ids api (e.g. if ingresses not used)
 
   dataplane:

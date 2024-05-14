@@ -39,10 +39,10 @@ tractusx-connector:
       EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: <path:traceability-foss/data/dev/iatp#trustedIssuer>
     resources:
       limits:
-        cpu: 400m
+        cpu: 1500m
         memory: 1.5Gi
       requests:
-        cpu: 200m
+        cpu: 500m
         memory: 1.5Gi
 
   dataplane:
