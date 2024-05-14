@@ -13,6 +13,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
 - #XXX Fixed some sonar issues in frontend application
+- #XXX Switched eclipse-temurin:21-jre-alpine@sha256:fb4150a30569aadae9d693d949684a00653411528e62498b9900940c9b5b8a66 to 23467b3e42617ca197f43f58bc5fb03ca4cb059d68acd49c67128bfded132d67
 
 ### Removed
 
