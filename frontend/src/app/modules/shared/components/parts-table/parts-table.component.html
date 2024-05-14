@@ -70,6 +70,7 @@ SPDX-License-Identifier: Apache-2.0
           <app-button
             iconName="announcement"
             class="action-button-tile"
+            [attr.data-testid]="'create-notification-button'"
             [isDisabled]="!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation()"
             (click)="createQualityNotificationClicked()"
             (keydown)="handleKeyDownQualityNotificationClicked($event)"
