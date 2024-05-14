@@ -23,7 +23,7 @@ import { NotificationService } from '@shared/service/notification.service';
 import { PartsService } from '@shared/service/parts.service';
 
 export abstract class AutocompleteStrategy {
-  abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any;
+  abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string, inAssetIds?: string[]): any;
 }
 
 @Injectable({
@@ -37,12 +37,13 @@ export class PartsStrategy extends AutocompleteStrategy {
     this.partsService = partsService;
   }
 
-  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
+  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string, inAssetIds?: string[]): any {
     const asBuilt = isAsBuilt(tableType);
     return this.partsService.getDistinctFilterValues(
       asBuilt,
       filterColumns,
       searchElement,
+      inAssetIds,
     );
   }
 }

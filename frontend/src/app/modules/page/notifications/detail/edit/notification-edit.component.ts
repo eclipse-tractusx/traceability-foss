@@ -40,6 +40,7 @@ import { Notification, NotificationType } from '@shared/model/notification.model
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notification-edit',
@@ -60,6 +61,7 @@ export class NotificationEditComponent implements OnDestroy {
   public notificationFormGroup: FormGroup;
 
   public affectedPartIds: string[] = this.sharedPartService?.affectedParts?.map(value => value.id) || [];
+  public availablePartIds: string[] = [];
   public temporaryAffectedParts: Part[] = [];
   public temporaryAffectedPartsForRemoval: Part[] = [];
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
@@ -113,6 +115,22 @@ export class NotificationEditComponent implements OnDestroy {
       this.isSaveButtonDisabled = false;
       this.handleCreateNotification();
     }
+
+    this.ownPartsFacade.partsAsBuilt$.pipe(
+      distinctUntilChanged((prev, curr) => prev?.data?.content?.length === curr?.data?.content?.length), // Compare previous and current IDs
+    ).subscribe(
+      data => {
+        this.availablePartIds = data?.data?.content?.map(part => part.id).filter(element => !this.affectedPartIds.includes(element));
+        console.log(this.availablePartIds);
+      },
+      error => {
+        console.error('Error:', error); // Error handling
+      },
+    );
+
+
+
+
   }
 
   private handleEditNotification() {
