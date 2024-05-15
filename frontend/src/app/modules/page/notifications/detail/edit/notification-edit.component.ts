@@ -121,10 +121,6 @@ export class NotificationEditComponent implements OnDestroy {
     ).subscribe(
       data => {
         this.availablePartIds = data?.data?.content?.map(part => part.id).filter(element => !this.affectedPartIds.includes(element));
-        console.log(this.availablePartIds);
-      },
-      error => {
-        console.error('Error:', error); // Error handling
       },
     );
 
@@ -172,7 +168,6 @@ export class NotificationEditComponent implements OnDestroy {
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
     // if user switches type of notification in creation mode, reset affected parts and reload new available parts
-    console.log(notificationFormGroup, "group");
     if (this.selectedNotification.type !== notificationFormGroup.getRawValue().type) {
       this.selectedNotification.type = notificationFormGroup.getRawValue().type;
       this.switchSelectedNotificationTypeAndResetParts();

@@ -142,8 +142,6 @@ export class PartsService {
       .set('size', 200)
       .set('inAssetIds', inAssetIds ? inAssetIds.join(',') : '')
 
-    console.log(params);
-
     if (isAsBuilt) {
       return this.apiService
         .getBy<any>(`${ this.url }/assets/as-built/distinctFilterValues`, params);

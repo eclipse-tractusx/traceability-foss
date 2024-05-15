@@ -207,7 +207,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     // if there is no timeout currently, start the delay
     const timeoutCallback = async (): Promise<void> => {
       this.isLoadingSuggestions = true;
-      console.log(this.inAssetIds);
       try {
         firstValueFrom(this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement, this.inAssetIds)).then((res) => {
           // @ts-ignore
