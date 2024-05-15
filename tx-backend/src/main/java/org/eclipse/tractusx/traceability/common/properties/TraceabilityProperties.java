@@ -42,6 +42,9 @@ public class TraceabilityProperties {
     private String leftOperand;
     private String operatorType;
     private String rightOperand;
+    private String leftOperandSecond;
+    private String operatorTypeSecond;
+    private String rightOperandSecond;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime validUntil;
 

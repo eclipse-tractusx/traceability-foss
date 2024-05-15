@@ -12,15 +12,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #859 added autocomplete on subset of assets in notification creation/edit view
 
 ### Changed
-- #837 Moved data import and IrsResponseMappers under same interface and shared methods
-
-### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
 - #XXX Fixed some sonar issues in frontend application
 - #958 Fixed bug where available parts filter was reset when list of affected parts are zero in notification creation
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
 - #XXX Switched eclipse-temurin:21-jre-alpine@sha256:fb4150a30569aadae9d693d949684a00653411528e62498b9900940c9b5b8a66 to 23467b3e42617ca197f43f58bc5fb03ca4cb059d68acd49c67128bfded132d67
-
+- #837 Moved data import and IrsResponseMappers under same interface and shared methods
+- #947 Updating irs-helm from 7.1.1 to 7.1.2 to use latest catena-x policy
 
 ## [11.0.0 - 08.05.2024]
 ### Added

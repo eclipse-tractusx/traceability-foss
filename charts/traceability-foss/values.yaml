@@ -275,6 +275,9 @@ backend:
     leftOperand: "PURPOSE"
     operatorType: "eq"
     rightOperand: "ID 3.0 Trace"
+    leftOperandSecond: "anything"
+    operatorTypeSecond: "eq"
+    rightOperandSecond: "anything"
     validUntil: "2024-09-30T23:59:59.99Z"
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql:5432/trace

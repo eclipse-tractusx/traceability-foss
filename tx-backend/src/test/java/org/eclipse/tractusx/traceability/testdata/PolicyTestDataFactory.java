@@ -35,7 +35,7 @@ import java.util.List;
 public class PolicyTestDataFactory {
 
     @NotNull
-    public static IrsPolicyResponse createIrsPolicyResponse(String policyId, OffsetDateTime createdOn, String orRightOperand, String andRightOperand) {
+    public static IrsPolicyResponse createIrsPolicyResponse(String policyId, OffsetDateTime createdOn, String orLeftOperand, String andLeftOperand, String orRightOperand, String andRightOperand) {
         return
                 IrsPolicyResponse.builder()
                         .validUntil(OffsetDateTime.now())
@@ -50,8 +50,8 @@ public class PolicyTestDataFactory {
                                                                 Permission.builder()
                                                                         .action(PolicyType.USE)
                                                                         .constraint(Constraints.builder()
-                                                                                .and(List.of(new Constraint("", new Operator(OperatorType.EQ), andRightOperand)))
-                                                                                .or(List.of(new Constraint("", new Operator(OperatorType.EQ), orRightOperand)))
+                                                                                .and(List.of(new Constraint(andLeftOperand, new Operator(OperatorType.EQ), andRightOperand)))
+                                                                                .or(List.of(new Constraint(orLeftOperand, new Operator(OperatorType.EQ), orRightOperand)))
                                                                                 .build())
                                                                         .build()))
                                                         .build())
