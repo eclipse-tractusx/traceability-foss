@@ -813,7 +813,7 @@ npm/npmjs/-/path-to-regexp/6.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/path-type/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/pend/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/performance-now/2.1.0, MIT, approved, clearlydefined
-npm/npmjs/-/picocolors/1.0.0, ISC, approved, clearlydefined
+npm/npmjs/-/picocolors/1.0.0, ISC, approved, #14718
 npm/npmjs/-/picomatch/2.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/pidtree/0.6.0, MIT, approved, clearlydefined
 npm/npmjs/-/pify/2.3.0, MIT, approved, clearlydefined
