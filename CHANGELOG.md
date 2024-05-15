@@ -8,6 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+- #859 added autocomplete on subset of assets in notification creation/edit view
+
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
 - #XXX Fixed some sonar issues in frontend application

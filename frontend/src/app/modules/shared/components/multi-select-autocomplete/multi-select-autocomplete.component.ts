@@ -88,6 +88,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   searchElement: string = '';
 
+  @Input()
+  inAssetIds: string[] = [];
+
   searchElementChange: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('selectElem', { static: true }) selectElem: any;
@@ -205,9 +208,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     const timeoutCallback = async (): Promise<void> => {
       this.isLoadingSuggestions = true;
       try {
-        firstValueFrom(this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement)).then((res) => {
+        firstValueFrom(this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement, this.inAssetIds)).then((res) => {
           // @ts-ignore
-          this.searchedOptions = res.filter(option => !this.selectedValue.includes(option))
+          this.searchedOptions = res.filter(option => !this.selectedValue?.includes(option))
             .map(option => ({ display: option, value: option }));
           this.options = this.searchedOptions;
           // @ts-ignore

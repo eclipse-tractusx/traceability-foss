@@ -136,6 +136,7 @@ SPDX-License-Identifier: Apache-2.0
                          [singleSearch]="filter.singleSearch"
                          [filterColumn]="filter.filterKey"
                          [tableType]="tableType"
+                         [inAssetIds]="assetIdsForAutoCompleteFilter"
                          [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
                          ngDefaultControl
                          [formControl]="filterFormGroup.controls[filter.filterKey]">

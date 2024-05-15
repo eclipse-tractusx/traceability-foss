@@ -21,9 +21,10 @@ import { AdminService } from '@page/admin/core/admin.service';
 import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { PartsService } from '@shared/service/parts.service';
+import { of } from 'rxjs';
 
 export abstract class AutocompleteStrategy {
-  abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any;
+  abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string, inAssetIds?: string[]): any;
 }
 
 @Injectable({
@@ -37,12 +38,18 @@ export class PartsStrategy extends AutocompleteStrategy {
     this.partsService = partsService;
   }
 
-  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
+  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string, inAssetIds?: string[]): any {
     const asBuilt = isAsBuilt(tableType);
+
+    if(inAssetIds?.length < 1) {
+      return of([]);
+    }
+
     return this.partsService.getDistinctFilterValues(
       asBuilt,
       filterColumns,
       searchElement,
+      inAssetIds,
     );
   }
 }
