@@ -9,7 +9,30 @@
       "policy": {
         "@type": "odrl:Set",
         "odrl:permission": [
-          {}
+          {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+              "@type": "AtomicConstraint",
+              "odrl:and": [
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:FrameworkAgreement",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "traceability:1.0"
+                },
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:UsagePurpose",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "cx.core.industrycore:1"
+                }
+              ]
+            }
+          }
         ]
       }
     }

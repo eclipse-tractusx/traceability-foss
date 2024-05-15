@@ -33,6 +33,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConst
 
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @UtilityClass
 public class PolicyMapper {
     public static EdcCreatePolicyDefinitionRequest mapToEdcPolicyRequest(PolicyResponse policy) {
@@ -57,13 +59,13 @@ public class PolicyMapper {
     private static EdcPolicyPermissionConstraint mapToConstraint(ConstraintsResponse constraintsResponse) {
         return EdcPolicyPermissionConstraint.builder()
                 .type("AtomicConstraint")
-                // TODO add andExpressions
                 .orExpressions(mapToConstraintExpression(constraintsResponse.or()))
+                .andExpressions(mapToConstraintExpression(constraintsResponse.and()))
                 .build();
     }
 
     private static List<EdcPolicyPermissionConstraintExpression> mapToConstraintExpression(List<ConstraintResponse> constraints) {
-        return constraints.stream().map(constraint -> EdcPolicyPermissionConstraintExpression.builder()
+        return emptyIfNull(constraints).stream().map(constraint -> EdcPolicyPermissionConstraintExpression.builder()
                         .type("Constraint")
                         .leftOperand(constraint.leftOperand())
                         .rightOperand(constraint.rightOperand())
