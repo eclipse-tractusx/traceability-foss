@@ -19,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #XXX Switched eclipse-temurin:21-jre-alpine@sha256:fb4150a30569aadae9d693d949684a00653411528e62498b9900940c9b5b8a66 to 23467b3e42617ca197f43f58bc5fb03ca4cb059d68acd49c67128bfded132d67
 - #837 Moved data import and IrsResponseMappers under same interface and shared methods
 - #947 Updating irs-helm from 7.1.1 to 7.1.2 to use latest catena-x policy
+- #963 update irs-client-lib.version from 2.0.3 to 2.0.4-SNAPSHOT to fix /contracts api
 
 ## [11.0.0 - 08.05.2024]
 ### Added
