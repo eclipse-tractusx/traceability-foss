@@ -90,6 +90,7 @@ class ContractControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
+                .log().all()
                 .extract().body().as(new TypeRef<>() {
                 });
 
@@ -111,7 +112,9 @@ class ContractControllerIT extends IntegrationTestSpecification {
         List<String> secondContractagreementIds = List.of("abc6", "abc7", "abc8", "abc9", "abc10");
 
         assertThat(contractResponsePage1Result.content()).isNotEmpty();
+        assertThat(contractResponsePage1Result.content().get(0).getCounterpartyAddress()).isNotEmpty();
         assertThat(contractResponsePage2Result.content()).isNotEmpty();
+        assertThat(contractResponsePage2Result.content().get(0).getCounterpartyAddress()).isNotEmpty();
 
         assertThat(contractResponsePage1Result.content().stream().map(ContractResponse::getContractId).collect(Collectors.toList())).containsAll(firstContractagreementIds);
         assertThat(contractResponsePage2Result.content().stream().map(ContractResponse::getContractId).toList()).containsAll(secondContractagreementIds);
@@ -139,6 +142,7 @@ class ContractControllerIT extends IntegrationTestSpecification {
                 });
         //THEN
         assertThat(contractResponsePageResult.content()).isNotEmpty();
+        assertThat(contractResponsePageResult.content().get(0).getCounterpartyAddress()).isNotEmpty();
     }
 
     @Test
