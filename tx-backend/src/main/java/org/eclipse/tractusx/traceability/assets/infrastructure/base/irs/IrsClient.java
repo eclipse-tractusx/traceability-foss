@@ -90,10 +90,10 @@ public class IrsClient {
         String policyId = UUID.randomUUID().toString();
 
         Constraint constraint = new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.EQ), traceabilityProperties.getRightOperand());
+        Constraint constraintSecond = new Constraint(traceabilityProperties.getLeftOperandSecond(), new Operator(OperatorType.EQ), traceabilityProperties.getRightOperandSecond());
 
         Constraints constraints = Constraints.builder()
-                .and(List.of(constraint))
-                .or(List.of(constraint))
+                .and(List.of(constraint, constraintSecond))
                 .build();
 
         Permission permission = Permission.builder()

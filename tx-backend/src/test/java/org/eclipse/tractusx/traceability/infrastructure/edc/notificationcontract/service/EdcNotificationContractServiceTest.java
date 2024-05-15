@@ -88,7 +88,7 @@ class EdcNotificationContractServiceTest {
         // given
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and")));
         when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
@@ -128,7 +128,7 @@ class EdcNotificationContractServiceTest {
         // given
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and")));
         when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
@@ -146,7 +146,7 @@ class EdcNotificationContractServiceTest {
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "or", "and")));
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(),"orLeft", "andLeft", "or", "and")));
         when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");

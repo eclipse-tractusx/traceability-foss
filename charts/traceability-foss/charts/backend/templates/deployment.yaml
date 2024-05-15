@@ -84,6 +84,12 @@ spec:
               value: {{ .Values.traceability.operatorType | quote }}
             - name: TRACEABILITY_RIGHT_OPERAND
               value: {{ .Values.traceability.rightOperand | quote }}
+            - name: TRACEABILITY_LEFT_OPERAND_SECOND
+              value: {{ .Values.traceability.leftOperandSecond | quote }}
+            - name: TRACEABILITY_OPERATOR_TYPE_SECOND
+              value: {{ .Values.traceability.operatorTypeSecond | quote }}
+            - name: TRACEABILITY_RIGHT_OPERAND_SECOND
+              value: {{ .Values.traceability.rightOperandSecond | quote }}
             - name: TRACEABILITY_VALID_UNTIL
               value: {{ .Values.traceability.validUntil | quote }}
             - name: OAUTH2_CLIENT_ID
