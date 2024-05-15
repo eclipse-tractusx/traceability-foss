@@ -57,6 +57,7 @@ public class PolicyMapper {
     private static EdcPolicyPermissionConstraint mapToConstraint(ConstraintsResponse constraintsResponse) {
         return EdcPolicyPermissionConstraint.builder()
                 .type("AtomicConstraint")
+                // TODO add andExpressions
                 .orExpressions(mapToConstraintExpression(constraintsResponse.or()))
                 .build();
     }
