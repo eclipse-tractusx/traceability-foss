@@ -79,26 +79,26 @@ public class PolicyRepositoryImpl implements PolicyRepository {
                     boolean firstConstraintExists = emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
                             .flatMap(permission -> {
                                 Constraints constraint = permission.getConstraint();
-                                return constraint != null ? constraint.getAnd().stream() : Stream.empty();
+                                return constraint != null ? emptyIfNull(constraint.getAnd()).stream() : Stream.empty();
                             })
                             .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()))
                             || emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
                             .flatMap(permission -> {
                                 Constraints constraint = permission.getConstraint();
-                                return constraint != null ? constraint.getOr().stream() : Stream.empty();
+                                return constraint != null ? emptyIfNull(constraint.getOr()).stream() : Stream.empty();
                             })
                             .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()));
 
                     boolean secondConstraintExists = emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
                             .flatMap(permission -> {
                                 Constraints constraint = permission.getConstraint();
-                                return constraint != null ? constraint.getAnd().stream() : Stream.empty();
+                                return constraint != null ? emptyIfNull(constraint.getAnd()).stream() : Stream.empty();
                             })
                             .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperandSecond()))
                             || emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
                             .flatMap(permission -> {
                                 Constraints constraint = permission.getConstraint();
-                                return constraint != null ? constraint.getOr().stream() : Stream.empty();
+                                return constraint != null ? emptyIfNull(constraint.getOr()).stream() : Stream.empty();
                             })
                             .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperandSecond()));
 
