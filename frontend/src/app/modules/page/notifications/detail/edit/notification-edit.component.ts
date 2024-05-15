@@ -117,7 +117,7 @@ export class NotificationEditComponent implements OnDestroy {
     }
 
     this.ownPartsFacade.partsAsBuilt$.pipe(
-      distinctUntilChanged((prev, curr) => prev?.data?.content?.length === curr?.data?.content?.length), // Compare previous and current IDs
+      distinctUntilChanged((prev, curr) => prev?.data?.content?.length === curr?.data?.content?.length),
     ).subscribe(
       data => {
         this.availablePartIds = data?.data?.content?.map(part => part.id).filter(element => !this.affectedPartIds.includes(element));
@@ -127,9 +127,6 @@ export class NotificationEditComponent implements OnDestroy {
         console.error('Error:', error); // Error handling
       },
     );
-
-
-
 
   }
 
