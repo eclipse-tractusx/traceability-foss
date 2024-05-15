@@ -134,13 +134,13 @@ export class PartsService {
 
   }
 
-  public getDistinctFilterValues(isAsBuilt: boolean, fieldNames: string, startsWith: string) {
+  public getDistinctFilterValues(isAsBuilt: boolean, fieldNames: string, startsWith: string, inAssetIds?: string[]) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     let params = new HttpParams()
       .set('fieldName', mappedFieldName)
       .set('startWith', startsWith)
-      .set('size', 200);
-
+      .set('size', 200)
+      .set('inAssetIds', inAssetIds ? inAssetIds.join(',') : '')
 
     if (isAsBuilt) {
       return this.apiService

@@ -24,6 +24,9 @@ traceability:
   leftOperand: ${TRACEABILITY_LEFT_OPERAND}
   operatorType: ${TRACEABILITY_OPERATOR_TYPE}
   rightOperand: ${TRACEABILITY_RIGHT_OPERAND}
+  leftOperandSecond: ${TRACEABILITY_LEFT_OPERAND_SECOND}
+  operatorTypeSecond: ${TRACEABILITY_OPERATOR_TYPE_SECOND}
+  rightOperandSecond: ${TRACEABILITY_RIGHT_OPERAND_SECOND}
   validUntil: ${TRACEABILITY_VALID_UNTIL}
   adminApiKey: ${IRS_ADMIN_API_KEY}
   regularApiKey: ${IRS_REGULAR_API_KEY}

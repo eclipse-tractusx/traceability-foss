@@ -109,7 +109,7 @@ public class PolicyStartUpConfig {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
         andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperandSecond(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorTypeSecond())), traceabilityProperties.getRightOperandSecond()));
 
         List<Permission> permissions = List.of(
                 new Permission(

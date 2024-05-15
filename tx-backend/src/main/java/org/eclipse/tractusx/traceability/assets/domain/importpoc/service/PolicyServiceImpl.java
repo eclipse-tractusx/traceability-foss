@@ -66,7 +66,11 @@ public class PolicyServiceImpl implements PolicyService {
                                         permissionResponse.constraints().and().stream(),
                                         permissionResponse.constraints().or().stream())
                                 .map(constraintResponse -> new AbstractMap.SimpleEntry<>(policyResponse.policyId(), constraintResponse))))
-                .filter(entry -> entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperand()))
+                .filter(entry -> {
+                    boolean hasFirstConstraint = entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperand()) && entry.getValue().leftOperand().equalsIgnoreCase(traceabilityProperties.getLeftOperand());
+                    boolean hasSecondConstraint = entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperandSecond()) && entry.getValue().leftOperand().equalsIgnoreCase(traceabilityProperties.getLeftOperandSecond());
+                    return hasFirstConstraint || hasSecondConstraint;
+                })
                 .map(Map.Entry::getKey)
                 .findFirst();
         return policyId.map(this::getPolicyById);

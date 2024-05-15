@@ -86,6 +86,8 @@ export class PartsTableComponent implements OnInit {
   @Input() tableType: TableType;
   @Input() mainAspectType: MainAspectType;
 
+  @Input() assetIdsForAutoCompleteFilter: string[];
+
   public tableConfig: TableConfig;
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
