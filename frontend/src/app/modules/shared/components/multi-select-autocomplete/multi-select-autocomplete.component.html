@@ -22,7 +22,8 @@ SPDX-License-Identifier: Apache-2.0
               onkeydown="filterItem('')"
               (click)="filterItem('')"
               [multiple]="true"
-              (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown">
+              (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown"
+              (openedChange)="options = []">
 
     <div class="box-search">
       <mat-checkbox *ngIf="!singleSearch && !(!searchedOptions?.length && !optionsSelected?.length)" color="primary" class="box-select-all" [disabled]="!searchedOptions?.length && !optionsSelected?.length" [(ngModel)]="selectAllChecked"
