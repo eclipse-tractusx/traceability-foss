@@ -9,7 +9,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Added
-
 - #859 added autocomplete on subset of assets in notification creation/edit view
 
 ### Changed
