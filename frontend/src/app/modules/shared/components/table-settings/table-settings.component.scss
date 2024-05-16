@@ -96,10 +96,10 @@
 
   }
 
-  .selected-item {
-    background-color: rgba(139, 139, 139, 0.4);
-  }
+}
 
+.selected-item {
+  background-color: rgba(139, 139, 139, 0.4);
 }
 
 
@@ -143,7 +143,10 @@
   .dialog--actions--save--button:hover, .dialog--actions--save--button:active, .dialog--actions--save--button:focus {
     background-color: rgb(13, 85, 175)
   }
+}
 
+.hoverable:hover {
+  background-color: rgb(237, 237, 237);
 }
 
 

@@ -21,6 +21,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #947 Updating irs-helm from 7.1.1 to 7.1.2 to use latest catena-x policy
 - #963 update irs-client-lib.version from 2.0.3 to 2.0.4-SNAPSHOT to fix /contracts api
 - #989 changed german word "Eigen" to "Eigene"
+- #992 improved uux in selection of columns in table settings
 
 ## [11.0.0 - 08.05.2024]
 ### Added
