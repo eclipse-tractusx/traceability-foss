@@ -86,7 +86,7 @@
     "multiSortingTooltip": "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
     "filterTitle" : "Filter",
     "owner": {
-      "own": "Eigen",
+      "own" : "Eigene",
       "supplier": "Lieferant",
       "customer": "Kunde"
     },
@@ -412,7 +412,7 @@
       "ERROR": "Fehler",
       "UNSET": "Undefiniert",
       "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht",
-      "OWN": "Eigen",
+      "OWN" : "Eigene",
       "SUPPLIER": "Lieferant",
       "CUSTOMER": "Kunde",
       "UNKNOWN": "Unbekannt"
