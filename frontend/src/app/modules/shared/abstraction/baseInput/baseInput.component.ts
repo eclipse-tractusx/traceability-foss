@@ -29,16 +29,17 @@ import {
   NgControl,
   NgModel,
 } from '@angular/forms';
+import { MyErrorStateMatcher } from '@shared/abstraction/baseInput/baseInput.helper';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { MyErrorStateMatcher } from '@shared/abstraction/baseInput/baseInput.helper';
 
 @Component({ selector: 'app-baseInput', template: '' })
 export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
   @ViewChild('inputElement') inputElement: ElementRef<HTMLInputElement>;
   @Input() label = '';
   @Input() hint = '';
+  @Input() isDisabled: boolean;
 
   public control!: FormControl;
   public matcher = new MyErrorStateMatcher();
@@ -57,6 +58,10 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
 
   public ngOnInit(): void {
     this.setComponentControl();
+
+    if (this.isDisabled) {
+      this.control.disable();
+    }
 
     // Check validators for length validators
     const oneMillion = 1000000;

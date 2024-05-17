@@ -22,6 +22,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #963 update irs-client-lib.version from 2.0.3 to 2.0.4-SNAPSHOT to fix /contracts api
 - #989 changed german word "Eigen" to "Eigene"
 - #992 improved uux in selection of columns in table settings
+- #994 moved search bar above new and existing configurations
+- #994 disable inputs of newly added bpn configurations
 
 ## [11.0.0 - 08.05.2024]
 ### Added
