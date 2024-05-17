@@ -24,6 +24,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #992 improved uux in selection of columns in table settings
 - #994 moved search bar above new and existing configurations
 - #994 disable inputs of newly added bpn configurations
+- #995 disable creation and editof notifications for admin role
 
 ## [11.0.0 - 08.05.2024]
 ### Added

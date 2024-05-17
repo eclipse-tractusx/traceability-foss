@@ -61,7 +61,7 @@ SPDX-License-Identifier: Apache-2.0
       <div class="icon-container">
 
         <div *ngIf="tableType === TableType.AS_BUILT_OWN" class="action-button-tile"
-             matTooltip="{{(!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() ? 'routing.partMismatch' : 'table.createNotification') | i18n}}"
+             matTooltip="{{(roleService.isAdmin() ? 'routing.unauthorized' : (!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() ? 'routing.partMismatch' : 'table.createNotification')) | i18n}}"
              matTooltipClass="table--header--tooltip"
              matTooltipPosition="above"
              [class.mdc-tooltip--multiline]="true"
@@ -71,7 +71,7 @@ SPDX-License-Identifier: Apache-2.0
             iconName="announcement"
             class="action-button-tile"
             [attr.data-testid]="'create-notification-button'"
-            [isDisabled]="!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation()"
+            [isDisabled]="!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() || roleService.isAdmin()"
             (click)="createQualityNotificationClicked()"
             (keydown)="handleKeyDownQualityNotificationClicked($event)"
           ></app-button>
