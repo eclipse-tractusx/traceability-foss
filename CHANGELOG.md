@@ -10,6 +10,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Added
 - #859 added autocomplete on subset of assets in notification creation/edit view
+- #997 added publish assets state check to parts table
 
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
