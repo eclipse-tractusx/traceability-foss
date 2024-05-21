@@ -134,6 +134,11 @@ public class NotificationsEDCFacade {
                                     .counterPartyAddress(receiverEdcUrl + edcProperties.getIdsPath())
                                     .counterPartyId(notification.getSendTo())
                                     .querySpec(QuerySpec.Builder.newInstance()
+                                            // TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978
+                                            // Probably:
+                                            // leftOperand = http://purl.org/dc/terms/type'.'@id'
+                                            // rightOperand = cx-taxo:ReceiveQualityAlertNotification (make sure to check the input for the correct one Receive/Update and Alert or Investigation
+                                            // The types are all in the ticket documented
                                             .filter(
                                                     List.of(new Criterion(NAMESPACE_EDC + "notificationtype", "=", propertyNotificationTypeValue),
                                                             new Criterion(NAMESPACE_EDC + "notificationmethod", "=", propertyMethodValue))

@@ -38,6 +38,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @UtilityClass
 public class PolicyMapper {
     public static EdcCreatePolicyDefinitionRequest mapToEdcPolicyRequest(PolicyResponse policy) {
+        // TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978 context needs to be updated with the required ones
         OdrlContext odrlContext = OdrlContext.builder().odrl("http://www.w3.org/ns/odrl/2/").build();
         EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(mapToPermissions(policy.permissions())).type("odrl:Set").build();
         return EdcCreatePolicyDefinitionRequest.builder()
@@ -50,6 +51,7 @@ public class PolicyMapper {
 
     private static List<EdcPolicyPermission> mapToPermissions(List<PermissionResponse> permissions) {
         return permissions.stream().map(permission -> EdcPolicyPermission.builder()
+                // TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978 here we need to make sure that the USE is lowercase in the object.
                 .action(permission.action().name())
                 .edcPolicyPermissionConstraints(mapToConstraint(permission.constraints()))
                 .build()

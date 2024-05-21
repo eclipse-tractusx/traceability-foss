@@ -42,6 +42,8 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Builder
 @Schema(example = IrsPolicyResponse.EXAMPLE_PAYLOAD)
 public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
+    // TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978
+    // "odrl:action" USE will be use (lowercase) make sure to migrate
 
     @SuppressWarnings({"FileTabCharacter", "java:S2479"})
     // required to show correctly example payload in open-api
