@@ -172,4 +172,49 @@ describe('PartsService', () => {
 
     httpMock.verify();
   });
+
+  it('should request partDetails of as built Id', () => {
+
+    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+    const asBuiltId = 'MOCK_part_1';
+
+    service.getPartDetailOfIds([ asBuiltId ], true).subscribe((parts) => {
+      console.warn(parts);
+      expect(parts).toBeTruthy();
+    });
+
+    const expectedUrl = `${ environment.apiUrl }/assets/as-built/detail-information`;
+
+    const req = httpMock.expectOne((request) => {
+      return request.url === expectedUrl && request.method === 'POST';
+    });
+
+    req.flush(mockAssets.content.filter(part => part.id === asBuiltId));
+
+    httpMock.verify();
+  });
+
+  it('should request partDetails of as built Id', () => {
+
+    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+    const asPlannedId = 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01';
+
+    service.getPartDetailOfIds([ asPlannedId ], false).subscribe((parts) => {
+      expect(parts).toBeTruthy();
+    });
+
+    const expectedUrl = `${ environment.apiUrl }/assets/as-planned/detail-information`;
+
+    const req = httpMock.expectOne((request) => {
+      return request.url === expectedUrl && request.method === 'POST';
+    });
+
+    req.flush(mockAssets.content.filter(part => part.id === asPlannedId));
+
+    httpMock.verify();
+  });
+
+
 });
