@@ -10,7 +10,7 @@
         "@type": "odrl:Set",
         "odrl:permission": [
           {
-            "odrl:action": "USE",
+            "odrl:action" : "use",
             "odrl:constraint": {
               "@type": "AtomicConstraint",
               "odrl:and": [
