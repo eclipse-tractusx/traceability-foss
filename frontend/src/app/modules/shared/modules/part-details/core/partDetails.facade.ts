@@ -36,13 +36,14 @@ export class PartDetailsFacade {
   ) {
   }
 
-  public setPartById(urn: string) {
-    if(!urn || typeof urn !== 'string') {
+  public setPartById(urn: string, isAsBuilt?: boolean) {
+    if (!urn || typeof urn !== 'string') {
       return;
     }
-    this.partsService.getPart(urn).subscribe(part => {
-      this.partDetailsState.selectedPart = { data: part}
-    })
+    this.partsService.getPartDetailOfIds([ urn ], isAsBuilt).subscribe(parts => {
+      this.partDetailsState.selectedPart = { data: parts[0] };
+    });
+
   }
 
   public get selectedPart$(): Observable<View<Part>> {
