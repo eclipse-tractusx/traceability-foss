@@ -32,13 +32,6 @@ SPDX-License-Identifier: Apache-2.0
 
     <div class="bpn-config">
       <div class="bpn--add-new">
-        <app-input
-          [label]="'pageAdmin.bpnConfig.search' | i18n"
-          [formControl]="searchControl"
-          class="bpn-config--search"
-          suffixIcon="search"
-          suffixIconColor="primary"
-        ></app-input>
 
         <div *ngIf="newEntryGroup" [formGroup]="newEntryGroup" class="bpn-config--form">
           <app-input
@@ -81,6 +74,19 @@ SPDX-License-Identifier: Apache-2.0
         >
           {{ 'actions.saveChanges' | i18n }}
         </app-button>
+
+      </div>
+
+      <div class="flex w-full justify-start"
+           *ngIf="newBpnConfig.controls.length > 0 || editBpnConfig.controls.length > 0">
+
+        <app-input
+          [label]="'pageAdmin.bpnConfig.search' | i18n"
+          [formControl]="searchControl"
+          class="bpn-config--search"
+          suffixIcon="search"
+          suffixIconColor="primary"
+        ></app-input>
       </div>
 
       <div *ngIf="newBpnConfig.controls.length" class="bpn--container">
@@ -94,11 +100,13 @@ SPDX-License-Identifier: Apache-2.0
                     [label]="'pageAdmin.bpnConfig.bpn' | i18n"
                     class="bpn-config--input"
                     formControlName="bpn"
+                    [isDisabled]="true"
                   ></app-input>
                   <app-input
                     [label]="'pageAdmin.bpnConfig.url' | i18n"
                     class="bpn-config--input"
                     formControlName="url"
+                    [isDisabled]="true"
                   ></app-input>
 
                   <app-button
@@ -125,7 +133,7 @@ SPDX-License-Identifier: Apache-2.0
             <ng-container *ngFor="let bpnConfig of editBpnConfig.controls; let i = index" [formGroupName]="i">
               <ng-container *ngIf="listOfHiddenElements$ | async as list">
                 <div
-                  *ngIf="!list.includes(bpnConfig.value.bpn)"
+                  *ngIf="!list.includes(bpnConfig.value.bpn) && newBpnConfig?.controls['bpn']?.value !== bpnConfig.value.bpn"
                   [ngClass]="getStylingClass(bpnConfig)"
                   [class.bpn-config--delete_animation]="isBeingDeleted(bpnConfig)"
                   [attr.data-testid]="'bpn-url-container-' + i"

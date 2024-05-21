@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #859 added autocomplete on subset of assets in notification creation/edit view
 
+
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
 - #XXX Fixed some sonar issues in frontend application
@@ -20,6 +21,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #837 Moved data import and IrsResponseMappers under same interface and shared methods
 - #947 Updating irs-helm from 7.1.1 to 7.1.2 to use latest catena-x policy
 - #963 update irs-client-lib.version from 2.0.3 to 2.0.4-SNAPSHOT to fix /contracts api
+- #989 changed german word "Eigen" to "Eigene"
+- #992 improved uux in selection of columns in table settings
+- #994 moved search bar above new and existing configurations
+- #994 disable inputs of newly added bpn configurations
+- #995 disable creation and editof notifications for admin role
+- #991 make menu table headers unvisible to not block column and filters of tables
+- #978 Fixed edc policy creation with edc version 0.7.0
 
 ## [11.0.0 - 08.05.2024]
 ### Added

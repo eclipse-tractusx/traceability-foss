@@ -63,11 +63,17 @@ export class PartsDetailComponent {
 
   public currentPartId: string;
   public pageIndexHistory: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}
+  private isAsBuiltPart: boolean;
 
   constructor(public readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location, private sharedPartService: SharedPartService) {
 
+    this.route.queryParams.subscribe((params: { AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string }) => {
+      this.pageIndexHistory = params;
+      this.isAsBuiltPart = params['isAsBuilt'] === 'true';
+    });
+
     this.currentPartId = this.route.snapshot.params['partId'];
-    this.partDetailsFacade.setPartById(this.currentPartId);
+    this.partDetailsFacade.setPartById(this.currentPartId, this.isAsBuiltPart);
     this.selectedPartDetails$ = this.partDetailsFacade.selectedPart$;
     this.shortenPartDetails$ = this.partDetailsFacade.selectedPart$;
 
@@ -122,12 +128,6 @@ export class PartsDetailComponent {
     });
 
     this.displayedColumns = [ 'position', 'productType', 'tractionBatteryCode' ];
-  }
-
-  public ngOnInit(): void {
-    this.route.queryParams.subscribe((params: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}) => {
-      this.pageIndexHistory = params;
-    })
   }
 
   public ngOnDestroy(): void {

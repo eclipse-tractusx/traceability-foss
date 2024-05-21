@@ -275,7 +275,7 @@ SPDX-License-Identifier: Apache-2.0
 
     <ng-template #MenuColumn>
       <ng-container matColumnDef="menu" stickyEnd sticky>
-        <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
+        <th *matHeaderCellDef class="table--menu table--header--menu" mat-header-cell></th>
         <td *matCellDef="let row" class="table--menu" mat-cell [attr.colspan]="tableConfig.displayedColumns.length">
           <div class="table--menu__desktop">
             <button
