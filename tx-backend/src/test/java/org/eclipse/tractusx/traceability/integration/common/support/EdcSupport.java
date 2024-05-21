@@ -75,6 +75,7 @@ public class EdcSupport {
                 .id("id")
                 .endpoint("http://localhost:" + RestitoConfig.getStubServer().getPort() + "/endpointdatareference")
                 .authKey("X-Api-Key")
+                .contractId("contractId")
                 .authCode("integration-tests")
                 .properties(additionalProperties)
                 .build();
