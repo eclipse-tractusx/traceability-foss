@@ -1,24 +1,29 @@
 {
-  "@id" : "8a157c93-2dfb-440b-9218-ee456ce5ba10",
-  "@type" : "edc:TransferProcess",
-  "edc:correlationId" : "8a157c93-2dfb-440b-9218-ee456ce5ba10",
-  "edc:state" : "STARTED",
-  "edc:stateTimestamp" : 1712913672760,
-  "edc:type" : "CONSUMER",
-  "edc:assetId" : "d0cde3b9-9a01-47d3-8058-9562828f6d0f",
-  "edc:contractId" : "NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky",
-  "edc:callbackAddresses" : [],
-  "edc:dataDestination" : {
-    "@type" : "edc:DataAddress",
-    "edc:type" : "HttpProxy"
+  "@id": "ea7e9226-e2b6-4fd0-a34e-4a9121c6e30f",
+  "@type": "TransferProcess",
+  "state": "STARTED",
+  "stateTimestamp": 1716299186396,
+  "type": "CONSUMER",
+  "callbackAddresses": {
+    "@type": "CallbackAddress",
+    "transactional": false,
+    "uri": "${EDC_CALLBACK_URL_EDC_CLIENT}",
+    "events": "transfer.process.started"
   },
-  "edc:connectorId" : "BPNL00000003CNKC",
-  "@context" : {
-    "dct" : "https://purl.org/dc/terms/",
-    "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
-    "edc" : "https://w3id.org/edc/v0.0.1/ns/",
-    "dcat" : "https://www.w3.org/ns/dcat/",
-    "odrl" : "http://www.w3.org/ns/odrl/2/",
-    "dspace" : "https://w3id.org/dspace/v0.8/"
+  "assetId": "40276218-e31b-4c35-a7c8-017e8edb702e",
+  "contractId": "NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky",
+  "transferType": "HttpData-PULL",
+  "errorDetail": "Policy not found for contract: NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky",
+  "dataDestination": {
+    "@type": "DataAddress",
+    "type": "HttpProxy"
+  },
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
   }
 }

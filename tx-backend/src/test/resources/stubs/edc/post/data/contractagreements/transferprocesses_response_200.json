@@ -1,13 +1,13 @@
 {
-  "@type" : "edc:IdResponse",
-  "@id" : "8a157c93-2dfb-440b-9218-ee456ce5ba10",
-  "edc:createdAt" : 1712913671249,
-  "@context" : {
-    "dct" : "https://purl.org/dc/terms/",
-    "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
-    "edc" : "https://w3id.org/edc/v0.0.1/ns/",
-    "dcat" : "https://www.w3.org/ns/dcat/",
-    "odrl" : "http://www.w3.org/ns/odrl/2/",
-    "dspace" : "https://w3id.org/dspace/v0.8/"
+  "@type": "IdResponse",
+  "@id": "ea7e9226-e2b6-4fd0-a34e-4a9121c6e30f",
+  "createdAt": 1716299185639,
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
   }
 }

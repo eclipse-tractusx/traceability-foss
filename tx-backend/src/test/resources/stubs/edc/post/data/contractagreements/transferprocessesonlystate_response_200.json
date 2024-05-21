@@ -1,12 +1,12 @@
 {
-  "@type" : "edc:TransferState",
-  "edc:state" : "STARTED",
-  "@context" : {
-    "dct" : "https://purl.org/dc/terms/",
-    "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
-    "edc" : "https://w3id.org/edc/v0.0.1/ns/",
-    "dcat" : "https://www.w3.org/ns/dcat/",
-    "odrl" : "http://www.w3.org/ns/odrl/2/",
-    "dspace" : "https://w3id.org/dspace/v0.8/"
+  "@type": "TransferState",
+  "state": "STARTED",
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
   }
 }

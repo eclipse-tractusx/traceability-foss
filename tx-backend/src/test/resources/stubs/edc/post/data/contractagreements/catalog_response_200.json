@@ -44,7 +44,7 @@
           "@id": "2658a111-28b5-4623-8fbe-6320215a4c21",
           "@type": "dcat:DataService",
           "dct:terms": "connector",
-          "dct:endpointUrl": "https://trace-x-edc.dev.demo.catena-x.net/api/v1/dsp"
+          "dct:endpointUrl": "https://test.de/api/v1/dsp"
         }
       },
       {
@@ -56,7 +56,7 @@
           "@id": "2658a111-28b5-4623-8fbe-6320215a4c21",
           "@type": "dcat:DataService",
           "dct:terms": "connector",
-          "dct:endpointUrl": "https://trace-x-edc.dev.demo.catena-x.net/api/v1/dsp"
+          "dct:endpointUrl": "https://test.de/api/v1/dsp"
         }
       },
       {
@@ -68,7 +68,7 @@
           "@id": "2658a111-28b5-4623-8fbe-6320215a4c21",
           "@type": "dcat:DataService",
           "dct:terms": "connector",
-          "dct:endpointUrl": "https://trace-x-edc.dev.demo.catena-x.net/api/v1/dsp"
+          "dct:endpointUrl": "https://test.de/api/v1/dsp"
         }
       }
     ],
@@ -84,7 +84,7 @@
     "@id": "2658a111-28b5-4623-8fbe-6320215a4c21",
     "@type": "dcat:DataService",
     "dct:terms": "connector",
-    "dct:endpointUrl": "https://trace-x-edc.dev.demo.catena-x.net/api/v1/dsp"
+    "dct:endpointUrl": "https://test.de/api/v1/dsp"
   },
   "participantId": "BPNL00000003CNKC",
   "@context": {
