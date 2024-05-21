@@ -1,20 +1,20 @@
 {
-  "@type" : "edc:ContractNegotiation",
-  "@id" : "cfc7f1e9-fb04-499b-a444-f5f5d41dd789",
-  "edc:type" : "CONSUMER",
-  "edc:protocol" : "dataspace-protocol-http",
-  "edc:state" : "FINALIZED",
-  "edc:counterPartyId" : "BPNL00000003CNKC",
-  "edc:counterPartyAddress" : "https://test.de/api/v1/dsp",
-  "edc:callbackAddresses" : [],
-  "edc:createdAt" : 1712912218683,
-  "edc:contractAgreementId" : "NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky",
-  "@context" : {
-    "dct" : "https://purl.org/dc/terms/",
-    "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
-    "edc" : "https://w3id.org/edc/v0.0.1/ns/",
-    "dcat" : "https://www.w3.org/ns/dcat/",
-    "odrl" : "http://www.w3.org/ns/odrl/2/",
-    "dspace" : "https://w3id.org/dspace/v0.8/"
+  "@type": "ContractNegotiation",
+  "@id": "8afcbabd-71c2-44a6-ba52-72465517f376",
+  "type": "CONSUMER",
+  "protocol": "dataspace-protocol-http",
+  "state": "FINALIZED",
+  "counterPartyId": "BPNL00000003CNKC",
+  "counterPartyAddress": "https://trace-x-edc.dev.demo.catena-x.net/api/v1/dsp",
+  "callbackAddresses": [],
+  "createdAt": 1716296200620,
+  "contractAgreementId": "NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky",
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
   }
 }
