@@ -17,12 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {NotificationEditComponent} from '@page/notifications/detail/edit/notification-edit.component';
-import {NotificationDetailComponent} from '@page/notifications/detail/notification-detail.component';
-import {NotificationsComponent} from '@page/notifications/presentation/notifications.component';
-import {I18NEXT_NAMESPACE_RESOLVER} from 'angular-i18next';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from '@core/user/role.guard';
+import { NotificationEditComponent } from '@page/notifications/detail/edit/notification-edit.component';
+import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
+import { NotificationsComponent } from '@page/notifications/presentation/notifications.component';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
 const NOTIFICATIONS_ROUTING: Routes = [
@@ -37,7 +38,8 @@ const NOTIFICATIONS_ROUTING: Routes = [
     path: 'create',
     pathMatch: 'full',
     component: NotificationEditComponent,
-    data: { i18nextNamespaces: [ 'page.alert' ] },
+    data: { i18nextNamespaces: [ 'page.alert' ], roles: [ 'user' ] },
+    canActivate: [ RoleGuard ],
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
   {
@@ -49,9 +51,10 @@ const NOTIFICATIONS_ROUTING: Routes = [
   },
   {
     path: ':notificationId/edit',
+    canActivate: [ RoleGuard ],
     pathMatch: 'full',
     component: NotificationEditComponent,
-    data: { i18nextNamespaces: [ 'page.alert' ] },
+    data: { i18nextNamespaces: [ 'page.alert' ], roles: [ 'user' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];

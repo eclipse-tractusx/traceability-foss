@@ -76,7 +76,7 @@ table {
 .menu-column {
   position: sticky;
   right: 0;
-  background-color: white;
+  visibility: hidden;
   z-index: 1;
 }
 
@@ -321,5 +321,9 @@ tr.error {
 
 .table--notification--cell--notification--count {
   cursor: pointer;
+}
+
+.table--header--menu {
+  visibility: hidden;
 }
 
