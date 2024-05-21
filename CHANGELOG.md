@@ -27,6 +27,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #994 disable inputs of newly added bpn configurations
 - #995 disable creation and editof notifications for admin role
 - #991 make menu table headers unvisible to not block column and filters of tables
+- #978 Fixed edc policy creation with edc version 0.7.0
 
 ## [11.0.0 - 08.05.2024]
 ### Added
