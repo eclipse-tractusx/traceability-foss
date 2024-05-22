@@ -421,7 +421,7 @@
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Suche nach C-X ID, partInstanceId oder partNumber / BPN",
+        "placeholder" : "Suche nach ID, Produktnummer oder Business Partner Nummer (BPN)",
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     }
