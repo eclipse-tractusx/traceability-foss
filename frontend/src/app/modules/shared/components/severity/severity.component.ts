@@ -32,8 +32,8 @@ export class SeverityComponent {
 
   public getIconBySeverity(severity: Severity): string {
     const iconMap = new Map<Severity, string>([
-      [ Severity.MINOR, 'info' ],
-      [ Severity.MAJOR, 'warning' ],
+      [ Severity.MINOR, 'error_outline' ],
+      [ Severity.MAJOR, 'error' ],
       [ Severity.CRITICAL, 'error_outline' ],
       [ Severity.LIFE_THREATENING, 'error' ],
     ]);

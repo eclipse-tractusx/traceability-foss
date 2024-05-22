@@ -78,7 +78,7 @@ SPDX-License-Identifier: Apache-2.0
       <mat-expansion-panel-header>
         <h3 class="flex items-center">
           <mat-icon>find_in_page</mat-icon>
-          {{ 'pageTitle.alerts' | i18n }}
+          Top 5 {{ 'pageTitle.alerts' | i18n }}
         </h3>
       </mat-expansion-panel-header>
       <mat-tab-group
@@ -99,8 +99,8 @@ SPDX-License-Identifier: Apache-2.0
 
                   <app-button
                     [color]="'primary'"
-                    [routerLink]="[alertLink]"
-                    [queryParams]="alertParams"
+                    [routerLink]="[notificationsLink]"
+                    [queryParams]="queuedAndRequestedNotificationsTabParam"
                     [relativeTo]="null"
                     [isDisabled]="((investigationsMetricData[1]?.value | async) + (alertsMetricData[1]?.value | async)) < 1"
                   >
@@ -142,8 +142,8 @@ SPDX-License-Identifier: Apache-2.0
 
                   <app-button
                     [color]="'primary'"
-                    [routerLink]="[alertLink]"
-                    [queryParams]="alertParams"
+                    [routerLink]="[notificationsLink]"
+                    [queryParams]="receivedNotificationsTabParam"
                     [relativeTo]="null"
                     [isDisabled]="((investigationsMetricData[0]?.value | async) + (alertsMetricData[0]?.value | async)) < 1"
                   >

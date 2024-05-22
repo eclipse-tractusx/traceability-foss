@@ -30,6 +30,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #991 make menu table headers unvisible to not block column and filters of tables
 - #915 Updated user manual documentation (chapters and screenshots)
 - #998 fixed bug where global search bar could search for BPN and adjusted placeholder label to reflect column names
+- #913 Changed severity icons
 
 ## [11.0.0 - 08.05.2024]
 ### Added
