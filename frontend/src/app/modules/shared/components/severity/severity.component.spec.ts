@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Severity } from '@shared/model/severity.model';
 import { SharedModule } from '@shared/shared.module';
 import { screen } from '@testing-library/angular';
@@ -37,12 +36,12 @@ describe('SeverityComponent', () => {
 
   it('should render correct Minor icon', async () => {
     await renderSeverity(Severity.MINOR);
-    expect(screen.getByText('info')).toBeInTheDocument();
+    expect(screen.getByText('error_outline')).toBeInTheDocument();
   });
 
   it('should render correct Major icon', async () => {
     await renderSeverity(Severity.MAJOR);
-    expect(screen.getByText('warning')).toBeInTheDocument();
+    expect(screen.getByText('error')).toBeInTheDocument();
   });
 
   it('should render correct Critical icon', async () => {

@@ -64,6 +64,7 @@ export class TableSettingsComponent {
 
     this.selectAllSelected = this.dialogColumns.length === this.tableColumns.length;
 
+
   }
 
   save() {
@@ -107,9 +108,9 @@ export class TableSettingsComponent {
   }
 
   handleListItemClick(event: MouseEvent, item: string) {
-    let element = event.target as HTMLElement;
-
-    if (element.tagName !== 'INPUT') {
+    ;
+    let element = event.currentTarget as HTMLElement;
+    if ((event.target as HTMLElement).tagName !== 'INPUT') {
       this.selectedColumn = item;
       element.classList.toggle('selected-item');
     }

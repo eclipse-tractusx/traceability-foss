@@ -237,6 +237,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     for (let component of this.partsTableComponents) {
       tableData[component.tableType + '_PAGE'] = component.pageIndex;
     }
+    tableData['isAsBuilt'] = $event?.partId !== undefined;
     this.router.navigate([ `parts/${ $event?.id }` ], { queryParams: tableData });
   }
 

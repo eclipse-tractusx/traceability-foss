@@ -23,7 +23,7 @@ import assets.importpoc.ConstraintsResponse;
 import assets.importpoc.PermissionResponse;
 import assets.importpoc.PolicyResponse;
 import lombok.experimental.UtilityClass;
-import org.eclipse.tractusx.irs.edc.client.asset.model.OdrlContext;
+import org.eclipse.tractusx.irs.edc.client.asset.model.Context;
 import org.eclipse.tractusx.irs.edc.client.contract.model.EdcOperator;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicy;
@@ -38,19 +38,27 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @UtilityClass
 public class PolicyMapper {
     public static EdcCreatePolicyDefinitionRequest mapToEdcPolicyRequest(PolicyResponse policy) {
-        OdrlContext odrlContext = OdrlContext.builder().odrl("http://www.w3.org/ns/odrl/2/").build();
+        // https://github.com/eclipse-tractusx/traceability-foss/issues/978 context needs to be updated with the required ones
+        Context odrlContext = Context.builder()
+                .odrl("http://www.w3.org/ns/odrl/2/")
+                .edc("https://w3id.org/edc/v0.0.1/ns/")
+                .vocab("https://w3id.org/edc/v0.0.1/ns/")
+                .cxPolicy("https://w3id.org/catenax/policy/")
+                .build();
+
         EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(mapToPermissions(policy.permissions())).type("odrl:Set").build();
         return EdcCreatePolicyDefinitionRequest.builder()
                 .policyDefinitionId(policy.policyId())
                 .policy(edcPolicy)
-                .odrlContext(odrlContext)
+                .context(odrlContext)
                 .type("odrl:Set")
                 .build();
     }
 
     private static List<EdcPolicyPermission> mapToPermissions(List<PermissionResponse> permissions) {
         return permissions.stream().map(permission -> EdcPolicyPermission.builder()
-                .action(permission.action().name())
+                // https://github.com/eclipse-tractusx/traceability-foss/issues/978 here we need to make sure that the USE is lowercase in the object.
+                .action(permission.action().name().toLowerCase())
                 .edcPolicyPermissionConstraints(mapToConstraint(permission.constraints()))
                 .build()
         ).toList();

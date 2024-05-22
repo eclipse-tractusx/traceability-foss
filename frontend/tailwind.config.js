@@ -151,13 +151,13 @@ module.exports = {
 
       qualityTypeOk: '#3db014',
       qualityTypeMinor: '#ffd74a',
-      qualityTypeMajor: '#c67700',
-      qualityTypeCritical: '#981b5e',
+      qualityTypeMajor: '#ffd74a',
+      qualityTypeCritical: '#E5231D',
       qualityTypeLifeThreatening: '#E5231D',
 
       severityMinor: '#ffd74a',
-      severityMajor: '#c67700',
-      severityCritical: '#981b5e',
+      severityMajor: '#ffd74a',
+      severityCritical: '#E5231D',
       severityLifeThreatening: '#E5231D',
 
       semanticDataModelSerialPart: '#3db014',
