@@ -67,15 +67,11 @@ Lists the five newest quality investigations and alerts to get an overview of th
 
 #### Parts
 
-Navigates to the own manufactured parts and batches list view.
+Navigates to the parts and batches list view.
 
-#### Other parts
+#### Quality topics
 
-Navigates to the supplier and customer parts and batches list view.
-
-#### Inbox
-
-Navigates to the inbox (sent/received) quality notifications.
+Navigates to the inbox of (sent/received) quality notifications.
 
 #### About
 
@@ -147,20 +143,21 @@ Supported languages:
 
 ### Parts
 
-List view of the own manufactured (asBuilt) or planned (asPlanned) parts and batches.
-You can adjust the view of tables by activating/deactivating the tables.
+List view of the own manufactured (asBuilt) or planned (asPlanned) parts and batches as well as supplier/customer parts.
+You can adjust the view of tables by clicking on the fullscreen icon to maximize or minimize the view to the half of the full width.
 
 ![parts-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/parts-list-view.png)
 
 #### Parts table
 
 A table view split into the different BOM lifecycle phases (AsBuilt / AsPlanned) of a part. By default, both tables are displayed.
-Adjustment of the view of tables can be done by activating/deactivating the tables via the buttons „AS BUILT“ and „AS PLANNED“.
+Adjustment of the view of tables can be done by activating/deactivating the fullscreen width of the tables.
 
 Between the views, there is a slider to adjust the view to make either the left or the right table more visible.
-Alternatively, you can use the view toggle to adjust the visibility of the tables.
 
 Both tables can be sorted, filtered, and searched.
+
+Pre-filtration buttons can be toggled to only show own/supplier/customer parts in the table.
 The global search bar at the top returns part results from both tables.
 
 Choosing the filter input field for any column and typing in any character will show filter suggestions.
@@ -181,13 +178,16 @@ Gives detailed information on the assets registered in the Digital Twin Registry
 This includes data based on the aspect models of use case traceability: AsPlanned, SerialPart, Batch.
 Parts that have a quality alert are highlighted yellow.
 
-#### Parts selection -> Create quality alert
+#### Create quality notification from parts
 
 Select one or multiple child components/parts/batches that are built into your part.
-Selection will enable you to create a quality alert (notification) to your customers. For this action, a button appears at the top right of the table as soon as an asset has been selected.
-The quality alert will be added to a queue (queued & requested inbox) and not directly sent to the customers.
+Selection will enable you to create a quality notification to customers (alert) or to suppliers (investigation) . For this action, click on the corresponding icon on the top left of a parts table.
+The quality notification will be added to a queue (quality notifications) and not directly sent to the customer/supplier.
+It is also possible to create a quality notification without the selection of parts.
 
 Once the quality alert is created you will get a pop-up and can directly navigate to the inbox for further action.
+
+Parts which exist in a quality notification will be highlighted as a yellow colored row in the parts table.
 
 #### Parts selection -> Publish assets
 
@@ -231,7 +231,7 @@ If you want to discard your changes, press the "ESC" - button, click anywhere el
 
 The settings will be stored in the local storage of the browser and will be persisted until they get deleted.
 
-#### Part details
+#### Own Part details
 
 To open the detail view, click on the three dots icon of the desired item and select "View details".
 More detailed information on the asset is listed as well as a part tree that visually shows the parts relations.
@@ -283,81 +283,9 @@ functionality is disabled, a tooltip will provide information explaining the rea
 By clicking on the "publish" icon, you can publish the currently opened part from the detailed view. If the icon is disabled,
 a tooltip will provide information explaining the reason. You can trigger the tooltip by hovering above the button
 
-### Other parts
-
-List view of the supplied/delivered parts and batches (Supplier parts / Customer parts).
-You can adjust the view of tables by activating/deactivating the tables.
-
-![other-parts-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/other-parts-list-view.png)
-
-#### Other parts table
-
-A table view split into the different BOM lifecycle phases (AsBuilt / AsPlanned) of a part. By default, both tables are displayed.
-Adjustment of the view of tables can be done by activating/deactivating the tables via the buttons „AS BUILT“ and „AS PLANNED“.
-
-Between the views, there is a slider to adjust the view to make either the left or the right table more visible.
-Alternatively, you can use the view toggle to adjust the visibility of the tables.
-
-Additionally, it’s possible to switch between tabs above each of the table views to display either supplier or customer parts.
-
-Both tables can be sorted, filtered and searched. The global search bar at the top returns other part results from both tables.
-
-Choosing the filter input field for any column and typing in any character will show filter suggestions.
-
-![other-parts-autosuggestion-filtering](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/other-parts-autosuggestion-filtering.png)
-
-#### AsBuilt lifecycle
-
-List view of other parts with AsBuilt lifecycle.
-Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for all connected companies.
-This includes data based on the aspect models of use case traceability: AsBuilt,
-SerialPart, Batch.
-Parts that have a quality notification are highlighted yellow.
-
-#### AsPlanned lifecycle
-
-List view of other parts with AsPlanned lifecycle.
-Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for all connected companies.
-This includes data based on the aspect models of use case traceability: AsPlanned,
-SerialPart, Batch.
-Parts that have a quality notification are highlighted yellow.
-
-#### Table column settings
-
-On the right upper site of a table there is a settings icon in which you can set the table columns to a desired view.
-With a click on it a dialog opens where you can change the settings of the corresponding table:
-
-![table-settings-dialog](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/table-settings-dialog.png)
-
-Hide/show table columns by clicking on the checkbox or the column name.
-It is possible to hide/show all columns by clicking on the "All" - checkbox.
-
-The reset icon resets the table columns to its default view.
-
-Reorder the table columns by selecting a list item (click on the right of the column name).
-By selecting the column, you can reorder it with the up and down arrow icons to move it in the front or back of other columns.
-
-Apply your changes by clicking on the "Save" - button.
-If you want to discard your changes, press the "ESC" - button, click anywhere else except in the dialog or close it explicitly with the close icon on the upper right of the dialog.
-
-The settings will be stored in the local storage of the browser and will be persisted until they get deleted.
-
-#### Supplier parts
-
-List view of supplied parts and batches.
-Supplier parts that have a quality investigation are highlighted yellow.
-
-##### Supplier parts select / Quality investigation
-
-Select one or multiple supplier parts.
-Selection will enable you to create a quality investigation (notification) to your supplier.
-The quality investigation will be added to a queue (queued & requested inbox) and not directly be sent to the supplier.
-
-Once the quality investigation is created you will get a pop-up and can directly navigate to the inbox for further action.
-
 #### Supplier part details
 
-To open the detail view, click on the three dots icon of the desired item and select "View details".
+To open the detail view, click on the three dots icon of the desired item from the parts table and select "View details".
 More detailed information on the asset is listed.
 
 ![supplier-parts-list-detailed-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/supplier-parts-list-detailed-view.png)
@@ -390,17 +318,17 @@ More detailed information on the asset is listed.
 ##### Overview
 
 General production information.
-Information on the quality status of the supplier part/batch.
+Information on the quality status of the customer part/batch.
 
 ##### Manufacturer data
 
-Detailed information on the IDs for the supplier part/batch.
+Detailed information on the IDs for the customer part/batch.
 
 ##### Customer data
 
 Information about the identifiers at the customer for the respective part/batch.
 
-### Inbox
+### Quality notifications
 
 Inbox for received/sent quality notifications.
 

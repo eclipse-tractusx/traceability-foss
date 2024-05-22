@@ -455,8 +455,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_dashboard">Dashboard</a></li>
 <li><a href="#_parts">Parts</a></li>
-<li><a href="#_other_parts">Other parts</a></li>
-<li><a href="#_inbox">Inbox</a></li>
+<li><a href="#_quality_topics">Quality topics</a></li>
 <li><a href="#_about">About</a></li>
 <li><a href="#_help">Help</a></li>
 <li><a href="#_go_to_cx_portal">Go to CX Portal</a></li>
@@ -470,25 +469,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_parts_table">Parts table</a></li>
 <li><a href="#_asbuilt_lifecycle_parts">AsBuilt lifecycle parts</a></li>
 <li><a href="#_asplanned_lifecycle_parts">AsPlanned lifecycle parts</a></li>
-<li><a href="#_parts_selection_create_quality_alert">Parts selection &#8594; Create quality alert</a></li>
+<li><a href="#_create_quality_notification_from_parts">Create quality notification from parts</a></li>
 <li><a href="#_parts_selection_publish_assets">Parts selection &#8594; Publish assets</a></li>
 <li><a href="#_table_column_settings">Table column settings</a></li>
-<li><a href="#_part_details">Part details</a></li>
-</ul>
-</li>
-<li><a href="#_other_parts_2">Other parts</a>
-<ul class="sectlevel2">
-<li><a href="#_other_parts_table">Other parts table</a></li>
-<li><a href="#_asbuilt_lifecycle">AsBuilt lifecycle</a></li>
-<li><a href="#_asplanned_lifecycle">AsPlanned lifecycle</a></li>
-<li><a href="#_table_column_settings_2">Table column settings</a></li>
-<li><a href="#_supplier_parts">Supplier parts</a></li>
+<li><a href="#_own_part_details">Own Part details</a></li>
 <li><a href="#_supplier_part_details">Supplier part details</a></li>
 <li><a href="#_customer_parts">Customer parts</a></li>
 <li><a href="#_customer_part_details">Customer part details</a></li>
 </ul>
 </li>
-<li><a href="#_inbox_2">Inbox</a>
+<li><a href="#_quality_notifications">Quality notifications</a>
 <ul class="sectlevel2">
 <li><a href="#_create_a_new_quality_notification">Create a new quality notification</a></li>
 <li><a href="#_table_actions">Table Actions</a></li>
@@ -638,19 +628,13 @@ Lists the five newest quality investigations and alerts to get an overview of th
 <div class="sect2">
 <h3 id="_parts">Parts</h3>
 <div class="paragraph">
-<p>Navigates to the own manufactured parts and batches list view.</p>
+<p>Navigates to the parts and batches list view.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_other_parts">Other parts</h3>
+<h3 id="_quality_topics">Quality topics</h3>
 <div class="paragraph">
-<p>Navigates to the supplier and customer parts and batches list view.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_inbox">Inbox</h3>
-<div class="paragraph">
-<p>Navigates to the inbox (sent/received) quality notifications.</p>
+<p>Navigates to the inbox of (sent/received) quality notifications.</p>
 </div>
 </div>
 <div class="sect2">
@@ -769,8 +753,8 @@ Supported languages:</p>
 <h2 id="_parts_2">Parts</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>List view of the own manufactured (asBuilt) or planned (asPlanned) parts and batches.
-You can adjust the view of tables by activating/deactivating the tables.</p>
+<p>List view of the own manufactured (asBuilt) or planned (asPlanned) parts and batches as well as supplier/customer parts.
+You can adjust the view of tables by clicking on the fullscreen icon to maximize or minimize the view to the half of the full width.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -781,14 +765,16 @@ You can adjust the view of tables by activating/deactivating the tables.</p>
 <h3 id="_parts_table">Parts table</h3>
 <div class="paragraph">
 <p>A table view split into the different BOM lifecycle phases (AsBuilt / AsPlanned) of a part. By default, both tables are displayed.
-Adjustment of the view of tables can be done by activating/deactivating the tables via the buttons „AS BUILT“ and „AS PLANNED“.</p>
+Adjustment of the view of tables can be done by activating/deactivating the fullscreen width of the tables.</p>
 </div>
 <div class="paragraph">
-<p>Between the views, there is a slider to adjust the view to make either the left or the right table more visible.
-Alternatively, you can use the view toggle to adjust the visibility of the tables.</p>
+<p>Between the views, there is a slider to adjust the view to make either the left or the right table more visible.</p>
 </div>
 <div class="paragraph">
-<p>Both tables can be sorted, filtered, and searched.
+<p>Both tables can be sorted, filtered, and searched.</p>
+</div>
+<div class="paragraph">
+<p>Pre-filtration buttons can be toggled to only show own/supplier/customer parts in the table.
 The global search bar at the top returns part results from both tables.</p>
 </div>
 <div class="paragraph">
@@ -819,14 +805,18 @@ Parts that have a quality alert are highlighted yellow.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_parts_selection_create_quality_alert">Parts selection &#8594; Create quality alert</h3>
+<h3 id="_create_quality_notification_from_parts">Create quality notification from parts</h3>
 <div class="paragraph">
 <p>Select one or multiple child components/parts/batches that are built into your part.
-Selection will enable you to create a quality alert (notification) to your customers. For this action, a button appears at the top right of the table as soon as an asset has been selected.
-The quality alert will be added to a queue (queued &amp; requested inbox) and not directly sent to the customers.</p>
+Selection will enable you to create a quality notification to customers (alert) or to suppliers (investigation) . For this action, click on the corresponding icon on the top left of a parts table.
+The quality notification will be added to a queue (quality notifications) and not directly sent to the customer/supplier.
+It is also possible to create a quality notification without the selection of parts.</p>
 </div>
 <div class="paragraph">
 <p>Once the quality alert is created you will get a pop-up and can directly navigate to the inbox for further action.</p>
+</div>
+<div class="paragraph">
+<p>Parts which exist in a quality notification will be highlighted as a yellow colored row in the parts table.</p>
 </div>
 </div>
 <div class="sect2">
@@ -915,7 +905,7 @@ If you want to discard your changes, press the "ESC" - button, click anywhere el
 </div>
 </div>
 <div class="sect2">
-<h3 id="_part_details">Part details</h3>
+<h3 id="_own_part_details">Own Part details</h3>
 <div class="paragraph">
 <p>To open the detail view, click on the three dots icon of the desired item and select "View details".
 More detailed information on the asset is listed as well as a part tree that visually shows the parts relations.</p>
@@ -989,117 +979,10 @@ a tooltip will provide information explaining the reason. You can trigger the to
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_other_parts_2">Other parts</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>List view of the supplied/delivered parts and batches (Supplier parts / Customer parts).
-You can adjust the view of tables by activating/deactivating the tables.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/other-parts-list-view.png" alt="other parts list view">
-</div>
-</div>
-<div class="sect2">
-<h3 id="_other_parts_table">Other parts table</h3>
-<div class="paragraph">
-<p>A table view split into the different BOM lifecycle phases (AsBuilt / AsPlanned) of a part. By default, both tables are displayed.
-Adjustment of the view of tables can be done by activating/deactivating the tables via the buttons „AS BUILT“ and „AS PLANNED“.</p>
-</div>
-<div class="paragraph">
-<p>Between the views, there is a slider to adjust the view to make either the left or the right table more visible.
-Alternatively, you can use the view toggle to adjust the visibility of the tables.</p>
-</div>
-<div class="paragraph">
-<p>Additionally, it&#8217;s possible to switch between tabs above each of the table views to display either supplier or customer parts.</p>
-</div>
-<div class="paragraph">
-<p>Both tables can be sorted, filtered and searched. The global search bar at the top returns other part results from both tables.</p>
-</div>
-<div class="paragraph">
-<p>Choosing the filter input field for any column and typing in any character will show filter suggestions.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/other-parts-autosuggestion-filtering.png" alt="other parts autosuggestion filtering">
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_asbuilt_lifecycle">AsBuilt lifecycle</h3>
-<div class="paragraph">
-<p>List view of other parts with AsBuilt lifecycle.
-Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for all connected companies.
-This includes data based on the aspect models of use case traceability: AsBuilt,
-SerialPart, Batch.
-Parts that have a quality notification are highlighted yellow.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_asplanned_lifecycle">AsPlanned lifecycle</h3>
-<div class="paragraph">
-<p>List view of other parts with AsPlanned lifecycle.
-Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for all connected companies.
-This includes data based on the aspect models of use case traceability: AsPlanned,
-SerialPart, Batch.
-Parts that have a quality notification are highlighted yellow.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_table_column_settings_2">Table column settings</h3>
-<div class="paragraph">
-<p>On the right upper site of a table there is a settings icon in which you can set the table columns to a desired view.
-With a click on it a dialog opens where you can change the settings of the corresponding table:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/table-settings-dialog.png" alt="table settings dialog">
-</div>
-</div>
-<div class="paragraph">
-<p>Hide/show table columns by clicking on the checkbox or the column name.
-It is possible to hide/show all columns by clicking on the "All" - checkbox.</p>
-</div>
-<div class="paragraph">
-<p>The reset icon resets the table columns to its default view.</p>
-</div>
-<div class="paragraph">
-<p>Reorder the table columns by selecting a list item (click on the right of the column name).
-By selecting the column, you can reorder it with the up and down arrow icons to move it in the front or back of other columns.</p>
-</div>
-<div class="paragraph">
-<p>Apply your changes by clicking on the "Save" - button.
-If you want to discard your changes, press the "ESC" - button, click anywhere else except in the dialog or close it explicitly with the close icon on the upper right of the dialog.</p>
-</div>
-<div class="paragraph">
-<p>The settings will be stored in the local storage of the browser and will be persisted until they get deleted.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_supplier_parts">Supplier parts</h3>
-<div class="paragraph">
-<p>List view of supplied parts and batches.
-Supplier parts that have a quality investigation are highlighted yellow.</p>
-</div>
-<div class="sect3">
-<h4 id="_supplier_parts_select_quality_investigation">Supplier parts select / Quality investigation</h4>
-<div class="paragraph">
-<p>Select one or multiple supplier parts.
-Selection will enable you to create a quality investigation (notification) to your supplier.
-The quality investigation will be added to a queue (queued &amp; requested inbox) and not directly be sent to the supplier.</p>
-</div>
-<div class="paragraph">
-<p>Once the quality investigation is created you will get a pop-up and can directly navigate to the inbox for further action.</p>
-</div>
-</div>
-</div>
 <div class="sect2">
 <h3 id="_supplier_part_details">Supplier part details</h3>
 <div class="paragraph">
-<p>To open the detail view, click on the three dots icon of the desired item and select "View details".
+<p>To open the detail view, click on the three dots icon of the desired item from the parts table and select "View details".
 More detailed information on the asset is listed.</p>
 </div>
 <div class="imageblock">
@@ -1149,13 +1032,13 @@ More detailed information on the asset is listed.</p>
 <h4 id="_overview_3">Overview</h4>
 <div class="paragraph">
 <p>General production information.
-Information on the quality status of the supplier part/batch.</p>
+Information on the quality status of the customer part/batch.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_manufacturer_data_3">Manufacturer data</h4>
 <div class="paragraph">
-<p>Detailed information on the IDs for the supplier part/batch.</p>
+<p>Detailed information on the IDs for the customer part/batch.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1168,7 +1051,7 @@ Information on the quality status of the supplier part/batch.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_inbox_2">Inbox</h2>
+<h2 id="_quality_notifications">Quality notifications</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Inbox for received/sent quality notifications.</p>
@@ -1399,7 +1282,7 @@ One exception to this rule: the transition from status SENT to status RECEIVED i
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-05-15 12:57:38 UTC
+Last updated 2024-05-22 12:09:59 UTC
 </div>
 </div>
 </body>
