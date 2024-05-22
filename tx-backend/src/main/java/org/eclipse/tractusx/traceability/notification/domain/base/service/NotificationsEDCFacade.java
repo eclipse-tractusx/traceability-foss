@@ -84,10 +84,10 @@ public class NotificationsEDCFacade {
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
     private final PolicyCheckerService policyCheckerService;
 
-    private static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "cx-taxo:ReceiveQualityInvestigationNotification";
-    private static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "cx-taxo:UpdateQualityInvestigationNotification";
-    private static final String CX_TAXO_QUALITY_ALERT_RECEIVE = "cx-taxo:ReceiveQualityAlertNotification";
-    private static final String CX_TAXO_QUALITY_ALERT_UPDATE = "cx-taxo:UpdateQualityAlertNotification";
+    private static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
+    private static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
+    private static final String CX_TAXO_QUALITY_ALERT_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification";
+    private static final String CX_TAXO_QUALITY_ALERT_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityAlertNotification";
 
     public void startEdcTransfer(
             final NotificationMessage notification,
@@ -146,7 +146,7 @@ public class NotificationsEDCFacade {
                                             // https://github.com/eclipse-tractusx/traceability-foss/issues/978
                                             // Probably:
                                             // leftOperand = 'http://purl.org/dc/terms/type'.'@id'
-                                            // rightOperand = cx-taxo:ReceiveQualityAlertNotification (make sure to check the input for the correct one Receive/Update and Alert or Investigation
+                                            // rightOperand = https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification (make sure to check the input for the correct one Receive/Update and Alert or Investigation
                                             // The types are all in the ticket documented
                                             .filter(
                                                     List.of(new Criterion("'http://purl.org/dc/terms/type'.'@id'", "=", taxoValue))
