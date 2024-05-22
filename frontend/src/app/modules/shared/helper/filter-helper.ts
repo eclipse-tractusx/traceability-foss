@@ -200,6 +200,7 @@ export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean
       idShort: formValues,
       customerPartId: formValues,
       manufacturerPartId: formValues,
+      businessPartner: formValues,
     } as AssetAsBuiltFilter;
   } else {
     filter = {
@@ -207,6 +208,7 @@ export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean
       idShort: formValues,
       semanticModelId: formValues,
       manufacturerPartId: formValues,
+      businessPartner: formValues,
     } as AssetAsPlannedFilter;
   }
 

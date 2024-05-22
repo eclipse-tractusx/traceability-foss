@@ -45,12 +45,12 @@ describe('QualityTypeComponent', () => {
 
   it('should render correct Minor icon', async () => {
     await renderQualityType(QualityType.Minor);
-    expect(screen.getByText('info')).toBeInTheDocument();
+    expect(screen.getByText('error_outline')).toBeInTheDocument();
   });
 
   it('should render correct Major icon', async () => {
     await renderQualityType(QualityType.Major);
-    expect(screen.getByText('warning')).toBeInTheDocument();
+    expect(screen.getByText('error')).toBeInTheDocument();
   });
 
   it('should render correct Critical icon', async () => {

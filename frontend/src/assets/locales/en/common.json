@@ -419,7 +419,7 @@
   "parts": {
     "input": {
       "global-search": {
-        "placeholder": "Search by entering C-X ID, partInstanceId or partNumber / BPN",
+        "placeholder" : "Search by entering ID, part ID or Business partner number (BPN)",
         "toastInfo": "Any local filters on table level were removed."
       }
     }
