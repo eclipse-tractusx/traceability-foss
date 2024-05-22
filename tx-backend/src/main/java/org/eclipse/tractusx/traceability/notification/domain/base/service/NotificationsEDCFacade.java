@@ -61,7 +61,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_NOTIFICATION_TEMPLATE;
 
 @Slf4j
@@ -85,10 +84,10 @@ public class NotificationsEDCFacade {
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
     private final PolicyCheckerService policyCheckerService;
 
-    public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
-    public static final String ASSET_VALUE_QUALITY_ALERT = "qualityalert";
-    private static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
-    private static final String ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE = "receive";
+    private static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
+    private static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
+    private static final String CX_TAXO_QUALITY_ALERT_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification";
+    private static final String CX_TAXO_QUALITY_ALERT_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityAlertNotification";
 
     public void startEdcTransfer(
             final NotificationMessage notification,
@@ -126,22 +125,31 @@ public class NotificationsEDCFacade {
 
     private CatalogItem getCatalogItem(final NotificationMessage notification, final String receiverEdcUrl) {
         try {
-            final String propertyNotificationTypeValue = NotificationType.ALERT.equals(notification.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
-            final String propertyMethodValue = Boolean.TRUE.equals(notification.getNotificationStatus().equals(NotificationStatus.SENT)) ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
+
+            String taxoValue = "";
+            if (NotificationType.ALERT.equals(notification.getType()) && notification.getNotificationStatus().equals(NotificationStatus.SENT)) {
+                taxoValue = CX_TAXO_QUALITY_ALERT_RECEIVE;
+            } else if (!NotificationType.ALERT.equals(notification.getType()) && notification.getNotificationStatus().equals(NotificationStatus.SENT)) {
+                taxoValue = CX_TAXO_QUALITY_INVESTIGATION_RECEIVE;
+            } else if (NotificationType.ALERT.equals(notification.getType())) {
+                taxoValue = CX_TAXO_QUALITY_ALERT_UPDATE;
+            } else {
+                taxoValue = CX_TAXO_QUALITY_INVESTIGATION_UPDATE;
+            }
+
             return edcCatalogFacade.fetchCatalogItems(
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
                                     .counterPartyAddress(receiverEdcUrl + edcProperties.getIdsPath())
                                     .counterPartyId(notification.getSendTo())
                                     .querySpec(QuerySpec.Builder.newInstance()
-                                            // TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978
+                                            // https://github.com/eclipse-tractusx/traceability-foss/issues/978
                                             // Probably:
-                                            // leftOperand = http://purl.org/dc/terms/type'.'@id'
-                                            // rightOperand = cx-taxo:ReceiveQualityAlertNotification (make sure to check the input for the correct one Receive/Update and Alert or Investigation
+                                            // leftOperand = 'http://purl.org/dc/terms/type'.'@id'
+                                            // rightOperand = https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification (make sure to check the input for the correct one Receive/Update and Alert or Investigation
                                             // The types are all in the ticket documented
                                             .filter(
-                                                    List.of(new Criterion(NAMESPACE_EDC + "notificationtype", "=", propertyNotificationTypeValue),
-                                                            new Criterion(NAMESPACE_EDC + "notificationmethod", "=", propertyMethodValue))
+                                                    List.of(new Criterion("'http://purl.org/dc/terms/type'.'@id'", "=", taxoValue))
                                             )
                                             .build())
                                     .build()
