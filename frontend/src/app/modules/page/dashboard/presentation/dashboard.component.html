@@ -102,10 +102,11 @@ SPDX-License-Identifier: Apache-2.0
                     [routerLink]="[alertLink]"
                     [queryParams]="alertParams"
                     [relativeTo]="null"
+                    [isDisabled]="((investigationsMetricData[1]?.value | async) + (alertsMetricData[1]?.value | async)) < 1"
                   >
                     <div class="flex justify-between items-center">
                       <mat-icon class="mr-2">remove_red_eye</mat-icon>
-                      {{ 'commonAlert.viewAll' | i18n }}
+                      {{ 'commonAlert.viewAll' | i18n }} {{ '(' + ((investigationsMetricData[1]?.value | async) + (alertsMetricData[1]?.value | async)) + ')' }}
                     </div>
                   </app-button>
                 </div>
@@ -144,10 +145,11 @@ SPDX-License-Identifier: Apache-2.0
                     [routerLink]="[alertLink]"
                     [queryParams]="alertParams"
                     [relativeTo]="null"
+                    [isDisabled]="((investigationsMetricData[0]?.value | async) + (alertsMetricData[0]?.value | async)) < 1"
                   >
                     <div class="flex justify-between items-center">
                       <mat-icon class="mr-2">remove_red_eye</mat-icon>
-                      {{ 'commonAlert.viewAll' | i18n }}
+                      {{ 'commonAlert.viewAll' | i18n }} {{ '(' + ((investigationsMetricData[0]?.value | async) + (alertsMetricData[0]?.value | async)) + ')' }}
                     </div>
                   </app-button>
                 </div>
