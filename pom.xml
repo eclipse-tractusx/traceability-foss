@@ -51,7 +51,7 @@ SPDX-License-Identifier: Apache-2.0
         <checkstyle-plugin.version>3.3.1</checkstyle-plugin.version>
         <findsecbugs-plugin.version>1.13.0</findsecbugs-plugin.version>
         <commons-compress.version>1.26.1</commons-compress.version>
-        <install-plugin.version>3.1.1</install-plugin.version>
+        <install-plugin.version>3.1.2</install-plugin.version>
         <jacoco-plugin.version>0.8.11</jacoco-plugin.version>
         <jar-plugin.version>3.3.0</jar-plugin.version>
         <owasp-plugin.version>9.0.9</owasp-plugin.version>
