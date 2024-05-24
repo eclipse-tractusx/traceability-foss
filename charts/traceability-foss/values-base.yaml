@@ -141,7 +141,7 @@ backend:
     url: 'CHANGE_ME'
     leftOperand: 'cx-policy:FrameworkAgreement'
     operatorType: 'eq'
-    rightOperand: 'traceability:1.0'
+    rightOperand: 'traceability:3.0'
     validUntil: '2024-09-30T23:59:59.99Z'
     leftOperandSecond: 'cx-policy:UsagePurpose'
     operatorTypeSecond: 'eq'
