@@ -42,6 +42,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -51,6 +52,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
+
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
 @EnableWebMvc
@@ -59,7 +62,7 @@ import java.util.UUID;
 @Slf4j
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 @RequiredArgsConstructor
-
+@Profile(NOT_INTEGRATION_TESTS)
 public class PolicyStartUpConfig {
 
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
@@ -105,7 +108,8 @@ public class PolicyStartUpConfig {
     private List<AcceptedPolicy> createOwnAcceptedPolicies(OffsetDateTime offsetDateTime) {
         List<Constraint> andConstraintList = new ArrayList<>();
         List<Constraint> orConstraintList = new ArrayList<>();
-        orConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
+        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperandSecond(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorTypeSecond())), traceabilityProperties.getRightOperandSecond()));
 
         List<Permission> permissions = List.of(
                 new Permission(

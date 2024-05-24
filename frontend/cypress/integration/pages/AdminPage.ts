@@ -6,7 +6,6 @@
 }
 
 export class AdminPage {
-
   static visit() {
     cy.get('[data-testid="user-menu"]').click();
     cy.get('[data-testid="user-menu-administration-button"]').click();

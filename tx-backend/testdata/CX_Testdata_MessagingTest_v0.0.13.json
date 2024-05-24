@@ -1,26 +1,34 @@
 {
-  "policies" : {
-    "ID 3.1 Trace": {
+  "policies": {
+    "traceability-core": {
       "@context": {
         "odrl": "http://www.w3.org/ns/odrl/2/"
       },
       "@type": "PolicyDefinitionRequestDto",
-      "@id": "id-3.1-trace",
+      "@id": "traceability-core",
       "policy": {
         "@type": "odrl:Set",
         "odrl:permission": [
           {
-            "odrl:action": "USE",
+            "odrl:action" : "use",
             "odrl:constraint": {
               "@type": "AtomicConstraint",
-              "odrl:or": [
+              "odrl:and": [
                 {
                   "@type": "Constraint",
-                  "odrl:leftOperand": "PURPOSE",
+                  "odrl:leftOperand": "cx-policy:FrameworkAgreement",
                   "odrl:operator": {
                     "@id": "odrl:eq"
                   },
-                  "odrl:rightOperand": "ID 3.1 Trace"
+                  "odrl:rightOperand": "traceability:1.0"
+                },
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "cx-policy:UsagePurpose",
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "cx.core.industrycore:1"
                 }
               ]
             }

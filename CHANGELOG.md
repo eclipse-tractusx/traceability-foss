@@ -7,17 +7,33 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
-### Changed
-- #837 Moved data import and IrsResponseMappers under same interface and shared methods
+
+## [11.0.1 - 22.05.2024]
+
+### Added
+- #859 added autocomplete on subset of assets in notification creation/edit view
+- #997 added publish assets state check to parts table
+- #XXX added border to dashboard notifications table and view all count
 
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
 - #XXX Fixed some sonar issues in frontend application
+- #958 Fixed bug where available parts filter was reset when list of affected parts are zero in notification creation
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
-
-### Removed
-
-- XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
+- #XXX Switched eclipse-temurin:21-jre-alpine@sha256:fb4150a30569aadae9d693d949684a00653411528e62498b9900940c9b5b8a66 to 23467b3e42617ca197f43f58bc5fb03ca4cb059d68acd49c67128bfded132d67
+- #837 Moved data import and IrsResponseMappers under same interface and shared methods
+- #947 Updating irs-helm from 7.1.1 to 7.1.2 to use latest catena-x policy
+- #963 update irs-client-lib.version from 2.0.3 to 2.0.4-SNAPSHOT to fix /contracts api
+- #989 changed german word "Eigen" to "Eigene"
+- #992 improved uux in selection of columns in table settings
+- #994 moved search bar above new and existing configurations
+- #994 disable inputs of newly added bpn configurations
+- #995 disable creation and editof notifications for admin role
+- #991 make menu table headers unvisible to not block column and filters of tables
+- #915 Updated user manual documentation (chapters and screenshots)
+- #998 fixed bug where global search bar could search for BPN and adjusted placeholder label to reflect column names
+- #913 Changed severity icons
+- #978 Fixed edc policy creation with edc version 0.7.0
 
 ## [11.0.0 - 08.05.2024]
 ### Added

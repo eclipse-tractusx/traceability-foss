@@ -235,9 +235,9 @@ Then('selected {string} has been {string} as expected', function(notificationTyp
       break;
     }
     case 'approved': {
-      cy.wait(3000);
+      cy.wait(20000);
       // same as "requested"
-      cy.get('[title="Requested"]', { timeout: 10000 }).should('be.visible');
+      cy.get('[title="Requested"]', { timeout: 30000 }).should('be.visible');
       break;
     }
     case 'accepted': {

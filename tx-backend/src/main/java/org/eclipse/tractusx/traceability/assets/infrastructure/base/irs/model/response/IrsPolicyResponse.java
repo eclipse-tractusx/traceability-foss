@@ -34,12 +34,16 @@ import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 /**
  * Policy representation for get all policies response
  */
 @Builder
 @Schema(example = IrsPolicyResponse.EXAMPLE_PAYLOAD)
 public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
+    // https://github.com/eclipse-tractusx/traceability-foss/issues/978
+    // "odrl:action" USE will be use (lowercase) make sure to migrate
 
     @SuppressWarnings({"FileTabCharacter", "java:S2479"})
     // required to show correctly example payload in open-api
@@ -49,13 +53,16 @@ public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
                 	"validUntil": "2025-12-12T23:59:59.999Z",
                 	"payload": {
                 		"@context": {
+                            "@vocab" : "https://w3id.org/edc/v0.0.1/ns/",
+                            "edc": "https://w3id.org/edc/v0.0.1/ns/",
+                            "cx-policy": "https://w3id.org/catenax/policy/",
                 			"odrl": "http://www.w3.org/ns/odrl/2/"
                 		},
                 		"@id": "policy-id",
                 		"policy": {
                 			"odrl:permission": [
                 				{
-                					"odrl:action": "USE",
+                					"odrl:action": "use",
                 					"odrl:constraint": {
                 						"odrl:and": [
                 							{
@@ -104,8 +111,8 @@ public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
 
     private static ConstraintsResponse map(Permission permission) {
         return ConstraintsResponse.builder()
-                .and(mapConstraints(permission.getConstraint().getAnd()))
-                .or(mapConstraints(permission.getConstraint().getOr()))
+                .and(mapConstraints(emptyIfNull(permission.getConstraint().getAnd())))
+                .or(mapConstraints(emptyIfNull(permission.getConstraint().getOr())))
                 .build();
 
     }

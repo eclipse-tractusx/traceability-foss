@@ -114,33 +114,46 @@ export class PartsService {
   }
 
 
-  public getPartDetailOfIds(assetIds: string[]): Observable<Part[]> {
+  public getPartDetailOfIds(assetIds: string[], isAsBuilt?: boolean): Observable<Part[]> {
 
-    let resultsAsBuilt = this.apiService
-      .post<PartResponse[]>(`${ this.url }/assets/as-built/detail-information`, { assetIds })
-      .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
+    if (isAsBuilt !== undefined) {
+      if (isAsBuilt) {
+        return this.apiService
+          .post<PartResponse[]>(`${ this.url }/assets/as-built/detail-information`, { assetIds })
+          .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
+      } else {
+        return this.apiService
+          .post<PartResponse[]>(`${ this.url }/assets/as-planned/detail-information`, { assetIds })
+          .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
+      }
 
-    let resultsAsPlanned = this.apiService
-      .post<PartResponse[]>(`${ this.url }/assets/as-planned/detail-information`, { assetIds })
-      .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
+    } else {
+      let resultsAsBuilt = this.apiService
+        .post<PartResponse[]>(`${ this.url }/assets/as-built/detail-information`, { assetIds })
+        .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
 
-    if (resultsAsBuilt) {
-      return resultsAsBuilt;
-    }
+      let resultsAsPlanned = this.apiService
+        .post<PartResponse[]>(`${ this.url }/assets/as-planned/detail-information`, { assetIds })
+        .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
 
-    if (resultsAsPlanned) {
-      return resultsAsPlanned;
+      if (resultsAsBuilt) {
+        return resultsAsBuilt;
+      }
+
+      if (resultsAsPlanned) {
+        return resultsAsPlanned;
+      }
     }
 
   }
 
-  public getDistinctFilterValues(isAsBuilt: boolean, fieldNames: string, startsWith: string) {
+  public getDistinctFilterValues(isAsBuilt: boolean, fieldNames: string, startsWith: string, inAssetIds?: string[]) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     let params = new HttpParams()
       .set('fieldName', mappedFieldName)
       .set('startWith', startsWith)
-      .set('size', 200);
-
+      .set('size', 200)
+      .set('inAssetIds', inAssetIds ? inAssetIds.join(',') : '');
 
     if (isAsBuilt) {
       return this.apiService

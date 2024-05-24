@@ -33,8 +33,8 @@ export class QualityTypeComponent {
   public getIconByQualityType(qualityType: QualityType): string {
     const iconMap = new Map<QualityType, string>([
       [ QualityType.Ok, 'check_circle_outline' ],
-      [ QualityType.Minor, 'info' ],
-      [ QualityType.Major, 'warning' ],
+      [ QualityType.Minor, 'error_outline' ],
+      [ QualityType.Major, 'error' ],
       [ QualityType.Critical, 'error_outline' ],
       [ QualityType.LifeThreatening, 'error' ],
     ]);

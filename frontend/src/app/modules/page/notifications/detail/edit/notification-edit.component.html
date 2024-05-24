@@ -113,6 +113,7 @@ SPDX-License-Identifier: Apache-2.0
                              [multiSortList]="tableAsBuiltSortList"
                              [tableType]="TableType.AS_BUILT_OWN"
                              [mainAspectType]="MainAspectType.AS_BUILT"
+                             [assetIdsForAutoCompleteFilter]="this.affectedPartIds"
             ></app-parts-table>
           </ng-template>
         </div>
@@ -164,6 +165,7 @@ SPDX-License-Identifier: Apache-2.0
                              [multiSortList]="tableAsBuiltSortList"
                              [tableType]="TableType.AS_BUILT_OWN"
                              [mainAspectType]="MainAspectType.AS_BUILT"
+                             [assetIdsForAutoCompleteFilter]="this.availablePartIds"
             ></app-parts-table>
           </ng-template>
         </div>

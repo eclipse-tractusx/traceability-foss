@@ -41,7 +41,7 @@ import { TableSettingsService } from '@core/user/table-settings.service';
 import { UserService } from '@core/user/user.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
-import { Part } from '@page/parts/model/parts.model';
+import { ImportState, Part } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
@@ -85,6 +85,8 @@ export class PartsTableComponent implements OnInit {
 
   @Input() tableType: TableType;
   @Input() mainAspectType: MainAspectType;
+
+  @Input() assetIdsForAutoCompleteFilter: string[];
 
   public tableConfig: TableConfig;
 
@@ -181,6 +183,12 @@ export class PartsTableComponent implements OnInit {
 
   public isAllowedToPublish(): boolean {
     return this.roleService.hasAccess([ 'admin' ]);
+  }
+
+  isIllegalSelectionToPublish(): boolean {
+    return this.selection.selected.some((part: Part) => {
+      return part?.importState !== ImportState.TRANSIENT && part?.importState !== ImportState.ERROR;
+    });
   }
 
   handleKeyDownPublishIconClicked(event: KeyboardEvent): void{

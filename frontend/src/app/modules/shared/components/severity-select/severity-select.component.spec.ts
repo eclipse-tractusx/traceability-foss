@@ -39,12 +39,12 @@ describe('SeveritySelectComponent', () => {
 
   it('should render selected Minor icon', async () => {
     await renderSeveritySelect(Severity.MINOR);
-    expect(await waitFor(() => screen.getByText('info'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('error_outline'))).toBeInTheDocument();
   });
 
   it('should render selected Major icon', async () => {
     await renderSeveritySelect(Severity.MAJOR);
-    expect(await waitFor(() => screen.getByText('warning'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('error'))).toBeInTheDocument();
   });
 
   it('should render selected Critical icon', async () => {

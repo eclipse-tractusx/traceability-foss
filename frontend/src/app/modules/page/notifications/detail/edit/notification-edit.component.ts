@@ -40,6 +40,7 @@ import { Notification, NotificationType } from '@shared/model/notification.model
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notification-edit',
@@ -60,6 +61,7 @@ export class NotificationEditComponent implements OnDestroy {
   public notificationFormGroup: FormGroup;
 
   public affectedPartIds: string[] = this.sharedPartService?.affectedParts?.map(value => value.id) || [];
+  public availablePartIds: string[] = [];
   public temporaryAffectedParts: Part[] = [];
   public temporaryAffectedPartsForRemoval: Part[] = [];
   public readonly currentSelectedAvailableParts$ = new BehaviorSubject<Part[]>([]);
@@ -113,6 +115,15 @@ export class NotificationEditComponent implements OnDestroy {
       this.isSaveButtonDisabled = false;
       this.handleCreateNotification();
     }
+
+    this.ownPartsFacade.partsAsBuilt$.pipe(
+      distinctUntilChanged((prev, curr) => prev?.data?.content?.length === curr?.data?.content?.length),
+    ).subscribe(
+      data => {
+        this.availablePartIds = data?.data?.content?.map(part => part.id).filter(element => !this.affectedPartIds.includes(element));
+      },
+    );
+
   }
 
   private handleEditNotification() {
@@ -157,7 +168,6 @@ export class NotificationEditComponent implements OnDestroy {
 
   public notificationFormGroupChange(notificationFormGroup: FormGroup) {
     // if user switches type of notification in creation mode, reset affected parts and reload new available parts
-    console.log(notificationFormGroup, "group");
     if (this.selectedNotification.type !== notificationFormGroup.getRawValue().type) {
       this.selectedNotification.type = notificationFormGroup.getRawValue().type;
       this.switchSelectedNotificationTypeAndResetParts();
@@ -276,7 +286,11 @@ export class NotificationEditComponent implements OnDestroy {
 
     if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
       this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
-      this.ownPartsFacade.setPartsAsBuilt();
+      this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, {
+        excludeIds: [],
+        ids: [],
+        owner: this.selectedNotification.type === NotificationType.INVESTIGATION ? Owner.SUPPLIER : Owner.OWN,
+      });
       this.isSaveButtonDisabled = true;
     } else {
       this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
