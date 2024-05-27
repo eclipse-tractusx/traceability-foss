@@ -27,8 +27,10 @@ SPDX-License-Identifier: Apache-2.0
         settings
       </mat-icon>
     </div>
-    <div *ngIf="tableHeaderMenuEnabled" class="table-header--action--container flex mt-1">
+    <div *ngIf="tableHeaderMenuEnabled || basicTableHeaderMenuEnabled"
+         class="table-header--action--container flex mt-1">
       <div class="mr-0.5"
+           *ngIf="tableHeaderMenuEnabled"
            matTooltip="{{ (roleService.isAdmin() ? 'routing.unauthorized':'table.createNotification') | i18n}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"
@@ -43,8 +45,27 @@ SPDX-License-Identifier: Apache-2.0
           [isDisabled]="roleService.isAdmin()"
         ></app-button>
       </div>
+      <div class="mr-0.5"
+           *ngIf="basicTableHeaderMenuEnabled"
+           matTooltip="{{ 'table.createPolicy' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500"
+      >
+        <app-button
+          [iconName]="'add'"
+          onkeydown="navigateTo()"
+          (click)="navigateTo()"
+          (keydown)="null"
+          [isDisabled]="!roleService.isAdmin()">
+        </app-button>
+      </div>
+
+
       <mat-divider class="mx-0.25" [vertical]="true"></mat-divider>
       <div class="ml-0.5"
+           *ngIf="tableHeaderMenuEnabled"
            matTooltip="{{'table.more' | i18n}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"
@@ -54,6 +75,20 @@ SPDX-License-Identifier: Apache-2.0
         <app-button
           [iconName]="'more_horiz'"
           [matMenuTriggerFor]="actionMenu"
+        >
+        </app-button>
+      </div>
+      <div class="ml-0.5"
+           *ngIf="basicTableHeaderMenuEnabled"
+           matTooltip="{{'table.deletePolicy' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500"
+      >
+        <app-button
+          [iconName]="'delete'"
+          (click)="emitDeletionEvent()"
         >
         </app-button>
       </div>
@@ -128,7 +163,7 @@ SPDX-License-Identifier: Apache-2.0
   <ng-container *ngIf="tableHeader && !additionalTableHeader"><p
     class="large-text table--header">{{ tableHeader | i18n }}</p></ng-container>
   <ng-container *ngIf="selectedPartsInfoLabel">
-    <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
+    <div>
       <p class="regular-text">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
       <app-button
         *ngIf="selection?.selected?.length"
@@ -158,7 +193,7 @@ SPDX-License-Identifier: Apache-2.0
   >
     <ng-container *ngIf="autocompleteEnabled">
 
-      <tr *matHeaderRowDef="tableConfig.displayedColumns; sticky: true" mat-header-row
+      <tr *matHeaderRowDef="tableConfig?.displayedColumns; sticky: true" mat-header-row
           data-testid="table-component--head-row" class="table--header--row"></tr>
 
     </ng-container>

@@ -21,6 +21,7 @@ import { AdminService } from '@page/admin/core/admin.service';
 import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { PartsService } from '@shared/service/parts.service';
+import { PolicyService } from '@shared/service/policy.service';
 import { of } from 'rxjs';
 
 export abstract class AutocompleteStrategy {
@@ -94,12 +95,32 @@ export class ContractsStrategy extends AutocompleteStrategy {
   }
 }
 
+@Injectable({
+  providedIn: 'any',
+})
+export class PoliciesStrategy extends AutocompleteStrategy {
+  policyService: PolicyService;
+
+  constructor(policyService: PolicyService) {
+    super();
+    this.policyService = policyService;
+  }
+
+  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
+    return this.policyService.getDistinctFilterValues(
+      filterColumns,
+      searchElement,
+    );
+  }
+}
+
 export const AutocompleteStrategyMap = new Map<TableType, any>([
   [ TableType.AS_BUILT_OWN, PartsStrategy ],
   [ TableType.AS_PLANNED_OWN, PartsStrategy ],
   [ TableType.RECEIVED_NOTIFICATION, NotificationStrategy ],
   [ TableType.SENT_NOTIFICATION, NotificationStrategy ],
   [ TableType.CONTRACTS, ContractsStrategy ],
+  [ TableType.POLICIES, PoliciesStrategy ],
 ]);
 
 

@@ -55,6 +55,9 @@
       "policyDetail": "Policy detail",
       "jsonViewer": "Json Viewer",
       "jsonTreeViewer": "Json Tree Viewer"
+    },
+    "policyManagement" : {
+      "policyManagement" : "Policy management"
     }
   }
 }

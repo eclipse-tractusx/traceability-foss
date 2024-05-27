@@ -60,6 +60,7 @@ export class TableComponent {
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
   @Input() additionalTableHeader = false;
   @Input() tableHeaderMenuEnabled = false;
+  @Input() basicTableHeaderMenuEnabled = false;
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
@@ -380,6 +381,15 @@ export class TableComponent {
     this.router.navigate([ 'inbox/create' ]);
   }
 
+  // TODO: handle navigation to view and deletion trigger
+  navigateTo() {
+    return;
+  }
+
+  emitDeletionEvent() {
+
+  }
+
   private menuActionsWithAddedDefaultActions(menuActionsConfig: MenuActionConfig<unknown>[] = []): MenuActionConfig<unknown>[] {
     const viewDetailsMenuAction: MenuActionConfig<unknown> = {
       label: 'actions.viewDetails',
@@ -401,5 +411,6 @@ export class TableComponent {
   };
 
   protected readonly MainAspectType = MainAspectType;
+
 
 }

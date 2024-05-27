@@ -55,6 +55,9 @@
       "policyDetail": "Richtlinien details",
       "jsonViewer": "Json Ansicht",
       "jsonTreeViewer": "Json-Baumansicht"
+    },
+    "policyManagement" : {
+      "policyManagement" : "Richtlinienverwaltung"
     }
   }
 }

@@ -24,6 +24,10 @@ export const policyHandler = (_ => {
   return [
     rest.get(`*${ environment.apiUrl }/policies`, (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(getPolicies()));
+    }),
+
+    rest.post(`*${ environment.apiUrl }/policies`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getPolicies()));
     })
   ]
 })();

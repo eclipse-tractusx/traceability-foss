@@ -1,3 +1,7 @@
+import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { PaginationResponse } from '@core/model/pagination.model';
+import { OperatorType, Policy, PolicyAction } from '@page/policies/model/policy.model';
+
 /********************************************************************************
  * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
@@ -17,36 +21,75 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 // For now Mocks are built by current response (any). This is because Policy Model changes frequently
-export const getPolicies =  () => [
-  {
-    policyId: "Mocked_Policy_Id",
-    createdOn: 1706690077.834424001,
-    validUntil: 1727740799.990000000,
-    permissions: [
+export const getPolicies = (): PaginationResponse<Policy> => {
+  return {
+    page: 0,
+    pageCount: 0,
+    pageSize: 10,
+    totalItems: 1,
+
+    content: [
       {
-        action: "USE",
-        constraints: [
+        policyId: 'Mocked_Policy_1',
+        validUntil: new CalendarDateModel('2024-02-26T13:38:07+01:00'),
+        permissions: [
           {
-            and: [
-              {
-                leftOperand: "PURPOSE",
-                operatorTypeResponse: "EQ",
-                rightOperands: [
-                  "ID 3.0 Trace"
-                ]
-              },
-              {
-                leftOperand: "PURPOSE",
-                operatorTypeResponse: "EQ",
-                rightOperands: [
-                  "ID 3.0 Trace"
-                ]
-              }
-            ],
-            or: []
-          }
-        ]
-      }
-    ]
-  }
-]
+            action: PolicyAction.USE,
+            constraint: {
+              and: [
+                {
+                  leftOperand: 'PURPOSE',
+                  operator: {
+                    '@id': OperatorType.EQ,
+                  },
+                  'odrl:rightOperand': 'ID 3.0 Trace',
+                },
+              ],
+              or: [
+                {
+                  leftOperand: 'PURPOSE',
+                  operator: {
+                    '@id': OperatorType.EQ,
+                  },
+                  'odrl:rightOperand': 'ID 3.0 Trace',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        policyId: 'Mocked_Policy_2',
+        validUntil: new CalendarDateModel('2024-02-24T13:38:07+01:00'),
+        permissions: [
+          {
+            action: PolicyAction.ACCESS,
+            constraint: {
+              and: [
+                {
+                  leftOperand: 'PURPOSE',
+                  operator: {
+                    '@id': OperatorType.IN,
+                  },
+                  'odrl:rightOperand': 'BMW',
+                },
+              ],
+              or: [
+                {
+                  leftOperand: 'PURPOSE',
+                  operator: {
+                    '@id': OperatorType.EQ,
+                  },
+                  'odrl:rightOperand': 'ID 3.0 Trace',
+                },
+              ],
+            },
+          },
+        ],
+      },
+
+    ],
+
+  };
+};
+

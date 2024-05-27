@@ -11,6 +11,7 @@
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
+    "adminPolicies" : "Policy management",
     "partMismatch": "Selected parts must have same owner to create quality topic (Own, Supplier)",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
@@ -117,6 +118,8 @@
     "unauthorized" : "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "noFunctionality" : "Functionality is not implemented yet",
     "onlyNotificationInStatusCreatedAllowed" : "Action only allowed with a selection of notifications in status \"Queued\".",
+    "createPolicy" : "Create policy",
+    "deletePolicy" : "Delete selected policies",
     "column": {
       "id": "ID",
       "idShort": "ID Short",
@@ -158,7 +161,9 @@
       "importNote": "Import Note",
       "importDate": "Import Date",
       "type": "Type",
-      "title": "Title"
+      "title" : "Title",
+      "policyId" : "Policy ID",
+      "validUntil" : "Valid until"
     }
   },
   "dataLoading": {

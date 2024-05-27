@@ -1,3 +1,5 @@
+import { CalendarDateModel } from '@core/model/calendar-date.model';
+
 /********************************************************************************
  * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
@@ -20,25 +22,33 @@
 // TODO: Align with BE to a first valid Policy Model, changes seem to be happen frequently
 export interface Policy {
   policyId: string;
-  createdOn: string;
-  validUntil: string;
-  permissions?: PolicyPermission[];
+  validUntil: CalendarDateModel;
+  permissions: PolicyPermission[];
 }
 
 export interface PolicyPermission {
-  action: PolicyType;
-  constraints?: Constraint[];
+  action: PolicyAction;
+  constraint: Constraint;
 }
 
-export enum PolicyType {
-  ACCESS="ACCESS",
-  USE="USE"
+export enum PolicyAction {
+  ACCESS = 'access',
+  USE = 'use'
 }
 
 export interface Constraint {
-  leftOperand: string;
-  operator: OperatorType;
-  rightOperand: string[];
+  and: PolicyConstraint[],
+  or: PolicyConstraint[]
+}
+
+export interface PolicyConstraint {
+  leftOperand: string,
+  'odrl:rightOperand': string,
+  operator: PolicyConstraintOperator
+}
+
+export interface PolicyConstraintOperator {
+  '@id': OperatorType;
 }
 
 export enum OperatorType {

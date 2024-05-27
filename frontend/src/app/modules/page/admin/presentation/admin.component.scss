@@ -38,6 +38,7 @@
   border: none;
   overflow: visible;
   position: relative;
+  height: 80vh;
 }
 
 .sidenav--item {
@@ -82,7 +83,7 @@
 
 .sidenav--toggle-button {
   position: absolute;
-  bottom: 30px;
+  bottom: 40vh;
   right: -20px;
   z-index: 1;
 }

@@ -27,6 +27,7 @@ import { BpnConfigurationComponent } from '@page/admin/presentation/bpn-configur
 import { ContractDetailComponent } from '@page/admin/presentation/contracts/contract-detail/contract-detail.component';
 import { ContractsComponent } from '@page/admin/presentation/contracts/contracts.component';
 import { ImportJsonComponent } from '@page/admin/presentation/import-json/import-json.component';
+import { PoliciesComponent } from '@page/admin/presentation/policy-management/policies/policies.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
@@ -63,6 +64,14 @@ const ADMIN_ROUTING: Routes = [
     path: KnownAdminRoutes.CONTRACT_DETAIL_VIEW,
     pathMatch: 'full',
     component: ContractDetailComponent,
+    data: { i18nextNamespaces: [ 'page.admin' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    canActivate: [ RoleGuard ],
+  },
+  {
+    path: KnownAdminRoutes.POLICY_MANAGEMENT,
+    pathMatch: 'full',
+    component: PoliciesComponent,
     data: { i18nextNamespaces: [ 'page.admin' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
     canActivate: [ RoleGuard ],

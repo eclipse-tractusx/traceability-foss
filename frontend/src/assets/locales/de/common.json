@@ -12,6 +12,7 @@
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
+    "adminPolicies" : "Richtlinienverwaltung",
     "partMismatch": "Die ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Eigen, Lieferant)",
     "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
@@ -120,6 +121,8 @@
     "unauthorized" : "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "noFunctionality" : "Funktionalität wurde noch nicht implementiert.",
     "onlyNotificationInStatusCreatedAllowed" : "Aktion erfordert eine Selektion an Qualitätsthemen im Status \"Erstellt\".",
+    "createPolicy" : "Richtlinie erstellen",
+    "deletePolicy" : "Selektierte Richtlinien löschen",
     "column": {
       "id": "ID",
       "idShort": "Kurz-ID",
@@ -162,8 +165,9 @@
       "importNote": "Importbemerkung",
       "importDate": "Importdatum",
       "type": "Typ",
-      "title": "Titel"
-
+      "title" : "Titel",
+      "policyId" : "Policy ID",
+      "validUntil" : "Gültig bis"
     }
   },
   "dataLoading": {

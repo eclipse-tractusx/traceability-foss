@@ -20,15 +20,16 @@
  ********************************************************************************/
 
 
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {CalendarDateModel} from '@core/model/calendar-date.model';
-import {Pagination, PaginationResponse} from '@core/model/pagination.model';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export enum KnownAdminRoutes {
   BPN = 'configure-bpn',
   IMPORT = 'configure-import',
   CONTRACT = 'contracts',
-  CONTRACT_DETAIL_VIEW = 'contracts/:contractId'
+  CONTRACT_DETAIL_VIEW = 'contracts/:contractId',
+  POLICY_MANAGEMENT = 'policies',
 }
 
 
