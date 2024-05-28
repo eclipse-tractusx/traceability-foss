@@ -31,6 +31,7 @@ configuration:
     hostName: &be_host_name 'traceability-int-b.int.demo.catena-x.net'
     # -- backend host with https://
     url: &be_url 'https://traceability-int-b.int.demo.catena-x.net'
+    submodelUrl: &submodel_url 'https://tracex-int-b-submodel-server.int.demo.catena-x.net'
     edcClient:
       callbackUrl: &backend_edc_client_callback_url 'https://traceability-int-b.int.demo.catena-x.net/api/internal/endpoint-data-reference'
     backendDatabase:
@@ -179,7 +180,7 @@ backend:
     baseUrl: *discovery_finder_url
 
   submodel:
-    baseUrl: *be_url
+    baseUrl: *submodel_url
   irs:
     baseUrl: *irs_url
   registry:
