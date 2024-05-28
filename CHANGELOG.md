@@ -7,6 +7,17 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+### Changed
+- #1010 Updated IRS Helm Version from 5.1.6 to 5.1.7
+
+### Changed
+
+- XXX increase spotbugs-plugin version from 4.8.3.0 to 4.8.5.0
+- XXX increase install-plugin version from 3.1.1 to 3.1.2
+- XXX increase testcontainer-postgresql version from 1.19.7 to 1.19.8
+- XXX increase json-unit-assertj version from 3.2.2 to 3.2.7
+- XXX increase aquasecurity/trivy-action version from 0.19.0 to 0.20.0
+- XXX increase mikefarah/yq version from 4.43.1 to 4.44.1
 
 ## [11.0.1 - 22.05.2024]
 
