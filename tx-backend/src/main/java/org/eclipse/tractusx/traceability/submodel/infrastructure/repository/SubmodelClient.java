@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -31,18 +32,20 @@ import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfig
 public class SubmodelClient {
 
     private final RestTemplate submodelRestTemplate;
+    private final TraceabilityProperties traceabilityProperties;
 
 
-    public SubmodelClient(@Qualifier(SUBMODEL_REST_TEMPLATE) RestTemplate submodelRestTemplate) {
+    public SubmodelClient(@Qualifier(SUBMODEL_REST_TEMPLATE) RestTemplate submodelRestTemplate, TraceabilityProperties traceabilityProperties) {
         this.submodelRestTemplate = submodelRestTemplate;
+        this.traceabilityProperties = traceabilityProperties;
     }
 
     public void createSubmodel(String submodelId, String payload) {
-        submodelRestTemplate.exchange("/api/submodel/data/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
+        submodelRestTemplate.exchange(traceabilityProperties.getSubmodelPath() + "/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
     }
 
 
     public String getSubmodel(String submodelId) {
-        return submodelRestTemplate.exchange("/api/submodel/data/" + submodelId, HttpMethod.GET, null, String.class).getBody();
+        return submodelRestTemplate.exchange(traceabilityProperties.getSubmodelPath() + "/" + submodelId, HttpMethod.GET, null, String.class).getBody();
     }
 }

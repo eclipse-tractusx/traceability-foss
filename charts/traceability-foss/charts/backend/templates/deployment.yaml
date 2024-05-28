@@ -114,6 +114,8 @@ spec:
               value: {{ .Values.registry.allowedBpns | quote }}
             - name: SUBMODEL_URL
               value: {{ .Values.submodel.baseUrl | quote }}
+            - name: SUBMODEL_PATH
+              value: {{ .Values.submodel.path | quote }}
             - name: IRS_URL
               value: {{ .Values.irs.baseUrl | quote }}
             - name: PORTAL_URL
