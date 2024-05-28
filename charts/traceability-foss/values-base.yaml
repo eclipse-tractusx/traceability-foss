@@ -280,11 +280,11 @@ item-relationship-service:
 
   resources:
     limits:
-      cpu: 1000m
-      memory: 512Mi
+      cpu: 2000m
+      memory: 2Gi
     requests:
       cpu: 500m
-      memory: 512Mi
+      memory: 2Gi
 
   nameOverride: 'CHANGE_ME'
   fullnameOverride: 'CHANGE_ME'
