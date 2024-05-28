@@ -66,31 +66,39 @@ env:
     ARGO_TEST_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-test"
     ARGO_TEST_EDC_PROVIDER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-test-edc-provider"
     ARGO_TEST_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-test"
+    ARGO_TEST_SUBMODELSERVER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-test-submodelserver"
     ARGO_TEST_RegistryReload: "https://traceability-test.dev.demo.catena-x.net/api/registry/reload"
 
     ARGO_DEV_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-dev"
     ARGO_DEV_EDC_PROVIDER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-edc-provider"
     ARGO_DEV_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-dev"
+    ARGO_DEV_SUBMODELSERVER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dev-submodelserver"
     ARGO_DEV_RegistryReload: "https://traceability.dev.demo.catena-x.net/api/registry/reload"
 
     ARGO_E2E_A_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-e2e-a"
     ARGO_E2E_A_EDC_PROVIDER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-edc-provider-e2e-a"
     ARGO_E2E_A_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-e2e-a"
+    ARGO_E2E_A_SUBMODELSERVER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-e2e-a-submodelserver"
     ARGO_E2E_A_RegistryReload: "https://traceability-e2e-a.dev.demo.catena-x.net/api/registry/reload"
 
     ARGO_E2E_B_REGISTRY: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-dt-registry-e2e-b"
     ARGO_E2E_B_EDC_PROVIDER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-edc-provider-e2e-b"
     ARGO_E2E_B_TRACE_X_INSTANCE: "https://argo.dev.demo.catena-x.net/api/v1/applications/traceability-foss-e2e-b"
+    ARGO_E2E_B_SUBMODELSERVER: "https://argo.dev.demo.catena-x.net/api/v1/applications/tracex-e2e-b-submodelserver"
     ARGO_E2E_B_RegistryReload: "https://traceability-e2e-b.dev.demo.catena-x.net/api/registry/reload"
 
     ARGO_INT_A_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-a"
     ARGO_INT_A_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-a"
     ARGO_INT_A_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-a"
+    ARGO_INT_A_SUBMODELSERVER: "https://argo.int.demo.catena-x.net/api/v1/applications/tracex-int-a-submodelserver"
+
     ARGO_INT_A_RegistryReload: "https://traceability-int-a.int.demo.catena-x.net/api/registry/reload"
 
     ARGO_INT_B_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-b"
     ARGO_INT_B_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
     ARGO_INT_B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
+    ARGO_INT_B_SUBMODELSERVER: "https://argo.int.demo.catena-x.net/api/v1/applications/tracex-int-b-submodelserver"
+
     ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
 
 jobs:
