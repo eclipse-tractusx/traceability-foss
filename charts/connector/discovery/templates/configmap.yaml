@@ -71,7 +71,8 @@ data:
         {"type": "bpn", "key": ".*", "value": "BPNL00000003B5MJ", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
         {"type": "bpn", "key": ".*", "value": "BPNL00000003B5MJ", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
         {"type": "bpn", "key": ".*", "value": "BPNL00000003CML1", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {"type": "bpn", "key": ".*", "value": "BPNL00000003CNKC", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
+        {"type": "bpn", "key": ".*", "value": "BPNL00000003CNKC", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn", "key": ".*", "value": "BPNL00000007QNOK", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
       ]
     }
 
