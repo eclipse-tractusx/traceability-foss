@@ -34,7 +34,7 @@ traceability:
   irsBase: "http://127.0.0.1"
   irsPoliciesPath: "/irs/policies"
   submodelBase: http://localhost:${server.port}
-  submodelPath: "/api/submodel"
+  submodelPath: "/api/submodel/data"
 registry:
   urlWithPath: "http://127.0.0.1"
 
