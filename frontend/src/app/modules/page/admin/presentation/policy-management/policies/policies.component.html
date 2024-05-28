@@ -1,0 +1,41 @@
+<mat-card>
+  <mat-card-header class="flex-row">
+    <mat-card-title><h3 data-testid="admin_policies_view_header"
+                        class="mb-2">{{ "pageAdmin.policyManagement.policyManagement" | i18n }}</h3></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container
+      *viewContainer="policiesView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+    <ng-template #mainTmp let-policies="view">
+      <app-table
+        [paginationData]="policies.data"
+        [additionalTableHeader]="true"
+        [basicTableHeaderMenuEnabled]="true"
+        [autocompleteEnabled]="true"
+        [tableHeader]=""
+        [tableConfig]="tableConfig"
+        [noShadow]="true"
+        [labelId]="'policies'"
+        [showHover]="false"
+        [multiSortList]="multiSortList"
+        [tableType]="TableType.POLICIES"
+        [tableSettingsEnabled]="true"
+        (selected)="openDetailedView($event)"
+        (configChanged)="onTableConfigChange($event)"
+        (editClicked)="openEditView($event)"
+        (filterActivated)="filterActivated($event)"
+        (multiSelect)="multiSelection($event)"
+
+      >
+      </app-table>
+    </ng-template>
+
+    <ng-template #errorTmp let-policies="view">
+      <app-data-loading-error [error]="policies.error"></app-data-loading-error>
+    </ng-template>
+
+    <ng-template #loaderTmp>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
