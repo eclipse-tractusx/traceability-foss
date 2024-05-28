@@ -30,7 +30,7 @@ DELETE_DEV_TEST_RESOURCES=(
               "$ARGO_TEST_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-dt-registry-test-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_TEST_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-dt-registry-test-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
               "$ARGO_TEST_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-test&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_TEST_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-test-submodelserver&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_TEST_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-test-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
 
               "$ARGO_DEV_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-backend-postgresql-dev-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_DEV_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-backend-postgresql-dev&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
@@ -46,7 +46,7 @@ DELETE_DEV_TEST_RESOURCES=(
               "$ARGO_DEV_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-dt-registry-dev-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_DEV_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-dt-registry-dev-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
               "$ARGO_DEV_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-dev&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_DEV_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-dev-submodelserver&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_DEV_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-dev-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
 
               )
 
@@ -65,7 +65,7 @@ DELETE_E2E_RESOURCES=(
               "$ARGO_E2E_A_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-dt-registry-e2e-a-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_E2E_A_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-dt-registry-e2e-a-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
               "$ARGO_E2E_A_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-e2e-a&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_E2E_A_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-e2e-a-submodelserver&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_E2E_A_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-e2e-a-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
 
 
               "$ARGO_E2E_B_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-backend-postgresql-e2e-b-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
@@ -82,7 +82,7 @@ DELETE_E2E_RESOURCES=(
               "$ARGO_E2E_B_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-dt-registry-e2e-b-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_E2E_B_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-dt-registry-e2e-b-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
               "$ARGO_E2E_B_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-e2e-b&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_E2E_B_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-e2e-b-submodelserver&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_E2E_B_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-e2e-b-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
 
             )
 DELETE_INT_RESOURCES=(
@@ -100,7 +100,7 @@ DELETE_INT_RESOURCES=(
               "$ARGO_INT_A_REGISTRY/resource?force=false&orphan=false&resourceName=data-tx-registry-int-a-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_INT_A_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tx-registry-int-a-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
               "$ARGO_INT_A_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-int-a&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_INT_A_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-int-a-submodelserver&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_INT_A_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-int-a-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
 
               "$ARGO_INT_B_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-backend-postgresql-int-b-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_INT_B_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-backend-postgresql-int-b&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
@@ -116,7 +116,7 @@ DELETE_INT_RESOURCES=(
               "$ARGO_INT_B_REGISTRY/resource?force=false&orphan=false&resourceName=data-tx-registry-int-b-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_INT_B_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tx-registry-int-b-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
               "$ARGO_INT_B_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-int-b&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_INT_B_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-int-b-submodelserver&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_INT_B_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-int-b-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
 
             )
 SYNC_DEV_TEST_RESOURCES=(
