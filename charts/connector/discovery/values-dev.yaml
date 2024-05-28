@@ -24,9 +24,9 @@ fullnameOverride: ""
 wiremock:
   bpn:
     own: "BPNL00000003CML1"
-    other: "BPNL00000003CNKC"
+    other: "BPNL00000007QNOK"
     ownUrl: "trace-x-edc.dev.demo.catena-x.net"
-    otherUrl: "trace-x-test-edc.dev.demo.catena-x.net"
+    otherUrl: "customer-edc.apps.dev.aws.alm.oncite.io"
 
 ingress:
   hosts:
