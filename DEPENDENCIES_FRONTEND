@@ -88,7 +88,7 @@ npm/npmjs/-/bonjour-service/1.1.1, MIT, approved, #7474
 npm/npmjs/-/boolbase/1.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/brace-expansion/1.1.11, MIT, approved, clearlydefined
 npm/npmjs/-/brace-expansion/2.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/braces/3.0.2, MIT, approved, clearlydefined
+npm/npmjs/-/braces/3.0.2, MIT, approved, #14866
 npm/npmjs/-/browser-process-hrtime/1.0.0, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/browserslist/4.21.5, MIT, approved, #7034
 npm/npmjs/-/browserslist/4.22.3, MIT, approved, #10780
