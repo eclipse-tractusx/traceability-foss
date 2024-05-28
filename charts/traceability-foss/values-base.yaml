@@ -172,6 +172,7 @@ backend:
 
   submodel:
     baseUrl: 'CHANGE_ME'
+    path: 'CHANGE_ME'
   irs:
     baseUrl: 'CHANGE_ME'
   registry:
