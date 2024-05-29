@@ -4,12 +4,17 @@ export class PoliciesConfigurationModel extends TableFilterConfiguration {
   constructor() {
     const sortableColumns = {
       select: false,
+      bpnSelection: true,
+      policyName: true,
       policyId: true,
+      accessType: true,
+      createdOn: true,
       validUntil: true,
+      constraints: true,
       menu: false,
     };
 
-    const dateFields = [ 'validUntil' ];
+    const dateFields = [ 'createdOn', 'validUntil' ];
     const singleSearchFields = [];
     super(sortableColumns, dateFields, singleSearchFields, true);
   }

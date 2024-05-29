@@ -21,6 +21,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatLineModule } from '@angular/material/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { AdminFacade } from '@page/admin/core/admin.facade';
 import { AdminService } from '@page/admin/core/admin.service';
@@ -28,6 +29,7 @@ import { ContractDetailComponent } from '@page/admin/presentation/contracts/cont
 import { ContractsComponent } from '@page/admin/presentation/contracts/contracts.component';
 import { ContractsFacade } from '@page/admin/presentation/contracts/contracts.facade';
 import { ContractsState } from '@page/admin/presentation/contracts/contracts.state';
+import { DeletionDialogComponent } from '@page/admin/presentation/policy-management/deletion-dialog/deletion-dialog.component';
 import { PoliciesComponent } from '@page/admin/presentation/policy-management/policies/policies.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
 import { PoliciesState } from '@page/admin/presentation/policy-management/policies/policies.state';
@@ -43,8 +45,8 @@ import { SaveBpnConfigModal } from './presentation/bpn-configuration/save-modal/
 import { ImportJsonComponent } from './presentation/import-json/import-json.component';
 
 @NgModule({
-  declarations: [ AdminComponent, BpnConfigurationComponent, SaveBpnConfigModal, ImportJsonComponent, ContractsComponent, ContractDetailComponent, PoliciesComponent ],
-    imports: [CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule, NgxJsonViewerModule],
+  declarations: [ AdminComponent, BpnConfigurationComponent, SaveBpnConfigModal, ImportJsonComponent, ContractsComponent, ContractDetailComponent, PoliciesComponent, DeletionDialogComponent ],
+  imports: [ CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule, NgxJsonViewerModule, MatLineModule ],
   providers: [ ...getI18nPageProvider('page.admin'), AdminService, AdminFacade, ContractsFacade, ContractsState, PoliciesFacade, PoliciesState, PolicyService ],
 })
 export class AdminModule {

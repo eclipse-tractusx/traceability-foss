@@ -18,11 +18,14 @@ import { CalendarDateModel } from '@core/model/calendar-date.model';
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO: Decide if long term a Policy state, facade, ResponseType and Assembler is needed
-// TODO: Align with BE to a first valid Policy Model, changes seem to be happen frequently
 export interface Policy {
+  bpnSelection: string[];
+  policyName: string;
   policyId: string;
-  validUntil: CalendarDateModel;
+  accessType: PolicyAction,
+  createdOn: CalendarDateModel | string;
+  validUntil: CalendarDateModel | string;
+  constraints: string[]
   permissions: PolicyPermission[];
 }
 
@@ -43,12 +46,12 @@ export interface Constraint {
 
 export interface PolicyConstraint {
   leftOperand: string,
-  'odrl:rightOperand': string,
+  rightOperand: string,
   operator: PolicyConstraintOperator
 }
 
 export interface PolicyConstraintOperator {
-  '@id': OperatorType;
+  id: OperatorType;
 }
 
 export enum OperatorType {

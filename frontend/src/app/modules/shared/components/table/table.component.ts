@@ -147,6 +147,7 @@ export class TableComponent {
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
+  @Output() deletionClicked = new EventEmitter();
   @Input()
   public autocompleteEnabled = false;
   @Input() tableSettingsEnabled: boolean = false;
@@ -381,13 +382,8 @@ export class TableComponent {
     this.router.navigate([ 'inbox/create' ]);
   }
 
-  // TODO: handle navigation to view and deletion trigger
-  navigateTo() {
-    return;
-  }
-
-  emitDeletionEvent() {
-
+  navigateToCreationPath() {
+    this.router.navigate([ this.router.url, 'create' ]);
   }
 
   private menuActionsWithAddedDefaultActions(menuActionsConfig: MenuActionConfig<unknown>[] = []): MenuActionConfig<unknown>[] {
@@ -410,7 +406,10 @@ export class TableComponent {
     return [ ...defaultActionsToAdd, ...menuActionsConfig ];
   };
 
+  handleItemDeletion() {
+    this.deletionClicked.emit();
+    this.clearCurrentRows();
+  }
+
   protected readonly MainAspectType = MainAspectType;
-
-
 }

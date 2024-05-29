@@ -21,7 +21,8 @@ SPDX-License-Identifier: Apache-2.0
 
 <div *ngIf="additionalTableHeader" class="table-header-wrapper">
   <div class="table-header-container">
-    <div class="large-text table--header--text">{{ tableHeader | i18n }}
+    <div class="large-text table--header--text"
+         [ngClass]="labelId === 'policies' ? 'policy-table-header' : ''">{{ tableHeader | i18n }}
       <mat-icon onkeydown="openDialog()" (click)="openDialog()" *ngIf="tableSettingsEnabled" (keydown)="openDialog()"
                 class="cursor-pointer table&#45;&#45;settings&#45;&#45;button ml-2">
         settings
@@ -55,8 +56,8 @@ SPDX-License-Identifier: Apache-2.0
       >
         <app-button
           [iconName]="'add'"
-          onkeydown="navigateTo()"
-          (click)="navigateTo()"
+          onkeydown="navigateToCreationPath()"
+          (click)="navigateToCreationPath()"
           (keydown)="null"
           [isDisabled]="!roleService.isAdmin()">
         </app-button>
@@ -80,7 +81,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
       <div class="ml-0.5"
            *ngIf="basicTableHeaderMenuEnabled"
-           matTooltip="{{'table.deletePolicy' | i18n}}"
+           matTooltip="{{selection.selected.length > 0 ? ('table.deletePolicy' | i18n) : ('table.selectAtLeastOne' | i18n)}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"
            [class.mdc-tooltip--multiline]="true"
@@ -88,7 +89,8 @@ SPDX-License-Identifier: Apache-2.0
       >
         <app-button
           [iconName]="'delete'"
-          (click)="emitDeletionEvent()"
+          (click)="handleItemDeletion()"
+          [isDisabled]="selection.selected.length < 1"
         >
         </app-button>
       </div>
@@ -159,7 +161,7 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 <div [class.mat-elevation-z8]="!noShadow" class="table-wrapper"
-     [ngClass]="labelId?.startsWith('dashboard') ? 'rows-dashboard' : ''">
+     [ngClass]="{'rows-dashboard': labelId?.startsWith('dashboard'), 'rows-policy': labelId?.startsWith('policies')} ">
   <ng-container *ngIf="tableHeader && !additionalTableHeader"><p
     class="large-text table--header">{{ tableHeader | i18n }}</p></ng-container>
   <ng-container *ngIf="selectedPartsInfoLabel">

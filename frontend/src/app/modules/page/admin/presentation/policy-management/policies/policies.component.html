@@ -1,7 +1,6 @@
 <mat-card>
   <mat-card-header class="flex-row">
-    <mat-card-title><h3 data-testid="admin_policies_view_header"
-                        class="mb-2">{{ "pageAdmin.policyManagement.policyManagement" | i18n }}</h3></mat-card-title>
+    <mat-card-title></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <ng-container
@@ -12,7 +11,7 @@
         [additionalTableHeader]="true"
         [basicTableHeaderMenuEnabled]="true"
         [autocompleteEnabled]="true"
-        [tableHeader]=""
+        [tableHeader]="'pageAdmin.policyManagement.policyManagement'"
         [tableConfig]="tableConfig"
         [noShadow]="true"
         [labelId]="'policies'"
@@ -25,6 +24,7 @@
         (editClicked)="openEditView($event)"
         (filterActivated)="filterActivated($event)"
         (multiSelect)="multiSelection($event)"
+        (deletionClicked)="openDeletionDialog();"
 
       >
       </app-table>

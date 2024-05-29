@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination } from '@core/model/pagination.model';
 import { PoliciesState } from '@page/admin/presentation/policy-management/policies/policies.state';
 import { provideDataObject } from '@page/parts/core/parts.helper';
@@ -7,6 +8,7 @@ import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PolicyService } from '@shared/service/policy.service';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PoliciesFacade {
@@ -24,9 +26,19 @@ export class PoliciesFacade {
     return this.policiesState.policies$;
   }
 
-  public setPolicies(page, pageSize = 50, sorting: TableHeaderSort[]): void {
+  public setPolicies(page: number, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: any): void {
     this.policiesSubscription?.unsubscribe();
-    this.policiesSubscription = this.policyService.getPaginatedPolicies(page, pageSize, sorting).subscribe({
+    this.policiesSubscription = this.policyService.getPaginatedPolicies(page, pageSize, sorting, filter).pipe(map(response => {
+      const assembled = response.content.map(policy => {
+        return {
+          ...policy,
+          createdOn: new CalendarDateModel(policy.createdOn as string),
+          validUntil: new CalendarDateModel(policy.validUntil as string),
+          accessType: policy.accessType.toUpperCase(),
+        };
+      });
+      return { ...response, content: assembled } as Pagination<Policy>;
+    })).subscribe({
       next: data => (this.policiesState.policies = { data: provideDataObject(data) }),
       error: error => (this.policiesState.policies = { error }),
     });
@@ -59,4 +71,7 @@ export class PoliciesFacade {
     this.unsubscribeTrigger.next();
   }
 
+  deletePolicies(selectedPolicies: Policy[]) {
+    return this.policyService.deletePolicies(selectedPolicies.map(policy => policy.policyId));
+  }
 }

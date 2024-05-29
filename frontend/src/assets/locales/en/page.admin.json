@@ -57,7 +57,12 @@
       "jsonTreeViewer": "Json Tree Viewer"
     },
     "policyManagement" : {
-      "policyManagement" : "Policy management"
+      "policyManagement" : "Policy management",
+      "deleteSuccess" : "Successfully deleted the selected policies.",
+      "deleteError" : "Error while deleting the selected policies.",
+      "confirm" : "Confirm",
+      "policyDeletion" : "Deletion of policies",
+      "deletionText" : "Do you want to confirm the deletion of the selected policies?"
     }
   }
 }

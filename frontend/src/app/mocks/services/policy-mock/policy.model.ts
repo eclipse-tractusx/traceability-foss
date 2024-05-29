@@ -1,4 +1,3 @@
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { PaginationResponse } from '@core/model/pagination.model';
 import { OperatorType, Policy, PolicyAction } from '@page/policies/model/policy.model';
 
@@ -26,12 +25,17 @@ export const getPolicies = (): PaginationResponse<Policy> => {
     page: 0,
     pageCount: 0,
     pageSize: 10,
-    totalItems: 1,
+    totalItems: 2,
 
     content: [
       {
+        bpnSelection: [ 'BPN10000000OEM0A', 'BPN10000000OEM0B' ],
+        policyName: 'Mocked_Policy_Name_1',
         policyId: 'Mocked_Policy_1',
-        validUntil: new CalendarDateModel('2024-02-26T13:38:07+01:00'),
+        accessType: PolicyAction.ACCESS,
+        createdOn: '2024-02-26T13:38:07+01:00',
+        validUntil: '2024-02-26T13:38:07+01:00',
+        constraints: [ 'Membership = active', 'AND FrameworkAgreement.traceability in [active]', 'AND PURPOSE = ID 3.1 Trace' ],
         permissions: [
           {
             action: PolicyAction.USE,
@@ -40,18 +44,18 @@ export const getPolicies = (): PaginationResponse<Policy> => {
                 {
                   leftOperand: 'PURPOSE',
                   operator: {
-                    '@id': OperatorType.EQ,
+                    id: OperatorType.EQ,
                   },
-                  'odrl:rightOperand': 'ID 3.0 Trace',
+                  rightOperand: 'ID 3.0 Trace',
                 },
               ],
               or: [
                 {
                   leftOperand: 'PURPOSE',
                   operator: {
-                    '@id': OperatorType.EQ,
+                    id: OperatorType.EQ,
                   },
-                  'odrl:rightOperand': 'ID 3.0 Trace',
+                  rightOperand: 'ID 3.0 Trace',
                 },
               ],
             },
@@ -59,28 +63,33 @@ export const getPolicies = (): PaginationResponse<Policy> => {
         ],
       },
       {
+        bpnSelection: [ 'BPN10000000OEM0A', 'BPN10000000OEM0B' ],
+        policyName: 'Mocked_Policy_Name_2',
         policyId: 'Mocked_Policy_2',
-        validUntil: new CalendarDateModel('2024-02-24T13:38:07+01:00'),
+        accessType: PolicyAction.USE,
+        createdOn: '2024-02-26T13:38:07+01:00',
+        validUntil: '2024-02-26T13:38:07+01:00',
+        constraints: [ 'PURPOSE = ID 3.1 Trace', 'OR PURPOSE = ID 3.0 Trace' ],
         permissions: [
           {
-            action: PolicyAction.ACCESS,
+            action: PolicyAction.USE,
             constraint: {
               and: [
                 {
                   leftOperand: 'PURPOSE',
                   operator: {
-                    '@id': OperatorType.IN,
+                    id: OperatorType.IN,
                   },
-                  'odrl:rightOperand': 'BMW',
+                  rightOperand: 'BMW',
                 },
               ],
               or: [
                 {
                   leftOperand: 'PURPOSE',
                   operator: {
-                    '@id': OperatorType.EQ,
+                    id: OperatorType.EQ,
                   },
-                  'odrl:rightOperand': 'ID 3.0 Trace',
+                  rightOperand: 'ID 3.0 Trace',
                 },
               ],
             },

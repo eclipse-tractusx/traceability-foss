@@ -167,7 +167,12 @@
       "type": "Typ",
       "title" : "Titel",
       "policyId" : "Policy ID",
-      "validUntil" : "Gültig bis"
+      "validUntil" : "Gültig bis",
+      "createdOn" : "Gültig von",
+      "policyName" : "Richtlinienname",
+      "bpnSelection" : "BPN Selektion",
+      "constraints" : "Bedingungen",
+      "accessType" : "Zugriffsart"
     }
   },
   "dataLoading": {

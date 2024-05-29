@@ -57,7 +57,12 @@
       "jsonTreeViewer": "Json-Baumansicht"
     },
     "policyManagement" : {
-      "policyManagement" : "Richtlinienverwaltung"
+      "policyManagement" : "Richtlinienverwaltung",
+      "deleteSuccess" : "Selektierte Richtlinien wurden erfolgreich gelöscht.",
+      "deleteError" : "Fehler bei der Löschung der selektierten Richtlinien.",
+      "confirm" : "Bestätigen",
+      "policyDeletion" : "Löschung der Richtlinien",
+      "deletionText" : "Möchten sie die Löschung der selektierten Richtlinien bestätigen?"
     }
   }
 }
