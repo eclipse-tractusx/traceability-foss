@@ -33,7 +33,7 @@ traceability:
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
   irsPoliciesPath: "/irs/policies"
-  submodelBase: http://localhost:${server.port}
+  submodelBase: "http://localhost:${server.port}/api/submodel/data"
 registry:
   urlWithPath: "http://127.0.0.1"
 
