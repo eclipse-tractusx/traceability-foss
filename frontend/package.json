@@ -1,6 +1,6 @@
 {
   "name": "trace-x",
-  "version": "11.0.1",
+  "version": "11.0.2",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
     "build:prod": "ng build --output-hashing=all --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/ ",
