@@ -54,7 +54,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -99,6 +98,7 @@ public class RestTemplateConfiguration {
                 .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
+                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
@@ -111,6 +111,7 @@ public class RestTemplateConfiguration {
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
+                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
@@ -126,6 +127,7 @@ public class RestTemplateConfiguration {
     public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .build();
     }
 
