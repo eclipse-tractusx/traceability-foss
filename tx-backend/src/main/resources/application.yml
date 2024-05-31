@@ -33,6 +33,7 @@ traceability:
   irsBase: ${IRS_URL}
   irsPoliciesPath: "/irs/policies"
   submodelBase: ${SUBMODEL_URL}
+  submodelPath: ${SUBMODEL_PATH}
 
 edc:
   ids:
@@ -69,7 +70,6 @@ irs-edc-client:
 
   submodel:
     request-ttl: PT10M # How long to wait for an async EDC submodel retrieval to finish, ISO 8601 Duration
-    path: /submodel # The path to append to the submodel data reference endpoint
     urn-prefix: /urn # A prefix used to identify URNs correctly in the submodel endpoint address
     timeout:
       read: PT90S # HTTP read timeout for the submodel client

@@ -54,6 +54,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -152,10 +153,12 @@ public class RestTemplateConfiguration {
     /* RestTemplate used by trace x for the submodel server*/
     @Bean(SUBMODEL_REST_TEMPLATE)
     public RestTemplate submodelRestTemplate(@Autowired TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
+
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getSubmodelBase())
                 .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
                 .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
+                .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 
