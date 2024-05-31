@@ -34,7 +34,7 @@ export class PoliciesFacade {
           ...policy,
           createdOn: new CalendarDateModel(policy.createdOn as string),
           validUntil: new CalendarDateModel(policy.validUntil as string),
-          accessType: policy.accessType.toUpperCase(),
+          accessType: policy.accessType.map(type => type.toUpperCase()),
         };
       });
       return { ...response, content: assembled } as Pagination<Policy>;
@@ -58,8 +58,8 @@ export class PoliciesFacade {
   }
 
   public setSelectedPolicyById(policyId: string): void {
-    this.selectedPoliciesSubscription = this.policyService.getPaginatedPolicies(0, 10, [ null, null ], { policyId: [ policyId ] }).subscribe({
-      next: data => (this.policiesState.selectedPolicy = { data: data.content[0] as unknown as Policy }),
+    this.policyService.getPolicyById(policyId).subscribe({
+      next: data => (this.policiesState.selectedPolicy = { data: data }),
       error: error => (this.policiesState.selectedPolicy = { error }),
     });
   }

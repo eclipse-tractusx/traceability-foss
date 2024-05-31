@@ -33,6 +33,7 @@ import { DeletionDialogComponent } from '@page/admin/presentation/policy-managem
 import { PoliciesComponent } from '@page/admin/presentation/policy-management/policies/policies.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
 import { PoliciesState } from '@page/admin/presentation/policy-management/policies/policies.state';
+import { PolicyEditorComponent } from '@page/admin/presentation/policy-management/policy-editor/policy-editor.component';
 import { ModalModule } from '@shared/modules/modal/modal.module';
 import { PolicyService } from '@shared/service/policy.service';
 import { SharedModule } from '@shared/shared.module';
@@ -45,7 +46,7 @@ import { SaveBpnConfigModal } from './presentation/bpn-configuration/save-modal/
 import { ImportJsonComponent } from './presentation/import-json/import-json.component';
 
 @NgModule({
-  declarations: [ AdminComponent, BpnConfigurationComponent, SaveBpnConfigModal, ImportJsonComponent, ContractsComponent, ContractDetailComponent, PoliciesComponent, DeletionDialogComponent ],
+  declarations: [ AdminComponent, BpnConfigurationComponent, SaveBpnConfigModal, ImportJsonComponent, ContractsComponent, ContractDetailComponent, PoliciesComponent, DeletionDialogComponent, PolicyEditorComponent ],
   imports: [ CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule, NgxJsonViewerModule, MatLineModule ],
   providers: [ ...getI18nPageProvider('page.admin'), AdminService, AdminFacade, ContractsFacade, ContractsState, PoliciesFacade, PoliciesState, PolicyService ],
 })

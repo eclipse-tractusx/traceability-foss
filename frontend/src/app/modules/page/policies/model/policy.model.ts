@@ -18,20 +18,47 @@ import { CalendarDateModel } from '@core/model/calendar-date.model';
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+// RESPONSE
+
+export interface PolicyResponseMap {
+  [key: string]: PolicyEntry[];
+}
+
+export interface PolicyEntry {
+  validUntil: string;
+  payload: PolicyPayload;
+}
+
+export interface PolicyPayload {
+  '@context': {
+    odrl: string;
+  };
+  '@id': string;
+  policy: Policy;
+}
+
+
 export interface Policy {
-  bpnSelection: string[];
-  policyName: string;
+  // props in response
   policyId: string;
-  accessType: PolicyAction,
   createdOn: CalendarDateModel | string;
   validUntil: CalendarDateModel | string;
-  constraints: string[]
   permissions: PolicyPermission[];
+
+  // additional props
+  policyName?: string;
+  bpn?: string;
+  constraints?: string[]
+  accessType?: PolicyAction[],
+
 }
 
 export interface PolicyPermission {
   action: PolicyAction;
-  constraint: Constraint;
+  constraint: {
+    and: PolicyConstraint[];
+    or: null | PolicyConstraint[];
+  };
 }
 
 export enum PolicyAction {
@@ -39,33 +66,68 @@ export enum PolicyAction {
   USE = 'use'
 }
 
-export interface Constraint {
-  and: PolicyConstraint[],
-  or: PolicyConstraint[]
-}
-
 export interface PolicyConstraint {
-  leftOperand: string,
-  rightOperand: string,
-  operator: PolicyConstraintOperator
-}
-
-export interface PolicyConstraintOperator {
-  id: OperatorType;
+  leftOperand: string;
+  operator: { '@id': OperatorType };
+  'odrl:rightOperand': string;
 }
 
 export enum OperatorType {
-    EQ = 'eq',
-    NEQ = 'neq',
-    LT = 'lt',
-    GT = 'gt',
-    IN = 'in',
-    LTEQ = 'lteq',
-    GTEQ = 'gteq',
-    ISA = 'isA',
-    HASPART = 'hasPart',
-    ISPARTOF = 'isPartOf',
-    ISONEOF = 'isOneOf',
-    ISALLOF = 'isAllOf',
-    ISNONEOF = 'isNoneOf',
+  EQ = 'eq',
+  NEQ = 'neq',
+  LT = 'lt',
+  GT = 'gt',
+  IN = 'in',
+  LTEQ = 'lteq',
+  GTEQ = 'gteq',
+  ISA = 'isA',
+  HASPART = 'hasPart',
+  ISPARTOF = 'isPartOf',
+  ISONEOF = 'isOneOf',
+  ISALLOF = 'isAllOf',
+  ISNONEOF = 'isNoneOf',
 }
+
+export function mapToPolicyEntryList(policyResponse: PolicyResponseMap): PolicyEntry[] {
+  const list: PolicyEntry[] = [];
+  for (const [ key, value ] of Object.entries(policyResponse)) {
+    value.forEach((entry) => {
+      entry.payload.policy.bpn = key;
+      entry.payload.policy.policyName = entry.payload['@id'];
+      entry.payload.policy.accessType = entry.payload.policy.permissions.map(rule => rule.action);
+      entry.payload.policy.constraints = mapDisplayPropsToPolicyRootLevel(entry);
+      list.push(entry);
+    });
+  }
+  return list;
+}
+
+function mapDisplayPropsToPolicyRootLevel(entry: PolicyEntry): string[] {
+  entry.payload.policy.policyName = entry.payload['@id'];
+  entry.payload.policy.accessType = entry.payload.policy.permissions.map(rule => rule.action);
+  let constrainsList = [];
+  entry.payload.policy.permissions.forEach(permission => {
+    permission.constraint.and.forEach(andConstraint => {
+      constrainsList.push(andConstraint.leftOperand);
+      constrainsList.push(andConstraint.operator['@id']);
+      constrainsList.push(andConstraint['odrl:rightOperand']);
+    });
+    permission.constraint?.or?.forEach(orConstraint => {
+      constrainsList.push(orConstraint.leftOperand);
+      constrainsList.push(orConstraint.operator['@id']);
+      constrainsList.push(orConstraint['odrl:rightOperand']);
+    });
+  });
+  return constrainsList;
+}
+
+export function getPolicyFromEntryList(policyEntryList: PolicyEntry[]): Policy[] {
+  return policyEntryList.map(entry => entry.payload.policy);
+}
+
+/*
+export function assemblePolicy(policy: Policy): Policy {
+
+}
+
+ */

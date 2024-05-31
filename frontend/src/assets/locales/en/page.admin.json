@@ -62,7 +62,11 @@
       "deleteError" : "Error while deleting the selected policies.",
       "confirm" : "Confirm",
       "policyDeletion" : "Deletion of policies",
-      "deletionText" : "Do you want to confirm the deletion of the selected policies?"
+      "deletionText" : "Do you want to confirm the deletion of the selected policies?",
+      "policy" : "Policy",
+      "create" : "creation",
+      "edit" : "edit",
+      "view" : "details"
     }
   }
 }

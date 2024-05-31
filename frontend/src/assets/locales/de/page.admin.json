@@ -62,7 +62,11 @@
       "deleteError" : "Fehler bei der Löschung der selektierten Richtlinien.",
       "confirm" : "Bestätigen",
       "policyDeletion" : "Löschung der Richtlinien",
-      "deletionText" : "Möchten sie die Löschung der selektierten Richtlinien bestätigen?"
+      "deletionText" : "Möchten sie die Löschung der selektierten Richtlinien bestätigen?",
+      "policy" : "Richtlinie",
+      "create" : "erstellen",
+      "edit" : "bearbeiten",
+      "view" : "details"
     }
   }
 }

@@ -1,0 +1,155 @@
+<mat-card>
+  <mat-card-header class="flex-row">
+    <mat-card-title><h3 data-testid="admin_policy_editor_header"
+                        class="pb-1">{{ "pageAdmin.policyManagement.policy"| i18n }} {{ "pageAdmin.policyManagement." + viewMode | i18n }}</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="action-container flex justify-between">
+      <div class="action-container-left">
+        <app-button
+          [color]="'primary'"
+          onkeydown="navigateBack()"
+          (click)="navigateBack()"
+        >
+          <div class="flex justify-between items-center">
+            <mat-icon class="mr-2">arrow_back</mat-icon>
+            {{ 'actions.goBack' | i18n }}
+          </div>
+        </app-button>
+      </div>
+      <div class="action-container-right">
+        <div matTooltip="{{ 'actions.save' | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500"
+             *ngIf="viewMode === ViewMode.EDIT || viewMode === ViewMode.CREATE"
+        >
+          <app-button
+            [iconName]="'save'"
+            onkeydown="savePolicy()"
+            (click)="savePolicy()"></app-button>
+        </div>
+        <div matTooltip="{{ 'actions.edit' | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500"
+             *ngIf="viewMode === ViewMode.VIEW"
+        >
+          <app-button
+            [iconName]="'edit'"
+            onkeydown="navigateToEditView()"
+            (click)="navigateToEditView()"></app-button>
+        </div>
+      </div>
+    </div>
+    <div class="template-container flex py-8">
+      <div matTooltip="{{ 'actions.uploadFile' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500">
+        <app-button
+          [iconName]="'file_upload'"
+          onkeydown="fileInput.click()"
+          (click)="fileInput.click()"></app-button>
+      </div>
+      <div matTooltip="{{ 'actions.uploadFile' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500">
+        <app-button
+          *ngIf="templateFile"
+          [iconName]="'download'"
+          onkeydown="downloadTemplateAsJsonFile()"
+          (click)="downloadTemplateAsJsonFile()"
+          [isDisabled]="!templateFile"
+        ></app-button>
+      </div>
+
+      <input type="file" (change)="onFileSelected($event)" hidden #fileInput>
+      <input type="text" class="file-input mr-4" [ngClass]="templateFileName.length < 1 ? 'hinttext' : ''"
+             [value]="templateFileName.length ? templateFileName : 'Selected Template file'" label="File" readonly>
+      <app-button [variant]="'raised'" [color]="'primary'" [isDisabled]="!templateFile">Apply</app-button>
+    </div>
+    <form [formGroup]="policyForm">
+      <div class="details-container pb-2">
+        <div class="input-row flex justify-between gap-5">
+          <app-input
+            class="flex-1"
+            [label]="'pageAdmin.policyManagement.policyName'"
+            [parentFormGroup]="policyForm"
+            [formControlName]="'policyName'"
+          ></app-input>
+          <app-input
+            class="flex-1"
+            [label]="'pageAdmin.policyManagement.expirationDate'"
+            [suffixIcon]="'calendar_today'"
+            [parentFormGroup]="policyForm"
+            [formControlName]="'validUntil'"
+          ></app-input>
+        </div>
+        <app-input
+          [label]="'pageAdmin.policyManagement.bpnls'"
+          [parentFormGroup]="policyForm"
+          [formControlName]="'bpns'"
+        ></app-input>
+      </div>
+
+      <div class="access-type-container flex flex-col items-start">
+        <h4 class="pb-2">Policy Type</h4>
+        <app-select
+          [label]="'pageAdmin.policyManagement.accessType' | i18n"
+          [formGroup]="policyForm"
+          [formControlName]="'accessType'"
+          [options]="[{label: 'ACCESS', value:'ACCESS'}, {label: 'USE', value: 'USE'}]"
+
+        ></app-select>
+      </div>
+
+      <div class="constraints-container flex flex-col items-start">
+        <h4 class="pb-2">Constraints</h4>
+        <div matTooltip="{{ 'actions.add' | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500">
+          <app-button
+            [iconName]="'add'"
+            (click)="addConstraintFormGroup()"
+          ></app-button>
+        </div>
+        <div formArrayName="constraints" class="w-full">
+          <div *ngFor="let constraint of constraints.controls; let i=index;" [formGroupName]="i"
+               class="flex w-full gap-2">
+            <app-input id="leftOperand-{{i}}" [formControlName]="'leftOperand'" class="flex-1"></app-input>
+            <app-select id="operator-{{i}}" [formControlName]="'operator'" class="flex-1"
+                        [label]="'pageAdmin.policyManagement.operator' | i18n"
+                        [options]="OperatorTypesAsSelectModel"></app-select>
+            <app-input id="rightOperand-{{i}}" [formControlName]="'rightOperand'" class="flex-1"></app-input>
+            <app-button
+              [iconName]="'arrow_downward'"
+              (click)="moveConstraintDown(i)"
+            >
+            </app-button>
+            <app-button
+              [iconName]="'arrow_upward'"
+              (click)="moveConstraintUp(i)"
+            >
+            </app-button>
+            <app-button
+              [iconName]="'delete'"
+              (click)="removeConstraintFormGroup(i)"
+            >
+            </app-button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+  </mat-card-content>
+</mat-card>

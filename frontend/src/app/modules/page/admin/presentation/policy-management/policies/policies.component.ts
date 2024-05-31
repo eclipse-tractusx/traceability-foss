@@ -48,8 +48,8 @@ export class PoliciesComponent {
 
     this.pagination = { page: 0, pageSize: 10, sorting: [ '', null ] };
     this.tableConfig = {
-      displayedColumns: [ 'select', 'bpnSelection', 'policyName', 'policyId', 'accessType', 'createdOn', 'validUntil', 'constraints', 'menu' ],
-      header: CreateHeaderFromColumns([ 'select', 'bpnSelection', 'policyName', 'policyId', 'accessType', 'createdOn', 'validUntil', 'constraints', 'menu' ], 'pageAdmin.policies'),
+      displayedColumns: [ 'select', 'bpn', 'policyName', 'policyId', 'accessType', 'createdOn', 'validUntil', 'constraints', 'menu' ],
+      header: CreateHeaderFromColumns([ 'select', 'bpn', 'policyName', 'policyId', 'accessType', 'createdOn', 'validUntil', 'constraints', 'menu' ], 'pageAdmin.policies'),
       menuActionsConfig: [ {
         label: 'actions.edit',
         icon: 'edit',
@@ -58,7 +58,7 @@ export class PoliciesComponent {
       } ],
       sortableColumns: {
         select: false,
-        bpnSelection: true,
+        bpn: true,
         policyName: true,
         policyId: true,
         accessType: true,
@@ -98,12 +98,10 @@ export class PoliciesComponent {
   }
 
   openDetailedView(selectedPolicy: Record<string, unknown>) {
-    this.policyFacade.selectedPolicy = selectedPolicy as unknown as Policy;
     this.router.navigate([ 'admin/' + KnownAdminRoutes.POLICY_MANAGEMENT + '/' + this.policyFacade.selectedPolicy.policyId ]);
   }
 
   openEditView(selectedPolicy: any) {
-    this.policyFacade.selectedPolicy = selectedPolicy as unknown as Policy;
     this.router.navigate([ 'admin/' + KnownAdminRoutes.POLICY_MANAGEMENT + '/edit/' + this.policyFacade.selectedPolicy.policyId ]);
   }
 

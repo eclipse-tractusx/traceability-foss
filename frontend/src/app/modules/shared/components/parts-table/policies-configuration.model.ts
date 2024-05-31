@@ -4,7 +4,7 @@ export class PoliciesConfigurationModel extends TableFilterConfiguration {
   constructor() {
     const sortableColumns = {
       select: false,
-      bpnSelection: true,
+      bpn: true,
       policyName: true,
       policyId: true,
       accessType: true,

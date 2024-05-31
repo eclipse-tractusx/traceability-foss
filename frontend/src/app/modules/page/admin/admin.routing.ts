@@ -28,6 +28,7 @@ import { ContractDetailComponent } from '@page/admin/presentation/contracts/cont
 import { ContractsComponent } from '@page/admin/presentation/contracts/contracts.component';
 import { ImportJsonComponent } from '@page/admin/presentation/import-json/import-json.component';
 import { PoliciesComponent } from '@page/admin/presentation/policy-management/policies/policies.component';
+import { PolicyEditorComponent } from '@page/admin/presentation/policy-management/policy-editor/policy-editor.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
@@ -72,6 +73,30 @@ const ADMIN_ROUTING: Routes = [
     path: KnownAdminRoutes.POLICY_MANAGEMENT,
     pathMatch: 'full',
     component: PoliciesComponent,
+    data: { i18nextNamespaces: [ 'page.admin' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    canActivate: [ RoleGuard ],
+  },
+  {
+    path: KnownAdminRoutes.POLICY_MANAGEMENT_EDIT,
+    pathMatch: 'full',
+    component: PolicyEditorComponent,
+    data: { i18nextNamespaces: [ 'page.admin' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    canActivate: [ RoleGuard ],
+  },
+  {
+    path: KnownAdminRoutes.POLICY_MANAGEMENT_CREATE,
+    pathMatch: 'full',
+    component: PolicyEditorComponent,
+    data: { i18nextNamespaces: [ 'page.admin' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    canActivate: [ RoleGuard ],
+  },
+  {
+    path: KnownAdminRoutes.POLICY_MANAGEMENT_DETAIL_VIEW,
+    pathMatch: 'full',
+    component: PolicyEditorComponent,
     data: { i18nextNamespaces: [ 'page.admin' ] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
     canActivate: [ RoleGuard ],

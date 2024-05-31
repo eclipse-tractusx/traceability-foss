@@ -40,3 +40,9 @@ export class View<T> implements OptionalViewData<T>, OptionalViewError, Optional
   loader?: boolean;
   error?: Error;
 }
+
+export enum ViewMode {
+  VIEW = 'view',
+  EDIT = 'edit',
+  CREATE = 'create'
+}

@@ -22,7 +22,7 @@ export class PolicyService {
   }
 
   getPaginatedPolicies(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: any): Observable<Pagination<Policy>> {
-    const sort = sorting.length ? sorting.map(array => `${ array[0] },${ array[1] }`) : [ 'createdOn,desc' ];
+    const sort = sorting?.length ? sorting.map(array => `${ array[0] },${ array[1] }`) : [ 'createdOn,desc' ];
     const body = {
       pageAble: {
         page: page,
@@ -37,6 +37,10 @@ export class PolicyService {
     }
 
     return this.apiService.post<Pagination<Policy>>(`${ this.url }/policies`, body);
+  }
+
+  getPolicyById(policyId: string): Observable<Policy> {
+    return this.apiService.getBy<Policy>(`${ this.url }/policies/${ policyId }`);
   }
 
   publishAssets(assetIds: string[],policyId: string) {

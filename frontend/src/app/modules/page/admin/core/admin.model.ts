@@ -30,6 +30,9 @@ export enum KnownAdminRoutes {
   CONTRACT = 'contracts',
   CONTRACT_DETAIL_VIEW = 'contracts/:contractId',
   POLICY_MANAGEMENT = 'policies',
+  POLICY_MANAGEMENT_EDIT = 'policies/edit/:policyId',
+  POLICY_MANAGEMENT_CREATE = 'policies/create',
+  POLICY_MANAGEMENT_DETAIL_VIEW = 'policies/:policyId',
 }
 
 
