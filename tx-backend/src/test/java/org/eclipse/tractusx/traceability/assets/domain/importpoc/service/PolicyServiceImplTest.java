@@ -19,10 +19,11 @@
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 
-import assets.importpoc.PolicyResponse;
-import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
+import policies.response.PolicyResponse;
+import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
+import policies.request.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.policies.domain.PolicyServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,7 +51,7 @@ class PolicyServiceImplTest {
     private TraceabilityProperties traceabilityProperties;
 
     @Test
-    void testGetPolicyByID() {
+    void testGetPolicy() {
 
 
         // GIVEN
@@ -60,7 +61,7 @@ class PolicyServiceImplTest {
 
         // WHEN
         when(policyRepository.getPolicies()).thenReturn(acceptedPolicies);
-        List<PolicyResponse> allPolicies = policyService.getAllPolicies();
+        List<PolicyResponse> allPolicies = policyService.getPolicies();
 
         // THEN
         assertNotNull(allPolicies);

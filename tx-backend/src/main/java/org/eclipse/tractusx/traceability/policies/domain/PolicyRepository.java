@@ -16,52 +16,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc;
+package org.eclipse.tractusx.traceability.policies.domain;
 
+import policies.request.IrsPolicyResponse;
+import policies.request.UpdatePolicyRequest;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.Getter;
+import java.util.List;
 
-
-@JsonSerialize(
-        using = ToStringSerializer.class
-)
-@Getter
-public enum OperatorTypeResponse {
-    EQ("eq", "Equals to"),
-
-    NEQ("neq", "Not equal to"),
-
-    LT("lt", "Less than"),
-
-    GT("gt", "Greater than"),
-
-    IN("in", "In"),
-
-    LTEQ("lteq", "Less than or equal to"),
-
-    GTEQ("gteq", "Greater than or equal to"),
-
-    ISA("isA", "Is a"),
-
-    HASPART("hasPart", "Has part"),
-
-    ISPARTOF("isPartOf", "Is part of"),
-
-    ISONEOF("isOneOf", "Is one of"),
-
-    ISALLOF("isAllOf", "Is all of"),
-
-    ISNONEOF("isNoneOf", "Is none of");
-
-    final String code;
-
-    final String label;
-
-    OperatorTypeResponse(String code, String label) {
-        this.code = code;
-        this.label = label;
-    }
-
+public interface PolicyRepository {
+    List<IrsPolicyResponse> getPolicies();
+    void createPolicyBasedOnAppConfig();
+    void deletePolicy(String policyId);
+    void updatePolicy(UpdatePolicyRequest updatePolicyRequest);
 }

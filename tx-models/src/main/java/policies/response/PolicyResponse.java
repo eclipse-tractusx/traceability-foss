@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc;
+package policies.response;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

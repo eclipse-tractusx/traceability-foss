@@ -16,14 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.base;
+package policies.request;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
-public interface PolicyRepository {
-    List<IrsPolicyResponse> getPolicies();
+public record UpdatePolicyRequest(
+        List<String> businessPartnerNumbers,
+        List<String> policyIds,
+        LocalDateTime validUntil
+) {}
 
-    void createIrsPolicyIfMissing();
-}

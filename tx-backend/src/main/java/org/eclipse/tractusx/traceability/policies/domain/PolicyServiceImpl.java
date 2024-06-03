@@ -16,15 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
+package org.eclipse.tractusx.traceability.policies.domain;
 
-import assets.importpoc.PolicyResponse;
+import policies.request.UpdatePolicyRequest;
+import policies.response.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
-import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
+import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
+import policies.request.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -46,12 +46,12 @@ public class PolicyServiceImpl implements PolicyService {
     private final TraceabilityProperties traceabilityProperties;
 
     @Override
-    public List<PolicyResponse> getAllPolicies() {
+    public List<PolicyResponse> getPolicies() {
         return IrsPolicyResponse.toResponse(getAcceptedPoliciesOrEmptyList());
     }
 
     @Override
-    public PolicyResponse getPolicyById(String id) {
+    public PolicyResponse getPolicy(String id) {
         return getAcceptedPoliciesOrEmptyList().stream()
                 .filter(policy -> policy.payload().policy().getPolicyId().equals(id)).findFirst()
                 .map(IrsPolicyResponse::toResponse)
@@ -60,7 +60,7 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint() {
-        Optional<String> policyId = getAllPolicies().stream()
+        Optional<String> policyId = getPolicies().stream()
                 .flatMap(policyResponse -> policyResponse.permissions().stream()
                         .flatMap(permissionResponse -> Stream.concat(
                                         permissionResponse.constraints().and().stream(),
@@ -73,7 +73,17 @@ public class PolicyServiceImpl implements PolicyService {
                 })
                 .map(Map.Entry::getKey)
                 .findFirst();
-        return policyId.map(this::getPolicyById);
+        return policyId.map(this::getPolicy);
+    }
+
+    @Override
+    public void deletePolicy(String id) {
+        policyRepository.deletePolicy(id);
+    }
+
+    @Override
+    public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
+        policyRepository.updatePolicy(updatePolicyRequest);
     }
 
 

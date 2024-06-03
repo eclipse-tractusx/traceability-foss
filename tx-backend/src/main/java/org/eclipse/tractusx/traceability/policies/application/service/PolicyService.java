@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,15 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc;
+package org.eclipse.tractusx.traceability.policies.application.service;
 
-import lombok.Builder;
+import policies.request.UpdatePolicyRequest;
+import policies.response.PolicyResponse;
 
 import java.util.List;
+import java.util.Optional;
 
-@Builder
-public record ConstraintsResponse(
-        List<ConstraintResponse> and,
-        List<ConstraintResponse> or
-) {
+public interface PolicyService {
+    List<PolicyResponse> getPolicies();
+
+    PolicyResponse getPolicy(String id);
+
+    Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint();
+
+    void deletePolicy(String id);
+
+    void updatePolicy(UpdatePolicyRequest updatePolicyRequest);
 }

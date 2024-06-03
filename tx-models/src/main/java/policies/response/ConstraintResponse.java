@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package policies.response;
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
+@Builder
+public record ConstraintResponse(
+        @Schema(example = "PURPOSE")
+        String leftOperand,
 
-import java.time.Instant;
-
-public record RegisterPolicyRequest(
-        Instant validUntil,
-        Payload payload
-) {
-
+        @Schema
+        OperatorTypeResponse operatorTypeResponse,
+        @Schema(example = "ID Trace 3.1")
+        String rightOperand) {
 }

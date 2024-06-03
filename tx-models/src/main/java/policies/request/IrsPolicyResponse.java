@@ -16,20 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
+package policies.request;
 
-import assets.importpoc.ConstraintResponse;
-import assets.importpoc.ConstraintsResponse;
-import assets.importpoc.OperatorTypeResponse;
-import assets.importpoc.PermissionResponse;
-import assets.importpoc.PolicyResponse;
-import assets.importpoc.PolicyTypeResponse;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import policies.response.ConstraintResponse;
+import policies.response.ConstraintsResponse;
+import policies.response.OperatorTypeResponse;
+import policies.response.PermissionResponse;
+import policies.response.PolicyResponse;
+import policies.response.PolicyTypeResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import org.apache.commons.lang3.StringUtils;
+
 
 import java.time.OffsetDateTime;
 import java.util.List;
