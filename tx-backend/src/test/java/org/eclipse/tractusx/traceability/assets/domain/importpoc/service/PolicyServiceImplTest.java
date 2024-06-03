@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import policies.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
-import policies.request.IrsPolicyResponse;
+import policies.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyServiceImpl;
 import org.junit.jupiter.api.Test;

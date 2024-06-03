@@ -32,7 +32,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolic
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
-import policies.request.IrsPolicyResponse;
+import policies.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;

@@ -16,19 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.policies.domain;
+package policies.response;
 
-import policies.response.CreatePolicyResponse;
-import policies.response.IrsPolicyResponse;
-import policies.request.RegisterPolicyRequest;
-import policies.request.UpdatePolicyRequest;
-
-import java.util.List;
-
-public interface PolicyRepository {
-    List<IrsPolicyResponse> getPolicies();
-    void createPolicyBasedOnAppConfig();
-    void deletePolicy(String policyId);
-    void updatePolicy(UpdatePolicyRequest updatePolicyRequest);
-    CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest);
+public record CreatePolicyResponse() {
 }

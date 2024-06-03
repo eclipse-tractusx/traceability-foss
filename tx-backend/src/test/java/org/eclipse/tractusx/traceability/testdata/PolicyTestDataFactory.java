@@ -25,7 +25,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import policies.request.IrsPolicyResponse;
+import policies.response.IrsPolicyResponse;
 import policies.request.Payload;
 import org.jetbrains.annotations.NotNull;
 

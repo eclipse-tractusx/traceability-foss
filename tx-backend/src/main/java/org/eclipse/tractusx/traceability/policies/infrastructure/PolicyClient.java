@@ -26,13 +26,6 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-
-
-import policies.request.Context;
-import policies.request.IrsPolicyResponse;
-import policies.request.Payload;
-import policies.request.RegisterPolicyRequest;
-
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +34,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import policies.request.Context;
+import policies.request.Payload;
+import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -83,7 +81,11 @@ public class PolicyClient {
         });
     }
 
-    public void createPolicy() {
+    public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
+        return irsAdminTemplate.exchange(policiesPath, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), CreatePolicyResponse.class).getBody();
+    }
+
+    public void createPolicyFromAppConfig() {
         OffsetDateTime validUntil = traceabilityProperties.getValidUntil();
         Context context = Context.getDefault();
         String policyId = UUID.randomUUID().toString();

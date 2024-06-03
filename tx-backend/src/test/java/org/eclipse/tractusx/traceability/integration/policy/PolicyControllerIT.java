@@ -35,7 +35,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
     IrsApiSupport irsApiSupport;
 
     @Test
-    void shouldReturnPolicy() throws JoseException {
+    void shouldReturnGetPolicies() throws JoseException {
         //GIVEN
         irsApiSupport.irsApiReturnsPolicies();
 

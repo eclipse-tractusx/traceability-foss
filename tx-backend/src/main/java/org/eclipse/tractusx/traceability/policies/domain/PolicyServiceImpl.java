@@ -18,13 +18,15 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.policies.domain;
 
+import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
 import policies.response.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
-import policies.request.IrsPolicyResponse;
+import policies.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -74,6 +76,11 @@ public class PolicyServiceImpl implements PolicyService {
                 .map(Map.Entry::getKey)
                 .findFirst();
         return policyId.map(this::getPolicy);
+    }
+
+    @Override
+    public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
+        return policyRepository.createPolicy(registerPolicyRequest);
     }
 
     @Override

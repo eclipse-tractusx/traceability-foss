@@ -26,7 +26,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import policies.request.IrsPolicyResponse;
+import policies.response.IrsPolicyResponse;
 import policies.request.Payload;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.policies.infrastructure.PolicyClient;
@@ -71,7 +71,7 @@ class PolicyRepositoryImplTest {
 
         // then
         verify(policyClient, times(1))
-                .createPolicy();
+                .createPolicyFromAppConfig();
     }
 
     @Test
@@ -119,7 +119,7 @@ class PolicyRepositoryImplTest {
 
         // then
         verify(policyClient, times(1)).deletePolicy(traceabilityProperties.getRightOperand());
-        verify(policyClient, times(1)).createPolicy();
+        verify(policyClient, times(1)).createPolicyFromAppConfig();
     }
 
 

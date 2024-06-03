@@ -20,7 +20,6 @@ package org.eclipse.tractusx.traceability.policies.application.rest;
 
 
 import assets.importpoc.ErrorResponse;
-import policies.response.PolicyResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,9 +31,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import policies.request.RegisterPolicyRequest;
+import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
+import policies.response.PolicyResponse;
 
 import java.util.List;
 
@@ -53,7 +60,8 @@ public class PolicyController {
             tags = {"Policies"},
             description = "The endpoint returns all policies .",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the policies",
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns the policies",
             content = {@Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = PolicyResponse.class))}),
@@ -101,7 +109,241 @@ public class PolicyController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping()
-    public List<PolicyResponse> policy() {
+    public List<PolicyResponse> getPolicies() {
         return policyService.getPolicies();
+    }
+
+    @Operation(operationId = "getPolicyById",
+            summary = "Gets policy by id",
+            tags = {"Policies"},
+            description = "The endpoint returns policy by id.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns the policies",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = PolicyResponse.class))}),
+            @ApiResponse(responseCode = "200", description = "OK."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @GetMapping("/{policyId}")
+    public PolicyResponse getPolicyById(@PathVariable("policyId") String policyId) {
+        return policyService.getPolicy(policyId);
+    }
+
+    @Operation(operationId = "createPolicy",
+            summary = "Create a policy ",
+            tags = {"Policies"},
+            description = "The endpoint creates a policy.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns the policies",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = CreatePolicyResponse.class))}),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @PostMapping()
+    public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
+        return policyService.createPolicy(registerPolicyRequest);
+    }
+
+    @Operation(operationId = "updatePolicy",
+            summary = "Updates policies ",
+            tags = {"Policies"},
+            description = "The endpoint updates policies.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Update successful",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema())}),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @PutMapping()
+    public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
+        policyService.updatePolicy(updatePolicyRequest);
+    }
+
+    @Operation(operationId = "deletePolicy",
+            summary = "Deletes a policy ",
+            tags = {"Policies"},
+            description = "The endpoint deletes policies.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Deletion successful",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema())}),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @DeleteMapping()
+    public void deletePolicy(String policyId) {
+        policyService.deletePolicy(policyId);
     }
 }

@@ -22,9 +22,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
-import policies.request.IrsPolicyResponse;
+import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Service;
+import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 
 import java.util.List;
@@ -73,8 +75,14 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     @Override
     public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
         this.policyClient.updatePolicy(updatePolicyRequest);
-
     }
+
+    @Override
+    public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
+       return this.policyClient.createPolicy(registerPolicyRequest);
+    }
+
+
 
     private IrsPolicyResponse findMatchingPolicy(List<IrsPolicyResponse> irsPolicies) {
         return irsPolicies.stream()
@@ -124,14 +132,14 @@ public class PolicyRepositoryImpl implements PolicyRepository {
 
     private void createMissingPolicies() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
-        this.policyClient.createPolicy();
+        this.policyClient.createPolicyFromAppConfig();
     }
 
     private void checkAndUpdatePolicy(IrsPolicyResponse requiredPolicy) {
         if (isPolicyExpired(requiredPolicy)) {
             log.info("IRS Policy {} has outdated validity updating new ttl", traceabilityProperties.getRightOperand());
             this.policyClient.deletePolicy(traceabilityProperties.getRightOperand());
-            this.policyClient.createPolicy();
+            this.policyClient.createPolicyFromAppConfig();
         }
     }
 
