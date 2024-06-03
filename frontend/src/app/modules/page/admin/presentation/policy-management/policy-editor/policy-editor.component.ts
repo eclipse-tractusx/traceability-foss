@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
-import { OperatorTypesAsSelectModel } from '@page/admin/presentation/policy-management/policy-editor/policy-data';
-import { Policy, PolicyAction } from '@page/policies/model/policy.model';
+import {
+  ConstraintLogicTypeAsSelectOptionsList,
+  OperatorTypesAsSelectOptionsList,
+} from '@page/admin/presentation/policy-management/policy-editor/policy-data';
+import { ConstraintLogicType, Policy, PolicyAction } from '@page/policies/model/policy.model';
 import { ViewMode } from '@shared/model/view.model';
 import { Subscription } from 'rxjs';
 
@@ -21,6 +24,7 @@ export class PolicyEditorComponent {
   templateFile: File | null = null;
   templateFileName: string = '';
   policyForm: FormGroup;
+  minDate: Date = new Date();
 
   constructor(private readonly router: Router, public readonly policyFacade: PoliciesFacade, private fb: FormBuilder) {
   }
@@ -32,13 +36,18 @@ export class PolicyEditorComponent {
   ngOnInit() {
     this.viewMode = this.initializeViewMode();
 
+
     this.policyForm = this.fb.group({
       policyName: new FormControl(''),
       validUntil: new FormControl(''),
       bpns: new FormControl(''),
-      accessType: new FormControl<string>(PolicyAction.ACCESS.toUpperCase()),
+      accessType: new FormControl<string>(PolicyAction.ACCESS),
       constraints: this.fb.array([]),
+      constraintLogicType: new FormControl(ConstraintLogicType.AND),
     });
+
+    this.policyForm.valueChanges.subscribe(next => console.log(next));
+
 
     if (this.viewMode !== ViewMode.CREATE) {
       this.setSelectedPolicy();
@@ -49,18 +58,21 @@ export class PolicyEditorComponent {
             policyName: this.selectedPolicy?.policyName,
             validUntil: this.selectedPolicy?.validUntil,
             bpns: this.selectedPolicy?.bpn,
-            accessType: this.selectedPolicy?.accessType[0].toUpperCase(),
+            accessType: this.selectedPolicy?.accessType,
           });
 
 
           let permissionList = this.selectedPolicy.permissions[0].constraint.and.length ? this.selectedPolicy.permissions[0].constraint.and : this.selectedPolicy.permissions[0].constraint.or;
           let constraintsList = permissionList.map((constraint) => this.fb.group({
             leftOperand: this.fb.control<string>(constraint.leftOperand),
-            operator: this.fb.control<string>(constraint.operator['@id'].toUpperCase()),
+            operator: this.fb.control<string>('='),
             rightOperand: this.fb.control<string>(constraint['odrl:rightOperand']),
           }));
 
           this.policyForm.setControl('constraints', this.fb.array(constraintsList));
+          if (this.viewMode === ViewMode.VIEW) {
+            this.policyForm.disable();
+          }
         }
 
 
@@ -81,14 +93,13 @@ export class PolicyEditorComponent {
   }
 
   private setSelectedPolicy(): void {
-    const policyIdFromUrl = this.router.url.split('/').pop();
     this.policyFacade.setSelectedPolicyById(this.router.url.split('/').pop());
   }
 
   addConstraintFormGroup() {
     this.constraints.push(this.fb.group({
       leftOperand: new FormControl(''),
-      operator: new FormControl<string>(null),
+      operator: new FormControl<string>('='),
       rightOperand: new FormControl(''),
     }));
   }
@@ -134,10 +145,6 @@ export class PolicyEditorComponent {
     }
   }
 
-  selectTemplateFile() {
-
-  }
-
   navigateToEditView() {
     this.router.navigate([ 'admin/policies/', 'edit', this.selectedPolicy.policyId ]);
   }
@@ -156,10 +163,6 @@ export class PolicyEditorComponent {
   }
 
   protected readonly ViewMode = ViewMode;
-
-  protected readonly PolicyAction = PolicyAction;
-
-  protected readonly OperatorTypesAsSelectModel = OperatorTypesAsSelectModel;
-
-
+  protected readonly OperatorTypesAsSelectOptionsList = OperatorTypesAsSelectOptionsList;
+  protected readonly ConstraintLogicTypeAsSelectOptionsList = ConstraintLogicTypeAsSelectOptionsList;
 }

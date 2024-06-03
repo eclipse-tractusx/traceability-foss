@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination } from '@core/model/pagination.model';
 import { PoliciesState } from '@page/admin/presentation/policy-management/policies/policies.state';
+import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
 import { provideDataObject } from '@page/parts/core/parts.helper';
 import { Policy } from '@page/policies/model/policy.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
@@ -30,12 +30,7 @@ export class PoliciesFacade {
     this.policiesSubscription?.unsubscribe();
     this.policiesSubscription = this.policyService.getPaginatedPolicies(page, pageSize, sorting, filter).pipe(map(response => {
       const assembled = response.content.map(policy => {
-        return {
-          ...policy,
-          createdOn: new CalendarDateModel(policy.createdOn as string),
-          validUntil: new CalendarDateModel(policy.validUntil as string),
-          accessType: policy.accessType.map(type => type.toUpperCase()),
-        };
+        return PoliciesAssembler.assemblePolicy(policy);
       });
       return { ...response, content: assembled } as Pagination<Policy>;
     })).subscribe({
@@ -59,7 +54,7 @@ export class PoliciesFacade {
 
   public setSelectedPolicyById(policyId: string): void {
     this.policyService.getPolicyById(policyId).subscribe({
-      next: data => (this.policiesState.selectedPolicy = { data: data }),
+      next: data => (this.policiesState.selectedPolicy = { data: PoliciesAssembler.assemblePolicy(data) }),
       error: error => (this.policiesState.selectedPolicy = { error }),
     });
   }

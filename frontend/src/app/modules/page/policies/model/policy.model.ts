@@ -49,7 +49,7 @@ export interface Policy {
   policyName?: string;
   bpn?: string;
   constraints?: string[]
-  accessType?: PolicyAction[],
+  accessType?: PolicyAction,
 
 }
 
@@ -58,12 +58,14 @@ export interface PolicyPermission {
   constraint: {
     and: PolicyConstraint[];
     or: null | PolicyConstraint[];
+    xone?: PolicyConstraint[];
+    andsequence?: PolicyConstraint[];
   };
 }
 
 export enum PolicyAction {
-  ACCESS = 'access',
-  USE = 'use'
+  ACCESS = 'ACCESS',
+  USE = 'USE'
 }
 
 export interface PolicyConstraint {
@@ -73,19 +75,26 @@ export interface PolicyConstraint {
 }
 
 export enum OperatorType {
-  EQ = 'eq',
-  NEQ = 'neq',
-  LT = 'lt',
-  GT = 'gt',
-  IN = 'in',
-  LTEQ = 'lteq',
-  GTEQ = 'gteq',
-  ISA = 'isA',
-  HASPART = 'hasPart',
-  ISPARTOF = 'isPartOf',
-  ISONEOF = 'isOneOf',
-  ISALLOF = 'isAllOf',
-  ISNONEOF = 'isNoneOf',
+  EQ = 'EQ',
+  NEQ = 'NEQ',
+  LT = 'LT',
+  GT = 'GT',
+  LTEQ = 'LTEQ',
+  GTEQ = 'GTEQ',
+  IN = 'IN',
+  ISA = 'ISA',
+  HASPART = 'HASPART',
+  ISPARTOF = 'ISPARTOF',
+  ISONEOF = 'ISONEOF',
+  ISALLOF = 'ISALLOF',
+  ISNONEOF = 'ISNONEOF',
+}
+
+export enum ConstraintLogicType {
+  AND = 'AND',
+  OR = 'OR',
+  XONE = 'XONE',
+  ANDSEQUENCE = 'ANDSEQUENCE'
 }
 
 export function mapToPolicyEntryList(policyResponse: PolicyResponseMap): PolicyEntry[] {
@@ -94,7 +103,7 @@ export function mapToPolicyEntryList(policyResponse: PolicyResponseMap): PolicyE
     value.forEach((entry) => {
       entry.payload.policy.bpn = key;
       entry.payload.policy.policyName = entry.payload['@id'];
-      entry.payload.policy.accessType = entry.payload.policy.permissions.map(rule => rule.action);
+      entry.payload.policy.accessType = entry.payload.policy.permissions[0].action;
       entry.payload.policy.constraints = mapDisplayPropsToPolicyRootLevel(entry);
       list.push(entry);
     });
@@ -104,7 +113,7 @@ export function mapToPolicyEntryList(policyResponse: PolicyResponseMap): PolicyE
 
 function mapDisplayPropsToPolicyRootLevel(entry: PolicyEntry): string[] {
   entry.payload.policy.policyName = entry.payload['@id'];
-  entry.payload.policy.accessType = entry.payload.policy.permissions.map(rule => rule.action);
+  entry.payload.policy.accessType = entry.payload.policy.permissions[0].action;
   let constrainsList = [];
   entry.payload.policy.permissions.forEach(permission => {
     permission.constraint.and.forEach(andConstraint => {
@@ -124,10 +133,3 @@ function mapDisplayPropsToPolicyRootLevel(entry: PolicyEntry): string[] {
 export function getPolicyFromEntryList(policyEntryList: PolicyEntry[]): Policy[] {
   return policyEntryList.map(entry => entry.payload.policy);
 }
-
-/*
-export function assemblePolicy(policy: Policy): Policy {
-
-}
-
- */

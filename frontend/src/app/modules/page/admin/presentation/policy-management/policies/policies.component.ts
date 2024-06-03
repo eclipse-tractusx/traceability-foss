@@ -58,16 +58,16 @@ export class PoliciesComponent {
       } ],
       sortableColumns: {
         select: false,
-        bpn: true,
-        policyName: true,
-        policyId: true,
-        accessType: true,
-        createdOn: true,
-        validUntil: true,
-        constraints: true,
+        bpn: false,
+        policyName: false,
+        policyId: false,
+        accessType: false,
+        createdOn: false,
+        validUntil: false,
+        constraints: false,
         menu: false,
       },
-      hasPagination: true,
+      hasPagination: false,
     };
 
     this.policiesView$ = this.policyFacade.policies$;
@@ -98,11 +98,11 @@ export class PoliciesComponent {
   }
 
   openDetailedView(selectedPolicy: Record<string, unknown>) {
-    this.router.navigate([ 'admin/' + KnownAdminRoutes.POLICY_MANAGEMENT + '/' + this.policyFacade.selectedPolicy.policyId ]);
+    this.router.navigate([ 'admin/' + KnownAdminRoutes.POLICY_MANAGEMENT + '/' + selectedPolicy.policyId ]);
   }
 
   openEditView(selectedPolicy: any) {
-    this.router.navigate([ 'admin/' + KnownAdminRoutes.POLICY_MANAGEMENT + '/edit/' + this.policyFacade.selectedPolicy.policyId ]);
+    this.router.navigate([ 'admin/' + KnownAdminRoutes.POLICY_MANAGEMENT + '/edit/' + selectedPolicy.policyId ]);
   }
 
   openDeletionDialog() {

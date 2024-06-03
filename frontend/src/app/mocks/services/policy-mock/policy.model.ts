@@ -52,8 +52,8 @@ export const mockedPolicyResponseMap: PolicyResponseMap = {
         '@id': 'e917f5f-8dac-49ac-8d10-5b4d254d2b48',
         'policy': {
           'policyId': 'e917f5f-8dac-49ac-8d10-5b4d254d2b48',
-          'createdOn': '2024-03-28T03:34:42.9454448Z',
-          'validUntil': '2025-12-12T23:59:59.999Z',
+          'createdOn': '2024-05-29T06:18:40Z',
+          'validUntil': '2024-05-29T06:18:40Z',
           'permissions': [
             {
               'action': PolicyAction.USE,
@@ -97,8 +97,8 @@ const mockedPolicies = {
       policyName: 'Mocked_Policy_Name_1',
       policyId: 'Mocked_Policy_1',
       accessType: PolicyAction.ACCESS,
-      createdOn: '2024-02-26T13:38:07+01:00',
-      validUntil: '2024-02-26T13:38:07+01:00',
+      createdOn: '2024-05-29T06:18:40Z',
+      validUntil: '2024-05-29T06:18:40Z',
       constraints: [ 'Membership = active', 'AND FrameworkAgreement.traceability in [active]', 'AND PURPOSE = ID 3.1 Trace' ],
       permissions: [
         {
@@ -131,8 +131,8 @@ const mockedPolicies = {
       policyName: 'Mocked_Policy_Name_2',
       policyId: 'Mocked_Policy_2',
       accessType: PolicyAction.USE,
-      createdOn: '2024-02-26T13:38:07+01:00',
-      validUntil: '2024-02-26T13:38:07+01:00',
+      createdOn: '2024-05-29T06:18:40Z',
+      validUntil: '2024-05-29T06:18:40Z',
       constraints: [ 'PURPOSE = ID 3.1 Trace', 'OR PURPOSE = ID 3.0 Trace' ],
       permissions: [
         {

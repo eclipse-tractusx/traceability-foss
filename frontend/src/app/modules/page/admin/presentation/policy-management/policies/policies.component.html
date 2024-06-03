@@ -7,16 +7,15 @@
       *viewContainer="policiesView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
     <ng-template #mainTmp let-policies="view">
       <app-table
-        [paginationData]="policies.data"
+        [data]="policies?.data?.content"
         [additionalTableHeader]="true"
         [basicTableHeaderMenuEnabled]="true"
-        [autocompleteEnabled]="true"
+        [autocompleteEnabled]="false"
         [tableHeader]="'pageAdmin.policyManagement.policyManagement'"
         [tableConfig]="tableConfig"
         [noShadow]="true"
         [labelId]="'policies'"
         [showHover]="false"
-        [multiSortList]="multiSortList"
         [tableType]="TableType.POLICIES"
         [tableSettingsEnabled]="true"
         (selected)="openDetailedView($event)"

@@ -4,13 +4,13 @@ export class PoliciesConfigurationModel extends TableFilterConfiguration {
   constructor() {
     const sortableColumns = {
       select: false,
-      bpn: true,
-      policyName: true,
-      policyId: true,
-      accessType: true,
-      createdOn: true,
-      validUntil: true,
-      constraints: true,
+      bpn: false,
+      policyName: false,
+      policyId: false,
+      accessType: false,
+      createdOn: false,
+      validUntil: false,
+      constraints: false,
       menu: false,
     };
 
