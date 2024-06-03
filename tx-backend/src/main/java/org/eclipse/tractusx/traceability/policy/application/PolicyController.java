@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc.rest;
+package org.eclipse.tractusx.traceability.policy.application;
 
 
 import assets.importpoc.ErrorResponse;
