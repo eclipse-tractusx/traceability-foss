@@ -98,7 +98,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
         // GIVEN
         irsApiSupport.irsApiUpdatesPolicy();
 
-        UpdatePolicyRequest request = new UpdatePolicyRequest(List.of("abc"), List.of("abc"), LocalDateTime.MAX);
+        UpdatePolicyRequest request = new UpdatePolicyRequest(List.of("abc"), List.of("abc"), Instant.MAX);
 
         // when/then
         given()
