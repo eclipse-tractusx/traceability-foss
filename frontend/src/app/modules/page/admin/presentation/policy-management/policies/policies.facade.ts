@@ -3,7 +3,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { PoliciesState } from '@page/admin/presentation/policy-management/policies/policies.state';
 import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
 import { provideDataObject } from '@page/parts/core/parts.helper';
-import { Policy } from '@page/policies/model/policy.model';
+import { Policy, PolicyEntry } from '@page/policies/model/policy.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PolicyService } from '@shared/service/policy.service';
@@ -68,5 +68,9 @@ export class PoliciesFacade {
 
   deletePolicies(selectedPolicies: Policy[]) {
     return this.policyService.deletePolicies(selectedPolicies.map(policy => policy.policyId));
+  }
+
+  createPolicy(policyEntry: PolicyEntry) {
+    return this.policyService.createPolicy(policyEntry);
   }
 }

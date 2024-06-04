@@ -66,7 +66,29 @@
       "policy" : "Policy",
       "create" : "creation",
       "edit" : "edit",
-      "view" : "details"
+      "view" : "details",
+      "selectFileHint" : "Selected template filename",
+      "applyChange" : "Apply template to overwrite content with the provided template",
+      "chooseFile" : "Select a template file to be able to apply it",
+      "apply" : "Apply",
+      "policyName" : "Policy name",
+      "validUntil" : "Valid until",
+      "bpnls" : "BPNLs",
+      "policyConstraints" : "Policy type",
+      "accessType" : "Access type",
+      "constraints" : "Constraints",
+      "logic" : "Logic",
+      "logicTypeHint" : "Please keep in mind, that the order of constraints matters",
+      "constraintLogicType" : "Constraint logic",
+      "leftOperand" : "Left operand",
+      "operator" : "Operator",
+      "rightOperand" : "Right operand",
+      "rightOperandHint" : "Please provide comma separated strings for the operators IN, ISONEOF, ISALLOF, ISNONEOF",
+      "moveDownward" : "Move downward",
+      "moveUpward" : "Move upward",
+      "successMessage" : "Successfully saved policy",
+      "errorMessage" : "Error while trying to save policy"
+
     }
   }
 }

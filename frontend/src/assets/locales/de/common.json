@@ -67,7 +67,9 @@
     "goBack": "Zurück",
     "publishAssets": "Produkte veröffentlichen",
     "maximizeTable": "Volle Breite",
-    "userSettings": "Tabellen Einstellung"
+    "userSettings" : "Tabellen Einstellung",
+    "uploadFile" : "Vorlage aus Datei hochladen",
+    "downloadFile" : "Vorlage als Datei herunterladen"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",

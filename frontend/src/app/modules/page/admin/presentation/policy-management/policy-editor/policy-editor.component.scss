@@ -12,3 +12,34 @@
 .details-container {
   width: 50%;
 }
+
+.constraints--header--label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.constraints--header--sub-label {
+  font-size: 12px;
+  font-weight: normal;
+  font-family: Catena-X Light, sans-serif;
+  color: #777777;
+
+  &--logicType {
+    font-size: 12px;
+    font-weight: normal;
+    font-family: Catena-X Light, sans-serif;
+    color: #777777;
+    width: 200px;
+    @media(max-width: 1373px) {
+      height: 54px;
+    }
+  }
+}
+
+.constraints--header--container {
+  width: calc(100% - 192px);
+}
+
+.label-row-view-mode {
+  width: 100%;
+}

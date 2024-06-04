@@ -65,7 +65,9 @@
     "goBack": "Back",
     "publishAssets": "Publish assets",
     "maximizeTable": "Full width",
-    "userSettings": "Table settings"
+    "userSettings" : "Table settings",
+    "uploadFile" : "Upload template file",
+    "downloadFile" : "Download template as file"
   },
   "publisher": {
     "selectedAssets": "Assets selected",

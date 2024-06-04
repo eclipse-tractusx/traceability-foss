@@ -1,11 +1,6 @@
 import { PaginationResponse } from '@core/model/pagination.model';
-import {
-  mapToPolicyEntryList,
-  OperatorType,
-  Policy,
-  PolicyAction,
-  PolicyResponseMap,
-} from '@page/policies/model/policy.model';
+import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
+import { OperatorType, Policy, PolicyAction, PolicyResponseMap } from '@page/policies/model/policy.model';
 
 /********************************************************************************
  * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
@@ -32,12 +27,12 @@ export const getPolicies = (): PaginationResponse<Policy> => {
     pageSize: 10,
     totalItems: 1,
     pageCount: 1,
-    content: mapToPolicyEntryList(mockedPolicyResponseMap).map(entry => entry.payload.policy),
+    content: PoliciesAssembler.mapToPolicyEntryList(mockedPolicyResponseMap).map(entry => entry.payload.policy),
   }
 };
 
 export const getPolicyById = (policyId: string | ReadonlyArray<string>): Policy => {
-  return mapToPolicyEntryList(mockedPolicyResponseMap).map(entry => entry.payload.policy).filter(policy => policy.policyId === policyId)[0];
+  return PoliciesAssembler.mapToPolicyEntryList(mockedPolicyResponseMap).map(entry => entry.payload.policy).filter(policy => policy.policyId === policyId)[0];
 };
 
 

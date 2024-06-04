@@ -30,7 +30,6 @@ export const OperatorTypesAsSelectOptionsList: any[] = Object.keys(OperatorType)
 });
 
 export const ConstraintLogicTypeAsSelectOptionsList: any[] = Object.keys(ConstraintLogicType).map(key => {
-  console.log(key);
   return {
     label: key, value: key,
   };

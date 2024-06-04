@@ -27,6 +27,7 @@ export interface PolicyResponseMap {
 export interface PolicyEntry {
   validUntil: string;
   payload: PolicyPayload;
+  businessPartnerNumber?: string;
 }
 
 export interface PolicyPayload {
@@ -69,9 +70,12 @@ export enum PolicyAction {
 }
 
 export interface PolicyConstraint {
-  leftOperand: string;
-  operator: { '@id': OperatorType };
-  'odrl:rightOperand': string;
+  leftOperand?: string;
+  'odrl:leftOperand'?: string;
+  operator?: { '@id': OperatorType };
+  'odrl:operator'?: { '@id': OperatorType };
+  rightOperand?: string;
+  'odrl:rightOperand'?: string;
 }
 
 export enum OperatorType {
@@ -90,44 +94,26 @@ export enum OperatorType {
   ISNONEOF = 'ISNONEOF',
 }
 
+const OperatorSignsToTypes: { [key: string]: OperatorType } = {
+  '=': OperatorType.EQ,
+  '!=': OperatorType.NEQ,
+  '<': OperatorType.LT,
+  '>': OperatorType.GT,
+  '<=': OperatorType.LTEQ,
+  '>=': OperatorType.GTEQ,
+  ...OperatorType,
+  // Add more mappings as needed
+};
+
+export function getOperatorType(sign: string): OperatorType | undefined {
+  return OperatorSignsToTypes[sign];
+}
+
 export enum ConstraintLogicType {
   AND = 'AND',
   OR = 'OR',
   XONE = 'XONE',
   ANDSEQUENCE = 'ANDSEQUENCE'
-}
-
-export function mapToPolicyEntryList(policyResponse: PolicyResponseMap): PolicyEntry[] {
-  const list: PolicyEntry[] = [];
-  for (const [ key, value ] of Object.entries(policyResponse)) {
-    value.forEach((entry) => {
-      entry.payload.policy.bpn = key;
-      entry.payload.policy.policyName = entry.payload['@id'];
-      entry.payload.policy.accessType = entry.payload.policy.permissions[0].action;
-      entry.payload.policy.constraints = mapDisplayPropsToPolicyRootLevel(entry);
-      list.push(entry);
-    });
-  }
-  return list;
-}
-
-function mapDisplayPropsToPolicyRootLevel(entry: PolicyEntry): string[] {
-  entry.payload.policy.policyName = entry.payload['@id'];
-  entry.payload.policy.accessType = entry.payload.policy.permissions[0].action;
-  let constrainsList = [];
-  entry.payload.policy.permissions.forEach(permission => {
-    permission.constraint.and.forEach(andConstraint => {
-      constrainsList.push(andConstraint.leftOperand);
-      constrainsList.push(andConstraint.operator['@id']);
-      constrainsList.push(andConstraint['odrl:rightOperand']);
-    });
-    permission.constraint?.or?.forEach(orConstraint => {
-      constrainsList.push(orConstraint.leftOperand);
-      constrainsList.push(orConstraint.operator['@id']);
-      constrainsList.push(orConstraint['odrl:rightOperand']);
-    });
-  });
-  return constrainsList;
 }
 
 export function getPolicyFromEntryList(policyEntryList: PolicyEntry[]): Policy[] {

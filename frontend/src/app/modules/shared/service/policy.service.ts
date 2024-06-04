@@ -4,7 +4,7 @@ import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { FilterOperator, getFilterOperatorValue } from '@page/parts/model/parts.model';
-import { Policy } from '@page/policies/model/policy.model';
+import { Policy, PolicyEntry } from '@page/policies/model/policy.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { isDateFilter, isDateRangeFilter, isSameDate, isStartsWithFilter } from '@shared/helper/filter-helper';
 import { Observable } from 'rxjs';
@@ -108,5 +108,9 @@ export class PolicyService {
 
   deletePolicies(policyIds: string[]) {
     return this.apiService.delete(`${ this.url }/policies`, new HttpParams().set('policyIds', policyIds.toString()));
+  }
+
+  createPolicy(policyEntry: PolicyEntry): Observable<any> {
+    return this.apiService.post(`${ this.url }/policies`, policyEntry);
   }
 }

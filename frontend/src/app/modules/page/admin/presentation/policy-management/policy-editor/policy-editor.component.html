@@ -74,19 +74,20 @@
         ></app-button>
       </div>
 
-      <input type="file" (change)="onFileSelected($event)" hidden #fileInput>
+      <input type="file" accept="application/json" (change)="onFileSelected($event)" hidden #fileInput>
       <input type="text" class="file-input mr-4" [ngClass]="templateFileName.length < 1 ? 'hinttext' : ''"
              [value]="templateFileName.length ? templateFileName : ('pageAdmin.policyManagement.selectFileHint' | i18n)"
-             label="File" readonly>
+             label="File" disabled>
       <div
         class="template-apply-button-container"
-        matTooltip="{{ templateFile ? 'pageAdmin.policyManagement.applyChange' : 'pageAdmin.policyManagement.chooseFile' | i18n}}"
+        matTooltip="{{ (templateFile ? 'pageAdmin.policyManagement.applyChange' : 'pageAdmin.policyManagement.chooseFile') | i18n}}"
         matTooltipClass="table--header--tooltip"
         matTooltipPosition="above"
         [class.mdc-tooltip--multiline]="true"
         [matTooltipShowDelay]="500"
       >
         <app-button [variant]="'raised'" [color]="'primary'"
+                    (click)="applyTemplate()"
                     [isDisabled]="!templateFile">{{ 'pageAdmin.policyManagement.apply' | i18n }}
         </app-button>
 
@@ -139,13 +140,35 @@
           ></app-button>
         </div>
 
-        <div class=" constraints-form container flex w-full gap-2">
+        <div class=" constraints-form container flex w-full gap-3">
           <div class="constraints-form-logic-container">
+            <div class="constraints--header--label flex-1 mb-2">
+              {{ "pageAdmin.policyManagement.logic" | i18n }}
+              <div class="constraints--header--sub-label--logicType">
+                {{ "pageAdmin.policyManagement.logicTypeHint" | i18n }}
+              </div>
+            </div>
             <app-select id="constraintLogicType" [formControlName]="'constraintLogicType'"
                         [label]="'pageAdmin.policyManagement.constraintLogicType' | i18n" class="flex-1"
                         [options]="ConstraintLogicTypeAsSelectOptionsList"></app-select>
           </div>
           <div formArrayName="constraints" class="constraints-rules-container flex-1 w-full">
+            <div class="constraints--header--container flex mb-2"
+                 [ngClass]="{'label-row-view-mode': viewMode === ViewMode.VIEW}">
+              <div class="constraints--header--label flex-1">
+                {{ "pageAdmin.policyManagement.leftOperand" | i18n }}
+              </div>
+              <div class="constraints--header--label flex-1">
+                {{ "pageAdmin.policyManagement.operator" | i18n }}
+              </div>
+              <div class="constraints--header--label flex-1">
+                {{ "pageAdmin.policyManagement.rightOperand" | i18n }}
+                <div class="constraints--header--sub-label">
+                  {{ "pageAdmin.policyManagement.rightOperandHint" | i18n }}
+
+                </div>
+              </div>
+            </div>
             <div *ngFor="let constraint of constraints.controls; let i=index;" [formGroupName]="i"
                  class="flex w-full gap-2">
               <app-input id="leftOperand-{{i}}" [formControlName]="'leftOperand'"
