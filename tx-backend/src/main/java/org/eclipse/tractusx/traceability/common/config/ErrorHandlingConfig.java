@@ -33,6 +33,7 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.validation
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportJobNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
@@ -44,15 +45,15 @@ import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractExce
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationIllegalUpdate;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -106,11 +107,11 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         String errorMessage;
 
         if (status.equals(BAD_REQUEST)) {
-            errorMessage = "Bad Request: " + exception.getMessage();
+            errorMessage = exception.getMessage();
         } else if (status.equals(NOT_FOUND)) {
-            errorMessage = "Not Found: " + exception.getMessage();
+            errorMessage = exception.getMessage();
         } else {
-            errorMessage = "Client Error: " + exception.getMessage();
+            errorMessage = exception.getMessage();
         }
 
         return ResponseEntity.status(status)
@@ -125,9 +126,9 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         String errorMessage;
 
         if (status.equals(HttpStatus.INTERNAL_SERVER_ERROR)) {
-            errorMessage = "Internal Server Error: An unexpected error occurred on the server.";
+            errorMessage = exception.getMessage();
         } else {
-            errorMessage = "Server Error: An unexpected error occurred.";
+            errorMessage = exception.getMessage();
         }
 
         return ResponseEntity.status(status)
@@ -156,6 +157,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(AssetNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException exception) {
         log.warn("handleAssetNotFoundException", exception);
+        return ResponseEntity.status(NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(PolicyNotFoundException.class)
+    ResponseEntity<ErrorResponse> handlePolicyNotFoundException(PolicyNotFoundException exception) {
+        log.warn("handlePolicyNotFoundException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
