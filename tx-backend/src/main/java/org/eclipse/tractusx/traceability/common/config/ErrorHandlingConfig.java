@@ -106,11 +106,11 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         String errorMessage;
 
         if (status.equals(BAD_REQUEST)) {
-            errorMessage = "Bad Request: Failed to process the request.";
+            errorMessage = "Bad Request: " + exception.getMessage();
         } else if (status.equals(NOT_FOUND)) {
-            errorMessage = "Not Found: The requested resource was not found.";
+            errorMessage = "Not Found: " + exception.getMessage();
         } else {
-            errorMessage = "Client Error: An unexpected error occurred.";
+            errorMessage = "Client Error: " + exception.getMessage();
         }
 
         return ResponseEntity.status(status)
