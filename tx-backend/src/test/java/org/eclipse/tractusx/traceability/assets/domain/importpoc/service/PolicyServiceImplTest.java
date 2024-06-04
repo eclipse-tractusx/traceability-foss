@@ -38,6 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.testdata.PolicyTestDataFactory.createIrsPolicyResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -78,6 +79,7 @@ class PolicyServiceImplTest {
         IrsPolicyResponse fourthPolicyResponse = createIrsPolicyResponse("test4", OffsetDateTime.now(), "my-left-constraint4", "", "my-constraint4", "");
         List<IrsPolicyResponse> policyResponseList = List.of(firstPolicyResponse, secondPolicyResponse, thirdPolicyResponse, fourthPolicyResponse);
         when(policyRepository.getPolicies()).thenReturn(policyResponseList);
+        when(policyRepository.getPolicy(anyString())).thenReturn(Optional.of(fourthPolicyResponse));
         when(traceabilityProperties.getRightOperand()).thenReturn("my-constraint4");
         when(traceabilityProperties.getLeftOperand()).thenReturn("my-left-constraint4");
         // When
