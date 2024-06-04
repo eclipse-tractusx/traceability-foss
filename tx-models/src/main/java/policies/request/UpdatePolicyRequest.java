@@ -18,12 +18,12 @@
  ********************************************************************************/
 package policies.request;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 public record UpdatePolicyRequest(
         List<String> businessPartnerNumbers,
         List<String> policyIds,
-        LocalDateTime validUntil
+        Instant validUntil
 ) {}
 
