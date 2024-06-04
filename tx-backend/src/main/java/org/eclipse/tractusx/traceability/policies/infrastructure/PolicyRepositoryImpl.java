@@ -30,6 +30,7 @@ import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -46,6 +47,12 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     public List<IrsPolicyResponse> getPolicies() {
         return policyClient.getPolicies();
     }
+
+    @Override
+    public Optional<IrsPolicyResponse> getPolicy(String policyId) {
+        return getPolicies().stream().filter(irsPolicyResponse -> irsPolicyResponse.payload().policyId().equals(policyId)).findFirst();
+    }
+
 
     @Override
     public void createPolicyBasedOnAppConfig() {

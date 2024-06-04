@@ -18,10 +18,17 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import com.xebialabs.restito.semantics.Action;
+import com.xebialabs.restito.semantics.Condition;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.header;
@@ -95,14 +102,59 @@ public class IrsApiSupport {
                 );
     }
 
+
     public void irsApiReturnsPolicies() {
         whenHttp(restitoProvider.stubServer()).match(
-                        get("/irs/policies")
-                )
-                .then(
-                        status(HttpStatus.OK_200),
-                        header("Content-Type", "application/json"),
-                        restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies.json")
-                );
+                Condition.get("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies.json")
+        );
+    }
+
+    public void irsApiReturnsPolicyById(String policyId) {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.get("/irs/policies/" + policyId)
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policyById.json")
+        );
+    }
+
+    public void irsApiCreatesPolicy() {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.post("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_createPolicy.json")
+        );
+    }
+
+    public void irsApiUpdatesPolicy() {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.put("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                Action.stringContent("{\"message\": \"Policy updated successfully.\"}")
+        );
+    }
+
+    public void irsApiDeletesPolicy(String policyId) {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.delete("/irs/policies/" + policyId)
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                Action.stringContent("{\"message\": \"Policy deleted successfully.\"}")
+        );
+    }
+    private String readFile(String filePath) throws IOException {
+        // Implement reading file content from the specified filePath
+        // This is a utility method to read the JSON response from a file
+        return new String(Files.readAllBytes(Paths.get(filePath)), StandardCharsets.UTF_8);
     }
 }

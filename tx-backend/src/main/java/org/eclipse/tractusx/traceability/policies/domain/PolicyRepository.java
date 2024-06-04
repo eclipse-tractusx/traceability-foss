@@ -24,9 +24,11 @@ import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PolicyRepository {
     List<IrsPolicyResponse> getPolicies();
+    Optional<IrsPolicyResponse> getPolicy(String policyId);
     void createPolicyBasedOnAppConfig();
     void deletePolicy(String policyId);
     void updatePolicy(UpdatePolicyRequest updatePolicyRequest);

@@ -20,11 +20,10 @@
 package policies.request;
 
 import java.time.Instant;
-import java.util.List;
 
 public record RegisterPolicyRequest(
         Instant validUntil,
-        List<String> businessPartnerNumber,
+        String businessPartnerNumber,
         Payload payload
 ) {
 

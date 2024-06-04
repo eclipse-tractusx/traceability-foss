@@ -18,18 +18,18 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.policies.domain;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
-import policies.response.PolicyResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import policies.response.IrsPolicyResponse;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Service;
+import policies.response.PolicyResponse;
 
 import java.util.AbstractMap;
 import java.util.List;
@@ -49,15 +49,13 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public List<PolicyResponse> getPolicies() {
-        return IrsPolicyResponse.toResponse(getAcceptedPoliciesOrEmptyList());
+        List<IrsPolicyResponse> policies = policyRepository.getPolicies();
+        return IrsPolicyResponse.toResponse(policies);
     }
 
     @Override
     public PolicyResponse getPolicy(String id) {
-        return getAcceptedPoliciesOrEmptyList().stream()
-                .filter(policy -> policy.payload().policy().getPolicyId().equals(id)).findFirst()
-                .map(IrsPolicyResponse::toResponse)
-                .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
+        return policyRepository.getPolicy(id).map(IrsPolicyResponse::toResponse).orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
     }
 
     @Override

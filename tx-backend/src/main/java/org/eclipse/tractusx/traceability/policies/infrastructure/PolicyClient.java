@@ -46,6 +46,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_ADMIN_TEMPLATE;
@@ -105,7 +106,7 @@ public class PolicyClient {
         Policy policy = new Policy(policyId, Instant.now().atOffset(ZoneOffset.UTC), validUntil, List.of(permission));
 
         Payload payload = new Payload(context, policyId, policy);
-        RegisterPolicyRequest registerPolicyRequest = new RegisterPolicyRequest(validUntil.toInstant(), payload);
+        RegisterPolicyRequest registerPolicyRequest = new RegisterPolicyRequest(validUntil.toInstant(), traceabilityProperties.getBpn().value(), payload);
         irsAdminTemplate.exchange(policiesPath, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
     }
 }
