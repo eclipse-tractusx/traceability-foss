@@ -104,7 +104,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     ResponseEntity<ErrorResponse> handleHttpClientErrorException(HttpClientErrorException exception) {
         log.warn("handleHttpClientErrorException", exception);
 
-        HttpStatusCode status = exception.getStatusCode();
+        HttpStatusCode status = HttpStatusCode.valueOf(exception.getStatusCode().value());
         String errorMessage;
 
         if (status.equals(BAD_REQUEST)) {
@@ -113,10 +113,9 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
             throw new PolicyNotFoundException(exception.getMessage());
         } else {
             errorMessage = exception.getMessage();
+            return ResponseEntity.status(status)
+                    .body(new ErrorResponse(errorMessage));
         }
-
-        return ResponseEntity.status(status)
-                .body(new ErrorResponse(errorMessage));
     }
 
     @ExceptionHandler(PolicyBadRequestException.class)
