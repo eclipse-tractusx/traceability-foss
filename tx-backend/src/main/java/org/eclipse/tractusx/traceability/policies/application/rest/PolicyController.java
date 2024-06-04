@@ -342,8 +342,8 @@ public class PolicyController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @DeleteMapping()
-    public void deletePolicy(String policyId) {
+    @DeleteMapping("/{policyId}")
+    public void deletePolicy(@PathVariable("policyId") String policyId) {
         policyService.deletePolicy(policyId);
     }
 }
