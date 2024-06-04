@@ -33,6 +33,7 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.validation
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportJobNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyBadRequestException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
@@ -107,15 +108,22 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         String errorMessage;
 
         if (status.equals(BAD_REQUEST)) {
-            errorMessage = exception.getMessage();
+            throw new PolicyBadRequestException(exception.getMessage());
         } else if (status.equals(NOT_FOUND)) {
-            errorMessage = exception.getMessage();
+            throw new PolicyNotFoundException(exception.getMessage());
         } else {
             errorMessage = exception.getMessage();
         }
 
         return ResponseEntity.status(status)
                 .body(new ErrorResponse(errorMessage));
+    }
+
+    @ExceptionHandler(PolicyBadRequestException.class)
+    ResponseEntity<ErrorResponse> handlePolicyBadRequestException(PolicyBadRequestException exception) {
+        log.warn("handlePolicyBadRequestException", exception);
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(HttpServerErrorException.class)
