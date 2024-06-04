@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import policies.request.RegisterPolicyRequest;
@@ -227,7 +228,7 @@ public class PolicyController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping()
-    public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
+    public CreatePolicyResponse createPolicy(@RequestBody RegisterPolicyRequest registerPolicyRequest) {
         return policyService.createPolicy(registerPolicyRequest);
     }
 
@@ -285,7 +286,7 @@ public class PolicyController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PutMapping()
-    public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
+    public void updatePolicy(@RequestBody UpdatePolicyRequest updatePolicyRequest) {
         policyService.updatePolicy(updatePolicyRequest);
     }
 
