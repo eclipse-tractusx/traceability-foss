@@ -7,7 +7,7 @@
       *viewContainer="policiesView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
     <ng-template #mainTmp let-policies="view">
       <app-table
-        [data]="policies?.data?.content"
+        [data]="policies?.data"
         [additionalTableHeader]="true"
         [basicTableHeaderMenuEnabled]="true"
         [autocompleteEnabled]="false"
@@ -19,9 +19,7 @@
         [tableType]="TableType.POLICIES"
         [tableSettingsEnabled]="true"
         (selected)="openDetailedView($event)"
-        (configChanged)="onTableConfigChange($event)"
         (editClicked)="openEditView($event)"
-        (filterActivated)="filterActivated($event)"
         (multiSelect)="multiSelection($event)"
         (deletionClicked)="openDeletionDialog();"
 

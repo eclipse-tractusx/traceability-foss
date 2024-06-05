@@ -63,8 +63,6 @@ export class PolicyEditorComponent {
         if (next?.data) {
           this.updatePolicyForm(this.selectedPolicy);
         }
-
-
       });
     }
 
@@ -124,13 +122,13 @@ export class PolicyEditorComponent {
 
   savePolicy() {
     const policyEntry = this.mapPolicyFormToPolicyEntry();
-    this.policyFacade.createPolicy(policyEntry).subscribe({
-      next: next => {
+    const request = this.viewMode === ViewMode.EDIT ? this.policyFacade.updatePolicy(policyEntry) : this.policyFacade.createPolicy(policyEntry);
+    request.subscribe({
+      next: () => {
         this.toastService.success('pageAdmin.policyManagement.successMessage');
+        this.router.navigate([ 'admin', 'policies', policyEntry.payload.policy.policyId ]);
       },
-      error: error => {
-        this.toastService.error('pageAdmin.policyManagement.successMessage');
-      },
+      error: () => this.toastService.error('pageAdmin.policyManagement.successMessage'),
     });
   }
 
@@ -183,15 +181,24 @@ export class PolicyEditorComponent {
   }
 
   updatePolicyForm(policy: Policy) {
+
+    const isFromTemplate = !policy?.permissions[0]?.constraints;
     this.policyForm.patchValue({
       policyName: policy?.policyName,
       validUntil: policy?.validUntil,
       bpns: policy?.bpn,
       accessType: policy?.accessType,
+      constraintLogicType: policy?.permissions[0]?.constraints?.and?.length ? ConstraintLogicType.AND : ConstraintLogicType.OR,
     });
+    if (isFromTemplate) {
+      this.policyForm.patchValue({ constraintLogicType: policy?.permissions[0]?.constraint?.and?.length ? ConstraintLogicType.AND : ConstraintLogicType.OR });
+    }
 
+    let permissionList = policy?.permissions[0]?.constraints?.and?.length ? policy?.permissions[0]?.constraints?.and : policy?.permissions[0]?.constraints?.or;
+    if (!permissionList) {
+      permissionList = policy?.permissions[0]?.constraint?.and?.length ? policy?.permissions[0]?.constraint?.and : policy?.permissions[0]?.constraint?.or;
+    }
 
-    let permissionList = policy.permissions[0].constraint.and.length ? policy.permissions[0].constraint.and : policy.permissions[0].constraint.or;
     let constraintsList = permissionList.map((constraint) => this.fb.group({
       leftOperand: this.fb.control<string>(constraint.leftOperand),
       operator: this.fb.control<string>('='),
@@ -243,7 +250,7 @@ export class PolicyEditorComponent {
       },
     };
 
-    if (policyEntry.payload.policy.permissions[0].constraint?.and.length) {
+    if (policyEntry.payload.policy.permissions[0].constraint?.and?.length) {
       delete policyEntry.payload.policy.permissions[0].constraint?.or;
     } else {
       delete policyEntry.payload.policy.permissions[0].constraint?.and;

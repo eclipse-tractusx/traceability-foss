@@ -52,7 +52,7 @@
       "selectAtleastOne": "Select atleast one contract to use the export functionality.",
       "exportAsCSV": ".CSV-File Export",
       "overview": "Overview",
-      "policyDetail": "Policy detail",
+      "policyDetail" : "Agreement details",
       "jsonViewer": "Json Viewer",
       "jsonTreeViewer": "Json Tree Viewer"
     },

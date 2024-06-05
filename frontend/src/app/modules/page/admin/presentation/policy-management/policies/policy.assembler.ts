@@ -7,9 +7,11 @@ export class PoliciesAssembler {
     const formattedValidUntil = new CalendarDateModel(policy.validUntil as string);
     return {
       ...policy,
+      policyName: policy.policyId,
       createdOn: formattedCreatedOn.isInitial() ? null : formattedCreatedOn.valueOf().toISOString().slice(0, 16),
       validUntil: formattedValidUntil.isInitial() ? null : formattedValidUntil.valueOf().toISOString().slice(0, 16),
-      accessType: policy.accessType.toUpperCase() as PolicyAction,
+      accessType: policy.permissions[0].action.toUpperCase() as PolicyAction,
+      constraints: this.mapDisplayPropsToPolicyRootLevelFromPolicy(policy),
     };
   }
 
@@ -18,14 +20,14 @@ export class PoliciesAssembler {
     for (const [ key, value ] of Object.entries(policyResponse)) {
       value.forEach((entry) => {
         entry.payload.policy.bpn = key;
-        entry.payload.policy.constraints = this.mapDisplayPropsToPolicyRootLevel(entry);
+        entry.payload.policy.constraints = this.mapDisplayPropsToPolicyRootLevelFromPolicyEntry(entry);
         list.push(entry);
       });
     }
     return list;
   }
 
-  public static mapDisplayPropsToPolicyRootLevel(entry: PolicyEntry): string[] {
+  public static mapDisplayPropsToPolicyRootLevelFromPolicyEntry(entry: PolicyEntry): string[] {
     entry.payload.policy.policyName = entry.payload['@id'];
     entry.payload.policy.accessType = entry.payload.policy.permissions[0].action;
     let constrainsList = [];
@@ -39,6 +41,24 @@ export class PoliciesAssembler {
         constrainsList.push(orConstraint.leftOperand);
         constrainsList.push(orConstraint.operator['@id']);
         constrainsList.push(orConstraint['odrl:rightOperand']);
+      });
+    });
+    return constrainsList;
+  }
+
+  public static mapDisplayPropsToPolicyRootLevelFromPolicy(policy: Policy): string[] {
+
+    let constrainsList = [];
+    policy.permissions.forEach(permission => {
+      permission.constraints?.and?.forEach(andConstraint => {
+        constrainsList.push(andConstraint.leftOperand);
+        constrainsList.push(andConstraint.operatorTypeResponse);
+        constrainsList.push(andConstraint.rightOperand);
+      });
+      permission.constraints?.or?.forEach(orConstraint => {
+        constrainsList.push(orConstraint.leftOperand);
+        constrainsList.push(orConstraint.operatorTypeResponse);
+        constrainsList.push(orConstraint.rightOperand);
       });
     });
     return constrainsList;

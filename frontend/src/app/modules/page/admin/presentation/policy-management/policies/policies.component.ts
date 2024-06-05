@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { KnownAdminRoutes } from '@page/admin/core/admin.model';
 import { DeletionDialogComponent } from '@page/admin/presentation/policy-management/deletion-dialog/deletion-dialog.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
 import { Policy } from '@page/policies/model/policy.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import {
   CreateHeaderFromColumns,
   TableConfig,
@@ -27,7 +25,7 @@ import { take } from 'rxjs/operators';
   styleUrls: [ './policies.component.scss' ],
 })
 export class PoliciesComponent {
-  policiesView$: Observable<View<Pagination<Policy>>>;
+  policiesView$: Observable<View<Policy[]>>;
   tableConfig: TableConfig;
   selectedPolicies: Policy[];
   policyFilter: any;
@@ -72,25 +70,14 @@ export class PoliciesComponent {
 
     this.policiesView$ = this.policyFacade.policies$;
     this.policiesView$.pipe(take(2)).subscribe(data => {
-      if (data?.data?.content.length) {
+      if (data?.data?.length) {
         return;
       } else {
-        this.policyFacade.setPolicies(0, 10);
+        this.policyFacade.setPolicies();
       }
     });
 
 
-  }
-
-  filterActivated(policyFilter: any): void {
-    this.policyFilter = policyFilter;
-    this.policyFacade.setPolicies(this.pagination.page, this.pagination.pageSize, this.multiSortList, this.policyFilter);
-  }
-
-  onTableConfigChange(pagination: TableEventConfig): void {
-    this.pagination = pagination;
-    TableSortingUtil.setTableSortingList(pagination.sorting, this.multiSortList, this.ctrlKeyState);
-    this.policyFacade.setPolicies(pagination.page, pagination.pageSize, this.multiSortList, this.policyFilter);
   }
 
   multiSelection(selectedPolicies: Policy[]) {
@@ -125,7 +112,7 @@ export class PoliciesComponent {
     this.policyFacade.deletePolicies(this.selectedPolicies).subscribe({
       next: value => {
         this.toastService.success('pageAdmin.policyManagement.deleteSuccess');
-        this.policyFacade.setPolicies(this.pagination.page, this.pagination.pageSize, this.multiSortList, this.policyFilter);
+        this.policyFacade.setPolicies();
       },
       error: err => {
         this.toastService.error('pageAdmin.policyManagement.deleteError');

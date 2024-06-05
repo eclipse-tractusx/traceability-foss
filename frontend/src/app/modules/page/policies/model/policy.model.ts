@@ -56,7 +56,13 @@ export interface Policy {
 
 export interface PolicyPermission {
   action: PolicyAction;
-  constraint: {
+  constraint?: {
+    and: PolicyConstraint[];
+    or: null | PolicyConstraint[];
+    xone?: PolicyConstraint[];
+    andsequence?: PolicyConstraint[];
+  };
+  constraints?: {
     and: PolicyConstraint[];
     or: null | PolicyConstraint[];
     xone?: PolicyConstraint[];
@@ -72,6 +78,7 @@ export enum PolicyAction {
 export interface PolicyConstraint {
   leftOperand?: string;
   'odrl:leftOperand'?: string;
+  operatorTypeResponse?: OperatorType;
   operator?: { '@id': OperatorType };
   'odrl:operator'?: { '@id': OperatorType };
   rightOperand?: string;

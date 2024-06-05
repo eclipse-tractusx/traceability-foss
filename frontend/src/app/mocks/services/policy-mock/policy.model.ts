@@ -1,6 +1,4 @@
-import { PaginationResponse } from '@core/model/pagination.model';
-import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
-import { OperatorType, Policy, PolicyAction, PolicyResponseMap } from '@page/policies/model/policy.model';
+import { OperatorType, Policy, PolicyAction } from '@page/policies/model/policy.model';
 
 /********************************************************************************
  * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
@@ -21,64 +19,67 @@ import { OperatorType, Policy, PolicyAction, PolicyResponseMap } from '@page/pol
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 // For now Mocks are built by current response (any). This is because Policy Model changes frequently
-export const getPolicies = (): PaginationResponse<Policy> => {
-  return {
-    page: 0,
-    pageSize: 10,
-    totalItems: 1,
-    pageCount: 1,
-    content: PoliciesAssembler.mapToPolicyEntryList(mockedPolicyResponseMap).map(entry => entry.payload.policy),
-  }
+export const getPolicies = (): Policy[] => {
+  return mockedPolicyList;
 };
 
 export const getPolicyById = (policyId: string | ReadonlyArray<string>): Policy => {
-  return PoliciesAssembler.mapToPolicyEntryList(mockedPolicyResponseMap).map(entry => entry.payload.policy).filter(policy => policy.policyId === policyId)[0];
+  return mockedPolicyList.filter(policy => policy.policyId === policyId)[0];
 };
 
 
-export const mockedPolicyResponseMap: PolicyResponseMap = {
-  'BPNL1234567890AB': [
-    {
-      'validUntil': '2025-12-12T23:59:59.999Z',
-      'payload': {
-        '@context': {
-          'odrl': 'http://www.w3.org/ns/odrl/2/',
-        },
-        '@id': 'e917f5f-8dac-49ac-8d10-5b4d254d2b48',
-        'policy': {
-          'policyId': 'e917f5f-8dac-49ac-8d10-5b4d254d2b48',
-          'createdOn': '2024-05-29T06:18:40Z',
-          'validUntil': '2024-05-29T06:18:40Z',
-          'permissions': [
+export const mockedPolicyList: Policy[] = [
+  {
+    'policyId': 'default-policy',
+    'createdOn': '2024-05-29T06:18:40Z',
+    'validUntil': '2029-05-29T06:18:40Z',
+    'permissions': [
+      {
+        'action': PolicyAction.USE,
+        'constraints': {
+          'and': null,
+          'or': [
             {
-              'action': PolicyAction.USE,
-              'constraint': {
-                'and': [
-                  {
-                    'leftOperand': 'Membership',
-                    'operator': {
-                      '@id': OperatorType.EQ,
-                    },
-                    'odrl:rightOperand': 'active',
-                  },
-                  {
-                    'leftOperand': 'PURPOSE',
-                    'operator': {
-                      '@id': OperatorType.EQ,
-                    },
-                    'odrl:rightOperand': 'ID 3.1 Trace',
-                  },
-                ],
-                'or': null,
-              },
+              'leftOperand': 'cx-policy:FrameworkAgreement',
+              'operatorTypeResponse': OperatorType.EQ,
+              'rightOperand': 'traceability:1.0',
+            },
+            {
+              'leftOperand': 'cx-policy:UsagePurpose',
+              'operatorTypeResponse': OperatorType.EQ,
+              'rightOperand': 'cx.core.industrycore:1',
             },
           ],
         },
       },
-    },
-  ],
-  'BPNA1234567890DF': [],
-};
+    ],
+  },
+  {
+    'policyId': 'default-policy-2',
+    'createdOn': '2024-05-29T06:18:40Z',
+    'validUntil': '2029-05-29T06:18:40Z',
+    'permissions': [
+      {
+        'action': PolicyAction.USE,
+        'constraints': {
+          'and': [
+            {
+              'leftOperand': 'cx-policy:FrameworkAgreement',
+              'operatorTypeResponse': OperatorType.EQ,
+              'rightOperand': 'traceability:1.0',
+            },
+            {
+              'leftOperand': 'cx-policy:UsagePurpose',
+              'operatorTypeResponse': OperatorType.EQ,
+              'rightOperand': 'cx.core.industrycore:1',
+            },
+          ],
+          'or': null,
+        },
+      },
+    ],
+  },
+];
 
 const mockedPolicies = {
   page: 0,

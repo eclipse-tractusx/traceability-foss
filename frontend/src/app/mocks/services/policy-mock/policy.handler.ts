@@ -27,13 +27,22 @@ export const policyHandler = (_ => {
     }),
 
     rest.post(`*${ environment.apiUrl }/policies`, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json('success'));
+      return res(ctx.status(201), ctx.json('success'));
     }),
 
     rest.get(`*${ environment.apiUrl }/policies/:policyId`, (req, res, ctx) => {
       const { policyId } = req.params;
       const policy = getPolicyById(policyId);
       return res(ctx.status(200), ctx.json(policy));
-    })
+    }),
+
+    rest.put(`*${ environment.apiUrl }/policies/:policyId`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json('success'));
+    }),
+
+    rest.delete(`*${ environment.apiUrl }/policies/:policyIds`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json('success'));
+    }),
+
   ]
 })();

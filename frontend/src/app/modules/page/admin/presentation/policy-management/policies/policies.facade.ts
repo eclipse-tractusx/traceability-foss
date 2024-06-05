@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
 import { PoliciesState } from '@page/admin/presentation/policy-management/policies/policies.state';
 import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
-import { provideDataObject } from '@page/parts/core/parts.helper';
 import { Policy, PolicyEntry } from '@page/policies/model/policy.model';
-import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PolicyService } from '@shared/service/policy.service';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -22,19 +19,18 @@ export class PoliciesFacade {
   ) {
   }
 
-  get policies$(): Observable<View<Pagination<Policy>>> {
+  get policies$(): Observable<View<Policy[]>> {
     return this.policiesState.policies$;
   }
 
-  public setPolicies(page: number, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: any): void {
+  public setPolicies(): void {
     this.policiesSubscription?.unsubscribe();
-    this.policiesSubscription = this.policyService.getPaginatedPolicies(page, pageSize, sorting, filter).pipe(map(response => {
-      const assembled = response.content.map(policy => {
+    this.policiesSubscription = this.policyService.getPolicies().pipe(map(response => {
+      return response.map(policy => {
         return PoliciesAssembler.assemblePolicy(policy);
       });
-      return { ...response, content: assembled } as Pagination<Policy>;
     })).subscribe({
-      next: data => (this.policiesState.policies = { data: provideDataObject(data) }),
+      next: data => (this.policiesState.policies = { data: data }),
       error: error => (this.policiesState.policies = { error }),
     });
   }
@@ -72,5 +68,9 @@ export class PoliciesFacade {
 
   createPolicy(policyEntry: PolicyEntry) {
     return this.policyService.createPolicy(policyEntry);
+  }
+
+  updatePolicy(policyEntry: PolicyEntry) {
+    return this.policyService.updatePolicy(policyEntry);
   }
 }

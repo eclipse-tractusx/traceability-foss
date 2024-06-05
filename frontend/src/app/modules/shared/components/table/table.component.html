@@ -90,7 +90,7 @@ SPDX-License-Identifier: Apache-2.0
         <app-button
           [iconName]="'delete'"
           (click)="handleItemDeletion()"
-          [isDisabled]="selection.selected.length < 1"
+          [isDisabled]="selection.selected.length < 1 || selection.selected.length > 1"
         >
         </app-button>
       </div>
