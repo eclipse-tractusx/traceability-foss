@@ -81,7 +81,9 @@ export class ErrorMessagePipe implements PipeTransform {
       [ 'bpn', _ => getErrorMapping('bpn') ],
       [ 'invalidBpn', _ => getErrorMapping('invalidBpn' ) ],
       [ 'email', _ => getErrorMapping('email') ],
+      [ 'pastDate', _ => getErrorMapping('pastDate') ],
       [ 'generic', _ => getErrorMapping('generic') ],
+      [ 'minimumOneConstraint', _ => getErrorMapping('minimumOneConstraint') ],
     ]);
 
     const keys = Object.keys(errors);

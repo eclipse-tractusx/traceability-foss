@@ -219,12 +219,14 @@
     "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein. Momentan: {{current}}",
     "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{- pattern}}.",
     "url": "Bitte geben Sie eine valide URL ein.",
-    "bpn": "Bitte geben Sie eine valide BPN ein. BPN {{applicationBpn}} ist nicht erlaubt.",
+    "bpn" : "Bitte geben Sie eine valide BPN ein.",
     "maxDate": "Bitte wählen Sie ein Datum vor dem {{- maxDate}}.",
     "minDate": "Bitte wählen Sie ein Datum nach dem {{- minDate}}.",
     "currentDate": "Bitte wählen Sie ein Datum nach dem {{- currentDate}}.",
     "generic": "Die Eingabe ist ungültig.",
-    "invalidBpn": "Die eigene BPN darf nicht verwendet werden."
+    "invalidBpn" : "Die eigene BPN darf nicht verwendet werden.",
+    "pastDate" : "Bitte wählen Sie ein Datum in Zukunft aus.",
+    "minimumOneConstraint" : "Bitte fügen Sie mindestens eine valide Richtlinie hinzu."
   },
   "requestAlert": {
     "headline": "Qualitätswarnung erstellen",

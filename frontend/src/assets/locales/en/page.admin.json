@@ -87,7 +87,8 @@
       "moveDownward" : "Move downward",
       "moveUpward" : "Move upward",
       "successMessage" : "Successfully saved policy",
-      "errorMessage" : "Error while trying to save policy"
+      "errorMessage" : "Error while trying to save policy",
+      "invalidForm" : "Please make sure to submit a valid form"
 
     }
   }

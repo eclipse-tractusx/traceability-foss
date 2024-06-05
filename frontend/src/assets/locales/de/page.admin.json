@@ -87,7 +87,8 @@
       "moveDownward" : "Nach unten verschieben",
       "moveUpward" : "Nach oben verschieben",
       "successMessage" : "Richtlinie wurde erfolgreich gespeichert",
-      "errorMessage" : "Fehler beim Versuch die Richtlinie abzuspeichern"
+      "errorMessage" : "Fehler beim Versuch die Richtlinie abzuspeichern",
+      "invalidForm" : "Bitte füllen Sie die Eingabefelder korrekt aus"
     }
   }
 }

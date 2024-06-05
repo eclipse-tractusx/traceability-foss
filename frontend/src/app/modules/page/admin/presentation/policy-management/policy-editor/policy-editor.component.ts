@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
 import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
 import {
@@ -15,6 +16,7 @@ import {
   PolicyConstraint,
   PolicyEntry,
 } from '@page/policies/model/policy.model';
+import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { ViewMode } from '@shared/model/view.model';
 import { Subscription } from 'rxjs';
@@ -48,9 +50,9 @@ export class PolicyEditorComponent {
 
 
     this.policyForm = this.fb.group({
-      policyName: new FormControl(''),
-      validUntil: new FormControl(''),
-      bpns: new FormControl(''),
+      policyName: new FormControl('', [ Validators.required, Validators.minLength(8), Validators.maxLength(30) ]),
+      validUntil: new FormControl('', [ Validators.required, this.futureDateValidator ]),
+      bpns: new FormControl('', [ BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
       accessType: new FormControl<string>(PolicyAction.ACCESS),
       constraints: this.fb.array([]),
       constraintLogicType: new FormControl(ConstraintLogicType.AND),
@@ -128,7 +130,7 @@ export class PolicyEditorComponent {
         this.toastService.success('pageAdmin.policyManagement.successMessage');
         this.router.navigate([ 'admin', 'policies', policyEntry.payload.policy.policyId ]);
       },
-      error: () => this.toastService.error('pageAdmin.policyManagement.successMessage'),
+      error: () => this.toastService.error('pageAdmin.policyManagement.errorMessage'),
     });
   }
 
@@ -145,16 +147,18 @@ export class PolicyEditorComponent {
   }
 
   downloadTemplateAsJsonFile() {
-    if (this.templateFile) {
-      const url = URL.createObjectURL(this.templateFile);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = this.templateFile.name;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
+    const policy = this.mapPolicyFormToPolicyEntry();
+    const data = JSON.stringify(policy, null, 2);
+    const blob = new Blob([ data ], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'policy-template-' + policy.payload.policy.policyId;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
   }
 
   applyTemplate() {
@@ -200,9 +204,9 @@ export class PolicyEditorComponent {
     }
 
     let constraintsList = permissionList.map((constraint) => this.fb.group({
-      leftOperand: this.fb.control<string>(constraint.leftOperand),
+      leftOperand: this.fb.control<string>(constraint.leftOperand, [ Validators.required ]),
       operator: this.fb.control<string>('='),
-      rightOperand: this.fb.control<string>(constraint['odrl:rightOperand']),
+      rightOperand: this.fb.control<string>(constraint['odrl:rightOperand'], [ Validators.required ]),
     }));
 
     this.policyForm.setControl('constraints', this.fb.array(constraintsList));
@@ -259,7 +263,22 @@ export class PolicyEditorComponent {
     return policyEntry;
   }
 
+  private futureDateValidator = (control: FormControl): ValidationErrors | null => {
+    if (!control.value) {
+      return null;
+    }
+
+    const currentDate = new Date();
+    const inputDate = new Date(control.value);
+    if (inputDate < currentDate) {
+      return { pastDate: true };
+    }
+    return null;
+  };
+
+
   protected readonly ViewMode = ViewMode;
   protected readonly OperatorTypesAsSelectOptionsList = OperatorTypesAsSelectOptionsList;
   protected readonly ConstraintLogicTypeAsSelectOptionsList = ConstraintLogicTypeAsSelectOptionsList;
 }
+

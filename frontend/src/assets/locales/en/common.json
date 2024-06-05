@@ -220,7 +220,9 @@
     "minDate": "Please select a date that is after {{- minDate}}.",
     "currentDate": "Please select a date that is after {{- currentDate}}.",
     "generic": "Please enter valid data.",
-    "invalidBpn": "Must not be own BPN."
+    "invalidBpn" : "Must not be own BPN.",
+    "pastDate" : "Please select a date in the future.",
+    "minimumOneConstraint" : "Please add atleast one valid constraint to the policy"
   },
   "unitTest": {
     "test01": "This is for unit tests purposes.",

@@ -19,7 +19,8 @@
         </app-button>
       </div>
       <div class="action-container-right">
-        <div matTooltip="{{ 'actions.save' | i18n}}"
+        <div
+          matTooltip="{{ (policyForm.invalid ? 'pageAdmin.policyManagement.invalidForm': (constraints.length < 1 ? 'errorMessage.minimumOneConstraint' : 'actions.save')) | i18n}}"
              matTooltipClass="table--header--tooltip"
              matTooltipPosition="above"
              [class.mdc-tooltip--multiline]="true"
@@ -29,7 +30,9 @@
           <app-button
             [iconName]="'save'"
             onkeydown="savePolicy()"
-            (click)="savePolicy()"></app-button>
+            (click)="savePolicy()"
+            [isDisabled]="policyForm.invalid || constraints.length < 1"
+          ></app-button>
         </div>
         <div matTooltip="{{ 'actions.edit' | i18n}}"
              matTooltipClass="table--header--tooltip"
@@ -66,11 +69,9 @@
            class="mr-2"
       >
         <app-button
-          *ngIf="templateFile"
           [iconName]="'download'"
           onkeydown="downloadTemplateAsJsonFile()"
           (click)="downloadTemplateAsJsonFile()"
-          [isDisabled]="!templateFile"
         ></app-button>
       </div>
 
