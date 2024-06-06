@@ -18,15 +18,16 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.SUBMODEL_REST_TEMPLATE;
 
+@Slf4j
 @Component
 public class SubmodelClient {
 
@@ -38,11 +39,11 @@ public class SubmodelClient {
     }
 
     public void createSubmodel(String submodelId, String payload) {
-        submodelRestTemplate.exchange("/api/submodel/data/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
+        submodelRestTemplate.exchange("/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
     }
 
 
     public String getSubmodel(String submodelId) {
-        return submodelRestTemplate.exchange("/api/submodel/data/" + submodelId, HttpMethod.GET, null, String.class).getBody();
+        return submodelRestTemplate.exchange("/" + submodelId, HttpMethod.GET, null, String.class).getBody();
     }
 }
