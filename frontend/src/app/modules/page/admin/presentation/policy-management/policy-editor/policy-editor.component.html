@@ -21,11 +21,11 @@
       <div class="action-container-right">
         <div
           matTooltip="{{ (policyForm.invalid ? 'pageAdmin.policyManagement.invalidForm': (constraints.length < 1 ? 'errorMessage.minimumOneConstraint' : 'actions.save')) | i18n}}"
-             matTooltipClass="table--header--tooltip"
-             matTooltipPosition="above"
-             [class.mdc-tooltip--multiline]="true"
-             [matTooltipShowDelay]="500"
-             *ngIf="viewMode === ViewMode.EDIT || viewMode === ViewMode.CREATE"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+          *ngIf="viewMode === ViewMode.EDIT || viewMode === ViewMode.CREATE"
         >
           <app-button
             [iconName]="'save'"
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div class="template-container flex py-8" *ngIf="viewMode !== ViewMode.VIEW">
+    <div class="template-container flex items-center py-8" *ngIf="viewMode !== ViewMode.VIEW">
       <div matTooltip="{{ 'actions.uploadFile' | i18n}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"
@@ -89,9 +89,15 @@
       >
         <app-button [variant]="'raised'" [color]="'primary'"
                     (click)="applyTemplate()"
-                    [isDisabled]="!templateFile">{{ 'pageAdmin.policyManagement.apply' | i18n }}
-        </app-button>
+                    [isDisabled]="!templateFile"
+                    class="mr-2"
+        >{{ 'pageAdmin.policyManagement.apply' | i18n }}
 
+        </app-button>
+      </div>
+      <div *ngIf="templateError.length" class="flex items-center text-danger">
+        <mat-icon class="mr-2" [color]="'warn'">error</mat-icon>
+        {{ templateError | i18n }}
       </div>
     </div>
     <form [formGroup]="policyForm">

@@ -116,6 +116,31 @@ export function getOperatorType(sign: string): OperatorType | undefined {
   return OperatorSignsToTypes[sign];
 }
 
+export function getOperatorTypeSign(type: OperatorType): string {
+  switch (type) {
+    case OperatorType.EQ:
+      return '=';
+      break;
+    case OperatorType.NEQ:
+      return '!=';
+      break;
+    case OperatorType.LT:
+      return '<';
+      break;
+    case OperatorType.GT:
+      return '>';
+      break;
+    case OperatorType.LTEQ:
+      return '<=';
+      break;
+    case OperatorType.GTEQ:
+      return '>=';
+      break;
+    default:
+      return type.toString();
+  }
+}
+
 export enum ConstraintLogicType {
   AND = 'AND',
   OR = 'OR',

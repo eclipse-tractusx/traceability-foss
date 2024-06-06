@@ -64,4 +64,80 @@ export class PoliciesAssembler {
     return constrainsList;
   }
 
+  public static validatePoliciesTemplate(data: any) {
+
+    if (typeof data !== 'object' || data === null || !Array.isArray(data[Object.keys(data)[0]])) {
+      return false;
+    }
+
+    for (const entry of data[Object.keys(data)[0]]) {
+      if (typeof entry.validUntil !== 'string') {
+        return false;
+      }
+
+      const payload = entry.payload;
+      if (typeof payload !== 'object' || payload === null) {
+        return false;
+      }
+
+      const context = payload['@context'];
+      if (typeof context !== 'object' || context === null) {
+        return false;
+      }
+
+      if (typeof payload['@id'] !== 'string') {
+        return false;
+      }
+
+      const policy = payload.policy;
+      if (typeof policy !== 'object' || policy === null) {
+        return false;
+      }
+
+      if (typeof policy.policyId !== 'string' ||
+        typeof policy.createdOn !== 'string' ||
+        typeof policy.validUntil !== 'string' ||
+        !Array.isArray(policy.permissions)) {
+        return false;
+      }
+
+      for (const permission of policy.permissions) {
+        if (typeof permission.action !== 'string') {
+          return false;
+        }
+
+        const constraint = permission.constraint;
+        if (typeof constraint !== 'object' || constraint === null || !Array.isArray(constraint.and) || (constraint.or !== null && !Array.isArray(constraint.or))) {
+          return false;
+        }
+
+        if (constraint.and !== null) {
+          for (const andConstraint of constraint.and) {
+            if (typeof andConstraint.leftOperand !== 'string' ||
+              typeof andConstraint.operator !== 'object' ||
+              andConstraint.operator === null ||
+              typeof andConstraint.operator['@id'] !== 'string' ||
+              typeof andConstraint['odrl:rightOperand'] !== 'string') {
+              return false;
+            }
+          }
+        }
+
+        if (constraint.or !== null) {
+          for (const orConstraint of constraint.or) {
+            if (typeof orConstraint.leftOperand !== 'string' ||
+              typeof orConstraint.operator !== 'object' ||
+              orConstraint.operator === null ||
+              typeof orConstraint.operator['@id'] !== 'string' ||
+              typeof orConstraint['odrl:rightOperand'] !== 'string') {
+              return false;
+            }
+          }
+        }
+      }
+    }
+
+    return true;
+  }
+
 }

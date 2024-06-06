@@ -11,6 +11,8 @@ import {
 import {
   ConstraintLogicType,
   getOperatorType,
+  getOperatorTypeSign,
+  OperatorType,
   Policy,
   PolicyAction,
   PolicyConstraint,
@@ -37,6 +39,7 @@ export class PolicyEditorComponent {
   templateFileName: string = '';
   policyForm: FormGroup;
   minDate: Date = new Date();
+  templateError: string = '';
 
   constructor(private readonly router: Router, public readonly policyFacade: PoliciesFacade, private fb: FormBuilder, private readonly toastService: ToastService) {
   }
@@ -139,6 +142,7 @@ export class PolicyEditorComponent {
     if (input.files && input.files.length > 0) {
       this.templateFile = input.files[0];
       this.templateFileName = this.templateFile.name;
+      this.templateError = '';
     }
   }
 
@@ -170,6 +174,10 @@ export class PolicyEditorComponent {
     reader.onload = () => {
       const fileContent = reader.result;
       if (typeof fileContent === 'string') {
+        if (!PoliciesAssembler.validatePoliciesTemplate(JSON.parse(fileContent))) {
+          this.templateError = 'pageAdmin.policyManagement.templateErrorMessage';
+          return;
+        }
         let policyEntry = PoliciesAssembler.mapToPolicyEntryList(JSON.parse(fileContent));
         let policy = PoliciesAssembler.assemblePolicy(policyEntry[0].payload.policy);
         this.updatePolicyForm(policy);
@@ -205,9 +213,10 @@ export class PolicyEditorComponent {
 
     let constraintsList = permissionList.map((constraint) => this.fb.group({
       leftOperand: this.fb.control<string>(constraint.leftOperand, [ Validators.required ]),
-      operator: this.fb.control<string>('='),
-      rightOperand: this.fb.control<string>(constraint['odrl:rightOperand'], [ Validators.required ]),
+      operator: this.fb.control<string>(constraint?.operator?.['@id'] ? getOperatorTypeSign(OperatorType[constraint?.operator?.['@id'].toUpperCase()]) : getOperatorTypeSign(constraint?.operatorTypeResponse)),
+      rightOperand: this.fb.control<string>(constraint['odrl:rightOperand'] ?? constraint.rightOperand, [ Validators.required ]),
     }));
+
 
     this.policyForm.setControl('constraints', this.fb.array(constraintsList));
     if (this.viewMode === ViewMode.VIEW) {

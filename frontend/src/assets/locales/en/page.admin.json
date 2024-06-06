@@ -88,6 +88,7 @@
       "moveUpward" : "Move upward",
       "successMessage" : "Successfully saved policy",
       "errorMessage" : "Error while trying to save policy",
+      "templateErrorMessage" : "The selected template file is not compliant. Please provide a valid .JSON template file.",
       "invalidForm" : "Please make sure to submit a valid form"
 
     }
