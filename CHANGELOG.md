@@ -14,6 +14,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #859 added autocomplete on subset of assets in notification creation/edit view
 - #997 added publish assets state check to parts table
 - #XXX added border to dashboard notifications table and view all count
+- #832 added policymanagement list view, creator and editor
 
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
