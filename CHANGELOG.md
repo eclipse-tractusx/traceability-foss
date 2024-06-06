@@ -8,10 +8,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+
+- #832 added policymanagement list view, creator and editor
+
+### Changed
+
 ## [11.0.2 - 29.05.2024]
 ### Added
 - #1010 Made submodel path configurable
-- #832 added policymanagement list view, creator and editor
 ### Changed
 - #1010 Updated IRS Helm Version from 5.1.6 to 5.1.7
 
