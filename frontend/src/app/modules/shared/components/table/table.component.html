@@ -81,7 +81,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
       <div class="ml-0.5"
            *ngIf="basicTableHeaderMenuEnabled"
-           matTooltip="{{selection.selected.length === 1 ? ('table.deletePolicy' | i18n) : ('table.selectOnlyOne' | i18n)}}"
+           matTooltip="{{selection.selected.length > 0 ? ('table.deletePolicy' | i18n) : ('table.selectAtLeastOne' | i18n)}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"
            [class.mdc-tooltip--multiline]="true"
@@ -90,7 +90,7 @@ SPDX-License-Identifier: Apache-2.0
         <app-button
           [iconName]="'delete'"
           (click)="handleItemDeletion()"
-          [isDisabled]="selection.selected.length < 1 || selection.selected.length > 1"
+          [isDisabled]="selection.selected.length < 1"
         >
         </app-button>
       </div>

@@ -1,5 +1,11 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Policy, PolicyAction, PolicyEntry, PolicyResponseMap } from '@page/policies/model/policy.model';
+import {
+  getOperatorTypeSign,
+  Policy,
+  PolicyAction,
+  PolicyEntry,
+  PolicyResponseMap,
+} from '@page/policies/model/policy.model';
 
 export class PoliciesAssembler {
   public static assemblePolicy(policy: Policy): Policy {
@@ -52,13 +58,15 @@ export class PoliciesAssembler {
     policy.permissions.forEach(permission => {
       permission.constraints?.and?.forEach(andConstraint => {
         constrainsList.push(andConstraint.leftOperand);
-        constrainsList.push(andConstraint.operatorTypeResponse);
+        constrainsList.push(getOperatorTypeSign(andConstraint.operatorTypeResponse));
         constrainsList.push(andConstraint.rightOperand);
+        constrainsList.push(' AND ');
       });
       permission.constraints?.or?.forEach(orConstraint => {
         constrainsList.push(orConstraint.leftOperand);
-        constrainsList.push(orConstraint.operatorTypeResponse);
+        constrainsList.push(getOperatorTypeSign(orConstraint.operatorTypeResponse));
         constrainsList.push(orConstraint.rightOperand);
+        constrainsList.push(' OR ');
       });
     });
     return constrainsList;

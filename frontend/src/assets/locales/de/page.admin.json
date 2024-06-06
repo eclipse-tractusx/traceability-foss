@@ -89,7 +89,8 @@
       "successMessage" : "Richtlinie wurde erfolgreich gespeichert",
       "errorMessage" : "Fehler beim Versuch die Richtlinie abzuspeichern",
       "templateErrorMessage" : "Die selektierte Vorlagendatei ist nicht konform für Richtlinien. Bitte wählen Sie eine valide .JSON Vorlagendatei aus.",
-      "invalidForm" : "Bitte füllen Sie die Eingabefelder korrekt aus"
+      "invalidForm" : "Bitte füllen Sie die Eingabefelder korrekt aus",
+      "bpnsHint" : "Liste von BPNs separiert durch ein Kommazeichen"
     }
   }
 }

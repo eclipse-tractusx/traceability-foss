@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
+import { bpnListRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
 import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
 import {
@@ -32,7 +32,6 @@ export class PolicyEditorComponent {
 
   selectedPolicy: Policy;
   selectedPolicySubscription: Subscription;
-  newPolicy: Policy;
   viewMode: ViewMode;
 
   templateFile: File | null = null;
@@ -55,7 +54,7 @@ export class PolicyEditorComponent {
     this.policyForm = this.fb.group({
       policyName: new FormControl('', [ Validators.required, Validators.minLength(8), Validators.maxLength(30) ]),
       validUntil: new FormControl('', [ Validators.required, this.futureDateValidator ]),
-      bpns: new FormControl('', [ BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') ]),
+      bpns: new FormControl('', [ Validators.required, Validators.maxLength(84), BaseInputHelper.getCustomPatternValidator(bpnListRegex, 'bpn') ]),
       accessType: new FormControl<string>(PolicyAction.ACCESS),
       constraints: this.fb.array([]),
       constraintLogicType: new FormControl(ConstraintLogicType.AND),

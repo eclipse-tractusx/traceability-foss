@@ -408,7 +408,6 @@ export class TableComponent {
 
   handleItemDeletion() {
     this.deletionClicked.emit();
-    this.clearCurrentRows();
   }
 
   protected readonly MainAspectType = MainAspectType;

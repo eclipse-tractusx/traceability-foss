@@ -2,7 +2,7 @@
   background-color: #ececec;
   border-radius: 5px;
   width: 300px;
-  padding: 5px;
+  padding: 8px;
 }
 
 .hinttext {
@@ -42,4 +42,11 @@
 
 .label-row-view-mode {
   width: 100%;
+}
+
+.sub-label {
+  font-size: 12px;
+  font-weight: normal;
+  font-family: Catena-X Light, sans-serif;
+  color: #777777;
 }
