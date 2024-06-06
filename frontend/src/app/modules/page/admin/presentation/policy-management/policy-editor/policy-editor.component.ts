@@ -237,9 +237,11 @@ export class PolicyEditorComponent {
       };
     });
 
+    const policyBpns = this.policyForm.get('bpns').getRawValue().trim().split(',');
+
     policyEntry = {
       validUntil: this.policyForm.get('validUntil').getRawValue() + '.000000000Z',
-      businessPartnerNumber: this.policyForm.get('bpns').getRawValue(),
+      businessPartnerNumber: policyBpns.length > 1 ? policyBpns : policyBpns[0],
       payload: {
         '@context': {
           odrl: 'http://www.w3.org/ns/odrl/2/',

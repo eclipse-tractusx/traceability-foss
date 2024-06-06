@@ -31,6 +31,7 @@ export const getPolicyById = (policyId: string | ReadonlyArray<string>): Policy 
 export const mockedPolicyList: Policy[] = [
   {
     'policyId': 'default-policy',
+    'bpn': 'BPNL00000003CML1,BPNL00000003CNKC',
     'createdOn': '2024-05-29T06:18:40Z',
     'validUntil': '2029-05-29T06:18:40Z',
     'permissions': [
@@ -56,6 +57,7 @@ export const mockedPolicyList: Policy[] = [
   },
   {
     'policyId': 'default-policy-2',
+    'bpn': 'BPNL00000003CML1',
     'createdOn': '2024-05-29T06:18:40Z',
     'validUntil': '2029-05-29T06:18:40Z',
     'permissions': [

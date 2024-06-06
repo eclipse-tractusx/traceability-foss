@@ -27,7 +27,8 @@ export interface PolicyResponseMap {
 export interface PolicyEntry {
   validUntil: string;
   payload: PolicyPayload;
-  businessPartnerNumber?: string;
+  businessPartnerNumber?: string[] | string;
+  policyIds?: string[];
 }
 
 export interface PolicyPayload {

@@ -33,6 +33,7 @@ export class PolicyService {
   }
 
   updatePolicy(policyEntry: PolicyEntry) {
+    policyEntry.policyIds = [ policyEntry.payload.policy.policyId ];
     return this.apiService.put(`${ this.url }/policies/` + policyEntry.payload.policy.policyId, policyEntry);
   }
 }
