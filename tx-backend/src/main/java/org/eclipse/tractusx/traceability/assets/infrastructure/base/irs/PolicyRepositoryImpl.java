@@ -67,7 +67,6 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     private IrsPolicyResponse findMatchingPolicy(List<IrsPolicyResponse> irsPolicies) {
         return irsPolicies.stream()
                 .filter(irsPolicy -> {
-                    // Logging all policy constraints
                     irsPolicy.payload().policy().getPermissions().forEach(permission -> {
                         Constraints constraint = permission.getConstraint();
                         if (constraint != null) {
