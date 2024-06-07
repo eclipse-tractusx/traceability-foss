@@ -2,7 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
-import { Policy, PolicyEntry } from '@page/policies/model/policy.model';
+import { Policy, PolicyEntry, PolicyResponseMap } from '@page/policies/model/policy.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,8 +12,8 @@ export class PolicyService {
   private readonly url = environment.apiUrl;
   constructor(private readonly apiService: ApiService) {}
 
-  getPolicies(): Observable<Policy[]> {
-    return this.apiService.get<Policy[]>(`${ this.url }/policies`);
+  getPolicies(): Observable<PolicyResponseMap> {
+    return this.apiService.get<PolicyResponseMap>(`${ this.url }/policies`);
   }
 
   getPolicyById(policyId: string): Observable<Policy> {

@@ -1,6 +1,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import {
   getOperatorTypeSign,
+  OperatorType,
   Policy,
   PolicyAction,
   PolicyEntry,
@@ -17,7 +18,7 @@ export class PoliciesAssembler {
       createdOn: formattedCreatedOn.isInitial() ? null : formattedCreatedOn.valueOf().toISOString().slice(0, 16),
       validUntil: formattedValidUntil.isInitial() ? null : formattedValidUntil.valueOf().toISOString().slice(0, 16),
       accessType: policy.permissions[0].action.toUpperCase() as PolicyAction,
-      constraints: this.mapDisplayPropsToPolicyRootLevelFromPolicy(policy),
+      constraints: policy.constraints ?? this.mapDisplayPropsToPolicyRootLevelFromPolicy(policy),
     };
   }
 
@@ -40,13 +41,15 @@ export class PoliciesAssembler {
     entry.payload.policy.permissions.forEach(permission => {
       permission.constraint.and.forEach(andConstraint => {
         constrainsList.push(andConstraint.leftOperand);
-        constrainsList.push(andConstraint.operator['@id']);
+        constrainsList.push(getOperatorTypeSign(OperatorType[andConstraint.operator['@id'].toUpperCase()]));
         constrainsList.push(andConstraint['odrl:rightOperand']);
+        constrainsList.push(' AND ');
       });
       permission.constraint?.or?.forEach(orConstraint => {
         constrainsList.push(orConstraint.leftOperand);
-        constrainsList.push(orConstraint.operator['@id']);
+        constrainsList.push(getOperatorTypeSign(OperatorType[orConstraint.operator['@id'].toUpperCase()]));
         constrainsList.push(orConstraint['odrl:rightOperand']);
+        constrainsList.push(' OR ');
       });
     });
     return constrainsList;

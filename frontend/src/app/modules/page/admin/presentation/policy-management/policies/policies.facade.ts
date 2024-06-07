@@ -26,9 +26,7 @@ export class PoliciesFacade {
   public setPolicies(): void {
     this.policiesSubscription?.unsubscribe();
     this.policiesSubscription = this.policyService.getPolicies().pipe(map(response => {
-      return response.map(policy => {
-        return PoliciesAssembler.assemblePolicy(policy);
-      });
+      return PoliciesAssembler.mapToPolicyEntryList(response).map(entry => entry.payload.policy).map(policy => PoliciesAssembler.assemblePolicy(policy));
     })).subscribe({
       next: data => (this.policiesState.policies = { data: data }),
       error: error => (this.policiesState.policies = { error }),
