@@ -8,9 +8,29 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+## [11.0.2 - 29.05.2024]
+### Added
+- #1010 Made submodel path configurable
+- #838 Added User experience > Table design section in arc42 documentation
+
+### Changed
+- #1010 Updated IRS Helm Version from 5.1.6 to 5.1.7
+
+### Changed
+
+- XXX increase spotbugs-plugin version from 4.8.3.0 to 4.8.5.0
+- XXX increase install-plugin version from 3.1.1 to 3.1.2
+- XXX increase testcontainer-postgresql version from 1.19.7 to 1.19.8
+- XXX increase json-unit-assertj version from 3.2.2 to 3.2.7
+- XXX increase aquasecurity/trivy-action version from 0.19.0 to 0.20.0
+- XXX increase mikefarah/yq version from 4.43.1 to 4.44.1
+
+## [11.0.1 - 22.05.2024]
+
 ### Added
 - #859 added autocomplete on subset of assets in notification creation/edit view
-
+- #997 added publish assets state check to parts table
+- #XXX added border to dashboard notifications table and view all count
 
 ### Changed
 - #778 return empty PageResult when no contract agreement Ids are found instead of http 404 in /contacts API
@@ -27,6 +47,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #994 disable inputs of newly added bpn configurations
 - #995 disable creation and editof notifications for admin role
 - #991 make menu table headers unvisible to not block column and filters of tables
+- #915 Updated user manual documentation (chapters and screenshots)
+- #998 fixed bug where global search bar could search for BPN and adjusted placeholder label to reflect column names
+- #913 Changed severity icons
 - #978 Fixed edc policy creation with edc version 0.7.0
 
 ### Removed

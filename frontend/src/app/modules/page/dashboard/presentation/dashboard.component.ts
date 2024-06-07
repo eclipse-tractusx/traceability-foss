@@ -47,8 +47,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
 
-  public readonly alertLink: string;
-  public readonly alertParams: Record<string, string>;
+  public readonly notificationsLink: string;
+  public readonly queuedAndRequestedNotificationsTabParam: Record<string, string>;
+  public readonly receivedNotificationsTabParam: Record<string, string>;
 
   public partsMetricData: MetricData[];
   public otherPartsMetricData: MetricData[];
@@ -67,8 +68,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       queryParams: alertQueryParams,
     } = getRoute(NOTIFICATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
-    this.alertLink = alertLink;
-    this.alertParams = alertQueryParams;
+    this.notificationsLink = alertLink;
+    this.queuedAndRequestedNotificationsTabParam = alertQueryParams;
+    this.receivedNotificationsTabParam = getRoute(NOTIFICATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED).queryParams;
 
     this.partsMetricData = [
       {
@@ -90,12 +92,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.investigationsMetricData = [
       {
         metricName: 'amountReceived',
-        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.receivedActiveInvestigations)),
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats?.data?.receivedActiveInvestigations)),
         metricUnit: 'investigations',
       },
       {
         metricName: 'amountCreated',
-        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.sentActiveInvestigations)),
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats?.data?.sentActiveInvestigations)),
         metricUnit: 'investigations',
       },
     ];
@@ -104,12 +106,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alertsMetricData = [
       {
         metricName: 'amountReceived',
-        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.receivedActiveAlerts)),
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats?.data?.receivedActiveAlerts)),
         metricUnit: 'alerts',
       },
       {
         metricName: 'amountCreated',
-        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats.data.sentActiveAlerts)),
+        value: this.dashboardStats$.pipe(map(dashboardStats => dashboardStats?.data?.sentActiveAlerts)),
         metricUnit: 'alerts',
       },
     ];
