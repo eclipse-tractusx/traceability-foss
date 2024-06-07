@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.policies.application.service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
 import policies.response.PolicyResponse;
 
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.Optional;
 public interface PolicyService {
     List<PolicyResponse> getPolicies();
 
+    List<IrsPolicyResponse> getIrsPolicies();
     PolicyResponse getPolicy(String id);
 
     Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint();

@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
 import policies.response.PolicyResponse;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public class PolicyController {
             @ApiResponse(responseCode = "200", description = "Returns the policies",
             content = {@Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = PolicyResponse.class))}),
+                    schema = @Schema(implementation = IrsPolicyResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -110,8 +111,8 @@ public class PolicyController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping()
-    public List<PolicyResponse> getPolicies() {
-        return policyService.getPolicies();
+    public List<IrsPolicyResponse> getPolicies() {
+        return policyService.getIrsPolicies();
     }
 
     @Operation(operationId = "getPolicyById",

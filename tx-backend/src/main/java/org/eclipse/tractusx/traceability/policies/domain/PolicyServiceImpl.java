@@ -48,6 +48,11 @@ public class PolicyServiceImpl implements PolicyService {
     private final TraceabilityProperties traceabilityProperties;
 
     @Override
+    public List<IrsPolicyResponse> getIrsPolicies() {
+        return policyRepository.getPolicies();
+    }
+
+    @Override
     public List<PolicyResponse> getPolicies() {
         List<IrsPolicyResponse> policies = policyRepository.getPolicies();
         return IrsPolicyResponse.toResponse(policies);
