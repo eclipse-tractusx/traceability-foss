@@ -30,6 +30,7 @@ import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -44,22 +45,27 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     private final TraceabilityProperties traceabilityProperties;
 
     @Override
-    public List<IrsPolicyResponse> getPolicies() {
+    public Map<String, List<IrsPolicyResponse>> getPolicies() {
         return policyClient.getPolicies();
     }
 
     @Override
     public Optional<IrsPolicyResponse> getPolicy(String policyId) {
-        return getPolicies().stream().filter(irsPolicyResponse -> irsPolicyResponse.payload().policyId().equals(policyId)).findFirst();
+        return getPolicies().values().stream()
+                .flatMap(List::stream)
+                .filter(irsPolicyResponse -> irsPolicyResponse.payload().policyId().equals(policyId))
+                .findFirst();
     }
 
 
     @Override
     public void createPolicyBasedOnAppConfig() {
         log.info("Check if irs policy exists");
-        final List<IrsPolicyResponse> irsPolicies = this.policyClient.getPolicies();
-        final List<String> irsPoliciesIds = irsPolicies.stream().map(policyResponse -> policyResponse.payload().policyId()).toList();
-        log.info("Irs has following policies: {}", irsPoliciesIds);
+        final Map<String, List<IrsPolicyResponse>> irsPolicies = this.policyClient.getPolicies();
+        final List<String> irsPoliciesIds = irsPolicies.values().stream()
+                .flatMap(List::stream)
+                .map(irsPolicyResponse -> irsPolicyResponse.payload().policyId())
+                .toList();        log.info("Irs has following policies: {}", irsPoliciesIds);
 
         log.info("Required constraints - 2 -");
         log.info("First constraint requirements: leftOperand {} operator {} and rightOperand {}", traceabilityProperties.getLeftOperand(), traceabilityProperties.getOperatorType(), traceabilityProperties.getRightOperand());
@@ -91,13 +97,15 @@ public class PolicyRepositoryImpl implements PolicyRepository {
 
 
 
-    private IrsPolicyResponse findMatchingPolicy(List<IrsPolicyResponse> irsPolicies) {
-        return irsPolicies.stream()
+    private IrsPolicyResponse findMatchingPolicy(Map<String, List<IrsPolicyResponse>> irsPolicies) {
+        return irsPolicies.values().stream()
+                .flatMap(List::stream)
                 .filter(irsPolicy -> {
                     irsPolicy.payload().policy().getPermissions().forEach(permission -> {
                         Constraints constraint = permission.getConstraint();
                         if (constraint != null) {
-                            constraint.getAnd().forEach(constraint1 -> log.info("From IRS Policy Response -> Leftoperand {} operator {} and rightOperand {}", constraint1.getLeftOperand(), constraint1.getOperator(), constraint1.getRightOperand()));
+                            constraint.getAnd().forEach(constraint1 -> log.info("From IRS Policy Response -> Leftoperand {} operator {} and rightOperand {}",
+                                    constraint1.getLeftOperand(), constraint1.getOperator(), constraint1.getRightOperand()));
                         }
                     });
 
@@ -134,6 +142,7 @@ public class PolicyRepositoryImpl implements PolicyRepository {
                 .findFirst()
                 .orElse(null);
     }
+
 
 
     private void createMissingPolicies() {

@@ -66,10 +66,9 @@ public class PolicyClient {
         this.traceabilityProperties = traceabilityProperties;
     }
 
-    public List<IrsPolicyResponse> getPolicies() {
-        Map<String, List<IrsPolicyResponse>> body = irsAdminTemplate.exchange(policiesPath, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, List<IrsPolicyResponse>>>() {
+    public Map<String, List<IrsPolicyResponse>> getPolicies() {
+        return irsAdminTemplate.exchange(policiesPath, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, List<IrsPolicyResponse>>>() {
         }).getBody();
-        return body == null ? List.of() : body.values().stream().flatMap(List::stream).toList();
     }
 
     public void deletePolicy(String policyId) {

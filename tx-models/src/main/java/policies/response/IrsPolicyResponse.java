@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -85,8 +86,11 @@ public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
              ]
                """;
 
-    public static List<PolicyResponse> toResponse(List<IrsPolicyResponse> allPolicies) {
-        return allPolicies.stream().map(IrsPolicyResponse::toResponse).toList();
+    public static List<PolicyResponse> toResponse(Map<String, List<IrsPolicyResponse>> allPolicies) {
+        return allPolicies.values().stream()
+                .flatMap(List::stream)
+                .map(IrsPolicyResponse::toResponse)
+                .toList();
     }
 
     public static PolicyResponse toResponse(IrsPolicyResponse policy) {

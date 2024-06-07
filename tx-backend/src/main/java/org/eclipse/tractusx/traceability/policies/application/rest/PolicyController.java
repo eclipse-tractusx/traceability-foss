@@ -46,6 +46,7 @@ import policies.response.IrsPolicyResponse;
 import policies.response.PolicyResponse;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -111,7 +112,7 @@ public class PolicyController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping()
-    public List<IrsPolicyResponse> getPolicies() {
+    public Map<String, List<IrsPolicyResponse>> getPolicies() {
         return policyService.getIrsPolicies();
     }
 

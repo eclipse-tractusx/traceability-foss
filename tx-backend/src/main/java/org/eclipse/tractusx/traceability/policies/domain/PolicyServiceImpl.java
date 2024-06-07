@@ -35,6 +35,7 @@ import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -48,13 +49,13 @@ public class PolicyServiceImpl implements PolicyService {
     private final TraceabilityProperties traceabilityProperties;
 
     @Override
-    public List<IrsPolicyResponse> getIrsPolicies() {
+    public Map<String, List<IrsPolicyResponse>> getIrsPolicies() {
         return policyRepository.getPolicies();
     }
 
     @Override
     public List<PolicyResponse> getPolicies() {
-        List<IrsPolicyResponse> policies = policyRepository.getPolicies();
+        Map<String, List<IrsPolicyResponse>> policies = policyRepository.getPolicies();
         return IrsPolicyResponse.toResponse(policies);
     }
 
@@ -97,8 +98,4 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
 
-    @NotNull
-    private List<IrsPolicyResponse> getAcceptedPoliciesOrEmptyList() {
-        return emptyIfNull(policyRepository.getPolicies());
-    }
 }

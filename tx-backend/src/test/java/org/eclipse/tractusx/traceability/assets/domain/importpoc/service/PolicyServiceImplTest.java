@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-
 import policies.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import policies.response.IrsPolicyResponse;
@@ -32,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,12 +53,11 @@ class PolicyServiceImplTest {
 
     @Test
     void testGetPolicy() {
-
-
         // GIVEN
         String policyId = "policy123";
         OffsetDateTime createdOn = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
-        List<IrsPolicyResponse> acceptedPolicies = List.of(createIrsPolicyResponse(policyId, createdOn, "", "", "", ""));
+        IrsPolicyResponse irsPolicyResponse = createIrsPolicyResponse(policyId, createdOn, "", "", "", "");
+        Map<String, List<IrsPolicyResponse>> acceptedPolicies = Map.of("key", List.of(irsPolicyResponse));
 
         // WHEN
         when(policyRepository.getPolicies()).thenReturn(acceptedPolicies);
@@ -77,39 +76,45 @@ class PolicyServiceImplTest {
         IrsPolicyResponse secondPolicyResponse = createIrsPolicyResponse("test2", OffsetDateTime.now(), "my-left-constraint2", "", "", "my-constraint2");
         IrsPolicyResponse thirdPolicyResponse = createIrsPolicyResponse("test3", OffsetDateTime.now(), "my-left-constraint3", "", "", "my-constraint3");
         IrsPolicyResponse fourthPolicyResponse = createIrsPolicyResponse("test4", OffsetDateTime.now(), "my-left-constraint4", "", "my-constraint4", "");
-        List<IrsPolicyResponse> policyResponseList = List.of(firstPolicyResponse, secondPolicyResponse, thirdPolicyResponse, fourthPolicyResponse);
-        when(policyRepository.getPolicies()).thenReturn(policyResponseList);
+        Map<String, List<IrsPolicyResponse>> policyResponseMap = Map.of(
+                "key1", List.of(firstPolicyResponse),
+                "key2", List.of(secondPolicyResponse),
+                "key3", List.of(thirdPolicyResponse),
+                "key4", List.of(fourthPolicyResponse)
+        );
+        when(policyRepository.getPolicies()).thenReturn(policyResponseMap);
         when(policyRepository.getPolicy(anyString())).thenReturn(Optional.of(fourthPolicyResponse));
         when(traceabilityProperties.getRightOperand()).thenReturn("my-constraint4");
         when(traceabilityProperties.getLeftOperand()).thenReturn("my-left-constraint4");
-        // When
 
+        // When
         Optional<PolicyResponse> policyResult = policyService.getFirstPolicyMatchingApplicationConstraint();
 
         // Then
         assertThat(policyResult).isPresent();
         assertThat(policyResult.get().policyId()).isEqualTo("test4");
-
     }
 
     @Test
     void getPolicyByConstraintRightOperandNotFound() {
         // Given
-        IrsPolicyResponse firstPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "my-constraint1", "","","");
-        IrsPolicyResponse secondPolicyResponse = createIrsPolicyResponse("test2", OffsetDateTime.now(), "my-constraint2", "","","");
-        IrsPolicyResponse thirdPolicyResponse = createIrsPolicyResponse("test3", OffsetDateTime.now(), "my-constraint3", "","","");
-        IrsPolicyResponse fourthPolicyResponse = createIrsPolicyResponse("test4", OffsetDateTime.now(), "my-constraint4", "","","");
-        List<IrsPolicyResponse> policyResponseList = List.of(firstPolicyResponse, secondPolicyResponse, thirdPolicyResponse, fourthPolicyResponse);
-        when(policyRepository.getPolicies()).thenReturn(policyResponseList);
+        IrsPolicyResponse firstPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "my-constraint1", "", "", "");
+        IrsPolicyResponse secondPolicyResponse = createIrsPolicyResponse("test2", OffsetDateTime.now(), "my-constraint2", "", "", "");
+        IrsPolicyResponse thirdPolicyResponse = createIrsPolicyResponse("test3", OffsetDateTime.now(), "my-constraint3", "", "", "");
+        IrsPolicyResponse fourthPolicyResponse = createIrsPolicyResponse("test4", OffsetDateTime.now(), "my-constraint4", "", "", "");
+        Map<String, List<IrsPolicyResponse>> policyResponseMap = Map.of(
+                "key1", List.of(firstPolicyResponse),
+                "key2", List.of(secondPolicyResponse),
+                "key3", List.of(thirdPolicyResponse),
+                "key4", List.of(fourthPolicyResponse)
+        );
+        when(policyRepository.getPolicies()).thenReturn(policyResponseMap);
         when(traceabilityProperties.getRightOperand()).thenReturn("not-exists");
 
         // When
-
         Optional<PolicyResponse> policyResult = policyService.getFirstPolicyMatchingApplicationConstraint();
 
         // Then
         assertThat(policyResult).isEmpty();
-
     }
-
 }

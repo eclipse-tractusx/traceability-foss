@@ -9,8 +9,8 @@
  * https://www.apache.org/licenses/LICENSE-2.0.
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
  *
@@ -40,6 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
@@ -55,15 +56,13 @@ class PolicyRepositoryImplTest {
     @Mock
     TraceabilityProperties traceabilityProperties;
 
-
     @Mock
     private PolicyClient policyClient;
-
 
     @Test
     void givenNoPolicyExist_whenCreateIrsPolicyIfMissing_thenCreateApplicationConfigurationPolicyInIt() {
         // given
-        when(policyClient.getPolicies()).thenReturn(Collections.emptyList());
+        when(policyClient.getPolicies()).thenReturn(Collections.emptyMap());
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
 
         // when
@@ -84,7 +83,8 @@ class PolicyRepositoryImplTest {
         Policy policy = new Policy("1", createdOn, validUntil, List.of(new Permission(PolicyType.USE, new Constraints(List.of(constraint, constraintSecond), List.of()))));
         Payload payload = new Payload(null, "1", policy);
         final IrsPolicyResponse existingPolicy = new IrsPolicyResponse(validUntil, payload);
-        when(policyClient.getPolicies()).thenReturn(List.of(existingPolicy));
+        Map<String, List<IrsPolicyResponse>> existingPolicies = Map.of("key", List.of(existingPolicy));
+        when(policyClient.getPolicies()).thenReturn(existingPolicies);
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getRightOperandSecond()).thenReturn("test2");
         when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-02T16:01:05.309Z"));
@@ -99,7 +99,6 @@ class PolicyRepositoryImplTest {
     @Test
     void givenOutdatedPolicyExist_whenCreatePolicyBasedOnAppConfig_thenUpdateIt() {
         // given
-
         OffsetDateTime validUntil = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
         OffsetDateTime createdOn = OffsetDateTime.now();
         Constraint constraint = new Constraint("leftOperand1", new Operator(OperatorType.EQ), "test");
@@ -108,10 +107,10 @@ class PolicyRepositoryImplTest {
         Payload payload = new Payload(null, "test", policy);
 
         final IrsPolicyResponse existingPolicy = new IrsPolicyResponse(validUntil, payload);
-        when(policyClient.getPolicies()).thenReturn(List.of(existingPolicy));
+        Map<String, List<IrsPolicyResponse>> existingPolicies = Map.of("key", List.of(existingPolicy));
+        when(policyClient.getPolicies()).thenReturn(existingPolicies);
         when(traceabilityProperties.getRightOperand()).thenReturn("test");
         when(traceabilityProperties.getRightOperandSecond()).thenReturn("test2");
-
         when(traceabilityProperties.getValidUntil()).thenReturn(OffsetDateTime.parse("2023-07-04T16:01:05.309Z"));
 
         // when
@@ -122,11 +121,9 @@ class PolicyRepositoryImplTest {
         verify(policyClient, times(1)).createPolicyFromAppConfig();
     }
 
-
     @Test
     void test_getPolicyConstraints() {
-        //GIVEN
-
+        // GIVEN
         OffsetDateTime validUntil = OffsetDateTime.now();
         OffsetDateTime createdOn = OffsetDateTime.now();
         List<Constraint> andConstraints = List.of(new Constraint("leftOperand", new Operator(OperatorType.EQ), "rightOperand"));
@@ -137,14 +134,14 @@ class PolicyRepositoryImplTest {
         Payload payload = new Payload(null, "test", policy);
 
         final IrsPolicyResponse existingPolicy = new IrsPolicyResponse(validUntil, payload);
+        Map<String, List<IrsPolicyResponse>> existingPolicies = Map.of("key", List.of(existingPolicy));
 
+        when(policyClient.getPolicies()).thenReturn(existingPolicies);
 
-        when(policyClient.getPolicies()).thenReturn(List.of(existingPolicy));
+        // WHEN
+        Map<String, List<IrsPolicyResponse>> irsPolicyResponseMap = policyClient.getPolicies();
 
-        //WHEN
-        List<IrsPolicyResponse> irsPolicyResponse = policyClient.getPolicies();
-
-        //THEN
-        assertThat(irsPolicyResponse).hasSize(1);
+        // THEN
+        assertThat(irsPolicyResponseMap.values().stream().flatMap(List::stream).toList()).hasSize(1);
     }
 }
