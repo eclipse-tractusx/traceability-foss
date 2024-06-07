@@ -13,6 +13,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [11.0.2 - 29.05.2024]
 ### Added
 - #1010 Made submodel path configurable
+- #838 Added User experience > Table design section in arc42 documentation
+
 
 ### Changed
 - #1010 Updated IRS Helm Version from 5.1.6 to 5.1.7
