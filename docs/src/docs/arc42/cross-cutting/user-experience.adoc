@@ -83,6 +83,11 @@ a|* Opens up as an overlay
 a|* Used to switch between full-width mode or variable-width mode
 |
 
+|Scrollbars
+a|* Only visible/active when data exceeds the visible space
+* Sticky elements stay visible regardless of scroll position
+|
+
 |Page size selector
 a|* Shows the currently selected page size
 * When clicking on it, a dropdown opens that shows available page size options
