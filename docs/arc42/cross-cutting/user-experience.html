@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Technology</title>
+<title>User experience</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,22 +437,322 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>Technology</h1>
+<h1>User experience</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_user_interface">User interface</a>
+<ul class="sectlevel2">
+<li><a href="#_table_design">Table design</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
+<div class="sect1">
+<h2 id="_user_interface">User interface</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_table_design">Table design</h3>
 <div class="paragraph">
-<p>Trace-X is developed using Java and the Spring Boot framework for the backend and Typescript based on the Angular framework for the frontend. This decision was taken due to the support of the frameworks as well as technical knowledge of the team members.</p>
+<p>Trace-X uses the following table design to build consistent and user-friendly tables:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-design.png" alt="table design">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Component</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Actions</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Black icons</p>
+</li>
+<li>
+<p>When an action cannot be executed for any reason, the icon turns grey</p>
+</li>
+<li>
+<p>A tooltip is shown when hovering over an executable action to describe it</p>
+</li>
+<li>
+<p>A tooltip is shown when hovering over a disabled action to describe the reason why it can&#8217;t be executed</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-actions.png" alt="table actions"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Action menus</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Opens when clicking on a three-dot menu</p>
+</li>
+<li>
+<p>Disappears, when clicking anywhere outside the menu</p>
+</li>
+<li>
+<p>List of action icons with text labels</p>
+</li>
+<li>
+<p>The three-dot menu is sticky when used inside the table for single-item actions</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-action-menus.png" alt="table action menus"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multi-select box</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Clicking on it when no items are selected, selects all items on the current page</p>
+</li>
+<li>
+<p>Clicking on it when some items are selected (but not all), selects all items on the current page</p>
+</li>
+<li>
+<p>Clicking on it when all items are selected, deselects all items on the current page</p>
+</li>
+<li>
+<p>Clicking on the small arrow opens a menu for clearing the page selection or the entire selection</p>
+</li>
+<li>
+<p>The menu disappears, when clicking anywhere outside the menu</p>
+</li>
+<li>
+<p>Part of the column header row &#8594; Sticky on top next to column headers</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-multi-select-box.png" alt="table multi select box"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Selection box</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Clicking on it toggles item selection</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Selection count</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Shows selection count of the current page</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Column header</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Shows the column title</p>
+</li>
+<li>
+<p>Hovering over it shows a tooltip that describes sorting behaviour</p>
+</li>
+<li>
+<p>Clicking on it toggles sorting</p>
+</li>
+<li>
+<p>Sticky on top</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-tooltip.png" alt="table sorting tooltip"></span>
+Ascending sorting: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-ascending.png" alt="table sorting ascending"></span>
+Descending sorting: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-descending.png" alt="table sorting descending"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Filter</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Can search for any string</p>
+</li>
+<li>
+<p>Results are shown directly without having to press enter</p>
+</li>
+<li>
+<p>Results are shown as a sorted list (ascending)</p>
+</li>
+<li>
+<p>Selected results are shown on top of unselected ones</p>
+</li>
+<li>
+<p>The checkbox inside the search field selects or deselects every result</p>
+</li>
+<li>
+<p>The cross inside the search field resets the search and the filter</p>
+</li>
+<li>
+<p>When the filter is active, 'All' changes to the filtered value (+ the number of other filters)</p>
+</li>
+<li>
+<p>For date values, the search is replaced with a date picker</p>
+</li>
+<li>
+<p>Sticky on top below column headers</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter.png" alt="table filter"></span>
+Date filter: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter-date.png" alt="table filter date"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick filter</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Used to quickly filter for specific values</p>
+</li>
+<li>
+<p>Independent of regular filters</p>
+</li>
+<li>
+<p>Work exclusively - only one filter can be selected at a time</p>
+</li>
+<li>
+<p>Click on the currently active quick filter to deactivate it</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Table column settings</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Opens up as an overlay</p>
+</li>
+<li>
+<p>Clicking on Save, the cross or anywhere outside the overlay will close the overlay (only saving changes when clicking Save)</p>
+</li>
+<li>
+<p>Selecting/deselecting columns makes them visible/invisible in the table</p>
+</li>
+<li>
+<p>The order of the columns can be changed by selecting the column title and using the arrow buttons</p>
+</li>
+<li>
+<p>Using the circle arrow icon resets the column visibility and column order</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-column-settings.png" alt="table column settings"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full-width toggle</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Used to switch between full-width mode or variable-width mode</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Page size selector</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Shows the currently selected page size</p>
+</li>
+<li>
+<p>When clicking on it, a dropdown opens that shows available page size options</p>
+</li>
+<li>
+<p>Clicking any option will select that option and close the dropdown</p>
+</li>
+<li>
+<p>Clicking anywhere outside the dropdown closes the dropdown without applying any changes</p>
+</li>
+<li>
+<p>Three options are always available</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-size-selector.png" alt="table page size selector"></span></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Page information</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Shows information about the amount of items on the current page and the total amount of items</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Page controls</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Used to switch between pages</p>
+</li>
+<li>
+<p>Controls are: First page, previous page, next page, last page</p>
+</li>
+<li>
+<p>Hovering over the controls shows a tooltip that labels each control</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-controls.png" alt="table page controls"></span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In addition, following tables are used within Trace-X:</p>
 </div>
 <div class="paragraph">
-<p>The application can be hosted using Docker and Kubernetes. This is commonly used and widespread. With this the application has no vendor lock in regarding the hosting provider.</p>
+<p>When the data is not as complex and/or extensive and single-item actions are not needed:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-small.png" alt="table small">
+</div>
 </div>
 <div class="paragraph">
-<p>The communication between frontend and backend is done using REST APIs. This is the standard method in the Catena-X landscape and makes the application components easy to use for any third party client.</p>
+<p>When data must only be shown and no actions are needed:</p>
 </div>
-<div class="paragraph">
-<p>For the database PostgreSQL is used.</p>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-data-only.png" alt="table data only">
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">

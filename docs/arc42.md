@@ -676,12 +676,12 @@ We generally follow the [Google developer documentation style guide](https://dev
 * Writing methods which provide a response to be better testable (avoid void if feasible).
 * Naming of unit tests are as follows:
 
-![unit_test_naming](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/unit_test_naming.png)
+![unit_test_naming](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit_test_naming.png)
 
 * Use given/when/then pattern for unit test structuring.
 E.g:
 
-![given_when_then_pattern](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/given_when_then_pattern.png)
+![given_when_then_pattern](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given_when_then_pattern.png)
 
 #### Integration testing
 
@@ -698,7 +698,7 @@ We follow the rules and behaviour of: <https://clean-code-developer.com/.>
 
 As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".
 
-![vulnerability_level](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/vulnerability_level.png)
+![vulnerability_level](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability_level.png)
 
 ### Trace-X technical class responsibilities
 
@@ -789,6 +789,42 @@ Logs are being written directly to stdout and are picked up by the cluster manag
 ### Monitoring
 
 Currently, there is on monitoring supported in Trace-X.
+
+## User experience
+
+### User interface
+
+#### Table design
+
+Trace-X uses the following table design to build consistent and user-friendly tables:
+
+![table-design](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-design.png)
+
+| Component | Description | Example |
+| --- | --- | --- |
+| Actions | * Black icons * When an action cannot be executed for any reason, the icon turns grey * A tooltip is shown when hovering over an executable action to describe it * A tooltip is shown when hovering over a disabled action to describe the reason why it can’t be executed | ![table-actions](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-actions.png) |
+| Action menus | * Opens when clicking on a three-dot menu * Disappears, when clicking anywhere outside the menu * List of action icons with text labels * The three-dot menu is sticky when used inside the table for single-item actions | ![table-action-menus](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-action-menus.png) |
+| Multi-select box | * Clicking on it when no items are selected, selects all items on the current page * Clicking on it when some items are selected (but not all), selects all items on the current page * Clicking on it when all items are selected, deselects all items on the current page * Clicking on the small arrow opens a menu for clearing the page selection or the entire selection * The menu disappears, when clicking anywhere outside the menu * Part of the column header row -> Sticky on top next to column headers | ![table-multi-select-box](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-multi-select-box.png) |
+| Selection box | * Clicking on it toggles item selection |  |
+| Selection count | * Shows selection count of the current page |  |
+| Column header | * Shows the column title * Hovering over it shows a tooltip that describes sorting behaviour * Clicking on it toggles sorting * Sticky on top | ![table-sorting-tooltip](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-tooltip.png) Ascending sorting: ![table-sorting-ascending](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-ascending.png) Descending sorting: ![table-sorting-descending](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-descending.png) |
+| Filter | * Can search for any string * Results are shown directly without having to press enter * Results are shown as a sorted list (ascending) * Selected results are shown on top of unselected ones * The checkbox inside the search field selects or deselects every result * The cross inside the search field resets the search and the filter * When the filter is active, 'All' changes to the filtered value (+ the number of other filters) * For date values, the search is replaced with a date picker * Sticky on top below column headers | ![table-filter](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter.png) Date filter: ![table-filter-date](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter-date.png) |
+| Quick filter | * Used to quickly filter for specific values * Independent of regular filters * Work exclusively - only one filter can be selected at a time * Click on the currently active quick filter to deactivate it |  |
+| Table column settings | * Opens up as an overlay * Clicking on Save, the cross or anywhere outside the overlay will close the overlay (only saving changes when clicking Save) * Selecting/deselecting columns makes them visible/invisible in the table * The order of the columns can be changed by selecting the column title and using the arrow buttons * Using the circle arrow icon resets the column visibility and column order | ![table-column-settings](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-column-settings.png) |
+| Full-width toggle | * Used to switch between full-width mode or variable-width mode |  |
+| Page size selector | * Shows the currently selected page size * When clicking on it, a dropdown opens that shows available page size options * Clicking any option will select that option and close the dropdown * Clicking anywhere outside the dropdown closes the dropdown without applying any changes * Three options are always available | ![table-page-size-selector](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-size-selector.png) |
+| Page information | * Shows information about the amount of items on the current page and the total amount of items |  |
+| Page controls | * Used to switch between pages * Controls are: First page, previous page, next page, last page * Hovering over the controls shows a tooltip that labels each control | ![table-page-controls](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-controls.png) |
+
+In addition, following tables are used within Trace-X:
+
+When the data is not as complex and/or extensive and single-item actions are not needed:
+
+![table-small](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-small.png)
+
+When data must only be shown and no actions are needed:
+
+![table-data-only](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-data-only.png)
 
 ## Quality requirements
 
