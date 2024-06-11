@@ -120,6 +120,8 @@ public class JsonSchemaTest {
                     }
                 }
             }
+        } catch (NumberFormatException e) {
+            log.info("error:" + e);
         }
         return highestVersionFile;
     }
