@@ -41,7 +41,6 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -103,7 +102,7 @@ public class JsonSchemaTest {
     }
 
     private String findHighestVersionFile() throws URISyntaxException, IOException {
-        Path dir = Paths.get(getClass().getResource("/testdata/jsonfiles").toURI());
+        Path dir = Path.of(JsonSchemaTest.class.getResource("/testdata/jsonfiles").toURI());
         Pattern pattern = Pattern.compile("CX_Testdata_MessagingTest_v(\\d+\\.\\d+\\.\\d+)\\.json");
 
         String highestVersionFile = null;
