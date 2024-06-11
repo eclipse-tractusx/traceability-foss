@@ -120,8 +120,6 @@ public class JsonSchemaTest {
                     }
                 }
             }
-        } catch (NumberFormatException e) {
-            log.info("error:" + e);
         }
         return highestVersionFile;
     }
@@ -130,14 +128,19 @@ public class JsonSchemaTest {
         String[] parts1 = v1.split("\\.");
         String[] parts2 = v2.split("\\.");
 
-        for (int i = 0; i < parts1.length; i++) {
-            int part1 = Integer.parseInt(parts1[i]);
-            int part2 = Integer.parseInt(parts2[i]);
+        try {
+            for (int i = 0; i < parts1.length; i++) {
+                int part1 = Integer.parseInt(parts1[i]);
+                int part2 = Integer.parseInt(parts2[i]);
 
-            if (part1 != part2) {
-                return Integer.compare(part1, part2);
+                if (part1 != part2) {
+                    return Integer.compare(part1, part2);
+                }
             }
+        } catch (Exception e) {
+            log.info("Error:" + e);
         }
+
 
         return 0;
     }
