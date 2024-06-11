@@ -137,10 +137,9 @@ public class JsonSchemaTest {
                     return Integer.compare(part1, part2);
                 }
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             log.info("Error:" + e);
         }
-
 
         return 0;
     }
