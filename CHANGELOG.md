@@ -8,6 +8,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Removed
+
+- XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
+
 ## [11.0.2 - 29.05.2024]
 ### Added
 - #1010 Made submodel path configurable
@@ -51,10 +55,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #998 fixed bug where global search bar could search for BPN and adjusted placeholder label to reflect column names
 - #913 Changed severity icons
 - #978 Fixed edc policy creation with edc version 0.7.0
-
-### Removed
-
-- XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
 
 ## [11.0.0 - 08.05.2024]
 ### Added
