@@ -13,6 +13,9 @@
 
 ## Table of Contents
 - [Trace-X](https://github.com/eclipse-tractusx/traceability-foss/#trace-x-is-a-system-for-tracking-parts-along-the-supply-chain)
+  - [Introduction](#introduction)
+    - [Vision and Mission Statement](#vision-and-mission-statement)
+    - [Trace-X Feature list](#trace-x-feature-list)
   - [How to contribute](https://github.com/eclipse-tractusx/traceability-foss/#how-to-contribute)
   - [Releasing](https://github.com/eclipse-tractusx/traceability-foss/#releasing)
   - [Environments](https://github.com/eclipse-tractusx/traceability-foss/#environments)
@@ -32,6 +35,32 @@
   - [API documentation](https://github.com/eclipse-tractusx/traceability-foss/#api-documentation)
   - [Container Image](https://github.com/eclipse-tractusx/traceability-foss/#container-image)
   - [License](https://github.com/eclipse-tractusx/traceability-foss/#license)
+
+## Introduction
+
+### Vision and Mission Statement
+Trace-X empowers all companies from SMEs to large OEMs to participate in parts traceability with an Open-Source solution.
+
+The Open-Source Traceability application is developed within the Catena-X project and enables all companies to participate in Parts Traceability.
+Trace-X offers capabilities to ingest data for serialized parts and batches as well as their child components.  Within CX, we strive to establish a standardized, data-sovereign and interoperable exchange of traceability data along the value creation chain.
+
+The application gives an overview of the supplier network and the supply chain. A high level of transparency across the supplier network enables faster intervention based on recorded events in the supply chain. Additionally, automated massages regarding Quality related incidents and a tool for inspecting the supply chain helps companies in these fast-moving times.
+
+All this saves' costs by seamlessly tracking parts as well as creates trust through clearly defined and secure data access by the companies and persons involved in the process.
+
+### Trace-X Feature list
+Trace-X as the Open-Source solution for Parts Traceability offers the following functionalities:
+
+* List and view manufactured parts based on BoM AsBuild
+* List and view planned parts based on BoM AsPlanned
+* Filter and Search functionality on part views 
+* Show detailed information on manufactured parts
+** Asset Administration Shell description
+** Submodel description such as SerialPartTypization, AssemblyPartRelationship, Batch
+* List and view Supplier parts based on BoM As Build
+** List of Supplier parts based on AssemblyPartRelationship Aspect
+* View parts and parts relations in parts tree
+* Send and receive quality investigations along the supply chain
 
 ## How to contribute
 
