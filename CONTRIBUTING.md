@@ -71,6 +71,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). 
 
+
+* Add release notes for new version in [CHANGELOG.md](CHANGELOG.md)      
+* Features of your product(s) or component(s), available for market entry
+* Please provide minimum 5 to maximum 10 key feature descriptions
+* Use category “ADDED” as per good practice
+* Known knowns as of the baseline of our recent Gate4 reviews (for example these can be unresolved bugs (also medium ones) or SEC weaknesses etc.)
+* Put yourself into the position of an “external” customer/user of your software and focus on what is worth mentioning (if anything)
+* Create a category „KNOWN KNOWNS“ if applicable
+* Make sure, your [CHANGELOG.md](CHANGELOG.md)  fully correlates to your market-entry version
+
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
 ### git-hooks
