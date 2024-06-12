@@ -55,6 +55,7 @@ import java.util.stream.StreamSupport;
 
 import static java.util.Objects.isNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @Slf4j
 public class JsonSchemaTest {
@@ -72,32 +73,29 @@ public class JsonSchemaTest {
     private final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
 
     @Test
-    public void test() throws IOException, URISyntaxException {
-        String highestVersionFile = findHighestVersionFile();
-        if (highestVersionFile == null) {
-            throw new IOException("No suitable file found");
+    public void testJsonSchema() {
+        try {
+            String highestVersionFile = findHighestVersionFile();
+            log.info("File Version: " + highestVersionFile);
+            InputStream file = JsonSchemaTest.class.getResourceAsStream("/testdata/jsonfiles/" + highestVersionFile);
+
+            MockMultipartFile multipartFile = new MockMultipartFile(
+                    "file",                 // Parameter name in the multipart request
+                    "import-request.json",  // Original file name
+                    "application/json",     // Content type
+                    file
+            );
+
+            List<String> errors = isValid(multipartFile);
+            for (String string : errors) {
+                log.info(string);
+            }
+
+            assertEquals(1, errors.size());
+        } catch (Exception e) {
+            log.error("Exception encountered", e);
+            fail("Exception encountered: " + e.getMessage());
         }
-        log.info("File Version:" + highestVersionFile);
-        InputStream file = JsonSchemaTest.class.getResourceAsStream("/testdata/jsonfiles/" + highestVersionFile);
-        if (file == null) {
-            throw new IOException("Resource not found: /testdata/jsonfiles/" + highestVersionFile);
-        }
-
-        MockMultipartFile multipartFile = new MockMultipartFile(
-                "file",                 // Parameter name in the multipart request
-                "import-request.json",  // Original file name
-                "application/json",     // Content type
-                file
-        );
-
-
-        List<String> strings = isValid(multipartFile);
-        for (String string : strings) {
-            log.info(string);
-        }
-
-
-        assertEquals(1, strings.size());
 
     }
 
