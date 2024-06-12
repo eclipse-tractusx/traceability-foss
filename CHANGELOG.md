@@ -8,6 +8,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+
+- #1017 added file for CC BY 4.0 license for TRG 7
+
+### Changed
+
+- #1017 updated contributing, notice, and readme files for TRG 7
+
 ## [11.0.2 - 29.05.2024]
 ### Added
 - #1010 Made submodel path configurable
