@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { bpnListRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
 import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
@@ -40,7 +40,7 @@ export class PolicyEditorComponent {
   minDate: Date = new Date();
   templateError: string = '';
 
-  constructor(private readonly router: Router, public readonly policyFacade: PoliciesFacade, private fb: FormBuilder, private readonly toastService: ToastService) {
+  constructor(private readonly router: Router, private readonly route: ActivatedRoute, public readonly policyFacade: PoliciesFacade, private fb: FormBuilder, private readonly toastService: ToastService) {
   }
 
   get constraints() {
@@ -51,10 +51,11 @@ export class PolicyEditorComponent {
     this.viewMode = this.initializeViewMode();
 
 
+
     this.policyForm = this.fb.group({
-      policyName: new FormControl('', [ Validators.required, Validators.minLength(8), Validators.maxLength(30) ]),
+      policyName: new FormControl('', [ Validators.required, Validators.minLength(8), Validators.maxLength(40) ]),
       validUntil: new FormControl('', [ Validators.required, this.futureDateValidator ]),
-      bpns: new FormControl('', [ Validators.required, Validators.maxLength(84), BaseInputHelper.getCustomPatternValidator(bpnListRegex, 'bpn') ]),
+      bpns: new FormControl('', [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnListRegex, 'bpn') ]),
       accessType: new FormControl<string>(PolicyAction.ACCESS),
       constraints: this.fb.array([]),
       constraintLogicType: new FormControl(ConstraintLogicType.AND),
@@ -68,6 +69,8 @@ export class PolicyEditorComponent {
           this.updatePolicyForm(this.selectedPolicy);
         }
       });
+    } else {
+      this.addConstraintFormGroup();
     }
 
   }
@@ -84,14 +87,14 @@ export class PolicyEditorComponent {
   }
 
   private setSelectedPolicy(): void {
-    this.policyFacade.setSelectedPolicyById(this.router.url.split('/').pop());
+    this.policyFacade.setSelectedPolicyById(this.route.snapshot.paramMap.get('policyId'));
   }
 
   addConstraintFormGroup() {
     this.constraints.push(this.fb.group({
-      leftOperand: new FormControl(''),
+      leftOperand: new FormControl('', [ Validators.required ]),
       operator: new FormControl<string>('='),
-      rightOperand: new FormControl(''),
+      rightOperand: new FormControl('', [ Validators.required ]),
     }));
   }
 

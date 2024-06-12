@@ -68,7 +68,7 @@
       "edit" : "bearbeiten",
       "view" : "details",
       "selectFileHint" : "Name der selektierten Vorlage",
-      "applyChange" : "Vorlage anwenden um den Inhalt der Richtlinie mit dieser zu überschreiben",
+      "applyChange" : "Inhalt der hochgeladenen Datei anwenden und existierende Daten überschreiben",
       "chooseFile" : "Selektieren Sie eine Vorlage um Änderungen anzuwenden",
       "apply" : "Anwenden",
       "policyName" : "Richtlinienname",
@@ -90,7 +90,9 @@
       "errorMessage" : "Fehler beim Versuch die Richtlinie abzuspeichern",
       "templateErrorMessage" : "Die selektierte Vorlagendatei ist nicht konform für Richtlinien. Bitte wählen Sie eine valide .JSON Vorlagendatei aus.",
       "invalidForm" : "Bitte füllen Sie die Eingabefelder korrekt aus",
-      "bpnsHint" : "Liste von BPNs separiert durch ein Kommazeichen"
+      "bpnsHint" : "Liste von BPNs separiert durch ein Kommazeichen",
+      "savePolicy" : "Richtlinie speichern",
+      "addConstraint" : "Regel hinzufügen"
     }
   }
 }

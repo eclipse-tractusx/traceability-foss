@@ -66,7 +66,7 @@
     "publishAssets": "Publish assets",
     "maximizeTable": "Full width",
     "userSettings" : "Table settings",
-    "uploadFile" : "Upload template file",
+    "uploadFile" : "Upload policy JSON file",
     "downloadFile" : "Download template as file"
   },
   "publisher": {

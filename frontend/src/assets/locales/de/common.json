@@ -68,7 +68,7 @@
     "publishAssets": "Produkte veröffentlichen",
     "maximizeTable": "Volle Breite",
     "userSettings" : "Tabellen Einstellung",
-    "uploadFile" : "Vorlage aus Datei hochladen",
+    "uploadFile" : "Richtlinien JSON-Datei hochladen",
     "downloadFile" : "Vorlage als Datei herunterladen"
   },
   "publisher": {

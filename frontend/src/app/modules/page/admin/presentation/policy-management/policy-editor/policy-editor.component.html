@@ -20,7 +20,7 @@
       </div>
       <div class="action-container-right">
         <div
-          matTooltip="{{ (policyForm.invalid ? 'pageAdmin.policyManagement.invalidForm': (constraints.length < 1 ? 'errorMessage.minimumOneConstraint' : 'actions.save')) | i18n}}"
+          matTooltip="{{ (policyForm.invalid ? 'pageAdmin.policyManagement.invalidForm': (constraints.length < 1 ? 'errorMessage.minimumOneConstraint' : 'pageAdmin.policyManagement.savePolicy')) | i18n}}"
           matTooltipClass="table--header--tooltip"
           matTooltipPosition="above"
           [class.mdc-tooltip--multiline]="true"
@@ -31,6 +31,7 @@
             [iconName]="'save'"
             onkeydown="savePolicy()"
             (click)="savePolicy()"
+            [color]="'primary'"
             [isDisabled]="policyForm.invalid || constraints.length < 1"
           ></app-button>
         </div>
@@ -135,8 +136,8 @@
       </div>
 
       <div class="constraints-container flex flex-col items-start">
-        <h4 class="pb-2">{{ 'pageAdmin.policyManagement.constraints' | i18n }}</h4>
-        <div matTooltip="{{ 'actions.add' | i18n}}"
+        <h4 class="pb-2">{{ 'pageAdmin.policyManagement.constraints' | i18n }} {{ '(' + constraints.length + ')' }}</h4>
+        <div matTooltip="{{ 'pageAdmin.policyManagement.addConstraint' | i18n}}"
              matTooltipClass="table--header--tooltip"
              matTooltipPosition="above"
              [class.mdc-tooltip--multiline]="true"
