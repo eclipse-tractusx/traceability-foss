@@ -1,0 +1,101 @@
+{
+  "@id": "f0e0805b-df8d-495f-94ba-e442dcadb220",
+  "@type": "dcat:Catalog",
+  "dspace:participantId": "BPNL00000003CNKC",
+  "dcat:dataset": {
+    "@id": "40276218-e31b-4c35-a7c8-017e8edb702e",
+    "@type": "dcat:Dataset",
+    "odrl:hasPolicy": {
+      "@id": "ZGM3MTBlMjktNmExZC00YWQ2LWJmMTQtNWYyMjdjMDAwN2Zi:NDAyNzYyMTgtZTMxYi00YzM1LWE3YzgtMDE3ZThlZGI3MDJl:MWFlN2Q0NTYtYWZhYi00MmVlLWFjZmYtZTUyZWJkMmQwY2Vk",
+      "@type": "odrl:Offer",
+      "odrl:permission": {
+        "odrl:action": {
+          "odrl:type": "USE"
+        },
+        "odrl:constraint": {
+          "odrl:and": [
+            {
+              "odrl:leftOperand": "cx-policy:FrameworkAgreement",
+              "odrl:operator": {
+                "@id": "odrl:eq"
+              },
+              "odrl:rightOperand": "traceability:1.0"
+            },
+            {
+              "odrl:leftOperand": "cx-policy:UsagePurpose",
+              "odrl:operator": {
+                "@id": "odrl:eq"
+              },
+              "odrl:rightOperand": "cx.core.industrycore:1"
+            }
+          ]
+        }
+      },
+      "odrl:prohibition": [],
+      "odrl:obligation": []
+    },
+    "dcat:distribution": [
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AzureStorage-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "2658a111-28b5-4623-8fbe-6320215a4c21",
+          "@type": "dcat:DataService",
+          "dct:terms": "connector",
+          "dct:endpointUrl": "https://test.de/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "HttpData-PULL"
+        },
+        "dcat:accessService": {
+          "@id": "2658a111-28b5-4623-8fbe-6320215a4c21",
+          "@type": "dcat:DataService",
+          "dct:terms": "connector",
+          "dct:endpointUrl": "https://test.de/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AmazonS3-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "2658a111-28b5-4623-8fbe-6320215a4c21",
+          "@type": "dcat:DataService",
+          "dct:terms": "connector",
+          "dct:endpointUrl": "https://test.de/api/v1/dsp"
+        }
+      }
+    ],
+    "type": "qualityalert",
+    "notificationtype": "qualityalert",
+    "policy-id": "use-eu",
+    "description": "QUALITY_ALERT RECEIVE",
+    "id": "40276218-e31b-4c35-a7c8-017e8edb702e",
+    "contenttype": "application/json",
+    "notificationmethod": "receive"
+  },
+  "dcat:service": {
+    "@id": "2658a111-28b5-4623-8fbe-6320215a4c21",
+    "@type": "dcat:DataService",
+    "dct:terms": "connector",
+    "dct:endpointUrl": "https://test.de/api/v1/dsp"
+  },
+  "participantId": "BPNL00000003CNKC",
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "odrl": "http://www.w3.org/ns/odrl/2/",
+    "dspace": "https://w3id.org/dspace/v0.8/"
+  }
+}
