@@ -116,7 +116,7 @@
     "viewDetails" : "View details",
     "more" : "More actions",
     "editNotification" : "Edit quality topics",
-    "selectAtLeastOne" : "Actions require atleast one selection in the table",
+    "selectAtLeastOne" : "Requires at least one selection in the policies table",
     "selectOnlyOne" : "Action requires only one selection from the table",
     "unauthorized" : "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "noFunctionality" : "Functionality is not implemented yet",

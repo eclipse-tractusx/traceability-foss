@@ -39,17 +39,21 @@ export class PoliciesAssembler {
     entry.payload.policy.accessType = entry.payload.policy.permissions[0].action;
     let constrainsList = [];
     entry.payload.policy.permissions.forEach(permission => {
-      permission.constraint.and.forEach(andConstraint => {
+      permission.constraint.and.forEach((andConstraint, index) => {
         constrainsList.push(andConstraint.leftOperand);
         constrainsList.push(getOperatorTypeSign(OperatorType[andConstraint.operator['@id'].toUpperCase()]));
         constrainsList.push(andConstraint['odrl:rightOperand']);
-        constrainsList.push(' AND ');
+        if (index !== permission.constraint.and.length - 1) {
+          constrainsList.push(' AND ');
+        }
       });
-      permission.constraint?.or?.forEach(orConstraint => {
+      permission.constraint?.or?.forEach((orConstraint, index) => {
         constrainsList.push(orConstraint.leftOperand);
         constrainsList.push(getOperatorTypeSign(OperatorType[orConstraint.operator['@id'].toUpperCase()]));
         constrainsList.push(orConstraint['odrl:rightOperand']);
-        constrainsList.push(' OR ');
+        if (index !== permission.constraint.or.length - 1) {
+          constrainsList.push(' OR ');
+        }
       });
     });
     return constrainsList;

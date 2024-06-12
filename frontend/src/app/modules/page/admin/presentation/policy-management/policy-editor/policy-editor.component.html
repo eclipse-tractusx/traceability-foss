@@ -45,6 +45,7 @@
           <app-button
             [iconName]="'edit'"
             onkeydown="navigateToEditView()"
+            [color]="'primary'"
             (click)="navigateToEditView()"></app-button>
         </div>
       </div>
@@ -79,7 +80,7 @@
       <input type="file" accept="application/json" (change)="onFileSelected($event)" hidden #fileInput>
       <input type="text" class="file-input mr-4" [ngClass]="templateFileName.length < 1 ? 'hinttext' : ''"
              [value]="templateFileName.length ? templateFileName : ('pageAdmin.policyManagement.selectFileHint' | i18n)"
-             label="File" disabled>
+             label="File" disabled *ngIf="templateFileName.length">
       <div
         class="template-apply-button-container"
         matTooltip="{{ (templateFile ? 'pageAdmin.policyManagement.applyChange' : 'pageAdmin.policyManagement.chooseFile') | i18n}}"
@@ -118,7 +119,7 @@
         </div>
         <app-input
           [label]="'pageAdmin.policyManagement.bpnls' | i18n"
-          [hint]="'pageAdmin.policyManagement.bpnsHint' | i18n"
+          [hint]="viewMode === ViewMode.VIEW ? '': 'pageAdmin.policyManagement.bpnsHint' | i18n"
           [parentFormGroup]="policyForm"
           [formControlName]="'bpns'"
         ></app-input>
@@ -189,7 +190,7 @@
                          [label]="'pageAdmin.policyManagement.rightOperand' | i18n" class="flex-1"></app-input>
               <div matTooltip="{{ 'pageAdmin.policyManagement.moveDownward' | i18n}}"
                    matTooltipClass="table--header--tooltip"
-                   matTooltipPosition="above"
+                   matTooltipPosition="before"
                    [class.mdc-tooltip--multiline]="true"
                    [matTooltipShowDelay]="500"
                    *ngIf="viewMode !== ViewMode.VIEW"
@@ -202,7 +203,7 @@
               </div>
               <div matTooltip="{{ 'pageAdmin.policyManagement.moveUpward' | i18n}}"
                    matTooltipClass="table--header--tooltip"
-                   matTooltipPosition="above"
+                   matTooltipPosition="before"
                    [class.mdc-tooltip--multiline]="true"
                    [matTooltipShowDelay]="500"
                    *ngIf="viewMode !== ViewMode.VIEW"
