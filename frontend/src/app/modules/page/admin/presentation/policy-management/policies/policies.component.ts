@@ -22,7 +22,7 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'app-policies',
   templateUrl: './policies.component.html',
-  styleUrls: [ './policies.component.scss' ],
+  styleUrls: [],
 })
 export class PoliciesComponent {
   policiesView$: Observable<View<Policy[]>>;

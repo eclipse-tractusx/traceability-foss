@@ -79,6 +79,7 @@ export class PoliciesAssembler {
     return constrainsList;
   }
 
+  /*
   public static validatePoliciesTemplate(data: any) {
 
     if (typeof data !== 'object' || data === null || !Array.isArray(data[Object.keys(data)[0]])) {
@@ -154,5 +155,7 @@ export class PoliciesAssembler {
 
     return true;
   }
+
+   */
 
 }

@@ -92,6 +92,7 @@
       >
         <app-button [variant]="'raised'" [color]="'primary'"
                     (click)="applyTemplate()"
+                    onkeydown="applyTemplate()"
                     [isDisabled]="!templateFile"
                     class="mr-2"
         >{{ 'pageAdmin.policyManagement.apply' | i18n }}
@@ -148,6 +149,7 @@
              class="mb-2" *ngIf="viewMode !== ViewMode.VIEW">
           <app-button
             [iconName]="'add'"
+            onkeydown="addConstraintFormGroup()"
             (click)="addConstraintFormGroup()"
           ></app-button>
         </div>
@@ -199,6 +201,7 @@
               >
                 <app-button
                   [iconName]="'arrow_downward'"
+                  onkeydown="moveConstraintDown(i)"
                   (click)="moveConstraintDown(i)"
                 >
                 </app-button>
@@ -213,6 +216,7 @@
 
                 <app-button
                   [iconName]="'arrow_upward'"
+                  onkeydown="moveConstraintUp(i)"
                   (click)="moveConstraintUp(i)"
                 >
                 </app-button>
@@ -226,6 +230,7 @@
               >
                 <app-button
                   [iconName]="'delete'"
+                  onkeydown="removeConstraintFormGroup(i)"
                   (click)="removeConstraintFormGroup(i)"
                 >
                 </app-button>
