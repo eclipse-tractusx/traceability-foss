@@ -159,7 +159,7 @@ export class PolicyEditorComponent {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'policy-template-' + policy.payload.policy.policyId;
+    a.download = policy.payload.policy.policyId.length ? 'policy-template-' + policy.payload.policy.policyId : 'policy-template';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -182,6 +182,7 @@ export class PolicyEditorComponent {
         }
         let policyEntry = PoliciesAssembler.mapToPolicyEntryList(JSON.parse(fileContent));
         let policy = PoliciesAssembler.assemblePolicy(policyEntry[0].payload.policy);
+        this.toastService.success('pageAdmin.policyManagement.changeSuccessMessage');
         this.updatePolicyForm(policy);
       }
     };

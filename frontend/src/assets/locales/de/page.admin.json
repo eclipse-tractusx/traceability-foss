@@ -87,6 +87,7 @@
       "moveDownward" : "Nach unten verschieben",
       "moveUpward" : "Nach oben verschieben",
       "successMessage" : "Richtlinie wurde erfolgreich gespeichert",
+      "changeSuccessMessage" : "JSON-Datei erfolgreich angewandt",
       "errorMessage" : "Fehler beim Versuch die Richtlinie abzuspeichern",
       "templateErrorMessage" : "Die selektierte Vorlagendatei ist nicht konform für Richtlinien. Bitte wählen Sie eine valide .JSON Vorlagendatei aus.",
       "invalidForm" : "Bitte füllen Sie die Eingabefelder korrekt aus",
