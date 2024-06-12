@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Valid
 import { ActivatedRoute, Router } from '@angular/router';
 import { bpnListRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
-import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
 import {
   ConstraintLogicTypeAsSelectOptionsList,
   OperatorTypesAsSelectOptionsList,
@@ -139,62 +138,69 @@ export class PolicyEditorComponent {
     });
   }
 
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.templateFile = input.files[0];
-      this.templateFileName = this.templateFile.name;
-      this.templateError = '';
+  /*
+
+    onFileSelected(event: Event) {
+      const input = event.target as HTMLInputElement;
+      if (input.files && input.files.length > 0) {
+        this.templateFile = input.files[0];
+        this.templateFileName = this.templateFile.name;
+        this.templateError = '';
+      }
     }
-  }
+
+   */
 
   navigateToEditView() {
     this.router.navigate([ 'admin/policies/', 'edit', this.selectedPolicy.policyId ]);
   }
 
-  downloadTemplateAsJsonFile() {
-    const policy = this.mapPolicyFormToPolicyEntry();
-    const data = JSON.stringify(policy, null, 2);
-    const blob = new Blob([ data ], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = policy.payload.policy.policyId.length ? 'policy-template-' + policy.payload.policy.policyId : 'policy-template';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  /*
+    downloadTemplateAsJsonFile() {
+      const policy = this.mapPolicyFormToPolicyEntry();
+      const data = JSON.stringify(policy, null, 2);
+      const blob = new Blob([ data ], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = policy.payload.policy.policyId.length ? 'policy-template-' + policy.payload.policy.policyId : 'policy-template';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
 
-  }
-
-  applyTemplate() {
-    if (!this.templateFile) {
-      return;
     }
-    const reader = new FileReader();
 
-    reader.onload = () => {
-      const fileContent = reader.result;
-      if (typeof fileContent === 'string') {
-        if (!PoliciesAssembler.validatePoliciesTemplate(JSON.parse(fileContent))) {
-          this.templateError = 'pageAdmin.policyManagement.templateErrorMessage';
-          return;
-        }
-        let policyEntry = PoliciesAssembler.mapToPolicyEntryList(JSON.parse(fileContent));
-        let policy = PoliciesAssembler.assemblePolicy(policyEntry[0].payload.policy);
-        this.toastService.success('pageAdmin.policyManagement.changeSuccessMessage');
-        this.updatePolicyForm(policy);
+
+
+    applyTemplate() {
+      if (!this.templateFile) {
+        return;
       }
-    };
+      const reader = new FileReader();
 
-    reader.onerror = () => {
-      this.toastService.error(reader.error?.message);
-    };
+      reader.onload = () => {
+        const fileContent = reader.result;
+        if (typeof fileContent === 'string') {
+          if (!PoliciesAssembler.validatePoliciesTemplate(JSON.parse(fileContent))) {
+            this.templateError = 'pageAdmin.policyManagement.templateErrorMessage';
+            return;
+          }
+          let policyEntry = PoliciesAssembler.mapToPolicyEntryList(JSON.parse(fileContent));
+          let policy = PoliciesAssembler.assemblePolicy(policyEntry[0].payload.policy);
+          this.toastService.success('pageAdmin.policyManagement.changeSuccessMessage');
+          this.updatePolicyForm(policy);
+        }
+      };
 
-    reader.readAsText(this.templateFile);
+      reader.onerror = () => {
+        this.toastService.error(reader.error?.message);
+      };
 
-  }
+      reader.readAsText(this.templateFile);
 
+    }
+  */
   updatePolicyForm(policy: Policy) {
 
     const isFromTemplate = !policy?.permissions[0]?.constraints;
