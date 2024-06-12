@@ -84,7 +84,7 @@ cp dev/commit-msg .git/hooks/commit-msg && chmod 500 .git/hooks/commit-msg
 ````
 For further information, please see https://github.com/hazcod/semantic-commit-hook
 
-** Good practices**
+**Good practices**
 
 The commit messages have to match a pattern in the form of:
 
