@@ -4,13 +4,15 @@ Thanks for your interest in this project.
 
 # Table of Contents
 1. [Project description](#project_description)
-2. [Developer resources](#developer_ressources)
-3. [Problem Eclipse Development Process](#eclipse_commitment)
-4. [Eclipse Contributor Agreement](#eclipse_agreement)
-5. [General contribution to the project](#general)
-6. [Contributing as a Consultant](#consultant)
-7. [Contributing as a Developer](#developer)
-8. [Contact](#contact)
+2. [Project licenses](#project_licenses)
+3. [Terms of Use](#terms_of_use)
+4. [Developer resources](#developer_ressources)
+5. [Problem Eclipse Development Process](#eclipse_commitment)
+6. [Eclipse Contributor Agreement](#eclipse_agreement)
+7. [General contribution to the project](#general)
+8. [Contributing as a Consultant](#consultant)
+9. [Contributing as a Developer](#developer)
+10. [Contact](#contact)
 
 
 ## <ins>Project description</ins><a name="project_description"></a>
@@ -28,12 +30,29 @@ Catena-X alliance focusing on parts traceability.
 - https://projects.eclipse.org/projects/automotive.tractusx
 - https://github.com/eclipse-tractusx/traceability-foss
 
+## <ins>Project licenses</ins><a name="project_licenses"></a>
+
+The Tractus-X project uses the following licenses:
+
+* Apache-2.0 for code
+* CC-BY-4.0 for non-code
+
+## <ins>Terms of Use</ins><a name="terms_of_use"></a>
+
+This repository is subject to the Terms of Use of the Eclipse Foundation
+
+* https://www.eclipse.org/legal/termsofuse.php
+
 ## <ins>Developer resources</ins><a name="developer_ressources"></a>
 
 Information regarding source code management, builds, coding standards, and
 more.
 
 - https://projects.eclipse.org/projects/automotive.tractusx/developer
+
+Getting started:
+
+* https://eclipse-tractusx.github.io/docs/developer
 
 The project maintains the source code repositories in the following GitHub organization:
 
@@ -65,11 +84,11 @@ https://www.eclipse.org/projects/handbook/#resources-commit
 
 ## <ins>General contribution to the project</ins> <a name="general"></a>
 
-### Maintaining [CHANGELOG.md](CHANGELOG.md) 
+### Maintaining [CHANGELOG.md](CHANGELOG.md)
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
-to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). 
+to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
