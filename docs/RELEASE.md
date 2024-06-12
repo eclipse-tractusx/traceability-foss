@@ -3,6 +3,35 @@
    <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Release guide</h1>
 </div>
 
+# Release Numbering 
+
+Trace-X using semantic versioning three-part version number. https://semver.org/
+
+## Major Release
+* If there are any incompatible API changes.
+* Changes with high impact 
+* Contains new features and changes with critical business impact.
+* Full regression tests are covered. 
+
+## Minor Release
+* Add functionality in a backwards compatible manner
+* Features (backwards compatible has to be ensured)
+* Minor release does not add features or changes with critical business impact.
+* Regression impact should be low. 
+* No training effort necessary 
+* INT Test environment should be stable. No changes on depending on systems required. No changes on consumer side necessary. 
+* Operational risks should be low. 
+
+## Bug fix / Patch Release
+* Backwards compatible bug fixes
+* Bug fixes and Hotfixes
+* Covers Bug fixes and changes with no critical business impact. 
+* No changes on depending on or consuming systems required. 
+* INT Test environment should be stable. No changes on depending on systems required. No changes on consumer side necessary. 
+
+## Tag 
+* Defined software state. 
+
 # Release an app
 
 ### Prerequisite:
