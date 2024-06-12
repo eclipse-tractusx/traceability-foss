@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminModule } from '@page/admin/admin.module';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
 import { Policy } from '@page/policies/model/policy.model';
@@ -23,6 +23,18 @@ describe('PolicyEditorComponent', () => {
           provide: Router,
           useValue: {
             url: 'https://test.net/admin/policies/edit/default',
+          },
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({ id: 'default' }),
+            queryParams: of({}),
+            snapshot: {
+              paramMap: {
+                get: (key: string) => 'default',
+              },
+            },
           },
         },
       ],
