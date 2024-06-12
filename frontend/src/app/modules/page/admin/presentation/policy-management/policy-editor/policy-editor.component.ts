@@ -244,7 +244,7 @@ export class PolicyEditorComponent {
     const policyBpns = this.policyForm.get('bpns').getRawValue()?.trim()?.split(',');
 
     policyEntry = {
-      validUntil: this.policyForm.get('validUntil').getRawValue() + '.000000000Z',
+      validUntil: this.policyForm.get('validUntil').getRawValue() + ':00.000000000Z',
       businessPartnerNumber: policyBpns?.length > 1 ? policyBpns : policyBpns?.[0],
       payload: {
         '@context': {
@@ -254,7 +254,7 @@ export class PolicyEditorComponent {
         policy: {
           policyId: this.policyForm.get('policyName').getRawValue(),
           createdOn: new Date(Date.now()).toISOString().replace('Z', '000000Z'),
-          validUntil: this.policyForm.get('validUntil').getRawValue() + '.000000000Z',
+          validUntil: this.policyForm.get('validUntil').getRawValue() + ':00.000000000Z',
           permissions: [
             {
               action: this.policyForm.get('accessType').getRawValue().toLowerCase(),

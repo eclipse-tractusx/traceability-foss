@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="template-container flex items-center py-8" *ngIf="viewMode !== ViewMode.VIEW">
+    <div class="template-container flex items-center py-8" [style.display]="'none'">
       <div matTooltip="{{ 'actions.uploadFile' | i18n}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"

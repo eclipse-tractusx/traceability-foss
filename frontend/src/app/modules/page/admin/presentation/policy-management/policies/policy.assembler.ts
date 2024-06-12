@@ -39,7 +39,7 @@ export class PoliciesAssembler {
     entry.payload.policy.accessType = entry.payload.policy.permissions[0].action;
     let constrainsList = [];
     entry.payload.policy.permissions.forEach(permission => {
-      permission.constraint.and.forEach((andConstraint, index) => {
+      permission.constraint?.and?.forEach((andConstraint, index) => {
         constrainsList.push(andConstraint.leftOperand);
         constrainsList.push(getOperatorTypeSign(OperatorType[andConstraint.operator['@id'].toUpperCase()]));
         constrainsList.push(andConstraint['odrl:rightOperand']);
