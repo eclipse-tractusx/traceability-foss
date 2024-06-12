@@ -56,26 +56,32 @@ export class PoliciesAssembler {
         }
       });
     });
+    console.log(constrainsList);
     return constrainsList;
   }
 
   public static mapDisplayPropsToPolicyRootLevelFromPolicy(policy: Policy): string[] {
-
+    console.log(JSON.stringify(policy));
     let constrainsList = [];
-    policy.permissions.forEach(permission => {
-      permission.constraints?.and?.forEach(andConstraint => {
+    policy.permissions.forEach((permission) => {
+      permission.constraints?.and?.forEach((andConstraint, index) => {
         constrainsList.push(andConstraint.leftOperand);
         constrainsList.push(getOperatorTypeSign(andConstraint.operatorTypeResponse));
         constrainsList.push(andConstraint.rightOperand);
-        constrainsList.push(' AND ');
+        if (index !== permission.constraints.and.length - 1) {
+          constrainsList.push(' AND ');
+        }
       });
-      permission.constraints?.or?.forEach(orConstraint => {
+      permission.constraints?.or?.forEach((orConstraint, index) => {
         constrainsList.push(orConstraint.leftOperand);
         constrainsList.push(getOperatorTypeSign(orConstraint.operatorTypeResponse));
         constrainsList.push(orConstraint.rightOperand);
-        constrainsList.push(' OR ');
+        if (index !== permission.constraints.or.length - 1) {
+          constrainsList.push(' OR ');
+        }
       });
     });
+    console.log(constrainsList);
     return constrainsList;
   }
 
