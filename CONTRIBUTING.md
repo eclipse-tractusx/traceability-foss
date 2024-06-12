@@ -73,6 +73,33 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
+### git-hooks
+Use git-hooks to ensure commit message consistency. 
+Detailed pattern can be found here: [commit-msg](https://github.com/eclipse-tractusx/traceability-foss/blob/457cb3523e981ef6aed98355a7faf0ff29867c33/dev/commit-msg#L4)
+
+#### How to use
+
+````
+cp dev/commit-msg .git/hooks/commit-msg && chmod 500 .git/hooks/commit-msg
+````
+For further information, please see https://github.com/hazcod/semantic-commit-hook
+
+** Good practices**
+
+The commit messages have to match a pattern in the form of:
+
+````
+< type >(optional scope):[<Ticket_ID>] < description >
+````
+
+````
+fix(api):[TRACEFOSS-123] Fix summary what is fixed.
+chore(repos):[TRACEFOSS-123] Configuration change of ci cd pipeline for new repository. 
+docs(arc42):[TRACEFOSS-123] Added level 1 description for runtime view.
+ 
+chore(helm): TRACEFOSS-1131- Moving the values under the global key - increasing the version  
+````
+
 ### Dash IP
 Prerequisites:
 1) Create access token
