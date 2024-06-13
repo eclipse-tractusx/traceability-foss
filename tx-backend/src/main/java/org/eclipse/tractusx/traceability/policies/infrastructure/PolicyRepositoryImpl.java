@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,12 +51,21 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     }
 
     @Override
-    public Optional<IrsPolicyResponse> getPolicy(String policyId) {
-        return getPolicies().values().stream()
-                .flatMap(List::stream)
-                .filter(irsPolicyResponse -> irsPolicyResponse.payload().policyId().equals(policyId))
-                .findFirst();
+    public Map<String, Optional<IrsPolicyResponse>> getPolicy(String policyId) {
+        Map<String, Optional<IrsPolicyResponse>> result = new HashMap<>();
+
+        getPolicies().forEach((key, value) -> {
+            Optional<IrsPolicyResponse> policyResponse = value.stream()
+                    .filter(irsPolicyResponse -> irsPolicyResponse.payload().policyId().equals(policyId))
+                    .findFirst();
+            if (policyResponse.isPresent()) {
+                result.put(key, policyResponse);
+            }
+        });
+
+        return result;
     }
+
 
 
     @Override

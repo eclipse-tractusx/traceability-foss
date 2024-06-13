@@ -30,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -83,7 +84,11 @@ class PolicyServiceImplTest {
                 "key4", List.of(fourthPolicyResponse)
         );
         when(policyRepository.getPolicies()).thenReturn(policyResponseMap);
-        when(policyRepository.getPolicy(anyString())).thenReturn(Optional.of(fourthPolicyResponse));
+        Map<String, Optional<IrsPolicyResponse>> policyMap = new HashMap<>();
+        policyMap.put("bpn123", Optional.of(fourthPolicyResponse));
+
+        when(policyRepository.getPolicy(anyString())).thenReturn(policyMap);
+
         when(traceabilityProperties.getRightOperand()).thenReturn("my-constraint4");
         when(traceabilityProperties.getLeftOperand()).thenReturn("my-left-constraint4");
 

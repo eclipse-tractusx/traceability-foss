@@ -29,7 +29,7 @@ import java.util.Optional;
 
 public interface PolicyRepository {
     Map<String, List<IrsPolicyResponse>> getPolicies();
-    Optional<IrsPolicyResponse> getPolicy(String policyId);
+    Map<String, Optional<IrsPolicyResponse>> getPolicy(String policyId);
     void createPolicyBasedOnAppConfig();
     void deletePolicy(String policyId);
     void updatePolicy(UpdatePolicyRequest updatePolicyRequest);

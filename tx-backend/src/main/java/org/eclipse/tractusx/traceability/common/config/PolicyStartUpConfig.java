@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.common.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,7 @@ public class PolicyStartUpConfig {
     @ConditionalOnProperty(name = "applicationConfig.registerDecentralRegistryPermissions.enabled", havingValue = "true")
     public void registerDecentralRegistryPermissions() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.registerModule(new JavaTimeModule());
         List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
         defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);

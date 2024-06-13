@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static policies.response.IrsPolicyResponse.toResponse;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -56,12 +57,19 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     public List<PolicyResponse> getPolicies() {
         Map<String, List<IrsPolicyResponse>> policies = policyRepository.getPolicies();
-        return IrsPolicyResponse.toResponse(policies);
+        return toResponse(policies);
     }
 
     @Override
     public PolicyResponse getPolicy(String id) {
-        return policyRepository.getPolicy(id).map(IrsPolicyResponse::toResponse).orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
+        Map<String, Optional<IrsPolicyResponse>> policies = policyRepository.getPolicy(id);
+
+        // Find the first entry with a present policy
+        return policies.entrySet().stream()
+                .filter(entry -> entry.getValue().isPresent())
+                .findFirst()
+                .map(entry -> toResponse(entry.getValue().get(), entry.getKey()))
+                .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
     }
 
     @Override

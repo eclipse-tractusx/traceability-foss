@@ -36,5 +36,6 @@ public record PolicyResponse(
         OffsetDateTime createdOn,
         @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
         OffsetDateTime validUntil,
-        List<PermissionResponse> permissions) {
+        List<PermissionResponse> permissions,
+        String businessPartnerNumber) {
 }
