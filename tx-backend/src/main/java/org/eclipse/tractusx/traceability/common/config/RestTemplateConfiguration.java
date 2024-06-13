@@ -21,6 +21,7 @@
 package org.eclipse.tractusx.traceability.common.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -48,6 +49,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -200,13 +202,12 @@ public class RestTemplateConfiguration {
     private List<HttpMessageConverter<?>> customMessageConverters() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         JavaTimeModule javaTimeModule = new JavaTimeModule();
-
         converter.setObjectMapper(JsonMapper.builder()
                 .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
                 .build()
                 .registerModules(javaTimeModule));
 
