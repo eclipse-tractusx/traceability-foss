@@ -152,6 +152,7 @@ public class IrsApiSupport {
                 Action.stringContent("{\"message\": \"Policy deleted successfully.\"}")
         );
     }
+
     private String readFile(String filePath) throws IOException {
         // Implement reading file content from the specified filePath
         // This is a utility method to read the JSON response from a file

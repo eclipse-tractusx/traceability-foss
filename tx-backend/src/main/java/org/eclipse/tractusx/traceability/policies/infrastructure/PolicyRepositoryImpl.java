@@ -20,7 +20,9 @@ package org.eclipse.tractusx.traceability.policies.infrastructure;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
@@ -110,48 +112,46 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     private IrsPolicyResponse findMatchingPolicy(Map<String, List<IrsPolicyResponse>> irsPolicies) {
         return irsPolicies.values().stream()
                 .flatMap(List::stream)
-                .filter(irsPolicy -> {
-                    irsPolicy.payload().policy().getPermissions().forEach(permission -> {
-                        Constraints constraint = permission.getConstraint();
-                        if (constraint != null) {
-                            constraint.getAnd().forEach(constraint1 -> log.info("From IRS Policy Response -> Leftoperand {} operator {} and rightOperand {}",
-                                    constraint1.getLeftOperand(), constraint1.getOperator(), constraint1.getRightOperand()));
-                        }
-                    });
-
-                    // Check if all constraints exist in the policy
-                    boolean firstConstraintExists = emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
-                            .flatMap(permission -> {
-                                Constraints constraint = permission.getConstraint();
-                                return constraint != null ? emptyIfNull(constraint.getAnd()).stream() : Stream.empty();
-                            })
-                            .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()))
-                            || emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
-                            .flatMap(permission -> {
-                                Constraints constraint = permission.getConstraint();
-                                return constraint != null ? emptyIfNull(constraint.getOr()).stream() : Stream.empty();
-                            })
-                            .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperand()));
-
-                    boolean secondConstraintExists = emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
-                            .flatMap(permission -> {
-                                Constraints constraint = permission.getConstraint();
-                                return constraint != null ? emptyIfNull(constraint.getAnd()).stream() : Stream.empty();
-                            })
-                            .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperandSecond()))
-                            || emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
-                            .flatMap(permission -> {
-                                Constraints constraint = permission.getConstraint();
-                                return constraint != null ? emptyIfNull(constraint.getOr()).stream() : Stream.empty();
-                            })
-                            .anyMatch(constraint -> constraint.getRightOperand().equals(traceabilityProperties.getRightOperandSecond()));
-
-                    // Return true if both constraints exist
-                    return firstConstraintExists && secondConstraintExists;
-                })
+                .filter(this::logConstraints)
+                .filter(this::checkConstraints)
                 .findFirst()
                 .orElse(null);
     }
+
+    private boolean logConstraints(IrsPolicyResponse irsPolicy) {
+        irsPolicy.payload().policy().getPermissions().forEach(permission -> {
+            Constraints constraint = permission.getConstraint();
+            if (constraint != null) {
+                constraint.getAnd().forEach(constraint1 -> log.info("From IRS Policy Response -> Leftoperand {} operator {} and rightOperand {}",
+                        constraint1.getLeftOperand(), constraint1.getOperator(), constraint1.getRightOperand()));
+            }
+        });
+        return true;
+    }
+
+    private boolean checkConstraints(IrsPolicyResponse irsPolicy) {
+        boolean firstConstraintExists = checkConstraint(irsPolicy, traceabilityProperties.getRightOperand());
+        boolean secondConstraintExists = checkConstraint(irsPolicy, traceabilityProperties.getRightOperandSecond());
+        return firstConstraintExists && secondConstraintExists;
+    }
+
+    private boolean checkConstraint(IrsPolicyResponse irsPolicy, String rightOperand) {
+        return emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
+                .flatMap(this::getConstraintsStream)
+                .anyMatch(constraint -> constraint.getRightOperand().equals(rightOperand));
+    }
+
+    private Stream<Constraint> getConstraintsStream(Permission permission) {
+        Constraints constraint = permission.getConstraint();
+        if (constraint == null) {
+            return Stream.empty();
+        }
+        return Stream.concat(
+                emptyIfNull(constraint.getAnd()).stream(),
+                emptyIfNull(constraint.getOr()).stream()
+        );
+    }
+
 
 
 

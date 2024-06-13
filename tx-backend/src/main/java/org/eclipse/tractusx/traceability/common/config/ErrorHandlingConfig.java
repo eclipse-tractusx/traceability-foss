@@ -130,14 +130,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         log.warn("handleHttpServerErrorException", exception);
 
         HttpStatusCode status = exception.getStatusCode();
-        String errorMessage;
-
-        if (status.equals(HttpStatus.INTERNAL_SERVER_ERROR)) {
-            errorMessage = exception.getMessage();
-        } else {
-            errorMessage = exception.getMessage();
-        }
-
+        String errorMessage = exception.getMessage();
         return ResponseEntity.status(status)
                 .body(new ErrorResponse(errorMessage));
     }
