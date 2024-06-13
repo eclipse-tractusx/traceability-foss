@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { bpnListRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
+import { bpnListRegex, bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
 import {
   ConstraintLogicTypeAsSelectOptionsList,
@@ -54,7 +54,7 @@ export class PolicyEditorComponent {
     this.policyForm = this.fb.group({
       policyName: new FormControl('', [ Validators.required, Validators.minLength(8), Validators.maxLength(40) ]),
       validUntil: new FormControl('', [ Validators.required, this.futureDateValidator ]),
-      bpns: new FormControl('', [ Validators.required, BaseInputHelper.getCustomPatternValidator(bpnListRegex, 'bpn') ]),
+      bpns: new FormControl('', [ Validators.required, this.viewMode === ViewMode.CREATE ? BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') : BaseInputHelper.getCustomPatternValidator(bpnListRegex, 'bpn') ]),
       accessType: new FormControl<string>(PolicyAction.ACCESS),
       constraints: this.fb.array([]),
       constraintLogicType: new FormControl(ConstraintLogicType.AND),
@@ -65,9 +65,11 @@ export class PolicyEditorComponent {
       this.selectedPolicySubscription = this.policyFacade.selectedPolicy$.subscribe(next => {
         this.selectedPolicy = next?.data;
         if (next?.data) {
+          console.log(next.data);
           this.updatePolicyForm(this.selectedPolicy);
         }
       });
+
     } else {
       this.addConstraintFormGroup();
     }
@@ -207,7 +209,7 @@ export class PolicyEditorComponent {
     this.policyForm.patchValue({
       policyName: policy?.policyName,
       validUntil: policy?.validUntil,
-      bpns: policy?.bpn,
+      bpns: policy?.bpn ?? policy?.businessPartnerNumber,
       accessType: policy?.accessType,
       constraintLogicType: policy?.permissions[0]?.constraints?.and?.length ? ConstraintLogicType.AND : ConstraintLogicType.OR,
     });
@@ -228,9 +230,21 @@ export class PolicyEditorComponent {
 
 
     this.policyForm.setControl('constraints', this.fb.array(constraintsList));
+
+
     if (this.viewMode === ViewMode.VIEW) {
       this.policyForm.disable();
     }
+
+    if (this.viewMode === ViewMode.EDIT) {
+      this.policyForm.disable();
+      this.constraints.controls.forEach(control => {
+        control.disable();
+      });
+      this.policyForm.get('validUntil').enable();
+      this.policyForm.get('bpns').enable();
+    }
+
   }
 
   mapPolicyFormToPolicyEntry(): PolicyEntry {
@@ -247,11 +261,9 @@ export class PolicyEditorComponent {
       };
     });
 
-    const policyBpns = this.policyForm.get('bpns').getRawValue()?.trim()?.split(',');
-
     policyEntry = {
       validUntil: this.policyForm.get('validUntil').getRawValue() + ':00.000000000Z',
-      businessPartnerNumber: policyBpns?.length > 1 ? policyBpns : policyBpns?.[0],
+      businessPartnerNumber: this.viewMode === ViewMode.CREATE ? this.policyForm.get('bpns').getRawValue() : this.policyForm.get('bpns').getRawValue()?.trim()?.split(','),
       payload: {
         '@context': {
           odrl: 'http://www.w3.org/ns/odrl/2/',

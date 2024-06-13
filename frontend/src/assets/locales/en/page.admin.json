@@ -74,6 +74,7 @@
       "policyName" : "Policy name",
       "validUntil" : "Valid until",
       "bpnls" : "BPNs",
+      "bpn" : "BPN",
       "policyConstraints" : "Policy type",
       "accessType" : "Access type",
       "constraints" : "Constraints",
@@ -92,6 +93,7 @@
       "templateErrorMessage" : "The selected template file is not compliant. Please provide a valid .JSON template file.",
       "invalidForm" : "Please make sure to submit a valid form",
       "bpnsHint" : "Please provide a list of BPNs separated by comma",
+      "bpnHint" : "Please provide a BPN",
       "savePolicy" : "Save policy",
       "addConstraint" : "Add constraint"
 

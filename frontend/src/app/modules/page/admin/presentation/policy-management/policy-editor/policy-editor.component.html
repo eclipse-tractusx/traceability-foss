@@ -121,8 +121,8 @@
           ></app-date-time>
         </div>
         <app-input
-          [label]="'pageAdmin.policyManagement.bpnls' | i18n"
-          [hint]="viewMode === ViewMode.VIEW ? '': 'pageAdmin.policyManagement.bpnsHint' | i18n"
+          [label]=" viewMode === ViewMode.EDIT ? ('pageAdmin.policyManagement.bpnls' | i18n) : ('pageAdmin.policyManagement.bpn' | i18n) "
+          [hint]="viewMode === ViewMode.EDIT ? ('pageAdmin.policyManagement.bpnsHint' | i18n) : ''"
           [parentFormGroup]="policyForm"
           [formControlName]="'bpns'"
         ></app-input>
@@ -197,7 +197,7 @@
                    matTooltipPosition="before"
                    [class.mdc-tooltip--multiline]="true"
                    [matTooltipShowDelay]="500"
-                   *ngIf="viewMode !== ViewMode.VIEW"
+                   *ngIf="viewMode === ViewMode.CREATE"
               >
                 <app-button
                   [iconName]="'arrow_downward'"
@@ -211,7 +211,7 @@
                    matTooltipPosition="before"
                    [class.mdc-tooltip--multiline]="true"
                    [matTooltipShowDelay]="500"
-                   *ngIf="viewMode !== ViewMode.VIEW"
+                   *ngIf="viewMode === ViewMode.CREATE"
               >
 
                 <app-button
@@ -226,7 +226,7 @@
                    matTooltipPosition="above"
                    [class.mdc-tooltip--multiline]="true"
                    [matTooltipShowDelay]="500"
-                   *ngIf="viewMode !== ViewMode.VIEW"
+                   *ngIf="viewMode === ViewMode.CREATE"
               >
                 <app-button
                   [iconName]="'delete'"

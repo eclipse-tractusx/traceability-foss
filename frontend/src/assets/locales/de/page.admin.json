@@ -74,6 +74,7 @@
       "policyName" : "Richtlinienname",
       "validUntil" : "Gültig bis",
       "bpnls" : "BPNs",
+      "bpn" : "BPN",
       "policyConstraints" : "Richtlinientyp",
       "accessType" : "Zugriffstyp",
       "constraints" : "Regeln",
@@ -92,6 +93,7 @@
       "templateErrorMessage" : "Die selektierte Vorlagendatei ist nicht konform für Richtlinien. Bitte wählen Sie eine valide .JSON Vorlagendatei aus.",
       "invalidForm" : "Bitte füllen Sie die Eingabefelder korrekt aus",
       "bpnsHint" : "Liste von BPNs separiert durch ein Kommazeichen",
+      "bpnHint" : "",
       "savePolicy" : "Richtlinie speichern",
       "addConstraint" : "Regel hinzufügen"
     }

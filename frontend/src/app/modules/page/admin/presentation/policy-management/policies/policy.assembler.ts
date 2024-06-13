@@ -56,12 +56,10 @@ export class PoliciesAssembler {
         }
       });
     });
-    console.log(constrainsList);
     return constrainsList;
   }
 
   public static mapDisplayPropsToPolicyRootLevelFromPolicy(policy: Policy): string[] {
-    console.log(JSON.stringify(policy));
     let constrainsList = [];
     policy.permissions.forEach((permission) => {
       permission.constraints?.and?.forEach((andConstraint, index) => {
@@ -81,7 +79,6 @@ export class PoliciesAssembler {
         }
       });
     });
-    console.log(constrainsList);
     return constrainsList;
   }
 

@@ -52,6 +52,7 @@ export interface Policy {
   bpn?: string;
   constraints?: string[]
   accessType?: PolicyAction,
+  businessPartnerNumber?: string | string[]
 
 }
 
