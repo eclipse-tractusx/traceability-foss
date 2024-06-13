@@ -39,7 +39,7 @@ export class PolicyEditorComponent {
   minDate: Date = new Date();
   templateError: string = '';
 
-  constructor(private router: Router, private route: ActivatedRoute, public policyFacade: PoliciesFacade, private fb: FormBuilder, private toastService: ToastService) {
+  constructor(private router: Router, private route: ActivatedRoute, public policyFacade: PoliciesFacade, public fb: FormBuilder, private toastService: ToastService) {
   }
 
   get constraints() {
@@ -76,7 +76,7 @@ export class PolicyEditorComponent {
 
   }
 
-  private initializeViewMode(): ViewMode {
+  initializeViewMode(): ViewMode {
     const url = this.router.url;
     if (url.includes('create')) {
       return ViewMode.CREATE;

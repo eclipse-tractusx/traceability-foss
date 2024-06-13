@@ -3,7 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
-import { Policy } from '@page/policies/model/policy.model';
+import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
+import { OperatorType, Policy, PolicyAction } from '@page/policies/model/policy.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { ViewMode } from '@shared/model/view.model';
 import { renderComponent } from '@tests/test-render.utils';
@@ -17,6 +18,38 @@ describe('PolicyEditorComponent', () => {
   let mockRouter: Partial<Router>;
   let mockRoute: Partial<ActivatedRoute>;
   let selectedPolicySubject: Subject<{ data: Policy }>;
+
+  const mockPolicy: Policy = {
+    policyName: 'policy123',
+    policyId: 'policy123',
+    createdOn: '2024-01-01T00:00:00Z',
+    validUntil: '2024-12-31T23:59:59Z',
+    bpn: 'Test BPN',
+    permissions: [
+      {
+        action: 'use' as PolicyAction,
+        constraint: {
+          and: [
+            {
+              leftOperand: 'left1',
+              operator: { '@id': OperatorType.EQ },
+              operatorTypeResponse: OperatorType.EQ,
+              'odrl:rightOperand': 'right1',
+            },
+          ],
+          or: [
+            {
+              leftOperand: 'left2',
+              operator: { '@id': OperatorType.NEQ },
+              operatorTypeResponse: OperatorType.NEQ,
+              'odrl:rightOperand': 'right2',
+            },
+          ],
+        },
+      },
+    ],
+    constraints: [],
+  };
 
   beforeEach(() => {
     selectedPolicySubject = new Subject();
@@ -100,6 +133,26 @@ describe('PolicyEditorComponent', () => {
     expect(componentInstance.policyForm.get('validUntil').valid).toBeFalsy(); // Validators required
   });
 
+  it('should initialize the view mode correctly', async () => {
+    const { fixture } = await renderPolicyEditorComponent();
+    const { componentInstance } = fixture;
+    Object.defineProperty(mockRouter, 'url', {
+      get: jasmine.createSpy().and.returnValue('admin/policies/create'),
+    });
+    expect(componentInstance.initializeViewMode()).toBe(ViewMode.CREATE);
+    Object.defineProperty(mockRouter, 'url', {
+      get: jasmine.createSpy().and.returnValue('admin/policies/edit/1'),
+    });
+
+    expect(componentInstance.initializeViewMode()).toBe(ViewMode.EDIT);
+
+    Object.defineProperty(mockRouter, 'url', {
+      get: jasmine.createSpy().and.returnValue('admin/policies/1'),
+    });
+
+    expect(componentInstance.initializeViewMode()).toBe(ViewMode.VIEW);
+  });
+
   it('should add and remove constraints', async () => {
     const { fixture } = await renderPolicyEditorComponent();
     const { componentInstance } = fixture;
@@ -159,4 +212,44 @@ describe('PolicyEditorComponent', () => {
     expect(mockToastService.success).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalled();
   });
+
+  it('should update policy form correctly in create mode', async () => {
+    const { fixture } = await renderPolicyEditorComponent();
+    const { componentInstance } = fixture;
+    componentInstance.selectedPolicy = mockPolicy;
+    const policy: Policy = PoliciesAssembler.assemblePolicy(mockPolicy);
+
+    componentInstance.viewMode = ViewMode.CREATE;
+    componentInstance.policyForm = componentInstance.fb.group({
+      policyName: '',
+      validUntil: null,
+      bpns: '',
+      accessType: '',
+      constraintLogicType: '',
+      constraints: componentInstance.fb.array([]),
+    });
+
+    componentInstance.updatePolicyForm(policy);
+
+    // Assert the form values are updated correctly
+    expect(componentInstance.policyForm.getRawValue().policyName).toBe('policy123');
+    expect(componentInstance.policyForm.getRawValue().validUntil).toBe(policy.validUntil);
+    expect(componentInstance.policyForm.getRawValue().bpns).toBe('Test BPN');
+    expect(componentInstance.policyForm.getRawValue().accessType).toBe('USE');
+    expect(componentInstance.policyForm.getRawValue().constraintLogicType).toBe('AND');
+    expect(componentInstance.policyForm.getRawValue().constraints.length).toBe(1);
+
+    componentInstance.viewMode = ViewMode.VIEW;
+
+    componentInstance.updatePolicyForm(policy);
+    expect(componentInstance.policyForm.disabled).toBe(true);
+
+    componentInstance.viewMode = ViewMode.EDIT;
+    componentInstance.updatePolicyForm(policy);
+    expect(componentInstance.policyForm.get('validUntil').disabled).toBe(false);
+    expect(componentInstance.policyForm.get('bpns').disabled).toBe(false);
+    expect(componentInstance.constraints.disabled).toBe(true);
+
+  });
+
 });
