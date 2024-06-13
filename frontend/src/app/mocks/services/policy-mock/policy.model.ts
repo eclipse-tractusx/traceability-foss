@@ -1,4 +1,4 @@
-import { OperatorType, Policy, PolicyAction } from '@page/policies/model/policy.model';
+import { OperatorType, Policy, PolicyAction, PolicyResponseMap } from '@page/policies/model/policy.model';
 
 /********************************************************************************
  * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
@@ -163,4 +163,39 @@ const mockedPolicies = {
 
 };
 
+export const MockPolicyResponseMap: PolicyResponseMap = {
+  'default': [
+    {
+      'validUntil': '2024-06-30T11:07:00Z',
+      'payload': {
+        '@context': {
+          'odrl': 'http://www.w3.org/ns/odrl/2/',
+        },
+        '@id': 'asdadasdas',
+        'policy': {
+          'policyId': 'asdadasdas',
+          'createdOn': '2024-06-13T09:07:32.229901783Z',
+          'validUntil': '2024-06-30T11:07:00Z',
+          'permissions': [
+            {
+              'action': PolicyAction.USE,
+              'constraint': {
+                'and': null,
+                'or': [
+                  {
+                    'leftOperand': 'asd',
+                    'operator': {
+                      '@id': OperatorType.EQ,
+                    },
+                    'odrl:rightOperand': 'dsa',
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    },
+  ],
+};
 
