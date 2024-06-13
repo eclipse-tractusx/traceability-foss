@@ -8,6 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+- #737 Added concept: Contract table -> parts link action
+
 ### Removed
 
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
