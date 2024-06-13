@@ -124,14 +124,14 @@ You start off with the main branch, then a developer creates a feature branch di
 After the feature is developed the code is reviewed and tested on the branch.
 Only after the code is stable it can be merged to main.
 
-* Main dev work is done on feature branches
-* Branches must be prefixed according to their nature:
-** feature/* - for implementing user stories
-** fix/* - for fixing bugs that appeared in the main branch
-** chore/* - any small change without any impact
-* Branch Name:
-** MUST contain : Issue ID in the format #XXX
-** MUST contain: Subject of issue (Abbreviation of pbi summary without using spaces / use "-" to connect) 
+- Main dev work is done on feature branches
+  - Branches must be prefixed according to their nature:
+  - feature/* - for implementing user stories
+  - fix/* - for fixing bugs that appeared in the main branch
+  - chore/* - any small change without any impact
+- Branch Name:
+  - MUST contain : Issue ID in the format #XXX
+  - MUST contain: Subject of issue (Abbreviation of pbi summary without using spaces / use "-" to connect) 
 
 <img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/github-flow-branching-model.jpeg" height="60%" width="60%"/>
 
