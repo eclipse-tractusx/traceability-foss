@@ -1,0 +1,11 @@
+{
+  "endpoints" : [
+    {
+      "type" : "bpn",
+      "description" : "Service to discover EDC to a particular BPN",
+      "endpointAddress" : "${Placeholder}",
+      "documentation" : "http://.../swagger/index.html",
+      "resourceId" : "316417cd-0fb5-4daf-8dfa-8f68125923f1"
+    }
+  ]
+}

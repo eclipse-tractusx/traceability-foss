@@ -10,6 +10,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 - #965 Implement proxy functionality of the IRS policy store
 
+### Removed
+
+- XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
+
 ## [11.0.2 - 29.05.2024]
 ### Added
 - #1010 Made submodel path configurable

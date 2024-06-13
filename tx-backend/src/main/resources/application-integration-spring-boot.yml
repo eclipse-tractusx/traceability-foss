@@ -22,13 +22,13 @@
 traceability:
   bpn: BPNL00000003AXS3
   url: localhost:${server.port}/api
-  leftOperand: "PURPOSE"
+  leftOperand: "cx-policy:FrameworkAgreement"
   operatorType: "eq"
-  rightOperand: "ID Trace 3.1"
-  leftOperandSecond: "PURPOSE2"
+  rightOperand: "traceability:1.0"
+  leftOperandSecond: "cx-policy:UsagePurpose"
   operatorTypeSecond: "eq"
-  rightOperandSecond: "ID Trace 3.2"
-  validUntil: "2023-07-04T16:01:05.309Z"
+  rightOperandSecond: "cx.core.industrycore:1"
+  validUntil: "2040-07-04T16:01:05.309Z"
   adminApiKey: testAdminKey
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
