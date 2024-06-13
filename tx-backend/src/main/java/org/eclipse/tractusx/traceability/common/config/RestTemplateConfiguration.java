@@ -130,6 +130,7 @@ public class RestTemplateConfiguration {
                 .rootUri(traceabilityProperties.getIrsBase())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
+                .messageConverters(customMessageConverters())
                 .build();
     }
 
