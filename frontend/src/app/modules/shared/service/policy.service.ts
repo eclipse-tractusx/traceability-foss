@@ -38,7 +38,7 @@ export class PolicyService {
     const body = {
       policyIds: [ policyEntry.payload.policy.policyId ],
       validUntil: policyEntry.validUntil,
-      businessPartnerNumber: policyEntry.businessPartnerNumber,
+      businessPartnerNumbers: policyEntry.businessPartnerNumber,
     };
 
     return this.apiService.put(`${ this.url }/policies`, body);

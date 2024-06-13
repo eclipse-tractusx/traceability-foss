@@ -11,7 +11,7 @@ import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import { of, Subject } from 'rxjs';
 import { PolicyEditorComponent } from './policy-editor.component';
 
-fdescribe('PolicyEditorComponent', () => {
+describe('PolicyEditorComponent', () => {
   let mockPoliciesFacade: Partial<PoliciesFacade>;
   let mockToastService: Partial<ToastService>;
   let mockRouter: Partial<Router>;
