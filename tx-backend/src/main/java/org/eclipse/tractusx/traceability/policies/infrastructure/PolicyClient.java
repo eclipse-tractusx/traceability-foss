@@ -67,8 +67,18 @@ public class PolicyClient {
     }
 
     public Map<String, List<IrsPolicyResponse>> getPolicies() {
-        return irsAdminTemplate.exchange(policiesPath, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, List<IrsPolicyResponse>>>() {
+        Map<String, List<IrsPolicyResponse>> body = irsAdminTemplate.exchange(policiesPath, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, List<IrsPolicyResponse>>>() {
         }).getBody();
+
+        if (body != null) {
+            body.forEach((key, valueList) -> {
+                log.info("Key: {}", key);
+                valueList.forEach(value -> log.info("Policy: {}", value));
+            });
+        } else {
+            log.info("No policies retrieved from IRS Policy Store");
+        }
+        return body;
     }
 
     public void deletePolicy(String policyId) {
