@@ -39,7 +39,7 @@ export class PolicyEditorComponent {
   minDate: Date = new Date();
   templateError: string = '';
 
-  constructor(private readonly router: Router, private readonly route: ActivatedRoute, public readonly policyFacade: PoliciesFacade, private fb: FormBuilder, private readonly toastService: ToastService) {
+  constructor(private router: Router, private route: ActivatedRoute, public policyFacade: PoliciesFacade, private fb: FormBuilder, private toastService: ToastService) {
   }
 
   get constraints() {
