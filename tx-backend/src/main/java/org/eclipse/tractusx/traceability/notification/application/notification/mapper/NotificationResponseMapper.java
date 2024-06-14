@@ -28,10 +28,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import notification.response.NotificationReasonResponse;
 import notification.response.NotificationResponse;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -54,14 +54,9 @@ public class NotificationResponseMapper {
                 .channel(NotificationMessageMapper.from(notification.getNotificationSide()))
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())
-                .reason(new NotificationReasonResponse(
-                        notification.getCloseReason(),
-                        notification.getAcceptReason(),
-                        notification.getDeclineReason()
-                ))
+                .updatedDate(OffsetDateTime.now().toString())
                 .sendTo(getReceiverBPN(notification.getNotifications()))
                 .sendToName(getReceiverName(notification.getNotifications()))
-                // TODO severity should not be inside the notification it should be in the message
                 .severity(NotificationMessageMapper.from(notification.getNotifications().stream().findFirst().map(NotificationMessage::getSeverity).orElse(NotificationSeverity.MINOR)))
                 .targetDate(notification.getNotifications().stream().findFirst().map(NotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
                 .messages(fromNotifications(notification.getNotifications()))

@@ -55,9 +55,7 @@ public class Notification {
     private NotificationType notificationType;
     @Builder.Default
     private List<String> affectedPartIds = new ArrayList<>();
-    private String closeReason;
-    private String acceptReason;
-    private String declineReason;
+
     @Getter
     @Builder.Default
     private List<NotificationMessage> notifications = List.of();
