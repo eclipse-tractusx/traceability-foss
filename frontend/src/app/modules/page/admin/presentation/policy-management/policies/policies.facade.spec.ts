@@ -6,13 +6,13 @@ import { PolicyService } from '@shared/service/policy.service'; // Adjust the pa
 import { of, throwError } from 'rxjs';
 import { PoliciesFacade } from './policies.facade'; // Adjust the path as necessary
 
-fdescribe('PoliciesFacade', () => {
+describe('PoliciesFacade', () => {
   let facade: PoliciesFacade;
   let policyServiceSpy: jasmine.SpyObj<PolicyService>;
   let policiesStateSpy: jasmine.SpyObj<PoliciesState>;
 
   beforeEach(() => {
-    const policyServiceMock = jasmine.createSpyObj('PolicyService', [ 'getPolicies', 'getPolicyById', 'deletePolicies', 'createPolicy', 'updatePolicy' ]);
+    const policyServiceMock = jasmine.createSpyObj('PolicyService', [ 'getPolicies', 'getPolicyById', 'deletePolicy', 'createPolicy', 'updatePolicy' ]);
     const policiesStateMock = jasmine.createSpyObj('PoliciesState', [ 'policies$', 'selectedPolicy$', 'policies', 'selectedPolicy' ]);
 
     TestBed.configureTestingModule({
@@ -33,19 +33,6 @@ fdescribe('PoliciesFacade', () => {
   });
 
   describe('setPolicies', () => {
-    /*
-    it('should fetch policies and update the state', () => {
-      policyServiceSpy.getPolicies.and.returnValue(of(MockPolicyResponseMap));
-      spyOn(PoliciesAssembler, 'mapToPolicyEntryList').and.returnValue(PoliciesAssembler.mapToPolicyEntryList(MockPolicyResponseMap));
-      spyOn(PoliciesAssembler, 'assemblePolicy').and.returnValue(PoliciesAssembler.assemblePolicy(PoliciesAssembler.mapToPolicyEntryList(MockPolicyResponseMap)[0].payload.policy));
-
-      facade.setPolicies();
-
-      expect(policyServiceSpy.getPolicies).toHaveBeenCalled();
-      expect(policiesStateSpy.policies).toEqual({ data: [PoliciesAssembler.assemblePolicy(PoliciesAssembler.mapToPolicyEntryList(MockPolicyResponseMap)[0].payload.policy)] });
-    });
-
-     */
 
     it('should handle error when fetching policies', () => {
       const mockError = new Error('Test error');
@@ -109,20 +96,28 @@ fdescribe('PoliciesFacade', () => {
 
       expect(mockPoliciesSubscription.unsubscribe).toHaveBeenCalled();
       expect(mockSelectedPoliciesSubscription.unsubscribe).toHaveBeenCalled();
-      // Test unsubscribeTrigger if necessary
     });
   });
 
   describe('deletePolicies', () => {
     it('should call policyService.deletePolicies with policy IDs', () => {
       const mockPolicies = [ { policyId: '1' }, { policyId: '2' } ] as Policy[];
-      const mockDeleteResponse = of(null);
-      policyServiceSpy.deletePolicies.and.returnValue(mockDeleteResponse);
+      const mockDeleteResponse1 = of(null);
+      const mockDeleteResponse2 = of(null);
+
+      policyServiceSpy.deletePolicy.withArgs('1').and.returnValue(mockDeleteResponse1);
+      policyServiceSpy.deletePolicy.withArgs('2').and.returnValue(mockDeleteResponse2);
 
       const result = facade.deletePolicies(mockPolicies);
 
-      expect(policyServiceSpy.deletePolicies).toHaveBeenCalledWith([ '1', '2' ]);
-      expect(result).toBe(mockDeleteResponse);
+      // Expect the policyService.deletePolicy to be called with each policyId
+      expect(policyServiceSpy.deletePolicy).toHaveBeenCalledWith('1');
+      expect(policyServiceSpy.deletePolicy).toHaveBeenCalledWith('2');
+
+      // Expect the result to be an observable that emits an array of results
+      result.subscribe(responses => {
+        expect(responses).toEqual([ null, null ]);
+      });
     });
   });
 

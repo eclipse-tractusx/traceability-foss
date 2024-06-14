@@ -36,11 +36,11 @@ export const policyHandler = (_ => {
       return res(ctx.status(200), ctx.json(policy));
     }),
 
-    rest.put(`*${ environment.apiUrl }/policies/:policyId`, (req, res, ctx) => {
+    rest.put(`*${ environment.apiUrl }/policies`, (req, res, ctx) => {
       return res(ctx.status(200), ctx.json('success'));
     }),
 
-    rest.delete(`*${ environment.apiUrl }/policies/:policyIds`, (req, res, ctx) => {
+    rest.delete(`*${ environment.apiUrl }/policies/:policyId`, (req, res, ctx) => {
       return res(ctx.status(200), ctx.json('success'));
     }),
 

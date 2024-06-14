@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
@@ -24,8 +23,8 @@ export class PolicyService {
     return this.apiService.post(`${this.url}/assets/publish`, {assetIds, policyId});
   }
 
-  deletePolicies(policyIds: string[]) {
-    return this.apiService.delete(`${ this.url }/policies`, new HttpParams().set('policyIds', policyIds.toString()));
+  deletePolicy(policyId: string) {
+    return this.apiService.delete(`${ this.url }/policies/` + policyId);
   }
 
   createPolicy(policyEntry: PolicyEntry): Observable<any> {

@@ -82,6 +82,10 @@ export class PoliciesAssembler {
     return constrainsList;
   }
 
+  /**
+   * This Feature is commented out for now, because uploading/downloading Templates/Policies is
+   * currently not a requirement but could be one in future.
+   */
   /*
   public static validatePoliciesTemplate(data: any) {
 

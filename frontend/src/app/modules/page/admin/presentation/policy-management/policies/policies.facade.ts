@@ -4,7 +4,7 @@ import { PoliciesAssembler } from '@page/admin/presentation/policy-management/po
 import { Policy, PolicyEntry } from '@page/policies/model/policy.model';
 import { View } from '@shared/model/view.model';
 import { PolicyService } from '@shared/service/policy.service';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { forkJoin, Observable, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable()
@@ -60,8 +60,12 @@ export class PoliciesFacade {
     this.unsubscribeTrigger.next();
   }
 
-  deletePolicies(selectedPolicies: Policy[]) {
-    return this.policyService.deletePolicies(selectedPolicies.map(policy => policy.policyId));
+  deletePolicies(selectedPolicies: Policy[]): Observable<any> {
+    const deleteRequests = selectedPolicies.map(policy =>
+      this.policyService.deletePolicy(policy.policyId),
+    );
+
+    return forkJoin(deleteRequests);
   }
 
   createPolicy(policyEntry: PolicyEntry) {

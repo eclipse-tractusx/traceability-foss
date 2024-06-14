@@ -140,6 +140,10 @@ export class PolicyEditorComponent {
     });
   }
 
+  /**
+   * This Feature is commented out for now, because uploading/downloading Templates/Policies is
+   * currently not a requirement but could be one in the future.
+   */
   /*
 
     onFileSelected(event: Event) {
@@ -157,6 +161,10 @@ export class PolicyEditorComponent {
     this.router.navigate([ 'admin/policies/', 'edit', this.selectedPolicy.policyId ]);
   }
 
+  /**
+   * This Feature is commented out for now, because uploading/downloading Templates/Policies is
+   * currently not a requirement but could be one in the future.
+   */
   /*
     downloadTemplateAsJsonFile() {
       const policy = this.mapPolicyFormToPolicyEntry();
