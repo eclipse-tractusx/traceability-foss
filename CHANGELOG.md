@@ -17,6 +17,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
 
+### Changed
+
+- XXX updated JsonSchemaTest now the test pulls the latest version of the json file
+
 ## [11.0.2 - 29.05.2024]
 ### Added
 - #1010 Made submodel path configurable
