@@ -33,8 +33,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -50,41 +48,34 @@ import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
 @Service
 public class JobRepositoryImpl implements JobRepository {
 
-    private final BpnRepository bpnRepository;
-
-    private final BpnService bpnService;
     private final TraceabilityProperties traceabilityProperties;
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
 
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
 
-    private static final String JOB_STATUS_RUNNING = "RUNNING";
     private final IrsResponseAssetMapper assetMapperFactory;
 
-    private final IrsClient irsClient;
+    private final JobClient jobClient;
 
     public JobRepositoryImpl(
-            IrsClient irsClient,
-            BpnRepository bpnRepository,
-            BpnService bpnService, TraceabilityProperties traceabilityProperties,
+            JobClient jobClient,
+            TraceabilityProperties traceabilityProperties,
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
             AssetCallbackRepository assetAsPlannedCallbackRepository, IrsResponseAssetMapper assetMapperFactory) {
-        this.bpnRepository = bpnRepository;
-        this.bpnService = bpnService;
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
-        this.irsClient = irsClient;
+        this.jobClient = jobClient;
         this.assetMapperFactory = assetMapperFactory;
     }
 
     @Override
     public void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
         RegisterJobRequest registerJobRequest = RegisterJobRequest.buildJobRequest(globalAssetId, traceabilityProperties.getBpn().toString(), direction, aspects, bomLifecycle, traceabilityProperties.getUrl());
-        this.irsClient.registerJob(registerJobRequest);
+        this.jobClient.registerJob(registerJobRequest);
     }
 
 
@@ -94,7 +85,7 @@ public class JobRepositoryImpl implements JobRepository {
             return;
         }
 
-        final IRSResponse jobResponseIRS = this.irsClient.getIrsJobDetailResponse(jobId);
+        final IRSResponse jobResponseIRS = this.jobClient.getIrsJobDetailResponse(jobId);
 
         if (jobResponseIRS == null) {
             return;
@@ -136,13 +127,8 @@ public class JobRepositoryImpl implements JobRepository {
     }
 
 
-
     public static boolean jobCompleted(JobStatus jobStatus) {
         return JOB_STATUS_COMPLETED.equals(jobStatus.state());
-    }
-
-    public static boolean jobRunning(JobStatus jobStatus) {
-        return JOB_STATUS_RUNNING.equals(jobStatus.state());
     }
 
 }

@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.common.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +34,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
+import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
+import policies.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -42,7 +43,6 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -50,9 +50,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-
-import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
+import java.util.stream.Collectors;
 
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
@@ -62,7 +62,6 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Slf4j
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 @RequiredArgsConstructor
-@Profile(NOT_INTEGRATION_TESTS)
 public class PolicyStartUpConfig {
 
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
@@ -75,6 +74,7 @@ public class PolicyStartUpConfig {
     @ConditionalOnProperty(name = "applicationConfig.registerDecentralRegistryPermissions.enabled", havingValue = "true")
     public void registerDecentralRegistryPermissions() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.registerModule(new JavaTimeModule());
         List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
         defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
@@ -95,13 +95,21 @@ public class PolicyStartUpConfig {
     }
 
     private List<AcceptedPolicy> createIrsAcceptedPolicies() {
+        // Get the policies map from the repository
+        Map<String, List<IrsPolicyResponse>> policiesMap = policyRepository.getPolicies();
 
-        List<IrsPolicyResponse> irsPolicyResponse = policyRepository.getPolicies();
-        List<AcceptedPolicy> irsPolicies = irsPolicyResponse.stream().map(response -> {
+        // Flatten the map into a list of IrsPolicyResponse objects
+        List<IrsPolicyResponse> irsPolicyResponses = policiesMap.values().stream()
+                .flatMap(List::stream)
+                .toList();
+
+        // Map the IrsPolicyResponse objects to AcceptedPolicy objects
+        List<AcceptedPolicy> irsPolicies = irsPolicyResponses.stream().map(response -> {
             Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());
         }).toList();
 
+        // Return the list of AcceptedPolicy objects
         return new ArrayList<>(irsPolicies);
     }
 
