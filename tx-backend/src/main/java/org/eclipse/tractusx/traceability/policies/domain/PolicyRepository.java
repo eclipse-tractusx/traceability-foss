@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.policies.domain;
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
+import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
+import policies.request.RegisterPolicyRequest;
+import policies.request.UpdatePolicyRequest;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import java.time.Instant;
-
-public record RegisterPolicyRequest(
-        Instant validUntil,
-        Payload payload
-) {
-
+public interface PolicyRepository {
+    Map<String, List<IrsPolicyResponse>> getPolicies();
+    Map<String, Optional<IrsPolicyResponse>> getPolicy(String policyId);
+    void createPolicyBasedOnAppConfig();
+    void deletePolicy(String policyId);
+    void updatePolicy(UpdatePolicyRequest updatePolicyRequest);
+    CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest);
 }

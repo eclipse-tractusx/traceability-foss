@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.common.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
+import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType;
@@ -58,7 +58,7 @@ public class ApplicationStartupConfig {
 
         executor.execute(() -> {
             try {
-                policyRepository.createIrsPolicyIfMissing();
+                policyRepository.createPolicyBasedOnAppConfig();
             } catch (Exception exception) {
                 log.error("Failed to create Irs Policies: ", exception);
             }

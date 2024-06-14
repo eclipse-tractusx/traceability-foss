@@ -16,15 +16,52 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
+package policies.response;
 
-/**
- * Context representation for get all policies response
- */
-public record Context(String odrl) {
-    private static final String ODRL_VALUE = "http://www.w3.org/ns/odrl/2/";
 
-    public static Context getDefault() {
-        return new Context(ODRL_VALUE);
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import lombok.Getter;
+
+
+@JsonSerialize(
+        using = ToStringSerializer.class
+)
+@Getter
+public enum OperatorTypeResponse {
+    EQ("eq", "Equals to"),
+
+    NEQ("neq", "Not equal to"),
+
+    LT("lt", "Less than"),
+
+    GT("gt", "Greater than"),
+
+    IN("in", "In"),
+
+    LTEQ("lteq", "Less than or equal to"),
+
+    GTEQ("gteq", "Greater than or equal to"),
+
+    ISA("isA", "Is a"),
+
+    HASPART("hasPart", "Has part"),
+
+    ISPARTOF("isPartOf", "Is part of"),
+
+    ISONEOF("isOneOf", "Is one of"),
+
+    ISALLOF("isAllOf", "Is all of"),
+
+    ISNONEOF("isNoneOf", "Is none of");
+
+    final String code;
+
+    final String label;
+
+    OperatorTypeResponse(String code, String label) {
+        this.code = code;
+        this.label = label;
     }
+
 }
