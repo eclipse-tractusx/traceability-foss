@@ -7,19 +7,35 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+### Changed
+- #965 Implement proxy functionality of the IRS policy store
 
 ### Added
 - #832 added policymanagement list view, creator and editor
 - #737 Added concept: Contract table -> parts link action
+- XXX Added interceptor to EdcRestTemplates to log requests
 
 ### Removed
 
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
 
+### Changed
+
+- XXX updated JsonSchemaTest now the test pulls the latest version of the json file
+
+### Added
+
+- #1017 added file for CC BY 4.0 license for TRG 7
+
+### Changed
+
+- #1017 updated contributing, notice, and readme files for TRG 7
+
 ## [11.0.2 - 29.05.2024]
 ### Added
 - #1010 Made submodel path configurable
 - #838 Added User experience > Table design section in arc42 documentation
+
 
 ### Changed
 - #1010 Updated IRS Helm Version from 5.1.6 to 5.1.7

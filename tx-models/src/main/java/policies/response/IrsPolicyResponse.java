@@ -16,23 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
+package policies.response;
 
-import assets.importpoc.ConstraintResponse;
-import assets.importpoc.ConstraintsResponse;
-import assets.importpoc.OperatorTypeResponse;
-import assets.importpoc.PermissionResponse;
-import assets.importpoc.PolicyResponse;
-import assets.importpoc.PolicyTypeResponse;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import policies.request.Payload;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
+import org.apache.commons.lang3.StringUtils;
+
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -41,7 +39,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
  */
 @Builder
 @Schema(example = IrsPolicyResponse.EXAMPLE_PAYLOAD)
-public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
+public record IrsPolicyResponse(@JsonFormat(shape = JsonFormat.Shape.STRING) OffsetDateTime validUntil, Payload payload) {
     // https://github.com/eclipse-tractusx/traceability-foss/issues/978
     // "odrl:action" USE will be use (lowercase) make sure to migrate
 
@@ -89,16 +87,20 @@ public record IrsPolicyResponse(OffsetDateTime validUntil, Payload payload) {
              ]
                """;
 
-    public static List<PolicyResponse> toResponse(List<IrsPolicyResponse> allPolicies) {
-        return allPolicies.stream().map(IrsPolicyResponse::toResponse).toList();
+    public static List<PolicyResponse> toResponse(Map<String, List<IrsPolicyResponse>> allPolicies) {
+        return allPolicies.entrySet().stream()
+                .flatMap(entry -> entry.getValue().stream()
+                        .map(policy -> toResponse(policy, entry.getKey())))
+                .toList();
     }
 
-    public static PolicyResponse toResponse(IrsPolicyResponse policy) {
+    public static PolicyResponse toResponse(IrsPolicyResponse policy, String bpn) {
         return PolicyResponse.builder()
                 .policyId(policy.payload().policyId())
                 .validUntil(policy.payload().policy().getValidUntil())
                 .createdOn(policy.payload().policy().getCreatedOn())
                 .permissions(map(policy.payload().policy()))
+                .businessPartnerNumber(bpn)
                 .build();
     }
 

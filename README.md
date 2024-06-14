@@ -1,6 +1,7 @@
 <h1><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/frontend/src/assets/images/logo.svg" alt="Trace-X - Product Traceability FOSS Frontend (TRACE-FOSS)" style="width:200px;"/>Traceability FOSS</h1>
 
-[![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/eclipse-tractusx/traceability-foss/LICENSE)
+[![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+[![CC BY 4.0 License](https://img.shields.io/badge/Non--code_license-CC%20BY%204.0-orange.svg)](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE_non-code)
 [![QG Backend](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-backend)
 [![QG Frontend](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-frontend)
 [![Kics](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/kics.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/kics.yml)
@@ -31,7 +32,7 @@
     - [Backend Testing strategy](#backend-testing-strategy)
   - [API documentation](https://github.com/eclipse-tractusx/traceability-foss/#api-documentation)
   - [Container Image](https://github.com/eclipse-tractusx/traceability-foss/#container-image)
-  - [License](https://github.com/eclipse-tractusx/traceability-foss/#license)
+  - [Licenses](https://github.com/eclipse-tractusx/traceability-foss/#licenses)
 
 ## How to contribute
 
@@ -123,9 +124,10 @@ See [TESTING](tx-backend/TESTING.md).
 The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/openapi/traceability-foss-backend.json)
 or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swagger-ui/index.html`
 
-## License
+## Licenses
 
-[Apache License 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+* [Apache License 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+* [CC BY 4.0 License](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE_non-code)
 
 ## Notice for Docker image
 

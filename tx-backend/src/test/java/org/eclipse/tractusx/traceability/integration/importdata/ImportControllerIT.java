@@ -46,6 +46,7 @@ import org.opentest4j.AssertionFailedError;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -375,7 +376,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile_whenPublishData_thenStatusShouldChangeToInPublishedToCX() throws JoseException, InterruptedException {
+    void givenValidFile_whenPublishData_thenStatusShouldChangeToInPublishedToCX() throws JoseException, InterruptedException, IOException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -420,7 +421,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile2_whenPublishData_thenStatusShouldChangeToPublishedToCx() throws JoseException, InterruptedException {
+    void givenValidFile2_whenPublishData_thenStatusShouldChangeToPublishedToCx() throws JoseException, InterruptedException, IOException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -469,7 +470,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile_whenPublishDataFailsOnDtr_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+    void givenValidFile_whenPublishDataFailsOnDtr_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -515,7 +516,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile_whenPublishDataFailsOnPolicy_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+    void givenValidFile_whenPublishDataFailsOnPolicy_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -561,7 +562,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile_whenPublishDataFailsOnEdcPolicyCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+    void givenValidFile_whenPublishDataFailsOnEdcPolicyCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -607,7 +608,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile_whenPublishDataFailsOnEdcAssetCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+    void givenValidFile_whenPublishDataFailsOnEdcAssetCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -653,7 +654,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile_whenPublishDataFailsOnEdcContractCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException {
+    void givenValidFile_whenPublishDataFailsOnEdcContractCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);

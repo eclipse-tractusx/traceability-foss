@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-import assets.importpoc.PolicyResponse;
+import policies.response.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
@@ -30,14 +30,14 @@ import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
+import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyMapper.mapToEdcPolicyRequest;
+import static org.eclipse.tractusx.traceability.policies.application.mapper.PolicyMapper.mapToEdcPolicyRequest;
 
 @Slf4j
 @Service
@@ -53,7 +53,7 @@ public class EdcAssetCreationService {
     String registryUrlWithPath = null;
 
     public String createEdcContractDefinitionsForDtrAndSubmodel(String policyId) throws CreateEdcPolicyDefinitionException, CreateEdcAssetException, CreateEdcContractDefinitionException {
-        PolicyResponse policy = policyService.getPolicyById(policyId);
+        PolicyResponse policy = policyService.getPolicy(policyId);
         String createdPolicyId;
         try {
             boolean exists = edcPolicyDefinitionService.policyDefinitionExists(policyId);
