@@ -96,6 +96,7 @@ describe('PoliciesComponent', () => {
     componentInstance.openDeletionDialog();
     expect(matDialogMock.open).toHaveBeenCalled();
 
+
     tick(); // Simulate passage of time until afterClosed completes
 
     expect(policyFacadeMock.deletePolicies).toHaveBeenCalledWith(componentInstance.selectedPolicies);
