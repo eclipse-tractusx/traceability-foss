@@ -24,8 +24,6 @@ package org.eclipse.tractusx.traceability.common.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -42,7 +40,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RequestResponseLoggingInterceptor implements ClientHttpRequestInterceptor {
 
-    static Logger LOGGER = LoggerFactory.getLogger(RequestResponseLoggingInterceptor.class);
 
     @Override
     @NotNull
@@ -53,13 +50,13 @@ public class RequestResponseLoggingInterceptor implements ClientHttpRequestInter
         BufferedReader br = null;
         try {
             String requestBody = new String(body, StandardCharsets.UTF_8);
-            LOGGER.info("Request body: {}", requestBody.replaceAll("[\r\n]+", " "));
+            log.info("Request body: {}", requestBody.replaceAll("[\r\n]+", " "));
             isr = new InputStreamReader(
                     response.getBody(), StandardCharsets.UTF_8);
             br = new BufferedReader(isr);
             String bodys = br.lines()
                     .collect(Collectors.joining("\n"));
-            LOGGER.info("Response body: {}", bodys.replaceAll("[\r\n]+", " "));
+            log.info("Response body: {}", bodys.replaceAll("[\r\n]+", " "));
             return response;
         } finally {
             if (isr != null)
