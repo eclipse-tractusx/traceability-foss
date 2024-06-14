@@ -73,7 +73,7 @@ public class JsonSchemaTest {
     private final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
 
     @Test
-    public void testJsonSchema() {
+    public void testLatestJsonSchema() {
         try {
             String highestVersionFile = findHighestVersionFile();
             log.info("File Version: " + highestVersionFile);
