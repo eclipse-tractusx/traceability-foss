@@ -29,7 +29,7 @@ const mockPolicy: Policy = {
       },
     },
   ],
-  constraints: [],
+
 };
 
 const mockPolicy2: Policy = {
@@ -59,7 +59,6 @@ const mockPolicy2: Policy = {
       },
     },
   ],
-  constraints: [],
 };
 
 const mockPolicyResponse: PolicyResponseMap = {
@@ -79,12 +78,14 @@ const mockPolicyResponse: PolicyResponseMap = {
 
 describe('PoliciesAssembler', () => {
   it('should assemble policy', () => {
-    const assembledPolicy = PoliciesAssembler.assemblePolicy(mockPolicy);
-    expect(assembledPolicy.policyName).toBe(mockPolicy.policyId);
+    const assembledPolicy = PoliciesAssembler.assemblePolicy(mockPolicy2);
+    console.log(assembledPolicy.constraints);
+    expect(assembledPolicy.policyName).toBe(mockPolicy2.policyId);
     expect(assembledPolicy.createdOn).toBe('2024-01-01T00:00');
     expect(assembledPolicy.validUntil).toBe('2024-12-31T23:59');
     expect(assembledPolicy.accessType).toBe('USE');
-    expect(assembledPolicy.constraints).toEqual([]);
+    expect(assembledPolicy.constraints).toEqual([ 'left1', '=', 'right1', 'left2', '!=', 'right2' ]);
+
   });
 
   it('should map policy response to policy entry list', () => {
