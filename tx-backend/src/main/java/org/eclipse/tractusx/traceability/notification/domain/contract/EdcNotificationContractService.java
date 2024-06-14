@@ -21,7 +21,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.notification.domain.contract;
 
-import assets.importpoc.PolicyResponse;
+import policies.response.PolicyResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
@@ -35,8 +35,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolic
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.mapper.PolicyMapper;
+import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
+import org.eclipse.tractusx.traceability.policies.application.mapper.PolicyMapper;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;

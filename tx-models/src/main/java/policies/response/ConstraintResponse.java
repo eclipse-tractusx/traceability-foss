@@ -16,10 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc;
+package policies.response;
 
-public enum PolicyTypeResponse {
-    ACCESS,
-    USE
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
+@Builder
+public record ConstraintResponse(
+        @Schema(example = "PURPOSE")
+        String leftOperand,
+
+        @Schema
+        OperatorTypeResponse operatorTypeResponse,
+        @Schema(example = "ID Trace 3.1")
+        String rightOperand) {
 }

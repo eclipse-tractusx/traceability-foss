@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service;
 
-import assets.importpoc.PolicyResponse;
+import policies.response.PolicyResponse;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
@@ -31,8 +31,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
+import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
+import policies.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;
@@ -48,6 +48,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -88,9 +89,16 @@ class EdcNotificationContractServiceTest {
         // given
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and")));
+
+        // Create a single IrsPolicyResponse and put it into a map
+        IrsPolicyResponse irsPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and");
+        Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
+
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
         when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
+
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
+
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
         when(edcPolicyDefinitionService.createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class))).thenReturn(accessPolicyId);
@@ -110,6 +118,7 @@ class EdcNotificationContractServiceTest {
                 org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType.QUALITY_INVESTIGATION);
     }
 
+
     @Test
     void givenService_whenAssetCreationThrowsException_thenThrowException() throws CreateEdcAssetException {
         // given
@@ -128,11 +137,19 @@ class EdcNotificationContractServiceTest {
         // given
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and")));
+
+        // Create a single IrsPolicyResponse and put it into a map
+        IrsPolicyResponse irsPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and");
+        Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
+
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
         when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
+
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
+
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
+
         doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class));
 
         // when/then
@@ -140,14 +157,22 @@ class EdcNotificationContractServiceTest {
         verify(edcNotificationAssetService).deleteAsset(any());
     }
 
+
     @Test
     void givenService_whenContractDefinitionServiceThrowsException_thenThrowException() throws CreateEdcAssetException, CreateEdcContractDefinitionException, DeleteEdcAssetException, DeleteEdcPolicyDefinitionException {
         // given
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
-        CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(List.of(createIrsPolicyResponse("test", OffsetDateTime.now(),"orLeft", "andLeft", "or", "and")));
+
+        // Create a single IrsPolicyResponse and put it into a map
+        IrsPolicyResponse irsPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and");
+        Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
+
+        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
         when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
+
+        CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
+
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getUrl()).thenReturn("https://test");
 
@@ -158,4 +183,5 @@ class EdcNotificationContractServiceTest {
         verify(edcPolicyDefinitionService).deleteAccessPolicy(any());
         verify(edcNotificationAssetService).deleteAsset(any());
     }
+
 }

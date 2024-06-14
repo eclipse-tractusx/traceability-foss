@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,17 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package policies.response;
 
-import assets.importpoc.PolicyResponse;
+public enum PolicyTypeResponse {
+    ACCESS,
+    USE
 
-import java.util.List;
-import java.util.Optional;
-
-public interface PolicyService {
-    List<PolicyResponse> getAllPolicies();
-
-    PolicyResponse getPolicyById(String id);
-
-    Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint();
 }

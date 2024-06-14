@@ -16,20 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
+package policies.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
-/**
- * Payload representation for get all policies response
- */
+import java.util.List;
+
 @Builder
-public record Payload(
-        @JsonProperty("@context") Context context,
-        @JsonProperty("@id") String policyId,
-        Policy policy
+public record ConstraintsResponse(
+        List<ConstraintResponse> and,
+        List<ConstraintResponse> or
 ) {
-
 }
