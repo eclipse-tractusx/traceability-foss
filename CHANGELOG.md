@@ -12,6 +12,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Added
 - #737 Added concept: Contract table -> parts link action
+- XXX Added interceptor to EdcRestTemplates to log requests
 
 ### Removed
 
