@@ -7,6 +7,7 @@ import {
   PolicyEntry,
   PolicyResponseMap,
 } from '@page/policies/model/policy.model';
+import { isNumber } from 'lodash-es';
 
 export class PoliciesAssembler {
   public static assemblePolicy(policy: Policy): Policy {
@@ -15,8 +16,8 @@ export class PoliciesAssembler {
     return {
       ...policy,
       policyName: policy.policyId,
-      createdOn: formattedCreatedOn.isInitial() ? null : formattedCreatedOn.valueOf().toISOString().slice(0, 16),
-      validUntil: formattedValidUntil.isInitial() ? null : formattedValidUntil.valueOf().toISOString().slice(0, 16),
+      createdOn: isNumber(policy.createdOn) ? new Date(policy.createdOn as number * 1000).toISOString().slice(0, 19) + 'Z' : (formattedCreatedOn.isInitial() ? null : formattedCreatedOn.valueOf().toISOString().slice(0, 16)),
+      validUntil: isNumber(policy.validUntil) ? new Date(policy.validUntil as number * 1000).toISOString().slice(0, 19) + 'Z' : (formattedValidUntil.isInitial() ? null : formattedValidUntil.valueOf().toISOString().slice(0, 16)),
       accessType: policy.permissions[0].action.toUpperCase() as PolicyAction,
       constraints: policy.constraints ?? this.mapDisplayPropsToPolicyRootLevelFromPolicy(policy),
     };

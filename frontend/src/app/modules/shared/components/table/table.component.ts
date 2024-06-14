@@ -43,6 +43,7 @@ import {
   TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
@@ -408,6 +409,10 @@ export class TableComponent {
 
   handleItemDeletion() {
     this.deletionClicked.emit();
+  }
+
+  public isDateElement(key: string) {
+    return isDateFilter(key);
   }
 
   protected readonly MainAspectType = MainAspectType;

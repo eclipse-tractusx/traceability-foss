@@ -43,8 +43,8 @@ export interface PolicyPayload {
 export interface Policy {
   // props in response
   policyId: string;
-  createdOn: CalendarDateModel | string;
-  validUntil: CalendarDateModel | string;
+  createdOn: CalendarDateModel | string | number;
+  validUntil: CalendarDateModel | string | number;
   permissions: PolicyPermission[];
 
   // additional props

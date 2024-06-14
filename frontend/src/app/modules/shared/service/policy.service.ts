@@ -24,7 +24,7 @@ export class PolicyService {
   }
 
   deletePolicy(policyId: string) {
-    return this.apiService.delete(`${ this.url }/policies` + policyId);
+    return this.apiService.delete(`${ this.url }/policies/` + policyId);
   }
 
   createPolicy(policyEntry: PolicyEntry): Observable<any> {
