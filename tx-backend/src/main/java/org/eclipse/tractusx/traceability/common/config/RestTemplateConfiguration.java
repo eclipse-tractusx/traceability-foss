@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
@@ -39,6 +40,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -46,6 +51,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -97,6 +103,7 @@ public class RestTemplateConfiguration {
                 .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
+                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
@@ -109,6 +116,7 @@ public class RestTemplateConfiguration {
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
+                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
@@ -124,6 +132,7 @@ public class RestTemplateConfiguration {
     public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .build();
     }
 
@@ -175,8 +184,17 @@ public class RestTemplateConfiguration {
     /* RestTemplate used by the edc client library*/
     @Bean(EDC_CLIENT_REST_TEMPLATE)
     public RestTemplate edcClientRestTemplate() {
-        return new RestTemplateBuilder()
-                .build();
+        ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
+        RestTemplate restTemplate = new RestTemplate(factory);
+
+        List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
+        if (CollectionUtils.isEmpty(interceptors)) {
+            interceptors = new ArrayList<>();
+        }
+        interceptors.add(new RequestResponseLoggingInterceptor());
+        restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
+        restTemplate.setInterceptors(interceptors);
+        return restTemplate;
     }
 
     private RestTemplateBuilder oAuthRestTemplate(final RestTemplateBuilder restTemplateBuilder,
