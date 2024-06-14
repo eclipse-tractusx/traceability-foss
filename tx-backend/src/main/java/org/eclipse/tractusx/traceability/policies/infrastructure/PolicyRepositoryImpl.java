@@ -112,21 +112,9 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     private IrsPolicyResponse findMatchingPolicy(Map<String, List<IrsPolicyResponse>> irsPolicies) {
         return irsPolicies.values().stream()
                 .flatMap(List::stream)
-                .filter(this::logConstraints)
                 .filter(this::checkConstraints)
                 .findFirst()
                 .orElse(null);
-    }
-
-    private boolean logConstraints(IrsPolicyResponse irsPolicy) {
-        irsPolicy.payload().policy().getPermissions().forEach(permission -> {
-            Constraints constraint = permission.getConstraint();
-            if (constraint != null) {
-                constraint.getAnd().forEach(constraint1 -> log.info("From IRS Policy Response -> Leftoperand {} operator {} and rightOperand {}",
-                        constraint1.getLeftOperand(), constraint1.getOperator(), constraint1.getRightOperand()));
-            }
-        });
-        return true;
     }
 
     private boolean checkConstraints(IrsPolicyResponse irsPolicy) {
