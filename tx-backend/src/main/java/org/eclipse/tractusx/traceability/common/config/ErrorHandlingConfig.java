@@ -69,6 +69,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -108,9 +109,11 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         String errorMessage;
 
         if (status.equals(BAD_REQUEST)) {
-            throw new PolicyBadRequestException(exception.getMessage());
+            return ResponseEntity.status(BAD_REQUEST)
+                    .body(new ErrorResponse(exception.getMessage()));
         } else if (status.equals(NOT_FOUND)) {
-            throw new PolicyNotFoundException(exception.getMessage());
+            return ResponseEntity.status(NOT_FOUND)
+                    .body(new ErrorResponse(exception.getMessage()));
         } else {
             errorMessage = exception.getMessage();
             return ResponseEntity.status(status)
