@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,15 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc;
 
-import lombok.Builder;
+package policies.request;
 
-import java.util.List;
+import java.time.Instant;
 
-@Builder
-public record ConstraintsResponse(
-        List<ConstraintResponse> and,
-        List<ConstraintResponse> or
+public record RegisterPolicyRequest(
+        Instant validUntil,
+        String businessPartnerNumber,
+        Payload payload
 ) {
+
 }
