@@ -16,52 +16,26 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc;
+package policies.response;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.Getter;
+import common.CustomOffsetDateTimeSerializer;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
+import java.time.OffsetDateTime;
+import java.util.List;
 
-@JsonSerialize(
-        using = ToStringSerializer.class
-)
-@Getter
-public enum OperatorTypeResponse {
-    EQ("eq", "Equals to"),
+@Builder
+public record PolicyResponse(
+        @Schema(example = "5a00bb50-0253-405f-b9f1-1a3150b9d51d")
+        String policyId,
 
-    NEQ("neq", "Not equal to"),
-
-    LT("lt", "Less than"),
-
-    GT("gt", "Greater than"),
-
-    IN("in", "In"),
-
-    LTEQ("lteq", "Less than or equal to"),
-
-    GTEQ("gteq", "Greater than or equal to"),
-
-    ISA("isA", "Is a"),
-
-    HASPART("hasPart", "Has part"),
-
-    ISPARTOF("isPartOf", "Is part of"),
-
-    ISONEOF("isOneOf", "Is one of"),
-
-    ISALLOF("isAllOf", "Is all of"),
-
-    ISNONEOF("isNoneOf", "Is none of");
-
-    final String code;
-
-    final String label;
-
-    OperatorTypeResponse(String code, String label) {
-        this.code = code;
-        this.label = label;
-    }
-
+        @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
+        OffsetDateTime createdOn,
+        @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
+        OffsetDateTime validUntil,
+        List<PermissionResponse> permissions,
+        String businessPartnerNumber) {
 }

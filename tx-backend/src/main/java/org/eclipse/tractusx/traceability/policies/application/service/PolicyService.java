@@ -16,26 +16,29 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.policies.application.service;
 
-package org.eclipse.tractusx.traceability.notification.domain.base.service;
+import policies.request.RegisterPolicyRequest;
+import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
+import policies.response.PolicyResponse;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
+public interface PolicyService {
+    List<PolicyResponse> getPolicies();
 
-import java.util.concurrent.CompletableFuture;
+    Map<String, List<IrsPolicyResponse>> getIrsPolicies();
+    PolicyResponse getPolicy(String id);
 
-import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.INTEGRATION_SPRING_BOOT;
+    Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint();
 
-@Slf4j
-@Service
-@Profile(INTEGRATION_SPRING_BOOT)
-public class EdcNotificationMockServiceImpl implements EdcNotificationService {
-    @Override
-    public CompletableFuture<NotificationMessage> asyncNotificationMessageExecutor(NotificationMessage message) {
-        log.info("EdcNotificationMockServiceImpl: {}", message);
-        return CompletableFuture.completedFuture(message);
-    }
+    CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest);
+
+    void deletePolicy(String id);
+
+    void updatePolicy(UpdatePolicyRequest updatePolicyRequest);
 }

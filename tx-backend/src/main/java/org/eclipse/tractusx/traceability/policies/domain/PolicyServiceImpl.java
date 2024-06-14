@@ -16,26 +16,30 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
+package org.eclipse.tractusx.traceability.policies.domain;
 
-import assets.importpoc.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.importpoc.PolicyService;
-import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import policies.request.RegisterPolicyRequest;
+import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
+import policies.response.PolicyResponse;
 
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static policies.response.IrsPolicyResponse.toResponse;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,21 +50,31 @@ public class PolicyServiceImpl implements PolicyService {
     private final TraceabilityProperties traceabilityProperties;
 
     @Override
-    public List<PolicyResponse> getAllPolicies() {
-        return IrsPolicyResponse.toResponse(getAcceptedPoliciesOrEmptyList());
+    public Map<String, List<IrsPolicyResponse>> getIrsPolicies() {
+        return policyRepository.getPolicies();
     }
 
     @Override
-    public PolicyResponse getPolicyById(String id) {
-        return getAcceptedPoliciesOrEmptyList().stream()
-                .filter(policy -> policy.payload().policy().getPolicyId().equals(id)).findFirst()
-                .map(IrsPolicyResponse::toResponse)
+    public List<PolicyResponse> getPolicies() {
+        Map<String, List<IrsPolicyResponse>> policies = policyRepository.getPolicies();
+        return toResponse(policies);
+    }
+
+    @Override
+    public PolicyResponse getPolicy(String id) {
+        Map<String, Optional<IrsPolicyResponse>> policies = policyRepository.getPolicy(id);
+
+        // Find the first entry with a present policy
+        return policies.entrySet().stream()
+                .filter(entry -> entry.getValue().isPresent())
+                .findFirst()
+                .map(entry -> toResponse(entry.getValue().get(), entry.getKey()))
                 .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
     }
 
     @Override
     public Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint() {
-        Optional<String> policyId = getAllPolicies().stream()
+        Optional<String> policyId = getPolicies().stream()
                 .flatMap(policyResponse -> policyResponse.permissions().stream()
                         .flatMap(permissionResponse -> Stream.concat(
                                         permissionResponse.constraints().and().stream(),
@@ -73,12 +87,23 @@ public class PolicyServiceImpl implements PolicyService {
                 })
                 .map(Map.Entry::getKey)
                 .findFirst();
-        return policyId.map(this::getPolicyById);
+        return policyId.map(this::getPolicy);
+    }
+
+    @Override
+    public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
+        return policyRepository.createPolicy(registerPolicyRequest);
+    }
+
+    @Override
+    public void deletePolicy(String id) {
+        policyRepository.deletePolicy(id);
+    }
+
+    @Override
+    public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
+        policyRepository.updatePolicy(updatePolicyRequest);
     }
 
 
-    @NotNull
-    private List<IrsPolicyResponse> getAcceptedPoliciesOrEmptyList() {
-        return emptyIfNull(policyRepository.getPolicies());
-    }
 }

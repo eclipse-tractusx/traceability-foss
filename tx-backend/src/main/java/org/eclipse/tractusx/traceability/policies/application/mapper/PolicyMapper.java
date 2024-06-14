@@ -16,12 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.importpoc.mapper;
+package org.eclipse.tractusx.traceability.policies.application.mapper;
 
-import assets.importpoc.ConstraintResponse;
-import assets.importpoc.ConstraintsResponse;
-import assets.importpoc.PermissionResponse;
-import assets.importpoc.PolicyResponse;
+import policies.response.ConstraintResponse;
+import policies.response.ConstraintsResponse;
+import policies.response.PermissionResponse;
+import policies.response.PolicyResponse;
 import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.irs.edc.client.asset.model.Context;
 import org.eclipse.tractusx.irs.edc.client.contract.model.EdcOperator;

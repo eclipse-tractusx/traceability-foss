@@ -16,18 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.importpoc;
+package policies.request;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
+import java.time.Instant;
+import java.util.List;
 
-@Builder
-public record ConstraintResponse(
-        @Schema(example = "PURPOSE")
-        String leftOperand,
+public record UpdatePolicyRequest(
+        List<String> businessPartnerNumbers,
+        List<String> policyIds,
+        Instant validUntil
+) {}
 
-        @Schema
-        OperatorTypeResponse operatorTypeResponse,
-        @Schema(example = "ID Trace 3.1")
-        String rightOperand) {
-}
