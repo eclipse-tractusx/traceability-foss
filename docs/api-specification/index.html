@@ -267,7 +267,11 @@ font-style: italic;
   </ul>
   <h4><a href="#Policies">Policies</a></h4>
   <ul>
+  <li><a href="#createPolicy"><code><span class="http-method">post</span> /policies</code></a></li>
+  <li><a href="#deletePolicy"><code><span class="http-method">delete</span> /policies/{policyId}</code></a></li>
+  <li><a href="#getPolicyById"><code><span class="http-method">get</span> /policies/{policyId}</code></a></li>
   <li><a href="#policy"><code><span class="http-method">get</span> /policies</code></a></li>
+  <li><a href="#updatePolicy"><code><span class="http-method">put</span> /policies</code></a></li>
   </ul>
   <h4><a href="#Registry">Registry</a></h4>
   <ul>
@@ -328,29 +332,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns a distinct filter values for given fieldName.
         
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -401,29 +405,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns a distinct filter values for given fieldName.
         
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -760,26 +764,26 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     Returns the asset by childId
         
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -1112,29 +1116,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the assets found
         
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -2629,30 +2633,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns the paged result found for Asset
-        
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the paged result found for Asset
+        
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="assetsCountryMap"/>
@@ -2691,26 +2695,26 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     Returns the assets found
         
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -2761,29 +2765,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns a distinct filter values for given fieldName.
         
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -4285,26 +4289,26 @@ font-style: italic;
     <h4 class="field-label">200</h4>
     Returns the paged result found for Asset
         
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -4345,30 +4349,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#"></a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updateAsset1"/>
@@ -4712,30 +4716,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns the updated asset
-        
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the updated asset
+        
   </div> <!-- method -->
   <hr/>
   <h1><a name="AssetsAsPlanned">AssetsAsPlanned</a></h1>
@@ -5068,29 +5072,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the asset by childId
         
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -5423,30 +5427,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns the assets found
-        
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the assets found
+        
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="assetsAsPlanned"/>
@@ -6940,29 +6944,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns the paged result found for Asset
-        
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the paged result found for Asset
+        
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -7013,29 +7017,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns a distinct filter values for given fieldName.
         
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -8534,30 +8538,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the paged result found for Asset
         
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="sync"/>
@@ -8597,30 +8601,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#"></a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updateAsset"/>
@@ -8964,30 +8968,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    Returns the updated asset
-        
     <h4 class="field-label">400</h4>
     Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the updated asset
+        
   </div> <!-- method -->
   <hr/>
   <h1><a name="AssetsImport">AssetsImport</a></h1>
@@ -9047,32 +9051,32 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     OK.
         <a href="#ImportResponse">ImportResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -9133,33 +9137,33 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    OK.
-        <a href="#ImportReportResponse">ImportReportResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    OK.
+        <a href="#ImportReportResponse">ImportReportResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="publishAssets"/>
@@ -9205,29 +9209,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     OK.
@@ -9278,29 +9282,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     OK.
@@ -9368,30 +9372,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the paged result found for BpnEdcMapping
         
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="deleteBpnEdcUrlMappings"/>
@@ -9425,33 +9429,33 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">204</h4>
+    Deleted.
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Okay
         <a href="#"></a>
-    <h4 class="field-label">204</h4>
-    Deleted.
-        <a href="#"></a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getBpnEdcs"/>
@@ -9502,29 +9506,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the paged result found
         
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -9588,30 +9592,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the paged result found for BpnEdcMapping
         
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Contracts">Contracts</a></h1>
@@ -9865,29 +9869,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#String">String</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#String">String</a>
-    <h4 class="field-label">200</h4>
-    Ok.
-        
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#String">String</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#String">String</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type.
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#String">String</a>
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#String">String</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#String">String</a>
-    <h4 class="field-label">404</h4>
-    Not found.
+    <h4 class="field-label">200</h4>
+    Ok.
+        
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#String">String</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#String">String</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type.
         <a href="#String">String</a>
   </div> <!-- method -->
   <hr/>
@@ -9942,29 +9946,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns dashboard data
         <a href="#DashboardResponse">DashboardResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10026,33 +10030,33 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">200</h4>
-    OK.
-        <a href="#ImportReportResponse">ImportReportResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    OK.
+        <a href="#ImportReportResponse">ImportReportResponse</a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Notifications">Notifications</a></h1>
@@ -10087,20 +10091,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
     <h4 class="field-label">401</h4>
     Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -10108,11 +10109,14 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No content.
         <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10147,20 +10151,17 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
     <h4 class="field-label">401</h4>
     Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
@@ -10168,11 +10169,14 @@ font-style: italic;
     <h4 class="field-label">204</h4>
     No content.
         <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10219,32 +10223,32 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Ok.
-        <a href="#"></a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">204</h4>
-    No content.
-        <a href="#"></a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Ok.
+        <a href="#"></a>
+    <h4 class="field-label">204</h4>
+    No content.
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10297,30 +10301,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#CreateNotificationContractResponse">CreateNotificationContractResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="distinctFilterValues"/>
@@ -10368,29 +10372,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns a distinct filter values for given fieldName.
         
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -10704,29 +10708,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the paged result found for Notifications
         
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -11034,29 +11038,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     OK.
         
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -11107,30 +11111,30 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">201</h4>
     Created.
         <a href="#NotificationIdResponse">NotificationIdResponse</a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="updateNotification"/>
@@ -11176,29 +11180,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">204</h4>
-    No content.
-        <a href="#"></a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">204</h4>
+    No content.
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -11245,40 +11249,171 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">204</h4>
-    No content.
-        <a href="#"></a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">204</h4>
+    No content.
+        <a href="#"></a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Policies">Policies</a></h1>
-  <div class="method"><a name="policy"/>
+  <div class="method"><a name="createPolicy"/>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /policies</code></pre></div>
-    <div class="method-summary">Get all policies (<span class="nickname">policy</span>)</div>
-    <div class="method-notes">The endpoint returns all policies .</div>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /policies</code></pre></div>
+    <div class="method-summary">Create a policy (<span class="nickname">createPolicy</span>)</div>
+    <div class="method-notes">The endpoint creates a policy.</div>
 
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">RegisterPolicyRequest <a href="#RegisterPolicyRequest">RegisterPolicyRequest</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      
+      Object
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the policies
+        <a href="#Object">Object</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="deletePolicy"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /policies/{policyId}</code></pre></div>
+    <div class="method-summary">Deletes a policy (<span class="nickname">deletePolicy</span>)</div>
+    <div class="method-notes">The endpoint deletes policies.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">policyId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  default: null </div>
+    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Deletion successful
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="getPolicyById"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /policies/{policyId}</code></pre></div>
+    <div class="method-summary">Gets policy by id (<span class="nickname">getPolicyById</span>)</div>
+    <div class="method-notes">The endpoint returns policy by id.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">policyId (required)</div>
+
+      <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  default: null </div>
+    </div>  <!-- field-items -->
 
 
 
@@ -11296,6 +11431,7 @@ font-style: italic;
     <h3 class="field-label">Example data</h3>
     <div class="example-data-content-type">Content-Type: application/json</div>
     <pre class="example"><code>{
+  "businessPartnerNumber" : "businessPartnerNumber",
   "policyId" : "5a00bb50-0253-405f-b9f1-1a3150b9d51d",
   "permissions" : [ {
     "action" : "USE",
@@ -11354,30 +11490,183 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
-        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Returns the policies
         <a href="#PolicyResponse">PolicyResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="policy"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /policies</code></pre></div>
+    <div class="method-summary">Get all policies (<span class="nickname">policy</span>)</div>
+    <div class="method-notes">The endpoint returns all policies .</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#IrsPolicyResponse">IrsPolicyResponse</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "validUntil" : "2025-12-12T23:59:59.999Z",
+  "payload" : {
+    "@context" : {
+      "@vocab" : "https://w3id.org/edc/v0.0.1/ns/",
+      "edc" : "https://w3id.org/edc/v0.0.1/ns/",
+      "cx-policy" : "https://w3id.org/catenax/policy/",
+      "odrl" : "http://www.w3.org/ns/odrl/2/"
+    },
+    "@id" : "policy-id",
+    "policy" : {
+      "odrl:permission" : [ {
+        "odrl:action" : "use",
+        "odrl:constraint" : {
+          "odrl:and" : [ {
+            "odrl:leftOperand" : "Membership",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "active"
+          }, {
+            "odrl:leftOperand" : "PURPOSE",
+            "odrl:operator" : {
+              "@id" : "odrl:eq"
+            },
+            "odrl:rightOperand" : "ID 3.1 Trace"
+          } ]
+        }
+      } ]
+    }
+  }
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
     <h4 class="field-label">404</h4>
     Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns the policies
+        <a href="#IrsPolicyResponse">IrsPolicyResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="updatePolicy"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /policies</code></pre></div>
+    <div class="method-summary">Updates policies (<span class="nickname">updatePolicy</span>)</div>
+    <div class="method-notes">The endpoint updates policies.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Request body</h3>
+    <div class="field-items">
+      <div class="param">UpdatePolicyRequest <a href="#UpdatePolicyRequest">UpdatePolicyRequest</a> (required)</div>
+
+      <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
+
+    </div>  <!-- field-items -->
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">429</h4>
+    Too many requests.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">500</h4>
+    Internal server error.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Update successful
+        <a href="#"></a>
   </div> <!-- method -->
   <hr/>
   <h1><a name="Registry">Registry</a></h1>
@@ -11406,29 +11695,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">202</h4>
-    Created registry reload job.
-        <a href="#"></a>
     <h4 class="field-label">400</h4>
     Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">202</h4>
+    Created registry reload job.
+        <a href="#"></a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -11458,33 +11747,33 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="getSubmodelById"/>
@@ -11523,29 +11812,29 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
-    <h4 class="field-label">200</h4>
-    Returns submodel payload
-        <a href="#String">String</a>
-    <h4 class="field-label">401</h4>
-    Authorization failed.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">403</h4>
-    Forbidden.
+    <h4 class="field-label">404</h4>
+    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">400</h4>
     Bad request.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">401</h4>
+    Authorization failed.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">429</h4>
     Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">200</h4>
+    Returns submodel payload
+        <a href="#String">String</a>
+    <h4 class="field-label">403</h4>
+    Forbidden.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">415</h4>
+    Unsupported media type
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">500</h4>
     Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
         <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
@@ -11592,33 +11881,33 @@ font-style: italic;
     </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">404</h4>
+    Not found.
+        <a href="#ErrorResponse">ErrorResponse</a>
+    <h4 class="field-label">400</h4>
+    Bad request.
+        <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">200</h4>
     Ok.
         <a href="#"></a>
     <h4 class="field-label">401</h4>
     Authorization failed.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">415</h4>
-    Unsupported media type
+    <h4 class="field-label">429</h4>
+    Too many requests.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">403</h4>
     Forbidden.
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">400</h4>
-    Bad request.
+    <h4 class="field-label">415</h4>
+    Unsupported media type
         <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">429</h4>
-    Too many requests.
+    <h4 class="field-label">500</h4>
+    Internal server error.
         <a href="#ErrorResponse">ErrorResponse</a>
     <h4 class="field-label">204</h4>
     No Content.
         <a href="#"></a>
-    <h4 class="field-label">500</h4>
-    Internal server error.
-        <a href="#ErrorResponse">ErrorResponse</a>
-    <h4 class="field-label">404</h4>
-    Not found.
-        <a href="#ErrorResponse">ErrorResponse</a>
   </div> <!-- method -->
   <hr/>
 
@@ -11630,8 +11919,11 @@ font-style: italic;
     <li><a href="#BpnEdcMappingResponse"><code>BpnEdcMappingResponse</code> - </a></li>
     <li><a href="#BpnMappingRequest"><code>BpnMappingRequest</code> - </a></li>
     <li><a href="#CloseNotificationRequest"><code>CloseNotificationRequest</code> - </a></li>
+    <li><a href="#Constraint"><code>Constraint</code> - </a></li>
     <li><a href="#ConstraintResponse"><code>ConstraintResponse</code> - </a></li>
+    <li><a href="#Constraints"><code>Constraints</code> - </a></li>
     <li><a href="#ConstraintsResponse"><code>ConstraintsResponse</code> - </a></li>
+    <li><a href="#Context"><code>Context</code> - </a></li>
     <li><a href="#ContractResponse"><code>ContractResponse</code> - </a></li>
     <li><a href="#CreateNotificationContractRequest"><code>CreateNotificationContractRequest</code> - </a></li>
     <li><a href="#CreateNotificationContractResponse"><code>CreateNotificationContractResponse</code> - </a></li>
@@ -11651,22 +11943,29 @@ font-style: italic;
     <li><a href="#ImportResponse"><code>ImportResponse</code> - </a></li>
     <li><a href="#ImportStateMessage"><code>ImportStateMessage</code> - </a></li>
     <li><a href="#ImportedAssetResponse"><code>ImportedAssetResponse</code> - </a></li>
+    <li><a href="#IrsPolicyResponse"><code>IrsPolicyResponse</code> - </a></li>
     <li><a href="#NotificationIdResponse"><code>NotificationIdResponse</code> - </a></li>
     <li><a href="#NotificationMessageResponse"><code>NotificationMessageResponse</code> - </a></li>
     <li><a href="#NotificationReasonResponse"><code>NotificationReasonResponse</code> - </a></li>
     <li><a href="#NotificationResponse"><code>NotificationResponse</code> - </a></li>
+    <li><a href="#Operator"><code>Operator</code> - </a></li>
     <li><a href="#OwnPageable"><code>OwnPageable</code> - </a></li>
     <li><a href="#PageResultContractResponse"><code>PageResultContractResponse</code> - </a></li>
     <li><a href="#PageableFilterRequest"><code>PageableFilterRequest</code> - </a></li>
     <li><a href="#PartSiteInformationAsPlannedResponse"><code>PartSiteInformationAsPlannedResponse</code> - </a></li>
+    <li><a href="#Payload"><code>Payload</code> - </a></li>
+    <li><a href="#Permission"><code>Permission</code> - </a></li>
     <li><a href="#PermissionResponse"><code>PermissionResponse</code> - </a></li>
+    <li><a href="#Policy"><code>Policy</code> - </a></li>
     <li><a href="#PolicyResponse"><code>PolicyResponse</code> - </a></li>
     <li><a href="#RegisterAssetRequest"><code>RegisterAssetRequest</code> - </a></li>
+    <li><a href="#RegisterPolicyRequest"><code>RegisterPolicyRequest</code> - </a></li>
     <li><a href="#SearchCriteriaRequestParam"><code>SearchCriteriaRequestParam</code> - </a></li>
     <li><a href="#StartNotificationRequest"><code>StartNotificationRequest</code> - </a></li>
     <li><a href="#SyncAssetsRequest"><code>SyncAssetsRequest</code> - </a></li>
     <li><a href="#UpdateAssetRequest"><code>UpdateAssetRequest</code> - </a></li>
     <li><a href="#UpdateNotificationStatusTransitionRequest"><code>UpdateNotificationStatusTransitionRequest</code> - </a></li>
+    <li><a href="#UpdatePolicyRequest"><code>UpdatePolicyRequest</code> - </a></li>
     <li><a href="#ValidationResponse"><code>ValidationResponse</code> - </a></li>
     <li><a href="#filterNotifications_200_response_inner"><code>filterNotifications_200_response_inner</code> - </a></li>
     <li><a href="#getDetailInformation_200_response_inner_inner"><code>getDetailInformation_200_response_inner_inner</code> - </a></li>
@@ -11696,6 +11995,15 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="Constraint"><code>Constraint</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">leftOperand (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">operator (optional)</div><div class="param-desc"><span class="param-type"><a href="#Operator">Operator</a></span>  </div>
+<div class="param">odrlColonrightOperand (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="ConstraintResponse"><code>ConstraintResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
@@ -11707,11 +12015,26 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="Constraints"><code>Constraints</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">and (optional)</div><div class="param-desc"><span class="param-type"><a href="#Constraint">array[Constraint]</a></span>  </div>
+<div class="param">or (optional)</div><div class="param-desc"><span class="param-type"><a href="#Constraint">array[Constraint]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="ConstraintsResponse"><code>ConstraintsResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
       <div class="param">and (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConstraintResponse">array[ConstraintResponse]</a></span>  </div>
 <div class="param">or (optional)</div><div class="param-desc"><span class="param-type"><a href="#ConstraintResponse">array[ConstraintResponse]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Context"><code>Context</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">odrl (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -11921,6 +12244,14 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="IrsPolicyResponse"><code>IrsPolicyResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">validUntil (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">payload (optional)</div><div class="param-desc"><span class="param-type"><a href="#Payload">Payload</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="NotificationIdResponse"><code>NotificationIdResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
@@ -11992,6 +12323,15 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="Operator"><code>Operator</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">Atid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">eq</div><div class="param-enum">neq</div><div class="param-enum">lt</div><div class="param-enum">gt</div><div class="param-enum">in</div><div class="param-enum">lteq</div><div class="param-enum">gteq</div><div class="param-enum">isA</div><div class="param-enum">hasPart</div><div class="param-enum">isPartOf</div><div class="param-enum">isOneOf</div><div class="param-enum">isAllOf</div><div class="param-enum">isNoneOf</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="OwnPageable"><code>OwnPageable</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
@@ -12030,6 +12370,25 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="Payload"><code>Payload</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">Atcontext (optional)</div><div class="param-desc"><span class="param-type"><a href="#Context">Context</a></span>  </div>
+<div class="param">Atid (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">policy (optional)</div><div class="param-desc"><span class="param-type"><a href="#Policy">Policy</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Permission"><code>Permission</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">action (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+        <div class="param-enum-header">Enum:</div>
+        <div class="param-enum">access</div><div class="param-enum">use</div>
+<div class="param">constraint (optional)</div><div class="param-desc"><span class="param-type"><a href="#Constraints">Constraints</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="PermissionResponse"><code>PermissionResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
@@ -12040,6 +12399,16 @@ font-style: italic;
     </div>  <!-- field-items -->
   </div>
   <div class="model">
+    <h3><a name="Policy"><code>Policy</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">policyId (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">createdOn (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">validUntil (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">permissions (optional)</div><div class="param-desc"><span class="param-type"><a href="#Permission">array[Permission]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
     <h3><a name="PolicyResponse"><code>PolicyResponse</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
@@ -12047,6 +12416,7 @@ font-style: italic;
 <div class="param">createdOn (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
 <div class="param">validUntil (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
 <div class="param">permissions (optional)</div><div class="param-desc"><span class="param-type"><a href="#PermissionResponse">array[PermissionResponse]</a></span>  </div>
+<div class="param">businessPartnerNumber (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -12055,6 +12425,15 @@ font-style: italic;
     <div class="field-items">
       <div class="param">policyId </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">assetIds </div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="RegisterPolicyRequest"><code>RegisterPolicyRequest</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">validUntil (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
+<div class="param">businessPartnerNumber (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">payload (optional)</div><div class="param-desc"><span class="param-type"><a href="#Payload">Payload</a></span>  </div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
@@ -12105,6 +12484,15 @@ font-style: italic;
         <div class="param-enum-header">Enum:</div>
         <div class="param-enum">ACKNOWLEDGED</div><div class="param-enum">ACCEPTED</div><div class="param-enum">DECLINED</div>
 <div class="param">reason (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="UpdatePolicyRequest"><code>UpdatePolicyRequest</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">businessPartnerNumbers (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+<div class="param">policyIds (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">array[String]</a></span>  </div>
+<div class="param">validUntil (optional)</div><div class="param-desc"><span class="param-type"><a href="#DateTime">Date</a></span>  format: date-time</div>
     </div>  <!-- field-items -->
   </div>
   <div class="model">
