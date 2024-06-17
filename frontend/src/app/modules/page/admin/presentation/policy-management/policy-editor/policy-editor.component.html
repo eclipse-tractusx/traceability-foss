@@ -1,0 +1,247 @@
+<mat-card>
+  <mat-card-header class="flex-row">
+    <mat-card-title><h3 data-testid="admin_policy_editor_header"
+                        class="pb-1">{{ "pageAdmin.policyManagement.policy"| i18n }} {{ "pageAdmin.policyManagement." + viewMode | i18n }}</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="action-container flex justify-between mb-2 mt-2">
+      <div class="action-container-left">
+        <app-button
+          [color]="'primary'"
+          onkeydown="navigateBack()"
+          (click)="navigateBack()"
+        >
+          <div class="flex justify-between items-center">
+            <mat-icon class="mr-2">arrow_back</mat-icon>
+            {{ 'actions.goBack' | i18n }}
+          </div>
+        </app-button>
+      </div>
+      <div class="action-container-right">
+        <div
+          matTooltip="{{ (policyForm.invalid ? 'pageAdmin.policyManagement.invalidForm': (constraints.length < 1 ? 'errorMessage.minimumOneConstraint' : 'pageAdmin.policyManagement.savePolicy')) | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+          *ngIf="viewMode === ViewMode.EDIT || viewMode === ViewMode.CREATE"
+        >
+          <app-button
+            [iconName]="'save'"
+            onkeydown="savePolicy()"
+            (click)="savePolicy()"
+            [color]="'primary'"
+            [isDisabled]="policyForm.invalid || constraints.length < 1"
+          ></app-button>
+        </div>
+        <div matTooltip="{{ 'actions.edit' | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500"
+             *ngIf="viewMode === ViewMode.VIEW"
+        >
+          <app-button
+            [iconName]="'edit'"
+            onkeydown="navigateToEditView()"
+            [color]="'primary'"
+            (click)="navigateToEditView()"></app-button>
+        </div>
+      </div>
+    </div>
+    <!-- commented out since the upload/download feature for template/policies is so far not needed but could be in future
+    <div class="template-container flex items-center py-8" [style.display]="'none'">
+      <div matTooltip="{{ 'actions.uploadFile' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500"
+           class="mr-2"
+      >
+        <app-button
+          [iconName]="'file_upload'"
+          onkeydown="fileInput.click()"
+          (click)="fileInput.click()"></app-button>
+      </div>
+      <div matTooltip="{{ 'actions.downloadFile' | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500"
+           class="mr-2"
+      >
+        <app-button
+          [iconName]="'download'"
+          onkeydown="downloadTemplateAsJsonFile()"
+          (click)="downloadTemplateAsJsonFile()"
+        ></app-button>
+      </div>
+
+      <input type="file" accept="application/json" (change)="onFileSelected($event)" hidden #fileInput>
+      <input type="text" class="file-input mr-4" [ngClass]="templateFileName.length < 1 ? 'hinttext' : ''"
+             [value]="templateFileName.length ? templateFileName : ('pageAdmin.policyManagement.selectFileHint' | i18n)"
+             label="File" disabled *ngIf="templateFileName.length">
+      <div
+        class="template-apply-button-container"
+        matTooltip="{{ (templateFile ? 'pageAdmin.policyManagement.applyChange' : 'pageAdmin.policyManagement.chooseFile') | i18n}}"
+        matTooltipClass="table--header--tooltip"
+        matTooltipPosition="above"
+        [class.mdc-tooltip--multiline]="true"
+        [matTooltipShowDelay]="500"
+      >
+        <app-button [variant]="'raised'" [color]="'primary'"
+                    (click)="applyTemplate()"
+                    onkeydown="applyTemplate()"
+                    [isDisabled]="!templateFile"
+                    class="mr-2"
+        >{{ 'pageAdmin.policyManagement.apply' | i18n }}
+
+        </app-button>
+      </div>
+      <div *ngIf="templateError.length" class="flex items-center text-danger">
+        <mat-icon class="mr-2" [color]="'warn'">error</mat-icon>
+        {{ templateError | i18n }}
+      </div>
+    </div>
+    -->
+    <form [formGroup]="policyForm">
+      <div class="details-container pb-2">
+        <div class="input-row flex justify-between gap-5">
+          <app-input
+            class="flex-1"
+            [label]="'pageAdmin.policyManagement.policyName' | i18n "
+            [parentFormGroup]="policyForm"
+            [formControlName]="'policyName'"
+          ></app-input>
+          <app-date-time
+            [label]="'pageAdmin.policyManagement.validUntil' | i18n"
+            [min]="minDate"
+            formControlName="validUntil"
+          ></app-date-time>
+        </div>
+        <app-input
+          [label]=" viewMode === ViewMode.EDIT ? ('pageAdmin.policyManagement.bpnls' | i18n) : ('pageAdmin.policyManagement.bpn' | i18n) "
+          [hint]="viewMode === ViewMode.EDIT ? ('pageAdmin.policyManagement.bpnsHint' | i18n) : ''"
+          [parentFormGroup]="policyForm"
+          [formControlName]="'bpns'"
+        ></app-input>
+      </div>
+
+      <div class="access-type-container flex flex-col items-start">
+        <h4 class="pb-2">{{ 'pageAdmin.policyManagement.policyConstraints' | i18n }}</h4>
+        <app-select
+          [label]="'pageAdmin.policyManagement.accessType' | i18n"
+          [formGroup]="policyForm"
+          [formControlName]="'accessType'"
+          [options]="[{label: 'ACCESS', value:'ACCESS'}, {label: 'USE', value: 'USE'}]"
+
+        ></app-select>
+      </div>
+
+      <div class="constraints-container flex flex-col items-start">
+        <h4 class="pb-2">{{ 'pageAdmin.policyManagement.constraints' | i18n }} {{ '(' + constraints.length + ')' }}</h4>
+        <div matTooltip="{{ 'pageAdmin.policyManagement.addConstraint' | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500"
+             class="mb-2" *ngIf="viewMode === ViewMode.CREATE">
+          <app-button
+            [iconName]="'add'"
+            onkeydown="addConstraintFormGroup()"
+            (click)="addConstraintFormGroup()"
+          ></app-button>
+        </div>
+
+        <div class=" constraints-form container flex w-full gap-3">
+          <div class="constraints-form-logic-container">
+            <div class="constraints--header--label flex-1 mb-2">
+              {{ "pageAdmin.policyManagement.logic" | i18n }}
+              <div class="constraints--header--sub-label--logicType">
+                {{ "pageAdmin.policyManagement.logicTypeHint" | i18n }}
+              </div>
+            </div>
+            <app-select id="constraintLogicType" [formControlName]="'constraintLogicType'"
+                        [label]="'pageAdmin.policyManagement.constraintLogicType' | i18n" class="flex-1"
+                        [options]="ConstraintLogicTypeAsSelectOptionsList"></app-select>
+          </div>
+          <div formArrayName="constraints" class="constraints-rules-container flex-1 w-full">
+            <div class="constraints--header--container flex mb-2"
+                 [ngClass]="{'label-row-view-mode': viewMode === ViewMode.VIEW}">
+              <div class="constraints--header--label flex-1">
+                {{ "pageAdmin.policyManagement.leftOperand" | i18n }}
+              </div>
+              <div class="constraints--header--label flex-1">
+                {{ "pageAdmin.policyManagement.operator" | i18n }}
+              </div>
+              <div class="constraints--header--label flex-1">
+                {{ "pageAdmin.policyManagement.rightOperand" | i18n }}
+                <div class="constraints--header--sub-label">
+                  {{ "pageAdmin.policyManagement.rightOperandHint" | i18n }}
+
+                </div>
+              </div>
+            </div>
+            <div *ngFor="let constraint of constraints.controls; let i=index;" [formGroupName]="i"
+                 class="flex w-full gap-2">
+              <app-input id="leftOperand-{{i}}" [formControlName]="'leftOperand'"
+                         [label]="'pageAdmin.policyManagement.leftOperand' | i18n" class="flex-1"></app-input>
+              <app-select id="operator-{{i}}" [formControlName]="'operator'" class="flex-1"
+                          [label]="'pageAdmin.policyManagement.operator' | i18n"
+                          [options]="OperatorTypesAsSelectOptionsList"></app-select>
+              <app-input id="rightOperand-{{i}}" [formControlName]="'rightOperand'"
+                         [label]="'pageAdmin.policyManagement.rightOperand' | i18n" class="flex-1"></app-input>
+              <div matTooltip="{{ 'pageAdmin.policyManagement.moveDownward' | i18n}}"
+                   matTooltipClass="table--header--tooltip"
+                   matTooltipPosition="before"
+                   [class.mdc-tooltip--multiline]="true"
+                   [matTooltipShowDelay]="500"
+                   *ngIf="viewMode === ViewMode.CREATE"
+              >
+                <app-button
+                  [iconName]="'arrow_downward'"
+                  onkeydown="moveConstraintDown(i)"
+                  (click)="moveConstraintDown(i)"
+                >
+                </app-button>
+              </div>
+              <div matTooltip="{{ 'pageAdmin.policyManagement.moveUpward' | i18n}}"
+                   matTooltipClass="table--header--tooltip"
+                   matTooltipPosition="before"
+                   [class.mdc-tooltip--multiline]="true"
+                   [matTooltipShowDelay]="500"
+                   *ngIf="viewMode === ViewMode.CREATE"
+              >
+
+                <app-button
+                  [iconName]="'arrow_upward'"
+                  onkeydown="moveConstraintUp(i)"
+                  (click)="moveConstraintUp(i)"
+                >
+                </app-button>
+              </div>
+              <div matTooltip="{{ 'actions.delete' | i18n}}"
+                   matTooltipClass="table--header--tooltip"
+                   matTooltipPosition="above"
+                   [class.mdc-tooltip--multiline]="true"
+                   [matTooltipShowDelay]="500"
+                   *ngIf="viewMode === ViewMode.CREATE"
+              >
+                <app-button
+                  [iconName]="'delete'"
+                  onkeydown="removeConstraintFormGroup(i)"
+                  (click)="removeConstraintFormGroup(i)"
+                >
+                </app-button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+
+
+  </mat-card-content>
+</mat-card>

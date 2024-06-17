@@ -205,7 +205,7 @@ app-parts{
   }
 }
 
-app-notifications-tab {
+app-notifications-tab, app-policies {
   .table-wrapper {
     background-color: white;
     @media screen and (max-height: 1049px) {
@@ -268,7 +268,7 @@ app-multiselect {
   bottom: 0;
 }
 
-app-parts, app-notifications-tab {
+app-parts, app-notifications-tab, app-policies {
 
   .mat-mdc-table .mdc-data-table__row:last-child {
     border-bottom: 1px solid lightgrey;

@@ -36,9 +36,9 @@ export function clearAllRows(selection: any, multiSelect: any): void {
 }
 
 export function clearCurrentRows(selection: any, dataSourceData: unknown[], multiSelect: any): void {
-  this.removeSelectedValues(selection, dataSourceData);
+  removeSelectedValues(selection, dataSourceData);
 
-  multiSelect.emit(this.selection.selected);
+  multiSelect.emit([]);
 }
 
 export function setMultiSorting( event: KeyboardEvent): boolean  {

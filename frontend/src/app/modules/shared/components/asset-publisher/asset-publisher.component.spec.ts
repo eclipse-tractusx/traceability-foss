@@ -27,7 +27,7 @@ describe('AssetPublisherComponent', () => {
     const { fixture } = await renderAssetPublisherComponent();
     const { componentInstance } = fixture;
 
-    const dummyPolicy: Policy = { policyId: 'id-1', createdOn: 'testdate', validUntil: 'testdate' };
+    const dummyPolicy: Policy = { policyId: 'id-1', createdOn: 'testdate', validUntil: 'testdate', permissions: [] };
 
     policyServiceSpy.publishAssets.and.returnValue(of({}));
     policyServiceSpy.getPolicies.and.returnValue(of([dummyPolicy]));
@@ -49,7 +49,7 @@ describe('AssetPublisherComponent', () => {
   it('should set policies when requesting policies', async function() {
     const { fixture } = await renderAssetPublisherComponent();
     const { componentInstance } = fixture;
-    const dummyPolicy: Policy = { policyId: 'id-1', createdOn: 'testdate', validUntil: 'testdate' };
+    const dummyPolicy: Policy = { policyId: 'id-1', createdOn: 'testdate', validUntil: 'testdate', permissions: [] };
 
     const submittedSpy = spyOn(componentInstance.submitted, 'emit');
 
