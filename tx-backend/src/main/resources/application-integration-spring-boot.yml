@@ -68,8 +68,6 @@ spring:
 
 jwt:
   resource-client: "Integration-Test"
-server:
-  port: 9998
 management:
   server:
     port: 8082

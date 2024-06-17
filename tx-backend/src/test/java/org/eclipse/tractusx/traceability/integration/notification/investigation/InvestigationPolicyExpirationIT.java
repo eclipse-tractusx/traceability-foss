@@ -43,7 +43,8 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +52,6 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
-@TestPropertySource(properties = "traceability.validUntil=2020-07-04T16:01:05.309Z")
 public class InvestigationPolicyExpirationIT extends IntegrationTestSpecification {
     @Autowired
     NotificationReceiverService notificationReceiverService;
@@ -78,6 +78,12 @@ public class InvestigationPolicyExpirationIT extends IntegrationTestSpecificatio
     IrsApiSupport irsApiSupport;
 
     ObjectMapper objectMapper;
+
+
+    @DynamicPropertySource
+    static void dynamicProperties(DynamicPropertyRegistry registry) {
+        registry.add("traceability.validUntil", () -> "2020-07-04T16:01:05.309Z");
+    }
 
     @BeforeEach
     void setUp() {
