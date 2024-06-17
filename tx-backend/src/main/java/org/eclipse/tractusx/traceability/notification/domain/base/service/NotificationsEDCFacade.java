@@ -119,7 +119,7 @@ public class NotificationsEDCFacade {
                     .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
-            throw new ContractNegotiationException("Failed to negotiate contract agreement. ", e);
+            throw new ContractNegotiationException("Failed to negotiate contract agreement: " + e.getMessage(), e);
         }
     }
 
