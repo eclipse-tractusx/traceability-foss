@@ -18,6 +18,7 @@
         [showHover]="false"
         [tableType]="TableType.POLICIES"
         [tableSettingsEnabled]="true"
+        [deselectTrigger]="deselectPartTrigger$ | async"
         (selected)="openDetailedView($event)"
         (editClicked)="openEditView($event)"
         (multiSelect)="multiSelection($event)"

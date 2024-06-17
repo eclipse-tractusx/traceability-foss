@@ -16,7 +16,7 @@ import {
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { setMultiSorting } from '@shared/helper/table-helper';
 import { View } from '@shared/model/view.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -32,6 +32,7 @@ export class PoliciesComponent {
   pagination: TableEventConfig;
   multiSortList: TableHeaderSort[] = [];
   ctrlKeyState: boolean = false;
+  deselectPartTrigger$ = new Subject<Policy[]>();
 
   constructor(public readonly policyFacade: PoliciesFacade, private readonly router: Router, private readonly toastService: ToastService, public dialog: MatDialog, private readonly roleService: RoleService) {
     window.addEventListener('keydown', (event) => {
@@ -103,6 +104,7 @@ export class PoliciesComponent {
     dialogRef.afterClosed().subscribe(confirmation => {
       if (confirmation) {
         this.deletePolicies();
+        this.deselectPartTrigger$.next(this.selectedPolicies);
       }
     });
   }

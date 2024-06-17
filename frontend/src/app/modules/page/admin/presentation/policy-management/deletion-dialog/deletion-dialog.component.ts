@@ -18,6 +18,5 @@ export class DeletionDialogComponent {
 
   save() {
     this.dialogRef.close(true);
-    console.log('save');
   }
 }
