@@ -146,7 +146,7 @@
              matTooltipPosition="above"
              [class.mdc-tooltip--multiline]="true"
              [matTooltipShowDelay]="500"
-             class="mb-2" *ngIf="viewMode !== ViewMode.VIEW">
+             class="mb-2" *ngIf="viewMode === ViewMode.CREATE">
           <app-button
             [iconName]="'add'"
             onkeydown="addConstraintFormGroup()"
