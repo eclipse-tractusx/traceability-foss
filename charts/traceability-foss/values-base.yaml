@@ -86,7 +86,7 @@ backend:
     successThreshold: 1
     timeoutSeconds: 1
   image:
-    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    repository: hub.docker.com/tractusx/traceability-foss
     tag: $ARGOCD_APP_REVISION
 
 
