@@ -12,6 +12,7 @@
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
+    "adminPolicies" : "Richtlinienverwaltung",
     "partMismatch": "Die ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Eigen, Lieferant)",
     "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
@@ -66,7 +67,9 @@
     "goBack": "Zurück",
     "publishAssets": "Produkte veröffentlichen",
     "maximizeTable": "Volle Breite",
-    "userSettings": "Tabellen Einstellung"
+    "userSettings" : "Tabellen Einstellung",
+    "uploadFile" : "Richtlinien JSON-Datei hochladen",
+    "downloadFile" : "Vorlage als Datei herunterladen"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",
@@ -116,10 +119,13 @@
     "viewDetails" : "Details anzeigen",
     "more" : "Mehr Aktionen",
     "editNotification" : "Qualitätsthemen bearbeiten",
-    "selectAtLeastOne" : "Aktionen erfordern mindestens eine Selektion in der Tabelle",
+    "selectAtLeastOne" : "Erfordert mindestens eine Selektion in der Tabelle",
+    "selectOnlyOne" : "Aktion erfordert eine einzige Selektion in der Tabelle",
     "unauthorized" : "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "noFunctionality" : "Funktionalität wurde noch nicht implementiert.",
     "onlyNotificationInStatusCreatedAllowed" : "Aktion erfordert eine Selektion an Qualitätsthemen im Status \"Erstellt\".",
+    "createPolicy" : "Richtlinie erstellen",
+    "deletePolicy" : "Selektierte Richtlinien löschen",
     "column": {
       "id": "ID",
       "idShort": "Kurz-ID",
@@ -162,8 +168,14 @@
       "importNote": "Importbemerkung",
       "importDate": "Importdatum",
       "type": "Typ",
-      "title": "Titel"
-
+      "title" : "Titel",
+      "policyId" : "Policy ID",
+      "validUntil" : "Gültig bis",
+      "createdOn" : "Gültig von",
+      "policyName" : "Richtlinienname",
+      "bpn" : "BPN Selektion",
+      "constraints" : "Bedingungen",
+      "accessType" : "Zugriffsart"
     }
   },
   "dataLoading": {
@@ -207,12 +219,14 @@
     "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein. Momentan: {{current}}",
     "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{- pattern}}.",
     "url": "Bitte geben Sie eine valide URL ein.",
-    "bpn": "Bitte geben Sie eine valide BPN ein. BPN {{applicationBpn}} ist nicht erlaubt.",
+    "bpn" : "Bitte geben Sie eine valide BPN ein.",
     "maxDate": "Bitte wählen Sie ein Datum vor dem {{- maxDate}}.",
     "minDate": "Bitte wählen Sie ein Datum nach dem {{- minDate}}.",
     "currentDate": "Bitte wählen Sie ein Datum nach dem {{- currentDate}}.",
     "generic": "Die Eingabe ist ungültig.",
-    "invalidBpn": "Die eigene BPN darf nicht verwendet werden."
+    "invalidBpn" : "Die eigene BPN darf nicht verwendet werden.",
+    "pastDate" : "Bitte wählen Sie ein Datum in Zukunft aus.",
+    "minimumOneConstraint" : "Bitte fügen Sie mindestens eine valide Richtlinie hinzu."
   },
   "requestAlert": {
     "headline": "Qualitätswarnung erstellen",

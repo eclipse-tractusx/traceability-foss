@@ -23,6 +23,7 @@ import { NotificationsReceivedConfigurationModel } from '@shared/components/part
 import { NotificationsSentConfigurationModel } from '@shared/components/parts-table/notifications-sent-configuration.model';
 import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
 import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
+import { PoliciesConfigurationModel } from '@shared/components/parts-table/policies-configuration.model';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Subject } from 'rxjs';
@@ -112,6 +113,8 @@ export class TableSettingsService {
         return new NotificationsSentConfigurationModel().filterConfiguration();
       case TableType.RECEIVED_NOTIFICATION:
         return new NotificationsReceivedConfigurationModel().filterConfiguration();
+      case TableType.POLICIES:
+        return new PoliciesConfigurationModel().filterConfiguration();
     }
   }
 
