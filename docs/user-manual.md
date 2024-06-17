@@ -58,7 +58,7 @@ To login use the credentials provided by the hosting company.
 
 Navigation is done based on the top menu.
 
-![navigation-overview](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/navigation/navigation-overview.png)
+![navigation-overview](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/navigation-overview.png)
 
 #### Dashboard
 
@@ -90,17 +90,17 @@ Navigates to the Catena-X portal.
 Only applicable for the admin user role.
 Possibility to check the network status based on logfiles and will provide access to configuration possibilities for the application.
 
-##### Contracts view and export
+##### Contracts - view and export
 
 In the Contracts view an admin user can view contract agreements and sort them by the contract ID.
 
 Also, it’s possible to select contracts and export/download them as a .csv file.
 
-![admin_contract_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/navigation/admin_contract_view.png)
+![admin_contract_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/admin_contract_view.png)
 
 By clicking on the burger menu of a data row you can get to the detailed view of a contract.
 
-##### Contract detailed view
+###### Contract detailed view
 
 The contract detailed view is divided into two sections.
 
@@ -112,9 +112,9 @@ displayed in JSON format. Use the view selector to switch between
 JSON view and JSON tree view. Expand the policy details card on the right
 upper side for full-width display.
 
-![admin_contract_detailed_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/navigation/admin_contract_detailed_view.png)
+![admin_contract_detailed_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/admin_contract_detailed_view.png)
 
-##### Data import functionality
+##### Data provisioning
 
 With the admin user role, you have the ability to import data into the system.
 
@@ -125,9 +125,71 @@ As you can see in the picture below, you can select a file to import and click o
 Find the example file at the following link:
 <https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/tx-backend/testdata/import-test-data-CML1_v0.0.12.json>
 
-![admin_upload_file](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/navigation/admin_upload_file.png)
+![admin_upload_file](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/admin_upload_file.png)
 
 The system will validate the file content. Upon successful validation, assets will be saved as either "AssetAsPlanned" or "AssetAsBuilt", with the import state set to "transient."
+
+#### Policy Management
+
+The policy management feature allows administrators to create, edit, view, and delete policies within the system.
+This section provides an overview of how to use these features effectively.
+
+##### Policies List View
+
+The policies list view displays all the policies in a tabular format.
+You can perform various actions such as view, edit, and delete policies from this view.
+
+![policies-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policies-list-view.png)
+
+To access the policies list view, navigate to the "Policies" section from the top menu.
+
+By clicking on the settings symbol in the top right corner of the table, you are able to customize the visibility and order of the table columns.
+
+In the top left corner you can initiate the creation or deletion of policies.
+
+###### Deleting Policies
+
+To delete policies, follow these steps:
+
+Select the policies you wish to delete by checking the boxes next to them.
+Click on the delete icon to open the deletion dialog.
+Confirm the deletion in the dialog.
+The system will then remove the selected policies and update the list view.
+image::[https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/delete-policies-dialog.png](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/delete-policies-dialog.png)
+
+##### Policy Editor / Detailed View
+
+The policy editor allows you to create, edit, and view detailed information about a policy.
+
+![policy-editor](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policy-editor.png)
+
+Note: For existing policies, it is currently only possible to edit the valid until date and the BPN number.
+
+###### Creating a policy
+
+To create a policy:
+
+Navigate to the "Create Policy" section from the policies list view by clicking the plus icon in the top left corner of the table.
+Fill in the policy details including policy name, validity date, BPN number(s), access type, and constraints.
+Save the policy using the save button.
+The system will validate the inputs and update the policy accordingly.
+image::[https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policy-create.png](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policy-create.png)
+
+##### Constraints
+
+Constraints define the conditions under which the policy is applicable.
+You can add, edit, and remove constraints in the policy editor.
+
+To add a constraint:
+
+Click the add button in the constraints section.
+Fill in the left operand, operator, and right operand.
+Save the constraint.
+To remove a constraint, click the delete button next to the constraint.
+
+To move constraints up or down in the list, use the up and down arrow buttons.
+
+![policy-constraints](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policy-constraints.png)
 
 #### Sign out
 
@@ -135,7 +197,7 @@ Sign out the current user and return to the Catena-X portal.
 
 #### Language
 
-![language-icon](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/navigation/language-icon.png) Change language.\
+![language-icon](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/language-icon.png) Change language.\
 Supported languages:
 
 * English
@@ -146,7 +208,7 @@ Supported languages:
 List view of the own manufactured (asBuilt) or planned (asPlanned) parts and batches as well as supplier/customer parts.
 You can adjust the view of tables by clicking on the fullscreen icon to maximize or minimize the view to the half of the full width.
 
-![parts-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/parts-list-view.png)
+![parts-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/parts-list-view.png)
 
 #### Parts table
 
@@ -162,7 +224,7 @@ The global search bar at the top returns part results from both tables.
 
 Choosing the filter input field for any column and typing in any character will show filter suggestions.
 
-![parts-autosuggestion-filtering](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/parts-autosuggestion-filtering.png)
+![parts-autosuggestion-filtering](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/parts-autosuggestion-filtering.png)
 
 #### AsBuilt lifecycle parts
 
@@ -193,12 +255,12 @@ Parts which exist in a quality notification will be highlighted as a yellow colo
 
 Select one or multiple parts that are in the AsBuilt lifecycle. A button will appear on the right of the lifecycle view selection:
 
-![publish_assets_button](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/publish_assets_button.png)
+![publish_assets_button](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/publish_assets_button.png)
 
 Selection will enable you to publish assets with the goal to persist them (import state "persistent").
 With a click on the button a window will be opened, where the selected assets are displayed and a required policy must be selected:
 
-![publish_assets_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/publish_assets_view.png)
+![publish_assets_view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/publish_assets_view.png)
 
 The following table explains the different import state an asset can have:
 
@@ -216,7 +278,7 @@ The following table explains the different import state an asset can have:
 On the right upper site of a table there is a settings icon in which you can set the table columns to a desired view.
 With a click on it a dialog opens where you can change the settings of the corresponding table:
 
-![other-parts-table-settings-dialog](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/other-parts-table-settings-dialog.png)
+![other-parts-table-settings-dialog](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/other-parts-table-settings-dialog.png)
 
 Hide/show table columns by clicking on the checkbox or the column name.
 It is possible to hide/show all columns by clicking on the "All" - checkbox.
@@ -236,7 +298,7 @@ The settings will be stored in the local storage of the browser and will be pers
 To open the detail view, click on the three dots icon of the desired item and select "View details".
 More detailed information on the asset is listed as well as a part tree that visually shows the parts relations.
 
-![parts-list-detailed-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/parts-list-detailed-view.png)
+![parts-list-detailed-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/parts-list-detailed-view.png)
 
 ##### Overview
 
@@ -253,7 +315,7 @@ A yellow border indicates that the part is a piece of a batch.
 It is possible to adjust the view of the relationships by dragging the mouse to the desired view.
 Zooming in/out can be done with the corresponding control buttons.
 
-![open-new-tab](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/open-new-tab.png) Open part tree in new tab to zoom, scroll and focus in a larger view.
+![open-new-tab](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/open-new-tab.png) Open part tree in new tab to zoom, scroll and focus in a larger view.
 A minimap on the bottom right provides an overview of the current position on the part tree.
 
 ##### Asset state
@@ -288,7 +350,7 @@ a tooltip will provide information explaining the reason. You can trigger the to
 To open the detail view, click on the three dots icon of the desired item from the parts table and select "View details".
 More detailed information on the asset is listed.
 
-![supplier-parts-list-detailed-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/supplier-parts-list-detailed-view.png)
+![supplier-parts-list-detailed-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/supplier-parts-list-detailed-view.png)
 
 ##### Overview
 
@@ -313,7 +375,7 @@ Customer Parts that are in a quality alert are highlighted yellow.
 To open the detail view, click on the three dots icon of the desired item and select "View details".
 More detailed information on the asset is listed.
 
-![customer-parts-list-detailed-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/parts/customer-parts-list-detailed-view.png)
+![customer-parts-list-detailed-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/parts/customer-parts-list-detailed-view.png)
 
 ##### Overview
 
@@ -332,20 +394,20 @@ Information about the identifiers at the customer for the respective part/batch.
 
 Inbox for received/sent quality notifications.
 
-![investigations-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/investigations-list-view.png)
+![investigations-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/investigations-list-view.png)
 
 The tables can be sorted, filtered and searched.
 
 Choosing the filter input field for any column and typing in any character will show filter suggestions.
 
-![investigations-autosuggestion-filtering](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/investigations-autosuggestion-filtering.png)
+![investigations-autosuggestion-filtering](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/investigations-autosuggestion-filtering.png)
 
-![notification-drafts](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/notification-drafts.png) Received quality notifications.
+![notification-drafts](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/notification-drafts.png) Received quality notifications.
 
 Quality notifications received by a customer.
 Those notifications specify a defect or request to investigate on a specific part / batch on your side and give feedback to the customer.
 
-![notification-send](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/notification-send.png) Sent quality notifications.
+![notification-send](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/notification-send.png) Sent quality notifications.
 
 Notifications in the context of quality investigations that are in queued/draft status or already requested/sent to the supplier.
 Those notifications specify a defect or request to investigate on a specific part / batch on your suppliers side and give feedback back to you.
@@ -374,7 +436,7 @@ Notifications can be selected with the checkboxes on the left of the table.
 With the selection, there is a context menu for actions on mulitple (selected) notifications.
 The "more" menu is opened by clicking on the horizontally aligned three dots icon.
 
-![inbox-multiselect-actions](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/inbox-multiselect-actions.png)
+![inbox-multiselect-actions](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/inbox-multiselect-actions.png)
 
 #### Quality notification create/edit view
 
@@ -385,7 +447,7 @@ A quality notification can be started by the following options:
 
 A quality notification can be edited by clicking on the context menu on an item within the inbox.
 
-![investigation-create-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/investigation-create-view.png)
+![investigation-create-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/investigation-create-view.png)
 
 #### Quality notifications context action
 
@@ -393,11 +455,11 @@ Select the three dots icon on the right side of an quality notification entry to
 From there it is possible to open the quality notification detailed view or change the status of it.
 Only the possible status transition will show up.
 
-![notification-context-action](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/notification-context-action.png)
+![notification-context-action](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/notification-context-action.png)
 
 Changing the status of a quality notification will open a modal in which the details to the status change can be provided and completed.
 
-![investigation-context-action-modal](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/investigation-context-action-modal.png)
+![investigation-context-action-modal](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/investigation-context-action-modal.png)
 
 A pop-up will notify you if the status transition was successful.
 
@@ -405,7 +467,7 @@ A pop-up will notify you if the status transition was successful.
 
 The quality notification detail view can be opened by selecting the corresponding option in the context menu.
 
-![investigation-detail-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/investigation-detail-view.png)
+![investigation-detail-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/investigation-detail-view.png)
 
 ##### Overview
 
@@ -458,4 +520,4 @@ The receiver can never change the status to closed.
 The legend in the below state diagram describes who can set the status.
 One exception to this rule: the transition from status SENT to status RECEIVED is done automatically once the sender receives the Http status code 201.
 
-![Notification state model](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-manual/quality-notifications/notificationstatemodel.png)
+![Notification state model](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/quality-notifications/notificationstatemodel.png)
