@@ -1,6 +1,6 @@
 import { getOperatorTypeSign, OperatorType } from '@page/policies/model/policy.model';
 
-fdescribe('getOperatorTypeSign', () => {
+describe('getOperatorTypeSign', () => {
   it('should return "=" for OperatorType.EQ', () => {
     expect(getOperatorTypeSign(OperatorType.EQ)).toBe('=');
   });
