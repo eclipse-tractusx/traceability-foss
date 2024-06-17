@@ -127,7 +127,7 @@ describe('PolicyService', () => {
       expect(response).toEqual(Object(mockResponse));
     });
 
-    const req = httpMock.expectOne(`${ apiUrl }/policies${ policyId }`);
+    const req = httpMock.expectOne(`${ apiUrl }/policies/${ policyId }`);
     expect(req.request.method).toEqual('DELETE');
     req.flush(mockResponse);
   });
