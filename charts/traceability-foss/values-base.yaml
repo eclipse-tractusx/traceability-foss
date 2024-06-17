@@ -43,7 +43,7 @@ frontend:
     successThreshold: 1
     timeoutSeconds: 1
   image:
-    repository: hub.docker.com/tractusx/traceability-foss
+    repository: docker.io//tractusx/traceability-foss
     tag: $ARGOCD_APP_REVISION
     CATENAX_PORTAL_API_URL: 'CHANGE_ME'
     CATENAX_PORTAL_KEYCLOAK_URL: 'CHANGE_ME'
@@ -86,7 +86,7 @@ backend:
     successThreshold: 1
     timeoutSeconds: 1
   image:
-    repository: hub.docker.com/tractusx/traceability-foss
+    repository: docker.io/tractusx/traceability-foss
     tag: $ARGOCD_APP_REVISION
 
 
