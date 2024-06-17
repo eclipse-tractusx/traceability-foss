@@ -45,18 +45,18 @@ public class NotificationMessageMapper {
      * @param edcNotification the EDCNotification received by the receiver
      * @return a Notification object representing the notification received by the receiver
      */
-    public NotificationMessage toNotification(EDCNotification edcNotification, NotificationType type) {
+    public NotificationMessage toNotificationMessage(EDCNotification edcNotification, NotificationType type) {
         String notificationId = UUID.randomUUID().toString();
         return NotificationMessage.builder()
                 .id(notificationId)
                 .created(LocalDateTime.now())
                 .notificationReferenceId(edcNotification.getNotificationId())
-                .createdBy(edcNotification.getSenderBPN())
-                .createdByName(getManufacturerName(edcNotification.getSenderBPN()))
+                .sentBy(edcNotification.getSenderBPN())
+                .sentByName(getManufacturerName(edcNotification.getSenderBPN()))
                 .type(type)
-                .sendTo(edcNotification.getRecipientBPN())
+                .sentTo(edcNotification.getRecipientBPN())
                 .sendToName(getManufacturerName(edcNotification.getRecipientBPN()))
-                .description(edcNotification.getInformation())
+                .message(edcNotification.getInformation())
                 .notificationStatus(edcNotification.convertNotificationStatus())
                 .affectedParts(emptyIfNull(edcNotification.getListOfAffectedItems()))
                 .targetDate(edcNotification.getTargetDate())

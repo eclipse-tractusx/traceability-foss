@@ -71,9 +71,9 @@ public class NotificationMessageMapper {
                 .status(fromStatus(notificationMessage.getNotificationStatus()))
                 .targetDate(notificationMessage.getTargetDate())
                 .created(notificationMessage.getCreated())
-                .createdBy(notificationMessage.getCreatedBy())
-                .createdByName(notificationMessage.getCreatedByName())
-                .sendTo(notificationMessage.getSendTo())
+                .createdBy(notificationMessage.getSentBy())
+                .createdByName(notificationMessage.getSentByName())
+                .sendTo(notificationMessage.getSentTo())
                 .errorMessage(notificationMessage.getErrorMessage())
                 .build();
     }

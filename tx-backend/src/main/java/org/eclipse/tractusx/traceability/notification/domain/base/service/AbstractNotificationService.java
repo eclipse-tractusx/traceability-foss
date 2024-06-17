@@ -95,7 +95,7 @@ public abstract class AbstractNotificationService implements NotificationService
                     NotificationMessage notificationMessageSwitchedSenderAndReceiver = notificationMessage.copyAndSwitchSenderAndReceiver(traceabilityProperties.getBpn());
                     notificationMessageSwitchedSenderAndReceiver.setId(UUID.randomUUID().toString());
                     notificationMessageSwitchedSenderAndReceiver.changeStatusTo(notificationStatus);
-                    notificationMessageSwitchedSenderAndReceiver.setDescription(reason);
+                    notificationMessageSwitchedSenderAndReceiver.setMessage(reason);
                     notification.addNotificationMessage(notificationMessageSwitchedSenderAndReceiver);
                 });
 

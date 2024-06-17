@@ -54,6 +54,7 @@ public class NotificationMessageBaseEntity {
     @Enumerated(EnumType.STRING)
     private NotificationStatusBaseEntity status;
     private String errorMessage;
+    private String message;
 
     @PreUpdate
     public void preUpdate() {

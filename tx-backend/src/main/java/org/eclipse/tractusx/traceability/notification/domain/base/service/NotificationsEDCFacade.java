@@ -96,7 +96,7 @@ public class NotificationsEDCFacade {
 
         CatalogItem catalogItem = getCatalogItem(notification, receiverEdcUrl);
 
-        String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem, notification.getSendTo());
+        String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem, notification.getSentTo());
 
         final EndpointDataReference dataReference = endpointDataReferenceStorage.get(contractAgreementId)
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
@@ -141,7 +141,7 @@ public class NotificationsEDCFacade {
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
                                     .counterPartyAddress(receiverEdcUrl + edcProperties.getIdsPath())
-                                    .counterPartyId(notification.getSendTo())
+                                    .counterPartyId(notification.getSentTo())
                                     .querySpec(QuerySpec.Builder.newInstance()
                                             // https://github.com/eclipse-tractusx/traceability-foss/issues/978
                                             // Probably:
@@ -157,7 +157,7 @@ public class NotificationsEDCFacade {
                     .filter(catalogItem -> {
                         log.info("-- catalog item check --");
                         log.info("Item {}: {}", catalogItem.getItemId(), catalogItem);
-                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy(), notification.getSendTo()
+                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy(), notification.getSentTo()
                         );
                         log.info("IsValid : {}", isValid);
                         return isValid;

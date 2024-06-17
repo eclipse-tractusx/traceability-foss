@@ -78,12 +78,12 @@ class InvestigationsReceiverServiceTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .createdBy("senderBPN")
-                .createdByName("senderManufacturerName")
-                .sendTo("recipientBPN")
+                .sentBy("senderBPN")
+                .sentByName("senderManufacturerName")
+                .sentTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
-                .description("123")
+                .message("123")
                 .notificationStatus(NotificationStatus.SENT)
                 .affectedParts(affectedParts)
                 .severity(NotificationSeverity.MINOR)
@@ -99,7 +99,7 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMessageMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
+        when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(mockNotificationMapper.toNotification(any(BPN.class), anyString(), any(NotificationMessage.class), any(NotificationType.class))).thenReturn(investigationTestData);
 
         // When
@@ -119,12 +119,12 @@ class InvestigationsReceiverServiceTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .createdBy("senderBPN")
-                .createdByName("senderManufacturerName")
-                .sendTo("recipientBPN")
+                .sentBy("senderBPN")
+                .sentByName("senderManufacturerName")
+                .sentTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
-                .description("123")
+                .message("123")
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
                 .type(notificationType)
@@ -140,7 +140,7 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMessageMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
+        when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(notificationRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
@@ -159,12 +159,12 @@ class InvestigationsReceiverServiceTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .createdBy("senderBPN")
-                .createdByName("senderManufacturerName")
-                .sendTo("recipientBPN")
+                .sentBy("senderBPN")
+                .sentByName("senderManufacturerName")
+                .sentTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
-                .description("123")
+                .message("123")
                 .notificationStatus(NotificationStatus.DECLINED)
                 .affectedParts(affectedParts)
                 .severity(NotificationSeverity.MINOR)
@@ -179,7 +179,7 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMessageMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
+        when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(notificationRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
@@ -198,12 +198,12 @@ class InvestigationsReceiverServiceTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .createdBy("senderBPN")
-                .createdByName("senderManufacturerName")
-                .sendTo("recipientBPN")
+                .sentBy("senderBPN")
+                .sentByName("senderManufacturerName")
+                .sentTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
-                .description("123")
+                .message("123")
                 .notificationStatus(NotificationStatus.ACCEPTED)
                 .affectedParts(affectedParts)
                 .severity(NotificationSeverity.MINOR)
@@ -218,7 +218,7 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMessageMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
+        when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(notificationRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When
@@ -237,12 +237,12 @@ class InvestigationsReceiverServiceTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .createdBy("senderBPN")
-                .createdByName("senderManufacturerName")
-                .sendTo("recipientBPN")
+                .sentBy("senderBPN")
+                .sentByName("senderManufacturerName")
+                .sentTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
-                .description("123")
+                .message("123")
                 .notificationStatus(NotificationStatus.CLOSED)
                 .affectedParts(affectedParts)
                 .severity(NotificationSeverity.MINOR)
@@ -257,7 +257,7 @@ class InvestigationsReceiverServiceTest {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
-        when(mockNotificationMessageMapper.toNotification(edcNotification, notificationType)).thenReturn(notificationTestData);
+        when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(notificationRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
 
         // When

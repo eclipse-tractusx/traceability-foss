@@ -55,19 +55,21 @@ public class Notification {
     private NotificationType notificationType;
     @Builder.Default
     private List<String> affectedPartIds = new ArrayList<>();
+    private NotificationSeverity notificationSeverity;
 
     @Getter
     @Builder.Default
     private List<NotificationMessage> notifications = List.of();
 
 
-    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType) {
+    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity) {
         return Notification.builder()
                 .title(title)
                 .bpn(bpn)
                 .notificationStatus(NotificationStatus.CREATED)
                 .notificationSide(NotificationSide.SENDER)
                 .notificationType(notificationType)
+                .notificationSeverity(severity)
                 .description(description)
                 .createdAt(createDate)
                 .affectedPartIds(Collections.emptyList())
@@ -130,17 +132,17 @@ public class Notification {
         return bpn.value();
     }
 
-    public void cancel(BPN applicationBpn) {
+    public void cancel(BPN applicationBpn, NotificationMessage notificationMessage) {
         validateBPN(applicationBpn);
         changeStatusTo(NotificationStatus.CANCELED);
-        this.closeReason = "canceled";
+        notificationMessage.setMessage("cancelled");
     }
 
-    public void close(BPN applicationBpn, String reason) {
+    public void close(BPN applicationBpn, String reason, NotificationMessage notificationMessage) {
         validateBPN(applicationBpn);
         changeStatusTo(NotificationStatus.CLOSED);
-        this.closeReason = reason;
-        this.notifications.forEach(notification -> notification.setDescription(reason));
+        notificationMessage.setMessage(reason);
+        this.notifications.forEach(notification -> notification.setMessage(reason));
     }
 
     public void acknowledge() {
@@ -152,14 +154,14 @@ public class Notification {
         this.acceptReason = reason;
     }
 
-    public void decline(String reason) {
+    public void decline(String reason, NotificationMessage message) {
         changeStatusTo(NotificationStatus.DECLINED);
-        this.declineReason = reason;
+        message.setMessage(reason);
     }
 
-    public void close(String reason) {
+    public void close(String reason, NotificationMessage notificationMessage) {
         changeStatusTo(NotificationStatus.CLOSED);
-        this.closeReason = reason;
+        notificationMessage.setMessage(reason);
     }
 
     public void send(BPN applicationBpn) {

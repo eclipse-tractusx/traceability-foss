@@ -117,7 +117,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         notificationEntity.setCloseReason(notification.getCloseReason());
         notificationEntity.setAcceptReason(notification.getAcceptReason());
         notificationEntity.setDeclineReason(notification.getDeclineReason());
-        handleMessageUpdate(notificationEntity, notification, null);
+        handleMessageUpdate(notificationEntity, notification);
         jpaNotificationRepository.save(notificationEntity);
     }
 
@@ -232,11 +232,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return assets.stream().filter(it -> notificationAffectedAssetIds.contains(it.getId())).toList();
     }
 
-    private void handleMessageUpdate(NotificationEntity notificationEntity, Notification notification, NotificationSeverity notificationSeverity) {
+    private void handleMessageUpdate(NotificationEntity notificationEntity, Notification notification) {
         for (NotificationMessage notificationMessage : notification.getNotifications()) {
-            if (notificationSeverity != null){
-                notificationMessage.setSeverity(notificationSeverity);
-            }
             List<AssetAsBuiltEntity> assetEntitiesByNotification = getAssetEntitiesByNotification(notification);
             handleMessageCreate(notificationEntity, notificationMessage, assetEntitiesByNotification);
         }

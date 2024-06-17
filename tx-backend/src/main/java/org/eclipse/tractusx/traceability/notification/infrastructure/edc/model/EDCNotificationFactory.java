@@ -41,9 +41,9 @@ public class EDCNotificationFactory {
 
         EDCNotificationHeader header = new EDCNotificationHeader(
                 notification.getEdcNotificationId(),
-                notification.getCreatedBy(),
+                notification.getSentBy(),
                 senderEDC,
-                notification.getSendTo(),
+                notification.getSentTo(),
                 NotificationType.from(notification.getType()).getValue(),
                 notification.getSeverity() != null ? notification.getSeverity().getRealName() : NotificationSeverity.MINOR.getRealName(),
                 notification.getNotificationReferenceId(),
@@ -53,7 +53,7 @@ public class EDCNotificationFactory {
         );
 
         EDCNotificationContent content = new EDCNotificationContent(
-                notification.getDescription(),
+                notification.getMessage(),
                 extractAssetIds(notification)
         );
 

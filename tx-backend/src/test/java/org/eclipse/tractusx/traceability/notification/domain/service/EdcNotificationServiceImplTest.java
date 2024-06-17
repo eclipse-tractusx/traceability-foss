@@ -74,7 +74,7 @@ class EdcNotificationServiceImplTest {
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         // and
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -99,7 +99,7 @@ class EdcNotificationServiceImplTest {
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         // and
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -122,7 +122,7 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -145,7 +145,7 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -168,7 +168,7 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -192,7 +192,7 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -217,7 +217,7 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -242,7 +242,7 @@ class EdcNotificationServiceImplTest {
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
 
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -267,7 +267,7 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)
@@ -291,7 +291,7 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
                 .targetDate(Instant.now())
                 .severity(NotificationSeverity.MINOR)

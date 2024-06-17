@@ -76,21 +76,21 @@ public class NotificationResponseMapper {
     private static String getSenderBPN(Collection<NotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(NotificationMessage::getCreatedBy)
+                .map(NotificationMessage::getSentBy)
                 .orElse(null);
     }
 
     private static String getReceiverBPN(Collection<NotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(NotificationMessage::getSendTo)
+                .map(NotificationMessage::getSentTo)
                 .orElse(null);
     }
 
     private static String getSenderName(Collection<NotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(NotificationMessage::getCreatedByName)
+                .map(NotificationMessage::getSentByName)
                 .orElse(null);
     }
 
