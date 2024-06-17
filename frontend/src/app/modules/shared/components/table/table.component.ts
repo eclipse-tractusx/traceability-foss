@@ -43,6 +43,7 @@ import {
   TableHeaderSort,
 } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
@@ -60,6 +61,7 @@ export class TableComponent {
   @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
   @Input() additionalTableHeader = false;
   @Input() tableHeaderMenuEnabled = false;
+  @Input() basicTableHeaderMenuEnabled = false;
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
@@ -146,6 +148,7 @@ export class TableComponent {
   @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
   @Output() filterActivated = new EventEmitter<any>();
+  @Output() deletionClicked = new EventEmitter();
   @Input()
   public autocompleteEnabled = false;
   @Input() tableSettingsEnabled: boolean = false;
@@ -380,6 +383,10 @@ export class TableComponent {
     this.router.navigate([ 'inbox/create' ]);
   }
 
+  navigateToCreationPath() {
+    this.router.navigate([ this.router.url, 'create' ]);
+  }
+
   private menuActionsWithAddedDefaultActions(menuActionsConfig: MenuActionConfig<unknown>[] = []): MenuActionConfig<unknown>[] {
     const viewDetailsMenuAction: MenuActionConfig<unknown> = {
       label: 'actions.viewDetails',
@@ -400,6 +407,13 @@ export class TableComponent {
     return [ ...defaultActionsToAdd, ...menuActionsConfig ];
   };
 
-  protected readonly MainAspectType = MainAspectType;
+  handleItemDeletion() {
+    this.deletionClicked.emit();
+  }
 
+  public isDateElement(key: string) {
+    return isDateFilter(key);
+  }
+
+  protected readonly MainAspectType = MainAspectType;
 }
