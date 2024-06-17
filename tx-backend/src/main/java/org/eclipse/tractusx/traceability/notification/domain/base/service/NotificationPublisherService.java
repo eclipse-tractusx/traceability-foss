@@ -156,8 +156,8 @@ public class NotificationPublisherService {
         relevantNotifications.forEach(qNotification -> {
             switch (status) {
                 case ACKNOWLEDGED -> notification.acknowledge();
-                case ACCEPTED -> notification.accept(reason);
-                case DECLINED -> notification.decline(reason);
+                case ACCEPTED -> notification.accept(reason, qNotification);
+                case DECLINED -> notification.decline(reason, qNotification);
                 case CLOSED -> notification.close(reason, qNotification);
                 default ->
                         throw new NotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));

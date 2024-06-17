@@ -58,7 +58,6 @@ class NotificationMessageMapperTest {
                 .sentBy(sender)
                 .sentTo(receiver)
                 .sendToName("receiverManufacturerName")
-                .severity(NotificationSeverity.MINOR)
                 .messageId("1")
                 .build();
         NotificationType type = NotificationType.INVESTIGATION;

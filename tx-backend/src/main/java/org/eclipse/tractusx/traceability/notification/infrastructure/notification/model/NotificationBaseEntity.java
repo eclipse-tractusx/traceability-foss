@@ -42,9 +42,6 @@ public class NotificationBaseEntity {
     private Long id;
     private String title;
     private String bpn;
-    private String closeReason;
-    private String acceptReason;
-    private String declineReason;
     private String description;
     @Column(name = "created")
     private Instant createdDate;
@@ -55,5 +52,6 @@ public class NotificationBaseEntity {
     private NotificationStatusBaseEntity status;
     @Enumerated(EnumType.STRING)
     private NotificationSeverityBaseEntity severity;
+    private Instant targetDate;
 
 }

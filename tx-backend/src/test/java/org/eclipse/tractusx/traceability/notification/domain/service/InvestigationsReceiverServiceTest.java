@@ -86,18 +86,17 @@ class InvestigationsReceiverServiceTest {
                 .message("123")
                 .notificationStatus(NotificationStatus.SENT)
                 .affectedParts(affectedParts)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .type(notificationType)
-                .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
+
 
 
         Notification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(NotificationStatus.RECEIVED, "recipientBPN");
         NotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
-                "it", notification);
+                "it", notification, investigationTestData);
 
         when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(mockNotificationMapper.toNotification(any(BPN.class), anyString(), any(NotificationMessage.class), any(NotificationType.class))).thenReturn(investigationTestData);
@@ -128,9 +127,7 @@ class InvestigationsReceiverServiceTest {
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
                 .type(notificationType)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
 
@@ -138,7 +135,7 @@ class InvestigationsReceiverServiceTest {
         Notification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(NotificationStatus.RECEIVED, "recipientBPN");
         NotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
-                "it", notification);
+                "it", notification, investigationTestData);
 
         when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(notificationRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
@@ -167,17 +164,15 @@ class InvestigationsReceiverServiceTest {
                 .message("123")
                 .notificationStatus(NotificationStatus.DECLINED)
                 .affectedParts(affectedParts)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .type(notificationType)
-                .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
 
         Notification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(NotificationStatus.ACKNOWLEDGED, "recipientBPN");
         NotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
-                "it", notification);
+                "it", notification, investigationTestData);
 
         when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(notificationRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
@@ -206,17 +201,15 @@ class InvestigationsReceiverServiceTest {
                 .message("123")
                 .notificationStatus(NotificationStatus.ACCEPTED)
                 .affectedParts(affectedParts)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .type(notificationType)
-                .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
 
         Notification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(NotificationStatus.ACKNOWLEDGED, "recipientBPN");
         NotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
-                "it", notification);
+                "it", notification, investigationTestData);
 
         when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(notificationRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));
@@ -245,17 +238,15 @@ class InvestigationsReceiverServiceTest {
                 .message("123")
                 .notificationStatus(NotificationStatus.CLOSED)
                 .affectedParts(affectedParts)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .type(notificationType)
-                .targetDate(Instant.now())
                 .messageId("messageId")
                 .build();
 
         Notification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(NotificationStatus.ACKNOWLEDGED, "senderBPN");
         NotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
-                "it", notification);
+                "it", notification, investigationTestData);
 
         when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
         when(notificationRepository.findByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(Optional.of(investigationTestData));

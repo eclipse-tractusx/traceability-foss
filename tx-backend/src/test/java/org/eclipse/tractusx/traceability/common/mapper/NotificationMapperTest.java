@@ -75,7 +75,6 @@ class NotificationMapperTest {
         assertEquals("information", actualNotification.getMessage());
         assertEquals(expectedNotification.getNotificationStatus(), actualNotification.getNotificationStatus());
         assertEquals(expectedNotification.getAffectedParts(), actualNotification.getAffectedParts());
-        assertEquals(expectedNotification.getSeverity(), actualNotification.getSeverity());
         assertEquals(expectedNotification.getType(), actualNotification.getType());
     }
 }

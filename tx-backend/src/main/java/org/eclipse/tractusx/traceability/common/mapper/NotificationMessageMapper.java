@@ -59,8 +59,6 @@ public class NotificationMessageMapper {
                 .message(edcNotification.getInformation())
                 .notificationStatus(edcNotification.convertNotificationStatus())
                 .affectedParts(emptyIfNull(edcNotification.getListOfAffectedItems()))
-                .targetDate(edcNotification.getTargetDate())
-                .severity(NotificationSeverity.fromString(edcNotification.getSeverity()))
                 .edcNotificationId(edcNotification.getNotificationId())
                 .messageId(edcNotification.getMessageId())
                 .build();

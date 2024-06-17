@@ -56,6 +56,7 @@ public class Notification {
     @Builder.Default
     private List<String> affectedPartIds = new ArrayList<>();
     private NotificationSeverity notificationSeverity;
+    private String targetDate;
 
     @Getter
     @Builder.Default
@@ -132,10 +133,9 @@ public class Notification {
         return bpn.value();
     }
 
-    public void cancel(BPN applicationBpn, NotificationMessage notificationMessage) {
+    public void cancel(BPN applicationBpn) {
         validateBPN(applicationBpn);
         changeStatusTo(NotificationStatus.CANCELED);
-        notificationMessage.setMessage("cancelled");
     }
 
     public void close(BPN applicationBpn, String reason, NotificationMessage notificationMessage) {
@@ -149,9 +149,9 @@ public class Notification {
         changeStatusTo(NotificationStatus.ACKNOWLEDGED);
     }
 
-    public void accept(String reason) {
+    public void accept(String reason, NotificationMessage message) {
         changeStatusTo(NotificationStatus.ACCEPTED);
-        this.acceptReason = reason;
+        message.setMessage(reason);
     }
 
     public void decline(String reason, NotificationMessage message) {

@@ -76,8 +76,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
 
         // when
@@ -101,8 +99,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
 
         // when
@@ -124,8 +120,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
         // when
@@ -147,8 +141,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
         // when
@@ -170,8 +162,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -194,8 +184,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -219,8 +207,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -244,8 +230,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -269,8 +253,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -293,8 +275,6 @@ class EdcNotificationServiceImplTest {
         NotificationMessage notification = NotificationMessage.builder()
                 .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 

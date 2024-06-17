@@ -53,8 +53,6 @@ public class InvestigationTestDataFactory {
                 .message(description)
                 .notificationStatus(investigationStatus)
                 .affectedParts(List.of(new NotificationAffectedPart("part123")))
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("1")
                 .messageId("messageId")
                 .build();
@@ -114,7 +112,6 @@ public class InvestigationTestDataFactory {
                 .notificationStatus(notificationInvestigationStatus)
                 .type(NotificationType.INVESTIGATION)
                 .affectedParts(List.of(new NotificationAffectedPart("part123")))
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
                 .build();
@@ -131,7 +128,6 @@ public class InvestigationTestDataFactory {
                 .notificationStatus(NotificationStatus.SENT)
                 .type(NotificationType.INVESTIGATION)
                 .affectedParts(List.of(new NotificationAffectedPart("part123")))
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
                 .build();
@@ -171,7 +167,6 @@ public class InvestigationTestDataFactory {
                 .message(description)
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(List.of(new NotificationAffectedPart("part123")))
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .messageId("messageId")
                 .build();

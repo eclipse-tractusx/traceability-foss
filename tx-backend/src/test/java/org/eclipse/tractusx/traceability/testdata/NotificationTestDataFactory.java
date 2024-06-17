@@ -45,9 +45,7 @@ public class NotificationTestDataFactory {
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
                 .type(NotificationType.INVESTIGATION)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
                 .build();
     }
@@ -66,9 +64,7 @@ public class NotificationTestDataFactory {
                 .message("123")
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
                 .type(notificationType)
                 .build();

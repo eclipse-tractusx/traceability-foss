@@ -63,7 +63,7 @@ public abstract class AbstractNotificationReceiverService implements Notificatio
 
         switch (edcNotification.convertNotificationStatus()) {
             case ACKNOWLEDGED -> notification.acknowledge();
-            case ACCEPTED -> notification.accept(edcNotification.getInformation());
+            case ACCEPTED -> notification.accept(edcNotification.getInformation(), notificationMessage);
             case DECLINED -> notification.decline(edcNotification.getInformation(), notificationMessage);
             case CLOSED ->
                     notification.close(BPN.of(notification.getBpn()), edcNotification.getInformation(), notificationMessage);

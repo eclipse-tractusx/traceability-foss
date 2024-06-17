@@ -39,7 +39,7 @@ import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusTransitionRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.response.NotificationIdResponse;
-import notification.response.NotificationReasonResponse;
+
 import notification.response.NotificationResponse;
 import notification.response.NotificationSeverityResponse;
 import notification.response.NotificationSideResponse;
@@ -116,11 +116,6 @@ class NotificationControllerTest {
                 .hasFieldOrPropertyWithValue("createdDate", notification.getCreatedAt().toString())
                 .hasFieldOrPropertyWithValue("assetIds", notification.getAffectedPartIds())
                 .hasFieldOrPropertyWithValue("channel", NotificationSideResponse.SENDER)
-                .hasFieldOrPropertyWithValue("reason", new NotificationReasonResponse(
-                        notification.getCloseReason(),
-                        notification.getAcceptReason(),
-                        notification.getDeclineReason()
-                ))
                 .hasFieldOrPropertyWithValue("sendTo", "recipientBPN")
                 .hasFieldOrPropertyWithValue("sendToName", "receiverManufacturerName")
                 .hasFieldOrPropertyWithValue("severity", NotificationSeverityResponse.MINOR);

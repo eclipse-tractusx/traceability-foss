@@ -41,6 +41,7 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 
+import java.time.Instant;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -95,10 +96,12 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .title(notification.getTitle())
                 .assets(assetEntities)
                 .bpn(notification.getBpn())
+                .targetDate(Instant.parse(notification.getTargetDate()))
                 .description(notification.getDescription())
                 .status(NotificationStatusBaseEntity.fromStringValue(notification.getNotificationStatus().name()))
                 .side(NotificationSideBaseEntity.valueOf(notification.getNotificationSide().name()))
                 .createdDate(notification.getCreatedAt())
+                .severity(NotificationSeverityBaseEntity.fromString(notification.getNotificationSeverity().getRealName()))
                 .type(NotificationTypeEntity.from(notification.getNotificationType()))
                 .build();
     }

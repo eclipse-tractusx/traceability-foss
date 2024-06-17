@@ -20,17 +20,16 @@
 package org.eclipse.tractusx.traceability.notification.application.notification.mapper;
 
 import lombok.experimental.UtilityClass;
+import notification.response.NotificationResponse;
+import notification.response.NotificationSeverityResponse;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import notification.response.NotificationResponse;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,8 +56,8 @@ public class NotificationResponseMapper {
                 .updatedDate(OffsetDateTime.now().toString())
                 .sendTo(getReceiverBPN(notification.getNotifications()))
                 .sendToName(getReceiverName(notification.getNotifications()))
-                .severity(NotificationMessageMapper.from(notification.getNotifications().stream().findFirst().map(NotificationMessage::getSeverity).orElse(NotificationSeverity.MINOR)))
-                .targetDate(notification.getNotifications().stream().findFirst().map(NotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
+                .severity(NotificationSeverityResponse.fromString(notification.getNotificationSeverity().getRealName()))
+                .targetDate(notification.getTargetDate())
                 .messages(fromNotifications(notification.getNotifications()))
                 .build();
     }

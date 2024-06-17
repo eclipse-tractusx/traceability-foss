@@ -135,9 +135,11 @@ public abstract class AbstractNotificationService implements NotificationService
         if (editNotification.getAffectedPartIds() != null) {
             notification.setAffectedPartIds(editNotification.getAffectedPartIds());
         }
+        if (editNotification.getSeverity() != null){
+            notification.setNotificationSeverity(editNotification.getSeverity());
+        }
 
-
-        getNotificationRepository().updateNotificationAndMessage(notification, editNotification.getSeverity());
+        getNotificationRepository().updateNotificationAndMessage(notification);
     }
 
     @Override

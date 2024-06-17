@@ -20,9 +20,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.notification.infrastructure.edc.model;
 
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 
 import java.util.List;
 
@@ -33,28 +33,24 @@ public class EDCNotificationFactory {
     private EDCNotificationFactory() {
     }
 
-    public static EDCNotification createEdcNotification(String senderEDC, NotificationMessage notification) {
-        String targetDate = null;
-        if (notification.getTargetDate() != null) {
-            targetDate = notification.getTargetDate().toString();
-        }
+    public static EDCNotification createEdcNotification(String senderEDC, NotificationMessage notificationMessage, Notification notification) {
 
         EDCNotificationHeader header = new EDCNotificationHeader(
-                notification.getEdcNotificationId(),
-                notification.getSentBy(),
+                notificationMessage.getEdcNotificationId(),
+                notificationMessage.getSentBy(),
                 senderEDC,
-                notification.getSentTo(),
-                NotificationType.from(notification.getType()).getValue(),
-                notification.getSeverity() != null ? notification.getSeverity().getRealName() : NotificationSeverity.MINOR.getRealName(),
-                notification.getNotificationReferenceId(),
-                notification.getNotificationStatus().name(),
-                targetDate,
-                notification.getMessageId()
+                notificationMessage.getSentTo(),
+                NotificationType.from(notificationMessage.getType()).getValue(),
+                notification.getNotificationSeverity().getRealName(),
+                notificationMessage.getNotificationReferenceId(),
+                notificationMessage.getNotificationStatus().name(),
+                notification.getTargetDate(),
+                notificationMessage.getMessageId()
         );
 
         EDCNotificationContent content = new EDCNotificationContent(
-                notification.getMessage(),
-                extractAssetIds(notification)
+                notificationMessage.getMessage(),
+                extractAssetIds(notificationMessage)
         );
 
         return new EDCNotification(header, content);
