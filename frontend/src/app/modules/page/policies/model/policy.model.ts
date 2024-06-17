@@ -143,7 +143,3 @@ export enum ConstraintLogicType {
   XONE = 'XONE',
   ANDSEQUENCE = 'ANDSEQUENCE'
 }
-
-export function getPolicyFromEntryList(policyEntryList: PolicyEntry[]): Policy[] {
-  return policyEntryList.map(entry => entry.payload.policy);
-}
