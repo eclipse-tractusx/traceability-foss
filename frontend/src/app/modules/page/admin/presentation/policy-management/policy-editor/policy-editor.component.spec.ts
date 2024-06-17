@@ -58,6 +58,7 @@ describe('PolicyEditorComponent', () => {
       setSelectedPolicyById: jasmine.createSpy(),
       createPolicy: jasmine.createSpy().and.returnValue(of({})),
       updatePolicy: jasmine.createSpy().and.returnValue(of({})),
+      setPolicies: jasmine.createSpy(),
     };
     mockToastService = {
       success: jasmine.createSpy(),

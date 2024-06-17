@@ -133,6 +133,7 @@ export class PolicyEditorComponent {
     const request = this.viewMode === ViewMode.EDIT ? this.policyFacade.updatePolicy(policyEntry) : this.policyFacade.createPolicy(policyEntry);
     request.subscribe({
       next: () => {
+        this.policyFacade.setPolicies();
         this.toastService.success('pageAdmin.policyManagement.successMessage');
         this.router.navigate([ 'admin', 'policies', policyEntry.payload.policy.policyId ]);
       },
