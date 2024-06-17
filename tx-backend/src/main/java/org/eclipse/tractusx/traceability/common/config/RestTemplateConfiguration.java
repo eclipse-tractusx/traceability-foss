@@ -143,7 +143,6 @@ public class RestTemplateConfiguration {
                 .rootUri(traceabilityProperties.getIrsBase())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
-                .messageConverters(customMessageConverters())
                 .build();
     }
 
@@ -225,7 +224,6 @@ public class RestTemplateConfiguration {
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
                 .build()
                 .registerModules(javaTimeModule));
 

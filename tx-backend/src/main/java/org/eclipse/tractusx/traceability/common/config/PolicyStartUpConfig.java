@@ -74,7 +74,6 @@ public class PolicyStartUpConfig {
     @ConditionalOnProperty(name = "applicationConfig.registerDecentralRegistryPermissions.enabled", havingValue = "true")
     public void registerDecentralRegistryPermissions() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.registerModule(new JavaTimeModule());
         List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
         defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
