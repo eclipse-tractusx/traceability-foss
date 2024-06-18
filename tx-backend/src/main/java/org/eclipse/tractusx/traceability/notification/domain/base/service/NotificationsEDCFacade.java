@@ -154,14 +154,6 @@ public class NotificationsEDCFacade {
                                             .build())
                                     .build()
                     ).stream()
-                    .filter(catalogItem -> {
-                        log.info("-- catalog item check --");
-                        log.info("Item {}: {}", catalogItem.getItemId(), catalogItem);
-                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy(), notification.getSendTo()
-                        );
-                        log.info("IsValid : {}", isValid);
-                        return isValid;
-                    })
                     .findFirst()
                     .orElseThrow();
         } catch (Exception e) {
