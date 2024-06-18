@@ -18,6 +18,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Removed
 
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
+- XXX Removed submodel interfaces
 
 ### Changed
 
