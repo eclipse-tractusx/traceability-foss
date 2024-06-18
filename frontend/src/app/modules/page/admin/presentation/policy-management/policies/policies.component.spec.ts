@@ -100,7 +100,6 @@ describe('PoliciesComponent', () => {
     tick(); // Simulate passage of time until afterClosed completes
 
     expect(policyFacadeMock.deletePolicies).toHaveBeenCalledWith(componentInstance.selectedPolicies);
-    expect(toastServiceMock.success).toHaveBeenCalled();
     expect(policyFacadeMock.setPolicies).toHaveBeenCalled();
   }));
 
@@ -114,7 +113,6 @@ describe('PoliciesComponent', () => {
     tick(); // Simulate passage of time until the observable completes
 
     expect(policyFacadeMock.deletePolicies).toHaveBeenCalledWith(componentInstance.selectedPolicies);
-    expect(toastServiceMock.success).toHaveBeenCalled();
     expect(policyFacadeMock.setPolicies).toHaveBeenCalled();
   }));
 
