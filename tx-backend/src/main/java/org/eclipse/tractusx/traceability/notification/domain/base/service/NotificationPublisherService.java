@@ -64,8 +64,12 @@ public class NotificationPublisherService {
     }
 
     private void createMessages(StartNotification startNotification, BPN applicationBPN, Notification notification, AssetAsBuiltRepository assetAsBuiltRepository) {
-        Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(startNotification.getAffectedPartIds()).stream().collect(groupingBy(AssetBase::getManufacturerId));
-        assetsAsBuiltBPNMap
+        Map<String, List<AssetBase>> assetsAsBuiltBPNMap =
+                assetAsBuiltRepository
+                        .getAssetsById(startNotification.getAffectedPartIds())
+                        .stream()
+                        .filter(asset -> Objects.nonNull(asset.getManufacturerId()))
+                        .collect(groupingBy(AssetBase::getManufacturerId));        assetsAsBuiltBPNMap
                 .entrySet()
                 .stream()
                 .map(it -> {
