@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
 @ActiveProfiles("integration-spring-boot")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
 @ContextConfiguration(initializers = {PostgreSQLConfig.Initializer.class, RestitoConfig.Initializer.class}, classes = {RestAssuredConfig.class})
 public class IntegrationTestSpecification {

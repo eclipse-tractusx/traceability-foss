@@ -83,6 +83,8 @@ public class InvestigationPolicyExpirationIT extends IntegrationTestSpecificatio
     @DynamicPropertySource
     static void dynamicProperties(DynamicPropertyRegistry registry) {
         registry.add("traceability.validUntil", () -> "2020-07-04T16:01:05.309Z");
+        registry.add("server.port", () -> "9997");
+        registry.add("management.server.port", () -> "8083");
     }
 
     @BeforeEach
