@@ -103,7 +103,6 @@ public class RestTemplateConfiguration {
                 .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
-                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
@@ -116,7 +115,6 @@ public class RestTemplateConfiguration {
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
-                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
@@ -132,7 +130,6 @@ public class RestTemplateConfiguration {
     public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
-                .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .build();
     }
 
@@ -143,7 +140,6 @@ public class RestTemplateConfiguration {
                 .rootUri(traceabilityProperties.getIrsBase())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
                 .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
-                .messageConverters(customMessageConverters())
                 .build();
     }
 
@@ -184,17 +180,8 @@ public class RestTemplateConfiguration {
     /* RestTemplate used by the edc client library*/
     @Bean(EDC_CLIENT_REST_TEMPLATE)
     public RestTemplate edcClientRestTemplate() {
-        ClientHttpRequestFactory factory = new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory());
-        RestTemplate restTemplate = new RestTemplate(factory);
-
-        List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
-        if (CollectionUtils.isEmpty(interceptors)) {
-            interceptors = new ArrayList<>();
-        }
-        interceptors.add(new RequestResponseLoggingInterceptor());
-        restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
-        restTemplate.setInterceptors(interceptors);
-        return restTemplate;
+        return new RestTemplateBuilder()
+                .build();
     }
 
     private RestTemplateBuilder oAuthRestTemplate(final RestTemplateBuilder restTemplateBuilder,
@@ -225,7 +212,6 @@ public class RestTemplateConfiguration {
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
                 .build()
                 .registerModules(javaTimeModule));
 
