@@ -75,6 +75,7 @@ public class PolicyStartUpConfig {
     public void registerDecentralRegistryPermissions() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
         defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
         log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
