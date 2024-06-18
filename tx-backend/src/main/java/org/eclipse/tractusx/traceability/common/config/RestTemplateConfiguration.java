@@ -103,7 +103,7 @@ public class RestTemplateConfiguration {
                 .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
-                .additionalInterceptors(new RequestResponseLoggingInterceptor())
+               // .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
@@ -116,7 +116,7 @@ public class RestTemplateConfiguration {
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .setConnectTimeout(Duration.ofSeconds(10L))
-                .additionalInterceptors(new RequestResponseLoggingInterceptor())
+              //  .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .setReadTimeout(Duration.ofSeconds(25L))
                 .build();
     }
@@ -132,7 +132,7 @@ public class RestTemplateConfiguration {
     public RestTemplate edcNotificationTemplate(@Autowired EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
-                .additionalInterceptors(new RequestResponseLoggingInterceptor())
+             //   .additionalInterceptors(new RequestResponseLoggingInterceptor())
                 .build();
     }
 
@@ -190,9 +190,9 @@ public class RestTemplateConfiguration {
         if (CollectionUtils.isEmpty(interceptors)) {
             interceptors = new ArrayList<>();
         }
-        interceptors.add(new RequestResponseLoggingInterceptor());
+       // interceptors.add(new RequestResponseLoggingInterceptor());
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
-        restTemplate.setInterceptors(interceptors);
+      //  restTemplate.setInterceptors(interceptors);
         return restTemplate;
     }
 
