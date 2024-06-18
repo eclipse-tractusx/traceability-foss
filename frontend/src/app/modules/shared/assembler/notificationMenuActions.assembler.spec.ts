@@ -26,7 +26,7 @@ import { NotificationsState } from '@page/notifications/core/notifications.state
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { KeycloakService } from 'keycloak-angular';
 
@@ -64,18 +64,19 @@ describe('NotificationMenuActionsAssembler', () => {
 
     const notificationTemplate: Notification = {
       id: 'id-1',
+      title: 'Title',
+      type: NotificationType.INVESTIGATION,
+      status: NotificationStatus.ACKNOWLEDGED,
       description: 'Investigation No 1',
       createdBy: '',
-      title: 'Title',
       createdByName: '',
+      createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
+      assetIds: [ 'MOCK_part_1' ],
       sendTo: '',
       sendToName: '',
-      reason: { close: '', accept: '', decline: '' },
-      isFromSender: true,
-      assetIds: [ 'MOCK_part_1' ],
-      status: NotificationStatus.ACKNOWLEDGED,
       severity: Severity.MINOR,
-      createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
+      messages: [],
+      isFromSender: true,
     };
 
     // Act

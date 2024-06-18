@@ -44,20 +44,21 @@ export const buildMockInvestigations = (
 
     return {
       id: `${ InvestigationIdPrefix }${ index + 1 }`,
-      description: `Investigation No ${ index + 1 }`,
-      status,
-      severity,
-      channel,
-      createdBy: 'BPN10000000OEM0A',
-      createdByName: 'OEM xxxxxxxxxxxxxxx A',
-      sendTo: 'BPN20000000OEM0B',
-      sendToName: 'OEM xxxxxxxxxxxxxxx B',
-      reason: { close: '', accept: '', decline: '' },
-      createdDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
-      assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
-      errorMessage: errorInvestigation,
       title: 'Title',
       type: NotificationTypeResponse.INVESTIGATION,
+      status,
+      description: `Investigation No ${ index + 1 }`,
+      createdBy: 'BPN10000000OEM0A',
+      createdByName: 'OEM xxxxxxxxxxxxxxx A',
+      createdDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
+      updatedDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
+      assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
+      channel,
+      sendTo: 'BPN20000000OEM0B',
+      sendToName: 'OEM xxxxxxxxxxxxxxx B',
+      severity,
+      targetDate: `2022-${ numberToString(month) }-${ numberToString(day + 1) }T12:34:12`,
+      messages: [],
     };
   });
 

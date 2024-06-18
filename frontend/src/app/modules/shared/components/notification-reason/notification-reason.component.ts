@@ -44,7 +44,6 @@ export class NotificationReasonComponent {
 
   @Input() set notification({
                               description,
-                              reason,
                               status,
                               isFromSender,
                               createdDate,
@@ -54,7 +53,6 @@ export class NotificationReasonComponent {
                               sendToName,
                             }: Notification) {
     const { ACCEPTED, SENT, CLOSED, CREATED, DECLINED } = NotificationStatus;
-    const { accept, close, decline } = reason;
 
     const senderDirection: TextMessageDirection = isFromSender ? 'right' : 'left';
     const receiverDirection: TextMessageDirection = !isFromSender ? 'right' : 'left';
@@ -69,19 +67,19 @@ export class NotificationReasonComponent {
     };
 
     const acceptedMessage = {
-        reason: accept, direction: receiverDirection, user: sendToName, bpn: sendTo, status:
+      reason: 'reason accept', direction: receiverDirection, user: sendToName, bpn: sendTo, status:
         ACCEPTED,
       }
     ;
     const declinedMessage = {
-      reason: decline,
+      reason: 'reason decline',
       direction: receiverDirection,
       user: sendToName,
       bpn: sendTo,
       status: DECLINED,
     };
     const closedMessage = {
-      reason: close,
+      reason: 'reason closed',
       direction: senderDirection,
       user: createdByName,
       bpn: createdBy,
