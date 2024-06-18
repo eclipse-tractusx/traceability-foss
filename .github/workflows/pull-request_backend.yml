@@ -120,7 +120,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND  }}
           SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY_BACKEND }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/traceability-foss/traceability-foss/tx-coverage/target/site/jacoco-aggregate/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode org.sonarsource.scanner.maven:sonar-maven-plugin:sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/traceability-foss/traceability-foss/tx-coverage/target/site/jacoco-aggregate/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
 
   Publish-docker-image:
     needs: [ "Test-and-Sonar" ]
