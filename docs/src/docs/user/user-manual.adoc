@@ -136,6 +136,68 @@ image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main
 
 The system will validate the file content. Upon successful validation, assets will be saved as either "AssetAsPlanned" or "AssetAsBuilt", with the import state set to "transient."
 
+=== Policy Management
+
+The policy management feature allows administrators to create, edit, view, and delete policies within the system.
+This section provides an overview of how to use these features effectively.
+
+==== Policies List View
+
+The policies list view displays all the policies in a tabular format.
+You can perform various actions such as view, edit, and delete policies from this view.
+
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policies-list-view.png[]
+
+To access the policies list view, navigate to the "Policies" section from the top menu.
+
+By clicking on the settings symbol in the top right corner of the table, you are able to customize the visibility and order of the table columns.
+
+In the top left corner you can initiate the creation or deletion of policies.
+
+===== Deleting Policies
+
+To delete policies, follow these steps:
+
+Select the policies you wish to delete by checking the boxes next to them.
+Click on the delete icon to open the deletion dialog.
+Confirm the deletion in the dialog.
+The system will then remove the selected policies and update the list view.
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/delete-policies-dialog.png[]
+
+==== Policy Editor / Detailed View
+
+The policy editor allows you to create, edit, and view detailed information about a policy.
+
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policy-editor.png[]
+
+Note: For existing policies, it is currently only possible to edit the valid until date and the BPN number.
+
+===== Creating a policy
+
+To create a policy:
+
+Navigate to the "Create Policy" section from the policies list view by clicking the plus icon in the top left corner of the table.
+Fill in the policy details including policy name, validity date, BPN number(s), access type, and constraints.
+Save the policy using the save button.
+The system will validate the inputs and update the policy accordingly.
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policy-create.png[]
+
+==== Constraints
+
+Constraints define the conditions under which the policy is applicable.
+You can add, edit, and remove constraints in the policy editor.
+
+To add a constraint:
+
+Click the add button in the constraints section.
+Fill in the left operand, operator, and right operand.
+Save the constraint.
+To remove a constraint, click the delete button next to the constraint.
+
+To move constraints up or down in the list, use the up and down arrow buttons.
+
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/policy-constraints.png[]
+
 === Sign out
 
 Sign out the current user and return to the Catena-X portal.
