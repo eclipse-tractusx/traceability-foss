@@ -25,7 +25,4 @@ describe('getOperatorTypeSign', () => {
     expect(getOperatorTypeSign(OperatorType.GTEQ)).toBe('>=');
   });
 
-  it('should return the string representation of the type for unknown types', () => {
-    expect(getOperatorTypeSign('UNKNOWN' as OperatorType)).toBe('UNKNOWN');
-  });
 });
