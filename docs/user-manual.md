@@ -90,6 +90,12 @@ Navigates to the Catena-X portal.
 Only applicable for the admin user role.
 Possibility to check the network status based on logfiles and will provide access to configuration possibilities for the application.
 
+##### BPN-EDC configuration
+
+In the BPN-EDC configuration screen an admin user can add new URLs for BPNs. After adding URLs here, notifications will be sent to the corresponding URL. Existing configurations can be edited or removed.
+
+![bpn_edc_configuration](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/bpn_edc_configuration.png)
+
 ##### Contracts - view and export
 
 In the Contracts view an admin user can view contract agreements and sort them by the contract ID.
