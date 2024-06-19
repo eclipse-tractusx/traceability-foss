@@ -15,6 +15,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #832 added policymanagement list view, creator and editor
 - #737 Added concept: Contract table -> parts link action
 - XXX Added interceptor to EdcRestTemplates to log requests
+- #915 Added section to documentation: EDC-BPN configuration
 
 ### Removed
 
