@@ -78,20 +78,22 @@ describe('NotificationEditComponent', () => {
   it('should render component with form', async () => {
 
     const notification: Notification = {
-      assetIds: [],
-      createdBy: '',
+      id: 'id-1',
+      title: '',
       type: NotificationType.INVESTIGATION,
+      status: undefined,
+      description: '',
+      createdBy: '',
       createdByName: '',
       createdDate: undefined,
-      description: '',
-      isFromSender: false,
-      reason: undefined,
+      updatedDate: undefined,
+      assetIds: [],
+      channel: 'SENDER',
       sendTo: '',
       sendToName: '',
       severity: undefined,
-      status: undefined,
-      title: '',
-      id: 'id-1',
+      targetDate: null,
+      messages: [],
     };
 
     const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
@@ -107,20 +109,22 @@ describe('NotificationEditComponent', () => {
   it('should remove affected parts to affectedPartIds and clear temporaryAffectedParts', async () => {
 
     const notification: Notification = {
-      assetIds: [],
-      createdBy: '',
+      id: 'id-1',
+      title: '',
       type: NotificationType.INVESTIGATION,
+      status: undefined,
+      description: '',
+      createdBy: '',
       createdByName: '',
       createdDate: undefined,
-      description: '',
-      isFromSender: false,
-      reason: undefined,
+      updatedDate: undefined,
+      assetIds: [],
+      channel: 'SENDER',
       sendTo: '',
       sendToName: '',
       severity: undefined,
-      status: undefined,
-      title: '',
-      id: 'id-1',
+      targetDate: null,
+      messages: [],
     };
 
     const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
@@ -153,20 +157,22 @@ describe('NotificationEditComponent', () => {
   it('should add affected parts to affectedPartIds and clear temporaryAffectedParts', async () => {
 
     const notification: Notification = {
-      assetIds: [],
-      createdBy: '',
+      id: 'id-1',
+      title: '',
       type: NotificationType.INVESTIGATION,
+      status: undefined,
+      description: '',
+      createdBy: '',
       createdByName: '',
       createdDate: undefined,
-      description: '',
-      isFromSender: false,
-      reason: undefined,
+      updatedDate: undefined,
+      assetIds: [],
+      channel: 'SENDER',
       sendTo: '',
       sendToName: '',
       severity: undefined,
-      status: undefined,
-      title: '',
-      id: 'id-1',
+      targetDate: null,
+      messages: [],
     };
 
     const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
@@ -200,20 +206,22 @@ describe('NotificationEditComponent', () => {
   it('should set supplier parts for investigation', async () => {
 
     const notification: Notification = {
-      assetIds: [],
-      createdBy: '',
+      id: 'id-1',
+      title: '',
       type: NotificationType.INVESTIGATION,
+      status: undefined,
+      description: '',
+      createdBy: '',
       createdByName: '',
       createdDate: undefined,
-      description: '',
-      isFromSender: false,
-      reason: undefined,
+      updatedDate: undefined,
+      assetIds: [],
+      channel: 'SENDER',
       sendTo: '',
       sendToName: '',
       severity: undefined,
-      status: undefined,
-      title: '',
-      id: 'abc',
+      targetDate: null,
+      messages: [],
     };
     const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
     notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
@@ -240,20 +248,22 @@ describe('NotificationEditComponent', () => {
   it('should set own parts as built for available part subscription with alerts', async () => {
 
     const notification: Notification = {
-      assetIds: [],
-      createdBy: '',
+      id: 'id-1',
+      title: '',
       type: NotificationType.ALERT,
+      status: undefined,
+      description: '',
+      createdBy: '',
       createdByName: '',
       createdDate: undefined,
-      description: '',
-      isFromSender: false,
-      reason: undefined,
+      updatedDate: undefined,
+      assetIds: [],
+      channel: 'SENDER',
       sendTo: '',
       sendToName: '',
       severity: undefined,
-      status: undefined,
-      title: '',
-      id: 'abc',
+      targetDate: null,
+      messages: [],
     };
 
     const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
@@ -280,20 +290,22 @@ describe('NotificationEditComponent', () => {
   it('should correctly update form', async () => {
 
     const notification: Notification = {
-      assetIds: [],
-      createdBy: '',
+      id: 'id-1',
+      title: '',
       type: NotificationType.ALERT,
+      status: undefined,
+      description: '',
+      createdBy: '',
       createdByName: '',
       createdDate: undefined,
-      description: '',
-      isFromSender: false,
-      reason: undefined,
+      updatedDate: undefined,
+      assetIds: [],
+      channel: 'SENDER',
       sendTo: '',
       sendToName: '',
       severity: undefined,
-      status: undefined,
-      title: '',
-      id: 'abc',
+      targetDate: null,
+      messages: [],
     };
 
     const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);

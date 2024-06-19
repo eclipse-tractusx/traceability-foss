@@ -1,5 +1,5 @@
 # Compatibility matrix Trace-X
-## Trace-X version [[11.0.2](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/11.0.2] - 2024-05-29
+## Trace-X version [11.0.2](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/11.0.2) - 2024-05-29
 
 ### Catena-X Release?
 
@@ -27,7 +27,7 @@
 | Aspect Model     | SingleLevelBomAsPlanned      | 3.0.0                | -        |
 
 
-## Trace-X version [[11.0.1](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/11.0.1] - 2024-05-22
+## Trace-X version [11.0.1](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/11.0.1) - 2024-05-22
 
 ### Catena-X Release?
 

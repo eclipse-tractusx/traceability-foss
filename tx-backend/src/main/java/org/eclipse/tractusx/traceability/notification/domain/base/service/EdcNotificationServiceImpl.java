@@ -60,7 +60,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     public CompletableFuture<NotificationMessage> asyncNotificationMessageExecutor(NotificationMessage message) {
         log.info("::asyncNotificationExecutor::message {}", message);
         try {
-            Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSendTo());
+            Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSentTo());
 
             String senderEdcUrl = discovery.getSenderUrl();
             List<String> receiverUrls = emptyIfNull(discovery.getReceiverUrls());

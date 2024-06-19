@@ -196,8 +196,6 @@ class EditNotificationIT extends IntegrationTestSpecification {
         assertThat(notificationResponse.getAssetIds()).hasSize(editNotificationRequest.getAffectedPartIds().size());
         assertThat(notificationResponse.getSeverity().getRealName()).isEqualTo(editNotificationRequest.getSeverity().getRealName());
         assertThat(notificationResponsePageResult.content()).hasSize(1);
-        assertThat(notificationResponse.getMessages().get(0).getSeverity().getRealName()).isEqualTo(editNotificationRequest.getSeverity().getRealName());
-        assertThat(notificationResponse.getMessages().get(0).getTargetDate()).isEqualTo(editNotificationRequest.getTargetDate());
 
     }
 

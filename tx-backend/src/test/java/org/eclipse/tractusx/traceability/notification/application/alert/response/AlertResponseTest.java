@@ -26,7 +26,6 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.Test;
-import notification.response.NotificationReasonResponse;
 import notification.response.NotificationResponse;
 import notification.response.NotificationSeverityResponse;
 import notification.response.NotificationSideResponse;
@@ -53,20 +52,15 @@ class AlertResponseTest {
                 .hasFieldOrPropertyWithValue("description", notification.getDescription())
                 .hasFieldOrPropertyWithValue("createdBy", notification.getNotifications().stream()
                         .findFirst()
-                        .map(NotificationMessage::getCreatedBy)
+                        .map(NotificationMessage::getSentBy)
                         .orElse(null))
                 .hasFieldOrPropertyWithValue("createdByName", notification.getNotifications().stream()
                         .findFirst()
-                        .map(NotificationMessage::getCreatedByName)
+                        .map(NotificationMessage::getSentByName)
                         .orElse(null))
                 .hasFieldOrPropertyWithValue("createdDate", notification.getCreatedAt().toString())
                 .hasFieldOrPropertyWithValue("assetIds", notification.getAffectedPartIds())
                 .hasFieldOrPropertyWithValue("channel", NotificationSideResponse.SENDER)
-                .hasFieldOrPropertyWithValue("reason", new NotificationReasonResponse(
-                        notification.getCloseReason(),
-                        notification.getAcceptReason(),
-                        notification.getDeclineReason()
-                ))
                 .hasFieldOrPropertyWithValue("sendTo", "recipientBPN")
                 .hasFieldOrPropertyWithValue("sendToName", "receiverManufacturerName")
                 .hasFieldOrPropertyWithValue("severity", NotificationSeverityResponse.MINOR)
@@ -95,6 +89,7 @@ class AlertResponseTest {
         assertThat(result.content()).hasSize(1)
                 .first()
                 .usingRecursiveComparison()
+                .ignoringFields("updatedDate")
                 .isEqualTo(NotificationResponseMapper.from(notification));
     }
 

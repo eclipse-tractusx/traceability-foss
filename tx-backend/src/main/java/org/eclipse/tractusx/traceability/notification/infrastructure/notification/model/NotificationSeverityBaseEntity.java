@@ -17,15 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.notification.domain.base.model;
+package org.eclipse.tractusx.traceability.notification.infrastructure.notification.model;
 
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
 import notification.request.NotificationSeverityRequest;
 
 
-@ApiModel(description = "Describes the criticality of a notification")
-public enum NotificationSeverity {
+public enum NotificationSeverityBaseEntity {
     MINOR("MINOR"),
     MAJOR("MAJOR"),
     CRITICAL("CRITICAL"),
@@ -37,12 +35,12 @@ public enum NotificationSeverity {
         return realName;
     }
 
-    NotificationSeverity(String realName) {
+    NotificationSeverityBaseEntity(String realName) {
         this.realName = realName;
     }
 
-    public static NotificationSeverity fromString(String str) {
-        for (NotificationSeverity s : NotificationSeverity.values()) {
+    public static NotificationSeverityBaseEntity fromString(String str) {
+        for (NotificationSeverityBaseEntity s : NotificationSeverityBaseEntity.values()) {
             if (s.realName.equalsIgnoreCase(str)) {
                 return s;
             }
@@ -50,7 +48,7 @@ public enum NotificationSeverity {
         return null;
     }
 
-    public static NotificationSeverity from(NotificationSeverityRequest notificationSeverityRequest) {
-        return NotificationSeverity.fromString(notificationSeverityRequest.getRealName());
+    public static NotificationSeverityBaseEntity from(NotificationSeverityRequest notificationSeverityRequest) {
+        return NotificationSeverityBaseEntity.fromString(notificationSeverityRequest.getRealName());
     }
 }
