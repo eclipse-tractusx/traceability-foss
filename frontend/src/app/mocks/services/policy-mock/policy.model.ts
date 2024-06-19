@@ -140,7 +140,7 @@ const mockedPolicies = {
               {
                 leftOperand: 'PURPOSE',
                 operator: {
-                  id: OperatorType.IN,
+                  id: OperatorType.EQ,
                 },
                 rightOperand: 'BMW',
               },
