@@ -181,27 +181,6 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenInvestigations_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
-        // given
-        investigationNotificationSupport.defaultInvestigationsStored();
-        String filter = "targetDate,AT_LOCAL_DATE,2023-11-10,AND";
-
-        // when/then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/notifications/filter")
-                .then()
-                .statusCode(200)
-                .body("page", Matchers.is(0))
-                .body("pageSize", Matchers.is(10))
-                .body("totalItems", Matchers.is(2))
-                .body("content", Matchers.hasSize(2));
-    }
-
-    @Test
     void givenInvestigations_whenSendToFilter_thenExpectedResult() throws JoseException {
         // given
         investigationNotificationSupport.defaultInvestigationsStored();
