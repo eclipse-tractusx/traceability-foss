@@ -45,7 +45,7 @@ public enum NotificationSeverityBaseEntity {
                 return s;
             }
         }
-        throw new IllegalArgumentException("No enum constant " + NotificationSeverityBaseEntity.class.getCanonicalName() + "." + str);
+        return null;
     }
 
     public static NotificationSeverityBaseEntity from(NotificationSeverityRequest notificationSeverityRequest) {

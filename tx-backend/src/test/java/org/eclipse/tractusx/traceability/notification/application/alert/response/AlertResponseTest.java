@@ -89,6 +89,7 @@ class AlertResponseTest {
         assertThat(result.content()).hasSize(1)
                 .first()
                 .usingRecursiveComparison()
+                .ignoringFields("updatedDate")
                 .isEqualTo(NotificationResponseMapper.from(notification));
     }
 

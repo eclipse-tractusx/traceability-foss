@@ -41,7 +41,7 @@ public class EDCNotificationFactory {
                 senderEDC,
                 notificationMessage.getSentTo(),
                 NotificationType.from(notificationMessage.getType()).getValue(),
-                notification.getNotificationSeverity().getRealName(),
+                notification.getSeverity().getRealName(),
                 notificationMessage.getNotificationReferenceId(),
                 notificationMessage.getNotificationStatus().name(),
                 notification.getTargetDate(),

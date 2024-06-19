@@ -58,7 +58,7 @@ public class NotificationPublisherService {
 
     public Notification startNotification(StartNotification startNotification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        Notification notification = Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType(), startNotification.getSeverity());
+        Notification notification = Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType(), startNotification.getSeverity(), startNotification.getTargetDate());
         createMessages(startNotification, applicationBPN, notification, assetAsBuiltRepository);
         return notification;
     }
@@ -79,8 +79,6 @@ public class NotificationPublisherService {
                             applicationBPN,
                             startNotification.getReceiverBpn(),
                             startNotification.getDescription(),
-                            startNotification.getTargetDate(),
-                            startNotification.getSeverity(),
                             startNotification.getType(),
                             it,
                             creator,

@@ -3,7 +3,7 @@ ALTER TABLE notification
     DROP COLUMN IF EXISTS decline_reason,
     DROP COLUMN IF EXISTS close_reason,
     ADD COLUMN target_date timestamp NULL,
-    ADD COLUMN severity int4 NULL;
+    ADD COLUMN severity varchar(255) NULL;
 
 ALTER TABLE notification_message
     DROP COLUMN IF EXISTS target_date,

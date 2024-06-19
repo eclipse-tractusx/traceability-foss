@@ -44,9 +44,6 @@ public class NotificationMessageBaseEntity {
     private String sendToName;
     private String contractAgreementId;
     private String notificationReferenceId;
-    private Instant targetDate;
-    @Enumerated(EnumType.STRING)
-    private NotificationSeverity severity;
     private String edcNotificationId;
     private LocalDateTime created;
     private LocalDateTime updated;

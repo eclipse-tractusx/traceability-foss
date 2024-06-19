@@ -111,8 +111,6 @@ class NotificationPublisherServiceTest {
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.CREATED);
         assertThat(result.getDescription()).isEqualTo(description);
         assertThat(result.getNotificationSide()).isEqualTo(NotificationSide.SENDER);
-        assertThat(result.getNotifications()).extracting("severity")
-                .containsExactly(NotificationSeverity.MINOR);
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
     }
 
@@ -142,11 +140,9 @@ class NotificationPublisherServiceTest {
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.CREATED);
         assertThat(result.getDescription()).isEqualTo(description);
         assertThat(result.getNotificationSide()).isEqualTo(NotificationSide.SENDER);
-        assertThat(result.getNotifications()).extracting("severity")
-                .containsExactly(NotificationSeverity.MINOR);
         assertThat(result.getNotifications()).hasSize(1)
                 .first()
-                .hasFieldOrPropertyWithValue("sendTo", receiverBpn);
+                .hasFieldOrPropertyWithValue("sentTo", receiverBpn);
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
 
     }

@@ -36,8 +36,8 @@ import java.util.List;
 @UtilityClass
 public class NotificationMessageMapper {
 
-    public static NotificationSeverityResponse from(NotificationSeverity notificationSeverity) {
-        return NotificationSeverityResponse.fromString(notificationSeverity.getRealName());
+    public static NotificationSeverityResponse from(NotificationSeverity severity) {
+        return NotificationSeverityResponse.fromString(severity.getRealName());
     }
 
     public static NotificationSideResponse from(NotificationSide side) {

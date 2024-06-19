@@ -56,7 +56,9 @@ public class NotificationResponseMapper {
                 .updatedDate(OffsetDateTime.now().toString())
                 .sendTo(getReceiverBPN(notification.getNotifications()))
                 .sendToName(getReceiverName(notification.getNotifications()))
-                .severity(NotificationSeverityResponse.fromString(notification.getNotificationSeverity().getRealName()))
+                .severity(notification.getSeverity() != null ?
+                        NotificationSeverityResponse.fromString(notification.getSeverity().getRealName()) :
+                        null)
                 .targetDate(notification.getTargetDate())
                 .messages(fromNotifications(notification.getNotifications()))
                 .build();

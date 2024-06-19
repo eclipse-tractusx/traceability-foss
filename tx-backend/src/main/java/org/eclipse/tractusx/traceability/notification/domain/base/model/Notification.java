@@ -40,6 +40,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.convertInstantToString;
 
 @Data
 @Builder(toBuilder = true)
@@ -55,7 +56,7 @@ public class Notification {
     private NotificationType notificationType;
     @Builder.Default
     private List<String> affectedPartIds = new ArrayList<>();
-    private NotificationSeverity notificationSeverity;
+    private NotificationSeverity severity;
     private String targetDate;
 
     @Getter
@@ -63,14 +64,16 @@ public class Notification {
     private List<NotificationMessage> notifications = List.of();
 
 
-    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity) {
+    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate) {
+
         return Notification.builder()
                 .title(title)
                 .bpn(bpn)
                 .notificationStatus(NotificationStatus.CREATED)
                 .notificationSide(NotificationSide.SENDER)
                 .notificationType(notificationType)
-                .notificationSeverity(severity)
+                .targetDate(convertInstantToString(targetDate))
+                .severity(severity)
                 .description(description)
                 .createdAt(createDate)
                 .affectedPartIds(Collections.emptyList())
@@ -90,8 +93,6 @@ public class Notification {
                     applicationBPN,
                     editNotification.getReceiverBpn(),
                     editNotification.getDescription(),
-                    editNotification.getTargetDate(),
-                    editNotification.getSeverity(),
                     this.notificationType,
                     receiverAssetsMap,
                     applicationBPN.value(),
@@ -112,8 +113,6 @@ public class Notification {
                                 applicationBPN,
                                 sentToBPN,
                                 editNotification.getDescription(),
-                                editNotification.getTargetDate(),
-                                editNotification.getSeverity(),
                                 this.notificationType,
                                 receiverAssetsMapEntry,
                                 applicationBPN.value(),

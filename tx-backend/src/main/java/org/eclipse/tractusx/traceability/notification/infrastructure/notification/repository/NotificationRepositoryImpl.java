@@ -128,7 +128,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         notificationEntity.setAssets(getAssetEntitiesByAssetIds(notification.getAffectedPartIds()));
         notificationEntity.setStatus(NotificationStatusBaseEntity.fromStringValue(notification.getNotificationStatus().name()));
         notificationEntity.setUpdated(clock.instant());
-        notificationEntity.setSeverity(NotificationSeverityBaseEntity.fromString(notification.getNotificationSeverity().getRealName()));
+        notificationEntity.setSeverity(NotificationSeverityBaseEntity.fromString(notification.getSeverity().getRealName()));
         handleMessageUpdate(notificationEntity, notification);
         jpaNotificationRepository.save(notificationEntity);
     }

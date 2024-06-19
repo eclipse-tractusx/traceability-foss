@@ -37,6 +37,7 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
@@ -45,6 +46,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.convertInstantToString;
 
 @NoArgsConstructor
 @Getter
@@ -87,6 +89,8 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .description(notificationEntity.getDescription())
                 .notificationType(NotificationType.valueOf(notificationEntity.getType().name()))
                 .affectedPartIds(assetIds)
+                .targetDate(convertInstantToString(notificationEntity.getTargetDate()))
+                .severity(NotificationSeverity.fromString(notificationEntity.getSeverity() != null ? notificationEntity.getSeverity().getRealName() : null))
                 .notifications(messages)
                 .build();
     }
@@ -96,12 +100,12 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .title(notification.getTitle())
                 .assets(assetEntities)
                 .bpn(notification.getBpn())
-                .targetDate(Instant.parse(notification.getTargetDate()))
+                .targetDate(notification.getTargetDate() == null ? null : Instant.parse(notification.getTargetDate()))
                 .description(notification.getDescription())
                 .status(NotificationStatusBaseEntity.fromStringValue(notification.getNotificationStatus().name()))
                 .side(NotificationSideBaseEntity.valueOf(notification.getNotificationSide().name()))
                 .createdDate(notification.getCreatedAt())
-                .severity(NotificationSeverityBaseEntity.fromString(notification.getNotificationSeverity().getRealName()))
+                .severity(NotificationSeverityBaseEntity.fromString(notification.getSeverity() != null ? notification.getSeverity().getRealName() : null))
                 .type(NotificationTypeEntity.from(notification.getNotificationType()))
                 .build();
     }

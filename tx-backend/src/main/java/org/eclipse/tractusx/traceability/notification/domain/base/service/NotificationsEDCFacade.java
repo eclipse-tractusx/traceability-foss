@@ -91,24 +91,24 @@ public class NotificationsEDCFacade {
     private static final String CX_TAXO_QUALITY_ALERT_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityAlertNotification";
 
     public void startEdcTransfer(
-            final NotificationMessage notification,
+            final NotificationMessage notificationMessage,
             final String receiverEdcUrl,
             final String senderEdcUrl) {
 
-        CatalogItem catalogItem = getCatalogItem(notification, receiverEdcUrl);
+        CatalogItem catalogItem = getCatalogItem(notificationMessage, receiverEdcUrl);
 
-        String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem, notification.getSentTo());
+        String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem, notificationMessage.getSentTo());
 
         final EndpointDataReference dataReference = endpointDataReferenceStorage.get(contractAgreementId)
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
 
-        notification.setContractAgreementId(contractAgreementId);
+        notificationMessage.setContractAgreementId(contractAgreementId);
 
         try {
-            EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notification, senderEdcUrl, dataReference);
-            sendRequest(notificationRequest, notification);
+            EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notificationMessage, senderEdcUrl, dataReference);
+            sendRequest(notificationRequest, notificationMessage);
         } catch (Exception e) {
-            throw new SendNotificationException("Failed to send notification.", e);
+            throw new SendNotificationException("Failed to send notificationMessage.", e);
         }
     }
 

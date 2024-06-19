@@ -20,8 +20,10 @@
 package org.eclipse.tractusx.traceability.integration.notification.investigation;
 
 import io.restassured.http.ContentType;
+import notification.response.NotificationResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -30,6 +32,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.AlertsSuppor
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -60,6 +63,9 @@ class InvestigationControllerFilterIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;
+
+    @Autowired
+    NotificationApiSupport notificationApiSupport;
 
     @Autowired
     JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
