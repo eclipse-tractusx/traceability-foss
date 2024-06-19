@@ -6,16 +6,16 @@
 ## Clone the source locally:
 
 ```sh
-$ git clone git@github.com:catenax-ng/tx-traceability-foss.git
-$ cd tx-traceability-foss/backend
+$ git clone https://github.com/eclipse-tractusx/traceability-foss.git
+$ cd traceability-foss
 ```
 
 ## Local deployment
-* Start the necessary infrastructure by running: ```docker-compose up``` inside [docker folder](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend//docker)
+* Start the necessary infrastructure by running: ```docker-compose up```
 * Export environment variables required by the service:
   * `SPRING_DATASOURCE_URL` - with value `jdbc:postgresql://localhost:5432/trace`
-  * `SPRING_DATASOURCE_USERNAME` - with value `trace` [see database initialization script](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend/docker/db-init/create_db.sql)
-  * `SPRING_DATASOURCE_PASSWORD` - with value `docker` [see docker-compose file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend/docker/docker-compose.yml)
+  * `SPRING_DATASOURCE_USERNAME` - with value `trace`
+  * `SPRING_DATASOURCE_PASSWORD` - with value `docker`
   * `OAUTH2_CLIENT_ID` - with OAuth2 provider client registration id specific value
   * `OAUTH2_CLIENT_SECRET` - with OAuth2 provider client registration secret specific value
   * `OAUTH2_PROVIDER_TOKEN_URI` - with OAuth2 provider url to obtain tokens
@@ -24,7 +24,7 @@ $ cd tx-traceability-foss/backend
   * `SPRING_PROFILES_ACTIVE` - with profile to be picked when starting the service. One of `[dev|int]`.
   * `EDC_PROVIDER_URL` - with url for the EDC provider
   * `TRACEABILITY_URL` - with url for the backend
-* Start the service by invoking following command in project root directory `./gradlew bootRun`
+* Start the service by invoking following command in project root directory `mvn spring-boot:run`
 
 ## OAuth2 configuration
 Product Traceability FOSS Backend relies on properly configured OAuth2 instance. In order to work, it must be configured with proper realm, clients and roles.
