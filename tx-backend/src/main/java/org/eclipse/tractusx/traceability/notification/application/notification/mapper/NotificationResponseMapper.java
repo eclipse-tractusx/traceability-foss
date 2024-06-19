@@ -20,18 +20,17 @@
 package org.eclipse.tractusx.traceability.notification.application.notification.mapper;
 
 import lombok.experimental.UtilityClass;
+import notification.response.NotificationResponse;
+import notification.response.NotificationSeverityResponse;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import notification.response.NotificationReasonResponse;
-import notification.response.NotificationResponse;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -54,16 +53,13 @@ public class NotificationResponseMapper {
                 .channel(NotificationMessageMapper.from(notification.getNotificationSide()))
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())
-                .reason(new NotificationReasonResponse(
-                        notification.getCloseReason(),
-                        notification.getAcceptReason(),
-                        notification.getDeclineReason()
-                ))
+                .updatedDate(OffsetDateTime.now().toString())
                 .sendTo(getReceiverBPN(notification.getNotifications()))
                 .sendToName(getReceiverName(notification.getNotifications()))
-                // TODO severity should not be inside the notification it should be in the message
-                .severity(NotificationMessageMapper.from(notification.getNotifications().stream().findFirst().map(NotificationMessage::getSeverity).orElse(NotificationSeverity.MINOR)))
-                .targetDate(notification.getNotifications().stream().findFirst().map(NotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
+                .severity(notification.getSeverity() != null ?
+                        NotificationSeverityResponse.fromString(notification.getSeverity().getRealName()) :
+                        null)
+                .targetDate(notification.getTargetDate())
                 .messages(fromNotifications(notification.getNotifications()))
                 .build();
     }
@@ -81,21 +77,21 @@ public class NotificationResponseMapper {
     private static String getSenderBPN(Collection<NotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(NotificationMessage::getCreatedBy)
+                .map(NotificationMessage::getSentBy)
                 .orElse(null);
     }
 
     private static String getReceiverBPN(Collection<NotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(NotificationMessage::getSendTo)
+                .map(NotificationMessage::getSentTo)
                 .orElse(null);
     }
 
     private static String getSenderName(Collection<NotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
-                .map(NotificationMessage::getCreatedByName)
+                .map(NotificationMessage::getSentByName)
                 .orElse(null);
     }
 

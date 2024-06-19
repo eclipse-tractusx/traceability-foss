@@ -54,11 +54,10 @@ class NotificationMessageMapperTest {
                 .notificationReferenceId("Test notification")
                 .notificationStatus(NotificationStatus.RECEIVED)
                 .affectedParts(List.of(new NotificationAffectedPart("123")))
-                .createdByName("senderManufacturerName")
-                .createdBy(sender)
-                .sendTo(receiver)
+                .sentByName("senderManufacturerName")
+                .sentBy(sender)
+                .sentTo(receiver)
                 .sendToName("receiverManufacturerName")
-                .severity(NotificationSeverity.MINOR)
                 .messageId("1")
                 .build();
         NotificationType type = NotificationType.INVESTIGATION;

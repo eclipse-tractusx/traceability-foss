@@ -42,7 +42,7 @@ public enum NotificationSeverityResponse {
                 return s;
             }
         }
-        throw new IllegalArgumentException("No enum constant " + NotificationSeverityResponse.class.getCanonicalName() + "." + str);
+        return null;
     }
 
     @JsonValue
