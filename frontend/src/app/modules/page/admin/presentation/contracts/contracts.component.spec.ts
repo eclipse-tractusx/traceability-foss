@@ -12,113 +12,117 @@ import { ContractsComponent } from './contracts.component';
 
 describe('ContractTableComponent', () => {
 
-    const mockAdminFacade = {
-        getContracts: jasmine.createSpy().and.returnValue(of(getContracts))
+  const mockAdminFacade = {
+    getContracts: jasmine.createSpy().and.returnValue(of(getContracts)),
+  };
+
+  const renderContractTableComponent = () => renderComponent(ContractsComponent, {
+    imports: [ AdminModule ],
+    providers: [ { provide: AdminFacade, useValue: mockAdminFacade } ],
+  });
+
+  let createElementSpy: jasmine.Spy;
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ContractsComponent ],
+      providers: [ AdminFacade, AdminService ],
+    });
+    createElementSpy = spyOn(document, 'createElement').and.callThrough();
+
+  });
+
+  it('should create', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+    expect(componentInstance).toBeTruthy();
+  });
+
+  it('should filter and change table config', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+
+    const mockFilter = {
+      contractId: [ 'hello' ],
+      counterpartyAddress: [],
+      creationDate: [],
+      endDate: [],
+      state: [],
     };
+    const myPagination = { page: 0, pageSize: 10, sorting: [ '', null ] as TableHeaderSort };
+    componentInstance.onTableConfigChange(myPagination);
+    expect(componentInstance.pagination.pageSize).toEqual(10);
 
-    const renderContractTableComponent = () => renderComponent(ContractsComponent, {imports: [AdminModule], providers: [{provide: AdminFacade, useValue: mockAdminFacade}]})
-    let createElementSpy: jasmine.Spy
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            declarations: [ContractsComponent],
-            providers: [AdminFacade, AdminService]
-        });
-        createElementSpy = spyOn(document, 'createElement').and.callThrough();
+    componentInstance.filterActivated(mockFilter);
 
-    });
+    expect(JSON.stringify(componentInstance.contractFilter)).toContain('hello');
 
-    it('should create', async () => {
-        const {fixture} = await renderContractTableComponent();
-        const {componentInstance} = fixture;
-        expect(componentInstance).toBeTruthy();
-    });
+  });
 
-    it('should filter and change table config', async () => {
-        const {fixture} = await renderContractTableComponent();
-        const {componentInstance} = fixture;
+  it('select a contract', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+    let mockSelectedContract = assembleContract(getContracts().content[0]);
+    componentInstance.multiSelection([ mockSelectedContract ]);
+    expect(componentInstance.selectedContracts.length).toEqual(1);
+    expect(componentInstance.selectedContracts[0].contractId).toEqual(mockSelectedContract.contractId);
+  });
 
-        const mockFilter = {
-            contractId: ["hello"],
-            counterpartyAddress: [],
-            creationDate: [],
-            endDate: [],
-            state: []
-        }
-        const myPagination = {page: 0, pageSize: 10, sorting: ['', null] as TableHeaderSort}
-        componentInstance.onTableConfigChange(myPagination)
-        expect(componentInstance.pagination.pageSize).toEqual(10);
+  it('should export contracts as csv', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
 
-        componentInstance.filterActivated(mockFilter);
+    let mockSelectedContract = assembleContract(getContracts().content[0]);
+    componentInstance.multiSelection([ mockSelectedContract ]);
 
-        expect(JSON.stringify(componentInstance.contractFilter)).toContain("hello");
+    let convertSpy = spyOn(componentInstance, 'convertArrayOfObjectsToCSV');
+    let downloadSpy = spyOn(componentInstance, 'downloadCSV');
+    componentInstance.exportContractsAsCSV();
+    expect(convertSpy).toHaveBeenCalledWith([ assembleContract(getContracts().content[0]) ]);
+    expect(downloadSpy).toHaveBeenCalled();
 
-    });
+  });
 
-    it('select a contract', async () => {
-        const {fixture} = await renderContractTableComponent();
-        const {componentInstance} = fixture;
-        let mockSelectedContract = assembleContract(getContracts().content[0]);
-        componentInstance.multiSelection([mockSelectedContract]);
-        expect(componentInstance.selectedContracts.length).toEqual(1);
-        expect(componentInstance.selectedContracts[0].contractId).toEqual(mockSelectedContract.contractId)
-    });
+  it('should convert data to csv', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
 
-    it('should export contracts as csv', async () => {
-        const {fixture} = await renderContractTableComponent();
-        const {componentInstance} = fixture;
+    let result = componentInstance.convertArrayOfObjectsToCSV([ getContracts().content[0] ]);
 
-        let mockSelectedContract = assembleContract(getContracts().content[0]);
-        componentInstance.multiSelection([mockSelectedContract]);
+    expect(result).toEqual('contractId,counterpartyAddress,creationDate,endDate,state,policy\n' +
+      'abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy');
 
-        let convertSpy = spyOn(componentInstance, 'convertArrayOfObjectsToCSV');
-        let downloadSpy = spyOn(componentInstance, 'downloadCSV')
-        componentInstance.exportContractsAsCSV();
-        expect(convertSpy).toHaveBeenCalledWith([assembleContract(getContracts().content[0])]);
-        expect(downloadSpy).toHaveBeenCalled();
-
-    });
-
-    it('should convert data to csv', async () => {
-        const {fixture} = await renderContractTableComponent();
-        const {componentInstance} = fixture;
-
-        let result = componentInstance.convertArrayOfObjectsToCSV([getContracts().content[0]])
-
-        expect(result).toEqual("contractId,counterpartyAddress,creationDate,endDate,state,policy\n" +
-            "abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy");
-
-    });
-    it('should download CSV file', async () => {
-        const {fixture} = await renderContractTableComponent();
-        const {componentInstance} = fixture;
-        const csvContent = 'header1,header2\nvalue1,value2\nvalue3,value4'; // Sample CSV content
-        const fileName = 'test.csv';
+  });
+  it('should download CSV file', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+    const csvContent = 'header1,header2\nvalue1,value2\nvalue3,value4'; // Sample CSV content
+    const fileName = 'test.csv';
 
 
-        // Mock the required browser APIs
-        const link = document.createElement('a');
-        spyOn(link, 'setAttribute');
-        spyOn(link, 'click');
-        spyOn(document.body, 'appendChild').and.callThrough();
-        spyOn(document.body, 'removeChild').and.callThrough();
+    // Mock the required browser APIs
+    const link = document.createElement('a');
+    spyOn(link, 'setAttribute');
+    spyOn(link, 'click');
+    spyOn(document.body, 'appendChild').and.callThrough();
+    spyOn(document.body, 'removeChild').and.callThrough();
 
-        createElementSpy.and.returnValue(link);
+    createElementSpy.and.returnValue(link);
 
-        componentInstance.downloadCSV(csvContent, fileName);
+    componentInstance.downloadCSV(csvContent, fileName);
 
-        // Check if a link was created with correct attributes
-        expect(createElementSpy).toHaveBeenCalledWith('a');
-        expect(link.setAttribute).toHaveBeenCalledWith('href', jasmine.any(String));
-        expect(link.setAttribute).toHaveBeenCalledWith('download', fileName);
-        expect(link.style.visibility).toBe('hidden');
+    // Check if a link was created with correct attributes
+    expect(createElementSpy).toHaveBeenCalledWith('a');
+    expect(link.setAttribute).toHaveBeenCalledWith('href', jasmine.any(String));
+    expect(link.setAttribute).toHaveBeenCalledWith('download', fileName);
+    expect(link.style.visibility).toBe('hidden');
 
-        // Check if the link was appended to the document body
-        expect(document.body.appendChild).toHaveBeenCalledWith(link);
+    // Check if the link was appended to the document body
+    expect(document.body.appendChild).toHaveBeenCalledWith(link);
 
-        // Check if the link was clicked
-        expect(link.click).toHaveBeenCalled();
+    // Check if the link was clicked
+    expect(link.click).toHaveBeenCalled();
 
-        // Ensure that the link is removed from the document body after being clicked
-        expect(document.body.removeChild).toHaveBeenCalledWith(link);
-    });
+    // Ensure that the link is removed from the document body after being clicked
+    expect(document.body.removeChild).toHaveBeenCalledWith(link);
+  });
 });

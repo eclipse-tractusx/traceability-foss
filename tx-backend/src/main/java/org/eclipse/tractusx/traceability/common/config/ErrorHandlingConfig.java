@@ -33,6 +33,8 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.validation
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportJobNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyBadRequestException;
+import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.common.domain.ParseLocalDateException;
@@ -44,19 +46,20 @@ import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractExce
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationIllegalUpdate;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.jpa.JpaSystemException;
@@ -66,12 +69,18 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Slf4j
 @RestControllerAdvice
@@ -88,14 +97,51 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(", "));
         log.warn("handleMethodArgumentNotValidException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ErrorResponse(errorMessage));
+    }
+
+    @ExceptionHandler(HttpClientErrorException.class)
+    ResponseEntity<ErrorResponse> handleHttpClientErrorException(HttpClientErrorException exception) {
+        log.warn("handleHttpClientErrorException", exception);
+
+        HttpStatusCode status = HttpStatusCode.valueOf(exception.getStatusCode().value());
+        String errorMessage;
+
+        if (status.equals(BAD_REQUEST)) {
+            return ResponseEntity.status(BAD_REQUEST)
+                    .body(new ErrorResponse(exception.getMessage()));
+        } else if (status.equals(NOT_FOUND)) {
+            return ResponseEntity.status(NOT_FOUND)
+                    .body(new ErrorResponse(exception.getMessage()));
+        } else {
+            errorMessage = exception.getMessage();
+            return ResponseEntity.status(status)
+                    .body(new ErrorResponse(errorMessage));
+        }
+    }
+
+    @ExceptionHandler(PolicyBadRequestException.class)
+    ResponseEntity<ErrorResponse> handlePolicyBadRequestException(PolicyBadRequestException exception) {
+        log.warn("handlePolicyBadRequestException", exception);
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(HttpServerErrorException.class)
+    public ResponseEntity<ErrorResponse> handleHttpServerErrorException(HttpServerErrorException exception) {
+        log.warn("handleHttpServerErrorException", exception);
+
+        HttpStatusCode status = exception.getStatusCode();
+        String errorMessage = exception.getMessage();
+        return ResponseEntity.status(status)
                 .body(new ErrorResponse(errorMessage));
     }
 
     @ExceptionHandler(JpaSystemException.class)
     ResponseEntity<ErrorResponse> handleJpaSystemException(JpaSystemException exception) {
         log.warn("handleJpaSystemException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse("Failed to deserialize request body."));
     }
 
@@ -107,14 +153,21 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         if (exception.getRootCause() instanceof NoSuchElementException) {
             message = ExceptionUtils.getRootCauseMessage(exception);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(message));
     }
 
     @ExceptionHandler(AssetNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException exception) {
         log.warn("handleAssetNotFoundException", exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(PolicyNotFoundException.class)
+    ResponseEntity<ErrorResponse> handlePolicyNotFoundException(PolicyNotFoundException exception) {
+        log.warn("handlePolicyNotFoundException", exception);
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
@@ -128,63 +181,63 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(PublishAssetException.class)
     ResponseEntity<ErrorResponse> handlePublishAssetException(PublishAssetException exception) {
         log.warn("handlePublishAssetException", exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(ImportException.class)
     ResponseEntity<ErrorResponse> handleImportException(ImportException exception) {
         log.warn("handleImportException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationNotFoundException.class)
     ResponseEntity<ErrorResponse> handleInvestigationNotFoundException(InvestigationNotFoundException exception) {
         log.warn("handleInvestigationNotFoundException", exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(NotificationNotSupportedException.class)
     ResponseEntity<ErrorResponse> handleInvestigationNotSupportedException(NotificationNotSupportedException exception) {
         log.warn("handleInvestigationNotSupportedException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(NotificationNotFoundException.class)
     ResponseEntity<ErrorResponse> handleNotificationNotFoundException(NotificationNotFoundException exception) {
         log.warn("handleNotificationNotFoundException", exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationStatusTransitionNotAllowed.class)
     ResponseEntity<ErrorResponse> handleInvestigationStatusTransitionNotAllowed(InvestigationStatusTransitionNotAllowed exception) {
         log.warn("handleInvestigationStatusTransitionNotAllowed", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(BpnNotFoundException.class)
     ResponseEntity<ErrorResponse> handleBpnEdcMappingNotFoundException(BpnNotFoundException exception) {
         log.warn("handleBpnEdcMappingNotFoundException", exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationReceiverBpnMismatchException.class)
     ResponseEntity<ErrorResponse> handleInvestigationReceiverBpnMismatchException(InvestigationReceiverBpnMismatchException exception) {
         log.warn("handleInvestigationReceiverBpnMismatchException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(NotificationSenderAndReceiverBPNEqualException.class)
     ResponseEntity<ErrorResponse> handleNotificationSenderAndReceiverBPNEqualException(NotificationSenderAndReceiverBPNEqualException exception) {
         log.warn("handleNotificationSenderAndReceiverBPNEqualException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
@@ -198,7 +251,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(ValidationException.class)
     ResponseEntity<ErrorResponse> handleValidationException(ValidationException exception) {
         log.warn("handleValidationException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
@@ -219,14 +272,14 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
         log.warn("handleIllegalArgumentException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(ParseLocalDateException.class)
     ResponseEntity<ErrorResponse> handleParseLocalDateException(ParseLocalDateException exception) {
         log.warn("handleParseLocalDateException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
@@ -254,28 +307,28 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(NotificationStatusTransitionNotAllowed.class)
     ResponseEntity<ErrorResponse> handleNotificationStatusTransitionNotAllowed(NotificationStatusTransitionNotAllowed exception) {
         log.warn("handleNotificationStatusTransitionNotAllowed", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(UpdateNotificationValidationException.class)
     ResponseEntity<ErrorResponse> handleUpdateNotificationValidationException(UpdateNotificationValidationException exception) {
         log.warn("handleUpdateNotificationValidationException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvalidFilterException.class)
     ResponseEntity<ErrorResponse> handleInvalidFilterException(InvalidFilterException exception) {
         log.warn("handleInvalidFilterException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(UnsupportedSearchCriteriaFieldException.class)
     ResponseEntity<ErrorResponse> handleUnsupportedSearchCriteriaFieldException(UnsupportedSearchCriteriaFieldException exception) {
         log.warn("handleInvalidFilterException", exception);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
@@ -316,7 +369,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     public ResponseEntity<ErrorResponse> handleInvalidSortException(final InvalidSortException exception) {
         log.error("InvalidSortException exception", exception);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
@@ -325,7 +378,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         String errorMessage = exception
                 .getMessage();
         log.warn("handleSubmodelNotFoundException", exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(errorMessage));
     }
 
@@ -333,7 +386,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException exception) {
         log.error("MethodArgumentTypeMismatchException exception", exception);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
@@ -341,7 +394,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     public ResponseEntity<ErrorResponse> handleImportJobNotFoundException(final ImportJobNotFoundException exception) {
         log.error("ImportJobNotFoundException exception", exception);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
@@ -349,7 +402,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     public ResponseEntity<ErrorResponse> handleContractException(final ContractException exception) {
         log.error("Contract exception", exception);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 }

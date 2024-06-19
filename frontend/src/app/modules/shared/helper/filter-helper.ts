@@ -26,10 +26,10 @@ import {
 import { NotificationDeeplinkFilter } from '@shared/model/notification.model';
 
 
-export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate' ];
+export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate', 'createdOn', 'validUntil' ];
 
 // TODO: Refactor function
-export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter, params: HttpParams, filterOperator: string): HttpParams {
+export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter | any, params: HttpParams, filterOperator: string): HttpParams {
 
   for (const key in filter) {
     let operator: string;

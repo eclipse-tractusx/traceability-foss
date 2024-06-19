@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.common.config;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.PolicyRepository;
+import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,7 +57,7 @@ class ApplicationStartupConfigTest {
             applicationStartupConfig.registerIrsPolicy();
 
             // then
-            verify(policyRepository, times(1)).createIrsPolicyIfMissing();
+            verify(policyRepository, times(1)).createPolicyBasedOnAppConfig();
         });
 
         executor.shutdown();

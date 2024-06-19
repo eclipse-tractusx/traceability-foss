@@ -322,6 +322,24 @@ SPDX-License-Identifier: Apache-2.0
                             </resources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy-testdata</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/classes/testdata/jsonfiles</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>testdata</directory>
+                                    <includes>
+                                        <include>CX_Testdata_MessagingTest_v*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
                     <resources>

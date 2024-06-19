@@ -1,6 +1,7 @@
 <h1><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/frontend/src/assets/images/logo.svg" alt="Trace-X - Product Traceability FOSS Frontend (TRACE-FOSS)" style="width:200px;"/>Traceability FOSS</h1>
 
-[![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/eclipse-tractusx/traceability-foss/LICENSE)
+[![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+[![CC BY 4.0 License](https://img.shields.io/badge/Non--code_license-CC%20BY%204.0-orange.svg)](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE_non-code)
 [![QG Backend](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-backend)
 [![QG Frontend](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-frontend)
 [![Kics](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/kics.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/kics.yml)
@@ -13,6 +14,9 @@
 
 ## Table of Contents
 - [Trace-X](https://github.com/eclipse-tractusx/traceability-foss/#trace-x-is-a-system-for-tracking-parts-along-the-supply-chain)
+  - [Introduction](#introduction)
+    - [Vision and Mission Statement](#vision-and-mission-statement)
+    - [Trace-X Feature list](#trace-x-feature-list)
   - [How to contribute](https://github.com/eclipse-tractusx/traceability-foss/#how-to-contribute)
   - [Releasing](https://github.com/eclipse-tractusx/traceability-foss/#releasing)
   - [Environments](https://github.com/eclipse-tractusx/traceability-foss/#environments)
@@ -31,7 +35,33 @@
     - [Backend Testing strategy](#backend-testing-strategy)
   - [API documentation](https://github.com/eclipse-tractusx/traceability-foss/#api-documentation)
   - [Container Image](https://github.com/eclipse-tractusx/traceability-foss/#container-image)
-  - [License](https://github.com/eclipse-tractusx/traceability-foss/#license)
+  - [Licenses](https://github.com/eclipse-tractusx/traceability-foss/#licenses)
+
+## Introduction
+
+### Vision and Mission Statement
+Trace-X empowers all companies from SMEs to large OEMs to participate in parts traceability with an Open-Source solution.
+
+The Open-Source Traceability application is developed within the Catena-X project and enables all companies to participate in Parts Traceability.
+Trace-X offers capabilities to ingest data for serialized parts and batches as well as their child components.  Within CX, we strive to establish a standardized, data-sovereign and interoperable exchange of traceability data along the value creation chain.
+
+The application gives an overview of the supplier network and the supply chain. A high level of transparency across the supplier network enables faster intervention based on recorded events in the supply chain. Additionally, automated massages regarding Quality related incidents and a tool for inspecting the supply chain helps companies in these fast-moving times.
+
+All this saves' costs by seamlessly tracking parts as well as creates trust through clearly defined and secure data access by the companies and persons involved in the process.
+
+### Trace-X Feature list
+Trace-X as the Open-Source solution for Parts Traceability offers the following functionalities:
+
+* List and view manufactured parts based on BoM AsBuild
+* List and view planned parts based on BoM AsPlanned
+* Filter and Search functionality on part views 
+* Show detailed information on manufactured parts
+** Asset Administration Shell description
+** Submodel description such as SerialPartTypization, AssemblyPartRelationship, Batch
+* List and view Supplier parts based on BoM As Build
+** List of Supplier parts based on AssemblyPartRelationship Aspect
+* View parts and parts relations in parts tree
+* Send and receive quality investigations along the supply chain
 
 ## How to contribute
 
@@ -123,9 +153,10 @@ See [TESTING](tx-backend/TESTING.md).
 The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/openapi/traceability-foss-backend.json)
 or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swagger-ui/index.html`
 
-## License
+## Licenses
 
-[Apache License 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+* [Apache License 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+* [CC BY 4.0 License](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE_non-code)
 
 ## Notice for Docker image
 

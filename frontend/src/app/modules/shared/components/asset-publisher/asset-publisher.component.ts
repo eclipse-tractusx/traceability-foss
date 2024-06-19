@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { PoliciesAssembler } from '@page/admin/presentation/policy-management/policies/policy.assembler';
 import { ImportState, Part } from '@page/parts/model/parts.model';
 import { Policy } from '@page/policies/model/policy.model';
 import { PolicyService } from '@shared/service/policy.service';
 import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asset-publisher',
@@ -55,7 +57,9 @@ export class AssetPublisherComponent {
   }
 
   private getPolicies() {
-    this.policiesSubscription = this.policyService.getPolicies().subscribe(data => {
+    this.policiesSubscription = this.policyService.getPolicies().pipe(map(response => {
+      return PoliciesAssembler.mapToPolicyEntryList(response).map(entry => entry.payload.policy).map(policy => PoliciesAssembler.assemblePolicy(policy));
+    })).subscribe(data => {
       this.policiesList = data;
     })
   }

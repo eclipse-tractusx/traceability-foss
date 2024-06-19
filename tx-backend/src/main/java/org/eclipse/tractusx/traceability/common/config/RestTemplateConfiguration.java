@@ -21,11 +21,14 @@
 package org.eclipse.tractusx.traceability.common.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
@@ -37,6 +40,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -44,11 +51,13 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -64,7 +73,7 @@ public class RestTemplateConfiguration {
     public static final String IRS_REGULAR_TEMPLATE = "irsRegularTemplate";
     public static final String SUBMODEL_REST_TEMPLATE = "submodelRestTemplate";
     public static final String DIGITAL_TWIN_REGISTRY_REST_TEMPLATE = "digitalTwinRegistryRestTemplate";
-    public static final String EDC_CLIENT_REST_TEMPLATE= "edcClientRestTemplate";
+    public static final String EDC_CLIENT_REST_TEMPLATE = "edcClientRestTemplate";
     public static final String BPDM_CLIENT_REST_TEMPLATE = "bpdmClientRestTemplate";
 
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
@@ -72,6 +81,7 @@ public class RestTemplateConfiguration {
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final ClientRegistrationRepository clientRegistrationRepository;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
 
     /* RestTemplate used by trace x for the resolution of manufacturer names by BPN.*/
@@ -196,13 +206,14 @@ public class RestTemplateConfiguration {
 
     private List<HttpMessageConverter<?>> customMessageConverters() {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
         converter.setObjectMapper(JsonMapper.builder()
                 .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
                 .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .build()
-                .registerModules(new JavaTimeModule()));
+                .registerModules(javaTimeModule));
 
         // Add the custom converter to the list of message converters
         List<HttpMessageConverter<?>> converters = new ArrayList<>();

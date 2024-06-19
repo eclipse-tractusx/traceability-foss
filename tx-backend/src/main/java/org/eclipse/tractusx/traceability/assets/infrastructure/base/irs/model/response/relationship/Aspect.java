@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.List;
-import java.util.Objects;
 
 public enum Aspect {
     BATCH("urn:samm:io.catenax.batch:3.0.0#Batch"),
@@ -58,44 +57,5 @@ public enum Aspect {
 
     public static List<String> downwardAspectsForAssetsAsPlanned() {
         return List.of(PART_AS_PLANNED.getAspectName(), PART_SITE_INFORMATION_AS_PLANNED.getAspectName());
-    }
-
-
-    public static boolean isMainAspect(String aspect) {
-        assert Objects.nonNull(aspect);
-        return aspect.contains(Aspect.PART_AS_PLANNED.getAspectName()) ||
-                aspect.contains(Aspect.SERIAL_PART.getAspectName()) ||
-                aspect.contains(Aspect.BATCH.getAspectName()) ||
-                aspect.contains(Aspect.JUST_IN_SEQUENCE_PART.getAspectName());
-    }
-
-    public static boolean isAsBuiltMainAspect(String aspect) {
-        return aspect.contains(Aspect.SERIAL_PART.getAspectName()) ||
-                aspect.contains(Aspect.BATCH.getAspectName()) ||
-                aspect.contains(Aspect.JUST_IN_SEQUENCE_PART.getAspectName());
-    }
-
-    public static boolean isAsPlannedMainAspect(String aspect) {
-        return aspect.contains(Aspect.PART_AS_PLANNED.getAspectName());
-    }
-
-    public static boolean isPartSiteInformationAsPlanned(String aspect){
-        return aspect.contains(Aspect.PART_SITE_INFORMATION_AS_PLANNED.getAspectName());
-    }
-
-    public static boolean isTractionBatteryCode(String aspect){
-        return aspect.contains(Aspect.TRACTION_BATTERY_CODE.getAspectName());
-    }
-
-    public static boolean isUpwardRelationshipAsBuilt(String aspect){
-        return aspect.contains(Aspect.SINGLE_LEVEL_BOM_AS_BUILT.getAspectName());
-    }
-
-    public static boolean isDownwardRelationshipAsBuilt(String aspect){
-        return aspect.contains(Aspect.SINGLE_LEVEL_USAGE_AS_BUILT.getAspectName());
-    }
-
-    public static boolean isUpwardRelationshipAsPlanned(String aspect){
-        return aspect.contains(Aspect.SINGLE_LEVEL_BOM_AS_PLANNED.getAspectName());
     }
 }

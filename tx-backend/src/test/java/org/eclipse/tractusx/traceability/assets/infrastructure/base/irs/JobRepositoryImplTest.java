@@ -19,24 +19,14 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
-import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
-import org.eclipse.tractusx.irs.edc.client.policy.Operator;
-import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
-import org.eclipse.tractusx.irs.edc.client.policy.Permission;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsPolicyResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Payload;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -45,11 +35,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -73,7 +60,7 @@ class JobRepositoryImplTest {
     private BpnRepository bpnRepository;
 
     @Mock
-    private IrsClient irsClient;
+    private JobClient jobClient;
 
     @Mock
     private IrsResponseAssetMapper assetMapperFactory;
@@ -88,7 +75,7 @@ class JobRepositoryImplTest {
         jobRepositoryImpl.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         // Then
-        verify(irsClient, times(1)).registerJob(any(RegisterJobRequest.class));
+        verify(jobClient, times(1)).registerJob(any(RegisterJobRequest.class));
     }
 
     private static Stream<Arguments> provideDirections() {
@@ -98,29 +85,4 @@ class JobRepositoryImplTest {
         );
     }
 
-
-    @Test
-    void test_getPolicyConstraints() {
-        //GIVEN
-
-        OffsetDateTime validUntil = OffsetDateTime.now();
-        OffsetDateTime createdOn = OffsetDateTime.now();
-        List<Constraint> andConstraints = List.of(new Constraint("leftOperand", new Operator(OperatorType.EQ), "rightOperand"));
-        List<Constraint> orConstraints = List.of(new Constraint("leftOperand", new Operator(OperatorType.EQ), "rightOperand"));
-        Constraints constraints = new Constraints(andConstraints, orConstraints);
-
-        Policy policy = new Policy("test", createdOn, validUntil, List.of(new Permission(PolicyType.USE, constraints)));
-        Payload payload = new Payload(null, "test", policy);
-
-        final IrsPolicyResponse existingPolicy = new IrsPolicyResponse(validUntil, payload);
-
-
-        when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
-
-        //WHEN
-        List<IrsPolicyResponse> irsPolicyResponse = irsClient.getPolicies();
-
-        //THEN
-        assertThat(irsPolicyResponse).hasSize(1);
-    }
 }

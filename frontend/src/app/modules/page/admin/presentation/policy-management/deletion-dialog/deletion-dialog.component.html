@@ -1,0 +1,28 @@
+<mat-dialog-content>
+  <div class="dialog--content">
+    <div class="dialog--header--container pt-0.5 pr-0.5">
+      <p mat-dialog-title class="dialog--header--text">{{ title | i18n }}</p>
+      <mat-icon
+        onkeydown="dialogRef.close()"
+        (click)="dialogRef.close()"
+      >close
+      </mat-icon>
+    </div>
+    <div class="dialog--content--container flex flex-col justify-center text-center">
+      <p class="font-semiBold">{{ 'pageAdmin.policyManagement.deletionText' | i18n }}</p>
+      <mat-list>
+        <mat-list-item *ngFor="let item of policyIds">
+          <p class="font-bold" matLine>{{ item }}</p>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog--actions--container">
+  <div class="dialog--actions--container">
+    <button class="mat-raised-button mat-primary dialog--actions--save--button"
+            (click)="save()">{{ 'pageAdmin.policyManagement.confirm' | i18n }}
+    </button>
+  </div>
+</mat-dialog-actions>
