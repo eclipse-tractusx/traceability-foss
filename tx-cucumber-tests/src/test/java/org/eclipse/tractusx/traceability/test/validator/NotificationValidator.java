@@ -65,18 +65,16 @@ public class NotificationValidator {
         }
 
         if (fieldsToCheck.containsKey(CLOSE_REASON.getFieldName())) {
-            assertThat(notification.getReason().close())
-                    .isEqualTo(fieldsToCheck.get(CLOSE_REASON.getFieldName()));
+            assertThat(notification.latestMessage().get().getMessage()).isEqualTo(fieldsToCheck.get(CLOSE_REASON.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(ACCEPT_REASON.getFieldName())) {
-            assertThat(notification.getReason().accept())
-                    .isEqualTo(fieldsToCheck.get(ACCEPT_REASON.getFieldName()));
+            assertThat(notification.latestMessage().get().getMessage()).isEqualTo(fieldsToCheck.get(ACCEPT_REASON.getFieldName()));
+
         }
 
         if (fieldsToCheck.containsKey(DECLINE_REASON.getFieldName())) {
-            assertThat(notification.getReason().decline())
-                    .isEqualTo(fieldsToCheck.get(DECLINE_REASON.getFieldName()));
+            assertThat(notification.latestMessage().get().getMessage()).isEqualTo(fieldsToCheck.get(DECLINE_REASON.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(SEVERITY.getFieldName())) {
