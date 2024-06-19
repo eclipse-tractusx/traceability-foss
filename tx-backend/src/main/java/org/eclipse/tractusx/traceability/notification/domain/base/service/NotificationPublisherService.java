@@ -58,7 +58,7 @@ public class NotificationPublisherService {
 
     public Notification startNotification(StartNotification startNotification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        Notification notification = Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType());
+        Notification notification = Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType(), startNotification.getSeverity(), startNotification.getTargetDate());
         createMessages(startNotification, applicationBPN, notification, assetAsBuiltRepository);
         return notification;
     }
@@ -79,8 +79,6 @@ public class NotificationPublisherService {
                             applicationBPN,
                             startNotification.getReceiverBpn(),
                             startNotification.getDescription(),
-                            startNotification.getTargetDate(),
-                            startNotification.getSeverity(),
                             startNotification.getType(),
                             it,
                             creator,
@@ -160,9 +158,9 @@ public class NotificationPublisherService {
         relevantNotifications.forEach(qNotification -> {
             switch (status) {
                 case ACKNOWLEDGED -> notification.acknowledge();
-                case ACCEPTED -> notification.accept(reason);
-                case DECLINED -> notification.decline(reason);
-                case CLOSED -> notification.close(reason);
+                case ACCEPTED -> notification.accept(reason, qNotification);
+                case DECLINED -> notification.decline(reason, qNotification);
+                case CLOSED -> notification.close(reason, qNotification);
                 default ->
                         throw new NotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
             }

@@ -46,6 +46,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.Notification
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -110,25 +111,23 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         NotificationType notificationType = NotificationType.INVESTIGATION;
+        Notification notification = Notification.builder().targetDate(Instant.MAX.toString()).severity(NotificationSeverity.CRITICAL).build();
         NotificationMessage notificationBuild = NotificationMessage.builder()
                 .id("some-id")
                 .notificationStatus(NotificationStatus.SENT)
                 .affectedParts(List.of(new NotificationAffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")))
-                .createdByName("bpn-a")
-                .createdBy("Sender Manufacturer name")
-                .sendTo("BPNL00000003AXS3")
+                .sentByName("bpn-a")
+                .sentBy("Sender Manufacturer name")
+                .sentTo("BPNL00000003AXS3")
                 .sendToName("Receiver manufacturer name")
-                .severity(NotificationSeverity.MINOR)
-                .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
                 .type(notificationType)
-                .severity(NotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
-        EDCNotification notification = EDCNotificationFactory.createEdcNotification(
-                "it", notificationBuild);
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
+                "it", notificationBuild, notification);
 
         // when
-        notificationReceiverService.handleReceive(notification, notificationType);
+        notificationReceiverService.handleReceive(edcNotification, notificationType);
 
         // then
         notificationSupport.assertInvestigationsSize(1);

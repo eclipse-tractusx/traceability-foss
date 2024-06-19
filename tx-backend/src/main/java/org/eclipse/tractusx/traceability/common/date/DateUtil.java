@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.common.date;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import static org.eclipse.tractusx.traceability.common.config.TimeConfig.SYSTEM_TIMEZONE;
 
@@ -41,4 +42,13 @@ public class DateUtil {
             return null;
         }
     }
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
+
+    public static String convertInstantToString(Instant instant) {
+        if (instant == null) {
+            return null;
+        }
+        return formatter.format(instant);
+    }
+
 }

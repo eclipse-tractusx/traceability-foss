@@ -40,6 +40,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.convertInstantToString;
 
 @Data
 @Builder(toBuilder = true)
@@ -55,21 +56,24 @@ public class Notification {
     private NotificationType notificationType;
     @Builder.Default
     private List<String> affectedPartIds = new ArrayList<>();
-    private String closeReason;
-    private String acceptReason;
-    private String declineReason;
+    private NotificationSeverity severity;
+    private String targetDate;
+
     @Getter
     @Builder.Default
     private List<NotificationMessage> notifications = List.of();
 
 
-    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType) {
+    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate) {
+
         return Notification.builder()
                 .title(title)
                 .bpn(bpn)
                 .notificationStatus(NotificationStatus.CREATED)
                 .notificationSide(NotificationSide.SENDER)
                 .notificationType(notificationType)
+                .targetDate(convertInstantToString(targetDate))
+                .severity(severity)
                 .description(description)
                 .createdAt(createDate)
                 .affectedPartIds(Collections.emptyList())
@@ -89,8 +93,6 @@ public class Notification {
                     applicationBPN,
                     editNotification.getReceiverBpn(),
                     editNotification.getDescription(),
-                    editNotification.getTargetDate(),
-                    editNotification.getSeverity(),
                     this.notificationType,
                     receiverAssetsMap,
                     applicationBPN.value(),
@@ -111,8 +113,6 @@ public class Notification {
                                 applicationBPN,
                                 sentToBPN,
                                 editNotification.getDescription(),
-                                editNotification.getTargetDate(),
-                                editNotification.getSeverity(),
                                 this.notificationType,
                                 receiverAssetsMapEntry,
                                 applicationBPN.value(),
@@ -135,33 +135,32 @@ public class Notification {
     public void cancel(BPN applicationBpn) {
         validateBPN(applicationBpn);
         changeStatusTo(NotificationStatus.CANCELED);
-        this.closeReason = "canceled";
     }
 
-    public void close(BPN applicationBpn, String reason) {
+    public void close(BPN applicationBpn, String reason, NotificationMessage notificationMessage) {
         validateBPN(applicationBpn);
         changeStatusTo(NotificationStatus.CLOSED);
-        this.closeReason = reason;
-        this.notifications.forEach(notification -> notification.setDescription(reason));
+        notificationMessage.setMessage(reason);
+        this.notifications.forEach(notification -> notification.setMessage(reason));
     }
 
     public void acknowledge() {
         changeStatusTo(NotificationStatus.ACKNOWLEDGED);
     }
 
-    public void accept(String reason) {
+    public void accept(String reason, NotificationMessage message) {
         changeStatusTo(NotificationStatus.ACCEPTED);
-        this.acceptReason = reason;
+        message.setMessage(reason);
     }
 
-    public void decline(String reason) {
+    public void decline(String reason, NotificationMessage message) {
         changeStatusTo(NotificationStatus.DECLINED);
-        this.declineReason = reason;
+        message.setMessage(reason);
     }
 
-    public void close(String reason) {
+    public void close(String reason, NotificationMessage notificationMessage) {
         changeStatusTo(NotificationStatus.CLOSED);
-        this.closeReason = reason;
+        notificationMessage.setMessage(reason);
     }
 
     public void send(BPN applicationBpn) {
