@@ -94,13 +94,6 @@ export enum OperatorType {
   GT = 'GT',
   LTEQ = 'LTEQ',
   GTEQ = 'GTEQ',
-  IN = 'IN',
-  ISA = 'ISA',
-  HASPART = 'HASPART',
-  ISPARTOF = 'ISPARTOF',
-  ISONEOF = 'ISONEOF',
-  ISALLOF = 'ISALLOF',
-  ISNONEOF = 'ISNONEOF',
 }
 
 const OperatorSignsToTypes: { [key: string]: OperatorType } = {
@@ -132,8 +125,6 @@ export function getOperatorTypeSign(type: OperatorType): string {
       return '<=';
     case OperatorType.GTEQ:
       return '>=';
-    default:
-      return type.toString();
   }
 }
 

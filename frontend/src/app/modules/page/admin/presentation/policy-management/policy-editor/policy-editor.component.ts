@@ -1,5 +1,14 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { bpnListRegex, bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
@@ -52,7 +61,7 @@ export class PolicyEditorComponent {
 
 
     this.policyForm = this.fb.group({
-      policyName: new FormControl('', [ Validators.required, Validators.minLength(8), Validators.maxLength(40) ]),
+      policyName: new FormControl('', [ Validators.required, Validators.minLength(8), Validators.maxLength(40), this.noSpacesValidator() ]),
       validUntil: new FormControl('', [ Validators.required, this.futureDateValidator ]),
       bpns: new FormControl('', [ Validators.required, this.viewMode === ViewMode.CREATE ? BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') : BaseInputHelper.getCustomPatternValidator(bpnListRegex, 'bpn') ]),
       accessType: new FormControl<string>(PolicyAction.ACCESS),
@@ -316,6 +325,13 @@ export class PolicyEditorComponent {
     }
     return null;
   };
+
+  private noSpacesValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const hasSpaces = (control.value || '').includes(' ');
+      return hasSpaces ? { noSpaces: true } : null;
+    };
+  }
 
 
   protected readonly ViewMode = ViewMode;
