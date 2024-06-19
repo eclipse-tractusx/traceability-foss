@@ -86,42 +86,60 @@ export enum NotificationTypeResponse {
 
 export interface NotificationResponse {
   id: string;
-  description: string;
-  status: NotificationStatus;
-  severity: Severity;
   title: string;
-  createdDate: string;
+  type: NotificationTypeResponse;
+  status: NotificationStatus;
+  description: string;
   createdBy: string;
   createdByName?: string;
-  sendTo: string;
-  sendToName?: string;
-  reason: NotificationReason;
+  createdDate: string;
+  updatedDate?: string;
   assetIds: string[];
   channel: 'SENDER' | 'RECEIVER';
+  sendTo: string;
+  sendToName?: string;
+  severity: Severity;
   targetDate?: string;
-  bpn?: string;
-  errorMessage?: string;
-  type: NotificationTypeResponse
+  messages: NotificationMessage[] | [];
+
+}
+
+export interface NotificationMessage {
+  id: string;
+  sentBy: string;
+  sentByName: string;
+  sendTo: string;
+  sendToName: string;
+  contractAgreementId: string;
+  notificationReferenceId: string;
+  edcNotificationId: string;
+  messageDate: string;
+  messageId: string;
+  message: string;
+  status: NotificationStatus;
+  errorMessage: string;
 }
 
 export interface Notification {
   id: string;
-  description: string;
-  status: NotificationStatus | null;
-  severity: Severity | null;
   title: string;
-  createdDate: CalendarDateModel;
+  type: NotificationType;
+  status: NotificationStatus;
+  description: string;
   createdBy: string;
-  createdByName: string;
-  sendTo: string;
-  sendToName: string;
-  reason: NotificationReason;
+  createdByName?: string;
+  createdDate: CalendarDateModel;
+  updatedDate?: CalendarDateModel;
   assetIds: string[];
-  isFromSender: boolean;
+  channel?: 'SENDER' | 'RECEIVER';
+  sendTo: string;
+  sendToName?: string;
+  severity: Severity;
   targetDate?: CalendarDateModel;
-  bpn?: string;
-  errorMessage?: string;
-  type?: NotificationType;
+  messages: NotificationMessage[];
+
+  //added fields
+  isFromSender?: boolean;
 }
 
 export enum NotificationColumn {

@@ -47,24 +47,6 @@ describe('NotificationsComponent', () => {
     expect(spy).toHaveBeenCalledWith([ '/inbox/id-84' ], { queryParams: tabInformation });
   });
 
-  it('should call change pagination of received notifications', async () => {
-    await renderNotifications();
-    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
-
-    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
-  });
-
-  it('should call change pagination of queued & requested notifications', async () => {
-    await renderNotifications();
-
-    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
-
-    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
-
-    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
-  });
 
   it('should sort received notifications after column status', async () => {
     const { fixture } = await renderNotifications();

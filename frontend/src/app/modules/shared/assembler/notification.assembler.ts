@@ -39,56 +39,58 @@ export class NotificationAssembler {
   public static assembleNotification(response: NotificationResponse): Notification {
     const {
       id = null,
-      assetIds = null,
-      channel = null,
       title: _title = '',
-      reason = { accept: '', close: '', decline: '' },
-      description = '',
-      bpn = '',
+      type: _type = null,
       status: _status,
-      severity: _severity,
-      createdDate: _createdDate = '',
+      description = '',
       createdBy: _createdBy = '',
       createdByName: _createdByName = '',
+      createdDate: _createdDate = '',
+      updatedDate: _updatedDate = '',
+      assetIds = null,
+      channel = null,
       sendTo: _sendTo = '',
       sendToName: _sendToName = '',
+      severity: _severity,
       targetDate: _targetDate = '',
-      errorMessage: _errorMessage = '',
-      type: _type = null,
+      messages: _messages = [],
     } = response;
 
-    const isFromSender = channel === 'SENDER';
+    const title = _title;
+    const type = NotificationType[_type];
     const status = NotificationStatus[_status] ?? null;
-    const severity = Object.values(Severity).find(element => element == _severity) ?? null;
-    const createdDate = new CalendarDateModel(_createdDate);
-    const targetDate = new CalendarDateModel(_targetDate);
     const createdBy = _createdBy;
     const createdByName = _createdByName;
+    const createdDate = new CalendarDateModel(_createdDate);
+    const updatedDate = new CalendarDateModel(_updatedDate);
     const sendTo = _sendTo;
-    const title = _title;
     const sendToName = _sendToName;
-    const errorMessage = _errorMessage || undefined;
-    const type = NotificationType[_type];
+    const severity = Object.values(Severity).find(element => element == _severity) ?? null;
+    const targetDate = new CalendarDateModel(_targetDate);
+    const messages = _messages;
+
+    const isFromSender = channel === 'SENDER';
 
     let assembled = {
       id,
+      title,
       description,
       createdBy,
       createdByName,
       sendTo,
       sendToName,
-      reason,
       assetIds,
       isFromSender,
       status,
       severity,
       createdDate,
+      updatedDate,
       targetDate,
-      bpn,
       type,
-      title,
+      messages,
+
     };
 
-    return errorMessage ? { ...assembled, errorMessage: errorMessage } : assembled;
+    return assembled;
   }
 }
