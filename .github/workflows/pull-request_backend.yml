@@ -119,9 +119,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
-          SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
-          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY_BACKEND }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/traceability-foss/tx-coverage/target/site/jacoco-aggregate/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} Dsonar.organization=${{ vars.SONAR_ORGANIZATION }} -Dsonar.java.binaries=target/classes
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/traceability-foss/tx-coverage/target/site/jacoco-aggregate/jacoco.xml -Dsonar.projectKey=eclipse-tractusx_traceability-foss-backend Dsonar.organization=eclipse-tractusx -Dsonar.java.binaries=target/classes
 
   Publish-docker-image:
     needs: [ "Test-and-Sonar" ]
