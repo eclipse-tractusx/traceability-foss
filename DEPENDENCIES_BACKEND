@@ -6,7 +6,7 @@ maven/mavencentral/com.apicatalog/titanium-json-ld/1.4.0, Apache-2.0, approved, 
 maven/mavencentral/com.auth0/java-jwt/4.4.0, MIT, approved, #8459
 maven/mavencentral/com.carrotsearch.thirdparty/simple-xml-safe/2.7.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.fasterxml.jackson.core/jackson-annotations/2.15.4, Apache-2.0, approved, #15260
-maven/mavencentral/com.fasterxml.jackson.core/jackson-core/2.15.4, MIT AND Apache-2.0, approved, #7932
+maven/mavencentral/com.fasterxml.jackson.core/jackson-core/2.15.4, , approved, #15194
 maven/mavencentral/com.fasterxml.jackson.core/jackson-databind/2.14.2, Apache-2.0, approved, #15232
 maven/mavencentral/com.fasterxml.jackson.core/jackson-databind/2.15.4, Apache-2.0, approved, #15199
 maven/mavencentral/com.fasterxml.jackson.dataformat/jackson-dataformat-toml/2.15.2, Apache-2.0, approved, #15241
@@ -25,7 +25,7 @@ maven/mavencentral/com.github.docker-java/docker-java-transport-zerodep/3.3.6, A
 maven/mavencentral/com.github.docker-java/docker-java-transport/3.3.6, Apache-2.0, approved, #7942
 maven/mavencentral/com.github.java-json-tools/btf/1.3, Apache-2.0 AND GPL-1.0-or-later AND LGPL-3.0-only AND Apache-2.0 AND LGPL-3.0-only, restricted, #15201
 maven/mavencentral/com.github.java-json-tools/jackson-coreutils-equivalence/1.0, LGPL-3.0 OR Apache-2.0, approved, clearlydefined
-maven/mavencentral/com.github.java-json-tools/jackson-coreutils/2.0, Apache-2.0 AND LGPL-2.1-or-later AND LGPL-3.0-only AND (Apache-2.0 AND GPL-1.0-or-later AND LGPL-3.0-only) AND Apache-2.0 AND LGPL-3.0-only, restricted, #15186
+maven/mavencentral/com.github.java-json-tools/jackson-coreutils/2.0, Apache-2.0 OR LGPL-3.0-or-later, approved, #15186
 maven/mavencentral/com.github.java-json-tools/json-schema-core/1.2.14, Apache-2.0 AND LGPL-2.1-or-later AND LGPL-3.0-only AND (Apache-2.0 AND GPL-1.0-or-later AND LGPL-3.0-only) AND Apache-2.0 AND LGPL-3.0-only, restricted, #15282
 maven/mavencentral/com.github.java-json-tools/json-schema-validator/2.2.14, Apache-2.0 OR LGPL-3.0-or-later, approved, CQ20779
 maven/mavencentral/com.github.java-json-tools/msg-simple/1.2, Apache-2.0 AND LGPL-2.1-or-later AND LGPL-3.0-only AND (Apache-2.0 AND GPL-1.0-or-later AND LGPL-3.0-only) AND Apache-2.0 AND LGPL-3.0-only, restricted, #15239
@@ -186,7 +186,7 @@ maven/mavencentral/org.apache.httpcomponents/httpcore/4.4.16, Apache-2.0, approv
 maven/mavencentral/org.apache.httpcomponents/httpmime/4.5.13, Apache-2.0, approved, CQ11718
 maven/mavencentral/org.apache.logging.log4j/log4j-api/2.21.1, Apache-2.0 AND (Apache-2.0 AND LGPL-2.0-or-later), approved, #11079
 maven/mavencentral/org.apache.logging.log4j/log4j-to-slf4j/2.21.1, Apache-2.0, approved, #15262
-maven/mavencentral/org.apache.mina/mina-core/2.1.6, Apache-2.0 AND (Apache-2.0 AND LicenseRef-scancode-eric-glass), restricted, #15289
+maven/mavencentral/org.apache.mina/mina-core/2.1.6, Apache-2.0 AND MIT, approved, #15289
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-core/10.1.20, Apache-2.0 AND (EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND (CDDL-1.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND W3C AND CC0-1.0, approved, #5949
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-el/10.1.20, Apache-2.0, approved, #6997
 maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-websocket/10.1.20, Apache-2.0, approved, #7920
