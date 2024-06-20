@@ -45,7 +45,8 @@ public class NotificationMessageResponse {
     private String notificationReferenceId;
 
     private String edcNotificationId;
-    private OffsetDateTime messageDate;
+    @Schema(example = "2023-02-21T21:27:10.734950Z", maxLength = 50)
+    private String messageDate;
     private String messageId;
     @Enumerated(EnumType.STRING)
     private NotificationStatusResponse status;
