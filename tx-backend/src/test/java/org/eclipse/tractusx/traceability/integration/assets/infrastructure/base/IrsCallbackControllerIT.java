@@ -196,7 +196,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
         String jobState = "COMPLETED";
 
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()

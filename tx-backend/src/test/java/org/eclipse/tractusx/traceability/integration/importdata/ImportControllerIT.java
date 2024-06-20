@@ -77,7 +77,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenImportData_thenValidationShouldPass() throws JoseException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         // when/then
@@ -175,7 +175,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenImportDataButAssetExistInPersistentImportState_thenValidationShouldPassAndExpectedResponse() throws JoseException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
         AssetBase asset = AssetBase.builder()
                 .id("urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd")
@@ -229,7 +229,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenImportDataButAssetExistInTransientImportState_thenValidationShouldPassAndExpectedResponse() throws JoseException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
         AssetBase asset = AssetBase.builder()
                 .id("urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd")
@@ -284,7 +284,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenInvalidFile_whenImportData_thenValidationShouldNotPass() throws JoseException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/invalidImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/invalid_import_file.json").getFile();
         File file = new File(path);
 
         // when
@@ -378,7 +378,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenPublishData_thenStatusShouldChangeToInPublishedToCX() throws JoseException, InterruptedException, IOException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()
@@ -423,7 +423,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile2_whenPublishData_thenStatusShouldChangeToPublishedToCx() throws JoseException, InterruptedException, IOException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()
@@ -472,7 +472,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenPublishDataFailsOnDtr_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()
@@ -518,7 +518,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenPublishDataFailsOnPolicy_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()
@@ -564,7 +564,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenPublishDataFailsOnEdcPolicyCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()
@@ -610,7 +610,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenPublishDataFailsOnEdcAssetCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()
@@ -656,7 +656,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenValidFile_whenPublishDataFailsOnEdcContractCreation_thenStatusShouldChangeError() throws JoseException, InterruptedException, IOException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()
@@ -702,7 +702,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     @Test
     void givenInvalidAssetID_whenPublishData_thenStatusCode404() throws JoseException, InterruptedException {
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
 
         given()
@@ -741,7 +741,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     void givenValidFile_whenImportData_thenReportShouldBeReturned() throws JoseException {
 
         // given
-        String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/valid_import_file.json").getFile();
         File file = new File(path);
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
@@ -774,7 +774,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     void givenInvalidFile_whenImportData_thenReportShouldBeReturned() throws JoseException {
 
         // given
-        String path = getClass().getResource("/testdata/importfiles/invalidImportFile.json").getFile();
+        String path = getClass().getResource("/testdata/importfiles/invalid_import_file.json").getFile();
         File file = new File(path);
         ImportResponse result = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
