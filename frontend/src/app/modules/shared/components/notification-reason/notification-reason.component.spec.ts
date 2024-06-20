@@ -75,7 +75,7 @@ describe('NotificationReasonComponent', () => {
     component.notification = notification;
     expect(component.textMessages.length).toBe(2);
     expect(component.textMessages[0].message).toEqual('Hello');
-    expect(component.textMessages[1].direction).toEqual('right');
+    expect(component.textMessages[1].direction).toEqual('left');
   });
 
   it('should correctly compare two dates with isSameDay', () => {
