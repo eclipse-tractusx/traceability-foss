@@ -1,4 +1,7 @@
 {
-  "message" : "Request does not contain all required fields. Missing: odrl:permission"
+  "statusCode": "BAD_REQUEST",
+  "error": "Bad Request",
+  "messages": [
+    "Policy with id 'default-policy3342' already exists!"
+  ]
 }
-

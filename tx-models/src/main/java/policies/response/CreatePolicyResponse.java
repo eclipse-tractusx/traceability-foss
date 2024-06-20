@@ -18,5 +18,5 @@
  ********************************************************************************/
 package policies.response;
 
-public record CreatePolicyResponse() {
+public record CreatePolicyResponse(String policyId) {
 }

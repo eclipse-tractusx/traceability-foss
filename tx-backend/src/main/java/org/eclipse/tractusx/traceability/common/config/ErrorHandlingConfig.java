@@ -78,6 +78,7 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -114,19 +115,17 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
             try {
                 ResponseEntity<ErrorResponse> errorResponse = mapIRSBadRequestToErrorResponse(exception);
                 if (errorResponse != null) return errorResponse;
+            } catch (Exception e) {
+                ResponseEntity<ErrorResponse> body = ResponseEntity.status(BAD_REQUEST)
+                        .body(new ErrorResponse(exception.getMessage()));
+                return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
             }
-            catch (Exception e) {
-            ResponseEntity<ErrorResponse> body = ResponseEntity.status(BAD_REQUEST)
-                    .body(new ErrorResponse(exception.getMessage()));
-            return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
-        }
 
         } else if (status.equals(NOT_FOUND)) {
             try {
                 ResponseEntity<ErrorResponse> errorResponse = mapIRSNotFoundToErrorResponse(exception);
                 if (errorResponse != null) return errorResponse;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 ResponseEntity<ErrorResponse> body = ResponseEntity.status(NOT_FOUND)
                         .body(new ErrorResponse(exception.getMessage()));
                 return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
@@ -147,10 +146,9 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         if (jsonStart != -1 && jsonEnd != -1) {
             String jsonString = rawMessage.substring(jsonStart, jsonEnd + 1);
             IRSErrorResponse badRequestResponse = objectMapper.readValue(jsonString, IRSErrorResponse.class);
-            if (badRequestResponse != null && badRequestResponse.getMessage() != null) {
-                ErrorResponse errorResponse = new ErrorResponse(badRequestResponse.getMessage());
-                return ResponseEntity.status(400).body(errorResponse);
-            }
+            List<String> messages = badRequestResponse.getMessages();
+            String concatenatedMessages = String.join(", ", messages);
+            return ResponseEntity.status(400).body(new ErrorResponse(concatenatedMessages));
         }
         return null;
     }
@@ -162,11 +160,10 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         int jsonEnd = rawMessage.lastIndexOf("}");
         if (jsonStart != -1 && jsonEnd != -1) {
             String jsonString = rawMessage.substring(jsonStart, jsonEnd + 1);
-            IRSErrorResponse irsError = objectMapper.readValue(jsonString, IRSErrorResponse.class);
-            if (irsError != null && irsError.getMessage() != null) {
-                ErrorResponse errorResponse = new ErrorResponse(irsError.getMessage());
-                return ResponseEntity.status(404).body(errorResponse);
-            }
+            IRSErrorResponse badRequestResponse = objectMapper.readValue(jsonString, IRSErrorResponse.class);
+            List<String> messages = badRequestResponse.getMessages();
+            String concatenatedMessages = String.join(", ", messages);
+            return ResponseEntity.status(404).body(new ErrorResponse(concatenatedMessages));
         }
         return null;
     }

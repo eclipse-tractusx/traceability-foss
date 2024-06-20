@@ -133,7 +133,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .post("/api/policies")
                 .then()
                 .statusCode(400)
-                .body(containsString("Request does not contain all required fields. Missing: odrl:permission"))
+                .body(containsString("Policy with id 'default-policy3342' already exists!"))
                 .log().all();
     }
 
