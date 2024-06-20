@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { Component, Input } from '@angular/core';
+import { environment } from '@env';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 
 type TextMessageDirection = 'left' | 'right';
@@ -57,10 +58,10 @@ export class NotificationReasonComponent {
     const sortedMessagesAfterDates = messages.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
 
     sortedMessagesAfterDates.forEach(message => {
-
+      console.log(environment.bpn);
       this.textMessages.push({
         message: message.message,
-        direction: createdBy === message.sentBy ? 'right' : 'left',
+        direction: environment.bpn === message.sentBy ? 'right' : 'left',
         user: message.sentByName,
         bpn: message.sentBy,
         status: message.status,
