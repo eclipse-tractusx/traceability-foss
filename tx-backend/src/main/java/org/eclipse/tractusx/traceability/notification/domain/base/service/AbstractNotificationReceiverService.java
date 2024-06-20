@@ -48,7 +48,7 @@ public abstract class AbstractNotificationReceiverService implements Notificatio
     public void handleReceive(EDCNotification edcNotification, NotificationType notificationType) {
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
         NotificationMessage notification = getNotificationMessageMapper().toNotificationMessage(edcNotification, notificationType);
-        Notification investigation = getNotificationMapper().toNotification(investigationCreatorBPN, edcNotification.getInformation(), notification, notificationType);
+        Notification investigation = getNotificationMapper().toNotification(investigationCreatorBPN, edcNotification, notification, notificationType);
         NotificationId investigationId = getRepository().saveNotification(investigation);
         log.info("Stored received edcNotification in investigation with id {}", investigationId);
     }
