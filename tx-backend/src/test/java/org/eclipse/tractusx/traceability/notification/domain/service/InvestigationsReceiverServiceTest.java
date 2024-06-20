@@ -19,16 +19,15 @@
 
 package org.eclipse.tractusx.traceability.notification.domain.service;
 
-import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
+import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
-import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.notification.domain.notification.service.NotificationReceiverService;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationFactory;
@@ -42,12 +41,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.when;
 
 
@@ -92,14 +89,13 @@ class InvestigationsReceiverServiceTest {
                 .build();
 
 
-
         Notification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(NotificationStatus.RECEIVED, "recipientBPN");
         NotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification, investigationTestData);
 
         when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
-        when(mockNotificationMapper.toNotification(any(BPN.class), anyString(), any(NotificationMessage.class), any(NotificationType.class))).thenReturn(investigationTestData);
+        when(mockNotificationMapper.toNotification(any(BPN.class), any(), any(NotificationMessage.class), any(NotificationType.class))).thenReturn(investigationTestData);
 
         // When
         service.handleReceive(edcNotification, notificationType);
