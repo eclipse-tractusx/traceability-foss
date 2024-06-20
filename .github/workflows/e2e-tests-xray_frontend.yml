@@ -111,12 +111,12 @@ jobs:
           dir: frontend
 
       - name: Start Server
-        run: npm run start:auth:e2ea &
         working-directory: frontend
+        run: |
+          npm run start:auth:e2ea &
+          sleep 60 &&
+          curl http://localhost:4200 -I
 
-
-      - name: Wait for Server to be Ready
-        run: sleep 60
 
       - name: Cypress run all tests
         uses: cypress-io/github-action@v6.6.1 # use the explicit version number
