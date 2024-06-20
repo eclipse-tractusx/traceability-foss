@@ -101,10 +101,15 @@ jobs:
         with:
           node-version: 20.x
 
+      - name: Start Server
+        run: npm run start:auth:e2ea &
+
+      - name: Wait for Server to be Ready
+        run: sleep 60
+
       - name: Cypress run all tests
         uses: cypress-io/github-action@v6.6.1 # use the explicit version number
         with:
-          start: npm run start:auth:e2ea
           wait-on: "http://localhost:4200"
           wait-on-timeout: 120
           browser: chrome
