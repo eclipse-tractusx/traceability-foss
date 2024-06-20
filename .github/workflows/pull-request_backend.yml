@@ -28,27 +28,6 @@ env:
   BACKEND_IMAGE_DOCKER_HUB: traceability-foss
 
 jobs:
-  Check-Changelog-update:
-    runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'chore') || startsWith(github.head_ref, 'feature')
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          fetch-depth: 0
-      - name: Check if CHANGELOG is updated
-        id: updated-changelog
-        uses: tj-actions/changed-files@v44
-        with:
-          # Avoid using single or double quotes for multiline patterns
-          files: |
-            CHANGELOG.md
-      - name: request changes
-        uses: ntsd/auto-request-changes-action@v3
-        if: steps.updated-changelog.outputs.any_changed == 'false'
-        with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          review-message: "Please add a short description of the feature/fix to the Changelog.md."
   Check-Pom-for-snapshot-versions:
     runs-on: ubuntu-latest
     steps:
