@@ -10,6 +10,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 - #965 Implement proxy functionality of the IRS policy store
 - #962 Changed notification model to new one in frontend
+- #753 Refactored message history in notification detail view
 
 ### Added
 - #737 Added concept: Contract table -> parts link action
