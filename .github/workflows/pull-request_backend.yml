@@ -87,6 +87,11 @@ jobs:
           files: "**/surefire-reports/TEST-*.xml"
           check_name: "Unit Test Results"
 
+      - name: Clean working directories
+        run: |
+          rm -rf .scannerwork
+          rm -rf .sonar
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
         with:
