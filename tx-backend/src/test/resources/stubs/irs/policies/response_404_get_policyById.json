@@ -1,3 +1,7 @@
 {
-  "message": "404 : \"{\"statusCode\":\"NOT_FOUND\",\"error\":\"Not Found\",\"messages\":[\"Policy with id 'default-paafdsasfdolicy' not found\"]}\""
+  "statusCode": "NOT_FOUND",
+  "error": "Not Found",
+  "messages": [
+    "Policy with id 'd94e46a0-2aa2-4f62-a854-a5bc7013c78b' not found"
+  ]
 }
