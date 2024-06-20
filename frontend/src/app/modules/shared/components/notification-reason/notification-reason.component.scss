@@ -211,3 +211,11 @@
 .message--error--text {
   @apply text-danger;
 }
+
+.align-start {
+  align-self: flex-start;
+}
+
+.align-end {
+  align-self: flex-end;
+}
