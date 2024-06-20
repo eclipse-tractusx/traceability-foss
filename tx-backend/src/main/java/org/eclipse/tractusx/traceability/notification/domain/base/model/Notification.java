@@ -52,6 +52,8 @@ public class Notification {
     private NotificationStatus notificationStatus;
     private String description;
     private Instant createdAt;
+    private Instant updatedDate;
+
     private NotificationSide notificationSide;
     private NotificationType notificationType;
     @Builder.Default
@@ -75,6 +77,7 @@ public class Notification {
                 .targetDate(convertInstantToString(targetDate))
                 .severity(severity)
                 .description(description)
+                .updatedDate(Instant.now())
                 .createdAt(createDate)
                 .affectedPartIds(Collections.emptyList())
                 .build();
@@ -134,11 +137,13 @@ public class Notification {
 
     public void cancel(BPN applicationBpn) {
         validateBPN(applicationBpn);
+        updatedDate = Instant.now();
         changeStatusTo(NotificationStatus.CANCELED);
     }
 
     public void close(BPN applicationBpn, String reason, NotificationMessage notificationMessage) {
         validateBPN(applicationBpn);
+        updatedDate = Instant.now();
         changeStatusTo(NotificationStatus.CLOSED);
         notificationMessage.setMessage(reason);
         this.notifications.forEach(notification -> notification.setMessage(reason));
@@ -146,25 +151,31 @@ public class Notification {
 
     public void acknowledge() {
         changeStatusTo(NotificationStatus.ACKNOWLEDGED);
+        updatedDate = Instant.now();
+
     }
 
     public void accept(String reason, NotificationMessage message) {
         changeStatusTo(NotificationStatus.ACCEPTED);
+        updatedDate = Instant.now();
         message.setMessage(reason);
     }
 
     public void decline(String reason, NotificationMessage message) {
         changeStatusTo(NotificationStatus.DECLINED);
+        updatedDate = Instant.now();
         message.setMessage(reason);
     }
 
     public void close(String reason, NotificationMessage notificationMessage) {
         changeStatusTo(NotificationStatus.CLOSED);
+        updatedDate = Instant.now();
         notificationMessage.setMessage(reason);
     }
 
     public void send(BPN applicationBpn) {
         validateBPN(applicationBpn);
+        updatedDate = Instant.now();
         changeStatusTo(NotificationStatus.SENT);
     }
 
