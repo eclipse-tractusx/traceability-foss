@@ -106,6 +106,9 @@ jobs:
 
       - name: Start Server
         run: npm run start:auth:e2ea &
+        with:
+          working-directory: frontend
+
 
       - name: Wait for Server to be Ready
         run: sleep 60
