@@ -110,7 +110,7 @@ jobs:
           cmd: install # will run `yarn install` command
           dir: frontend
 
-      - name: Start Server
+      - name: Start Frontend Application
         working-directory: frontend
         run: |
           npm run start:auth:e2ea &
@@ -119,10 +119,11 @@ jobs:
 
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.6.1 # use the explicit version number
+        uses: cypress-io/github-action@v6.7.1 # use the explicit version number
         with:
           browser: chrome
           working-directory: frontend
+          # using wait-on parameter causes "Error: connect ECONNREFUSED 127.0.0.1:4200"
         env:
           CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.TRACE_X_SUPERVISOR_LOGIN }}
           CYPRESS_SUPERVISOR_PW: ${{ secrets.TRACE_X_SUPERVISOR_PW }}
