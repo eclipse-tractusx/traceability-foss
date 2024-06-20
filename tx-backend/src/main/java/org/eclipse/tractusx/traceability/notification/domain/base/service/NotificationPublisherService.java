@@ -68,8 +68,7 @@ public class NotificationPublisherService {
                 assetAsBuiltRepository
                         .getAssetsById(startNotification.getAffectedPartIds())
                         .stream()
-                        .filter(asset -> Objects.nonNull(asset.getManufacturerId()))
-                        .collect(groupingBy(AssetBase::getManufacturerId));        assetsAsBuiltBPNMap
+                        .filter(asset -> Objects.nonNull(asset.getManufacturerId())).collect(groupingBy(AssetBase::getManufacturerId));        assetsAsBuiltBPNMap
                 .entrySet()
                 .stream()
                 .map(it -> {
