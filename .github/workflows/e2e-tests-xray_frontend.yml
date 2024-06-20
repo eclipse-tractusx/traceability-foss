@@ -104,6 +104,12 @@ jobs:
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
+      - name: Run yarn install
+        uses: Borales/actions-yarn@v5
+        with:
+          cmd: install # will run `yarn install` command
+          dir: frontend
+
       - name: Start Server
         run: npm run start:auth:e2ea &
         working-directory: frontend
