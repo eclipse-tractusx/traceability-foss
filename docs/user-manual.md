@@ -161,7 +161,8 @@ Select the policies you wish to delete by checking the boxes next to them.
 Click on the delete icon to open the deletion dialog.
 Confirm the deletion in the dialog.
 The system will then remove the selected policies and update the list view.
-image::[https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/delete-policies-dialog.png](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/delete-policies-dialog.png)
+
+![delete-policies-dialog](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/delete-policies-dialog.png)
 
 ##### Policy Editor / Detailed View
 
