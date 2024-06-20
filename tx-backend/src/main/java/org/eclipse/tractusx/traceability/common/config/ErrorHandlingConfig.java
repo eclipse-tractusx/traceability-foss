@@ -22,6 +22,8 @@
 package org.eclipse.tractusx.traceability.common.config;
 
 import assets.importpoc.ErrorResponse;
+import assets.importpoc.IRSErrorResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -57,6 +59,7 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.except
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -69,7 +72,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -109,16 +111,64 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         String errorMessage;
 
         if (status.equals(BAD_REQUEST)) {
-            return ResponseEntity.status(BAD_REQUEST)
+            try {
+                ResponseEntity<ErrorResponse> errorResponse = mapIRSBadRequestToErrorResponse(exception);
+                if (errorResponse != null) return errorResponse;
+            }
+            catch (Exception e) {
+            ResponseEntity<ErrorResponse> body = ResponseEntity.status(BAD_REQUEST)
                     .body(new ErrorResponse(exception.getMessage()));
+            return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
+        }
+
         } else if (status.equals(NOT_FOUND)) {
-            return ResponseEntity.status(NOT_FOUND)
-                    .body(new ErrorResponse(exception.getMessage()));
+            try {
+                ResponseEntity<ErrorResponse> errorResponse = mapIRSNotFoundToErrorResponse(exception);
+                if (errorResponse != null) return errorResponse;
+            }
+            catch (Exception e) {
+                ResponseEntity<ErrorResponse> body = ResponseEntity.status(NOT_FOUND)
+                        .body(new ErrorResponse(exception.getMessage()));
+                return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
+            }
         } else {
             errorMessage = exception.getMessage();
             return ResponseEntity.status(status)
                     .body(new ErrorResponse(errorMessage));
         }
+        return ResponseEntity.status(status).body(new ErrorResponse(exception.getMessage()));
+    }
+
+    private @Nullable ResponseEntity<ErrorResponse> mapIRSBadRequestToErrorResponse(HttpClientErrorException exception) throws JsonProcessingException {
+        String rawMessage = exception.getMessage().replaceAll("<EOL>", "");
+        // Extract the JSON part of the message
+        int jsonStart = rawMessage.indexOf("{");
+        int jsonEnd = rawMessage.lastIndexOf("}");
+        if (jsonStart != -1 && jsonEnd != -1) {
+            String jsonString = rawMessage.substring(jsonStart, jsonEnd + 1);
+            IRSErrorResponse badRequestResponse = objectMapper.readValue(jsonString, IRSErrorResponse.class);
+            if (badRequestResponse != null && badRequestResponse.getMessage() != null) {
+                ErrorResponse errorResponse = new ErrorResponse(badRequestResponse.getMessage());
+                return ResponseEntity.status(400).body(errorResponse);
+            }
+        }
+        return null;
+    }
+
+    private @Nullable ResponseEntity<ErrorResponse> mapIRSNotFoundToErrorResponse(HttpClientErrorException exception) throws JsonProcessingException {
+        String rawMessage = exception.getMessage().replaceAll("<EOL>", "");
+        // Extract the JSON part of the message
+        int jsonStart = rawMessage.indexOf("{");
+        int jsonEnd = rawMessage.lastIndexOf("}");
+        if (jsonStart != -1 && jsonEnd != -1) {
+            String jsonString = rawMessage.substring(jsonStart, jsonEnd + 1);
+            IRSErrorResponse irsError = objectMapper.readValue(jsonString, IRSErrorResponse.class);
+            if (irsError != null && irsError.getMessage() != null) {
+                ErrorResponse errorResponse = new ErrorResponse(irsError.getMessage());
+                return ResponseEntity.status(404).body(errorResponse);
+            }
+        }
+        return null;
     }
 
     @ExceptionHandler(PolicyBadRequestException.class)
