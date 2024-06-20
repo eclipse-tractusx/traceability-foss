@@ -52,6 +52,11 @@ export class AdminComponent {
       icon: 'assignment_ind',
       link: '/admin/contracts',
     },
+    {
+      name: 'routing.adminPolicies',
+      icon: 'description',
+      link: '/admin/policies',
+    },
   ];
 
   constructor(router: Router) {

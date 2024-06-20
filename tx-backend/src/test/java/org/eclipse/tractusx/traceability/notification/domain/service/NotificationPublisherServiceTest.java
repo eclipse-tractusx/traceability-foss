@@ -111,8 +111,6 @@ class NotificationPublisherServiceTest {
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.CREATED);
         assertThat(result.getDescription()).isEqualTo(description);
         assertThat(result.getNotificationSide()).isEqualTo(NotificationSide.SENDER);
-        assertThat(result.getNotifications()).extracting("severity")
-                .containsExactly(NotificationSeverity.MINOR);
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
     }
 
@@ -142,11 +140,9 @@ class NotificationPublisherServiceTest {
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.CREATED);
         assertThat(result.getDescription()).isEqualTo(description);
         assertThat(result.getNotificationSide()).isEqualTo(NotificationSide.SENDER);
-        assertThat(result.getNotifications()).extracting("severity")
-                .containsExactly(NotificationSeverity.MINOR);
         assertThat(result.getNotifications()).hasSize(1)
                 .first()
-                .hasFieldOrPropertyWithValue("sendTo", receiverBpn);
+                .hasFieldOrPropertyWithValue("sentTo", receiverBpn);
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
 
     }
@@ -208,7 +204,6 @@ class NotificationPublisherServiceTest {
                 .id("123")
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now())
-                .targetDate(Instant.now())
                 .notificationStatus(NotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
@@ -217,7 +212,6 @@ class NotificationPublisherServiceTest {
                 .id("456")
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now().plusSeconds(10))
-                .targetDate(Instant.now())
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .build();
 
@@ -234,9 +228,7 @@ class NotificationPublisherServiceTest {
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.ACKNOWLEDGED);
-        assertThat(result.getDeclineReason()).isNull();
-        assertThat(result.getCloseReason()).isNull();
-        assertThat(result.getDeclineReason()).isNull();
+
         Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(NotificationMessage.class));
     }
 
@@ -254,7 +246,6 @@ class NotificationPublisherServiceTest {
                 .id("123")
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now())
-                .targetDate(Instant.now())
                 .notificationStatus(NotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
@@ -263,7 +254,6 @@ class NotificationPublisherServiceTest {
                 .id("456")
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now().plusSeconds(10))
-                .targetDate(Instant.now())
                 .notificationStatus(NotificationStatus.ACCEPTED)
                 .affectedParts(affectedParts)
                 .build();
@@ -281,7 +271,6 @@ class NotificationPublisherServiceTest {
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.ACCEPTED);
-        assertThat(result.getAcceptReason()).isEqualTo(reason);
         Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(NotificationMessage.class));
     }
 
@@ -299,7 +288,6 @@ class NotificationPublisherServiceTest {
                 .id("123")
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now())
-                .targetDate(Instant.now())
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
                 .build();
@@ -310,7 +298,6 @@ class NotificationPublisherServiceTest {
                 .notificationStatus(NotificationStatus.DECLINED)
                 .affectedParts(affectedParts)
                 .created(LocalDateTime.now().plusSeconds(10))
-                .targetDate(Instant.now())
                 .build();
 
         List<NotificationMessage> notifications = new ArrayList<>();
@@ -326,7 +313,6 @@ class NotificationPublisherServiceTest {
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.DECLINED);
-        assertThat(result.getDeclineReason()).isEqualTo(reason);
         Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(NotificationMessage.class));
     }
 
@@ -369,7 +355,6 @@ class NotificationPublisherServiceTest {
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.CLOSED);
-        assertThat(result.getCloseReason()).isEqualTo(reason);
         Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(NotificationMessage.class));
     }
 

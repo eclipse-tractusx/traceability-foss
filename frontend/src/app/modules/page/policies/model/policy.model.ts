@@ -1,3 +1,5 @@
+import { CalendarDateModel } from '@core/model/calendar-date.model';
+
 /********************************************************************************
  * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
  *
@@ -16,43 +18,119 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO: Decide if long term a Policy state, facade, ResponseType and Assembler is needed
-// TODO: Align with BE to a first valid Policy Model, changes seem to be happen frequently
-export interface Policy {
-  policyId: string;
-  createdOn: string;
+// RESPONSE
+
+export interface PolicyResponseMap {
+  [key: string]: PolicyEntry[];
+}
+
+export interface PolicyEntry {
   validUntil: string;
-  permissions?: PolicyPermission[];
+  payload: PolicyPayload;
+  businessPartnerNumber?: string[] | string;
+  policyIds?: string[];
+}
+
+export interface PolicyPayload {
+  '@context': {
+    odrl: string;
+  };
+  '@id': string;
+  policy: Policy;
+}
+
+
+export interface Policy {
+  // props in response
+  policyId: string;
+  createdOn: CalendarDateModel | string | number;
+  validUntil: CalendarDateModel | string | number;
+  permissions: PolicyPermission[];
+
+  // additional props
+  policyName?: string;
+  bpn?: string;
+  constraints?: string[]
+  accessType?: PolicyAction,
+  businessPartnerNumber?: string | string[]
+
 }
 
 export interface PolicyPermission {
-  action: PolicyType;
-  constraints?: Constraint[];
+  action: PolicyAction;
+  constraint?: {
+    and: PolicyConstraint[];
+    or: null | PolicyConstraint[];
+    xone?: PolicyConstraint[];
+    andsequence?: PolicyConstraint[];
+  };
+  constraints?: {
+    and: PolicyConstraint[];
+    or: null | PolicyConstraint[];
+    xone?: PolicyConstraint[];
+    andsequence?: PolicyConstraint[];
+  };
 }
 
-export enum PolicyType {
-  ACCESS="ACCESS",
-  USE="USE"
+export enum PolicyAction {
+  ACCESS = 'ACCESS',
+  USE = 'USE'
 }
 
-export interface Constraint {
-  leftOperand: string;
-  operator: OperatorType;
-  rightOperand: string[];
+export interface PolicyConstraint {
+  leftOperand?: string;
+  'odrl:leftOperand'?: string;
+  operatorTypeResponse?: OperatorType;
+  operator?: { '@id': OperatorType };
+  'odrl:operator'?: { '@id': OperatorType };
+  rightOperand?: string;
+  'odrl:rightOperand'?: string;
 }
 
 export enum OperatorType {
-    EQ = 'eq',
-    NEQ = 'neq',
-    LT = 'lt',
-    GT = 'gt',
-    IN = 'in',
-    LTEQ = 'lteq',
-    GTEQ = 'gteq',
-    ISA = 'isA',
-    HASPART = 'hasPart',
-    ISPARTOF = 'isPartOf',
-    ISONEOF = 'isOneOf',
-    ISALLOF = 'isAllOf',
-    ISNONEOF = 'isNoneOf',
+  EQ = 'EQ',
+  NEQ = 'NEQ',
+  LT = 'LT',
+  GT = 'GT',
+  LTEQ = 'LTEQ',
+  GTEQ = 'GTEQ',
+}
+
+const OperatorSignsToTypes: { [key: string]: OperatorType } = {
+  '=': OperatorType.EQ,
+  '!=': OperatorType.NEQ,
+  '<': OperatorType.LT,
+  '>': OperatorType.GT,
+  '<=': OperatorType.LTEQ,
+  '>=': OperatorType.GTEQ,
+  ...OperatorType,
+  // Add more mappings as needed
+};
+
+export function getOperatorType(sign: string): OperatorType | undefined {
+  return OperatorSignsToTypes[sign];
+}
+
+export function getOperatorTypeSign(type: OperatorType): string {
+  switch (type) {
+    case OperatorType.EQ:
+      return '=';
+    case OperatorType.NEQ:
+      return '!=';
+    case OperatorType.LT:
+      return '<';
+    case OperatorType.GT:
+      return '>';
+    case OperatorType.LTEQ:
+      return '<=';
+    case OperatorType.GTEQ:
+      return '>=';
+  }
+}
+
+export enum ConstraintLogicType {
+  AND = 'AND',
+  OR = 'OR',
+  XONE = 'XONE',
+  ANDSEQUENCE = 'ANDSEQUENCE'
 }

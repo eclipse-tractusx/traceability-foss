@@ -65,6 +65,9 @@ public class NotificationResponse {
     @Size(max = 50)
     private String createdDate;
 
+    @Schema(example = "2023-02-21T21:27:10.734950Z", maxLength = 50)
+    @Size(max = 50)
+    private String updatedDate;
 
     @Size(max = 1000)
     @Schema(name = "assetIds", type = "array", example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\",\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70529fcbd\",\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70530fcbd\"]")
@@ -73,8 +76,6 @@ public class NotificationResponse {
     @Schema(example = "SENDER", maxLength = 255)
     @Size(max = 255)
     private NotificationSideResponse channel;
-
-    private NotificationReasonResponse reason;
 
     @Schema(example = "BPNL00000003AYRE", maxLength = 255)
     @Size(max = 255)
@@ -99,8 +100,8 @@ public class NotificationResponse {
     private List<NotificationMessageResponse> messages;
 
 
-    public Optional<NotificationMessageResponse> latestNotification() {
-        return messages.stream().max(Comparator.comparing(NotificationMessageResponse::getCreated)).stream().findFirst();
+    public Optional<NotificationMessageResponse> latestMessage() {
+        return messages.stream().max(Comparator.comparing(NotificationMessageResponse::getMessageDate)).stream().findFirst();
     }
 
 }

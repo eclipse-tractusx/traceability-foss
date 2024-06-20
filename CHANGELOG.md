@@ -9,16 +9,19 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
 - #965 Implement proxy functionality of the IRS policy store
-- #962 Changed notification model to new one in frontend
+- #962 Changed notification model to new one in frontend/backend
 - #753 Refactored message history in notification detail view
 
 ### Added
+- #832 added policymanagement list view, creator and editor
 - #737 Added concept: Contract table -> parts link action
 - XXX Added interceptor to EdcRestTemplates to log requests
+- #915 Added section to documentation: EDC-BPN configuration
 
 ### Removed
 
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
+- #1033 removed action jira-publish-release workflow
 
 ### Changed
 

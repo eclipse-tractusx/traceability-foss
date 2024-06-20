@@ -21,11 +21,9 @@ package org.eclipse.tractusx.traceability.testdata;
 
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 
-import java.time.Instant;
 import java.util.List;
 
 public class NotificationTestDataFactory {
@@ -36,18 +34,16 @@ public class NotificationTestDataFactory {
         return NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .createdBy("senderBPN")
-                .createdByName("senderManufacturerName")
-                .sendTo("recipientBPN")
+                .sentBy("senderBPN")
+                .sentByName("senderManufacturerName")
+                .sentTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
-                .description("123")
+                .message("123")
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
                 .type(NotificationType.INVESTIGATION)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
                 .build();
     }
@@ -58,17 +54,15 @@ public class NotificationTestDataFactory {
         return NotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .createdBy("senderBPN")
-                .createdByName("senderManufacturerName")
-                .sendTo("recipientBPN")
+                .sentBy("senderBPN")
+                .sentByName("senderManufacturerName")
+                .sentTo("recipientBPN")
                 .sendToName("receiverManufacturerName")
                 .contractAgreementId("agreement")
-                .description("123")
+                .message("123")
                 .notificationStatus(NotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
-                .severity(NotificationSeverity.MINOR)
                 .edcNotificationId("123")
-                .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
                 .type(notificationType)
                 .build();

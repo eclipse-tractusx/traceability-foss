@@ -21,15 +21,16 @@
 
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BpnConfig, BpnConfigFormGroup } from '@page/admin/core/admin.model';
 import { AdminFacade } from '@page/admin/core/admin.facade';
-import { BehaviorSubject, combineLatest, Observable, of, Subject, Subscription, tap } from 'rxjs';
-import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
-import { BpnConfigEntry, ChangedInformation } from './bpn-configuration.model';
+import { BpnConfig, BpnConfigFormGroup } from '@page/admin/core/admin.model';
 import { SaveBpnConfigModal } from '@page/admin/presentation/bpn-configuration/save-modal/save-modal.component';
+import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
+import { BehaviorSubject, combineLatest, Observable, of, Subject, Subscription, tap } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { BpnConfigEntry, ChangedInformation } from './bpn-configuration.model';
 
 export const bpnRegex = /^BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2}$/;
+export const bpnListRegex = /^(BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2})(,\s*BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2})*$/;
 
 @Component({
   selector: 'app-bpn-configuration',

@@ -74,10 +74,8 @@ class EdcNotificationServiceImplTest {
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         // and
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
 
         // when
@@ -99,10 +97,8 @@ class EdcNotificationServiceImplTest {
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         // and
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
 
         // when
@@ -122,10 +118,8 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
         // when
@@ -145,10 +139,8 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
         // when
@@ -168,10 +160,8 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -192,10 +182,8 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.INVESTIGATION)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -217,10 +205,8 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -242,10 +228,8 @@ class EdcNotificationServiceImplTest {
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
 
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new SendNotificationException("message", new RuntimeException())).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -267,10 +251,8 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new NoEndpointDataReferenceException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 
@@ -291,10 +273,8 @@ class EdcNotificationServiceImplTest {
         Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
         when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
         NotificationMessage notification = NotificationMessage.builder()
-                .sendTo(bpn)
+                .sentTo(bpn)
                 .type(NotificationType.ALERT)
-                .targetDate(Instant.now())
-                .severity(NotificationSeverity.MINOR)
                 .build();
         doThrow(new ContractNegotiationException("message")).when(edcFacade).startEdcTransfer(notification, edcReceiverUrl, edcSenderUrl);
 

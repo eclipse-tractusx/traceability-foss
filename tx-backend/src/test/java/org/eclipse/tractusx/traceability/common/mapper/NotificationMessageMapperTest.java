@@ -28,11 +28,15 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationContent;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationHeader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,18 +58,35 @@ class NotificationMessageMapperTest {
                 .notificationReferenceId("Test notification")
                 .notificationStatus(NotificationStatus.RECEIVED)
                 .affectedParts(List.of(new NotificationAffectedPart("123")))
-                .createdByName("senderManufacturerName")
-                .createdBy(sender)
-                .sendTo(receiver)
+                .sentByName("senderManufacturerName")
+                .sentBy(sender)
+                .sentTo(receiver)
                 .sendToName("receiverManufacturerName")
-                .severity(NotificationSeverity.MINOR)
                 .messageId("1")
                 .build();
         NotificationType type = NotificationType.INVESTIGATION;
 
+        EDCNotificationHeader header = new EDCNotificationHeader(
+                "notif-12345",
+                "BPNL00000001ABC",
+                "https://sender-address.com",
+                "BPNL00000002DEF",
+                "Risk",
+                "High",
+                "notif-54321",
+                "Open",
+                "2024-07-01T12:00:00Z",
+                "msg-67890"
+        );
 
+        EDCNotificationContent content = new EDCNotificationContent(
+                description,
+                Arrays.asList("Item1", "Item2", "Item3")
+        );
+
+        EDCNotification edcNotification = new EDCNotification(header, content);
         // When
-        Notification result = mapper.toNotification(new BPN(receiver), description, notification, type);
+        Notification result = mapper.toNotification(new BPN(receiver), edcNotification, notification, type);
 
         // Then
         assertEquals(NotificationStatus.RECEIVED, result.getNotificationStatus());

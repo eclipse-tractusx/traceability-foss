@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-header class="flex-row">
+    <mat-card-title></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <ng-container
+      *viewContainer="policiesView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+    <ng-template #mainTmp let-policies="view">
+      <app-table
+        [data]="policies?.data"
+        [additionalTableHeader]="true"
+        [basicTableHeaderMenuEnabled]="true"
+        [autocompleteEnabled]="false"
+        [tableHeader]="'pageAdmin.policyManagement.policyManagement'"
+        [tableConfig]="tableConfig"
+        [noShadow]="true"
+        [labelId]="'policies'"
+        [showHover]="false"
+        [tableType]="TableType.POLICIES"
+        [tableSettingsEnabled]="true"
+        [deselectTrigger]="deselectPartTrigger$ | async"
+        (selected)="openDetailedView($event)"
+        (editClicked)="openEditView($event)"
+        (multiSelect)="multiSelection($event)"
+        (deletionClicked)="openDeletionDialog();"
+
+      >
+      </app-table>
+    </ng-template>
+
+    <ng-template #errorTmp let-policies="view">
+      <app-data-loading-error [error]="policies.error"></app-data-loading-error>
+    </ng-template>
+
+    <ng-template #loaderTmp>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

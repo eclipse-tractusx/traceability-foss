@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.notification.domain.model.investigatio
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
@@ -34,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
@@ -54,6 +56,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class InvestigationTest {
 
     Notification investigation;
+    @Mock
+    NotificationMessage notificationMessage;
 
     @Test
     @DisplayName("Forbid Cancel Investigation with disallowed status")
@@ -82,7 +86,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         BPN bpnOther = new BPN("BPNL12321321321");
         investigation = senderInvestigationWithStatus(bpnOther, status);
-        assertThrows(InvestigationIllegalUpdate.class, () -> investigation.close(bpn, "some-reason"));
+        assertThrows(InvestigationIllegalUpdate.class, () -> investigation.close(bpn, "some-reason", notificationMessage));
         assertEquals(status, investigation.getNotificationStatus());
     }
 
@@ -115,7 +119,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         investigation = senderInvestigationWithStatus(bpn, status);
         BPN bpn2 = new BPN("BPNL000000000002");
-        assertThrows(InvestigationIllegalUpdate.class, () -> investigation.close(bpn2, "some reason"));
+        assertThrows(InvestigationIllegalUpdate.class, () -> investigation.close(bpn2, "some reason", notificationMessage));
         assertEquals(status, investigation.getNotificationStatus());
     }
 
@@ -142,7 +146,7 @@ class InvestigationTest {
     void closeInvestigationWithAllowedStatusSuccessfully() {
         BPN bpn = new BPN("BPNL000000000001");
         investigation = senderInvestigationWithStatus(bpn, SENT);
-        investigation.close(bpn, "some-reason");
+        investigation.close(bpn, "some-reason", notificationMessage);
         assertEquals(CLOSED, investigation.getNotificationStatus());
     }
 
@@ -248,7 +252,7 @@ class InvestigationTest {
     @MethodSource("provideInvalidStatusForAcceptInvestigation")
     void forbidAcceptInvestigationWithDisallowedStatus(NotificationStatus status) {
         investigation = receiverInvestigationWithStatus(status);
-        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.accept("some reason"));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.accept("some reason", notificationMessage));
         assertEquals(status, investigation.getNotificationStatus());
 
     }
@@ -258,7 +262,7 @@ class InvestigationTest {
     @MethodSource("provideInvalidStatusForDeclineInvestigation")
     void forbidDeclineInvestigationWithInvalidStatus(NotificationStatus status) {
         investigation = receiverInvestigationWithStatus(status);
-        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.decline("some-reason"));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.decline("some-reason", notificationMessage));
         assertEquals(status, investigation.getNotificationStatus());
     }
 
@@ -268,7 +272,7 @@ class InvestigationTest {
     void forbidCloseInvestigationWithInvalidStatus(NotificationStatus status) {
         investigation = receiverInvestigationWithStatus(status);
         BPN bpn = new BPN("BPNL000000000001");
-        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.close(bpn, "some-reason"));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.close(bpn, "some-reason", notificationMessage));
 
         assertEquals(status, investigation.getNotificationStatus());
 
@@ -312,7 +316,7 @@ class InvestigationTest {
     @DisplayName("Accept Investigation successfully")
     void acceptInvestigationSuccessfully() {
         investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
-        investigation.accept("some reason");
+        investigation.accept("some reason", notificationMessage);
         assertEquals(ACCEPTED, investigation.getNotificationStatus());
     }
 
@@ -320,7 +324,7 @@ class InvestigationTest {
     @DisplayName("Decline Investigation successfully")
     void declineInvestigationSuccessfully() {
         investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
-        investigation.decline("some reason");
+        investigation.decline("some reason", notificationMessage);
         assertEquals(DECLINED, investigation.getNotificationStatus());
     }
 

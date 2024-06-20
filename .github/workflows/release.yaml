@@ -17,42 +17,42 @@ jobs:
         run: echo HELM_VERSION=$(cat charts/traceability-foss/CHANGELOG.md | sed -n 's/.*\[\([0-9]\+\.[0-9]\+\.[0-9]\+\)\].*/\1/p' | head -n 1) >> $GITHUB_ENV
 
       - name: Update Chart.yaml appVersion
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq -i eval '.appVersion = "${{ github.ref_name }}"' charts/traceability-foss/Chart.yaml
 
       - name: Update Chart.yaml version
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
 
       - name: Update frontend dependency version in Chart.yaml
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq -i eval '.dependencies[0].version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
 
       - name: Update backend dependency version in Chart.yaml
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq -i eval '.dependencies[1].version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
 
       - name: Update frontend version in frontend/Chart.yaml
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/charts/frontend/Chart.yaml
 
       - name: Update frontend appVersion in frontend/Chart.yaml
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq -i eval '.appVersion = "${{ github.ref_name }}"' charts/traceability-foss/charts/frontend/Chart.yaml
 
       - name: Update backend version in backend/Chart.yaml
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/charts/backend/Chart.yaml
 
       - name: Update backend appVersion in frontend/Chart.yaml
-        uses: mikefarah/yq@v4.44.1
+        uses: mikefarah/yq@v4.44.2
         with:
           cmd: yq -i eval '.appVersion = "${{ github.ref_name }}"' charts/traceability-foss/charts/backend/Chart.yaml
 
@@ -90,14 +90,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ env.CHANGELOG }}
-
-  trigger-jira:
-    needs:
-      - release
-    uses: ./.github/workflows/jira-publish-release.yaml
-    with:
-      version: ${{ github.ref_name }}
-    secrets: inherit
 
   publish-to-swaggerhub:
     name: "Publish OpenAPI spec to Swaggerhub"
