@@ -60,13 +60,15 @@ public class Notification {
     private List<String> affectedPartIds = new ArrayList<>();
     private NotificationSeverity severity;
     private String targetDate;
+    @Builder.Default
+    private List<String> initialReceiverBpns = new ArrayList<>();
 
     @Getter
     @Builder.Default
     private List<NotificationMessage> notifications = List.of();
 
 
-    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate) {
+    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate, List<String> affectedPartIds, List<String> initialReceiverBpns) {
 
         return Notification.builder()
                 .title(title)
@@ -79,52 +81,13 @@ public class Notification {
                 .description(description)
                 .updatedDate(Instant.now())
                 .createdAt(createDate)
-                .affectedPartIds(Collections.emptyList())
+                .affectedPartIds(affectedPartIds)
+                .initialReceiverBpns(initialReceiverBpns)
                 .build();
     }
 
     public void clearNotifications() {
         notifications = new ArrayList<>();
-    }
-
-    public void createInitialNotifications(List<AssetBase> affectedParts, BPN applicationBPN, EditNotification editNotification, List<BpnEdcMapping> bpnEdcMappings) {
-
-        if (editNotification.getReceiverBpn() != null) {
-            Map.Entry<String, List<AssetBase>> receiverAssetsMap = new AbstractMap.SimpleEntry<>(editNotification.getReceiverBpn(), affectedParts);
-            Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.bpn().equals(editNotification.getReceiverBpn())).findFirst().map(BpnEdcMapping::manufacturerName);
-            NotificationMessage notificationMessage = NotificationMessage.create(
-                    applicationBPN,
-                    editNotification.getReceiverBpn(),
-                    editNotification.getDescription(),
-                    this.notificationType,
-                    receiverAssetsMap,
-                    applicationBPN.value(),
-                    sentToName.orElse(null));
-
-            this.addNotificationMessage(notificationMessage);
-
-
-        } else {
-            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = affectedParts.stream().collect(groupingBy(AssetBase::getManufacturerId));
-            assetsAsBuiltBPNMap
-                    .entrySet()
-                    .stream()
-                    .map(receiverAssetsMapEntry -> {
-                        String sentToBPN = receiverAssetsMapEntry.getKey();
-                        Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.bpn().equals(sentToBPN)).findFirst().map(BpnEdcMapping::manufacturerName);
-                        return NotificationMessage.create(
-                                applicationBPN,
-                                sentToBPN,
-                                editNotification.getDescription(),
-                                this.notificationType,
-                                receiverAssetsMapEntry,
-                                applicationBPN.value(),
-                                sentToName.orElse(null));
-                    })
-                    .forEach(this::addNotificationMessage);
-        }
-
-
     }
 
     public List<String> getAffectedPartIds() {

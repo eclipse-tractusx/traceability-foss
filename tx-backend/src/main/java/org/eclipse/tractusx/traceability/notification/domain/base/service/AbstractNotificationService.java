@@ -114,15 +114,13 @@ public abstract class AbstractNotificationService implements NotificationService
     public void editNotification(EditNotification editNotification) {
         validateReceiverIsNotOwnBpn(editNotification.getReceiverBpn(), editNotification.getId());
         Notification notification = loadOrNotFoundException(new NotificationId(editNotification.getId()));
-        List<AssetBase> affectedParts = assetAsBuiltRepository.getAssetsById(editNotification.getAffectedPartIds());
-        List<BpnEdcMapping> bpnMappings = bpnRepository.findAllByIdIn(affectedParts.stream().map(AssetBase::getManufacturerId).toList());
 
         List<String> oldMessageIds =
                 notification.getNotifications().stream().map(NotificationMessage::getId).toList();
 
         getNotificationRepository().deleteByIdIn(oldMessageIds);
         notification.clearNotifications();
-        notification.createInitialNotifications(affectedParts, traceabilityProperties.getBpn(), editNotification, bpnMappings);
+
         if (editNotification.getReceiverBpn() != null) {
             notification.setBpn(BPN.of(editNotification.getReceiverBpn()));
         }
