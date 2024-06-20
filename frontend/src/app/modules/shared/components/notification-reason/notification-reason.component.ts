@@ -20,18 +20,18 @@
  ********************************************************************************/
 
 import { Component, Input } from '@angular/core';
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 
 type TextMessageDirection = 'left' | 'right';
 
 interface TextMessage {
-  reason: string;
+  message: string;
   direction: TextMessageDirection;
   user: string;
   bpn: string;
   status: NotificationStatus;
-  date?: CalendarDateModel;
+  errorMessage: string;
+  date: string;
 }
 
 @Component({
@@ -40,7 +40,7 @@ interface TextMessage {
   styleUrls: [ './notification-reason.component.scss' ],
 })
 export class NotificationReasonComponent {
-  public textMessages: TextMessage[];
+  public textMessages: TextMessage[] = [];
 
   @Input() set notification({
                               description,
@@ -51,40 +51,32 @@ export class NotificationReasonComponent {
                               createdByName,
                               sendTo,
                               sendToName,
+                              messages,
                             }: Notification) {
-    const { ACCEPTED, SENT, CLOSED, CREATED, DECLINED } = NotificationStatus;
 
-    const senderDirection: TextMessageDirection = isFromSender ? 'right' : 'left';
-    const receiverDirection: TextMessageDirection = !isFromSender ? 'right' : 'left';
+    const sortedMessagesAfterDates = messages.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
 
-    const createdMessage = {
-      reason: description,
-      direction: senderDirection,
-      user: createdByName,
-      bpn: createdBy,
-      status: [ CREATED, SENT ].includes(status) ? status : SENT,
-      date: createdDate,
-    };
+    sortedMessagesAfterDates.forEach(message => {
 
-    const acceptedMessage = {
-      reason: 'reason accept', direction: receiverDirection, user: sendToName, bpn: sendTo, status:
-        ACCEPTED,
-      }
-    ;
-    const declinedMessage = {
-      reason: 'reason decline',
-      direction: receiverDirection,
-      user: sendToName,
-      bpn: sendTo,
-      status: DECLINED,
-    };
-    const closedMessage = {
-      reason: 'reason closed',
-      direction: senderDirection,
-      user: createdByName,
-      bpn: createdBy,
-      status: CLOSED,
-    };
-    this.textMessages = [ createdMessage, acceptedMessage, declinedMessage, closedMessage ];
+      this.textMessages.push({
+        message: message.message,
+        direction: createdBy === message.sentBy ? 'right' : 'left',
+        user: message.sentByName,
+        bpn: message.sentBy,
+        status: message.status,
+        date: message.messageDate,
+        errorMessage: message.errorMessage,
+      });
+    });
+
   }
+
+  isSameDay(date1: string, date2: string): boolean {
+    const formDate = new Date(date1);
+    const formDate2 = new Date(date2);
+    return formDate.getFullYear() === formDate2.getFullYear() &&
+      formDate.getMonth() === formDate2.getMonth() &&
+      formDate.getDate() === formDate2.getDate();
+  }
+
 }
