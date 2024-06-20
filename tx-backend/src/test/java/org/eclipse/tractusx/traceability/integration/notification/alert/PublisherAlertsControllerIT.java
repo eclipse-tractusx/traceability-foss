@@ -124,7 +124,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .build();
         Notification notification = Notification.builder().build();
         notification.setSeverity(NotificationSeverity.CRITICAL);
-        notification.setTargetDate(Instant.MAX.toString());
+        notification.setTargetDate(Instant.now().toString());
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", message, notification);
 

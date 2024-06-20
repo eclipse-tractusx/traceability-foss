@@ -80,7 +80,7 @@ class NotificationMessageMapperTest {
         );
 
         EDCNotificationContent content = new EDCNotificationContent(
-                "Information about the notification",
+                description,
                 Arrays.asList("Item1", "Item2", "Item3")
         );
 
