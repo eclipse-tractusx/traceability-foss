@@ -46,7 +46,7 @@ public class SingleLevelUsageAsBuiltSubmodelMapper implements SubmodelRelationsh
 
     @Override
     public boolean validMapper(IrsSubmodel irsSubmodel) {
-        return irsSubmodel.getPayload() instanceof SingleLevelBomAsBuilt300Schema;
+        return irsSubmodel.getPayload() instanceof SingleLevelUsageAsBuilt300Schema;
     }
 
 }
