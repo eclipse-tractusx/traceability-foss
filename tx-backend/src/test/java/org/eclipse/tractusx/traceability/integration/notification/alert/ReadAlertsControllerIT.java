@@ -237,7 +237,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("content.createdBy", Matchers.hasItems(senderBPN))
                 .body("content.createdByName", Matchers.hasItems(senderName))
-                .body("content.sendTo", Matchers.hasItems("BPNTEST"))
+                .body("content.sendTo", Matchers.hasItems("BPN0001"))
                 .body("content.sendToName", Matchers.hasItems(receiverName))
                 .body("page", Matchers.is(2))
                 .body("pageSize", Matchers.is(10))

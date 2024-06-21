@@ -141,6 +141,7 @@ public class InvestigationTestDataFactory {
                 .bpn(bpn)
                 .notificationStatus(investigationStatus)
                 .notificationSide(investigationSide)
+                .sendTo("TESTBPN")
                 .description(description)
                 .createdAt(createdAt)
                 .severity(NotificationSeverity.MINOR)

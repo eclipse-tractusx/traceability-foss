@@ -60,8 +60,7 @@ public class NotificationResponseMapper {
                         NotificationSeverityResponse.fromString(notification.getSeverity().getRealName()) :
                         null)
                 .targetDate(notification.getTargetDate())
-                .messages(fromNotifications(notification.getNotifications()))
-                .build();
+                .messages(fromNotifications(notification.getNotifications())).build();
     }
 
     public static PageResult<NotificationResponse> fromAsPageResult(PageResult<Notification> notificationPageResult) {
