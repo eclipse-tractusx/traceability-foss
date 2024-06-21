@@ -54,14 +54,13 @@ public class NotificationResponseMapper {
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())
                 .updatedDate(OffsetDateTime.now().toString())
-                .sendTo(getReceiverBPN(notification.getNotifications()))
+                .sendTo(notification.getSendTo())
                 .sendToName(getReceiverName(notification.getNotifications()))
                 .severity(notification.getSeverity() != null ?
                         NotificationSeverityResponse.fromString(notification.getSeverity().getRealName()) :
                         null)
                 .targetDate(notification.getTargetDate())
-                .messages(fromNotifications(notification.getNotifications()))
-                .build();
+                .messages(fromNotifications(notification.getNotifications())).build();
     }
 
     public static PageResult<NotificationResponse> fromAsPageResult(PageResult<Notification> notificationPageResult) {
@@ -78,13 +77,6 @@ public class NotificationResponseMapper {
         return notifications.stream()
                 .findFirst()
                 .map(NotificationMessage::getSentBy)
-                .orElse(null);
-    }
-
-    private static String getReceiverBPN(Collection<NotificationMessage> notifications) {
-        return notifications.stream()
-                .findFirst()
-                .map(NotificationMessage::getSentTo)
                 .orElse(null);
     }
 

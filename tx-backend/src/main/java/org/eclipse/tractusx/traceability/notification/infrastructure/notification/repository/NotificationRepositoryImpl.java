@@ -171,13 +171,9 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         for (NotificationMessage notificationMessage : notification.getNotifications()) {
             List<AssetAsBuiltEntity> assetEntitiesByNotification = getAssetEntitiesByNotification(notification);
             NotificationMessageEntity notificationMessageEntity = toNotificationMessageEntity(notificationEntity, notificationMessage, assetEntitiesByNotification);
-            Optional<NotificationMessageEntity> optionalNotificationMessage = jpaNotificationMessageRepository.findById(notificationMessageEntity.getId());
-            optionalNotificationMessage.ifPresentOrElse(messageEntity -> {
-                messageEntity.setErrorMessage(notificationMessage.getErrorMessage());
-                messageEntity.setUpdated(LocalDateTime.ofInstant(clock.instant(), clock.getZone()));
-                jpaNotificationMessageRepository.save(notificationMessageEntity);
-                log.info("Update of error message with notificationMessageEntity {}", notificationMessageEntity);
-            }, () -> log.info("Could not find notification message by id {}. Error could not be enriched {}", notificationMessage.getId(), notificationMessage.getErrorMessage()));
+            notificationMessageEntity.setErrorMessage(notificationMessage.getErrorMessage());
+            notificationMessageEntity.setUpdated(LocalDateTime.ofInstant(clock.instant(), clock.getZone()));
+            jpaNotificationMessageRepository.save(notificationMessageEntity);
         }
         jpaNotificationRepository.save(notificationEntity);
     }

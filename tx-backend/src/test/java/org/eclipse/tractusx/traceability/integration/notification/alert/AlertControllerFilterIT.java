@@ -355,7 +355,7 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("totalItems", Matchers.is(3))
                 .body("content", Matchers.hasSize(3))
-                .body("content.sendTo", Matchers.containsInRelativeOrder("BPNL00000001OWN", "BPNL00000002OTHER", "BPNL00000002OTHER"));
+                .body("content.sendTo", Matchers.containsInRelativeOrder("TESTBPN", "TESTBPN", "TESTBPN"));
     }
 
     @Test

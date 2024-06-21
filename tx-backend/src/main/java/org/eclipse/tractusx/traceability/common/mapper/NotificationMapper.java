@@ -51,7 +51,7 @@ public class NotificationMapper {
      * @param notification the notification associated with the alert or investigation
      * @return an Notification object representing the notification received by the receiver
      */
-    public Notification toNotification(BPN bpn, EDCNotification edcNotification, NotificationMessage notification, NotificationType notificationType) {
+    public Notification toNotification(BPN bpn, EDCNotification edcNotification, NotificationMessage notification, NotificationType notificationType, BPN applicationBPN) {
 
         List<String> assetIds = new ArrayList<>();
         emptyIfNull(notification.getAffectedParts()).stream()
@@ -64,10 +64,12 @@ public class NotificationMapper {
                 .notificationType(notificationType)
                 .description(edcNotification.getInformation())
                 .createdAt(Instant.now())
+                .sendTo(applicationBPN.value())
                 .severity(NotificationSeverity.fromString(edcNotification.getSeverity()))
                 .targetDate(convertInstantToString(edcNotification.getTargetDate()))
                 .affectedPartIds(assetIds)
                 .notifications(List.of(notification))
+                .initialReceiverBpns(List.of(applicationBPN.value()))
                 .build();
     }
 }

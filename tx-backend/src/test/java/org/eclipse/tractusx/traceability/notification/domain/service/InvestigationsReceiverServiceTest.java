@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.notification.domain.service;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
@@ -60,6 +61,8 @@ class InvestigationsReceiverServiceTest {
     @Mock
     private NotificationMapper mockNotificationMapper;
 
+    @Mock
+    private TraceabilityProperties traceabilityProperties;
 
     @InjectMocks
     private NotificationReceiverService service;
@@ -95,8 +98,8 @@ class InvestigationsReceiverServiceTest {
                 "it", notification, investigationTestData);
 
         when(mockNotificationMessageMapper.toNotificationMessage(edcNotification, notificationType)).thenReturn(notificationTestData);
-        when(mockNotificationMapper.toNotification(any(BPN.class), any(), any(NotificationMessage.class), any(NotificationType.class))).thenReturn(investigationTestData);
-
+        when(mockNotificationMapper.toNotification(any(BPN.class), any(), any(NotificationMessage.class), any(NotificationType.class), any(BPN.class))).thenReturn(investigationTestData);
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("TestBPN"));
         // When
         service.handleReceive(edcNotification, notificationType);
         // Then

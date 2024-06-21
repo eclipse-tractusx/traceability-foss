@@ -53,6 +53,7 @@ public class InvestigationsSupport {
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .side(side)
                 .createdDate(Instant.now())
+                .initialReceiverBpn("BPNL00000003AXS4")
                 .build();
         Long alertId = storedInvestigation(entity);
         NotificationEntity savedInvestigation = jpaNotificationRepository.findById(alertId).get();

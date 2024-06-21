@@ -27,7 +27,6 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationMessageRepository;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.NotificationRepositoryImpl;
@@ -74,10 +73,8 @@ class NotificationRepositoryImplTest {
         Notification notification = Notification.builder().notificationStatus(NotificationStatus.ACKNOWLEDGED).affectedPartIds(List.of("123")).notificationId(new NotificationId(123L)).bpn(BPN.of("ABC")).notifications(List.of(message)).build();
         AssetAsBuiltEntity assetAsBuiltEntity = AssetAsBuiltEntity.builder().id("123").build();
         NotificationEntity entity = NotificationEntity.builder().assets(List.of(assetAsBuiltEntity)).build();
-        NotificationMessageEntity notificationEntity = NotificationMessageEntity.from(entity, message, List.of(assetAsBuiltEntity));
         when(assetsRepository.findByIdIn(any())).thenReturn(List.of(assetAsBuiltEntity));
         when(jpaNotificationRepository.findById(any())).thenReturn(Optional.of(entity));
-        when(jpaNotificationMessageRepository.findById(notificationEntity.getId())).thenReturn(Optional.of(notificationEntity));
         when(clock.instant()).thenReturn(Instant.now());
         when(clock.getZone()).thenReturn(ZoneId.systemDefault());
         // When
