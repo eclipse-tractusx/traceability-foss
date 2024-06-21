@@ -90,7 +90,6 @@ class NotificationsEDCFacadeTest {
         final String idsPath = "/api/v1/dsp";
         when(notification.getTargetDate()).thenReturn(null);
         when(notification.getSeverity()).thenReturn(NotificationSeverity.MAJOR);
-        when(notificationRepository.findByEdcNotificationId(any())).thenReturn(Optional.of(notification));
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
         when(policyCheckerService.isValid(null, null)).thenReturn(true);
@@ -105,7 +104,7 @@ class NotificationsEDCFacadeTest {
 
 
         // when/then
-        assertThrows(SendNotificationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(SendNotificationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl, notification));
     }
 
     @Test
@@ -127,7 +126,7 @@ class NotificationsEDCFacadeTest {
                 .thenReturn(null);
 
         // when/then
-        assertThrows(ContractNegotiationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(ContractNegotiationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl, notification));
     }
 
     @Test
@@ -144,6 +143,6 @@ class NotificationsEDCFacadeTest {
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
         // when/then
-        assertThrows(NoCatalogItemException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(NoCatalogItemException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl, notification));
     }
 }

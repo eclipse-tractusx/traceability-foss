@@ -19,10 +19,11 @@
 
 package org.eclipse.tractusx.traceability.notification.domain.base.service;
 
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 
 import java.util.concurrent.CompletableFuture;
 
 public interface EdcNotificationService {
-    CompletableFuture<NotificationMessage> asyncNotificationMessageExecutor(NotificationMessage notification);
+    CompletableFuture<NotificationMessage> asyncNotificationMessageExecutor(NotificationMessage message, Notification notification);
 }
