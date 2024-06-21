@@ -74,10 +74,8 @@ class NotificationRepositoryImplTest {
         Notification notification = Notification.builder().notificationStatus(NotificationStatus.ACKNOWLEDGED).affectedPartIds(List.of("123")).notificationId(new NotificationId(123L)).bpn(BPN.of("ABC")).notifications(List.of(message)).build();
         AssetAsBuiltEntity assetAsBuiltEntity = AssetAsBuiltEntity.builder().id("123").build();
         NotificationEntity entity = NotificationEntity.builder().assets(List.of(assetAsBuiltEntity)).build();
-        NotificationMessageEntity notificationEntity = NotificationMessageEntity.from(entity, message, List.of(assetAsBuiltEntity));
         when(assetsRepository.findByIdIn(any())).thenReturn(List.of(assetAsBuiltEntity));
         when(jpaNotificationRepository.findById(any())).thenReturn(Optional.of(entity));
-        when(jpaNotificationMessageRepository.findById(notificationEntity.getId())).thenReturn(Optional.of(notificationEntity));
         when(clock.instant()).thenReturn(Instant.now());
         when(clock.getZone()).thenReturn(ZoneId.systemDefault());
         // When
