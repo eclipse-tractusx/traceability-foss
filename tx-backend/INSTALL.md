@@ -9,7 +9,9 @@
 $ git clone https://github.com/eclipse-tractusx/traceability-foss.git
 $ cd traceability-foss
 ```
-Please note: Local deployment of the app is not supported.
+Please note: Local deployment of the app is not supported. 
+
+For deployment please find our helm chart github actions here: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-upgrade.yaml and https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-test-backwards-compatability.yaml. Within this actions the full application is configured to start up. 
 
 ## OAuth2 configuration
 Product Traceability FOSS Backend relies on properly configured OAuth2 instance. In order to work, it must be configured with proper realm, clients and roles.
