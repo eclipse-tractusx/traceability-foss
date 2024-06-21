@@ -9,22 +9,7 @@
 $ git clone https://github.com/eclipse-tractusx/traceability-foss.git
 $ cd traceability-foss
 ```
-
-## Local deployment
-* Start the necessary infrastructure by running: ```docker-compose up```
-* Export environment variables required by the service:
-  * `SPRING_DATASOURCE_URL` - with value `jdbc:postgresql://localhost:5432/trace`
-  * `SPRING_DATASOURCE_USERNAME` - with value `trace`
-  * `SPRING_DATASOURCE_PASSWORD` - with value `docker`
-  * `OAUTH2_CLIENT_ID` - with OAuth2 provider client registration id specific value
-  * `OAUTH2_CLIENT_SECRET` - with OAuth2 provider client registration secret specific value
-  * `OAUTH2_PROVIDER_TOKEN_URI` - with OAuth2 provider url to obtain tokens
-  * `OAUTH2_JWK_SET_URI` - with OAuth2 provider certs url
-  * `JWT_RESOURCE_CLIENT` - with JWT resource client name
-  * `SPRING_PROFILES_ACTIVE` - with profile to be picked when starting the service. One of `[dev|int]`.
-  * `EDC_PROVIDER_URL` - with url for the EDC provider
-  * `TRACEABILITY_URL` - with url for the backend
-* Start the service by invoking following command in project root directory `mvn spring-boot:run`
+We do not support local deployment of the app.
 
 ## OAuth2 configuration
 Product Traceability FOSS Backend relies on properly configured OAuth2 instance. In order to work, it must be configured with proper realm, clients and roles.
