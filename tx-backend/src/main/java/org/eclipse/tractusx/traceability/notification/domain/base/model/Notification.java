@@ -40,6 +40,7 @@ import java.util.Optional;
 
 import static java.util.stream.Collectors.groupingBy;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.convertInstantToString;
 
 @Data
 @Builder(toBuilder = true)
@@ -47,81 +48,50 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class Notification {
     private String title;
     private BPN bpn;
+    private String sendTo;
     private NotificationId notificationId;
     private NotificationStatus notificationStatus;
     private String description;
     private Instant createdAt;
+    private Instant updatedDate;
+
     private NotificationSide notificationSide;
     private NotificationType notificationType;
     @Builder.Default
     private List<String> affectedPartIds = new ArrayList<>();
-    private String closeReason;
-    private String acceptReason;
-    private String declineReason;
+    private NotificationSeverity severity;
+    private String targetDate;
+    @Builder.Default
+    private List<String> initialReceiverBpns = new ArrayList<>();
+
     @Getter
     @Builder.Default
     private List<NotificationMessage> notifications = List.of();
 
 
-    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType) {
+    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate, List<String> affectedPartIds, List<String> initialReceiverBpns, String receiverBpn) {
+
+
+
         return Notification.builder()
                 .title(title)
                 .bpn(bpn)
                 .notificationStatus(NotificationStatus.CREATED)
                 .notificationSide(NotificationSide.SENDER)
                 .notificationType(notificationType)
+                .targetDate(convertInstantToString(targetDate))
+                .severity(severity)
                 .description(description)
+                .updatedDate(Instant.now())
+                .sendTo(receiverBpn)
                 .createdAt(createDate)
-                .affectedPartIds(Collections.emptyList())
+                .affectedPartIds(affectedPartIds)
+                .initialReceiverBpns(initialReceiverBpns)
                 .build();
     }
 
     public void clearNotifications() {
         notifications = new ArrayList<>();
-    }
-
-    public void createInitialNotifications(List<AssetBase> affectedParts, BPN applicationBPN, EditNotification editNotification, List<BpnEdcMapping> bpnEdcMappings) {
-
-        if (editNotification.getReceiverBpn() != null) {
-            Map.Entry<String, List<AssetBase>> receiverAssetsMap = new AbstractMap.SimpleEntry<>(editNotification.getReceiverBpn(), affectedParts);
-            Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.bpn().equals(editNotification.getReceiverBpn())).findFirst().map(BpnEdcMapping::manufacturerName);
-            NotificationMessage notificationMessage = NotificationMessage.create(
-                    applicationBPN,
-                    editNotification.getReceiverBpn(),
-                    editNotification.getDescription(),
-                    editNotification.getTargetDate(),
-                    editNotification.getSeverity(),
-                    this.notificationType,
-                    receiverAssetsMap,
-                    applicationBPN.value(),
-                    sentToName.orElse(null));
-
-            this.addNotificationMessage(notificationMessage);
-
-
-        } else {
-            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = affectedParts.stream().collect(groupingBy(AssetBase::getManufacturerId));
-            assetsAsBuiltBPNMap
-                    .entrySet()
-                    .stream()
-                    .map(receiverAssetsMapEntry -> {
-                        String sentToBPN = receiverAssetsMapEntry.getKey();
-                        Optional<String> sentToName = bpnEdcMappings.stream().filter(bpnEdcMapping -> bpnEdcMapping.bpn().equals(sentToBPN)).findFirst().map(BpnEdcMapping::manufacturerName);
-                        return NotificationMessage.create(
-                                applicationBPN,
-                                sentToBPN,
-                                editNotification.getDescription(),
-                                editNotification.getTargetDate(),
-                                editNotification.getSeverity(),
-                                this.notificationType,
-                                receiverAssetsMapEntry,
-                                applicationBPN.value(),
-                                sentToName.orElse(null));
-                    })
-                    .forEach(this::addNotificationMessage);
-        }
-
-
     }
 
     public List<String> getAffectedPartIds() {
@@ -134,38 +104,45 @@ public class Notification {
 
     public void cancel(BPN applicationBpn) {
         validateBPN(applicationBpn);
+        updatedDate = Instant.now();
         changeStatusTo(NotificationStatus.CANCELED);
-        this.closeReason = "canceled";
     }
 
-    public void close(BPN applicationBpn, String reason) {
+    public void close(BPN applicationBpn, String reason, NotificationMessage notificationMessage) {
         validateBPN(applicationBpn);
+        updatedDate = Instant.now();
         changeStatusTo(NotificationStatus.CLOSED);
-        this.closeReason = reason;
-        this.notifications.forEach(notification -> notification.setDescription(reason));
+        notificationMessage.setMessage(reason);
+        this.notifications.forEach(notification -> notification.setMessage(reason));
     }
 
     public void acknowledge() {
         changeStatusTo(NotificationStatus.ACKNOWLEDGED);
+        updatedDate = Instant.now();
+
     }
 
-    public void accept(String reason) {
+    public void accept(String reason, NotificationMessage message) {
         changeStatusTo(NotificationStatus.ACCEPTED);
-        this.acceptReason = reason;
+        updatedDate = Instant.now();
+        message.setMessage(reason);
     }
 
-    public void decline(String reason) {
+    public void decline(String reason, NotificationMessage message) {
         changeStatusTo(NotificationStatus.DECLINED);
-        this.declineReason = reason;
+        updatedDate = Instant.now();
+        message.setMessage(reason);
     }
 
-    public void close(String reason) {
+    public void close(String reason, NotificationMessage notificationMessage) {
         changeStatusTo(NotificationStatus.CLOSED);
-        this.closeReason = reason;
+        updatedDate = Instant.now();
+        notificationMessage.setMessage(reason);
     }
 
     public void send(BPN applicationBpn) {
         validateBPN(applicationBpn);
+        updatedDate = Instant.now();
         changeStatusTo(NotificationStatus.SENT);
     }
 
@@ -184,7 +161,7 @@ public class Notification {
         this.notificationStatus = to;
     }
 
-    public void addNotificationMessage(NotificationMessage notification) {
+    public synchronized void  addNotificationMessage(NotificationMessage notification) {
 
         List<NotificationMessage> updatedNotifications = new ArrayList<>(notifications);
         updatedNotifications.add(notification);

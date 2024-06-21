@@ -46,6 +46,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.Notification
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -110,25 +111,23 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         NotificationType notificationType = NotificationType.INVESTIGATION;
+        Notification notification = Notification.builder().targetDate(Instant.now().toString()).severity(NotificationSeverity.CRITICAL).build();
         NotificationMessage notificationBuild = NotificationMessage.builder()
                 .id("some-id")
                 .notificationStatus(NotificationStatus.SENT)
                 .affectedParts(List.of(new NotificationAffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")))
-                .createdByName("bpn-a")
-                .createdBy("Sender Manufacturer name")
-                .sendTo("BPNL00000003AXS3")
+                .sentByName("bpn-a")
+                .sentBy("Sender Manufacturer name")
+                .sentTo("BPNL00000003AXS3")
                 .sendToName("Receiver manufacturer name")
-                .severity(NotificationSeverity.MINOR)
-                .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
                 .type(notificationType)
-                .severity(NotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
-        EDCNotification notification = EDCNotificationFactory.createEdcNotification(
-                "it", notificationBuild);
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
+                "it", notificationBuild, notification);
 
         // when
-        notificationReceiverService.handleReceive(notification, notificationType);
+        notificationReceiverService.handleReceive(edcNotification, notificationType);
 
         // then
         notificationSupport.assertInvestigationsSize(1);
@@ -161,7 +160,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest, 201);
 
         // then
-        notificationMessageSupport.assertMessageSize(2);
+        notificationMessageSupport.assertMessageSize(0);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
@@ -427,7 +426,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
-        notificationMessageSupport.assertMessageSize(4);
+        notificationMessageSupport.assertMessageSize(2);
     }
 
     @Test
@@ -481,6 +480,9 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
+        notificationMessageSupport.assertMessageSize(1);
+
+
         // when
         CloseNotificationRequest closeInvestigationRequest =
                 CloseNotificationRequest
@@ -509,7 +511,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
 
-        notificationMessageSupport.assertMessageSize(3);
+        notificationMessageSupport.assertMessageSize(2);
         notificationSupport.assertInvestigationsSize(1);
         notificationSupport.assertInvestigationStatus(NotificationStatus.CLOSED);
     }
@@ -565,7 +567,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        notificationMessageSupport.assertMessageSize(2);
+        notificationMessageSupport.assertMessageSize(0);
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))

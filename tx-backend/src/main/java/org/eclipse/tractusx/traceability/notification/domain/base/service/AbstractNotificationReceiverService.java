@@ -44,11 +44,13 @@ public abstract class AbstractNotificationReceiverService implements Notificatio
 
     protected abstract RuntimeException getIllegalUpdateException(String message);
 
+    protected abstract BPN getApplicationBpn();
+
     @Override
     public void handleReceive(EDCNotification edcNotification, NotificationType notificationType) {
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
-        NotificationMessage notification = getNotificationMessageMapper().toNotification(edcNotification, notificationType);
-        Notification investigation = getNotificationMapper().toNotification(investigationCreatorBPN, edcNotification.getInformation(), notification, notificationType);
+        NotificationMessage notification = getNotificationMessageMapper().toNotificationMessage(edcNotification, notificationType);
+        Notification investigation = getNotificationMapper().toNotification(investigationCreatorBPN, edcNotification, notification, notificationType, getApplicationBpn());
         NotificationId investigationId = getRepository().saveNotification(investigation);
         log.info("Stored received edcNotification in investigation with id {}", investigationId);
     }
@@ -58,15 +60,15 @@ public abstract class AbstractNotificationReceiverService implements Notificatio
 
         Notification notification = getRepository().findByEdcNotificationId(edcNotification.getNotificationId())
                 .orElseThrow(() -> getNotFoundException(edcNotification.getNotificationId()));
-        NotificationMessage notificationMessage = getNotificationMessageMapper().toNotification(edcNotification, notificationType);
+        NotificationMessage notificationMessage = getNotificationMessageMapper().toNotificationMessage(edcNotification, notificationType);
         emptyIfNull(notification.getNotifications()).stream().findFirst().ifPresent(notificationMessage1 -> notificationMessage.setAffectedParts(notificationMessage1.getAffectedParts()));
 
         switch (edcNotification.convertNotificationStatus()) {
             case ACKNOWLEDGED -> notification.acknowledge();
-            case ACCEPTED -> notification.accept(edcNotification.getInformation());
-            case DECLINED -> notification.decline(edcNotification.getInformation());
+            case ACCEPTED -> notification.accept(edcNotification.getInformation(), notificationMessage);
+            case DECLINED -> notification.decline(edcNotification.getInformation(), notificationMessage);
             case CLOSED ->
-                    notification.close(BPN.of(notification.getBpn()), edcNotification.getInformation());
+                    notification.close(BPN.of(notification.getBpn()), edcNotification.getInformation(), notificationMessage);
             default ->
                     throw getIllegalUpdateException("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }

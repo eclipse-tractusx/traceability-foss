@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSeverityBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
@@ -77,7 +78,10 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CREATED)
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
+                .severity(NotificationSeverityBaseEntity.CRITICAL)
                 .description("1")
+                .targetDate(monthFromNow)
+                .initialReceiverBpn("TESTBPN")
                 .createdDate(now.minus(3L, DAYS))
                 .build();
         NotificationEntity alert2 = NotificationEntity.builder()
@@ -85,10 +89,13 @@ public class AlertNotificationsSupport {
                 .bpn(OWN_BPN)
                 .status(NotificationStatusBaseEntity.SENT)
                 .description("2")
+                .targetDate(monthFromNow)
+                .severity(NotificationSeverityBaseEntity.CRITICAL)
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.minus(2L, DAYS))
                 .updated(now.minus(2L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .build();
         NotificationEntity alert3 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
@@ -98,6 +105,7 @@ public class AlertNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.minus(1L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.minus(1L, DAYS))
                 .build();
         NotificationEntity alert4 = NotificationEntity.builder()
@@ -106,6 +114,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                 .description("4")
                 .side(NotificationSideBaseEntity.SENDER)
+                .initialReceiverBpn("TESTBPN")
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now)
                 .updated(now)
@@ -114,9 +123,9 @@ public class AlertNotificationsSupport {
                 .assets(Collections.emptyList())
                 .bpn(OWN_BPN)
                 .status(NotificationStatusBaseEntity.ACCEPTED)
-                .acceptReason("Almighty demon king accepted this one")
                 .description("5")
                 .side(NotificationSideBaseEntity.SENDER)
+                .initialReceiverBpn("TESTBPN")
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now)
                 .updated(now)
@@ -125,11 +134,11 @@ public class AlertNotificationsSupport {
                 .assets(Collections.emptyList())
                 .bpn(OWN_BPN)
                 .status(NotificationStatusBaseEntity.DECLINED)
-                .declineReason("Almighty demon king has declined this one")
                 .description("6")
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plus(1L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.plus(1L, DAYS))
                 .build();
         NotificationEntity alert7 = NotificationEntity.builder()
@@ -140,6 +149,7 @@ public class AlertNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plus(2L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.plus(2L, DAYS))
                 .build();
         NotificationEntity alert8 = NotificationEntity.builder()
@@ -147,10 +157,10 @@ public class AlertNotificationsSupport {
                 .bpn(OWN_BPN)
                 .status(NotificationStatusBaseEntity.CLOSED)
                 .description("8")
-                .closeReason("Almighty demon king has closed that one")
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plus(3L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.plus(3L, DAYS))
                 .build();
 
@@ -162,8 +172,6 @@ public class AlertNotificationsSupport {
                         .status(NotificationStatusBaseEntity.CREATED)
                         .sendTo(OTHER_BPN)
                         .createdBy(OWN_BPN)
-                        .severity(NotificationSeverity.MINOR)
-                        .targetDate(monthFromNow.minus(3L, DAYS))
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a1")
                         .build(),
@@ -173,9 +181,7 @@ public class AlertNotificationsSupport {
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .status(NotificationStatusBaseEntity.SENT)
-                        .severity(NotificationSeverity.MAJOR)
                         .id("2")
-                        .targetDate(monthFromNow.minus(2L, DAYS))
                         .notification(alert2)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a2")
                         .build(),
@@ -185,8 +191,6 @@ public class AlertNotificationsSupport {
                         .id("3")
                         .sendTo(OWN_BPN)
                         .createdBy(OTHER_BPN)
-                        .severity(NotificationSeverity.CRITICAL)
-                        .targetDate(monthFromNow.minus(1L, DAYS))
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .notification(alert3)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a3")
@@ -195,8 +199,6 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                         .id("4")
-                        .targetDate(monthFromNow)
-                        .severity(NotificationSeverity.LIFE_THREATENING)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .notification(alert4)
@@ -206,8 +208,6 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.ACCEPTED)
                         .id("5")
-                        .targetDate(monthFromNow)
-                        .severity(NotificationSeverity.MINOR)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .notification(alert5)
@@ -217,8 +217,6 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.DECLINED)
                         .id("6")
-                        .severity(NotificationSeverity.MAJOR)
-                        .targetDate(monthFromNow.plus(1L, DAYS))
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
                         .notification(alert6)
@@ -228,8 +226,6 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.CANCELED)
                         .id("7")
-                        .targetDate(monthFromNow.plus(2L, DAYS))
-                        .severity(NotificationSeverity.CRITICAL)
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .notification(alert7)
@@ -239,8 +235,6 @@ public class AlertNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.CLOSED)
                         .id("8")
-                        .severity(NotificationSeverity.LIFE_THREATENING)
-                        .targetDate(monthFromNow.plus(3L, DAYS))
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .notification(alert8)
@@ -259,6 +253,7 @@ public class AlertNotificationsSupport {
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
                 .description("11")
+                .initialReceiverBpn("TESTBPN")
                 .createdDate(now.minus(2L, DAYS))
                 .build();
         NotificationEntity alert2 = NotificationEntity.builder()
@@ -267,6 +262,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                 .description("22")
                 .side(NotificationSideBaseEntity.RECEIVER)
+                .initialReceiverBpn("TESTBPN")
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.minus(1L, DAYS))
                 .build();
@@ -274,6 +270,7 @@ public class AlertNotificationsSupport {
                 .assets(Collections.emptyList())
                 .bpn(OTHER_BPN)
                 .status(NotificationStatusBaseEntity.ACCEPTED)
+                .initialReceiverBpn("TESTBPN")
                 .description("33")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
@@ -284,6 +281,7 @@ public class AlertNotificationsSupport {
                 .bpn(OTHER_BPN)
                 .status(NotificationStatusBaseEntity.DECLINED)
                 .description("44")
+                .initialReceiverBpn("TESTBPN")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plusSeconds(20L))
@@ -293,6 +291,7 @@ public class AlertNotificationsSupport {
                 .bpn(OTHER_BPN)
                 .status(NotificationStatusBaseEntity.CANCELED)
                 .description("55")
+                .initialReceiverBpn("TESTBPN")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plusSeconds(1L))
@@ -303,6 +302,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CLOSED)
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
+                .initialReceiverBpn("TESTBPN")
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plus(2L, DAYS))
                 .build();
@@ -371,6 +371,7 @@ public class AlertNotificationsSupport {
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.minus(2L, DAYS))
                 .updated(now.minus(2L, DAYS))
+                .initialReceiverBpn("BPNTEST")
                 .build();
         NotificationMessageEntity notificationEntity = NotificationMessageEntity
                 .builder()

@@ -38,21 +38,6 @@ export const buildMockAlerts = (
   new Array(101).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
     const severity = severities[index % severities.length];
-    // every 10th alert should have an error
-    const errorAlert = (index + 1) % 10 === 0 ? 'The Services returned an Error while processing this Alert' : undefined;
-
-    const close = status === NotificationStatus.CLOSED ? getRandomText(getRandomIntFromInterval(15, 500)) : '';
-    const isDeclined = Math.random() >= 0.5;
-
-    const decline =
-      status === NotificationStatus.DECLINED || (!!close && isDeclined)
-        ? getRandomText(getRandomIntFromInterval(15, 500))
-        : '';
-
-    const accept =
-      status === NotificationStatus.ACCEPTED || (!!close && !isDeclined)
-        ? getRandomText(getRandomIntFromInterval(15, 500))
-        : '';
 
     const numberToString = (i: number) => i.toString().padStart(2, '0');
     const month = getRandomIntFromInterval(1, 12);
@@ -60,40 +45,102 @@ export const buildMockAlerts = (
 
     return {
       id: `${ AlertIdPrefix }${ index + 1 }`,
-      description: `Alert No ${ index + 1 } ${ getRandomText(getRandomIntFromInterval(15, 500)) }`,
       title: 'title',
+      type: NotificationTypeResponse.ALERT,
       status,
-      severity,
-      channel,
+      description: `Alert No ${ index + 1 } ${ getRandomText(getRandomIntFromInterval(15, 500)) }`,
       createdBy: 'BPN10000000OEM0A',
       createdByName: 'OEM xxxxxxxxxxxxxxx A',
+      createdDate: `2022-${ numberToString(month) }-${ numberToString(day) }T09:12:54`,
+      updatedDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
+      assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
+      channel,
       sendTo: 'BPN20000000OEM0B',
       sendToName: 'OEM xxxxxxxxxxxxxxx B',
-      reason: { close, decline, accept },
-      createdDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
+      severity,
       targetDate: `2022-${ numberToString(month) }-${ numberToString(day + 1) }T12:34:12`,
-      assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
-      errorMessage: errorAlert,
-      type: NotificationTypeResponse.ALERT,
+      messages: [
+        {
+          id: 'closedMessage-4',
+          sentBy: 'BPN10000000OEM0B',
+          sentByName: 'Company B',
+          sendTo: 'BPN20000000OEM0A',
+          sendToName: 'Company A',
+          contractAgreementId: 'contractAgreement-4',
+          notificationReferenceId: 'referenceId-4',
+          edcNotificationId: 'edcNotificationId-4',
+          messageDate: `2024-${ numberToString(month) }-${ numberToString(day) }T09:12:12`,
+          messageId: 'messageId-4',
+          message: 'Closed the notification because the notice/investigations was finished successfully.',
+          status: NotificationStatus.CLOSED,
+          errorMessage: null,
+        },
+        {
+          id: 'acceptedMessage-2',
+          sentBy: 'BPN10000000OEM0B',
+          sentByName: 'Company B',
+          sendTo: 'BPN20000000OEM0A',
+          sendToName: 'Company A',
+          contractAgreementId: 'contractAgreement-2',
+          notificationReferenceId: 'referenceId-2',
+          edcNotificationId: 'edcNotificationId-2',
+          messageDate: `2023-${ numberToString(month) }-${ numberToString(day) }T11:34:12`,
+          messageId: 'messageId-2',
+          message: 'Accepted the notification to investigate/alert of a part',
+          status: NotificationStatus.ACCEPTED,
+          errorMessage: null,
+        },
+        {
+          id: 'createdMessage-1',
+          sentBy: 'BPN10000000OEM0A',
+          sentByName: 'Company A',
+          sendTo: 'BPN20000000OEM0B',
+          sendToName: 'Company B',
+          contractAgreementId: 'contractAgreement-1',
+          notificationReferenceId: 'referenceId-1',
+          edcNotificationId: 'edcNotificationId-1',
+          messageDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
+          messageId: 'messageId-1',
+          message: 'Created a notification to investigate/alert a part',
+          status: NotificationStatus.CREATED,
+          errorMessage: null,
+        },
+        {
+          id: 'closedMessage-3',
+          sentBy: 'BPN10000000OEM0B',
+          sentByName: 'Company B',
+          sendTo: 'BPN20000000OEM0A',
+          sendToName: 'Company A',
+          contractAgreementId: 'contractAgreement-3',
+          notificationReferenceId: 'referenceId-3',
+          edcNotificationId: 'edcNotificationId-3',
+          messageDate: `2023-${ numberToString(month) }-${ numberToString(day) }T12:51:12`,
+          messageId: 'messageId-3',
+          message: 'Closed the notification because the notice/investigations was finished successfully.',
+          status: NotificationStatus.CLOSED,
+          errorMessage: 'Error: Message could not be delivered. Please try again.',
+        },
+      ],
     };
   });
 
 const MockEmptyAlert: NotificationResponse = {
   id: `${ AlertIdPrefix }000`,
-  description: `Alert No 000`,
-  status: NotificationStatus.CREATED,
   title: 'Title',
-  severity: Severity.MINOR,
+  type: NotificationTypeResponse.ALERT,
+  status: NotificationStatus.CREATED,
+  description: `Alert No 000`,
   createdBy: 'BPN10000000OEM0A',
   createdByName: 'OEM xxxxxxxxxxxxxxx A',
-  sendTo: 'BPN20000000OEM0B',
-  sendToName: 'OEM xxxxxxxxxxxxxxx B',
-  reason: { close: '', decline: '', accept: '' },
   createdDate: `2022-05-01T12:34:12`,
-  targetDate: `2022-02-01T12:34:12`,
+  updatedDate: `2022-05-01T12:34:12`,
   assetIds: [ getRandomAsset().id ],
   channel: 'SENDER',
-  type: NotificationTypeResponse.ALERT,
+  sendTo: 'BPN20000000OEM0B',
+  sendToName: 'OEM xxxxxxxxxxxxxxx B',
+  severity: Severity.MINOR,
+  targetDate: `2022-02-01T12:34:12`,
+  messages: [],
 };
 
 export const getAlertById = (id: string) => {

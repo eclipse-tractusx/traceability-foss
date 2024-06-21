@@ -36,8 +36,8 @@ import java.util.List;
 @UtilityClass
 public class NotificationMessageMapper {
 
-    public static NotificationSeverityResponse from(NotificationSeverity notificationSeverity) {
-        return NotificationSeverityResponse.fromString(notificationSeverity.getRealName());
+    public static NotificationSeverityResponse from(NotificationSeverity severity) {
+        return NotificationSeverityResponse.fromString(severity.getRealName());
     }
 
     public static NotificationSideResponse from(NotificationSide side) {
@@ -60,21 +60,19 @@ public class NotificationMessageMapper {
         return NotificationMessageResponse
                 .builder()
                 .id(notificationMessage.getId())
-                .severity(notificationMessage.getSeverity()  != null ? NotificationSeverityResponse.fromString(notificationMessage.getSeverity().getRealName()) : null)
                 .notificationReferenceId(notificationMessage.getNotificationReferenceId())
                 .edcNotificationId(notificationMessage.getEdcNotificationId())
                 .contractAgreementId(notificationMessage.getContractAgreementId())
                 .notificationReferenceId(notificationMessage.getNotificationReferenceId())
                 .messageId(notificationMessage.getMessageId())
-                .updated(notificationMessage.getUpdated())
                 .sendToName(notificationMessage.getSendToName())
                 .status(fromStatus(notificationMessage.getNotificationStatus()))
-                .targetDate(notificationMessage.getTargetDate())
-                .created(notificationMessage.getCreated())
-                .createdBy(notificationMessage.getCreatedBy())
-                .createdByName(notificationMessage.getCreatedByName())
-                .sendTo(notificationMessage.getSendTo())
+                .sentBy(notificationMessage.getSentBy())
+                .sentByName(notificationMessage.getSentByName())
+                .sendTo(notificationMessage.getSentTo())
                 .errorMessage(notificationMessage.getErrorMessage())
+                .message(notificationMessage.getMessage())
+                .messageDate(String.valueOf(notificationMessage.getCreated()))
                 .build();
     }
 

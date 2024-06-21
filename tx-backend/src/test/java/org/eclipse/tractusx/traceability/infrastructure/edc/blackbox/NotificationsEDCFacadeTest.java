@@ -30,10 +30,13 @@ import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade;
+import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -63,8 +66,13 @@ class NotificationsEDCFacadeTest {
     PolicyCheckerService policyCheckerService;
     @Mock
     EndpointDataReference endpointDataReference;
+    @Mock
+    NotificationRepository notificationRepository;
+    @Mock
+    Notification notification;
     @InjectMocks
     NotificationsEDCFacade notificationsEDCFacade;
+
 
     @Test
     void givenCorrectInvestigationMessageButSendRequestThrowsException_whenStartEdcTransfer_thenThrowSendNotificationException() throws Exception {
@@ -80,6 +88,8 @@ class NotificationsEDCFacadeTest {
         final CatalogItem catalogItem = CatalogItem.builder()
                 .build();
         final String idsPath = "/api/v1/dsp";
+        when(notification.getTargetDate()).thenReturn(null);
+        when(notification.getSeverity()).thenReturn(NotificationSeverity.MAJOR);
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
         when(policyCheckerService.isValid(null, null)).thenReturn(true);
@@ -94,7 +104,7 @@ class NotificationsEDCFacadeTest {
 
 
         // when/then
-        assertThrows(SendNotificationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(SendNotificationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl, notification));
     }
 
     @Test
@@ -116,7 +126,7 @@ class NotificationsEDCFacadeTest {
                 .thenReturn(null);
 
         // when/then
-        assertThrows(ContractNegotiationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(ContractNegotiationException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl, notification));
     }
 
     @Test
@@ -133,6 +143,6 @@ class NotificationsEDCFacadeTest {
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
         // when/then
-        assertThrows(NoCatalogItemException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl));
+        assertThrows(NoCatalogItemException.class, () -> notificationsEDCFacade.startEdcTransfer(notificationMessage, receiverEdcUrl, senderEdcUrl, notification));
     }
 }

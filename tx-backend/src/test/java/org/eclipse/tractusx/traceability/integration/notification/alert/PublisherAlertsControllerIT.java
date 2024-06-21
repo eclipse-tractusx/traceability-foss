@@ -46,6 +46,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
@@ -110,26 +111,26 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // given
         assetsSupport.defaultAssetsStored();
         NotificationType notificationType = NotificationType.ALERT;
-        NotificationMessage notificationBuild = NotificationMessage.builder()
+        NotificationMessage message = NotificationMessage.builder()
                 .id("some-id")
                 .notificationStatus(NotificationStatus.SENT)
                 .affectedParts(List.of(new NotificationAffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")))
-                .createdByName("bpn-a")
-                .createdBy("Sender Manufacturer name")
-                .sendTo("BPNL00000003AXS3")
+                .sentByName("bpn-a")
+                .sentBy("Sender Manufacturer name")
+                .sentTo("BPNL00000003AXS3")
                 .sendToName("Receiver manufacturer name")
-                .severity(NotificationSeverity.MINOR)
-                .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
                 .type(notificationType)
-                .severity(NotificationSeverity.MINOR)
                 .messageId("messageId")
                 .build();
-        EDCNotification notification = EDCNotificationFactory.createEdcNotification(
-                "it", notificationBuild);
+        Notification notification = Notification.builder().initialReceiverBpns(List.of("BPNL00000003AXS3")).build();
+        notification.setSeverity(NotificationSeverity.CRITICAL);
+        notification.setTargetDate(Instant.now().toString());
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
+                "it", message, notification);
 
 
         // when
-        notificationReceiverService.handleReceive(notification, notificationType);
+        notificationReceiverService.handleReceive(edcNotification, notificationType);
 
         // then
         alertsSupport.assertAlertsSize(1);
@@ -176,7 +177,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 }
         );
 
-        alertNotificationsSupport.assertAlertNotificationsSize(2);
+        alertNotificationsSupport.assertAlertNotificationsSize(0);
 
         // when/then
         given()
@@ -403,6 +404,70 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void shouldApproveAlertStatusSecondTry() throws JoseException, JsonProcessingException {
+        // given
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
+        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        String filterString = "channel,EQUAL,SENDER,AND";
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
+        );
+        String description = "at least 15 characters long investigation description";
+
+        assetsSupport.defaultAssetsStored();
+
+        val startAlertRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .severity(NotificationSeverityRequest.MINOR)
+                .type(NotificationTypeRequest.ALERT)
+                .receiverBpn("BPNL00000003CNKC")
+                .build();
+
+        // when
+        val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
+
+
+        alertsSupport.assertAlertsSize(1);
+
+        given()
+                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/notifications/$alertId/approve".replace("$alertId", String.valueOf(id)))
+                .then()
+                .statusCode(503);
+
+        alertNotificationsSupport.assertAlertNotificationsSize(1);
+        edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
+
+        given()
+                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/notifications/$alertId/approve".replace("$alertId", String.valueOf(id)))
+                .then()
+                .statusCode(204);
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(1))
+                .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
+    }
+
+    @Test
     void shouldCloseAlertStatus() throws JoseException, JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
@@ -542,7 +607,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        alertNotificationsSupport.assertAlertNotificationsSize(2);
+        alertNotificationsSupport.assertAlertNotificationsSize(0);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))

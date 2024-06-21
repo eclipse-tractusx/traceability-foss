@@ -99,13 +99,15 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 <!-- Error Message-->
+<!--
 <div *ngIf="notification.errorMessage" class="card-list--full-row">
   <mat-icon class="mr-2">error</mat-icon>
   <span class="card-list--full-value">
-    <!--{{notification?.errorMessage | i18n}}-->
+    {{notification?.errorMessage | i18n}}
     {{"errorMessage.notificationError" | i18n}}
   </span>
 </div>
+-->
 <ng-template let-date="value" #dateTmp>
   <span class="card-list--value" title="{{ date }}">{{ date }}</span>
 </ng-template>

@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.notification.domain.base.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
@@ -33,6 +34,7 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.exception.NotificationIllegalUpdate;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.springframework.stereotype.Service;
 
@@ -58,30 +60,30 @@ public class NotificationPublisherService {
 
     public Notification startNotification(StartNotification startNotification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        Notification notification = Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType());
-        createMessages(startNotification, applicationBPN, notification, assetAsBuiltRepository);
-        return notification;
+        return Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType(), startNotification.getSeverity(), startNotification.getTargetDate(), startNotification.getAffectedPartIds(), List.of(startNotification.getReceiverBpn()), startNotification.getReceiverBpn());
     }
 
-    private void createMessages(StartNotification startNotification, BPN applicationBPN, Notification notification, AssetAsBuiltRepository assetAsBuiltRepository) {
+    private void createMessages(Notification notification, BPN applicationBPN, AssetAsBuiltRepository assetAsBuiltRepository) {
         Map<String, List<AssetBase>> assetsAsBuiltBPNMap =
                 assetAsBuiltRepository
-                        .getAssetsById(startNotification.getAffectedPartIds())
+                        .getAssetsById(notification.getAffectedPartIds())
                         .stream()
                         .filter(asset -> Objects.nonNull(asset.getManufacturerId()))
-                        .collect(groupingBy(AssetBase::getManufacturerId));        assetsAsBuiltBPNMap
+                        .collect(groupingBy(AssetBase::getManufacturerId));
+        assetsAsBuiltBPNMap
                 .entrySet()
                 .stream()
                 .map(it -> {
                     String creator = getManufacturerNameByBpn(applicationBPN.value());
-                    String sendToName = getManufacturerNameByBpn(startNotification.getReceiverBpn());
+                    String firstReceiverBpn = notification.getInitialReceiverBpns().stream()
+                            .findFirst()
+                            .orElseThrow(() -> new NotificationNotFoundException("Initial receiver BPNs not found"));
+                    String sendToName = getManufacturerNameByBpn(firstReceiverBpn);
                     return NotificationMessage.create(
                             applicationBPN,
-                            startNotification.getReceiverBpn(),
-                            startNotification.getDescription(),
-                            startNotification.getTargetDate(),
-                            startNotification.getSeverity(),
-                            startNotification.getType(),
+                            firstReceiverBpn,
+                            notification.getDescription(),
+                            notification.getNotificationType(),
                             it,
                             creator,
                             sendToName);
@@ -115,8 +117,7 @@ public class NotificationPublisherService {
 
         log.info("Quality Notification starts approval process with {} notifications", notification.getNotifications().size());
 
-        List<String> notificationStatus = notification.getNotifications().stream().map(notificationMessage -> notificationMessage.getNotificationStatus().name()).toList();
-        notificationStatus.forEach(s -> log.info("Notification Status {}", s));
+        createMessages(notification, applicationBPN, assetAsBuiltRepository);
 
         // For each asset within investigation a notification was created before
         List<CompletableFuture<NotificationMessage>> futures =
@@ -126,7 +127,8 @@ public class NotificationPublisherService {
                         .filter(notificationMessage ->
                                 notificationMessage.getNotificationStatus().name()
                                         .equals(NotificationStatus.SENT.name()))
-                        .map(edcNotificationService::asyncNotificationMessageExecutor)
+                        .filter(notificationMessage -> StringUtils.isBlank(notificationMessage.getErrorMessage()))
+                        .map(notificationMessage -> edcNotificationService.asyncNotificationMessageExecutor(notificationMessage, notification))
                         .filter(Objects::nonNull)
                         .toList();
         List<NotificationMessage> sentMessages = futures.stream()
@@ -160,9 +162,9 @@ public class NotificationPublisherService {
         relevantNotifications.forEach(qNotification -> {
             switch (status) {
                 case ACKNOWLEDGED -> notification.acknowledge();
-                case ACCEPTED -> notification.accept(reason);
-                case DECLINED -> notification.decline(reason);
-                case CLOSED -> notification.close(reason);
+                case ACCEPTED -> notification.accept(reason, qNotification);
+                case DECLINED -> notification.decline(reason, qNotification);
+                case CLOSED -> notification.close(reason, qNotification);
                 default ->
                         throw new NotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
             }
@@ -170,7 +172,7 @@ public class NotificationPublisherService {
         });
 
         List<CompletableFuture<NotificationMessage>> futures = relevantNotifications.stream()
-                .map(edcNotificationService::asyncNotificationMessageExecutor)
+                .map(message -> edcNotificationService.asyncNotificationMessageExecutor(message, notification))
                 .filter(Objects::nonNull)
                 .toList();
         List<NotificationMessage> sentMessages = futures.stream()

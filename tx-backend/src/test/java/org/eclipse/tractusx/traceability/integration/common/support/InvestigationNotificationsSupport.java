@@ -21,16 +21,20 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSeverityBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -76,7 +80,9 @@ public class InvestigationNotificationsSupport {
     private void storeCreatedInvestigations() {
         Instant now = Instant.parse("2023-10-10T10:10:10.00Z");
         Instant monthFromNow = Instant.parse("2023-11-10T10:10:10.00Z");
-
+        LocalDate specificDate = LocalDate.of(2023, 11, 11);
+        ZonedDateTime zonedDateTime = specificDate.atStartOfDay(ZoneId.systemDefault());
+        Instant instant = zonedDateTime.toInstant();
         NotificationEntity investigation1 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(OWN_BPN)
@@ -85,6 +91,9 @@ public class InvestigationNotificationsSupport {
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .description("1")
                 .createdDate(now.minus(3L, DAYS))
+                .targetDate(instant)
+                .severity(NotificationSeverityBaseEntity.CRITICAL)
+                .initialReceiverBpn("TESTBPN")
                 .build();
         NotificationEntity investigation2 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
@@ -94,6 +103,9 @@ public class InvestigationNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .createdDate(now.minus(2L, DAYS))
+                .targetDate(instant)
+                .severity(NotificationSeverityBaseEntity.CRITICAL)
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.minus(2L, DAYS))
                 .build();
         NotificationEntity investigation3 = NotificationEntity.builder()
@@ -104,6 +116,7 @@ public class InvestigationNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .createdDate(now.minus(1L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.minus(1L, DAYS))
                 .build();
         NotificationEntity investigation4 = NotificationEntity.builder()
@@ -114,27 +127,28 @@ public class InvestigationNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .createdDate(now)
+                .initialReceiverBpn("TESTBPN")
                 .updated(now)
                 .build();
         NotificationEntity investigation5 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(OWN_BPN)
                 .status(NotificationStatusBaseEntity.ACCEPTED)
-                .acceptReason("Almighty demon king accepted this one")
                 .description("5")
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .createdDate(now)
                 .updated(now)
+                .initialReceiverBpn("TESTBPN")
                 .build();
         NotificationEntity investigation6 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(OWN_BPN)
                 .status(NotificationStatusBaseEntity.DECLINED)
-                .declineReason("Almighty demon king has declined this one")
                 .description("6")
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.INVESTIGATION)
+                .initialReceiverBpn("TESTBPN")
                 .createdDate(now.plus(1L, DAYS))
                 .updated(now.plus(1L, DAYS))
                 .build();
@@ -146,6 +160,7 @@ public class InvestigationNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .createdDate(now.plus(2L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.plus(2L, DAYS))
                 .build();
         NotificationEntity investigation8 = NotificationEntity.builder()
@@ -153,11 +168,11 @@ public class InvestigationNotificationsSupport {
                 .bpn(OWN_BPN)
                 .status(NotificationStatusBaseEntity.CLOSED)
                 .description("8")
-                .closeReason("Almighty demon king has closed that one")
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .createdDate(now.plus(3L, DAYS))
                 .updated(now.plus(3L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .build();
 
         storedNotifications(
@@ -166,10 +181,8 @@ public class InvestigationNotificationsSupport {
                         .id("1")
                         .notification(investigation1)
                         .status(NotificationStatusBaseEntity.CREATED)
-                        .severity(NotificationSeverity.MINOR)
                         .sendTo(OTHER_BPN)
                         .createdBy(OWN_BPN)
-                        .targetDate(monthFromNow.minus(3L, DAYS))
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a1")
                         .build(),
@@ -179,9 +192,7 @@ public class InvestigationNotificationsSupport {
                         .createdBy(OWN_BPN)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .status(NotificationStatusBaseEntity.SENT)
-                        .severity(NotificationSeverity.MAJOR)
                         .id("2")
-                        .targetDate(monthFromNow.minus(2L, DAYS))
                         .notification(investigation2)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a2")
                         .build(),
@@ -189,8 +200,6 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.RECEIVED)
                         .id("3")
-                        .severity(NotificationSeverity.CRITICAL)
-                        .targetDate(monthFromNow.minus(1L, DAYS))
                         .sendTo(OTHER_BPN)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
@@ -201,8 +210,6 @@ public class InvestigationNotificationsSupport {
                         .builder()
                         .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                         .id("4")
-                        .targetDate(monthFromNow)
-                        .severity(NotificationSeverity.LIFE_THREATENING)
                         .sendTo(OTHER_BPN)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
@@ -212,9 +219,7 @@ public class InvestigationNotificationsSupport {
                 NotificationMessageEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.ACCEPTED)
-                        .severity(NotificationSeverity.MINOR)
                         .id("5")
-                        .targetDate(monthFromNow)
                         .sendTo(OTHER_BPN)
                         .createdBy(OTHER_BPN)
                         .createdByName(OTHER_BPN_COMPANY_NAME)
@@ -224,8 +229,6 @@ public class InvestigationNotificationsSupport {
                 NotificationMessageEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.DECLINED)
-                        .severity(NotificationSeverity.MAJOR)
-                        .targetDate(monthFromNow.plus(1L, DAYS))
                         .id("6")
                         .sendTo(OTHER_BPN)
                         .createdBy(OTHER_BPN)
@@ -239,8 +242,6 @@ public class InvestigationNotificationsSupport {
                         .id("7")
                         .sendTo(OTHER_BPN)
                         .createdBy(OWN_BPN)
-                        .targetDate(monthFromNow.plus(2L, DAYS))
-                        .severity(NotificationSeverity.CRITICAL)
                         .createdByName(OWN_BPN_COMPANY_NAME)
                         .notification(investigation7)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a7")
@@ -248,8 +249,6 @@ public class InvestigationNotificationsSupport {
                 NotificationMessageEntity
                         .builder()
                         .status(NotificationStatusBaseEntity.CLOSED)
-                        .severity(NotificationSeverity.LIFE_THREATENING)
-                        .targetDate(monthFromNow.plus(3L, DAYS))
                         .id("8")
                         .sendTo(OTHER_BPN)
                         .createdBy(OWN_BPN)
@@ -263,7 +262,9 @@ public class InvestigationNotificationsSupport {
     private void storeReceivedInvestigations() {
         Instant now = Instant.parse("2023-10-10T10:10:10.00Z");
         String otherBPN = "BPNL00000002OTHER";
-
+        LocalDate specificDate = LocalDate.of(2023, 11, 10);
+        ZonedDateTime zonedDateTime = specificDate.atStartOfDay(ZoneId.systemDefault());
+        Instant instant = zonedDateTime.toInstant();
         NotificationEntity investigation1 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(otherBPN)
@@ -271,7 +272,9 @@ public class InvestigationNotificationsSupport {
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .description("11")
+                .targetDate(instant)
                 .createdDate(now.minus(2L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .build();
         NotificationEntity investigation2 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
@@ -281,6 +284,7 @@ public class InvestigationNotificationsSupport {
                 .description("22")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now.minus(1L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .build();
         NotificationEntity investigation3 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
@@ -290,12 +294,14 @@ public class InvestigationNotificationsSupport {
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .createdDate(now)
+                .initialReceiverBpn("TESTBPN")
                 .build();
         NotificationEntity investigation4 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(otherBPN)
                 .status(NotificationStatusBaseEntity.DECLINED)
                 .description("44")
+                .initialReceiverBpn("TESTBPN")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .createdDate(now.plusSeconds(20L))
@@ -307,6 +313,7 @@ public class InvestigationNotificationsSupport {
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.INVESTIGATION)
+                .initialReceiverBpn("TESTBPN")
                 .createdDate(now.plus(1L, DAYS))
                 .build();
         NotificationEntity investigation6 = NotificationEntity.builder()
@@ -316,6 +323,7 @@ public class InvestigationNotificationsSupport {
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.INVESTIGATION)
+                .initialReceiverBpn("TESTBPN")
                 .createdDate(now.plus(2L, DAYS))
                 .build();
 
@@ -379,6 +387,7 @@ public class InvestigationNotificationsSupport {
                 .status(NotificationStatusBaseEntity.SENT)
                 .description("2")
                 .type(NotificationTypeEntity.INVESTIGATION)
+                .initialReceiverBpn("TESTBPN")
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.minus(2L, DAYS))
                 .updated(now.minus(2L, DAYS))

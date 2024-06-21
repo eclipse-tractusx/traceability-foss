@@ -132,6 +132,7 @@ export class NotificationActionModalComponent {
         },
         error: () => {
           this.toastService.error(modalData.errorMessage, 15000, true);
+          this.confirmActionCompleted.emit();
         },
       });
     };

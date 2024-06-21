@@ -27,7 +27,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,21 +39,19 @@ import java.util.UUID;
 @Data
 public class NotificationMessage {
     private String id;
-    private final String createdByName;
+    private final String sentByName;
     private final String sendToName;
     @Builder.Default
     private List<NotificationAffectedPart> affectedParts = new ArrayList<>();
     private String notificationReferenceId;
-    private String createdBy;
-    private String sendTo;
+    private String sentBy;
+    private String sentTo;
     private String contractAgreementId;
-    private String description;
+    private String message;
     private NotificationStatus notificationStatus;
     private String edcNotificationId;
     private LocalDateTime created;
     private LocalDateTime updated;
-    private Instant targetDate;
-    private NotificationSeverity severity;
     private String messageId;
     private NotificationType type;
     private String errorMessage;
@@ -68,21 +65,19 @@ public class NotificationMessage {
         this.notificationStatus = to;
     }
 
-    public static NotificationMessage create(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, NotificationSeverity severity, NotificationType notificationType, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
+    public static NotificationMessage create(BPN applicationBpn, String receiverBpn, String description, NotificationType notificationType, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return NotificationMessage.builder()
                 .id(notificationId)
                 .created(LocalDateTime.now())
-                .createdBy(applicationBpn.value())
-                .createdByName(creator)
-                .sendTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
+                .sentBy(applicationBpn.value())
+                .sentByName(creator)
+                .sentTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
                 .sendToName(sendToName)
-                .description(description)
-                .notificationStatus(NotificationStatus.CREATED)
+                .message(description)
+                .notificationStatus(NotificationStatus.SENT)
                 .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(NotificationAffectedPart::new).toList())
-                .targetDate(targetDate)
-                .severity(severity)
                 .edcNotificationId(notificationId)
                 .type(notificationType)
                 .messageId(messageId)
@@ -90,41 +85,38 @@ public class NotificationMessage {
     }
 
 
-
     // Important - receiver and sender will be saved in switched order
     public NotificationMessage copyAndSwitchSenderAndReceiver(BPN applicationBpn) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageUUID = UUID.randomUUID().toString();
-        String receiverBPN = sendTo;
-        String senderBPN = createdBy;
+        String receiverBPN = sentTo;
+        String senderBPN = sentBy;
         String receiverName;
         String senderName;
 
         // This is needed to make sure that the app can send a message to the receiver and not addresses itself
-        if (applicationBpn.value().equals(sendTo)) {
-            receiverBPN = createdBy;
-            senderBPN = sendTo;
-            receiverName = createdByName;
+        if (applicationBpn.value().equals(sentTo)) {
+            receiverBPN = sentBy;
+            senderBPN = sentTo;
+            receiverName = sentByName;
             senderName = sendToName;
         } else {
             receiverName = sendToName;
-            senderName = createdByName;
+            senderName = sentByName;
         }
         return NotificationMessage.builder()
                 .created(LocalDateTime.now())
                 .id(notificationId)
-                .createdBy(senderBPN)
-                .createdByName(senderName)
-                .sendTo(receiverBPN)
+                .sentBy(senderBPN)
+                .sentByName(senderName)
+                .sentTo(receiverBPN)
                 .sendToName(receiverName)
                 .contractAgreementId(contractAgreementId)
-                .description(description)
+                .message(message)
                 .notificationStatus(notificationStatus)
                 .affectedParts(affectedParts)
                 .edcNotificationId(edcNotificationId)
                 .messageId(messageUUID)
-                .severity(severity)
-                .targetDate(targetDate)
                 .type(type)
                 .errorMessage(errorMessage)
                 .build();

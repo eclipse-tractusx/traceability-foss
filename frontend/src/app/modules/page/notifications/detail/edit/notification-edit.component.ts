@@ -139,20 +139,22 @@ export class NotificationEditComponent implements OnDestroy {
 
     this.isSaveButtonDisabled = true;
     const newNotification: Notification = {
-      assetIds: this.sharedPartService?.affectedParts?.map(value => value.id) || [],
-      createdBy: '',
+      id: 'new',
+      title: '',
       type: this.route.snapshot.queryParams['initialType'] ?? null,
+      status: undefined,
+      description: '',
+      createdBy: '',
       createdByName: '',
       createdDate: undefined,
-      description: '',
-      isFromSender: true,
-      reason: undefined,
+      updatedDate: undefined,
+      assetIds: this.sharedPartService?.affectedParts?.map(value => value.id) || [],
+      channel: 'SENDER',
       sendTo: '',
       sendToName: '',
       severity: undefined,
-      status: undefined,
-      title: '',
-      id: 'new',
+      messages: [],
+      isFromSender: true,
     };
     this.selectNotificationAndLoadPartsBasedOnNotification(newNotification);
   }

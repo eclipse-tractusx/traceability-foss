@@ -17,22 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {LayoutModule} from '@layout/layout.module';
-import {NotificationDetailFacade} from '@page/notifications/core/notification-detail.facade';
-import {NotificationDetailState} from '@page/notifications/core/notification-detail.state';
+import { LayoutModule } from '@layout/layout.module';
+import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
+import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
 import { NotificationAssembler } from '@shared/assembler/notification.assembler';
-import {
-  RequestNotificationNewComponent
-} from '@shared/components/request-notification-new/notification-new-request.component';
-import {Notification, NotificationType} from '@shared/model/notification.model';
-import {View} from '@shared/model/view.model';
-import {
-  FormatPartlistSemanticDataModelToCamelCasePipe
-} from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
-import {SharedModule} from '@shared/shared.module';
-import {screen, waitFor} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {of} from 'rxjs';
+import { RequestNotificationNewComponent } from '@shared/components/request-notification-new/notification-new-request.component';
+import { Notification, NotificationType } from '@shared/model/notification.model';
+import { View } from '@shared/model/view.model';
+import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
+import { SharedModule } from '@shared/shared.module';
+import { screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { of } from 'rxjs';
 import { MockEmptyAlert } from '../../../../mocks/services/alerts-mock/alerts.test.model';
 
 
@@ -73,20 +69,20 @@ describe('requestNotificationNewComponent', () => {
 
     const notification: View<Notification> = {
       data: {
-        assetIds: [],
-        createdBy: '',
+        id: 'abc',
+        title: '',
         type: NotificationType.ALERT,
+        status: undefined,
+        description: '',
+        createdBy: '',
         createdByName: '',
         createdDate: undefined,
-        description: '',
-        isFromSender: false,
-        reason: undefined,
+        assetIds: [],
         sendTo: '',
         sendToName: '',
         severity: undefined,
-        status: undefined,
-        title: '',
-        id: 'abc',
+        messages: [],
+        isFromSender: false,
       }
     };
 

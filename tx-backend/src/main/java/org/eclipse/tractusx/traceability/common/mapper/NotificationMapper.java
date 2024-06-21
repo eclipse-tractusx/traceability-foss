@@ -25,9 +25,11 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.common.date.DateUtil.convertInstantToString;
 
 @RequiredArgsConstructor
 @Component
@@ -44,11 +47,11 @@ public class NotificationMapper {
      * Creates an Notification object representing the notification received by the receiver for a given notification.
      *
      * @param bpn          the BPN of the notification
-     * @param description  the description of the notification
+     * @param edcNotification  the edcNotification of the notification
      * @param notification the notification associated with the alert or investigation
      * @return an Notification object representing the notification received by the receiver
      */
-    public Notification toNotification(BPN bpn, String description, NotificationMessage notification, NotificationType notificationType) {
+    public Notification toNotification(BPN bpn, EDCNotification edcNotification, NotificationMessage notification, NotificationType notificationType, BPN applicationBPN) {
 
         List<String> assetIds = new ArrayList<>();
         emptyIfNull(notification.getAffectedParts()).stream()
@@ -59,10 +62,14 @@ public class NotificationMapper {
                 .notificationStatus(NotificationStatus.RECEIVED)
                 .notificationSide(NotificationSide.RECEIVER)
                 .notificationType(notificationType)
-                .description(description)
+                .description(edcNotification.getInformation())
                 .createdAt(Instant.now())
+                .sendTo(applicationBPN.value())
+                .severity(NotificationSeverity.fromString(edcNotification.getSeverity()))
+                .targetDate(convertInstantToString(edcNotification.getTargetDate()))
                 .affectedPartIds(assetIds)
                 .notifications(List.of(notification))
+                .initialReceiverBpns(List.of(applicationBPN.value()))
                 .build();
     }
 }

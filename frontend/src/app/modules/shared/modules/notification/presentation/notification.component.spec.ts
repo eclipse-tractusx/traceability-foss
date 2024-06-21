@@ -39,6 +39,7 @@ import { delay } from 'rxjs/operators';
 import { buildMockInvestigations } from '../../../../../mocks/services/investigations-mock/investigations.test.model';
 import { NotificationModule } from '../notification.module';
 
+
 describe('NotificationsInboxComponent', () => {
   let clickHandler;
 
@@ -47,6 +48,7 @@ describe('NotificationsInboxComponent', () => {
   const mapNotificationResponse = (data: NotificationResponse): Notification => {
     const isFromSender = data.channel === NotificationChannel.SENDER;
     const createdDate = new CalendarDateModel(data.createdDate);
+    const updatedDate = new CalendarDateModel((data.updatedDate));
     const targetDate = new CalendarDateModel(data.targetDate);
     const createdBy = data.createdBy;
     const createdByName = data.createdByName;
@@ -59,6 +61,7 @@ describe('NotificationsInboxComponent', () => {
     return {
       ...data,
       createdDate,
+      updatedDate,
       targetDate,
       isFromSender,
       createdBy,

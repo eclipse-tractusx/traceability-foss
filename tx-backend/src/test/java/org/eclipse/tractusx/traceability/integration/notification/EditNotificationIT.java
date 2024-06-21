@@ -89,7 +89,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
         notificationAPISupport.editNotificationRequest(authHeader, request, id, 204);
 
         // then
-        notificationMessageSupport.assertMessageSize(1);
+        notificationMessageSupport.assertMessageSize(0);
 
         given()
                 .header(authHeader)
@@ -184,7 +184,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
         notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id, 204);
 
         // then
-        notificationMessageSupport.assertMessageSize(1);
+        notificationMessageSupport.assertMessageSize(0);
 
         PageResult<NotificationResponse> notificationResponsePageResult
                 = notificationAPISupport.getNotificationsRequest(authHeader);
@@ -196,13 +196,11 @@ class EditNotificationIT extends IntegrationTestSpecification {
         assertThat(notificationResponse.getAssetIds()).hasSize(editNotificationRequest.getAffectedPartIds().size());
         assertThat(notificationResponse.getSeverity().getRealName()).isEqualTo(editNotificationRequest.getSeverity().getRealName());
         assertThat(notificationResponsePageResult.content()).hasSize(1);
-        assertThat(notificationResponse.getMessages().get(0).getSeverity().getRealName()).isEqualTo(editNotificationRequest.getSeverity().getRealName());
-        assertThat(notificationResponse.getMessages().get(0).getTargetDate()).isEqualTo(editNotificationRequest.getTargetDate());
 
     }
 
     @Test
-    void shouldNotUpdateInvestigationFields_whenBpnWrongFormatted() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldNotUpdateInvestigationFields_whenBpnWrongFormatted() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         Header authHeader = oAuth2Support.jwtAuthorization(SUPERVISOR);
         // given
         List<String> partIds = List.of(

@@ -80,20 +80,10 @@ export const alertsHandlers = [
   }),
 
   rest.get(`*${ environment.apiUrl }/notifications/:notificationId`, (req, res, ctx) => {
-    const { alertId } = req.params;
-
-    const indexFromId = parseInt((alertId as string).replace('id-', ''), 10);
-
-    const statusCollection = [
-      NotificationStatus.CREATED,
-      NotificationStatus.SENT,
+    const { notificationId } = req.params;
+    const indexFromId = parseInt((notificationId as string).replace('id-', ''), 10);
+    const currentStatus = [
       NotificationStatus.RECEIVED,
-      NotificationStatus.CLOSED,
-      NotificationStatus.CANCELED,
-      NotificationStatus.ACKNOWLEDGED,
-      NotificationStatus.ACCEPTED,
-      NotificationStatus.DECLINED,
-
       NotificationStatus.ACKNOWLEDGED,
       NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
@@ -101,9 +91,9 @@ export const alertsHandlers = [
       NotificationStatus.CANCELED,
     ];
     const channel = [ 2, 8, 9, 10, 11, 12 ].includes(indexFromId) ? 'RECEIVER' : 'SENDER';
-    const randomNotification = buildMockAlerts([ statusCollection[indexFromId] ], channel)[0];
+    const randomNotification = buildMockAlerts(currentStatus, channel)[0];
 
-    return res(ctx.status(200), ctx.json({ ...randomNotification, id: alertId }));
+    return res(ctx.status(200), ctx.json({ ...randomNotification, id: notificationId }));
   }),
   rest.post(`*${ environment.apiUrl }/notifications`, (_, res, ctx) => {
     return res(ctx.status(400), ctx.json({message: "Error while sending Alert to EDC"} ));

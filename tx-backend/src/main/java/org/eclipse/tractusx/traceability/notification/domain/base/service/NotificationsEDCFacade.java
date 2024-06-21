@@ -90,24 +90,25 @@ public class NotificationsEDCFacade {
     private static final String CX_TAXO_QUALITY_ALERT_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityAlertNotification";
 
     public void startEdcTransfer(
-            final NotificationMessage notification,
+            final NotificationMessage notificationMessage,
             final String receiverEdcUrl,
-            final String senderEdcUrl) {
+            final String senderEdcUrl,
+            final Notification notification) {
 
-        CatalogItem catalogItem = getCatalogItem(notification, receiverEdcUrl);
+        CatalogItem catalogItem = getCatalogItem(notificationMessage, receiverEdcUrl);
 
-        String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem, notification.getSendTo());
+        String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem, notificationMessage.getSentTo());
 
         final EndpointDataReference dataReference = endpointDataReferenceStorage.get(contractAgreementId)
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
 
-        notification.setContractAgreementId(contractAgreementId);
+        notificationMessage.setContractAgreementId(contractAgreementId);
 
         try {
-            EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notification, senderEdcUrl, dataReference);
-            sendRequest(notificationRequest, notification);
+            EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notificationMessage, senderEdcUrl, dataReference, notification);
+            sendRequest(notificationRequest);
         } catch (Exception e) {
-            throw new SendNotificationException("Failed to send notification.", e);
+            throw new SendNotificationException("Failed to send notificationMessage.", e);
         }
     }
 
@@ -141,7 +142,7 @@ public class NotificationsEDCFacade {
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
                                     .counterPartyAddress(receiverEdcUrl + edcProperties.getIdsPath())
-                                    .counterPartyId(notification.getSendTo())
+                                    .counterPartyId(notification.getSentTo())
                                     .querySpec(QuerySpec.Builder.newInstance()
                                             // https://github.com/eclipse-tractusx/traceability-foss/issues/978
                                             // Probably:
@@ -157,7 +158,7 @@ public class NotificationsEDCFacade {
                     .filter(catalogItem -> {
                         log.info("-- catalog item check --");
                         log.info("Item {}: {}", catalogItem.getItemId(), catalogItem);
-                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy(), notification.getSendTo()
+                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy(), notification.getSentTo()
                         );
                         log.info("IsValid : {}", isValid);
                         return isValid;
@@ -172,26 +173,30 @@ public class NotificationsEDCFacade {
 
     // TODO this method should be completly handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
     private EdcNotificationRequest toEdcNotificationRequest(
-            final NotificationMessage notification,
+            final NotificationMessage notificationMessage,
             final String senderEdcUrl,
-            final EndpointDataReference dataReference
+            final EndpointDataReference dataReference,
+            final Notification notification
     ) throws JsonProcessingException {
-        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notification);
+
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notificationMessage, notification);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(Objects.requireNonNull(dataReference.getAuthKey()), dataReference.getAuthCode());
         headers.set("Content-Type", "application/json");
-        log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
+        log.info(":::: Send notificationMessage Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
         return EdcNotificationRequest.builder()
                 .url(dataReference.getEndpoint())
                 .body(body)
                 .headers(headers).build();
+
+
     }
 
 
-    private void sendRequest(final EdcNotificationRequest request, NotificationMessage message) {
+    private void sendRequest(final EdcNotificationRequest request) {
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
         try {
             var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
@@ -199,14 +204,6 @@ public class NotificationsEDCFacade {
             log.info("Control plane responded with status: {}", response.getStatusCode());
             if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
-            } else {
-                String edcNotificationId = message.getEdcNotificationId();
-
-                Optional<Notification> optionalNotificationById = notificationRepository.findByEdcNotificationId(edcNotificationId);
-                if (optionalNotificationById.isPresent()) {
-                    optionalNotificationById.ifPresent(notificationRepository::updateNotification);
-                    log.info("Updated notification message as {} with id {}.", message.getType(), optionalNotificationById.get().getNotificationId().value());
-                }
             }
         } catch (Exception e) {
             log.warn(e.getMessage());

@@ -27,8 +27,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -36,22 +37,21 @@ import java.time.LocalDateTime;
 public class NotificationMessageResponse {
 
     private String id;
-    private String createdBy;
-    private String createdByName;
+    private String sentBy;
+    private String sentByName;
     private String sendTo;
     private String sendToName;
     private String contractAgreementId;
     private String notificationReferenceId;
-    private Instant targetDate;
-    @Enumerated(EnumType.STRING)
-    private NotificationSeverityResponse severity;
+
     private String edcNotificationId;
-    private LocalDateTime created;
-    private LocalDateTime updated;
+    @Schema(example = "2023-02-21T21:27:10.734950Z", maxLength = 50)
+    private String messageDate;
     private String messageId;
     @Enumerated(EnumType.STRING)
     private NotificationStatusResponse status;
     @Schema(example = "EDC not reachable", maxLength = 255)
     @Size(max = 255)
     private String errorMessage;
+    private String message;
 }
