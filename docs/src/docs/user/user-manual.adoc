@@ -93,7 +93,7 @@ Possibility to check the network status based on logfiles and will provide acces
 
 ==== BPN-EDC configuration
 
-In the BPN-EDC configuration screen an admin user can add new URLs for BPNs. After adding URLs here, notifications will be sent to the corresponding URL. Existing configurations can be edited or removed.
+In the BPN-EDC configuration screen an admin user can add URLs for BPNs. Any URLs here will be used directly for the configured BPN instead of looking up the URL with the EDC DiscoveryFinder service. Existing configurations can be edited or removed.
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/bpn_edc_configuration.png[]
 
