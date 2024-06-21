@@ -49,7 +49,7 @@ describe('AppViewSelector', () => {
       imports: [ SharedModule, TemplateModule ],
     });
 
-    expect(screen.getByText('Test').parentNode).toHaveClass('mat-accent');
+    expect(screen.getByText('Test').parentNode.parentNode).toHaveClass('mat-accent');
   });
 
   it('should render warn button', async () => {
@@ -58,7 +58,7 @@ describe('AppViewSelector', () => {
       imports: [ SharedModule, TemplateModule ],
     });
 
-    expect(screen.getByText('Test').parentNode).toHaveClass('mat-warn');
+    expect(screen.getByText('Test').parentNode.parentNode).toHaveClass('mat-warn');
   });
 
   it('should render enabled button', async () => {
@@ -79,7 +79,7 @@ describe('AppViewSelector', () => {
       imports: [ SharedModule, TemplateModule ],
     });
 
-    const buttonEl = screen.getByText('Test').parentNode;
+    const buttonEl = screen.getByText('Test').parentNode.parentNode;
     expect(buttonEl).toBeDisabled();
   });
 });
