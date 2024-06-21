@@ -86,7 +86,7 @@ public abstract class AbstractNotificationService implements NotificationService
         Notification notification = loadOrNotFoundException(new NotificationId(notificationId));
 
         List<NotificationMessage> messages = notification.getNotifications();
-        NotificationStatus previousStatus = NotificationStatus.getPreviousStatus(notificationStatus, messages);
+        NotificationStatus previousStatus = NotificationStatus.getPreviousStatus(notificationStatus);
 
         /* Create a copy of the latest notifications.
         As per asset there will be a notification created on start

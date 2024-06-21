@@ -37,7 +37,6 @@ import org.eclipse.tractusx.traceability.notification.domain.base.service.EdcNot
 import org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationPublisherService;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
-import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -137,7 +136,7 @@ class NotificationPublisherServiceTest {
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.CREATED);
         assertThat(result.getDescription()).isEqualTo(description);
         assertThat(result.getNotificationSide()).isEqualTo(NotificationSide.SENDER);
-        assertThat(result.getNotifications()).hasSize(0);
+        assertThat(result.getNotifications()).isEmpty();
     }
 
     @Test
@@ -306,7 +305,7 @@ class NotificationPublisherServiceTest {
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.DECLINED);
-        Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(NotificationMessage.class),any(Notification.class));
+        Mockito.verify(notificationsService, times(1)).asyncNotificationMessageExecutor(any(NotificationMessage.class), any(Notification.class));
     }
 
     @Test

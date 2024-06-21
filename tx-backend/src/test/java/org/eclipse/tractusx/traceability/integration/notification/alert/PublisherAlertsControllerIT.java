@@ -410,7 +410,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        //edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE

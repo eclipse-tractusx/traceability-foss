@@ -80,7 +80,7 @@ public enum NotificationStatus {
         return MAPPINGS.get(value);
     }
 
-    public static NotificationStatus getPreviousStatus(NotificationStatus status, List<NotificationMessage> messages) {
+    public static NotificationStatus getPreviousStatus(NotificationStatus status) {
         return switch (status) {
             case CREATED, SENT, CANCELED -> NotificationStatus.CREATED;
             case ACKNOWLEDGED, RECEIVED, CLOSED -> NotificationStatus.SENT;

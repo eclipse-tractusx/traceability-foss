@@ -106,7 +106,7 @@ public class NotificationsEDCFacade {
 
         try {
             EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notificationMessage, senderEdcUrl, dataReference, notification);
-            sendRequest(notificationRequest, notificationMessage, notification);
+            sendRequest(notificationRequest);
         } catch (Exception e) {
             throw new SendNotificationException("Failed to send notificationMessage.", e);
         }
@@ -196,7 +196,7 @@ public class NotificationsEDCFacade {
     }
 
 
-    private void sendRequest(final EdcNotificationRequest request, NotificationMessage message, Notification notification) {
+    private void sendRequest(final EdcNotificationRequest request) {
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
         try {
             var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
@@ -204,9 +204,6 @@ public class NotificationsEDCFacade {
             log.info("Control plane responded with status: {}", response.getStatusCode());
             if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
-            } else {
-                //notificationRepository.updateNotification(notification);
-                //log.info("Updated notification message as {} with id {}.", message.getType(), notification.getNotificationId().value());
             }
         } catch (Exception e) {
             log.warn(e.getMessage());

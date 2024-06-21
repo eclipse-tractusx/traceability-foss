@@ -222,8 +222,6 @@ class EditNotificationIT extends IntegrationTestSpecification {
 
         int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
 
-        PageResult<NotificationResponse> notificationResponsePageResult1
-                = notificationAPISupport.getNotificationsRequest(authHeader);
         // given
         String editedDescription = "at least 15 characters long investigation description which was edited";
 

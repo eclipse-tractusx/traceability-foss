@@ -28,10 +28,8 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 
 import java.time.Instant;
-import java.util.List;
 
 @SuperBuilder
 @NoArgsConstructor

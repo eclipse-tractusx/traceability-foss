@@ -80,13 +80,6 @@ public class NotificationResponseMapper {
                 .orElse(null);
     }
 
-    private static String getReceiverBPN(Collection<NotificationMessage> notifications) {
-        return notifications.stream()
-                .findFirst()
-                .map(NotificationMessage::getSentTo)
-                .orElse(null);
-    }
-
     private static String getSenderName(Collection<NotificationMessage> notifications) {
         return notifications.stream()
                 .findFirst()
