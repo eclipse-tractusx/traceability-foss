@@ -9,7 +9,7 @@
 $ git clone https://github.com/eclipse-tractusx/traceability-foss.git
 $ cd traceability-foss
 ```
-We do not support local deployment of the app.
+Please note: Local deployment of the app is not supported.
 
 ## OAuth2 configuration
 Product Traceability FOSS Backend relies on properly configured OAuth2 instance. In order to work, it must be configured with proper realm, clients and roles.
