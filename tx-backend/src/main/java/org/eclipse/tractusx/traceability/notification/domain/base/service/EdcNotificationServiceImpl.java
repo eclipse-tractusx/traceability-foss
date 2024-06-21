@@ -40,7 +40,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -57,7 +56,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
 
     @Override
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
-    public CompletableFuture<NotificationMessage> asyncNotificationMessageExecutor(NotificationMessage message) {
+    public CompletableFuture<NotificationMessage> asyncNotificationMessageExecutor(NotificationMessage message, Notification notification) {
         log.info("::asyncNotificationExecutor::message {}", message);
         try {
             Discovery discovery = discoveryService.getDiscoveryByBPN(message.getSentTo());
@@ -69,13 +68,13 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             if (message.getType().equals(NotificationType.ALERT)) {
                 log.info("::asyncNotificationExecutor::isQualityAlert");
                 sendResults = receiverUrls
-                        .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
+                        .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl, notification)).toList();
             }
 
             if (message.getType().equals(NotificationType.INVESTIGATION)) {
                 log.info("::asyncNotificationExecutor::isQualityInvestigation");
                 sendResults = receiverUrls
-                        .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl)).toList();
+                        .stream().map(receiverUrl -> handleSendingNotification(message, senderEdcUrl, receiverUrl, notification)).toList();
             }
 
             Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
@@ -87,49 +86,42 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             return CompletableFuture.completedFuture(null);
 
         } catch (DiscoveryFinderException discoveryFinderException) {
-            enrichNotificationByError(discoveryFinderException, message);
+            enrichNotificationByError(discoveryFinderException, notification);
             return CompletableFuture.completedFuture(null);
         }
     }
 
-    private boolean handleSendingNotification(NotificationMessage message, String senderEdcUrl, String receiverUrl) {
+    private boolean handleSendingNotification(NotificationMessage message, String senderEdcUrl, String receiverUrl, Notification notification) {
         try {
-            edcFacade.startEdcTransfer(message, receiverUrl, senderEdcUrl);
+            edcFacade.startEdcTransfer(message, receiverUrl, senderEdcUrl, notification);
             return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send message to {} no catalog item found. ", receiverUrl, e);
-            enrichNotificationByError(e, message);
+            enrichNotificationByError(e, notification);
         } catch (SendNotificationException e) {
             log.warn("Could not send message to {} ", receiverUrl, e);
-            enrichNotificationByError(e, message);
+            enrichNotificationByError(e, notification);
         } catch (NoEndpointDataReferenceException e) {
             log.warn("Could not send message to {} no endpoint data reference found", receiverUrl, e);
-            enrichNotificationByError(e, message);
+            enrichNotificationByError(e, notification);
         } catch (ContractNegotiationException e) {
             log.warn("Could not send message to {} could not negotiate contract agreement", receiverUrl, e);
-            enrichNotificationByError(e, message);
+            enrichNotificationByError(e, notification);
         }
         return false;
     }
 
-    private void enrichNotificationByError(Exception e, NotificationMessage notificationMessage) {
-        log.info("Retrieving notification by message id {}", notificationMessage.getEdcNotificationId());
+    private void enrichNotificationByError(Exception e, Notification notification) {
 
-        Optional<Notification> optionalNotificationByEdcId = notificationRepository.findByEdcNotificationId(notificationMessage.getEdcNotificationId());
+        log.info("Notification for error message enrichment {}", notification);
+        notification.getNotifications().forEach(message1 -> log.info("Message found {}", message1));
+        notification.secondLatestNotifications().forEach(qmMessage -> {
+            log.info("Message from second latest notification {}", qmMessage);
+            qmMessage.setErrorMessage(e.getMessage());
+        });
 
-        log.info("Successfully executed retrieving quality notification by message id");
-        if (optionalNotificationByEdcId.isPresent()) {
-            log.info("Notification for error message enrichment {}", optionalNotificationByEdcId.get());
-            optionalNotificationByEdcId.get().getNotifications().forEach(message1 -> log.info("Message found {}", message1));
-            optionalNotificationByEdcId.get().secondLatestNotifications().forEach(qmMessage -> {
-                log.info("Message from second latest notification {}", qmMessage);
-                qmMessage.setErrorMessage(e.getMessage());
-            });
+        notificationRepository.updateErrorMessage(notification);
 
-            notificationRepository.updateErrorMessage(optionalNotificationByEdcId.get());
-        } else {
-            log.warn("Notification NOT FOUND for error message enrichment notification id {}", notificationMessage.getId());
-        }
     }
 }
 

@@ -48,6 +48,7 @@ import static org.eclipse.tractusx.traceability.common.date.DateUtil.convertInst
 public class Notification {
     private String title;
     private BPN bpn;
+    private String sendTo;
     private NotificationId notificationId;
     private NotificationStatus notificationStatus;
     private String description;
@@ -68,7 +69,9 @@ public class Notification {
     private List<NotificationMessage> notifications = List.of();
 
 
-    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate, List<String> affectedPartIds, List<String> initialReceiverBpns) {
+    public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate, List<String> affectedPartIds, List<String> initialReceiverBpns, String receiverBpn) {
+
+
 
         return Notification.builder()
                 .title(title)
@@ -80,6 +83,7 @@ public class Notification {
                 .severity(severity)
                 .description(description)
                 .updatedDate(Instant.now())
+                .sendTo(receiverBpn)
                 .createdAt(createDate)
                 .affectedPartIds(affectedPartIds)
                 .initialReceiverBpns(initialReceiverBpns)
@@ -157,7 +161,7 @@ public class Notification {
         this.notificationStatus = to;
     }
 
-    public void addNotificationMessage(NotificationMessage notification) {
+    public synchronized void  addNotificationMessage(NotificationMessage notification) {
 
         List<NotificationMessage> updatedNotifications = new ArrayList<>(notifications);
         updatedNotifications.add(notification);

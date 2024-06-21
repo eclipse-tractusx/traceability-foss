@@ -223,6 +223,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                                             .status(NotificationStatusBaseEntity.CREATED)
                                             .side(NotificationSideBaseEntity.SENDER)
                                             .createdDate(now)
+                                            .initialReceiverBpn(testBpn)
                                             .build()
                             );
                         }
@@ -275,7 +276,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("assetIds", Matchers.empty())
                 .body("createdBy", Matchers.is(storedInvestigationNotification.getCreatedBy()))
                 .body("createdByName", Matchers.is(storedInvestigationNotification.getCreatedByName()))
-                .body("sendTo", Matchers.is(storedInvestigationNotification.getSendTo()))
+                .body("sendTo", Matchers.is("TESTBPN"))
                 .body("sendToName", Matchers.is(storedInvestigationNotification.getSendToName()))
                 .body("createdDate", isIso8601DateTime());
     }

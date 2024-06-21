@@ -122,7 +122,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .type(notificationType)
                 .messageId("messageId")
                 .build();
-        Notification notification = Notification.builder().build();
+        Notification notification = Notification.builder().initialReceiverBpns(List.of("BPNL00000003AXS3")).build();
         notification.setSeverity(NotificationSeverity.CRITICAL);
         notification.setTargetDate(Instant.now().toString());
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
@@ -177,7 +177,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 }
         );
 
-        alertNotificationsSupport.assertAlertNotificationsSize(2);
+        alertNotificationsSupport.assertAlertNotificationsSize(0);
 
         // when/then
         given()
@@ -543,7 +543,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        alertNotificationsSupport.assertAlertNotificationsSize(2);
+        alertNotificationsSupport.assertAlertNotificationsSize(0);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))

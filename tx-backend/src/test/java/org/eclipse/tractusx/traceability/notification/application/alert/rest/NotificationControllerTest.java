@@ -116,7 +116,6 @@ class NotificationControllerTest {
                 .hasFieldOrPropertyWithValue("createdDate", notification.getCreatedAt().toString())
                 .hasFieldOrPropertyWithValue("assetIds", notification.getAffectedPartIds())
                 .hasFieldOrPropertyWithValue("channel", NotificationSideResponse.SENDER)
-                .hasFieldOrPropertyWithValue("sendTo", "recipientBPN")
                 .hasFieldOrPropertyWithValue("sendToName", "receiverManufacturerName")
                 .hasFieldOrPropertyWithValue("severity", NotificationSeverityResponse.MINOR);
     }

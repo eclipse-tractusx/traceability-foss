@@ -31,6 +31,7 @@ import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 
 import java.time.Instant;
+import java.util.List;
 
 @SuperBuilder
 @NoArgsConstructor
@@ -53,5 +54,7 @@ public class NotificationBaseEntity {
     @Enumerated(EnumType.STRING)
     private NotificationSeverityBaseEntity severity;
     private Instant targetDate;
+    @Column(name = "initial_receiver_bpn")
+    private String initialReceiverBpn;
 
 }

@@ -54,7 +54,7 @@ public class NotificationResponseMapper {
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())
                 .updatedDate(OffsetDateTime.now().toString())
-                .sendTo(getReceiverBPN(notification.getNotifications()))
+                .sendTo(notification.getSendTo())
                 .sendToName(getReceiverName(notification.getNotifications()))
                 .severity(notification.getSeverity() != null ?
                         NotificationSeverityResponse.fromString(notification.getSeverity().getRealName()) :

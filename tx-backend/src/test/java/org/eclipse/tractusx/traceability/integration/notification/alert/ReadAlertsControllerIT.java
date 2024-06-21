@@ -203,6 +203,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                                     .side(NotificationSideBaseEntity.RECEIVER)
                                     .type(NotificationTypeEntity.ALERT)
                                     .createdDate(now)
+                                    .initialReceiverBpn(senderBPN)
                                     .build();
 
                             NotificationEntity alert = alertsSupport.storedAlertFullObject(alertNotificationEntity);
@@ -236,7 +237,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("content.createdBy", Matchers.hasItems(senderBPN))
                 .body("content.createdByName", Matchers.hasItems(senderName))
-                .body("content.sendTo", Matchers.hasItems(receiverBPN))
+                .body("content.sendTo", Matchers.hasItems("BPNTEST"))
                 .body("content.sendToName", Matchers.hasItems(receiverName))
                 .body("page", Matchers.is(2))
                 .body("pageSize", Matchers.is(10))
@@ -276,7 +277,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .body("assetIds", Matchers.empty())
                 .body("createdBy", Matchers.is(storedAlertNotification.getCreatedBy()))
                 .body("createdByName", Matchers.is(storedAlertNotification.getCreatedByName()))
-                .body("sendTo", Matchers.is(storedAlertNotification.getSendTo()))
+                .body("sendTo", Matchers.is("BPNTEST"))
                 .body("sendToName", Matchers.is(storedAlertNotification.getSendToName()))
                 .body("createdDate", isIso8601DateTime());
     }

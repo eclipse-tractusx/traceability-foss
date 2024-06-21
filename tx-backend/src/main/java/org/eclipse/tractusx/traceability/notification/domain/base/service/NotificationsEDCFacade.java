@@ -45,7 +45,6 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
-import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationFactory;
@@ -93,7 +92,8 @@ public class NotificationsEDCFacade {
     public void startEdcTransfer(
             final NotificationMessage notificationMessage,
             final String receiverEdcUrl,
-            final String senderEdcUrl) {
+            final String senderEdcUrl,
+            final Notification notification) {
 
         CatalogItem catalogItem = getCatalogItem(notificationMessage, receiverEdcUrl);
 
@@ -105,8 +105,8 @@ public class NotificationsEDCFacade {
         notificationMessage.setContractAgreementId(contractAgreementId);
 
         try {
-            EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notificationMessage, senderEdcUrl, dataReference);
-            sendRequest(notificationRequest, notificationMessage);
+            EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notificationMessage, senderEdcUrl, dataReference, notification);
+            sendRequest(notificationRequest, notificationMessage, notification);
         } catch (Exception e) {
             throw new SendNotificationException("Failed to send notificationMessage.", e);
         }
@@ -175,32 +175,28 @@ public class NotificationsEDCFacade {
     private EdcNotificationRequest toEdcNotificationRequest(
             final NotificationMessage notificationMessage,
             final String senderEdcUrl,
-            final EndpointDataReference dataReference
+            final EndpointDataReference dataReference,
+            final Notification notification
     ) throws JsonProcessingException {
 
-        Optional<Notification> optionalNotificationById = notificationRepository.findByEdcNotificationId(notificationMessage.getEdcNotificationId());
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notificationMessage, notification);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String body = objectMapper.writeValueAsString(edcNotification);
 
-        if (optionalNotificationById.isPresent()) {
-            EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notificationMessage, optionalNotificationById.get());
-            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-            String body = objectMapper.writeValueAsString(edcNotification);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(Objects.requireNonNull(dataReference.getAuthKey()), dataReference.getAuthCode());
+        headers.set("Content-Type", "application/json");
+        log.info(":::: Send notificationMessage Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
+        return EdcNotificationRequest.builder()
+                .url(dataReference.getEndpoint())
+                .body(body)
+                .headers(headers).build();
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.set(Objects.requireNonNull(dataReference.getAuthKey()), dataReference.getAuthCode());
-            headers.set("Content-Type", "application/json");
-            log.info(":::: Send notificationMessage Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
-            return EdcNotificationRequest.builder()
-                    .url(dataReference.getEndpoint())
-                    .body(body)
-                    .headers(headers).build();
-        } else {
-            throw new NotificationNotFoundException("Could not find notification.");
-        }
 
     }
 
 
-    private void sendRequest(final EdcNotificationRequest request, NotificationMessage message) {
+    private void sendRequest(final EdcNotificationRequest request, NotificationMessage message, Notification notification) {
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());
         try {
             var response = edcNotificationTemplate.exchange(request.getUrl(), HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
@@ -209,13 +205,8 @@ public class NotificationsEDCFacade {
             if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new BadRequestException(format("Control plane responded with: %s", response.getStatusCode()));
             } else {
-                String edcNotificationId = message.getEdcNotificationId();
-
-                Optional<Notification> optionalNotificationById = notificationRepository.findByEdcNotificationId(edcNotificationId);
-                if (optionalNotificationById.isPresent()) {
-                    optionalNotificationById.ifPresent(notificationRepository::updateNotification);
-                    log.info("Updated notification message as {} with id {}.", message.getType(), optionalNotificationById.get().getNotificationId().value());
-                }
+                //notificationRepository.updateNotification(notification);
+                //log.info("Updated notification message as {} with id {}.", message.getType(), notification.getNotificationId().value());
             }
         } catch (Exception e) {
             log.warn(e.getMessage());

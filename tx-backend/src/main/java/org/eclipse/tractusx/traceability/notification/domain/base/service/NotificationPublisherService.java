@@ -60,8 +60,7 @@ public class NotificationPublisherService {
 
     public Notification startNotification(StartNotification startNotification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        return Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType(), startNotification.getSeverity(), startNotification.getTargetDate(), startNotification.getAffectedPartIds(), List.of(startNotification.getReceiverBpn()));
-        //createMessages(startNotification, applicationBPN, notification, assetAsBuiltRepository);
+        return Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType(), startNotification.getSeverity(), startNotification.getTargetDate(), startNotification.getAffectedPartIds(), List.of(startNotification.getReceiverBpn()), startNotification.getReceiverBpn());
     }
 
     private void createMessages(Notification notification, BPN applicationBPN, AssetAsBuiltRepository assetAsBuiltRepository) {
@@ -129,7 +128,7 @@ public class NotificationPublisherService {
                                 notificationMessage.getNotificationStatus().name()
                                         .equals(NotificationStatus.SENT.name()))
                         .filter(notificationMessage -> StringUtils.isBlank(notificationMessage.getErrorMessage()))
-                        .map(edcNotificationService::asyncNotificationMessageExecutor)
+                        .map(notificationMessage -> edcNotificationService.asyncNotificationMessageExecutor(notificationMessage, notification))
                         .filter(Objects::nonNull)
                         .toList();
         List<NotificationMessage> sentMessages = futures.stream()
@@ -173,7 +172,7 @@ public class NotificationPublisherService {
         });
 
         List<CompletableFuture<NotificationMessage>> futures = relevantNotifications.stream()
-                .map(edcNotificationService::asyncNotificationMessageExecutor)
+                .map(message -> edcNotificationService.asyncNotificationMessageExecutor(message, notification))
                 .filter(Objects::nonNull)
                 .toList();
         List<NotificationMessage> sentMessages = futures.stream()

@@ -83,9 +83,8 @@ public enum NotificationStatus {
     public static NotificationStatus getPreviousStatus(NotificationStatus status, List<NotificationMessage> messages) {
         return switch (status) {
             case CREATED, SENT, CANCELED -> NotificationStatus.CREATED;
-            case ACKNOWLEDGED, RECEIVED -> NotificationStatus.SENT;
+            case ACKNOWLEDGED, RECEIVED, CLOSED -> NotificationStatus.SENT;
             case ACCEPTED, DECLINED -> NotificationStatus.ACKNOWLEDGED;
-            case CLOSED -> messages.size() > 1 ? NotificationStatus.SENT : NotificationStatus.CREATED;
         };
     }
     public boolean transitionAllowed(NotificationStatus to) {

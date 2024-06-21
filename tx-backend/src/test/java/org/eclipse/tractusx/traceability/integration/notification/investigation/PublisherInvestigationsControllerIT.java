@@ -160,7 +160,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest, 201);
 
         // then
-        notificationMessageSupport.assertMessageSize(2);
+        notificationMessageSupport.assertMessageSize(0);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
@@ -426,7 +426,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
-        notificationMessageSupport.assertMessageSize(4);
+        notificationMessageSupport.assertMessageSize(2);
     }
 
     @Test
@@ -480,6 +480,9 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
+        notificationMessageSupport.assertMessageSize(1);
+
+
         // when
         CloseNotificationRequest closeInvestigationRequest =
                 CloseNotificationRequest
@@ -508,7 +511,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
 
-        notificationMessageSupport.assertMessageSize(3);
+        notificationMessageSupport.assertMessageSize(2);
         notificationSupport.assertInvestigationsSize(1);
         notificationSupport.assertInvestigationStatus(NotificationStatus.CLOSED);
     }
@@ -564,7 +567,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        notificationMessageSupport.assertMessageSize(2);
+        notificationMessageSupport.assertMessageSize(0);
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))

@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.notification.domain.base.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
@@ -51,6 +52,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public abstract class AbstractNotificationService implements NotificationService {
 
     private final TraceabilityProperties traceabilityProperties;
@@ -152,24 +154,6 @@ public abstract class AbstractNotificationService implements NotificationService
     @Override
     public void approve(Long notificationId) {
         Notification notification = loadOrNotFoundException(new NotificationId(notificationId));
-        List<NotificationMessage> createdNotifications = notification
-                .getNotifications()
-                .stream()
-                .filter(notificationMessage -> notificationMessage.getNotificationStatus().equals(NotificationStatus.CREATED))
-                .map(notificationMessage -> notificationMessage.toBuilder().build())
-                .toList();
-
-        log.info("Found {} notification messages in status CREATED", createdNotifications.size());
-        List<NotificationMessage> approvedNotifications = new ArrayList<>(createdNotifications);
-        approvedNotifications.forEach(notificationMessage -> {
-            notificationMessage.setId(UUID.randomUUID().toString());
-            notificationMessage.changeStatusTo(NotificationStatus.SENT);
-        });
-        log.info("Found {} notification messages in status SENT", approvedNotifications.size());
-
-        notification.addNotificationMessages(approvedNotifications);
-        log.info("Found {} notification messages at all", notification.getNotifications().size());
-        notification.getNotifications().stream().map(notificationMessage -> notificationMessage.getNotificationStatus().name()).forEach(s -> log.info("Notification Status {} ", s));
 
         final Notification approvedInvestigation;
         try {

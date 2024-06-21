@@ -86,7 +86,7 @@ class NotificationMessageMapperTest {
 
         EDCNotification edcNotification = new EDCNotification(header, content);
         // When
-        Notification result = mapper.toNotification(new BPN(receiver), edcNotification, notification, type);
+        Notification result = mapper.toNotification(new BPN(receiver), edcNotification, notification, type, BPN.of("BPNL00000001ABC"));
 
         // Then
         assertEquals(NotificationStatus.RECEIVED, result.getNotificationStatus());

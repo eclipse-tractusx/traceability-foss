@@ -89,7 +89,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
         notificationAPISupport.editNotificationRequest(authHeader, request, id, 204);
 
         // then
-        notificationMessageSupport.assertMessageSize(1);
+        notificationMessageSupport.assertMessageSize(0);
 
         given()
                 .header(authHeader)
@@ -184,7 +184,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
         notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id, 204);
 
         // then
-        notificationMessageSupport.assertMessageSize(1);
+        notificationMessageSupport.assertMessageSize(0);
 
         PageResult<NotificationResponse> notificationResponsePageResult
                 = notificationAPISupport.getNotificationsRequest(authHeader);
@@ -200,7 +200,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldNotUpdateInvestigationFields_whenBpnWrongFormatted() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldNotUpdateInvestigationFields_whenBpnWrongFormatted() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         Header authHeader = oAuth2Support.jwtAuthorization(SUPERVISOR);
         // given
         List<String> partIds = List.of(
@@ -222,6 +222,8 @@ class EditNotificationIT extends IntegrationTestSpecification {
 
         int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
 
+        PageResult<NotificationResponse> notificationResponsePageResult1
+                = notificationAPISupport.getNotificationsRequest(authHeader);
         // given
         String editedDescription = "at least 15 characters long investigation description which was edited";
 

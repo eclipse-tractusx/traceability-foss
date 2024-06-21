@@ -137,6 +137,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(Instant.now())
+                .initialReceiverBpn("BPNL00000003AXB4")
                 .build();
 
         NotificationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
@@ -194,6 +195,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .type(NotificationTypeEntity.INVESTIGATION)
                 .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(Instant.now())
+                .initialReceiverBpn("BPNL00000003AXB4")
                 .build();
 
         NotificationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
@@ -236,6 +238,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .status(NotificationStatusBaseEntity.RECEIVED)
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(Instant.now())
+                .initialReceiverBpn("BPNL00000003AXB4")
                 .build();
 
         investigationsSupport.storedInvestigationFullObject(investigation);
