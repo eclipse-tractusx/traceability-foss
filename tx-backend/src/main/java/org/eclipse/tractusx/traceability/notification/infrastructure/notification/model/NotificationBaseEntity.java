@@ -28,6 +28,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 
 import java.time.Instant;
 
@@ -41,9 +42,6 @@ public class NotificationBaseEntity {
     private Long id;
     private String title;
     private String bpn;
-    private String closeReason;
-    private String acceptReason;
-    private String declineReason;
     private String description;
     @Column(name = "created")
     private Instant createdDate;
@@ -52,5 +50,8 @@ public class NotificationBaseEntity {
     private NotificationSideBaseEntity side;
     @Enumerated(EnumType.STRING)
     private NotificationStatusBaseEntity status;
+    @Enumerated(EnumType.STRING)
+    private NotificationSeverityBaseEntity severity;
+    private Instant targetDate;
 
 }

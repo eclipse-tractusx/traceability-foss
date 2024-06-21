@@ -58,7 +58,7 @@ public abstract class AbstractNotificationService implements NotificationService
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final BpnRepository bpnRepository;
 
-    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "messages_severity", "type");
+    private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "severity", "type");
 
     protected abstract NotificationRepository getNotificationRepository();
 
@@ -95,7 +95,7 @@ public abstract class AbstractNotificationService implements NotificationService
                     NotificationMessage notificationMessageSwitchedSenderAndReceiver = notificationMessage.copyAndSwitchSenderAndReceiver(traceabilityProperties.getBpn());
                     notificationMessageSwitchedSenderAndReceiver.setId(UUID.randomUUID().toString());
                     notificationMessageSwitchedSenderAndReceiver.changeStatusTo(notificationStatus);
-                    notificationMessageSwitchedSenderAndReceiver.setDescription(reason);
+                    notificationMessageSwitchedSenderAndReceiver.setMessage(reason);
                     notification.addNotificationMessage(notificationMessageSwitchedSenderAndReceiver);
                 });
 
@@ -135,9 +135,14 @@ public abstract class AbstractNotificationService implements NotificationService
         if (editNotification.getAffectedPartIds() != null) {
             notification.setAffectedPartIds(editNotification.getAffectedPartIds());
         }
+        if (editNotification.getSeverity() != null){
+            notification.setSeverity(editNotification.getSeverity());
+        }
+        if (editNotification.getTargetDate() != null){
+            notification.setTargetDate(String.valueOf(editNotification.getTargetDate()));
+        }
 
-
-        getNotificationRepository().updateNotificationAndMessage(notification, editNotification.getSeverity());
+        getNotificationRepository().updateNotificationAndMessage(notification);
     }
 
     @Override
@@ -216,7 +221,7 @@ public abstract class AbstractNotificationService implements NotificationService
         return switch (fieldName) {
             case "status" -> Arrays.stream(NotificationStatus.values()).map(Enum::name).toList();
             case "side" -> Arrays.stream(NotificationSide.values()).map(Enum::name).toList();
-            case "messages_severity" -> Arrays.stream(NotificationSeverity.values()).map(Enum::name).toList();
+            case "severity" -> Arrays.stream(NotificationSeverity.values()).map(Enum::name).toList();
             case "type" -> Arrays.stream(NotificationType.values()).map(Enum::name).toList();
             default -> null;
         };

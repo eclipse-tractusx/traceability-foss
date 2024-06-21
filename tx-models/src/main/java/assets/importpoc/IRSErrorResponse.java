@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,23 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package notification.response;
+package assets.importpoc;
 
+import lombok.Getter;
+import lombok.Setter;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
+import java.util.List;
 
-
-public record NotificationReasonResponse(
-        @Schema(example = "description of closing reason", maxLength = 1000)
-        @Size(max = 1000)
-        String close,
-
-        @Schema(example = "description of accepting reason", maxLength = 1000)
-        @Size(max = 1000)
-        String accept,
-
-        @Schema(example = "description of declining reason", maxLength = 1000)
-        @Size(max = 1000)
-        String decline) {
+@Getter
+@Setter
+public class IRSErrorResponse {
+    private List<String> messages;
 }
+

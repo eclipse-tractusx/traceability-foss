@@ -60,22 +60,21 @@ class NotificationMapperTest {
 
         NotificationMessage expectedNotification = NotificationTestDataFactory.createNotificationTestData();
 
-        when(bpnRepository.findManufacturerName(eq(expectedNotification.getCreatedBy()))).thenReturn(expectedNotification.getCreatedByName());
-        when(bpnRepository.findManufacturerName(eq(expectedNotification.getSendTo()))).thenReturn(expectedNotification.getSendToName());
+        when(bpnRepository.findManufacturerName(eq(expectedNotification.getSentBy()))).thenReturn(expectedNotification.getSentByName());
+        when(bpnRepository.findManufacturerName(eq(expectedNotification.getSentTo()))).thenReturn(expectedNotification.getSendToName());
 
 
-        NotificationMessage actualNotification = notificationMapper.toNotification(edcNotification, NotificationType.INVESTIGATION);
+        NotificationMessage actualNotification = notificationMapper.toNotificationMessage(edcNotification, NotificationType.INVESTIGATION);
         assertNotNull(actualNotification.getId());
         assertEquals(expectedNotification.getNotificationReferenceId(), actualNotification.getNotificationReferenceId());
-        assertEquals(expectedNotification.getCreatedBy(), actualNotification.getCreatedBy());
-        assertEquals(expectedNotification.getCreatedByName(), actualNotification.getCreatedByName());
-        assertEquals(expectedNotification.getSendTo(), actualNotification.getSendTo());
+        assertEquals(expectedNotification.getSentBy(), actualNotification.getSentBy());
+        assertEquals(expectedNotification.getSentByName(), actualNotification.getSentByName());
+        assertEquals(expectedNotification.getSentTo(), actualNotification.getSentTo());
         assertEquals(expectedNotification.getSendToName(), actualNotification.getSendToName());
         assertNull(actualNotification.getContractAgreementId());
-        assertEquals("information", actualNotification.getDescription());
+        assertEquals("information", actualNotification.getMessage());
         assertEquals(expectedNotification.getNotificationStatus(), actualNotification.getNotificationStatus());
         assertEquals(expectedNotification.getAffectedParts(), actualNotification.getAffectedParts());
-        assertEquals(expectedNotification.getSeverity(), actualNotification.getSeverity());
         assertEquals(expectedNotification.getType(), actualNotification.getType());
     }
 }

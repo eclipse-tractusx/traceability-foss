@@ -122,20 +122,20 @@ describe('NotificationActionModalComponent', () => {
     const { fixture } = await renderNotificationActionModalComponent();
     const { componentInstance } = fixture;
     const notification: Notification = {
-      assetIds: [],
-      createdBy: '',
+      id: 'abc',
+      title: '',
       type: NotificationType.ALERT,
+      status: undefined,
+      description: '',
+      createdBy: '',
       createdByName: '',
       createdDate: undefined,
-      description: '',
-      isFromSender: false,
-      reason: undefined,
+      assetIds: [],
       sendTo: '',
       sendToName: '',
       severity: undefined,
-      status: undefined,
-      title: '',
-      id: 'abc',
+      messages: [],
+      isFromSender: false,
     };
 
     componentInstance.show(notification, NotificationStatus.CLOSED);

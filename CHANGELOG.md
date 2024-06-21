@@ -9,6 +9,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
 - #965 Implement proxy functionality of the IRS policy store
+- #962 Changed notification model to new one in frontend/backend
+- #753 Refactored message history in notification detail view
 
 ### Added
 - #832 added policymanagement list view, creator and editor
