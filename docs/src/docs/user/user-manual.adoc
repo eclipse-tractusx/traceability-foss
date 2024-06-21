@@ -93,9 +93,17 @@ Possibility to check the network status based on logfiles and will provide acces
 
 ==== BPN-EDC configuration
 
-In the BPN-EDC configuration screen an admin user can add URLs for BPNs. Any URLs here will be used directly for the configured BPN instead of looking up the URL with the EDC DiscoveryFinder service. Existing configurations can be edited or removed.
+In the BPN-EDC configuration screen an admin user can add URLs for BPNs. Existing configurations can be edited or removed.
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/bpn_edc_configuration.png[]
+
+In case a URL is defined in this configuration, that URL will be used first to send requests to the specified BPN. If the request is unsuccessful, the EDC DiscoveryFinder will be used to fetch any URLs configured by the receiving BPN. After trying to send the request to all of those URLs in order and still finding no success, the request is cancelled.
+If no URL is defined here, the EDC DiscoveryFinder will be directly used to find the URLs.
+
+[plantuml, target=bpn-edc-configuration, format=svg]
+....
+include::../../uml-diagrams/user-manual/bpn-edc-configuration.puml[]
+....
 
 ==== Contracts - view and export
 

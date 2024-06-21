@@ -1,0 +1,40 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title BPN-EDC configuration (simplified)
+participant "Trace-X" as TX
+participant "DiscoveryFinder" as DF
+participant "Receiver BPN" as R
+participant "BPN-EDC config" as BEC
+
+activate TX
+TX -> BEC: Look up URL for receiver
+activate BEC
+BEC --> TX: URL
+deactivate BEC
+TX -> R: Request
+activate R
+alt Request with config URL successful
+R --> TX: Response
+deactivate R
+else Request with config URL unsuccessful
+TX -> DF: Look up URLs for receiver
+activate DF
+DF --> TX: URLs
+deactivate DF
+loop For each provided URL
+TX -> R: Request
+activate R
+break Success
+R --> TX: Response
+deactivate R
+end
+end
+alt Request with all DiscoveryFinder URLs unsuccessful
+TX -> TX: Error
+end
+end
+
+@enduml
