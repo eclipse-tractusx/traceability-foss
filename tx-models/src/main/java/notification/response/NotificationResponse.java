@@ -100,7 +100,7 @@ public class NotificationResponse {
     private List<NotificationMessageResponse> messages;
 
 
-    public Optional<NotificationMessageResponse> latestNotification() {
+    public Optional<NotificationMessageResponse> latestMessage() {
         return messages.stream().max(Comparator.comparing(NotificationMessageResponse::getMessageDate)).stream().findFirst();
     }
 

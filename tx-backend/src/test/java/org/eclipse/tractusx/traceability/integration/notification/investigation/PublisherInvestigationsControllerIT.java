@@ -111,7 +111,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         NotificationType notificationType = NotificationType.INVESTIGATION;
-        Notification notification = Notification.builder().targetDate(Instant.MAX.toString()).severity(NotificationSeverity.CRITICAL).build();
+        Notification notification = Notification.builder().targetDate(Instant.now().toString()).severity(NotificationSeverity.CRITICAL).build();
         NotificationMessage notificationBuild = NotificationMessage.builder()
                 .id("some-id")
                 .notificationStatus(NotificationStatus.SENT)

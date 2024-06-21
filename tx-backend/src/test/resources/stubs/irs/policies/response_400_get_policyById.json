@@ -1,0 +1,7 @@
+{
+  "statusCode": "BAD_REQUEST",
+  "error": "Bad Request",
+  "messages": [
+    "Request does not contain all required fields. Missing: odrl:permission"
+  ]
+}
