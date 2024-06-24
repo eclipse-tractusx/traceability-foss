@@ -97,8 +97,8 @@ In the BPN-EDC configuration screen an admin user can add URLs for BPNs. Existin
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/bpn_edc_configuration.png[]
 
-In case a URL is defined in this configuration, that URL will be used first to send requests to the specified BPN. If the request is unsuccessful, the EDC DiscoveryFinder will be used to fetch any URLs configured by the receiving BPN. After trying to send the request to all of those URLs in order and still finding no success, the request is cancelled.
-If no URL is defined here, the EDC DiscoveryFinder will be directly used to find the URLs.
+Any configured BPNs will have their URLs merged in addition to the URLs found by the DiscoveryService.
+The resulting list of URLs will be used whenever a notification is sent to those BPNs. In case an URL returns an error response, the remaining URLs will be used as backup.
 
 [plantuml, target=bpn-edc-configuration, format=svg]
 ....

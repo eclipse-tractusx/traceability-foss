@@ -3,38 +3,20 @@ skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName "Architects daughter"
 
-title BPN-EDC configuration (simplified)
+title Receive EDC URLs
 participant "Trace-X" as TX
+participant "BPN-EDC configuration" as BEC
 participant "DiscoveryFinder" as DF
-participant "Receiver BPN" as R
-participant "BPN-EDC config" as BEC
 
 activate TX
-TX -> BEC: Look up URL for receiver
+TX -> BEC: Look up URLs for configured BPN
 activate BEC
-BEC --> TX: URL
+BEC --> TX: URLs
 deactivate BEC
-TX -> R: Request
-activate R
-alt Request with config URL successful
-R --> TX: Response
-deactivate R
-else Request with config URL unsuccessful
-TX -> DF: Look up URLs for receiver
+TX -> DF: Look up URLs for configured BPN
 activate DF
 DF --> TX: URLs
 deactivate DF
-loop For each provided URL
-TX -> R: Request
-activate R
-break Success
-R --> TX: Response
-deactivate R
-end
-end
-alt Request with all DiscoveryFinder URLs unsuccessful
-TX -> TX: Error
-end
-end
+TX -> TX: Merge URLs into list (no duplicates)
 
 @enduml
