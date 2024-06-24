@@ -215,14 +215,14 @@
     "maxLength": "Please enter a text that is smaller than: {{maxLength}}. Current: {{current}}",
     "pattern": "Please enter data that matches this pattern: {{- pattern}}.",
     "url": "Please enter a valid URL.",
-    "bpn": "Please enter a valid BPN.",
+    "bpn" : "Please enter a valid BPN (example: BPNL00000001ABC2).",
     "maxDate": "Please select a date that is before {{- maxDate}}.",
     "minDate": "Please select a date that is after {{- minDate}}.",
     "currentDate": "Please select a date that is after {{- currentDate}}.",
     "generic": "Please enter valid data.",
     "invalidBpn" : "Must not be own BPN.",
     "pastDate" : "Please select a date in the future.",
-    "minimumOneConstraint" : "Please add atleast one valid constraint to the policy"
+    "minimumOneConstraint" : "Please add at least one valid constraint to the policy"
   },
   "unitTest": {
     "test01": "This is for unit tests purposes.",

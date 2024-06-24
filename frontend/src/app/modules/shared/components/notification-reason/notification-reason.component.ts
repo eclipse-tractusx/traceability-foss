@@ -58,15 +58,17 @@ export class NotificationReasonComponent {
     const sortedMessagesAfterDates = messages.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
 
     sortedMessagesAfterDates.forEach(message => {
-      this.textMessages.push({
-        message: message.message,
-        direction: environment.bpn === message.sentBy ? 'right' : 'left',
-        user: message.sentByName,
-        bpn: message.sentBy,
-        status: message.status,
-        date: message.messageDate,
-        errorMessage: message.errorMessage,
-      });
+      if (message?.message?.length > 0) {
+        this.textMessages.push({
+          message: message.message,
+          direction: environment.bpn === message.sentBy ? 'right' : 'left',
+          user: message.sentByName,
+          bpn: message.sentBy,
+          status: message.status,
+          date: message.messageDate,
+          errorMessage: message.errorMessage,
+        });
+      }
     });
 
   }

@@ -219,7 +219,7 @@
     "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein. Momentan: {{current}}",
     "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{- pattern}}.",
     "url": "Bitte geben Sie eine valide URL ein.",
-    "bpn" : "Bitte geben Sie eine valide BPN ein.",
+    "bpn" : "Bitte geben Sie eine valide BPN ein (Beispiel: BPNL00000001ABC2).",
     "maxDate": "Bitte wählen Sie ein Datum vor dem {{- maxDate}}.",
     "minDate": "Bitte wählen Sie ein Datum nach dem {{- minDate}}.",
     "currentDate": "Bitte wählen Sie ein Datum nach dem {{- currentDate}}.",

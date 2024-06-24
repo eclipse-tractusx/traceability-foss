@@ -12,6 +12,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #962 Changed notification model to new one in frontend/backend
 - #962 Removed initial notification message for notification flow
 - #753 Refactored message history in notification detail view
+- XXX updated local deployment documentation
 
 ### Added
 - #832 added policymanagement list view, creator and editor
