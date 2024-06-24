@@ -268,8 +268,6 @@ describe('MultiSelectAutocompleteComponent', () => {
   it('should set prefilter value', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent(false, 'hello');
     const { componentInstance } = fixture;
-    let formSpy = spyOn(componentInstance.formControl, 'patchValue');
-    let updateSpy = spyOn(componentInstance, 'updateOptionsAndSelections');
 
     expect(componentInstance.searchElement).toEqual('hello');
     expect(componentInstance.selectedValue).toEqual([ 'hello' ]);
