@@ -33,6 +33,9 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.USER;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.hasItem;
 
 class BpnMappingControllerIT extends IntegrationTestSpecification {
 
@@ -92,9 +95,11 @@ class BpnMappingControllerIT extends IntegrationTestSpecification {
                     .get("/api/bpn-config")
                     .then()
                     .statusCode(200)
+                    .log().all()
                     .body("", Matchers.hasSize(2))
-                    .body("[1].bpn", Matchers.equalTo("BPNL00000003TEST"))
-                    .body("[1].url", Matchers.equalTo("https://newurl.com"));
+                    .body("", hasItem(allOf(
+                            hasEntry("bpn", "BPNL00000003TEST"),
+                            hasEntry("url", "https://newurl.com"))));
         }
     }
 

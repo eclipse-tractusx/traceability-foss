@@ -31,7 +31,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -54,7 +53,7 @@ public class NotificationResponseMapper {
                 .channel(NotificationMessageMapper.from(notification.getNotificationSide()))
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())
-                .updatedDate(OffsetDateTime.now().toString())
+                .updatedDate(notification.getUpdatedDate() != null ? notification.getUpdatedDate().toString() : null)
                 .sendTo(notification.getSendTo())
                 .sendToName(getReceiverName(notification.getNotifications()))
                 .severity(notification.getSeverity() != null ?
@@ -75,7 +74,7 @@ public class NotificationResponseMapper {
     }
 
     private static String getSenderBPN(Notification notification) {
-       return notification.getNotificationSide().equals(NotificationSide.SENDER) ? notification.getBpn() : notification.getSendTo();
+        return notification.getNotificationSide().equals(NotificationSide.SENDER) ? notification.getBpn() : notification.getSendTo();
     }
 
     private static String getSenderName(Collection<NotificationMessage> notifications) {
