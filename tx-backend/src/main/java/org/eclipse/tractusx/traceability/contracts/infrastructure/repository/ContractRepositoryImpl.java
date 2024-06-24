@@ -34,6 +34,7 @@ import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractExce
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -74,7 +75,8 @@ public class ContractRepositoryImpl implements ContractRepository {
                 return new PageResult<>(List.of(), 0, 0, 0, 0L);
             }
 
-            return new PageResult<>(fetchEdcContractAgreements(contractAgreementInfoViews),
+            List<String> contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementView::getContractAgreementId).toList();
+            return new PageResult<>(fetchEdcContractAgreements(contractAgreementIds),
                     contractAgreementInfoViews.getPageable().getPageNumber(),
                     contractAgreementInfoViews.getTotalPages(),
                     contractAgreementInfoViews.getPageable().getPageSize(),
@@ -86,9 +88,15 @@ public class ContractRepositoryImpl implements ContractRepository {
 
     }
 
-    private List<Contract> fetchEdcContractAgreements(Page<ContractAgreementView> contractAgreementInfoViews) throws ContractAgreementException {
-        List<String> contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementView::getContractAgreementId).toList();
-        log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
+    @Override
+    public void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
+        List<Contract> contracts = fetchEdcContractAgreements(contractAgreementIds);
+        List<ContractAgreementView> contractAgreementViews = Contract.toEntityList(contracts, contractType);
+        contractAgreementInfoViewRepository.saveAll(contractAgreementViews);
+    }
+
+    private List<Contract> fetchEdcContractAgreements(List<String> contractAgreementIds) throws ContractAgreementException {
+        log.info("Trying to fetch contractAgreementIds from EDC: {}", contractAgreementIds);
 
         List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
 
