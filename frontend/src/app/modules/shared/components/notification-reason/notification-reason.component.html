@@ -26,7 +26,7 @@ SPDX-License-Identifier: Apache-2.0
 </section>
 
 <ng-template #chatBubble let-message="message" let-lastDate="lastDate" let-isFirst="isFirst">
-  <ng-container *ngIf="message?.message?.length">
+  <ng-container>
     <div class="message--separator" *ngIf="isFirst || (!isFirst && lastDate && !isSameDay(lastDate, message.date))">
       {{ message.date | date:'mediumDate' }}
     </div>
