@@ -74,11 +74,12 @@ public class NotificationPublisherService {
                 .entrySet()
                 .stream()
                 .map(it -> {
-                    String creator = getManufacturerNameByBpn(applicationBPN.value());
+
                     String firstReceiverBpn = notification.getInitialReceiverBpns().stream()
                             .findFirst()
                             .orElseThrow(() -> new NotificationNotFoundException("Initial receiver BPNs not found"));
                     String sendToName = getManufacturerNameByBpn(firstReceiverBpn);
+                    String creator = getManufacturerNameByBpn(applicationBPN.value());
                     return NotificationMessage.create(
                             applicationBPN,
                             firstReceiverBpn,

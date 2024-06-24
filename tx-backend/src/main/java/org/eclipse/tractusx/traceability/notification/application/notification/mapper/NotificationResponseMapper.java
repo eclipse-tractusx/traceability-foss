@@ -25,6 +25,7 @@ import notification.response.NotificationSeverityResponse;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -46,7 +47,7 @@ public class NotificationResponseMapper {
                 .id(notification.getNotificationId().value())
                 .status(NotificationMessageMapper.from(notification.getNotificationStatus()))
                 .description(notification.getDescription())
-                .createdBy(getSenderBPN(notification.getNotifications()))
+                .createdBy(getSenderBPN(notification))
                 .createdByName(getSenderName(notification.getNotifications()))
                 .createdDate(notification.getCreatedAt().toString())
                 .assetIds(Collections.unmodifiableList(notification.getAffectedPartIds()))
@@ -73,11 +74,8 @@ public class NotificationResponseMapper {
         return new PageResult<>(investigationDataPage);
     }
 
-    private static String getSenderBPN(Collection<NotificationMessage> notifications) {
-        return notifications.stream()
-                .findFirst()
-                .map(NotificationMessage::getSentBy)
-                .orElse(null);
+    private static String getSenderBPN(Notification notification) {
+       return notification.getNotificationSide().equals(NotificationSide.SENDER) ? notification.getBpn() : notification.getSendTo();
     }
 
     private static String getSenderName(Collection<NotificationMessage> notifications) {
