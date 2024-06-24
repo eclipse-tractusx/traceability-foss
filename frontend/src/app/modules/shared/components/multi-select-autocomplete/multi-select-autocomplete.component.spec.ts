@@ -7,14 +7,14 @@ import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('MultiSelectAutocompleteComponent', () => {
-  const renderMultiSelectAutoCompleteComponent = (multiple = true) => {
+  const renderMultiSelectAutoCompleteComponent = (multiple = true, prefilterValue = null) => {
     const placeholder = 'test';
     const options = [ SemanticDataModel.PARTASPLANNED, SemanticDataModel.BATCH ];
 
     return renderComponent(MultiSelectAutocompleteComponent, {
       imports: [ SharedModule ],
       providers: [ DatePipe, FormatPartSemanticDataModelToCamelCasePipe ],
-      componentProperties: { placeholder: placeholder, options: options },
+      componentProperties: { placeholder: placeholder, options: options, prefilterValue: prefilterValue },
     });
   };
 
@@ -263,6 +263,17 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const option = componentInstance.searchedOptions;
     expect(option).toEqual([]);
+  });
+
+  it('should set prefilter value', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent(false, 'hello');
+    const { componentInstance } = fixture;
+    let formSpy = spyOn(componentInstance.formControl, 'patchValue');
+    let updateSpy = spyOn(componentInstance, 'updateOptionsAndSelections');
+
+    expect(componentInstance.searchElement).toEqual('hello');
+    expect(componentInstance.selectedValue).toEqual([ 'hello' ]);
+
   });
 
   it('should return when calling filterItem() without value', async () => {
