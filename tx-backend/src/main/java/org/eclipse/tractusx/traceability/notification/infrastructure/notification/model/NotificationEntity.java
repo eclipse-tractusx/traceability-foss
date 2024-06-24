@@ -81,7 +81,7 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .map(AssetAsBuiltEntity::getId)
                 .toList();
         String initialReceiverBpn = notificationEntity.getInitialReceiverBpn();
-        if (initialReceiverBpn == null){
+        if (initialReceiverBpn == null) {
             initialReceiverBpn = notificationEntity.getBpn();
         }
         return Notification.builder()
@@ -98,6 +98,7 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .targetDate(convertInstantToString(notificationEntity.getTargetDate()))
                 .severity(NotificationSeverity.fromString(notificationEntity.getSeverity() != null ? notificationEntity.getSeverity().getRealName() : null))
                 .notifications(messages)
+                .updatedDate(notificationEntity.getUpdated())
                 .initialReceiverBpns(List.of(initialReceiverBpn))
                 .build();
     }
@@ -115,6 +116,7 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .severity(NotificationSeverityBaseEntity.fromString(notification.getSeverity() != null ? notification.getSeverity().getRealName() : null))
                 .type(NotificationTypeEntity.from(notification.getNotificationType()))
                 .initialReceiverBpn(notification.getInitialReceiverBpns().stream().findFirst().orElseThrow(() -> new NotificationNotFoundException("Initial Receiver BPN not found")))
+                .updated(Instant.now())
                 .build();
     }
 }

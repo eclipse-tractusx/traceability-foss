@@ -22,23 +22,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationStatusTransitionNotAllowed;
-import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 
 import java.time.Instant;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import static java.util.stream.Collectors.groupingBy;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.date.DateUtil.convertInstantToString;
 
@@ -72,7 +66,6 @@ public class Notification {
     public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate, List<String> affectedPartIds, List<String> initialReceiverBpns, String receiverBpn) {
 
 
-
         return Notification.builder()
                 .title(title)
                 .bpn(bpn)
@@ -87,6 +80,7 @@ public class Notification {
                 .createdAt(createDate)
                 .affectedPartIds(affectedPartIds)
                 .initialReceiverBpns(initialReceiverBpns)
+                .updatedDate(Instant.now())
                 .build();
     }
 
@@ -161,7 +155,7 @@ public class Notification {
         this.notificationStatus = to;
     }
 
-    public synchronized void  addNotificationMessage(NotificationMessage notification) {
+    public synchronized void addNotificationMessage(NotificationMessage notification) {
 
         List<NotificationMessage> updatedNotifications = new ArrayList<>(notifications);
         updatedNotifications.add(notification);
