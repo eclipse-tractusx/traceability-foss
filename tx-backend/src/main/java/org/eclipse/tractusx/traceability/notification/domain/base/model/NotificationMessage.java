@@ -75,7 +75,6 @@ public class NotificationMessage {
                 .sentByName(creator)
                 .sentTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
                 .sendToName(sendToName)
-                .message(description)
                 .notificationStatus(NotificationStatus.SENT)
                 .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(NotificationAffectedPart::new).toList())
                 .edcNotificationId(notificationId)

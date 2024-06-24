@@ -46,6 +46,4 @@ public interface BpnRepository {
 
     BpnEntity save(BusinessPartnerResponse businessPartner);
 
-    List<BpnEdcMapping> findAllByIdIn(List<String> bpns);
-
 }
