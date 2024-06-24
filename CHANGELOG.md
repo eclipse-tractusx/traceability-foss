@@ -14,6 +14,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #962 Adapt cucumber test to include the mandatory attributes for creating a quality notification
 - #753 Refactored message history in notification detail view
 - XXX updated local deployment documentation
+- #1037 extended autocomplete api by contractAgreementId
 
 ### Added
 - #832 added policymanagement list view, creator and editor
