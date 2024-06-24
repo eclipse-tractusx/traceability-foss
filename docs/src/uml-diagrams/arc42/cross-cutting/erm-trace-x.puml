@@ -74,38 +74,42 @@ ENTITY public.notification {
   + id : int8 GENERATED
   title : varchar(255)
   type : varchar(50)
-  bpn : varchar(255)
-  close_reason : varchar(1000)
-  created : timestamp
-  description : varchar(1000)
   status : varchar(50)
-  side : varchar(50)
-  accept_reason : varchar(1000)
-  decline_reason : varchar(1000)
-  updated : timestamp
-  error_message : varchar(255)
+  description : varchar(1000)
+  createdBy: varchar
+  createdByName: varchar
+  createdDate: timestamp
+  updatedDate : timestamp
+  assetIds: varchar
+  channel: boolean
+  sendTo: varchar
+  sentToName: varchar
+  severity: int4
+  targetDate: instant
+  messages: notification_message
 }
 
 
 ENTITY public.notification_message {
    + id : varchar(255)
+    sentBy: varchar
+    sentByName: varchar
+
     contract_agreement_id : varchar(255)
+
     edc_url : varchar(255)
     notification_reference_id : varchar(255)
     send_to : varchar(255)
     created_by : varchar(255)
     notification_id : bigint,
-    target_date : timestamp
-    severity : varchar(255)
     created_by_name : varchar(255)
     send_to_name : varchar(255)
     edc_notification_id : varchar(255)
     status : varchar(255)
-    created : timestamp
-    updated : timestamp
+    message_date: instant
     error_message : varchar
+    message: varchar
     message_id : varchar(255)
-    is_initial : boolean
 }
 
 
