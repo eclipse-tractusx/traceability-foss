@@ -33,35 +33,35 @@ Feature: ⭐[BE] User select severity for Quality Investigation
 	# * Add new secrets to the code
 	#
 	# 
-  @TRACEFOSS-1220 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TEST-1217 @TRACEFOSS-2715 @TEST-904 @TRACEFOSS-1920 @TRACEFOSS-1673 @TRACEFOSS-1101 @TRACEFOSS-1139 @TRACEFOSS-1138 @INTEGRATION_TEST @[QualityInvestigation]
-  Scenario Outline: [BE] Check correct processing of severity in quality investigation
+	@TRACEFOSS-1220 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TEST-1217 @TRACEFOSS-2715 @TEST-904 @TRACEFOSS-1920 @TRACEFOSS-1673 @TRACEFOSS-1101 @TRACEFOSS-1139 @TRACEFOSS-1138 @INTEGRATION_TEST @[QualityInvestigation]
+	Scenario Outline: [BE] Check correct processing of severity in quality investigation 
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
-    And I create quality notification
+		And I create quality notification
 		  | "severity"    | <severity> |
 		  | "description" | "Testing severity TRACEFOSS-1220" |
-      | "type"        | "INVESTIGATION"                   |
-    Then I check, if quality notification has proper values
+		  | "type"        | "INVESTIGATION"                   |
+		Then I check, if quality notification has proper values
 		  | "severity"    | <severity> |
 		  | "description" | "Testing severity TRACEFOSS-1220" |
 		  | "status"      | "CREATED" |
-    When I approve quality notification
-    Then I check, if quality notification has proper values
+		When I approve quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "SENT" |
 		When I am logged into TRACE_X_B application
-    Then I check, if quality notification has been received
-    Then I check, if quality notification has proper values
+		Then I check, if quality notification has been received
+		Then I check, if quality notification has proper values
 		  | "severity"    | <severity> |
 		  | "description" | "Testing severity TRACEFOSS-1220" |
 		  | "status"      | "RECEIVED" |
-    When I acknowledge quality notification
-    Then I check, if quality notification has proper values
+		When I acknowledge quality notification
+		Then I check, if quality notification has proper values
 		  | "status" | "ACKNOWLEDGED" |
 		When I am logged into TRACE_X_A application
-    Then I check, if quality notification has proper values
+		Then I check, if quality notification has proper values
 		  | "status" | "ACKNOWLEDGED" |
-
-    Examples:
+		
+		Examples:
 		|severity|
 		|"MINOR"|
 		|"MAJOR"|
