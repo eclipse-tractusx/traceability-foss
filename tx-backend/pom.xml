@@ -366,7 +366,8 @@ SPDX-License-Identifier: Apache-2.0
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/docs/api/traceability-foss-backend.json</inputSpec>
+                            <inputSpec>${project.parent.parent.basedir}/docs/api/traceability-foss-backend.json
+                            </inputSpec>
                             <generatorName>html</generatorName>
                         </configuration>
                     </execution>
