@@ -99,11 +99,6 @@ public class BpnRepositoryImpl implements BpnRepository {
     }
 
     @Override
-    public List<BpnEdcMapping> findAllByIdIn(List<String> bpns) {
-        return this.toDTOList(repository.findAllById(bpns));
-    }
-
-    @Override
     public List<BpnEdcMapping> saveAll(List<BpnMappingRequest> bpnEdcMappings) {
         List<BpnEntity> bpnEdcMappingEntities = bpnEdcMappings.stream().map(this::toEntity).toList();
         return repository.saveAll(bpnEdcMappingEntities).stream().map(this::toDTO).toList();
