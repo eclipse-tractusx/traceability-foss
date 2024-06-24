@@ -53,7 +53,7 @@ public class NotificationResponseMapper {
                 .channel(NotificationMessageMapper.from(notification.getNotificationSide()))
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())
-                .updatedDate(notification.getUpdatedDate().toString())
+                .updatedDate(notification.getUpdatedDate() != null ? notification.getUpdatedDate().toString() : null)
                 .sendTo(notification.getSendTo())
                 .sendToName(getReceiverName(notification.getNotifications()))
                 .severity(notification.getSeverity() != null ?

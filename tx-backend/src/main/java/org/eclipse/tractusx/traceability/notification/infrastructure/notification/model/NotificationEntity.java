@@ -98,7 +98,7 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .targetDate(convertInstantToString(notificationEntity.getTargetDate()))
                 .severity(NotificationSeverity.fromString(notificationEntity.getSeverity() != null ? notificationEntity.getSeverity().getRealName() : null))
                 .notifications(messages)
-                .updatedDate(notificationEntity.getUpdated())
+                .updatedDate(notificationEntity.getUpdated() != null ? notificationEntity.getUpdated() : Instant.now())
                 .initialReceiverBpns(List.of(initialReceiverBpn))
                 .build();
     }
