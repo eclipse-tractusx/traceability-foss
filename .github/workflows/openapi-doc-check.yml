@@ -15,11 +15,9 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "[BE] Check if OpenApi doc is up to date"
+name: "[BE] Update OpenAPI spec"
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # run daily at midnight
   workflow_dispatch:
 
 jobs:
@@ -37,7 +35,7 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Update OpenApi document
+      - name: Update OpenApi spec
         run: mvn test -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true -am
 
       - name: Configure Git
@@ -49,6 +47,7 @@ jobs:
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: action/openapi-doc-update
-          title: "chore(OpenApi): updated OpenApi document for release"
+          branch: action/update-openapi-spec
+          title: "chore(OpenApi): updated OpenApi spec for release"
           labels: automated
+          delete-branch: true

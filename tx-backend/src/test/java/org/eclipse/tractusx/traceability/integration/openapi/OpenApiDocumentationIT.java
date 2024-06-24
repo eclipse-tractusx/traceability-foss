@@ -26,7 +26,6 @@ import org.springframework.test.context.junit.jupiter.EnabledIf;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.apache.commons.io.FileUtils.writeStringToFile;
@@ -34,11 +33,10 @@ import static org.apache.commons.io.FileUtils.writeStringToFile;
 @EnabledIf(expression = "${openapi-doc.generate}", loadContext = true)
 class OpenApiDocumentationIT extends IntegrationTestSpecification {
 
-    private static final List<String> API_DOCUMENTATION_LOCATIONS = List.of("./openapi/traceability-foss-backend.json",
-            "../docs/api/traceability-foss-backend.json");
+    private static final String API_DOCUMENTATION_LOCATION = "../docs/api/traceability-foss-backend.json";
 
     @Test
-    void shouldGenerateOpenApiDoc() {
+    void shouldGenerateOpenApiSpec() throws IOException {
         // when
         var response = given()
                 .when()
@@ -48,12 +46,6 @@ class OpenApiDocumentationIT extends IntegrationTestSpecification {
         response.then()
                 .statusCode(200);
 
-        API_DOCUMENTATION_LOCATIONS.forEach(location -> {
-            try {
-                writeStringToFile(new File(location), response.body().asPrettyString(), StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        writeStringToFile(new File(API_DOCUMENTATION_LOCATION), response.body().asPrettyString(), StandardCharsets.UTF_8);
     }
 }
