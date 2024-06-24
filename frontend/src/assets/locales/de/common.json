@@ -69,7 +69,9 @@
     "maximizeTable": "Volle Breite",
     "userSettings" : "Tabellen Einstellung",
     "uploadFile" : "Richtlinien JSON-Datei hochladen",
-    "downloadFile" : "Vorlage als Datei herunterladen"
+    "downloadFile" : "Vorlage als Datei herunterladen",
+    "viewParts" : "Produkte ansehen",
+    "viewPartsTooltip" : "Produkte mit diesem Vertrag ansehen"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",
@@ -175,7 +177,8 @@
       "policyName" : "Richtlinienname",
       "bpn" : "BPN Selektion",
       "constraints" : "Bedingungen",
-      "accessType" : "Zugriffsart"
+      "accessType" : "Zugriffsart",
+      "contractAgreementId" : "Vertragsvereinbarungs-ID"
     }
   },
   "dataLoading": {
