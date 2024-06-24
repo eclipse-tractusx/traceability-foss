@@ -116,3 +116,6 @@ irs-edc-client:
       secret: "integration-tests"
 bpdm:
   oAuthClientId: OKTA
+
+openapi-doc:
+  generate: false
