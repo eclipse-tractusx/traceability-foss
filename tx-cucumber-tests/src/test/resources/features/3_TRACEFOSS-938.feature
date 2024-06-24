@@ -42,7 +42,8 @@ Feature: ⭐[TEST] Update Quality Investigation (over EDC)
 		And I create quality notification
 		  | "severity"    | "MAJOR"                             |
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1862" |
-		  | "type" | "INVESTIGATION" |  
+		  | "type" | "INVESTIGATION" | 
+		  | "receiverBpn" | "BPNL00000003CNKC"                  |
 		Then I check, if quality notification has proper values
 		  | "description" | "Testing ACCEPTANCE TRACEFOSS-1862" |
 		  | "status"      | "CREATED"                           |

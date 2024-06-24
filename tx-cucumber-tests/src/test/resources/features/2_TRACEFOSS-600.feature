@@ -211,6 +211,7 @@ Feature: ⭐ [BE][QUALITY_ALERTS] Enable Quality Alerts
 		  | "description" | "Testing targetDate TRACEFOSS-1543" |
 		  | "targetDate"  | "2055-05-30T20:43:06.333827Z" |
 		  | "type" | "ALERT" | 
+		  | "receiverBpn" | "BPNL00000003CNKC"                  |
 		Then I check, if quality notification has proper values
 		  | "description" | "Testing targetDate TRACEFOSS-1543" |
 		  | "targetDate"  | "2055-05-30T20:43:06.333827Z" |

@@ -39,6 +39,7 @@ Feature: Create Request for quality investigation / store in queue
 		  | "severity"    | "MINOR"                           |
 		  | "description" | "Testing severity TRACEFOSS-1652" |
 		  | "type" | "INVESTIGATION" |
+		  | "receiverBpn" | "BPNL00000003CNKC"                  |
 		Then I check, if quality notification has proper values
 		  | "description"  | "Testing severity TRACEFOSS-1652" |
 		  | "status"       | "CREATED"                         |

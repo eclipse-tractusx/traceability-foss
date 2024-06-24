@@ -10,7 +10,7 @@ Feature: ⭐[TEST] [BE] Set and show notification target date
 	#Check if *targetDate = null* is processed correctly for created quality investigations which contains following checks:
 	#* correct sending of _targetDate_ = *null*
 	#* correct reception on receiver side
-	@TRACEFOSS-1247 @TRACEFOSS-1920 @TRACEFOSS-1139 @TRACEFOSS-1673 @TRACEFOSS-2715 @TRACEFOSS-2910 @TRACEFOSS-1138 @TRACEFOSS-1101 @TEST-1217 @TRACEFOSS-3128 @TEST-904 @TRACEFOSS-3373 @INTEGRATION_TEST @[QualityInvestigation]
+	@TRACEFOSS-1247 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TEST-1217 @TRACEFOSS-2715 @TEST-904 @TRACEFOSS-1920 @TRACEFOSS-1673 @TRACEFOSS-1101 @TRACEFOSS-1139 @TRACEFOSS-1138 @INTEGRATION_TEST @[QualityInvestigation]
 	Scenario: [BE] Check correct processing of targetDate = null in quality investigation 
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
@@ -35,7 +35,7 @@ Feature: ⭐[TEST] [BE] Set and show notification target date
 	#Check if *targetDate* is processed correctly for created quality investigations which contains following checks:
 	#* correct sending of _targetDate_
 	#* correct reception on receiver side
-	@TRACEFOSS-1216 @TRACEFOSS-1920 @TRACEFOSS-1139 @TRACEFOSS-1673 @TRACEFOSS-1138 @TRACEFOSS-1101 @TRACEFOSS-2715 @TRACEFOSS-2910 @TEST-1217 @TEST-904 @TRACEFOSS-3128 @TRACEFOSS-3373 @INTEGRATION_TEST @[QualityInvestigation]
+	@TRACEFOSS-1216 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TEST-1217 @TRACEFOSS-2715 @TEST-904 @TRACEFOSS-1920 @TRACEFOSS-1673 @TRACEFOSS-1101 @TRACEFOSS-1139 @TRACEFOSS-1138 @INTEGRATION_TEST @[QualityInvestigation]
 	Scenario: [BE] Check correct processing of targetDate in quality investigation 
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
@@ -44,6 +44,7 @@ Feature: ⭐[TEST] [BE] Set and show notification target date
 		  | "description" | "Testing targetDate TRACEFOSS-1216" |
 		  | "targetDate"  | "2099-03-11T22:44:06.333827Z"       |
 		  | "type"        | "INVESTIGATION"                     |
+		  | "receiverBpn" | "BPNL00000003CNKC"                  |
 		Then I check, if quality notification has proper values
 		  | "description" | "Testing targetDate TRACEFOSS-1216" |
 		  | "targetDate"  | "2099-03-11T22:44:06.333827Z"       |

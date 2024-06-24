@@ -28,6 +28,7 @@ Feature: 🪓⭐[BE] Add information to notification inbox
 		  | "description" | "Testing BPNs TRACEFOSS-1344" |
 		  | "severity"    | "MINOR"                       |
 		  | "type"        | "INVESTIGATION"               |
+		  | "receiverBpn" |	"BPNL00000003CNKC"            |
 		Then I check, if quality notification has proper values
 		  | "description" | "Testing BPNs TRACEFOSS-1344" |
 		  | "createdBy"   | "BPNL00000003CML1"            |
