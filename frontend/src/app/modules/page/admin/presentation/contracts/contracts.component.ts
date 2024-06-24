@@ -35,10 +35,11 @@ export class ContractsComponent {
         this.contractsFacade.setContracts(0,10,[null,null]);
       }
 
-      this.viewAssetsClicked.subscribe((data) => {
-        this.router.navigate([ 'parts' ], { queryParams: { contractId: data?.['contractId'] } });
-      });
     })
+
+    this.viewAssetsClicked.subscribe((data) => {
+      this.router.navigate([ 'parts' ], { queryParams: { contractId: data?.['contractId'] } });
+    });
 
     this.pagination = { page: 0, pageSize: 10, sorting: [ '', null ] };
     this.tableConfig = {
