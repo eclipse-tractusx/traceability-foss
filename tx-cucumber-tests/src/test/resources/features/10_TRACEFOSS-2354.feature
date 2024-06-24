@@ -68,13 +68,13 @@ Feature: 👍[BE][TABLE_FEATURE] Implementation of Sorting in table views
 	#Check if *owner filter* in *assets* is working correctly including:
 	#* filter without owner specification returns assets of all owner
 	#* filter for owner specification only return desired assets
-  @TRACEFOSS-1221 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TRACEFOSS-2715 @TRACEFOSS-1101 @INTEGRATION_TEST
+	@TRACEFOSS-1221 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TRACEFOSS-2715 @TRACEFOSS-1101 @INTEGRATION_TEST
 	Scenario Outline: [BE] Check correct filtering of owner in assets
 		When I am logged into TRACE_X_A application
 		And I request assets with <owner-filter>
 		Then I check, if only assets with <owner-filter> are responded
-
-    Examples:
+		
+		Examples:
 		  | owner-filter |
 		  | "SUPPLIER"   |
 		  | "CUSTOMER"   |
