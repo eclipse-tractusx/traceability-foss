@@ -152,6 +152,36 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
     }
 
     @Test
+    void givenContractAgreementId_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        String fieldName = "contractAgreementId";
+        String resultLimit = "100";
+        String startWith = "abc1";
+
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("fieldName", fieldName)
+                .param("size", resultLimit)
+                .param("startWith", startWith)
+                .get("/api/assets/as-built/distinctFilterValues")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .assertThat()
+                .body(".", Matchers.containsInRelativeOrder(
+                        "abc1",
+                        "abc10",
+                        "abc11",
+                        "abc12",
+                        "abc13"));
+    }
+
+    @Test
     void givenBusinessPartnerMixedCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();
