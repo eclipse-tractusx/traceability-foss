@@ -66,7 +66,7 @@ jobs:
           message: |
             ## ‼️ Dependency Check findings ‼️
             One or more high/critical findings have been found during dependency check. Please check the depenency report:
-            https://github.com/catenax-ng/tx-traceability-foss/actions/runs/${{ github.run_id }}
+            https://github.com/eclipse-tractusx/traceability-foss/actions/runs/${{ github.run_id }}
 
       - name: add PR comment
         uses: mshick/add-pr-comment@v2
