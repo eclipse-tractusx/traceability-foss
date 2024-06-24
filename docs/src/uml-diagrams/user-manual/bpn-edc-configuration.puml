@@ -1,0 +1,22 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Receive EDC URLs
+participant "Trace-X" as TX
+participant "BPN-EDC configuration" as BEC
+participant "DiscoveryFinder" as DF
+
+activate TX
+TX -> BEC: Look up URLs for configured BPN
+activate BEC
+BEC --> TX: URLs
+deactivate BEC
+TX -> DF: Look up URLs for configured BPN
+activate DF
+DF --> TX: URLs
+deactivate DF
+TX -> TX: Merge URLs into list (no duplicates)
+
+@enduml
