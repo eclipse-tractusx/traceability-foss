@@ -25,6 +25,7 @@
           matTooltipPosition="above"
           [class.mdc-tooltip--multiline]="true"
           [matTooltipShowDelay]="500"
+          (mouseenter)="validateAllFields()"
           *ngIf="viewMode === ViewMode.EDIT || viewMode === ViewMode.CREATE"
         >
           <app-button
@@ -174,13 +175,13 @@
               </div>
               <div class="constraints--header--label flex-1">
                 {{ "pageAdmin.policyManagement.operator" | i18n }}
-              </div>
-              <div class="constraints--header--label flex-1">
-                {{ "pageAdmin.policyManagement.rightOperand" | i18n }}
                 <div class="constraints--header--sub-label">
                   {{ "pageAdmin.policyManagement.rightOperandHint" | i18n }}
 
                 </div>
+              </div>
+              <div class="constraints--header--label flex-1">
+                {{ "pageAdmin.policyManagement.rightOperand" | i18n }}
               </div>
             </div>
             <div *ngFor="let constraint of constraints.controls; let i=index;" [formGroupName]="i"

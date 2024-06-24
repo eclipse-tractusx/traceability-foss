@@ -1,5 +1,5 @@
 import { APP_INITIALIZER } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PoliciesFacade } from '@page/admin/presentation/policy-management/policies/policies.facade';
@@ -251,6 +251,78 @@ describe('PolicyEditorComponent', () => {
     expect(componentInstance.policyForm.get('bpns').disabled).toBe(false);
     expect(componentInstance.constraints.disabled).toBe(true);
 
+  });
+
+  it('should mark all form controls and form array elements as touched', async () => {
+    const { fixture } = await renderPolicyEditorComponent();
+    const { componentInstance } = fixture;
+    componentInstance.policyForm = componentInstance.fb.group({
+      policyName: [ '', Validators.required ],
+      constraints: componentInstance.fb.array([
+        componentInstance.fb.group({
+          leftOperand: [ '', Validators.required ],
+          operator: [ '', Validators.required ],
+          rightOperand: [ '', Validators.required ],
+        }),
+      ]),
+    });
+
+    spyOn(componentInstance.policyForm.get('policyName'), 'markAsTouched');
+    spyOn(componentInstance.constraints.at(0).get('leftOperand'), 'markAsTouched');
+
+    componentInstance.validateAllFields();
+
+    expect(componentInstance.policyForm.get('policyName').markAsTouched).toHaveBeenCalled();
+    expect(componentInstance.constraints.at(0).get('leftOperand').markAsTouched).toHaveBeenCalled();
+  });
+
+  it('should mark all elements in a FormArray as touched', async () => {
+    const { fixture } = await renderPolicyEditorComponent();
+    const { componentInstance } = fixture;
+    componentInstance.policyForm = componentInstance.fb.group({
+      constraints: componentInstance.fb.array([
+        componentInstance.fb.group({
+          leftOperand: [ '', Validators.required ],
+          operator: [ '', Validators.required ],
+          rightOperand: [ '', Validators.required ],
+        }),
+        componentInstance.fb.control(''),
+      ]),
+    });
+
+    const formArray = componentInstance.policyForm.get('constraints') as FormArray;
+    spyOn(formArray.at(0).get('leftOperand'), 'markAsTouched');
+    spyOn(formArray.at(1), 'markAsTouched');
+
+    componentInstance.validateFormArray(formArray);
+
+    expect(formArray.at(0).get('leftOperand').markAsTouched).toHaveBeenCalled();
+    expect(formArray.at(1).markAsTouched).toHaveBeenCalled();
+  });
+
+  it('should mark all fields in a FormGroup within a FormArray as touched', async () => {
+    const { fixture } = await renderPolicyEditorComponent();
+    const { componentInstance } = fixture;
+    componentInstance.policyForm = componentInstance.fb.group({
+      constraints: componentInstance.fb.array([
+        componentInstance.fb.group({
+          leftOperand: [ '', Validators.required ],
+          operator: [ '', Validators.required ],
+          rightOperand: [ '', Validators.required ],
+        }),
+      ]),
+    });
+
+    const formGroup = componentInstance.constraints.at(0) as FormGroup;
+    spyOn(formGroup.get('leftOperand'), 'markAsTouched');
+    spyOn(formGroup.get('operator'), 'markAsTouched');
+    spyOn(formGroup.get('rightOperand'), 'markAsTouched');
+
+    componentInstance.validateAllFieldsInFormGroup(formGroup);
+
+    expect(formGroup.get('leftOperand').markAsTouched).toHaveBeenCalled();
+    expect(formGroup.get('operator').markAsTouched).toHaveBeenCalled();
+    expect(formGroup.get('rightOperand').markAsTouched).toHaveBeenCalled();
   });
 
 });
