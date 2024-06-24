@@ -117,14 +117,10 @@ public abstract class AbstractNotificationService implements NotificationService
         validateReceiverIsNotOwnBpn(editNotification.getReceiverBpn(), editNotification.getId());
         Notification notification = loadOrNotFoundException(new NotificationId(editNotification.getId()));
 
-        List<String> oldMessageIds =
-                notification.getNotifications().stream().map(NotificationMessage::getId).toList();
-
-        getNotificationRepository().deleteByIdIn(oldMessageIds);
-        notification.clearNotifications();
-
         if (editNotification.getReceiverBpn() != null) {
             notification.setBpn(BPN.of(editNotification.getReceiverBpn()));
+            notification.setInitialReceiverBpns(List.of(editNotification.getReceiverBpn()));
+            notification.setSendTo(editNotification.getReceiverBpn());
         }
 
         notification.setTitle(editNotification.getTitle());
