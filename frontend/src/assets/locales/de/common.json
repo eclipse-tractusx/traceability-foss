@@ -178,7 +178,7 @@
       "bpn" : "BPN Selektion",
       "constraints" : "Bedingungen",
       "accessType" : "Zugriffsart",
-      "contractAgreementId" : "Vertragsvereinbarungs-ID"
+      "contractAgreementId" : "Vertrags-ID"
     }
   },
   "dataLoading": {

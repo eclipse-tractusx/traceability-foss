@@ -341,7 +341,17 @@ SPDX-License-Identifier: Apache-2.0
                   mat-menu-item
                 >
                   <mat-icon>{{ config.icon }}</mat-icon>
+                  <div
+                    matTooltip="{{'actions.viewPartsTooltip' | i18n }}"
+                    matTooltipClass="table--header--tooltip"
+                    matTooltipPosition="before"
+                    [class.mdc-tooltip--multiline]="true"
+                    [matTooltipShowDelay]="500"
+                    [matTooltipDisabled]="config.label !== 'actions.viewParts'"
+
+                  >
                   <span>{{ config.label | i18n }}</span>
+                  </div>
                 </button>
               </ng-container>
             </mat-menu>
