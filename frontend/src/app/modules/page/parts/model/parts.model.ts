@@ -42,6 +42,7 @@ export interface Part {
   owner: Owner;
   semanticDataModel: SemanticDataModel;
   classification: string;
+  contractAgreementId?: string;
 
   mainAspectType: MainAspectType;
 
@@ -100,6 +101,7 @@ export interface PartResponse {
   receivedQualityInvestigationIdsInStatusActive: string[]
   importNote?: string,
   importState?: ImportState,
+  contractAgreementId?: string,
   tombstone?: string,
 }
 
@@ -153,6 +155,7 @@ export interface AssetAsBuiltFilter {
   partId?: string,
   manufacturerPartId?: string,
   customerPartId?: string,
+  contractAgreementId?: string,
   classification?: string,
   nameAtCustomer?: string,
   semanticModelId?: string,
@@ -170,6 +173,7 @@ export interface AssetAsPlannedFilter {
   businessPartner?: string,
   manufacturerPartId?: string,
   classification?: string,
+  contractAgreementId?: string,
   semanticDataModel?: string[],
   semanticModelId?: string,
   validityPeriodFrom?: string,

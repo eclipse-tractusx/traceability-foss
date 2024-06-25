@@ -42,6 +42,7 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
       sentActiveInvestigations: true,
       importState: true,
       importNote: true,
+      contractAgreementId: true,
       menu: false,
     };
 

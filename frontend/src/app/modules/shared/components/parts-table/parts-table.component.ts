@@ -34,7 +34,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
@@ -88,6 +88,7 @@ export class PartsTableComponent implements OnInit {
 
   @Input() assetIdsForAutoCompleteFilter: string[];
 
+  preFilter: string;
   public tableConfig: TableConfig;
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
@@ -134,9 +135,11 @@ export class PartsTableComponent implements OnInit {
     public readonly userSettingsService: BomLifecycleSettingsService,
     private dialog: MatDialog,
     private router: Router,
+    private route: ActivatedRoute,
     private deeplinkService: DeeplinkService,
     public roleService: RoleService,
   ) {
+    this.preFilter = route.snapshot.queryParams['contractId'];
   }
 
   handleKeyDownOpenDialog(event: KeyboardEvent) {

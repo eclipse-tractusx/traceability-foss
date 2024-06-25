@@ -67,7 +67,9 @@
     "maximizeTable": "Full width",
     "userSettings" : "Table settings",
     "uploadFile" : "Upload policy JSON file",
-    "downloadFile" : "Download template as file"
+    "downloadFile" : "Download template as file",
+    "viewParts" : "View parts",
+    "viewPartsTooltip" : "View parts using this contract"
   },
   "publisher": {
     "selectedAssets": "Assets selected",
@@ -171,7 +173,8 @@
       "policyName" : "Policy name",
       "bpn" : "BPN selection",
       "constraints" : "Constraints",
-      "accessType" : "Access type"
+      "accessType" : "Access type",
+      "contractAgreementId" : "Contract ID"
     }
   },
   "dataLoading": {
