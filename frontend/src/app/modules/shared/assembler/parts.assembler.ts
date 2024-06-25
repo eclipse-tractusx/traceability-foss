@@ -89,6 +89,7 @@ export class PartsAssembler {
       semanticDataModel: partResponse.semanticDataModel,
       classification: partResponse.classification,
       semanticModel: createdSemanticModel,
+      contractAgreementId: partResponse.contractAgreementId,
 
       mainAspectType: mainAspectType,
 
@@ -291,6 +292,7 @@ export class PartsAssembler {
     [ 'semanticDataModel', 'semanticDataModel' ],
     [ 'classification', 'classification' ],
     [ 'customerPartId', 'customerPartId' ],
+    [ 'contractAgreementId', 'contractAgreementId' ],
     [ 'nameAtCustomer', 'nameAtCustomer' ],
     [ 'manufacturingDate', 'manufacturingDate' ],
     [ 'manufacturingCountry', 'manufacturingCountry' ],

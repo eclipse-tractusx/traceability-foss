@@ -106,6 +106,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   suggestionError: boolean = false;
 
   isLoadingSuggestions: boolean;
+  @Input() prefilterValue?: string;
 
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
               @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
@@ -124,6 +125,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.filterItem(value);
       }
     });
+
+    if (this.prefilterValue?.length > 0) {
+      this.searchElement = this.prefilterValue;
+      this.selectedValue = [ this.searchElement ];
+      this.formControl.patchValue(this.selectedValue);
+      this.updateOptionsAndSelections();
+    }
 
   }
 
@@ -184,7 +192,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   filterItem(value: any): void {
 
-    if (!this.searchElement.length) {
+    if (!this.searchElement?.length) {
       return;
     }
 
