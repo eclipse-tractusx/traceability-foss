@@ -18,13 +18,18 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.domain.repository;
 
+import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface ContractRepository {
 
     PageResult<Contract> getContractsByPageable(Pageable pageable, SearchCriteria searchCriteria);
 
+    void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException;
 }

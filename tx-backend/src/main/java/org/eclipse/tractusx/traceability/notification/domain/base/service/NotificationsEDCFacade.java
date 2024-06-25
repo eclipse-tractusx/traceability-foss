@@ -36,6 +36,8 @@ import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.BadRequestException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
@@ -83,6 +85,8 @@ public class NotificationsEDCFacade {
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
     private final PolicyCheckerService policyCheckerService;
+    private final ContractService contractService;
+
 
     private static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
     private static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
@@ -103,6 +107,11 @@ public class NotificationsEDCFacade {
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
 
         notificationMessage.setContractAgreementId(contractAgreementId);
+        try {
+            contractService.saveContractAgreements(List.of(contractAgreementId), ContractType.NOTIFICATION);
+        } catch (Exception e) {
+            log.warn("Could not save contractAgreementId for notification {}", e.getMessage());
+        }
 
         try {
             EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notificationMessage, senderEdcUrl, dataReference, notification);
