@@ -1,11 +1,19 @@
-create or replace view contract_agreement_view as
+-- Explicitly define column names for the view
+CREATE OR REPLACE VIEW contract_agreement_view (id, contract_agreement_id, type, created) AS
 SELECT *
-FROM ((SELECT assets_as_built.id, contract_agreement_id, 'ASSET_AS_BUILT' as type, created
-       FROM assets_as_built
-       where contract_agreement_id is not null)
-      UNION ALL
-      (SELECT assets_as_planned.id, contract_agreement_id, 'ASSET_AS_PLANNED' as type, created
-       FROM assets_as_planned
-       where contract_agreement_id is not null)) results
+FROM (
+         (SELECT assets_as_built.id,
+                 contract_agreement_id,
+                 'ASSET_AS_BUILT' AS type,
+                 created
+          FROM assets_as_built
+          WHERE contract_agreement_id IS NOT NULL)
+         UNION ALL
+         (SELECT assets_as_planned.id,
+                 contract_agreement_id,
+                 'ASSET_AS_PLANNED' AS type,
+                 created
+          FROM assets_as_planned
+          WHERE contract_agreement_id IS NOT NULL)
+     ) results
 ORDER BY created DESC;
-
