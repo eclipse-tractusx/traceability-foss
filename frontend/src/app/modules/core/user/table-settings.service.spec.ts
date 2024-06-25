@@ -42,12 +42,12 @@ describe('TableSettingsService', () => {
 
     it('should return PartsAsPlannedConfigurationModel for AS_PLANNED_OWN', () => {
       const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_PLANNED_OWN);
-      expect(result.displayedColumns.length).toBe(20);
+      expect(result.displayedColumns.length).toBe(21);
     });
 
     it('should return PartsAsBuiltConfigurationModel for AS_BUILT_OWN', () => {
       const result: TableViewConfig = service.initializeTableViewSettings(TableType.AS_BUILT_OWN);
-      expect(result.displayedColumns.length).toBe(22);
+      expect(result.displayedColumns.length).toBe(23);
     });
 
     it('should return NotificationsSentConfigurationModel for SENT_NOTIFICATION', () => {

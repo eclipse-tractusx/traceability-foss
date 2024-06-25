@@ -135,6 +135,7 @@ SPDX-License-Identifier: Apache-2.0
                          [isDate]="filter.isDate"
                          [singleSearch]="filter.singleSearch"
                          [filterColumn]="filter.filterKey"
+                         [prefilterValue]="filter.headerKey === 'filtercontractAgreementId' ? preFilter : null"
                          [tableType]="tableType"
                          [inAssetIds]="assetIdsForAutoCompleteFilter"
                          [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"

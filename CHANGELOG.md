@@ -22,6 +22,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #737 Added concept: Contract table -> parts link action
 - XXX Added interceptor to EdcRestTemplates to log requests
 - #915 Added section to documentation: EDC-BPN configuration
+- #1037 Added link from contracts view to the corresponding filtered part table view
 
 ### Removed
 
@@ -31,6 +32,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 
 - XXX updated JsonSchemaTest now the test pulls the latest version of the json file
+- XXX deactivated a test class in tx-backend which behaved undesirably
 
 ### Added
 
