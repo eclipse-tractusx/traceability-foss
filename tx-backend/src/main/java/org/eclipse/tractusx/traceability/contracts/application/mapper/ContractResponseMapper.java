@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.contracts.application.mapper;
 
 import contract.response.ContractResponse;
+import contract.response.ContractTypeResponse;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 
@@ -37,6 +38,7 @@ public class ContractResponseMapper {
     public static ContractResponse from(Contract contract) {
         return ContractResponse.builder()
                 .contractId(contract.getContractId())
+                .contractType(ContractTypeResponse.valueOf(contract.get))
                 .state(contract.getState())
                 .counterpartyAddress(contract.getCounterpartyAddress())
                 .endDate(contract.getEndDate())

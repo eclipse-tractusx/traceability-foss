@@ -74,7 +74,7 @@ public class ContractRepositoryImpl implements ContractRepository {
                 log.warn("Cannot find contract agreement Ids for asset ids in searchCriteria: " + searchCriteria.getSearchCriteriaFilterList());
                 return new PageResult<>(List.of(), 0, 0, 0, 0L);
             }
-
+// TODO we need the contractAgreementInfoViews into the featchEdcContractAgreements because we need to pass the type of it into the contract for the notifications
             List<String> contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementView::getContractAgreementId).toList();
             return new PageResult<>(fetchEdcContractAgreements(contractAgreementIds),
                     contractAgreementInfoViews.getPageable().getPageNumber(),
