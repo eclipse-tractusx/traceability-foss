@@ -23,7 +23,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractType;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -40,6 +39,7 @@ public class Contract {
     private OffsetDateTime endDate;
     private String state;
     private String policy;
+    private ContractType type;
 
     public static ContractAgreementView toEntity(Contract contract, ContractType contractType) {
         return ContractAgreementView.builder()

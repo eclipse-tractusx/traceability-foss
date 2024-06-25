@@ -28,7 +28,7 @@ import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFi
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractType;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
