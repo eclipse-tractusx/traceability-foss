@@ -19,13 +19,15 @@
 package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Immutable;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 
 import java.time.Instant;
 
@@ -35,13 +37,12 @@ import java.time.Instant;
 @Entity
 @SuperBuilder
 @Table(name = "contract_agreement_view")
-@Immutable
 public class ContractAgreementView {
 
     @Id
     private String id;
     private String contractAgreementId;
-    private String assetType;
+    @Enumerated(EnumType.STRING)
+    private ContractType type;
     private Instant created;
-
 }
