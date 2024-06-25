@@ -1,4 +1,6 @@
--- Explicitly define column names for the view
+
+ALTER VIEW contract_agreement_view RENAME COLUMN asset_type TO type;
+
 CREATE OR REPLACE VIEW contract_agreement_view (id, contract_agreement_id, type, created) AS
 SELECT *
 FROM (
