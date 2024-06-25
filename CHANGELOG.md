@@ -31,6 +31,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 
 - XXX updated JsonSchemaTest now the test pulls the latest version of the json file
+- XXX deactivated a test class in tx-backend which behaved undesirably
 
 ### Added
 
