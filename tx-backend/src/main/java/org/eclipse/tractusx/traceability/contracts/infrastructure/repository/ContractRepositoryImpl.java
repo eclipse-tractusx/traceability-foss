@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -107,7 +108,7 @@ public class ContractRepositoryImpl implements ContractRepository {
     }
 
     private List<Contract> fetchEdcContractAgreements(List<ContractAgreementEntity> contractAgreementEntities) throws ContractAgreementException {
-        List<String> contractAgreementIds = contractAgreementEntities.stream().map(ContractAgreementEntity::getContractAgreementId).toList();
+        List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementEntity::getContractAgreementId).toList();
         log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
 
         List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
