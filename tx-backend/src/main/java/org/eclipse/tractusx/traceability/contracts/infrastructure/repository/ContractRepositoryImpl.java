@@ -147,14 +147,18 @@ public class ContractRepositoryImpl implements ContractRepository {
         Collections.sort(givenList);
 
         List<String> expectedList = contractAgreements.stream()
-                .sorted(Comparator.comparing(EdcContractAgreementsResponse::contractAgreementId))
                 .map(EdcContractAgreementsResponse::contractAgreementId)
+                .sorted()
                 .toList();
         log.info("EDC responded with the following contractAgreementIds: " + expectedList);
 
-        if (!givenList.equals(expectedList)) {
-            givenList.removeAll(expectedList);
-            throw new ContractException("Can not find the following contract agreement Ids in EDC: " + givenList);
+        // Filter the givenList to find out which IDs are missing in the expectedList
+        List<String> missingIds = givenList.stream()
+                .filter(id -> !expectedList.contains(id))
+                .toList();
+
+        if (!missingIds.isEmpty()) {
+            log.warn("Cannot find the following contract agreement IDs in EDC: " + missingIds);
         }
     }
 

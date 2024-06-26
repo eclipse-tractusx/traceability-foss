@@ -119,19 +119,26 @@ public class ApplicationStartupConfig {
 
                 log.info("Retrieved assets: asBuilt={}, asPlanned={}", asBuilt, asPlanned);
 
-                List<ContractAgreement> contractAgreementIdsAsBuilt = asBuilt.stream().map(asBuiltAsset -> ContractAgreement.builder()
-                        .type(ContractType.ASSET_AS_BUILT)
-                        .contractAgreementId(asBuiltAsset.getContractAgreementId())
-                        .id(asBuiltAsset.getId())
-                        .created(Instant.now())
-                        .build()).toList();
+                List<ContractAgreement> contractAgreementIdsAsBuilt = asBuilt.stream()
+                        .filter(asBuiltAsset -> asBuiltAsset.getContractAgreementId() != null)  // Filtering out null contractAgreementIds
+                        .map(asBuiltAsset -> ContractAgreement.builder()
+                                .type(ContractType.ASSET_AS_BUILT)
+                                .contractAgreementId(asBuiltAsset.getContractAgreementId())
+                                .id(asBuiltAsset.getId())
+                                .created(Instant.now())
+                                .build())
+                        .toList();
 
-                List<ContractAgreement> contractAgreementIdsAsPlanned = asPlanned.stream().map(asPlannedAsset -> ContractAgreement.builder()
-                        .type(ContractType.ASSET_AS_BUILT)
-                        .contractAgreementId(asPlannedAsset.getContractAgreementId())
-                        .id(asPlannedAsset.getId())
-                        .created(Instant.now())
-                        .build()).toList();
+                List<ContractAgreement> contractAgreementIdsAsPlanned = asPlanned.stream()
+                        .filter(asPlannedAsset -> asPlannedAsset.getContractAgreementId() != null)  // Filtering out null contractAgreementIds
+                        .map(asPlannedAsset -> ContractAgreement.builder()
+                                .type(ContractType.ASSET_AS_PLANNED)  // Assuming the type should be ASSET_AS_PLANNED for asPlanned list
+                                .contractAgreementId(asPlannedAsset.getContractAgreementId())
+                                .id(asPlannedAsset.getId())
+                                .created(Instant.now())
+                                .build())
+                        .toList();
+
 
                 log.info("Created ContractAgreements: asBuilt={}, asPlanned={}", contractAgreementIdsAsBuilt, contractAgreementIdsAsPlanned);
 
