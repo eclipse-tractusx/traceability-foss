@@ -105,7 +105,7 @@ jobs:
         run: |
           npx downdoc -o docs/target/generated-docs/adminguide.md docs/src/diagram-replacer/generated-adocs/adminguide.adoc
           npx downdoc -o docs/target/generated-docs/arc42.md docs/src/diagram-replacer/generated-adocs/arc42.adoc
-          npx downdoc -o docs/target/generated-docs/user-manual.md docs/src/docs/user/user-manual.adoc
+          npx downdoc -o docs/target/generated-docs/user-manual.md docs/src/diagram-replacer/generated-adocs/user-manual.adoc
 
       - name: MD files post-processing
         working-directory: docs/src/post-processing/
