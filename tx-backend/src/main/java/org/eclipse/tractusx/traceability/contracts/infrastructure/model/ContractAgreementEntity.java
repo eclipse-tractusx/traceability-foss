@@ -39,7 +39,7 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Table(name = "contract_agreement")
-public class ContractAgreementView {
+public class ContractAgreementEntity {
 
     @Id
     private String id;
@@ -49,7 +49,7 @@ public class ContractAgreementView {
     private Instant created;
 
 
-    public static ContractAgreement toDomain(ContractAgreementView contractAgreement) {
+    public static ContractAgreement toDomain(ContractAgreementEntity contractAgreement) {
         return ContractAgreement.builder()
                 .created(contractAgreement.getCreated())
                 .id(contractAgreement.getId())
@@ -58,7 +58,7 @@ public class ContractAgreementView {
                 .build();
     }
 
-    public static List<ContractAgreement> toDomainList(List<ContractAgreementView> contractAgreementList) {
-        return contractAgreementList.stream().map(ContractAgreementView::toDomain).toList();
+    public static List<ContractAgreement> toDomainList(List<ContractAgreementEntity> contractAgreementList) {
+        return contractAgreementList.stream().map(ContractAgreementEntity::toDomain).toList();
     }
 }

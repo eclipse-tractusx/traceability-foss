@@ -23,7 +23,7 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -34,5 +34,5 @@ public interface ContractRepository {
 
     void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException;
 
-    void saveAll(List<ContractAgreementView> contractAgreements);
+    void saveAll(List<ContractAgreementEntity> contractAgreements);
 }
