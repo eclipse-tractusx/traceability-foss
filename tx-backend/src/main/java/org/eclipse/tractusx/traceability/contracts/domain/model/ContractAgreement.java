@@ -24,7 +24,7 @@ import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
 
 import java.time.Instant;
 import java.util.List;
@@ -41,8 +41,8 @@ public class ContractAgreement {
     private ContractType type;
     private Instant created;
 
-    public static ContractAgreementView toEntity(ContractAgreement contractAgreement) {
-        return ContractAgreementView.builder()
+    public static ContractAgreementEntity toEntity(ContractAgreement contractAgreement) {
+        return ContractAgreementEntity.builder()
                 .created(contractAgreement.getCreated())
                 .id(contractAgreement.getId())
                 .contractAgreementId(contractAgreement.getContractAgreementId())
@@ -50,7 +50,7 @@ public class ContractAgreement {
                 .build();
     }
 
-    public static List<ContractAgreementView> toEntityList(List<ContractAgreement> contractAgreementList) {
+    public static List<ContractAgreementEntity> toEntityList(List<ContractAgreement> contractAgreementList) {
         return contractAgreementList.stream().map(ContractAgreement::toEntity).toList();
     }
 }
