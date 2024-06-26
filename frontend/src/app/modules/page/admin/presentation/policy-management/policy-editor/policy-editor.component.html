@@ -175,13 +175,12 @@
               </div>
               <div class="constraints--header--label flex-1">
                 {{ "pageAdmin.policyManagement.operator" | i18n }}
-                <div class="constraints--header--sub-label">
-                  {{ "pageAdmin.policyManagement.rightOperandHint" | i18n }}
-
-                </div>
               </div>
               <div class="constraints--header--label flex-1">
                 {{ "pageAdmin.policyManagement.rightOperand" | i18n }}
+                <div class="constraints--header--sub-label">
+                  {{ "pageAdmin.policyManagement.rightOperandHint" | i18n }}
+                </div>
               </div>
             </div>
             <div *ngFor="let constraint of constraints.controls; let i=index;" [formGroupName]="i"
