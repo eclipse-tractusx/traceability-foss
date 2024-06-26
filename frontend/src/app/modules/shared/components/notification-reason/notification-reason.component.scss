@@ -121,7 +121,7 @@
 }
 
 .message--text__left {
-  @apply bg-receivedLight text-receivedDark;
+  @apply bg-closedLight text-closedDark;
   float: left;
 }
 
@@ -133,7 +133,7 @@
   left: -7px;
   height: 25px;
   border-left: 20px solid;
-  @apply border-receivedLight;
+  @apply border-closedLight;
   border-bottom-right-radius: 16px 14px;
   transform: translate(0, -2px);
 }
@@ -180,11 +180,11 @@
   }
 
   &--CANCELED {
-    @apply bg-closedDark text-closedLight before:bg-closedLight;
+    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
   }
 
   &--CLOSED {
-    @apply bg-closedDark text-closedLight before:bg-closedLight;
+    @apply bg-closedLight text-closedDark before:bg-closedDark;
   }
 
   &--CREATED {
@@ -196,15 +196,15 @@
   }
 
   &--ACCEPTED {
-    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
+    @apply bg-confirmedLight text-confirmedDark before:bg-confirmedDark;
   }
 
   &--ACKNOWLEDGED {
-    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+    @apply bg-receivedLight text-receivedDark before:bg-receivedDark;
   }
 
   &--DECLINED {
-    @apply bg-confirmedLight text-confirmedDark before:bg-confirmedDark;
+    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
   }
 }
 

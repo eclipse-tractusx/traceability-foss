@@ -19,24 +19,24 @@
 
 /* eslint-disable no-undef */
 module.exports = {
-  content: ['./src/**/*.html', './src/**/*.scss'],
+  content: [ './src/**/*.html', './src/**/*.scss' ],
   theme: {
     extend: {
       fontFamily: {
-        bold: ['Catena-X Bold', 'sans-serif'],
-        boldItalic: ['Catena-X BoldItalic', 'sans-serif'],
+        bold: [ 'Catena-X Bold', 'sans-serif' ],
+        boldItalic: [ 'Catena-X BoldItalic', 'sans-serif' ],
 
-        italic: ['Catena-X Italic', 'sans-serif'],
-        regular: ['Catena-X Regular', 'sans-serif'],
+        italic: [ 'Catena-X Italic', 'sans-serif' ],
+        regular: [ 'Catena-X Regular', 'sans-serif' ],
 
-        light: ['Catena-X Light', 'sans-serif'],
-        lightItalic: ['Catena-X LightItalic', 'sans-serif'],
+        light: [ 'Catena-X Light', 'sans-serif' ],
+        lightItalic: [ 'Catena-X LightItalic', 'sans-serif' ],
 
-        medium: ['Catena-X Medium', 'sans-serif'],
-        mediumItalic: ['Catena-X MediumItalic', 'sans-serif'],
+        medium: [ 'Catena-X Medium', 'sans-serif' ],
+        mediumItalic: [ 'Catena-X MediumItalic', 'sans-serif' ],
 
-        semiBold: ['Catena-X SemiBold', 'sans-serif'],
-        semiBoldItalic: ['Catena-X SemiBoldItalic', 'sans-serif'],
+        semiBold: [ 'Catena-X SemiBold', 'sans-serif' ],
+        semiBoldItalic: [ 'Catena-X SemiBoldItalic', 'sans-serif' ],
       },
       minHeight: {
         0: '0',
@@ -131,23 +131,23 @@ module.exports = {
 
       // Status colors for notification badges
 
-      createdLight: '#f2f3fb',
-      createdDark: '#111111',
+      createdLight: '#d4eaff',
+      createdDark: '#0a2e4f',
 
-      receivedLight: '#e1f1fe',
-      receivedDark: '#2b4078',
+      receivedLight: '#fff5d6',
+      receivedDark: '#8b5e00',
 
-      pendingLight: '#FFECBD',
-      pendingDark: '#975b26',
+      pendingLight: '#ffe4b2',
+      pendingDark: '#cc5200',
 
-      confirmedLight: '#e2f6c7',
-      confirmedDark: '#5c8d46',
+      confirmedLight: '#d9f2d9',
+      confirmedDark: '#0b5e0b',
 
-      declinedLight: '#fee7e2',
-      declinedDark: '#ff5330',
+      declinedLight: '#ffd9d9',
+      declinedDark: '#b30000',
 
-      closedLight: '#ffffff',
-      closedDark: '#5d3416',
+      closedLight: '#f0f0f0',
+      closedDark: '#4a4a4a',
 
       qualityTypeOk: '#3db014',
       qualityTypeMinor: '#ffd74a',
@@ -161,7 +161,7 @@ module.exports = {
       severityLifeThreatening: '#E5231D',
 
       semanticDataModelSerialPart: '#3db014',
-      semanticDataModelBatch: '#ffd21d'
+      semanticDataModelBatch: '#ffd21d',
     },
     screens: {
       sm: '640px',

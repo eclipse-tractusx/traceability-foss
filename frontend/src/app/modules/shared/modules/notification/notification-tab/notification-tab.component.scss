@@ -39,11 +39,11 @@
   }
 
   &--CANCELED {
-    @apply bg-closedDark text-closedLight before:bg-closedLight;
+    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
   }
 
   &--CLOSED {
-    @apply bg-closedDark text-closedLight before:bg-closedLight;
+    @apply bg-closedLight text-closedDark before:bg-closedDark;
   }
 
   &--CREATED {
@@ -55,14 +55,14 @@
   }
 
   &--ACCEPTED {
-    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
+    @apply bg-confirmedLight text-confirmedDark before:bg-confirmedDark;
   }
 
   &--ACKNOWLEDGED {
-    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+    @apply bg-receivedLight text-receivedDark before:bg-receivedDark;
   }
 
   &--DECLINED {
-    @apply bg-confirmedLight text-confirmedDark before:bg-confirmedDark;
+    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
   }
 }
