@@ -53,7 +53,7 @@ public class BpdmClient {
         try {
             return bpdmRestTemplate.getForObject(uriBuilder.build(values), BusinessPartnerResponse.class);
         } catch (HttpClientErrorException httpClientErrorException) {
-            log.warn("Could not request BPDM service.", httpClientErrorException);
+            log.debug("Could not request BPDM service. {}", httpClientErrorException.getMessage());
             return BusinessPartnerResponse.builder().bpn(bpn).build();
         }
 
