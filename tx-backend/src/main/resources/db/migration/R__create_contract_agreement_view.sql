@@ -1,21 +1,10 @@
+-- Drop the view if it exists
+DROP VIEW IF EXISTS contract_agreement_view;
 
-ALTER VIEW contract_agreement_view RENAME COLUMN asset_type TO type;
-
-CREATE OR REPLACE VIEW contract_agreement_view (id, contract_agreement_id, type, created) AS
-SELECT *
-FROM (
-         (SELECT assets_as_built.id,
-                 contract_agreement_id,
-                 'ASSET_AS_BUILT' AS type,
-                 created
-          FROM assets_as_built
-          WHERE contract_agreement_id IS NOT NULL)
-         UNION ALL
-         (SELECT assets_as_planned.id,
-                 contract_agreement_id,
-                 'ASSET_AS_PLANNED' AS type,
-                 created
-          FROM assets_as_planned
-          WHERE contract_agreement_id IS NOT NULL)
-     ) results
-ORDER BY created DESC;
+-- Create the table
+CREATE TABLE contract_agreement (
+                                    id varchar(255) PRIMARY KEY,
+                                    contract_agreement_id varchar(255),
+                                    type VARCHAR(255),
+                                    created TIMESTAMP
+);
