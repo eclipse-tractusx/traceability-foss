@@ -91,7 +91,7 @@
 }
 
 .message--text__right {
-  @apply bg-createdLight text-createdDark;
+  @apply bg-closedLight text-closedDark;
   float: right;
 }
 
@@ -102,7 +102,7 @@
   right: -7px;
   height: 25px;
   border-right: 20px solid;
-  @apply border-createdLight;
+  @apply border-closedLight;
   border-bottom-left-radius: 16px 14px;
   transform: translate(0, -2px);
 }
@@ -121,7 +121,7 @@
 }
 
 .message--text__left {
-  @apply bg-closedLight text-closedDark;
+  @apply bg-createdLight text-createdDark;
   float: left;
 }
 
@@ -133,7 +133,7 @@
   left: -7px;
   height: 25px;
   border-left: 20px solid;
-  @apply border-closedLight;
+  @apply border-createdLight;
   border-bottom-right-radius: 16px 14px;
   transform: translate(0, -2px);
 }
