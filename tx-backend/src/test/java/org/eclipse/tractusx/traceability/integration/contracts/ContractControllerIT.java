@@ -32,8 +32,8 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -116,7 +116,12 @@ class ContractControllerIT extends IntegrationTestSpecification {
         assertThat(contractResponsePage2Result.content()).isNotEmpty();
         assertThat(contractResponsePage2Result.content().get(0).getCounterpartyAddress()).isNotEmpty();
 
-        assertThat(contractResponsePage1Result.content().stream().map(ContractResponse::getContractId).collect(Collectors.toList())).containsAll(firstContractagreementIds);
+        List<String> list = new ArrayList<>();
+        for (ContractResponse contractResponse : contractResponsePage1Result.content()) {
+            String contractId = contractResponse.getContractId();
+            list.add(contractId);
+        }
+        assertThat(list).containsAll(firstContractagreementIds);
         assertThat(contractResponsePage2Result.content().stream().map(ContractResponse::getContractId).toList()).containsAll(secondContractagreementIds);
     }
 

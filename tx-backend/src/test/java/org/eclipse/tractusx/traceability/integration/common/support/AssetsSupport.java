@@ -83,6 +83,7 @@ public class AssetsSupport {
 
         List<ContractAgreementView> mergedAgreements = Stream.concat(contractAgreementIdsAsBuilt.stream(), contractAgreementIdsAsPlanned.stream())
                 .toList();
+        mergedAgreements.forEach(contractAgreementView -> log.info(contractAgreementView.getContractAgreementId()));
         return mergedAgreements;
     }
 
