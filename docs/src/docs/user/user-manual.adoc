@@ -99,10 +99,12 @@ image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main
 Any configured BPNs will have their URLs merged in addition to the URLs found by the DiscoveryService.
 The resulting list of URLs will be used whenever a notification is sent to those BPNs. In case a URL returns an error response, the remaining URLs will be used as backup.
 
+
 [plantuml, target=bpn-edc-configuration, format=svg]
-----
+....
 include::../../uml-diagrams/user-manual/bpn-edc-configuration.puml[]
-----
+....
+
 
 |===
 |ID |Description
