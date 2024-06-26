@@ -80,6 +80,10 @@ public class NotificationEntity extends NotificationBaseEntity {
         List<String> assetIds = notificationEntity.getAssets().stream()
                 .map(AssetAsBuiltEntity::getId)
                 .toList();
+        String initialReceiverBpn = notificationEntity.getInitialReceiverBpn();
+        if (initialReceiverBpn == null){
+            initialReceiverBpn = notificationEntity.getBpn();
+        }
         return Notification.builder()
                 .title(notificationEntity.getTitle())
                 .notificationId(new NotificationId(notificationEntity.getId()))
@@ -90,11 +94,11 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .description(notificationEntity.getDescription())
                 .notificationType(NotificationType.valueOf(notificationEntity.getType().name()))
                 .affectedPartIds(assetIds)
-                .sendTo(notificationEntity.getInitialReceiverBpn())
+                .sendTo(initialReceiverBpn)
                 .targetDate(convertInstantToString(notificationEntity.getTargetDate()))
                 .severity(NotificationSeverity.fromString(notificationEntity.getSeverity() != null ? notificationEntity.getSeverity().getRealName() : null))
                 .notifications(messages)
-                .initialReceiverBpns(List.of(notificationEntity.getInitialReceiverBpn()))
+                .initialReceiverBpns(List.of(initialReceiverBpn))
                 .build();
     }
 

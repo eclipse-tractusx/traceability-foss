@@ -61,7 +61,7 @@ export class PolicyEditorComponent {
 
 
     this.policyForm = this.fb.group({
-      policyName: new FormControl('', [ Validators.required, Validators.minLength(8), Validators.maxLength(40), this.noSpacesValidator() ]),
+      policyName: new FormControl('', [ Validators.required, Validators.maxLength(40), this.noSpacesValidator() ]),
       validUntil: new FormControl('', [ Validators.required, this.futureDateValidator ]),
       bpns: new FormControl('', [ Validators.required, this.viewMode === ViewMode.CREATE ? BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn') : BaseInputHelper.getCustomPatternValidator(bpnListRegex, 'bpn') ]),
       accessType: new FormControl<string>(PolicyAction.ACCESS),
@@ -333,9 +333,38 @@ export class PolicyEditorComponent {
     };
   }
 
+  validateAllFields() {
+    Object.keys(this.policyForm.controls).forEach(field => {
+      const control = this.policyForm.get(field);
+      if (control instanceof FormArray) {
+        this.validateFormArray(control);
+      } else {
+        control.markAsTouched({ onlySelf: true });
+      }
+    });
+  }
+
+  validateFormArray(formArray: FormArray) {
+    formArray.controls.forEach(control => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.validateAllFieldsInFormGroup(control);
+      }
+    });
+  }
+
+  validateAllFieldsInFormGroup(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      control.markAsTouched({ onlySelf: true });
+    });
+  }
+
 
   protected readonly ViewMode = ViewMode;
   protected readonly OperatorTypesAsSelectOptionsList = OperatorTypesAsSelectOptionsList;
   protected readonly ConstraintLogicTypeAsSelectOptionsList = ConstraintLogicTypeAsSelectOptionsList;
+
+
 }
 
