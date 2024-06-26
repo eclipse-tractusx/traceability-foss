@@ -10,11 +10,6 @@
     </div>
     <div class="dialog--content--container flex flex-col justify-center text-center">
       <p class="font-semiBold">{{ 'pageAdmin.policyManagement.deletionText' | i18n }}</p>
-      <mat-list class="overflow-auto">
-        <mat-list-item *ngFor="let item of policyIds">
-          <p class="font-bold" matLine>{{ item }}</p>
-        </mat-list-item>
-      </mat-list>
     </div>
   </div>
 </mat-dialog-content>
