@@ -16,30 +16,23 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
+package org.eclipse.tractusx.traceability.contracts.domain.model;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
 
 import java.time.Instant;
 import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@Entity
-@SuperBuilder
-@Table(name = "contract_agreement")
-public class ContractAgreementView {
+@Builder
+public class ContractAgreement {
 
     @Id
     private String id;
@@ -48,9 +41,8 @@ public class ContractAgreementView {
     private ContractType type;
     private Instant created;
 
-
-    public static ContractAgreement toDomain(ContractAgreementView contractAgreement) {
-        return ContractAgreement.builder()
+    public static ContractAgreementView toEntity(ContractAgreement contractAgreement) {
+        return ContractAgreementView.builder()
                 .created(contractAgreement.getCreated())
                 .id(contractAgreement.getId())
                 .contractAgreementId(contractAgreement.getContractAgreementId())
@@ -58,7 +50,7 @@ public class ContractAgreementView {
                 .build();
     }
 
-    public static List<ContractAgreement> toDomainList(List<ContractAgreementView> contractAgreementList) {
-        return contractAgreementList.stream().map(ContractAgreementView::toDomain).toList();
+    public static List<ContractAgreementView> toEntityList(List<ContractAgreement> contractAgreementList) {
+        return contractAgreementList.stream().map(ContractAgreement::toEntity).toList();
     }
 }

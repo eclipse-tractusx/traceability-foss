@@ -32,9 +32,9 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -100,6 +100,11 @@ public class ContractRepositoryImpl implements ContractRepository {
         List<Contract> contracts = fetchEdcContractAgreements(contractAgreementViews);
         List<ContractAgreementView> contractAgreementViewsUpdated = Contract.toEntityList(contracts, contractType);
         contractAgreementInfoViewRepository.saveAll(contractAgreementViewsUpdated);
+    }
+
+    @Override
+    public void saveAll(List<ContractAgreementView> contractAgreements) {
+        contractAgreementInfoViewRepository.saveAll(contractAgreements);
     }
 
     private List<Contract> fetchEdcContractAgreements(List<ContractAgreementView> contractAgreementInfoViews) throws ContractAgreementException {

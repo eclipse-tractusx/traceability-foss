@@ -131,6 +131,11 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return getAssetRepository().findByImportStateIn(importStates).stream().map(AssetBase::getId).toList();
     }
 
+    @Override
+    public List<AssetBase> findAll() {
+        return getAssetRepository().findAll();
+    }
+
     private boolean isSupportedEnumType(String fieldName) {
         return SUPPORTED_ENUM_FIELDS.contains(fieldName);
     }
