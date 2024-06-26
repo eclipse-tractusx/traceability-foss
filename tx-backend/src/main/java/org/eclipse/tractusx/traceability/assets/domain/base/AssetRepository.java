@@ -51,4 +51,6 @@ public interface AssetRepository {
     List<AssetBase> findByImportStateIn(ImportState... importStates);
 
     void updateImportStateAndNoteForAssets(ImportState importState, String importNote, List<String> assetIds);
+
+    List<AssetBase> findAll();
 }

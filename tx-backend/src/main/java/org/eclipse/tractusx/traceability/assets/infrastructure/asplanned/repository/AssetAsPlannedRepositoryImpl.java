@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
@@ -78,6 +79,13 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     public AssetBase getAssetByChildId(String childId) {
         return jpaAssetAsPlannedRepository.findById(childId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
+    }
+
+    @Transactional
+    @Override
+    public List<AssetBase> findAll() {
+        return jpaAssetAsPlannedRepository.findAll().stream()
+                .map(AssetAsPlannedEntity::toDomain).toList();
     }
 
 

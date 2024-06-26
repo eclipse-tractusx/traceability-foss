@@ -27,8 +27,10 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -53,5 +55,10 @@ public class ContractServiceImpl implements ContractService {
     @Override
     public void saveContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
         contractRepository.saveAllContractAgreements(contractAgreementIds, contractType);
+    }
+
+    @Override
+    public void saveAll(List<ContractAgreement> contractAgreements) {
+        contractRepository.saveAll(ContractAgreement.toEntityList(contractAgreements));
     }
 }

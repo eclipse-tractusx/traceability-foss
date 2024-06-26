@@ -22,6 +22,7 @@ import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgre
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 
 import java.util.List;
@@ -30,4 +31,6 @@ public interface ContractService {
     PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest);
 
     void saveContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException;
+
+    void saveAll(List<ContractAgreement> contractAgreements);
 }

@@ -50,4 +50,6 @@ public interface AssetBaseService {
     List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds);
 
     List<String> getAssetIdsInImportState(ImportState... importStates);
+
+    List<AssetBase> findAll();
 }
