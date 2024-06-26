@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
 import org.springframework.data.domain.Page;
@@ -74,7 +75,7 @@ public class ContractRepositoryImpl implements ContractRepository {
                 return new PageResult<>(List.of(), 0, 0, 0, 0L);
             }
 
-            return new PageResult<>(fetchEdcContractAgreements(contractAgreementInfoViews),
+            return new PageResult<>(fetchEdcContractAgreements(contractAgreementInfoViews.getContent()),
                     contractAgreementInfoViews.getPageable().getPageNumber(),
                     contractAgreementInfoViews.getTotalPages(),
                     contractAgreementInfoViews.getPageable().getPageSize(),
@@ -86,13 +87,36 @@ public class ContractRepositoryImpl implements ContractRepository {
 
     }
 
-    private List<Contract> fetchEdcContractAgreements(Page<ContractAgreementView> contractAgreementInfoViews) throws ContractAgreementException {
-        List<String> contractAgreementIds = contractAgreementInfoViews.getContent().stream().map(ContractAgreementView::getContractAgreementId).toList();
+    @Override
+    public void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
+
+        List<ContractAgreementView> contractAgreementViews = contractAgreementIds.stream()
+                .map(contractAgreementId -> ContractAgreementView.builder()
+                        .contractAgreementId(contractAgreementId)
+                        .type(contractType)
+                        .build())
+                .collect(Collectors.toList());
+
+        List<Contract> contracts = fetchEdcContractAgreements(contractAgreementViews);
+        List<ContractAgreementView> contractAgreementViewsUpdated = Contract.toEntityList(contracts, contractType);
+        contractAgreementInfoViewRepository.saveAll(contractAgreementViewsUpdated);
+    }
+
+    @Override
+    public void saveAll(List<ContractAgreementView> contractAgreements) {
+        contractAgreementInfoViewRepository.saveAll(contractAgreements);
+    }
+
+    private List<Contract> fetchEdcContractAgreements(List<ContractAgreementView> contractAgreementInfoViews) throws ContractAgreementException {
+        List<String> contractAgreementIds = contractAgreementInfoViews.stream().map(ContractAgreementView::getContractAgreementId).toList();
         log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
 
         List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
 
         validateContractAgreements(contractAgreementIds, contractAgreements);
+
+        Map<String, ContractType> contractTypes = contractAgreementInfoViews.stream()
+                .collect(Collectors.toMap(ContractAgreementView::getContractAgreementId, ContractAgreementView::getType));
 
         Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = contractAgreements.stream()
                 .map(agreement -> new ImmutablePair<>(agreement.contractAgreementId(),
@@ -109,6 +133,7 @@ public class ContractRepositoryImpl implements ContractRepository {
                                 .creationDate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(contractAgreement.contractSigningDate()), ZoneId.systemDefault()))
                                 .state(contractNegotiations.get(contractAgreement.contractAgreementId()).state())
                                 .policy(objectMapper.writeValueAsString(contractAgreement.policy()))
+                                .type(contractTypes.get(contractAgreement.contractAgreementId()))
                                 .build();
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);

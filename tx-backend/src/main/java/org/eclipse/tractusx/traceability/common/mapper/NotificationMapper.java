@@ -65,6 +65,7 @@ public class NotificationMapper {
                 .description(edcNotification.getInformation())
                 .createdAt(Instant.now())
                 .sendTo(applicationBPN.value())
+                .updatedDate(Instant.now())
                 .severity(NotificationSeverity.fromString(edcNotification.getSeverity()))
                 .targetDate(convertInstantToString(edcNotification.getTargetDate()))
                 .affectedPartIds(assetIds)

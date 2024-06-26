@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { AdminModule } from '@page/admin/admin.module';
 import { AdminFacade } from '@page/admin/core/admin.facade';
 import { assembleContract } from '@page/admin/core/admin.model';
@@ -16,16 +17,20 @@ describe('ContractTableComponent', () => {
     getContracts: jasmine.createSpy().and.returnValue(of(getContracts)),
   };
 
+  const routerMock = {
+    navigate: jasmine.createSpy('navigate'),
+  };
+
   const renderContractTableComponent = () => renderComponent(ContractsComponent, {
     imports: [ AdminModule ],
-    providers: [ { provide: AdminFacade, useValue: mockAdminFacade } ],
+    providers: [ { provide: AdminFacade, useValue: mockAdminFacade }, { provide: Router, useValue: routerMock } ],
   });
 
   let createElementSpy: jasmine.Spy;
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ ContractsComponent ],
-      providers: [ AdminFacade, AdminService ],
+      providers: [ AdminFacade, AdminService, { provide: Router, useValue: routerMock } ],
     });
     createElementSpy = spyOn(document, 'createElement').and.callThrough();
 
@@ -79,6 +84,24 @@ describe('ContractTableComponent', () => {
     componentInstance.exportContractsAsCSV();
     expect(convertSpy).toHaveBeenCalledWith([ assembleContract(getContracts().content[0]) ]);
     expect(downloadSpy).toHaveBeenCalled();
+
+  });
+
+  it('should navigate if viewAssets clicked', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+    componentInstance.viewAssetsClicked.emit({ contractId: 'test' });
+
+    expect(routerMock.navigate).toHaveBeenCalled();
+  });
+
+  it('should emit viewAssetsClicked', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+    let spy = spyOn(componentInstance.viewAssetsClicked, 'emit');
+    const viewAssetsAction = componentInstance.tableConfig.menuActionsConfig.filter(action => action.label === 'actions.viewParts')[0];
+    viewAssetsAction.action(null);
+    expect(spy).toHaveBeenCalled();
 
   });
 

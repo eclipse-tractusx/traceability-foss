@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Pagination } from '@core/model/pagination.model';
 import { AdminFacade } from '@page/admin/core/admin.facade';
@@ -22,6 +22,7 @@ export class ContractsComponent {
   selectedContracts: Contract[];
   contractFilter: any;
   pagination: TableEventConfig;
+  viewAssetsClicked: EventEmitter<any> = new EventEmitter;
 
   constructor(public readonly adminFacade: AdminFacade, private readonly contractsFacade: ContractsFacade, private readonly router: Router) {}
 
@@ -33,13 +34,26 @@ export class ContractsComponent {
       } else {
         this.contractsFacade.setContracts(0,10,[null,null]);
       }
+
     })
+
+    this.viewAssetsClicked.subscribe((data) => {
+      this.router.navigate([ 'parts' ], { queryParams: { contractId: data?.['contractId'] } });
+    });
 
     this.pagination = { page: 0, pageSize: 10, sorting: [ '', null ] };
     this.tableConfig = {
       displayedColumns: [ 'select', 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state', 'menu' ],
       header: CreateHeaderFromColumns([ 'contractId', 'counterpartyAddress', 'creationDate', 'endDate', 'state', 'menu' ], 'pageAdmin.contracts'),
-      menuActionsConfig: [],
+      menuActionsConfig: [
+        {
+          label: 'actions.viewParts',
+          icon: 'build',
+          action: (data: Record<string, unknown>) => {
+            this.viewAssetsClicked.emit(data);
+          },
+        },
+      ],
       sortableColumns: {
         select: false,
         contractId: true,
