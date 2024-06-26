@@ -79,7 +79,7 @@ jobs:
           locale
           asciidoctor-reducer -o docs/target/adminguide.adoc docs/src/docs/administration/administration-guide.adoc
           asciidoctor-reducer -o docs/target/arc42.adoc docs/src/docs/arc42/full.adoc
-          cp docs/src/docs/user/user-manual.adoc docs/target/
+          asciidoctor-reducer -o docs/target/user-manual.adoc docs/src/docs/user/user-manual.adoc
 
       - name: Cache plantuml jar
         uses: actions/cache@v3
