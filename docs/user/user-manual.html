@@ -509,7 +509,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Licence Path: <a href="https://creativecommons.org/licenses/by/4.0/legalcode" class="bare">https://creativecommons.org/licenses/by/4.0/legalcode</a></p>
 </li>
 <li>
-<p>Copyright (c) 2021,2022,2023 Contributors to the Eclipse Foundation</p>
+<p>Copyright (c) 2021, 2022, 2023 Contributors to the Eclipse Foundation</p>
 </li>
 <li>
 <p>Copyright (c) 2022, 2023 ZF Friedrichshafen AG</p>
@@ -521,7 +521,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)</p>
 </li>
 <li>
-<p>Copyright (c) 2022,2023 BOSCH AG</p>
+<p>Copyright (c) 2022, 2023 BOSCH AG</p>
 </li>
 <li>
 <p>Source URL: <a href="https://github.com/eclipse-tractusx/traceability-foss" class="bare">https://github.com/eclipse-tractusx/traceability-foss</a></p>
@@ -665,13 +665,48 @@ Possibility to check the network status based on logfiles and will provide acces
 <div class="sect3">
 <h4 id="_bpn_edc_configuration">BPN-EDC configuration</h4>
 <div class="paragraph">
-<p>In the BPN-EDC configuration screen an admin user can add URLs for BPNs. Any URLs here will be used directly for the configured BPN instead of looking up the URL with the EDC DiscoveryFinder service. Existing configurations can be edited or removed.</p>
+<p>In the BPN-EDC configuration screen an admin user can add URLs for BPNs. Existing configurations can be edited or removed.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/bpn_edc_configuration.png" alt="bpn edc configuration">
 </div>
 </div>
+<div class="paragraph">
+<p>Any configured BPNs will have their URLs merged in addition to the URLs found by the DiscoveryService.
+The resulting list of URLs will be used whenever a notification is sent to those BPNs. In case a URL returns an error response, the remaining URLs will be used as backup.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="bpn-edc-configuration.svg" alt="bpn edc configuration" width="547" height="287">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">ID</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">01</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any URLs configured for the selected BPN in the BPN-EDC configuration are requested.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">02</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Any URLs configured for the selected BPN in the DiscoveryFinder service are requested.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">03</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All received URLs are merged into one list with identical URLs discarded.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect3">
 <h4 id="_contracts_view_and_export">Contracts - view and export</h4>
@@ -1236,9 +1271,9 @@ The "more" menu is opened by clicking on the horizontally aligned three dots ico
 <h3 id="_quality_notification_createedit_view">Quality notification create/edit view</h3>
 <div class="paragraph">
 <p>A quality notification can be started by the following options:
-- Part detail view if a part has child elements an quality notification with type INVESTIGATION can be created.
-- Part table if parts are selected an quality notification with type ALERT can be created.
-- Other parts table if parts are selected an quality notification with type INVESTIGATION can be created.</p>
+- Part detail view if a part has child elements a quality notification with type INVESTIGATION can be created.
+- Part table if parts are selected a quality notification with type ALERT can be created.
+- Other parts table if parts are selected a quality notification with type INVESTIGATION can be created.</p>
 </div>
 <div class="paragraph">
 <p>A quality notification can be edited by clicking on the context menu on an item within the inbox.</p>
@@ -1250,7 +1285,7 @@ The "more" menu is opened by clicking on the horizontally aligned three dots ico
 <div class="sect2">
 <h3 id="_quality_notifications_context_action">Quality notifications context action</h3>
 <div class="paragraph">
-<p>Select the three dots icon on the right side of an quality notification entry to open the context menu.
+<p>Select the three dots icon on the right side of a quality notification entry to open the context menu.
 From there it is possible to open the quality notification detailed view or change the status of it.
 Only the possible status transition will show up.</p>
 </div>
@@ -1390,7 +1425,7 @@ One exception to this rule: the transition from status SENT to status RECEIVED i
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-06-24 09:31:30 UTC
+Last updated 2024-06-26 12:56:20 UTC
 </div>
 </div>
 </body>
