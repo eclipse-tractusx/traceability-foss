@@ -112,30 +112,35 @@ public class ApplicationStartupConfig {
         executor.execute(() -> {
             log.info("on ApplicationReadyEvent insert into contracts.");
             try {
+                log.info("Method yourMethod() started.");
+
                 List<AssetBase> asBuilt = asBuiltService.findAll();
                 List<AssetBase> asPlanned = asPlannedService.findAll();
 
-                List<ContractAgreement> contractAgreementIdsAsBuilt = asBuilt.stream().map(asBuiltAsset -> ContractAgreement
-                        .builder()
+                log.info("Retrieved assets: asBuilt={}, asPlanned={}", asBuilt, asPlanned);
+
+                List<ContractAgreement> contractAgreementIdsAsBuilt = asBuilt.stream().map(asBuiltAsset -> ContractAgreement.builder()
                         .type(ContractType.ASSET_AS_BUILT)
                         .contractAgreementId(asBuiltAsset.getContractAgreementId())
                         .id(asBuiltAsset.getId())
                         .created(Instant.now())
                         .build()).toList();
 
-                List<ContractAgreement> contractAgreementIdsAsPlanned = asPlanned.stream().map(asPlannedAsset -> ContractAgreement
-                        .builder()
+                List<ContractAgreement> contractAgreementIdsAsPlanned = asPlanned.stream().map(asPlannedAsset -> ContractAgreement.builder()
                         .type(ContractType.ASSET_AS_BUILT)
                         .contractAgreementId(asPlannedAsset.getContractAgreementId())
                         .id(asPlannedAsset.getId())
                         .created(Instant.now())
                         .build()).toList();
 
+                log.info("Created ContractAgreements: asBuilt={}, asPlanned={}", contractAgreementIdsAsBuilt, contractAgreementIdsAsPlanned);
+
                 List<ContractAgreement> mergedAgreements = Stream.concat(contractAgreementIdsAsBuilt.stream(), contractAgreementIdsAsPlanned.stream())
                         .toList();
+                log.info("Merged agreements: {}", mergedAgreements);
 
                 contractService.saveAll(mergedAgreements);
-
+                log.info("Saved merged agreements successfully.");
 
             } catch (Exception exception) {
                 log.error("Failed to insert contracts: ", exception);
