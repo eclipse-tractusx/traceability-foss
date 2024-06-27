@@ -35,7 +35,7 @@ export class PoliciesAssembler {
     return list;
   }
 
-  public static mapDisplayPropsToPolicyRootLevelFromPolicyEntry(entry: PolicyEntry): string[] {
+  public static mapDisplayPropsToPolicyRootLevelFromPolicyEntry(entry: PolicyEntry): string {
     entry.payload.policy.policyName = entry.payload['@id'];
     entry.payload.policy.accessType = entry.payload.policy.permissions[0].action;
     let constrainsList = [];
@@ -45,7 +45,7 @@ export class PoliciesAssembler {
         constrainsList.push(getOperatorTypeSign(OperatorType[andConstraint.operator['@id'].toUpperCase()]));
         constrainsList.push(andConstraint['odrl:rightOperand']);
         if (index !== permission.constraint.and.length - 1) {
-          constrainsList.push(' AND ');
+          constrainsList.push('*AND ');
         }
       });
       permission.constraint?.or?.forEach((orConstraint, index) => {
@@ -53,14 +53,18 @@ export class PoliciesAssembler {
         constrainsList.push(getOperatorTypeSign(OperatorType[orConstraint.operator['@id'].toUpperCase()]));
         constrainsList.push(orConstraint['odrl:rightOperand']);
         if (index !== permission.constraint.or.length - 1) {
-          constrainsList.push(' OR ');
+          constrainsList.push('*OR ');
         }
       });
     });
-    return constrainsList;
+    let formattedString = constrainsList.toString().replaceAll(',', '');
+    formattedString = formattedString.replaceAll('*', '<br>');
+    formattedString = this.removeAfterThird('<br>', formattedString);
+    //formattedString = formattedString.length > 50 ? (formattedString.slice(0, 50) + "...") : formattedString;
+    return formattedString;
   }
 
-  public static mapDisplayPropsToPolicyRootLevelFromPolicy(policy: Policy): string[] {
+  public static mapDisplayPropsToPolicyRootLevelFromPolicy(policy: Policy): string {
     let constrainsList = [];
     policy.permissions.forEach((permission) => {
       permission.constraints?.and?.forEach((andConstraint, index) => {
@@ -68,7 +72,7 @@ export class PoliciesAssembler {
         constrainsList.push(getOperatorTypeSign(andConstraint.operatorTypeResponse));
         constrainsList.push(andConstraint.rightOperand);
         if (index !== permission.constraints.and.length - 1) {
-          constrainsList.push(' AND ');
+          constrainsList.push('*AND ');
         }
       });
       permission.constraints?.or?.forEach((orConstraint, index) => {
@@ -76,11 +80,34 @@ export class PoliciesAssembler {
         constrainsList.push(getOperatorTypeSign(orConstraint.operatorTypeResponse));
         constrainsList.push(orConstraint.rightOperand);
         if (index !== permission.constraints.or.length - 1) {
-          constrainsList.push(' OR ');
+          constrainsList.push('*OR ');
         }
       });
     });
-    return constrainsList;
+    let formattedString = constrainsList.toString().replaceAll(',', '');
+    formattedString = formattedString.replaceAll('*', '<br>');
+    formattedString = this.removeAfterThird('<br>', formattedString);
+    //formattedString = formattedString.length > 50 ? (formattedString.slice(0, 50) + "...") : formattedString;
+    return formattedString;
+  }
+
+  public static removeAfterThird(substring: string, text: string): string {
+    let index = 0;
+    let count = 0;
+
+    // Continuously update the index to the next occurrence of the substring
+    while ((index = text.indexOf(substring, index)) !== -1) {
+      count++;
+      if (count === 3) {
+        // Return the substring up to and including the third occurrence
+        return text.substring(0, index + substring.length);
+      }
+      // Advance index past the current match
+      index += substring.length;
+    }
+
+    // Return the original text if less than three occurrences are found
+    return text;
   }
 
   /**

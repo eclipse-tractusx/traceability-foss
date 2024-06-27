@@ -89,6 +89,7 @@ export class TableComponent {
   @Input() showHover = true;
 
   @Input() selectedPartsInfoLabel: string;
+  @Input() selectedPoliciesInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
 
   @Input() tableHeader: string;

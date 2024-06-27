@@ -84,7 +84,7 @@ describe('PoliciesAssembler', () => {
     expect(assembledPolicy.createdOn).toBe('2024-01-01T00:00');
     expect(assembledPolicy.validUntil).toBe('2024-12-31T23:59');
     expect(assembledPolicy.accessType).toBe('USE');
-    expect(assembledPolicy.constraints).toEqual([ 'left1', '=', 'right1', 'left2', '!=', 'right2' ]);
+    expect(assembledPolicy.constraints).toEqual('left1=right1left2!=right2');
 
   });
 
@@ -107,15 +107,11 @@ describe('PoliciesAssembler', () => {
       },
     };
     const constraints = PoliciesAssembler.mapDisplayPropsToPolicyRootLevelFromPolicyEntry(policyEntry);
-    expect(constraints).toEqual([
-      'left1', '=', 'right1', 'left2', '!=', 'right2',
-    ]);
+    expect(constraints).toEqual('left1=right1left2!=right2');
   });
 
   it('should map display props to policy root level from policy', () => {
     const constraints = PoliciesAssembler.mapDisplayPropsToPolicyRootLevelFromPolicy(mockPolicy2);
-    expect(constraints).toEqual([
-      'left1', '=', 'right1', 'left2', '!=', 'right2',
-    ]);
+    expect(constraints).toEqual('left1=right1left2!=right2');
   });
 });
