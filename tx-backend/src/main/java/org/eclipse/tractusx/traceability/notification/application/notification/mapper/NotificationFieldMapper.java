@@ -45,6 +45,7 @@ public class NotificationFieldMapper extends BaseRequestFieldMapper {
             Map.entry("sendToName", "messages_sendToName"),
             Map.entry("targetDate", "targetDate"),
             Map.entry("assetId", "assets_id"),
+            Map.entry("contractAgreementId", "messages_contractAgreementId"),
             Map.entry("title", "title"),
             Map.entry("type", "type")
 

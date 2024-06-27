@@ -40,12 +40,12 @@ import static org.hamcrest.Matchers.blankString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class EdcNotificationContractControllerIT extends IntegrationTestSpecification {
+public class EdcNotificationContractsControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     EdcSupport edcSupport;
 
-//    @Test
+    //    @Test
     void shouldCreateEdcContract() throws JoseException {
         // given
         edcSupport.edcWillCreateNotificationAsset();
@@ -81,7 +81,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
     }
 
-//    @Test
+    //    @Test
     void shouldNotCreateEdcContractWhenNotificationAssetCreationFailed() throws JoseException {
         // given
         edcSupport.edcWillFailToCreateNotificationAsset();
@@ -114,7 +114,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
 
     }
 
-//    @Test
+    //    @Test
     void shouldNotCreateEdcContractAndDoRollbackWhenPolicyDefinitionCreationFailed() throws JoseException {
         // given
         edcSupport.edcWillCreateNotificationAsset();
@@ -149,7 +149,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
         edcSupport.verifyDeleteContractDefinitionEndpointCalledTimes(0);
     }
 
-//    @Test
+    //    @Test
     void shouldNotCreateEdcContractAndDoRollbackWhenContractDefinitionCreationFailed() throws JoseException {
         // given
         edcSupport.edcWillCreateNotificationAsset();
@@ -266,7 +266,7 @@ public class EdcNotificationContractControllerIT extends IntegrationTestSpecific
                 .statusCode(400);
     }
 
-//    @Test
+    //    @Test
     void shouldNotCreateEdcContractForQualityAlertBecauseItsNotYetImplemented() throws JoseException {
         given()
                 .contentType(ContentType.JSON)
