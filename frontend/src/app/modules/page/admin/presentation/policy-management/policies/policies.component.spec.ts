@@ -116,6 +116,21 @@ describe('PoliciesComponent', () => {
     expect(policyFacadeMock.setPolicies).toHaveBeenCalled();
   }));
 
+  it('should call deletePolicies and handle success', fakeAsync(async () => {
+    const { fixture } = await renderPoliciesComponent();
+    const componentInstance = fixture.componentInstance;
+    componentInstance.selectedPolicies = [ { policyId: '1' }, { policyId: '2' } ] as Policy[];
+
+    componentInstance.multiSelection(componentInstance.selectedPolicies);
+    expect(componentInstance.selectedPoliciesInfoLabel).toEqual('pageAdmin.policyManagement.selectedPolicies');
+
+    componentInstance.selectedPolicies = [ { policyId: '1' } ] as Policy[];
+
+    componentInstance.multiSelection(componentInstance.selectedPolicies);
+    expect(componentInstance.selectedPoliciesInfoLabel).toEqual('pageAdmin.policyManagement.selectedPolicy');
+
+  }));
+
   it('should call deletePolicies and handle error', fakeAsync(async () => {
     policyFacadeMock.deletePolicies.and.returnValue(throwError('error'));
 
