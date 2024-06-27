@@ -33,6 +33,7 @@ export class PoliciesComponent {
   multiSortList: TableHeaderSort[] = [];
   ctrlKeyState: boolean = false;
   deselectPartTrigger$ = new Subject<Policy[]>();
+  selectedPoliciesInfoLabel: string = 'pageAdmin.policyManagement.selectedPolicies';
 
   constructor(public readonly policyFacade: PoliciesFacade, private readonly router: Router, private readonly toastService: ToastService, public dialog: MatDialog, private readonly roleService: RoleService) {
     window.addEventListener('keydown', (event) => {
@@ -82,6 +83,7 @@ export class PoliciesComponent {
   }
 
   multiSelection(selectedPolicies: Policy[]) {
+    this.selectedPoliciesInfoLabel = selectedPolicies.length === 1 ? 'pageAdmin.policyManagement.selectedPolicy' : 'pageAdmin.policyManagement.selectedPolicies';
     this.selectedPolicies = selectedPolicies;
   }
 

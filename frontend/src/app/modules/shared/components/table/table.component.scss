@@ -266,3 +266,12 @@ tr.error {
   height: 63vh !important;
 }
 
+.table-header--action--container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cellFormat-constrains-container {
+  word-break: keep-all;
+}
+
