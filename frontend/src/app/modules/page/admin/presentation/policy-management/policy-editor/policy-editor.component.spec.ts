@@ -48,7 +48,7 @@ describe('PolicyEditorComponent', () => {
         },
       },
     ],
-    constraints: [],
+    constraints: null,
   };
 
   beforeEach(() => {

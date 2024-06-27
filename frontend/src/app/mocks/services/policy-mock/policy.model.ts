@@ -19,8 +19,8 @@ import { OperatorType, Policy, PolicyAction, PolicyResponseMap } from '@page/pol
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 // For now Mocks are built by current response (any). This is because Policy Model changes frequently
-export const getPolicies = (): Policy[] => {
-  return mockedPolicyList;
+export const getPolicies = (): PolicyResponseMap => {
+  return MockPolicyResponseMap;
 };
 
 export const getPolicyById = (policyId: string | ReadonlyArray<string>): Policy => {
@@ -183,11 +183,32 @@ export const MockPolicyResponseMap: PolicyResponseMap = {
                 'and': null,
                 'or': [
                   {
-                    'leftOperand': 'asd',
+                    'leftOperand': 'cx-policy:FrameworkAgreement',
                     'operator': {
                       '@id': OperatorType.EQ,
                     },
-                    'odrl:rightOperand': 'dsa',
+                    'odrl:rightOperand': 'traceability:1.0',
+                  },
+                  {
+                    'leftOperand': 'cx-policy:FrameworkAgreement',
+                    'operator': {
+                      '@id': OperatorType.EQ,
+                    },
+                    'odrl:rightOperand': 'traceability:1.0',
+                  },
+                  {
+                    'leftOperand': 'cx-policy:FrameworkAgreement',
+                    'operator': {
+                      '@id': OperatorType.EQ,
+                    },
+                    'odrl:rightOperand': 'traceability:1.0',
+                  },
+                  {
+                    'leftOperand': 'cx-policy:FrameworkAgreement',
+                    'operator': {
+                      '@id': OperatorType.EQ,
+                    },
+                    'odrl:rightOperand': 'traceability:1.0',
                   },
                 ],
               },
