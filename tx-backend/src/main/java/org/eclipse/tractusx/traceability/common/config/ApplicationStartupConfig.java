@@ -57,8 +57,8 @@ public class ApplicationStartupConfig {
 
     @Autowired
     public ApplicationStartupConfig(PolicyRepository policyRepository,
-                                    @Qualifier("assetAsBuiltServiceImpl") AssetBaseService asPlannedService,
-                                    @Qualifier("assetAsPlannedServiceImpl") AssetBaseService asBuiltService,
+                                    @Qualifier("assetAsBuiltServiceImpl") AssetBaseService asBuiltService,
+                                    @Qualifier("assetAsPlannedServiceImpl") AssetBaseService asPlannedService,
                                     EdcNotificationContractService edcNotificationContractService,
                                     ContractService contractService) {
         this.policyRepository = policyRepository;
