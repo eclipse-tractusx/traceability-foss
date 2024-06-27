@@ -68,8 +68,10 @@
     "userSettings" : "Table settings",
     "uploadFile" : "Upload policy JSON file",
     "downloadFile" : "Download template as file",
-    "viewParts" : "View parts",
-    "viewPartsTooltip" : "View parts using this contract"
+    "viewParts" : "View part",
+    "viewNotifications" : "View notification",
+    "viewPartsTooltip" : "View part using this contract",
+    "viewNotificationsTooltip" : "View notification using this contract"
   },
   "publisher": {
     "selectedAssets": "Assets selected",
@@ -393,7 +395,10 @@
   "quickFilter": {
     "own": "OWN",
     "supplier": "SUPPLIER",
-    "customer": "CUSTOMER"
+    "customer" : "CUSTOMER",
+    "asBuilt" : "As built",
+    "asPlanned" : "As planned",
+    "notification" : "Quality incidents"
   },
   "multiSelect": {
     "filterLabel": "Filter",

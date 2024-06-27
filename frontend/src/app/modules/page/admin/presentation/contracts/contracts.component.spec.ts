@@ -90,7 +90,7 @@ describe('ContractTableComponent', () => {
   it('should navigate if viewAssets clicked', async () => {
     const { fixture } = await renderContractTableComponent();
     const { componentInstance } = fixture;
-    componentInstance.viewAssetsClicked.emit({ contractId: 'test' });
+    componentInstance.viewItemsClicked.emit({ contractId: 'test' });
 
     expect(routerMock.navigate).toHaveBeenCalled();
   });
@@ -98,7 +98,7 @@ describe('ContractTableComponent', () => {
   it('should emit viewAssetsClicked', async () => {
     const { fixture } = await renderContractTableComponent();
     const { componentInstance } = fixture;
-    let spy = spyOn(componentInstance.viewAssetsClicked, 'emit');
+    let spy = spyOn(componentInstance.viewItemsClicked, 'emit');
     const viewAssetsAction = componentInstance.tableConfig.menuActionsConfig.filter(action => action.label === 'actions.viewParts')[0];
     viewAssetsAction.action(null);
     expect(spy).toHaveBeenCalled();

@@ -23,9 +23,9 @@ export class ContractsFacade {
     return this.contractsState.contracts$
   }
 
-  public setContracts(page, pageSize = 50, sorting: TableHeaderSort[]): void {
+  public setContracts(page, pageSize = 50, sorting: TableHeaderSort[], filter?: any): void {
     this.contractsSubscription?.unsubscribe();
-    this.contractsSubscription = this.adminService.getContracts(page,pageSize,sorting).subscribe({
+    this.contractsSubscription = this.adminService.getContracts(page, pageSize, sorting, filter).subscribe({
       next: data => (this.contractsState.contracts = { data: provideDataObject(data) }),
       error: error => (this.contractsState.contracts = { error})
     })

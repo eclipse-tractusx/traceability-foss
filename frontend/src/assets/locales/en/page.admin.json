@@ -54,7 +54,9 @@
       "overview": "Overview",
       "policyDetail" : "Agreement details",
       "jsonViewer": "Json Viewer",
-      "jsonTreeViewer": "Json Tree Viewer"
+      "jsonTreeViewer" : "Json Tree Viewer",
+      "contractType" : "Contract type",
+      "noItemsFoundError" : "Could not find any item under the selected contract."
     },
     "policyManagement" : {
       "policyManagement" : "Policy management",

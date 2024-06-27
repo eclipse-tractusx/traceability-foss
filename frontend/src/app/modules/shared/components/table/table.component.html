@@ -342,12 +342,12 @@ SPDX-License-Identifier: Apache-2.0
                 >
                   <mat-icon>{{ config.icon }}</mat-icon>
                   <div
-                    matTooltip="{{'actions.viewPartsTooltip' | i18n }}"
+                    matTooltip="{{(config.label === 'actions.viewParts' ? 'actions.viewPartsTooltip' : (config.label === 'actions.viewNotifications' ? 'actions.viewNotificationsTooltip' : 'none')) | i18n }}"
                     matTooltipClass="table--header--tooltip"
                     matTooltipPosition="before"
                     [class.mdc-tooltip--multiline]="true"
                     [matTooltipShowDelay]="500"
-                    [matTooltipDisabled]="config.label !== 'actions.viewParts'"
+                    [matTooltipDisabled]="config.label !== 'actions.viewParts' && config.label !== 'actions.viewNotifications'"
 
                   >
                   <span>{{ config.label | i18n }}</span>

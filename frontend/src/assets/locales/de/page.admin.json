@@ -54,7 +54,9 @@
       "overview": "Übersicht",
       "policyDetail" : "Vereinbarungsdetails",
       "jsonViewer": "Json Ansicht",
-      "jsonTreeViewer": "Json-Baumansicht"
+      "jsonTreeViewer" : "Json-Baumansicht",
+      "contractType" : "Vertragsart",
+      "noItemsFoundError" : "Es wurden keine Einträge unter dem selektierten Vertrag gefunden."
     },
     "policyManagement" : {
       "policyManagement" : "Richtlinienverwaltung",
