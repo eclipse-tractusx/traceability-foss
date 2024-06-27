@@ -28,8 +28,9 @@ public class ContractFieldMapper extends BaseRequestFieldMapper {
     private static final Map<String, String> SUPPORTED_CONTRACT_FILTER_FIELDS = Map.ofEntries(
             Map.entry("created", "created"),
             Map.entry("id", "id"),
-            Map.entry("contractId", "contractAgreementId")
-    );
+            Map.entry("contractId", "contractAgreementId"),
+            Map.entry("contractType", "type")
+            );
 
     @Override
     protected Map<String, String> getSupportedFields() {
