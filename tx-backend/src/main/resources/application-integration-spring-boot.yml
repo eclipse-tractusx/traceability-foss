@@ -33,7 +33,7 @@ traceability:
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
   irsPoliciesPath: "/irs/policies"
-  submodelBase: "http://localhost:${server.port}/api/submodel/data"
+  submodelBase: "http://127.0.0.1"
 registry:
   urlWithPath: "http://127.0.0.1"
 
@@ -91,7 +91,7 @@ digitalTwinRegistryClient:
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
 feign:
   submodelApi:
-    url: http://localhost:9998
+    url: ""
   irsApi:
     url: ""
     adminApiKey: test

@@ -20,9 +20,10 @@
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
 import org.springframework.stereotype.Service;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SubmodelServerClientImpl implements SubmodelServerRepository {
@@ -32,6 +33,7 @@ public class SubmodelServerClientImpl implements SubmodelServerRepository {
 
     @Override
     public void saveSubmodel(String submodelId, String submodel) {
+        log.info(submodelId, "submodelId");
         submodelClient.createSubmodel(submodelId, submodel);
     }
 

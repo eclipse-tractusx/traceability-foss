@@ -33,6 +33,7 @@ public class RestitoConfig {
     static {
         STUB_SERVER = new StubServer(1025, 65000).run();
         STUB_SERVER_PORT = STUB_SERVER.getPort();
+        System.out.println(STUB_SERVER_PORT + "PORT");
     }
 
     public static void clear() {
@@ -54,6 +55,7 @@ public class RestitoConfig {
                     "spring.security.oauth2.client.provider.OKTA.token-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_TOKEN_PATH,
                     "feign.bpnApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
                     "traceability.irsBase=http://127.0.0.1:" + STUB_SERVER_PORT,
+                    "traceability.submodelBase=http://127.0.0.1:" + STUB_SERVER_PORT,
                     "feign.portalApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
                     "feign.irsApi.globalAssetId=testAssetId",
                     "feign.registryApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
@@ -64,6 +66,7 @@ public class RestitoConfig {
                     "edc.parts-provider-edc-controlplane-url=http://localhost:" + STUB_SERVER_PORT,
                     "edc.callbackUrls=http://localhost:" + STUB_SERVER_PORT + "/callback/redirect",
                     "bpdm.bpnEndpoint=http://localhost:" + STUB_SERVER_PORT + "/api/catena/legal-entities/{partnerId}?idType={idType}",
+                    "feign.submodelApi.url=http://localhost:" + STUB_SERVER_PORT,
                     "digitalTwinRegistryClient.discoveryFinderUrl=http://localhost:" + STUB_SERVER_PORT + "/v1.0/administration/connectors/discovery/search"
             ).applyTo(configurableApplicationContext.getEnvironment());
         }
