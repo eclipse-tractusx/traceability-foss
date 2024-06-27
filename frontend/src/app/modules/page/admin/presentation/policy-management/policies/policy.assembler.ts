@@ -57,11 +57,7 @@ export class PoliciesAssembler {
         }
       });
     });
-    let formattedString = constrainsList.toString().replaceAll(',', '');
-    formattedString = formattedString.replaceAll('*', '<br>');
-    formattedString = this.removeAfterThird('<br>', formattedString);
-    //formattedString = formattedString.length > 50 ? (formattedString.slice(0, 50) + "...") : formattedString;
-    return formattedString;
+    return this.formatConstraintsListForTable(constrainsList);
   }
 
   public static mapDisplayPropsToPolicyRootLevelFromPolicy(policy: Policy): string {
@@ -84,10 +80,13 @@ export class PoliciesAssembler {
         }
       });
     });
+    return this.formatConstraintsListForTable(constrainsList);
+  }
+
+  public static formatConstraintsListForTable(constrainsList: string[]): string {
     let formattedString = constrainsList.toString().replaceAll(',', '');
     formattedString = formattedString.replaceAll('*', '<br>');
     formattedString = this.removeAfterThird('<br>', formattedString);
-    //formattedString = formattedString.length > 50 ? (formattedString.slice(0, 50) + "...") : formattedString;
     return formattedString;
   }
 

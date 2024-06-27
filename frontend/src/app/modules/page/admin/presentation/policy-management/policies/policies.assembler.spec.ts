@@ -114,4 +114,14 @@ describe('PoliciesAssembler', () => {
     const constraints = PoliciesAssembler.mapDisplayPropsToPolicyRootLevelFromPolicy(mockPolicy2);
     expect(constraints).toEqual('left1=right1left2!=right2');
   });
+
+  it('should remove everything after the third symbol', () => {
+    const testString = 'a,b,c,d,e';
+    const result = PoliciesAssembler.removeAfterThird(',', testString);
+    expect(result).toEqual('a,b,c,');
+    const testString2 = 'a,b,c';
+    const resul2 = PoliciesAssembler.removeAfterThird(',', testString2);
+    expect(resul2).toEqual('a,b,c');
+  });
+
 });
