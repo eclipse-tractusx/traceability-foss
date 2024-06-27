@@ -34,6 +34,7 @@ export class PoliciesComponent {
   ctrlKeyState: boolean = false;
   deselectPartTrigger$ = new Subject<Policy[]>();
   selectedPoliciesInfoLabel: string = 'pageAdmin.policyManagement.selectedPolicies';
+  isDefaultSelected: boolean;
 
   constructor(public readonly policyFacade: PoliciesFacade, private readonly router: Router, private readonly toastService: ToastService, public dialog: MatDialog, private readonly roleService: RoleService) {
     window.addEventListener('keydown', (event) => {
@@ -85,6 +86,8 @@ export class PoliciesComponent {
   multiSelection(selectedPolicies: Policy[]) {
     this.selectedPoliciesInfoLabel = selectedPolicies.length === 1 ? 'pageAdmin.policyManagement.selectedPolicy' : 'pageAdmin.policyManagement.selectedPolicies';
     this.selectedPolicies = selectedPolicies;
+    this.isDefaultSelected = this.selectedPolicies.filter(policy => policy?.policyId === 'default-policy').length > 0;
+    console.log(this.isDefaultSelected);
   }
 
   openDetailedView(selectedPolicy: Record<string, unknown>) {
@@ -105,21 +108,22 @@ export class PoliciesComponent {
 
     dialogRef.afterClosed().subscribe(confirmation => {
       if (confirmation) {
-        this.deletePolicies();
+        this.deletePolicies(this.isDefaultSelected);
         this.deselectPartTrigger$.next(this.selectedPolicies);
       }
     });
   }
 
 
-  deletePolicies() {
+  deletePolicies(isDefaultSelected?: boolean) {
     this.policyFacade.deletePolicies(this.selectedPolicies).subscribe({
       next: value => {
         this.toastService.success('pageAdmin.policyManagement.deleteSuccess');
         this.policyFacade.setPolicies();
       },
       error: err => {
-        this.toastService.error('pageAdmin.policyManagement.deleteError');
+        const errorMessage = isDefaultSelected === true ? 'pageAdmin.policyManagement.deleteErrorDefault' : 'pageAdmin.policyManagement.deleteError';
+        this.toastService.error(errorMessage);
       },
     });
   }
