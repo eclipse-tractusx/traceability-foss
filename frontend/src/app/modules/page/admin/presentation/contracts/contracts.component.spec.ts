@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AdminModule } from '@page/admin/admin.module';
 import { AdminFacade } from '@page/admin/core/admin.facade';
-import { assembleContract } from '@page/admin/core/admin.model';
+import { assembleContract, ContractType } from '@page/admin/core/admin.model';
 import { AdminService } from '@page/admin/core/admin.service';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { renderComponent } from '@tests/test-render.utils';
@@ -90,8 +90,8 @@ describe('ContractTableComponent', () => {
   it('should navigate if viewAssets clicked', async () => {
     const { fixture } = await renderContractTableComponent();
     const { componentInstance } = fixture;
-    componentInstance.viewItemsClicked.emit({ contractId: 'test' });
-
+    componentInstance.viewItemsClicked.emit({ contractType: ContractType.ASSET_AS_BUILT });
+    // contractagreementId does not exist in mocks?
     expect(routerMock.navigate).toHaveBeenCalled();
   });
 
@@ -111,8 +111,8 @@ describe('ContractTableComponent', () => {
 
     let result = componentInstance.convertArrayOfObjectsToCSV([ getContracts().content[0] ]);
 
-    expect(result).toEqual('contractId,counterpartyAddress,creationDate,endDate,state,policy\n' +
-      'abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy');
+    expect(result).toEqual('contractId,contractType,counterpartyAddress,creationDate,endDate,state,policy\n' +
+      'abc1,ASSET_AS_BUILT,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy');
 
   });
   it('should download CSV file', async () => {
