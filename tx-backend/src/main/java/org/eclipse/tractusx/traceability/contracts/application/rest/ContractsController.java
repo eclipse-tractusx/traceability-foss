@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 @Tag(name = "Contracts")
 @RequestMapping(path = "/contracts", produces = "application/json", consumes = "application/json")
-public class ContractController {
+public class ContractsController {
     private final ContractService contractService;
 
     @Operation(operationId = "contracts",

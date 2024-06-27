@@ -22,25 +22,22 @@ import contract.response.ContractResponse;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.jose4j.lang.JoseException;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
-class ContractControllerIT extends IntegrationTestSpecification {
+class ContractsControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;
@@ -97,6 +94,32 @@ class ContractControllerIT extends IntegrationTestSpecification {
         assertThat(contractResponsePageResult.content()).isNotEmpty();
         assertThat(contractResponsePageResult.content().get(0).getCounterpartyAddress()).isNotEmpty();
     }
+
+    @Test
+    void shouldReturnContractsWithNotificationType() throws JoseException {
+        //GIVEN
+        edcSupport.edcWillReturnOnlyOneContractAgreement();
+        edcSupport.edcWillReturnContractAgreementNegotiation();
+        assetsSupport.defaultAssetsStored();
+
+        //WHEN
+        PageResult<ContractResponse> contractResponsePageResult = given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .body(PageableFilterRequest.builder().searchCriteriaRequestParam(SearchCriteriaRequestParam.builder().filter(List.of("contractType,EQUAL,ASSET_AS_BUILT,AND")).build()).build())
+                .post("/api/contracts")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().body().as(new TypeRef<>() {
+                });
+        //THEN
+        assertThat(contractResponsePageResult.content()).isNotEmpty();
+        assertThat(contractResponsePageResult.content().get(0).getCounterpartyAddress()).isNotEmpty();
+    }
+
 
     @Test
     void shouldReturnEmptyIfAssetIdIsUnknown() throws JoseException {
