@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,14 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
+package assets.importpoc;
 
-@Repository
-public interface JpaContractAgreementInfoViewRepository extends JpaRepository<ContractAgreementView, String>, JpaSpecificationExecutor<ContractAgreementView> {
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.List;
+
+@Getter
+@Setter
+public class IRSErrorResponse {
+    private List<String> messages;
 }
+

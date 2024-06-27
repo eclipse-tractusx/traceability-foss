@@ -27,7 +27,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,15 +75,13 @@ public class NotificationMessage {
                 .sentByName(creator)
                 .sentTo(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
                 .sendToName(sendToName)
-                .message(description)
-                .notificationStatus(NotificationStatus.CREATED)
+                .notificationStatus(NotificationStatus.SENT)
                 .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(NotificationAffectedPart::new).toList())
                 .edcNotificationId(notificationId)
                 .type(notificationType)
                 .messageId(messageId)
                 .build();
     }
-
 
 
     // Important - receiver and sender will be saved in switched order

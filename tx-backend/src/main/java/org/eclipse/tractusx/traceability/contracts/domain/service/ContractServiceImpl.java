@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.contracts.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
@@ -26,9 +27,13 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -44,5 +49,15 @@ public class ContractServiceImpl implements ContractService {
         SearchCriteria searchCriteria = pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(contractFieldMapper);
 
         return contractRepository.getContractsByPageable(pageable, searchCriteria);
+    }
+
+    @Override
+    public void saveContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
+        contractRepository.saveAllContractAgreements(contractAgreementIds, contractType);
+    }
+
+    @Override
+    public void saveAll(List<ContractAgreement> contractAgreements) {
+        contractRepository.saveAll(ContractAgreement.toEntityList(contractAgreements));
     }
 }

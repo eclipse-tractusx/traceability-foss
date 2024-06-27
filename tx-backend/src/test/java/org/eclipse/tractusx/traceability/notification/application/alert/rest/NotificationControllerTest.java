@@ -105,10 +105,7 @@ class NotificationControllerTest {
                 .hasFieldOrPropertyWithValue("id", notification.getNotificationId().value())
                 .hasFieldOrPropertyWithValue("status", NotificationStatusResponse.ACCEPTED)
                 .hasFieldOrPropertyWithValue("description", notification.getDescription())
-                .hasFieldOrPropertyWithValue("createdBy", notification.getNotifications().stream()
-                        .findFirst()
-                        .map(NotificationMessage::getSentBy)
-                        .orElse(null))
+                .hasFieldOrPropertyWithValue("createdBy", notification.getBpn())
                 .hasFieldOrPropertyWithValue("createdByName", notification.getNotifications().stream()
                         .findFirst()
                         .map(NotificationMessage::getSentByName)
@@ -116,7 +113,6 @@ class NotificationControllerTest {
                 .hasFieldOrPropertyWithValue("createdDate", notification.getCreatedAt().toString())
                 .hasFieldOrPropertyWithValue("assetIds", notification.getAffectedPartIds())
                 .hasFieldOrPropertyWithValue("channel", NotificationSideResponse.SENDER)
-                .hasFieldOrPropertyWithValue("sendTo", "recipientBPN")
                 .hasFieldOrPropertyWithValue("sendToName", "receiverManufacturerName")
                 .hasFieldOrPropertyWithValue("severity", NotificationSeverityResponse.MINOR);
     }

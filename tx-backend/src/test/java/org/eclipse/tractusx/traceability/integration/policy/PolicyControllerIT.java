@@ -29,11 +29,12 @@ import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 class PolicyControllerIT extends IntegrationTestSpecification {
@@ -75,6 +76,23 @@ class PolicyControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void shouldReturnNotFoundGetPolicyById() throws JoseException {
+        // GIVEN
+        String policyId = "default-policy-not-exist";
+        irsApiSupport.irsApiReturnsPoliciesNotFound(policyId);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/policies/" + policyId)
+                .then()
+                .statusCode(404)
+                .body(containsString("404 Not Found: [no body]"))
+                .log().all();
+    }
+
+    @Test
     void shouldCreatePolicy() throws JoseException {
         // GIVEN
         irsApiSupport.irsApiCreatesPolicy();
@@ -90,6 +108,32 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .post("/api/policies")
                 .then()
                 .statusCode(200)
+                .log().all();
+    }
+
+
+    @Test
+    void shouldThorwBadRequestCreatePolicy() throws JoseException {
+        // GIVEN
+        irsApiSupport.irsApiCreatesPolicyBadRequest();
+
+        // Sample data
+        List<String> businessPartnerNumbers = Arrays.asList("BPN-123", "BPN-456");
+        List<String> policyIds = Arrays.asList("POLICY-789", "POLICY-101");
+        Instant validUntil = Instant.parse("2025-12-31T23:59:59.00Z");
+
+        // WRONG REQUEST OBJECT
+        UpdatePolicyRequest request = new UpdatePolicyRequest(businessPartnerNumbers, policyIds, validUntil);
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/api/policies")
+                .then()
+                .statusCode(400)
+                .body(containsString("Policy with id 'default-policy3342' already exists!"))
                 .log().all();
     }
 

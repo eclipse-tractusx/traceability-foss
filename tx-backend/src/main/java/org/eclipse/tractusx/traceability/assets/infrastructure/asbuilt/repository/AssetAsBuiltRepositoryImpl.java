@@ -149,6 +149,13 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
         jpaAssetAsBuiltRepository.saveAll(assets);
     }
 
+    @Transactional
+    @Override
+    public List<AssetBase> findAll() {
+        return jpaAssetAsBuiltRepository.findAll().stream()
+                .map(AssetAsBuiltEntity::toDomain).toList();
+    }
+
     @Override
     public Optional<AssetBase> findById(String assetId) {
         return jpaAssetAsBuiltRepository.findById(assetId)

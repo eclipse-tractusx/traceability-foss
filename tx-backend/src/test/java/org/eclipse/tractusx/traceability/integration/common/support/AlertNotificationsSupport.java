@@ -81,6 +81,7 @@ public class AlertNotificationsSupport {
                 .severity(NotificationSeverityBaseEntity.CRITICAL)
                 .description("1")
                 .targetDate(monthFromNow)
+                .initialReceiverBpn("TESTBPN")
                 .createdDate(now.minus(3L, DAYS))
                 .build();
         NotificationEntity alert2 = NotificationEntity.builder()
@@ -94,6 +95,7 @@ public class AlertNotificationsSupport {
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.minus(2L, DAYS))
                 .updated(now.minus(2L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .build();
         NotificationEntity alert3 = NotificationEntity.builder()
                 .assets(Collections.emptyList())
@@ -103,6 +105,7 @@ public class AlertNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.minus(1L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.minus(1L, DAYS))
                 .build();
         NotificationEntity alert4 = NotificationEntity.builder()
@@ -111,6 +114,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                 .description("4")
                 .side(NotificationSideBaseEntity.SENDER)
+                .initialReceiverBpn("TESTBPN")
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now)
                 .updated(now)
@@ -121,6 +125,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.ACCEPTED)
                 .description("5")
                 .side(NotificationSideBaseEntity.SENDER)
+                .initialReceiverBpn("TESTBPN")
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now)
                 .updated(now)
@@ -133,6 +138,7 @@ public class AlertNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plus(1L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.plus(1L, DAYS))
                 .build();
         NotificationEntity alert7 = NotificationEntity.builder()
@@ -143,6 +149,7 @@ public class AlertNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plus(2L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.plus(2L, DAYS))
                 .build();
         NotificationEntity alert8 = NotificationEntity.builder()
@@ -153,6 +160,7 @@ public class AlertNotificationsSupport {
                 .side(NotificationSideBaseEntity.SENDER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plus(3L, DAYS))
+                .initialReceiverBpn("TESTBPN")
                 .updated(now.plus(3L, DAYS))
                 .build();
 
@@ -245,6 +253,7 @@ public class AlertNotificationsSupport {
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
                 .description("11")
+                .initialReceiverBpn("TESTBPN")
                 .createdDate(now.minus(2L, DAYS))
                 .build();
         NotificationEntity alert2 = NotificationEntity.builder()
@@ -253,6 +262,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.ACKNOWLEDGED)
                 .description("22")
                 .side(NotificationSideBaseEntity.RECEIVER)
+                .initialReceiverBpn("TESTBPN")
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.minus(1L, DAYS))
                 .build();
@@ -260,6 +270,7 @@ public class AlertNotificationsSupport {
                 .assets(Collections.emptyList())
                 .bpn(OTHER_BPN)
                 .status(NotificationStatusBaseEntity.ACCEPTED)
+                .initialReceiverBpn("TESTBPN")
                 .description("33")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
@@ -270,6 +281,7 @@ public class AlertNotificationsSupport {
                 .bpn(OTHER_BPN)
                 .status(NotificationStatusBaseEntity.DECLINED)
                 .description("44")
+                .initialReceiverBpn("TESTBPN")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plusSeconds(20L))
@@ -279,6 +291,7 @@ public class AlertNotificationsSupport {
                 .bpn(OTHER_BPN)
                 .status(NotificationStatusBaseEntity.CANCELED)
                 .description("55")
+                .initialReceiverBpn("TESTBPN")
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plusSeconds(1L))
@@ -289,6 +302,7 @@ public class AlertNotificationsSupport {
                 .status(NotificationStatusBaseEntity.CLOSED)
                 .description("55")
                 .side(NotificationSideBaseEntity.RECEIVER)
+                .initialReceiverBpn("TESTBPN")
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.plus(2L, DAYS))
                 .build();
@@ -357,6 +371,7 @@ public class AlertNotificationsSupport {
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(now.minus(2L, DAYS))
                 .updated(now.minus(2L, DAYS))
+                .initialReceiverBpn("BPNTEST")
                 .build();
         NotificationMessageEntity notificationEntity = NotificationMessageEntity
                 .builder()

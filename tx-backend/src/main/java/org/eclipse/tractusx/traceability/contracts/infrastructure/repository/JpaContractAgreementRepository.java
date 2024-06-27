@@ -16,32 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
+package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Immutable;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@Entity
-@SuperBuilder
-@Table(name = "contract_agreement_view")
-@Immutable
-public class ContractAgreementView {
-
-    @Id
-    private String id;
-    private String contractAgreementId;
-    private String assetType;
-    private Instant created;
+@Repository
+public interface JpaContractAgreementRepository extends JpaRepository<ContractAgreementEntity, String>, JpaSpecificationExecutor<ContractAgreementEntity> {
 
 }

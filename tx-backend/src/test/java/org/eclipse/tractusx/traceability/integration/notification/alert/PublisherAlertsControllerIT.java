@@ -122,9 +122,9 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .type(notificationType)
                 .messageId("messageId")
                 .build();
-        Notification notification = Notification.builder().build();
+        Notification notification = Notification.builder().initialReceiverBpns(List.of("BPNL00000003AXS3")).build();
         notification.setSeverity(NotificationSeverity.CRITICAL);
-        notification.setTargetDate(Instant.MAX.toString());
+        notification.setTargetDate(Instant.now().toString());
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", message, notification);
 
@@ -177,7 +177,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 }
         );
 
-        alertNotificationsSupport.assertAlertNotificationsSize(2);
+        alertNotificationsSupport.assertAlertNotificationsSize(0);
 
         // when/then
         given()
@@ -404,6 +404,70 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
+    void shouldApproveAlertStatusSecondTry() throws JoseException, JsonProcessingException {
+        // given
+        irsApiSupport.irsApiReturnsPolicies();
+        discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
+        discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
+        oauth2ApiSupport.oauth2ApiReturnsDtrToken();
+        String filterString = "channel,EQUAL,SENDER,AND";
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
+        );
+        String description = "at least 15 characters long investigation description";
+
+        assetsSupport.defaultAssetsStored();
+
+        val startAlertRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .severity(NotificationSeverityRequest.MINOR)
+                .type(NotificationTypeRequest.ALERT)
+                .receiverBpn("BPNL00000003CNKC")
+                .build();
+
+        // when
+        val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
+
+
+        alertsSupport.assertAlertsSize(1);
+
+        given()
+                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/notifications/$alertId/approve".replace("$alertId", String.valueOf(id)))
+                .then()
+                .statusCode(503);
+
+        alertNotificationsSupport.assertAlertNotificationsSize(1);
+        edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
+
+        given()
+                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/notifications/$alertId/approve".replace("$alertId", String.valueOf(id)))
+                .then()
+                .statusCode(204);
+        // then
+        given()
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+
+                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/notifications/filter")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(1))
+                .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
+    }
+
+    @Test
     void shouldCloseAlertStatus() throws JoseException, JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
@@ -543,7 +607,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        alertNotificationsSupport.assertAlertNotificationsSize(2);
+        alertNotificationsSupport.assertAlertNotificationsSize(0);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))

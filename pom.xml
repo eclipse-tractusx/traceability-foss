@@ -101,6 +101,7 @@ SPDX-License-Identifier: Apache-2.0
         <sonar.organization>eclipse-tractusx</sonar.organization>
         <sonar.projectKey>eclipse-tractusx_traceability-foss-backend</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
         <sonar.coverage.exclusions>
             tx-backend/src/main/java/org/eclipse/tractusx/traceability/TraceabilityApplication.java,
             tx-backend/src/main/java/org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java,

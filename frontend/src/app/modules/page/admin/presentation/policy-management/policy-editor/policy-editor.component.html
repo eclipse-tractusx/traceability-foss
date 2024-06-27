@@ -25,6 +25,7 @@
           matTooltipPosition="above"
           [class.mdc-tooltip--multiline]="true"
           [matTooltipShowDelay]="500"
+          (mouseenter)="validateAllFields()"
           *ngIf="viewMode === ViewMode.EDIT || viewMode === ViewMode.CREATE"
         >
           <app-button
@@ -179,7 +180,6 @@
                 {{ "pageAdmin.policyManagement.rightOperand" | i18n }}
                 <div class="constraints--header--sub-label">
                   {{ "pageAdmin.policyManagement.rightOperandHint" | i18n }}
-
                 </div>
               </div>
             </div>

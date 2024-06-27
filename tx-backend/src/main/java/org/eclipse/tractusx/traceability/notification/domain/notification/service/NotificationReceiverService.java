@@ -23,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMessageMapper;
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.domain.base.service.AbstractNotificationReceiverService;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
@@ -37,11 +39,16 @@ public class NotificationReceiverService extends AbstractNotificationReceiverSer
     private final NotificationRepository notificationRepository;
     private final NotificationMessageMapper notificationMessageMapper;
     private final NotificationMapper notificationMapper;
-
+    private final TraceabilityProperties traceabilityProperties;
 
     @Override
     protected NotificationRepository getRepository() {
         return notificationRepository;
+    }
+
+    @Override
+    protected BPN getApplicationBpn(){
+        return traceabilityProperties.getBpn();
     }
 
     @Override

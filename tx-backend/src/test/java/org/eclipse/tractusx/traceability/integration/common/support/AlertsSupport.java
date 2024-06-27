@@ -54,6 +54,7 @@ public class AlertsSupport {
                 .status(NotificationStatusBaseEntity.RECEIVED)
                 .side(NotificationSideBaseEntity.RECEIVER)
                 .type(NotificationTypeEntity.ALERT)
+                .initialReceiverBpn("TESTBPN")
                 .description("some description")
                 .createdDate(Instant.now())
                 .build();
@@ -73,6 +74,7 @@ public class AlertsSupport {
                 .side(side)
                 .type(NotificationTypeEntity.ALERT)
                 .createdDate(Instant.now())
+                .initialReceiverBpn("BPNL00000003AXS4")
                 .build();
         Long alertId = storedAlert(entity);
         NotificationEntity savedAlert = jpaNotificationRepository.findById(alertId).get();

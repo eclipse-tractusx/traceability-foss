@@ -30,9 +30,11 @@ import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.request.UpdateNotificationStatusTransitionRequest;
+import notification.response.NotificationResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -111,7 +113,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         NotificationType notificationType = NotificationType.INVESTIGATION;
-        Notification notification = Notification.builder().targetDate(Instant.MAX.toString()).severity(NotificationSeverity.CRITICAL).build();
+        Notification notification = Notification.builder().targetDate(Instant.now().toString()).severity(NotificationSeverity.CRITICAL).build();
         NotificationMessage notificationBuild = NotificationMessage.builder()
                 .id("some-id")
                 .notificationStatus(NotificationStatus.SENT)
@@ -137,7 +139,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldStartInvestigation() throws JoseException, JsonProcessingException {
 
-
         // given
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
@@ -160,7 +161,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
         notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startNotificationRequest, 201);
 
         // then
-        notificationMessageSupport.assertMessageSize(2);
+        notificationMessageSupport.assertMessageSize(0);
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
@@ -426,8 +427,18 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
-        notificationMessageSupport.assertMessageSize(4);
+        String contractAgreementId = "NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky";
+        PageableFilterRequest pageableFilterRequest =
+                new PageableFilterRequest(
+                        new OwnPageable(0, 10, Collections.emptyList()),
+                        new SearchCriteriaRequestParam(List.of("contractAgreementId,EQUAL," + contractAgreementId + ",AND")));
+
+        PageResult<NotificationResponse> notificationsRequest =
+                notificationApiSupport.getNotificationsRequest(oAuth2Support.jwtAuthorization(SUPERVISOR), pageableFilterRequest);
+        assertThat(notificationsRequest.content().get(0).getMessages().get(0).getContractAgreementId()).isEqualTo(contractAgreementId);
+        notificationMessageSupport.assertMessageSize(2);
     }
+
 
     @Test
     void shouldCloseInvestigationStatus() throws JoseException, JsonProcessingException {
@@ -480,6 +491,9 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
+        notificationMessageSupport.assertMessageSize(1);
+
+
         // when
         CloseNotificationRequest closeInvestigationRequest =
                 CloseNotificationRequest
@@ -508,7 +522,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
 
-        notificationMessageSupport.assertMessageSize(3);
+        notificationMessageSupport.assertMessageSize(2);
         notificationSupport.assertInvestigationsSize(1);
         notificationSupport.assertInvestigationStatus(NotificationStatus.CLOSED);
     }
@@ -564,7 +578,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
             assertThat(asset).isNotNull();
         });
 
-        notificationMessageSupport.assertMessageSize(2);
+        notificationMessageSupport.assertMessageSize(0);
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
                 .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))

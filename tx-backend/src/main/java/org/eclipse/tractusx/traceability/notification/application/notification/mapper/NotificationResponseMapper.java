@@ -25,12 +25,12 @@ import notification.response.NotificationSeverityResponse;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -46,22 +46,21 @@ public class NotificationResponseMapper {
                 .id(notification.getNotificationId().value())
                 .status(NotificationMessageMapper.from(notification.getNotificationStatus()))
                 .description(notification.getDescription())
-                .createdBy(getSenderBPN(notification.getNotifications()))
+                .createdBy(getSenderBPN(notification))
                 .createdByName(getSenderName(notification.getNotifications()))
                 .createdDate(notification.getCreatedAt().toString())
                 .assetIds(Collections.unmodifiableList(notification.getAffectedPartIds()))
                 .channel(NotificationMessageMapper.from(notification.getNotificationSide()))
                 .type(NotificationMessageMapper.from(notification.getNotificationType()))
                 .title(notification.getTitle())
-                .updatedDate(OffsetDateTime.now().toString())
-                .sendTo(getReceiverBPN(notification.getNotifications()))
+                .updatedDate(notification.getUpdatedDate() != null ? notification.getUpdatedDate().toString() : null)
+                .sendTo(notification.getSendTo())
                 .sendToName(getReceiverName(notification.getNotifications()))
                 .severity(notification.getSeverity() != null ?
                         NotificationSeverityResponse.fromString(notification.getSeverity().getRealName()) :
                         null)
                 .targetDate(notification.getTargetDate())
-                .messages(fromNotifications(notification.getNotifications()))
-                .build();
+                .messages(fromNotifications(notification.getNotifications())).build();
     }
 
     public static PageResult<NotificationResponse> fromAsPageResult(PageResult<Notification> notificationPageResult) {
@@ -74,18 +73,8 @@ public class NotificationResponseMapper {
         return new PageResult<>(investigationDataPage);
     }
 
-    private static String getSenderBPN(Collection<NotificationMessage> notifications) {
-        return notifications.stream()
-                .findFirst()
-                .map(NotificationMessage::getSentBy)
-                .orElse(null);
-    }
-
-    private static String getReceiverBPN(Collection<NotificationMessage> notifications) {
-        return notifications.stream()
-                .findFirst()
-                .map(NotificationMessage::getSentTo)
-                .orElse(null);
+    private static String getSenderBPN(Notification notification) {
+        return notification.getNotificationSide().equals(NotificationSide.SENDER) ? notification.getBpn() : notification.getSendTo();
     }
 
     private static String getSenderName(Collection<NotificationMessage> notifications) {

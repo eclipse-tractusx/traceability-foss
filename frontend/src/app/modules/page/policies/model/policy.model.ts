@@ -50,7 +50,7 @@ export interface Policy {
   // additional props
   policyName?: string;
   bpn?: string;
-  constraints?: string[]
+  constraints?: string,
   accessType?: PolicyAction,
   businessPartnerNumber?: string | string[]
 

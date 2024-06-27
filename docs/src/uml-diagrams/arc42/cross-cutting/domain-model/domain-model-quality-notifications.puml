@@ -6,19 +6,22 @@ skinparam linetype ortho
 title: Notification Domain
 
 class Notification {
-    bpn : BPN;
+    id: Long,
     title : String;
     type: NotificationType;
-    notificationId : NotificationId;
-    notificationStatus : NotificationStatus;
-    description: String;
-    createdAt: Instant;
-    notificationSide: NotificationSide;
+    status : NotificationStatus;
+    createdBy: String;
+    createdByName: String;
+    createdDate: Instant;
+    updatedDate: Instant;
     assetIds: ArrayList<String>();
-    closeReason: String;
-    acceptReason: String;
-    declineReason: String;
-    messages: List<NotificationMessage>;
+    channel: NotificationSide;
+    sentTo: String;
+    sentToName: String;
+    severity: NotificationSeverity;
+    targetDate: Instant;
+    messages: List<NotificationMessage>
+    description: String;
 }
 
 enum NotificationType{
@@ -39,18 +42,16 @@ bpn: String;
 }
 class NotificationMessage {
    id: String
-   createdBy: String
-   createdByName: String
+   sentBy: String
+   sentByName: String
    sendTo: String
    sendToName: String
    contractAgreementId: String
    notificationReferenceId: String
-   targetDate: Instant
-   severity: NotificationSeverity;
    edcNotificationId: String;
-   created: LocalDateTime;
-   updated: LocalDateTime;
+   messageDate: Instant;
    messageId: String;
+   message: String;
    status: NotificationStatus;
    errorMessage: String;
 }

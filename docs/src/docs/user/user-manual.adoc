@@ -6,12 +6,11 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 
 * SPDX-License-Identifier: Apache-2.0
 * Licence Path: https://creativecommons.org/licenses/by/4.0/legalcode
-* Copyright (c) 2021,2022,2023 Contributors to the Eclipse Foundation
+* Copyright (c) 2021, 2022, 2023 Contributors to the Eclipse Foundation
 * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
 * Copyright (c) 2022 ISTOS GmbH
 * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
-* Copyright (c) 2022,2023 BOSCH AG
-
+* Copyright (c) 2022, 2023 BOSCH AG
 * Source URL: https://github.com/eclipse-tractusx/traceability-foss
 
 == General information
@@ -74,7 +73,6 @@ Navigates to the parts and batches list view.
 
 Navigates to the inbox of (sent/received) quality notifications.
 
-
 === About
 
 Navigates to an overview with helpful information and links about the Catena-X Open-Source Traceability application.
@@ -91,6 +89,33 @@ Navigates to the Catena-X portal.
 
 Only applicable for the admin user role.
 Possibility to check the network status based on logfiles and will provide access to configuration possibilities for the application.
+
+==== BPN-EDC configuration
+
+In the BPN-EDC configuration screen an admin user can add URLs for BPNs. Existing configurations can be edited or removed.
+
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/bpn_edc_configuration.png[]
+
+Any configured BPNs will have their URLs merged in addition to the URLs found by the DiscoveryService.
+The resulting list of URLs will be used whenever a notification is sent to those BPNs. In case a URL returns an error response, the remaining URLs will be used as backup.
+
+[plantuml, target=bpn-edc-configuration, format=svg]
+....
+include::../../uml-diagrams/user-manual/bpn-edc-configuration.puml[]
+....
+
+|===
+|ID |Description
+
+|01
+|Any URLs configured for the selected BPN in the BPN-EDC configuration are requested.
+
+|02
+|Any URLs configured for the selected BPN in the DiscoveryFinder service are requested.
+
+|03
+|All received URLs are merged into one list with identical URLs discarded.
+|===
 
 ==== Contracts - view and export
 
@@ -157,6 +182,7 @@ Select the policies you wish to delete by checking the boxes next to them.
 Click on the delete icon to open the deletion dialog.
 Confirm the deletion in the dialog.
 The system will then remove the selected policies and update the list view.
+
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/policy-management/delete-policies-dialog.png[]
 
 ==== Policy Editor / Detailed View
@@ -456,9 +482,9 @@ image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/
 === Quality notification create/edit view
 
 A quality notification can be started by the following options:
-- Part detail view if a part has child elements an quality notification with type INVESTIGATION can be created.
-- Part table if parts are selected an quality notification with type ALERT can be created.
-- Other parts table if parts are selected an quality notification with type INVESTIGATION can be created.
+- Part detail view if a part has child elements a quality notification with type INVESTIGATION can be created.
+- Part table if parts are selected a quality notification with type ALERT can be created.
+- Other parts table if parts are selected a quality notification with type INVESTIGATION can be created.
 
 A quality notification can be edited by clicking on the context menu on an item within the inbox.
 
@@ -467,7 +493,7 @@ image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/
 
 === Quality notifications context action
 
-Select the three dots icon on the right side of an quality notification entry to open the context menu.
+Select the three dots icon on the right side of a quality notification entry to open the context menu.
 From there it is possible to open the quality notification detailed view or change the status of it.
 Only the possible status transition will show up.
 

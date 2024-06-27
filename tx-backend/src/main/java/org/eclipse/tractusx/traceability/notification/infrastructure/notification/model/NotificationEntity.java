@@ -41,6 +41,7 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
+import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
 
 import java.time.Instant;
 import java.util.List;
@@ -79,6 +80,10 @@ public class NotificationEntity extends NotificationBaseEntity {
         List<String> assetIds = notificationEntity.getAssets().stream()
                 .map(AssetAsBuiltEntity::getId)
                 .toList();
+        String initialReceiverBpn = notificationEntity.getInitialReceiverBpn();
+        if (initialReceiverBpn == null) {
+            initialReceiverBpn = notificationEntity.getBpn();
+        }
         return Notification.builder()
                 .title(notificationEntity.getTitle())
                 .notificationId(new NotificationId(notificationEntity.getId()))
@@ -89,9 +94,12 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .description(notificationEntity.getDescription())
                 .notificationType(NotificationType.valueOf(notificationEntity.getType().name()))
                 .affectedPartIds(assetIds)
+                .sendTo(initialReceiverBpn)
                 .targetDate(convertInstantToString(notificationEntity.getTargetDate()))
                 .severity(NotificationSeverity.fromString(notificationEntity.getSeverity() != null ? notificationEntity.getSeverity().getRealName() : null))
                 .notifications(messages)
+                .updatedDate(notificationEntity.getUpdated() != null ? notificationEntity.getUpdated() : Instant.now())
+                .initialReceiverBpns(List.of(initialReceiverBpn))
                 .build();
     }
 
@@ -107,6 +115,8 @@ public class NotificationEntity extends NotificationBaseEntity {
                 .createdDate(notification.getCreatedAt())
                 .severity(NotificationSeverityBaseEntity.fromString(notification.getSeverity() != null ? notification.getSeverity().getRealName() : null))
                 .type(NotificationTypeEntity.from(notification.getNotificationType()))
+                .initialReceiverBpn(notification.getInitialReceiverBpns().stream().findFirst().orElseThrow(() -> new NotificationNotFoundException("Initial Receiver BPN not found")))
+                .updated(Instant.now())
                 .build();
     }
 }

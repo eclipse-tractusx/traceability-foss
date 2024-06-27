@@ -71,6 +71,8 @@ public class NotificationMessageMapper {
                 .sentByName(notificationMessage.getSentByName())
                 .sendTo(notificationMessage.getSentTo())
                 .errorMessage(notificationMessage.getErrorMessage())
+                .message(notificationMessage.getMessage())
+                .messageDate(String.valueOf(notificationMessage.getCreated()))
                 .build();
     }
 
