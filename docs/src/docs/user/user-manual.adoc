@@ -119,13 +119,18 @@ include::../../uml-diagrams/user-manual/bpn-edc-configuration.puml[]
 
 ==== Contracts - view and export
 
-In the Contracts view an admin user can view contract agreements and sort them by the contract ID.
+In the Contracts view an admin user can view contract agreements and sort them only by the contract ID.
+
+With the quick filter buttons it is possible to filter out the contracts after types.
+Either show contracts with notifications underneath, or only ones with parts underneath.
+
+By clicking on the burger menu of a data row you can get to the detailed view of a contract.
+Dependent on the contract type, you can directly navigate to the item under this contract.
 
 Also, it's possible to select contracts and export/download them as a .csv file.
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/navigation/admin_contract_view.png[]
 
-By clicking on the burger menu of a data row you can get to the detailed view of a contract.
 
 ===== Contract detailed view
 
