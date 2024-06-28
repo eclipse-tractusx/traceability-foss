@@ -42,6 +42,7 @@ import { UserService } from '@core/user/user.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 import { ImportState, Part } from '@page/parts/model/parts.model';
+import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
@@ -72,6 +73,7 @@ export class PartsTableComponent implements OnInit {
   @ViewChildren(MultiSelectAutocompleteComponent) multiSelectAutocompleteComponents: QueryList<MultiSelectAutocompleteComponent>;
 
   @Output() publishIconClickedEvent = new EventEmitter<void>();
+  @Output() partReloadClickedEvent = new EventEmitter<PartReloadOperation>();
   @Input() labelId: string;
   @Input() noShadow = false;
   @Input() showHover = true;
@@ -184,7 +186,7 @@ export class PartsTableComponent implements OnInit {
     this.createQualityNotificationClickedEvent.emit(this.notificationType);
   }
 
-  public isAllowedToPublish(): boolean {
+  public isAdmin(): boolean {
     return this.roleService.hasAccess([ 'admin' ]);
   }
 
@@ -200,8 +202,29 @@ export class PartsTableComponent implements OnInit {
     }
   }
 
-  public publishIconClicked(): void {
+  handleKeyDownPartReloadIconClicked(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.partReloadIconClicked();
+    }
+  }
+
+  public publishIconClicked() {
     this.publishIconClickedEvent.emit();
+  }
+
+  public partReloadIconClicked() {
+    if (!this.atLeastOneSelected()) {
+      this.partReloadClickedEvent.emit(PartReloadOperation.RELOAD_REGISTRY);
+    } else {
+      switch (this.mainAspectType) {
+        case MainAspectType.AS_BUILT:
+          this.partReloadClickedEvent.emit(PartReloadOperation.SYNC_PARTS_AS_BUILT);
+          break;
+        case MainAspectType.AS_PLANNED:
+          this.partReloadClickedEvent.emit(PartReloadOperation.SYNC_PARTS_AS_PLANNED);
+          break;
+      }
+    }
   }
 
   public readonly dataSource = new MatTableDataSource<unknown>();

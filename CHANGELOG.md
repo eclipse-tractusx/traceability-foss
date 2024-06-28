@@ -17,6 +17,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1037 extended autocomplete api by contractAgreementId
 - #985 Added function to save Contracts based on notification contractAgreementIds into the database
 - #985 Added function to filter notifications for contractAgreementIds
+- #786 Added authorization as admin for submodel api & registry api
 
 ### Added
 - #832 added policymanagement list view, creator and editor
@@ -25,6 +26,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #915 Added section to documentation: EDC-BPN configuration
 - #1037 Added link from contracts view to the corresponding filtered part table view
 - #985 Added reference to part/notification under contract
+- #786 Added icons on part table to let admin reload registry / sync assets via IRS
 
 ### Removed
 

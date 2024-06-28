@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,29 +17,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
+package org.eclipse.tractusx.traceability.integration.common.support;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
-import org.springframework.stereotype.Service;
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class SubmodelServerClientImpl implements SubmodelServerRepository {
+import org.glassfish.grizzly.http.util.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
+import static com.xebialabs.restito.semantics.Action.status;
+import static com.xebialabs.restito.semantics.Condition.startsWithUri;
 
-    private final SubmodelClient submodelClient;
+@Component
+public class SubmodelSupport {
 
-    @Override
-    public void saveSubmodel(String submodelId, String submodel) {
-        log.info(submodelId, "submodelId");
-        submodelClient.createSubmodel(submodelId, submodel);
-    }
+    @Autowired
+    RestitoProvider restitoProvider;
 
-    @Override
-    public String getSubmodel(String submodelId) {
-        return submodelClient.getSubmodel(submodelId);
+    public void willCreateSubmodel() {
+
+        whenHttp(restitoProvider.stubServer()).match(startsWithUri("/api/submodel/data")
+        ).then(
+                status(HttpStatus.CREATED_201)
+        );
     }
 
 }
