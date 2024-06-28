@@ -30,6 +30,7 @@ import { PartsFacade } from '@page/parts/core/parts.facade';
 import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts.helper';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
+import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
 import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
@@ -211,6 +212,53 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.partsFacade.setPartsAsPlanned();
       this.partsTableComponents.map(component => component.clearAllRows());
     }
+  }
+
+  triggerPartReload(operation: PartReloadOperation) {
+    switch (operation) {
+      case PartReloadOperation.RELOAD_REGISTRY:
+        this.reloadRegistry();
+        break;
+      case PartReloadOperation.SYNC_PARTS_AS_BUILT:
+        this.syncPartsAsBuilt(this.currentSelectedItems$.value.map(part => part.id));
+        break;
+      case PartReloadOperation.SYNC_PARTS_AS_PLANNED:
+        this.syncPartsAsPlanned(this.currentSelectedAsPlannedItems$.value.map(part => part.id));
+        break;
+    }
+  }
+
+  private reloadRegistry() {
+    this.partsFacade.reloadRegistry().subscribe({
+      next: data => {
+        this.toastService.success('registryReload.success');
+      },
+      error: error => {
+        this.toastService.error(error?.getMessage());
+      },
+    });
+  }
+
+  private syncPartsAsBuilt(assetIds: string[]) {
+    this.partsFacade.syncPartsAsBuilt(assetIds).subscribe({
+      next: data => {
+        this.toastService.success('partSynchronization.success');
+      },
+      error: error => {
+        this.toastService.error(error?.getMessage());
+      },
+    });
+  }
+
+  private syncPartsAsPlanned(assetIds: string[]) {
+    this.partsFacade.syncPartsAsPlanned(assetIds).subscribe({
+      next: data => {
+        this.toastService.success('partSynchronization.success');
+      },
+      error: error => {
+        this.toastService.error(error?.getMessage());
+      },
+    });
   }
 
   private resetFilterAndShowToast(resetOwner?: boolean) {

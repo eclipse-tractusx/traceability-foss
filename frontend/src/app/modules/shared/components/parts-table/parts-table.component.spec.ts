@@ -20,6 +20,8 @@
 import { Sort } from '@angular/material/sort';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
+import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { NotificationType } from '@shared/model/notification.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
@@ -297,5 +299,38 @@ describe('PartsTableComponent', () => {
     expect(componentInstance.selection.selected).toEqual([]);
   });
 
+  it('should emit reload registry event on part reload button click when no part selected', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+
+    const emitPartReloadSpy = spyOn(componentInstance.partReloadClickedEvent, 'emit');
+    componentInstance.partReloadIconClicked();
+
+    expect(emitPartReloadSpy).toHaveBeenCalledWith(PartReloadOperation.RELOAD_REGISTRY);
+  });
+
+  it('should emit sync parts as built event on part reload button click when part selected', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+    componentInstance.mainAspectType = MainAspectType.AS_BUILT;
+    const emitPartReloadSpy = spyOn(componentInstance.partReloadClickedEvent, 'emit');
+
+    componentInstance.selection.select({ id: 1 });
+    componentInstance.partReloadIconClicked();
+
+    expect(emitPartReloadSpy).toHaveBeenCalledWith(PartReloadOperation.SYNC_PARTS_AS_BUILT);
+  });
+
+  it('should emit sync parts as planned event on part reload button click when part selected', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
+    componentInstance.mainAspectType = MainAspectType.AS_PLANNED;
+    const emitPartReloadSpy = spyOn(componentInstance.partReloadClickedEvent, 'emit');
+
+    componentInstance.selection.select({ id: 1 });
+    componentInstance.partReloadIconClicked();
+
+    expect(emitPartReloadSpy).toHaveBeenCalledWith(PartReloadOperation.SYNC_PARTS_AS_PLANNED);
+  });
 });
 

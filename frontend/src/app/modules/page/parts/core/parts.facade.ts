@@ -51,6 +51,18 @@ export class PartsFacade {
     return this.partsState.partsAsPlanned$;
   }
 
+  public reloadRegistry() {
+    return this.partsService.reloadRegistry();
+  }
+
+  public syncPartsAsBuilt(assetIds: string[]) {
+    return this.partsService.syncPartsAsBuilt(assetIds);
+  }
+
+  public syncPartsAsPlanned(assetIds: string[]) {
+    return this.partsService.syncPartsAsPlanned(assetIds);
+  }
+
   public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscription?.unsubscribe();
     this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
