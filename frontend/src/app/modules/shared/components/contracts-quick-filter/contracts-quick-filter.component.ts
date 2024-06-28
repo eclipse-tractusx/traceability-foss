@@ -38,12 +38,5 @@ export class ContractsQuickFilterComponent {
     this.buttonClickEvent.emit(this.activeContractTypes);
   }
 
-
-  handleKeyDownByOwner(event: KeyboardEvent, type: ContractType) {
-    if (event.key === 'Enter') {
-      this.emitQuickFilter(type);
-    }
-  }
-
   protected readonly ContractType = ContractType;
 }

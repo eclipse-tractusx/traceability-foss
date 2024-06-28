@@ -21,21 +21,21 @@ SPDX-License-Identifier: Apache-2.0
                      [isSelected]="activeContractTypes?.includes(ContractType.ASSET_AS_BUILT)"
                      label="As built Activator" variant="flat" color="accent"
                      (click)="emitQuickFilter(ContractType.ASSET_AS_BUILT)"
-                     (keydown)="handleKeyDownByOwner($event, ContractType.ASSET_AS_BUILT)">
+                     (keydown)="emitQuickFilter(ContractType.ASSET_AS_BUILT)">
     {{ 'quickFilter.asBuilt' | i18n }}
   </app-view-selector>
   <app-view-selector data-testid="as-planned-button"
                      [isSelected]="activeContractTypes?.includes(ContractType.ASSET_AS_PLANNED)"
                      label="As planned activator" variant="flat" color="accent"
                      (click)="emitQuickFilter(ContractType.ASSET_AS_PLANNED)"
-                     (keydown)="handleKeyDownByOwner($event, ContractType.ASSET_AS_PLANNED)">
+                     (keydown)="emitQuickFilter(ContractType.ASSET_AS_PLANNED)">
     {{ 'quickFilter.asPlanned' | i18n }}
   </app-view-selector>
   <app-view-selector data-testid="notification-button"
                      [isSelected]="activeContractTypes?.includes(ContractType.NOTIFICATION)"
                      label="Notification Activator" variant="flat" color="accent"
                      (click)="emitQuickFilter(ContractType.NOTIFICATION)"
-                     (keydown)="handleKeyDownByOwner($event, ContractType.NOTIFICATION)">
+                     (keydown)="emitQuickFilter(ContractType.NOTIFICATION)">
     {{ 'quickFilter.notification' | i18n }}
   </app-view-selector>
 </div>
