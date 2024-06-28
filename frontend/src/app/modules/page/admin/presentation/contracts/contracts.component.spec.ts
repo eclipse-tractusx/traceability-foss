@@ -201,4 +201,18 @@ describe('ContractTableComponent', () => {
     expect(toastServiceMock.error).toHaveBeenCalledWith('pageAdmin.contracts.noItemsFoundError');
   });
 
+  it('should filter contract type', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+
+    let spy = spyOn(componentInstance['contractsFacade'], 'setContracts');
+
+    componentInstance.filterContractType({ contractType: [ ContractType.ASSET_AS_BUILT ] });
+    expect(componentInstance.contractFilter?.contractType).toEqual(Object({ contractType: [ 'ASSET_AS_BUILT' ] }));
+    expect(spy).toHaveBeenCalled();
+
+  });
+
+
+
 });
