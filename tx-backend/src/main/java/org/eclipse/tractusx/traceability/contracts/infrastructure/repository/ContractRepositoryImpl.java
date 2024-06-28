@@ -39,6 +39,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -88,6 +89,7 @@ public class ContractRepositoryImpl implements ContractRepository {
     }
 
     @Override
+    @Transactional
     public void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
 
         List<ContractAgreementEntity> contractAgreementEntities = contractAgreementIds.stream()

@@ -36,9 +36,7 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.exception.NotificationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
-import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.util.List;
@@ -58,7 +56,6 @@ public class NotificationPublisherService {
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final BpnRepository bpnRepository;
     private final Clock clock;
-    private final NotificationRepository notificationRepository;
 
 
     public Notification startNotification(StartNotification startNotification) {
@@ -66,7 +63,6 @@ public class NotificationPublisherService {
         return Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType(), startNotification.getSeverity(), startNotification.getTargetDate(), startNotification.getAffectedPartIds(), List.of(startNotification.getReceiverBpn()), startNotification.getReceiverBpn());
     }
 
-    @Transactional
     public void createMessages(Notification notification, BPN applicationBPN, AssetAsBuiltRepository assetAsBuiltRepository) {
         Map<String, List<AssetBase>> assetsAsBuiltBPNMap =
                 assetAsBuiltRepository
@@ -94,7 +90,6 @@ public class NotificationPublisherService {
                             sendToName);
                 })
                 .forEach(notification::addNotificationMessage);
-        notificationRepository.updateNotificationAndMessage(notification);
     }
 
     private String getManufacturerNameByBpn(String bpn) {

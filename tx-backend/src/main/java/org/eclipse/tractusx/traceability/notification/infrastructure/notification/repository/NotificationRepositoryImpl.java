@@ -168,7 +168,6 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         NotificationEntity notificationEntity = jpaNotificationRepository.findById(notification.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getNotificationId().value())));
 
-
         List<AssetAsBuiltEntity> assetEntitiesByNotification = getAssetEntitiesByNotification(notification);
         NotificationMessageEntity notificationMessageEntity = toNotificationMessageEntity(notificationEntity, message, assetEntitiesByNotification);
         notificationMessageEntity.setErrorMessage(message.getErrorMessage());
