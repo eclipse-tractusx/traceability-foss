@@ -178,6 +178,16 @@ export class PartsService {
     }
   }
 
+  public getPartsByFilter(filter: any, isAsBuilt: boolean): Observable<Pagination<Part>> {
+    const params = enrichFilterAndGetUpdatedParams(filter, new HttpParams(), 'OR');
+    const mainAspectType = isAsBuilt ? MainAspectType.AS_BUILT : MainAspectType.AS_PLANNED;
+    const path = isAsBuilt ? 'as-built' : 'as-planned';
+
+    return this.apiService
+      .getBy<PartsResponse>(`${ this.url }/assets/${ path }`, params)
+      .pipe(map(parts => PartsAssembler.assembleParts(parts, mainAspectType)));
+  }
+
   public sortParts(data: Part[], key: string, direction: SortDirection): Part[] {
     const clonedData: Part[] = _deepClone(data);
     return clonedData.sort((partA, partB) => {

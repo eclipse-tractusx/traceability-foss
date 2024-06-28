@@ -2,9 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AdminModule } from '@page/admin/admin.module';
 import { AdminFacade } from '@page/admin/core/admin.facade';
-import { assembleContract } from '@page/admin/core/admin.model';
+import { assembleContract, ContractType } from '@page/admin/core/admin.model';
 import { AdminService } from '@page/admin/core/admin.service';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { NotificationService } from '@shared/service/notification.service';
+import { PartsService } from '@shared/service/parts.service';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 import { getContracts } from '../../../../../mocks/services/admin-mock/admin.model';
@@ -14,16 +17,43 @@ import { ContractsComponent } from './contracts.component';
 describe('ContractTableComponent', () => {
 
   const mockAdminFacade = {
-    getContracts: jasmine.createSpy().and.returnValue(of(getContracts)),
+    getContracts: jasmine.createSpy().and.returnValue(of(getContracts())),
+    contracts$: of({ data: { content: getContracts().content } }),
+    setContracts: jasmine.createSpy(),
+    unsubscribeContracts: jasmine.createSpy(),
+    selectedContract: null,
   };
 
   const routerMock = {
     navigate: jasmine.createSpy('navigate'),
   };
 
+  const notificationServiceMock = {
+    getNotifications: jasmine.createSpy().and.returnValue(of({ content: [ { id: 'notification-id' } ] })),
+  };
+
+  const partsServiceMock = {
+    getPartsByFilter: jasmine.createSpy().and.returnValue(of({
+      content: [ {
+        id: 'part-id',
+        partId: 'part-unique-id',
+      } ],
+    })),
+  };
+
+  const toastServiceMock = {
+    error: jasmine.createSpy('error'),
+  };
+
   const renderContractTableComponent = () => renderComponent(ContractsComponent, {
     imports: [ AdminModule ],
-    providers: [ { provide: AdminFacade, useValue: mockAdminFacade }, { provide: Router, useValue: routerMock } ],
+    providers: [
+      { provide: AdminFacade, useValue: mockAdminFacade },
+      { provide: Router, useValue: routerMock },
+      { provide: NotificationService, useValue: notificationServiceMock },
+      { provide: PartsService, useValue: partsServiceMock },
+      { provide: ToastService, useValue: toastServiceMock },
+    ],
   });
 
   let createElementSpy: jasmine.Spy;
@@ -87,18 +117,10 @@ describe('ContractTableComponent', () => {
 
   });
 
-  it('should navigate if viewAssets clicked', async () => {
-    const { fixture } = await renderContractTableComponent();
-    const { componentInstance } = fixture;
-    componentInstance.viewAssetsClicked.emit({ contractId: 'test' });
-
-    expect(routerMock.navigate).toHaveBeenCalled();
-  });
-
   it('should emit viewAssetsClicked', async () => {
     const { fixture } = await renderContractTableComponent();
     const { componentInstance } = fixture;
-    let spy = spyOn(componentInstance.viewAssetsClicked, 'emit');
+    let spy = spyOn(componentInstance.viewItemsClicked, 'emit');
     const viewAssetsAction = componentInstance.tableConfig.menuActionsConfig.filter(action => action.label === 'actions.viewParts')[0];
     viewAssetsAction.action(null);
     expect(spy).toHaveBeenCalled();
@@ -111,8 +133,8 @@ describe('ContractTableComponent', () => {
 
     let result = componentInstance.convertArrayOfObjectsToCSV([ getContracts().content[0] ]);
 
-    expect(result).toEqual('contractId,counterpartyAddress,creationDate,endDate,state,policy\n' +
-      'abc1,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy');
+    expect(result).toEqual('contractId,contractType,counterpartyAddress,creationDate,endDate,state,policy\n' +
+      'abc1,ASSET_AS_BUILT,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy');
 
   });
   it('should download CSV file', async () => {
@@ -148,4 +170,49 @@ describe('ContractTableComponent', () => {
     // Ensure that the link is removed from the document body after being clicked
     expect(document.body.removeChild).toHaveBeenCalledWith(link);
   });
+
+
+  it('should show error when contractType is NOTIFICATION and no notifications are found', async () => {
+    notificationServiceMock.getNotifications.and.returnValue(of({ content: [] }));
+
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+    const data = { contractId: 'contract-id', contractType: ContractType.NOTIFICATION };
+
+    componentInstance.viewItemsClicked.emit(data);
+    fixture.detectChanges();
+
+    expect(notificationServiceMock.getNotifications).toHaveBeenCalledWith(0, 1, [], undefined, undefined, { contractAgreementId: 'contract-id' });
+    expect(toastServiceMock.error).toHaveBeenCalledWith('pageAdmin.contracts.noItemsFoundError');
+  });
+
+
+  it('should show error when contractType is not NOTIFICATION and no parts are found', async () => {
+    partsServiceMock.getPartsByFilter.and.returnValue(of({ content: [] }));
+
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+    const data = { contractId: 'contract-id', contractType: ContractType.ASSET_AS_BUILT };
+
+    componentInstance.viewItemsClicked.emit(data);
+    fixture.detectChanges();
+
+    expect(partsServiceMock.getPartsByFilter).toHaveBeenCalledWith({ contractAgreementId: 'contract-id' }, true);
+    expect(toastServiceMock.error).toHaveBeenCalledWith('pageAdmin.contracts.noItemsFoundError');
+  });
+
+  it('should filter contract type', async () => {
+    const { fixture } = await renderContractTableComponent();
+    const { componentInstance } = fixture;
+
+    let spy = spyOn(componentInstance['contractsFacade'], 'setContracts');
+
+    componentInstance.filterContractType({ contractType: [ ContractType.ASSET_AS_BUILT ] });
+    expect(componentInstance.contractFilter?.contractType).toEqual(Object({ contractType: [ 'ASSET_AS_BUILT' ] }));
+    expect(spy).toHaveBeenCalled();
+
+  });
+
+
+
 });

@@ -54,6 +54,7 @@ export type BpnConfigFormGroup = FormGroup<{ bpnConfig: FormArray<FormControl<Bp
 
 export interface Contract {
   contractId: string,
+  contractType: ContractType,
   counterpartyAddress: string,
   creationDate: CalendarDateModel,
   endDate: CalendarDateModel,
@@ -63,11 +64,19 @@ export interface Contract {
 
 export interface ContractResponse {
   contractId: string,
+  contractType: ContractType,
   counterpartyAddress: string,
   creationDate: string,
   endDate: string,
   state: ContractState,
   policy: string
+}
+
+export enum ContractType {
+  ASSET_AS_BUILT = 'ASSET_AS_BUILT',
+  ASSET_AS_PLANNED = 'ASSET_AS_PLANNED',
+  NOTIFICATION = 'NOTIFICATION',
+  UNKNOWN = 'UNKNOWN'
 }
 
 export type ContractsResponse = PaginationResponse<ContractResponse>;
@@ -76,6 +85,7 @@ export function assembleContract(contractResponse: ContractResponse): Contract {
 
   return {
     contractId: contractResponse.contractId,
+    contractType: contractResponse.contractType,
     counterpartyAddress: contractResponse.counterpartyAddress,
     creationDate: new CalendarDateModel(contractResponse.creationDate),
     endDate: new CalendarDateModel(contractResponse.endDate),

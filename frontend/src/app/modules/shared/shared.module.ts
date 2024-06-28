@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
 import { AssetPublisherComponent } from '@shared/components/asset-publisher/asset-publisher.component';
 import { CardMetricComponent } from '@shared/components/card-metric/card-metric.component';
 import { ChipComponent } from '@shared/components/chip/chip.component';
+import { ContractsQuickFilterComponent } from '@shared/components/contracts-quick-filter/contracts-quick-filter.component';
 import { CountryFlagGeneratorComponent } from '@shared/components/country-flag-generator/country-flag-generator.component';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
@@ -123,6 +124,7 @@ import { TemplateModule } from './template.module';
     TypeSelectComponent,
     InputComponent,
     QuickFilterComponent,
+    ContractsQuickFilterComponent,
     ViewSelectorComponent,
     MultiSelectAutocompleteComponent,
     CountryFlagGeneratorComponent,
@@ -174,6 +176,7 @@ import { TemplateModule } from './template.module';
     FormatPartSemanticDataModelToCamelCasePipe,
     FormatPartlistSemanticDataModelToCamelCasePipe,
     QuickFilterComponent,
+    ContractsQuickFilterComponent,
     ViewSelectorComponent,
     PartsTableComponent,
     MultiSelectAutocompleteComponent,
