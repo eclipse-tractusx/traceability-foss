@@ -53,7 +53,9 @@ export class ContractsComponent {
         );
       } else {
         this.partsService.getPartsByFilter({ contractAgreementId: contractId }, data?.contractType === ContractType.ASSET_AS_BUILT).subscribe({
-          next: data => data?.content?.length > 0 ? this.router.navigate([ 'parts', data?.content[0]?.id ], { queryParams: { isAsBuilt: data?.content[0]?.partId !== undefined } }) : this.toastService.error('pageAdmin.contracts.noItemsFoundError'),
+          next: data => {
+            data?.content?.length > 0 ? this.router.navigate([ 'parts', data?.content[0]?.id ], { queryParams: { isAsBuilt: data?.content[0]?.partId !== undefined } }) : this.toastService.error('pageAdmin.contracts.noItemsFoundError');
+          },
           error: error => this.toastService.error(error),
 
         });
