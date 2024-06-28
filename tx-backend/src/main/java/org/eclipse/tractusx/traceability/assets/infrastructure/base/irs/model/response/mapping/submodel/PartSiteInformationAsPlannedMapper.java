@@ -55,7 +55,7 @@ public class PartSiteInformationAsPlannedMapper implements AsPlannedDetailMapper
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
         emptyIfNull(sites).forEach(site -> {
             DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
-                    .catenaXSiteId(site.catenaXSiteId())
+                    .catenaXSiteId(site.catenaXsiteId())
                     .functionValidFrom(site.functionValidFrom().toOffsetDateTime())
                     .function(site.function())
                     .functionValidUntil(site.functionValidUntil().toOffsetDateTime())

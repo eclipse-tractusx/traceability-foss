@@ -86,7 +86,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             return CompletableFuture.completedFuture(null);
 
         } catch (DiscoveryFinderException discoveryFinderException) {
-            enrichNotificationByError(discoveryFinderException, notification);
+            enrichNotificationByError(discoveryFinderException, notification, message);
             return CompletableFuture.completedFuture(null);
         }
     }
@@ -97,30 +97,25 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send message to {} no catalog item found. ", receiverUrl, e);
-            enrichNotificationByError(e, notification);
+            enrichNotificationByError(e, notification, message);
         } catch (SendNotificationException e) {
             log.warn("Could not send message to {} ", receiverUrl, e);
-            enrichNotificationByError(e, notification);
+            enrichNotificationByError(e, notification, message);
         } catch (NoEndpointDataReferenceException e) {
             log.warn("Could not send message to {} no endpoint data reference found", receiverUrl, e);
-            enrichNotificationByError(e, notification);
+            enrichNotificationByError(e, notification, message);
         } catch (ContractNegotiationException e) {
             log.warn("Could not send message to {} could not negotiate contract agreement", receiverUrl, e);
-            enrichNotificationByError(e, notification);
+            enrichNotificationByError(e, notification, message);
         }
         return false;
     }
 
-    private void enrichNotificationByError(Exception e, Notification notification) {
+    private void enrichNotificationByError(Exception e, Notification notification, NotificationMessage message) {
 
-        log.info("Notification for error message enrichment {}", notification);
-        notification.getNotifications().forEach(message1 -> log.info("Message found {}", message1));
-        notification.secondLatestNotifications().forEach(qmMessage -> {
-            log.info("Message from second latest notification {}", qmMessage);
-            qmMessage.setErrorMessage(e.getMessage());
-        });
-
-        notificationRepository.updateErrorMessage(notification);
+        log.info("Notification for error message enrichment {}", message);
+        message.setErrorMessage(e.getMessage());
+        notificationRepository.updateErrorMessage(notification, message);
 
     }
 }
