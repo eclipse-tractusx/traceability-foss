@@ -39,7 +39,7 @@
   }
 
   &--CANCELED {
-    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
+    @apply bg-canceledLight text-canceledDark before:bg-canceledDark;
   }
 
   &--CLOSED {
@@ -51,7 +51,7 @@
   }
 
   &--SENT {
-    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+    @apply bg-receivedLight text-receivedDark before:bg-receivedDark;
   }
 
   &--ACCEPTED {
@@ -59,7 +59,7 @@
   }
 
   &--ACKNOWLEDGED {
-    @apply bg-receivedLight text-receivedDark before:bg-receivedDark;
+    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
   }
 
   &--DECLINED {

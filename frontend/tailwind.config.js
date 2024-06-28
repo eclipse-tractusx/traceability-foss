@@ -143,6 +143,9 @@ module.exports = {
       confirmedLight: '#d9f2d9',
       confirmedDark: '#0b5e0b',
 
+      canceledLight: '#ffa6a6',
+      canceledDark: '#800000',
+
       declinedLight: '#ffd9d9',
       declinedDark: '#b30000',
 
