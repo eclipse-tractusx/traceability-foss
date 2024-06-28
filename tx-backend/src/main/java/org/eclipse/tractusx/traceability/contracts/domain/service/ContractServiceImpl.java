@@ -30,7 +30,6 @@ import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 

@@ -30,9 +30,11 @@ import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
 import notification.request.UpdateNotificationStatusRequest;
 import notification.request.UpdateNotificationStatusTransitionRequest;
+import notification.response.NotificationResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -136,7 +138,6 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldStartInvestigation() throws JoseException, JsonProcessingException {
-
 
         // given
         List<String> partIds = List.of(
@@ -426,8 +427,18 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())));
 
+        String contractAgreementId = "NmYxMjk2ZmUtYmRlZS00ZTViLTk0NzktOWU0YmQyYWYyNGQ3:ZDBjZGUzYjktOWEwMS00N2QzLTgwNTgtOTU2MjgyOGY2ZDBm:YjYxMjcxM2MtNjdkNC00N2JlLWI0NjMtNDdjNjk4YTk1Mjky";
+        PageableFilterRequest pageableFilterRequest =
+                new PageableFilterRequest(
+                        new OwnPageable(0, 10, Collections.emptyList()),
+                        new SearchCriteriaRequestParam(List.of("contractAgreementId,EQUAL," + contractAgreementId + ",AND")));
+
+        PageResult<NotificationResponse> notificationsRequest =
+                notificationApiSupport.getNotificationsRequest(oAuth2Support.jwtAuthorization(SUPERVISOR), pageableFilterRequest);
+        assertThat(notificationsRequest.content().get(0).getMessages().get(0).getContractAgreementId()).isEqualTo(contractAgreementId);
         notificationMessageSupport.assertMessageSize(2);
     }
+
 
     @Test
     void shouldCloseInvestigationStatus() throws JoseException, JsonProcessingException {
