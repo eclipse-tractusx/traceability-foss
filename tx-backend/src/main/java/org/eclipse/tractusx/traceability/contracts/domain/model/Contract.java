@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementView;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -41,8 +41,8 @@ public class Contract {
     private String policy;
     private ContractType type;
 
-    public static ContractAgreementView toEntity(Contract contract, ContractType contractType) {
-        return ContractAgreementView.builder()
+    public static ContractAgreementEntity toEntity(Contract contract, ContractType contractType) {
+        return ContractAgreementEntity.builder()
                 .id(contract.getContractId())
                 .contractAgreementId(contract.getContractId())
                 .type(contractType)
@@ -50,7 +50,7 @@ public class Contract {
                 .build();
     }
 
-    public static List<ContractAgreementView> toEntityList(List<Contract> contracts, ContractType contractType) {
+    public static List<ContractAgreementEntity> toEntityList(List<Contract> contracts, ContractType contractType) {
         return contracts.stream().map(contract -> Contract.toEntity(contract, contractType)).toList();
     }
 }

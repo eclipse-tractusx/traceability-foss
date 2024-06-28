@@ -16,6 +16,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - XXX updated local deployment documentation
 - #1037 extended autocomplete api by contractAgreementId
 - #985 Added function to save Contracts based on notification contractAgreementIds into the database
+- #985 Added function to filter notifications for contractAgreementIds
 
 ### Added
 - #832 added policymanagement list view, creator and editor

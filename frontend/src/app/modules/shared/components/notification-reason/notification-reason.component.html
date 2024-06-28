@@ -28,7 +28,7 @@ SPDX-License-Identifier: Apache-2.0
 <ng-template #chatBubble let-message="message" let-lastDate="lastDate" let-isFirst="isFirst">
   <ng-container>
     <div class="message--separator" *ngIf="isFirst || (!isFirst && lastDate && !isSameDay(lastDate, message.date))">
-      {{ message.date | date:'mediumDate' }}
+      {{ message.date | formatDate : { dateStyle: 'long' } }}
     </div>
     <div class="message--text message--text__{{ message.direction }} message--text-arrow__{{ message.direction }}"
          [class.self-start]="message.direction === 'left'" [class.self-end]="message.direction === 'right'">

@@ -186,8 +186,14 @@ class EditNotificationIT extends IntegrationTestSpecification {
         // then
         notificationMessageSupport.assertMessageSize(0);
 
+        PageableFilterRequest pageableFilterRequest =
+                new PageableFilterRequest(
+                        new OwnPageable(0, 10, Collections.emptyList()),
+                        new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND")));
+
         PageResult<NotificationResponse> notificationResponsePageResult
-                = notificationAPISupport.getNotificationsRequest(authHeader);
+                = notificationAPISupport.getNotificationsRequest(authHeader, pageableFilterRequest);
+
 
         NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
         assertThat(notificationResponse.getId()).isEqualTo(id);
@@ -239,9 +245,12 @@ class EditNotificationIT extends IntegrationTestSpecification {
         notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id, 400);
 
         // then
-
+        PageableFilterRequest pageableFilterRequest =
+                new PageableFilterRequest(
+                        new OwnPageable(0, 10, Collections.emptyList()),
+                        new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND")));
         PageResult<NotificationResponse> notificationResponsePageResult
-                = notificationAPISupport.getNotificationsRequest(authHeader);
+                = notificationAPISupport.getNotificationsRequest(authHeader, pageableFilterRequest);
 
         NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
         assertThat(notificationResponse.getSendTo()).isEqualTo("BPNL00000003CNKC");
