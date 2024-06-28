@@ -72,8 +72,10 @@
     "userSettings" : "Tabellen Einstellung",
     "uploadFile" : "Richtlinien JSON-Datei hochladen",
     "downloadFile" : "Vorlage als Datei herunterladen",
-    "viewParts" : "Produkte ansehen",
-    "viewPartsTooltip" : "Produkte mit diesem Vertrag ansehen"
+    "viewParts" : "Produkt ansehen",
+    "viewNotifications" : "Qualitätsthema ansehen",
+    "viewPartsTooltip" : "Produkt unter diesem Vertrag ansehen",
+    "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",
@@ -180,7 +182,9 @@
       "bpn" : "BPN Selektion",
       "constraints" : "Bedingungen",
       "accessType" : "Zugriffsart",
-      "contractAgreementId" : "Vertrags-ID"
+      "contractAgreementId" : "Vertrags-ID",
+      "parts" : "Produkt",
+      "notifications" : "Qualitätsthema"
     }
   },
   "dataLoading": {
@@ -404,7 +408,11 @@
   "quickFilter": {
     "own": "Eigene",
     "supplier": "LIEFERANT",
-    "customer": "KUNDE"
+    "customer" : "KUNDE",
+    "asBuilt" : "As built",
+    "asPlanned" : "As planned",
+    "notification" : "Qualitätsthemen",
+    "parts" : "Produkte"
   },
   "multiSelect": {
     "filterLabel": "Filter",
