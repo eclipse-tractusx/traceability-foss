@@ -176,7 +176,9 @@
       "bpn" : "BPN selection",
       "constraints" : "Constraints",
       "accessType" : "Access type",
-      "contractAgreementId" : "Contract ID"
+      "contractAgreementId" : "Contract ID",
+      "parts" : "Part",
+      "notifications" : "Quality incident"
     }
   },
   "dataLoading": {

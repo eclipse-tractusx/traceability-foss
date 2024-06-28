@@ -180,7 +180,9 @@
       "bpn" : "BPN Selektion",
       "constraints" : "Bedingungen",
       "accessType" : "Zugriffsart",
-      "contractAgreementId" : "Vertrags-ID"
+      "contractAgreementId" : "Vertrags-ID",
+      "parts" : "Produkt",
+      "notifications" : "Qualitätsthema"
     }
   },
   "dataLoading": {
