@@ -19,6 +19,7 @@
 
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { environment } from '@env';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
@@ -27,7 +28,6 @@ import { Severity } from '@shared/model/severity.model';
 import { View } from '@shared/model/view.model';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import {environment} from '@env';
 
 @Component({
   selector: 'app-notification-new-request',
@@ -60,6 +60,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
   public readonly minDate = new Date();
   private applicationBPN = environment.bpn;
   private subscription: Subscription;
+  @Input() allTouched: Observable<boolean>;
 
   constructor(public readonly notificationDetailFacade: NotificationDetailFacade) {
 
@@ -126,6 +127,13 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
         )
         .subscribe();
     }
+
+    this.allTouched?.subscribe(next => {
+      console.log(next);
+      if (next === true) {
+        this.formGroup.markAllAsTouched();
+      }
+    });
 
   }
 

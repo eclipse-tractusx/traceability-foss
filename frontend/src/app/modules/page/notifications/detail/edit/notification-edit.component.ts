@@ -80,6 +80,7 @@ export class NotificationEditComponent implements OnDestroy {
   public tableAsBuiltSortList: TableHeaderSort[];
   private paramSubscription: Subscription;
   isSaveButtonDisabled: boolean;
+  shouldMarkAsTouched = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly ownPartsFacade: PartsFacade,
