@@ -39,6 +39,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.DtrApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.SubmodelSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -70,6 +71,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     DtrApiSupport dtrApiSupport;
+
+    @Autowired
+    SubmodelSupport submodelSupport;
 
     @Autowired
     IrsApiSupport irsApiSupport;
@@ -130,6 +134,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .extract().as(ImportResponse.class);
 
@@ -376,7 +381,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenValidFile_whenPublishData_thenStatusShouldChangeToInPublishedToCX() throws JoseException, InterruptedException, IOException {
+    void givenValidFile_whenPublishData_thenStatusShouldChangeToInPublishedToCX() throws JoseException, InterruptedException {
         // given
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -398,6 +403,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
         dtrApiSupport.dtrWillCreateShell();
+        submodelSupport.willCreateSubmodel();
 
         // when
         given()
@@ -444,6 +450,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
         dtrApiSupport.dtrWillCreateShell();
+        submodelSupport.willCreateSubmodel();
 
         // when
         given()
@@ -492,6 +499,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
         dtrApiSupport.dtrWillFailToCreateShell();
+        submodelSupport.willCreateSubmodel();
 
         // when
         given()
