@@ -25,6 +25,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - XXX Added interceptor to EdcRestTemplates to log requests
 - #915 Added section to documentation: EDC-BPN configuration
 - #1037 Added link from contracts view to the corresponding filtered part table view
+- #786 Added icons on part table to let admin reload registry / sync assets via IRS
 
 ### Removed
 

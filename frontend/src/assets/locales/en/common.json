@@ -18,6 +18,8 @@
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",
     "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available.",
     "illegalAssetStateToPublish": "One or more selected parts are not in the required import state \"TRANSIENT\" or \"ERROR\".",
+    "syncSelectedParts" : "Synchronize selected parts",
+    "refreshAllParts" : "Synchronize all parts",
     "adminContract": "Contracts",
     "createIncident": "Create quality notification",
     "startInvestigation": "Start Quality investigation on subcomponents",
@@ -291,6 +293,14 @@
   },
   "requestPublishAssets": {
     "success": "Request to publish assets was successful",
+    "error": ""
+  },
+  "registryReload": {
+    "success": "Successfully reloaded all parts.",
+    "error": ""
+  },
+  "partSynchronization": {
+    "success": "Successfully synchronized selected parts.",
     "error": ""
   },
   "pagination": {

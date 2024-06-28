@@ -47,6 +47,18 @@ export class PartsService {
   constructor(private readonly apiService: ApiService) {
   }
 
+  public reloadRegistry() {
+    return this.apiService.get(`${ this.url }/registry/reload`);
+  }
+
+  public syncPartsAsBuilt(assetIds: string[]) {
+    return this.apiService.post(`${ this.url }/assets/as-built/sync`, { assetIds });
+  }
+
+  public syncPartsAsPlanned(assetIds: string[]) {
+    return this.apiService.post(`${ this.url }/assets/as-planned/sync`, { assetIds });
+  }
+
   public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
 
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
