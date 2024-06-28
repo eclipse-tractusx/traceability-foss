@@ -79,6 +79,7 @@ public class EdcNotificationContractService {
             throw new CreateNotificationContractException(e);
         }
 
+
         Optional<PolicyResponse> optionalPolicyResponse = policyService.getFirstPolicyMatchingApplicationConstraint();
         EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest;
         if (optionalPolicyResponse.isPresent()) {

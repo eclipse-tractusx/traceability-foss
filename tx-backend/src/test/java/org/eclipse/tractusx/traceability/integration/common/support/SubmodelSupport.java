@@ -24,36 +24,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
-import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp;
 import static com.xebialabs.restito.semantics.Action.status;
-import static com.xebialabs.restito.semantics.Condition.post;
+import static com.xebialabs.restito.semantics.Condition.startsWithUri;
 
 @Component
 public class SubmodelSupport {
 
     @Autowired
     RestitoProvider restitoProvider;
-    private static final String uuidRegex = "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}";
-    public void willCreateSubmodel(String submodelId) {
-        whenHttp(restitoProvider.stubServer()).match(
-                post("/api/submodel/data/" + uuidRegex)
+
+    public void willCreateSubmodel() {
+
+        whenHttp(restitoProvider.stubServer()).match(startsWithUri("/api/submodel/data")
         ).then(
                 status(HttpStatus.CREATED_201)
         );
     }
 
-    public void dtrWillFailToCreateShell() {
-        whenHttp(restitoProvider.stubServer()).match(
-                post("/semantics/registry/api/v3.0/shell-descriptors")
-        ).then(
-                status(HttpStatus.SERVICE_UNAVAILABLE_503)
-        );
-    }
-
-    public void verifyDtrCreateShellCalledTimes(int times) {
-        verifyHttp(restitoProvider.stubServer()).times(
-                times,
-                post("/semantics/registry/api/v3.0/shell-descriptors")
-        );
-    }
 }

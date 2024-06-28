@@ -147,7 +147,7 @@ public class RestTemplateConfiguration {
     /* RestTemplate used by trace x for the submodel server*/
     @Bean(SUBMODEL_REST_TEMPLATE)
     public RestTemplate submodelRestTemplate(@Autowired TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
-        log.info("Configuring submodel base: " + traceabilityProperties.getSubmodelBase());
+        log.info("SUBMODEL_BASE: " + traceabilityProperties.getSubmodelBase());
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getSubmodelBase())
                 .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))

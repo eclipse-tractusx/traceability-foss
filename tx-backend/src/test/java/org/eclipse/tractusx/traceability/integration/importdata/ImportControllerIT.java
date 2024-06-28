@@ -403,7 +403,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
         dtrApiSupport.dtrWillCreateShell();
-        submodelSupport.willCreateSubmodel("default");
+        submodelSupport.willCreateSubmodel();
 
         // when
         given()
@@ -450,6 +450,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
         dtrApiSupport.dtrWillCreateShell();
+        submodelSupport.willCreateSubmodel();
 
         // when
         given()
@@ -498,6 +499,7 @@ class ImportControllerIT extends IntegrationTestSpecification {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         oAuth2ApiSupport.oauth2ApiReturnsDtrToken();
         dtrApiSupport.dtrWillFailToCreateShell();
+        submodelSupport.willCreateSubmodel();
 
         // when
         given()
