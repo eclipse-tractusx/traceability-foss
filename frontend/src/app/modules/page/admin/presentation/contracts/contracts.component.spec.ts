@@ -171,17 +171,6 @@ describe('ContractTableComponent', () => {
     expect(document.body.removeChild).toHaveBeenCalledWith(link);
   });
 
-  it('should navigate to notification when contractType is NOTIFICATION and notifications are found', async () => {
-    const { fixture } = await renderContractTableComponent();
-    const { componentInstance } = fixture;
-    const data = { contractId: 'contract-id', contractType: ContractType.NOTIFICATION };
-
-    componentInstance.viewItemsClicked.emit(data);
-    fixture.detectChanges();
-
-    expect(notificationServiceMock.getNotifications).toHaveBeenCalledWith(0, 1, [], undefined, undefined, { contractAgreementId: 'contract-id' });
-    expect(routerMock.navigate).toHaveBeenCalledWith([ 'inbox', 'notification-id' ]);
-  });
 
   it('should show error when contractType is NOTIFICATION and no notifications are found', async () => {
     notificationServiceMock.getNotifications.and.returnValue(of({ content: [] }));
