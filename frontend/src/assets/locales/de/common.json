@@ -399,7 +399,8 @@
     "customer" : "KUNDE",
     "asBuilt" : "As built",
     "asPlanned" : "As planned",
-    "notification" : "Qualitätsthemen"
+    "notification" : "Qualitätsthemen",
+    "parts" : "Produkte"
   },
   "multiSelect": {
     "filterLabel": "Filter",

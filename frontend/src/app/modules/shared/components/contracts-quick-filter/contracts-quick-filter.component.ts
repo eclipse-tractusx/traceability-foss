@@ -29,11 +29,12 @@ export class ContractsQuickFilterComponent {
   activeContractTypes: ContractType[] = [];
   @Output() buttonClickEvent = new EventEmitter<any>();
 
-  emitQuickFilter(contractType: ContractType) {
-    if (this.activeContractTypes?.includes(contractType)) {
-      this.activeContractTypes = this.activeContractTypes.filter(type => type !== contractType);
+  emitQuickFilter(contractTypeList: ContractType[]) {
+    if (this.activeContractTypes?.includes(contractTypeList[0])) {
+      this.activeContractTypes = this.activeContractTypes.filter(type => type !== contractTypeList[0]);
+      this.activeContractTypes = this.activeContractTypes.filter(type => type !== contractTypeList?.[1]);
     } else {
-      this.activeContractTypes.push(contractType);
+      this.activeContractTypes.push(...contractTypeList);
     }
     this.buttonClickEvent.emit(this.activeContractTypes);
   }

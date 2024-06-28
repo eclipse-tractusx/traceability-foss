@@ -398,7 +398,8 @@
     "customer" : "CUSTOMER",
     "asBuilt" : "As built",
     "asPlanned" : "As planned",
-    "notification" : "Quality incidents"
+    "notification" : "Quality incidents",
+    "parts" : "Parts"
   },
   "multiSelect": {
     "filterLabel": "Filter",

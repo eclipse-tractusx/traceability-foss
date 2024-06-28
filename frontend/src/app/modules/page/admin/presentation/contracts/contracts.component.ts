@@ -159,7 +159,7 @@ export class ContractsComponent {
       ...this.contractFilter,
       contractType: filterList,
     };
-    this.contractsFacade.setContracts(this.pagination.page, this.pagination.pageSize, [ this.pagination.sorting ], this.contractFilter);
+    this.contractsFacade.setContracts(0, this.pagination.pageSize, [ this.pagination.sorting ], this.contractFilter);
   }
 
   ngOnDestroy() {

@@ -24,7 +24,7 @@ describe('BomLifecycleActivatorComponent', () => {
     const { fixture } = await renderQuickFilter();
     const { componentInstance } = fixture;
     componentInstance.activeContractTypes = [];
-    componentInstance.emitQuickFilter(ContractType.ASSET_AS_BUILT);
+    componentInstance.emitQuickFilter([ ContractType.ASSET_AS_BUILT ]);
     expect(componentInstance.activeContractTypes).toEqual([ ContractType.ASSET_AS_BUILT ]);
   });
 
@@ -32,7 +32,7 @@ describe('BomLifecycleActivatorComponent', () => {
     const { fixture } = await renderQuickFilter();
     const { componentInstance } = fixture;
     componentInstance.activeContractTypes = [ ContractType.ASSET_AS_PLANNED ];
-    componentInstance.emitQuickFilter(ContractType.ASSET_AS_PLANNED);
+    componentInstance.emitQuickFilter([ ContractType.ASSET_AS_PLANNED ]);
     expect(componentInstance.activeContractTypes).toEqual([]);
   });
 });
