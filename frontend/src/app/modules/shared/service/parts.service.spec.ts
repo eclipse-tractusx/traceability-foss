@@ -173,6 +173,48 @@ describe('PartsService', () => {
     httpMock.verify();
   });
 
+  it('should call the partbyFilter as built and return parts filtered', () => {
+
+    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+    service.getPartsByFilter({ contractAgreementId: 'abc' }, true).subscribe((parts: Pagination<Part>) => {
+      expect(parts).toBeTruthy();
+    });
+
+    const expectedUrl = `${ environment.apiUrl }/assets/as-built`;
+
+    const req = httpMock.expectOne((request) => {
+      return request.url === expectedUrl && request.method === 'GET';
+    });
+
+    req.flush(mockAssets);
+
+    httpMock.verify();
+  });
+
+  it('should call the partbyFilter as planned and return parts filtered', () => {
+
+    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+    service.getPartsByFilter({ contractAgreementId: 'abc' }, false).subscribe((parts: Pagination<Part>) => {
+      expect(parts).toBeTruthy();
+    });
+
+    const expectedUrl = `${ environment.apiUrl }/assets/as-planned`;
+
+    const req = httpMock.expectOne((request) => {
+      return request.url === expectedUrl && request.method === 'GET';
+    });
+
+    req.flush(mockAssets);
+
+    httpMock.verify();
+  });
+
+
+
+
+
   it('should request partDetails of as built Id', () => {
 
     spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
