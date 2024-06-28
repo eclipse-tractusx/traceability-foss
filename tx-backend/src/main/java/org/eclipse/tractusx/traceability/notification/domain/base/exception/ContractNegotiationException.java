@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.notification.domain.base.exception;
 
 public class ContractNegotiationException extends RuntimeException {
-
     public ContractNegotiationException(final String message, final Throwable exception) {
         super(message, exception);
     }
