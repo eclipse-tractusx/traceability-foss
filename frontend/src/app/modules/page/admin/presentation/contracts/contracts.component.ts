@@ -43,7 +43,6 @@ export class ContractsComponent {
 
     this.viewItemsClicked.subscribe((data) => {
       const contractId = data?.contractId;
-
       if (data?.contractType === ContractType.NOTIFICATION) {
         this.notificationsService.getNotifications(0, 1, [], undefined, undefined, { contractAgreementId: contractId }).subscribe({
             next: data => {

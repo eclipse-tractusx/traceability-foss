@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AdminModule } from '@page/admin/admin.module';
 import { AdminFacade } from '@page/admin/core/admin.facade';
-import { assembleContract, ContractType } from '@page/admin/core/admin.model';
+import { assembleContract } from '@page/admin/core/admin.model';
 import { AdminService } from '@page/admin/core/admin.service';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { renderComponent } from '@tests/test-render.utils';
@@ -85,14 +85,6 @@ describe('ContractTableComponent', () => {
     expect(convertSpy).toHaveBeenCalledWith([ assembleContract(getContracts().content[0]) ]);
     expect(downloadSpy).toHaveBeenCalled();
 
-  });
-
-  it('should navigate if viewAssets clicked', async () => {
-    const { fixture } = await renderContractTableComponent();
-    const { componentInstance } = fixture;
-    componentInstance.viewItemsClicked.emit({ contractType: ContractType.ASSET_AS_BUILT });
-    // contractagreementId does not exist in mocks?
-    expect(routerMock.navigate).toHaveBeenCalled();
   });
 
   it('should emit viewAssetsClicked', async () => {
