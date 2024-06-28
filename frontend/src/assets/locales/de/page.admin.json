@@ -95,7 +95,9 @@
       "bpnsHint" : "Liste von BPNs separiert durch ein Kommazeichen",
       "bpnHint" : "",
       "savePolicy" : "Richtlinie speichern",
-      "addConstraint" : "Regel hinzufügen"
+      "addConstraint" : "Regel hinzufügen",
+      "selectedPolicy" : "{{count}} Richtlinie für diese Seite ausgewählt.",
+      "selectedPolicies" : "{{count}} Richtlinien für diese Seite ausgewählt."
     }
   }
 }
