@@ -60,6 +60,7 @@
       "policyManagement" : "Richtlinienverwaltung",
       "deleteSuccess" : "Selektierte Richtlinien wurden erfolgreich gelöscht.",
       "deleteError" : "Fehler bei der Löschung der selektierten Richtlinien.",
+      "deleteErrorDefault" : "Fehler: Das Löschen der Standardrichtlinie namens 'default-policy' ist nicht erlaubt.",
       "confirm" : "Bestätigen",
       "policyDeletion" : "Löschen bestätigen",
       "deletionText" : "Möchten sie die selektierten Richtlinien löschen?",
