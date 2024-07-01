@@ -76,6 +76,7 @@ public class TrustedEndpointsFilter implements Filter {
     }
 
     private boolean isRequestForTrustedEndpoint(final ServletRequest servletRequest) {
+        log.warn(((HttpServletRequestWrapper) servletRequest).getRequestURI());
         return ((HttpServletRequestWrapper) servletRequest).getRequestURI()
                 .startsWith("/api/" + ApiConstants.API_PREFIX_INTERNAL);
     }
