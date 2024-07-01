@@ -63,11 +63,7 @@ class NotificationsEDCFacadeTest {
     @Mock
     EndpointDataReferenceStorage endpointDataReferenceStorage;
     @Mock
-    PolicyCheckerService policyCheckerService;
-    @Mock
     EndpointDataReference endpointDataReference;
-    @Mock
-    NotificationRepository notificationRepository;
     @Mock
     Notification notification;
     @InjectMocks

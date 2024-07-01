@@ -63,7 +63,7 @@ public class NotificationPublisherService {
         return Notification.startNotification(startNotification.getTitle(), clock.instant(), applicationBPN, startNotification.getDescription(), startNotification.getType(), startNotification.getSeverity(), startNotification.getTargetDate(), startNotification.getAffectedPartIds(), List.of(startNotification.getReceiverBpn()), startNotification.getReceiverBpn());
     }
 
-    public void createMessages(Notification notification, BPN applicationBPN, AssetAsBuiltRepository assetAsBuiltRepository) {
+    private void createMessages(Notification notification, BPN applicationBPN, AssetAsBuiltRepository assetAsBuiltRepository) {
         Map<String, List<AssetBase>> assetsAsBuiltBPNMap =
                 assetAsBuiltRepository
                         .getAssetsById(notification.getAffectedPartIds())
