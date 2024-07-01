@@ -55,7 +55,7 @@ public class SecurityConfig {
             "/internal/qualitynotifications/update",
             "/internal/qualityalerts/update",
             "/callback/endpoint-data-reference",
-            "/internal/endpoint-data-reference",
+            "/api/internal/endpoint-data-reference",
             "/actuator/**",
             "/irs/job/callback"
 
