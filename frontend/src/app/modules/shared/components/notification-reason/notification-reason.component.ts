@@ -21,7 +21,7 @@
 
 import { Component, Input } from '@angular/core';
 import { environment } from '@env';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { NotificationMessage, NotificationStatus } from '@shared/model/notification.model';
 
 type TextMessageDirection = 'left' | 'right';
 
@@ -42,31 +42,21 @@ interface TextMessage {
 })
 export class NotificationReasonComponent {
   public textMessages: TextMessage[] = [];
+  @Input() notificationMessages: NotificationMessage[];
 
-  @Input() set notification({
-                              description,
-                              status,
-                              isFromSender,
-                              createdDate,
-                              createdBy,
-                              createdByName,
-                              sendTo,
-                              sendToName,
-                              messages,
-                            }: Notification) {
+  ngOnInit() {
 
-    const sortedMessagesAfterDates = messages.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
-
-    sortedMessagesAfterDates.forEach(message => {
-        this.textMessages.push({
-          message: message.message,
-          direction: environment.bpn === message.sentBy ? 'right' : 'left',
-          user: message.sentByName,
-          bpn: message.sentBy,
-          status: message.status,
-          date: message.messageDate,
-          errorMessage: message.errorMessage,
-        });
+    const sortedMessagesAfterDates = this.notificationMessages?.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
+    sortedMessagesAfterDates?.forEach(message => {
+      this.textMessages.push({
+        message: message.message,
+        direction: environment.bpn === message.sentBy ? 'right' : 'left',
+        user: message.sentByName,
+        bpn: message.sentBy,
+        status: message.status,
+        date: message.messageDate,
+        errorMessage: message.errorMessage,
+      });
     });
 
   }

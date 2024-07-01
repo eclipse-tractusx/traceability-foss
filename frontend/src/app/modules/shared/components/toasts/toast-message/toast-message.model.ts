@@ -42,6 +42,12 @@ export interface CallAction {
   linkQueryParams?: Record<string, string>;
 }
 
+export interface RetryRequestContext {
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  url: string;
+  options?: any;
+}
+
 export class ToastMessage {
   public isSliderON = true;
 

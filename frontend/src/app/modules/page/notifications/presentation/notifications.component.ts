@@ -28,6 +28,7 @@ import { NotificationChannel } from '@shared/components/multi-select-autocomplet
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { TableSortingUtil } from '@shared/components/table/table-sorting.util';
 import { MenuActionConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
 import { setMultiSorting } from '@shared/helper/table-helper';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
@@ -58,6 +59,7 @@ export class NotificationsComponent {
   private ctrlKeyState: boolean = false;
 
   private paramSubscription: Subscription;
+  private toastActionSubscription: Subscription;
 
   receivedFilter: NotificationFilter;
   requestedFilter: NotificationFilter;
@@ -71,6 +73,7 @@ export class NotificationsComponent {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,
+    private readonly toastService: ToastService,
   ) {
     this.notificationsReceived$ = this.notificationsFacade.notificationsReceived$;
     this.notificationsQueuedAndRequested$ = this.notificationsFacade.notificationsQueuedAndRequested$;
@@ -80,6 +83,17 @@ export class NotificationsComponent {
     });
     window.addEventListener('keyup', (event) => {
       this.ctrlKeyState = setMultiSorting(event);
+    });
+
+    this.toastActionSubscription = this.toastService.retryAction.subscribe({
+      next: result => {
+        if (result?.success) {
+          this.toastService.success('requestNotification.successfullyApproved');
+        } else if (result?.error) {
+          this.toastService.error('requestNotification.failedApprove', 15000, true);
+        }
+        this.handleConfirmActionCompletedEvent();
+      },
     });
   }
 
@@ -106,6 +120,7 @@ export class NotificationsComponent {
   public ngOnDestroy(): void {
     this.notificationsFacade.stopNotifications();
     this.paramSubscription?.unsubscribe();
+    this.toastActionSubscription?.unsubscribe();
   }
 
   public onReceivedTableConfigChange(pagination: TableEventConfig) {
