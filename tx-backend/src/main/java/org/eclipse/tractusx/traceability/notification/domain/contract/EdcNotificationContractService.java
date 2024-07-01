@@ -59,8 +59,8 @@ public class EdcNotificationContractService {
     private final PolicyService policyService;
 
 
-    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = "/api/qualitynotifications/%s";
-    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = "/api/qualityalerts/%s";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = ApplicationConfig.APPLICATION_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualitynotifications/%s";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = ApplicationConfig.APPLICATION_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualityalerts/%s";
 
     public CreateNotificationContractResponse handle(CreateNotificationContractRequest request) {
 
@@ -156,6 +156,6 @@ public class EdcNotificationContractService {
 
     private String createBaseUrl(org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType notificationType, NotificationMethod notificationMethod) {
         final String template = notificationType.equals(org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType.QUALITY_ALERT) ? TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE : TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE;
-        return traceabilityProperties.getUrl() + ApplicationConfig.INTERNAL_ENDPOINT + template.formatted(notificationMethod.getValue());
+        return traceabilityProperties.getUrl() + template.formatted(notificationMethod.getValue());
     }
 }
