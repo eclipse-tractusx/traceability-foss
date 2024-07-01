@@ -968,7 +968,7 @@
           }
         },
         {
-          "aspectType" : "urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode",
+          "aspectType" : "urn:samm:io.catenax.traction_battery_code:2.0.0#TractionBatteryCode",
           "payload" : {
             "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
             "subcomponents" : [

@@ -29,16 +29,11 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltViewEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.TractionBatteryCode;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.date.DateUtil.toOffsetDateTime;
 
 @Getter
@@ -131,45 +126,5 @@ public class DetailAspectModel {
                 .build();
 
         return List.of(asPlannedInfo, partSiteInfo);
-    }
-
-    public static List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites) {
-        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
-        emptyIfNull(sites).forEach(site -> {
-            DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
-                    .catenaXSiteId(site.catenaXSiteId())
-                    .functionValidFrom(site.functionValidFrom())
-                    .function(site.function())
-                    .functionValidUntil(site.functionValidUntil())
-                    .build();
-            detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
-        });
-
-        return detailAspectModels;
-    }
-
-    public static DetailAspectModel extractDetailAspectModelsAsPlanned(ValidityPeriod validityPeriod) {
-        DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
-                .validityPeriodFrom(validityPeriod.validFrom())
-                .validityPeriodTo(validityPeriod.validTo())
-                .build();
-        return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.AS_PLANNED).build();
-    }
-
-    public static DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation,
-                                                                     PartTypeInformation partTypeInformation) {
-
-        DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
-                .customerPartId(partTypeInformation.customerPartId())
-                .manufacturingCountry(manufacturingInformation.country())
-                .manufacturingDate(manufacturingInformation.date())
-                .nameAtCustomer(partTypeInformation.nameAtCustomer())
-                .partId(partTypeInformation.manufacturerPartId())
-                .build();
-        return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
-    }
-
-    public static DetailAspectModel extractDetailAspectModelTractionBatteryCode(DetailAspectDataTractionBatteryCode detailAspectDataTractionBatteryCode) {
-        return DetailAspectModel.builder().data(detailAspectDataTractionBatteryCode).type(DetailAspectType.TRACTION_BATTERY_CODE).build();
     }
 }

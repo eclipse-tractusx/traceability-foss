@@ -16,7 +16,7 @@ import org.eclipse.tractusx.traceability.generated.SerialPart300Schema;
 import org.eclipse.tractusx.traceability.generated.SingleLevelBomAsBuilt300Schema;
 import org.eclipse.tractusx.traceability.generated.SingleLevelBomAsPlanned300Schema;
 import org.eclipse.tractusx.traceability.generated.SingleLevelUsageAsBuilt300Schema;
-import org.eclipse.tractusx.traceability.generated.TractionBatteryCode100Schema;
+import org.eclipse.tractusx.traceability.generated.TractionBatteryCode200Schema;
 
 @Getter
 public class IrsSubmodel {
@@ -41,8 +41,8 @@ public class IrsSubmodel {
             @JsonSubTypes.Type(value = JustInSequencePart300Schema.class, names = {
                     "urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart"
             }),
-            @JsonSubTypes.Type(value = TractionBatteryCode100Schema.class, names = {
-                    "urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode"
+            @JsonSubTypes.Type(value = TractionBatteryCode200Schema.class, names = {
+                    "urn:samm:io.catenax.traction_battery_code:2.0.0#TractionBatteryCode"
             }),
             @JsonSubTypes.Type(value = SingleLevelBomAsBuilt300Schema.class, names = {
                     "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
