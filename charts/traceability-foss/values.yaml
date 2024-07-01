@@ -212,7 +212,7 @@ backend:
   service:
     type: ClusterIP
     port: 8080
-    trustedPort: 8181
+    trustedPort: 8081
 
   autoscaling:
     enabled: false
