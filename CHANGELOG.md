@@ -19,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #985 Added function to filter notifications for contractAgreementIds
 - #786 Added authorization as admin for submodel api & registry api
 - #884 Upgraded tractionBatteryCode from 1.0.0 to 2.0.0
+- #1009 reimplemented retry request logic for notification approval
 
 ### Added
 - #832 added policymanagement list view, creator and editor
