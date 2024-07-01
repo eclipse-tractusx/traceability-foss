@@ -159,7 +159,7 @@ spec:
             - name: metrics
               containerPort: 8082
               protocol: TCP
-            - name: trustedPort
+            - name: http-trusted
               containerPort: 8081
               protocol: TCP
           # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
