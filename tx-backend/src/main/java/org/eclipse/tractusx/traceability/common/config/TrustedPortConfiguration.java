@@ -44,6 +44,8 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 public class TrustedPortConfiguration {
     private final String serverPort;
 
+    private final String managementPort;
+
     private final String trustedPort;
 
     public TrustedPortConfiguration(@Value("${server.port:8080}") final String serverPort,
@@ -51,6 +53,7 @@ public class TrustedPortConfiguration {
                                     @Value("${server.trustedPort}") final String trustedPort) {
 
         this.serverPort = serverPort;
+        this.managementPort = managementPort;
         this.trustedPort = trustedPort;
     }
 
@@ -71,6 +74,7 @@ public class TrustedPortConfiguration {
 
         final Set<String> defaultPorts = new HashSet<>();
         defaultPorts.add(serverPort);
+        defaultPorts.add(managementPort);
 
         if (defaultPorts.contains(trustedPort)) {
             return new Connector[0];
@@ -90,7 +94,7 @@ public class TrustedPortConfiguration {
         private final Connector[] additionalConnectors;
 
         /* package */ TomcatMultiConnectorServletWebServerFactoryCustomizer(final ServerProperties serverProperties,
-                final Connector... additionalConnectors) {
+                                                                            final Connector... additionalConnectors) {
             super(serverProperties);
             this.additionalConnectors = Arrays.copyOf(additionalConnectors, additionalConnectors.length);
         }

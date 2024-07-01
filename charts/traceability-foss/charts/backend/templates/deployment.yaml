@@ -129,7 +129,7 @@ spec:
             - name: EDC_DATA_ENDPOINT_URL
               value: {{ .Values.edc.dataEndpointUrl | quote }}
             - name: TRUSTED_PORT
-              value: {{ .Values.edc.dataEndpointUrl | quote }}
+              value: {{ .Values.config.trustedPort | quote }}
             - name: DISCOVERY_FINDER_URL_WITH_PATH
               value: {{ .Values.discoveryfinder.baseUrl | quote }}
             - name: JWT_RESOURCE_CLIENT
