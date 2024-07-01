@@ -32,7 +32,7 @@ public enum Aspect {
     PART_SITE_INFORMATION_AS_PLANNED("urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"),
     PART_AS_PLANNED("urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned"),
     JUST_IN_SEQUENCE_PART("urn:samm:io.catenax.just_in_sequence_part:3.0.0#JustInSequencePart"),
-    TRACTION_BATTERY_CODE("urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode");
+    TRACTION_BATTERY_CODE("urn:samm:io.catenax.traction_battery_code:2.0.0#TractionBatteryCode");
 
     private final String aspectName;
 

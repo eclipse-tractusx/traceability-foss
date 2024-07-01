@@ -66,7 +66,7 @@ public class JsonSchemaTest {
             Map.entry("urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned", "/schema/semantichub/PartSiteInformationAsPlanned_1.0.0-schema.json"),
             Map.entry("urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt", "/schema/semantichub/SingleLevelBomAsBuilt_3.0.0-schema.json"),
             Map.entry("urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt", "/schema/semantichub/SingleLevelUsageAsBuilt_3.0.0-schema.json"),
-            Map.entry("urn:samm:io.catenax.traction_battery_code:1.0.0#TractionBatteryCode", "/schema/semantichub/TractionBatteryCode_1.0.0-schema.json"),
+            Map.entry("urn:samm:io.catenax.traction_battery_code:2.0.0#TractionBatteryCode", "/schema/semantichub/TractionBatteryCode_2.0.0-schema.json"),
             Map.entry("urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned", "/schema/semantichub/PartAsPlanned_2.0.0-schema.json"),
             Map.entry("urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned", "/schema/semantichub/SingleLevelBomAsPlanned_3.0.0-schema.json")
     );
