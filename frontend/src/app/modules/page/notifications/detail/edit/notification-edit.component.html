@@ -38,6 +38,7 @@ SPDX-License-Identifier: Apache-2.0
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
          [style.cursor]="'not-allowed'"
+         (mouseenter)="shouldMarkAsTouched.next(true)"
     >
       <app-button
         onkeydown="clickedSave()"
@@ -59,6 +60,7 @@ SPDX-License-Identifier: Apache-2.0
                                   data-testid="app-notification-new-request"
                                   [title]="editMode ? 'requestNotification.editNotificationHeader' : 'requestNotification.createNotificationHeader'"
                                   [editMode]="editMode"
+                                  [allTouched]="shouldMarkAsTouched"
                                   [notification]="selectedNotification"
                                   (formGroupChanged)="notificationFormGroupChange($event)">
     </app-notification-new-request>

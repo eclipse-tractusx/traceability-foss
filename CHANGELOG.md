@@ -21,6 +21,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - XXX deactivated a test class in tx-backend which behaved undesirably
 - #1017 updated contributing, notice, and readme files for TRG 7
 - #639 handle expired or incorrect policies when sending notifications
+- #786 Added authorization as admin for submodel api & registry api
 
 ### Added
 - #832 added policymanagement list view, creator and editor
@@ -29,6 +30,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #915 Added section to documentation: EDC-BPN configuration
 - #1037 Added link from contracts view to the corresponding filtered part table view
 - #1017 added file for CC BY 4.0 license for TRG 7
+- #985 Added reference to part/notification under contract
+- #786 Added icons on part table to let admin reload registry / sync assets via IRS
 
 ### Removed
 

@@ -49,7 +49,7 @@ export class NotificationService {
   constructor(private readonly apiService: ApiService) {
   }
 
-  public getNotifications(page: number, pageSize: number, sorting: TableHeaderSort[], channel: NotificationChannel, filter?: NotificationDeeplinkFilter, fullFilter?: any): Observable<Notifications> {
+  public getNotifications(page: number, pageSize: number, sorting: TableHeaderSort[], channel?: NotificationChannel, filter?: NotificationDeeplinkFilter, fullFilter?: any): Observable<Notifications> {
     const sort = sorting.length ? sorting.map(array => `${ array[0] },${ array[1] }`) : [ 'createdDate,desc' ];
     const requestUrl = this.notificationUrl() + '/filter';
     const channelFilter = channel === NotificationChannel.RECEIVER ? 'channel,EQUAL,RECEIVER,AND' : 'channel,EQUAL,SENDER,AND';

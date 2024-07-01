@@ -47,6 +47,18 @@ export class PartsService {
   constructor(private readonly apiService: ApiService) {
   }
 
+  public reloadRegistry() {
+    return this.apiService.get(`${ this.url }/registry/reload`);
+  }
+
+  public syncPartsAsBuilt(assetIds: string[]) {
+    return this.apiService.post(`${ this.url }/assets/as-built/sync`, { assetIds });
+  }
+
+  public syncPartsAsPlanned(assetIds: string[]) {
+    return this.apiService.post(`${ this.url }/assets/as-planned/sync`, { assetIds });
+  }
+
   public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
 
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
@@ -164,6 +176,16 @@ export class PartsService {
 
 
     }
+  }
+
+  public getPartsByFilter(filter: any, isAsBuilt: boolean): Observable<Pagination<Part>> {
+    const params = enrichFilterAndGetUpdatedParams(filter, new HttpParams(), 'OR');
+    const mainAspectType = isAsBuilt ? MainAspectType.AS_BUILT : MainAspectType.AS_PLANNED;
+    const path = isAsBuilt ? 'as-built' : 'as-planned';
+
+    return this.apiService
+      .getBy<PartsResponse>(`${ this.url }/assets/${ path }`, params)
+      .pipe(map(parts => PartsAssembler.assembleParts(parts, mainAspectType)));
   }
 
   public sortParts(data: Part[], key: string, direction: SortDirection): Part[] {

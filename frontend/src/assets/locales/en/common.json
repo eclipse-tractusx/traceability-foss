@@ -18,6 +18,8 @@
     "noChildPartsForInvestigation": "This function is not available for Parts without components.",
     "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available.",
     "illegalAssetStateToPublish": "One or more selected parts are not in the required import state \"TRANSIENT\" or \"ERROR\".",
+    "syncSelectedParts" : "Synchronize selected parts",
+    "refreshAllParts" : "Synchronize all parts",
     "adminContract": "Contracts",
     "createIncident": "Create quality notification",
     "startInvestigation": "Start Quality investigation on subcomponents",
@@ -68,8 +70,10 @@
     "userSettings" : "Table settings",
     "uploadFile" : "Upload policy JSON file",
     "downloadFile" : "Download template as file",
-    "viewParts" : "View parts",
-    "viewPartsTooltip" : "View parts using this contract"
+    "viewParts" : "View part",
+    "viewNotifications" : "View notification",
+    "viewPartsTooltip" : "View part using this contract",
+    "viewNotificationsTooltip" : "View notification using this contract"
   },
   "publisher": {
     "selectedAssets": "Assets selected",
@@ -174,7 +178,9 @@
       "bpn" : "BPN selection",
       "constraints" : "Constraints",
       "accessType" : "Access type",
-      "contractAgreementId" : "Contract ID"
+      "contractAgreementId" : "Contract ID",
+      "parts" : "Part",
+      "notifications" : "Quality incident"
     }
   },
   "dataLoading": {
@@ -293,6 +299,14 @@
     "success": "Request to publish assets was successful",
     "error": ""
   },
+  "registryReload": {
+    "success": "Successfully reloaded all parts.",
+    "error": ""
+  },
+  "partSynchronization": {
+    "success": "Successfully synchronized selected parts.",
+    "error": ""
+  },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",
     "nextPageLabel": "Next page",
@@ -393,7 +407,11 @@
   "quickFilter": {
     "own": "OWN",
     "supplier": "SUPPLIER",
-    "customer": "CUSTOMER"
+    "customer" : "CUSTOMER",
+    "asBuilt" : "As built",
+    "asPlanned" : "As planned",
+    "notification" : "Quality incidents",
+    "parts" : "Parts"
   },
   "multiSelect": {
     "filterLabel": "Filter",
