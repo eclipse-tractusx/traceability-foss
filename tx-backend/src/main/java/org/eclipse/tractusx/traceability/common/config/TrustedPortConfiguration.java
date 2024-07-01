@@ -81,7 +81,11 @@ public class TrustedPortConfiguration {
         } else {
             final Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
             connector.setScheme("http");
-            connector.setPort(Integer.parseInt(trustedPort));
+            try {
+                connector.setPort(Integer.parseInt(trustedPort));
+            } catch (final NumberFormatException e) {
+                connector.setPort(0);
+            }
             return new Connector[] { connector };
         }
     }

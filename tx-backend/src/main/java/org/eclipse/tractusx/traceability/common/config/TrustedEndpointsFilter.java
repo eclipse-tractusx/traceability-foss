@@ -38,12 +38,16 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Profile(NOT_INTEGRATION_TESTS)
 @Slf4j
 public class TrustedEndpointsFilter implements Filter {
-    private final int trustedPortNum;
+    private int trustedPortNum;
 
     /* package */ TrustedEndpointsFilter(final String trustedPort) {
-        if (StringUtils.isNotEmpty(trustedPort)) {
-            trustedPortNum = Integer.parseInt(trustedPort);
-        } else {
+        try {
+            if (StringUtils.isNotEmpty(trustedPort)) {
+                trustedPortNum = Integer.parseInt(trustedPort);
+            } else {
+                trustedPortNum = 0;
+            }
+        } catch (NumberFormatException e) {
             trustedPortNum = 0;
         }
     }
