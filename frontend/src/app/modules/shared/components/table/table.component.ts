@@ -30,6 +30,7 @@ import { Router } from '@angular/router';
 import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
+import { ContractType } from '@page/admin/core/admin.model';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
@@ -417,4 +418,5 @@ export class TableComponent {
   }
 
   protected readonly MainAspectType = MainAspectType;
+  protected readonly ContractType = ContractType;
 }

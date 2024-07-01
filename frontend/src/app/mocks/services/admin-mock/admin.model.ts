@@ -19,8 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {PaginationResponse} from '@core/model/pagination.model';
-import {BpnConfigResponse, ContractResponse, ContractState} from '@page/admin/core/admin.model';
+import { PaginationResponse } from '@core/model/pagination.model';
+import { BpnConfigResponse, ContractResponse, ContractState, ContractType } from '@page/admin/core/admin.model';
 
 
 export const getBpnConfig = (): BpnConfigResponse[] => [
@@ -221,6 +221,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
     content: [
       {
         "contractId": "abc1",
+        'contractType': ContractType.ASSET_AS_BUILT,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2024-02-26T13:38:07+01:00",
         "endDate": null,
@@ -229,6 +230,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc2",
+        'contractType': ContractType.ASSET_AS_BUILT,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -237,6 +239,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc3",
+        'contractType': ContractType.ASSET_AS_BUILT,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -245,6 +248,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc4",
+        'contractType': ContractType.ASSET_AS_BUILT,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -253,6 +257,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc5",
+        'contractType': ContractType.ASSET_AS_PLANNED,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -261,6 +266,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc6",
+        'contractType': ContractType.ASSET_AS_PLANNED,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -269,6 +275,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc7",
+        'contractType': ContractType.ASSET_AS_PLANNED,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -277,6 +284,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc8",
+        'contractType': ContractType.ASSET_AS_PLANNED,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -285,6 +293,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc9",
+        'contractType': ContractType.NOTIFICATION,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -293,6 +302,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc10",
+        'contractType': ContractType.NOTIFICATION,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -301,6 +311,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc11",
+        'contractType': ContractType.NOTIFICATION,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -309,6 +320,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc12",
+        'contractType': ContractType.NOTIFICATION,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
@@ -317,6 +329,7 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
       },
       {
         "contractId": "abc13",
+        'contractType': ContractType.NOTIFICATION,
         "counterpartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,

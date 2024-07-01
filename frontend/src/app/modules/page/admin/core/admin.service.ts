@@ -19,12 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {ApiService} from '@core/api/api.service';
-import {Pagination} from '@core/model/pagination.model';
-import {environment} from '@env';
-import {AdminAssembler} from '@page/admin/core/admin.assembler';
+import { HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { Pagination } from '@core/model/pagination.model';
+import { environment } from '@env';
+import { AdminAssembler } from '@page/admin/core/admin.assembler';
 import {
   assembleContract,
   BpnConfig,
@@ -32,9 +32,9 @@ import {
   Contract,
   ContractResponse,
 } from '@page/admin/core/admin.model';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AdminService {
@@ -109,7 +109,7 @@ export class AdminService {
     Object.entries(filter).forEach(([ entry, values ]) => {
       if (values.length) {
         values.forEach(value => {
-          filterList.push(`${ entry },EQUAL,${ value },AND`);
+          filterList.push(`${ entry },EQUAL,${ value },OR`);
         });
       }
     });

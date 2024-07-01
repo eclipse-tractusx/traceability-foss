@@ -79,21 +79,36 @@ SPDX-License-Identifier: Apache-2.0
 
 
         <div class="action-button-tile"
-             matTooltip="{{(isAllowedToPublish()  ? (atLeastOneSelected() ? 'routing.illegalAssetStateToPublish' :'requestNotification.modifyNotAllowed') : 'routing.unauthorized') | i18n}}"
+             matTooltip="{{(isAdmin()  ? (atLeastOneSelected() ? 'routing.illegalAssetStateToPublish' :'requestNotification.modifyNotAllowed') : 'routing.unauthorized') | i18n}}"
              matTooltipClass="table--header--tooltip"
              matTooltipPosition="above"
              [class.mdc-tooltip--multiline]="true"
              [matTooltipShowDelay]="500"
-             [matTooltipDisabled]="isAllowedToPublish() && atLeastOneSelected() && !isIllegalSelectionToPublish()">
+             [matTooltipDisabled]="isAdmin() && atLeastOneSelected() && !isIllegalSelectionToPublish()">
           <app-button
             iconName="published_with_changes"
             class="action-button-tile"
             matTooltip="{{'actions.publishAssets'| i18n}}"
             [matTooltipShowDelay]="500"
             matTooltipPosition="above"
-            [isDisabled]="!isAllowedToPublish() || !atLeastOneSelected() || isIllegalSelectionToPublish()"
+            [isDisabled]="!isAdmin() || !atLeastOneSelected() || isIllegalSelectionToPublish()"
             (click)="publishIconClicked()"
             (keydown)="handleKeyDownPublishIconClicked($event)"
+          ></app-button>
+        </div>
+
+        <div class="action-button-tile"
+             matTooltip="{{(isAdmin() ? (atLeastOneSelected() ? 'routing.syncSelectedParts' :'routing.refreshAllParts') : 'routing.unauthorized') | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500">
+          <app-button
+            iconName="published_with_changes"
+            class="action-button-tile"
+            [isDisabled]="!isAdmin()"
+            (click)="partReloadIconClicked()"
+            (keydown)="handleKeyDownPartReloadIconClicked($event)"
           ></app-button>
         </div>
 

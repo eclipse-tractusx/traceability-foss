@@ -1,9 +1,9 @@
-import {assembleContracts} from '@page/admin/core/admin.model';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {getContracts} from '../../../../mocks/services/admin-mock/admin.model';
-import {AdminService} from './admin.service';
-import {ApiService} from '@core/api/api.service';
-import {of} from 'rxjs';
+import { ApiService } from '@core/api/api.service';
+import { assembleContracts } from '@page/admin/core/admin.model';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { of } from 'rxjs';
+import { getContracts } from '../../../../mocks/services/admin-mock/admin.model';
+import { AdminService } from './admin.service';
 
 describe('AdminService', () => {
   let adminService: AdminService;
@@ -29,7 +29,7 @@ describe('AdminService', () => {
 
   it('should create filter list', () => {
     const filter = { key1: ['value1', 'value2'], key2: ['value3'] };
-    const expectedFilterList = ['key1,EQUAL,value1,AND', 'key1,EQUAL,value2,AND', 'key2,EQUAL,value3,AND'];
+    const expectedFilterList = [ 'key1,EQUAL,value1,OR', 'key1,EQUAL,value2,OR', 'key2,EQUAL,value3,OR' ];
 
     const createdFilterList = adminService['createFilterList'](filter);
     expect(createdFilterList).toEqual(expectedFilterList);

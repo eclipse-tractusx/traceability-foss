@@ -16,30 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
-import org.springframework.stereotype.Service;
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class SubmodelServerClientImpl implements SubmodelServerRepository {
-
-
-    private final SubmodelClient submodelClient;
-
-    @Override
-    public void saveSubmodel(String submodelId, String submodel) {
-        log.info(submodelId, "submodelId");
-        submodelClient.createSubmodel(submodelId, submodel);
-    }
-
-    @Override
-    public String getSubmodel(String submodelId) {
-        return submodelClient.getSubmodel(submodelId);
-    }
-
+.button-container {
+  display: flex;
+  flex-direction: row;
 }

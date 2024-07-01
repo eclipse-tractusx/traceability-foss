@@ -348,12 +348,12 @@ SPDX-License-Identifier: Apache-2.0
                 >
                   <mat-icon>{{ config.icon }}</mat-icon>
                   <div
-                    matTooltip="{{'actions.viewPartsTooltip' | i18n }}"
+                    matTooltip="{{(config.label === 'actions.viewParts' ? 'actions.viewPartsTooltip' : (config.label === 'actions.viewNotifications' ? 'actions.viewNotificationsTooltip' : 'none')) | i18n }}"
                     matTooltipClass="table--header--tooltip"
                     matTooltipPosition="before"
                     [class.mdc-tooltip--multiline]="true"
                     [matTooltipShowDelay]="500"
-                    [matTooltipDisabled]="config.label !== 'actions.viewParts'"
+                    [matTooltipDisabled]="config.label !== 'actions.viewParts' && config.label !== 'actions.viewNotifications'"
 
                   >
                   <span>{{ config.label | i18n }}</span>
@@ -421,7 +421,7 @@ SPDX-License-Identifier: Apache-2.0
           *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data"
           [ngClass]="{'max-width-column': labelId === 'contracts' && column === 'contractId' }">
           <ng-container *ngIf="!isDateElement(column)"
-                        [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : (column === 'constraints' ? constraintsFormat : autoFormat)"
+                        [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : (column === 'constraints' ? constraintsFormat : (column === 'contractType' ? contractTypeFormat : autoFormat))"
             [ngTemplateOutletContext]="{ value: element[column], row: element }"
           >
           </ng-container>
@@ -458,4 +458,8 @@ SPDX-License-Identifier: Apache-2.0
 
   </div>
 
+</ng-template>
+
+<ng-template #contractTypeFormat let-value="value">
+  {{ (value === ContractType.NOTIFICATION ? 'table.column.notifications' : 'table.column.parts') | i18n }}
 </ng-template>
