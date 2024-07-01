@@ -62,14 +62,14 @@ jobs:
           version: v0.20.0
 
       - name: Build & push Image App to KinD
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.APP_NAME}}:${{ env.TAG }}
 
       - name: Build & push Image Frontend to KinD
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./frontend/Dockerfile
