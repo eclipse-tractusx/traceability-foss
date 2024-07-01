@@ -37,7 +37,7 @@ configuration:
     url: &be_url 'https://traceability.dev.demo.catena-x.net'
     submodelUrl: &submodel_url 'https://tracex-dev-submodel-server.dev.demo.catena-x.net'
     edcClient:
-      callbackUrl: &backend_edc_client_callback_url 'tx-backend-dev:8081/api/internal/endpoint-data-reference'
+      callbackUrl: &backend_edc_client_callback_url 'http://tx-backend-dev:8081/api/internal/endpoint-data-reference'
     backendDatabase:
       url: &backend_database_url 'jdbc:postgresql://tx-backend-postgresql-dev:5432/trace'
       name: &backend_database_name 'tx-backend-postgresql-dev'
