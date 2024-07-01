@@ -23,7 +23,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asbuilt.AsBuiltDetailMapper;
-import org.eclipse.tractusx.traceability.generated.TractionBatteryCode100Schema;
+import org.eclipse.tractusx.traceability.generated.TractionBatteryCode200Schema;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.List;
 public class TractionBatteryCodeMapper implements AsBuiltDetailMapper {
     @Override
     public List<DetailAspectModel> extractDetailAspectModel(IrsSubmodel irsSubmodel, String globalAssetId) {
-        TractionBatteryCode100Schema tractionBatteryCode = (TractionBatteryCode100Schema) irsSubmodel.getPayload();
+        TractionBatteryCode200Schema tractionBatteryCode = (TractionBatteryCode200Schema) irsSubmodel.getPayload();
 
         List<DetailAspectDataTractionBatteryCode.DetailAspectDataTractionBatteryCodeSubcomponent> subComponents = tractionBatteryCode.getSubcomponents().stream().map(tractionBatteryComponent -> DetailAspectDataTractionBatteryCode.DetailAspectDataTractionBatteryCodeSubcomponent
                 .builder()
@@ -54,7 +54,7 @@ public class TractionBatteryCodeMapper implements AsBuiltDetailMapper {
 
     @Override
     public boolean validMapper(IrsSubmodel submodel) {
-        return submodel.getPayload() instanceof TractionBatteryCode100Schema;
+        return submodel.getPayload() instanceof TractionBatteryCode200Schema;
     }
 
 }
