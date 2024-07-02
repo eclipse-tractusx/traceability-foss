@@ -48,9 +48,9 @@ export class NotificationReasonComponent {
     if (!this.notificationMessages) {
       return;
     }
-    let sortedMessagesAfterDates;
+    let sortedMessagesAfterDates = [ ...this.notificationMessages ];
 
-    sortedMessagesAfterDates = this.notificationMessages?.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
+    sortedMessagesAfterDates.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
 
     sortedMessagesAfterDates?.forEach(message => {
       this.textMessages.push({
