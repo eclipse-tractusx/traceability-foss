@@ -45,8 +45,13 @@ export class NotificationReasonComponent {
   @Input() notificationMessages: NotificationMessage[];
 
   ngOnInit() {
+    if (!this.notificationMessages) {
+      return;
+    }
+    let sortedMessagesAfterDates;
 
-    const sortedMessagesAfterDates = this.notificationMessages?.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
+    sortedMessagesAfterDates = this.notificationMessages?.sort((a, b) => new Date(a.messageDate).valueOf() - new Date(b.messageDate).valueOf());
+
     sortedMessagesAfterDates?.forEach(message => {
       this.textMessages.push({
         message: message.message,
