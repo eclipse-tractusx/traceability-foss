@@ -55,8 +55,8 @@ configuration:
     callbackUrl: &irs_callback_url 'http://tx-irs-int-a:8181/internal/endpoint-data-reference'
     irsDatabase:
       name: &irs_database_name 'tx-irs-minio-int-a'
-      username: &irs_database_username <path:traceability-foss/data/int-a/minio#user>
-      password: &irs_database_password <path:traceability-foss/data/int-a/minio#password>
+      username: &irs_database_username <path:traceability-foss/data/int-a/irs#MINIO_USER>
+      password: &irs_database_password <path:traceability-foss/data/int-a/irs#MINIO_PW>
       url: &irs_database_url 'http://tx-irs-minio-int-a:9000'
 
   edc:
@@ -73,8 +73,8 @@ configuration:
         hostName: &edc_dataplane_hostname 'tx-edc-consumer-int-a-dataplane.int.catena-x.net'
       edcDatabase:
         name: &edc_database_name 'tx-edc-consumer-postgresql-int-a'
-        username: &edc_database_username <path:traceability-foss/data/int-a/edc/database#user>
-        password: &edc_database_password <path:traceability-foss/data/int-a/edc/database#password>
+        username: &edc_database_username <path:traceability-foss/data/int-a/edc/database#USER>
+        password: &edc_database_password <path:traceability-foss/data/int-a/edc/database#PASSWORD>
         jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-int-a-hl:5432/edc"
       vault:
         hashicorp:
@@ -156,6 +156,9 @@ backend:
   traceability:
     bpn: *bpn
     url: *be_url
+
+  irsAdminApiKey: &irs_admin_api_key <path:traceability-foss/data/int-a/irs#API_KEY_ADMIN>
+  irsRegularApiKey: &irs_regular_api_key <path:traceability-foss/data/int-a/irs#API_KEY_REGULAR>
 
   datasource:
     url: *backend_database_url
@@ -248,6 +251,8 @@ postgresql:
 # IRS configuration     #
 #########################
 item-relationship-service:
+  apiKeyAdmin: *irs_admin_api_key
+  apiKeyRegular: *irs_regular_api_key
   nameOverride: *irs_name
   fullnameOverride: *irs_name
   bpn: *bpn
@@ -337,15 +342,15 @@ tractusx-connector:
     id: *bpn
   iatp:
     # Decentralized IDentifier
-    id: <path:traceability-foss/data/dev/iatp#DID>
+    id: <path:traceability-foss/data/int-a/iatp#DID>
     sts:
       dim:
-        url: <path:traceability-foss/data/dev/iatp#dimUrl>
+        url: <path:traceability-foss/data/int-a/iatp#dimUrl>
       oauth:
-        token_url: <path:traceability-foss/data/dev/iatp#iatp.oauth.tokenurl>
+        token_url: <path:traceability-foss/data/int-a/iatp#iatp.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/dev/iatp#dimClientId>
-          secret_alias: edc-miw-keycloak-secret-dev-a-provider
+          id: <path:traceability-foss/data/int-a/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-int-a-provider
   controlplane:
     ingresses:
       - enabled: true
@@ -366,10 +371,10 @@ tractusx-connector:
       cache_validity_seconds: 600
       server:
         # URL of the BPN/DID Resolution Service - required:
-        url: <path:traceability-foss/data/dev/iatp#bdrsUrl>
+        url: <path:traceability-foss/data/int-a/iatp#bdrsUrl>
     env:
       # workaround till 0.7.1 chart
-      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: <path:traceability-foss/data/dev/iatp#trustedIssuer>
+      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: <path:traceability-foss/data/int-a/iatp#trustedIssuer>
     endpoints:
       management:
         authKey: *edc_api_key
