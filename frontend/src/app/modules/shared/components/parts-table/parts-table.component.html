@@ -86,7 +86,7 @@ SPDX-License-Identifier: Apache-2.0
              [matTooltipShowDelay]="500"
              [matTooltipDisabled]="isAdmin() && atLeastOneSelected() && !isIllegalSelectionToPublish()">
           <app-button
-            iconName="published_with_changes"
+            iconName="upload"
             class="action-button-tile"
             matTooltip="{{'actions.publishAssets'| i18n}}"
             [matTooltipShowDelay]="500"
@@ -104,7 +104,7 @@ SPDX-License-Identifier: Apache-2.0
              [class.mdc-tooltip--multiline]="true"
              [matTooltipShowDelay]="500">
           <app-button
-            iconName="upload"
+            iconName="published_with_changes"
             class="action-button-tile"
             [isDisabled]="!isAdmin()"
             (click)="partReloadIconClicked()"

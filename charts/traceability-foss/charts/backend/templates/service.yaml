@@ -31,5 +31,9 @@ spec:
       targetPort: {{ .Values.service.port }}
       protocol: TCP
       name: http
+    - port: {{ .Values.service.trustedPort }}
+      targetPort: {{ .Values.service.trustedPort }}
+      protocol: TCP
+      name: http-trusted
   selector:
     {{- include "traceability-foss-backend.selectorLabels" . | nindent 4 }}

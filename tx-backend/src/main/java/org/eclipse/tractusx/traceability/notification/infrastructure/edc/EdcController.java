@@ -38,6 +38,7 @@ import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.E
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanitize;
@@ -47,6 +48,7 @@ import static org.eclipse.tractusx.traceability.common.model.SecurityUtils.sanit
 @RestController
 @Validated
 @RequiredArgsConstructor
+@RequestMapping(path = "/internal")
 public class EdcController {
 
     private final NotificationReceiverService notificationReceiverService;
