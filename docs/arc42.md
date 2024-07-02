@@ -538,6 +538,13 @@ This component requires authentication via a Verifiable Credential (VC), which i
 
 The VC identifies and authenticates the EDC and is used to acquire access permissions for the data transferred via EDC.
 
+#### Trusted Port for Internal APIs
+
+A second port, called the trusted port, has been introduced which can only be accessed by internal services within the Kubernetes cluster. This measure is implemented to handle APIs that are difficult to secure and involve several systems and processes. The trusted port ensures that only internal, trusted components can access these sensitive APIs, enhancing overall security.
+
+* Quality notification callback APIs (receive, update) - called by EDC Dataplane
+* Endpoint Data Reference callback API - called by EDC Controlplane
+
 ### Credentials
 
 Credentials must never be stored in Git!
