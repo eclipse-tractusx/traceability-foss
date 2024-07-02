@@ -144,8 +144,8 @@ public class InvestigationPolicyExpirationIT extends IntegrationTestSpecificatio
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
-                .body("content[0].messages[0].errorMessage", Matchers.is("Failed to negotiate contract agreement: Consumption of asset '40276218-e31b-4c35-a7c8-017e8edb702e' is not permitted as the required catalog offer policies are expired."))
-                .body("content[0].messages[1].errorMessage", Matchers.is("Failed to negotiate contract agreement: Consumption of asset '40276218-e31b-4c35-a7c8-017e8edb702e' is not permitted as the required catalog offer policies are expired."));
+                .body("content[0].messages[0].errorMessage", Matchers.is("Failed to negotiate contract agreement: Policy  from BPNL00000003CNKC has expired."))
+                .body("content[0].messages[1].errorMessage", Matchers.is("Failed to negotiate contract agreement: Policy  from BPNL00000003CNKC has expired."));
 
         notificationMessageSupport.assertMessageSize(2);
     }
