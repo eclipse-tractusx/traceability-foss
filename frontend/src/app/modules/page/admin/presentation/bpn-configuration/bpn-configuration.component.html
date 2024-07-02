@@ -32,7 +32,7 @@ SPDX-License-Identifier: Apache-2.0
     </p>
 
       <div class="bpn-config--save" *ngIf="changeInformation$ | async as info"
-           matTooltip="{{  ((info.deleted.length + info.added.length + info.changed.length) > 0 ? 'actions.save' : 'actions.noChanges') | i18n}}"
+           matTooltip="{{  ((info.deleted.length + info.added.length + info.changed.length) > 0 ? 'actions.saveChanges' : 'actions.noChanges') | i18n}}"
            matTooltipClass="table--header--tooltip"
            matTooltipPosition="above"
            [class.mdc-tooltip--multiline]="true"
@@ -44,6 +44,7 @@ SPDX-License-Identifier: Apache-2.0
           [isDisabled]="!(info.deleted.length + info.added.length + info.changed.length)"
           onkeydown="saveData()"
           (click)="saveData()"
+          data-testId="bpn-config-save-button"
         >
         </app-button>
 
