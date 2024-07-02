@@ -390,9 +390,9 @@ tractusx-connector:
   dataplane:
     token:
       signer:
-        privatekey_alias: daps-cert-edc-dev-consumer-private
+        privatekey_alias: daps-cert-edc-int-a-consumer-private
       verifier:
-        publickey_alias: daps-cert-edc-dev-consumer-public
+        publickey_alias: daps-cert-edc-int-a-consumer-public
     ingresses:
       - enabled: true
         hostname: *edc_dataplane_hostname
