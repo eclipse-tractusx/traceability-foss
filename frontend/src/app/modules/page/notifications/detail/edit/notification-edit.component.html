@@ -32,7 +32,14 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div class="detail--action">
     <div class="detail--action--button"
-         matTooltip="{{(isSaveButtonDisabled ? ( affectedPartIds.length < 1 ? 'requestNotification.noPartsSelected' : 'requestNotification.saveNotAllowed') : 'requestNotification.save') | i18n}}"
+         matTooltip="{{
+       isSaveButtonDisabled
+       ? (affectedPartIds.length < 1
+           ? ('requestNotification.noPartsSelected' | i18n)
+           : notificationFormGroup?.pristine
+             ? ('requestNotification.noChanges' | i18n)
+             : ('requestNotification.saveNotAllowed' | i18n))
+       : 'requestNotification.save' | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
@@ -51,6 +58,7 @@ SPDX-License-Identifier: Apache-2.0
         </div>
       </app-button>
     </div>
+
   </div>
 </div>
 

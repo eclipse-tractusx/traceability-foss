@@ -290,7 +290,8 @@
     "saveError": "Bei der Erstellung des Qualitätsthemas ist ein Fehler aufgetreten.",
     "saveEditSuccess": "Qualitätsthema wurde erfolgreich aktualisiert.",
     "saveEditError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten.",
-    "save": "Qualitätsthema speichern"
+    "save" : "Qualitätsthema speichern",
+    "noChanges" : "Erfordert eine Änderung am Qualitätsthema"
   },
   "editNotification": {
     "saveButton": "Speichern",
