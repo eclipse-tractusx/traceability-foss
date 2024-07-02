@@ -129,7 +129,6 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
     }
 
     this.allTouched?.subscribe(next => {
-      console.log(next);
       if (next === true) {
         this.formGroup.markAllAsTouched();
       }
