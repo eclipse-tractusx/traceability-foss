@@ -30,6 +30,11 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #985 Added reference to part/notification under contract
 - #786 Added icons on part table to let admin reload registry / sync assets via IRS
 
+### Known knowns
+
+- #786 Implemented short term solution for securing EDC Callback APIs
+
+
 ### Removed
 
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
