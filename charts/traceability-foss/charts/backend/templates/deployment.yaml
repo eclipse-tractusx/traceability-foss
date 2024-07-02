@@ -128,6 +128,8 @@ spec:
               value: {{ .Values.config.allowedCorsOriginSecond | quote }}
             - name: EDC_DATA_ENDPOINT_URL
               value: {{ .Values.edc.dataEndpointUrl | quote }}
+            - name: TRUSTED_PORT
+              value: {{ .Values.config.trustedPort | quote }}
             - name: DISCOVERY_FINDER_URL_WITH_PATH
               value: {{ .Values.discoveryfinder.baseUrl | quote }}
             - name: JWT_RESOURCE_CLIENT
@@ -156,6 +158,9 @@ spec:
               protocol: TCP
             - name: metrics
               containerPort: 8081
+              protocol: TCP
+            - name: http-trusted
+              containerPort: 8181
               protocol: TCP
           # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
         {{- if .Values.healthCheck.enabled }}

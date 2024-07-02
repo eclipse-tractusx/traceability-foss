@@ -81,6 +81,7 @@ irs-edc-client:
 
 
 server:
+  trustedPort: ${TRUSTED_PORT}
   servlet:
     context-path: /api
 

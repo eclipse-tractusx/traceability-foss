@@ -77,7 +77,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
-                .post("/api/qualitynotifications/receive")
+                .post("/api/internal/qualitynotifications/receive")
                 .then()
                 .statusCode(400);
 
@@ -98,7 +98,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
-                .post("/api/qualitynotifications/receive")
+                .post("/api/internal/qualitynotifications/receive")
                 .then()
                 .statusCode(400);
 
@@ -167,7 +167,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
-                .post("/api/qualitynotifications/update")
+                .post("/api/internal/qualitynotifications/update")
                 .then()
                 .statusCode(200);
 
@@ -219,7 +219,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
-                .post("/api/qualitynotifications/receive")
+                .post("/api/internal/qualitynotifications/receive")
                 .then()
                 .statusCode(400);
 
@@ -267,7 +267,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                         "}")
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .when()
-                .post("/api/qualitynotifications/update")
+                .post("/api/internal/qualitynotifications/update")
                 .then()
                 .statusCode(400);
 

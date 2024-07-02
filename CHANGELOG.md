@@ -19,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #985 Added function to filter notifications for contractAgreementIds
 - #786 Added authorization as admin for submodel api & registry api
 - #884 Upgraded tractionBatteryCode from 1.0.0 to 2.0.0
+- #786 Added alternative port (only accessible within same cluster) for application which is used for unsecured API endpoints.
 
 ### Added
 - #832 added policymanagement list view, creator and editor
@@ -28,6 +29,11 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1037 Added link from contracts view to the corresponding filtered part table view
 - #985 Added reference to part/notification under contract
 - #786 Added icons on part table to let admin reload registry / sync assets via IRS
+
+### Known knowns
+
+- #786 Implemented short term solution for securing EDC Callback APIs
+
 
 ### Removed
 
