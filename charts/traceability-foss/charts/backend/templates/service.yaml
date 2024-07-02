@@ -32,7 +32,7 @@ spec:
       protocol: TCP
       name: http
     - port: {{ .Values.service.trustedPort }}
-      targetPort: http-trusted
+      targetPort: {{ .Values.service.trustedPort }}
       protocol: TCP
       name: http-trusted
   selector:

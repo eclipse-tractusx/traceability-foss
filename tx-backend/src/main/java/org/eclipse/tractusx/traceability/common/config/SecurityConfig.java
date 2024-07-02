@@ -57,6 +57,8 @@ public class SecurityConfig {
             "/callback/endpoint-data-reference",
             "/internal/endpoint-data-reference",
             "/api/internal/endpoint-data-reference",
+            "/internal/**",
+            "/api/internal/**",
             "/actuator/**",
             "/irs/job/callback"
 
