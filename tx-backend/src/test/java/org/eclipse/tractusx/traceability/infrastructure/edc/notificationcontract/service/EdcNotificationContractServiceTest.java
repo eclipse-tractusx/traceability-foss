@@ -112,7 +112,7 @@ class EdcNotificationContractServiceTest {
         assertThat(accessPolicyId).isEqualTo(response.accessPolicyId());
         assertThat(contractDefinitionId).isEqualTo(response.contractDefinitionId());
         verify(edcNotificationAssetService).createNotificationAsset(
-                "https://test/api/qualitynotifications/resolve",
+                "https://test/api/internal/qualitynotifications/resolve",
                 "QUALITY_INVESTIGATION RESOLVE",
                 org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.RESOLVE,
                 org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType.QUALITY_INVESTIGATION);
