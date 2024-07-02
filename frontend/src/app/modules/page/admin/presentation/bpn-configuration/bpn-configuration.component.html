@@ -26,9 +26,30 @@ SPDX-License-Identifier: Apache-2.0
     >
   </mat-card-header>
   <mat-card-content>
+    <div class="bpn-config--top-container">
     <p class="bpn-config--intro">
       {{ 'pageAdmin.bpnConfig.intro' | i18n }}
     </p>
+
+      <div class="bpn-config--save" *ngIf="changeInformation$ | async as info"
+           matTooltip="{{  ((info.deleted.length + info.added.length + info.changed.length) > 0 ? 'actions.saveChanges' : 'actions.noChanges') | i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="1000"
+      >
+        <app-button
+          color="primary"
+          iconName="save"
+          [isDisabled]="!(info.deleted.length + info.added.length + info.changed.length)"
+          onkeydown="saveData()"
+          (click)="saveData()"
+          data-testId="bpn-config-save-button"
+        >
+        </app-button>
+
+      </div>
+    </div>
 
     <div class="bpn-config">
       <div class="bpn--add-new">
@@ -51,31 +72,7 @@ SPDX-License-Identifier: Apache-2.0
         </div>
       </div>
 
-      <div class="bpn-config--save" *ngIf="changeInformation$ | async as info">
-        <app-text-with-icon [testId]="'text-with-icon--deleted'" iconName="delete" color="warn"
-        >{{ 'pageAdmin.bpnConfig.deleted' | i18n }}: {{ info.deleted.length }}</app-text-with-icon
-        >
 
-        <app-text-with-icon [testId]="'text-with-icon--added'" iconName="add" color="primary"
-        >{{ 'pageAdmin.bpnConfig.added' | i18n }}: {{ info.added.length }}</app-text-with-icon
-        >
-
-        <app-text-with-icon [testId]="'text-with-icon--changed'" iconName="edit"
-        >{{ 'pageAdmin.bpnConfig.changed' | i18n }}: {{ info.changed.length }}</app-text-with-icon
-        >
-
-        <app-button
-          class="bpn-config--button"
-          variant="raised"
-          color="primary"
-          [isDisabled]="!(info.deleted.length + info.added.length + info.changed.length)"
-          onkeydown="saveData()"
-          (click)="saveData()"
-        >
-          {{ 'actions.saveChanges' | i18n }}
-        </app-button>
-
-      </div>
 
       <div class="flex w-full justify-start"
            *ngIf="newBpnConfig.controls.length > 0 || editBpnConfig.controls.length > 0">
