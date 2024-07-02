@@ -21,6 +21,7 @@
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RetryRequestContext } from '@shared/components/toasts/toast-message/toast-message.model';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
@@ -28,6 +29,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root',
 })
 export class ApiService {
+  lastRequest: RetryRequestContext | null = null;
   constructor(private readonly httpClient: HttpClient, private readonly authService: AuthService) {
   }
 
@@ -109,6 +111,16 @@ export class ApiService {
       headers: headers ? headers : this.buildHeaders(),
       withCredentials,
     });
+  }
+
+  /**
+   * set the public class property 'lastRequest' from where you made the request
+   * before retrying
+   */
+  public retryLastRequest(): Observable<any> | null {
+    if (this.lastRequest) {
+      return this.httpClient.request(this.lastRequest.method, this.lastRequest.url, this.lastRequest.options);
+    }
   }
 
   private buildHeaders(): HttpHeaders {

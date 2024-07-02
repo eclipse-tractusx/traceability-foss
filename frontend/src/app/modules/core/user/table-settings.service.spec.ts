@@ -17,18 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { KeycloakService } from 'keycloak-angular';
 
 describe('TableSettingsService', () => {
   let service: TableSettingsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      providers: [ TableSettingsService ],
+      imports: [ HttpClientTestingModule ],
+      providers: [ TableSettingsService, ToastService, { provide: KeycloakService, useValue: MockedKeycloakService } ],
     });
     service = TestBed.inject(TableSettingsService);
   });

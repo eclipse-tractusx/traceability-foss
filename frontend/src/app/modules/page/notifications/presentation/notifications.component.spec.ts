@@ -167,4 +167,21 @@ describe('NotificationsComponent', () => {
     expect(notificationsComponent['notificationReceivedSortList']).toEqual([]);
   });
 
+  it('should correctly behave on toast retry action', async () => {
+    const { fixture } = await renderNotifications();
+    const { componentInstance } = fixture;
+    const handleConfirmSpy = spyOn(componentInstance, 'handleConfirmActionCompletedEvent');
+    const toastSuccessSpy = spyOn(componentInstance['toastService'], 'success');
+    const toastErrorSpy = spyOn(componentInstance['toastService'], 'error');
+
+    componentInstance['toastService'].retryAction.emit({ success: true });
+    expect(toastSuccessSpy).toHaveBeenCalled();
+
+    componentInstance['toastService'].retryAction.emit({ error: true });
+    expect(toastErrorSpy).toHaveBeenCalled();
+
+    expect(handleConfirmSpy).toHaveBeenCalled();
+
+  });
+
 });

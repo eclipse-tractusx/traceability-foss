@@ -97,6 +97,10 @@ export class NotificationService {
 
   public approveNotification(id: string): Observable<void> {
     const requestUrl = this.notificationUrl();
+    this.apiService.lastRequest = {
+      url: `${ requestUrl }/${ id }/approve`,
+      method: 'POST',
+    };
     return this.apiService.post<void>(`${ requestUrl }/${ id }/approve`);
   }
 

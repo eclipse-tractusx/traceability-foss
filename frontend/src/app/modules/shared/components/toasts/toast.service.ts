@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { EventEmitter, Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
 import { I18nMessage } from '@shared/model/i18n-message';
 import { Observable, Subject } from 'rxjs';
 import { CallAction, ToastMessage, ToastStatus } from './toast-message/toast-message.model';
@@ -31,6 +32,9 @@ export class ToastService {
   private toastStore = new Subject<ToastMessage>();
   private idx = 0;
   retryAction = new EventEmitter<any>();
+
+  constructor(private readonly apiService: ApiService) {
+  }
 
   public getCurrentToast$(): Observable<ToastMessage> {
     return this.toastStore.asObservable();
@@ -56,7 +60,10 @@ export class ToastService {
     this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Warning, timeout));
   }
 
-  public emitClick(event?: any) {
-    this.retryAction.emit();
+  public emitClick(): void {
+    this.apiService.retryLastRequest()?.subscribe({
+      next: (next) => this.retryAction.emit({ success: next }),
+      error: (err) => this.retryAction.emit({ error: err }),
+    });
   };
 }
