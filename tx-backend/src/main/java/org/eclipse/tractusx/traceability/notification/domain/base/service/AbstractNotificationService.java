@@ -156,7 +156,7 @@ public abstract class AbstractNotificationService implements NotificationService
             approvedInvestigation = notificationPublisherService.approveNotification(notification);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
-            throw new SendNotificationException(exception.getMessage());
+            throw new SendNotificationException(exception.getMessage(), exception);
         }
         getNotificationRepository().updateNotification(approvedInvestigation);
     }

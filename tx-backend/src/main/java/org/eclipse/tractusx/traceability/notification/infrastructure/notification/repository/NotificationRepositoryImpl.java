@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.notification.infrastructure.notificati
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -48,6 +47,7 @@ import org.eclipse.tractusx.traceability.notification.infrastructure.notificatio
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -163,19 +163,16 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     }
 
     @Override
-    public void updateErrorMessage(Notification notification) {
+    public void updateErrorMessage(Notification notification, NotificationMessage message) {
         log.info("Starting update of error message with notification {}", notification);
         NotificationEntity notificationEntity = jpaNotificationRepository.findById(notification.getNotificationId().value())
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Notification with id %s not found!", notification.getNotificationId().value())));
 
-        for (NotificationMessage notificationMessage : notification.getNotifications()) {
-            List<AssetAsBuiltEntity> assetEntitiesByNotification = getAssetEntitiesByNotification(notification);
-            NotificationMessageEntity notificationMessageEntity = toNotificationMessageEntity(notificationEntity, notificationMessage, assetEntitiesByNotification);
-            notificationMessageEntity.setErrorMessage(notificationMessage.getErrorMessage());
-            notificationMessageEntity.setUpdated(LocalDateTime.ofInstant(clock.instant(), clock.getZone()));
-            jpaNotificationMessageRepository.save(notificationMessageEntity);
-        }
-        jpaNotificationRepository.save(notificationEntity);
+        List<AssetAsBuiltEntity> assetEntitiesByNotification = getAssetEntitiesByNotification(notification);
+        NotificationMessageEntity notificationMessageEntity = toNotificationMessageEntity(notificationEntity, message, assetEntitiesByNotification);
+        notificationMessageEntity.setErrorMessage(message.getErrorMessage());
+        notificationMessageEntity.setUpdated(LocalDateTime.ofInstant(clock.instant(), clock.getZone()));
+        jpaNotificationMessageRepository.updateOrInsert(notificationMessageEntity);
     }
 
     @Override
