@@ -47,6 +47,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class ApplicationConfig {
 
+    public static final String CONTEXT_PATH = "/api";
+    public static final String INTERNAL_ENDPOINT = "/internal";
+
     @Bean
     public InternalResourceViewResolver defaultViewResolver() {
         return new InternalResourceViewResolver();

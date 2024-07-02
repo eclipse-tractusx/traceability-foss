@@ -21,6 +21,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.notification.domain.contract;
 
+import org.eclipse.tractusx.traceability.common.config.ApplicationConfig;
 import policies.response.PolicyResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,8 +59,8 @@ public class EdcNotificationContractService {
     private final PolicyService policyService;
 
 
-    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = "/api/qualitynotifications/%s";
-    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = "/api/qualityalerts/%s";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = ApplicationConfig.CONTEXT_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualitynotifications/%s";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = ApplicationConfig.CONTEXT_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualityalerts/%s";
 
     public CreateNotificationContractResponse handle(CreateNotificationContractRequest request) {
 
