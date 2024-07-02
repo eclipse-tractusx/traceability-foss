@@ -157,7 +157,7 @@ spec:
               containerPort: 8080
               protocol: TCP
             - name: metrics
-              containerPort: 8082
+              containerPort: 8081
               protocol: TCP
             - name: http-trusted
               containerPort: 8181
