@@ -426,6 +426,9 @@ tractusx-connector:
     hashicorp:
       url: *vault_url
       token: *vault_token
+    paths:
+      secret: /v1/traceability-foss
+      health: /v1/sys/health
     secretNames:
       transferProxyTokenSignerPrivateKey: *edc_private_key
       transferProxyTokenSignerPublicKey: *edc_public_key
