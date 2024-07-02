@@ -33,6 +33,11 @@
   }
 }
 
+.bpn-config--top-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 .bpn-config--intro {
   width: 90%;
   padding: 10px 20px;
@@ -83,17 +88,7 @@
 }
 
 .bpn-config--save {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  height: 70px;
-  padding: 10px;
-  width: calc(100% + 32px);
-  background: white;
 
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
 }
 
 .bpn-config--delete_animation {
