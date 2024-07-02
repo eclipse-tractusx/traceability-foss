@@ -151,6 +151,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     @Test
     void givenAssetExist_whenCallbackReceived_thenUpdateIt() {
         // given
+        assetsSupport.defaultAssetsStored();
         bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
@@ -169,21 +170,14 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
-        given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .param("id", jobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
-                .then()
-                .log().all()
-                .statusCode(200);
-
         // then
         assertThat(bpnSupportRepository.findAll()).hasSize(1);
         assetsSupport.assertAssetAsBuiltSize(16);
         assetsSupport.assertAssetAsPlannedSize(0);
+        String updatedIdShort = assetsSupport.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").getIdShort();
+        assertThat(updatedIdShort).isEqualTo("vehicle_hybrid_v2.asm");
+        //urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb
+        //vehicle_hybrid_v2.asm
     }
 
     @Test

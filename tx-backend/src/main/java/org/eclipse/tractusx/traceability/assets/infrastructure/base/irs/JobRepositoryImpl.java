@@ -108,22 +108,23 @@ public class JobRepositoryImpl implements JobRepository {
     }
 
     void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
-        Optional<AssetBase> existingAssetOptional = repository.findById(asset.getId());
-        if (existingAssetOptional.isPresent()) {
-            AssetBase existingAsset = existingAssetOptional.get();
-            if (existingAsset.getOwner().equals(Owner.UNKNOWN)) {
-                existingAsset.setOwner(asset.getOwner());
-            }
-            if (!asset.getParentRelations().isEmpty()) {
-                existingAsset.setParentRelations(asset.getParentRelations());
-            }
-            existingAsset.setTombstone(asset.getTombstone() == null ? "" : asset.getTombstone());
-            existingAsset.setImportState(ImportState.PERSISTENT);
-            existingAsset.setImportNote(ImportNote.PERSISTED);
-            repository.save(existingAsset);
-        } else {
+//        Optional<AssetBase> existingAssetOptional = repository.findById(asset.getId());
+//        if (existingAssetOptional.isPresent()) {
+//            AssetBase existingAsset = existingAssetOptional.get();
+//            if (existingAsset.getOwner().equals(Owner.UNKNOWN)) {
+//                existingAsset.setOwner(asset.getOwner());
+//            }
+//            if (!asset.getParentRelations().isEmpty()) {
+//                existingAsset.setParentRelations(asset.getParentRelations());
+//            }
+//            existingAsset.setIdShort(asset.getIdShort());
+//            existingAsset.setTombstone(asset.getTombstone() == null ? "" : asset.getTombstone());
+//            existingAsset.setImportState(ImportState.PERSISTENT);
+//            existingAsset.setImportNote(ImportNote.PERSISTED);
+//            repository.save(existingAsset);
+//        } else {
             repository.save(asset);
-        }
+//        }
     }
 
 

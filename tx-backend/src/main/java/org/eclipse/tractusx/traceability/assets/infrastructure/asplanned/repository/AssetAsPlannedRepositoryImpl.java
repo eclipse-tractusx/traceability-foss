@@ -49,6 +49,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RequiredArgsConstructor
 @Component
+@Transactional
 public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, AssetCallbackRepository {
 
     private final JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
@@ -57,14 +58,12 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     private EntityManager entityManager;
 
     @Override
-    @Transactional
     public AssetBase getAssetById(String assetId) {
         return jpaAssetAsPlannedRepository.findById(assetId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
     }
 
     @Override
-    @Transactional
     public boolean existsById(String assetId) {
         return jpaAssetAsPlannedRepository.existsById(assetId);
     }
@@ -81,7 +80,6 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
     }
 
-    @Transactional
     @Override
     public List<AssetBase> findAll() {
         return jpaAssetAsPlannedRepository.findAll().stream()
@@ -97,25 +95,21 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
-    @Transactional
     public List<AssetBase> getAssets() {
         return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.findAll());
     }
 
     @Override
-    @Transactional
     public AssetBase save(AssetBase asset) {
         return AssetAsPlannedEntity.toDomain(jpaAssetAsPlannedRepository.save(AssetAsPlannedEntity.from(asset)));
     }
 
     @Override
-    @Transactional
     public List<AssetBase> saveAll(List<AssetBase> assets) {
         return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
     }
 
     @Override
-    @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
         if (Objects.isNull(assets)) {
             return List.of();
@@ -150,7 +144,6 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
                 .map(AssetAsPlannedEntity::toDomain);
     }
 
-    @Transactional
     @Override
     public long countAssets() {
         return jpaAssetAsPlannedRepository.count();
@@ -166,7 +159,6 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
         return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, inAssetIds, AssetAsPlannedEntity.class, entityManager);
     }
 
-    @Transactional
     @Override
     public List<AssetBase> findByImportStateIn(ImportState... importStates) {
         return jpaAssetAsPlannedRepository.findByImportStateIn(importStates).stream()
