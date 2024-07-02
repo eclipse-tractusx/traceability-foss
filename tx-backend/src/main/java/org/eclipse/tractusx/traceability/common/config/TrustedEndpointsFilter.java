@@ -82,6 +82,6 @@ public class TrustedEndpointsFilter implements Filter {
     private boolean isRequestForTrustedEndpoint(final ServletRequest servletRequest) {
         log.warn(((HttpServletRequestWrapper) servletRequest).getRequestURI());
         return ((HttpServletRequestWrapper) servletRequest).getRequestURI()
-                .startsWith(ApplicationConfig.INTERNAL_ENDPOINT);
+                .startsWith(ApplicationConfig.CONTEXT_PATH + ApplicationConfig.INTERNAL_ENDPOINT);
     }
 }

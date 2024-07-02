@@ -59,8 +59,8 @@ public class EdcNotificationContractService {
     private final PolicyService policyService;
 
 
-    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = ApplicationConfig.APPLICATION_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualitynotifications/%s";
-    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = ApplicationConfig.APPLICATION_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualityalerts/%s";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = ApplicationConfig.CONTEXT_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualitynotifications/%s";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = ApplicationConfig.CONTEXT_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualityalerts/%s";
 
     public CreateNotificationContractResponse handle(CreateNotificationContractRequest request) {
 

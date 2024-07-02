@@ -63,6 +63,7 @@ public class TrustedPortConfiguration {
         final Connector[] additionalConnectors = this.additionalConnector();
 
         final ServerProperties serverProperties = new ServerProperties();
+        serverProperties.getServlet().setContextPath(ApplicationConfig.CONTEXT_PATH);
         return new TomcatMultiConnectorServletWebServerFactoryCustomizer(serverProperties, additionalConnectors);
     }
 
@@ -100,6 +101,7 @@ public class TrustedPortConfiguration {
         /* package */ TomcatMultiConnectorServletWebServerFactoryCustomizer(final ServerProperties serverProperties,
                                                                             final Connector... additionalConnectors) {
             super(serverProperties);
+            serverProperties.getServlet().setContextPath(ApplicationConfig.CONTEXT_PATH);
             this.additionalConnectors = Arrays.copyOf(additionalConnectors, additionalConnectors.length);
         }
 
