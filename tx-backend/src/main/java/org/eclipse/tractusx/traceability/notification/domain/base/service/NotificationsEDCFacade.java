@@ -79,14 +79,10 @@ public class NotificationsEDCFacade {
 
     @Qualifier(EDC_NOTIFICATION_TEMPLATE)
     private final RestTemplate edcNotificationTemplate;
-    private final NotificationRepository notificationRepository;
-
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
-    private final PolicyCheckerService policyCheckerService;
     private final ContractService contractService;
-
 
     private static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
     private static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
