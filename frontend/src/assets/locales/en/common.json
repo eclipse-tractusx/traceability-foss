@@ -180,7 +180,7 @@
       "accessType" : "Access type",
       "contractAgreementId" : "Contract ID",
       "parts" : "Part",
-      "notifications" : "Quality incident"
+      "notifications" : "Quality notification"
     }
   },
   "dataLoading": {
@@ -423,7 +423,7 @@
     "customer" : "CUSTOMER",
     "asBuilt" : "As built",
     "asPlanned" : "As planned",
-    "notification" : "Quality incidents",
+    "notification" : "Quality notifications",
     "parts" : "Parts"
   },
   "multiSelect": {
