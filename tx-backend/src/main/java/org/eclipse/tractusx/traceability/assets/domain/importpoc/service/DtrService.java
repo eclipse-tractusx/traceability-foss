@@ -58,12 +58,11 @@ public class DtrService {
     private final SubmodelPayloadRepository submodelPayloadRepository;
     private final SubmodelServerRepository submodelServerRepository;
     private final EdcProperties edcProperties;
-    private final ObjectMapper objectMapper;
 
     @Value("${registry.allowedBpns}")
     String allowedBpns;
 
-    public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException, JsonProcessingException {
+    public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(assetBase.getId());
         Map<String, UUID> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
                 .map(this::createSubmodel)
@@ -71,10 +70,7 @@ public class DtrService {
 
         List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
         AssetAdministrationShellDescriptor assetAdministrationShellDescriptor = aasFrom(assetBase, descriptors);
-        String registryBody = objectMapper.writeValueAsString(assetAdministrationShellDescriptor);
-        log.info("Registrybody " + registryBody);
         dtrCreateShellService.createShell(assetAdministrationShellDescriptor);
-
         return assetBase.getId();
     }
 
