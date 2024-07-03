@@ -298,15 +298,15 @@
   },
   "requestPublishAssets": {
     "success": "Request to publish assets was successful",
-    "error": ""
+    "error" : "Error while trying to publish assets"
   },
   "registryReload": {
-    "success": "Successfully reloaded all parts.",
-    "error": ""
+    "success" : "Successfully triggered synchronization of parts. This may take a while.",
+    "error" : "Error while trying to trigger synchronization of parts."
   },
   "partSynchronization": {
-    "success": "Successfully synchronized selected parts.",
-    "error": ""
+    "success" : "Successfully triggered synchronization of selected parts. This may take a while.",
+    "error" : "Error while trying to trigger synchronization of selected parts."
   },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",
