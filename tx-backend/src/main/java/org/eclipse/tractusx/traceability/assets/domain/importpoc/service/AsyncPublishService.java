@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
@@ -82,6 +83,9 @@ public class AsyncPublishService {
                     } catch (CreateDtrShellException e) {
                         log.error("Failed to create shell in dtr for asset with id %s".formatted(assetBase.getId()), e);
                         updateAssetStates(ImportState.ERROR, ImportNote.ERROR_DTR_SHELL_CREATION_FAILED, List.of(assetBase.getId()));
+                    } catch (JsonProcessingException e) {
+                        log.error(e.getMessage());
+                        throw new RuntimeException(e);
                     }
                 });
 
