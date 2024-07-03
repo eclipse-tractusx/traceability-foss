@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.integration;
 
 import groovy.json.JsonBuilder;
+import io.restassured.RestAssured;
 import org.awaitility.Awaitility;
 import org.eclipse.tractusx.traceability.integration.common.config.PostgreSQLConfig;
 import org.eclipse.tractusx.traceability.integration.common.config.RestAssuredConfig;
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -56,8 +58,12 @@ public class IntegrationTestSpecification {
     @Autowired
     DatabaseSupport databaseSupport;
 
+    @LocalServerPort
+    private Integer port;
+
     @BeforeEach
     void beforeEach() throws JoseException {
+        RestAssured.port = port;
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         oAuth2ApiSupport.oauth2ApiReturnsJwkCerts(oAuth2Support.jwk());
     }
