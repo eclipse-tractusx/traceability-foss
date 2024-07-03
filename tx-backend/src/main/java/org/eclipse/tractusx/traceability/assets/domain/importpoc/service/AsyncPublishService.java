@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
