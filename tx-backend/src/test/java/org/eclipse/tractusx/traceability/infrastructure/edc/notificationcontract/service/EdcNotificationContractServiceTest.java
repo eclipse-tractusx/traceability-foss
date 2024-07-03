@@ -100,7 +100,7 @@ class EdcNotificationContractServiceTest {
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
-        when(traceabilityProperties.getUrl()).thenReturn("https://test");
+        when(traceabilityProperties.getInternalUrl()).thenReturn("https://test");
         when(edcPolicyDefinitionService.createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class))).thenReturn(accessPolicyId);
         when(edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId)).thenReturn(contractDefinitionId);
 
@@ -125,7 +125,7 @@ class EdcNotificationContractServiceTest {
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
-        when(traceabilityProperties.getUrl()).thenReturn("https://test");
+        when(traceabilityProperties.getInternalUrl()).thenReturn("https://test");
         doThrow(CreateEdcAssetException.class).when(edcNotificationAssetService).createNotificationAsset(any(), any(), any(), any());
 
         // when/then
@@ -148,7 +148,7 @@ class EdcNotificationContractServiceTest {
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
-        when(traceabilityProperties.getUrl()).thenReturn("https://test");
+        when(traceabilityProperties.getInternalUrl()).thenReturn("https://test");
 
         doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class));
 
@@ -174,7 +174,7 @@ class EdcNotificationContractServiceTest {
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
         when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
-        when(traceabilityProperties.getUrl()).thenReturn("https://test");
+        when(traceabilityProperties.getInternalUrl()).thenReturn("https://test");
 
         doThrow(CreateEdcContractDefinitionException.class).when(edcContractDefinitionService).createContractDefinition(any(), any());
 

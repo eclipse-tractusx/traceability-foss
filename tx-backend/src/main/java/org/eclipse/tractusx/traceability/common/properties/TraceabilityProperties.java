@@ -38,7 +38,7 @@ public class TraceabilityProperties {
 
     private BPN bpn;
     private String url;
-
+    private String internalUrl;
     private String leftOperand;
     private String operatorType;
     private String rightOperand;

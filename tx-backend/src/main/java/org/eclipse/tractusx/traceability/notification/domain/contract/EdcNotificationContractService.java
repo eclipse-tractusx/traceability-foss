@@ -156,6 +156,6 @@ public class EdcNotificationContractService {
 
     private String createBaseUrl(org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType notificationType, NotificationMethod notificationMethod) {
         final String template = notificationType.equals(org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType.QUALITY_ALERT) ? TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE : TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE;
-        return traceabilityProperties.getUrl() + template.formatted(notificationMethod.getValue());
+        return traceabilityProperties.getInternalUrl() + template.formatted(notificationMethod.getValue());
     }
 }
