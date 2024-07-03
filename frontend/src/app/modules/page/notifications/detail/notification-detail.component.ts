@@ -67,6 +67,7 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   public selectedNotification: Notification;
 
   private paramSubscription: Subscription;
+  private toastActionSubscription: Subscription;
 
   constructor(
     public readonly helperService: NotificationHelperService,
@@ -80,6 +81,18 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   ) {
     this.notificationPartsInformation$ = this.notificationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.notificationDetailFacade.supplierPartsInformation$;
+
+    this.toastActionSubscription = this.toastService.retryAction.subscribe({
+      next: result => {
+        const formattedStatus = result?.context?.charAt(0)?.toUpperCase() + result?.context?.slice(1)?.toLowerCase();
+        if (result?.success) {
+          this.toastService.success(`requestNotification.successfully${ formattedStatus }`);
+        } else if (result?.error) {
+          this.toastService.error(`requestNotification.failed${ formattedStatus }`, 15000, true);
+        }
+        this.ngAfterViewInit();
+      },
+    });
 
     this.selected$ = this.notificationDetailFacade.selected$;
 
@@ -111,6 +124,7 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
     this.subscription?.unsubscribe();
     this.notificationDetailFacade.unsubscribeSubscriptions();
     this.paramSubscription?.unsubscribe();
+    this.toastActionSubscription?.unsubscribe();
   }
 
   public navigateToEditView() {

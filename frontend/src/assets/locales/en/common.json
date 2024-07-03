@@ -290,6 +290,18 @@
     "saveEditSuccess": "Quality topic was updated successfully.",
     "saveEditError": "An error occurred while updating the quality topic.",
     "save" : "Save quality topic",
+    "successfullyAccepted" : "Notification was accepted successfully.",
+    "successfullyAcknowledged" : "Notification was acknowledged successfully.",
+    "successfullyApproved" : "Notification was approved successfully.",
+    "successfullyCanceled" : "Notification was canceled successfully.",
+    "successfullyClosed" : "Notification was closed successfully.",
+    "successfullyDeclined" : "Notification was declined successfully.",
+    "failedAccepted" : "Notification failed to accept, please try again.",
+    "failedAcknowledged" : "Notification failed to acknowledge, please try again.",
+    "failedApproved" : "Notification failed to approve, please try again.",
+    "failedCanceled" : "Notification failed to cancel, please try again.",
+    "failedClosed" : "Notification failed to close, please try again.",
+    "failedDeclined" : "Notification failed to decline, please try again.",
     "noChanges" : "Requires a change on the quality topic"
   },
   "editNotification": {

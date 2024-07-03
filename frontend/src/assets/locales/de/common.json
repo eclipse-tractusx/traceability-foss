@@ -291,6 +291,8 @@
     "saveEditSuccess": "Qualitätsthema wurde erfolgreich aktualisiert.",
     "saveEditError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten.",
     "save" : "Qualitätsthema speichern",
+    "successfullyApproved" : "Qualitätsthema wurde erfolgreich genehmigt.",
+    "failedApprove" : "Qualitätsthema konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
     "noChanges" : "Erfordert eine Änderung am Qualitätsthema"
   },
   "editNotification": {

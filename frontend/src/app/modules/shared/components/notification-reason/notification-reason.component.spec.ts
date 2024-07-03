@@ -72,7 +72,8 @@ describe('NotificationReasonComponent', () => {
         },
       ]
     };
-    component.notification = notification;
+    component.notificationMessages = notification.messages;
+    component.ngOnInit();
     expect(component.textMessages.length).toBe(2);
     expect(component.textMessages[0].message).toEqual('Hello');
     expect(component.textMessages[1].direction).toEqual('left');
@@ -102,7 +103,7 @@ describe('NotificationReasonComponent', () => {
       isFromSender: true,
       messages: []
     };
-    component.notification = notification;
+    component.notificationMessages = notification.messages;
     expect(component.textMessages.length).toBe(0);
   });
 
@@ -122,7 +123,7 @@ describe('NotificationReasonComponent', () => {
       isFromSender: true,
       messages: []
     };
-    component.notification = notification;
+    component.notificationMessages = notification.messages;
     // Since date is invalid, sorting and processing might behave unexpectedly, expecting no error thrown and no messages processed
     expect(component.textMessages.length).toBe(0);
   });
