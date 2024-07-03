@@ -78,9 +78,9 @@ class InvestigationsRepositoryImplTest {
         when(clock.instant()).thenReturn(Instant.now());
         when(clock.getZone()).thenReturn(ZoneId.systemDefault());
         // When
-        investigationsRepository.updateErrorMessage(notification);
+        investigationsRepository.updateErrorMessage(notification, message);
         // Then
-        verify(jpaNotificationMessageRepository, times(1)).save(any());
+        verify(jpaNotificationMessageRepository, times(1)).updateOrInsert(any());
 
     }
 }

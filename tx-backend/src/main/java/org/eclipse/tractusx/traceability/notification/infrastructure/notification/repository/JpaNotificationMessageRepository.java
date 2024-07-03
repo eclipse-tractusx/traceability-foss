@@ -22,7 +22,12 @@ package org.eclipse.tractusx.traceability.notification.infrastructure.notificati
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface JpaNotificationMessageRepository extends JpaRepository<NotificationMessageEntity, String> {
+    @Transactional
+    default NotificationMessageEntity updateOrInsert(NotificationMessageEntity notificationMessageEntity) {
+        return save(notificationMessageEntity);
+    }
 }
