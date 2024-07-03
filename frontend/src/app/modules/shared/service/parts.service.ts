@@ -51,12 +51,12 @@ export class PartsService {
     return this.apiService.get(`${ this.url }/registry/reload`);
   }
 
-  public syncPartsAsBuilt(assetIds: string[]) {
-    return this.apiService.post(`${ this.url }/assets/as-built/sync`, { assetIds });
+  public syncPartsAsBuilt(globalAssetIds: string[]) {
+    return this.apiService.post(`${ this.url }/assets/as-built/sync`, { globalAssetIds });
   }
 
-  public syncPartsAsPlanned(assetIds: string[]) {
-    return this.apiService.post(`${ this.url }/assets/as-planned/sync`, { assetIds });
+  public syncPartsAsPlanned(globalAssetIds: string[]) {
+    return this.apiService.post(`${ this.url }/assets/as-planned/sync`, { globalAssetIds });
   }
 
   public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {

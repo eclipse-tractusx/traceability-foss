@@ -298,16 +298,16 @@
     "cancelButton": "Verwerfen"
   },
   "requestPublishAssets": {
-    "success": "Anfrage zur Veröffentlichung der Produkte war erfolgreich",
-    "error": ""
+    "success" : "Anfrage zur Veröffentlichung der Produkte war erfolgreich.",
+    "error" : "Fehler bei der Veröffentlichung der Produkte."
   },
   "registryReload": {
-    "success": "Aktualisierung aller Parts erfolgreich.",
-    "error": ""
+    "success" : "Prozess zur Synchronisierung der Produkte erfolgreich angestoßen. Dies kann eine Weile dauern.",
+    "error" : "Prozess zur Synchronisierung der Produkte konnte nicht angestoßen werden."
   },
   "partSynchronization": {
-    "success": "Synchronisierung ausgewählter Parts erfolgreich.",
-    "error": ""
+    "success" : "Prozess zur Synchronisierung ausgewählter Produkte erfolgreich angestoßen. Dies kann eine Weile dauern.",
+    "error" : "Prozess zur Synchronisierung ausgewählter Produkte konnte nicht angestoßen werden."
   },
   "pagination": {
     "itemsPerPageLabel": "Artikel pro Seite:",
