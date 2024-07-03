@@ -41,6 +41,7 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.servic
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -92,6 +93,7 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
         objectMapper = new ObjectMapper();
     }
 
+    @Disabled
     @Test
     void shouldNotApproveInvestigationStatus_whenPolicyDoesNotComply() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         // given

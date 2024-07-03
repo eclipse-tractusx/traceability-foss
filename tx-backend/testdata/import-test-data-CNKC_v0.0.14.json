@@ -941,11 +941,17 @@
             },
             "catenaXId" : "urn:uuid:b0acf3e1-3fbe-46c0-aa0b-0724caae7772",
             "partTypeInformation" : {
-              "manufacturerPartId" : "8840374-09",
-              "customerPartId" : "8840374-09",
-              "classification" : "component",
-              "nameAtManufacturer" : "b/test ZB ZELLE",
-              "nameAtCustomer" : "ZB ZELLE"
+              "manufacturerPartId" : "9879317-51",
+              "customerPartId" : "9879317-51",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "b/test Door f-l",
+              "nameAtCustomer" : "Door front-left"
             }
           }
         },

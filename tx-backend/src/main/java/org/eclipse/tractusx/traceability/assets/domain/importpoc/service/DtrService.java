@@ -67,9 +67,8 @@ public class DtrService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
-
-        dtrCreateShellService.createShell(aasFrom(assetBase, descriptors));
-
+        AssetAdministrationShellDescriptor assetAdministrationShellDescriptor = aasFrom(assetBase, descriptors);
+        dtrCreateShellService.createShell(assetAdministrationShellDescriptor);
         return assetBase.getId();
     }
 
@@ -167,6 +166,7 @@ public class DtrService {
         log.info("IdentifierKeyValuePair {}", identifierKeyValuePairs);
         return identifierKeyValuePairs;
     }
+
 
     private List<SemanticId> getExternalSubjectIds() {
         List<SemanticId> externalSubjectIds = List.of(SemanticId.builder()
