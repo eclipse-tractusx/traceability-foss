@@ -138,6 +138,7 @@ healthCheck:
 traceability:
   bpn: "CHANGEME" #<traceability.bpn>
   url: "" #<traceability.url>
+  internalUrl: ""
   leftOperand: "CHANGEME" #<traceability.leftOperand>
   operatorType: "CHANGEME" #<traceability.operatorType>
   rightOperand: "CHANGEME" #<traceability.rightOperand>
