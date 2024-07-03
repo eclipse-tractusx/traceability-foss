@@ -62,8 +62,8 @@ export class ToastService {
 
   public emitClick(): void {
     this.apiService.retryLastRequest()?.subscribe({
-      next: (next) => this.retryAction.emit({ success: next }),
-      error: (err) => this.retryAction.emit({ error: err }),
+      next: (next) => this.retryAction.emit({ success: next, context: this.apiService.lastRequest?.context }),
+      error: (err) => this.retryAction.emit({ error: err, context: this.apiService.lastRequest?.context }),
     });
   };
 }

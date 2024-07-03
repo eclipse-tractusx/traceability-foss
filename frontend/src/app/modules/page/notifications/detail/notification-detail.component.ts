@@ -82,13 +82,13 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
     this.notificationPartsInformation$ = this.notificationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.notificationDetailFacade.supplierPartsInformation$;
 
-    this.toastService.retryAction.subscribe({
+    this.toastActionSubscription = this.toastService.retryAction.subscribe({
       next: result => {
-        const context = this.selectedNotification?.type === NotificationType.ALERT ? 'Alert' : 'Investigation';
+        const formattedStatus = result?.context?.charAt(0)?.toUpperCase() + result?.context?.slice(1)?.toLowerCase();
         if (result?.success) {
-          this.toastService.success(`common${ context }.modal.successfullyApproved`);
+          this.toastService.success(`requestNotification.successfully${ formattedStatus }`);
         } else if (result?.error) {
-          this.toastService.error(`common${ context }.modal.failedApprove`, 15000, true);
+          this.toastService.error(`requestNotification.failed${ formattedStatus }`, 15000, true);
         }
         this.ngAfterViewInit();
       },

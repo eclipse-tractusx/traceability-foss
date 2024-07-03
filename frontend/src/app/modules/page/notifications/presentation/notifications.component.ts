@@ -87,10 +87,11 @@ export class NotificationsComponent {
 
     this.toastActionSubscription = this.toastService.retryAction.subscribe({
       next: result => {
+        const formatted = result?.context?.charAt(0)?.toUpperCase() + result?.context?.slice(1)?.toLowerCase();
         if (result?.success) {
-          this.toastService.success('requestNotification.successfullyApproved');
+          this.toastService.success(`requestNotification.successfully${ formatted }`);
         } else if (result?.error) {
-          this.toastService.error('requestNotification.failedApprove', 15000, true);
+          this.toastService.error(`requestNotification.failed${ formatted }`, 15000, true);
         }
         this.handleConfirmActionCompletedEvent();
       },
