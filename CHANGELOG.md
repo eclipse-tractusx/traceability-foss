@@ -17,10 +17,15 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1037 extended autocomplete api by contractAgreementId
 - #985 Added function to save Contracts based on notification contractAgreementIds into the database
 - #985 Added function to filter notifications for contractAgreementIds
+- XXX updated JsonSchemaTest now the test pulls the latest version of the json file
+- XXX deactivated a test class in tx-backend which behaved undesirably
+- #1017 updated contributing, notice, and readme files for TRG 7
+- #639 handle expired or incorrect policies when sending notifications
 - #786 Added authorization as admin for submodel api & registry api
 - #884 Upgraded tractionBatteryCode from 1.0.0 to 2.0.0
 - #1009 reimplemented retry request logic for notification approval
 - #786 Added alternative port (only accessible within same cluster) for application which is used for unsecured API endpoints.
+- #994 improved bpn edc configuration view uux
 
 
 ### Added
@@ -29,6 +34,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - XXX Added interceptor to EdcRestTemplates to log requests
 - #915 Added section to documentation: EDC-BPN configuration
 - #1037 Added link from contracts view to the corresponding filtered part table view
+- #1017 added file for CC BY 4.0 license for TRG 7
 - #985 Added reference to part/notification under contract
 - #786 Added icons on part table to let admin reload registry / sync assets via IRS
 
@@ -41,19 +47,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 - XXX Removed EdcNotifiactionMockServiceImpl class and replaced with mocks
 - #1033 removed action jira-publish-release workflow
-
-### Changed
-
-- XXX updated JsonSchemaTest now the test pulls the latest version of the json file
-- XXX deactivated a test class in tx-backend which behaved undesirably
-
-### Added
-
-- #1017 added file for CC BY 4.0 license for TRG 7
-
-### Changed
-
-- #1017 updated contributing, notice, and readme files for TRG 7
 
 ## [11.0.2 - 29.05.2024]
 ### Added

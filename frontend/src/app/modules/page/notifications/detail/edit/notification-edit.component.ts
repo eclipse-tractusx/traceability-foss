@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { Location } from '@angular/common';
-import { Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from '@core/model/pagination.model';
@@ -93,6 +93,7 @@ export class NotificationEditComponent implements OnDestroy {
     private readonly toastService: ToastService,
     private readonly sharedPartService: SharedPartService,
     private location: Location,
+    private readonly cdr: ChangeDetectorRef,
   ) {
     this.editMode = this.determineEditModeOrCreateMode();
 
@@ -178,6 +179,8 @@ export class NotificationEditComponent implements OnDestroy {
 
     this.notificationFormGroup = notificationFormGroup;
     this.isSaveButtonDisabled = (notificationFormGroup.invalid || this.affectedPartIds.length < 1) || !this.notificationFormGroup.dirty;
+    this.cdr.detectChanges();
+
     if (this.notificationFormGroup && this.notificationFormGroup.getRawValue().type === NotificationType.INVESTIGATION.valueOf() && !this.notificationFormGroup.getRawValue().bpn && this.sharedPartService.affectedParts && this.sharedPartService.affectedParts.length > 0) {
       this.notificationFormGroup.get('bpn').setValue(this.sharedPartService.affectedParts[0].businessPartner);
     }

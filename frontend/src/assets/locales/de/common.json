@@ -293,6 +293,7 @@
     "save" : "Qualitätsthema speichern",
     "successfullyApproved" : "Qualitätsthema wurde erfolgreich genehmigt.",
     "failedApprove" : "Qualitätsthema konnte nicht genehmigt werden, bitte versuchen Sie es erneut."
+    "noChanges" : "Erfordert eine Änderung am Qualitätsthema"
   },
   "editNotification": {
     "saveButton": "Speichern",

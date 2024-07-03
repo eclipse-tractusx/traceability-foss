@@ -292,6 +292,7 @@
     "save" : "Save quality topic",
     "successfullyApproved" : "Notification was approved successfully.",
     "failedApprove" : "Notification failed to approve, please try again."
+    "noChanges" : "Requires a change on the quality topic"
   },
   "editNotification": {
     "saveButton": "Save",
