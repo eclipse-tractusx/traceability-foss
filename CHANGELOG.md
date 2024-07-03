@@ -23,6 +23,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #639 handle expired or incorrect policies when sending notifications
 - #786 Added authorization as admin for submodel api & registry api
 - #884 Upgraded tractionBatteryCode from 1.0.0 to 2.0.0
+- #884 Fixed mapper of tractionBatteryCode
 - #1009 reimplemented retry request logic for notification approval
 - #786 Added alternative port (only accessible within same cluster) for application which is used for unsecured API endpoints.
 - #786 Introduced internal url for notification contracts.

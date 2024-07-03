@@ -35,7 +35,7 @@ on:
         - E2E-A/E2E-B
         - int-a/int-b
       testdata_version:
-        description: Which Testdata Version CX_Testdata_MessagingTest_v<X.X.X>.json e.g., 0.0.13"
+        description: Which Testdata Version CX_Testdata_MessagingTest_v<X.X.X>.json e.g., 0.0.14"
         required: true
       argo_token:
         description: Argo Token
