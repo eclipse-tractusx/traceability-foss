@@ -63,11 +63,7 @@ class NotificationsEDCFacadeTest {
     @Mock
     EndpointDataReferenceStorage endpointDataReferenceStorage;
     @Mock
-    PolicyCheckerService policyCheckerService;
-    @Mock
     EndpointDataReference endpointDataReference;
-    @Mock
-    NotificationRepository notificationRepository;
     @Mock
     Notification notification;
     @InjectMocks
@@ -92,7 +88,6 @@ class NotificationsEDCFacadeTest {
         when(notification.getSeverity()).thenReturn(NotificationSeverity.MAJOR);
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
-        when(policyCheckerService.isValid(null, null)).thenReturn(true);
         when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem, null, null))
                 .thenReturn(NegotiationResponse.builder().contractAgreementId(agreementId).build());
         when(endpointDataReference.getEndpoint()).thenReturn("endpoint");
@@ -121,7 +116,6 @@ class NotificationsEDCFacadeTest {
         final String idsPath = "/api/v1/dsp";
         when(edcProperties.getIdsPath()).thenReturn(idsPath);
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(catalogItem));
-        when(policyCheckerService.isValid(null, null)).thenReturn(true);
         when(contractNegotiationService.negotiate(receiverEdcUrl + idsPath, catalogItem, null, null))
                 .thenReturn(null);
 

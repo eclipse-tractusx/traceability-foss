@@ -129,7 +129,7 @@ public class NotificationsEDCFacade {
                     .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
-            throw new ContractNegotiationException("Failed to negotiate contract agreement. ", e);
+            throw new ContractNegotiationException("Failed to negotiate contract agreement: " + e.getMessage(), e);
         }
     }
 
@@ -164,14 +164,6 @@ public class NotificationsEDCFacade {
                                             .build())
                                     .build()
                     ).stream()
-                    .filter(catalogItem -> {
-                        log.info("-- catalog item check --");
-                        log.info("Item {}: {}", catalogItem.getItemId(), catalogItem);
-                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy(), notification.getSentTo()
-                        );
-                        log.info("IsValid : {}", isValid);
-                        return isValid;
-                    })
                     .findFirst()
                     .orElseThrow();
         } catch (Exception e) {
