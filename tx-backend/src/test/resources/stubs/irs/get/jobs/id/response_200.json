@@ -280,7 +280,7 @@
           }
         ],
         "globalAssetId" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
-        "idShort" : "vehicle_hybrid.asm",
+        "idShort" : "vehicle_hybrid_v2.asm",
         "identification" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
         "specificAssetIds" : [
           {
