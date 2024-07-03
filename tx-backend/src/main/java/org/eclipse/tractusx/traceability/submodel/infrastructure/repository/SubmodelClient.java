@@ -49,7 +49,6 @@ public class SubmodelClient {
         await()
                 .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
-                .ignoreExceptions()
                 .until(() -> {
                             try {
                                 submodelRestTemplate.exchange("/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
