@@ -78,6 +78,8 @@ spec:
               value: {{ .Values.traceability.bpn | quote }}
             - name: TRACEABILITY_URL
               value: {{ .Values.traceability.url | quote }}
+            - name: TRACEABILITY_URL_INTERNAL
+              value: {{ .Values.traceability.internalUrl | quote }}
             - name: TRACEABILITY_LEFT_OPERAND
               value: {{ .Values.traceability.leftOperand | quote }}
             - name: TRACEABILITY_OPERATOR_TYPE
