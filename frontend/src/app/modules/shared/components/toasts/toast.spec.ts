@@ -19,15 +19,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {TestBed} from '@angular/core/testing';
-import {SharedModule} from '@shared/shared.module';
-import {screen} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {ToastService} from './toast.service';
+import { TestBed } from '@angular/core/testing';
+import { ApiService } from '@core/api/api.service';
+import { SharedModule } from '@shared/shared.module';
+import { screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { ToastService } from './toast.service';
 
 describe('toasts', () => {
   const renderToastLayout = async () => {
-    await renderComponent(`<app-toast-container></app-toast-container>`, { imports: [ SharedModule ] });
+    await renderComponent(`<app-toast-container></app-toast-container>`, {
+      imports: [ SharedModule ],
+      providers: [ ApiService ],
+    });
     return TestBed.inject(ToastService);
   };
 
@@ -68,7 +72,7 @@ describe('toasts', () => {
 
   it('should emit click action on toast', async () => {
     const toastService = await renderToastLayout();
-    const toastActionSpy = spyOn(toastService.retryAction, 'emit')
+    const toastActionSpy = spyOn(toastService['apiService'], 'retryLastRequest');
     toastService.emitClick();
     expect(toastActionSpy).toHaveBeenCalled();
   });

@@ -290,7 +290,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #reasonInfoTmp let-view="view">
-  <app-notification-reason [notification]="view.data"></app-notification-reason>
+  <app-notification-reason [notificationMessages]="view.data?.messages"></app-notification-reason>
 </ng-template>
 
 <ng-template #errorTmp let-view="view">

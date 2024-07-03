@@ -28,6 +28,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root',
 })
 export class ApiService {
+  lastRequest: { execute?: () => Observable<void>, context?: any };
   constructor(private readonly httpClient: HttpClient, private readonly authService: AuthService) {
   }
 
@@ -109,6 +110,16 @@ export class ApiService {
       headers: headers ? headers : this.buildHeaders(),
       withCredentials,
     });
+  }
+
+  /**
+   * set the public class property 'lastRequest' from where you made the request
+   * before retrying
+   */
+  public retryLastRequest(): Observable<any> | null {
+    if (this.lastRequest.execute) {
+      return this.lastRequest.execute();
+    }
   }
 
   private buildHeaders(): HttpHeaders {

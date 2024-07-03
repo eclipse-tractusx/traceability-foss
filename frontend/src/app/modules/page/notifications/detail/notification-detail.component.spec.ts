@@ -20,10 +20,12 @@
 import { ActivatedRoute } from '@angular/router';
 import { NotificationDetailComponent } from '@page/notifications/detail/notification-detail.component';
 import { NotificationsModule } from '@page/notifications/notifications.module';
+import { NotificationAssembler } from '@shared/assembler/notification.assembler';
 import { NotificationService } from '@shared/service/notification.service';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
+import { MockEmptyAlert } from '../../../../mocks/services/alerts-mock/alerts.test.model';
 
 describe('NotificationDetailComponent', () => {
 
@@ -57,5 +59,24 @@ describe('NotificationDetailComponent', () => {
     await renderNotificationDetail('id-1');
     await waitFor(() => expect(screen.getByText('actions.goBack')).toBeInTheDocument());
   });
+
+  it('should correctly behave on toast retry action', async () => {
+    const { fixture } = await renderNotificationDetail('id-1');
+    const { componentInstance } = fixture;
+    const ngSpy = spyOn(componentInstance, 'ngAfterViewInit').and.returnValue(null);
+    const toastSuccessSpy = spyOn(componentInstance['toastService'], 'success');
+    const toastErrorSpy = spyOn(componentInstance['toastService'], 'error');
+
+    componentInstance.selectedNotification = NotificationAssembler.assembleNotification(MockEmptyAlert);
+    componentInstance['toastService'].retryAction.emit({ success: true });
+    expect(toastSuccessSpy).toHaveBeenCalled();
+
+    componentInstance['toastService'].retryAction.emit({ error: true });
+    expect(toastErrorSpy).toHaveBeenCalled();
+
+    expect(ngSpy).toHaveBeenCalled();
+
+  });
+
 
 });

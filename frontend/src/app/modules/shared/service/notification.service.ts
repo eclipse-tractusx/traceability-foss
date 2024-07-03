@@ -92,17 +92,32 @@ export class NotificationService {
   public closeNotification(id: string, reason: string): Observable<void> {
     const requestUrl = this.notificationUrl();
     const body = { reason };
-    return this.apiService.post<void>(`${ requestUrl }/${ id }/close`, body);
+    const request = () => this.apiService.post<void>(`${ requestUrl }/${ id }/close`, body);
+    this.apiService.lastRequest = {
+      context: NotificationStatus.CLOSED,
+      execute: request,
+    };
+    return request();
   }
 
   public approveNotification(id: string): Observable<void> {
     const requestUrl = this.notificationUrl();
-    return this.apiService.post<void>(`${ requestUrl }/${ id }/approve`);
+    const request = () => this.apiService.post<void>(`${ requestUrl }/${ id }/approve`);
+    this.apiService.lastRequest = {
+      context: NotificationStatus.APPROVED,
+      execute: request,
+    };
+    return request();
   }
 
   public cancelNotification(id: string): Observable<void> {
     const requestUrl = this.notificationUrl();
-    return this.apiService.post<void>(`${ requestUrl }/${ id }/cancel`);
+    const request = () => this.apiService.post<void>(`${ requestUrl }/${ id }/cancel`);
+    this.apiService.lastRequest = {
+      context: NotificationStatus.CANCELED,
+      execute: request,
+    };
+    return request();
   }
 
   public updateNotification(
@@ -112,7 +127,12 @@ export class NotificationService {
   ): Observable<void> {
     const requestUrl = this.notificationUrl();
     const body = { reason, status };
-    return this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
+    const request = () => this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
+    this.apiService.lastRequest = {
+      context: status,
+      execute: request,
+    };
+    return request();
   }
 
   public editNotification(notificationId: string, title: string, receiverBpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
