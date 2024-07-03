@@ -19,6 +19,8 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
@@ -56,19 +58,22 @@ public class DtrService {
     private final SubmodelPayloadRepository submodelPayloadRepository;
     private final SubmodelServerRepository submodelServerRepository;
     private final EdcProperties edcProperties;
+    private final ObjectMapper objectMapper;
 
     @Value("${registry.allowedBpns}")
     String allowedBpns;
 
-    public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
+    public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException, JsonProcessingException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(assetBase.getId());
         Map<String, UUID> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
                 .map(this::createSubmodel)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
-
-        dtrCreateShellService.createShell(aasFrom(assetBase, descriptors));
+        AssetAdministrationShellDescriptor assetAdministrationShellDescriptor = aasFrom(assetBase, descriptors);
+        String registryBody = objectMapper.writeValueAsString(assetAdministrationShellDescriptor);
+        log.info("Registrybody " + registryBody);
+        dtrCreateShellService.createShell(assetAdministrationShellDescriptor);
 
         return assetBase.getId();
     }
@@ -167,6 +172,7 @@ public class DtrService {
         log.info("IdentifierKeyValuePair {}", identifierKeyValuePairs);
         return identifierKeyValuePairs;
     }
+
 
     private List<SemanticId> getExternalSubjectIds() {
         List<SemanticId> externalSubjectIds = List.of(SemanticId.builder()
