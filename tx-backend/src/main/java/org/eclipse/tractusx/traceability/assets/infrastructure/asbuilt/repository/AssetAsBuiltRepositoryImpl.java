@@ -44,6 +44,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
+@Transactional
 public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, AssetCallbackRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
@@ -52,7 +53,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     private EntityManager entityManager;
 
     @Override
-    @Transactional
     public AssetBase getAssetById(String assetId) {
         return jpaAssetAsBuiltRepository.findById(assetId)
                 .map(AssetAsBuiltEntity::toDomain)
@@ -60,7 +60,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     }
 
     @Override
-    @Transactional
     public boolean existsById(String assetId) {
         return jpaAssetAsBuiltRepository.existsById(assetId);
     }
@@ -85,7 +84,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     }
 
     @Override
-    @Transactional
     public List<AssetBase> getAssets() {
         return jpaAssetAsBuiltRepository.findAll().stream()
                 .map(AssetAsBuiltEntity::toDomain)
@@ -93,13 +91,11 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     }
 
     @Override
-    @Transactional
     public AssetBase save(AssetBase asset) {
         return jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)).toDomain();
     }
 
     @Override
-    @Transactional
     public List<AssetBase> saveAll(List<AssetBase> assets) {
         return jpaAssetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)).stream()
                 .map(AssetAsBuiltEntity::toDomain)
@@ -107,7 +103,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     }
 
     @Override
-    @Transactional
     public List<AssetBase> saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(List<AssetBase> assets) {
         if (Objects.isNull(assets)) {
             return List.of();
@@ -132,7 +127,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
         return assetBaseAssetBaseEntitySimpleEntry.getValue().getImportState() == ImportState.TRANSIENT;
     }
 
-    @Transactional
     @Override
     public List<AssetBase> findByImportStateIn(ImportState... importStates) {
         return jpaAssetAsBuiltRepository.findByImportStateIn(importStates).stream()
@@ -149,7 +143,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
         jpaAssetAsBuiltRepository.saveAll(assets);
     }
 
-    @Transactional
     @Override
     public List<AssetBase> findAll() {
         return jpaAssetAsBuiltRepository.findAll().stream()
@@ -162,7 +155,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
                 .map(AssetAsBuiltEntity::toDomain);
     }
 
-    @Transactional
     @Override
     public long countAssets() {
         return jpaAssetAsBuiltRepository.count();
