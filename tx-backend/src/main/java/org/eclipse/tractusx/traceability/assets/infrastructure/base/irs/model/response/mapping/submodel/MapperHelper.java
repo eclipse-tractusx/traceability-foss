@@ -80,7 +80,7 @@ public class MapperHelper {
         detailAspectModels.stream()
                 .filter(detailAspectModel -> detailAspectModel.getGlobalAssetId().equals(assetBase.getId()))
                 .findFirst()
-                .ifPresent(detailAspectModel -> assetBase.setDetailAspectModels(List.of(detailAspectModel)));
+                .ifPresent(detailAspectModel -> assetBase.getDetailAspectModels().add(detailAspectModel));
     }
 
     public static void enrichUpwardAndDownwardDescriptions(Map<String, List<Descriptions>> descriptionsMap, AssetBase assetBase) {
