@@ -267,30 +267,6 @@ SPDX-License-Identifier: Apache-2.0
     </build>
     <profiles>
         <profile>
-            <id>dependency-check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>${owasp-plugin.version}</version>
-                        <configuration>
-                            <suppressionFile>dependency_check/suppressions.xml</suppressionFile>
-                            <failBuildOnCVSS>7.0</failBuildOnCVSS>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>site</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>spotbugs-check</id>
             <build>
                 <plugins>
