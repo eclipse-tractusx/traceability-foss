@@ -23,3 +23,10 @@ The following people have contributed to this repository:
 - Abilash Shanmugavel, doubleSlash Net-Business GmbH, https://github.com/abi231002
 - Sebastian Ceronik, doubleSlash Net-Business GmbH, https://github.com/ds-ext-sceronik
 - Christian Rehm, doubleSlash Net-Business GmbH, https://github.com/ds-crehm
+- Philipp Weick, doubleSlash Net-Business GmbH, https://github.com/ds-pweick
+- Alexander Bulgakov, doubleSlash Net-Business GmbH, https://github.com/ds-alexander-bulgakov
+- Janice Leyh, doubleSlash Net-Business GmbH, https://github.com/ds-jleyh
+- Jaro Hartmann, doubleSlash Net-Business GmbH, https://github.com/ds-jhartmann
+- Jan Kreutzfeld, doubleSlash Net-Business GmbH, https://github.com/ds-jkreutzfeld
+- Johannes Zahn, BMW AG, https://github.com/jzbmw
+- Gábor Almádi, T-Systems International GmbH, https://github.com/almadigabor
