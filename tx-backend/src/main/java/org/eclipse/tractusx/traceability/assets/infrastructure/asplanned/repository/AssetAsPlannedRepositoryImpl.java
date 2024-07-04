@@ -50,7 +50,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RequiredArgsConstructor
 @Component
-@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+@Transactional(isolation = Isolation.SERIALIZABLE)
 public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, AssetCallbackRepository {
 
     private final JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
