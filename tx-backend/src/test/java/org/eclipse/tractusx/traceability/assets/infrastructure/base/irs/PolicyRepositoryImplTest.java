@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.Operator;
@@ -43,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -55,6 +57,10 @@ class PolicyRepositoryImplTest {
 
     @Mock
     TraceabilityProperties traceabilityProperties;
+
+    @Mock
+    AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
+
 
     @Mock
     private PolicyClient policyClient;
@@ -71,6 +77,8 @@ class PolicyRepositoryImplTest {
         // then
         verify(policyClient, times(1))
                 .createPolicyFromAppConfig();
+        verify(defaultAcceptedPoliciesProvider, times(1))
+                .addAcceptedPolicies(any());
     }
 
     @Test
@@ -94,6 +102,8 @@ class PolicyRepositoryImplTest {
 
         // then
         verifyNoMoreInteractions(policyClient);
+        verify(defaultAcceptedPoliciesProvider, times(1))
+                .addAcceptedPolicies(any());
     }
 
     @Test
@@ -119,6 +129,8 @@ class PolicyRepositoryImplTest {
         // then
         verify(policyClient, times(1)).deletePolicy(traceabilityProperties.getRightOperand());
         verify(policyClient, times(1)).createPolicyFromAppConfig();
+        verify(defaultAcceptedPoliciesProvider, times(1))
+                .addAcceptedPolicies(any());
     }
 
     @Test
