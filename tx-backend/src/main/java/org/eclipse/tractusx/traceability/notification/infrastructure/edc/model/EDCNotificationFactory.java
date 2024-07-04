@@ -50,7 +50,7 @@ public class EDCNotificationFactory {
         );
 
         String message = null;
-        if (notification.getNotificationStatus().equals(NotificationStatus.SENT)){
+        if (notification.getNotificationStatus() != null && notification.getNotificationStatus().equals(NotificationStatus.SENT)){
             message = notification.getDescription();
         } else{
             message = notificationMessage.getMessage();
