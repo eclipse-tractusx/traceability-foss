@@ -121,6 +121,7 @@
     "addParts" : "Add parts to quality topics",
     "viewDetails" : "View details",
     "more" : "More actions",
+    "multiActionsNotImplemented" : "Functionality for action on multiple notifications is not implemented yet.",
     "editNotification" : "Edit quality topics",
     "selectAtLeastOne" : "Requires at least one selection in the policies table",
     "selectOnlyOne" : "Action requires only one selection from the table",

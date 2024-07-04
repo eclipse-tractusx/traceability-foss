@@ -81,7 +81,7 @@ export class NotificationService {
 
   public createNotification(affectedPartIds: string[], description: string, severity: Severity, bpn: string, type: string, title: string, dateString: DateTimeString,
   ): Observable<string> {
-    const targetDate = null === dateString ? null : new Date(dateString).toISOString();
+    const targetDate = dateString?.length > 0 ? new Date(dateString).toISOString() : null;
     const upperCaseType = type ? type.toUpperCase() : null;
     const body = { affectedPartIds, description, severity, receiverBpn: bpn, type: upperCaseType, title: title === "" ? null: title, targetDate };
 
@@ -137,7 +137,8 @@ export class NotificationService {
 
   public editNotification(notificationId: string, title: string, receiverBpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
     const requestUrl = this.notificationUrl();
-    if(targetDate) {
+    console.log(targetDate);
+    if (targetDate?.length > 0) {
       targetDate = new Date(targetDate).toISOString();
     }
     const body = { title: title === "" ? null: title, receiverBpn: receiverBpn, severity, targetDate, description, affectedPartIds: affectedPartIds };
