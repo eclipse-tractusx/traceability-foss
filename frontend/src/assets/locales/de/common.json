@@ -124,6 +124,7 @@
     "addParts" : "Teile hinzufügen",
     "viewDetails" : "Details anzeigen",
     "more" : "Mehr Aktionen",
+    "multiActionsNotImplemented" : "Funktionalität zum ausführen einer Aktion für mehrere Qualitätsthemen wurde bisher noch nicht implementiert.",
     "editNotification" : "Qualitätsthemen bearbeiten",
     "selectAtLeastOne" : "Erfordert mindestens eine Selektion in der Tabelle",
     "selectOnlyOne" : "Aktion erfordert eine einzige Selektion in der Tabelle",
