@@ -75,7 +75,7 @@ configuration:
         name: &edc_database_name 'tx-edc-consumer-postgresql-int-a'
         username: &edc_database_username <path:traceability-foss/data/int-a/edc/database#USER>
         password: &edc_database_password <path:traceability-foss/data/int-a/edc/database#PASSWORD>
-        jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-int-a-hl:5432/edc"
+        jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-int-a-0:5432/edc"
       vault:
         hashicorp:
           url: &vault_url 'https://vault.core.catena-x.net'
