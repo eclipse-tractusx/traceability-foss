@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.notification.infrastructure.edc.model;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationAffectedPart;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 
 import java.util.List;
 
@@ -48,8 +49,14 @@ public class EDCNotificationFactory {
                 notificationMessage.getMessageId()
         );
 
+        String message = null;
+        if (notification.getNotificationStatus() != null && notification.getNotificationStatus().equals(NotificationStatus.SENT)){
+            message = notification.getDescription();
+        } else{
+            message = notificationMessage.getMessage();
+        }
         EDCNotificationContent content = new EDCNotificationContent(
-                notificationMessage.getMessage(),
+                message,
                 extractAssetIds(notificationMessage)
         );
 
