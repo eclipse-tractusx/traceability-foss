@@ -25,6 +25,10 @@ import { applyPagination, extractPagination } from '../../pagination.helper';
 import { getAssetById, mockBmwAssets } from './partsAsBuilt.model';
 import { mockAssetList, mockAssets } from './partsAsBuilt.test.model';
 
+/**
+ * TODO: Merge other parts into this handler, because other parts handler has the same request path
+ * -> might be the cause of the errors in unit tests
+ */
 export const partsAsBuiltHandlers = [
 
 
