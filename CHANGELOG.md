@@ -29,6 +29,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #786 Introduced internal url for notification contracts.
 - #994 improved bpn edc configuration view uux
 - #1082 fix update of parts when synchronizing with IRS
+- XXX fixed display of semantic data model in parts as planned table
 
 
 ### Added

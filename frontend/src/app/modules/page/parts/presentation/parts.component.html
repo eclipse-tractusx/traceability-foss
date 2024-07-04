@@ -84,7 +84,7 @@ SPDX-License-Identifier: Apache-2.0
           <ng-template #myTmp let-parts="view">
             <!-- asPlanned Parts Table-->
             <app-parts-table class="parts-asPlanned-table"
-                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                             [paginationData]="parts.data"
                              [labelId]="titleId"
                              (publishIconClickedEvent)="openPublisherSideNav()"
                              (partReloadClickedEvent)="triggerPartReload($event)"
