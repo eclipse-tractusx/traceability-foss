@@ -26,7 +26,7 @@ wiremock:
     own: "BPNL00000003CML1"
     other: "BPNL00000003CNKC"
     ownUrl: "trace-x-edc.dev.demo.catena-x.net"
-    otherUrl: "trace-x-edc-e2e-b.dev.demo.catena-x.net"
+    otherUrl: "trace-x-test-edc.dev.demo.catena-x.net"
 
 ingress:
   hosts:
