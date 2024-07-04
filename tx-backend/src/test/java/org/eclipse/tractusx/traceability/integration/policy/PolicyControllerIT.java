@@ -96,6 +96,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
     void shouldCreatePolicy() throws JoseException {
         // GIVEN
         irsApiSupport.irsApiCreatesPolicy();
+        irsApiSupport.irsApiReturnsPolicies();
         Payload payload = Payload.builder().build();
         RegisterPolicyRequest request = new RegisterPolicyRequest(Instant.MAX, "abc", payload);
 
@@ -141,6 +142,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
     void shouldUpdatePolicy() throws JoseException {
         // GIVEN
         irsApiSupport.irsApiUpdatesPolicy();
+        irsApiSupport.irsApiReturnsPolicies();
 
         UpdatePolicyRequest request = new UpdatePolicyRequest(List.of("abc"), List.of("abc"), Instant.MAX);
 
@@ -161,6 +163,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
         // GIVEN
         String policyId = "policy1";
         irsApiSupport.irsApiDeletesPolicy(policyId);
+        irsApiSupport.irsApiReturnsPolicies();
 
         // when/then
         given()

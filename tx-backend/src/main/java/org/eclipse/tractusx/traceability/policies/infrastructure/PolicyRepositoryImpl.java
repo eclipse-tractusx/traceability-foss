@@ -18,11 +18,15 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.policies.infrastructure;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
@@ -41,11 +45,12 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PolicyRepositoryImpl implements PolicyRepository {
 
     private final PolicyClient policyClient;
     private final TraceabilityProperties traceabilityProperties;
+    private AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
 
     @Override
     public Map<String, List<IrsPolicyResponse>> getPolicies() {
@@ -69,7 +74,6 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     }
 
 
-
     @Override
     public void createPolicyBasedOnAppConfig() {
         log.info("Check if irs policy exists");
@@ -77,7 +81,8 @@ public class PolicyRepositoryImpl implements PolicyRepository {
         final List<String> irsPoliciesIds = irsPolicies.values().stream()
                 .flatMap(List::stream)
                 .map(irsPolicyResponse -> irsPolicyResponse.payload().policyId())
-                .toList();        log.info("Irs has following policies: {}", irsPoliciesIds);
+                .toList();
+        log.info("Irs has following policies: {}", irsPoliciesIds);
 
         log.info("Required constraints - 2 -");
         log.info("First constraint requirements: leftOperand {} operator {} and rightOperand {}", traceabilityProperties.getLeftOperand(), traceabilityProperties.getOperatorType(), traceabilityProperties.getRightOperand());
@@ -90,23 +95,27 @@ public class PolicyRepositoryImpl implements PolicyRepository {
         } else {
             checkAndUpdatePolicy(matchingPolicy);
         }
+        updateAcceptedPoliciesProvider();
     }
 
     @Override
     public void deletePolicy(String policyId) {
         this.policyClient.deletePolicy(policyId);
+        updateAcceptedPoliciesProvider();
     }
 
     @Override
     public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
         this.policyClient.updatePolicy(updatePolicyRequest);
+        updateAcceptedPoliciesProvider();
     }
 
     @Override
     public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
-       return this.policyClient.createPolicy(registerPolicyRequest);
+        CreatePolicyResponse policy = this.policyClient.createPolicy(registerPolicyRequest);
+        updateAcceptedPoliciesProvider();
+        return policy;
     }
-
 
 
     private IrsPolicyResponse findMatchingPolicy(Map<String, List<IrsPolicyResponse>> irsPolicies) {
@@ -141,8 +150,6 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     }
 
 
-
-
     private void createMissingPolicies() {
         log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
         this.policyClient.createPolicyFromAppConfig();
@@ -158,6 +165,21 @@ public class PolicyRepositoryImpl implements PolicyRepository {
 
     private boolean isPolicyExpired(IrsPolicyResponse requiredPolicy) {
         return traceabilityProperties.getValidUntil().isAfter(requiredPolicy.validUntil());
+    }
+
+    private void updateAcceptedPoliciesProvider() {
+        defaultAcceptedPoliciesProvider.removeAcceptedPolicies(defaultAcceptedPoliciesProvider.getAcceptedPolicies(null));
+        // Flatten the map into a list of IrsPolicyResponse objects
+        List<IrsPolicyResponse> irsPolicyResponses = getPolicies().values().stream()
+                .flatMap(List::stream)
+                .toList();
+
+        // Map the IrsPolicyResponse objects to AcceptedPolicy objects
+        List<AcceptedPolicy> irsPolicies = irsPolicyResponses.stream().map(response -> {
+            Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
+            return new AcceptedPolicy(policy, response.validUntil());
+        }).toList();
+        defaultAcceptedPoliciesProvider.addAcceptedPolicies(irsPolicies);
     }
 
 }

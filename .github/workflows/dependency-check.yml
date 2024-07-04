@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "[BE] Dependency check"
+name: "[BE] OWASP dependency check"
 
 on:
   workflow_dispatch: # Trigger manually
@@ -25,6 +25,8 @@ env:
   GHCR_REGISTRY: ghcr.io
   JAVA_VERSION: 17
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
+  FAIL_BUILD_ON_CVSS: 7
+  SUPPRESSIONS_FILE: dependency_check/suppressions.xml
 
 jobs:
   Dependency-analysis:
@@ -39,27 +41,54 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: install tx-models
-        run: mvn install -pl tx-models
+      - name: Run mvn clean install
+        run: |
+          mvn -B -DskipTests -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn\
+          clean install
 
-      - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
-        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode site -Pdependency-check
+      - name: Dependency check tx-backend # possible severity values: <'fail'|'warn'|'ignore'>
+        uses: dependency-check/Dependency-Check_Action@3102a65fd5f36d0000297576acc56a475b0de98d
+        with:
+          project: 'tx-backend'
+          path: 'tx-backend'
+          format: 'HTML'
+          out: 'tx-backend/target/depcheck-report.html'
+          args: >
+            --failOnCVSS ${{ env.FAIL_BUILD_ON_CVSS }}
+            --suppression ${{ env.SUPPRESSIONS_FILE }}
+        env:
+          # actions/setup-java changes JAVA_HOME, so it needs to be reset to match the depcheck image
+          JAVA_HOME: /opt/jdk
 
-      - name: Upload Test results Tx-Backend
+      - name: Dependency check tx-models # possible severity values: <'fail'|'warn'|'ignore'>
+        uses: dependency-check/Dependency-Check_Action@3102a65fd5f36d0000297576acc56a475b0de98d
+        with:
+          project: 'tx-models'
+          path: 'tx-models'
+          format: 'HTML'
+          out: 'tx-models/target/depcheck-report.html'
+          args: >
+            --failOnCVSS ${{ env.FAIL_BUILD_ON_CVSS }}
+            --suppression ${{ env.SUPPRESSIONS_FILE }}
+        env:
+          # actions/setup-java changes JAVA_HOME, so it needs to be reset to match the depcheck image
+          JAVA_HOME: /opt/jdk
+
+      - name: Upload results for tx-backend
         if: always()
         uses: actions/upload-artifact@master
         with:
           name: Depcheck report tx-backend
-          path: tx-backend/target
+          path: tx-backend/target/depcheck-report.html
 
-      - name: Upload Test results Tx-Models
+      - name: Upload results for tx-models
         if: always()
         uses: actions/upload-artifact@master
         with:
           name: Depcheck report tx-models
-          path: tx-models/target
+          path: tx-models/target/depcheck-report.html
 
-      - name: add PR comment
+      - name: Add PR comment
         uses: mshick/add-pr-comment@v2
         if: failure()
         with:
@@ -68,7 +97,7 @@ jobs:
             One or more high/critical findings have been found during dependency check. Please check the depenency report:
             https://github.com/eclipse-tractusx/traceability-foss/actions/runs/${{ github.run_id }}
 
-      - name: add PR comment
+      - name: Add PR comment
         uses: mshick/add-pr-comment@v2
         if: success()
         with:

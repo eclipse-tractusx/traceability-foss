@@ -46,7 +46,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.util.ResourceUtils;
 
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 
@@ -80,24 +82,16 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
 
     ObjectMapper objectMapper;
 
-
-    @DynamicPropertySource
-    static void dynamicProperties(DynamicPropertyRegistry registry) {
-        registry.add("traceability.leftOperand", () -> "unsopperted operand");
-        registry.add("server.port", () -> "9996");
-        registry.add("management.server.port", () -> "8084");
-    }
-
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
     }
 
-    @Disabled
     @Test
-    void shouldNotApproveInvestigationStatus_whenPolicyDoesNotComply() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldNotApproveInvestigationStatus_whenPolicyDoesNotComply() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException, FileNotFoundException {
         // given
-        irsApiSupport.irsApiReturnsPolicies();
+        irsApiSupport.irsApiReturnsMismatchingPolicy();
+        irsApiSupport.irsApiCreatesPolicy();
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
@@ -117,6 +111,17 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
                 .receiverBpn("BPNL00000003CNKC")
                 .build();
 
+        // this create will be not used, since irsApiSupport.irsApiReturnsMismatchingPolicy(); returns the used policy
+        // for this test
+        given()
+                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .body(ResourceUtils.getFile("classpath:stubs/irs/policies/request_create_policy.json"))
+                .post("/api/policies")
+                .then()
+                .log().all()
+                .statusCode(200);
         // when
         val investigationId = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startInvestigationRequest, 201);
 
@@ -150,5 +155,17 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
                 .body("content[0].messages[1].errorMessage", Matchers.endsWith("did not match with policy from BPNL00000003CNKC."));
 
         notificationMessageSupport.assertMessageSize(2);
+
+        //finally
+        irsApiSupport.irsApiReturnsPolicies();
+        given()
+                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .body(ResourceUtils.getFile("classpath:stubs/irs/policies/request_create_policy.json"))
+                .post("/api/policies")
+                .then()
+                .log().all()
+                .statusCode(200);
     }
 }

@@ -30,6 +30,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #994 improved bpn edc configuration view uux
 - #1082 fix update of parts when synchronizing with IRS
 - #xxx fixed notification description on receiver side
+- #875 owasp dependency check tool is now used from github action image instead of maven plugin
+- XXX fixed display of semantic data model in parts as planned table
 
 
 ### Added

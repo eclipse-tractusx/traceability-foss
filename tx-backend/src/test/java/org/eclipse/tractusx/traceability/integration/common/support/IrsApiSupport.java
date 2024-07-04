@@ -172,6 +172,26 @@ public class IrsApiSupport {
         );
     }
 
+    public void irsApiReturnsExpiredPolicy() {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.get("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies_EXPIRED.json")
+        );
+    }
+
+    public void irsApiReturnsMismatchingPolicy() {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.get("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies_CONSTRAINTS_MISMATCHING.json")
+        );
+    }
+
     private String readFile(String filePath) throws IOException {
         // Implement reading file content from the specified filePath
         // This is a utility method to read the JSON response from a file
