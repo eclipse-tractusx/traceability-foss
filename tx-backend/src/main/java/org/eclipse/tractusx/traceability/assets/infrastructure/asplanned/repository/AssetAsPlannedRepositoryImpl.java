@@ -38,6 +38,7 @@ import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.AbstractMap;
@@ -49,7 +50,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @RequiredArgsConstructor
 @Component
-@Transactional
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, AssetCallbackRepository {
 
     private final JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;

@@ -35,6 +35,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCal
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.AbstractMap;
@@ -44,7 +46,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
-@Transactional
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, AssetCallbackRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
@@ -92,6 +94,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
 
     @Override
     public AssetBase save(AssetBase asset) {
+
         return jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)).toDomain();
     }
 
