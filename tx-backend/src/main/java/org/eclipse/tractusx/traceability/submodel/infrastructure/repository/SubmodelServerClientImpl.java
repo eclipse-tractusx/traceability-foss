@@ -33,7 +33,6 @@ public class SubmodelServerClientImpl implements SubmodelServerRepository {
 
     @Override
     public void saveSubmodel(String submodelId, String submodel) {
-        log.info(submodelId, "submodelId");
         submodelClient.createSubmodel(submodelId, submodel);
     }
 

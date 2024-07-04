@@ -53,7 +53,6 @@ public class AssetBase {
     private String van;
     private SemanticDataModel semanticDataModel;
     private String classification;
-    @Singular
     private List<DetailAspectModel> detailAspectModels;
     private List<Notification> sentQualityAlerts;
     private List<Notification> receivedQualityAlerts;

@@ -77,10 +77,14 @@ public class MapperHelper {
     }
 
     public static void enrichAssetBase(List<DetailAspectModel> detailAspectModels, AssetBase assetBase) {
+        List<DetailAspectModel> detailAspectModelsToAdd = new ArrayList<>();
         detailAspectModels.stream()
                 .filter(detailAspectModel -> detailAspectModel.getGlobalAssetId().equals(assetBase.getId()))
                 .findFirst()
-                .ifPresent(detailAspectModel -> emptyIfNull(new ArrayList<>(assetBase.getDetailAspectModels())).add(detailAspectModel));
+                .ifPresent(detailAspectModelsToAdd::add);
+
+        detailAspectModelsToAdd.addAll(emptyIfNull(assetBase.getDetailAspectModels()));
+        assetBase.setDetailAspectModels(detailAspectModelsToAdd);
     }
 
     public static void enrichUpwardAndDownwardDescriptions(Map<String, List<Descriptions>> descriptionsMap, AssetBase assetBase) {
