@@ -73,8 +73,8 @@ configuration:
         hostName: &edc_dataplane_hostname 'tx-edc-consumer-int-a-dataplane.int.catena-x.net'
       edcDatabase:
         name: &edc_database_name 'tx-edc-consumer-postgresql-int-a'
-        username: &edc_database_username <path:traceability-foss/data/int-a/edc/database#USER>
-        password: &edc_database_password <path:traceability-foss/data/int-a/edc/database#PASSWORD>
+        username: &edc_database_username <path:traceability-foss/data/int-a/edc/database#user>
+        password: &edc_database_password <path:traceability-foss/data/int-a/edc/database#password>
         jdbcUrl: &edc_database_jdbc_url "jdbc:postgresql://tx-edc-consumer-postgresql-int-a-0:5432/edc"
       vault:
         hashicorp:
