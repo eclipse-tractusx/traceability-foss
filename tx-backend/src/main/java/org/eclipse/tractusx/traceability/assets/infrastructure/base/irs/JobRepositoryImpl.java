@@ -22,6 +22,9 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
@@ -49,8 +52,8 @@ import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
 public class JobRepositoryImpl implements JobRepository {
 
     private final TraceabilityProperties traceabilityProperties;
-    private final AssetCallbackRepository assetAsBuiltCallbackRepository;
-    private final AssetCallbackRepository assetAsPlannedCallbackRepository;
+    private final AssetAsBuiltRepository assetAsBuiltCallbackRepository;
+    private final AssetAsPlannedRepository assetAsPlannedCallbackRepository;
 
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
 
@@ -62,9 +65,9 @@ public class JobRepositoryImpl implements JobRepository {
             JobClient jobClient,
             TraceabilityProperties traceabilityProperties,
             @Qualifier("assetAsBuiltRepositoryImpl")
-            AssetCallbackRepository assetAsBuiltCallbackRepository,
+            AssetAsBuiltRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
-            AssetCallbackRepository assetAsPlannedCallbackRepository, IrsResponseAssetMapper assetMapperFactory) {
+            AssetAsPlannedRepository assetAsPlannedCallbackRepository, IrsResponseAssetMapper assetMapperFactory) {
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
@@ -107,7 +110,7 @@ public class JobRepositoryImpl implements JobRepository {
         }
     }
 
-    void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
+    void saveOrUpdateAssets(AssetRepository repository, AssetBase asset) {
         repository.save(asset);
     }
 

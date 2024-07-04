@@ -46,7 +46,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
-@Transactional(isolation = Isolation.READ_COMMITTED)
+@Transactional(isolation = Isolation.READ_UNCOMMITTED)
 public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, AssetCallbackRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
