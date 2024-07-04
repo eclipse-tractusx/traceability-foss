@@ -43,7 +43,7 @@ jobs:
 
       - name: Run mvn clean install
         run: |
-          mvn -B -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn\
+          mvn -B -DskipTests -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn\
           clean install
 
       - name: Dependency check tx-backend # possible severity values: <'fail'|'warn'|'ignore'>
