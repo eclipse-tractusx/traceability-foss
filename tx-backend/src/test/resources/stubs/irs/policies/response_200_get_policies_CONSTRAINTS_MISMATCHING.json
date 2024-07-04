@@ -9,10 +9,10 @@
           "cx-policy" : "https://w3id.org/catenax/policy/",
           "odrl" : "http://www.w3.org/ns/odrl/2/"
         },
-        "@id" : "default-policy",
+        "@id" : "policy1",
         "policy" : {
-          "policyId" : "default-policy",
-          "createdOn" : "2024-04-03T13:04:58.000772685Z",
+          "policyId" : "policy1",
+          "createdOn" : "2023-04-03T13:04:58.000772685Z",
           "validUntil" : "2029-04-03T13:04:58.000819786Z",
           "permissions" : [
             {
@@ -24,7 +24,7 @@
                     "operator" : {
                       "@id" : "eq"
                     },
-                    "odrl:rightOperand" : "traceability:1.0"
+                    "odrl:rightOperand" : "MISMATCHING"
                   },
                   {
                     "leftOperand" : "cx-policy:UsagePurpose",

@@ -45,7 +45,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.util.ResourceUtils;
 
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 
@@ -79,23 +81,16 @@ public class InvestigationPolicyExpirationIT extends IntegrationTestSpecificatio
 
     ObjectMapper objectMapper;
 
-
-    @DynamicPropertySource
-    static void dynamicProperties(DynamicPropertyRegistry registry) {
-        registry.add("traceability.validUntil", () -> "2020-07-04T16:01:05.309Z");
-        registry.add("server.port", () -> "9997");
-        registry.add("management.server.port", () -> "8083");
-    }
-
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
     }
 
     @Test
-    void shouldNotApproveInvestigationStatus_whenPolicyIsExpired() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldNotApproveInvestigationStatus_whenPolicyIsExpired() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException, FileNotFoundException {
         // given
-        irsApiSupport.irsApiReturnsPolicies();
+        irsApiSupport.irsApiReturnsExpiredPolicy();
+        irsApiSupport.irsApiCreatesPolicy();
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
@@ -114,6 +109,18 @@ public class InvestigationPolicyExpirationIT extends IntegrationTestSpecificatio
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .receiverBpn("BPNL00000003CNKC")
                 .build();
+
+        // this create will be not used, since irsApiSupport.irsApiReturnsExpiredPolicy(); returns the used policy
+        // for this test
+        given()
+                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .body(ResourceUtils.getFile("classpath:stubs/irs/policies/request_create_policy.json"))
+                .post("/api/policies")
+                .then()
+                .log().all()
+                .statusCode(200);
 
         // when
         val investigationId = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startInvestigationRequest, 201);
@@ -148,5 +155,17 @@ public class InvestigationPolicyExpirationIT extends IntegrationTestSpecificatio
                 .body("content[0].messages[1].errorMessage", Matchers.is("Failed to negotiate contract agreement: Policy  from BPNL00000003CNKC has expired."));
 
         notificationMessageSupport.assertMessageSize(2);
+
+        //finally
+        irsApiSupport.irsApiReturnsPolicies();
+        given()
+                .contentType(ContentType.JSON)
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .when()
+                .body(ResourceUtils.getFile("classpath:stubs/irs/policies/request_create_policy.json"))
+                .post("/api/policies")
+                .then()
+                .log().all()
+                .statusCode(200);
     }
 }
