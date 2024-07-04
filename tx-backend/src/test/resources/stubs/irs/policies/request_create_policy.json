@@ -1,0 +1,31 @@
+{
+  "validUntil": "2024-07-04T00:00:00.000000000Z",
+  "businessPartnerNumber": "BPNL00000003CNKC",
+  "payload": {
+    "@context": {
+      "odrl": "http://www.w3.org/ns/odrl/2/"
+    },
+    "@id": "invalid-policy-2",
+    "policy": {
+      "policyId": "invalid-policy-5",
+      "createdOn": "2024-07-03T09:01:40.109000000Z",
+      "validUntil": "2024-07-04T00:00:00.000000000Z",
+      "permissions": [
+        {
+          "action": "use",
+          "constraint": {
+            "and": [
+              {
+                "leftOperand": "leftOperand",
+                "operator": {
+                  "@id": "odrl:eq"
+                },
+                "rightOperand": "rightOperand"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
