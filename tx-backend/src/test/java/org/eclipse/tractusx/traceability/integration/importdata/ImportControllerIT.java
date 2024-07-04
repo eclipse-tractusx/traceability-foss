@@ -417,10 +417,14 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
         // then
         eventually(() -> {
-            AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
-            assertThat(asset.getPolicyId()).isEqualTo("default-policy");
-            assertThat(asset.getImportState()).isEqualTo(ImportState.PUBLISHED_TO_CORE_SERVICES);
-            dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
+            try {
+                AssetBase asset = assetAsBuiltRepository.getAssetById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f");
+                assertThat(asset.getPolicyId()).isEqualTo("default-policy");
+                assertThat(asset.getImportState()).isEqualTo(ImportState.PUBLISHED_TO_CORE_SERVICES);
+                dtrApiSupport.verifyDtrCreateShellCalledTimes(1);
+            } catch (AssertionFailedError exception) {
+                return false;
+            }
             return true;
         });
 
