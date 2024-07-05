@@ -83,22 +83,22 @@ jobs:
             Please check whether the Chart was updated correctly and that the CHANGELOG contains the relevant information
             for this release. Also, make sure that the values.yaml is correct before merging this PR.
 
-      - name: Update OpenAPI spec
-        run: mvn test -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
-
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: action/update-openapi-spec
-          title: "chore(OpenAPI): updated OpenAPI spec"
-          labels: automated
-          delete-branch: true
-          body: |
-            This PR updates the OpenAPI spec. Please check whether the spec was updated correctly. Unfortunately, this
-            action causes a lot of nonsensical changes which should, however, be clearly recognizable.
-            You can safely ignore these.
-
+ #     - name: Update OpenAPI spec
+ #       run: mvn test -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
+#
+ #     - name: Create pull request
+ #       uses: peter-evans/create-pull-request@v6
+ #       with:
+ #         token: ${{ secrets.GITHUB_TOKEN }}
+ #         branch: action/update-openapi-spec
+ #         title: "chore(OpenAPI): updated OpenAPI spec"
+ #         labels: automated
+ #         delete-branch: true
+ #         body: |
+ #           This PR updates the OpenAPI spec. Please check whether the spec was updated correctly. Unfortunately, this
+ #           action causes a lot of nonsensical changes which should, however, be clearly recognizable.
+ #           You can safely ignore these.
+#
       - name: Get previous version
         run: echo PREVIOUS_VERSION=$(git tag | grep -E ^[0-9]+\\.[0-9]+\\.[0-9]+ | tail -2 | head -n +1) >> $GITHUB_ENV
 
