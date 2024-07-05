@@ -45,7 +45,7 @@ export class PartsStrategy extends AutocompleteStrategy {
       return of([]);
     }
 
-    return this.partsService.getDistinctFilterValues(
+    return this.partsService.getSearchableValues(
       asBuilt,
       filterColumns,
       searchElement,
