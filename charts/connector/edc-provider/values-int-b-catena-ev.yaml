@@ -1,7 +1,7 @@
 tractusx-connector:
   enabled: true
-  nameOverride: "tx-edc-provider-int-a"
-  fullnameOverride: "tx-edc-provider-int-a"
+  nameOverride: "tx-edc-provider-int-b"
+  fullnameOverride: "tx-edc-provider-int-b"
   participant:
     id: BPNL00000003CML1
 
