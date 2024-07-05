@@ -20,7 +20,16 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Optional,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -48,6 +57,7 @@ import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 
 @Component({
   selector: 'app-table',
@@ -187,6 +197,7 @@ export class TableComponent {
     private tableSettingsService: TableSettingsService,
     public toastService: ToastService,
     private readonly router: Router,
+    @Optional() public readonly notificationProcessingService: NotificationProcessingService,
   ) {
 
   }
@@ -401,7 +412,7 @@ export class TableComponent {
       icon: 'edit',
       action: (data: Record<string, unknown>) => this.editClicked.emit(data),
       condition: data => this.isEditable(data),
-      isAuthorized: this.roleService.isSupervisor() || this.roleService.isUser(),
+      isAuthorized: data => this.roleService.isSupervisor() || this.roleService.isUser(),
     };
     const defaultActionsToAdd: MenuActionConfig<unknown>[] = [ viewDetailsMenuAction, editDetailsMenuAction ]
       .filter(action => !menuActionsConfig.some(a => a.label === action.label));

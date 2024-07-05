@@ -39,6 +39,7 @@ import {
   NotificationType,
 } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -74,6 +75,7 @@ export class NotificationsComponent {
     private readonly route: ActivatedRoute,
     private readonly cd: ChangeDetectorRef,
     private readonly toastService: ToastService,
+    private readonly notificationProcessingService: NotificationProcessingService,
   ) {
     this.notificationsReceived$ = this.notificationsFacade.notificationsReceived$;
     this.notificationsQueuedAndRequested$ = this.notificationsFacade.notificationsQueuedAndRequested$;
@@ -114,6 +116,7 @@ export class NotificationsComponent {
     this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
       this.actionHelperService,
       this.notificationCommonModalComponent,
+      this.notificationProcessingService,
     );
     this.cd.detectChanges();
   }

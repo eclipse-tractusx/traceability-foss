@@ -21,51 +21,56 @@ import { NotificationCommonModalComponent } from '@shared/components/notificatio
 import { MenuActionConfig } from '@shared/components/table/table.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 
 export class NotificationMenuActionsAssembler {
-  public static getMenuActions(helperService: NotificationActionHelperService, modal: NotificationCommonModalComponent): MenuActionConfig<Notification>[] {
+  public static getMenuActions(helperService: NotificationActionHelperService, modal: NotificationCommonModalComponent, notificationProcessingService: NotificationProcessingService): MenuActionConfig<Notification>[] {
+    const notInLoadingState = (id: string) => {
+      console.log(id);
+      return !notificationProcessingService.notificationIdsInLoadingState.has(id);
+    };
     return [
       {
         label: 'actions.close',
         icon: 'close',
         action: data => modal.show(NotificationStatus.CLOSED, data),
         condition: data => helperService.showCloseButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.CLOSE),
+        isAuthorized: data => helperService.isAuthorizedForButton(NotificationAction.CLOSE) && !notificationProcessingService.notificationIdsInLoadingState.has(data?.id),
       },
       {
         label: 'actions.approve',
         icon: 'share',
         action: data => modal.show(NotificationStatus.APPROVED, data),
         condition: data => helperService.showApproveButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.APPROVE),
+        isAuthorized: data => helperService.isAuthorizedForButton(NotificationAction.APPROVE) && !notificationProcessingService.notificationIdsInLoadingState.has(data?.id),
       },
       {
         label: 'actions.cancel',
         icon: 'cancel',
         action: data => modal.show(NotificationStatus.CANCELED, data),
         condition: data => helperService.showCancelButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.CANCEL),
+        isAuthorized: data => helperService.isAuthorizedForButton(NotificationAction.CANCEL) && !notificationProcessingService.notificationIdsInLoadingState.has(data?.id),
       },
       {
         label: 'actions.acknowledge',
         icon: 'work',
         action: data => modal.show(NotificationStatus.ACKNOWLEDGED, data),
         condition: data => helperService.showAcknowledgeButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE),
+        isAuthorized: data => helperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE) && !notificationProcessingService.notificationIdsInLoadingState.has(data?.id),
       },
       {
         label: 'actions.accept',
         icon: 'assignment_turned_in',
         action: data => modal.show(NotificationStatus.ACCEPTED, data),
         condition: data => helperService.showAcceptButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.ACCEPT),
+        isAuthorized: data => helperService.isAuthorizedForButton(NotificationAction.ACCEPT) && !notificationProcessingService.notificationIdsInLoadingState.has(data?.id),
       },
       {
         label: 'actions.decline',
         icon: 'assignment_late',
         action: data => modal.show(NotificationStatus.DECLINED, data),
         condition: data => helperService.showDeclineButton(data),
-        isAuthorized: helperService.isAuthorizedForButton(NotificationAction.DECLINE),
+        isAuthorized: data => helperService.isAuthorizedForButton(NotificationAction.DECLINE) && !notificationProcessingService.notificationIdsInLoadingState.has(data?.id),
       },
     ];
   }

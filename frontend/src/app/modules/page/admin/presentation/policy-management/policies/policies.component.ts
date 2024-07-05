@@ -55,7 +55,7 @@ export class PoliciesComponent {
         label: 'actions.edit',
         icon: 'edit',
         action: (selectedPolicy: Record<string, unknown>) => this.openEditView(selectedPolicy),
-        isAuthorized: this.roleService.isAdmin(),
+        isAuthorized: data => this.roleService.isAdmin(),
       } ],
       sortableColumns: {
         select: false,
