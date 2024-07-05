@@ -3,34 +3,34 @@
    <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Release guide</h1>
 </div>
 
-# Release Numbering 
+# Release Numbering
 
 Trace-X using semantic versioning three-part version number. https://semver.org/
 
 ## Major Release
 * If there are any incompatible API changes.
-* Changes with high impact 
+* Changes with high impact
 * Contains new features and changes with critical business impact.
-* Full regression tests are covered. 
+* Full regression tests are covered.
 
 ## Minor Release
 * Add functionality in a backwards compatible manner
 * Features (backwards compatible has to be ensured)
 * Minor release does not add features or changes with critical business impact.
-* Regression impact should be low. 
-* No training effort necessary 
-* INT Test environment should be stable. No changes on depending on systems required. No changes on consumer side necessary. 
-* Operational risks should be low. 
+* Regression impact should be low.
+* No training effort necessary
+* INT Test environment should be stable. No changes on depending on systems required. No changes on consumer side necessary.
+* Operational risks should be low.
 
 ## Bug fix / Patch Release
 * Backwards compatible bug fixes
 * Bug fixes and Hotfixes
-* Covers Bug fixes and changes with no critical business impact. 
-* No changes on depending on or consuming systems required. 
-* INT Test environment should be stable. No changes on depending on systems required. No changes on consumer side necessary. 
+* Covers Bug fixes and changes with no critical business impact.
+* No changes on depending on or consuming systems required.
+* INT Test environment should be stable. No changes on depending on systems required. No changes on consumer side necessary.
 
-## Tag 
-* Defined software state. 
+## Tag
+* Defined software state.
 
 # Release an app
 
@@ -58,21 +58,21 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 4) Edit changelog: Align the new version (1.0.0) with the changes and add a new UNRELEASED section
 5) Edit /charts/traceability-foss/CHANGELOG.md
 6) Add an Entry for an incremented (patch) version (1.0.0 -> 1.0.1)
-7) Update the [Compatability Matrix](https://github.com/catenax-ng/tx-traceability-foss/blob/main/COMPATIBILITY_MATRIX.md) with a new entry for the release version
+7) Update the [Compatability Matrix](https://github.com/eclipse-tractusx/traceability-foss/blob/main/COMPATIBILITY_MATRIX.md) with a new entry for the release version
 8) Push onto /release/1.0.0 catena and eclipse
-9) Open Release App Page Catena: https://github.com/catenax-ng/tx-traceability-foss/releases
+9) Open Release App Page Catena: https://github.com/eclipse-tractusx/traceability-foss/releases
 10) Draft a new release
 11) On dropdown choose a tag - use the version 1.0.0 (Create new tag will appear - select it)
 12) On dropdown target use your /release/1.0.0
 13) Title = Version of app -> 1.0.0
 14) Description = Changelog Content of app
 15) Checkbox set as latest release
-16) Verify that GitHub action [Release](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/release.yaml) generation has been triggered
+16) Verify that GitHub action [Release](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/release.yaml) generation has been triggered
 17) Verify that an automatic pull request has been opened (Prepare Helm release for next version)
 18) Validate that the versions within that pull requests are correct
 19) Merge pull request (Prepare Helm release for next version)
 20) Merge release branch into main (when merging make sure to restore release branch since it should stay)
-21) Open the GitHub action for helm release generation: https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/helm-chart-release.yaml
+21) Open the GitHub action for helm release generation: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml
 22) Execute it from main branch
 23) Validate that the helm charts release has been generated within the release page
 24) Create a new branch from release/1.0.0 and name it release/helm-environments-1.0.0 (helm app version not chart version)
