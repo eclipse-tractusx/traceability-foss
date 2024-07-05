@@ -38,23 +38,16 @@ import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.Asset
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
+import org.eclipse.tractusx.traceability.assets.application.base.request.SearchableAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -196,16 +189,16 @@ public class AssetAsBuiltController {
     }
 
 
-    @Operation(operationId = "distinctFilterValues",
-            summary = "getDistinctFilterValues",
+    @Operation(operationId = "searchable-values",
+            summary = "Get searchable values for a fieldName",
             tags = {"Assets"},
-            description = "The endpoint returns a distinct filter values for given fieldName.",
+            description = "The endpoint returns searchable values for given fieldName.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns searchable values for given fieldName.", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
                     schema = @Schema(
-                            description = "FilterValues",
+                            description = "SearchableValues",
                             implementation = String.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
                     ),
@@ -255,18 +248,15 @@ public class AssetAsBuiltController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(
-            @RequestParam("fieldName") String fieldName,
-            @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "startWith", required = false) String startWith,
-            @RequestParam(value = "owner", required = false) Owner owner,
-            @RequestParam(value = "inAssetIds", required = false) String[] inAssetIds) {
+    @PostMapping("searchable-values")
+    public List<String> searchableValues(
+            @Valid @RequestBody SearchableAssetsRequest searchableAssetsRequest) {
         List<String> inAssetIdsList = List.of();
-        if (ArrayUtils.isNotEmpty(inAssetIds)) {
-            inAssetIdsList = Arrays.asList(inAssetIds);
+        if (ArrayUtils.isNotEmpty(searchableAssetsRequest.inAssetIds())) {
+            inAssetIdsList = Arrays.asList(searchableAssetsRequest.inAssetIds());
         }
-        return assetBaseService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner, inAssetIdsList);
+        return assetBaseService.getSearchableValues(fieldMapper.mapRequestFieldName(searchableAssetsRequest.fieldName()),
+                searchableAssetsRequest.startWith(), searchableAssetsRequest.size(), searchableAssetsRequest.owner(), inAssetIdsList);
     }
 
     @Operation(operationId = "assetsCountryMap",

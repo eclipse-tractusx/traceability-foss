@@ -31,13 +31,14 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.is;
 
-class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecification {
+class AssetAsPlannedControllerSearchValuesIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;
@@ -47,23 +48,22 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
 
     @ParameterizedTest
     @MethodSource("fieldNameTestProvider")
-    void givenNotEnumTypeFieldNameAndSize_whenCallDistinctFilterValues_thenProperResponse(
+    void givenNotEnumTypeFieldNameAndSize_whenCallSearchableValues_thenProperResponse(
             String fieldName,
             Long resultLimit,
             Integer expectedSize
     ) throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
-        final String fieldNameParam = "fieldName=" + fieldName;
-        final String sizeParam = "size=" + resultLimit.toString();
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit)))
                 .log().all()
                 .when()
-                .get("/api/assets/as-planned/distinctFilterValues?" + fieldNameParam + "&" + sizeParam)
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -72,7 +72,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
-    void givenNotEnumTypeFieldNameAndSizeAndOwnerOwn_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenNotEnumTypeFieldNameAndSizeAndOwnerOwn_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
@@ -83,12 +83,10 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "owner", owner)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", resultLimit)
-                .param("owner", owner)
-                .get("/api/assets/as-planned/distinctFilterValues")
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -97,7 +95,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
-    void givenNotEnumTypeFieldNameAndOwnerOwn_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenNotEnumTypeFieldNameAndOwnerOwn_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
@@ -107,11 +105,10 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "owner", owner)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("owner", owner)
-                .get("/api/assets/as-planned/distinctFilterValues")
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -120,7 +117,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
-    void givenIdShortLowerCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenIdShortLowerCase_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "idShort";
@@ -130,11 +127,10 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "startWith", startWith)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("startWith", startWith)
-                .get("/api/assets/as-planned/distinctFilterValues")
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -145,7 +141,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
-    void givenIdShortMixedCase_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenIdShortMixedCase_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "idShort";
@@ -155,11 +151,10 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "startWith", startWith)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("startWith", startWith)
-                .get("/api/assets/as-planned/distinctFilterValues")
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -170,7 +165,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
-    void givenWrongOwnerEnum_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenWrongOwnerEnum_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
@@ -181,12 +176,10 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "owner", owner)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", resultLimit)
-                .param("owner", owner)
-                .get("/api/assets/as-planned/distinctFilterValues")
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(400)
@@ -195,7 +188,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
-    void givenNotEnumTypeFieldNameAndSizeAndOwnerSupplier_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenNotEnumTypeFieldNameAndSizeAndOwnerSupplier_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
@@ -206,12 +199,10 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "owner", owner)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", resultLimit)
-                .param("owner", owner)
-                .get("/api/assets/as-planned/distinctFilterValues")
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -220,7 +211,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
-    void givenEnumTypeFieldNameImportState_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenEnumTypeFieldNameImportState_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "importState";
@@ -231,12 +222,10 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "owner", owner)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", resultLimit)
-                .param("owner", owner)
-                .get("/api/assets/as-planned/distinctFilterValues")
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -245,25 +234,23 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
     }
 
     @Test
-    void givenInAssetListIsProvided_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenInAssetListIsProvided_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "id";
         String resultLimit = "100";
         String owner = "OWN";
-        String inAssetIds = "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01";
+        String[] inAssetIds = {"urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"};
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "owner", owner,
+                        "inAssetIds", inAssetIds)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", resultLimit)
-                .param("owner", owner)
-                .param("inAssetIds", inAssetIds)
-                .get("/api/assets/as-planned/distinctFilterValues")
+                .post("/api/assets/as-planned/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)

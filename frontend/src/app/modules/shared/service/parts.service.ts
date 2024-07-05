@@ -159,22 +159,22 @@ export class PartsService {
 
   }
 
-  public getDistinctFilterValues(isAsBuilt: boolean, fieldNames: string, startsWith: string, inAssetIds?: string[]) {
+  public getSearchableValues(isAsBuilt: boolean, fieldNames: string, startsWith: string, inAssetIds?: string[]) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
-    let params = new HttpParams()
-      .set('fieldName', mappedFieldName)
-      .set('startWith', startsWith)
-      .set('size', 200)
-      .set('inAssetIds', inAssetIds ? inAssetIds.join(',') : '');
+
+    let body = {
+      "fieldName": mappedFieldName,
+      "startWith": startsWith,
+      "size": 200,
+      "inAssetIds": inAssetIds ? inAssetIds : []
+    }
 
     if (isAsBuilt) {
       return this.apiService
-        .getBy<any>(`${ this.url }/assets/as-built/distinctFilterValues`, params);
+        .post(`${ this.url }/assets/as-built/searchable-values`, body);
     } else {
       return this.apiService
-        .getBy<any>(`${ this.url }/assets/as-planned/distinctFilterValues`, params);
-
-
+        .post(`${ this.url }/assets/as-planned/searchable-values`, body);
     }
   }
 
