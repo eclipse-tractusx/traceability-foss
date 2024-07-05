@@ -15,7 +15,7 @@ tractusx-connector:
         token_url: <path:traceability-foss/data/int-a/iatp#iatp.oauth.tokenurl>
         client:
           id: <path:traceability-foss/data/int-a/iatp#dimClientId>
-          secret_alias: edc-miw-keycloak-secret-dev-a-provider
+          secret_alias: edc-miw-keycloak-secret-int-a-provider
   controlplane:
     ingresses:
       - enabled: true
