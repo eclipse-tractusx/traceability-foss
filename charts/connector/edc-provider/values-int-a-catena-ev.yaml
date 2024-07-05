@@ -1,0 +1,129 @@
+tractusx-connector:
+  enabled: true
+  nameOverride: "tx-edc-provider-int-a"
+  fullnameOverride: "tx-edc-provider-int-a"
+  participant:
+    id: BPNL00000003CML1
+
+  iatp:
+    # Decentralized IDentifier
+    id: <path:traceability-foss/data/dev/iatp#DID>
+    sts:
+      dim:
+        url: <path:traceability-foss/data/dev/iatp#dimUrl>
+      oauth:
+        token_url: <path:traceability-foss/data/dev/iatp#iatp.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/dev/iatp#dimClientId>
+          secret_alias: edc-miw-keycloak-secret-dev-a-provider
+  controlplane:
+    ingresses:
+      - enabled: true
+        hostname: "trace-x-edc-int-a.int.catena-x.net"
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - protocol
+          - management
+        tls:
+          enabled: true
+          secretName: tls-secret
+    bdrs:
+      # time that a cached BPN/DID resolution map is valid in seconds, default is 10 min
+      cache_validity_seconds: 600
+      server:
+        # URL of the BPN/DID Resolution Service - required:
+        url: <path:traceability-foss/data/dev/iatp#bdrsUrl>
+    env:
+      # workaround till 0.7.1 chart
+      EDC_IAM_TRUSTED-ISSUER_ISSUER1_ID: <path:traceability-foss/data/dev/iatp#trustedIssuer>
+    endpoints:
+      management:
+        authKey: <path:traceability-foss/data/int-a/edc/controlplane#edc.api.control.auth.apikey.value>
+
+    resources:
+      limits:
+        cpu: 1500m
+        memory: 1.5Gi
+      requests:
+        cpu: 500m
+        memory: 1.5Gi
+
+  dataplane:
+    token:
+      signer:
+        privatekey_alias: daps-cert-key-int-a
+      verifier:
+        publickey_alias: daps-cert-int-a
+    ingresses:
+      - enabled: true
+        hostname: "trace-x-edc-int-a-dataplane.int.catena-x.net"
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - public
+        className: "nginx"
+        tls:
+          enabled: true
+          secretName: tls-secret
+
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+
+  backendService:
+    httpProxyTokenReceiverUrl: "https://traceability-int-a.int.catena-x.net/api/callback/endpoint-data-reference"
+
+  postgresql:
+    enabled: true
+    auth:
+      username: "<path:traceability-foss/data/int-a/edc/database#user>"
+      password: "<path:traceability-foss/data/int-a/edc/database#password>"
+    username: "<path:traceability-foss/data/int-a/edc/database#user>"
+    password: "<path:traceability-foss/data/int-a/edc/database#password>"
+    jdbcUrl: "jdbc:postgresql://tx-edc-provider-postgresql-int-a-hl:5432/edc"
+
+  vault:
+    hashicorp:
+      url: "https://vault.core.catena-x.net"
+      token: "<path:traceability-foss/data/int-a/edc#edc.vault.hashicorp.token>"
+      timeout: 30
+      healthCheck:
+        enabled: true
+        standbyOk: true
+      paths:
+        secret: /v1/traceability-foss
+        health: /v1/sys/health
+    secretNames:
+      transferProxyTokenSignerPrivateKey: daps-cert-key-int-a
+      transferProxyTokenSignerPublicKey: daps-cert-int-a
+      transferProxyTokenEncryptionAesKey: token-signer-aes-key
+
+edc-postgresql:
+  nameOverride: "tx-edc-provider-postgresql-int-a"
+  fullnameOverride: "tx-edc-provider-postgresql-int-a"
+  enabled: true
+
+  primary:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 1Gi
+      limits:
+        cpu: 200m
+        memory: 1Gi
+  auth:
+    database: edc
+    username: <path:traceability-foss/data/int-a/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/int-a/edc/database#password>
+    password: <path:traceability-foss/data/int-a/edc/database#password>
