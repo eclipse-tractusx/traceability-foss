@@ -251,8 +251,10 @@ public class AssetAsPlannedController {
         if (ArrayUtils.isNotEmpty(searchableAssetsRequest.inAssetIds())) {
             inAssetIdsList = Arrays.asList(searchableAssetsRequest.inAssetIds());
         }
+        int size = searchableAssetsRequest.size() == null ? 200 : searchableAssetsRequest.size();
+
         return assetService.getSearchableValues(fieldMapper.mapRequestFieldName(searchableAssetsRequest.fieldName()),
-                searchableAssetsRequest.startWith(), searchableAssetsRequest.size(), searchableAssetsRequest.owner(), inAssetIdsList);
+                searchableAssetsRequest.startWith(), size, searchableAssetsRequest.owner(), inAssetIdsList);
     }
 
     @Operation(operationId = "assetById",

@@ -21,8 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.application.base.request;
 
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -31,10 +29,8 @@ public record SearchableAssetsRequest(
         @NotNull
         String fieldName,
         Integer size,
+        @Size(min = 1)
         String startWith,
         Owner owner,
-        @ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-        @Size(min = 1, max = 100, message = "Specify at least 1 and at most 100 globalAssetIds")
-        @Schema(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]")
         String[] inAssetIds) {
 }
