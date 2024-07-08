@@ -45,8 +45,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #xxx fixed notification description on receiver side
 - #875 owasp dependency check tool is now used from github action image instead of maven plugin
 - XXX fixed display of semantic data model in parts as planned table
-- #943 renamed distinctFilterValues API to searchable-values for the asBuilt and asPlanned asset routes
-and changed endpoints to POST with body instead of GET with parameters
+- #943 renamed distinctFilterValues API to searchable-values for the asBuilt, asPlanned and notification routes
+and changed these endpoints to POST with body instead of GET with parameters
 
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
