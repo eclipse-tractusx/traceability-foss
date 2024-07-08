@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+### Changed
+- #1173 Update IRS-Helm from 7.1.4 to 7.2.0
 
 ## [12.0.0 - 05.07.2024]
 
@@ -19,6 +21,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1017 added file for CC BY 4.0 license for TRG 7
 - #985 Added reference to part/notification under contract
 - #786 Added icons on part table to let admin reload registry / sync assets via IRS
+- #520 Added Attribute BPN to DetailView
 - XXX Added association int-a/int-b environment to argo workflow
 
 ### Changed

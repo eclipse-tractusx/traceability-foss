@@ -177,6 +177,7 @@ describe('PartsAssembler', () => {
     const manufacturerName = 'manufacturerName';
     const manufacturerPartId = 'manufacturerPartId';
     const nameAtManufacturer = 'nameAtManufacturer';
+    const businessPartner = 'businessPartner';
     const van = 'van';
     const mainAspectType = MainAspectType.AS_BUILT;
 
@@ -185,6 +186,7 @@ describe('PartsAssembler', () => {
         manufacturerName,
         manufacturerPartId,
         nameAtManufacturer,
+        businessPartner,
         test: '',
         van,
         mainAspectType,
@@ -193,7 +195,7 @@ describe('PartsAssembler', () => {
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
           expect(result).toEqual({
-            data: { manufacturerName, manufacturerPartId, nameAtManufacturer, van } as unknown as Part,
+            data: { manufacturerName, manufacturerPartId, nameAtManufacturer, businessPartner, van } as unknown as Part,
           });
           done();
         });
