@@ -188,16 +188,18 @@ export class PartsAssembler {
           manufacturerName,
           manufacturerPartId,
           nameAtManufacturer,
+          businessPartner,
           van,
         } = viewData.data;
-        return { data: { manufacturerName, manufacturerPartId, nameAtManufacturer, van } as Part };
+        return { data: { manufacturerName, manufacturerPartId, nameAtManufacturer, businessPartner, van } as Part };
       } else {
         const {
           manufacturerName,
           manufacturerPartId,
           nameAtManufacturer,
+          businessPartner,
         } = viewData.data;
-        return { data: { manufacturerName, manufacturerPartId, nameAtManufacturer } as Part };
+        return { data: { manufacturerName, manufacturerPartId, nameAtManufacturer, businessPartner} as Part };
       }
     });
   }

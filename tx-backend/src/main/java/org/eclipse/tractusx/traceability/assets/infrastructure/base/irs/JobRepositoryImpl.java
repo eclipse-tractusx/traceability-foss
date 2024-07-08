@@ -35,6 +35,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -108,7 +109,13 @@ public class JobRepositoryImpl implements JobRepository {
     }
 
     void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
-        repository.save(asset);
+        try {
+            repository.save(asset);
+        } catch (DataIntegrityViolationException ex) {
+            //retry save in case of ERROR: duplicate key value violates unique constraint "asset_pkey"
+            log.info("Asset with id {} already exists in the database. The record will be updated instead.", asset.getId());
+            repository.save(asset);
+        }
     }
 
 
