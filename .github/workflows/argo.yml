@@ -235,7 +235,7 @@ jobs:
          fi
 
          for resource in "${resources[@]}"; do
-           curl -X DELETE -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource"
+           curl -X DELETE -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -H "Content-Type: application/json" "$resource"
            sleep 2
          done
          sleep 10
@@ -325,7 +325,7 @@ jobs:
             fi
 
               for resource in "${resources[@]}"; do
-              curl -X POST -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource"
+              curl -X POST -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}"  -H "Content-Type: application/json" "$resource"
             done
             sleep 20
 
