@@ -19,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1017 added file for CC BY 4.0 license for TRG 7
 - #985 Added reference to part/notification under contract
 - #786 Added icons on part table to let admin reload registry / sync assets via IRS
+- XXX Added association int-a/int-b environment to argo workflow
 
 ### Changed
 - #965 Implement proxy functionality of the IRS policy store

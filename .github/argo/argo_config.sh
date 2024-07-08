@@ -152,7 +152,7 @@ DELETE_ASSOCIATION_INT_RESOURCES=(
               "$ARGO_ASSOCIATION_INT_B_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-registry-int-b-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
               "$ARGO_ASSOCIATION_INT_B_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-registry-int-b-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
               "$ARGO_ASSOCIATION_INT_B_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-int-b&version=v1&kind=Deployment&namespace=product-traceability-foss"
-              "$ARGO_ASSOCIATION_INT_B_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=trace-x-int-a-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=trace-x-int-b-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
 
             )
 SYNC_DEV_TEST_RESOURCES=(
