@@ -19,6 +19,7 @@
     "nameAtCustomer": "Name beim Kunden",
     "customerPartId": "Kunden Produktnummer",
     "semanticDataModel": "Semantisches Datenmodell",
+    "businessPartner": "Geschäftspartner Nummer",
     "van": "Van",
     "manufacturingDate": "Produktionsdatum",
     "manufacturingCountry": "Produktionsland",
