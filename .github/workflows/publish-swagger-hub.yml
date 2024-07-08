@@ -14,6 +14,7 @@ jobs:
     env:
       SWAGGERHUB_API_KEY: ${{ secrets.SWAGGERHUB_API_KEY }}
       SWAGGERHUB_USER: ${{ secrets.SWAGGERHUB_USER }}
+      SPEC_FILE: docs/api/traceability-foss-backend.json
     steps:
       - uses: actions/checkout@v4
 
@@ -39,16 +40,16 @@ jobs:
       - name: Create API
         continue-on-error: true
         run: |
-          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f tx-backend/openapi/traceability-foss-backend.json --visibility=public --published=unpublish
+          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=unpublish
 
       # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
       - name: Publish API Specs to SwaggerHub
         run: |
           if [[ ${{ env.VERSION }} != *-SNAPSHOT ]]; then
             echo "[INFO] - no snapshot, will set the API to 'published'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f tx-backend/openapi/traceability-foss-backend.json --visibility=public --published=publish
+            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=publish
             swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }}
           else
             echo "[INFO] - snapshot, will set the API to 'unpublished'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f tx-backend/openapi/traceability-foss-backend.json --visibility=public --published=unpublish
+            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=unpublish
           fi
