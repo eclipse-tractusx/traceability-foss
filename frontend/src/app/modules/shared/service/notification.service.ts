@@ -146,18 +146,18 @@ export class NotificationService {
   }
 
 
-  public getDistinctFilterValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
+  public getSearchableValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     const requestUrl = this.notificationUrl();
-    let params = new HttpParams()
-      .set('fieldName', mappedFieldName)
-      .set('startWith', startsWith)
-      .set('size', 200)
-      .set('channel', channel);
 
-    return this.apiService
-      .getBy<any>(`${ requestUrl }/distinctFilterValues`, params);
+    let body = {
+      "fieldName": mappedFieldName,
+      "startWith": startsWith,
+      "size": 200,
+      "channel": channel
+    }
 
+    return this.apiService.post(`${ requestUrl }/searchable-values`, body);
   }
 
   public notificationUrl(): string {
