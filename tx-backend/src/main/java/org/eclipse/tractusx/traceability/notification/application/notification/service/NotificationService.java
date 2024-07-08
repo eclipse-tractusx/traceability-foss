@@ -50,5 +50,5 @@ public interface NotificationService {
 
     PageResult<Notification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
 
-    List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, NotificationSide side);
+    List<String> getSearchableValues(String fieldName, String startWith, Integer size, NotificationSide side);
 }

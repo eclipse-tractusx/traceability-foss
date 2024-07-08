@@ -30,15 +30,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.ws.rs.QueryParam;
 import lombok.extern.slf4j.Slf4j;
-import notification.request.CloseNotificationRequest;
-import notification.request.EditNotificationRequest;
-import notification.request.NotificationStatusRequest;
-import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationStatusTransitionRequest;
+import notification.request.*;
 import notification.response.NotificationIdResponse;
 import notification.response.NotificationResponse;
+import org.eclipse.tractusx.traceability.assets.application.base.request.SearchableNotificationsRequest;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
@@ -46,21 +42,13 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationFieldMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.service.NotificationService;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -589,16 +577,16 @@ public class NotificationController {
         notificationService.editNotification(EditNotification.from(cleanEditNotificationRequest, notificationId));
     }
 
-    @Operation(operationId = "distinctFilterValues",
-            summary = "getDistinctFilterValues",
+    @Operation(operationId = "searchable-values",
+            summary = "searchable-values",
             tags = {"Notifications"},
-            description = "The endpoint returns a distinct filter values for given fieldName of notification.",
+            description = "The endpoint returns searchable values for given fieldName.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns searchable values for given fieldName.", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
                     schema = @Schema(
-                            description = "FilterValues",
+                            description = "SearchableValues",
                             implementation = String.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
                     ),
@@ -648,8 +636,9 @@ public class NotificationController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("distinctFilterValues")
-    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Integer size, @QueryParam("startWith") String startWith, @QueryParam("channel") NotificationSide channel) {
-        return notificationService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, channel);
+    @PostMapping("searchable-values")
+    public List<String> searchableValues(@Valid @RequestBody SearchableNotificationsRequest request) {
+        return notificationService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
+                request.startWith(), request.size(), request.channel());
     }
 }

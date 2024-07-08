@@ -115,18 +115,24 @@ describe('NotificationService', () => {
     req.flush({});
   });
 
-  it('should get distinct filter values', () => {
+  it('should get searchable values', () => {
     const channel: NotificationChannel = NotificationChannel.SENDER;
-    const fieldNames = 'SomeField';
+    const fieldName = 'SomeField';
     const startsWith = 'Test';
     spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
 
-    service.getDistinctFilterValues(channel, fieldNames, startsWith).subscribe();
+    service.getSearchableValues(channel, fieldName, startsWith).subscribe();
 
     const req = httpTestingController.expectOne(
-      `${ service.notificationUrl() }/distinctFilterValues?fieldName=SomeField&startWith=Test&size=200&channel=SENDER`,
+      `${ service.notificationUrl() }/searchable-values`,
     );
-    expect(req.request.method).toBe('GET');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(JSON.stringify({
+      'fieldName': fieldName,
+      'startWith': startsWith,
+      'size': 200,
+      'channel': channel,
+    }));
     req.flush({});
   });
 });
