@@ -34,6 +34,8 @@ on:
         - Dev/Test
         - E2E-A/E2E-B
         - int-a/int-b
+        - association int-a/int-b
+
       testdata_version:
         description: Which Testdata Version CX_Testdata_MessagingTest_v<X.X.X>.json e.g., 0.0.14"
         required: true
@@ -84,15 +86,30 @@ env:
     ARGO_INT_A_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-a"
     ARGO_INT_A_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-a"
     ARGO_INT_A_SUBMODELSERVER: "https://argo.int.demo.catena-x.net/api/v1/applications/tracex-int-a-submodelserver"
-
     ARGO_INT_A_RegistryReload: "https://traceability-int-a.int.demo.catena-x.net/api/registry/reload"
 
     ARGO_INT_B_REGISTRY: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-registry-int-b"
     ARGO_INT_B_EDC_PROVIDER: "https://argo.int.demo.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
     ARGO_INT_B_TRACE_X_INSTANCE: "https://argo.int.demo.catena-x.net/api/v1/applications/traceability-foss-int-b"
     ARGO_INT_B_SUBMODELSERVER: "https://argo.int.demo.catena-x.net/api/v1/applications/tracex-int-b-submodelserver"
-
     ARGO_INT_B_RegistryReload: "https://traceability-int-b.int.demo.catena-x.net/api/registry/reload"
+
+    ARGO_ASSOCIATION_INT_A_REGISTRY: "https://argocd.int.catena-x.net/api/v1/applications/tracex-registry-int-a"
+    ARGO_ASSOCIATION_INT_A_EDC_PROVIDER: "https://argocd.int.catena-x.net/api/v1/applications/tx-edc-provider-int-a"
+    ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE: "https://argocd.int.catena-x.net/api/v1/applications/traceability-foss-int-a"
+    ARGO_ASSOCIATION_INT_A_SUBMODELSERVER: "https://argocd.int.catena-x.net/api/v1/applications/trace-x-int-a-submodelserver-submodelservers"
+
+    ARGO_ASSOCIATION_INT_A_RegistryReload: "https://traceability-int-a.int.catena-x.net/api/registry/reload"
+
+    ARGO_ASSOCIATION_INT_B_REGISTRY: "https://argocd.int.catena-x.net/api/v1/applications/tracex-registry-int-b"
+    ARGO_ASSOCIATION_INT_B_EDC_PROVIDER: "https://argocd.int.catena-x.net/api/v1/applications/tx-edc-provider-int-b"
+    ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE: "https://argocd.int.catena-x.net/api/v1/applications/traceability-foss-int-b"
+    ARGO_ASSOCIATION_INT_B_SUBMODELSERVER: "https://argocd.int.catena-x.net/api/v1/applications/trace-x-int-b-submodelserver-submodelservers"
+
+    ARGO_ASSOCIATION_INT_B_RegistryReload: "https://traceability-int-b.int.catena-x.net/api/registry/reload"
+
+
+
 
 jobs:
   test_input:
@@ -126,6 +143,8 @@ jobs:
               resources="${E2E_RESOURCES[2]}"
             elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
               resources="${INT_RESOURCES[2]}"
+            elif [ "${{ github.event.inputs.environment }}" == "association int-a/int-b" ]; then
+             resources="${ASSOCIATION_INT_RESOURCES[2]}"
             fi
 
            data=$(curl -X GET -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resources")
@@ -175,6 +194,8 @@ jobs:
               resources=("${E2E_RESOURCES[@]}")
            elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
               resources=("${INT_RESOURCES[@]}")
+           elif [ "${{ github.event.inputs.environment }}" == "association int-a/int-b" ]; then
+               resources=("${ASSOCIATION_INT_RESOURCES[@]}")
            fi
 
            for resource in "${resources[@]}"; do
@@ -209,6 +230,8 @@ jobs:
             resources=("${DELETE_E2E_RESOURCES[@]}")
          elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
             resources=("${DELETE_INT_RESOURCES[@]}")
+         elif [ "${{ github.event.inputs.environment }}" == "association int-a/int-b" ]; then
+            resources=("${DELETE_ASSOCIATION_INT_RESOURCES[@]}")
          fi
 
          for resource in "${resources[@]}"; do
@@ -297,6 +320,8 @@ jobs:
              resources=("${SYNC_E2E_RESOURCES[@]}")
             elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
              resources=("${SYNC_INT_RESOURCES[@]}")
+            elif [ "${{ github.event.inputs.environment }}" == "association int-a/int-b" ]; then
+             resources=("${SYNC_ASSOCIATION_INT_RESOURCES[@]}")
             fi
 
               for resource in "${resources[@]}"; do
@@ -329,6 +354,8 @@ jobs:
               resources=("${E2E_RESOURCES[@]}")
             elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
               resources=("${INT_RESOURCES[@]}")
+             elif [ "${{ github.event.inputs.environment }}" == "association int-a/int-b" ]; then
+               resources=("${ASSOCIATION_INT_RESOURCES[@]}")
             fi
 
               for resource in "${resources[@]}"; do
@@ -391,6 +418,9 @@ jobs:
             sleep 10
                 python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-int-b-submodel-server.int.demo.catena-x.net -edc https://trace-x-edc-int-b.int.demo.catena-x.net -a https://trace-x-registry-int-b.int.demo.catena-x.net/semantics/registry/api/v3 -d https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_INT_B }} --aas3 --edcBPN BPNL00000003CNKC --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
             sleep 10
+          elif [ "${{ github.event.inputs.environment }}" == "association int-a/int-b" ]; then
+                sleep 10
+                sleep 10
           fi
         elif [ "${{ github.event.inputs.testdata_upload }}" == "false" ]; then
           echo "Testdata upload skipped"
