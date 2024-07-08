@@ -9,6 +9,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
 - #1173 Update IRS-Helm from 7.1.4 to 7.2.0
+- #1082 fix duplicate key errors when synchronizing assets with IRS
 
 ## [12.0.0 - 05.07.2024]
 
