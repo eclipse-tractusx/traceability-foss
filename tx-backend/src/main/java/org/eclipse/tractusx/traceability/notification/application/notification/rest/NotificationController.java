@@ -34,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 import notification.request.*;
 import notification.response.NotificationIdResponse;
 import notification.response.NotificationResponse;
-import org.eclipse.tractusx.traceability.assets.application.base.request.SearchableNotificationsRequest;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
@@ -42,6 +41,7 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationFieldMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.service.NotificationService;
+import org.eclipse.tractusx.traceability.notification.base.mapper.NotificationSideTypeMapper;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -639,6 +639,6 @@ public class NotificationController {
     @PostMapping("searchable-values")
     public List<String> searchableValues(@Valid @RequestBody SearchableNotificationsRequest request) {
         return notificationService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
-                request.startWith(), request.size(), request.channel());
+                request.startWith(), request.size(), NotificationSideTypeMapper.from(request.channel()));
     }
 }

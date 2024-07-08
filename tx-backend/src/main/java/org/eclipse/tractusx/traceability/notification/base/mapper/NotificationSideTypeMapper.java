@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,18 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.base.request;
+package org.eclipse.tractusx.traceability.notification.base.mapper;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import notification.NotificationSideType;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 
-public record SearchableAssetsRequest(
-        @NotNull
-        String fieldName,
-        Integer size,
-        @Size(min = 1)
-        String startWith,
-        Owner owner,
-        String[] inAssetIds) {
+import static java.util.Objects.nonNull;
+
+public abstract class NotificationSideTypeMapper {
+    public static NotificationSide from(final NotificationSideType type) {
+        if (nonNull(type)) {
+            return NotificationSide.valueOf(type.name());
+        } else return null;
+    }
 }

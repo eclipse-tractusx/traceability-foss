@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+### Changed
+- #1173 Update IRS-Helm from 7.1.4 to 7.2.0
 
 ## [12.0.0 - 05.07.2024]
 
@@ -46,7 +48,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #875 owasp dependency check tool is now used from github action image instead of maven plugin
 - XXX fixed display of semantic data model in parts as planned table
 - #943 renamed distinctFilterValues API to searchable-values for the asBuilt, asPlanned and notification routes
-and changed these endpoints to POST with body instead of GET with parameters
+- #943 changed these endpoints to POST with body instead of GET with parameters
 
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
