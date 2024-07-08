@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
 import assets.importpoc.ErrorResponse;
+import assets.request.SearchableAssetsRequest;
 import assets.response.asplanned.AssetAsPlannedResponse;
 import assets.response.base.request.UpdateAssetRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +36,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
+import org.eclipse.tractusx.traceability.assets.application.base.mapper.OwnerTypeMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
-import org.eclipse.tractusx.traceability.assets.application.base.request.SearchableAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
@@ -254,7 +255,7 @@ public class AssetAsPlannedController {
         int size = searchableAssetsRequest.size() == null ? 200 : searchableAssetsRequest.size();
 
         return assetService.getSearchableValues(fieldMapper.mapRequestFieldName(searchableAssetsRequest.fieldName()),
-                searchableAssetsRequest.startWith(), size, searchableAssetsRequest.owner(), inAssetIdsList);
+                searchableAssetsRequest.startWith(), size, OwnerTypeMapper.from(searchableAssetsRequest.owner()), inAssetIdsList);
     }
 
     @Operation(operationId = "assetById",
