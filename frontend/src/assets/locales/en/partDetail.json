@@ -19,7 +19,7 @@
     "nameAtCustomer": "Name at customer",
     "customerPartId": "Customer part ID",
     "semanticDataModel": "Semantic Data Model",
-    "businessPartner": "BPN",
+    "businessPartner": "Business partner number",
     "van": "Van",
     "manufacturingDate": "Production date",
     "manufacturingCountry": "Production country",
