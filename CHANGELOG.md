@@ -7,6 +7,19 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+
+## [12.0.0 - 05.07.2024]
+
+### Added
+- #832 added policymanagement list view, creator and editor
+- #737 Added concept: Contract table -> parts link action
+- XXX Added interceptor to EdcRestTemplates to log requests
+- #915 Added section to documentation: EDC-BPN configuration
+- #1037 Added link from contracts view to the corresponding filtered part table view
+- #1017 added file for CC BY 4.0 license for TRG 7
+- #985 Added reference to part/notification under contract
+- #786 Added icons on part table to let admin reload registry / sync assets via IRS
+
 ### Changed
 - #965 Implement proxy functionality of the IRS policy store
 - #962 Changed notification model to new one in frontend/backend
@@ -35,21 +48,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #943 renamed distinctFilterValues API to searchable-values for the asBuilt and asPlanned asset routes
 and changed endpoints to POST with body instead of GET with parameters
 
-
-### Added
-- #832 added policymanagement list view, creator and editor
-- #737 Added concept: Contract table -> parts link action
-- XXX Added interceptor to EdcRestTemplates to log requests
-- #915 Added section to documentation: EDC-BPN configuration
-- #1037 Added link from contracts view to the corresponding filtered part table view
-- #1017 added file for CC BY 4.0 license for TRG 7
-- #985 Added reference to part/notification under contract
-- #786 Added icons on part table to let admin reload registry / sync assets via IRS
-
 ### Known knowns
-
 - #786 Implemented short term solution for securing EDC Callback APIs
-
 
 ### Removed
 
