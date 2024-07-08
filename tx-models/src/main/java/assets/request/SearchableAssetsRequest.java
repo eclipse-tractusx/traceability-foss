@@ -31,4 +31,10 @@ public record SearchableAssetsRequest(
         String startWith,
         OwnerType owner,
         String[] inAssetIds) {
+
+    public SearchableAssetsRequest {
+        if (size == null) {
+            size = 200;
+        }
+    }
 }

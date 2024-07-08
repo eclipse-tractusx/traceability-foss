@@ -30,4 +30,10 @@ public record SearchableNotificationsRequest(
         @Size(min = 1)
         String startWith,
         NotificationSideType channel) {
+
+    public SearchableNotificationsRequest {
+        if (size == null) {
+            size = 200;
+        }
+    }
 }

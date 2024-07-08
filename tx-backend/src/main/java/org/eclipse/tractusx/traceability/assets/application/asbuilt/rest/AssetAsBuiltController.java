@@ -251,15 +251,14 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("searchable-values")
     public List<String> searchableValues(
-            @Valid @RequestBody SearchableAssetsRequest searchableAssetsRequest) {
+            @Valid @RequestBody SearchableAssetsRequest request) {
         List<String> inAssetIdsList = List.of();
-        if (ArrayUtils.isNotEmpty(searchableAssetsRequest.inAssetIds())) {
-            inAssetIdsList = Arrays.asList(searchableAssetsRequest.inAssetIds());
+        if (ArrayUtils.isNotEmpty(request.inAssetIds())) {
+            inAssetIdsList = Arrays.asList(request.inAssetIds());
         }
-        int size = searchableAssetsRequest.size() == null ? 200 : searchableAssetsRequest.size();
 
-        return assetBaseService.getSearchableValues(fieldMapper.mapRequestFieldName(searchableAssetsRequest.fieldName()),
-                searchableAssetsRequest.startWith(), size, OwnerTypeMapper.from(searchableAssetsRequest.owner()), inAssetIdsList);
+        return assetBaseService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
+                request.startWith(), request.size(), OwnerTypeMapper.from(request.owner()), inAssetIdsList);
     }
 
     @Operation(operationId = "assetsCountryMap",
