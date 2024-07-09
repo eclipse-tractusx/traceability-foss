@@ -26,9 +26,9 @@ import notification.NotificationSideType;
 public record SearchableNotificationsRequest(
         @NotNull
         String fieldName,
-        Integer size,
         @Size(min = 1)
         String startWith,
+        Integer size,
         NotificationSideType channel) {
 
     public SearchableNotificationsRequest {

@@ -34,7 +34,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
@@ -50,7 +49,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -250,15 +248,9 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("searchable-values")
-    public List<String> searchableValues(
-            @Valid @RequestBody SearchableAssetsRequest request) {
-        List<String> inAssetIdsList = List.of();
-        if (ArrayUtils.isNotEmpty(request.inAssetIds())) {
-            inAssetIdsList = Arrays.asList(request.inAssetIds());
-        }
-
+    public List<String> searchableValues(@Valid @RequestBody SearchableAssetsRequest request) {
         return assetBaseService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
-                request.startWith(), request.size(), OwnerTypeMapper.from(request.owner()), inAssetIdsList);
+                request.startWith(), request.size(), OwnerTypeMapper.from(request.owner()), request.inAssetIds());
     }
 
     @Operation(operationId = "assetsCountryMap",
