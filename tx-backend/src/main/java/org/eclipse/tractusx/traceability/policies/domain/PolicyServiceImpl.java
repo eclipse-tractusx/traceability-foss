@@ -31,14 +31,14 @@ import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
 import policies.response.PolicyResponse;
 
+import java.time.Instant;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 import java.util.stream.Stream;
 
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static policies.response.IrsPolicyResponse.toResponse;
 
 @Slf4j
@@ -92,7 +92,10 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
-        return policyRepository.createPolicy(registerPolicyRequest);
+        if(registerPolicyRequest.validUntil().isAfter(Instant.now())){
+            return policyRepository.createPolicy(registerPolicyRequest);
+        }
+        throw new PolicyNotFoundException("Policy is expired" +registerPolicyRequest);
     }
 
     @Override
@@ -102,7 +105,10 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
+        if(updatePolicyRequest.validUntil().isAfter(Instant.now())){
         policyRepository.updatePolicy(updatePolicyRequest);
+    }
+        throw new PolicyNotFoundException("Policy is expired" +updatePolicyRequest);
     }
 
 

@@ -31,6 +31,7 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { ViewMode } from '@shared/model/view.model';
 import { Subscription } from 'rxjs';
 
+
 @Component({
   selector: 'app-policy-editor',
   templateUrl: './policy-editor.component.html',
@@ -222,7 +223,6 @@ export class PolicyEditorComponent {
     }
   */
   updatePolicyForm(policy: Policy) {
-
     const isFromTemplate = !policy?.permissions[0]?.constraints;
     this.policyForm.patchValue({
       policyName: policy?.policyName,
@@ -279,8 +279,11 @@ export class PolicyEditorComponent {
       };
     });
 
+    const validUntilDate = new Date(this.policyForm.get('validUntil').getRawValue());
+    const validUntilISO = validUntilDate.toISOString();
+
     policyEntry = {
-      validUntil: this.policyForm.get('validUntil').getRawValue() + ':00.000000000Z',
+      validUntil: validUntilISO,
       businessPartnerNumber: this.viewMode === ViewMode.CREATE ? this.policyForm.get('bpns').getRawValue() : this.policyForm.get('bpns').getRawValue()?.trim()?.split(','),
       payload: {
         '@context': {
@@ -290,7 +293,7 @@ export class PolicyEditorComponent {
         policy: {
           policyId: this.policyForm.get('policyName').getRawValue(),
           createdOn: new Date(Date.now()).toISOString().replace('Z', '000000Z'),
-          validUntil: this.policyForm.get('validUntil').getRawValue() + ':00.000000000Z',
+          validUntil: validUntilISO,
           permissions: [
             {
               action: this.policyForm.get('accessType').getRawValue().toLowerCase(),
