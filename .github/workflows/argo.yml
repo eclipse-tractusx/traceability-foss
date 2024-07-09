@@ -367,13 +367,13 @@ jobs:
                     break
                   elif [ "$operationState" == "Failed" ] || ([ "$status" == "OutOfSync" ] && [ "$operationState" == "Failed" ]) || ([ "$status" == "OutOfSync" ] && [ "$operationState" == "Succeeded" ]); then
                     echo "Another sync"
-                    curl -X POST -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource/sync"
+                    curl -X POST -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -H "Content-Type: application/json" "$resource/sync"
                     sleep 10
                   elif [ "$status" == "OutOfSync" ] && [ "$operationState" == "Running" ]; then
                     echo "First terminate sync then start another sync"
-                    curl -X DELETE -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource/operation?appNamespace=argocd"
+                    curl -X DELETE -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -H "Content-Type: application/json" "$resource/operation?appNamespace=argocd"
                     sleep 10
-                    curl -X POST -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" "$resource/sync"
+                    curl -X POST -H "Authorization: Bearer ${{ env.ARGO_TOKEN }}" -H "Content-Type: application/json" "$resource/sync"
                     sleep 10
                   else
                     echo "Wait"
