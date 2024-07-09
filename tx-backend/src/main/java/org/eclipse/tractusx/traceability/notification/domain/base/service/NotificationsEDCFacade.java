@@ -82,6 +82,7 @@ public class NotificationsEDCFacade {
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
+    @Qualifier("contractNotificationServiceImpl")
     private final ContractService contractService;
 
     private static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";

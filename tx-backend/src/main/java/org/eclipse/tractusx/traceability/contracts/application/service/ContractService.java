@@ -33,4 +33,5 @@ public interface ContractService {
     void saveContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException;
 
     void saveAll(List<ContractAgreement> contractAgreements);
+
 }

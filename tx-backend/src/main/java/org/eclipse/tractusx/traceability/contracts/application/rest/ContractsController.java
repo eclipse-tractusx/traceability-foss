@@ -33,6 +33,7 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractResponseMapper;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,12 +41,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 @Tag(name = "Contracts")
 @RequestMapping(path = "/contracts", produces = "application/json", consumes = "application/json")
 public class ContractsController {
+
     private final ContractService contractService;
+
+    public ContractsController(@Qualifier("contractViewServiceImpl") ContractService contractService) {
+        this.contractService = contractService;
+    }
 
     @Operation(operationId = "contracts",
             summary = "All contract agreements for all assets",

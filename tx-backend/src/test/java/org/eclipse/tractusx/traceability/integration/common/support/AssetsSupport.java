@@ -21,8 +21,8 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
-import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsPlannedEntity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,6 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -40,7 +39,7 @@ public class AssetsSupport {
     AssetRepositoryProvider assetRepositoryProvider;
 
     @Autowired
-    ContractRepository contractRepository;
+    ContractRepositoryProvider contractRepositoryProvider;
 
     @Autowired
     BpnSupport bpnSupport;
@@ -58,14 +57,15 @@ public class AssetsSupport {
         bpnSupport.providesBpdmLookup();
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests());
 
-        List<ContractAgreementEntity> mergedAgreements = extractContractAgreementByAssets();
-
-        contractRepository.saveAll(mergedAgreements);
+        List<ContractAgreementAsBuiltEntity> asBuiltEntities = extractContractAgreementAsBuilt();
+        List<ContractAgreementAsPlannedEntity> asPlannedEntities = extractContractAgreementAsPlanned();
+        contractRepositoryProvider.contractAsBuiltRepository.saveAll(asBuiltEntities);
+        contractRepositoryProvider.contractAsPlannedRepository.saveAll(asPlannedEntities);
 
     }
 
-    private @NotNull List<ContractAgreementEntity> extractContractAgreementByAssets() {
-        List<ContractAgreementEntity> contractAgreementIdsAsBuilt = assetRepositoryProvider.assetAsBuiltRepository().findAll().stream().map(asBuiltAsset -> ContractAgreementEntity
+    private @NotNull List<ContractAgreementAsBuiltEntity> extractContractAgreementAsBuilt() {
+        return assetRepositoryProvider.assetAsBuiltRepository().findAll().stream().map(asBuiltAsset -> ContractAgreementAsBuiltEntity
                 .builder()
                 .type(ContractType.ASSET_AS_BUILT)
                 .contractAgreementId(asBuiltAsset.getContractAgreementId())
@@ -73,19 +73,18 @@ public class AssetsSupport {
                 .created(Instant.now())
                 .build()).collect(Collectors.toUnmodifiableList());
 
-        List<ContractAgreementEntity> contractAgreementIdsAsPlanned = assetRepositoryProvider.assetAsPlannedRepository().findAll().stream().map(asPlannedAsset -> ContractAgreementEntity
+    }
+
+    private @NotNull List<ContractAgreementAsPlannedEntity> extractContractAgreementAsPlanned() {
+        return assetRepositoryProvider.assetAsPlannedRepository().findAll().stream().map(asBuiltAsset -> ContractAgreementAsPlannedEntity
                 .builder()
-                .type(ContractType.ASSET_AS_BUILT)
-                .contractAgreementId(asPlannedAsset.getContractAgreementId())
-                .id(asPlannedAsset.getId())
+                .type(ContractType.ASSET_AS_PLANNED)
+                .contractAgreementId(asBuiltAsset.getContractAgreementId())
+                .id(asBuiltAsset.getId())
                 .created(Instant.now())
                 .build()).collect(Collectors.toUnmodifiableList());
-
-        List<ContractAgreementEntity> mergedAgreements = Stream.concat(contractAgreementIdsAsBuilt.stream(), contractAgreementIdsAsPlanned.stream())
-                .toList();
-        mergedAgreements.forEach(contractAgreementView -> log.info(contractAgreementView.getContractAgreementId()));
-        return mergedAgreements;
     }
+
 
     public AssetAsBuiltEntity findById(String id) {
         return AssetAsBuiltEntity.from(assetRepositoryProvider.assetAsBuiltRepository.getAssetById(id));

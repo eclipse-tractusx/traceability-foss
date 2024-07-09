@@ -25,18 +25,18 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsPlannedEntity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
-public class ContractSpecification extends BaseSpecification<ContractAgreementEntity> implements Specification<ContractAgreementEntity> {
+public class ContractAgreementAsPlannedSpecification extends BaseSpecification<ContractAgreementAsPlannedEntity> implements Specification<ContractAgreementAsPlannedEntity> {
 
-    public ContractSpecification(SearchCriteriaFilter criteria) {
+    public ContractAgreementAsPlannedSpecification(SearchCriteriaFilter criteria) {
         super(criteria);
     }
 
     @Override
-    public Predicate toPredicate(@NotNull Root<ContractAgreementEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
+    public Predicate toPredicate(@NotNull Root<ContractAgreementAsPlannedEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
 }

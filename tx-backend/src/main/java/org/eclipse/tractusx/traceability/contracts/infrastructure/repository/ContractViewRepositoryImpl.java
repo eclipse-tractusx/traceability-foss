@@ -34,7 +34,7 @@ import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractExce
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementViewEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -55,20 +55,20 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ContractRepositoryImpl implements ContractRepository {
+public class ContractViewRepositoryImpl implements ContractRepository<ContractAgreementViewEntity> {
 
     private final EdcContractAgreementService edcContractAgreementService;
-    private final JpaContractAgreementRepository contractAgreementRepository;
+    private final JpaContractAgreementViewRepository contractAgreementRepository;
     private final ObjectMapper objectMapper;
 
     @Override
     public PageResult<Contract> getContractsByPageable(Pageable pageable, SearchCriteria searchCriteria) {
         try {
-            List<ContractSpecification> contractAgreementSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
-                    .map(ContractSpecification::new)
+            List<ContractAgreementViewSpecification> contractAgreementSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream()
+                    .map(ContractAgreementViewSpecification::new)
                     .toList();
-            Specification<ContractAgreementEntity> specification = BaseSpecification.toSpecification(contractAgreementSpecifications);
-            Page<ContractAgreementEntity> contractAgreementEntities = contractAgreementRepository.findAll(specification, pageable);
+            Specification<ContractAgreementViewEntity> specification = BaseSpecification.toSpecification(contractAgreementSpecifications);
+            Page<ContractAgreementViewEntity> contractAgreementEntities = contractAgreementRepository.findAll(specification, pageable);
 
             if (contractAgreementEntities.getContent().isEmpty()) {
                 log.warn("Cannot find contract agreement Ids for asset ids in searchCriteria: " + searchCriteria.getSearchCriteriaFilterList());
@@ -90,25 +90,16 @@ public class ContractRepositoryImpl implements ContractRepository {
     @Override
     public void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
 
-        List<ContractAgreementEntity> contractAgreementEntities = contractAgreementIds.stream()
-                .map(contractAgreementId -> ContractAgreementEntity.builder()
-                        .contractAgreementId(contractAgreementId)
-                        .type(contractType)
-                        .build())
-                .collect(Collectors.toList());
-
-        List<Contract> contracts = fetchEdcContractAgreements(contractAgreementEntities);
-        List<ContractAgreementEntity> contractAgreementsUpdated = Contract.toEntityList(contracts, contractType);
-        contractAgreementRepository.saveAll(contractAgreementsUpdated);
     }
 
     @Override
-    public void saveAll(List<ContractAgreementEntity> contractAgreements) {
-        contractAgreementRepository.saveAll(contractAgreements);
+    public void saveAll(List<ContractAgreementViewEntity> contractAgreements) {
+
     }
 
-    private List<Contract> fetchEdcContractAgreements(List<ContractAgreementEntity> contractAgreementEntities) throws ContractAgreementException {
-        List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementEntity::getContractAgreementId).toList();
+
+    private List<Contract> fetchEdcContractAgreements(List<ContractAgreementViewEntity> contractAgreementEntities) throws ContractAgreementException {
+        List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementViewEntity::getContractAgreementId).toList();
         log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
 
         List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
@@ -116,7 +107,7 @@ public class ContractRepositoryImpl implements ContractRepository {
         validateContractAgreements(contractAgreementIds, contractAgreements);
 
         Map<String, ContractType> contractTypes = contractAgreementEntities.stream()
-                .collect(Collectors.toMap(ContractAgreementEntity::getContractAgreementId, ContractAgreementEntity::getType));
+                .collect(Collectors.toMap(ContractAgreementViewEntity::getContractAgreementId, ContractAgreementViewEntity::getType));
 
         Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = contractAgreements.stream()
                 .map(agreement -> new ImmutablePair<>(agreement.contractAgreementId(),

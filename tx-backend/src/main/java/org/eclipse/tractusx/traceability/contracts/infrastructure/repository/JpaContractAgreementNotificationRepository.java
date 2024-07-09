@@ -16,34 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.domain.model;
+package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementBaseEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementNotificationEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
-@Slf4j
-@AllArgsConstructor
-@Data
-@Builder
-public class Contract {
-    private String contractId;
-    private String counterpartyAddress;
-    private OffsetDateTime creationDate;
-    private OffsetDateTime endDate;
-    private String state;
-    private String policy;
-    private ContractType type;
-
-
+@Repository
+public interface JpaContractAgreementNotificationRepository extends JpaRepository<ContractAgreementNotificationEntity, String>, JpaSpecificationExecutor<ContractAgreementNotificationEntity> {
 
 }

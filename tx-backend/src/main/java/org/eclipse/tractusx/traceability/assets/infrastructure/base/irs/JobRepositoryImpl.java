@@ -24,9 +24,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
@@ -34,13 +31,19 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsPlannedEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.repository.ContractAsBuiltRepositoryImpl;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.repository.ContractAsPlannedRepositoryImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
@@ -52,7 +55,8 @@ public class JobRepositoryImpl implements JobRepository {
     private final TraceabilityProperties traceabilityProperties;
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
-
+    private final ContractAsBuiltRepositoryImpl contractAsBuiltRepository;
+    private final ContractAsPlannedRepositoryImpl contractAsPlannedRepository;
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
 
     private final IrsResponseAssetMapper assetMapperFactory;
@@ -65,11 +69,16 @@ public class JobRepositoryImpl implements JobRepository {
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
-            AssetCallbackRepository assetAsPlannedCallbackRepository, IrsResponseAssetMapper assetMapperFactory) {
+            AssetCallbackRepository assetAsPlannedCallbackRepository,
+            ContractAsBuiltRepositoryImpl contractAsBuiltRepository,
+            ContractAsPlannedRepositoryImpl contractAsPlannedRepository,
+            IrsResponseAssetMapper assetMapperFactory) {
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
         this.jobClient = jobClient;
+        this.contractAsBuiltRepository = contractAsBuiltRepository;
+        this.contractAsPlannedRepository = contractAsPlannedRepository;
         this.assetMapperFactory = assetMapperFactory;
     }
 
@@ -97,14 +106,19 @@ public class JobRepositoryImpl implements JobRepository {
 
         if (jobCompleted(jobResponseIRS.jobStatus())) {
             List<AssetBase> assets = assetMapperFactory.toAssetBaseList(jobResponseIRS);
-
+            List<ContractAgreement> contractAgreementsAsBuilt = new ArrayList<>();
+            List<ContractAgreement> contractAgreementsAsPlanned = new ArrayList<>();
             assets.forEach(assetBase -> {
                 if (assetBase.getBomLifecycle() == AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
+                    contractAgreementsAsBuilt.add(ContractAgreement.toContractAgreement(assetBase, ContractType.ASSET_AS_BUILT));
                 } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
                     saveOrUpdateAssets(assetAsPlannedCallbackRepository, assetBase);
+                    contractAgreementsAsPlanned.add(ContractAgreement.toContractAgreement(assetBase, ContractType.ASSET_AS_PLANNED));
                 }
             });
+            this.contractAsBuiltRepository.saveAll(ContractAgreementAsBuiltEntity.fromDomainToEntityList(contractAgreementsAsBuilt));
+            this.contractAsPlannedRepository.saveAll(ContractAgreementAsPlannedEntity.fromDomainToEntityList(contractAgreementsAsPlanned));
         }
     }
 
