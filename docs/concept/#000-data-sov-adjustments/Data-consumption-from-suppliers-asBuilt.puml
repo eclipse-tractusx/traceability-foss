@@ -1,0 +1,60 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 10
+skinparam ranksep 100
+skinparam linetype ortho
+skinparam defaultFontName "Architects daughter"
+
+title: Data consumption from suppliers via BOMLifecycle asBuilt
+
+autonumber
+
+actor "Trace-X Backend" as TXB
+participant "dDTR" as DDTR
+participant "IRS" as IRS
+participant "SubmodelServer" as SMS
+participant "EDC Discovery Service" as EDC_DS
+participant "EDC" as EDC
+participant "PolicyChecker" as PC
+participant "PolicyStore" as PS
+
+TXB -> TXB: Start synchronization process
+TXB -> DDTR:  Request own parts (asBuilt)
+TXB <-- DDTR: Return globalAssetIds
+TXB -> IRS: Register job (globalAssetIds) asBuilt
+IRS -> IRS:  Start job with globalAssetIds
+IRS -> DDTR: Load parts with globalAssetIds
+IRS <-- DDTR:  Return own digital twins (AAS)
+IRS -> SMS:  Request SingleLevelBomAsBuilt aspect
+IRS <-- SMS:  Return SingleLevelBomAsBuilt aspect
+IRS -> SMS:  Request supplier's digital twin
+IRS -> EDC_DS: Request EDC for BPNL
+EDC_DS <-- IRS: EDC of company BPNL
+IRS -> EDC: Request CatalogItem for supplier twins
+EDC <-- IRS: CatalogItem with policy included
+IRS -> PS: Search policies for supplier's BPNL
+IRS <-- PS: Return policies for BPNL or null
+IRS --> PC: Check policy
+
+PC --> PS : getPolicies for BPNL
+PC <-- PS : return policies
+alt No policy for BPNL
+    PC -> PC: 14. Use company default policy
+end
+
+PC -> PC: 15. Check own policies against CatalogItem policies
+IRS <-- PC: return isValid
+alt Policies match
+    IRS -> SPV: Start contract negotiation
+    IRS -> IRS: Return supplier twin
+else Policies do not match
+    IRS -> IRS: throw UsagePolicyException
+    IRS -> IRS: Create tombstone with CatalogItem policy
+end
+
+TXB <-- IRS: execute callback
+TXB -> IRS: getJob
+TXB <-- IRS: JobResponse
+
+@enduml
