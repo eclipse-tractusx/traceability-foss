@@ -90,7 +90,7 @@ jobs:
         id: determine-branch-name
         run: |
           name=$(git branch -a | grep -Eoi "release/${{ github.ref_name }}" || echo "")
-          if [[ -z name ]]; then
+          if [[ -z $name ]]; then
             echo "No branch release/${{ github.ref_name }} or Release/${{ github.ref_name }} found, aborting..."
             exit 1
           fi
