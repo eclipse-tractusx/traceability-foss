@@ -51,7 +51,7 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 ### Trace-X Release process
 
 1) Decide which to which version the release trace-x will be incremented. Following shows example for releasing a version 1.0.0
-2) Create and Checkout release branch on catena /release/1.0.0
+2) Create and Checkout release branch on catena /release/1.0.0. The name must always be exactly `/release/<releaseVersion>`.
 3) Optional: If [IRS Library Release](#irs-library-release) was needed:
    1) If the action of [IRS Library Release](#irs-library-release) step 7 was executed successfully
    2) Update <irs-client-lib.version> in the above created release
@@ -68,9 +68,11 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 14) Description = Changelog Content of app
 15) Checkbox set as latest release
 16) Verify that GitHub action [Release](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/release.yaml) generation has been triggered
-17) Verify that an automatic pull request has been opened (Prepare Helm release for next version)
-18) Validate that the versions within that pull requests are correct
-19) Merge pull request (Prepare Helm release for next version)
+17) Verify that two automatic pull request have been opened
+    - `Prepare Helm release for next version` with base `main`
+    - `chore(OpenAPI): updated OpenAPI spec` with the release branch as base
+18) Validate that the changes within the pull requests are correct
+19) Merge aforementioned pull requests
 20) Merge release branch into main (when merging make sure to restore release branch since it should stay)
 21) Open the GitHub action for helm release generation: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml
 22) Execute it from main branch
