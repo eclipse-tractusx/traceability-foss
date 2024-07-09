@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
+import org.eclipse.tractusx.traceability.policies.domain.exception.PolicyNotValidException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
@@ -95,7 +96,7 @@ public class PolicyServiceImpl implements PolicyService {
         if(registerPolicyRequest.validUntil().isAfter(Instant.now())){
             return policyRepository.createPolicy(registerPolicyRequest);
         }
-        throw new PolicyNotFoundException("Policy is expired" +registerPolicyRequest);
+        throw new PolicyNotValidException("Policy is expired" +registerPolicyRequest);
     }
 
     @Override
@@ -108,7 +109,7 @@ public class PolicyServiceImpl implements PolicyService {
         if(updatePolicyRequest.validUntil().isAfter(Instant.now())){
         policyRepository.updatePolicy(updatePolicyRequest);
     }
-        throw new PolicyNotFoundException("Policy is expired" +updatePolicyRequest);
+        throw new PolicyNotValidException("Policy is expired" +updatePolicyRequest);
     }
 
 
