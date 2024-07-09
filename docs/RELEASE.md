@@ -35,11 +35,12 @@ Trace-X using semantic versioning three-part version number. https://semver.org/
 # Release an app
 
 ### Prerequisite:
-- Make sure eclipse / catena git repositories are in sync
+- Make sure the Eclipse Git repository is in sync
 - Before releasing Trace-X, it is required to go through the [IRS Library Release](#irs-library-release) steps
 
 ### IRS Library Release
 The goal is to not use a -SNAPSHOT version in the Trace-X Release.
+
 1) Check if the irs-registry-client version has a -SNAPSHOT suffix:  [IRS Repo](https://github.com/eclipse-tractusx/item-relationship-service/blob/f731e2e7403b738d516a7a25b19c756cc32b04f3/pom.xml#L76)
 2) If yes, continue with the next steps. If no, skip to the [Trace-X Release process](#trace-x-release-process)
 3) Click on the [Update irs-registry-client Version workflow](https://github.com/eclipse-tractusx/item-relationship-service/actions/workflows/update-registry-library.yaml).
@@ -51,16 +52,16 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 ### Trace-X Release process
 
 1) Decide which to which version the release trace-x will be incremented. Following shows example for releasing a version 1.0.0
-2) Create and Checkout release branch on catena /release/1.0.0. The name must always be exactly `/release/<releaseVersion>`.
+2) Create and checkout release branch /release/1.0.0. The name must always be exactly `/release/<releaseVersion>`.
 3) Optional: If [IRS Library Release](#irs-library-release) was needed:
-   1) If the action of [IRS Library Release](#irs-library-release) step 7 was executed successfully
-   2) Update <irs-client-lib.version> in the above created release
+    1) If the action of [IRS Library Release](#irs-library-release) step 7 was executed successfully
+    2) Update <irs-client-lib.version> in the above created release
 4) Edit changelog: Align the new version (1.0.0) with the changes and add a new UNRELEASED section
 5) Edit /charts/traceability-foss/CHANGELOG.md
 6) Add an Entry for an incremented (patch) version (1.0.0 -> 1.0.1)
 7) Update the [Compatability Matrix](https://github.com/eclipse-tractusx/traceability-foss/blob/main/COMPATIBILITY_MATRIX.md) with a new entry for the release version
-8) Push onto /release/1.0.0 catena and eclipse
-9) Open Release App Page Catena: https://github.com/eclipse-tractusx/traceability-foss/releases
+8) Push onto /release/1.0.0
+9) Open releases page: https://github.com/eclipse-tractusx/traceability-foss/releases
 10) Draft a new release
 11) On dropdown choose a tag - use the version 1.0.0 (Create new tag will appear - select it)
 12) On dropdown target use your /release/1.0.0
@@ -68,16 +69,14 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 14) Description = Changelog Content of app
 15) Checkbox set as latest release
 16) Verify that GitHub action [Release](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/release.yaml) generation has been triggered
-17) Verify that two automatic pull request have been opened
-    - `Prepare Helm release for next version` with base `main`
-    - `chore(OpenAPI): updated OpenAPI spec` with the release branch as base
-18) Validate that the changes within the pull requests are correct
-19) Merge aforementioned pull requests
-20) Merge release branch into main (when merging make sure to restore release branch since it should stay)
-21) Open the GitHub action for helm release generation: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml
-22) Execute it from main branch
-23) Validate that the helm charts release has been generated within the release page
-24) Create a new branch from release/1.0.0 and name it release/helm-environments-1.0.0 (helm app version not chart version)
-25) Repeat step 9 to 24 for tractus-x: [GitHub Releases page](https://github.com/eclipse-tractusx/traceability-foss/releases)
-26) Sync catena and eclipse main branch
-27) Create a message in the Trace-X channel of the Eclipse Foundation Chat to notify the community about the new release (add a link to the tractus-x release)
+17) Verify that following pull request has been opened: `chore(OpenAPI): updated OpenAPI spec`, with the release branch as its base
+18) Merge the aforementioned pull request within 15 minutes, the workflow is going to wait for the merge. Should you fail to perform
+    the merge in that time or if the pull request gets closed, the workflow will fail.
+19) Verify that another pull request has been opened: `Prepare Helm release for next version` with base `main`
+20) Merge aforementioned pull request.
+21) Merge release branch into main (when merging make sure to restore release branch since it should stay)
+22) Open the GitHub action for helm release generation: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml
+23) Execute it from main branch
+24) Validate that the helm charts release has been generated within the release page
+25) Create a new branch from release/1.0.0 and name it release/helm-environments-1.0.0 (helm app version not chart version)
+26) Create a message in the Trace-X channel of the Eclipse Foundation Chat to notify the community about the new release (add a link to the tractus-x release)
