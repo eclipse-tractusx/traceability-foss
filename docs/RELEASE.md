@@ -69,14 +69,13 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 14) Description = Changelog Content of app
 15) Checkbox set as latest release
 16) Verify that GitHub action [Release](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/release.yaml) generation has been triggered
-17) Verify that following pull request has been opened: `chore(OpenAPI): updated OpenAPI spec`, with the release branch as its base
-18) Merge the aforementioned pull request within 15 minutes, the workflow is going to wait for the merge. Should you fail to perform
-    the merge in that time or if the pull request gets closed, the workflow will fail.
-19) Verify that another pull request has been opened: `Prepare Helm release for next version` with base `main`
-20) Merge aforementioned pull request.
-21) Merge release branch into main (when merging make sure to restore release branch since it should stay)
-22) Open the GitHub action for helm release generation: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml
-23) Execute it from main branch
-24) Validate that the helm charts release has been generated within the release page
-25) Create a new branch from release/1.0.0 and name it release/helm-environments-1.0.0 (helm app version not chart version)
-26) Create a message in the Trace-X channel of the Eclipse Foundation Chat to notify the community about the new release (add a link to the tractus-x release)
+17) Verify that these pull requests have been opened:
+        - `Prepare Helm release for next version`
+        - `chore(OpenAPI): updated OpenAPI spec`
+18) Verify and merge the changes proposed in the requests
+19) Merge release branch into main (when merging make sure to restore release branch since it should stay)
+20) Open the GitHub action for helm release generation: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml
+21) Execute it from main branch
+22) Validate that the helm charts release has been generated within the release page
+23) Create a new branch from release/1.0.0 and name it release/helm-environments-1.0.0 (helm app version not chart version)
+24) Create a message in the Trace-X channel of the Eclipse Foundation Chat to notify the community about the new release (add a link to the tractus-x release)

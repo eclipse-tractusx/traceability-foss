@@ -8,96 +8,12 @@ on:
 
 env:
   JAVA_VERSION: 17
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '${{ env.JAVA_VERSION }}'
-          distribution: 'temurin'
-          cache: 'maven'
-
-      - name: Update OpenAPI spec
-        run: mvn test -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
-
-      - name: Determine release branch name
-        id: determine-branch-name
-        run: |
-          name=$(git branch -a | grep -Eoi "release/${{ github.ref_name }}" || echo "")
-          if [[ -z $name ]]; then
-            echo "No branch release/${{ github.ref_name }} or Release/${{ github.ref_name }} found, aborting..."
-            exit 1
-          fi
-          echo "branch-name=$name" >> "$GITHUB_OUTPUT"
-          echo "Release branch name is $name"
-
-      - name: Create pull request
-        id: create-openapi-pr
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: action/update-openapi-spec
-          base: ${{ steps.determine-branch-name.outputs.branch-name }}
-          title: "chore(OpenAPI): updated OpenAPI spec"
-          labels: automated
-          delete-branch: true
-          body: |
-            This PR updates the OpenAPI spec. Please check whether the update was performed correctly. Unfortunately, this
-            action causes a lot of nonsensical changes which should, however, be clearly recognizable as such.
-            You can safely ignore these.
-
-      - name: Wait for pull request merge
-        run: |
-          pull_request_number=${{ steps.create-openapi-pr.outputs.pull-request-number }}
-          pull_request_merged="False"
-          seconds_waited_for_merge=0
-          # set duration between api requests
-          sleep_interval_length=5 # seconds
-          timeout_in_minutes=15
-
-          echo "Waiting for you to merge PR #$pull_request_number which contains the updated OpenAPI spec."
-
-          while [[ "$pull_request_merged" == "False" ]]
-          do
-            # give some time to merge pull request
-            sleep "$sleep_interval_length"s
-
-            # retrieve pr status using GH API's pull requests endpoint with GH CLI
-            pr_status=$(gh pr view $pull_request_number --json state --jq ".state")
-
-            case $pr_status in
-
-              MERGED)
-                pull_request_merged="True"
-                echo "PR #$pull_request_number merged, continuing the workflow."
-                ;;
-
-              OPEN)
-                seconds_waited_for_merge=$((seconds_waited_for_merge+sleep_interval_length))
-
-                # abort workflow when having waited for more than allowed time
-                if [[ $seconds_waited_for_merge -gt $((timeout_in_minutes*60)) ]]; then
-                  echo "Timeout waiting for merge of PR #$pull_request_number, aborting the workflow."
-                  exit 1
-                fi
-                ;;
-
-              CLOSED)
-                echo "PR #$pull_request_number was closed, aborting the workflow."
-                exit 1
-                ;;
-
-            esac
-
-          done
 
       - name: Calculate Helm release version from CHANGELOG
         run: echo HELM_VERSION=$(cat charts/traceability-foss/CHANGELOG.md | sed -n 's/.*\[\([0-9]\+\.[0-9]\+\.[0-9]\+\)\].*/\1/p' | head -n 1) >> $GITHUB_ENV
@@ -184,6 +100,4 @@ jobs:
     needs:
       - release
     uses: ./.github/workflows/publish-swagger-hub.yml
-    with:
-      version: ${{ github.ref_name }}
     secrets: inherit
