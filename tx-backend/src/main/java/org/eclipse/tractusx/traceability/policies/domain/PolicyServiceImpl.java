@@ -23,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
+import org.eclipse.tractusx.traceability.policies.domain.exception.PolicyNotValidException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
@@ -47,7 +49,7 @@ public class PolicyServiceImpl implements PolicyService {
     private final EdcNotificationContractService edcNotificationContractService;
 
     @Override
-    public Map<String, List<IrsPolicyResponse>> getIrsPolicies() {
+    public Map<String, List<PolicyResponse>> getIrsPolicies() {
         return policyRepository.getPolicies();
     }
 
@@ -74,9 +76,8 @@ public class PolicyServiceImpl implements PolicyService {
         if(registerPolicyRequest.validUntil().isAfter(Instant.now())){
             CreatePolicyResponse policy = policyRepository.createPolicy(registerPolicyRequest);
             edcNotificationContractService.updateNotificationContractDefinitions();
-            return policy;
-        }
-        throw new PolicyNotFoundException("Policy is expired" +registerPolicyRequest);
+            return policy;    }
+        throw new PolicyNotValidException("Policy is expired" +registerPolicyRequest);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class PolicyServiceImpl implements PolicyService {
         edcNotificationContractService.updateNotificationContractDefinitions();
         return;
     }
-        throw new PolicyNotFoundException("Policy is expired" +updatePolicyRequest);
+        throw new PolicyNotValidException("Policy is expired" +updatePolicyRequest);
     }
 
 
