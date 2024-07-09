@@ -8,6 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
+- XXX update legal notice for documents arc42, admin and user manual to years 2024
 - #965 Implement proxy functionality of the IRS policy store
 - #962 Changed notification model to new one in frontend/backend
 - #962 Removed initial notification message for notification flow
