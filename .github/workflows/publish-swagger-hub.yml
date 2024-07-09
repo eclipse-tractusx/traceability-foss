@@ -32,7 +32,6 @@ jobs:
       - name: Create pull request for OpenAPI spec update
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           branch: action/update-openapi-spec
           base: main
           title: "chore(OpenAPI): updated OpenAPI spec"
