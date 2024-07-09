@@ -94,14 +94,15 @@ jobs:
             echo "No branch release/${{ github.ref_name }} or Release/${{ github.ref_name }} found, aborting..."
             exit 1
           fi
-          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "branch-name=$name" >> "$GITHUB_OUTPUT"
+          echo "Branch name is $name"
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: action/update-openapi-spec
-          base: ${{ steps.determine-branch-name.outputs.name }}
+          base: ${{ steps.determine-branch-name.outputs.branch-name }}
           title: "chore(OpenAPI): updated OpenAPI spec"
           labels: automated
           delete-branch: true
