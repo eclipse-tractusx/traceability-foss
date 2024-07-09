@@ -8,6 +8,7 @@ on:
 
 env:
   JAVA_VERSION: 17
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   release:
@@ -100,6 +101,7 @@ jobs:
           echo "Branch name is $name"
 
       - name: Create pull request
+        id: create-pr
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -112,6 +114,51 @@ jobs:
             This PR updates the OpenAPI spec. Please check whether the update was performed correctly. Unfortunately, this
             action causes a lot of nonsensical changes which should, however, be clearly recognizable as such.
             You can safely ignore these.
+
+      - name: Wait for pull request merge
+        run: |
+          pull_request_number=${{ steps.create-pr.outputs.pull-request-number }}
+          pull_request_merged="False"
+          seconds_waited_for_merge=0
+          # set duration between api requests
+          sleep_interval_length=5 # seconds
+          timeout_in_minutes=15
+
+          echo "Waiting for you to merge PR #$pull_request_number which contains the updated OpenAPI spec."
+
+          while [[ "$pull_request_merged" == "False" ]]
+          do
+            # give some time to merge pull request
+            sleep "$sleep_interval_length"s
+
+            # retrieve pr status using GH API's pull requests endpoint with GH CLI
+            pr_status=$(gh pr view $pull_request_number --json state --jq ".state")
+
+            case $pr_status in
+
+              MERGED)
+                pull_request_merged="True"
+                echo "PR #$pull_request_number merged, continuing the workflow."
+                ;;
+
+              OPEN)
+                seconds_waited_for_merge=$((seconds_waited_for_merge+sleep_interval_length))
+
+                # abort workflow when having waited for more than allowed time
+                if [[ $seconds_waited_for_merge -gt $((timeout_in_minutes*60)) ]]; then
+                  echo "Timeout waiting for merge of PR #$pull_request_number, aborting the workflow."
+                  exit 1
+                fi
+                ;;
+
+              CLOSED)
+                echo "PR #$pull_request_number was closed, aborting the workflow."
+                exit 1
+                ;;
+
+            esac
+
+          done
 
       - name: Get previous version
         run: echo PREVIOUS_VERSION=$(git tag | grep -E ^[0-9]+\\.[0-9]+\\.[0-9]+ | tail -2 | head -n +1) >> $GITHUB_ENV

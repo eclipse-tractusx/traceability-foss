@@ -17,6 +17,11 @@ jobs:
       SPEC_FILE: docs/api/traceability-foss-backend.json
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get updated OpenAPI spec
+        run: git pull
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
