@@ -338,10 +338,12 @@ SPDX-License-Identifier: Apache-2.0
                   matTooltipPosition="above"
                   [class.mdc-tooltip--multiline]="true"
                   [matTooltipShowDelay]="1000"
+                  [matTooltipDisabled]="config?.isAuthorized !== false && !config?.isLoading(row)"
+                  [class.menu-action-button--unauthorized]="(config?.isAuthorized === false && config?.isLoading(row)) ? 'unauthorized' : ''"
+                  (click)="(config?.isAuthorized === false && config?.isLoading(row)) ? null : config.action(row)"
+                  onkeydown="(config?.isAuthorized === false && config?.isLoading(row)) ? null : config.action(row)"
                   *ngIf="!config.condition || config.condition(row)"
                   class="menu-action-button"
-                  [class.menu-action-button--unauthorized]="(config?.isAuthorized(row) === false) ? 'unauthorized' : ''"
-
                   [attr.data-testId]="'table-menu-button--' + config.label"
                   mat-menu-item
                 >

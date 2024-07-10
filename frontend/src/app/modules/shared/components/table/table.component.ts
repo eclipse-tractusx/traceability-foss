@@ -55,7 +55,7 @@ import {
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, clearAllRows, clearCurrentRows, removeSelectedValues } from '@shared/helper/table-helper';
-import { NotificationStatus } from '@shared/model/notification.model';
+import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 
@@ -405,6 +405,7 @@ export class TableComponent {
       label: 'actions.viewDetails',
       icon: 'remove_red_eye',
       action: (data: Record<string, unknown>) => this.selected.emit(data),
+      isLoading: (data: Notification) => this.notificationProcessingService.isInLoadingProcess(data),
     };
 
     const editDetailsMenuAction: MenuActionConfig<unknown> = {
@@ -412,7 +413,8 @@ export class TableComponent {
       icon: 'edit',
       action: (data: Record<string, unknown>) => this.editClicked.emit(data),
       condition: data => this.isEditable(data),
-      isAuthorized: data => this.roleService.isSupervisor() || this.roleService.isUser(),
+      isAuthorized: this.roleService.isSupervisor() || this.roleService.isUser(),
+      isLoading: (data: Notification) => this.notificationProcessingService.isInLoadingProcess(data),
     };
     const defaultActionsToAdd: MenuActionConfig<unknown>[] = [ viewDetailsMenuAction, editDetailsMenuAction ]
       .filter(action => !menuActionsConfig.some(a => a.label === action.label));

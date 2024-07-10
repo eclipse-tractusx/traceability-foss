@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Notification } from '@shared/model/notification.model';
 
 /********************************************************************************
  * Copyright (c) 2024 Contributors to the Eclipse Foundation
@@ -23,4 +24,8 @@ import { Injectable } from '@angular/core';
 })
 export class NotificationProcessingService {
   notificationIdsInLoadingState: Set<string> = new Set();
+
+  public isInLoadingProcess({ id } = {} as Notification): boolean {
+    return this.notificationIdsInLoadingState.has(id);
+  }
 }
