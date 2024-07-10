@@ -22,11 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
@@ -117,7 +113,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds) {
+    public List<String> getSearchableValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds) {
         final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
 
         if (isSupportedEnumType(fieldName)) {
