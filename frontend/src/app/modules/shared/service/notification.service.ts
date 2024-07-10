@@ -164,7 +164,7 @@ export class NotificationService {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     const requestUrl = this.notificationUrl();
 
-    let body = {
+    const body = {
       'fieldName': mappedFieldName,
       'startWith': startsWith,
       'size': 200,

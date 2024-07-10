@@ -23,12 +23,20 @@ import assets.response.base.OwnerType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 public record SearchableAssetsRequest(
         @NotNull
         String fieldName,
-        Integer size,
         @Size(min = 1)
         String startWith,
+        Integer size,
         OwnerType owner,
-        String[] inAssetIds) {
+        List<String> inAssetIds) {
+
+    public SearchableAssetsRequest {
+        if (size == null) {
+            size = 200;
+        }
+    }
 }

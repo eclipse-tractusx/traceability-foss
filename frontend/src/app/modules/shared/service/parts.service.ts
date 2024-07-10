@@ -162,7 +162,7 @@ export class PartsService {
   public getSearchableValues(isAsBuilt: boolean, fieldNames: string, startsWith: string, inAssetIds?: string[]) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
 
-    let body = {
+    const body = {
       "fieldName": mappedFieldName,
       "startWith": startsWith,
       "size": 200,
