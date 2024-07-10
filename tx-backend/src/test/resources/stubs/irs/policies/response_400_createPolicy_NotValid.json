@@ -1,0 +1,7 @@
+{
+  "statusCode": "BAD_REQUEST",
+  "error": "Bad Request",
+  "messages": [
+    "Policy is expiredRegisterPolicyRequest [validUntil=2021-12-31T23:59:59Z, businessPartnerNumber=null, payload=null]"
+  ]
+}
