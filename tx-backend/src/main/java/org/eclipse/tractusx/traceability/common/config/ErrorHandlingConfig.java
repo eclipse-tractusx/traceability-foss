@@ -58,6 +58,7 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.except
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.policies.domain.exception.PolicyNotValidException;
 import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -375,6 +376,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(UnsupportedSearchCriteriaFieldException.class)
     ResponseEntity<ErrorResponse> handleUnsupportedSearchCriteriaFieldException(UnsupportedSearchCriteriaFieldException exception) {
         log.warn("handleInvalidFilterException", exception);
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(PolicyNotValidException.class)
+    ResponseEntity<ErrorResponse> handlePolicyNotValidExceptionException(PolicyNotValidException exception) {
+        log.warn("PolicyNotValidException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
