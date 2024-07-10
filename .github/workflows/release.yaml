@@ -92,12 +92,3 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body: ${{ env.CHANGELOG }}
-
-  publish-to-swaggerhub:
-    name: "Publish OpenAPI spec to Swaggerhub"
-    permissions:
-      contents: read
-    needs:
-      - release
-    uses: ./.github/workflows/update-openapi-spec.yml
-    secrets: inherit
