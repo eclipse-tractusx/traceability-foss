@@ -1,4 +1,4 @@
-name: "Publish OpenAPI to Swaggerhub"
+name: "Update OpenAPI spec"
 
 on:
   workflow_call:
@@ -22,34 +22,35 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-
-      - name: Install Swagger CLI
-        run: |
-          npm i -g swaggerhub-cli
-
-      - name: Extract versions
-        run: |
-          export VERSION="${{ inputs.version }}"
-          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+          cache: 'maven'
 
       - name: Update OpenAPI spec
-        run: mvn test -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
+        run: mvn test -B -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
 
       - name: Create pull request for OpenAPI spec update
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: action/update-openapi-spec
           commit-message: "chore(release): updated OpenAPI spec"
+          branch: chore/update-openapi-spec
           base: main
-          title: "chore(release): updated OpenAPI spec"
           delete-branch: true
+          title: "chore: update OpenAPI spec for release ${{ inputs.version }}"
           body: |
             This PR updates the OpenAPI spec. Please check whether the update was performed correctly. Unfortunately, this
             action causes a lot of unnecessary changes which should, however, be clearly recognizable as such.
             You may safely ignore these.
+
+#      - name: Setup node
+#        uses: actions/setup-node@v4
+#
+#      - name: Install Swagger CLI
+#        run: |
+#          npm i -g swaggerhub-cli
+
+#      - name: Extract versions
+#        run: |
+#          export VERSION="${{ inputs.version }}"
+#          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
 
 #      # create API, will fail if exists
 #      - name: Create API
