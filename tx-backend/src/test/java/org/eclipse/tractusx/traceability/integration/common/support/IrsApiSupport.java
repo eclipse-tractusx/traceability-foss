@@ -152,6 +152,16 @@ public class IrsApiSupport {
         );
     }
 
+    public void irsApiCreatesPolicyPolicyNotValid() {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.post("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.BAD_REQUEST_400),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_400_createPolicy.json")
+        );
+    }
+
     public void irsApiUpdatesPolicy() {
         whenHttp(restitoProvider.stubServer()).match(
                 Condition.put("/irs/policies")
