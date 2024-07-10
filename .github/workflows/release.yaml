@@ -100,6 +100,4 @@ jobs:
     needs:
       - release
     uses: ./.github/workflows/update-openapi-spec.yml
-    with:
-      version: ${{ github.ref_name }}
     secrets: inherit
