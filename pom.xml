@@ -90,7 +90,7 @@ SPDX-License-Identifier: Apache-2.0
         <junit-bom.version>5.10.2</junit-bom.version>
         <awaitility.version>4.2.1</awaitility.version>
         <!-- TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978 update to the cx release version of irs lib IMPORTANT NO SNAPSHOT-->
-        <irs-client-lib.version>2.1.1</irs-client-lib.version>
+        <irs-client-lib.version>2.1.4</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
