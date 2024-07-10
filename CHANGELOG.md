@@ -10,6 +10,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 - #1173 Update IRS-Helm from 7.1.4 to 7.2.0 - updated Compatibility Matrix
 - #1082 fix duplicate key errors when synchronizing assets with IRS
+- #970 fixed bug where the right operand of policies was not showing up in table and detailed view
 
 ## [12.0.0 - 05.07.2024]
 
