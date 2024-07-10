@@ -15,13 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: '${{ env.JAVA_VERSION }}'
-          distribution: 'temurin'
-          cache: 'maven'
-
       - name: Calculate Helm release version from CHANGELOG
         run: echo HELM_VERSION=$(cat charts/traceability-foss/CHANGELOG.md | sed -n 's/.*\[\([0-9]\+\.[0-9]\+\.[0-9]\+\)\].*/\1/p' | head -n 1) >> $GITHUB_ENV
 
@@ -83,22 +76,6 @@ jobs:
             Please check whether the Chart was updated correctly and that the CHANGELOG contains the relevant information
             for this release. Also, make sure that the values.yaml is correct before merging this PR.
 
- #     - name: Update OpenAPI spec
- #       run: mvn test -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
-#
- #     - name: Create pull request
- #       uses: peter-evans/create-pull-request@v6
- #       with:
- #         token: ${{ secrets.GITHUB_TOKEN }}
- #         branch: action/update-openapi-spec
- #         title: "chore(OpenAPI): updated OpenAPI spec"
- #         labels: automated
- #         delete-branch: true
- #         body: |
- #           This PR updates the OpenAPI spec. Please check whether the spec was updated correctly. Unfortunately, this
- #           action causes a lot of nonsensical changes which should, however, be clearly recognizable.
- #           You can safely ignore these.
-#
       - name: Get previous version
         run: echo PREVIOUS_VERSION=$(git tag | grep -E ^[0-9]+\\.[0-9]+\\.[0-9]+ | tail -2 | head -n +1) >> $GITHUB_ENV
 
@@ -122,7 +99,7 @@ jobs:
       contents: read
     needs:
       - release
-    uses: ./.github/workflows/publish-swagger-hub.yml
+    uses: ./.github/workflows/update-openapi-spec.yml
     with:
       version: ${{ github.ref_name }}
     secrets: inherit
