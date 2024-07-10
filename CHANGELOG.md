@@ -8,7 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
-- #1173 Update IRS-Helm from 7.1.4 to 7.2.0
+- #1173 Update IRS-Helm from 7.1.4 to 7.2.0 - updated Compatibility Matrix
 - #1082 fix duplicate key errors when synchronizing assets with IRS
 
 ## [12.0.0 - 05.07.2024]
@@ -23,6 +23,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #985 Added reference to part/notification under contract
 - #786 Added icons on part table to let admin reload registry / sync assets via IRS
 - #520 Added Attribute BPN to DetailView
+- #1112 Added association int-a/int-b environment to argo workflow
 
 ### Changed
 - #965 Implement proxy functionality of the IRS policy store
