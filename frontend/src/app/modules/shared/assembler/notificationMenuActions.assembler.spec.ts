@@ -28,12 +28,14 @@ import { NotificationMenuActionsAssembler } from '@shared/assembler/notification
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 import { KeycloakService } from 'keycloak-angular';
 
 describe('NotificationMenuActionsAssembler', () => {
   let helperService: NotificationHelperService;
   let notificationCommonModalComponent: NotificationCommonModalComponent;
   let notificationActionHelperService: NotificationActionHelperService;
+  let notificationProcessingService: NotificationProcessingService;
 
   beforeEach(function() {
     TestBed.configureTestingModule({
@@ -56,6 +58,7 @@ describe('NotificationMenuActionsAssembler', () => {
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);
     helperService = TestBed.inject(NotificationHelperService);
     notificationActionHelperService = TestBed.inject(NotificationActionHelperService);
+    notificationProcessingService = TestBed.inject(NotificationProcessingService);
   });
 
   it('should return menuActions', function() {
@@ -80,7 +83,7 @@ describe('NotificationMenuActionsAssembler', () => {
     };
 
     // Act
-    let menuActions = NotificationMenuActionsAssembler.getMenuActions(notificationActionHelperService, notificationCommonModalComponent);
+    let menuActions = NotificationMenuActionsAssembler.getMenuActions(notificationActionHelperService, notificationCommonModalComponent, notificationProcessingService);
 
     // Assert
     menuActions.map(item => {
