@@ -1,11 +1,7 @@
 name: "Update OpenAPI spec"
 
 on:
-  workflow_call:
-    inputs:
-      version:
-        required: true
-        type: string
+  workflow_dispatch:
 
 jobs:
   swagger-api:
@@ -34,7 +30,7 @@ jobs:
           branch: chore/update-openapi-spec
           base: main
           delete-branch: true
-          title: "chore: update OpenAPI spec for release ${{ inputs.version }}"
+          title: "chore: update OpenAPI spec"
           body: |
             This PR updates the OpenAPI spec. Please check whether the update was performed correctly. Unfortunately, this
             action causes a lot of unnecessary changes which should, however, be clearly recognizable as such.
