@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.integration.policy;
 
 import io.restassured.http.ContentType;
+import io.restassured.response.ValidatableResponse;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
@@ -28,14 +29,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import policies.request.Payload;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
 
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 class PolicyControllerIT extends IntegrationTestSpecification {
@@ -153,10 +157,9 @@ class PolicyControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldThrowPolicyNotValidCreatePolicy() throws JoseException {
 
-
-        // Sample data
-        List<String> businessPartnerNumbers = Arrays.asList("BPN-123", "BPN-456");
-        List<String> policyIds = Arrays.asList("POLICY-789", "POLICY-101");
+        // GIVEN
+        List<String> businessPartnerNumbers = List.of("BPN-46t6");
+        List<String> policyIds = List.of("POLICY-790");
         Instant validUntil = Instant.parse("2021-12-31T23:59:59.00Z");
 
         // WRONG REQUEST OBJECT
@@ -169,9 +172,9 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .when()
                 .post("/api/policies")
                 .then()
-                .statusCode(500)
-                .body(containsString("Policy is expiredRegisterPolicyRequest [validUntil=2021-12-31T23:59:59Z, businessPartnerNumber=null, payload=null]"))
-                .log().all();
+                .statusCode(400)
+                .body("message", equalTo("Policy is expired RegisterPolicyRequest[validUntil=2021-12-31T23:59:59Z, businessPartnerNumber=null, payload=null]"));
+
     }
 
     @Test
