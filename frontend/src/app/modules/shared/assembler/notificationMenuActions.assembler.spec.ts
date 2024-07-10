@@ -64,6 +64,7 @@ describe('NotificationMenuActionsAssembler', () => {
   it('should return menuActions', function() {
     // Arrange
     let showSpy = spyOn(notificationCommonModalComponent, 'show').and.returnValue(undefined);
+    let isLoadingSpy = spyOn(notificationProcessingService, 'isInLoadingProcess');
 
     const notificationTemplate: Notification = {
       id: 'id-1',
@@ -92,6 +93,10 @@ describe('NotificationMenuActionsAssembler', () => {
       expect(showSpy).toHaveBeenCalled();
       let conditionAction = item.condition(notificationTemplate);
       expect(conditionAction).not.toBe(undefined);
+      expect(item.isLoading).toBeDefined();
+      item.isLoading(notificationTemplate);
+      expect(isLoadingSpy).toHaveBeenCalled();
+
     });
   });
 
