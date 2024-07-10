@@ -17,7 +17,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
@@ -83,7 +82,15 @@ export class NotificationService {
   ): Observable<string> {
     const targetDate = dateString?.length > 0 ? new Date(dateString).toISOString() : null;
     const upperCaseType = type ? type.toUpperCase() : null;
-    const body = { affectedPartIds, description, severity, receiverBpn: bpn, type: upperCaseType, title: title === "" ? null: title, targetDate };
+    const body = {
+      affectedPartIds,
+      description,
+      severity,
+      receiverBpn: bpn,
+      type: upperCaseType,
+      title: title === '' ? null : title,
+      targetDate,
+    };
 
     return this.apiService.post<NotificationCreateResponse>(`${ this.url }/notifications`, body).pipe(map(({ id }) => id));
   }
@@ -152,23 +159,30 @@ export class NotificationService {
     if (targetDate?.length > 0) {
       targetDate = new Date(targetDate).toISOString();
     }
-    const body = { title: title === "" ? null: title, receiverBpn: receiverBpn, severity, targetDate, description, affectedPartIds: affectedPartIds };
+    const body = {
+      title: title === '' ? null : title,
+      receiverBpn: receiverBpn,
+      severity,
+      targetDate,
+      description,
+      affectedPartIds: affectedPartIds,
+    };
     return this.apiService.put<void>(`${ requestUrl }/${ notificationId }/edit`, body);
   }
 
 
-  public getDistinctFilterValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
+  public getSearchableValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     const requestUrl = this.notificationUrl();
-    let params = new HttpParams()
-      .set('fieldName', mappedFieldName)
-      .set('startWith', startsWith)
-      .set('size', 200)
-      .set('channel', channel);
 
-    return this.apiService
-      .getBy<any>(`${ requestUrl }/distinctFilterValues`, params);
+    const body = {
+      'fieldName': mappedFieldName,
+      'startWith': startsWith,
+      'size': 200,
+      'channel': channel,
+    };
 
+    return this.apiService.post(`${ requestUrl }/searchable-values`, body);
   }
 
   public notificationUrl(): string {
