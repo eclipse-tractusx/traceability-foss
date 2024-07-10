@@ -34,7 +34,7 @@ describe('PolicyEditorComponent', () => {
               leftOperand: 'left1',
               operator: { '@id': OperatorType.EQ },
               operatorTypeResponse: OperatorType.EQ,
-              'odrl:rightOperand': 'right1',
+              'rightOperand': 'right1',
             },
           ],
           or: [
@@ -42,7 +42,7 @@ describe('PolicyEditorComponent', () => {
               leftOperand: 'left2',
               operator: { '@id': OperatorType.NEQ },
               operatorTypeResponse: OperatorType.NEQ,
-              'odrl:rightOperand': 'right2',
+              'rightOperand': 'right2',
             },
           ],
         },

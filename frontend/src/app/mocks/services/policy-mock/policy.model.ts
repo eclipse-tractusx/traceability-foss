@@ -187,28 +187,28 @@ export const MockPolicyResponseMap: PolicyResponseMap = {
                     'operator': {
                       '@id': OperatorType.EQ,
                     },
-                    'odrl:rightOperand': 'traceability:1.0',
+                    'rightOperand': 'traceability:1.0',
                   },
                   {
                     'leftOperand': 'cx-policy:FrameworkAgreement',
                     'operator': {
                       '@id': OperatorType.EQ,
                     },
-                    'odrl:rightOperand': 'traceability:1.0',
+                    'rightOperand': 'traceability:1.0',
                   },
                   {
                     'leftOperand': 'cx-policy:FrameworkAgreement',
                     'operator': {
                       '@id': OperatorType.EQ,
                     },
-                    'odrl:rightOperand': 'traceability:1.0',
+                    'rightOperand': 'traceability:1.0',
                   },
                   {
                     'leftOperand': 'cx-policy:FrameworkAgreement',
                     'operator': {
                       '@id': OperatorType.EQ,
                     },
-                    'odrl:rightOperand': 'traceability:1.0',
+                    'rightOperand': 'traceability:1.0',
                   },
                 ],
               },
