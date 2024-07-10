@@ -333,15 +333,15 @@ SPDX-License-Identifier: Apache-2.0
             <mat-menu #menu="matMenu">
               <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
                 <button
-                  matTooltip="{{'routing.unauthorized' | i18n}}"
+                  matTooltip="{{ (config?.isAuthorized === false ? 'routing.unauthorized' : ((config.isLoading && config?.isLoading(row)) ? 'routing.notificationInProcess' : '')) | i18n}}"
                   matTooltipClass="table--header--tooltip"
                   matTooltipPosition="above"
                   [class.mdc-tooltip--multiline]="true"
                   [matTooltipShowDelay]="1000"
-                  [matTooltipDisabled]="config?.isAuthorized !== false && !config?.isLoading(row)"
-                  [class.menu-action-button--unauthorized]="(config?.isAuthorized === false && config?.isLoading(row)) ? 'unauthorized' : ''"
-                  (click)="(config?.isAuthorized === false && config?.isLoading(row)) ? null : config.action(row)"
-                  onkeydown="(config?.isAuthorized === false && config?.isLoading(row)) ? null : config.action(row)"
+                  [matTooltipDisabled]="config?.isAuthorized !== false && (config.isLoading && !config?.isLoading(row))"
+                  [class.menu-action-button--unauthorized]="(config?.isAuthorized === false || (config.isLoading && config?.isLoading(row))) ? 'unauthorized' : ''"
+                  (click)="(config?.isAuthorized === false || (config.isLoading && config?.isLoading(row))) ? null : config.action(row)"
+                  onkeydown="(config?.isAuthorized === false || (config.isLoading && config?.isLoading(row))) ? null : config.action(row)"
                   *ngIf="!config.condition || config.condition(row)"
                   class="menu-action-button"
                   [attr.data-testId]="'table-menu-button--' + config.label"

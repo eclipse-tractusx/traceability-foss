@@ -21,6 +21,8 @@
 
 import { Component, Input } from '@angular/core';
 import { Notification } from '@shared/model/notification.model';
+import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 
 @Component({
   selector: 'app-notification-overview',
@@ -34,4 +36,9 @@ import { Notification } from '@shared/model/notification.model';
 export class NotificationOverviewComponent {
   @Input() notification: Notification;
   @Input() showNotification = true;
+
+  constructor(public notificationProcessingService: NotificationProcessingService) {
+  }
+
+  protected readonly NotificationAction = NotificationAction;
 }

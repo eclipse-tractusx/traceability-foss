@@ -25,10 +25,6 @@ import { NotificationProcessingService } from '@shared/service/notification-proc
 
 export class NotificationMenuActionsAssembler {
   public static getMenuActions(helperService: NotificationActionHelperService, modal: NotificationCommonModalComponent, notificationProcessingService: NotificationProcessingService): MenuActionConfig<Notification>[] {
-    const notInLoadingState = (id: string) => {
-      console.log(id);
-      return !notificationProcessingService.notificationIdsInLoadingState.has(id);
-    };
     return [
       {
         label: 'actions.close',

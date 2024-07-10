@@ -31,6 +31,7 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -78,18 +79,20 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
     private router: Router,
     private readonly route: ActivatedRoute,
     private readonly toastService: ToastService,
+    private readonly notificationProcessingService: NotificationProcessingService,
   ) {
     this.notificationPartsInformation$ = this.notificationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.notificationDetailFacade.supplierPartsInformation$;
 
     this.toastActionSubscription = this.toastService.retryAction.subscribe({
       next: result => {
-        const formattedStatus = result?.context?.charAt(0)?.toUpperCase() + result?.context?.slice(1)?.toLowerCase();
+        const formattedStatus = result?.context?.notificationStatus?.charAt(0)?.toUpperCase() + result?.context?.notificationStatus?.slice(1)?.toLowerCase();
         if (result?.success) {
           this.toastService.success(`requestNotification.successfully${ formattedStatus }`);
         } else if (result?.error) {
           this.toastService.error(`requestNotification.failed${ formattedStatus }`, 15000, true);
         }
+        this.notificationProcessingService.notificationIdsInLoadingState.delete(result?.context?.notificationId);
         this.ngAfterViewInit();
       },
     });
@@ -226,6 +229,10 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
         tap(notification => (this.notificationDetailFacade.selected = { data: notification })),
       )
       .subscribe();
+  }
+
+  isProcessing() {
+    return this.notificationProcessingService.isInLoadingProcess(this.selectedNotification);
   }
 
   protected readonly NotificationType = NotificationType;

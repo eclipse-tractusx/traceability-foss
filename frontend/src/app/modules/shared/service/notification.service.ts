@@ -94,7 +94,10 @@ export class NotificationService {
     const body = { reason };
     const request = () => this.apiService.post<void>(`${ requestUrl }/${ id }/close`, body);
     this.apiService.lastRequest = {
-      context: NotificationStatus.CLOSED,
+      context: {
+        notificationStatus: NotificationStatus.CLOSED,
+        notificationId: id,
+      },
       execute: request,
     };
     return request();
@@ -104,7 +107,10 @@ export class NotificationService {
     const requestUrl = this.notificationUrl();
     const request = () => this.apiService.post<void>(`${ requestUrl }/${ id }/approve`);
     this.apiService.lastRequest = {
-      context: NotificationStatus.APPROVED,
+      context: {
+        notificationStatus: NotificationStatus.APPROVED,
+        notificationId: id,
+      },
       execute: request,
     };
     return request();
@@ -114,7 +120,10 @@ export class NotificationService {
     const requestUrl = this.notificationUrl();
     const request = () => this.apiService.post<void>(`${ requestUrl }/${ id }/cancel`);
     this.apiService.lastRequest = {
-      context: NotificationStatus.CANCELED,
+      context: {
+        notificationStatus: NotificationStatus.CANCELED,
+        notificationId: id,
+      },
       execute: request,
     };
     return request();
@@ -129,7 +138,10 @@ export class NotificationService {
     const body = { reason, status };
     const request = () => this.apiService.post<void>(`${ requestUrl }/${ id }/update`, body);
     this.apiService.lastRequest = {
-      context: status,
+      context: {
+        notificationStatus: NotificationStatus.CLOSED,
+        notificationId: id,
+      },
       execute: request,
     };
     return request();
@@ -137,7 +149,6 @@ export class NotificationService {
 
   public editNotification(notificationId: string, title: string, receiverBpn: string, severity: string, targetDate: string, description: string, affectedPartIds: string[]): Observable<void> {
     const requestUrl = this.notificationUrl();
-    console.log(targetDate);
     if (targetDate?.length > 0) {
       targetDate = new Date(targetDate).toISOString();
     }

@@ -125,18 +125,15 @@ export class NotificationActionModalComponent {
     const onConfirm = (isConfirmed: boolean) => {
       if (!isConfirmed) return;
       this.notificationProcessingService.notificationIdsInLoadingState.add(notification.id);
-      console.log('START ', this.notificationProcessingService.notificationIdsInLoadingState);
       const reason = this.formGroup.get('reason').value;
       this.callback(desiredStatus, notification.id, reason).subscribe({
         next: () => {
           this.notificationProcessingService.notificationIdsInLoadingState.delete(notification.id);
-          console.log('STOP WITH SUCCESS: ', this.notificationProcessingService.notificationIdsInLoadingState);
           this.toastService.success(modalData.successMessage);
           this.confirmActionCompleted.emit();
         },
         error: () => {
           this.notificationProcessingService.notificationIdsInLoadingState.delete(notification.id);
-          console.log('STOP WITH ERROR: ', this.notificationProcessingService.notificationIdsInLoadingState);
           this.toastService.error(modalData.errorMessage, 15000, true);
           this.confirmActionCompleted.emit();
         },

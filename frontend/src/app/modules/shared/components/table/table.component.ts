@@ -405,7 +405,7 @@ export class TableComponent {
       label: 'actions.viewDetails',
       icon: 'remove_red_eye',
       action: (data: Record<string, unknown>) => this.selected.emit(data),
-      isLoading: (data: Notification) => this.notificationProcessingService.isInLoadingProcess(data),
+      isLoading: (data) => false, // detailed view is always active while loading
     };
 
     const editDetailsMenuAction: MenuActionConfig<unknown> = {
@@ -414,7 +414,7 @@ export class TableComponent {
       action: (data: Record<string, unknown>) => this.editClicked.emit(data),
       condition: data => this.isEditable(data),
       isAuthorized: this.roleService.isSupervisor() || this.roleService.isUser(),
-      isLoading: (data: Notification) => this.notificationProcessingService.isInLoadingProcess(data),
+      isLoading: (data) => this.notificationProcessingService.isInLoadingProcess(data as Notification),
     };
     const defaultActionsToAdd: MenuActionConfig<unknown>[] = [ viewDetailsMenuAction, editDetailsMenuAction ]
       .filter(action => !menuActionsConfig.some(a => a.label === action.label));
