@@ -100,4 +100,6 @@ jobs:
     needs:
       - release
     uses: ./.github/workflows/publish-swagger-hub.yml
+    with:
+      version: ${{ github.ref_name }}
     secrets: inherit

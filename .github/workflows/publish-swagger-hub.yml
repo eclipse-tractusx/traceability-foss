@@ -2,6 +2,10 @@ name: "Publish OpenAPI to Swaggerhub"
 
 on:
   workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
 
 jobs:
   swagger-api:
@@ -26,6 +30,11 @@ jobs:
         run: |
           npm i -g swaggerhub-cli
 
+      - name: Extract versions
+        run: |
+          export VERSION="${{ inputs.version }}"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
       - name: Update OpenAPI spec
         run: mvn test -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
 
@@ -42,20 +51,20 @@ jobs:
             action causes a lot of unnecessary changes which should, however, be clearly recognizable as such.
             You may safely ignore these.
 
-      # create API, will fail if exists
-      - name: Create API
-        continue-on-error: true
-        run: |
-          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/trace-x/${{ github.ref_name }} -f ${{ env.SPEC_FILE }} --visibility=public --published=unpublish
+#      # create API, will fail if exists
+#      - name: Create API
+#        continue-on-error: true
+#        run: |
+#          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=unpublish
 
-      # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
-      - name: Publish API Specs to SwaggerHub
-        run: |
-          if [[ ${{ github.ref_name }} != *-SNAPSHOT ]]; then
-            echo "[INFO] - no snapshot, will set the API to 'published'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ github.ref_name }} -f ${{ env.SPEC_FILE }} --visibility=public --published=publish
-            swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/trace-x/${{ github.ref_name }}
-          else
-            echo "[INFO] - snapshot, will set the API to 'unpublished'";
-            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ github.ref_name }} -f ${{ env.SPEC_FILE }} --visibility=public --published=unpublish
-          fi
+#      # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
+#      - name: Publish API Specs to SwaggerHub
+#        run: |
+#          if [[ ${{ env.VERSION }} != *-SNAPSHOT ]]; then
+#            echo "[INFO] - no snapshot, will set the API to 'published'";
+#            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=publish
+#            swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }}
+#          else
+#            echo "[INFO] - snapshot, will set the API to 'unpublished'";
+#            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=unpublish
+#          fi
