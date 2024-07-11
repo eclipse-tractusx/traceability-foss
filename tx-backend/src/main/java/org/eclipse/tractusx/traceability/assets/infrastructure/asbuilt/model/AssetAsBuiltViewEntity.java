@@ -19,14 +19,17 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +43,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
@@ -89,6 +94,9 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
             joinColumns = @JoinColumn(name = "asset_id"),
             inverseJoinColumns = @JoinColumn(name = "notification_id"))
     private List<NotificationEntity> notifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "assetAsBuiltView", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ContractAgreementAsBuiltEntity> contractAgreements;
 
     public AssetBase toDomain() {
         return AssetBase.builder()
@@ -143,7 +151,7 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
                                 .toList()
                 )
                 .tombstone(this.getTombstone())
-                .contractAgreementId(this.getContractAgreementId())
+                .contractAgreements(ContractAgreement.fromAsBuiltEntityToContractAgreements(this.getContractAgreements()))
                 .build();
     }
 

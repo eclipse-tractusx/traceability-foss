@@ -22,6 +22,7 @@ import assets.response.asplanned.AssetAsPlannedResponse;
 import org.eclipse.tractusx.traceability.assets.application.base.mapper.AssetBaseResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .importState(toImportStateResponse(asset.getImportState()))
                 .importNote(asset.getImportNote())
                 .tombstone(asset.getTombstone())
-                .contractAgreementId(asset.getContractAgreementId())
+                .contractAgreementIds(asset.getContractAgreements().stream().map(ContractAgreement::getContractAgreementId).toList())
                 .build();
     }
 

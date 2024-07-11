@@ -19,7 +19,10 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsPlannedEntity;
@@ -28,7 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -55,32 +60,31 @@ public class AssetsSupport {
     public void defaultAssetsStored() {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         bpnSupport.providesBpdmLookup();
-        assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests());
+        List<AssetBase> assetBases = assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests();
+        assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetBases);
 
-        List<ContractAgreementAsBuiltEntity> asBuiltEntities = extractContractAgreementAsBuilt();
+/*        List<ContractAgreementAsBuiltEntity> asBuiltEntities = extractContractAgreementAsBuilt();
         List<ContractAgreementAsPlannedEntity> asPlannedEntities = extractContractAgreementAsPlanned();
         contractRepositoryProvider.contractAsBuiltRepository.saveAll(asBuiltEntities);
-        contractRepositoryProvider.contractAsPlannedRepository.saveAll(asPlannedEntities);
-
+        contractRepositoryProvider.contractAsPlannedRepository.saveAll(asPlannedEntities);*/
     }
 
     private @NotNull List<ContractAgreementAsBuiltEntity> extractContractAgreementAsBuilt() {
         return assetRepositoryProvider.assetAsBuiltRepository().findAll().stream().map(asBuiltAsset -> ContractAgreementAsBuiltEntity
                 .builder()
-                .type(ContractType.ASSET_AS_BUILT)
-                .contractAgreementId(asBuiltAsset.getContractAgreementId())
-                .id(asBuiltAsset.getId())
+                .type(ContractType.ASSET_AS_PLANNED)
+                .contractAgreementId(asBuiltAsset.getLatestContractAgreementId())
+                .globalAssetId(asBuiltAsset.getId())
                 .created(Instant.now())
                 .build()).collect(Collectors.toUnmodifiableList());
-
     }
 
     private @NotNull List<ContractAgreementAsPlannedEntity> extractContractAgreementAsPlanned() {
         return assetRepositoryProvider.assetAsPlannedRepository().findAll().stream().map(asBuiltAsset -> ContractAgreementAsPlannedEntity
                 .builder()
                 .type(ContractType.ASSET_AS_PLANNED)
-                .contractAgreementId(asBuiltAsset.getContractAgreementId())
-                .id(asBuiltAsset.getId())
+                .contractAgreementId(asBuiltAsset.getLatestContractAgreementId())
+                .globalAssetId(asBuiltAsset.getId())
                 .created(Instant.now())
                 .build()).collect(Collectors.toUnmodifiableList());
     }
@@ -95,9 +99,43 @@ public class AssetsSupport {
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertTractionBatteryCodeAssetsForTests());
     }
 
+    private void enrichContractAgreementsAsBuilt(List<AssetBase> assets) {
+
+        assets.forEach(assetBase -> {
+            AssetBase assetById = null;
+            try {
+                assetById = assetRepositoryProvider.assetAsBuiltRepository().getAssetById(assetBase.getId());
+            } catch (Exception e) {
+            }
+            if (assetById != null) {
+                List<ContractAgreement> contractAgreements = new ArrayList<>(assetById.getContractAgreements());
+                contractAgreements.add(ContractAgreement.toDomain(assetBase.getLatestContractAgreementId(), assetBase.getId(), ContractType.ASSET_AS_BUILT));
+                assetBase.setContractAgreements(contractAgreements);
+            }
+        });
+    }
+
+    private void enrichContractAgreementsAsPlanned(List<AssetBase> assets) {
+
+        assets.forEach(assetBase -> {
+            AssetBase assetById = null;
+            try {
+                assetById = assetRepositoryProvider.assetAsPlannedRepository().getAssetById(assetBase.getId());
+            } catch (Exception e) {
+            }
+            if (assetById != null) {
+                List<ContractAgreement> contractAgreements = new ArrayList<>(assetById.getContractAgreements());
+                contractAgreements.add(ContractAgreement.toDomain(assetBase.getLatestContractAgreementId(), assetBase.getId(), ContractType.ASSET_AS_PLANNED));
+                assetBase.setContractAgreements(contractAgreements);
+            }
+        });
+    }
+
     public void defaultAssetsAsPlannedStored() {
         bpnSupport.providesBpdmLookup();
-        assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests());
+        List<AssetBase> assetBases = assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests();
+        enrichContractAgreementsAsPlanned(assetBases);
+        assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetBases);
     }
 
     public void assertAssetAsBuiltSize(int size) {

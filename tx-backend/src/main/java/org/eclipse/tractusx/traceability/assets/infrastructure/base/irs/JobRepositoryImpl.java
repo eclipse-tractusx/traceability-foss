@@ -33,8 +33,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsPlannedEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.repository.ContractAsBuiltRepositoryImpl;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.repository.ContractAsPlannedRepositoryImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,6 +42,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
@@ -55,8 +54,6 @@ public class JobRepositoryImpl implements JobRepository {
     private final TraceabilityProperties traceabilityProperties;
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
-    private final ContractAsBuiltRepositoryImpl contractAsBuiltRepository;
-    private final ContractAsPlannedRepositoryImpl contractAsPlannedRepository;
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
 
     private final IrsResponseAssetMapper assetMapperFactory;
@@ -70,15 +67,11 @@ public class JobRepositoryImpl implements JobRepository {
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
             AssetCallbackRepository assetAsPlannedCallbackRepository,
-            ContractAsBuiltRepositoryImpl contractAsBuiltRepository,
-            ContractAsPlannedRepositoryImpl contractAsPlannedRepository,
             IrsResponseAssetMapper assetMapperFactory) {
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
         this.jobClient = jobClient;
-        this.contractAsBuiltRepository = contractAsBuiltRepository;
-        this.contractAsPlannedRepository = contractAsPlannedRepository;
         this.assetMapperFactory = assetMapperFactory;
     }
 
@@ -106,32 +99,36 @@ public class JobRepositoryImpl implements JobRepository {
 
         if (jobCompleted(jobResponseIRS.jobStatus())) {
             List<AssetBase> assets = assetMapperFactory.toAssetBaseList(jobResponseIRS);
-            List<ContractAgreement> contractAgreementsAsBuilt = new ArrayList<>();
-            List<ContractAgreement> contractAgreementsAsPlanned = new ArrayList<>();
             assets.forEach(assetBase -> {
                 if (assetBase.getBomLifecycle() == AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
-                    contractAgreementsAsBuilt.add(ContractAgreement.toContractAgreement(assetBase, ContractType.ASSET_AS_BUILT));
                 } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
                     saveOrUpdateAssets(assetAsPlannedCallbackRepository, assetBase);
-                    contractAgreementsAsPlanned.add(ContractAgreement.toContractAgreement(assetBase, ContractType.ASSET_AS_PLANNED));
                 }
             });
-            this.contractAsBuiltRepository.saveAll(ContractAgreementAsBuiltEntity.fromDomainToEntityList(contractAgreementsAsBuilt));
-            this.contractAsPlannedRepository.saveAll(ContractAgreementAsPlannedEntity.fromDomainToEntityList(contractAgreementsAsPlanned));
         }
     }
 
     void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
         try {
+            enrichAssetBaseByContractAgreements(repository, asset);
             repository.save(asset);
         } catch (DataIntegrityViolationException ex) {
             //retry save in case of ERROR: duplicate key value violates unique constraint "asset_pkey"
             log.info("Asset with id {} already exists in the database. The record will be updated instead.", asset.getId());
+            enrichAssetBaseByContractAgreements(repository, asset);
             repository.save(asset);
         }
     }
 
+    private static void enrichAssetBaseByContractAgreements(AssetCallbackRepository repository, AssetBase asset) {
+        Optional<AssetBase> byId = repository.findById(asset.getId());
+        List<ContractAgreement> agreementsToAdd = new ArrayList<>();
+        byId.ifPresent(assetBase -> agreementsToAdd.addAll(assetBase.getContractAgreements()));
+        ContractType contractType = asset.getSemanticDataModel().isAsBuilt() ? ContractType.ASSET_AS_BUILT : ContractType.ASSET_AS_PLANNED;
+        agreementsToAdd.add(ContractAgreement.toDomain(asset.getLatestContractAgreementId(), asset.getId(), contractType));
+        asset.setContractAgreements(agreementsToAdd);
+    }
 
     public static boolean jobCompleted(JobStatus jobStatus) {
         return JOB_STATUS_COMPLETED.equals(jobStatus.state());

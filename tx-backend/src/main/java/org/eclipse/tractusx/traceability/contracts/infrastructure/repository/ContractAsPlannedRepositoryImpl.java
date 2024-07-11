@@ -32,8 +32,10 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsPlannedEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -105,6 +107,16 @@ public class ContractAsPlannedRepositoryImpl implements ContractRepository<Contr
     @Override
     public void saveAll(List<ContractAgreementAsPlannedEntity> contractAgreements) {
         contractAgreementRepository.saveAll(contractAgreements);
+    }
+
+    @Override
+    public void save(ContractAgreement contractAgreement) {
+        contractAgreementRepository.save(ContractAgreementAsPlannedEntity.fromDomainToEntity(contractAgreement));
+    }
+
+    @Override
+    public List<ContractAgreementAsBuiltEntity> findAll() {
+        return List.of();
     }
 
     private List<Contract> fetchEdcContractAgreements(List<ContractAgreementAsPlannedEntity> contractAgreementEntities) throws ContractAgreementException {

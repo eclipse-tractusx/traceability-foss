@@ -2,6 +2,7 @@ CREATE VIEW contract_agreement_full AS
 SELECT
     id,
     contract_agreement_id,
+    global_asset_id,
     type,
     created,
     updated,
@@ -12,6 +13,7 @@ UNION ALL
 SELECT
     id,
     contract_agreement_id,
+    global_asset_id,
     type,
     created,
     updated,
@@ -22,6 +24,7 @@ UNION ALL
 SELECT
     id,
     contract_agreement_id,
+    global_asset_id,
     type,
     created,
     updated,

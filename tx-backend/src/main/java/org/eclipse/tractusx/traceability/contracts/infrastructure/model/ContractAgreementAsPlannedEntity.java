@@ -19,17 +19,22 @@
 package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 
 import java.time.Instant;
 import java.util.List;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Getter
 @Setter
@@ -39,9 +44,13 @@ import java.util.List;
 @Table(name = "contract_agreement_as_planned")
 public class ContractAgreementAsPlannedEntity extends ContractAgreementBaseEntity {
 
+    @ManyToOne
+    @JoinColumn(name = "globalAssetId", referencedColumnName = "id", insertable = false, updatable = false)
+    private AssetAsPlannedEntity assetAsPlanned;
+
     public static ContractAgreementAsPlannedEntity from(Contract contract, ContractType contractType) {
         return ContractAgreementAsPlannedEntity.builder()
-                .id(contract.getContractId())
+                .globalAssetId(null)
                 .contractAgreementId(contract.getContractId())
                 .type(contractType)
                 .created(Instant.now())
@@ -49,12 +58,11 @@ public class ContractAgreementAsPlannedEntity extends ContractAgreementBaseEntit
     }
 
     public static List<ContractAgreementAsPlannedEntity> fromList(List<Contract> contracts, ContractType contractType) {
-        return contracts.stream().map(contract -> ContractAgreementAsPlannedEntity.from(contract, contractType)).toList();
+        return emptyIfNull(contracts).stream().map(contract -> ContractAgreementAsPlannedEntity.from(contract, contractType)).toList();
     }
 
     public static ContractAgreementAsPlannedEntity fromDomainToEntity(ContractAgreement contractAgreement) {
         return ContractAgreementAsPlannedEntity.builder()
-                .id(contractAgreement.getId())
                 .contractAgreementId(contractAgreement.getContractAgreementId())
                 .type(contractAgreement.getType())
                 .created(contractAgreement.getCreated())
@@ -62,6 +70,6 @@ public class ContractAgreementAsPlannedEntity extends ContractAgreementBaseEntit
     }
 
     public static List<ContractAgreementAsPlannedEntity> fromDomainToEntityList(List<ContractAgreement> contractAgreements) {
-        return contractAgreements.stream().map(ContractAgreementAsPlannedEntity::fromDomainToEntity).toList();
+        return emptyIfNull(contractAgreements).stream().map(ContractAgreementAsPlannedEntity::fromDomainToEntity).toList();
     }
 }

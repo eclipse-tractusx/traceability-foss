@@ -40,8 +40,8 @@ import java.util.List;
 public class ContractAgreementViewEntity extends ContractAgreementBaseEntity {
     public static ContractAgreementViewEntity from(Contract contract, ContractType contractType) {
         return ContractAgreementViewEntity.builder()
-                .id(contract.getContractId())
                 .contractAgreementId(contract.getContractId())
+                .globalAssetId(null)
                 .type(contractType)
                 .created(Instant.now())
                 .build();
@@ -49,18 +49,5 @@ public class ContractAgreementViewEntity extends ContractAgreementBaseEntity {
 
     public static List<ContractAgreementViewEntity> fromList(List<Contract> contracts, ContractType contractType) {
         return contracts.stream().map(contract -> ContractAgreementViewEntity.from(contract, contractType)).toList();
-    }
-
-    public static ContractAgreementViewEntity fromDomainToEntity(ContractAgreement contractAgreement) {
-        return ContractAgreementViewEntity.builder()
-                .id(contractAgreement.getId())
-                .contractAgreementId(contractAgreement.getContractAgreementId())
-                .type(contractAgreement.getType())
-                .created(contractAgreement.getCreated())
-                .updated(contractAgreement.getUpdated()).build();
-    }
-
-    public static List<ContractAgreementViewEntity> fromDomainToEntityList(List<ContractAgreement> contractAgreements) {
-        return contractAgreements.stream().map(ContractAgreementViewEntity::fromDomainToEntity).toList();
     }
 }

@@ -83,7 +83,7 @@ class ContractsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .body(PageableFilterRequest.builder().searchCriteriaRequestParam(SearchCriteriaRequestParam.builder().filter(List.of("id,EQUAL,urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,AND")).build()).build())
+                .body(PageableFilterRequest.builder().searchCriteriaRequestParam(SearchCriteriaRequestParam.builder().filter(List.of("contractId,STARTS_WITH,abc1,AND")).build()).build())
                 .post("/api/contracts")
                 .then()
                 .log().all()

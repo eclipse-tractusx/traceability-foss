@@ -21,10 +21,13 @@ package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base
 
 import assets.importpoc.ImportResponse;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.ContractRepositoryProvider;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.repository.AssetAsBuiltSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.repository.BpnSupportRepository;
@@ -33,9 +36,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 
 class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
@@ -54,9 +59,12 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     @Autowired
     AssetAsBuiltSupportRepository assetAsBuiltSupportRepository;
 
+    @Autowired
+    ContractRepositoryProvider contractRepositoryProvider;
+
 
     @Test
-    void givenNoAssets_whenCallbackReceived_thenSaveThem() throws JoseException {
+    void givenAssets_whenCallbackReceived_thenSaveThemAndStoreContractAgreementId() throws JoseException {
         // given
 
         bpnSupport.providesBpdmLookup();
@@ -81,7 +89,10 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         assertThat(bpnSupportRepository.findAll()).hasSize(1);
         assetsSupport.assertAssetAsBuiltSize(16);
         assetsSupport.assertAssetAsPlannedSize(0);
-        String contractAgreementId = given()
+
+        List<ContractAgreementAsBuiltEntity> all = contractRepositoryProvider.getContractAsBuiltRepository().findAll();
+        // Make the API call and store the response
+        Response response = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -91,8 +102,13 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().path("contractAgreementId");
-        assertThat(contractAgreementId).isNotEmpty();
+                .extract()
+                .response();
+
+        // Alternatively, you can assert the array size is greater than zero
+        response.then()
+                .assertThat()
+                .body("contractAgreementIds.size()", greaterThan(0));
     }
 
     @Test

@@ -32,8 +32,10 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementViewEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -97,6 +99,16 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
 
     }
 
+    @Override
+    public void save(ContractAgreement contractAgreement) {
+
+    }
+
+    @Override
+    public List<ContractAgreementAsBuiltEntity> findAll() {
+        return List.of();
+    }
+
 
     private List<Contract> fetchEdcContractAgreements(List<ContractAgreementViewEntity> contractAgreementEntities) throws ContractAgreementException {
         List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementViewEntity::getContractAgreementId).toList();
@@ -106,8 +118,25 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
 
         validateContractAgreements(contractAgreementIds, contractAgreements);
 
+
         Map<String, ContractType> contractTypes = contractAgreementEntities.stream()
-                .collect(Collectors.toMap(ContractAgreementViewEntity::getContractAgreementId, ContractAgreementViewEntity::getType));
+                .collect(Collectors.toMap(
+                        ContractAgreementViewEntity::getContractAgreementId,
+                        ContractAgreementViewEntity::getType,
+                        (existing, replacement) -> {
+                            // Define your merging logic here
+                            // For example, keep the existing value
+                            return existing;
+
+                            // Alternatively, you could choose to log the conflict or merge in another way
+                            // e.g., return some merged version of existing and replacement
+                        }
+                ));
+
+        // Print the result
+        contractTypes.forEach((key, value) -> log.info("{}: {}", key, value));
+
+
 
         Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = contractAgreements.stream()
                 .map(agreement -> new ImmutablePair<>(agreement.contractAgreementId(),

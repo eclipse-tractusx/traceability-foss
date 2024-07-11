@@ -40,7 +40,7 @@ import java.util.List;
 public class ContractAgreementNotificationEntity extends ContractAgreementBaseEntity {
     public static ContractAgreementNotificationEntity from(Contract contract, ContractType contractType) {
         return ContractAgreementNotificationEntity.builder()
-                .id(contract.getContractId())
+                .globalAssetId(null)
                 .contractAgreementId(contract.getContractId())
                 .type(contractType)
                 .created(Instant.now())
@@ -54,14 +54,10 @@ public class ContractAgreementNotificationEntity extends ContractAgreementBaseEn
 
     public static ContractAgreementNotificationEntity fromDomainToEntity(ContractAgreement contractAgreement) {
         return ContractAgreementNotificationEntity.builder()
-                .id(contractAgreement.getId())
                 .contractAgreementId(contractAgreement.getContractAgreementId())
+                .globalAssetId(contractAgreement.getGlobalAssetId())
                 .type(contractAgreement.getType())
                 .created(contractAgreement.getCreated())
                 .updated(contractAgreement.getUpdated()).build();
-    }
-
-    public static List<ContractAgreementNotificationEntity> fromDomainToEntityList(List<ContractAgreement> contractAgreements) {
-        return contractAgreements.stream().map(ContractAgreementNotificationEntity::fromDomainToEntity).toList();
     }
 }
