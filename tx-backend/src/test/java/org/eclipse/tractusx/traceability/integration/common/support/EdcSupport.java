@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp;
 import static com.xebialabs.restito.semantics.Action.noContent;
+import static com.xebialabs.restito.semantics.Action.ok;
 import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.composite;
 import static com.xebialabs.restito.semantics.Condition.matchesUri;
@@ -112,10 +113,20 @@ public class EdcSupport {
     public void edcWillRemoveNotificationAsset() {
         whenHttp(restitoProvider.stubServer()).match(
                 method(DELETE),
-                startsWithUri("/management/v2/assets/"),
+                startsWithUri("/management/v3/assets/"),
                 EDC_API_KEY_HEADER
         ).then(
                 noContent()
+        );
+    }
+
+    public void edcWillRemoveContractDefinition() {
+        whenHttp(restitoProvider.stubServer()).match(
+                method(DELETE),
+                startsWithUri("/management/v2/contractdefinitions"),
+                EDC_API_KEY_HEADER
+        ).then(
+                ok()
         );
     }
 
@@ -149,17 +160,6 @@ public class EdcSupport {
         );
     }
 
-    public void edcWillReturnPaginatedContractAgreements() {
-        whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/contractagreements/request"),
-                EDC_API_KEY_HEADER
-        ).then(
-                status(HttpStatus.OK_200)
-        ).withSequence(
-                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/first_page_contractagreements_response_200.json"),
-                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/second_page_contractagreements_response_200.json"));
-    }
-
     public void edcWillReturnContractAgreementNegotiation() {
         whenHttp(restitoProvider.stubServer()).match(
                 matchesUri(Pattern.compile("/management/v2/contractagreements/[\\w]+/negotiation")),
@@ -167,6 +167,16 @@ public class EdcSupport {
         ).then(
                 status(HttpStatus.OK_200),
                 restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/contractagreement_negotiation_response_200.json")
+        );
+    }
+
+    public void edcWillReturnContractDefinitions() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v2/contractdefinitions/request"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractdefinitions/contractdefinitions_response_200.json")
         );
     }
 

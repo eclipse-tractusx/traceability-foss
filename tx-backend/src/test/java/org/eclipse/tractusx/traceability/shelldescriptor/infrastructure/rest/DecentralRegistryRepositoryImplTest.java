@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
 
+import io.github.resilience4j.core.functions.Either;
 import org.eclipse.tractusx.irs.component.Shell;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
@@ -93,7 +94,7 @@ class DecentralRegistryRepositoryImplTest {
                 .payload(asPlanned)
                 .build();
 
-        List<Shell> shells = List.of(asBuiltShell, asPlannedShell);
+        List<Either<Exception, Shell>> shells = List.of(Either.right(asBuiltShell), Either.right(asPlannedShell));
 
         when(decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn)).thenReturn(shells);
 
@@ -103,7 +104,7 @@ class DecentralRegistryRepositoryImplTest {
         List<Shell> actualDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(bpn);
 
         // Then
-        assertThat(actualDescriptors).containsExactlyInAnyOrderElementsOf(shells);
+        assertThat(actualDescriptors).containsExactlyInAnyOrderElementsOf(shells.stream().map(Either::get).toList());
     }
 
     @Test

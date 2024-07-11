@@ -25,9 +25,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
-import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;
-import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
-import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
+import static org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService.NOTIFICATION_CONTRACTS;
 
 
 @Slf4j
@@ -69,12 +67,7 @@ public class ApplicationStartupConfig {
     }
 
     private final EdcNotificationContractService edcNotificationContractService;
-    private static final List<CreateNotificationContractRequest> NOTIFICATION_CONTRACTS = List.of(
-            new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.UPDATE),
-            new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.RECEIVE),
-            new CreateNotificationContractRequest(NotificationType.QUALITY_INVESTIGATION, NotificationMethod.UPDATE),
-            new CreateNotificationContractRequest(NotificationType.QUALITY_INVESTIGATION, NotificationMethod.RECEIVE)
-    );
+
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -97,7 +90,7 @@ public class ApplicationStartupConfig {
         executor.execute(() -> {
             log.info("on ApplicationReadyEvent create notification contracts.");
             try {
-                NOTIFICATION_CONTRACTS.forEach(edcNotificationContractService::handle);
+                NOTIFICATION_CONTRACTS.forEach(edcNotificationContractService::createNotificationContract);
             } catch (Exception exception) {
                 log.error("Failed to create notification contracts: ", exception);
             }
