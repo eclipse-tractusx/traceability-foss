@@ -32,18 +32,16 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div *ngIf="showNotification" class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.description' | i18n }}</span>
-    <span data-testId="description-view" class="card-list--value detail--text__description" title="{{ notification?.description }}">{{
-      notification?.description
+    <span data-testId="description-view" class="card-list--value detail--text__description"
+          title="{{ notification?.description }}">{{
+        notification?.description
       }}</span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.status' | i18n }}</span>
-    <span data-testId="description-status"
-      class="notification-status card-list--value notification-status--{{ notification?.status }}"
-      title="{{ 'commonAlert.status.' + notification?.status | i18n }}"
-    >
-      {{ 'commonAlert.status.' + notification?.status | i18n }}
-    </span>
+    <ng-container *ngIf="notificationProcessingService.isInLoadingProcess(notification); else statusTmp">
+      <ng-container *ngTemplateOutlet="loadingTmp"></ng-container>
+    </ng-container>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.createdDate' | i18n }}</span>
@@ -58,25 +56,25 @@ SPDX-License-Identifier: Apache-2.0
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.createdBy' | i18n }}</span>
     <span class="card-list--value">
-      <span data-testId="createdBy-view">{{notification.createdBy}}</span>
+      <span data-testId="createdBy-view">{{ notification.createdBy }}</span>
     </span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.createdByName' | i18n }}</span>
     <span class="card-list--value">
-      <span data-testId="createdByName-view">{{notification.createdByName}}</span>
+      <span data-testId="createdByName-view">{{ notification.createdByName }}</span>
     </span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.sendTo' | i18n }}</span>
     <span class="card-list--value">
-        <span data-testId="sendTo-view">{{notification.sendTo}}</span>
+        <span data-testId="sendTo-view">{{ notification.sendTo }}</span>
     </span>
   </div>
   <div class="card-list--row">
     <span class="card-list--key detail--text__bold">{{ 'table.column.sendToName' | i18n }}</span>
     <span class="card-list--value">
-        <span data-testId="sendToName-view">{{notification.sendToName}}</span>
+        <span data-testId="sendToName-view">{{ notification.sendToName }}</span>
     </span>
   </div>
 
@@ -110,4 +108,25 @@ SPDX-License-Identifier: Apache-2.0
 -->
 <ng-template let-date="value" #dateTmp>
   <span class="card-list--value" title="{{ date }}">{{ date }}</span>
+</ng-template>
+
+<ng-template #statusTmp>
+      <span data-testId="description-status"
+            class="notification-status card-list--value notification-status--{{ notification?.status }}"
+            title="{{ 'commonAlert.status.' + notification?.status | i18n }}"
+      >
+      {{ 'commonAlert.status.' + notification?.status | i18n }}
+    </span>
+</ng-template>
+
+<ng-template #loadingTmp>
+  <span class="card-list--value"
+        matTooltip="{{ 'actions.notificationInProgress' | i18n}}"
+        matTooltipClass="table--header--tooltip"
+        matTooltipPosition="above"
+        [class.mdc-tooltip--multiline]="true"
+        [matTooltipShowDelay]="1000"
+  >
+      <mat-spinner diameter="28"></mat-spinner>
+  </span>
 </ng-template>
