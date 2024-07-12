@@ -45,7 +45,7 @@ export class PartsStrategy extends AutocompleteStrategy {
       return of([]);
     }
 
-    return this.partsService.getDistinctFilterValues(
+    return this.partsService.getSearchableValues(
       asBuilt,
       filterColumns,
       searchElement,
@@ -67,7 +67,7 @@ export class NotificationStrategy extends AutocompleteStrategy {
 
   retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
     const notificationChannel = channelOfNotification(tableType);
-    return this.notificationService.getDistinctFilterValues(
+    return this.notificationService.getSearchableValues(
       notificationChannel,
       filterColumns,
       searchElement,

@@ -21,9 +21,10 @@ import { NotificationCommonModalComponent } from '@shared/components/notificatio
 import { MenuActionConfig } from '@shared/components/table/table.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 
 export class NotificationMenuActionsAssembler {
-  public static getMenuActions(helperService: NotificationActionHelperService, modal: NotificationCommonModalComponent): MenuActionConfig<Notification>[] {
+  public static getMenuActions(helperService: NotificationActionHelperService, modal: NotificationCommonModalComponent, notificationProcessingService: NotificationProcessingService): MenuActionConfig<Notification>[] {
     return [
       {
         label: 'actions.close',
@@ -31,6 +32,7 @@ export class NotificationMenuActionsAssembler {
         action: data => modal.show(NotificationStatus.CLOSED, data),
         condition: data => helperService.showCloseButton(data),
         isAuthorized: helperService.isAuthorizedForButton(NotificationAction.CLOSE),
+        isLoading: data => notificationProcessingService.isInLoadingProcess(data),
       },
       {
         label: 'actions.approve',
@@ -38,6 +40,8 @@ export class NotificationMenuActionsAssembler {
         action: data => modal.show(NotificationStatus.APPROVED, data),
         condition: data => helperService.showApproveButton(data),
         isAuthorized: helperService.isAuthorizedForButton(NotificationAction.APPROVE),
+        isLoading: data => notificationProcessingService.isInLoadingProcess(data),
+
       },
       {
         label: 'actions.cancel',
@@ -45,6 +49,7 @@ export class NotificationMenuActionsAssembler {
         action: data => modal.show(NotificationStatus.CANCELED, data),
         condition: data => helperService.showCancelButton(data),
         isAuthorized: helperService.isAuthorizedForButton(NotificationAction.CANCEL),
+        isLoading: data => notificationProcessingService.isInLoadingProcess(data),
       },
       {
         label: 'actions.acknowledge',
@@ -52,6 +57,7 @@ export class NotificationMenuActionsAssembler {
         action: data => modal.show(NotificationStatus.ACKNOWLEDGED, data),
         condition: data => helperService.showAcknowledgeButton(data),
         isAuthorized: helperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE),
+        isLoading: data => notificationProcessingService.isInLoadingProcess(data),
       },
       {
         label: 'actions.accept',
@@ -59,6 +65,7 @@ export class NotificationMenuActionsAssembler {
         action: data => modal.show(NotificationStatus.ACCEPTED, data),
         condition: data => helperService.showAcceptButton(data),
         isAuthorized: helperService.isAuthorizedForButton(NotificationAction.ACCEPT),
+        isLoading: data => notificationProcessingService.isInLoadingProcess(data),
       },
       {
         label: 'actions.decline',
@@ -66,6 +73,7 @@ export class NotificationMenuActionsAssembler {
         action: data => modal.show(NotificationStatus.DECLINED, data),
         condition: data => helperService.showDeclineButton(data),
         isAuthorized: helperService.isAuthorizedForButton(NotificationAction.DECLINE),
+        isLoading: data => notificationProcessingService.isInLoadingProcess(data),
       },
     ];
   }

@@ -15,7 +15,7 @@ const mockPolicy: Policy = {
             leftOperand: 'left1',
             operator: { '@id': OperatorType.EQ },
             operatorTypeResponse: OperatorType.EQ,
-            'odrl:rightOperand': 'right1',
+            'rightOperand': 'right1',
           },
         ],
         or: [
@@ -23,7 +23,7 @@ const mockPolicy: Policy = {
             leftOperand: 'left2',
             operator: { '@id': OperatorType.NEQ },
             operatorTypeResponse: OperatorType.NEQ,
-            'odrl:rightOperand': 'right2',
+            'rightOperand': 'right2',
           },
         ],
       },
@@ -79,7 +79,6 @@ const mockPolicyResponse: PolicyResponseMap = {
 describe('PoliciesAssembler', () => {
   it('should assemble policy', () => {
     const assembledPolicy = PoliciesAssembler.assemblePolicy(mockPolicy2);
-    console.log(assembledPolicy.constraints);
     expect(assembledPolicy.policyName).toBe(mockPolicy2.policyId);
     expect(assembledPolicy.createdOn).toBe('2024-01-01T00:00');
     expect(assembledPolicy.validUntil).toBe('2024-12-31T23:59');

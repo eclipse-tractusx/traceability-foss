@@ -22,6 +22,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { I18nMessage } from '@shared/model/i18n-message';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 import { Observable, Subject } from 'rxjs';
 import { CallAction, ToastMessage, ToastStatus } from './toast-message/toast-message.model';
 
@@ -33,7 +34,7 @@ export class ToastService {
   private idx = 0;
   retryAction = new EventEmitter<any>();
 
-  constructor(private readonly apiService: ApiService) {
+  constructor(private readonly apiService: ApiService, private notificationProcessingService: NotificationProcessingService) {
   }
 
   public getCurrentToast$(): Observable<ToastMessage> {
@@ -61,6 +62,7 @@ export class ToastService {
   }
 
   public emitClick(): void {
+    this.notificationProcessingService.notificationIdsInLoadingState.add(this.apiService.lastRequest?.context?.notificationId);
     this.apiService.retryLastRequest()?.subscribe({
       next: (next) => this.retryAction.emit({ success: next, context: this.apiService.lastRequest?.context }),
       error: (err) => this.retryAction.emit({ error: err, context: this.apiService.lastRequest?.context }),

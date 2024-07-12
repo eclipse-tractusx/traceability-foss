@@ -15,6 +15,7 @@
     "adminPolicies" : "Richtlinienverwaltung",
     "partMismatch": "Die ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Eigen, Lieferant)",
     "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
+    "notificationInProcess" : "Aktionen für Qualitätsthemen sind während dem Verarbeitungsprozess nicht verfügbar.",
     "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
     "noChildPartsForInvestigation": "Diese Funktion ist für Produkte ohne Bauteile nicht verfügbar.",
     "noCustomerAsPlannedParts": "Produkte von Kunden im Lebenszyklus \"AsPlanned\" sind nicht verfügbar.",
@@ -75,7 +76,8 @@
     "viewParts" : "Produkt ansehen",
     "viewNotifications" : "Qualitätsthema ansehen",
     "viewPartsTooltip" : "Produkt unter diesem Vertrag ansehen",
-    "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen"
+    "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen",
+    "notificationInProgress" : "Qualitätsthema befindet sich im Verarbeitungsstatus"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",
