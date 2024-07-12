@@ -23,7 +23,7 @@ It must be possible for users to change policies used for asset provisioning and
 - [ ] Policy updates trigger an update and synchronization of all related parts
 - [ ] When sending notifications, the active policy for the respective BPN is used for contract negotiation
 - [ ] User can not create valid, active policies for BPNs that already have a valid, active policy
-  - [ ] If he wants to do so anyways, the existing policies will be invalidated. -> Before doing that, a modal will ask him for confirmation.
+  - [ ] If he wants to do so anyways, the existing policies will be invalidated (validUntil = currentTime). -> Before doing that, a modal will ask him for confirmation.
 - [ ] If the EDC of the receiving BPN provides multiple contract offers, Trace-X will check if **any of them** are active and match the own policy definition. In that case, the data will be sent. This applies to data provisioning and notification transmission.
 
 # Concept
