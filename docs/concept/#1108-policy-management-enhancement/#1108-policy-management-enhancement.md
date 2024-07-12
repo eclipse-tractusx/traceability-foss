@@ -24,6 +24,7 @@ It must be possible for users to change policies used for asset provisioning and
 - [ ] When sending notifications, the active policy for the respective BPN is used for contract negotiation
 - [ ] User can not create valid, active policies for BPNs that already have a valid, active policy
   - [ ] If he wants to do so anyways, the existing policies will be invalidated. -> Before doing that, a modal will ask him for confirmation.
+- [ ] If the EDC of the receiving BPN provides multiple contract offers, Trace-X will check if **any of them** are active and match the own policy definition. In that case, the data will be sent. This applies to data provisioning and notification transmission.
 
 # Concept
 
@@ -607,6 +608,12 @@ During the creation of policies, all policies that already exist must be checked
 If there is any policy that is already used for the configured BPN, the existing policy will be changed to inactive by setting the validUntil date to the currentTime.
 Before doing this the user must be informed about this process and confirm it in a modal.
 ![notification-policy-modal.png](notification-policy-modal.png)
+
+## Contract negotiation
+
+During contract negotiation, there can only be one policy definition from Trace-X that will be compared with the catalogOffers from the receiverBPN.
+If the receiverBPN provides multiple policies in his offers, Trace-X will compare its own policy definition with all of them.
+If **any of them** are valid **and** match the own policy definition, the data will be sent.
 
 # Additional Details
 Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
