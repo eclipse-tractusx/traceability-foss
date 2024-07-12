@@ -34,7 +34,6 @@ import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
 import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
-import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
@@ -47,7 +46,6 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
-import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,7 +65,6 @@ import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfig
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 @Transactional(dontRollbackOn = {ContractNegotiationException.class, NoCatalogItemException.class, SendNotificationException.class, NoEndpointDataReferenceException.class})
 public class NotificationsEDCFacade {
 
@@ -77,13 +74,28 @@ public class NotificationsEDCFacade {
 
     private final EdcProperties edcProperties;
 
-    @Qualifier(EDC_NOTIFICATION_TEMPLATE)
+
     private final RestTemplate edcNotificationTemplate;
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
-    @Qualifier("contractNotificationServiceImpl")
-    private final ContractService contractService;
+    private final ContractService contractNotificationServiceImpl;
+
+    public NotificationsEDCFacade(ObjectMapper objectMapper,
+                                  EdcProperties edcProperties,
+                                  @Qualifier(EDC_NOTIFICATION_TEMPLATE) RestTemplate edcNotificationTemplate,
+                                  EDCCatalogFacade edcCatalogFacade,
+                                  ContractNegotiationService contractNegotiationService,
+                                  EndpointDataReferenceStorage endpointDataReferenceStorage,
+                                  @Qualifier("contractNotificationServiceImpl") ContractService contractNotificationServiceImpl) {
+        this.objectMapper = objectMapper;
+        this.edcProperties = edcProperties;
+        this.edcNotificationTemplate = edcNotificationTemplate;
+        this.edcCatalogFacade = edcCatalogFacade;
+        this.contractNegotiationService = contractNegotiationService;
+        this.endpointDataReferenceStorage = endpointDataReferenceStorage;
+        this.contractNotificationServiceImpl = contractNotificationServiceImpl;
+    }
 
     private static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
     private static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
@@ -105,7 +117,7 @@ public class NotificationsEDCFacade {
 
         notificationMessage.setContractAgreementId(contractAgreementId);
         try {
-            contractService.saveContractAgreements(List.of(contractAgreementId), ContractType.NOTIFICATION);
+            contractNotificationServiceImpl.saveContractAgreements(List.of(contractAgreementId), ContractType.NOTIFICATION);
         } catch (Exception e) {
             log.warn("Could not save contractAgreementId for notification {}", e.getMessage());
         }
