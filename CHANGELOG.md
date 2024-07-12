@@ -32,6 +32,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
 - #1190 CatalogOffers are not able to provide OR constraints therefore notifications are not processed correctly on wrong policy
+- #1194 fix wrong time format in frontend and changed the response from getPolicies endpoint
 
 ## [12.0.0 - 05.07.2024]
 
