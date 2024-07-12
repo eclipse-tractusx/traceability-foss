@@ -381,7 +381,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     }
 
     @ExceptionHandler(PolicyNotValidException.class)
-    ResponseEntity<ErrorResponse> handlePolicyNotValidExceptionException(PolicyNotValidException exception) {
+    ResponseEntity<ErrorResponse> handlePolicyNotValidException(PolicyNotValidException exception) {
         log.warn("PolicyNotValidException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
