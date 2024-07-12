@@ -26,8 +26,8 @@ import { ToastService } from 'src/app/modules/shared/components/toasts/toast.ser
 
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  // List of request.url that should not automatically display a toast but are handled custom (Can be extended later by METHOD)
-  private avoidList = [ '/api/notifications', '/api/notifications/*/approve' ];
+  // List of request.url that should not automatically display a toast but are handled custom (Can be extended later by METHOD) and should not be retried
+  private avoidList = [ '/api/notifications', '/api/notifications/*/approve', '/api/notifications/*/cancel', '/api/notifications/*/close', '/api/notifications/*/update' ];
 
   constructor(private readonly toastService: ToastService) {
   }
@@ -36,36 +36,67 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     request: HttpRequest<Record<string, unknown>>,
     next: HttpHandler,
   ): Observable<HttpEvent<Record<string, unknown>>> {
-    return next.handle(request).pipe(
-      retry(1),
-      catchError((errorResponse: HttpErrorResponse) => {
-        // Possible ToDos:
-        // Add error code for specific errors "AUTH0" => Unauthorized, etc.
-        // Add logging server to store errors from the FE
-        // Intercept "console.error" and send to logging server for further analysis
-        const { error, message } = errorResponse;
-        const errorMessage = !error.message ? message : `Backend returned code ${ error.status }: ${ error.message }`;
+    const requestUrl = this.stripBaseUrl(request.url);
+    const isHandled = this.isOnAlreadyHandledUrlList(requestUrl);
 
-        // Check if the request URL matches any pattern in the avoidList
-        if (!this.isOnAlreadyHandledUrlList(request.url)) {
-          this.toastService.error(errorMessage);
-        }
-
-        return throwError(() => errorResponse);
-      }),
-    );
+    if (isHandled) {
+      // Handle the request without retry if it matches the avoidList
+      return next.handle(request).pipe(
+        catchError((errorResponse: HttpErrorResponse) => this.handleError(request, errorResponse)),
+      );
+    } else {
+      // Retry the request once if it does not match the avoidList
+      return next.handle(request).pipe(
+        retry(1),
+        catchError((errorResponse: HttpErrorResponse) => this.handleError(request, errorResponse)),
+      );
+    }
   }
 
-// Helper method to check if the URL matches any pattern in the avoidList
+  private handleError(request: HttpRequest<any>, errorResponse: HttpErrorResponse): Observable<never> {
+    const { error, message } = errorResponse;
+    const errorMessage = !error.message ? message : `Backend returned code ${ error.status }: ${ error.message }`;
+
+    // Check if the request URL matches any pattern in the avoidList
+    if (!this.isOnAlreadyHandledUrlList(this.stripBaseUrl(request.url))) {
+      this.toastService.error(errorMessage);
+    }
+
+    return throwError(() => errorResponse);
+  }
+
+  // Helper method to check if the URL matches any pattern in the avoidList
   private isOnAlreadyHandledUrlList(url: string): boolean {
-    return !this.avoidList.some(pattern => this.urlMatchesPattern(url, pattern));
+    return this.avoidList.some(pattern => this.urlMatchesPattern(url, pattern));
   }
 
-// Helper method to check if the URL matches a wildcard pattern
+  // Helper method to check if the URL matches a wildcard pattern
   private urlMatchesPattern(url: string, pattern: string): boolean {
-    const regexPattern = pattern.replace(/\*/g, '.*');
-    const regex = new RegExp(`^${regexPattern}$`);
-    return regex.test(url);
+    // Convert wildcard pattern to regex
+    const escapedPattern = pattern.split('*').map(escapeRegExp).join('.*');
+    const regexPattern = `^${ escapedPattern }$`;
+    const regex = new RegExp(regexPattern);
+    const matches = regex.test(url);
+    return matches;
   }
 
+  // Helper method to strip base URL from the request URL
+  private stripBaseUrl(url: string): string {
+    const baseUrlPattern = /^(https?:\/\/[^\/]+)(\/.*)?$/;
+    const match = baseUrlPattern.exec(url);
+    return match && match[2] ? match[2] : url;
+  }
 }
+
+// Helper function to escape regex special characters in a string
+function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+
+
+
+
+
+
+
