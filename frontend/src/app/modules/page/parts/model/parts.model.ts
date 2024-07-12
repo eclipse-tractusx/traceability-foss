@@ -42,7 +42,6 @@ export interface Part {
   owner: Owner;
   semanticDataModel: SemanticDataModel;
   classification: string;
-  contractAgreementId?: string;
 
   mainAspectType: MainAspectType;
 
@@ -101,7 +100,6 @@ export interface PartResponse {
   receivedQualityInvestigationIdsInStatusActive: string[]
   importNote?: string,
   importState?: ImportState,
-  contractAgreementId?: string,
   tombstone?: string,
 }
 
