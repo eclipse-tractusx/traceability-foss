@@ -162,9 +162,8 @@ public class ContractAsBuiltRepositoryImpl implements ContractRepository<Contrac
         ArrayList<String> givenList = new ArrayList<>(contractAgreementIds);
         Collections.sort(givenList);
 
-        List<String> expectedList = contractAgreements.stream()
-                .map(EdcContractAgreementsResponse::contractAgreementId)
-                .filter(Objects::nonNull) // Ensure no null values are mapped
+        List<String> expectedList = contractAgreements.stream().map(EdcContractAgreementsResponse::contractAgreementId)
+                .filter(Objects::nonNull)// Ensure no null values are mapped
                 .sorted()
                 .toList();
         log.info("EDC responded with the following contractAgreementIds: " + expectedList);
