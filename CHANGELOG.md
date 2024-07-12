@@ -7,9 +7,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+
+- #999 Added notification processing feedback in FE
+
 ### Changed
 - #1173 Update IRS-Helm from 7.1.4 to 7.2.0 - updated Compatibility Matrix
 - #1082 fix duplicate key errors when synchronizing assets with IRS
+- #970 fixed bug where the right operand of policies was not showing up in table and detailed view
+- #1188 prevent retry requests for notification actions to prevent duplicate error messages in history
 - #1194 fix wrong time format in frontend and changed the response from getPolicies endpoint
 
 ## [12.0.0 - 05.07.2024]

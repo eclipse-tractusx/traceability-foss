@@ -56,7 +56,7 @@ export class PoliciesAssembler {
       permission.constraint?.and?.forEach((andConstraint, index) => {
         constrainsList.push(andConstraint.leftOperand);
         constrainsList.push(getOperatorTypeSign(OperatorType[andConstraint.operator['@id'].toUpperCase()]));
-        constrainsList.push(andConstraint['odrl:rightOperand']);
+        constrainsList.push(andConstraint.rightOperand);
         if (index !== permission.constraint.and.length - 1) {
           constrainsList.push('*AND ');
         }
@@ -64,7 +64,7 @@ export class PoliciesAssembler {
       permission.constraint?.or?.forEach((orConstraint, index) => {
         constrainsList.push(orConstraint.leftOperand);
         constrainsList.push(getOperatorTypeSign(OperatorType[orConstraint.operator['@id'].toUpperCase()]));
-        constrainsList.push(orConstraint['odrl:rightOperand']);
+        constrainsList.push(orConstraint.rightOperand);
         if (index !== permission.constraint.or.length - 1) {
           constrainsList.push('*OR ');
         }

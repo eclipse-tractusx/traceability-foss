@@ -84,7 +84,6 @@ export interface PolicyConstraint {
   operator?: { '@id': OperatorType };
   'odrl:operator'?: { '@id': OperatorType };
   rightOperand?: string;
-  'odrl:rightOperand'?: string;
 }
 
 export enum OperatorType {

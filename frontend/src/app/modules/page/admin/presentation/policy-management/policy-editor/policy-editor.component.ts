@@ -75,7 +75,6 @@ export class PolicyEditorComponent {
       this.selectedPolicySubscription = this.policyFacade.selectedPolicy$.subscribe(next => {
         this.selectedPolicy = next?.data;
         if (next?.data) {
-          console.log(next.data);
           this.updatePolicyForm(this.selectedPolicy);
         }
       });

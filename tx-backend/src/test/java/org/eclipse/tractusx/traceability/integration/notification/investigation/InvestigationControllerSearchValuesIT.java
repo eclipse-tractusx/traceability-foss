@@ -17,12 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.integration.notification.alert;
+package org.eclipse.tractusx.traceability.integration.notification.investigation;
 
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
-import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -32,23 +32,24 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
-class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
+class InvestigationControllerSearchValuesIT extends IntegrationTestSpecification {
 
     @Autowired
-    AlertsSupport alertsSupport;
+    InvestigationsSupport investigationsSupport;
 
     @Autowired
-    AlertNotificationsSupport alertNotificationsSupport;
+    InvestigationNotificationsSupport investigationNotificationsSupport;
 
     @Test
-    void givenDescriptionField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenDescriptionField_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
 
@@ -56,11 +57,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -68,11 +68,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
                 .body(".", Matchers.containsInRelativeOrder(List.of("1", "11", "2", "22", "3", "33", "4", "44", "5", "55", "6", "7", "8").toArray()));
     }
 
-
     @Test
-    void givenDescriptionFieldStartWith_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenDescriptionFieldStartWith_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
         final String startWith = "1";
@@ -81,12 +80,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .param("startWith", startWith)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -95,9 +92,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenDescriptionFieldStartWithAndReceiver_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenDescriptionFieldStartWithAndReceiver_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
         final String startWith = "1";
@@ -107,13 +104,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith, "channel", channel)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .param("startWith", startWith)
-                .param("channel", channel)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -122,9 +116,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenDescriptionFieldStartWithAndSender_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenDescriptionFieldStartWithAndSender_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
         final String startWith = "1";
@@ -134,13 +128,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith, "channel", channel)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .param("startWith", startWith)
-                .param("channel", channel)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -149,9 +140,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenBpnField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenBpnField_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "bpn";
         Integer size = 200;
 
@@ -159,11 +150,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -172,9 +162,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenBpnFieldStartWithCaseInsensitive1_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenBpnFieldStartWithCaseInsensitive1_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "bpn";
         final Integer size = 200;
         final String startWith = "bpnl";
@@ -183,12 +173,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .param("startWith", startWith)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -197,9 +185,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenBpnFieldStartWithCaseInsensitive2_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenBpnFieldStartWithCaseInsensitive2_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "bpn";
         final Integer size = 200;
         final String startWith = "bpNl";
@@ -208,12 +196,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .param("startWith", startWith)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -222,9 +208,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenCreatedDateField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenCreatedDateField_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdDate";
         Integer size = 200;
 
@@ -232,11 +218,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -246,7 +231,6 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
                         "2023-10-08 10:10:10",
                         "2023-10-09 10:10:10",
                         "2023-10-10 10:10:10",
-                        "2023-10-10 10:10:11",
                         "2023-10-10 10:10:30",
                         "2023-10-11 10:10:10",
                         "2023-10-12 10:10:10",
@@ -254,19 +238,19 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenCreatedDateFieldAndNoSize_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenCreatedDateFieldAndNoSize_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdDate";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -276,7 +260,6 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
                         "2023-10-08 10:10:10",
                         "2023-10-09 10:10:10",
                         "2023-10-10 10:10:10",
-                        "2023-10-10 10:10:11",
                         "2023-10-10 10:10:30",
                         "2023-10-11 10:10:10",
                         "2023-10-12 10:10:10",
@@ -284,9 +267,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenCreatedByField_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenCreatedByField_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdBy";
         Integer size = 200;
 
@@ -294,11 +277,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -307,9 +289,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenCreatedByFieldAndSender_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenCreatedByFieldAndSender_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdBy";
         Integer size = 200;
         final String channel = "SENDER";
@@ -318,12 +300,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "channel", channel)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .param("channel", channel)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -332,9 +312,9 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenCreatedByFieldAndReceiver_whenCallDistinctFilterValues_thenProperResponse() throws JoseException {
+    void givenCreatedByFieldAndReceiver_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
-        alertNotificationsSupport.defaultAlertsStored();
+        investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "createdBy";
         Integer size = 200;
         final String channel = "RECEIVER";
@@ -343,12 +323,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "channel", channel)))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", size)
-                .param("channel", channel)
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -358,7 +336,7 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
 
     @ParameterizedTest
     @MethodSource("enumFieldNamesTestProvider")
-    void givenEnumTypeFields_whenCallDistinctFilterValues_thenProperResponse(
+    void givenEnumTypeFields_whenCallSearchableValues_thenProperResponse(
             String fieldName,
             Integer resultLimit,
             List<String> expectedResult
@@ -366,11 +344,10 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit.toString())))
                 .log().all()
                 .when()
-                .param("fieldName", fieldName)
-                .param("size", resultLimit.toString())
-                .get("/api/notifications/distinctFilterValues")
+                .post("/api/notifications/searchable-values")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -419,10 +396,6 @@ class AlertControllerFilterValuesIT extends IntegrationTestSpecification {
                         "MAJOR",
                         "CRITICAL",
                         "LIFE_THREATENING"
-                )),
-                Arguments.of("type", 200, List.of(
-                        "ALERT",
-                        "INVESTIGATION"
                 ))
         );
     }

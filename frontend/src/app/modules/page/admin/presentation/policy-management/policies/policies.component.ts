@@ -87,7 +87,6 @@ export class PoliciesComponent {
     this.selectedPoliciesInfoLabel = selectedPolicies.length === 1 ? 'pageAdmin.policyManagement.selectedPolicy' : 'pageAdmin.policyManagement.selectedPolicies';
     this.selectedPolicies = selectedPolicies;
     this.isDefaultSelected = this.selectedPolicies.filter(policy => policy?.policyId === 'default-policy').length > 0;
-    console.log(this.isDefaultSelected);
   }
 
   openDetailedView(selectedPolicy: Record<string, unknown>) {
