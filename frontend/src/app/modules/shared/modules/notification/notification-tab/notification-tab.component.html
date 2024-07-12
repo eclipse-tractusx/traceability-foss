@@ -52,14 +52,29 @@ SPDX-License-Identifier: Apache-2.0
   <mat-spinner></mat-spinner>
 </ng-template>
 
+<ng-template #miniLoaderTmp>
+  <div
+    matTooltip="{{ 'actions.notificationInProgress' | i18n}}"
+    matTooltipClass="table--header--tooltip"
+    matTooltipPosition="above"
+    [class.mdc-tooltip--multiline]="true"
+    [matTooltipShowDelay]="500"
+  >
+    <mat-spinner diameter="25"></mat-spinner>
+  </div>
+</ng-template>
+
 <ng-template #titleTmp let-title="value">
   <p class="notification--table__description">{{ title }}</p>
 </ng-template>
 
-<ng-template #statusTmp let-status="value">
-  <div *ngIf="status" class="notification-status notification-status--{{ status }}">
-    {{ translationContext + '.status.' + status | i18n }}
-  </div>
+<ng-template #statusTmp let-status="value" let-notification="row">
+  <ng-container
+    *ngIf="!notificationProcessingService.notificationIdsInLoadingState.has(notification.id); else miniLoaderTmp">
+    <div *ngIf="status" class="notification-status notification-status--{{ status }}">
+      {{ translationContext + '.status.' + status | i18n }}
+    </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #severityTmp let-severity="value">

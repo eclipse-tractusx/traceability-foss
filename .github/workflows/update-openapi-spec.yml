@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  swagger-api:
+  update-spec:
     runs-on: ubuntu-latest
     env:
       SWAGGERHUB_API_KEY: ${{ secrets.SWAGGERHUB_API_KEY }}
@@ -35,33 +35,3 @@ jobs:
             This PR updates the OpenAPI spec. Please check whether the update was performed correctly. Unfortunately, this
             action causes a lot of unnecessary changes which should, however, be clearly recognizable as such.
             You may safely ignore these.
-
-#      - name: Setup node
-#        uses: actions/setup-node@v4
-#
-#      - name: Install Swagger CLI
-#        run: |
-#          npm i -g swaggerhub-cli
-
-#      - name: Extract versions
-#        run: |
-#          export VERSION="${{ inputs.version }}"
-#          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
-
-#      # create API, will fail if exists
-#      - name: Create API
-#        continue-on-error: true
-#        run: |
-#          swaggerhub api:create ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=unpublish
-
-#      # Post the API to SwaggerHub as "unpublished", because published APIs cannot be overwritten
-#      - name: Publish API Specs to SwaggerHub
-#        run: |
-#          if [[ ${{ env.VERSION }} != *-SNAPSHOT ]]; then
-#            echo "[INFO] - no snapshot, will set the API to 'published'";
-#            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=publish
-#            swaggerhub api:setdefault ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }}
-#          else
-#            echo "[INFO] - snapshot, will set the API to 'unpublished'";
-#            swaggerhub api:update ${{ env.SWAGGERHUB_USER }}/trace-x/${{ env.VERSION }} -f ${{ env.SPEC_FILE }} --visibility=public --published=unpublish
-#          fi
