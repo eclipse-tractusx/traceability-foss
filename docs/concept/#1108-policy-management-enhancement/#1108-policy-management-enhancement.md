@@ -13,7 +13,6 @@
 3. [Concept](#concept)
 4. [Additional Details](#additional-details)
 
-
 # Overview
 It must be possible for users to change policies used for asset provisioning and notifications in the frontend of Trace-X.
 
@@ -22,9 +21,9 @@ It must be possible for users to change policies used for asset provisioning and
   - [ ] A policy must be selected (chosen from the existing policies)
   - [ ] Part will be synchronized automatically afterwards
 - [ ] Policy updates trigger an update and synchronization of all related parts
-- [ ] Policies can be set as active for notifications
-  - [ ] When sending notifications, active policies for the respective BPN are used for contract negotiation
-- [ ] Data model is adapted to accommodate contract agreement history
+- [ ] When sending notifications, the active policy for the respective BPN is used for contract negotiation
+- [ ] User can not create valid, active policies for BPNs that already have a valid, active policy
+  - [ ] If he wants to do so anyways, the existing policies will be invalidated. -> Before doing that, a modal will ask him for confirmation.
 
 # Concept
 
@@ -593,58 +592,21 @@ Additionally, all empty instances of "supplementalSemanticId" must be removed fo
 An Insomnia collection is provided with the respective requests. (policy-update.json)
 
 ## Policies used for notification process
-To change the policy used for sending notifications a frontend switch must be possible in the policy management view:
-![notification-policies.png](notification-policies.png)
-In the backend the contract negotiation already happens with the default policy.
-During this step the backend must instead fetch all configured and active (validUntil > currentTime) notification policies for the receiver BPN.
-If there are multiple active ones, the contract negotiation will take place with all of them.
-When the policy matches, the negotiation is successful.
+Whenever a notification is sent, the backend will check for the policy that is configured for the receiving BPN.
+If there is an active (validUntil > currentTime) policy, that one will be used for the contract negotation.
+If the catalogOffer of the receiving BPN matches with the policy, the notification will be sent.
+If not, an error message is created and the notification will not be sent.
 
-## Data model changes
-In order to make the contract agreement history transparent for parts, the contractAgreementId field must be changed to an array:
-```diff
-{
-    "id": "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
-    "idShort": "VehicleHybrid-df9f9360279548a68a5757c3d4513f8e",
-    "semanticModelId": "OMAZRXWWMSPTQUEKI",
-    "businessPartner": "BPNL00000003CML1",
-    "manufacturerName": null,
-    "nameAtManufacturer": "Vehicle Hybrid",
-    "manufacturerPartId": "5519583-63",
-    "owner": "OWN",
-    "childRelations": [],
-    "parentRelations": [],
-    "qualityType": "Ok",
-    "van": "OMAZRXWWMSPTQUEKI",
-    "semanticDataModel": "SERIALPART",
-    "classification": null,
-    "detailAspectModels": [
-        {
-            "type": "AS_BUILT",
-            "data": {
-                "partId": "5519583-63",
-                "customerPartId": "",
-                "nameAtCustomer": "",
-                "manufacturingCountry": "DEU",
-                "manufacturingDate": "2015-02-04T14:48:54Z"
-            }
-        }
-    ],
-    "sentQualityAlertIdsInStatusActive": [
-        1,
-        2,
-        3
-    ],
-    "receivedQualityAlertIdsInStatusActive": [],
-    "sentQualityInvestigationIdsInStatusActive": [],
-    "receivedQualityInvestigationIdsInStatusActive": [],
-    "importState": "PERSISTENT",
-    "importNote": "Asset created/updated successfully in persistent state.",
-    "tombstone": null,
---- "contractAgreementId": "15fbb395-6d40-4299-a433-c61954afb8d9"
-+++ "contractAgreementId": ["15fbb395-6d40-4299-a433-c61954afb8d9","28cdd395-1234-4321-55aa-c61954afb8d9"]
-}
-```
+If there are any expired (validUntil <= currentTime) policies configured for the receiving BPN, an error message ('policy has expired') will be created and the notification will **not** be sent.
+If there are no policies configured for the receiving BPN, the default policy will be used for the negotiation.
+
+![notification-policy.png](notification-policy.png)
+
+In the frontend, it should not be possible to create multiple valid policies for the same BPN.
+During the creation of policies, all policies that already exist must be checked.
+If there is any policy that is already used for the configured BPN, the existing policy will be changed to inactive by setting the validUntil date to the currentTime.
+Before doing this the user must be informed about this process and confirm it in a modal.
+![notification-policy-modal.png](notification-policy-modal.png)
 
 # Additional Details
 Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.

@@ -1,0 +1,30 @@
+@startuml
+title
+    ==Policies for notifications
+end title
+
+autonumber "<B>[00]"
+
+actor "User" as U order 0
+participant "Trace-X" as TX order 1
+participant "Receiver BPN" as R order 2
+
+U -> TX: sendNotification(notificationID, receiverBPN)
+activate TX
+TX -> TX: searchPolicies(receiverBPN)
+TX --> TX: policyList
+alt NO policies found for receiverBPN
+TX -> R: sendNotification(notificationID, receiverBPN, defaultPolicy)
+TX --> U: Success
+else ONE VALID policy found
+TX -> R: sendNotification(notificationID, receiverBPN, validPolicy)
+TX --> U: Success
+else MULTIPLE VALID policies found
+TX --> U: Error('Multiple active policies found')
+else ONLY INVALID policies found
+TX --> U: Error('Policy has expired')
+end
+deactivate TX
+
+
+@enduml
