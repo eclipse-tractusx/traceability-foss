@@ -119,7 +119,8 @@ public class ContractAsBuiltRepositoryImpl implements ContractRepository<Contrac
     }
 
     private List<Contract> fetchEdcContractAgreements(List<ContractAgreementAsBuiltEntity> contractAgreementEntities) throws ContractAgreementException {
-        List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementAsBuiltEntity::getContractAgreementId).toList();
+        List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementAsBuiltEntity::getContractAgreementId).filter(Objects::nonNull).toList();
+
         log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
 
         List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
