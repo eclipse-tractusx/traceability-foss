@@ -76,15 +76,13 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     const escapedPattern = pattern.split('*').map(escapeRegExp).join('.*');
     const regexPattern = `^${ escapedPattern }$`;
     const regex = new RegExp(regexPattern);
-    const matches = regex.test(url);
-    return matches;
+    return regex.test(url);
   }
 
   // Helper method to strip base URL from the request URL
   private stripBaseUrl(url: string): string {
-    const baseUrlPattern = /^(https?:\/\/[^\/]+)(\/.*)?$/;
-    const match = baseUrlPattern.exec(url);
-    return match && match[2] ? match[2] : url;
+    const baseUrlPattern = /^(https?:\/\/[^/]+)(\/.*)?$/;
+    return baseUrlPattern.exec(url)?.[2] ?? url;
   }
 }
 
