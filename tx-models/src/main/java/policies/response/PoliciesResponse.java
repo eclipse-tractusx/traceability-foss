@@ -15,7 +15,8 @@
  * under the License.
  *
  * SPDX-License-Identifier: Apache-2.0
- ********************************************************************************/package policies.response;
+ ********************************************************************************/
+package policies.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;

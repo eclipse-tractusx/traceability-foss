@@ -152,8 +152,6 @@ public class IrsApiSupport {
         );
     }
 
-
-
     public void irsApiUpdatesPolicy() {
         whenHttp(restitoProvider.stubServer()).match(
                 Condition.put("/irs/policies")

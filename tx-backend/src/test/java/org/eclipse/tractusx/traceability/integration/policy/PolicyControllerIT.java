@@ -119,17 +119,17 @@ class PolicyControllerIT extends IntegrationTestSpecification {
 
     @Test
     void shouldThrowBadRequestCreatePolicy() throws JoseException {
-        // GIVEN
+        //given
         irsApiSupport.irsApiCreatesPolicyBadRequest();
 
-        // Sample data
+        // sample data
         List<String> businessPartnerNumbers = Arrays.asList("BPN-123", "BPN-456");
         List<String> policyIds = Arrays.asList("POLICY-789", "POLICY-101");
         Instant validUntil = Instant.parse("2025-12-31T23:59:59.00Z");
 
-        // WRONG REQUEST OBJECT
+
         UpdatePolicyRequest request = new UpdatePolicyRequest(businessPartnerNumbers, policyIds, validUntil);
-        // when/then
+        //when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
@@ -161,7 +161,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .post("/api/policies")
                 .then()
                 .statusCode(400)
-                .body("message", equalTo("Policy is expired RegisterPolicyRequest[validUntil=2021-12-31T23:59:59Z, businessPartnerNumber=null, payload=null]"));
+                .body("message", equalTo("Policy is not valid because of a not accepted validUntil value RegisterPolicyRequest[validUntil=2021-12-31T23:59:59Z, businessPartnerNumber=null, payload=null]"));
 
     }
 

@@ -17,6 +17,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1082 fix duplicate key errors when synchronizing assets with IRS
 - #970 fixed bug where the right operand of policies was not showing up in table and detailed view
 - #1188 prevent retry requests for notification actions to prevent duplicate error messages in history
+- XXX update legal notice for documents arc42, admin and user manual to years 2024
+- #943 renamed distinctFilterValues API to searchable-values for the asBuilt, asPlanned and notification routes
+- #943 changed these endpoints to POST with body instead of GET with parameters
 - #1194 fix wrong time format in frontend and changed the response from getPolicies endpoint
 
 ## [12.0.0 - 05.07.2024]
