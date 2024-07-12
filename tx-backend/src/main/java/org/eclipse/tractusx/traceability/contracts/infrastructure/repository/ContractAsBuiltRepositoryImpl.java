@@ -154,11 +154,17 @@ public class ContractAsBuiltRepositoryImpl implements ContractRepository<Contrac
     }
 
     private void validateContractAgreements(List<String> contractAgreementIds, List<EdcContractAgreementsResponse> contractAgreements) {
+        if (contractAgreementIds == null || contractAgreements == null) {
+            log.warn("Either contractAgreementIds or contractAgreements is null.");
+            return;
+        }
+
         ArrayList<String> givenList = new ArrayList<>(contractAgreementIds);
         Collections.sort(givenList);
 
         List<String> expectedList = contractAgreements.stream()
                 .map(EdcContractAgreementsResponse::contractAgreementId)
+                .filter(Objects::nonNull) // Ensure no null values are mapped
                 .sorted()
                 .toList();
         log.info("EDC responded with the following contractAgreementIds: " + expectedList);

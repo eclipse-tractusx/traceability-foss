@@ -61,7 +61,6 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .importState(toImportStateResponse(asset.getImportState()))
                 .importNote(asset.getImportNote())
                 .tombstone(asset.getTombstone())
-                .contractAgreementIds(asset.getContractAgreements().stream().map(ContractAgreement::getContractAgreementId).toList())
                 .build();
     }
 

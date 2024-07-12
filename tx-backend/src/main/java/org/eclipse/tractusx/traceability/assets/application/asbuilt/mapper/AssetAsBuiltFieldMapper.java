@@ -53,9 +53,7 @@ public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
             Map.entry("receivedQualityAlertIdsInStatusActive", "receivedActiveAlerts"),
             Map.entry("receivedQualityInvestigationIdsInStatusActive", "receivedActiveInvestigations"),
             Map.entry("importState", "importState"),
-            Map.entry("importNote", "importNote"),
-            Map.entry("contractAgreementId", "contractAgreements_contractAgreementId")
-    );
+            Map.entry("importNote", "importNote"));
 
     @Override
     protected Map<String, String> getSupportedFields() {

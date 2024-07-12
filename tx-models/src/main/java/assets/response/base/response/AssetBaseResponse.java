@@ -95,8 +95,4 @@ public class AssetBaseResponse {
                     }
             """)
     private String tombstone;
-
-
-    @Schema(type = "List", example = "1,2,3")
-    private final List<String> contractAgreementIds;
 }
