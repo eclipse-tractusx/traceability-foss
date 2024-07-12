@@ -71,6 +71,7 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
                     .toList();
             Specification<ContractAgreementViewEntity> specification = BaseSpecification.toSpecification(contractAgreementSpecifications);
             Page<ContractAgreementViewEntity> contractAgreementEntities = contractAgreementRepository.findAll(specification, pageable);
+            logAllContractAgreementEntities(contractAgreementEntities);
 
             if (contractAgreementEntities.getContent().isEmpty()) {
                 log.warn("Cannot find contract agreement Ids for asset ids in searchCriteria: " + searchCriteria.getSearchCriteriaFilterList());
@@ -87,6 +88,18 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
             throw new ContractException(e);
         }
 
+    }
+
+    private void logAllContractAgreementEntities(Page<ContractAgreementViewEntity> contractAgreementEntities) {
+
+        for (ContractAgreementViewEntity entity : contractAgreementEntities) {
+            try {
+                String jsonString = objectMapper.writeValueAsString(entity);
+                log.info("ContractAgreementViewEntity: {}", jsonString);
+            } catch (JsonProcessingException e) {
+                log.error("Error converting ContractAgreementViewEntity to JSON string", e);
+            }
+        }
     }
 
     @Override
