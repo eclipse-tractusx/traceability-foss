@@ -43,6 +43,7 @@ import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
+import policies.response.PoliciesResponse;
 import policies.response.PolicyResponse;
 
 import java.util.List;
@@ -112,7 +113,7 @@ public class PolicyController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping()
-    public Map<String, List<IrsPolicyResponse>> getPolicies() {
+    public Map<String, List<PoliciesResponse>> getPolicies() {
         return policyService.getIrsPolicies();
     }
 
