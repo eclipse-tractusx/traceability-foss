@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -100,8 +101,23 @@ public record IrsPolicyResponse(@JsonFormat(shape = JsonFormat.Shape.STRING) Off
                 .validUntil(policy.payload().policy().getValidUntil())
                 .createdOn(policy.payload().policy().getCreatedOn())
                 .permissions(map(policy.payload().policy()))
-                .businessPartnerNumber(bpn)
+                .businessPartnerNumber(Optional.ofNullable(bpn))
                 .build();
+    }
+    public static PolicyResponse toResponse(IrsPolicyResponse policy) {
+        return PolicyResponse.builder()
+                .policyId(policy.payload().policyId())
+                .validUntil(policy.payload().policy().getValidUntil())
+                .createdOn(policy.payload().policy().getCreatedOn())
+                .permissions(map(policy.payload().policy()))
+                .build();
+    }
+
+    public static PoliciesResponse toPoliciesResponse(IrsPolicyResponse policy) {
+        PayloadResponse payloadResponse = new PayloadResponse(policy.payload.context(),policy.payload.policyId(), toResponse(policy));
+        return PoliciesResponse.builder()
+                .validUntil(policy.validUntil)
+                .payload(payloadResponse).build();
     }
 
     private static List<PermissionResponse> map(Policy policy) {

@@ -26,6 +26,7 @@ import lombok.Builder;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Builder
 public record PolicyResponse(
@@ -37,5 +38,6 @@ public record PolicyResponse(
         @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
         OffsetDateTime validUntil,
         List<PermissionResponse> permissions,
-        String businessPartnerNumber) {
+        Optional<String> businessPartnerNumber) {
+
 }

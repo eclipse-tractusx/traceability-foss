@@ -24,12 +24,12 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.Polic
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.eclipse.tractusx.traceability.policies.domain.exception.PolicyNotValidException;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
+import policies.response.PoliciesResponse;
 import policies.response.PolicyResponse;
 
 import java.time.Instant;
@@ -38,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Slf4j
@@ -49,8 +51,15 @@ public class PolicyServiceImpl implements PolicyService {
     private final EdcNotificationContractService edcNotificationContractService;
 
     @Override
-    public Map<String, List<PolicyResponse>> getIrsPolicies() {
-        return policyRepository.getPolicies();
+    public Map<String, List<PoliciesResponse>> getIrsPolicies() {
+        Map<String, List<IrsPolicyResponse>> policies = policyRepository.getPolicies();
+        return policies.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().stream()
+                                .map(IrsPolicyResponse::toPoliciesResponse)
+                                .collect(Collectors.toList())
+                ));
     }
 
     @Override
