@@ -1,3 +1,4 @@
 = Data sovereignty
 
-include::data-sovereignty/return_asset_contracts.adoc[leveloffset=+1]
+include::data-sovereignty/return-asset-contracts.adoc[leveloffset=+1]
+include::data-sovereignty/policy-management.adoc[leveloffset=+1]
