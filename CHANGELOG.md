@@ -34,7 +34,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #786 Added icons on part table to let admin reload registry / sync assets via IRS
 - #520 Added Attribute BPN to DetailView
 - #1112 Added association int-a/int-b environment to argo workflow
-- #1007 Added data-sovereignty/policy-management section in arc42 documentation
 
 ### Changed
 - XXX update legal notice for documents arc42, admin and user manual to years 2024
