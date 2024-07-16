@@ -142,7 +142,6 @@ describe('PartsTableComponent', () => {
       'filtersentActiveInvestigations',
       'filterimportState',
       'filterimportNote',
-      'filtercontractAgreementId',
       'Menu',
     ]);
   });
@@ -173,7 +172,6 @@ describe('PartsTableComponent', () => {
       'filterfunctionValidUntil',
       'filterimportState',
       'filterimportNote',
-      'filtercontractAgreementId',
       'Menu',
     ]);
   });
