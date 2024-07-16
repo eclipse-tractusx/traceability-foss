@@ -39,7 +39,7 @@ table {
 .menu-column {
   position: sticky;
   right: 0;
-  visibility: hidden;
+  background-color: white;
   z-index: 1;
 }
 .table--select-all {
@@ -249,10 +249,6 @@ tr.error {
   max-width: 450px;
   overflow: hidden;
   word-break: break-all;
-}
-
-.table--header--menu {
-  visibility: hidden;
 }
 
 .policy-table-header {
