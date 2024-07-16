@@ -11,13 +11,15 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 
 - #999 Added notification processing feedback in FE
+- #1108 Added concept for policy management enhancement
+- #1007 Added data-sovereignty/policy-management section in arc42 documentation
 
 ### Changed
 - #1173 Update IRS-Helm from 7.1.4 to 7.2.0 - updated Compatibility Matrix
 - #1082 fix duplicate key errors when synchronizing assets with IRS
 - #970 fixed bug where the right operand of policies was not showing up in table and detailed view
 - #1188 prevent retry requests for notification actions to prevent duplicate error messages in history
-- #1108 create concept for policy management enhancement
+- #1025 fix overlapping table actions
 
 ## [12.0.0 - 05.07.2024]
 
