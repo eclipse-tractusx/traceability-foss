@@ -158,7 +158,6 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
         contractTypes.forEach((key, value) -> log.info("{}: {}", key, value));
 
 
-
         Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = contractAgreements.stream()
                 .map(agreement -> new ImmutablePair<>(agreement.contractAgreementId(),
                         edcContractAgreementService.getContractAgreementNegotiation(agreement.contractAgreementId()))
@@ -174,8 +173,7 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
                                 .map(ContractAgreementBaseEntity::getGlobalAssetId)
                                 .orElse(null);
                         log.info("Mapping ContractAgreementId: {} to GlobalAssetId: {}", contractAgreement.contractAgreementId(), globalAssetId);
-
-                        return Contract.builder()
+                        Contract contract = Contract.builder()
                                 .contractId(contractAgreement.contractAgreementId())
                                 .globalAssetId(globalAssetId)
                                 .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
@@ -184,6 +182,8 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
                                 .policy(objectMapper.writeValueAsString(contractAgreement.policy()))
                                 .type(contractTypes.get(contractAgreement.contractAgreementId()))
                                 .build();
+                        log.info("Contract with globalAssetId {}", contract.getGlobalAssetId());
+                        return contract;
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
