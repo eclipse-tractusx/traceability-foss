@@ -19,7 +19,6 @@
 package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractAgreementService;
@@ -41,13 +40,15 @@ import java.util.List;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Component
-@SuperBuilder
 @Slf4j
 public class ContractViewRepositoryImpl extends ContractRepositoryImplBase implements ContractRepositoryReadOnly<ContractAgreementViewEntity> {
 
-    private final EdcContractAgreementService edcContractAgreementService;
     private final JpaContractAgreementViewRepository contractAgreementRepository;
-    private final ObjectMapper objectMapper;
+
+    public ContractViewRepositoryImpl(EdcContractAgreementService edcContractAgreementService, ObjectMapper objectMapper, EdcContractAgreementService edcContractAgreementService1, JpaContractAgreementViewRepository contractAgreementRepository, ObjectMapper objectMapper1) {
+        super(edcContractAgreementService, objectMapper);
+        this.contractAgreementRepository = contractAgreementRepository;
+    }
 
     @Override
     public PageResult<Contract> getContractsByPageable(Pageable pageable, SearchCriteria searchCriteria) {

@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
@@ -33,12 +34,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@SuperBuilder
 @Slf4j
 public class ContractNotificationRepositoryImpl extends ContractRepositoryImplBase implements ContractRepository<ContractAgreementNotificationEntity> {
 
-    private final EdcContractAgreementService edcContractAgreementService;
     private final JpaContractAgreementNotificationRepository contractAgreementRepository;
+
+    public ContractNotificationRepositoryImpl(EdcContractAgreementService edcContractAgreementService, ObjectMapper objectMapper, EdcContractAgreementService edcContractAgreementService1, JpaContractAgreementNotificationRepository contractAgreementRepository) {
+        super(edcContractAgreementService, objectMapper);
+        this.contractAgreementRepository = contractAgreementRepository;
+    }
 
     @Override
     public void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {

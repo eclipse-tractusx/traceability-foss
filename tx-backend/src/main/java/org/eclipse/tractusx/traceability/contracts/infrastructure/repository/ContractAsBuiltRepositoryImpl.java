@@ -18,7 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
-import lombok.experimental.SuperBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractAgreementService;
@@ -33,12 +33,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@SuperBuilder
 @Slf4j
 public class ContractAsBuiltRepositoryImpl extends ContractRepositoryImplBase implements ContractRepository<ContractAgreementAsBuiltEntity> {
 
-    private final EdcContractAgreementService edcContractAgreementService;
     private final JpaContractAgreementAsBuiltRepository contractAgreementRepository;
+
+    public ContractAsBuiltRepositoryImpl(EdcContractAgreementService edcContractAgreementService, ObjectMapper objectMapper, JpaContractAgreementAsBuiltRepository contractAgreementRepository) {
+        super(edcContractAgreementService, objectMapper);
+        this.contractAgreementRepository = contractAgreementRepository;
+    }
 
     @Override
     public void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
