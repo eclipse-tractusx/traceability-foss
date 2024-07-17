@@ -43,7 +43,7 @@ SPDX-License-Identifier: Apache-2.0
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- versions for Maven plugin -->
-        <spring-boot-maven-plugin.version>3.2.4</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>3.3.1</spring-boot-maven-plugin.version>
         <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
         <maven-jxr-plugin.version>3.3.2</maven-jxr-plugin.version>
