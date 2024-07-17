@@ -12,7 +12,7 @@
     "adminBpn": "BPN - EDC configuration",
     "adminImport": "Data provisioning",
     "adminPolicies" : "Policy management",
-    "partMismatch" : "Selected parts must have same owner to create quality topic (Supplier/Own)",
+    "partMismatch" : "All selected parts must have same owner to create quality topic (Supplier/Own).",
     "hasCustomerPart" : "It is not possible to create a quality notification for customer parts. All selected parts must be from the same owner (Supplier/Own).",
     "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "notificationInProcess" : "Actions are unavailable on notifications in processing state",
