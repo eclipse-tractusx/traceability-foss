@@ -19,6 +19,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1191 Refactored contractAgreementId to be a list of elements.
 - #1188 prevent retry requests for notification actions to prevent duplicate error messages in history
 - #1025 fix overlapping table actions
+- #1221 Updgrade EDC version to 0.7.3
+- #1196 Update IRS to 7.3.1
 
 ## [12.0.0 - 05.07.2024]
 
