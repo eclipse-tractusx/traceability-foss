@@ -36,6 +36,7 @@ import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreemen
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementBaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -139,8 +140,16 @@ public class ContractAsBuiltRepositoryImpl implements ContractRepository<Contrac
         return contractAgreements.stream().map(contractAgreement ->
                 {
                     try {
+
+                        String globalAssetId = contractAgreementEntities.stream()
+                                .filter(contractAgreementViewEntity -> contractAgreementViewEntity.getContractAgreementId().equals(contractAgreement.contractAgreementId()))
+                                .findFirst()
+                                .map(ContractAgreementBaseEntity::getGlobalAssetId)
+                                .orElse(null);
+
                         return Contract.builder()
                                 .contractId(contractAgreement.contractAgreementId())
+                                .globalAssetId(globalAssetId)
                                 .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
                                 .creationDate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(contractAgreement.contractSigningDate()), ZoneId.systemDefault()))
                                 .state(contractNegotiations.get(contractAgreement.contractAgreementId()).state())
