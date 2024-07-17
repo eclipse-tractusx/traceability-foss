@@ -159,8 +159,13 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
         return contractAgreements.stream().map(contractAgreement ->
                 {
                     try {
+                        String globalAssetId = contractAgreementIds.stream()
+                                .filter(id -> id.equals(contractAgreement.contractAgreementId()))
+                                .findFirst()
+                                .orElse(null);
                         return Contract.builder()
                                 .contractId(contractAgreement.contractAgreementId())
+                                .globalAssetId(globalAssetId)
                                 .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
                                 .creationDate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(contractAgreement.contractSigningDate()), ZoneId.systemDefault()))
                                 .state(contractNegotiations.get(contractAgreement.contractAgreementId()).state())

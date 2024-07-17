@@ -37,6 +37,7 @@ public class Contract {
     private String state;
     private String policy;
     private ContractType type;
+    private String globalAssetId;
 
 
 }
