@@ -21,6 +21,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1025 fix overlapping table actions
 - #1221 Updgrade EDC version to 0.7.3
 - #1196 Update IRS to 7.3.1
+- #941 made the naming for quality notifications consistent throughout the FE app
 
 ## [12.0.0 - 05.07.2024]
 
