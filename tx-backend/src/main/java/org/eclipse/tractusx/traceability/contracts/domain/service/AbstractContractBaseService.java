@@ -45,7 +45,8 @@ public abstract class AbstractContractBaseService implements ContractService {
     public PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest) {
         Pageable pageable = OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), getContractFieldMapper());
         SearchCriteria searchCriteria = pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(getContractFieldMapper());
-        return getContractRepository().getContractsByPageable(pageable, searchCriteria);
+        PageResult<Contract> contractsByPageable = getContractRepository().getContractsByPageable(pageable, searchCriteria);
+        return contractsByPageable;
     }
 
     @Override

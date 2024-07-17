@@ -18,8 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.application.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import contract.response.ContractResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +27,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
@@ -51,11 +48,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContractsController {
 
     private final ContractService contractService;
-    private final ObjectMapper objectMapper;
 
-    public ContractsController(@Qualifier("contractViewServiceImpl") ContractService contractService, ObjectMapper objectMapper) {
+    public ContractsController(@Qualifier("contractViewServiceImpl") ContractService contractService) {
         this.contractService = contractService;
-        this.objectMapper = objectMapper;
     }
 
     @Operation(operationId = "contracts",
@@ -102,11 +97,6 @@ public class ContractsController {
     @PostMapping
     public PageResult<ContractResponse> getContracts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
         PageResult<Contract> contracts = contractService.getContracts(pageableFilterRequest);
-        try {
-            log.info(objectMapper.writeValueAsString(contracts));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
         return ContractResponseMapper.from(contracts);
     }
 

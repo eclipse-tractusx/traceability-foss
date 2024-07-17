@@ -71,7 +71,6 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
                     .toList();
             Specification<ContractAgreementViewEntity> specification = BaseSpecification.toSpecification(contractAgreementSpecifications);
             Page<ContractAgreementViewEntity> contractAgreementEntities = contractAgreementRepository.findAll(specification, pageable);
-            logAllContractAgreementEntities(contractAgreementEntities);
 
             if (contractAgreementEntities.getContent().isEmpty()) {
                 log.warn("Cannot find contract agreement Ids for asset ids in searchCriteria: " + searchCriteria.getSearchCriteriaFilterList());
@@ -88,18 +87,6 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
             throw new ContractException(e);
         }
 
-    }
-
-    private void logAllContractAgreementEntities(Page<ContractAgreementViewEntity> contractAgreementEntities) {
-
-        for (ContractAgreementViewEntity entity : contractAgreementEntities) {
-            try {
-                String jsonString = objectMapper.writeValueAsString(entity);
-                log.info("ContractAgreementViewEntity: {}", jsonString);
-            } catch (JsonProcessingException e) {
-                log.error("Error converting ContractAgreementViewEntity to JSON string", e);
-            }
-        }
     }
 
     @Override
@@ -124,14 +111,7 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
 
 
     private List<Contract> fetchEdcContractAgreements(List<ContractAgreementViewEntity> contractAgreementEntities) throws ContractAgreementException {
-        log.info("ContractAgreementEntities: {}", contractAgreementEntities);
 
-        contractAgreementEntities.forEach(contractAgreementViewEntity -> {
-            log.info("Entity getContractAgreementId {}", contractAgreementViewEntity.getContractAgreementId());
-            log.info("Entity getGlobalAssetId {}", contractAgreementViewEntity.getGlobalAssetId());
-            log.info("Entity getId {}", contractAgreementViewEntity.getId());
-
-        });
         List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementViewEntity::getContractAgreementId).filter(Objects::nonNull).toList();
         log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
 
@@ -172,8 +152,7 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
                                 .findFirst()
                                 .map(ContractAgreementBaseEntity::getGlobalAssetId)
                                 .orElse(null);
-                        log.info("Mapping ContractAgreementId: {} to GlobalAssetId: {}", contractAgreement.contractAgreementId(), globalAssetId);
-                        Contract contract = Contract.builder()
+                        return Contract.builder()
                                 .contractId(contractAgreement.contractAgreementId())
                                 .globalAssetId(globalAssetId)
                                 .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
@@ -182,8 +161,6 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
                                 .policy(objectMapper.writeValueAsString(contractAgreement.policy()))
                                 .type(contractTypes.get(contractAgreement.contractAgreementId()))
                                 .build();
-                        log.info("Contract with globalAssetId {}", contract.getGlobalAssetId());
-                        return contract;
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
