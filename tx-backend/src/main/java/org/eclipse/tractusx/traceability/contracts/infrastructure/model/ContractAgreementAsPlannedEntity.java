@@ -50,7 +50,7 @@ public class ContractAgreementAsPlannedEntity extends ContractAgreementBaseEntit
 
     public static ContractAgreementAsPlannedEntity from(Contract contract, ContractType contractType) {
         return ContractAgreementAsPlannedEntity.builder()
-                .globalAssetId(null)
+                .globalAssetId(contract.getGlobalAssetId())
                 .contractAgreementId(contract.getContractId())
                 .type(contractType)
                 .created(Instant.now())

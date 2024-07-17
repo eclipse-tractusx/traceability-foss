@@ -41,7 +41,7 @@ public class ContractAgreementViewEntity extends ContractAgreementBaseEntity {
     public static ContractAgreementViewEntity from(Contract contract, ContractType contractType) {
         return ContractAgreementViewEntity.builder()
                 .contractAgreementId(contract.getContractId())
-                .globalAssetId(null)
+                .globalAssetId(contract.getGlobalAssetId())
                 .type(contractType)
                 .created(Instant.now())
                 .build();
