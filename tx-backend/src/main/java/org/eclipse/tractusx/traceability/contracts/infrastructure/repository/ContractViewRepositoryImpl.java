@@ -124,6 +124,14 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
 
 
     private List<Contract> fetchEdcContractAgreements(List<ContractAgreementViewEntity> contractAgreementEntities) throws ContractAgreementException {
+        log.info("ContractAgreementEntities: {}", contractAgreementEntities);
+
+        contractAgreementEntities.forEach(contractAgreementViewEntity -> {
+            log.info("Entity getContractAgreementId {}", contractAgreementViewEntity.getContractAgreementId());
+            log.info("Entity getGlobalAssetId {}", contractAgreementViewEntity.getGlobalAssetId());
+            log.info("Entity getId {}", contractAgreementViewEntity.getId());
+
+        });
         List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementViewEntity::getContractAgreementId).filter(Objects::nonNull).toList();
         log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
 
@@ -165,6 +173,8 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
                                 .findFirst()
                                 .map(ContractAgreementBaseEntity::getGlobalAssetId)
                                 .orElse(null);
+                        log.info("Mapping ContractAgreementId: {} to GlobalAssetId: {}", contractAgreement.contractAgreementId(), globalAssetId);
+
                         return Contract.builder()
                                 .contractId(contractAgreement.contractAgreementId())
                                 .globalAssetId(globalAssetId)
