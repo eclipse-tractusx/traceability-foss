@@ -95,7 +95,7 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
             inverseJoinColumns = @JoinColumn(name = "notification_id"))
     private List<NotificationEntity> notifications = new ArrayList<>();
 
-    @OneToMany(mappedBy = "assetAsBuiltView", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assetAsBuiltView", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ContractAgreementAsBuiltEntity> contractAgreements;
 
     public AssetBase toDomain() {

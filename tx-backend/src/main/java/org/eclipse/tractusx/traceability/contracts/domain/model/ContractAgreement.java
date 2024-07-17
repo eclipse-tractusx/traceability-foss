@@ -23,11 +23,9 @@ import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsPlannedEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementBaseEntity;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementNotificationEntity;
 
 import java.time.Instant;
 import java.util.List;
@@ -46,7 +44,7 @@ public class ContractAgreement {
     private String globalAssetId;
 
     public static ContractAgreementBaseEntity toEntity(ContractAgreement contractAgreement) {
-        return ContractAgreementAsBuiltEntity.builder()
+        return ContractAgreementBaseEntity.builder()
                 .created(contractAgreement.getCreated())
                 .contractAgreementId(contractAgreement.getContractAgreementId())
                 .type(contractAgreement.getType())

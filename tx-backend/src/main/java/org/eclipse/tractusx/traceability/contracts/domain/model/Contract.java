@@ -22,14 +22,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementBaseEntity;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -43,7 +37,6 @@ public class Contract {
     private String state;
     private String policy;
     private ContractType type;
-
 
 
 }

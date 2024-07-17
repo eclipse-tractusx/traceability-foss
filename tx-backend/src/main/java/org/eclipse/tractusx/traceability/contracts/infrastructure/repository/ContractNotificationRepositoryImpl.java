@@ -35,7 +35,6 @@ import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementNotificationEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -115,7 +114,7 @@ public class ContractNotificationRepositoryImpl implements ContractRepository<Co
     }
 
     @Override
-    public List<ContractAgreementAsBuiltEntity> findAll() {
+    public List<ContractAgreementNotificationEntity> findAll() {
         return List.of();
     }
 

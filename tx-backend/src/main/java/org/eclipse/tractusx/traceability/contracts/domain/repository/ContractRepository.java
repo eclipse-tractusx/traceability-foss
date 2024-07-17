@@ -24,11 +24,9 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ContractRepository<T> {
 
@@ -41,5 +39,5 @@ public interface ContractRepository<T> {
 
     void save(ContractAgreement contractAgreement);
 
-    List<ContractAgreementAsBuiltEntity> findAll();
+    List<T> findAll();
 }
