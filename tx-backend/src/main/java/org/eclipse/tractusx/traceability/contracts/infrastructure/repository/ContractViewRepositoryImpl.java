@@ -18,13 +18,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.eclipse.tractusx.irs.edc.client.contract.model.EdcContractAgreementNegotiationResponse;
-import org.eclipse.tractusx.irs.edc.client.contract.model.EdcContractAgreementsResponse;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractAgreementService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -32,9 +28,7 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
-import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
+import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepositoryReadOnly;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementBaseEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementViewEntity;
 import org.springframework.data.domain.Page;
@@ -42,22 +36,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Component
-@RequiredArgsConstructor
+@SuperBuilder
 @Slf4j
-public class ContractViewRepositoryImpl implements ContractRepository<ContractAgreementViewEntity> {
+public class ContractViewRepositoryImpl extends ContractRepositoryImplBase implements ContractRepositoryReadOnly<ContractAgreementViewEntity> {
 
     private final EdcContractAgreementService edcContractAgreementService;
     private final JpaContractAgreementViewRepository contractAgreementRepository;
@@ -76,8 +62,12 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
                 log.warn("Cannot find contract agreement Ids for asset ids in searchCriteria: " + searchCriteria.getSearchCriteriaFilterList());
                 return new PageResult<>(List.of(), 0, 0, 0, 0L);
             }
+            List<ContractAgreementBaseEntity> baseEntities = contractAgreementEntities.getContent()
+                    .stream()
+                    .map(entity -> (ContractAgreementBaseEntity) entity)
+                    .toList();
 
-            return new PageResult<>(fetchEdcContractAgreements(contractAgreementEntities.getContent()),
+            return new PageResult<>(fetchEdcContractAgreements(baseEntities),
                     contractAgreementEntities.getPageable().getPageNumber(),
                     contractAgreementEntities.getTotalPages(),
                     contractAgreementEntities.getPageable().getPageSize(),
@@ -88,104 +78,4 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
         }
 
     }
-
-    @Override
-    public void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
-
-    }
-
-    @Override
-    public void saveAll(List<ContractAgreementViewEntity> contractAgreements) {
-
-    }
-
-    @Override
-    public void save(ContractAgreement contractAgreement) {
-
-    }
-
-    @Override
-    public List<ContractAgreementViewEntity> findAll() {
-        return List.of();
-    }
-
-
-    private List<Contract> fetchEdcContractAgreements(List<ContractAgreementViewEntity> contractAgreementEntities) throws ContractAgreementException {
-
-        List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementViewEntity::getContractAgreementId).filter(Objects::nonNull).toList();
-        log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
-
-        List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
-
-        validateContractAgreements(contractAgreementIds, contractAgreements);
-
-
-        Map<String, ContractType> contractTypes = contractAgreementEntities.stream()
-                .collect(Collectors.toMap(
-                        ContractAgreementViewEntity::getContractAgreementId,
-                        ContractAgreementViewEntity::getType,
-                        (existing, replacement) -> {
-                            // Define your merging logic here
-                            // For example, keep the existing value
-                            return existing;
-
-                            // Alternatively, you could choose to log the conflict or merge in another way
-                            // e.g., return some merged version of existing and replacement
-                        }
-                ));
-
-        // Print the result
-        contractTypes.forEach((key, value) -> log.info("{}: {}", key, value));
-
-
-        Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = contractAgreements.stream()
-                .map(agreement -> new ImmutablePair<>(agreement.contractAgreementId(),
-                        edcContractAgreementService.getContractAgreementNegotiation(agreement.contractAgreementId()))
-                ).collect(Collectors.toMap(ImmutablePair::getLeft, ImmutablePair::getRight));
-
-
-        return contractAgreements.stream().map(contractAgreement ->
-                {
-                    try {
-                        String globalAssetId = contractAgreementEntities.stream()
-                                .filter(contractAgreementViewEntity -> contractAgreementViewEntity.getContractAgreementId().equals(contractAgreement.contractAgreementId()))
-                                .findFirst()
-                                .map(ContractAgreementBaseEntity::getGlobalAssetId)
-                                .orElse(null);
-                        return Contract.builder()
-                                .contractId(contractAgreement.contractAgreementId())
-                                .globalAssetId(globalAssetId)
-                                .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
-                                .creationDate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(contractAgreement.contractSigningDate()), ZoneId.systemDefault()))
-                                .state(contractNegotiations.get(contractAgreement.contractAgreementId()).state())
-                                .policy(objectMapper.writeValueAsString(contractAgreement.policy()))
-                                .type(contractTypes.get(contractAgreement.contractAgreementId()))
-                                .build();
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-        ).toList();
-    }
-
-    private void validateContractAgreements(List<String> contractAgreementIds, List<EdcContractAgreementsResponse> contractAgreements) {
-        ArrayList<String> givenList = new ArrayList<>(contractAgreementIds);
-        Collections.sort(givenList);
-
-        List<String> expectedList = contractAgreements.stream()
-                .map(EdcContractAgreementsResponse::contractAgreementId)
-                .sorted()
-                .toList();
-        log.info("EDC responded with the following contractAgreementIds: " + expectedList);
-
-        // Filter the givenList to find out which IDs are missing in the expectedList
-        List<String> missingIds = givenList.stream()
-                .filter(id -> !expectedList.contains(id))
-                .toList();
-
-        if (!missingIds.isEmpty()) {
-            log.warn("Cannot find the following contract agreement IDs in EDC: " + missingIds);
-        }
-    }
-
 }

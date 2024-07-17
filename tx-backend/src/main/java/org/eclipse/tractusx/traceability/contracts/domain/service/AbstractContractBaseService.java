@@ -40,15 +40,6 @@ public abstract class AbstractContractBaseService implements ContractService {
 
     protected abstract ContractFieldMapper getContractFieldMapper();
 
-
-    @Override
-    public PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest) {
-        Pageable pageable = OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), getContractFieldMapper());
-        SearchCriteria searchCriteria = pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(getContractFieldMapper());
-        PageResult<Contract> contractsByPageable = getContractRepository().getContractsByPageable(pageable, searchCriteria);
-        return contractsByPageable;
-    }
-
     @Override
     public void saveContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
         getContractRepository().saveAllContractAgreements(contractAgreementIds, contractType);

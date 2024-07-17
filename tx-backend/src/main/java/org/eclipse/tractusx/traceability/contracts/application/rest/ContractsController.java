@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractResponseMapper;
-import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
+import org.eclipse.tractusx.traceability.contracts.application.service.ContractServiceReadOnly;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,10 +47,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/contracts", produces = "application/json", consumes = "application/json")
 public class ContractsController {
 
-    private final ContractService contractService;
+    private final ContractServiceReadOnly contractServiceReadOnly;
 
-    public ContractsController(@Qualifier("contractViewServiceImpl") ContractService contractService) {
-        this.contractService = contractService;
+    public ContractsController(@Qualifier("contractViewServiceImpl") ContractServiceReadOnly contractServiceReadOnly) {
+        this.contractServiceReadOnly = contractServiceReadOnly;
     }
 
     @Operation(operationId = "contracts",
@@ -96,7 +96,7 @@ public class ContractsController {
                             mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Internal server error.\"}")))})
     @PostMapping
     public PageResult<ContractResponse> getContracts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
-        PageResult<Contract> contracts = contractService.getContracts(pageableFilterRequest);
+        PageResult<Contract> contracts = contractServiceReadOnly.getContracts(pageableFilterRequest);
         return ContractResponseMapper.from(contracts);
     }
 
