@@ -35,6 +35,7 @@ import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementBaseEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementViewEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -159,9 +160,10 @@ public class ContractViewRepositoryImpl implements ContractRepository<ContractAg
         return contractAgreements.stream().map(contractAgreement ->
                 {
                     try {
-                        String globalAssetId = contractAgreementIds.stream()
-                                .filter(id -> id.equals(contractAgreement.contractAgreementId()))
+                        String globalAssetId = contractAgreementEntities.stream()
+                                .filter(contractAgreementViewEntity -> contractAgreementViewEntity.getContractAgreementId().equals(contractAgreement.contractAgreementId()))
                                 .findFirst()
+                                .map(ContractAgreementBaseEntity::getGlobalAssetId)
                                 .orElse(null);
                         return Contract.builder()
                                 .contractId(contractAgreement.contractAgreementId())
