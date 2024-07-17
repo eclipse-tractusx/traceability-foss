@@ -18,6 +18,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #970 fixed bug where the right operand of policies was not showing up in table and detailed view
 - #1191 Refactored contractAgreementId to be a list of elements.
 - #1188 prevent retry requests for notification actions to prevent duplicate error messages in history
+- #1025 fix overlapping table actions
 
 ## [12.0.0 - 05.07.2024]
 
