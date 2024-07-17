@@ -148,10 +148,10 @@ When('user clicks save', function() {
 
 When('popup shows successful {string} notification', function(type: string) {
   if (type === 'created') {
-    cy.contains(/Quality topic was created successfully./i).should('be.visible');
+    cy.contains(/Quality notification was created successfully./i).should('be.visible');
   }
   if (type === 'edited') {
-    cy.contains(/Quality topic was updated successfully./i).should('be.visible');
+    cy.contains(/Quality notification was updated successfully./i).should('be.visible');
   }
 });
 

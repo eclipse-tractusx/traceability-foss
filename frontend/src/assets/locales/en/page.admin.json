@@ -56,7 +56,8 @@
       "jsonViewer": "Json Viewer",
       "jsonTreeViewer" : "Json Tree Viewer",
       "contractType" : "Contract type",
-      "noItemsFoundError" : "Could not find any item under the selected contract."
+      "noItemsFoundError" : "Could not find any item under the selected contract.",
+      "globalAssetId" : "Global asset ID"
     },
     "policyManagement" : {
       "policyManagement" : "Policy management",
