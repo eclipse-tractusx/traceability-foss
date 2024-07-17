@@ -22,7 +22,8 @@
 
 
 # Overview
-Trace-X is an application in which quality issues can be processed. For the processing of these quality issues, both for the correct addressing of the quality incident and for a more in-depth search, a large number of semantic models must be accessed depending on the application. The information gained should not be regulated for Quality Expert working with Trace-X Busines App. All semantic models linked to a digital twin should be available for processing.
+
+Trace-X is an application in which quality issues can be processed. For the processing of these quality issues, both for the correct addressing of the quality notification and for a more in-depth search, a large number of semantic models must be accessed depending on the application. The information gained should not be regulated for Quality Expert working with Trace-X Busines App. All semantic models linked to a digital twin should be available for processing.
 
 # Summary
 Trace-X can currently display a defined number of semantic models of the BOMLifecyles asPlanned and asBuilt.
