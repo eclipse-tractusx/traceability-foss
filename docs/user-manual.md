@@ -69,7 +69,7 @@ Lists the five newest quality investigations and alerts to get an overview of th
 
 Navigates to the parts and batches list view.
 
-#### Quality topics
+#### Quality notifications
 
 Navigates to the inbox of (sent/received) quality notifications.
 
@@ -357,9 +357,10 @@ Information about the identifiers at the customer for the respective part/batch.
 If the asset has the "traction battery code" aspect model, an additional section underneath will be displayed.
 In this section there is detailed information about the traction battery and a table with its subcomponents
 
-##### Creation of a quality incident from detailed view
+##### Creation of a quality notification from detailed view
 
-By clicking on the "announcement" icon you can create a quality incident from the detailed view, containing the part information in the currently opened detailed view. If this
+By clicking on the "announcement" icon you can create a quality notification from the detailed view, containing the part information in the currently opened detailed view.
+If this
 functionality is disabled, a tooltip will provide information explaining the reason. You can trigger the tooltip by hovering above the button.
 
 ##### Publish asset from detailed view
