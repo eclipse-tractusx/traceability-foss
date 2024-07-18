@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.eclipse.tractusx.traceability.common.date.CustomOffSetDateTimeNullOnException;
 
-
 import java.time.OffsetDateTime;
 
 public record Site(

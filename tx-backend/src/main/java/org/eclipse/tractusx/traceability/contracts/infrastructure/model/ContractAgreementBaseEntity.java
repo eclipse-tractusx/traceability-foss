@@ -21,25 +21,24 @@ package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.Instant;
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @SuperBuilder
 @MappedSuperclass
+@ToString
 public class ContractAgreementBaseEntity {
 
     @Id

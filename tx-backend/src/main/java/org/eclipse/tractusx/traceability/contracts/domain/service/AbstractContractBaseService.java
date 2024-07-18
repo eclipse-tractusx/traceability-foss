@@ -19,17 +19,11 @@
 package org.eclipse.tractusx.traceability.contracts.domain.service;
 
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
-import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

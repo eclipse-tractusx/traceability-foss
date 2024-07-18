@@ -22,7 +22,6 @@ import assets.response.asplanned.AssetAsPlannedResponse;
 import org.eclipse.tractusx.traceability.assets.application.base.mapper.AssetBaseResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 
 import java.util.List;
 
