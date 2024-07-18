@@ -18,10 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.policies.domain;
 
-import policies.response.CreatePolicyResponse;
-import policies.response.IrsPolicyResponse;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
+import policies.response.PolicyResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -29,9 +30,16 @@ import java.util.Optional;
 
 public interface PolicyRepository {
     Map<String, List<IrsPolicyResponse>> getPolicies();
+
+    Optional<PolicyResponse> getNewestPolicyByOwnBpn();
+
     Map<String, Optional<IrsPolicyResponse>> getPolicy(String policyId);
+
     void createPolicyBasedOnAppConfig();
+
     void deletePolicy(String policyId);
+
     void updatePolicy(UpdatePolicyRequest updatePolicyRequest);
+
     CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest);
 }

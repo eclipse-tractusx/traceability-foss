@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.policies.infrastructure;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
@@ -41,19 +42,25 @@ import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
+import policies.response.PolicyResponse;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_ADMIN_TEMPLATE;
 
 @Slf4j
 @Component
 public class PolicyClient {
+    private static final String DEFAULT_POLICY_EMPTY_PLACEHOLDER = "";
+    private static final String DEFAULT_POLICY_PLACEHOLDER = "default";
     private final RestTemplate irsAdminTemplate;
     private final TraceabilityProperties traceabilityProperties;
 
@@ -64,6 +71,30 @@ public class PolicyClient {
                         TraceabilityProperties traceabilityProperties) {
         this.irsAdminTemplate = irsAdminTemplate;
         this.traceabilityProperties = traceabilityProperties;
+    }
+
+    /**
+     * returns
+     *
+     * @return the newest policy by own BPN. If the BPN is not found, the provided default policy is used.
+     */
+    public Optional<PolicyResponse> getNewestPolicyByOwnBpn() {
+        Map<String, List<IrsPolicyResponse>> policies = getPolicies();
+        if (CollectionUtils.isEmpty(policies.get(traceabilityProperties.getBpn().value()))) {
+            Stream<IrsPolicyResponse> defaultPolicies = Stream.concat(
+                    CollectionUtils.emptyIfNull(policies.get(DEFAULT_POLICY_PLACEHOLDER)).stream(),
+                    CollectionUtils.emptyIfNull(policies.get(DEFAULT_POLICY_EMPTY_PLACEHOLDER)).stream());
+
+            return defaultPolicies
+                    .max(Comparator.comparing(p -> p.payload().policy().getCreatedOn()))
+                    .map(irsPolicyResponse -> IrsPolicyResponse.toResponse(irsPolicyResponse, traceabilityProperties.getBpn().value()));
+        } else {
+            return policies.get(traceabilityProperties.getBpn().value())
+                    .stream()
+                    .max(Comparator.comparing(p -> p.payload().policy().getCreatedOn()))
+                    .map(irsPolicyResponse -> IrsPolicyResponse.toResponse(irsPolicyResponse, traceabilityProperties.getBpn().value()));
+        }
+
     }
 
     public Map<String, List<IrsPolicyResponse>> getPolicies() {
