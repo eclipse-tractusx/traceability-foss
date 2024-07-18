@@ -21,6 +21,8 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -59,6 +61,7 @@ public class JobRepositoryImpl implements JobRepository {
     private final IrsResponseAssetMapper assetMapperFactory;
 
     private final JobClient jobClient;
+    private final ObjectMapper objectMapper;
 
     public JobRepositoryImpl(
             JobClient jobClient,
@@ -67,12 +70,13 @@ public class JobRepositoryImpl implements JobRepository {
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
             AssetCallbackRepository assetAsPlannedCallbackRepository,
-            IrsResponseAssetMapper assetMapperFactory) {
+            IrsResponseAssetMapper assetMapperFactory, ObjectMapper objectMapper) {
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
         this.jobClient = jobClient;
         this.assetMapperFactory = assetMapperFactory;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -121,13 +125,24 @@ public class JobRepositoryImpl implements JobRepository {
         }
     }
 
-    private static void enrichAssetBaseByContractAgreements(AssetCallbackRepository repository, AssetBase asset) {
+    private void enrichAssetBaseByContractAgreements(AssetCallbackRepository repository, AssetBase asset) {
         Optional<AssetBase> byId = repository.findById(asset.getId());
         List<ContractAgreement> agreementsToAdd = new ArrayList<>();
         byId.ifPresent(assetBase -> agreementsToAdd.addAll(assetBase.getContractAgreements()));
+        try {
+            log.info("Found the following existing contractAgreements {}", this.objectMapper.writeValueAsString(agreementsToAdd));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         ContractType contractType = asset.getSemanticDataModel().isAsBuilt() ? ContractType.ASSET_AS_BUILT : ContractType.ASSET_AS_PLANNED;
         agreementsToAdd.add(ContractAgreement.toDomain(asset.getLatestContractAgreementId(), asset.getId(), contractType));
         asset.setContractAgreements(agreementsToAdd);
+        try {
+            log.info("Found the following NEW contractAgreements {}", this.objectMapper.writeValueAsString(agreementsToAdd));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static boolean jobCompleted(JobStatus jobStatus) {

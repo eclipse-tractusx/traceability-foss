@@ -21,8 +21,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
@@ -33,8 +31,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.SubmodelMapper;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
