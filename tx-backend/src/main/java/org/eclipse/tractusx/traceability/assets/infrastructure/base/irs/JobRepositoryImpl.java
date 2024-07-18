@@ -120,7 +120,6 @@ public class JobRepositoryImpl implements JobRepository {
         } catch (DataIntegrityViolationException ex) {
             //retry save in case of ERROR: duplicate key value violates unique constraint "asset_pkey"
             log.info("Asset with id {} already exists in the database. The record will be updated instead.", asset.getId());
-            enrichAssetBaseByContractAgreements(repository, asset);
             repository.save(asset);
         }
     }
