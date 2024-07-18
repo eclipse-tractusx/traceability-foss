@@ -49,21 +49,12 @@ import static org.eclipse.tractusx.traceability.notification.domain.contract.Edc
 @Profile(NOT_INTEGRATION_TESTS)
 public class ApplicationStartupConfig {
     private final PolicyRepository policyRepository;
-    private final AssetBaseService asPlannedService;
-    private final AssetBaseService asBuiltService;
-    private final ContractService contractService;
 
     @Autowired
     public ApplicationStartupConfig(PolicyRepository policyRepository,
-                                    @Qualifier("assetAsBuiltServiceImpl") AssetBaseService asBuiltService,
-                                    @Qualifier("assetAsPlannedServiceImpl") AssetBaseService asPlannedService,
-                                    EdcNotificationContractService edcNotificationContractService,
-                                    ContractService contractService) {
+                                    EdcNotificationContractService edcNotificationContractService) {
         this.policyRepository = policyRepository;
-        this.asPlannedService = asPlannedService;
-        this.asBuiltService = asBuiltService;
         this.edcNotificationContractService = edcNotificationContractService;
-        this.contractService = contractService;
     }
 
     private final EdcNotificationContractService edcNotificationContractService;
