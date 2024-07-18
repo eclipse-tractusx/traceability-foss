@@ -104,6 +104,6 @@ public class EdcNotificationContractController {
     @PostMapping("/contract")
     @ResponseStatus(HttpStatus.CREATED)
     public CreateNotificationContractResponse createNotificationContract(@Valid @RequestBody CreateNotificationContractRequest request) {
-        return edcNotificationContractService.handle(request);
+        return edcNotificationContractService.createNotificationContract(request);
     }
 }

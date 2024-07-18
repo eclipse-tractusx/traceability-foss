@@ -26,15 +26,13 @@ import policies.response.PolicyResponse;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public interface PolicyService {
     List<PolicyResponse> getPolicies();
 
     Map<String, List<IrsPolicyResponse>> getIrsPolicies();
-    PolicyResponse getPolicy(String id);
 
-    Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint();
+    PolicyResponse getPolicy(String id);
 
     CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest);
 

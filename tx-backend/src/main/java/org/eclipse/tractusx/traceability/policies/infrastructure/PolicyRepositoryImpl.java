@@ -19,7 +19,6 @@
 package org.eclipse.tractusx.traceability.policies.infrastructure;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
@@ -27,13 +26,14 @@ import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
-import policies.response.CreatePolicyResponse;
-import policies.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
+import policies.response.IrsPolicyResponse;
+import policies.response.PolicyResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +55,11 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     @Override
     public Map<String, List<IrsPolicyResponse>> getPolicies() {
         return policyClient.getPolicies();
+    }
+
+    @Override
+    public Optional<PolicyResponse> getNewestPolicyByOwnBpn() {
+        return policyClient.getNewestPolicyByOwnBpn();
     }
 
     @Override
