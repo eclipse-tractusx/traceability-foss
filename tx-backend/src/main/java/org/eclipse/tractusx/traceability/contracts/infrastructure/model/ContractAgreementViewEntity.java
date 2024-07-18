@@ -16,21 +16,38 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.application.service;
+package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
 
-import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 
+import java.time.Instant;
 import java.util.List;
 
-public interface ContractService {
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@SuperBuilder
+@Table(name = "contract_agreement_full")
+public class ContractAgreementViewEntity extends ContractAgreementBaseEntity {
+    public static ContractAgreementViewEntity from(Contract contract, ContractType contractType) {
+        return ContractAgreementViewEntity.builder()
+                .contractAgreementId(contract.getContractId())
+                .globalAssetId(contract.getGlobalAssetId())
+                .type(contractType)
+                .created(Instant.now())
+                .build();
+    }
 
-    void saveContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException;
-
-    void saveAll(List<ContractAgreement> contractAgreements);
-
+    public static List<ContractAgreementViewEntity> fromList(List<Contract> contracts, ContractType contractType) {
+        return contracts.stream().map(contract -> ContractAgreementViewEntity.from(contract, contractType)).toList();
+    }
 }

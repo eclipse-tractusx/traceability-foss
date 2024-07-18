@@ -42,11 +42,11 @@ dependencies:
     condition: pgadmin4.enabled
   - name: item-relationship-service
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 7.2.1
+    version: 7.3.1
     condition: item-relationship-service.enabled
   - name: tractusx-connector
     repository: https://eclipse-tractusx.github.io/tractusx-edc
-    version: 0.7.1
+    version: 0.7.3
     condition: tractusx-connector.enabled
   - name: postgresql
     alias: edc-postgresql

@@ -25,20 +25,20 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
+import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;
+import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
+import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Stream;
 
 import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
 import static org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService.NOTIFICATION_CONTRACTS;
@@ -49,21 +49,12 @@ import static org.eclipse.tractusx.traceability.notification.domain.contract.Edc
 @Profile(NOT_INTEGRATION_TESTS)
 public class ApplicationStartupConfig {
     private final PolicyRepository policyRepository;
-    private final AssetBaseService asPlannedService;
-    private final AssetBaseService asBuiltService;
-    private final ContractService contractService;
 
     @Autowired
     public ApplicationStartupConfig(PolicyRepository policyRepository,
-                                    @Qualifier("assetAsBuiltServiceImpl") AssetBaseService asBuiltService,
-                                    @Qualifier("assetAsPlannedServiceImpl") AssetBaseService asPlannedService,
-                                    EdcNotificationContractService edcNotificationContractService,
-                                    ContractService contractService) {
+                                    EdcNotificationContractService edcNotificationContractService) {
         this.policyRepository = policyRepository;
-        this.asPlannedService = asPlannedService;
-        this.asBuiltService = asBuiltService;
         this.edcNotificationContractService = edcNotificationContractService;
-        this.contractService = contractService;
     }
 
     private final EdcNotificationContractService edcNotificationContractService;
@@ -98,57 +89,5 @@ public class ApplicationStartupConfig {
         });
         executor.shutdown();
     }
-
-    @EventListener(ApplicationReadyEvent.class)
-    public void insertIntoContractAgreements() {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            log.info("on ApplicationReadyEvent insert into contracts.");
-            try {
-                log.info("Method yourMethod() started.");
-
-                List<AssetBase> asBuilt = asBuiltService.findAll();
-                List<AssetBase> asPlanned = asPlannedService.findAll();
-
-                log.info("Retrieved assets: asBuilt={}, asPlanned={}", asBuilt, asPlanned);
-
-                List<ContractAgreement> contractAgreementIdsAsBuilt = asBuilt.stream()
-                        .filter(asBuiltAsset -> asBuiltAsset.getContractAgreementId() != null)  // Filtering out null contractAgreementIds
-                        .map(asBuiltAsset -> ContractAgreement.builder()
-                                .type(ContractType.ASSET_AS_BUILT)
-                                .contractAgreementId(asBuiltAsset.getContractAgreementId())
-                                .id(asBuiltAsset.getId())
-                                .created(Instant.now())
-                                .build())
-                        .toList();
-
-                List<ContractAgreement> contractAgreementIdsAsPlanned = asPlanned.stream()
-                        .filter(asPlannedAsset -> asPlannedAsset.getContractAgreementId() != null)  // Filtering out null contractAgreementIds
-                        .map(asPlannedAsset -> ContractAgreement.builder()
-                                .type(ContractType.ASSET_AS_PLANNED)  // Assuming the type should be ASSET_AS_PLANNED for asPlanned list
-                                .contractAgreementId(asPlannedAsset.getContractAgreementId())
-                                .id(asPlannedAsset.getId())
-                                .created(Instant.now())
-                                .build())
-                        .toList();
-
-
-                log.info("Created ContractAgreements: asBuilt={}, asPlanned={}", contractAgreementIdsAsBuilt, contractAgreementIdsAsPlanned);
-
-                List<ContractAgreement> mergedAgreements = Stream.concat(contractAgreementIdsAsBuilt.stream(), contractAgreementIdsAsPlanned.stream())
-                        .toList();
-                log.info("Merged agreements: {}", mergedAgreements);
-
-                contractService.saveAll(mergedAgreements);
-                log.info("Saved merged agreements successfully.");
-
-            } catch (Exception exception) {
-                log.error("Failed to insert contracts: ", exception);
-            }
-            log.info("on ApplicationReadyEvent insert into contracts successfully done.");
-        });
-        executor.shutdown();
-    }
-
 
 }

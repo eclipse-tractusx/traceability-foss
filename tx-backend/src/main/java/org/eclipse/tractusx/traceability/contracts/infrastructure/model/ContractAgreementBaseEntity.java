@@ -18,17 +18,19 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.infrastructure.model;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.Instant;
 import java.util.List;
@@ -36,29 +38,18 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
 @SuperBuilder
-@Table(name = "contract_agreement")
-public class ContractAgreementEntity {
+@MappedSuperclass
+public class ContractAgreementBaseEntity {
 
     @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    private String globalAssetId;
     private String contractAgreementId;
     @Enumerated(EnumType.STRING)
     private ContractType type;
     private Instant created;
-
-
-    public static ContractAgreement toDomain(ContractAgreementEntity contractAgreement) {
-        return ContractAgreement.builder()
-                .created(contractAgreement.getCreated())
-                .id(contractAgreement.getId())
-                .contractAgreementId(contractAgreement.getContractAgreementId())
-                .type(contractAgreement.getType())
-                .build();
-    }
-
-    public static List<ContractAgreement> toDomainList(List<ContractAgreementEntity> contractAgreementList) {
-        return contractAgreementList.stream().map(ContractAgreementEntity::toDomain).toList();
-    }
+    private Instant updated;
 }

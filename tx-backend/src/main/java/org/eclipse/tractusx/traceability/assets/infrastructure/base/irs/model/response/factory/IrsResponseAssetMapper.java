@@ -56,6 +56,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
     private final ObjectMapper objectMapper;
     private final BpnService bpnService;
 
+
     @Override
     public List<AssetBase> toAssetBaseList(IRSResponse irsResponse) {
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
@@ -65,6 +66,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
         if (tombstones != null) {
             log.info("Found {} tombstones", tombstones.size());
         }
+
         List<AssetBase> submodelAssets = new ArrayList<>(irsResponse
                 .submodels()
                 .stream()
@@ -74,7 +76,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
                         AssetBase assetBase = mapper.get().extractSubmodel(irsSubmodel);
                         assetBase.setOwner(getOwner(assetBase, irsResponse));
                         assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
-                        assetBase.setContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
+                        assetBase.setLatestContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setManufacturerId(getManufacturerId(irsResponse, assetBase));
                         assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
