@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.policies.infrastructure;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 import org.eclipse.tractusx.irs.edc.client.policy.Operator;
@@ -46,7 +47,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_ADMIN_TEMPLATE;
@@ -72,8 +72,8 @@ public class PolicyClient {
 
         if (body != null) {
             body.forEach((key, valueList) -> {
-                log.info("Key: {}", key);
-                valueList.forEach(value -> log.info("Policy: {}", value));
+                log.info("Key: {}", StringUtils.normalizeSpace(key));
+                valueList.forEach(value -> log.info("Policy: {}", StringUtils.normalizeSpace(value.toString())));
             });
         } else {
             log.info("No policies retrieved from IRS Policy Store");
