@@ -60,7 +60,7 @@ The standard notification status flow must **not** be changed. The "FAILED" stat
 After the notification is successfully resent, the status will be set to "SENT". Alternatively, the user can cancel the notification flow, which will set the status to "CANCELLED"/"CLOSED".
 
 Notification status flow:
-![Notification-Status-Flow.png](Notification-Status-Flow.svg)
+![Notification-Status-Flow](Notification-Status-Flow.svg)
 
 Creating and sending notifications:
 ```mermaid
@@ -102,9 +102,9 @@ After creating and approving the notification and one of the exceptions is throw
 3. A new message must be created and shown in the message history including the error description
 
 UsagePolicyPermissionException:
-![UsagePolicyPermissionException-Mockup.png](UsagePolicyPermissionException-Mockup.svg)
+![UsagePolicyPermissionException-Mockup](UsagePolicyPermissionException-Mockup.svg)
 UsagePolicyExpiredException:
-![UsagePolicyExpiredException-Mockup.png](UsagePolicyExpiredException-Mockup.svg)
+![UsagePolicyExpiredException-Mockup](UsagePolicyExpiredException-Mockup.svg)
 
 # References
 
