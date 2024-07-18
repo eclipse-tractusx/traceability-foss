@@ -57,32 +57,42 @@ All this saves' costs by seamlessly tracking parts as well as creates trust thro
 ### Trace-X Feature list
 Trace-X as the Open-Source solution for Parts Traceability offers the following functionalities:
 
-* List and view manufactured parts based on BoM AsBuild
+* List and view manufactured parts based on BoM AsBuilt
 * List and view planned parts based on BoM AsPlanned
-* Filter and Search functionality on part views
+* Filter and search functionality on part views
 * Show detailed information on manufactured parts
-** Asset Administration Shell description
-** Submodel description such as SerialPart, SingleLevelBomAsBuilt, SingleLevelUsageAsBuilt, Batch, JustInSequence
+  * Asset Administration Shell description
+  * Submodel description such as
+     * SerialPart
+     * SingleLevelBomAsBuilt
+     * SingleLevelUsageAsBuilt
+     * Batch
+     * JustInSequence
+     * PartAsPlanned
+     * SingleLevelBomAsPlanned
+     * SingleLevelUsageAsPlanned
 * List and view Supplier parts based on BoM As Built
-** List of Supplier parts based on AssemblyPartRelationship Aspect
+* List of Supplier parts based on SingleLevelBomAsBuilt/SingleLevelUsageAsBuilt Aspect
 * View parts and parts relations in parts tree
 * Send and receive quality investigations along the supply chain
+  * Quality Investigations (Company to Supplier)
+  * Quality Alerts (Company to Customers)
 
 ## How to contribute
 
-A detailed guide on how to contribute can be found [here](https://github.com/eclipse-tractusx/traceability-foss/blob/main/CONTRIBUTING.md).
+A detailed guide on how to contribute can be found [here](CONTRIBUTING.md).
 
 ## Releasing
-Here is our [Releasing guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/RELEASE.md).
+Here is our [Releasing guide](docs/RELEASE.md).
 
 ## Frontend Application
 
 This application serves as a user entry point to the Catena-X network.
 
-It's written in Typescript based on the `Angular` framework.
+It's written in Typescript based on the [Angular](https://angular.dev/) framework.
 We decided on using Angular because of two important aspects.
 Firstly, Angular comes with `strict guidelines`, which makes it harder to start working on for new developers, but for established developers it is `easy to start working with`.
-Secondly, Angular `scales` perfectly in the long run. Because of the restricted possibilities and stricted guidelines it is hard to implement multiple solutions for the same problem. e.g. Storing data or routing.
+Secondly, Angular `scales` perfectly in the long run. Because of the restricted possibilities and strict guidelines it is hard to implement multiple solutions for the same problem. e.g. Storing data or routing.
 With that in mind it made sense it chose Angular for an `open source` project.
 
 Source files are exposed statically through the NGINX web server.
@@ -103,7 +113,7 @@ Because it uses SVGs, we knew it will perform great. And we are able to have pin
 
 ### Frontend Installation
 
-* see [Installation guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/INSTALL.md)
+* see [Installation guide](frontend/INSTALL.md)
 
 ### Getting started
 
