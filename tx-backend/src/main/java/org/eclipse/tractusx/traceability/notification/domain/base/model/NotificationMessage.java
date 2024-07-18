@@ -65,7 +65,7 @@ public class NotificationMessage {
         this.notificationStatus = to;
     }
 
-    public static NotificationMessage create(BPN applicationBpn, String receiverBpn, String description, NotificationType notificationType, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
+    public static NotificationMessage create(BPN applicationBpn, String receiverBpn, NotificationType notificationType, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return NotificationMessage.builder()

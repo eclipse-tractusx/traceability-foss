@@ -31,7 +31,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class TombstoneMapper {

@@ -20,14 +20,6 @@
 package org.eclipse.tractusx.traceability.common.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
-import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;
-import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
-import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +28,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

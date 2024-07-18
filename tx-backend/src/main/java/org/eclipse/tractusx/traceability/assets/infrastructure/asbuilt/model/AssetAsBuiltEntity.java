@@ -38,6 +38,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
@@ -63,6 +64,7 @@ import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 @NoArgsConstructor
 @Entity
 @SuperBuilder
+@ToString
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
 

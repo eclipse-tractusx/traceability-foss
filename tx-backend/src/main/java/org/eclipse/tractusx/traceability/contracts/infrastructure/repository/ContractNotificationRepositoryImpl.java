@@ -37,7 +37,7 @@ public class ContractNotificationRepositoryImpl extends ContractRepositoryImplBa
 
     private final JpaContractAgreementNotificationRepository contractAgreementRepository;
 
-    public ContractNotificationRepositoryImpl(EdcContractAgreementService edcContractAgreementService, ObjectMapper objectMapper, EdcContractAgreementService edcContractAgreementService1, JpaContractAgreementNotificationRepository contractAgreementRepository) {
+    public ContractNotificationRepositoryImpl(EdcContractAgreementService edcContractAgreementService, ObjectMapper objectMapper, JpaContractAgreementNotificationRepository contractAgreementRepository) {
         super(edcContractAgreementService, objectMapper);
         this.contractAgreementRepository = contractAgreementRepository;
     }
