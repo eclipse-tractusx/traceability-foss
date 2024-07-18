@@ -83,7 +83,7 @@ Trace-X as the Open-Source solution for Parts Traceability offers the following 
 A detailed guide on how to contribute can be found [here](CONTRIBUTING.md).
 
 ## Releasing
-Here is our [Releasing guide](docs/RELEASE.md).
+Here is our [Releasing Guide](docs/RELEASE.md).
 
 ## Frontend Application
 
@@ -132,7 +132,7 @@ $ npm install -g @angular/cli
 $ yarn install
 ```
 
-Start application with``yarn start`` and navigate to ``http://localhost:4200``.
+Start application with ``yarn start`` and navigate to ``http://localhost:4200``.
 
 ### Application Authentication
 

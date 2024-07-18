@@ -19,11 +19,11 @@
 # Overview
 In the frontend there are multiple versions of 'empty' values:
 
-![example-values-frontend.png](example-values-frontend.png)
+![example-values-frontend](example-values-frontend.svg)
 
 In the backend those values are as follows:
 
-![example-values-backend.png](example-values-backend.png)
+![example-values-backend](example-values-backend.svg)
 
 These should be consistent throughout Trace-X.
 
@@ -49,19 +49,19 @@ Whenever a string is saved or updated in the database and during data consumptio
 ### Frontend
 Null values should be shown in the frontend as a dash:
 
-![null-value-display.png](null-value-display.png)
+![null-value-display](null-value-display.svg)
 
 When sorting the values, null must be treated the default way of the database. When sorted ascending, they are at the end. When sorted descending, they are at the beginning.
 Filtering for empty values must be possible. In the filter box "-" should always be shown at the top regardless of what the user is searching for.
 
-![null-value-filter.png](null-value-filter.png)
+![null-value-filter](null-value-filter.svg)
 
 In order to reduce the amount of whitespace characters in the database, leading and trailing whitespaces should not be counted during user input.
 
-![null-value-input-leading-and-trailing.png](null-value-input-leading-and-trailing.png)
+![null-value-input-leading-and-trailing](null-value-input-leading-and-trailing.svg)
 In this example, the amount of counted characters should be 10 ("blank" + " " + "test") instead of 43.
 
-![null-value-input-only-spaces.png](null-value-input-only-spaces.png)
+![null-value-input-only-spaces](null-value-input-only-spaces.svg)
 Here, no characters should be counted and the input should not be accepted.
 
 # References
