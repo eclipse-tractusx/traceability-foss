@@ -45,7 +45,9 @@ public class ContractViewRepositoryImpl extends ContractRepositoryImplBase imple
 
     private final JpaContractAgreementViewRepository contractAgreementRepository;
 
-    public ContractViewRepositoryImpl(EdcContractAgreementService edcContractAgreementService, ObjectMapper objectMapper, EdcContractAgreementService edcContractAgreementService1, JpaContractAgreementViewRepository contractAgreementRepository, ObjectMapper objectMapper1) {
+    public ContractViewRepositoryImpl(EdcContractAgreementService edcContractAgreementService,
+                                      ObjectMapper objectMapper,
+                                      JpaContractAgreementViewRepository contractAgreementRepository) {
         super(edcContractAgreementService, objectMapper);
         this.contractAgreementRepository = contractAgreementRepository;
     }

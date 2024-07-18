@@ -30,7 +30,6 @@ import org.eclipse.tractusx.traceability.contracts.infrastructure.model.Contract
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
@@ -51,8 +50,8 @@ public class ContractNotificationRepositoryImpl extends ContractRepositoryImplBa
                         .contractAgreementId(contractAgreementId)
                         .type(contractType)
                         .build())
-                .map(entity -> (ContractAgreementBaseEntity) entity)
-                .collect(Collectors.toList());
+                .map(ContractAgreementBaseEntity.class::cast)
+                .toList();
 
         List<Contract> contracts = fetchEdcContractAgreements(contractAgreementEntities);
         List<ContractAgreementNotificationEntity> contractAgreementsUpdated = ContractAgreementNotificationEntity.fromList(contracts, contractType);
