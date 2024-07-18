@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
@@ -37,6 +38,9 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsPlannedEntity;
 import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelPayloadEntity;
 
 import java.time.Instant;
@@ -62,6 +66,9 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @ElementCollection
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
     private List<AssetAsPlannedEntity.ChildDescription> childDescriptors;
+
+    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ContractAgreementAsPlannedEntity> contractAgreements;
 
     @Builder
     @NoArgsConstructor
@@ -107,7 +114,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .importNote(asset.getImportNote())
                 .policyId(asset.getPolicyId())
                 .tombstone(asset.getTombstone())
-                .contractAgreementId(asset.getContractAgreementId())
+                .contractAgreements(ContractAgreementAsPlannedEntity.fromDomainToEntityList(asset.getContractAgreements()))
                 .build();
     }
 
@@ -133,7 +140,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .importNote(entity.getImportNote())
                 .policyId(entity.getPolicyId())
                 .tombstone(entity.getTombstone())
-                .contractAgreementId(entity.getContractAgreementId())
+                .contractAgreements(ContractAgreement.fromAsPlannedEntityToContractAgreements(entity.getContractAgreements()))
                 .build();
     }
 

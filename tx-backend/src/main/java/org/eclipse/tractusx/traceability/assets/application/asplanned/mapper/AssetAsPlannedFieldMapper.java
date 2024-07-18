@@ -46,8 +46,7 @@ public class AssetAsPlannedFieldMapper extends BaseRequestFieldMapper {
             Map.entry("businessPartner", "manufacturerId"),
             Map.entry("van", "van"),
             Map.entry("importState", "importState"),
-            Map.entry("importNote", "importNote"),
-            Map.entry("contractAgreementId", "contractAgreementId")
+            Map.entry("importNote", "importNote")
 
     );
 

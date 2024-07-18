@@ -65,7 +65,6 @@ import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfig
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 @Transactional(dontRollbackOn = {ContractNegotiationException.class, NoCatalogItemException.class, SendNotificationException.class, NoEndpointDataReferenceException.class})
 public class NotificationsEDCFacade {
 
@@ -75,12 +74,28 @@ public class NotificationsEDCFacade {
 
     private final EdcProperties edcProperties;
 
-    @Qualifier(EDC_NOTIFICATION_TEMPLATE)
+
     private final RestTemplate edcNotificationTemplate;
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
-    private final ContractService contractService;
+    private final ContractService contractNotificationServiceImpl;
+
+    public NotificationsEDCFacade(ObjectMapper objectMapper,
+                                  EdcProperties edcProperties,
+                                  @Qualifier(EDC_NOTIFICATION_TEMPLATE) RestTemplate edcNotificationTemplate,
+                                  EDCCatalogFacade edcCatalogFacade,
+                                  ContractNegotiationService contractNegotiationService,
+                                  EndpointDataReferenceStorage endpointDataReferenceStorage,
+                                  @Qualifier("contractNotificationServiceImpl") ContractService contractNotificationServiceImpl) {
+        this.objectMapper = objectMapper;
+        this.edcProperties = edcProperties;
+        this.edcNotificationTemplate = edcNotificationTemplate;
+        this.edcCatalogFacade = edcCatalogFacade;
+        this.contractNegotiationService = contractNegotiationService;
+        this.endpointDataReferenceStorage = endpointDataReferenceStorage;
+        this.contractNotificationServiceImpl = contractNotificationServiceImpl;
+    }
 
     public static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
     public static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
@@ -102,7 +117,7 @@ public class NotificationsEDCFacade {
 
         notificationMessage.setContractAgreementId(contractAgreementId);
         try {
-            contractService.saveContractAgreements(List.of(contractAgreementId), ContractType.NOTIFICATION);
+            contractNotificationServiceImpl.saveContractAgreements(List.of(contractAgreementId), ContractType.NOTIFICATION);
         } catch (Exception e) {
             log.warn("Could not save contractAgreementId for notification {}", e.getMessage());
         }

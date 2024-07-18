@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -25,18 +25,18 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementNotificationEntity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.domain.Specification;
 
-public class ContractSpecification extends BaseSpecification<ContractAgreementEntity> implements Specification<ContractAgreementEntity> {
+public class ContractAgreementNotificationSpecification extends BaseSpecification<ContractAgreementNotificationEntity> implements Specification<ContractAgreementNotificationEntity> {
 
-    public ContractSpecification(SearchCriteriaFilter criteria) {
+    public ContractAgreementNotificationSpecification(SearchCriteriaFilter criteria) {
         super(criteria);
     }
 
     @Override
-    public Predicate toPredicate(@NotNull Root<ContractAgreementEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
+    public Predicate toPredicate(@NotNull Root<ContractAgreementNotificationEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
 }

@@ -18,12 +18,12 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
-import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementViewEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface JpaContractAgreementRepository extends JpaRepository<ContractAgreementEntity, String>, JpaSpecificationExecutor<ContractAgreementEntity> {
+public interface JpaContractAgreementViewRepository extends JpaRepository<ContractAgreementViewEntity, String>, JpaSpecificationExecutor<ContractAgreementViewEntity> {
 
 }

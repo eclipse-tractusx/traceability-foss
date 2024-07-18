@@ -72,8 +72,11 @@ public class ImportServiceImpl implements ImportService {
                         }
                     });
 
-            List<AssetBase> persistedAsBuilt = assetAsBuiltRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetToUploadByBomLifecycle.get(BomLifecycle.AS_BUILT));
-            List<AssetBase> persistedAsPlanned = assetAsPlannedRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetToUploadByBomLifecycle.get(BomLifecycle.AS_PLANNED));
+            List<AssetBase> assetAsBuilt = assetToUploadByBomLifecycle.get(BomLifecycle.AS_BUILT);
+            List<AssetBase> assetAsPlanned = assetToUploadByBomLifecycle.get(BomLifecycle.AS_PLANNED);
+
+            List<AssetBase> persistedAsBuilt = assetAsBuiltRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetAsBuilt);
+            List<AssetBase> persistedAsPlanned = assetAsPlannedRepository.saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(assetAsPlanned);
 
             importJob.setAssetAsBuilt(persistedAsBuilt);
             importJob.setAssetAsPlanned(persistedAsPlanned);

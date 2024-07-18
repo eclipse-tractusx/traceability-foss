@@ -31,13 +31,17 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -92,11 +96,25 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
 
     @Override
     public AssetBase save(AssetBase asset) {
+        enrichContractAgreementsAsBuilt(List.of(asset));
         return jpaAssetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)).toDomain();
+    }
+
+    private void enrichContractAgreementsAsBuilt(List<AssetBase> assets) {
+
+
+        assets.forEach(assetBase -> {
+            List<ContractAgreement> contractAgreements = new ArrayList<>();
+            contractAgreements.add(ContractAgreement.toDomain(assetBase.getLatestContractAgreementId(), assetBase.getId(), ContractType.ASSET_AS_BUILT));
+            Optional<AssetAsBuiltEntity> byId = jpaAssetAsBuiltRepository.findById(assetBase.getId());
+            byId.ifPresent(assetAsBuiltEntity -> contractAgreements.addAll(ContractAgreement.fromAsBuiltEntityToContractAgreements(assetAsBuiltEntity.getContractAgreements())));
+            assetBase.setContractAgreements(contractAgreements);
+        });
     }
 
     @Override
     public List<AssetBase> saveAll(List<AssetBase> assets) {
+        enrichContractAgreementsAsBuilt(assets);
         return jpaAssetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)).stream()
                 .map(AssetAsBuiltEntity::toDomain)
                 .toList();
