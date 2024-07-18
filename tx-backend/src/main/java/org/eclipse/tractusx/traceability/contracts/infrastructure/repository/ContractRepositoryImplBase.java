@@ -78,7 +78,7 @@ public class ContractRepositoryImplBase {
                     try {
 
                         String globalAssetId = contractAgreementEntities.stream()
-                                .filter(contractAgreementViewEntity -> contractAgreementViewEntity.getContractAgreementId().equals(contractAgreement.contractAgreementId()))
+                                .filter(contractAgreementViewEntity -> contractAgreementViewEntity.getContractAgreementId() == null || contractAgreement.contractAgreementId() == null || contractAgreementViewEntity.getContractAgreementId().equals(contractAgreement.contractAgreementId()))
                                 .findFirst()
                                 .map(ContractAgreementBaseEntity::getGlobalAssetId)
                                 .orElse(null);
