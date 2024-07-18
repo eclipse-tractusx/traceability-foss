@@ -53,8 +53,8 @@ public class ContractAsBuiltRepositoryImpl extends ContractRepositoryImplBase im
                         .contractAgreementId(contractAgreementId)
                         .type(contractType)
                         .build())
-                .map(entity -> (ContractAgreementBaseEntity) entity)
-                .collect(Collectors.toList());
+                .map(ContractAgreementBaseEntity.class::cast)
+                .toList();
 
         List<Contract> contracts = fetchEdcContractAgreements(contractAgreementEntities);
         List<ContractAgreementAsBuiltEntity> contractAgreementsUpdated = ContractAgreementAsBuiltEntity.fromList(contracts, contractType);
