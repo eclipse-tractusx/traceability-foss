@@ -12,7 +12,8 @@
 [![[BE] Dependency check](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/dependency-check.yml)
 
 ## Trace-X is a system for tracking parts along the supply chain.
-#### A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain. This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.
+
+A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain. This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.
 
 ## Table of Contents
 - [Trace-X](https://github.com/eclipse-tractusx/traceability-foss/#trace-x-is-a-system-for-tracking-parts-along-the-supply-chain)
@@ -35,9 +36,11 @@
     - [Prerequisites](https://github.com/eclipse-tractusx/traceability-foss/#backend-prerequisites)
     - [Installation](https://github.com/eclipse-tractusx/traceability-foss/#backend-installation)
     - [Backend Testing strategy](#backend-testing-strategy)
-  - [API documentation](https://github.com/eclipse-tractusx/traceability-foss/#api-documentation)
-  - [Container Image](https://github.com/eclipse-tractusx/traceability-foss/#container-image)
-  - [Licenses](https://github.com/eclipse-tractusx/traceability-foss/#licenses)
+  - [API documentation](#api-documentation)
+  - [Container Image](#container-image)
+  - [Licenses](#licenses)
+  - [Notice for Docker image](#notice-for-docker-image)
+  - [Contact](#contact)
 
 ## Introduction
 
@@ -72,7 +75,7 @@ A detailed guide on how to contribute can be found [here](https://github.com/ecl
 ## Releasing
 Here is our [Releasing guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/RELEASE.md).
 
-## The frontend application
+## The Frontend Application
 
 This application serves as a user entry point to the Catena-X network.
 
@@ -84,7 +87,7 @@ With that in mind it made sense it chose Angular for an `open source` project.
 
 Source files are exposed statically through the NGINX web server.
 
-### Challenges and solutions
+### Challenges and Solutions
 
 "Visualisation of traceability" is one of our most important feature, but once was one of our biggest problems.
 We wanted to achieve something that is `visually pleasing`, is `easy to use` and `performs` very good in a `browser application`.
@@ -106,14 +109,14 @@ Because it uses SVGs, we knew it will perform great. And we are able to have pin
 
 Clone the source locally:
 
-```sh
+```bash
 $ git clone git@github.com:eclipse-tractusx/traceability-foss.git
 $ cd traceability-foss/frontend
 ```
 
 Install prerequisites:
 1. install [node.js](https://nodejs.org/en/download/package-manager)
-```sh
+```bash
 $ npm install --global yarn
 $ npm install -g @angular/cli
 $ yarn install
@@ -121,23 +124,23 @@ $ yarn install
 
 Start application with``yarn start`` and navigate to ``http://localhost:4200``.
 
-### Application authentication
+### Application Authentication
 
-Please find [here](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/AUTHENTICATION.md) some important information about the app authentication.
+Please find [here](frontend/AUTHENTICATION.md) some important information about the app authentication.
 
-### Application architecture & patterns
+### Application Architecture & Patterns
 
-This [architecture](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/ARCHITECTURE.md) gives you a roadmap and best practices to follow when building an application
+This [architecture](frontend/ARCHITECTURE.md) gives you a roadmap and best practices to follow when building an application
 so that you end up with a well-structured app.
 
-### User guide
+### User Guide
 
-A detailed [explanation](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/user/user-manual.adoc) of how to use the application.
+A detailed [explanation](docs/user/user-manual.adoc) of how to use the application.
 
 ### Frontend Testing Strategy
 See [TESTING](frontend/TESTING.md).
 
-## The backend application
+## The Backend Application
 
 ### Backend Prerequisites
 
@@ -146,26 +149,26 @@ See [TESTING](frontend/TESTING.md).
 
 ### Backend Installation
 
-* see [Installation guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/INSTALL.md)
+* see [Installation guide](tx-backend/INSTALL.md)
 
 ### Backend Testing Strategy
 See [TESTING](tx-backend/TESTING.md).
 
-## API documentation
+## API Documentation
 The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/openapi/traceability-foss-backend.json)
 or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swagger-ui/index.html`
 
 ## Licenses
 
-* [Apache License 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
-* [CC BY 4.0 License](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE_non-code)
+* [Apache License 2.0](LICENSE)
+* [CC BY 4.0 License](LICENSE_non-code)
 
-## Notice for Docker image
+## Notice for Docker Image
 
 Below you can find the information regarding Docker Notice for this application.
 
-- [Traceability Backend Docker Notice](https://github.com/eclipse-tractusx/traceability-foss/blob/main/DOCKER_NOTICE.md)
-- [Traceability Frontend Docker Notice](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/DOCKER_NOTICE.md)
+- [Traceability Backend Docker Notice](DOCKER_NOTICE.md)
+- [Traceability Frontend Docker Notice](DOCKER_NOTICE.md)
 
 ## Contact
 
