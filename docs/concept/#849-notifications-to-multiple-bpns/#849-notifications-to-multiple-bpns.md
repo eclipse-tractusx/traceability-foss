@@ -85,11 +85,11 @@ There is no possibility to create a new notification from the "Edit notification
 If the user wants to send an existing notification to a different BPN, he must copy the data and use the "Create notification" process.
 
 ## Frontend
-![multiple-bpns-modals.png](multiple-bpns-modals.png)
-![notification-creation-bpn-selection.png](notification-creation-bpn-selection.png)
+![multiple-bpns-modals](multiple-bpns-modals.svg)
+![notification-creation-bpn-selection](notification-creation-bpn-selection.svg)
 
 New case label:
-![case-label.png](case-label.png)
+![case-label](case-label.svg)
 
 See https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=3458764586657591852&cot=10
 
