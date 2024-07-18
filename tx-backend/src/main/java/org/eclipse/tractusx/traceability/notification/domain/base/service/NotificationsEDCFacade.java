@@ -97,10 +97,10 @@ public class NotificationsEDCFacade {
         this.contractNotificationServiceImpl = contractNotificationServiceImpl;
     }
 
-    private static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
-    private static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
-    private static final String CX_TAXO_QUALITY_ALERT_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification";
-    private static final String CX_TAXO_QUALITY_ALERT_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityAlertNotification";
+    public static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
+    public static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
+    public static final String CX_TAXO_QUALITY_ALERT_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification";
+    public static final String CX_TAXO_QUALITY_ALERT_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityAlertNotification";
 
     public void startEdcTransfer(
             final NotificationMessage notificationMessage,
@@ -145,7 +145,7 @@ public class NotificationsEDCFacade {
     private CatalogItem getCatalogItem(final NotificationMessage notification, final String receiverEdcUrl) {
         try {
 
-            String taxoValue = "";
+            String taxoValue;
             if (NotificationType.ALERT.equals(notification.getType()) && notification.getNotificationStatus().equals(NotificationStatus.SENT)) {
                 taxoValue = CX_TAXO_QUALITY_ALERT_RECEIVE;
             } else if (!NotificationType.ALERT.equals(notification.getType()) && notification.getNotificationStatus().equals(NotificationStatus.SENT)) {

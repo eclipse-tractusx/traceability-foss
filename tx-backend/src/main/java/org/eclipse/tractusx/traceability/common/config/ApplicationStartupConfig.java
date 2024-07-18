@@ -20,6 +20,11 @@
 package org.eclipse.tractusx.traceability.common.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType;
@@ -36,6 +41,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
+import static org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService.NOTIFICATION_CONTRACTS;
 
 
 @Slf4j
@@ -43,21 +49,25 @@ import static org.eclipse.tractusx.traceability.common.config.ApplicationProfile
 @Profile(NOT_INTEGRATION_TESTS)
 public class ApplicationStartupConfig {
     private final PolicyRepository policyRepository;
+    private final AssetBaseService asPlannedService;
+    private final AssetBaseService asBuiltService;
+    private final ContractService contractService;
 
     @Autowired
     public ApplicationStartupConfig(PolicyRepository policyRepository,
-                                    EdcNotificationContractService edcNotificationContractService) {
+                                    @Qualifier("assetAsBuiltServiceImpl") AssetBaseService asBuiltService,
+                                    @Qualifier("assetAsPlannedServiceImpl") AssetBaseService asPlannedService,
+                                    EdcNotificationContractService edcNotificationContractService,
+                                    ContractService contractService) {
         this.policyRepository = policyRepository;
+        this.asPlannedService = asPlannedService;
+        this.asBuiltService = asBuiltService;
         this.edcNotificationContractService = edcNotificationContractService;
+        this.contractService = contractService;
     }
 
     private final EdcNotificationContractService edcNotificationContractService;
-    private static final List<CreateNotificationContractRequest> NOTIFICATION_CONTRACTS = List.of(
-            new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.UPDATE),
-            new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.RECEIVE),
-            new CreateNotificationContractRequest(NotificationType.QUALITY_INVESTIGATION, NotificationMethod.UPDATE),
-            new CreateNotificationContractRequest(NotificationType.QUALITY_INVESTIGATION, NotificationMethod.RECEIVE)
-    );
+
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -80,7 +90,7 @@ public class ApplicationStartupConfig {
         executor.execute(() -> {
             log.info("on ApplicationReadyEvent create notification contracts.");
             try {
-                NOTIFICATION_CONTRACTS.forEach(edcNotificationContractService::handle);
+                NOTIFICATION_CONTRACTS.forEach(edcNotificationContractService::createNotificationContract);
             } catch (Exception exception) {
                 log.error("Failed to create notification contracts: ", exception);
             }

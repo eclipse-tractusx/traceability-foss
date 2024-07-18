@@ -21,9 +21,8 @@ package org.eclipse.tractusx.traceability.policies.domain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
@@ -31,14 +30,10 @@ import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
 import policies.response.PolicyResponse;
 
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static policies.response.IrsPolicyResponse.toResponse;
 
 @Slf4j
@@ -47,7 +42,7 @@ import static policies.response.IrsPolicyResponse.toResponse;
 public class PolicyServiceImpl implements PolicyService {
 
     private final PolicyRepository policyRepository;
-    private final TraceabilityProperties traceabilityProperties;
+    private final EdcNotificationContractService edcNotificationContractService;
 
     @Override
     public Map<String, List<IrsPolicyResponse>> getIrsPolicies() {
@@ -73,36 +68,22 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
-    public Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint() {
-        Optional<String> policyId = getPolicies().stream()
-                .flatMap(policyResponse -> policyResponse.permissions().stream()
-                        .flatMap(permissionResponse -> Stream.concat(
-                                        permissionResponse.constraints().and().stream(),
-                                        permissionResponse.constraints().or().stream())
-                                .map(constraintResponse -> new AbstractMap.SimpleEntry<>(policyResponse.policyId(), constraintResponse))))
-                .filter(entry -> {
-                    boolean hasFirstConstraint = entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperand()) && entry.getValue().leftOperand().equalsIgnoreCase(traceabilityProperties.getLeftOperand());
-                    boolean hasSecondConstraint = entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperandSecond()) && entry.getValue().leftOperand().equalsIgnoreCase(traceabilityProperties.getLeftOperandSecond());
-                    return hasFirstConstraint || hasSecondConstraint;
-                })
-                .map(Map.Entry::getKey)
-                .findFirst();
-        return policyId.map(this::getPolicy);
-    }
-
-    @Override
     public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
-        return policyRepository.createPolicy(registerPolicyRequest);
+        CreatePolicyResponse policy = policyRepository.createPolicy(registerPolicyRequest);
+        edcNotificationContractService.updateNotificationContractDefinitions();
+        return policy;
     }
 
     @Override
     public void deletePolicy(String id) {
         policyRepository.deletePolicy(id);
+        edcNotificationContractService.updateNotificationContractDefinitions();
     }
 
     @Override
     public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
         policyRepository.updatePolicy(updatePolicyRequest);
+        edcNotificationContractService.updateNotificationContractDefinitions();
     }
 
 

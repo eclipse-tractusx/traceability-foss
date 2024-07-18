@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 
 - #999 Added notification processing feedback in FE
+- #1190 update notification contracts on policy updates
 
 ### Changed
 - #1173 Update IRS-Helm from 7.1.4 to 7.2.0 - updated Compatibility Matrix
@@ -22,6 +23,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1221 Updgrade EDC version to 0.7.3
 - #1196 Update IRS to 7.3.1
 - #941 made the naming for quality notifications consistent throughout the FE app
+- #1190 store accepted policies in catalog offers on startup
 
 ## [12.0.0 - 05.07.2024]
 
@@ -38,7 +40,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1112 Added association int-a/int-b environment to argo workflow
 
 ### Changed
-- XXX update legal notice for documents arc42, admin and user manual to years 2024
 - #965 Implement proxy functionality of the IRS policy store
 - #962 Changed notification model to new one in frontend/backend
 - #962 Removed initial notification message for notification flow
