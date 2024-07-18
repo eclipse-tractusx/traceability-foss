@@ -485,6 +485,21 @@ This sequence diagram describes the process of how the policy with the defined c
 
 ![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
 
+#### Scenario 5: Updating notification offers when creating/deleting/updating policies
+
+The Trace-X instance uses policies for creating the EDC catalog offers of notifications.
+These offers will be created on the following actions:
+- on Trace-X application startup - creating a policy for the own BPN - updating a policy for the own BPN - deleting a policy for the own BPN
+
+This sequence diagram describes the process of how the catalog offers are updated after policy update/create/delete
+
+```bash
+
+
+
+
+```
+
 ## Scheduler
 
 An overview of the scheduler tasks configured in the system.
