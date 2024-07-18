@@ -16,25 +16,25 @@
 A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain. This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.
 
 ## Table of Contents
-- [Trace-X](https://github.com/eclipse-tractusx/traceability-foss/#trace-x-is-a-system-for-tracking-parts-along-the-supply-chain)
+- [Trace-X](#trace-x-is-a-system-for-tracking-parts-along-the-supply-chain)
   - [Introduction](#introduction)
     - [Vision and Mission Statement](#vision-and-mission-statement)
     - [Trace-X Feature list](#trace-x-feature-list)
-  - [How to contribute](https://github.com/eclipse-tractusx/traceability-foss/#how-to-contribute)
-  - [Releasing](https://github.com/eclipse-tractusx/traceability-foss/#releasing)
-  - [Environments](https://github.com/eclipse-tractusx/traceability-foss/#environments)
-  - [The frontend application](https://github.com/eclipse-tractusx/traceability-foss/#the-frontend-application)
-    - [Challenges and solutions](https://github.com/eclipse-tractusx/traceability-foss/#challenges-and-solutions)
-    - [Prerequisites](https://github.com/eclipse-tractusx/traceability-foss/#frontend-prerequisites)
-    - [Installation](https://github.com/eclipse-tractusx/traceability-foss/#frontend-installation)
-    - [Getting started](https://github.com/eclipse-tractusx/traceability-foss/#getting-started)
-    - [Application authentication](https://github.com/eclipse-tractusx/traceability-foss/#application-authentication)
-    - [Application architecture & patterns](https://github.com/eclipse-tractusx/traceability-foss/#application-architecture--patterns)
+  - [How to contribute](#how-to-contribute)
+  - [Releasing](#releasing)
+  - [Environments](#environments)
+  - [Frontend Application](#frontend-application)
+    - [Challenges and solutions](#challenges-and-solutions)
+    - [Prerequisites](#frontend-prerequisites)
+    - [Installation](#frontend-installation)
+    - [Getting started](#getting-started)
+    - [Application authentication](#application-authentication)
+    - [Application architecture & patterns](#application-architecture--patterns)
     - [User guide](#user-guide)
     - [Frontend Testing strategy](#frontend-testing-strategy)
-  - [The backend application](https://github.com/eclipse-tractusx/traceability-foss/#the-backend-application)
-    - [Prerequisites](https://github.com/eclipse-tractusx/traceability-foss/#backend-prerequisites)
-    - [Installation](https://github.com/eclipse-tractusx/traceability-foss/#backend-installation)
+  - [The backend application](#the-backend-application)
+    - [Prerequisites](#backend-prerequisites)
+    - [Installation](#backend-installation)
     - [Backend Testing strategy](#backend-testing-strategy)
   - [API documentation](#api-documentation)
   - [Container Image](#container-image)
@@ -47,8 +47,8 @@ A high level of transparency across the supplier network enables faster interven
 ### Vision and Mission Statement
 Trace-X empowers all companies from SMEs to large OEMs to participate in parts traceability with an Open-Source solution.
 
-The Open-Source Traceability application is developed within the Catena-X project and enables all companies to participate in Parts Traceability.
-Trace-X offers capabilities to ingest data for serialized parts and batches as well as their child components.  Within CX, we strive to establish a standardized, data-sovereign and interoperable exchange of traceability data along the value creation chain.
+The Open-Source Traceability application is developed within the Catena-X project and enables all companies to participate in Parts Traceability.
+Trace-X offers capabilities to ingest data for serialized parts and batches as well as their child components. Within CX, we strive to establish a standardized, data-sovereign and interoperable exchange of traceability data along the value creation chain.
 
 The application gives an overview of the supplier network and the supply chain. A high level of transparency across the supplier network enables faster intervention based on recorded events in the supply chain. Additionally, automated massages regarding Quality related incidents and a tool for inspecting the supply chain helps companies in these fast-moving times.
 
@@ -59,11 +59,11 @@ Trace-X as the Open-Source solution for Parts Traceability offers the following 
 
 * List and view manufactured parts based on BoM AsBuild
 * List and view planned parts based on BoM AsPlanned
-* Filter and Search functionality on part views 
+* Filter and Search functionality on part views
 * Show detailed information on manufactured parts
 ** Asset Administration Shell description
-** Submodel description such as SerialPartTypization, AssemblyPartRelationship, Batch
-* List and view Supplier parts based on BoM As Build
+** Submodel description such as SerialPart, SingleLevelBomAsBuilt, SingleLevelUsageAsBuilt, Batch, JustInSequence
+* List and view Supplier parts based on BoM As Built
 ** List of Supplier parts based on AssemblyPartRelationship Aspect
 * View parts and parts relations in parts tree
 * Send and receive quality investigations along the supply chain
@@ -75,7 +75,7 @@ A detailed guide on how to contribute can be found [here](https://github.com/ecl
 ## Releasing
 Here is our [Releasing guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/RELEASE.md).
 
-## The Frontend Application
+## Frontend Application
 
 This application serves as a user entry point to the Catena-X network.
 
@@ -140,7 +140,7 @@ A detailed [explanation](docs/user/user-manual.adoc) of how to use the applicati
 ### Frontend Testing Strategy
 See [TESTING](frontend/TESTING.md).
 
-## The Backend Application
+## Backend Application
 
 ### Backend Prerequisites
 
