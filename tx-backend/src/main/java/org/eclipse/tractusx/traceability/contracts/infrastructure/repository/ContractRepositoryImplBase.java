@@ -64,7 +64,11 @@ public class ContractRepositoryImplBase {
         validateContractAgreements(contractAgreementIds, contractAgreements);
 
         Map<String, ContractType> contractTypes = contractAgreementEntities.stream()
-                .collect(Collectors.toMap(ContractAgreementBaseEntity::getContractAgreementId, ContractAgreementBaseEntity::getType));
+                .collect(Collectors.toMap(
+                        ContractAgreementBaseEntity::getContractAgreementId,
+                        ContractAgreementBaseEntity::getType,
+                        (existing, replacement) -> existing // retain existing value if duplicate key is encountered
+                ));
 
         Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = contractAgreements.stream()
                 .map(agreement -> new ImmutablePair<>(agreement.contractAgreementId(),
