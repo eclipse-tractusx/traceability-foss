@@ -19,7 +19,6 @@
 package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractAgreementService;
@@ -33,7 +32,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
 @Component
 @Slf4j
 public class ContractNotificationRepositoryImpl extends ContractRepositoryImplBase implements ContractRepository<ContractAgreementNotificationEntity> {

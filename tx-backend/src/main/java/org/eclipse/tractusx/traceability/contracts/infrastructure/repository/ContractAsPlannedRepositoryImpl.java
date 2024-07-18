@@ -33,7 +33,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
 @Component
 @Slf4j
 public class ContractAsPlannedRepositoryImpl extends ContractRepositoryImplBase implements ContractRepository<ContractAgreementAsPlannedEntity> {

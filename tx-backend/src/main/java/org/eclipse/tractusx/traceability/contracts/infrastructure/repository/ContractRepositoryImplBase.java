@@ -20,9 +20,7 @@ package org.eclipse.tractusx.traceability.contracts.infrastructure.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.eclipse.tractusx.irs.edc.client.contract.model.EdcContractAgreementNegotiationResponse;
@@ -47,7 +45,6 @@ import java.util.stream.Collectors;
 @Component
 @AllArgsConstructor
 @Slf4j
-@Transactional
 public class ContractRepositoryImplBase {
 
     private final EdcContractAgreementService edcContractAgreementService;
