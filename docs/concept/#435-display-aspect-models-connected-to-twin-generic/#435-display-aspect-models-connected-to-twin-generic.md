@@ -94,7 +94,7 @@ Source: https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=345876457235304953
 - [ ] User selection of Viewer Instance is stored in User Settings. Last selected Viewer Instance will be used for next semantic model selection.
 - [ ] User selected semantic model in table is highlighted in dark grey color
 
-![DetailView_With_Code_Viewer_Active.png](DetailView_With_Code_Viewer_Active.png)
+![DetailView_With_Code_Viewer_Active](DetailView_With_Code_Viewer_Active.svg)
 
 
 ### Json Code Raw Viewer
@@ -104,7 +104,7 @@ Source: https://miro.com/app/board/uXjVO5JVoho=/?moveToWidget=345876457235304953
 - Vertical scrollbar
 - Extend Viewer Panel is extendable to full-screen
 
-![Detail_View_Json_Code_Viewer](Detail_View_Json_Code_Viewer.png)
+![Detail_View_Json_Code_Viewer](Detail_View_Json_Code_Viewer.svg)
 
 ### Json Tree  Viewer
 
@@ -115,18 +115,18 @@ Json Tree Viewer is the visualization of a JSON structure in a hierarchical tree
 - Code Highlighting
 - Line Numbering
 - Extend Viewer Panel is extendable to full-screen
- ![Detail_View_Json_Tree_Viewer](Detail_View_Json_Tree_Viewer.png)
+ ![Detail_View_Json_Tree_Viewer](Detail_View_Json_Tree_Viewer.svg)
 
 ### Json Graph Viewer
 - Json Tree Viewer
 - Json is visualized in graph view
 - Code Highlighting
 - Extend Viewer Panel is extendable to full-screen
-![Detail_View_Json_Graph_Viewer](Detail_View_Json_Graph_Viewer.png)
+![Detail_View_Json_Graph_Viewer](Detail_View_Json_Graph_Viewer.svg)
 
 
 ## Viewer in full-screen mode
-![Viewer Full Screen](Viewer_Full_screen_mode.png)
+![Viewer Full Screen](Viewer_Full_screen_mode.svg)
 - Any viewer instance could be extended to full-screen mode
 - Full-screen mode is disabled via X button on the right upper side.
 - After closing, full-screen former detail view is shown
@@ -136,7 +136,7 @@ Json Tree Viewer is the visualization of a JSON structure in a hierarchical tree
 - Viewer show initial message Semantic model cannot be displayed.
 - Standard error message: Semantic model cannot be displayed. With detailed user readable message
 
-![Error View](Error_View.png)
+![Error View](Error_View.svg)
 
 # Glossary
 

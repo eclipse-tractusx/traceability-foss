@@ -40,6 +40,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1112 Added association int-a/int-b environment to argo workflow
 
 ### Changed
+- #1070 Converted pngs of concept  into svg
+- #1070 Update project documentation to current state
+- #1070 formatting README
+- #1070 Add code coverage badges
 - #965 Implement proxy functionality of the IRS policy store
 - #962 Changed notification model to new one in frontend/backend
 - #962 Removed initial notification message for notification flow

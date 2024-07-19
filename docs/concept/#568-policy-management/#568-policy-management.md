@@ -300,7 +300,7 @@ sequenceDiagram
 
 ## Sending notifications
 
-![send-notification-policy-verification.png](send-notification-policy-verification.png)
+![send-notification-policy-verification](send-notification-policy-verification.svg)
 
 # Glossary
 
