@@ -1,4 +1,4 @@
-= Data Provisioning
+= Data provisioning
 
 This sequence diagrams describes the process of importing data from a Trace-X dataformat
 

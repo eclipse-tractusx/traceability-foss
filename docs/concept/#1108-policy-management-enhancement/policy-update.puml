@@ -1,0 +1,44 @@
+@startuml
+title
+    ==Policy update
+end title
+
+autonumber "<B>[00]"
+
+actor "User" as U order 0
+participant "Trace-X" as TX order 1
+participant "Registry" as R order 2
+participant "EDC" as EDC order 3
+
+U -> TX: policyDefinition + globalAssetId
+activate TX
+TX -> R: query_registry(globalAssetId)
+activate R
+R --> TX: aasIdentifier
+deactivate R
+TX -> R: get_shell(aasIdentifier)
+activate R
+R --> TX: shell
+deactivate R
+TX -> EDC: get_contractDefinition(shell.subprotocolBodyID)
+activate EDC
+EDC --> TX: contractDefinition
+deactivate EDC
+TX -> EDC: get_policyDefinition(contractDefinition.contractPolicyId)
+activate EDC
+EDC --> TX: policyDefinition
+deactivate EDC
+TX -> TX: compare policies
+alt Policies match
+TX --> U: Done without changes
+else Policies don't match
+TX -> EDC: create asset
+TX -> EDC: create new policyDefinition
+TX -> EDC: create new contractDefinition(with new assetID+policyDefinitionID)
+TX -> R: update_shell(with new subprotocolBodyID)
+TX --> U: Done with policy update
+deactivate TX
+end
+
+
+@enduml

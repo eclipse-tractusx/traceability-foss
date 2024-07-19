@@ -11,6 +11,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 
 - #999 Added notification processing feedback in FE
+- #1108 Added concept for policy management enhancement
+- #1007 Added data-sovereignty/policy-management section in arc42 documentation
 - #1190 update notification contracts on policy updates
 
 ### Changed
