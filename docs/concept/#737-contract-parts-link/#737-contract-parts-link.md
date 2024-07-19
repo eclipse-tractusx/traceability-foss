@@ -43,14 +43,14 @@ See also: https://miro.com/app/board/uXjVO5JVoho=
 In the contracts table a new single-item action is added to the action menu.
 The action is called "View parts" with the parts icon.
 The tooltip when hovering over the action says "View parts using this contract".
-![contracts-table-new-action.png](contracts-table-new-action.png)
+![contracts-table-new-action](contracts-table-new-action.svg)
 
 The column "Contract ID" must be added to part tables AsBuilt and AsPlanned.
-![parts-tables-contract-column.png](parts-tables-contract-column.png)
+![parts-tables-contract-column](parts-tables-contract-column.svg)
 
 After clicking on the action, the user is taken to the parts table filtered for the selected contract.
 Clicking back in the browser, brings the user back to the contracts table.
-![parts-tables-contract-column-filtered.png](parts-tables-contract-column-filtered.png)
+![parts-tables-contract-column-filtered](parts-tables-contract-column-filtered.svg)
 
 # Additional Details
 Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.
