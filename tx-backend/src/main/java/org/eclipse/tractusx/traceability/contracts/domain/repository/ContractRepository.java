@@ -21,13 +21,8 @@ package org.eclipse.tractusx.traceability.contracts.domain.repository;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 
-import java.util.List;
-
 public interface ContractRepository<T> {
 
-
-    void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException;
-
-    void saveAll(List<T> contractAgreements);
+    void saveContractAgreementFromNotification(String contractAgreementId, ContractType contractType) throws ContractAgreementException;
 
 }

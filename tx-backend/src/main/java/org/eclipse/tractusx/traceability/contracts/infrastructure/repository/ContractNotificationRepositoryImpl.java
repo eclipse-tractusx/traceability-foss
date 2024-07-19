@@ -43,24 +43,16 @@ public class ContractNotificationRepositoryImpl extends ContractRepositoryImplBa
     }
 
     @Override
-    public void saveAllContractAgreements(List<String> contractAgreementIds, ContractType contractType) throws ContractAgreementException {
+    public void saveContractAgreementFromNotification(String contractAgreementId, ContractType contractType) throws ContractAgreementException {
 
-        List<ContractAgreementBaseEntity> contractAgreementEntities = contractAgreementIds.stream()
-                .map(contractAgreementId -> ContractAgreementNotificationEntity.builder()
-                        .contractAgreementId(contractAgreementId)
-                        .type(contractType)
-                        .build())
-                .map(ContractAgreementBaseEntity.class::cast)
-                .toList();
+        ContractAgreementBaseEntity contractAgreementBaseEntity = ContractAgreementBaseEntity.builder()
+                .contractAgreementId(contractAgreementId)
+                .type(contractType)
+                .build();
 
-        List<Contract> contracts = fetchEdcContractAgreements(contractAgreementEntities);
+        List<Contract> contracts = fetchEdcContractAgreements(List.of(contractAgreementBaseEntity));
         List<ContractAgreementNotificationEntity> contractAgreementsUpdated = ContractAgreementNotificationEntity.fromList(contracts, contractType);
         contractAgreementRepository.saveAll(contractAgreementsUpdated);
-    }
-
-    @Override
-    public void saveAll(List<ContractAgreementNotificationEntity> contractAgreements) {
-        contractAgreementRepository.saveAll(contractAgreements);
     }
 
 }

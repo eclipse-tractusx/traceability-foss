@@ -116,7 +116,7 @@ public class NotificationsEDCFacade {
 
         notificationMessage.setContractAgreementId(contractAgreementId);
         try {
-            contractNotificationServiceImpl.saveContractAgreements(List.of(contractAgreementId), ContractType.NOTIFICATION);
+            contractNotificationServiceImpl.saveContractAgreementFromNotification(contractAgreementId, ContractType.NOTIFICATION);
         } catch (Exception e) {
             log.warn("Could not save contractAgreementId for notification {}", e.getMessage());
         }
