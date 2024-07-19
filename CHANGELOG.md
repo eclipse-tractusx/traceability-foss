@@ -8,8 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
-### Added
+## [13.0.0 - 19.07.2024]
 
+### Added
 - #999 Added notification processing feedback in FE
 - #1108 Added concept for policy management enhancement
 - #1007 Added data-sovereignty/policy-management section in arc42 documentation
