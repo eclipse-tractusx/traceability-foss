@@ -124,8 +124,6 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 
 If no policies are configured for the receiving BPN and a notification is sent to that BPN, the default policy of Trace-X is used as a backup. If the default policy is accepted by the receiving BPN, the process can continue as normally and the notification can be sent. When the policy does not match and the notification can't be sent, an administrator can create policies for the receiving BPN. Then the notification can be resent and will use the new policy.
 
-
-
 === Expired policy when sending notifications
 [plantuml, target=level-1, format=svg]
 ....
@@ -133,3 +131,10 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 ....
 
 Policies always have an expiration time. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must either update the policy. Then the policy can be resent.
+
+=== Testing policies
+In order to test the functionality of policies, an administrator can create a policy with test constraints for connected BPNs. When sending notifications to that BPN, the process should be blocked.
+
+To fix it, the administrator either has to replace the policy with a valid policy or the connected BPN can create an identical policy with the same test constraints. Sending the notification will work after this was done.
+
+The same applies for sending and receiving parts only then the user must choose the created test policy manually.

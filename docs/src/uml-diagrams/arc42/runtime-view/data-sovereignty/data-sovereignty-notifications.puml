@@ -13,15 +13,15 @@ Admin -> TXA: create policies
 ...
 User -> TXA: send notification to receiver BPN
 activate TXA
-TXA -> TXA: get own policy definition for receiver BPN
-activate TXA
-TXA --> TXA: valid policyDefinition
-deactivate TXA
 TXA -> EDCB: get catalog of receiver BPN
 activate EDCB
 EDCB --> TXA: catalog
 deactivate EDCB
 TXA -> TXA: extract required policy definition from catalog
+TXA -> TXA: get own policy definition for receiver BPN
+activate TXA
+TXA --> TXA: valid policyDefinition
+deactivate TXA
 TXA -> TXA: compare policy definitions
 alt policies match
 TXA --> EDCB: contract agreement

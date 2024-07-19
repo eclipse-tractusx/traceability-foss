@@ -12,6 +12,11 @@ Admin -> TraceX: create policies
 ...
 User -> TraceX: send notification to receiver BPN
 activate TraceX
+TraceX -> EDC: get catalog of receiver BPN
+activate EDC
+EDC --> TraceX: catalog
+deactivate EDC
+TraceX -> TraceX: extract required policy definition from catalog
 TraceX -> TraceX: get own policy definition for receiver BPN
 activate TraceX
 TraceX --> TraceX: expired policyDefinition
