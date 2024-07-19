@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+title Policies: Sending notifications without policies
+
+actor Admin
+actor User
+participant "Trace-X" as TraceX
+participant "Receiver EDC" as EDC
+
+Admin -> TraceX: create policies
+...
+User -> TraceX: send notification to receiver BPN
+activate TraceX
+TraceX -> EDC: get catalog of receiver BPN
+activate EDC
+EDC --> TraceX: catalog
+deactivate EDC
+TraceX -> TraceX: extract required policy definition from catalog
+TraceX -> TraceX: get own policy definition for receiver BPN
+activate TraceX
+TraceX --> TraceX: no policyDefinition for receiver BPN -> use default policy
+deactivate TraceX
+TraceX -> TraceX: compare policy definition with own default policy
+alt policies don't match
+TraceX --> User: error: policies don't match
+deactivate TraceX
+...
+Admin -> TraceX: add policy for receiver BPN
+...
+User -> TraceX: resend notification to receiver BPN
+ref over User, Admin, TraceX, EDC: send notification
+end
+@enduml
