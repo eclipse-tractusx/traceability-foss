@@ -22,9 +22,9 @@ package org.eclipse.tractusx.traceability.notification.domain.notification.model
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import notification.request.StartNotificationRequest;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
-import notification.request.StartNotificationRequest;
 
 import java.time.Instant;
 import java.util.List;

@@ -18,10 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.policies.application.mapper;
 
-import policies.response.ConstraintResponse;
-import policies.response.ConstraintsResponse;
-import policies.response.PermissionResponse;
-import policies.response.PolicyResponse;
 import lombok.experimental.UtilityClass;
 import org.eclipse.tractusx.irs.edc.client.asset.model.Context;
 import org.eclipse.tractusx.irs.edc.client.contract.model.EdcOperator;
@@ -30,6 +26,10 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermission;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraint;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraintExpression;
+import policies.response.ConstraintResponse;
+import policies.response.ConstraintsResponse;
+import policies.response.PermissionResponse;
+import policies.response.PolicyResponse;
 
 import java.util.List;
 

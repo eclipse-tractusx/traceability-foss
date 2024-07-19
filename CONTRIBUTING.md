@@ -91,7 +91,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-* Add release notes for new version in [CHANGELOG.md](CHANGELOG.md)      
+* Add release notes for new version in [CHANGELOG.md](CHANGELOG.md)
 * Features of your product(s) or component(s), available for market entry
 * Please provide minimum 5 to maximum 10 key feature descriptions
 * Use category “ADDED” as per good practice
@@ -103,7 +103,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
 ### git-hooks
-Use git-hooks to ensure commit message consistency. 
+Use git-hooks to ensure commit message consistency.
 Detailed pattern can be found here: [commit-msg](https://github.com/eclipse-tractusx/traceability-foss/blob/457cb3523e981ef6aed98355a7faf0ff29867c33/dev/commit-msg#L4)
 
 #### How to use
@@ -122,21 +122,20 @@ The commit messages have to match a pattern in the form of:
 ````
 
 ````
-fix(api):[TRACEFOSS-123] Fix summary what is fixed.
-chore(repos):[TRACEFOSS-123] Configuration change of ci cd pipeline for new repository. 
-docs(arc42):[TRACEFOSS-123] Added level 1 description for runtime view.
- 
-chore(helm): TRACEFOSS-1131- Moving the values under the global key - increasing the version  
+fix(api):[#123] Fix summary what is fixed.
+chore(repos):[#123] Configuration change of ci cd pipeline for new repository.
+docs(arc42):[#123] Added level 1 description for runtime view.
+chore(helm):[#113] Moving the values under the global key - increasing the version
 ````
 
 ## Pull Request &  Reviews
 
-The goal is that the maximal life cycle of a pull request: 1.5 days.
+The goal is that the maximal life cycle of a pull request: 1.5 days.
 
 **Steps:**
 
 - Every developer creating a pull request is responsible to assign a reviewer.
-- Add comment for pull request with required information. 
+- Add comment for pull request with required information.
 - Please check the availability of a reviewer. The daily might be a good way to check the availability of team members.
 - If Review needs to be planned: Assign corresponding Jira ticket to reviewer, with link to pull-request
 
@@ -161,9 +160,9 @@ Only after the code is stable it can be merged to main.
   - chore/* - any small change without any impact
 - Branch Name:
   - MUST contain : Issue ID in the format #XXX
-  - MUST contain: Subject of issue (Abbreviation of pbi summary without using spaces / use "-" to connect) 
+  - MUST contain: Subject of issue (Abbreviation of pbi summary without using spaces / use "-" to connect)
 
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/github-flow-branching-model.jpeg" height="60%" width="60%"/>
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/github-flow-branching-model.svg" height="60%" width="60%"/>
 
 ### Commit messages
 - The commit messages have to match a pattern in the form of:

@@ -68,7 +68,6 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     private final JpaNotificationRepository jpaNotificationRepository;
     private final JpaNotificationMessageRepository jpaNotificationMessageRepository;
     private final JpaAssetAsBuiltRepository assetsAsBuiltRepository;
-
     private final Clock clock;
 
     @PersistenceContext

@@ -20,16 +20,16 @@
 package org.eclipse.tractusx.traceability.notification.application.notification.mapper;
 
 import lombok.experimental.UtilityClass;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import notification.response.NotificationMessageResponse;
 import notification.response.NotificationSeverityResponse;
 import notification.response.NotificationSideResponse;
 import notification.response.NotificationStatusResponse;
 import notification.response.NotificationTypeResponse;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 
 import java.util.List;
 

@@ -28,6 +28,7 @@ import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.enums.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 
 import java.util.List;
@@ -62,7 +63,8 @@ public class AssetBase {
     private String importNote;
     private String policyId;
     private String tombstone;
-    private String contractAgreementId;
+    private List<ContractAgreement> contractAgreements;
+    private String latestContractAgreementId;
 
 
     public BomLifecycle getBomLifecycle() {

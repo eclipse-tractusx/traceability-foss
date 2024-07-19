@@ -22,8 +22,8 @@
 package org.eclipse.tractusx.traceability.notification.application.notification.validation;
 
 import lombok.experimental.UtilityClass;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import notification.request.UpdateNotificationStatusTransitionRequest;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 
 import java.util.Set;
 

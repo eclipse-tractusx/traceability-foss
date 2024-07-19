@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -37,12 +38,15 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementAsBuiltEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
@@ -60,6 +64,7 @@ import static org.eclipse.tractusx.traceability.common.date.DateUtil.toInstant;
 @NoArgsConstructor
 @Entity
 @SuperBuilder
+@ToString
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
 
@@ -89,6 +94,8 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
     private List<SubmodelPayloadEntity> submodels;
 
+    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ContractAgreementAsBuiltEntity> contractAgreements;
 
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
@@ -123,7 +130,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .importNote(asset.getImportNote())
                 .policyId(asset.getPolicyId())
                 .tombstone(asset.getTombstone())
-                .contractAgreementId(asset.getContractAgreementId())
+                .contractAgreements(ContractAgreementAsBuiltEntity.fromDomainToEntityList(asset.getContractAgreements()))
                 .build();
     }
 
@@ -180,7 +187,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .importNote(this.getImportNote())
                 .policyId(this.getPolicyId())
                 .tombstone(this.getTombstone())
-                .contractAgreementId(this.getContractAgreementId())
+                .contractAgreements(ContractAgreement.fromAsBuiltEntityToContractAgreements(emptyIfNull(this.getContractAgreements())))
                 .build();
     }
 

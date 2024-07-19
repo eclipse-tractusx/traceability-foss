@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Notification } from '@shared/model/notification.model';
 
 /********************************************************************************
@@ -23,9 +23,32 @@ import { Notification } from '@shared/model/notification.model';
   providedIn: 'root',
 })
 export class NotificationProcessingService {
-  notificationIdsInLoadingState: Set<string> = new Set();
+  private _notificationIdsInLoadingState: Set<string> = new Set();
+  doneEmit = new EventEmitter<any>();
+
+  get notificationIdsInLoadingState(): Set<string> {
+    return this._notificationIdsInLoadingState;
+  }
+
+  set notificationIdsInLoadingState(ids: Set<string>) {
+    this._notificationIdsInLoadingState = ids;
+    this.onNotificationIdsInLoadingStateRemoval();
+  }
+
+  public addNotificationId(id: string): void {
+    this._notificationIdsInLoadingState.add(id);
+  }
+
+  public deleteNotificationId(id: string): void {
+    this._notificationIdsInLoadingState.delete(id);
+    this.onNotificationIdsInLoadingStateRemoval();
+  }
 
   public isInLoadingProcess({ id } = {} as Notification): boolean {
-    return this.notificationIdsInLoadingState.has(id);
+    return this._notificationIdsInLoadingState.has(id);
+  }
+
+  private onNotificationIdsInLoadingStateRemoval(): void {
+    this.doneEmit.emit();
   }
 }

@@ -83,7 +83,6 @@ public class NotificationPublisherService {
                     return NotificationMessage.create(
                             applicationBPN,
                             firstReceiverBpn,
-                            notification.getDescription(),
                             notification.getNotificationType(),
                             it,
                             creator,

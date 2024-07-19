@@ -59,7 +59,8 @@ export interface Contract {
   creationDate: CalendarDateModel,
   endDate: CalendarDateModel,
   state: ContractState,
-  policy: string
+  policy: string,
+  globalAssetId?: string,
 }
 
 export interface ContractResponse {
@@ -69,7 +70,8 @@ export interface ContractResponse {
   creationDate: string,
   endDate: string,
   state: ContractState,
-  policy: string
+  policy: string,
+  globalAssetId?: string,
 }
 
 export enum ContractType {
@@ -90,7 +92,8 @@ export function assembleContract(contractResponse: ContractResponse): Contract {
     creationDate: new CalendarDateModel(contractResponse.creationDate),
     endDate: new CalendarDateModel(contractResponse.endDate),
     state: contractResponse.state,
-    policy: contractResponse.policy
+    policy: contractResponse.policy,
+    globalAssetId: contractResponse.globalAssetId,
   };
 }
 

@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import org.eclipse.tractusx.irs.component.enums.Direction;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
-import org.eclipse.tractusx.traceability.generated.SingleLevelBomAsBuilt300Schema;
 import org.eclipse.tractusx.traceability.generated.SingleLevelUsageAsBuilt300Schema;
 import org.eclipse.tractusx.traceability.generated.UrnSammIoCatenaxSingleLevelUsageAsBuilt300ParentData;
 import org.springframework.stereotype.Component;
