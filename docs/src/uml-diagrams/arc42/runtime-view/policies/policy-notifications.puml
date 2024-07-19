@@ -23,7 +23,7 @@ TraceX -> TraceX: Validate contract type, method and policy
 
 alt Notification type: Alert
     TraceX -> TraceX: Filter for method (update, receive)
-    TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policies in IRS Lib (3 default policies)
+    TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policy for the receiver
     activate TraceXIRSLib
     TraceXIRSLib --> TraceX: Valid
     deactivate TraceXIRSLib
@@ -48,7 +48,7 @@ alt Notification type: Alert
     end
 else Notification Type: Investigation
     TraceX -> TraceX: Filter for method (update, receive)
-    TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policies in IRS Lib (3 default policies)
+    TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policy for the receiver
     activate TraceXIRSLib
     TraceXIRSLib --> TraceX: Valid
     deactivate TraceXIRSLib

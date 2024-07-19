@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-import policies.response.PolicyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
@@ -30,10 +29,11 @@ import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
-import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import policies.response.PolicyResponse;
 
 import java.util.UUID;
 

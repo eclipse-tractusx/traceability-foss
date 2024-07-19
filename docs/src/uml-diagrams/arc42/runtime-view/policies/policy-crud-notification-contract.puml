@@ -1,0 +1,61 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence diagram: Trace-X interaction with EDC on startup
+participant "TraceX" as TraceX
+participant "IRS" as IRS
+participant "EDC " as EDC
+
+activate TraceX
+TraceX -> IRS: delete/create/update policy
+activate IRS
+IRS --> TraceX : ok
+deactivate IRS
+TraceX -> IRS: Get policies
+activate IRS
+IRS --> TraceX : Return policies
+deactivate IRS
+
+TraceX -> EDC: delete existing notification offers
+activate EDC
+EDC --> TraceX : ok
+deactivate EDC
+
+
+TraceX -> TraceX: Find newest policy of own BPN or default policy
+activate TraceX
+TraceX -> EDC : Create notification based on policy
+deactivate TraceX
+@enduml
+
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+
+title Sequence diagram: Sending notifications
+participant "Trace-X" as TraceX
+participant "Trace-X IRS Lib" as TraceXIRSLib
+participant "IRS " as IRS
+participant "EDC " as EDC
+
+activate TraceX
+TraceX -> TraceX: ...
+TraceX -> EDC: Get catalog
+activate EDC
+EDC --> TraceX: Return catalog
+deactivate EDC
+TraceX -> TraceX: Filter for notification type (alert/investigation) & method (update/receive)
+activate TraceX
+deactivate TraceX
+TraceX -> TraceXIRSLib: Validate if catalog policy matches the configured policies in IRS Lib (3 default policies)
+activate TraceXIRSLib
+TraceXIRSLib --> TraceX: Valid
+deactivate TraceXIRSLib
+TraceX -> EDC: Send notification
+@enduml
+
+
+

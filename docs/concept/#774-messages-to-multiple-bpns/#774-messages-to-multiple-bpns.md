@@ -358,7 +358,7 @@ BPNL0A will have those 3 messages and additionally the message sent to BPN2Y, wh
 In the notification detail view, the message history will be changed according to the frontend concept:
 
 **Creator/Sender:**
-![frontend-notification-detail-view-sender.png](frontend-notification-detail-view-sender.png)
+![frontend-notification-detail-view-sender](frontend-notification-detail-view-sender.svg)
 
 The overview must be adapted to the backend changes.
 
@@ -373,7 +373,7 @@ Additionally, the user is able to edit the notification, send it or close it. (D
 Clicking "send" will send messages to all BPNLs, where the last state was "CREATED" all messages that are in the state "CREATED". Other
 
 **Recipient:**
-![frontend-notification-detail-view-recipient.png](frontend-notification-detail-view-recipient.png)
+![frontend-notification-detail-view-recipient](frontend-notification-detail-view-recipient.svg)
 
 For the recipient not much changes, since a notification can only be received by a single BPNL. The overview and the message history should be aligned with the view from the sender.
 The actions remain the same.
@@ -381,7 +381,7 @@ The actions remain the same.
 #### Create/Edit notifications
 When creating or editing notifications, the user must be able to add/remove multiple BPNLs.
 This should be made possible by having an autocomplete in the input text field. And showing selected BPNLs as removable chips:
-![frontend-create-notification.png](frontend-create-notification.png)
+![frontend-create-notification](frontend-create-notification.svg)
 (-> identical for Edit Notification)
 
 # References

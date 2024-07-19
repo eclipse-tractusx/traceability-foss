@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.notification.infrastructure.notification.model;
 
-import io.swagger.annotations.ApiModel;
 import notification.request.NotificationSeverityRequest;
 
 

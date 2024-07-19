@@ -59,7 +59,7 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER == ''
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./frontend/Dockerfile
@@ -79,7 +79,7 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER != ''
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: ./frontend/Dockerfile
@@ -135,7 +135,7 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER == ''
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
@@ -154,7 +154,7 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER != ''
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true

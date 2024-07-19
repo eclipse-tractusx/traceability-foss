@@ -28,7 +28,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.tractusx.irs.common.ApiConstants;
 import org.springframework.context.annotation.Profile;
 
 import java.io.IOException;

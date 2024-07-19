@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+title Policies: Send and receive parts
+
+actor "Admin A" as AA
+actor User
+participant "Trace-X A" as TXA
+participant "DTR A" as DTRA
+participant "EDC A" as EDCA
+participant "IRS B" as IRSB
+participant "EDC B" as EDCB
+participant "Trace-X B" as TXB
+actor "Admin B" as AB
+
+AA -> TXA: create policies
+AB -> TXB: create policies
+...
+User -> TXA: import parts
+...
+User -> TXA: publish selected parts
+activate TXA
+User --> TXA: select policy to be used
+TXA -> EDCA: create policy
+loop selected parts
+TXA -> DTRA: create part
+TXA -> DTRA: link part and policy
+end
+deactivate TXA
+...
+TXB -> TXB: synchronize parts
+activate TXB
+TXB -> IRSB: start contract negotiation
+activate IRSB
+IRSB -> EDCA: get catalog of Trace-X A
+activate EDCA
+EDCA --> IRSB: catalog
+deactivate EDCA
+IRSB -> IRSB: extract policy definitions from catalog
+IRSB -> TXB: get configured policies
+activate TXB
+TXB --> IRSB: policies
+deactivate TXB
+loop each part
+IRSB -> IRSB: compare linked policy definition with own policy list
+alt policies match
+IRSB --> EDCA: contract agreement
+IRSB --> EDCB: contract agreement
+ref over IRSB, TXB: data consumption
+end
+end
+@enduml

@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.policies.domain;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
 import org.eclipse.tractusx.traceability.policies.domain.exception.PolicyNotValidException;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ import static policies.response.IrsPolicyResponse.toResponse;
 public class PolicyServiceImpl implements PolicyService {
 
     private final PolicyRepository policyRepository;
-    private final TraceabilityProperties traceabilityProperties;
+    private final EdcNotificationContractService edcNotificationContractService;
 
     @Override
     public Map<String, List<PoliciesResponse>> getIrsPolicies() {
@@ -82,43 +82,31 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
-    public Optional<PolicyResponse> getFirstPolicyMatchingApplicationConstraint() {
-        Optional<String> policyId = getPolicies().stream()
-                .flatMap(policyResponse -> policyResponse.permissions().stream()
-                        .flatMap(permissionResponse -> Stream.concat(
-                                        permissionResponse.constraints().and().stream(),
-                                        permissionResponse.constraints().or().stream())
-                                .map(constraintResponse -> new AbstractMap.SimpleEntry<>(policyResponse.policyId(), constraintResponse))))
-                .filter(entry -> {
-                    boolean hasFirstConstraint = entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperand()) && entry.getValue().leftOperand().equalsIgnoreCase(traceabilityProperties.getLeftOperand());
-                    boolean hasSecondConstraint = entry.getValue().rightOperand().equalsIgnoreCase(traceabilityProperties.getRightOperandSecond()) && entry.getValue().leftOperand().equalsIgnoreCase(traceabilityProperties.getLeftOperandSecond());
-                    return hasFirstConstraint || hasSecondConstraint;
-                })
-                .map(Map.Entry::getKey)
-                .findFirst();
-        return policyId.map(this::getPolicy);
-    }
-
-    @Override
     public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
         if(registerPolicyRequest.validUntil().isAfter(Instant.now())){
-            return policyRepository.createPolicy(registerPolicyRequest);
+            CreatePolicyResponse policy = policyRepository.createPolicy(registerPolicyRequest);
+            edcNotificationContractService.updateNotificationContractDefinitions();
+            return policy;
         }
         throw new PolicyNotValidException("Policy is not valid because of a not accepted validUntil value " +registerPolicyRequest);
+
     }
 
     @Override
     public void deletePolicy(String id) {
         policyRepository.deletePolicy(id);
+        edcNotificationContractService.updateNotificationContractDefinitions();
     }
 
     @Override
     public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
         if(updatePolicyRequest.validUntil().isAfter(Instant.now())){
             policyRepository.updatePolicy(updatePolicyRequest);
+            edcNotificationContractService.updateNotificationContractDefinitions();
             return;
         }
         throw new PolicyNotValidException("Policy is not valid because of a not accepted validUntil value " +updatePolicyRequest);
+
     }
 
 

@@ -13,7 +13,7 @@ TraceX -> IRS: Get policies
 activate IRS
 IRS --> TraceX : Return policies
 deactivate IRS
-TraceX -> TraceX: Find any policy which matches own constraint
+TraceX -> TraceX: Find newest policy of own BPN or default policy
 activate TraceX
 deactivate TraceX
 

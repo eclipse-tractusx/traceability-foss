@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+title: Policies: Sending notifications with expired policy
+
+actor Admin
+actor User
+participant "Trace-X" as TraceX
+participant "Receiver EDC" as EDC
+
+Admin -> TraceX: create policies
+...
+User -> TraceX: send notification to receiver BPN
+activate TraceX
+TraceX -> EDC: get catalog of receiver BPN
+activate EDC
+EDC --> TraceX: catalog
+deactivate EDC
+TraceX -> TraceX: extract required policy definition from catalog
+TraceX -> TraceX: get own policy definition for receiver BPN
+activate TraceX
+TraceX --> TraceX: expired policyDefinition
+deactivate TraceX
+TraceX --> User: error: policy expired
+deactivate TraceX
+...
+Admin -> TraceX: update policy
+...
+User -> TraceX: resend notification to receiver BPN
+ref over User, Admin, TraceX, EDC: send notification
+deactivate TraceX
+@enduml

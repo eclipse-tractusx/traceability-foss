@@ -119,11 +119,11 @@ User Journey Story:
 8. All reviewed contracts appear to comply with the guidelines. He notes down his result and logs himself out of the contract management section.
 
 ## BPMN
-![contractagreement-admin-view-bpmn.png](contractagreement-admin-view-bpmn.png)
+![contractagreement-admin-view-bpmn](contractagreement-admin-view-bpmn.svg)
 
 ## Frontend concept
 https://miro.com/app/board/uXjVOGBahIA=/?moveToWidget=3458764573051687012&cot=14
-![contractagreement-admin-view-frontend.png](contractagreement-admin-view-frontend.png)
+![contractagreement-admin-view-frontend](contractagreement-admin-view-frontend.svg)
 
 Contract data is called from the backend on a page-by-page basis.
 
@@ -138,7 +138,7 @@ POST api/contracts/request
 GET api/contracts/{tx-assetId}
 
 ### POST api/contracts/request sequence flow
-![get-all-contracts-sequenceflow.png](get-all-contracts-sequenceflow.png)
+![get-all-contracts-sequenceflow](get-all-contracts-sequenceflow.svg)
 
 #### 1. Frontend calls backend API to get contracts (paginated, sortable, filterable)
 
@@ -286,7 +286,7 @@ ___
 
 ### GET api/contracts/{tx-assetId} sequence flow
 
-![get-contract-sequenceflow.png](get-contract-sequenceflow.png)
+![get-contract-sequenceflow](get-contract-sequenceflow.svg)
 
 #### 1. Frontend calls backend API to get contract
 Input: tx-assetId
