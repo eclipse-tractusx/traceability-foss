@@ -306,7 +306,7 @@
     "failedCanceled" : "Notification failed to cancel, please try again.",
     "failedClosed" : "Notification failed to close, please try again.",
     "failedDeclined" : "Notification failed to decline, please try again.",
-    "noChanges" : "Requires a change on the quality notification"
+    "noChanges" : "No changes; nothing saved."
   },
   "editNotification": {
     "saveButton": "Save",
