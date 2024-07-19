@@ -308,7 +308,7 @@
     "failedCanceled" : "Qualitätsthema konnte nicht abgebrochen werden, bitte versuchen Sie es erneut.",
     "failedClosed" : "Qualitätsthema konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
     "failedDeclined" : "Qualitätsthema konnte nicht abgelehnt werden, bitte versuchen Sie es erneut.",
-    "noChanges" : "Erfordert eine Änderung am Qualitätsthema"
+    "noChanges" : "Keine Änderungen; Nichts zu speichern."
   },
   "editNotification": {
     "saveButton": "Speichern",
