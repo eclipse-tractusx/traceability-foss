@@ -14,6 +14,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1190 update notification contracts on policy updates
 
 ### Changed
+- #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
 - #1173 Update IRS-Helm from 7.1.4 to 7.2.0 - updated Compatibility Matrix
 - #1082 fix duplicate key errors when synchronizing assets with IRS
 - #970 fixed bug where the right operand of policies was not showing up in table and detailed view
