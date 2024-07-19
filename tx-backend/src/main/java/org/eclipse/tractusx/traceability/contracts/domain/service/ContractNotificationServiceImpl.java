@@ -20,27 +20,23 @@ package org.eclipse.tractusx.traceability.contracts.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
-import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepository;
+import org.eclipse.tractusx.irs.edc.client.contract.model.exception.ContractAgreementException;
+import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.repository.ContractNotificationRepositoryImpl;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ContractNotificationServiceImpl extends AbstractContractBaseService {
+public class ContractNotificationServiceImpl implements ContractService {
 
     private final ContractNotificationRepositoryImpl contractNotificationRepository;
-    private final ContractFieldMapper contractFieldMapper;
+    private final ContractViewServiceImpl contractViewService;
 
     @Override
-    protected ContractRepository getContractRepository() {
-        return contractNotificationRepository;
-    }
-
-    @Override
-    protected ContractFieldMapper getContractFieldMapper() {
-        return contractFieldMapper;
+    public void saveContractAgreementFromNotification(String contractAgreementId, ContractType contractType) throws ContractAgreementException {
+        contractNotificationRepository.saveContractAgreementFromNotification(contractAgreementId, contractType);
     }
 
 }

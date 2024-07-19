@@ -52,13 +52,13 @@ public class ContractRepositoryImplBase {
 
 
     public List<Contract> fetchEdcContractAgreements(List<ContractAgreementBaseEntity> contractAgreementEntities) throws ContractAgreementException {
-        List<String> contractAgreementIds = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementBaseEntity::getContractAgreementId).filter(Objects::nonNull).toList();
+        List<String> contractAgreementIdFromEntity = contractAgreementEntities.stream().filter(Objects::nonNull).map(ContractAgreementBaseEntity::getContractAgreementId).filter(Objects::nonNull).toList();
 
-        log.info("Trying to fetch contractAgreementIds from EDC: " + contractAgreementIds);
+        log.info("Trying to fetch contractAgreementIdFromEntity from EDC: " + contractAgreementIdFromEntity);
 
-        List<EdcContractAgreementsResponse> contractAgreements = edcContractAgreementService.getContractAgreements(contractAgreementIds);
+        List<EdcContractAgreementsResponse> edcContractAgreementsResponseList = edcContractAgreementService.getContractAgreements(contractAgreementIdFromEntity);
 
-        validateContractAgreements(contractAgreementIds, contractAgreements);
+        validateContractAgreements(contractAgreementIdFromEntity, edcContractAgreementsResponseList);
 
         Map<String, ContractType> contractTypes = contractAgreementEntities.stream()
                 .collect(Collectors.toMap(
@@ -67,25 +67,27 @@ public class ContractRepositoryImplBase {
                         (existing, replacement) -> existing // retain existing value if duplicate key is encountered
                 ));
 
-        Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = contractAgreements.stream()
+        Map<String, String> globalAssetIds = contractAgreementEntities
+                .stream()
+                .filter(contractAgreementBaseEntity -> !contractAgreementBaseEntity.getType().equals(ContractType.NOTIFICATION))
+                .collect(Collectors.toMap(
+                        ContractAgreementBaseEntity::getContractAgreementId,
+                        ContractAgreementBaseEntity::getGlobalAssetId,
+                        (existing, replacement) -> existing // retain existing value if duplicate key is encountered
+                ));
+
+        Map<String, EdcContractAgreementNegotiationResponse> contractNegotiations = edcContractAgreementsResponseList.stream()
                 .map(agreement -> new ImmutablePair<>(agreement.contractAgreementId(),
                         edcContractAgreementService.getContractAgreementNegotiation(agreement.contractAgreementId()))
                 ).collect(Collectors.toMap(ImmutablePair::getLeft, ImmutablePair::getRight));
 
 
-        return contractAgreements.stream().map(contractAgreement ->
+        return edcContractAgreementsResponseList.stream().map(contractAgreement ->
                 {
                     try {
-
-                        String globalAssetId = contractAgreementEntities.stream()
-                                .filter(contractAgreementViewEntity -> contractAgreementViewEntity.getContractAgreementId() == null || contractAgreement.contractAgreementId() == null || contractAgreementViewEntity.getContractAgreementId().equals(contractAgreement.contractAgreementId()))
-                                .findFirst()
-                                .map(ContractAgreementBaseEntity::getGlobalAssetId)
-                                .orElse(null);
-
                         return Contract.builder()
                                 .contractId(contractAgreement.contractAgreementId())
-                                .globalAssetId(globalAssetId)
+                                .globalAssetId(globalAssetIds.get(contractAgreement.contractAgreementId()))
                                 .counterpartyAddress(contractNegotiations.get(contractAgreement.contractAgreementId()).counterPartyAddress())
                                 .creationDate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(contractAgreement.contractSigningDate()), ZoneId.systemDefault()))
                                 .state(contractNegotiations.get(contractAgreement.contractAgreementId()).state())
@@ -99,23 +101,24 @@ public class ContractRepositoryImplBase {
         ).toList();
     }
 
-    private void validateContractAgreements(List<String> contractAgreementIds, List<EdcContractAgreementsResponse> contractAgreements) {
-        if (contractAgreementIds == null || contractAgreements == null) {
-            log.warn("Either contractAgreementIds or contractAgreements is null.");
+    private void validateContractAgreements(List<String> contractAgreementIdFromEntity, List<EdcContractAgreementsResponse> edcContractAgreementsResponseList) {
+        if (contractAgreementIdFromEntity == null || edcContractAgreementsResponseList == null) {
+            log.warn("Either contractAgreementIdFromEntity or edcContractAgreementsResponseList is null.");
             return;
         }
 
-        ArrayList<String> givenList = new ArrayList<>(contractAgreementIds);
-        Collections.sort(givenList);
+        ArrayList<String> contractAgreementIdsFromEntityList = new ArrayList<>(contractAgreementIdFromEntity);
+        Collections.sort(contractAgreementIdsFromEntityList);
 
-        List<String> expectedList = contractAgreements.stream().map(EdcContractAgreementsResponse::contractAgreementId)
+        List<String> expectedList = edcContractAgreementsResponseList.stream()
+                .map(EdcContractAgreementsResponse::contractAgreementId)
                 .filter(Objects::nonNull)// Ensure no null values are mapped
                 .sorted()
                 .toList();
-        log.info("EDC responded with the following contractAgreementIds: " + expectedList);
+        log.info("EDC responded with the following edcContractAgreementsResponseList: " + expectedList);
 
-        // Filter the givenList to find out which IDs are missing in the expectedList
-        List<String> missingIds = givenList.stream()
+        // Filter the contractAgreementIdsFromEntityList to find out which IDs are missing in the expectedList
+        List<String> missingIds = contractAgreementIdsFromEntityList.stream()
                 .filter(id -> !expectedList.contains(id))
                 .toList();
 

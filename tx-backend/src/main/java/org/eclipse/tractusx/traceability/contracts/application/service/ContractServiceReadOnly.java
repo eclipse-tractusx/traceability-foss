@@ -22,6 +22,8 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 
+import java.util.List;
+
 public interface ContractServiceReadOnly {
     PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest);
 }
