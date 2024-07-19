@@ -22,6 +22,7 @@ import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
+import policies.response.PoliciesResponse;
 import policies.response.PolicyResponse;
 
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.Map;
 public interface PolicyService {
     List<PolicyResponse> getPolicies();
 
-    Map<String, List<IrsPolicyResponse>> getIrsPolicies();
+    Map<String, List<PoliciesResponse>> getIrsPolicies();
 
     PolicyResponse getPolicy(String id);
 
