@@ -9,6 +9,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
 - #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
+- #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
 
 ## [13.0.0 - 19.07.2024]
 
@@ -38,7 +39,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [12.0.0 - 05.07.2024]
 
 ### Added
-- #832 added policymanagement list view, creator and editor
+- #832 added policy management list view, creator and editor
 - #737 Added concept: Contract table -> parts link action
 - XXX Added interceptor to EdcRestTemplates to log requests
 - #915 Added section to documentation: EDC-BPN configuration
