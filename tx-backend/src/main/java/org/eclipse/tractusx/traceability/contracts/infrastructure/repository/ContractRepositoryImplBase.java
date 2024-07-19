@@ -70,6 +70,7 @@ public class ContractRepositoryImplBase {
         Map<String, String> globalAssetIds = contractAgreementEntities
                 .stream()
                 .filter(contractAgreementBaseEntity -> !contractAgreementBaseEntity.getType().equals(ContractType.NOTIFICATION))
+                .filter(contractAgreementBaseEntity -> contractAgreementBaseEntity.getGlobalAssetId() != null)
                 .collect(Collectors.toMap(
                         ContractAgreementBaseEntity::getContractAgreementId,
                         ContractAgreementBaseEntity::getGlobalAssetId,
