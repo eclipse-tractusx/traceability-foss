@@ -7,8 +7,44 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+
+- #999 Added notification processing feedback in FE
+- #1190 update notification contracts on policy updates
+
 ### Changed
 - #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
+- #1173 Update IRS-Helm from 7.1.4 to 7.2.0 - updated Compatibility Matrix
+- #1082 fix duplicate key errors when synchronizing assets with IRS
+- #970 fixed bug where the right operand of policies was not showing up in table and detailed view
+- #1191 Refactored contractAgreementId to be a list of elements.
+- #1188 prevent retry requests for notification actions to prevent duplicate error messages in history
+- #1025 fix overlapping table actions
+- #1221 Updgrade EDC version to 0.7.3
+- #1196 Update IRS to 7.3.1
+- #941 made the naming for quality notifications consistent throughout the FE app
+- #1190 store accepted policies in catalog offers on startup
+
+## [12.0.0 - 05.07.2024]
+
+### Added
+- #832 added policymanagement list view, creator and editor
+- #737 Added concept: Contract table -> parts link action
+- XXX Added interceptor to EdcRestTemplates to log requests
+- #915 Added section to documentation: EDC-BPN configuration
+- #1037 Added link from contracts view to the corresponding filtered part table view
+- #1017 added file for CC BY 4.0 license for TRG 7
+- #985 Added reference to part/notification under contract
+- #786 Added icons on part table to let admin reload registry / sync assets via IRS
+- #520 Added Attribute BPN to DetailView
+- #1112 Added association int-a/int-b environment to argo workflow
+
+### Changed
+- #1070 Converted pngs of concept  into svg
+- #1070 Update project documentation to current state
+- #1070 formatting README
+- #1070 Add code coverage badges
 - #965 Implement proxy functionality of the IRS policy store
 - #962 Changed notification model to new one in frontend/backend
 - #962 Removed initial notification message for notification flow
@@ -33,22 +69,11 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #xxx fixed notification description on receiver side
 - #875 owasp dependency check tool is now used from github action image instead of maven plugin
 - XXX fixed display of semantic data model in parts as planned table
-
-
-### Added
-- #832 added policymanagement list view, creator and editor
-- #737 Added concept: Contract table -> parts link action
-- XXX Added interceptor to EdcRestTemplates to log requests
-- #915 Added section to documentation: EDC-BPN configuration
-- #1037 Added link from contracts view to the corresponding filtered part table view
-- #1017 added file for CC BY 4.0 license for TRG 7
-- #985 Added reference to part/notification under contract
-- #786 Added icons on part table to let admin reload registry / sync assets via IRS
+- #943 renamed distinctFilterValues API to searchable-values for the asBuilt, asPlanned and notification routes
+- #943 changed these endpoints to POST with body instead of GET with parameters
 
 ### Known knowns
-
 - #786 Implemented short term solution for securing EDC Callback APIs
-
 
 ### Removed
 

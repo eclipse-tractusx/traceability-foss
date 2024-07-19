@@ -32,19 +32,19 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div class="detail--action">
     <div class="detail--action--button"
-         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltip="{{ (isProcessing() ? 'routing.notificationInProcess': 'routing.unauthorized') | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE) && !isProcessing()"
     >
       <app-button
         *ngIf="actionHelperService.showEditButton(selectedNotification)"
         onkeydown="navigateToEditView()"
         (click)="navigateToEditView()"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAllowedToEdit()"
+        [isDisabled]="!actionHelperService.isAllowedToEdit() || isProcessing()"
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2" [attr.data-testid]="'edit-button-icon'">edit</mat-icon>
@@ -57,7 +57,7 @@ SPDX-License-Identifier: Apache-2.0
         onkeydown="notificationCommonModalComponent?.show(NotificationStatus.APPROVED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.APPROVED)"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE)"
+        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.APPROVE) || isProcessing()"
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2" [attr.data-testid]="'approve-button-icon'">share</mat-icon>
@@ -66,19 +66,19 @@ SPDX-License-Identifier: Apache-2.0
       </app-button>
     </div>
     <div class="detail--action--button"
-         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltip="{{ (isProcessing() ? 'routing.notificationInProcess': 'routing.unauthorized') | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL)"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL) || isProcessing()"
     >
       <app-button
         *ngIf="actionHelperService.showCancelButton(selectedNotification)"
         onkeydown="notificationCommonModalComponent?.show(NotificationStatus.CANCELED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.CANCELED)"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL)"
+        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CANCEL) || isProcessing()"
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2" [attr.data-testid]="'cancel-button-icon'">cancel</mat-icon>
@@ -87,19 +87,19 @@ SPDX-License-Identifier: Apache-2.0
       </app-button>
     </div>
     <div class="detail--action--button"
-         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltip="{{ (isProcessing() ? 'routing.notificationInProcess': 'routing.unauthorized') | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE)"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE) && !isProcessing()"
     >
       <app-button
         *ngIf="actionHelperService.showCloseButton(selectedNotification)"
         onkeydown="notificationCommonModalComponent?.show(NotificationStatus.CLOSED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.CLOSED)"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE)"
+        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.CLOSE) || isProcessing()"
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2" [attr.data-testid]="'close-button-icon'">close</mat-icon>
@@ -108,19 +108,19 @@ SPDX-License-Identifier: Apache-2.0
       </app-button>
     </div>
     <div class="detail--action--button"
-         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltip="{{ (isProcessing() ? 'routing.notificationInProcess': 'routing.unauthorized') | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT) && !isProcessing()"
     >
       <app-button
         *ngIf="actionHelperService.showAcceptButton(selectedNotification)"
         onkeydown="notificationCommonModalComponent?.show(NotificationStatus.ACCEPTED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.ACCEPTED)"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT)"
+        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACCEPT) || isProcessing()"
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2" [attr.data-testid]="'accept-button-icon'">assignment_turned_in</mat-icon>
@@ -129,19 +129,19 @@ SPDX-License-Identifier: Apache-2.0
       </app-button>
     </div>
     <div class="detail--action--button"
-         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltip="{{ (isProcessing() ? 'routing.notificationInProcess': 'routing.unauthorized') | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE) && !isProcessing()"
     >
       <app-button
         *ngIf="actionHelperService.showAcknowledgeButton(selectedNotification)"
         onkeydown="notificationCommonModalComponent?.show(NotificationStatus.ACKNOWLEDGED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.ACKNOWLEDGED)"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE)"
+        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.ACKNOWLEDGE) || isProcessing()"
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2" [attr.data-testid]="'acknowledge-button-icon'">work</mat-icon>
@@ -150,19 +150,19 @@ SPDX-License-Identifier: Apache-2.0
       </app-button>
     </div>
     <div class="detail--action--button"
-         matTooltip="{{'routing.unauthorized' | i18n}}"
+         matTooltip="{{ (isProcessing() ? 'routing.notificationInProcess': 'routing.unauthorized') | i18n}}"
          matTooltipClass="table--header--tooltip"
          matTooltipPosition="above"
          [class.mdc-tooltip--multiline]="true"
          [matTooltipShowDelay]="1000"
-         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE)"
+         [matTooltipDisabled]="actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE) && !isProcessing()"
     >
       <app-button
         *ngIf="actionHelperService.showDeclineButton(selectedNotification)"
         onkeydown="notificationCommonModalComponent?.show(NotificationStatus.DECLINED)"
         (click)="notificationCommonModalComponent?.show(NotificationStatus.DECLINED)"
         [color]="'primary'"
-        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE)"
+        [isDisabled]="!actionHelperService.isAuthorizedForButton(NotificationAction.DECLINE) || isProcessing()"
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2" [attr.data-testid]="'decline-button-icon'">assignment_late</mat-icon>

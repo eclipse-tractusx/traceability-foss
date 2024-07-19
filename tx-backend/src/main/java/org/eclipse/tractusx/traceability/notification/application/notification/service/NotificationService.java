@@ -21,11 +21,11 @@ package org.eclipse.tractusx.traceability.notification.application.notification.
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
-import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
-import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
+import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -50,5 +50,5 @@ public interface NotificationService {
 
     PageResult<Notification> getNotifications(Pageable pageable, SearchCriteria searchCriteria);
 
-    List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, NotificationSide side);
+    List<String> getSearchableValues(String fieldName, String startWith, Integer size, NotificationSide side);
 }

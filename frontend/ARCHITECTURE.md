@@ -6,7 +6,7 @@ Modular code is essentially the ability to arrange information in a categorical 
 
 This is the basic idea of how our modules are separated.
 
-<img alt="Modular design" src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/modular_design.png">
+<img alt="Modular design" src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/modular_design.svg">
 
 The `Core Module` is designed for the all basic and core functionalities of the application.
 The singleton services, the universal components and other features where there’s only one instance per application must be stored in the
@@ -52,7 +52,7 @@ The system is decomposed into three different layers. The idea is to place prope
 - Abstraction layer
 - Presentation layer
 
-<img alt="Layers" src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/architecture.png">
+<img alt="Layers" src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/architecture.svg">
 
 This division of the system also dictates communication rules. For example, the presentation layer can talk to the core layer only through the abstraction layer.
 

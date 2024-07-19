@@ -162,7 +162,7 @@ Only after the code is stable it can be merged to main.
   - MUST contain : Issue ID in the format #XXX
   - MUST contain: Subject of issue (Abbreviation of pbi summary without using spaces / use "-" to connect)
 
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/github-flow-branching-model.jpeg" height="60%" width="60%"/>
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/github-flow-branching-model.svg" height="60%" width="60%"/>
 
 ### Commit messages
 - The commit messages have to match a pattern in the form of:

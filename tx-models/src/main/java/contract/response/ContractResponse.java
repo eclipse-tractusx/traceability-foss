@@ -48,5 +48,6 @@ public class ContractResponse {
     @Schema(example = "{\\\"@id\\\":\\\"eb0c8486-914a-4d36-84c0-b4971cbc52e4\\\",\\\"@type\\\":\\\"odrl:Set\\\",\\\"odrl:permission\\\":{\\\"odrl:target\\\":\\\"registry-asset\\\",\\\"odrl:action\\\":{\\\"odrl:type\\\":\\\"USE\\\"},\\\"odrl:constraint\\\":{\\\"odrl:or\\\":{\\\"odrl:leftOperand\\\":\\\"PURPOSE\\\",\\\"odrl:operator\\\":{\\\"@id\\\":\\\"odrl:eq\\\"},\\\"odrl:rightOperand\\\":\\\"ID 3.0 Trace\\\"}}},\\\"odrl:prohibition\\\":[],\\\"odrl:obligation\\\":[],\\\"odrl:target\\\":\\\"registry-asset\\\"}", maxLength = 255)
     private String policy;
     private ContractTypeResponse contractType;
+    private String globalAssetId;
 
 }

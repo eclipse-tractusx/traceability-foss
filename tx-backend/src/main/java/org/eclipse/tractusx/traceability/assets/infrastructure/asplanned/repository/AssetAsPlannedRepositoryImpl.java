@@ -28,19 +28,21 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -101,11 +103,13 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
 
     @Override
     public AssetBase save(AssetBase asset) {
+        enrichContractAgreementsAsPlanned(List.of(asset));
         return AssetAsPlannedEntity.toDomain(jpaAssetAsPlannedRepository.save(AssetAsPlannedEntity.from(asset)));
     }
 
     @Override
     public List<AssetBase> saveAll(List<AssetBase> assets) {
+        enrichContractAgreementsAsPlanned(assets);
         return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
     }
 
@@ -125,7 +129,10 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
                     }
                     return entry.getKey();
                 })
-                .map(AssetAsPlannedEntity::from).toList();
+                .map(assetBase -> {
+                    enrichContractAgreementsAsPlanned(List.of(assetBase));
+                    return AssetAsPlannedEntity.from(assetBase);
+                }).toList();
 
         return jpaAssetAsPlannedRepository.saveAll(toPersist).stream().map(AssetAsPlannedEntity::toDomain).toList();
 
@@ -173,5 +180,18 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
             assetAsPlanned.setImportNote(importNote);
         });
         jpaAssetAsPlannedRepository.saveAll(foundAssets);
+    }
+
+
+    private void enrichContractAgreementsAsPlanned(List<AssetBase> assets) {
+
+        assets.forEach(assetBase -> {
+            Optional<AssetAsPlannedEntity> byId = jpaAssetAsPlannedRepository.findById(assetBase.getId());
+            if (byId.isPresent()) {
+                List<ContractAgreement> contractAgreements = new ArrayList<>(ContractAgreement.fromAsPlannedEntityToContractAgreements(byId.get().getContractAgreements()));
+                contractAgreements.add(ContractAgreement.toDomain(assetBase.getLatestContractAgreementId(), assetBase.getId(), ContractType.ASSET_AS_PLANNED));
+                assetBase.setContractAgreements(contractAgreements);
+            }
+        });
     }
 }

@@ -41,8 +41,8 @@ import { TableSettingsService } from '@core/user/table-settings.service';
 import { UserService } from '@core/user/user.service';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
-import { ImportState, Part } from '@page/parts/model/parts.model';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
+import { ImportState, Part } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
@@ -174,6 +174,11 @@ export class PartsTableComponent implements OnInit {
     const selected = this.selection.selected as Part[];
     const hasDifferentOwner = selected.some(value => value.owner !== Owner.OWN);
     return !hasDifferentOwner;
+  }
+
+  selectionContainsCustomerPart(): boolean {
+    const selected = this.selection.selected as Part[];
+    return selected.some(part => part.owner === Owner.CUSTOMER);
   }
 
   handleKeyDownQualityNotificationClicked(event: KeyboardEvent){

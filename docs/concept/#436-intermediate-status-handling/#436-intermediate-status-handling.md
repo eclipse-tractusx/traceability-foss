@@ -35,7 +35,7 @@ The frontend must be able to display more nuanced status information, while the 
 # Concept
 State machine:
 
-![Intermediate-status-handling.png](Intermediate-status-handling.png)
+![Intermediate-status-handling](Intermediate-status-handling.svg)
 
 | Step   | Description                                                                                                                                                                                                                                                                                                                                                                                                            | Resulting status shown to the user | Resulting internal status | Transition                                                                                                  |
 |--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|---------------------------|-------------------------------------------------------------------------------------------------------------|

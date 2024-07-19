@@ -119,6 +119,42 @@ DELETE_INT_RESOURCES=(
               "$ARGO_INT_B_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=tracex-int-b-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
 
             )
+
+
+DELETE_ASSOCIATION_INT_RESOURCES=(
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-backend-postgresql-int-a-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-backend-postgresql-int-a&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-edc-consumer-postgresql-int-a-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-edc-consumer-postgresql-int-a&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE/resource?group=apps&force=false&orphan=false&resourceName=tx-backend-int-a&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE/resource?group=apps&force=false&orphan=false&resourceName=tx-edc-consumer-int-a-controlplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-edc-consumer-int-a-dataplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_EDC_PROVIDER/resource?force=false&orphan=false&resourceName=data-tx-edc-provider-postgresql-int-a-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_EDC_PROVIDER/resource?group=apps&force=true&orphan=false&resourceName=tx-edc-provider-postgresql-int-a&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_EDC_PROVIDER/resource?group=apps&force=false&orphan=false&resourceName=tx-edc-provider-int-a-controlplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_EDC_PROVIDER/resource?group=apps&force=false&orphan=false&resourceName=tx-edc-provider-int-a-dataplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-registry-int-a-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-registry-int-a-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-int-a&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_A_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=trace-x-int-a-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
+
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-backend-postgresql-int-b-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-backend-postgresql-int-b&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE/resource?force=false&orphan=false&resourceName=data-tx-edc-consumer-postgresql-int-b-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-edc-consumer-postgresql-int-b&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE/resource?group=apps&force=false&orphan=false&resourceName=tx-backend-int-b&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE/resource?group=apps&force=false&orphan=false&resourceName=tx-edc-consumer-int-b-controlplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE/resource?group=apps&force=true&orphan=false&resourceName=tx-edc-consumer-int-b-dataplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_EDC_PROVIDER/resource?force=false&orphan=false&resourceName=data-tx-edc-provider-postgresql-int-b-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_EDC_PROVIDER/resource?group=apps&force=true&orphan=false&resourceName=tx-edc-provider-postgresql-int-b&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_EDC_PROVIDER/resource?group=apps&force=false&orphan=false&resourceName=tx-edc-provider-int-b-controlplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_EDC_PROVIDER/resource?group=apps&force=false&orphan=false&resourceName=tx-edc-provider-int-b-dataplane&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_REGISTRY/resource?force=false&orphan=false&resourceName=data-tracex-registry-int-b-postgresql-0&version=v1&kind=PersistentVolumeClaim&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_REGISTRY/resource?group=apps&force=true&orphan=false&resourceName=tracex-registry-int-b-postgresql&version=v1&kind=StatefulSet&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_REGISTRY/resource?group=apps&force=false&orphan=false&resourceName=tracex-registry-int-b&version=v1&kind=Deployment&namespace=product-traceability-foss"
+              "$ARGO_ASSOCIATION_INT_B_SUBMODELSERVER/resource?group=apps&force=false&orphan=false&resourceName=trace-x-int-b-submodelserver-submodelservers&version=v1&kind=Deployment&namespace=product-traceability-foss"
+
+            )
 SYNC_DEV_TEST_RESOURCES=(
               "$ARGO_TEST_REGISTRY/sync"
               "$ARGO_TEST_EDC_PROVIDER/sync"
@@ -152,6 +188,18 @@ SYNC_INT_RESOURCES=(
               "$ARGO_INT_B_SUBMODELSERVER/sync"
               "$ARGO_INT_B_TRACE_X_INSTANCE/sync"
 )
+
+SYNC_ASSOCIATION_INT_RESOURCES=(
+              "$ARGO_ASSOCIATION_INT_A_REGISTRY/sync"
+              "$ARGO_ASSOCIATION_INT_A_EDC_PROVIDER/sync"
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE/sync"
+              "$ARGO_ASSOCIATION_INT_A_SUBMODELSERVER/sync"
+
+              "$ARGO_ASSOCIATION_INT_B_REGISTRY/sync"
+              "$ARGO_ASSOCIATION_INT_B_EDC_PROVIDER/sync"
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE/sync"
+              "$ARGO_ASSOCIATION_INT_B_SUBMODELSERVER/sync"
+)
 DEV_TEST_RESOURCES=(
               "$ARGO_TEST_REGISTRY"
               "$ARGO_TEST_EDC_PROVIDER"
@@ -184,6 +232,19 @@ INT_RESOURCES=(
               "$ARGO_INT_B_EDC_PROVIDER"
               "$ARGO_INT_B_TRACE_X_INSTANCE"
               "$ARGO_INT_B_SUBMODELSERVER"
+)
+
+
+ASSOCIATION_INT_RESOURCES=(
+              "$ARGO_ASSOCIATION_INT_A_REGISTRY"
+              "$ARGO_ASSOCIATION_INT_A_EDC_PROVIDER"
+              "$ARGO_ASSOCIATION_INT_A_TRACE_X_INSTANCE"
+              "$ARGO_ASSOCIATION_INT_A_SUBMODELSERVER"
+
+              "$ARGO_ASSOCIATION_INT_B_REGISTRY"
+              "$ARGO_ASSOCIATION_INT_B_EDC_PROVIDER"
+              "$ARGO_ASSOCIATION_INT_B_TRACE_X_INSTANCE"
+              "$ARGO_ASSOCIATION_INT_B_SUBMODELSERVER"
 )
 
 

@@ -19,18 +19,16 @@
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import notification.response.NotificationResponse;
 import org.awaitility.Durations;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import static org.awaitility.Awaitility.await;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import static org.awaitility.Awaitility.await;
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.SUBMODEL_REST_TEMPLATE;
 
 @Slf4j

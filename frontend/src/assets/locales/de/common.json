@@ -13,8 +13,10 @@
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
     "adminPolicies" : "Richtlinienverwaltung",
-    "partMismatch": "Die ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Eigen, Lieferant)",
+    "partMismatch" : "Alle ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Lieferant/Eigene).",
+    "hasCustomerPart" : "Die Erstellung eines Qualitätsthemas für Kundenteile ist nicht möglich. Alle ausgewählten Teile müssen vom selben Eigentümer sein (Lieferant/Eigene).",
     "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
+    "notificationInProcess" : "Aktionen für Qualitätsthemen sind während dem Verarbeitungsprozess nicht verfügbar.",
     "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
     "noChildPartsForInvestigation": "Diese Funktion ist für Produkte ohne Bauteile nicht verfügbar.",
     "noCustomerAsPlannedParts": "Produkte von Kunden im Lebenszyklus \"AsPlanned\" sind nicht verfügbar.",
@@ -22,12 +24,12 @@
     "syncSelectedParts" : "Synchronisierung der ausgewählten Parts",
     "refreshAllParts" : "Synchronisierung aller Parts",
     "adminContract": "Verträge",
-    "createIncident": "Mitteilung erstellen",
+    "createIncident" : "Qualitätsthema erstellen",
     "startInvestigation": "Qualitätsuntersuchung für Bauteile erstellen",
-    "notAllowedForNonPersistentPart": "Qualitätsmitteilungen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
+    "notAllowedForNonPersistentPart" : "Qualitätsthemen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
     "onlyAllowedForOwnParts": "Diese Funktion ist nur für eigene Produkte möglich.",
     "publishAssets": "Produkt veröffentlichen",
-    "notAuthorizedOwner": "Qualitätsmitteilungen sind nur für Eigene- und Lieferantenprodukte möglich."
+    "notAuthorizedOwner" : "Qualitätsthemen sind nur für Eigene- und Lieferantenprodukte möglich."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -75,7 +77,8 @@
     "viewParts" : "Produkt ansehen",
     "viewNotifications" : "Qualitätsthema ansehen",
     "viewPartsTooltip" : "Produkt unter diesem Vertrag ansehen",
-    "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen"
+    "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen",
+    "notificationInProgress" : "Qualitätsthema befindet sich im Verarbeitungsstatus"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",
@@ -152,7 +155,7 @@
       "manufacturingCountry": "Produktionsland",
       "validityPeriodFrom": "Gültigkeit von",
       "validityPeriodTo": "Gültigkeit bis",
-      "childInvestigation": "Qualitätsprüfung",
+      "childInvestigation" : "Qualitätsthema",
       "description": "Beschreibung",
       "status": "Status",
       "targetDate": "Rückmeldedatum",
@@ -248,7 +251,7 @@
 
   },
   "requestInvestigations": {
-    "headline": "Qualitätsprüfung anfordern",
+    "headline" : "Qualitätsuntersuchung anfordern",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
     "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
     "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",
@@ -294,6 +297,17 @@
     "save" : "Qualitätsthema speichern",
     "successfullyApproved" : "Qualitätsthema wurde erfolgreich genehmigt.",
     "failedApprove" : "Qualitätsthema konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
+    "successfullyAccepted" : "Qualitätsthema wurde erfolgreich akzeptiert.",
+    "successfullyAcknowledged" : "Qualitätsthema wurde erfolgreich bestätigt.",
+    "successfullyCanceled" : "Qualitätsthema wurde erfolgreich abgebrochen.",
+    "successfullyClosed" : "Qualitätsthema wurde erfolgreich abgeschlossen.",
+    "successfullyDeclined" : "Qualitätsthema wurde erfolgreich abgelehnt.",
+    "failedAccepted" : "Qualitätsthema konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
+    "failedAcknowledged" : "Qualitätsthema konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
+    "failedApproved" : "Qualitätsthema konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
+    "failedCanceled" : "Qualitätsthema konnte nicht abgebrochen werden, bitte versuchen Sie es erneut.",
+    "failedClosed" : "Qualitätsthema konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
+    "failedDeclined" : "Qualitätsthema konnte nicht abgelehnt werden, bitte versuchen Sie es erneut.",
     "noChanges" : "Erfordert eine Änderung am Qualitätsthema"
   },
   "editNotification": {
@@ -399,9 +413,9 @@
       "successfullyDeclined": "Qualitätswarnung wurde erfolgreich abgelehnt.",
       "failedAccept": "Qualitätswarnung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
       "failedAcknowledge": "Qualitätswarnung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
-      "failedApprove": "Die Qualitätswarnung konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
-      "failedCancel": "Die Qualitätswarnung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
-      "failedClose": "Die Qualitätswarnung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
+      "failedApprove" : "Qualitätswarnung konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
+      "failedCancel" : "Qualitätswarnung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
+      "failedClose" : "Qualitätswarnung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
       "failedDecline": "Qualitätswarnung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
     }
   },

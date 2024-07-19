@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.notification.domain.base.model;
 
 import io.swagger.annotations.ApiModel;
-import lombok.Getter;
 import notification.request.NotificationSeverityRequest;
 
 

@@ -1,4 +1,64 @@
 # Compatibility matrix Trace-X
+## Trace-X UNRELEASED [xx.x.x](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/x.x.x) - 2024-xx-xx
+
+### Catena-X Release?
+
+- [] yes
+- [] no
+
+### Helm Version [x.x.x](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-x.x.x)
+
+| Dependency       | Name of Service              | Version              | Helm     | Comments                                            |
+|------------------|------------------------------|----------------------|----------|-----------------------------------------------------|
+| EDC              | edc-postgresql               | 15.4.0-debian-11-r45 | 12.12.10 | Enterprise Data Connector for PostgreSQL            |
+| IRS              | item-relationship-service    | 5.3.0                | 7.3.1    | Helm charts for Item Relationship Service           |
+| EDC              | tractusx-connector           | 0.7.3                | 0.7.3    | Connector for Data Transfer and Registration        |
+| Discovery Finder | discovery service            | 0.2.5                | -        | Service for discovering and registering artifacts   |
+| Portal           | portal                       | 1.8.0                | -        | Web portal for interacting with Trace-X             |
+| SD-Factory       | SD-Factory                   | 2.1.7                | -        | Service Discovery Factory for managing dependencies |
+| Registry         | sldt-digital-twin-registry   | 0.4.1                | 0.4.9    | Digital Twin Registry                               |
+| Submodel Server  | submodelservers              | 0.1.0                | 0.0.1    | Submodel Server                                     |
+| Aspect Model     | SerialPart                   | 3.0.0                | -        |                                                     |
+| Aspect Model     | Batch                        | 3.0.0                | -        |                                                     |
+| Aspect Model     | PartAsPlanned                | 2.0.0                | -        |                                                     |
+| Aspect Model     | PartSiteInformationAsPlanned | 1.0.0                | -        |                                                     |
+| Aspect Model     | JustInSequencePart           | 3.0.0                | -        |                                                     |
+| Aspect Model     | TractionBatteryCode          | 2.0.0                | -        |                                                     |
+| Aspect Model     | SingleLevelUsageAsBuilt      | 3.0.0                | -        |                                                     |
+| Aspect Model     | SingleLevelBomAsBuilt        | 3.0.0                | -        |                                                     |
+| Aspect Model     | SingleLevelBomAsPlanned      | 3.0.0                | -        |
+
+## Trace-X version [12.0.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/12.0.0) - 2024-07-05
+
+### Catena-X Release?
+
+- [] yes
+- [x] no
+
+### Helm Version [1.3.40](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.40)
+
+| Dependency       | Name of Service              | Version              | Helm     | Comments                                            |
+|------------------|------------------------------|----------------------|----------|-----------------------------------------------------|
+| EDC              | edc-postgresql               | 15.4.0-debian-11-r45 | 12.12.10 | Enterprise Data Connector for PostgreSQL            |
+| IRS              | item-relationship-service    | 5.1.4                | 7.1.4    | Helm charts for Item Relationship Service           |
+| EDC              | tractusx-connector           | 0.7.0                | 0.7.0    | Connector for Data Transfer and Registration        |
+| Discovery Finder | discovery service            | 0.2.5                | -        | Service for discovering and registering artifacts   |
+| Portal           | portal                       | 1.8.0                | -        | Web portal for interacting with Trace-X             |
+| SD-Factory       | SD-Factory                   | 2.1.7                | -        | Service Discovery Factory for managing dependencies |
+| Registry         | sldt-digital-twin-registry   | 0.4.1                | 0.4.9    | Digital Twin Registry                               |
+| Submodel Server  | submodelservers              | 0.1.0                | 0.0.1    | Submodel Server                                     |
+| Aspect Model     | SerialPart                   | 3.0.0                | -        |                                                     |
+| Aspect Model     | Batch                        | 3.0.0                | -        |                                                     |
+| Aspect Model     | PartAsPlanned                | 2.0.0                | -        |                                                     |
+| Aspect Model     | PartSiteInformationAsPlanned | 1.0.0                | -        |                                                     |
+| Aspect Model     | JustInSequencePart           | 3.0.0                | -        |                                                     |
+| Aspect Model     | TractionBatteryCode          | 2.0.0                | -        |                                                     |
+| Aspect Model     | SingleLevelUsageAsBuilt      | 3.0.0                | -        |                                                     |
+| Aspect Model     | SingleLevelBomAsBuilt        | 3.0.0                | -        |                                                     |
+| Aspect Model     | SingleLevelBomAsPlanned      | 3.0.0                | -        |
+
+
+
 ## Trace-X version [11.0.2](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/11.0.2) - 2024-05-29
 
 ### Catena-X Release?

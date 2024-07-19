@@ -31,6 +31,7 @@ import {
 } from '@shared/components/table/table.model';
 import { Notification, NotificationFilter, Notifications, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -70,6 +71,9 @@ export class NotificationTabComponent implements AfterViewInit {
   public tableConfig: TableConfig<keyof Notification>;
 
   notificationFilter: NotificationFilter;
+
+  constructor(public readonly notificationProcessingService: NotificationProcessingService) {
+  }
 
   public ngAfterViewInit(): void {
 

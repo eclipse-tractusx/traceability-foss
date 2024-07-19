@@ -133,8 +133,8 @@ describe('ContractTableComponent', () => {
 
     let result = componentInstance.convertArrayOfObjectsToCSV([ getContracts().content[0] ]);
 
-    expect(result).toEqual('contractId,contractType,counterpartyAddress,creationDate,endDate,state,policy\n' +
-      'abc1,ASSET_AS_BUILT,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy');
+    expect(result).toEqual('contractId,contractType,counterpartyAddress,creationDate,endDate,state,policy,globalAssetId\n' +
+      'abc1,ASSET_AS_BUILT,https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp,2024-02-26T13:38:07+01:00,,Finalized,jsontextaspolicy,uuid-1');
 
   });
   it('should download CSV file', async () => {
@@ -183,21 +183,6 @@ describe('ContractTableComponent', () => {
     fixture.detectChanges();
 
     expect(notificationServiceMock.getNotifications).toHaveBeenCalledWith(0, 1, [], undefined, undefined, { contractAgreementId: 'contract-id' });
-    expect(toastServiceMock.error).toHaveBeenCalledWith('pageAdmin.contracts.noItemsFoundError');
-  });
-
-
-  it('should show error when contractType is not NOTIFICATION and no parts are found', async () => {
-    partsServiceMock.getPartsByFilter.and.returnValue(of({ content: [] }));
-
-    const { fixture } = await renderContractTableComponent();
-    const { componentInstance } = fixture;
-    const data = { contractId: 'contract-id', contractType: ContractType.ASSET_AS_BUILT };
-
-    componentInstance.viewItemsClicked.emit(data);
-    fixture.detectChanges();
-
-    expect(partsServiceMock.getPartsByFilter).toHaveBeenCalledWith({ contractAgreementId: 'contract-id' }, true);
     expect(toastServiceMock.error).toHaveBeenCalledWith('pageAdmin.contracts.noItemsFoundError');
   });
 

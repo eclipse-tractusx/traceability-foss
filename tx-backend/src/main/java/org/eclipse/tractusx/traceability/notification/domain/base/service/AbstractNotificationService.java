@@ -22,8 +22,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -44,7 +42,6 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.model.
 import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -170,7 +167,7 @@ public abstract class AbstractNotificationService implements NotificationService
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, NotificationSide side) {
+    public List<String> getSearchableValues(String fieldName, String startWith, Integer size, NotificationSide side) {
         final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
 
         if (isSupportedEnumType(fieldName)) {

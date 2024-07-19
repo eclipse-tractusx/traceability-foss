@@ -43,11 +43,11 @@ SPDX-License-Identifier: Apache-2.0
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- versions for Maven plugin -->
-        <spring-boot-maven-plugin.version>3.2.4</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>3.3.1</spring-boot-maven-plugin.version>
         <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <openapi-generator-maven-plugin.version>7.0.1</openapi-generator-maven-plugin.version>
         <maven-jxr-plugin.version>3.3.2</maven-jxr-plugin.version>
-        <ascii-doctor.maven.plugin.version>2.2.4</ascii-doctor.maven.plugin.version>
+        <ascii-doctor.maven.plugin.version>3.0.0</ascii-doctor.maven.plugin.version>
         <checkstyle-plugin.version>3.3.1</checkstyle-plugin.version>
         <findsecbugs-plugin.version>1.13.0</findsecbugs-plugin.version>
         <commons-compress.version>1.26.1</commons-compress.version>
@@ -56,12 +56,11 @@ SPDX-License-Identifier: Apache-2.0
         <jar-plugin.version>3.3.0</jar-plugin.version>
         <owasp-plugin.version>9.0.9</owasp-plugin.version>
         <spotbugs-plugin.version>4.8.5.0</spotbugs-plugin.version>
-        <maven-project-info-reports-plugin.version>3.5.0</maven-project-info-reports-plugin.version>
+        <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
         <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
-        <edc-library.version>0.2.1</edc-library.version>
         <!-- versions for 3rd party dependecies -->
         <logback.version>1.5.6</logback.version>
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
@@ -90,7 +89,7 @@ SPDX-License-Identifier: Apache-2.0
         <junit-bom.version>5.10.2</junit-bom.version>
         <awaitility.version>4.2.1</awaitility.version>
         <!-- TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978 update to the cx release version of irs lib IMPORTANT NO SNAPSHOT-->
-        <irs-client-lib.version>2.1.1</irs-client-lib.version>
+        <irs-client-lib.version>2.1.9</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>

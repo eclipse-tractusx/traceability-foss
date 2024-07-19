@@ -56,7 +56,8 @@
       "jsonViewer": "Json Ansicht",
       "jsonTreeViewer" : "Json-Baumansicht",
       "contractType" : "Vertragsart",
-      "noItemsFoundError" : "Es wurden keine Einträge unter dem selektierten Vertrag gefunden."
+      "noItemsFoundError" : "Es wurden keine Einträge unter dem selektierten Vertrag gefunden.",
+      "globalAssetId" : "Globale Produkt ID"
     },
     "policyManagement" : {
       "policyManagement" : "Richtlinienverwaltung",

@@ -21,12 +21,11 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
@@ -34,9 +33,13 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -51,12 +54,12 @@ public class JobRepositoryImpl implements JobRepository {
     private final TraceabilityProperties traceabilityProperties;
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
-
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
 
     private final IrsResponseAssetMapper assetMapperFactory;
 
     private final JobClient jobClient;
+    private final ObjectMapper objectMapper;
 
     public JobRepositoryImpl(
             JobClient jobClient,
@@ -64,12 +67,14 @@ public class JobRepositoryImpl implements JobRepository {
             @Qualifier("assetAsBuiltRepositoryImpl")
             AssetCallbackRepository assetAsBuiltCallbackRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
-            AssetCallbackRepository assetAsPlannedCallbackRepository, IrsResponseAssetMapper assetMapperFactory) {
+            AssetCallbackRepository assetAsPlannedCallbackRepository,
+            IrsResponseAssetMapper assetMapperFactory, ObjectMapper objectMapper) {
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
         this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
         this.jobClient = jobClient;
         this.assetMapperFactory = assetMapperFactory;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -96,7 +101,6 @@ public class JobRepositoryImpl implements JobRepository {
 
         if (jobCompleted(jobResponseIRS.jobStatus())) {
             List<AssetBase> assets = assetMapperFactory.toAssetBaseList(jobResponseIRS);
-
             assets.forEach(assetBase -> {
                 if (assetBase.getBomLifecycle() == AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
@@ -108,9 +112,35 @@ public class JobRepositoryImpl implements JobRepository {
     }
 
     void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
-        repository.save(asset);
+        try {
+            enrichAssetBaseByContractAgreements(repository, asset);
+            repository.save(asset);
+        } catch (DataIntegrityViolationException ex) {
+            //retry save in case of ERROR: duplicate key value violates unique constraint "asset_pkey"
+            log.info("Asset with id {} already exists in the database. The record will be updated instead.", asset.getId());
+            repository.save(asset);
+        }
     }
 
+    private void enrichAssetBaseByContractAgreements(AssetCallbackRepository repository, AssetBase asset) {
+        Optional<AssetBase> byId = repository.findById(asset.getId());
+        List<ContractAgreement> agreementsToAdd = new ArrayList<>();
+        byId.ifPresent(assetBase -> agreementsToAdd.addAll(assetBase.getContractAgreements()));
+        try {
+            log.info("Found the following existing contractAgreements {}", this.objectMapper.writeValueAsString(agreementsToAdd));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        ContractType contractType = asset.getSemanticDataModel().isAsBuilt() ? ContractType.ASSET_AS_BUILT : ContractType.ASSET_AS_PLANNED;
+        agreementsToAdd.add(ContractAgreement.toDomain(asset.getLatestContractAgreementId(), asset.getId(), contractType));
+        asset.setContractAgreements(agreementsToAdd);
+        try {
+            log.info("Found the following NEW contractAgreements {}", this.objectMapper.writeValueAsString(agreementsToAdd));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static boolean jobCompleted(JobStatus jobStatus) {
         return JOB_STATUS_COMPLETED.equals(jobStatus.state());

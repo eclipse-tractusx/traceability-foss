@@ -1,0 +1,37 @@
+name: "Update OpenAPI spec"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-spec:
+    runs-on: ubuntu-latest
+    env:
+      SWAGGERHUB_API_KEY: ${{ secrets.SWAGGERHUB_API_KEY }}
+      SWAGGERHUB_USER: ${{ secrets.SWAGGERHUB_USER }}
+      SPEC_FILE: docs/api/traceability-foss-backend.json
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Update OpenAPI spec
+        run: mvn test -B -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
+
+      - name: Create pull request for OpenAPI spec update
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(release): updated OpenAPI spec"
+          branch: chore/update-openapi-spec
+          base: main
+          delete-branch: true
+          title: "chore: update OpenAPI spec"
+          body: |
+            This PR updates the OpenAPI spec. Please check whether the update was performed correctly. Unfortunately, this
+            action causes a lot of unnecessary changes which should, however, be clearly recognizable as such.
+            You may safely ignore these.
