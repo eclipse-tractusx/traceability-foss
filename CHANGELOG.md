@@ -29,6 +29,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #941 made the naming for quality notifications consistent throughout the FE app
 - #1190 store accepted policies in catalog offers on startup
 
+### Known knowns
+- #786 Implemented short term solution for securing EDC Callback APIs
+- #1190 CatalogOffers are not able to provide OR constraints therefore notifications are not processed correctly on wrong policy
+
 ## [12.0.0 - 05.07.2024]
 
 ### Added
