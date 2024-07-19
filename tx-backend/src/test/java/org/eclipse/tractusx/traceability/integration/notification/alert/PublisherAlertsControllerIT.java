@@ -156,7 +156,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(severity)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // when
@@ -307,7 +307,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description("at least 15 characters long investigation description")
                 .severity(NotificationSeverityRequest.MAJOR)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
@@ -370,7 +370,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // when
@@ -423,7 +423,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // when
@@ -489,7 +489,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // when
@@ -594,7 +594,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.ALERT)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // when

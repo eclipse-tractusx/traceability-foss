@@ -57,7 +57,7 @@ export class MockedKeycloakService extends KeycloakService {
         family_name: 'A',
         email: 'mock.user@foss.de',
         auth_time: '99999999',
-        bpn: 'BPNL00000003CML1',
+        bpn: 'BPNL000000000UKM',
         resource_access: {
           [environment.clientId]: { roles: this.mockedRoles ?? [ 'Admin' ] },
         },

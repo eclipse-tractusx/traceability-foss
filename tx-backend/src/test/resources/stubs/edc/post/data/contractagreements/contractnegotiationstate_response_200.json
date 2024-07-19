@@ -4,7 +4,7 @@
   "type": "CONSUMER",
   "protocol": "dataspace-protocol-http",
   "state": "FINALIZED",
-  "counterPartyId": "BPNL00000003CNKC",
+  "counterPartyId" : "BPNL000000000DWF",
   "counterPartyAddress": "https://test.net/api/v1/dsp",
   "callbackAddresses": [],
   "createdAt": 1716296200620,

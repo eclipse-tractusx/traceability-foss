@@ -89,7 +89,7 @@ public class AssetTestDataFactory {
                 .qualityType(QualityType.CRITICAL)
                 .owner(Owner.OWN)
                 .manufacturerName("manuName")
-                .manufacturerId("BPNL00000003CML1")
+                .manufacturerId("BPNL000000000UKM")
                 .detailAspectModels(detailAspectModels)
                 .build();
     }
@@ -123,7 +123,7 @@ public class AssetTestDataFactory {
                 .qualityType(QualityType.CRITICAL)
                 .owner(Owner.OWN)
                 .manufacturerName("manuName")
-                .manufacturerId("BPNL00000003CML1")
+                .manufacturerId("BPNL000000000UKM")
                 .detailAspectModels(detailAspectModels)
                 .build();
     }

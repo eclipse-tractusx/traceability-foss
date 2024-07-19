@@ -1,13 +1,13 @@
 @TRACEFOSS-382
 Feature: Create Request for quality investigation / store in queue
-	#h2. Remarks 
-	#* (-) Test the solution 
-	#* (-) Provide test data 
-	#* (-) TRACEFOSS-392 
-	#* (-) TRACEFOSS-384 
-	#* (-) 
+	#h2. Remarks
+	#* (-) Test the solution
+	#* (-) Provide test data
+	#* (-) TRACEFOSS-392
+	#* (-) TRACEFOSS-384
+	#* (-)
 	#
-	#h2. User story 
+	#h2. User story
 	#As a user
 	#
 	#I want to be able to create a quality investigation for selected parts with a description of the defect
@@ -32,7 +32,7 @@ Feature: Create Request for quality investigation / store in queue
 	#* correct reception of several parts in *one* investigation on receiver side
 	#* correct update of *one* investigation with several parts
 	@TRACEFOSS-1652 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TRACEFOSS-2715 @TRACEFOSS-1101 @INTEGRATION_TEST @[QualityInvestigation]
-	Scenario: [BE] Check correct processing of several parts in quality investigation 
+	Scenario: [BE] Check correct processing of several parts in quality investigation
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd,urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a'
 		And I create quality notification

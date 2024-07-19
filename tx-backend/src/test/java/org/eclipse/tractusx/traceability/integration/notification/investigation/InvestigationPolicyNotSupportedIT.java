@@ -112,7 +112,7 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // this create will be not used, since irsApiSupport.irsApiReturnsMismatchingPolicy(); returns the used policy
@@ -155,8 +155,8 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
-                .body("content[0].messages[0].errorMessage", Matchers.endsWith("did not match with policy from BPNL00000003CNKC."))
-                .body("content[0].messages[1].errorMessage", Matchers.endsWith("did not match with policy from BPNL00000003CNKC."));
+                .body("content[0].messages[0].errorMessage", Matchers.endsWith("did not match with policy from BPNL000000000DWF."))
+                .body("content[0].messages[1].errorMessage", Matchers.endsWith("did not match with policy from BPNL000000000DWF."));
 
         notificationMessageSupport.assertMessageSize(2);
 

@@ -1,7 +1,7 @@
 {
   "@id": "f0e0805b-df8d-495f-94ba-e442dcadb220",
   "@type": "dcat:Catalog",
-  "dspace:participantId": "BPNL00000003CNKC",
+  "dspace:participantId" : "BPNL000000000DWF",
   "dcat:dataset": {
     "@id": "40276218-e31b-4c35-a7c8-017e8edb702e",
     "@type": "dcat:Dataset",
@@ -86,7 +86,7 @@
     "dct:terms": "connector",
     "dct:endpointUrl": "https://test.de/api/v1/dsp"
   },
-  "participantId": "BPNL00000003CNKC",
+  "participantId" : "BPNL000000000DWF",
   "@context": {
     "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
     "edc": "https://w3id.org/edc/v0.0.1/ns/",

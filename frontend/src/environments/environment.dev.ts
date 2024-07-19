@@ -25,5 +25,5 @@ export const environment = {
   ..._environment,
   mockService: true,
   authDisabled: true,
-  bpn: 'BPNL00000003CML1'
+  bpn: 'BPNL000000000UKM',
 };

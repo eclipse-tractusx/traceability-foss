@@ -204,7 +204,7 @@ Is achieved by defining the order of the BPNLs of the desired manufacturers. See
     },
    {
     "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
-    "bpnl" : "BPNL00000003CNKC"
+       "bpnl": "BPNL00000003CNKC"
 
     }
   ]

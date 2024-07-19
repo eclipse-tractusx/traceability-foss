@@ -1,6 +1,6 @@
 {
   "validUntil": "2024-07-04T00:00:00.000000000Z",
-  "businessPartnerNumber": "BPNL00000003CNKC",
+  "businessPartnerNumber" : "BPNL000000000DWF",
   "payload": {
     "@context": {
       "odrl": "http://www.w3.org/ns/odrl/2/"

@@ -47,7 +47,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .nameAtManufacturer("Manufacturer Name")
                 .manufacturerPartId("customer123")
                 .semanticModelId("PI001")
-                .manufacturerId("BPNL00000003CML1")
+                .manufacturerId("BPNL000000000UKM")
                 .manufacturerName("manuName")
                 .nameAtCustomer("Customer Name")
                 .customerPartId("customerPartId")

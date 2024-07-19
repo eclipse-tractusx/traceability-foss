@@ -112,7 +112,7 @@ public class InvestigationPolicyExpirationIT extends IntegrationTestSpecificatio
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // this create will be not used, since irsApiSupport.irsApiReturnsExpiredPolicy(); returns the used policy

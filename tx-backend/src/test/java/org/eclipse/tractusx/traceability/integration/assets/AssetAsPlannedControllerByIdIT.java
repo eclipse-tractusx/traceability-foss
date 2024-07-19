@@ -190,7 +190,7 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
         //GIVEN
         assetsSupport.defaultAssetsAsPlannedStored();
         String existingAssetId = "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01";
-        String expectedBusinessPartner = "BPNL00000003CML1";
+        String expectedBusinessPartner = "BPNL000000000UKM";
         String expectedManufacturerName = "OEM A";
 
         //THEN

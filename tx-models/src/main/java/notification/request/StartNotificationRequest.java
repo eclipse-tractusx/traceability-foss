@@ -61,7 +61,7 @@ public class StartNotificationRequest {
 
     @NotNull(message = "Field: receiverBpn must not be null.")
     @ValidBPN
-    @Schema(example = "BPNL00000003CNKC")
+    @Schema(example = "BPNL000000000DWF")
     private String receiverBpn;
 
     @Schema(example = "ALERT")

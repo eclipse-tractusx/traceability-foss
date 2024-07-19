@@ -154,7 +154,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .title(title)
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // when
@@ -337,7 +337,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .description("at least 15 characters long investigation description")
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MAJOR)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         val investigationId = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startInvestigationRequest, 201);
@@ -395,7 +395,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // when
@@ -460,7 +460,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .affectedPartIds(partIds)
                 .description(description)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .severity(NotificationSeverityRequest.MINOR)
                 .build();
 
@@ -565,7 +565,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
                 .affectedPartIds(partIds)
                 .description(description)
                 .severity(NotificationSeverityRequest.MINOR)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .build();
 

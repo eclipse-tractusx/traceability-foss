@@ -327,14 +327,14 @@ describe('NotificationEditComponent', () => {
 
     formGroup.patchValue({
       ...formGroup.value,
-      bpn: 'BPNL00000003CML1',
+      bpn: 'BPNL000000000UKM',
       description: 'This is a test description with min 15 characters',
     });
     formGroup.markAsDirty();
     componentInstance.affectedPartIds = [ MOCK_part_1.id ];
     componentInstance.notificationFormGroupChange(formGroup);
     expect(componentInstance.isSaveButtonDisabled).toEqual(false);
-    expect(componentInstance.notificationFormGroup.value['bpn']).toEqual('BPNL00000003CML1');
+    expect(componentInstance.notificationFormGroup.value['bpn']).toEqual('BPNL000000000UKM');
 
   });
 

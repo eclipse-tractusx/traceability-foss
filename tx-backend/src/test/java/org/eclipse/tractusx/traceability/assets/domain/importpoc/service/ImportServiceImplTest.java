@@ -94,7 +94,7 @@ class ImportServiceImplTest {
         );
 
         when(assetMapper.toAssetBaseList(any())).thenReturn(List.of(createAssetAsBuiltTestdata(), createAssetAsPlannedTestdata()));
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPNL00000003CML1"));
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPNL000000000UKM"));
         importService.importAssets(multipartFile, new ImportJob(UUID.randomUUID(), Instant.now(), null, ImportJobStatus.RUNNING, List.of(), List.of()));
         verify(assetAsBuiltRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());
         verify(assetAsPlannedRepository, times(1)).saveAllIfNotInIRSSyncAndUpdateImportStateAndNote(anyList());

@@ -66,7 +66,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .description(description)
                 .title(title)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .severity(NotificationSeverityRequest.MINOR)
                 .build();
         int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
@@ -82,7 +82,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .severity(startNotificationRequest.getSeverity())
                 .description(startNotificationRequest.getDescription())
                 .title(startNotificationRequest.getTitle())
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
         // when
@@ -122,7 +122,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .description(description)
                 .title(title)
                 .type(NotificationTypeRequest.INVESTIGATION)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .severity(NotificationSeverityRequest.MINOR)
                 .build();
         int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
@@ -222,7 +222,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 .title(title)
                 .type(NotificationTypeRequest.INVESTIGATION)
                 .severity(NotificationSeverityRequest.MINOR)
-                .receiverBpn("BPNL00000003CNKC")
+                .receiverBpn("BPNL000000000DWF")
                 .build();
 
 
@@ -253,7 +253,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
                 = notificationAPISupport.getNotificationsRequest(authHeader, pageableFilterRequest);
 
         NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
-        assertThat(notificationResponse.getSendTo()).isEqualTo("BPNL00000003CNKC");
+        assertThat(notificationResponse.getSendTo()).isEqualTo("BPNL000000000DWF");
 
 
     }

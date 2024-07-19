@@ -4,7 +4,7 @@
   "type": "CONSUMER",
   "protocol": "dataspace-protocol-http",
   "state": "FINALIZED",
-  "counterPartyId": "BPNL00000003CML1",
+  "counterPartyId" : "BPNL000000000UKM",
   "counterPartyAddress": "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/dsp",
   "callbackAddresses": [],
   "createdAt": 1708590580001,

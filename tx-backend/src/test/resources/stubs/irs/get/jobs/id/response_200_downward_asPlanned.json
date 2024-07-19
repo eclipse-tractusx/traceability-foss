@@ -27,7 +27,7 @@
         "PartSiteInformationAsPlanned"
       ],
       "depth": 2,
-      "bpn": "BPNL00000003CML1",
+      "bpn" : "BPNL000000000UKM",
       "direction": "downward",
       "collectAspects": true,
       "lookupBPNs": false,
@@ -89,7 +89,7 @@
           {
             "name" : "manufacturerId",
             "subjectId" : null,
-            "value" : "BPNL00000003CML1",
+            "value" : "BPNL000000000UKM",
             "semanticId" : null
           }
         ],
@@ -175,7 +175,7 @@
           {
             "name" : "manufacturerId",
             "subjectId" : null,
-            "value" : "BPNL00000003CNKC",
+            "value" : "BPNL000000000DWF",
             "semanticId" : null
           }
         ],
@@ -261,7 +261,7 @@
           {
             "name" : "manufacturerId",
             "subjectId" : null,
-            "value" : "BPNL00000003CML1",
+            "value" : "BPNL000000000UKM",
             "semanticId" : null
           }
         ],
@@ -455,11 +455,11 @@
   ],
   "bpns" : [
     {
-      "manufacturerId" : "BPNL00000003CML1",
+      "manufacturerId" : "BPNL000000000UKM",
       "manufacturerName" : "name a"
     },
     {
-      "manufacturerId" : "BPNL00000003CNKC",
+      "manufacturerId" : "BPNL000000000DWF",
       "manufacturerName" : "name b"
     }
   ]

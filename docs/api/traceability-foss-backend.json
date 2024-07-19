@@ -142,7 +142,7 @@
                         "description": "Update successful",
                         "content": {
                             "application/json": {
-                                
+
                             }
                         }
                     },
@@ -2196,7 +2196,7 @@
                         "description": "OK.",
                         "content": {
                             "application/json": {
-                                
+
                             }
                         }
                     },
@@ -4811,7 +4811,7 @@
                         "description": "Deletion successful",
                         "content": {
                             "application/json": {
-                                
+
                             }
                         }
                     },

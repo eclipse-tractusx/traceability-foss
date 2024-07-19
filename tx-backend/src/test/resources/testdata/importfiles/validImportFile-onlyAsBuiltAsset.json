@@ -54,7 +54,7 @@
                 "createdOn": "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn": "2022-02-03T14:48:54.709Z",
                 "catenaXId": "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
-                "businessPartner": "BPNL00000003CNKC"
+                "businessPartner" : "BPNL000000000DWF"
               }
             ]
           }
@@ -64,7 +64,7 @@
           "payload": {
             "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36111",
             "customers": [
-              "BPNL00000003CNKC"
+              "BPNL000000000DWF"
             ],
 
                 "parentItems": [
@@ -76,7 +76,7 @@
                     "catenaXId": "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
                     "createdOn": "2023-04-13T14:48:54.709Z",
                     "lastModifiedOn": "2023-02-03T14:48:54.709Z",
-                    "businessPartner": "BPNL00000003CNKC",
+                    "businessPartner" : "BPNL000000000DWF",
                     "isOnlyPotentialParent": false
                   }
                 ]

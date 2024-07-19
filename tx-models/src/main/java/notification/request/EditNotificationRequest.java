@@ -44,7 +44,7 @@ public class EditNotificationRequest {
 
     @NotNull(message = "Field: receiverBpn must not be null.")
     @ValidBPN
-    @Schema(example = "BPNL00000003CNKC")
+    @Schema(example = "BPNL000000000DWF")
     private String receiverBpn;
 
     @NotNull(message = "Field: severity must not be null.")

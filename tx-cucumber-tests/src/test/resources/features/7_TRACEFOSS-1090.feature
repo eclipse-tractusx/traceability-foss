@@ -10,18 +10,18 @@ Feature: 🪓⭐[BE] Add information to notification inbox
 	# * Add an additional field for severity
 	#
 	#
-	#h3. Hint 
-	#* BPN name and severity is published over the API that it could be requested by the frontend API . 
-	#* Mapping between BPN number and company name is part of the job response of IRS. 
-	# 
-	#h3. Sprint Planning 2 
+	#h3. Hint
+	#* BPN name and severity is published over the API that it could be requested by the frontend API .
+	#* Mapping between BPN number and company name is part of the job response of IRS.
+	#
+	#h3. Sprint Planning 2
 	#* Add BPN and severity to the investigation response.
 
 	#Check if *bpn names* of *sender and receiver* are processed correctly for created quality investigations which contains following checks:
 	#* correct creation on sender side
 	#* correct reception on receiver side
 	@TRACEFOSS-1344 @TRACEFOSS-3373 @TRACEFOSS-3128 @TRACEFOSS-2910 @TEST-1217 @TRACEFOSS-2715 @TEST-904 @TRACEFOSS-1920 @TRACEFOSS-1673 @TRACEFOSS-1101 @TRACEFOSS-1139 @TRACEFOSS-1138 @INTEGRATION_TEST @[QualityInvestigation]
-	Scenario: [BE] Check correct processing of bpn names in quality investigation 
+	Scenario: [BE] Check correct processing of bpn names in quality investigation
 		When I am logged into TRACE_X_A application
 		When I use assets with ids 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
 		And I create quality notification

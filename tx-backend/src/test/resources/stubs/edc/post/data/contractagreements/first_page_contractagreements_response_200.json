@@ -26,8 +26,8 @@
       "odrl:target" : "registry-asset"
     },
     "contractSigningDate" : 1708951087,
-    "consumerId" : "BPNL00000003CML1",
-    "providerId" : "BPNL00000003CML1",
+    "consumerId" : "BPNL000000000UKM",
+    "providerId" : "BPNL000000000UKM",
     "@context" : {
       "dct" : "https://purl.org/dc/terms/",
       "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
@@ -64,8 +64,8 @@
       "odrl:target" : "registry-asset"
     },
     "contractSigningDate" : 1708951087,
-    "consumerId" : "BPNL00000003CML1",
-    "providerId" : "BPNL00000003CML1",
+    "consumerId" : "BPNL000000000UKM",
+    "providerId" : "BPNL000000000UKM",
     "@context" : {
       "dct" : "https://purl.org/dc/terms/",
       "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
@@ -102,8 +102,8 @@
       "odrl:target" : "registry-asset"
     },
     "contractSigningDate" : 1708951087,
-    "consumerId" : "BPNL00000003CML1",
-    "providerId" : "BPNL00000003CML1",
+    "consumerId" : "BPNL000000000UKM",
+    "providerId" : "BPNL000000000UKM",
     "@context" : {
       "dct" : "https://purl.org/dc/terms/",
       "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
@@ -140,8 +140,8 @@
       "odrl:target" : "registry-asset"
     },
     "contractSigningDate" : 1708951087,
-    "consumerId" : "BPNL00000003CML1",
-    "providerId" : "BPNL00000003CML1",
+    "consumerId" : "BPNL000000000UKM",
+    "providerId" : "BPNL000000000UKM",
     "@context" : {
       "dct" : "https://purl.org/dc/terms/",
       "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
@@ -178,8 +178,8 @@
       "odrl:target" : "registry-asset"
     },
     "contractSigningDate" : 1708951087,
-    "consumerId" : "BPNL00000003CML1",
-    "providerId" : "BPNL00000003CML1",
+    "consumerId" : "BPNL000000000UKM",
+    "providerId" : "BPNL000000000UKM",
     "@context" : {
       "dct" : "https://purl.org/dc/terms/",
       "tx" : "https://w3id.org/tractusx/v0.0.1/ns/",
