@@ -122,21 +122,20 @@ The commit messages have to match a pattern in the form of:
 ````
 
 ````
-fix(api):[TRACEFOSS-123] Fix summary what is fixed.
-chore(repos):[TRACEFOSS-123] Configuration change of ci cd pipeline for new repository.
-docs(arc42):[TRACEFOSS-123] Added level 1 description for runtime view.
-
-chore(helm): TRACEFOSS-1131- Moving the values under the global key - increasing the version
+fix(api):[#123] Fix summary what is fixed.
+chore(repos):[#123] Configuration change of ci cd pipeline for new repository.
+docs(arc42):[#123] Added level 1 description for runtime view.
+chore(helm):[#113] Moving the values under the global key - increasing the version
 ````
 
 ## Pull Request &  Reviews
 
-The goal is that the maximal life cycle of a pull request: 1.5 days.
+The goal is that the maximal life cycle of a pull request: 1.5 days.
 
 **Steps:**
 
 - Every developer creating a pull request is responsible to assign a reviewer.
-- Add comment for pull request with required information. 
+- Add comment for pull request with required information.
 - Please check the availability of a reviewer. The daily might be a good way to check the availability of team members.
 - If Review needs to be planned: Assign corresponding Jira ticket to reviewer, with link to pull-request
 
