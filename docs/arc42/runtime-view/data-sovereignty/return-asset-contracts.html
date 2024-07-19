@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Send quality notification</title>
+<title>Scenario 1: Return asset contract agreements</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,7 +439,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Send quality notification</h1>
+<h1>Scenario 1: Return asset contract agreements</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -451,11 +451,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This sequence diagram describes the process of sending a quality notification between traceability applications.</p>
+<p>This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="business-context_quality-investigation_send.svg" alt="business context quality investigation send" width="1660" height="1761">
+<img src="return-all-contracts.svg" alt="return all contracts" width="1105" height="554">
 </div>
 </div>
 </div>
@@ -464,30 +464,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_overview">Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For the notification feature EDC is used to push data from a sender to a receiver.
-To enable sending respective more precisely receiving a notification by a partner you need to</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Create notification endpoint for qualitynotifications/receive</p>
-</li>
-<li>
-<p>Create EDC assets</p>
-</li>
-<li>
-<p>Create EDC usage policies</p>
-</li>
-<li>
-<p>Create EDC contract definitions</p>
-</li>
-</ul>
+<p>In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
+If yes, then the requested assets will be mapped to the related contract agreement id.
+These contract agreement ids will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/{ContractAgreementId}/negotiation) to get the relevant information.</p>
 </div>
 <div class="paragraph">
-<p>Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel. With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be pushed by the sender.</p>
+<p>The contract information is then returned by the endpoint as a pageable result.</p>
 </div>
 <div class="paragraph">
-<p>In the above UML sequence diagram the sending of quality notifications from Trace-X to a receiver (any other traceability application) is described.</p>
+<p>If no asset ids are provided in the request, 50 contract agreement ids are handled by default.</p>
 </div>
 </div>
 </div>

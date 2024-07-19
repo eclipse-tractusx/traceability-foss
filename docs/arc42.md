@@ -354,7 +354,7 @@ This sequence diagram describes the process of fetching data from a DTR and the 
 Data is fetched by a Trace-X instance using Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
 For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X, a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, parts tree / parts relations.
 
-## Data Provisioning
+## Data provisioning
 
 This sequence diagrams describes the process of importing data from a Trace-X dataformat
 
@@ -433,6 +433,84 @@ The contract information is then returned by the endpoint as a pageable result.
 
 If no asset ids are provided in the request, 50 contract agreement ids are handled by default.
 
+## Policy management
+
+To ensure data sovereignty within Trace-X, companies can create policies with constraints to ensure that their data is only shared with companies that match their requirements.
+
+Policies will be used by the EDC to initiate contract negotiations. During the negotiation the EDC will compare the policies of both companies. Only if both policies are valid and the included constraints match, the data will be shared. This applies for sending and receiving of notifications and parts.
+
+After deploying Trace-X, no policies are defined for any BPNs yet. Instead, Trace-X will set up default policies. This ensures that the basic functionality of Trace-X works.
+However, to be sure that data is shared only with companies that match one’s requirements, an administrator must set up policies before sending and receiving data.
+
+The policies used for sending and receiving notifications and parts have an identical data format, so they can be used for each process interchangeably.
+The processes itself are different and will be explained here:
+
+### Policies for sending and receiving parts
+
+![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
+
+|     |     |
+| --- | --- |
+| 1, 2 | Policies can be created by administrators at any time in the administration section of Trace-X. |
+| 3 | Parts can be imported at any time in the parts section of Trace-X. They will be stored locally at first. |
+| 4 | Before connected BPNs can access the imported parts, the parts must be published to the EDC and to the Digital Twin Registry (DTR). |
+| 5 | The user must choose the policy that is used for contract negotiation of the selected parts. |
+| 6 | The policy is created in the EDC. |
+| 7 | Each part is created as a shell in the DTR. This holds all the data of the part. |
+| 8 | The created part is linked to the policy from the EDC. This is the last step of data provisioning. Trace-X A has done everything to ensure that companies that have a matching policy can access its published parts. |
+| 9 | Trace-X B wants to synchronize parts and retrieve available ones from connected BPNs. In this case Trace-X A and Trace-X B have an established connection. |
+| 10 | For part synchronization the Item Relationship Service (IRS) is requested. |
+| 11 | First the IRS must know the policies that are used by Trace-X B, so it requests them directly. |
+| 12 | Trace-X B returns a list of the configured policies depending on the configuration done by the administrator in step 2. |
+| 13 | The IRS requests the catalog from Trace-X A. In the catalog, all policies of Trace-X A are stored. |
+| 14 | The EDC of Trace-X A provides the catalog. |
+| 15 | The IRS checks the catalog for the required policies and extracts them. |
+| 16 | Now that the IRS has all the relevant policies of both companies, it can start comparing the linked policy of each part to the policy list of Trace-X B. This works by comparing the included constraints logically. If no policy matches for a part, it will not be imported. |
+| 17, 18 | If the policy of the part matches with any policy of Trace-X A, a contract agreement is created for both Trace-X A and Trace-X B. It can be viewed in the administration section of Trace-X and documents the data exchange. |
+| 19 | Now that the contract negotiation was successful, the data consumption process can take place for that part. |
+
+It’s possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For the parts that must be published with different policies, the user can repeat the process.
+
+***[Work-in-progress]*** The user may also choose parts that have already been published - they can be republished with a different policy. The process for this is identical to the regular publishing process.
+
+### Policies for sending and receiving notifications
+
+![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+
+|     |     |
+| --- | --- |
+| 1 | Policies can be created by administrators at any time in the administration section of Trace-X. In order for policies to be used for notifications the administrator must pay attention to the BPN selection of the policies, as Trace-X will choose notification policies based on that. |
+| 2 | The user sends a notification to a connected BPN. |
+| 3 | First Trace-X checks the configured policies for any valid (not expired) policies that have the BPN of the receiver in their BPN selection. ***There can only be one valid policy for each BPN.*** |
+| 4 | Trace-X takes the appropriate policyDefinition. |
+| 5 | Trace-X requests the catalog of the receiver BPN from their EDC. The catalog contains all policies of the BPN including the policies they use for sending and receiving policies. |
+| 6 | The receiver EDC returns the catalog. |
+| 7 | Trace-X extracts the required policy definition for receiving notifications from the catalog. If the receiving BPN has multiple valid ones, they all will be extracted in a list. |
+| 8 | Trace-X compares the extracted policies with its own policy definition. This works by comparing the included constraints logically. |
+| 9, 10 | If any of the policies match, a contract agreement is created and shared with the receiving EDC and the EDC of the sender. It can be viewed in the administration section of Trace-X. |
+| 11 | Finally, the notification will be sent to the receiving EDC. |
+| 12 | If no policies match, an error will be returned to the user. |
+
+#### No policies when sending notifications
+
+![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
+
+If no policies are configured for the receiving BPN and a notification is sent to that BPN, the default policy of Trace-X is used as a backup. If the default policy is accepted by the receiving BPN, the process can continue as normally and the notification can be sent. When the policy does not match and the notification can’t be sent, an administrator can create policies for the receiving BPN. Then the notification can be resent and will use the new policy.
+
+#### Expired policy when sending notifications
+
+![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
+
+Policies always have an expiration time. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must either update the policy. Then the policy can be resent.
+
+#### Testing policies
+
+In order to test the functionality of policies, an administrator can create a policy with test constraints for connected BPNs. When sending notifications to that BPN, the process should be blocked.
+
+To fix it, the administrator either has to replace the policy with a valid policy or the connected BPN can create an identical policy with the same test constraints. Sending the notification will work after this was done.
+
+The same applies for sending and receiving parts only then the user must choose the created test policy manually.
+
 ## Policies
 
 ### Overview
@@ -445,7 +523,7 @@ If a policy with the constraint exists and is valid, the process ends. If the po
 
 This sequence diagram describes the process of retrieving or creating policies within the IRS policy store based on the constraint given by Trace-X.
 
-![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
+![arc42_019](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_019.png)
 ```bash
 
 
@@ -461,7 +539,7 @@ The EDC policy request will be used for creating a policy for the required notif
 
 This sequence diagram describes the process of retrieving the correct policy by IRS policy store based on the constraint given by Trace-X and reuses it for creating an EDC policy.
 
-![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+![arc42_020](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_020.png)
 ```bash
 
 
@@ -475,7 +553,7 @@ The Trace-X instance uses the policy which includes the defined constraint and r
 
 This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC.
 
-![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
+![arc42_021](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_021.png)
 
 #### Scenario 4: Provisioning of assets
 
@@ -483,7 +561,7 @@ The Trace-X instance uses the policy which includes the defined constraint and r
 
 This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering EDC data assets.
 
-![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
+![arc42_022](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_022.png)
 
 #### Scenario 5: Updating notification offers when creating/deleting/updating policies
 
@@ -519,12 +597,12 @@ An overview of the scheduler tasks configured in the system.
 Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-relationship model (ERM) in its current state.
 
 ```bash
-image::./assets/arc42/arc42_019.png[]
+image::./assets/arc42/arc42_023.png[]
 ```
 
 #### Quality notifications
 
-![arc42_020](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_020.png)
+![arc42_024](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_024.png)
 ```bash
 
 ```
@@ -857,7 +935,7 @@ This section includes concrete quality scenarios to better capture the key quali
 
 The tree structure provides an overview for a sometimes large number of quality requirements.
 
-![arc42_021](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_021.png)
+![arc42_025](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_025.png)
 
 ## Quality scenarios
 

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Scenario 1: Return asset contract agreements</title>
+<title>Policy management</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,11 +439,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Scenario 1: Return asset contract agreements</h1>
+<h1>Policy management</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_overview">Overview</a></li>
+<li><a href="#_policies_for_sending_and_receiving_parts">Policies for sending and receiving parts</a></li>
+<li><a href="#_policies_for_sending_and_receiving_notifications">Policies for sending and receiving notifications</a>
+<ul class="sectlevel2">
+<li><a href="#_no_policies_when_sending_notifications">No policies when sending notifications</a></li>
+<li><a href="#_expired_policy_when_sending_notifications">Expired policy when sending notifications</a></li>
+<li><a href="#_testing_policies">Testing policies</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -451,35 +458,213 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).</p>
+<p>To ensure data sovereignty within Trace-X, companies can create policies with constraints to ensure that their data is only shared with companies that match their requirements.</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="return-all-contracts.svg" alt="return all contracts" width="1105" height="554">
+<div class="paragraph">
+<p>Policies will be used by the EDC to initiate contract negotiations. During the negotiation the EDC will compare the policies of both companies. Only if both policies are valid and the included constraints match, the data will be shared. This applies for sending and receiving of notifications and parts.</p>
 </div>
+<div class="paragraph">
+<p>After deploying Trace-X, no policies are defined for any BPNs yet. Instead, Trace-X will set up default policies. This ensures that the basic functionality of Trace-X works.
+However, to be sure that data is shared only with companies that match one&#8217;s requirements, an administrator must set up policies before sending and receiving data.</p>
+</div>
+<div class="paragraph">
+<p>The policies used for sending and receiving notifications and parts have an identical data format, so they can be used for each process interchangeably.
+The processes itself are different and will be explained here:</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview">Overview</h2>
+<h2 id="_policies_for_sending_and_receiving_parts">Policies for sending and receiving parts</h2>
 <div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="level-1.svg" alt="level 1" width="1338" height="1004">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1, 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Policies can be created by administrators at any time in the administration section of Trace-X.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Parts can be imported at any time in the parts section of Trace-X. They will be stored locally at first.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Before connected BPNs can access the imported parts, the parts must be published to the EDC and to the Digital Twin Registry (DTR).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user must choose the policy that is used for contract negotiation of the selected parts.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The policy is created in the EDC.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Each part is created as a shell in the DTR. This holds all the data of the part.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The created part is linked to the policy from the EDC. This is the last step of data provisioning. Trace-X A has done everything to ensure that companies that have a matching policy can access its published parts.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X B wants to synchronize parts and retrieve available ones from connected BPNs. In this case Trace-X A and Trace-X B have an established connection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For part synchronization the Item Relationship Service (IRS) is requested.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">First the IRS must know the policies that are used by Trace-X B, so it requests them directly.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X B returns a list of the configured policies depending on the configuration done by the administrator in step 2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The IRS requests the catalog from Trace-X A. In the catalog, all policies of Trace-X A are stored.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC of Trace-X A provides the catalog.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The IRS checks the catalog for the required policies and extracts them.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Now that the IRS has all the relevant policies of both companies, it can start comparing the linked policy of each part to the policy list of Trace-X B. This works by comparing the included constraints logically. If no policy matches for a part, it will not be imported.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17, 18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the policy of the part matches with any policy of Trace-X A, a contract agreement is created for both Trace-X A and Trace-X B. It can be viewed in the administration section of Trace-X and documents the data exchange.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Now that the contract negotiation was successful, the data consumption process can take place for that part.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the requested assets will be mapped to the related contract agreement id.
-These contract agreement ids will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/{ContractAgreementId}/negotiation) to get the relevant information.</p>
+<p>It&#8217;s possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For the parts that must be published with different policies, the user can repeat the process.</p>
 </div>
 <div class="paragraph">
-<p>The contract information is then returned by the endpoint as a pageable result.</p>
+<p><strong>[Work-in-progress]</strong> The user may also choose parts that have already been published - they can be republished with a different policy. The process for this is identical to the regular publishing process.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_policies_for_sending_and_receiving_notifications">Policies for sending and receiving notifications</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="level-1.svg" alt="level 1" width="767" height="682">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Policies can be created by administrators at any time in the administration section of Trace-X. In order for policies to be used for notifications the administrator must pay attention to the BPN selection of the policies, as Trace-X will choose notification policies based on that.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The user sends a notification to a connected BPN.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">First Trace-X checks the configured policies for any valid (not expired) policies that have the BPN of the receiver in their BPN selection. <strong>There can only be one valid policy for each BPN.</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X takes the appropriate policyDefinition.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X requests the catalog of the receiver BPN from their EDC. The catalog contains all policies of the BPN including the policies they use for sending and receiving policies.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The receiver EDC returns the catalog.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X extracts the required policy definition for receiving notifications from the catalog. If the receiving BPN has multiple valid ones, they all will be extracted in a list.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X compares the extracted policies with its own policy definition. This works by comparing the included constraints logically.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9, 10</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If any of the policies match, a contract agreement is created and shared with the receiving EDC and the EDC of the sender. It can be viewed in the administration section of Trace-X.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Finally, the notification will be sent to the receiving EDC.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If no policies match, an error will be returned to the user.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_no_policies_when_sending_notifications">No policies when sending notifications</h3>
+<div class="imageblock">
+<div class="content">
+<img src="level-1.svg" alt="level 1" width="835" height="751">
+</div>
 </div>
 <div class="paragraph">
-<p>If no asset ids are provided in the request, 50 contract agreement ids are handled by default.</p>
+<p>If no policies are configured for the receiving BPN and a notification is sent to that BPN, the default policy of Trace-X is used as a backup. If the default policy is accepted by the receiving BPN, the process can continue as normally and the notification can be sent. When the policy does not match and the notification can&#8217;t be sent, an administrator can create policies for the receiving BPN. Then the notification can be resent and will use the new policy.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_expired_policy_when_sending_notifications">Expired policy when sending notifications</h3>
+<div class="imageblock">
+<div class="content">
+<img src="level-1.svg" alt="level 1" width="739" height="677">
+</div>
+</div>
+<div class="paragraph">
+<p>Policies always have an expiration time. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must either update the policy. Then the policy can be resent.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_policies">Testing policies</h3>
+<div class="paragraph">
+<p>In order to test the functionality of policies, an administrator can create a policy with test constraints for connected BPNs. When sending notifications to that BPN, the process should be blocked.</p>
+</div>
+<div class="paragraph">
+<p>To fix it, the administrator either has to replace the policy with a valid policy or the connected BPN can create an identical policy with the same test constraints. Sending the notification will work after this was done.</p>
+</div>
+<div class="paragraph">
+<p>The same applies for sending and receiving parts only then the user must choose the created test policy manually.</p>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-19 06:47:08 UTC
+Last updated 2024-07-19 07:06:53 UTC
 </div>
 </div>
 </body>
