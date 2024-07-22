@@ -4,7 +4,7 @@
 ### Catena-X Release?
 
 - [x] yes
-- [] no
+- [ ] no
 
 ### Helm Version [1.3.42](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.42)
 
@@ -32,7 +32,7 @@
 
 ### Catena-X Release?
 
-- [] yes
+- [ ] yes
 - [x] no
 
 ### Helm Version [1.3.40](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.40)
@@ -63,7 +63,7 @@
 
 ### Catena-X Release?
 
-- [] yes
+- [ ] yes
 - [x] no
 
 ### Helm Version [1.3.39](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.39)
