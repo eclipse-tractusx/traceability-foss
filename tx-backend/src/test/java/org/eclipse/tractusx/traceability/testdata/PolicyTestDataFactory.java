@@ -25,9 +25,15 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+import policies.response.ConstraintResponse;
+import policies.response.ConstraintsResponse;
 import policies.response.IrsPolicyResponse;
 import policies.request.Payload;
 import org.jetbrains.annotations.NotNull;
+import policies.response.OperatorTypeResponse;
+import policies.response.PermissionResponse;
+import policies.response.PolicyResponse;
+import policies.response.PolicyTypeResponse;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -43,15 +49,15 @@ public class PolicyTestDataFactory {
                                 Payload.builder()
                                         .policyId(policyId)
                                         .policy(
-                                                Policy.builder()
+                                                PolicyResponse.builder()
                                                         .policyId(policyId)
                                                         .createdOn(createdOn)
                                                         .permissions(List.of(
-                                                                Permission.builder()
-                                                                        .action(PolicyType.USE)
-                                                                        .constraint(Constraints.builder()
-                                                                                .and(List.of(new Constraint(andLeftOperand, new Operator(OperatorType.EQ), andRightOperand)))
-                                                                                .or(List.of(new Constraint(orLeftOperand, new Operator(OperatorType.EQ), orRightOperand)))
+                                                                PermissionResponse.builder()
+                                                                        .action(PolicyTypeResponse.USE)
+                                                                        .constraints(ConstraintsResponse.builder()
+                                                                                .and(List.of(new ConstraintResponse(andLeftOperand,OperatorTypeResponse.EQ, andRightOperand)))
+                                                                                .or(List.of(new ConstraintResponse(orLeftOperand, OperatorTypeResponse.EQ, orRightOperand)))
                                                                                 .build())
                                                                         .build()))
                                                         .build())

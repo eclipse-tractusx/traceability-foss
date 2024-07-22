@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.policies.infrastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
@@ -31,8 +32,11 @@ import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
+import policies.response.ConstraintResponse;
+import policies.response.ConstraintsResponse;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
+import policies.response.PermissionResponse;
 import policies.response.PolicyResponse;
 
 import java.util.HashMap;
@@ -42,6 +46,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static policies.response.PolicyResponse.toDomain;
 
 @Slf4j
 @Service
@@ -138,19 +143,19 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     }
 
     private boolean checkConstraint(IrsPolicyResponse irsPolicy, String rightOperand) {
-        return emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
+        return emptyIfNull(irsPolicy.payload().policy().permissions()).stream()
                 .flatMap(this::getConstraintsStream)
-                .anyMatch(constraint -> constraint.getRightOperand().equals(rightOperand));
+                .anyMatch(constraint -> constraint.rightOperand().equals(rightOperand));
     }
 
-    private Stream<Constraint> getConstraintsStream(Permission permission) {
-        Constraints constraint = permission.getConstraint();
+    private Stream<ConstraintResponse> getConstraintsStream(PermissionResponse permission) {
+        ConstraintsResponse constraint = permission.constraints();
         if (constraint == null) {
             return Stream.empty();
         }
         return Stream.concat(
-                emptyIfNull(constraint.getAnd()).stream(),
-                emptyIfNull(constraint.getOr()).stream()
+                emptyIfNull(constraint.and()).stream(),
+                emptyIfNull(constraint.or()).stream()
         );
     }
 
@@ -181,8 +186,8 @@ public class PolicyRepositoryImpl implements PolicyRepository {
 
         // Map the IrsPolicyResponse objects to AcceptedPolicy objects
         List<AcceptedPolicy> irsPolicies = irsPolicyResponses.stream().map(response -> {
-            Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
-            return new AcceptedPolicy(policy, response.validUntil());
+            PolicyResponse policy = new PolicyResponse(response.payload().policyId(), response.payload().policy().createdOn(), response.validUntil(), response.payload().policy().permissions(), null);
+            return new AcceptedPolicy(toDomain(policy), response.validUntil());
         }).toList();
         defaultAcceptedPoliciesProvider.addAcceptedPolicies(irsPolicies);
     }

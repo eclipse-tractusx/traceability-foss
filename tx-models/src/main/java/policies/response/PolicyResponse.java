@@ -19,10 +19,12 @@
 package policies.response;
 
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import common.CustomOffsetDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -36,7 +38,22 @@ public record PolicyResponse(
         OffsetDateTime createdOn,
         @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
         OffsetDateTime validUntil,
+
+        @JsonAlias({"odrl:permission"})
         List<PermissionResponse> permissions,
         String businessPartnerNumber) {
+
+    public static Policy toDomain(PolicyResponse policyResponse){
+        if (policyResponse == null) {
+            return null;
+        }
+
+       return Policy.builder()
+                .policyId(policyResponse.policyId)
+                .createdOn(policyResponse.createdOn)
+                .validUntil(policyResponse.validUntil)
+                .permissions(PermissionResponse.toDomain(policyResponse.permissions))
+                .build();
+    }
 
 }

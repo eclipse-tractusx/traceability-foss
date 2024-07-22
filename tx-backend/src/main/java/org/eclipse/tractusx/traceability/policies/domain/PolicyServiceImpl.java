@@ -85,8 +85,9 @@ public class PolicyServiceImpl implements PolicyService {
         if(registerPolicyRequest.validUntil().isAfter(Instant.now())){
             CreatePolicyResponse policy = policyRepository.createPolicy(registerPolicyRequest);
             edcNotificationContractService.updateNotificationContractDefinitions();
-            return policy;    }
-        throw new PolicyNotValidException("Policy is expired" +registerPolicyRequest);
+            return policy;
+        }
+        throw new PolicyNotValidException("Policy is not valid because of a not accepted validUntil value " +registerPolicyRequest);
     }
 
     @Override
@@ -102,7 +103,7 @@ public class PolicyServiceImpl implements PolicyService {
         edcNotificationContractService.updateNotificationContractDefinitions();
         return;
     }
-        throw new PolicyNotValidException("Policy is expired" +updatePolicyRequest);
+        throw new PolicyNotValidException("Policy is not valid because of a not accepted validUntil value " +updatePolicyRequest);
     }
 
 

@@ -50,6 +50,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.testdata.PolicyTestDataFactory.createIrsPolicyResponse;
@@ -94,7 +95,7 @@ class EdcNotificationContractServiceTest {
         IrsPolicyResponse irsPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and");
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
+        List<PolicyResponse> policyResponses = policyMap.values().stream().flatMap(List::stream).map(entry -> entry.payload().policy()).toList();
         when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
@@ -142,7 +143,7 @@ class EdcNotificationContractServiceTest {
         IrsPolicyResponse irsPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and");
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
+        List<PolicyResponse> policyResponses = policyMap.values().stream().flatMap(List::stream).map(entry -> entry.payload().policy()).toList();
         when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
@@ -168,7 +169,7 @@ class EdcNotificationContractServiceTest {
         IrsPolicyResponse irsPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and");
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
-        List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
+        List<PolicyResponse> policyResponses = policyMap.values().stream().flatMap(List::stream).map(entry -> entry.payload().policy()).toList();
         when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
