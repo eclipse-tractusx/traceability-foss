@@ -1,8 +1,12 @@
 This application provides container images for demonstration purposes.
 
-Eclipse Tractus-X product(s) installed within the image:
+## Notice for Docker image
 
 DockerHub Backend: https://hub.docker.com/r/tractusx/traceability-foss
+
+Eclipse Tractus-X product(s) installed within the image:
+
+__Traceability-foss__
 
 - GitHub: https://github.com/eclipse-tractusx/traceability-foss
 - Project home: https://projects.eclipse.org/projects/automotive.tractusx
