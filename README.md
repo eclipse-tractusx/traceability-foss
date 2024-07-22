@@ -141,7 +141,7 @@ Please find [here](frontend/AUTHENTICATION.md) some important information about 
 
 ### Application Architecture & Patterns
 
-This [architecture](frontend/ARCHITECTURE.md) gives you a roadmap and best practices to follow when building an application
+This [Architecture](frontend/ARCHITECTURE.md) gives you a roadmap and best practices to follow when building an application
 so that you end up with a well-structured app.
 
 ### User Guide
@@ -149,13 +149,13 @@ so that you end up with a well-structured app.
 A detailed [explanation](docs/user/user-manual.adoc) of how to use the application.
 
 ### Frontend Testing Strategy
-See [TESTING](frontend/TESTING.md).
+See [Testing](frontend/TESTING.md).
 
 ## Backend Application
 
 ### Backend Prerequisites
 
-* JDK 17
+* JDK 21
 * [Docker Engine](https://docs.docker.com/engine/)
 
 ### Backend Installation
@@ -163,7 +163,7 @@ See [TESTING](frontend/TESTING.md).
 * see [Installation guide](tx-backend/INSTALL.md)
 
 ### Backend Testing Strategy
-See [TESTING](tx-backend/TESTING.md).
+See [Testing](tx-backend/TESTING.md).
 
 ## API Documentation
 The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/openapi/traceability-foss-backend.json)
