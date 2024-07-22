@@ -40,9 +40,14 @@ import policies.request.Context;
 import policies.request.Payload;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
+import policies.response.ConstraintResponse;
+import policies.response.ConstraintsResponse;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
+import policies.response.OperatorTypeResponse;
+import policies.response.PermissionResponse;
 import policies.response.PolicyResponse;
+import policies.response.PolicyTypeResponse;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -86,13 +91,14 @@ public class PolicyClient {
                     CollectionUtils.emptyIfNull(policies.get(DEFAULT_POLICY_EMPTY_PLACEHOLDER)).stream());
 
             return defaultPolicies
-                    .max(Comparator.comparing(p -> p.payload().policy().getCreatedOn()))
-                    .map(irsPolicyResponse -> IrsPolicyResponse.toResponse(irsPolicyResponse, traceabilityProperties.getBpn().value()));
+                    .max(Comparator.comparing(p -> p.payload().policy().createdOn()))
+                    .map(irsPolicyResponse -> irsPolicyResponse.payload().policy());
+
         } else {
             return policies.get(traceabilityProperties.getBpn().value())
                     .stream()
-                    .max(Comparator.comparing(p -> p.payload().policy().getCreatedOn()))
-                    .map(irsPolicyResponse -> IrsPolicyResponse.toResponse(irsPolicyResponse, traceabilityProperties.getBpn().value()));
+                    .max(Comparator.comparing(p -> p.payload().policy().createdOn()))
+                    .map(irsPolicyResponse -> irsPolicyResponse.payload().policy());
         }
 
     }
@@ -131,19 +137,19 @@ public class PolicyClient {
         Context context = Context.getDefault();
         String policyId = UUID.randomUUID().toString();
 
-        Constraint constraint = new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.EQ), traceabilityProperties.getRightOperand());
-        Constraint constraintSecond = new Constraint(traceabilityProperties.getLeftOperandSecond(), new Operator(OperatorType.EQ), traceabilityProperties.getRightOperandSecond());
+        ConstraintResponse constraint = new ConstraintResponse(traceabilityProperties.getLeftOperand(), OperatorTypeResponse.EQ, traceabilityProperties.getRightOperand());
+        ConstraintResponse constraintSecond = new ConstraintResponse(traceabilityProperties.getLeftOperandSecond(), OperatorTypeResponse.EQ, traceabilityProperties.getRightOperandSecond());
 
-        Constraints constraints = Constraints.builder()
+        ConstraintsResponse constraints = ConstraintsResponse.builder()
                 .and(List.of(constraint, constraintSecond))
                 .build();
 
-        Permission permission = Permission.builder()
-                .action(PolicyType.USE)
-                .constraint(constraints)
+        PermissionResponse permission = PermissionResponse.builder()
+                .action(PolicyTypeResponse.USE)
+                .constraints(constraints)
                 .build();
 
-        Policy policy = new Policy(policyId, Instant.now().atOffset(ZoneOffset.UTC), validUntil, List.of(permission));
+        PolicyResponse policy = new PolicyResponse(policyId, Instant.now().atOffset(ZoneOffset.UTC), validUntil, List.of(permission),null);
 
         Payload payload = new Payload(context, policyId, policy);
         RegisterPolicyRequest registerPolicyRequest = new RegisterPolicyRequest(validUntil.toInstant(), traceabilityProperties.getBpn().value(), payload);

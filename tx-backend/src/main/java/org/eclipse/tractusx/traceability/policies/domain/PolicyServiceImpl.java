@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Slf4j
@@ -51,13 +50,13 @@ public class PolicyServiceImpl implements PolicyService {
     private final EdcNotificationContractService edcNotificationContractService;
 
     @Override
-    public Map<String, List<PoliciesResponse>> getIrsPolicies() {
+    public Map<String, List<PolicyResponse>> getIrsPolicies() {
         Map<String, List<IrsPolicyResponse>> policies = policyRepository.getPolicies();
         return policies.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         entry -> entry.getValue().stream()
-                                .map(IrsPolicyResponse::toPoliciesResponse)
+                                .map(irsPolicyResponse -> irsPolicyResponse.payload().policy())
                                 .collect(Collectors.toList())
                 ));
     }
@@ -65,18 +64,21 @@ public class PolicyServiceImpl implements PolicyService {
     @Override
     public List<PolicyResponse> getPolicies() {
         Map<String, List<IrsPolicyResponse>> policies = policyRepository.getPolicies();
-        return toResponse(policies);
+        return policies.values().stream()
+                .flatMap(List::stream)
+                .map(irsPolicyResponse -> irsPolicyResponse.payload().policy())
+                .collect(Collectors.toList());
     }
 
     @Override
     public PolicyResponse getPolicy(String id) {
         Map<String, Optional<IrsPolicyResponse>> policies = policyRepository.getPolicy(id);
 
-        // Find the first entry with a present policy
-        return policies.entrySet().stream()
-                .filter(entry -> entry.getValue().isPresent())
+        return policies.values().stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(irsPolicyResponse -> irsPolicyResponse.payload().policy())
                 .findFirst()
-                .map(entry -> toResponse(entry.getValue().get(), entry.getKey()))
                 .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
     }
 

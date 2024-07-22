@@ -21,7 +21,7 @@ package policies.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import policies.response.PolicyResponse;
 
 /**
  * Payload representation for get all policies response
@@ -30,7 +30,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 public record Payload(
         @JsonProperty("@context") Context context,
         @JsonProperty("@id") String policyId,
-        Policy policy
+        PolicyResponse policy
 ) {
 
 }
