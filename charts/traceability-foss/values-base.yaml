@@ -326,6 +326,36 @@ item-relationship-service:
   edc:
     callbackurl: 'CHANGE_ME'
     catalog:
+      catalog:
+        acceptedPolicies: >
+          [{
+              "policyId": "default-policy",
+              "createdOn": "2024-07-17T16:15:14.12345678Z",
+              "validUntil": "9999-01-01T00:00:00.00000000Z",
+              "permissions": [
+                  {
+                      "action": "use",
+                      "constraint": {
+                          "and": [
+                              {
+                                  "leftOperand": "https://w3id.org/catenax/policy/FrameworkAgreement",
+                                  "operator": {
+                                      "@id": "eq"
+                                  },
+                                  "rightOperand": "traceability:1.0"
+                              },
+                              {
+                                  "leftOperand": "https://w3id.org/catenax/policy/UsagePurpose",
+                                  "operator": {
+                                      "@id": "eq"
+                                  },
+                                  "rightOperand": "cx.core.industrycore:1"
+                              }
+                          ]
+                      }
+                  }
+              ]
+          }]
       cache:
         enabled: "false"
     controlplane:
