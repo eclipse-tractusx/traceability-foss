@@ -37,6 +37,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -70,10 +71,15 @@ public class ContractViewRepositoryImpl extends ContractRepositoryImplBase imple
                     .stream()
                     .map(ContractAgreementBaseEntity.class::cast)
                     .toList();
+
+            Predicate<Contract> partsWithGlobalAssetId = contract -> contract.getGlobalAssetId() != null
+                    && (contract.getType().equals(ContractType.ASSET_AS_BUILT)
+                    || contract.getType().equals(ContractType.ASSET_AS_PLANNED));
+
             List<Contract> contracts = fetchEdcContractAgreements(baseEntities)
                     .stream()
                     .filter(contract -> contract.getContractId() != null)
-                    .filter(contract -> !(contract.getGlobalAssetId() == null && contract.getType().equals(ContractType.NOTIFICATION)))
+                    .filter(partsWithGlobalAssetId)
                     .toList();
 
             return new PageResult<>(contracts,
