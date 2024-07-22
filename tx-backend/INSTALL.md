@@ -9,9 +9,9 @@
 $ git clone https://github.com/eclipse-tractusx/traceability-foss.git
 $ cd traceability-foss
 ```
-Please note: Local deployment of the app is not supported. 
+Please note: Local deployment of the app is not supported.
 
-For deployment please find our helm chart github actions here: https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-upgrade.yaml and https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-test-backwards-compatability.yaml. Within this actions the full application is configured to start up. 
+For deployment please find our helm chart github actions here: [helm-upgrade.yaml](../.github/workflows/helm-upgrade.yaml) and [helm-test-backwards-compatability.yaml](../.github/workflows/helm-test-backwards-compatability.yaml). Within this actions the full application is configured to start up.
 
 ## OAuth2 configuration
 Product Traceability FOSS Backend relies on properly configured OAuth2 instance. In order to work, it must be configured with proper realm, clients and roles.
@@ -22,9 +22,10 @@ Users should have one of the following roles assigned:
 
 ## Helm secrets configuration
 Product Traceability FOSS Backend ships with helm charts and utilize [helm dependency](https://helm.sh/docs/helm/helm_dependency/) functionality for 3rd party components.
-In order to deploy the service following secrets needs to be provided for specific environment [see project helm environment specifc files](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss-backend):
 
-### OAuth2
+### OAuth2 Properties
+In order to deploy the service following secrets needs to be provided for specific environment [see project helm environment specifc files](../charts/traceability-foss/charts/backend/values.yaml):
+
 * `oauth2.clientId` - OAuth2 client registration id credentials
 * `oauth2.clientSecret` - OAuth2 client registration secret credentials
 
@@ -46,7 +47,7 @@ spring:
     flyway:
         clean-on-validation-error: false
 ```
-Database scripts are executed with Flyway. Put the scripts at [migration](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend/src/main/resources/db/migration)
+Database scripts are executed with Flyway. Put the scripts at [migration](src/main/resources/db/migration)
 
 * `postgresql.secret.initUserDbSql` - database initialization script, contains username and password for databases used by the service.
 Please note that the final script should be encoded using Base64 encoding and then added to a secret. Sample command:
@@ -61,7 +62,6 @@ echo -n 'CREATE ROLE trace WITH LOGIN PASSWORD 'yourPassword';\nCREATE DATABASE 
 
 ## Helm installation
 Add the Trace-X Backend Helm repository:
-
 
 ```sh
 $ helm repo add traceability-foss-backend https://eclipse-tractusx.github.io/traceability-foss-backend
