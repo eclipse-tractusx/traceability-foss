@@ -155,7 +155,7 @@ See [Testing](frontend/TESTING.md).
 
 ### Backend Prerequisites
 
-* JDK 17
+* JDK 21
 * [Docker Engine](https://docs.docker.com/engine/)
 
 ### Backend Installation
