@@ -31,7 +31,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
