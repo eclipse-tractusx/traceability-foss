@@ -1,4 +1,4 @@
-# <ins>Contributing to Eclipse Tractus-X</ins>
+# Contributing to Eclipse Tractus-X
 
 Thanks for your interest in this project.
 
@@ -15,7 +15,7 @@ Thanks for your interest in this project.
 10. [Contact](#contact)
 
 
-## <ins>Project description</ins><a name="project_description"></a>
+## Project description
 
 The companies involved want to increase the automotive industry's
 competitiveness, improve efficiency through industry-specific cooperation and
@@ -30,20 +30,20 @@ Catena-X alliance focusing on parts traceability.
 - https://projects.eclipse.org/projects/automotive.tractusx
 - https://github.com/eclipse-tractusx/traceability-foss
 
-## <ins>Project licenses</ins><a name="project_licenses"></a>
+## Project licenses
 
 The Tractus-X project uses the following licenses:
 
-* Apache-2.0 for code
-* CC-BY-4.0 for non-code
+- [Apache-2.0 for code](LICENSE)
+- [CC-BY-4.0 for non-code](LICENSE_non-code)
 
-## <ins>Terms of Use</ins><a name="terms_of_use"></a>
+## Terms of Use
 
 This repository is subject to the Terms of Use of the Eclipse Foundation
 
-* https://www.eclipse.org/legal/termsofuse.php
+- https://www.eclipse.org/legal/termsofuse.php
 
-## <ins>Developer resources</ins><a name="developer_ressources"></a>
+## Developer resources
 
 Information regarding source code management, builds, coding standards, and
 more.
@@ -52,13 +52,13 @@ more.
 
 Getting started:
 
-* https://eclipse-tractusx.github.io/docs/developer
+- https://eclipse-tractusx.github.io/docs/developer
 
 The project maintains the source code repositories in the following GitHub organization:
 
 - https://github.com/eclipse-tractusx/
 
-## <ins>Eclipse Development Process</ins><a name="eclipse_commitment"></a>
+## Eclipse Development Process
 
 This Eclipse Foundation open project is governed by the Eclipse Foundation
 Development Process and operates under the terms of the Eclipse IP Policy.
@@ -66,7 +66,7 @@ Development Process and operates under the terms of the Eclipse IP Policy.
 - https://eclipse.org/projects/dev_process
 - https://www.eclipse.org/org/documents/Eclipse_IP_Policy.pdf
 
-## <ins>Eclipse Contributor Agreement</ins><a name="eclipse_agreement"></a>
+## Eclipse Contributor Agreement
 
 In order to be able to contribute to Eclipse Foundation projects you must
 electronically sign the Eclipse Contributor Agreement (ECA).
@@ -82,7 +82,7 @@ fulfills the DCO's requirement that you sign-off on your contributions.
 For more information, please see the Eclipse Committer Handbook:
 https://www.eclipse.org/projects/handbook/#resources-commit
 
-## <ins>General contribution to the project</ins> <a name="general"></a>
+## General contribution to the project
 
 ### Maintaining [CHANGELOG.md](CHANGELOG.md)
 All notable changes to this project will be documented in this file.
@@ -104,7 +104,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### git-hooks
 Use git-hooks to ensure commit message consistency.
-Detailed pattern can be found here: [commit-msg](https://github.com/eclipse-tractusx/traceability-foss/blob/457cb3523e981ef6aed98355a7faf0ff29867c33/dev/commit-msg#L4)
+Detailed pattern can be found here: [commit-msg](dev/commit-msg#L4)
 
 #### How to use
 
@@ -128,7 +128,7 @@ docs(arc42):[#123] Added level 1 description for runtime view.
 chore(helm):[#113] Moving the values under the global key - increasing the version
 ````
 
-## Pull Request &  Reviews
+## Pull Request & Reviews
 
 The goal is that the maximal life cycle of a pull request: 1.5 days.
 
@@ -162,7 +162,7 @@ Only after the code is stable it can be merged to main.
   - MUST contain : Issue ID in the format #XXX
   - MUST contain: Subject of issue (Abbreviation of pbi summary without using spaces / use "-" to connect)
 
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/github-flow-branching-model.svg" height="60%" width="60%"/>
+![github-flow-branching-model](docs/images/github-flow-branching-model.svg "github-flow-branching-model")
 
 ### Commit messages
 - The commit messages have to match a pattern in the form of:
@@ -173,21 +173,21 @@ Examples:
 - `feature(users): #DDD description`
 - `fix: #322 make X work again`
 
-The detailed pattern can be found here: [commit-msg](https://github.com/eclipse-tractusx/traceability-foss/blob/main/dev/commit-msg)
+The detailed pattern can be found here: [commit-msg](dev/commit-msg)
 
 #### How to use
 ```shell
 cp dev/commit-msg .git/hooks/commit-msg && chmod 500 .git/hooks/commit-msg
 ```
 
-## <ins>Contributing as a Consultant</ins><a name="consultant"></a>
+## Contributing as a Consultant
 
 ### Conceptual work and specification guidelines
 1. The prerequisite for a concept is always a github issue that defines the business value and the acceptance criteria that are to be implemented with the concept
 2. Copy and rename directory /docs/#000-concept-name-template /docs/#<DDD>-<target-name>
 3. Copy file /docs/Concept_TEMPLATE.md into new directory  /docs/#<DDD>-<target-name>
 
-## <ins>Contributing as a Developer (Developer Hints)</ins><a name="developer"></a>
+## Contributing as a Developer (Developer Hints)
 
 ### Coding styles
 
@@ -225,7 +225,7 @@ By following these steps, you can connect your remote SonarCloud instance with y
 ### Frontend coding guidelines
 These guidelines are defined to maintain homogeneous code quality and style. It can be adapted as the need arises.
 
-New and old developers should regularly review this [guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/GUIDELINES.md) to update it as new points emerge and to sync themselves with the latest changes.
+New and old developers should regularly review this [guide](frontend/GUIDELINES.md) to update it as new points emerge and to sync themselves with the latest changes.
 
 #### Angular Template Attribute Convention
 

@@ -11,7 +11,7 @@ The policies used for sending and receiving notifications and parts have an iden
 The processes itself are different and will be explained here:
 
 == Policies for sending and receiving parts
-[plantuml, target=level-1, format=svg]
+[plantuml, target=data-sovereignty-publish-assets, format=svg]
 ....
 include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sovereignty-publishing-assets.puml[]
 ....
@@ -75,7 +75,7 @@ It's possible to publish parts with different policies. For this, the user must 
 **[Work-in-progress]** The user may also choose parts that have already been published - they can be republished with a different policy. The process for this is identical to the regular publishing process.
 
 == Policies for sending and receiving notifications
-[plantuml, target=level-1, format=svg]
+[plantuml, target=data-sovereignty-notifications, format=svg]
 ....
 include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sovereignty-notifications.puml[]
 ....
@@ -117,7 +117,7 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 |===
 
 === No policies when sending notifications
-[plantuml, target=level-1, format=svg]
+[plantuml, target=data-sovereignty-notifications-policy-change, format=svg]
 ....
 include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sovereignty-notifications-policy-change.puml[]
 ....
@@ -125,7 +125,7 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 If no policies are configured for the receiving BPN and a notification is sent to that BPN, the default policy of Trace-X is used as a backup. If the default policy is accepted by the receiving BPN, the process can continue as normally and the notification can be sent. When the policy does not match and the notification can't be sent, an administrator can create policies for the receiving BPN. Then the notification can be resent and will use the new policy.
 
 === Expired policy when sending notifications
-[plantuml, target=level-1, format=svg]
+[plantuml, target=data-sovereignty-expired-policy, format=svg]
 ....
 include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sovereignty-notifications-policy-expired.puml[]
 ....

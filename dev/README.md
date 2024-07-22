@@ -77,6 +77,18 @@ Sample invocation (STABLE B)
 python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-stable-b.stable.demo.catena-x.net/api/submodel -edc https://trace-x-edc-stable-b.stable.demo.catena-x.net -a https://trace-x-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-stable-b-dataplane.stable.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV  --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
 ```
 
+Sample invocation (ASSOCIATION INT A)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-int-a.int.catena-x.net/api/submodel -edc https://trace-x-edc-int-a.int.catena-x.net -a https://trace-x-registry-int-a.int.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV  --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
+```
+
+Sample invocation (ASSOCIATION INT B)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-int-b.int.catena-x.net/api/submodel -edc https://trace-x-edc-int-b.int.catena-x.net -a https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV  --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
+```
+
 where:
 
 * -f file to be used for data provisioning /tx-backend/testdata/CX_Testdata_MessagingTest_vx.x.x.json
@@ -142,24 +154,27 @@ Consists of a List of the following structured entries:
 {
     "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
     "bpnl": "BPNL00000003CML1",
-    "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship": [
+    "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt" : [
         {
-            "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
-            "childParts": [
+            "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
+            "customers" : [
+                "BPNL00000003CML1"
+            ],
+            "parentItems" : [
                 {
-                    "quantity": {
-          "quantityNumber" : 1,
-          "measurementUnit" : {
-            "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#curie",
-            "lexicalValue" : "unit:piece"
-          }
-        },
-        "lifecycleContext" : "AsBuilt",
-        "assembledOn" : "2022-02-03T14:48:54.709Z",
-        "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
-        "childCatenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
-      } ]
-    } ],
+                    "quantity" : {
+                        "value" : 1,
+                        "unit" : "unit:piece"
+                    },
+                    "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+                    "createdOn" : "2023-05-29T14:48:54.709Z",
+                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                    "businessPartner" : "BPNL00000003CML1",
+                    "isOnlyPotentialParent" : false
+                }
+            ]
+        }
+    ],
     "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : [ {
       "localIdentifiers" : [ {
         "value" : "BPNL00000003CML1",
@@ -204,7 +219,7 @@ Is achieved by defining the order of the BPNLs of the desired manufacturers. See
     },
    {
     "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
-    "bpnl" : "BPNL00000003CNKC"
+       "bpnl": "BPNL00000003CNKC"
 
     }
   ]

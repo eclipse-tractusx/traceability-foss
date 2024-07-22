@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.contracts.domain.repository.ContractRepositoryReadOnly;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementBaseEntity;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementViewEntity;
@@ -67,10 +68,14 @@ public class ContractViewRepositoryImpl extends ContractRepositoryImplBase imple
             }
             List<ContractAgreementBaseEntity> baseEntities = contractAgreementEntities.getContent()
                     .stream()
-                    .map(entity -> (ContractAgreementBaseEntity) entity)
+                    .map(ContractAgreementBaseEntity.class::cast)
                     .toList();
+            List<Contract> contracts = fetchEdcContractAgreements(baseEntities)
+                    .stream()
+                    .filter(contract -> contract.getContractId() != null)
+                    .filter(contract -> contract.getGlobalAssetId() != null && !contract.getType().equals(ContractType.NOTIFICATION)).toList();
 
-            return new PageResult<>(fetchEdcContractAgreements(baseEntities),
+            return new PageResult<>(contracts,
                     contractAgreementEntities.getPageable().getPageNumber(),
                     contractAgreementEntities.getTotalPages(),
                     contractAgreementEntities.getPageable().getPageSize(),

@@ -34,9 +34,6 @@ public class AssetsSupport {
     AssetRepositoryProvider assetRepositoryProvider;
 
     @Autowired
-    ContractRepositoryProvider contractRepositoryProvider;
-
-    @Autowired
     BpnSupport bpnSupport;
 
     @Autowired
