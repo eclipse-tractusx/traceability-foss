@@ -124,8 +124,9 @@ $ git clone git@github.com:eclipse-tractusx/traceability-foss.git
 $ cd traceability-foss/frontend
 ```
 
-Install prerequisites:
-1. install [node.js](https://nodejs.org/en/download/package-manager)
+#### Install prerequisites:
+
+install [node.js](https://nodejs.org/en/download/package-manager)
 ```bash
 $ npm install --global yarn
 $ npm install -g @angular/cli
@@ -178,7 +179,7 @@ or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swa
 Below you can find the information regarding Docker Notice for this application.
 
 - [Traceability Backend Docker Notice](DOCKER_NOTICE.md)
-- [Traceability Frontend Docker Notice](DOCKER_NOTICE.md)
+- [Traceability Frontend Docker Notice](frontend/DOCKER_NOTICE.md)
 
 ## Contact
 
