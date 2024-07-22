@@ -71,7 +71,7 @@ class ApplicationStartupConfigTest {
             applicationStartupConfig.registerIrsPolicy();
 
             // then
-            verify(edcNotificationContractService, times(4)).handle(any());
+            verify(edcNotificationContractService, times(4)).createNotificationContract(any());
         });
 
         executor.shutdown();

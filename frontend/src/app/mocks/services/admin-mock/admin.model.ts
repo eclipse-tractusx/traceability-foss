@@ -226,7 +226,8 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "creationDate": "2024-02-26T13:38:07+01:00",
         "endDate": null,
         "state": ContractState.FINALIZED,
-        "policy": "jsontextaspolicy"
+        'policy': 'jsontextaspolicy',
+        'globalAssetId': 'uuid-1',
       },
       {
         "contractId": "abc2",
@@ -235,7 +236,8 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
         "state": ContractState.FINALIZED,
-        "policy": "jsontextaspolicy"
+        'policy': 'jsontextaspolicy',
+        'globalAssetId': 'uuid-2',
       },
       {
         "contractId": "abc3",
@@ -244,7 +246,8 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
         "state": ContractState.FINALIZED,
-        "policy": "jsontextaspolicy"
+        'policy': 'jsontextaspolicy',
+        'globalAssetId': 'uuid-3',
       },
       {
         "contractId": "abc4",
@@ -253,7 +256,8 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
         "state": ContractState.FINALIZED,
-        "policy": "jsontextaspolicy"
+        'policy': 'jsontextaspolicy',
+        'globalAssetId': 'uuid-4',
       },
       {
         "contractId": "abc5",
@@ -262,7 +266,8 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
         "state": ContractState.FINALIZED,
-        "policy": "jsontextaspolicy"
+        'policy': 'jsontextaspolicy',
+        'globalAssetId': 'uuid-5',
       },
       {
         "contractId": "abc6",
@@ -271,7 +276,8 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
         "state": ContractState.FINALIZED,
-        "policy": "jsontextaspolicy"
+        'policy': 'jsontextaspolicy',
+        'globalAssetId': 'uuid-6',
       },
       {
         "contractId": "abc7",
@@ -280,7 +286,8 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
         "state": ContractState.FINALIZED,
-        "policy": "jsontextaspolicy"
+        'policy': 'jsontextaspolicy',
+        'globalAssetId': 'uuid-7',
       },
       {
         "contractId": "abc8",
@@ -289,7 +296,8 @@ export const getContracts = (): PaginationResponse<ContractResponse> => {
         "creationDate": "2022-05-01T12:34:12",
         "endDate": null,
         "state": ContractState.FINALIZED,
-        "policy": "jsontextaspolicy"
+        'policy': 'jsontextaspolicy',
+        'globalAssetId': 'uuid-8',
       },
       {
         "contractId": "abc9",

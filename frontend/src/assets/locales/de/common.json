@@ -13,7 +13,8 @@
     "adminBpn": "BPN - EDC Konfiguration",
     "adminImport": "Datenbereitstellung",
     "adminPolicies" : "Richtlinienverwaltung",
-    "partMismatch": "Die ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Eigen, Lieferant)",
+    "partMismatch" : "Alle ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Lieferant/Eigene).",
+    "hasCustomerPart" : "Die Erstellung eines Qualitätsthemas für Kundenteile ist nicht möglich. Alle ausgewählten Teile müssen vom selben Eigentümer sein (Lieferant/Eigene).",
     "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "notificationInProcess" : "Aktionen für Qualitätsthemen sind während dem Verarbeitungsprozess nicht verfügbar.",
     "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
@@ -23,12 +24,12 @@
     "syncSelectedParts" : "Synchronisierung der ausgewählten Parts",
     "refreshAllParts" : "Synchronisierung aller Parts",
     "adminContract": "Verträge",
-    "createIncident": "Mitteilung erstellen",
+    "createIncident" : "Qualitätsthema erstellen",
     "startInvestigation": "Qualitätsuntersuchung für Bauteile erstellen",
-    "notAllowedForNonPersistentPart": "Qualitätsmitteilungen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
+    "notAllowedForNonPersistentPart" : "Qualitätsthemen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
     "onlyAllowedForOwnParts": "Diese Funktion ist nur für eigene Produkte möglich.",
     "publishAssets": "Produkt veröffentlichen",
-    "notAuthorizedOwner": "Qualitätsmitteilungen sind nur für Eigene- und Lieferantenprodukte möglich."
+    "notAuthorizedOwner" : "Qualitätsthemen sind nur für Eigene- und Lieferantenprodukte möglich."
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -154,7 +155,7 @@
       "manufacturingCountry": "Produktionsland",
       "validityPeriodFrom": "Gültigkeit von",
       "validityPeriodTo": "Gültigkeit bis",
-      "childInvestigation": "Qualitätsprüfung",
+      "childInvestigation" : "Qualitätsthema",
       "description": "Beschreibung",
       "status": "Status",
       "targetDate": "Rückmeldedatum",
@@ -250,7 +251,7 @@
 
   },
   "requestInvestigations": {
-    "headline": "Qualitätsprüfung anfordern",
+    "headline" : "Qualitätsuntersuchung anfordern",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
     "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
     "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",

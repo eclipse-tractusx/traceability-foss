@@ -124,16 +124,16 @@ export class NotificationActionModalComponent {
     }
     const onConfirm = (isConfirmed: boolean) => {
       if (!isConfirmed) return;
-      this.notificationProcessingService.notificationIdsInLoadingState.add(notification.id);
+      this.notificationProcessingService.addNotificationId(notification.id);
       const reason = this.formGroup.get('reason').value;
       this.callback(desiredStatus, notification.id, reason).subscribe({
         next: () => {
-          this.notificationProcessingService.notificationIdsInLoadingState.delete(notification.id);
+          this.notificationProcessingService.deleteNotificationId(notification.id);
           this.toastService.success(modalData.successMessage);
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.notificationProcessingService.notificationIdsInLoadingState.delete(notification.id);
+          this.notificationProcessingService.deleteNotificationId(notification.id);
           this.toastService.error(modalData.errorMessage, 15000, true);
           this.confirmActionCompleted.emit();
         },

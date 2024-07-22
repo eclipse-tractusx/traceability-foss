@@ -1,5 +1,5 @@
-# ref https://github.com/catenax-ng/product-traceability-foss-backend/security/code-scanning/1419
+# ref https://github.com/eclipse-tractusx/traceability-foss-backend/security/code-scanning/1419
 CVE-2022-25857
-# ref https://github.com/catenax-ng/tx-traceability-foss/security/code-scanning/6879
+# ref https://github.com/eclipse-tractusx/traceability-foss/security/code-scanning/6879
 # this is acceptable due to custom environment variable injection script which is executed upon FE container startup
 AVD-KSV-0014

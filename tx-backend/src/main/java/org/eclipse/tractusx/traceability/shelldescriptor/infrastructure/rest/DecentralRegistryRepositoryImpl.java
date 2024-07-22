@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
 
+import io.github.resilience4j.core.functions.Either;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.Shell;
@@ -40,7 +41,8 @@ public class DecentralRegistryRepositoryImpl implements DecentralRegistryReposit
     @Override
     public List<Shell> retrieveShellDescriptorsByBpn(String bpn) {
         try {
-            return decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn).stream().toList();
+            List<Either<Exception, Shell>> list = decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn).stream().toList();
+            return list.stream().map(Either::get).toList();
         } catch (RegistryServiceException exception) {
             log.error("Could not retrieve globalAssetIds by bpn " + bpn, exception);
             return Collections.emptyList();

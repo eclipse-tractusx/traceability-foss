@@ -38,6 +38,7 @@ public class ContractResponseMapper {
     public static ContractResponse from(Contract contract) {
         return ContractResponse.builder()
                 .contractId(contract.getContractId())
+                .globalAssetId(contract.getGlobalAssetId())
                 .contractType(ContractTypeResponse.valueOf(contract.getType().name()))
                 .state(contract.getState())
                 .counterpartyAddress(contract.getCounterpartyAddress())

@@ -41,7 +41,6 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
       functionValidUntil: true,
       importState: true,
       importNote: true,
-      contractAgreementId: true,
       menu: false,
     };
 

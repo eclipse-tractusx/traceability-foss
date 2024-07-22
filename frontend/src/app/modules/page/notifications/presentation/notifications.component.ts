@@ -96,7 +96,7 @@ export class NotificationsComponent {
           this.toastService.error(`requestNotification.failed${ formatted }`, 15000, true);
         }
         this.handleConfirmActionCompletedEvent();
-        this.notificationProcessingService.notificationIdsInLoadingState.delete(result?.context?.notificationId);
+        this.notificationProcessingService.deleteNotificationId(result?.context?.notificationId);
       },
     });
   }
@@ -110,6 +110,10 @@ export class NotificationsComponent {
       this.pagination.page = params?.pageNumber;
       this.notificationsFacade.setReceivedNotifications(this.pagination.page, this.pagination.pageSize, this.notificationReceivedSortList, deeplinkNotificationFilter?.receivedFilter, this.receivedFilter);
       this.notificationsFacade.setQueuedAndRequestedNotifications(this.pagination.page, this.pagination.pageSize, this.notificationQueuedAndRequestedSortList, deeplinkNotificationFilter?.sentFilter, this.requestedFilter);
+    });
+
+    this.notificationProcessingService.doneEmit.subscribe(() => {
+      this.ngOnInit();
     });
   }
 

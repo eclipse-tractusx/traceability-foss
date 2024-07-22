@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service;
 
-import policies.response.PolicyResponse;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
@@ -31,8 +30,6 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
-import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
-import policies.response.IrsPolicyResponse;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractRequest;
@@ -40,11 +37,14 @@ import org.eclipse.tractusx.traceability.notification.application.contract.model
 import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
+import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import policies.response.IrsPolicyResponse;
+import policies.response.PolicyResponse;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -74,7 +74,7 @@ class EdcNotificationContractServiceTest {
     private EdcContractDefinitionService edcContractDefinitionService;
 
     @Mock
-    private PolicyService policyService;
+    private PolicyRepository policyRepository;
 
     @InjectMocks
     private EdcNotificationContractService edcNotificationContractService;
@@ -95,7 +95,7 @@ class EdcNotificationContractServiceTest {
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
-        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
@@ -105,7 +105,7 @@ class EdcNotificationContractServiceTest {
         when(edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId)).thenReturn(contractDefinitionId);
 
         // when
-        CreateNotificationContractResponse response = edcNotificationContractService.handle(request);
+        CreateNotificationContractResponse response = edcNotificationContractService.createNotificationContract(request);
 
         // then
         assertThat(notificationAssetId).isEqualTo(response.notificationAssetId());
@@ -129,7 +129,7 @@ class EdcNotificationContractServiceTest {
         doThrow(CreateEdcAssetException.class).when(edcNotificationAssetService).createNotificationAsset(any(), any(), any(), any());
 
         // when/then
-        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.handle(request));
+        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.createNotificationContract(request));
     }
 
     @Test
@@ -143,7 +143,7 @@ class EdcNotificationContractServiceTest {
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
-        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
@@ -153,7 +153,7 @@ class EdcNotificationContractServiceTest {
         doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class));
 
         // when/then
-        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.handle(request));
+        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.createNotificationContract(request));
         verify(edcNotificationAssetService).deleteAsset(any());
     }
 
@@ -169,7 +169,7 @@ class EdcNotificationContractServiceTest {
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
-        when(policyService.getFirstPolicyMatchingApplicationConstraint()).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
@@ -179,7 +179,7 @@ class EdcNotificationContractServiceTest {
         doThrow(CreateEdcContractDefinitionException.class).when(edcContractDefinitionService).createContractDefinition(any(), any());
 
         // when/then
-        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.handle(request));
+        assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.createNotificationContract(request));
         verify(edcPolicyDefinitionService).deleteAccessPolicy(any());
         verify(edcNotificationAssetService).deleteAsset(any());
     }

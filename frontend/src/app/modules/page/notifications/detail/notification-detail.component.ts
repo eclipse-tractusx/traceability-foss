@@ -92,9 +92,13 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
         } else if (result?.error) {
           this.toastService.error(`requestNotification.failed${ formattedStatus }`, 15000, true);
         }
-        this.notificationProcessingService.notificationIdsInLoadingState.delete(result?.context?.notificationId);
+        this.notificationProcessingService.deleteNotificationId(result?.context?.notificationId);
         this.ngAfterViewInit();
       },
+    });
+
+    this.notificationProcessingService.doneEmit.subscribe(() => {
+      this.ngAfterViewInit();
     });
 
     this.selected$ = this.notificationDetailFacade.selected$;
@@ -107,9 +111,7 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if (!this.notificationDetailFacade.selected?.data) {
-      this.selectedNotificationBasedOnUrl();
-    }
+    this.selectedNotificationBasedOnUrl();
 
     this.subscription = this.selected$
       .pipe(
