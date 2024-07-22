@@ -3,7 +3,7 @@ tractusx-connector:
   nameOverride: "tx-edc-provider-int-a"
   fullnameOverride: "tx-edc-provider-int-a"
   participant:
-    id: BPNL00000003CML1
+    id: BPNL000000000UKM
 
   iatp:
     # Decentralized IDentifier
@@ -24,7 +24,7 @@ tractusx-connector:
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
         endpoints:
           - protocol
           - management
@@ -65,7 +65,7 @@ tractusx-connector:
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
         endpoints:
           - public
         className: "nginx"

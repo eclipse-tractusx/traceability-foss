@@ -19,7 +19,7 @@
 
 configuration:
   env:
-    bpn: &bpn 'BPNL00000003CML1'
+    bpn: &bpn 'BPNL000000000DWF'
 
   frontend:
     name: &fe_name 'tx-frontend-int-b'
@@ -105,7 +105,7 @@ configuration:
   partnersPool: &partners_pool_url 'https://partners-pool.int.catena-x.net'
 
   digitalTwinRegistry:
-    allowedBpns: &allowed_bpns 'BPNL00000003CML1,BPNL00000003CNKC'
+    allowedBpns: &allowed_bpns 'BPNL000000000DWF,BPNL000000000UKM'
     url: &dtr_url 'https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3'
     descriptorEndpoint: &dtr_shell_descriptor_url 'https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/{aasIdentifier}'
     shellLookupEndpoint: &dtr_shell_lookup_url 'https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3/lookup/shells?assetIds={assetIds}'
@@ -359,7 +359,7 @@ tractusx-connector:
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
         endpoints:
           - protocol
           - management
@@ -400,7 +400,7 @@ tractusx-connector:
           cert-manager.io/cluster-issuer: "letsencrypt-prod"
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
         endpoints:
           - public
         className: "nginx"

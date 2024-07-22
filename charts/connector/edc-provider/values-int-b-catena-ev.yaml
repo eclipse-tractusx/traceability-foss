@@ -3,7 +3,7 @@ tractusx-connector:
   nameOverride: "tx-edc-provider-int-b"
   fullnameOverride: "tx-edc-provider-int-b"
   participant:
-    id: BPNL00000003CML1
+    id: BPNL000000000DWF
 
   iatp:
     # Decentralized IDentifier
