@@ -267,7 +267,7 @@ item-relationship-service:
     tls:
       - hosts:
           - *irs_host_name
-        secretName: tls-secret-tx-irs
+        secretName: tls-secret-tx-irs-ev-a
   discovery:
     discoveryFinderUrl: *discovery_finder_url
   digitalTwinRegistry:
