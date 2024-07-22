@@ -11,7 +11,7 @@
 | Dependency       | Name of Service              | Version              | Helm     | Comments                                            |
 |------------------|------------------------------|----------------------|----------|-----------------------------------------------------|
 | EDC              | edc-postgresql               | 15.4.0-debian-11-r45 | 12.12.10 | Enterprise Data Connector for PostgreSQL            |
-| IRS              | item-relationship-service    | 5.3.0                | 7.3.1    | Helm charts for Item Relationship Service           |
+| IRS              | item-relationship-service    | 5.4.0                | 7.4.0    | Helm charts for Item Relationship Service           |
 | EDC              | tractusx-connector           | 0.7.3                | 0.7.3    | Connector for Data Transfer and Registration        |
 | Discovery Finder | discovery service            | 0.2.5                | -        | Service for discovering and registering artifacts   |
 | Portal           | portal                       | 1.8.0                | -        | Web portal for interacting with Trace-X             |
