@@ -77,6 +77,18 @@ Sample invocation (STABLE B)
 python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-stable-b.stable.demo.catena-x.net/api/submodel -edc https://trace-x-edc-stable-b.stable.demo.catena-x.net -a https://trace-x-registry-stable-b.stable.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-stable-b-dataplane.stable.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV  --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
 ```
 
+Sample invocation (ASSOCIATION INT A)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-int-a.int.catena-x.net/api/submodel -edc https://trace-x-edc-int-a.int.catena-x.net -a https://trace-x-registry-int-a.int.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV  --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
+```
+
+Sample invocation (ASSOCIATION INT B)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-int-b.int.catena-x.net/api/submodel -edc https://trace-x-edc-int-b.int.catena-x.net -a https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV  --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
+```
+
 where:
 
 * -f file to be used for data provisioning /tx-backend/testdata/CX_Testdata_MessagingTest_vx.x.x.json
@@ -207,7 +219,7 @@ Is achieved by defining the order of the BPNLs of the desired manufacturers. See
     },
    {
     "catenaXId" : "urn:uuid:7c7d5aec-b15d-491c-8fbd-c61c6c02c69a",
-    "bpnl" : "BPNL00000003CNKC"
+       "bpnl": "BPNL00000003CNKC"
 
     }
   ]
