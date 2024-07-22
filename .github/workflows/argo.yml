@@ -125,8 +125,8 @@ jobs:
 
       - name: Check Testdata Version Format
         run: |
-         if [[ ! "${{ github.event.inputs.testdata_version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-          echo "Invalid Testdata Version format. Please use X.X.X, e.g., 1.1.12"
+         if [[ ! "${{ github.event.inputs.testdata_version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?$ ]]; then
+          echo "Invalid Testdata Version format. Please use X.X.X or X.X.X-suffix, e.g., 1.1.12"
           exit 1
          fi
 
