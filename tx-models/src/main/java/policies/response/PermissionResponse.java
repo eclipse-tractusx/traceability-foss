@@ -18,13 +18,51 @@
  ********************************************************************************/
 package policies.response;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 public record PermissionResponse(
-        @Schema(example = "USE")
+        @Schema(
+                implementation = PolicyType.class,
+                example = "use"
+        )
+        @JsonAlias({"odrl:action"})
         PolicyTypeResponse action,
+
+        @Schema
+        @JsonAlias({"odrl:constraint"})
         ConstraintsResponse constraints
 ) {
+
+    public static PolicyType toDomain(PolicyTypeResponse response){
+        return switch (response) {
+            case ACCESS -> PolicyType.ACCESS;
+            case USE -> PolicyType.USE;
+        };
+    }
+    public static List<Permission> toDomain(List<PermissionResponse> permissionResponses) {
+        if (permissionResponses == null) {
+            return null;
+        }
+        return permissionResponses.stream()
+                .map(PermissionResponse::toDomain)
+                .collect(Collectors.toList());
+    }
+    public static Permission toDomain(PermissionResponse permissionResponse) {
+        if (permissionResponse == null) {
+            return null;
+        }
+       return Permission.builder()
+                .action(toDomain(permissionResponse.action))
+                .constraint(ConstraintsResponse.toDomain(permissionResponse.constraints))
+                .build();
+    }
 }

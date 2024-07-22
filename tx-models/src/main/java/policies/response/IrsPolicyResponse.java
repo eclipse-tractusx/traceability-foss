@@ -87,6 +87,4 @@ public record IrsPolicyResponse(@JsonFormat(shape = JsonFormat.Shape.STRING) Off
                 }
              ]
                """;
-
-
 }

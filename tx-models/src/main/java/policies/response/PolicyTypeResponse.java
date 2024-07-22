@@ -18,8 +18,23 @@
  ********************************************************************************/
 package policies.response;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Generated;
+
 public enum PolicyTypeResponse {
-    ACCESS,
-    USE
+    ACCESS("access"),
+    USE("use");
+    @JsonValue
+    private final String value;
+
+    @Generated
+    public String getValue() {
+        return this.value;
+    }
+
+    @Generated
+    PolicyTypeResponse(String value) {
+        this.value = value;
+    }
 
 }
