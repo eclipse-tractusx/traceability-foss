@@ -142,24 +142,27 @@ Consists of a List of the following structured entries:
 {
     "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
     "bpnl": "BPNL00000003CML1",
-    "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship": [
+    "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt" : [
         {
-            "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
-            "childParts": [
+            "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
+            "customers" : [
+                "BPNL00000003CML1"
+            ],
+            "parentItems" : [
                 {
-                    "quantity": {
-          "quantityNumber" : 1,
-          "measurementUnit" : {
-            "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#curie",
-            "lexicalValue" : "unit:piece"
-          }
-        },
-        "lifecycleContext" : "AsBuilt",
-        "assembledOn" : "2022-02-03T14:48:54.709Z",
-        "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
-        "childCatenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
-      } ]
-    } ],
+                    "quantity" : {
+                        "value" : 1,
+                        "unit" : "unit:piece"
+                    },
+                    "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+                    "createdOn" : "2023-05-29T14:48:54.709Z",
+                    "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                    "businessPartner" : "BPNL00000003CML1",
+                    "isOnlyPotentialParent" : false
+                }
+            ]
+        }
+    ],
     "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : [ {
       "localIdentifiers" : [ {
         "value" : "BPNL00000003CML1",
