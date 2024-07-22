@@ -259,6 +259,11 @@ item-relationship-service:
   namespace: product-traceability-foss
   irsUrl: *irs_url
   ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
       - host: *irs_host_name
         paths:
