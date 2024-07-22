@@ -1,7 +1,5 @@
-<div style="display: flex; align-items: center;justify-content: center;align-content: center;">
-   <img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/trace-x-logo.svg" alt="Product Traceability FOSS Backend Installation Guide" style="width:200px;"/>
-   <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Backend Installation guide</h1>
-</div>
+![Trace-X](../docs/trace-x-logo.svg)
+# Product Traceability FOSS Backend Installation guide
 
 ## Clone the source locally:
 
@@ -24,7 +22,7 @@ Users should have one of the following roles assigned:
 Product Traceability FOSS Backend ships with helm charts and utilize [helm dependency](https://helm.sh/docs/helm/helm_dependency/) functionality for 3rd party components.
 
 ### OAuth2 Properties
-In order to deploy the service following secrets needs to be provided for specific environment [see project helm environment specifc files](../charts/traceability-foss/charts/backend/values.yaml):
+In order to deploy the service following secrets needs to be provided for specific environment [project helm environment specific files](../charts/traceability-foss/charts/backend/values.yaml):
 
 * `oauth2.clientId` - OAuth2 client registration id credentials
 * `oauth2.clientSecret` - OAuth2 client registration secret credentials
@@ -72,7 +70,7 @@ Then install the Helm chart into your cluster:
 $ helm install -f your-values.yaml traceability-foss backend/traceability-foss-backend
 ```
 
-== Deployment using ArgoCD
+## Deployment using ArgoCD
 
 Create a new Helm chart and use Trace-X as a dependency.
 
