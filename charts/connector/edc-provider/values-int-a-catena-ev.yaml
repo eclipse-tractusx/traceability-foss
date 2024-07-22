@@ -30,7 +30,7 @@ tractusx-connector:
           - management
         tls:
           enabled: true
-          secretName: tls-secret
+          secretName: tls-secret-controlplane-int-a
     bdrs:
       # time that a cached BPN/DID resolution map is valid in seconds, default is 10 min
       cache_validity_seconds: 600
