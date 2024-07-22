@@ -73,7 +73,8 @@ public class ContractViewRepositoryImpl extends ContractRepositoryImplBase imple
             List<Contract> contracts = fetchEdcContractAgreements(baseEntities)
                     .stream()
                     .filter(contract -> contract.getContractId() != null)
-                    .filter(contract -> contract.getGlobalAssetId() != null && !contract.getType().equals(ContractType.NOTIFICATION)).toList();
+                    .filter(contract -> !(contract.getGlobalAssetId() == null && contract.getType().equals(ContractType.NOTIFICATION)))
+                    .toList();
 
             return new PageResult<>(contracts,
                     contractAgreementEntities.getPageable().getPageNumber(),
