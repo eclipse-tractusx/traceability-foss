@@ -18,15 +18,13 @@
 name: "[BE][FE][DOCUMENTATION] Publish documentation"
 
 on:
-  workflow_dispatch: # Trigger manually
+  workflow_dispatch:
   pull_request:
-    paths:
-      - 'docs/**'
+    branches:
+      - main
   push:
     branches:
       - main
-    paths:
-      - 'docs/**'
 
 jobs:
   publish:
