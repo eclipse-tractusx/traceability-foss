@@ -25,9 +25,10 @@ digital-twin-registry:
     host: trace-x-registry-int-a.int.catena-x.net
     ingress:
       enabled: true
-      tls: true
+      tls:
+        enabled: true
+        secretName: registry-certificate-secret-int-a
       className: nginx
-      secretName: registry-certificate-secret-int-a
       urlPrefix: /semantics/registry
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
