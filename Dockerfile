@@ -39,7 +39,7 @@ COPY tx-backend tx-backend
 RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests
 
 # Copy the jar and build image
-FROM eclipse-temurin:21-jre-alpine@sha256:23467b3e42617ca197f43f58bc5fb03ca4cb059d68acd49c67128bfded132d67 AS traceability-app
+FROM eclipse-temurin:21-jre-alpine AS traceability-app
 
 ARG UID=10000
 ARG GID=1000
