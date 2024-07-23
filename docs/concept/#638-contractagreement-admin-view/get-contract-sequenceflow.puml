@@ -1,6 +1,6 @@
 @startuml
 title
-    == Request Contract Agreements
+    == Request ContractResponse (Contract Agreements)
 end title
 
 autonumber "<B>[00]"
