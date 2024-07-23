@@ -1,0 +1,118 @@
+#    Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
+#
+#    See the NOTICE file(s) distributed with this work for additional
+#    information regarding copyright ownership.
+#
+#    This program and the accompanying materials are made available under the
+#    terms of the Apache License, Version 2.0 which is available at
+#    https://www.apache.org/licenses/LICENSE-2.0.
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+name: Testdata import
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which Environment
+        required: true
+        options:
+          - Dev/Test
+          - E2E-A/E2E-B
+          - int-a/int-b
+          - association int-a/int-b
+
+      testdata_version:
+        description: Which Testdata Version CX_Testdata_MessagingTest_v<X.X.X>.json e.g., 0.0.14"
+        required: true
+      testdata_upload:
+        type: choice
+        description: Do you want a testdata upload?
+        required: true
+        options:
+          - Yes
+          - No
+
+jobs:
+  test_input:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout-Repository
+        uses: actions/checkout@v4
+
+      - name: Check Testdata Version Format
+        run: |
+          if [[ ! "${{ github.event.inputs.testdata_version }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?$ ]]; then
+           echo "Invalid Testdata Version format. Please use X.X.X or X.X.X-suffix, e.g., 1.1.12"
+           exit 1
+          fi
+
+  print_environment:
+    needs: test_input
+    runs-on: ubuntu-latest
+    steps:
+      - name: ${{ github.event.inputs.environment }}
+        run: |
+          echo "### inputs" >> $GITHUB_STEP_SUMMARY
+          echo "- environment: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- test data version: ${{ github.event.inputs.testdata_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- upload test data: ${{ github.event.inputs.testdata_upload }}" >> $GITHUB_STEP_SUMMARY
+
+
+  upload_testdata:
+    needs: test_state
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Upload testdata
+        run: |
+          python -m pip install requests
+          curl -o transform-and-upload.py https://raw.githubusercontent.com/eclipse-tractusx/item-relationship-service/main/local/testing/testdata/transform-and-upload.py
+          if [ "${{ github.event.inputs.testdata_upload }}" == "true" ]; then
+            if [ "${{ github.event.inputs.environment }}" == "Dev/Test" ]; then
+                  python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-test-submodel-server.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3 -d https://trace-x-test-edc-dataplane.dev.demo.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_DEV }} --aas3 --edcBPN BPNL00000003CNKC --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC
+              sleep 10
+                  python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-dev-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry-dev.dev.demo.catena-x.net/semantics/registry/api/v3 -d https://trace-x-edc-dataplane.dev.demo.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_DEV }} --aas3 --edcBPN BPNL00000003CML1 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC
+              sleep 10
+            elif [ "${{ github.event.inputs.environment }}" == "E2E-A/E2E-B" ]; then
+                  python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-e2e-a-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3 -d https://trace-x-edc-e2e-a-dataplane.dev.demo.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_DEV }} --aas3 --edcBPN BPNL00000003CML1 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC
+              sleep 10
+                  python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-e2e-b-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3 -d https://trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_DEV }} --aas3 --edcBPN BPNL00000003CNKC --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC
+              sleep 10
+            elif [ "${{ github.event.inputs.environment }}" == "int-a/int-b" ]; then
+                  python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-int-a-submodel-server.int.demo.catena-x.net -edc https://trace-x-edc-int-a.int.demo.catena-x.net -a https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3 -d https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_INT_A }} --aas3 --edcBPN BPNL00000003CML1 --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
+              sleep 10
+                  python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-int-b-submodel-server.int.demo.catena-x.net -edc https://trace-x-edc-int-b.int.demo.catena-x.net -a https://trace-x-registry-int-b.int.demo.catena-x.net/semantics/registry/api/v3 -d https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_INT_B }} --aas3 --edcBPN BPNL00000003CNKC --allowedBPNs BPNL00000003CML1 BPNL00000003CNKC BPNL00000003AZQP BPNL00000003CSGV
+              sleep 10
+            elif [ "${{ github.event.inputs.environment }}" == "association int-a/int-b" ]; then
+                  python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-int-a-submodel-server.int.catena-x.net -edc https://trace-x-edc-int-a.int.catena-x.net -a https://trace-x-registry-int-a.int.catena-x.net/semantics/registry/api/v3 -d https://trace-x-edc-int-a-dataplane.int.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_ASSOCIATION_INT }} --aas3 --edcBPN BPNL000000000UKM --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
+              sleep 10
+                  python transform-and-upload.py -f ./tx-backend/testdata/CX_Testdata_MessagingTest_v${{ github.event.inputs.testdata_version }}.json -s https://tracex-int-b-submodel-server.int.catena-x.net -edc https://trace-x-edc-int-b.int.catena-x.net -a https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3 -d https://trace-x-edc-int-b-dataplane.int.catena-x.net -p traceability-core -k ${{ secrets.TRACE_X_API_KEY_ASSOCIATION_INT }} --aas3 --edcBPN BPNL000000000DWF --allowedBPNs BPNL000000000DWF BPNL000000000UKM BPNL00000003AZQP BPNL00000003CSGV
+              sleep 10
+            fi
+          elif [ "${{ github.event.inputs.testdata_upload }}" == "false" ]; then
+            echo "Testdata upload skipped"
+          fi
