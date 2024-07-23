@@ -35,6 +35,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #941 made the naming for quality notifications consistent throughout the FE app
 - #1190 store accepted policies in catalog offers on startup
 - #941 updated labels from QualityTopic to QualityNotification
+- XXXX updated publish-documentation workflow
 
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
