@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.discovery.infrastructure.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryFinderClient;
@@ -42,15 +44,28 @@ import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery
 public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
     private final EdcProperties edcProperties;
     private final DiscoveryFinderClient discoveryFinderClient;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Optional<Discovery> retrieveDiscoveryByFinderAndEdcDiscoveryService(String bpn) {
         DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(bpn));
         DiscoveryResponse discoveryEndpoints = discoveryFinderClient.findDiscoveryEndpoints(request);
+        try {
+            objectMapper.writeValueAsString(discoveryEndpoints);
+        } catch (JsonProcessingException e) {
+            log.warn("Could not write value as string");
+        }
         List<EdcDiscoveryResult> discoveryResults = new ArrayList<>();
         discoveryEndpoints.endpoints().forEach(discoveryEndpoint -> {
             String endPointAddress = discoveryEndpoint.endpointAddress();
-            discoveryResults.addAll(discoveryFinderClient.findConnectorEndpoints(endPointAddress, List.of(bpn)));
+            log.info("endPointAddress {}", endPointAddress);
+            List<EdcDiscoveryResult> connectorEndpoints = discoveryFinderClient.findConnectorEndpoints(endPointAddress, List.of(bpn));
+            try {
+                objectMapper.writeValueAsString(connectorEndpoints);
+            } catch (JsonProcessingException e) {
+                log.warn("Could not write value as string");
+            }
+            discoveryResults.addAll(connectorEndpoints);
         });
         List<EdcDiscoveryResult> discoveryResultByBPN
                 = discoveryResults.stream().filter(edcDiscoveryResult -> edcDiscoveryResult.bpn().equals(bpn)).toList();
