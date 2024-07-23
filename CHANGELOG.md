@@ -7,6 +7,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+### Changed
+- #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
+- #xxx update IRS chart version from 7.3.1 to 7.4.0
 
 ## [13.0.0 - 19.07.2024]
 
@@ -17,6 +20,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1190 update notification contracts on policy updates
 
 ### Changed
+- #1070 Correct semantic model in dev/README.md
+- #1070 Update documentation artefacts according to TRG 1 - Documentation
 - #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
 - #1173 Update IRS-Helm from 7.1.4 to 7.2.0 - updated Compatibility Matrix
 - #1082 fix duplicate key errors when synchronizing assets with IRS
@@ -28,6 +33,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1196 Update IRS to 7.3.1
 - #941 made the naming for quality notifications consistent throughout the FE app
 - #1190 store accepted policies in catalog offers on startup
+- #941 updated labels from QualityTopic to QualityNotification
 
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
@@ -40,7 +46,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [12.0.0 - 05.07.2024]
 
 ### Added
-- #832 added policymanagement list view, creator and editor
+- #832 added policy management list view, creator and editor
 - #737 Added concept: Contract table -> parts link action
 - XXX Added interceptor to EdcRestTemplates to log requests
 - #915 Added section to documentation: EDC-BPN configuration

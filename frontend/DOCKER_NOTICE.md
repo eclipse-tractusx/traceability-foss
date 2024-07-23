@@ -1,13 +1,17 @@
 This application provides container images for demonstration purposes.
 
-Eclipse Tractus-X product(s) installed within the image:
+## Notice for Docker image
 
 DockerHub Frontend: https://hub.docker.com/r/tractusx/traceability-foss-frontend
 
+Eclipse Tractus-X product(s) installed within the image:
+
+__Traceability-foss__
+
 - GitHub: https://github.com/eclipse-tractusx/traceability-foss
 - Project home: https://projects.eclipse.org/projects/automotive.tractusx
-- Dockerfile Frontend: https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/Dockerfile
-- Project license: [Apache License, Version 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+- Dockerfile Frontend: [Dockerfile](frontend/Dockerfile)
+- Project license: [Apache License, Version 2.0](LICENSE)
 
 **Used base image**
 

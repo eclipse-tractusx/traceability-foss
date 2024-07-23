@@ -42,7 +42,7 @@ dependencies:
     condition: pgadmin4.enabled
   - name: item-relationship-service
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 7.3.1
+    version: 7.4.0
     condition: item-relationship-service.enabled
   - name: tractusx-connector
     repository: https://eclipse-tractusx.github.io/tractusx-edc
