@@ -137,6 +137,14 @@
                 }
               ]
             },
+            "localUmbrella": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localUmbrella.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -212,6 +220,9 @@
             },
             "debugProd": {
               "browserTarget": "trace-x:build:dev,debugProd"
+            },
+            "localUmbrella": {
+              "browserTarget": "trace-x:build:dev,localUmbrella"
             }
           }
         },
