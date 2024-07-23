@@ -149,7 +149,7 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     }
 
     private Stream<ConstraintResponse> getConstraintsStream(PermissionResponse permission) {
-        ConstraintsResponse constraint = permission.constraints();
+        ConstraintsResponse constraint = permission.constraint();
         if (constraint == null) {
             return Stream.empty();
         }

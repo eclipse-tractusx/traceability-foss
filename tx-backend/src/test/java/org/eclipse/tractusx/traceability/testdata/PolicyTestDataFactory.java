@@ -30,6 +30,7 @@ import policies.response.ConstraintsResponse;
 import policies.response.IrsPolicyResponse;
 import policies.request.Payload;
 import org.jetbrains.annotations.NotNull;
+import policies.response.OperatorResponse;
 import policies.response.OperatorTypeResponse;
 import policies.response.PermissionResponse;
 import policies.response.PolicyResponse;
@@ -55,9 +56,9 @@ public class PolicyTestDataFactory {
                                                         .permissions(List.of(
                                                                 PermissionResponse.builder()
                                                                         .action(PolicyTypeResponse.USE)
-                                                                        .constraints(ConstraintsResponse.builder()
-                                                                                .and(List.of(new ConstraintResponse(andLeftOperand,OperatorTypeResponse.EQ, andRightOperand)))
-                                                                                .or(List.of(new ConstraintResponse(orLeftOperand, OperatorTypeResponse.EQ, orRightOperand)))
+                                                                        .constraint(ConstraintsResponse.builder()
+                                                                                .and(List.of(new ConstraintResponse(andLeftOperand, new OperatorResponse(OperatorTypeResponse.EQ), andRightOperand)))
+                                                                                .or(List.of(new ConstraintResponse(orLeftOperand, new OperatorResponse(OperatorTypeResponse.EQ), orRightOperand)))
                                                                                 .build())
                                                                         .build()))
                                                         .build())

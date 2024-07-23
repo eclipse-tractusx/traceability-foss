@@ -40,8 +40,10 @@ public record ConstraintResponse(
         @JsonAlias({"odrl:leftOperand"})
         String leftOperand,
 
+
         @Schema
-        OperatorTypeResponse operatorTypeResponse,
+        @JsonAlias({"odrl:operator"})
+        OperatorResponse operator,
         @Schema(
                 implementation = String.class,
                 example = "string"
@@ -63,23 +65,12 @@ public record ConstraintResponse(
         if (constraintResponse == null) {
             return null;
         }
-        Operator operator = new Operator(toDomain(constraintResponse.operatorTypeResponse));
+        Operator operator = new Operator(OperatorResponse.toDomain(constraintResponse.operator.operatorType()));
 
         return new Constraint(
                 constraintResponse.leftOperand(),
                 operator,
                 constraintResponse.rightOperand()
         );
-    }
-
-    public static OperatorType toDomain(OperatorTypeResponse operatorTypeResponse) {
-        if (operatorTypeResponse == null) {
-            return null;
-        }
-
-        return Arrays.stream(OperatorType.values())
-                .filter(type -> type.getCode().equals(operatorTypeResponse.code))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Unknown code: " + operatorTypeResponse.code));
     }
 }

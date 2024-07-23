@@ -19,9 +19,14 @@
 package policies.response;
 
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+
+import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 
 @JsonSerialize(
@@ -63,5 +68,21 @@ public enum OperatorTypeResponse {
         this.code = code;
         this.label = label;
     }
+
+    @JsonCreator
+    public static OperatorTypeResponse fromValue(String value) {
+        String operator;
+        if (value.startsWith("odrl:")) {
+            operator = value.substring(5);
+        } else {
+            operator = value;
+        }
+
+        return (OperatorTypeResponse) Stream.of(values()).filter((operatorType) -> {
+            return operatorType.code.equals(operator);
+        }).findFirst().orElseThrow(() -> {
+            return new NoSuchElementException("Unsupported OperatorType: " + operator);
+        });
+        }
 
 }

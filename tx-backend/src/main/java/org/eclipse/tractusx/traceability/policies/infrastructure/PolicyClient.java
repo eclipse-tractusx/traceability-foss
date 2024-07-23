@@ -44,6 +44,7 @@ import policies.response.ConstraintResponse;
 import policies.response.ConstraintsResponse;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
+import policies.response.OperatorResponse;
 import policies.response.OperatorTypeResponse;
 import policies.response.PermissionResponse;
 import policies.response.PolicyResponse;
@@ -137,8 +138,8 @@ public class PolicyClient {
         Context context = Context.getDefault();
         String policyId = UUID.randomUUID().toString();
 
-        ConstraintResponse constraint = new ConstraintResponse(traceabilityProperties.getLeftOperand(), OperatorTypeResponse.EQ, traceabilityProperties.getRightOperand());
-        ConstraintResponse constraintSecond = new ConstraintResponse(traceabilityProperties.getLeftOperandSecond(), OperatorTypeResponse.EQ, traceabilityProperties.getRightOperandSecond());
+        ConstraintResponse constraint = new ConstraintResponse(traceabilityProperties.getLeftOperand(), new OperatorResponse(OperatorTypeResponse.EQ), traceabilityProperties.getRightOperand());
+        ConstraintResponse constraintSecond = new ConstraintResponse(traceabilityProperties.getLeftOperandSecond(),new OperatorResponse(OperatorTypeResponse.EQ), traceabilityProperties.getRightOperandSecond());
 
         ConstraintsResponse constraints = ConstraintsResponse.builder()
                 .and(List.of(constraint, constraintSecond))
@@ -146,7 +147,7 @@ public class PolicyClient {
 
         PermissionResponse permission = PermissionResponse.builder()
                 .action(PolicyTypeResponse.USE)
-                .constraints(constraints)
+                .constraint(constraints)
                 .build();
 
         PolicyResponse policy = new PolicyResponse(policyId, Instant.now().atOffset(ZoneOffset.UTC), validUntil, List.of(permission),null);

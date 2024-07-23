@@ -39,6 +39,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import policies.response.OperatorResponse;
 import policies.response.OperatorTypeResponse;
 import policies.response.PermissionResponse;
 import policies.response.PolicyResponse;
@@ -92,8 +93,8 @@ class PolicyRepositoryImplTest {
         // given
         OffsetDateTime validUntil = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
         OffsetDateTime createdOn = OffsetDateTime.now();
-        ConstraintResponse constraint = new ConstraintResponse("leftOperand1", OperatorTypeResponse.EQ, "test");
-        ConstraintResponse constraintSecond = new ConstraintResponse("leftOperand2", OperatorTypeResponse.EQ, "test2");
+        ConstraintResponse constraint = new ConstraintResponse("leftOperand1", new OperatorResponse(OperatorTypeResponse.EQ), "test");
+        ConstraintResponse constraintSecond = new ConstraintResponse("leftOperand2", new OperatorResponse(OperatorTypeResponse.EQ), "test2");
         PolicyResponse policy = new PolicyResponse("1", createdOn, validUntil, List.of(new PermissionResponse(PolicyTypeResponse.USE, new ConstraintsResponse(List.of(constraint, constraintSecond), List.of()))),null);
         Payload payload = new Payload(null, "1", policy);
         final IrsPolicyResponse existingPolicy = new IrsPolicyResponse(validUntil, payload);
@@ -117,8 +118,8 @@ class PolicyRepositoryImplTest {
         // given
         OffsetDateTime validUntil = OffsetDateTime.parse("2023-07-03T16:01:05.309Z");
         OffsetDateTime createdOn = OffsetDateTime.now();
-        ConstraintResponse constraint = new ConstraintResponse("leftOperand1", OperatorTypeResponse.EQ, "test");
-        ConstraintResponse constraintSecond = new ConstraintResponse("leftOperand2", OperatorTypeResponse.EQ, "test2");
+        ConstraintResponse constraint = new ConstraintResponse("leftOperand1", new OperatorResponse(OperatorTypeResponse.EQ), "test");
+        ConstraintResponse constraintSecond = new ConstraintResponse("leftOperand2", new OperatorResponse(OperatorTypeResponse.EQ), "test2");
         PolicyResponse policy = new PolicyResponse("test", createdOn, validUntil, List.of(new PermissionResponse(PolicyTypeResponse.USE, new ConstraintsResponse(List.of(constraint, constraintSecond), List.of()))),null);
         Payload payload = new Payload(null, "test", policy);
 
@@ -144,8 +145,8 @@ class PolicyRepositoryImplTest {
         // GIVEN
         OffsetDateTime validUntil = OffsetDateTime.now();
         OffsetDateTime createdOn = OffsetDateTime.now();
-        List<ConstraintResponse> andConstraints = List.of(new ConstraintResponse("leftOperand", OperatorTypeResponse.EQ, "rightOperand"));
-        List<ConstraintResponse> orConstraints = List.of(new ConstraintResponse("leftOperand", OperatorTypeResponse.EQ, "rightOperand"));
+        List<ConstraintResponse> andConstraints = List.of(new ConstraintResponse("leftOperand", new OperatorResponse(OperatorTypeResponse.EQ), "rightOperand"));
+        List<ConstraintResponse> orConstraints = List.of(new ConstraintResponse("leftOperand", new OperatorResponse(OperatorTypeResponse.EQ), "rightOperand"));
         ConstraintsResponse constraints = new ConstraintsResponse(andConstraints, orConstraints);
 
         PolicyResponse policy = new PolicyResponse("test", createdOn, validUntil, List.of(new PermissionResponse(PolicyTypeResponse.USE, constraints)), null);

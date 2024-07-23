@@ -39,7 +39,7 @@ public record PermissionResponse(
 
         @Schema
         @JsonAlias({"odrl:constraint"})
-        ConstraintsResponse constraints
+        ConstraintsResponse constraint
 ) {
 
     public static PolicyType toDomain(PolicyTypeResponse response){
@@ -62,7 +62,7 @@ public record PermissionResponse(
         }
        return Permission.builder()
                 .action(toDomain(permissionResponse.action))
-                .constraint(ConstraintsResponse.toDomain(permissionResponse.constraints))
+                .constraint(ConstraintsResponse.toDomain(permissionResponse.constraint))
                 .build();
     }
 }
