@@ -1,49 +1,58 @@
 @startuml
 title
-    ==POST api/contracts/request
+    == Endpoint POST /contracts
 end title
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
 
 autonumber "<B>[00]"
 
-participant "Trace-X Frontend" as FE order 0
-participant "Trace-X Backend" as BE order 1
-participant "Trace-X Database" as DB order 2
+participant "Trace-X \n Frontend" as FE order 0
+participant "Trace-X \n Backend" as BE order 1
+participant "Trace-X \n Database" as DB order 2
 participant "EDC" as EDC order 3
 
-FE -> BE: POST api/contracts/request (limit, offset, sort, filter)
+FE -> BE: POST contracts
+ note left
+    api endpoint is pageable,
+    filterable, limitable, sortable
+ end note
 
 activate BE
-BE -> DB: Fetch requested distinct contractAgreementIds
+BE -> DB: fetch requested distinct contractAgreementIds
 activate DB
 autonumber stop
-DB --> BE: List(contractAgreementIds)
+DB --> BE: list of contractAgreementIds
 autonumber resume
 deactivate DB
 
-BE -> EDC: POST tx-edc/management/v2/contractagreements/request \nfiltered by contractAgreementIds
+BE -> EDC: POST edc/management/v2/contractagreements/request \nfiltered by contractAgreementIds
 activate EDC
 autonumber stop
-EDC --> BE: List of ContractAgreement objects
+EDC --> BE: list of contractAgreement objects
 autonumber resume
 deactivate EDC
-BE -> BE: Extract contractSigningDate, policy
+BE -> BE: extract contractSigningDate, policy
 activate BE
 deactivate BE
 
 loop for all contractAgreementIds
-BE -> EDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
+BE -> EDC: GET edc/management/v2/contractagreements/{contractAgreementId}/negotiation
 activate EDC
 autonumber stop
-EDC --> BE: ContractAgreementNegotiation object
+EDC --> BE: contractAgreementNegotiation object
 autonumber resume
 deactivate EDC
-BE -> BE: Extractattributes of response (id, counterPartyAddress, state)
+BE -> BE: extract attributes of response (id, counterPartyAddress, state)
 activate BE
 deactivate BE
 end
 
 autonumber stop
-BE --> FE: Pageable Result of ContractResponse objects
+BE --> FE: pageable result of contractResponse objects
 autonumber resume
 deactivate BE
 
