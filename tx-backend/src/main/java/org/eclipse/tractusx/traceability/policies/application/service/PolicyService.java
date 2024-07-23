@@ -31,6 +31,7 @@ public interface PolicyService {
     List<PolicyResponse> getPolicies();
 
     Map<String, List<PolicyResponse>> getIrsPolicies();
+
     PolicyResponse getPolicy(String id);
 
     CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest);
