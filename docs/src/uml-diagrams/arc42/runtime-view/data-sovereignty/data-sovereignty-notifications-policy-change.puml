@@ -1,6 +1,11 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
 autonumber
+
 title Policies: Sending notifications without policies
 
 actor Admin

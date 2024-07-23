@@ -50,7 +50,11 @@ activate TXA
 User <-- TXA: ok
 ...
 
-User -> TXA: publish selected parts (POST /assets/publish)
+User -> TXA: publish selected parts in transient state
+
+note left
+ POST /assets/publish
+end note
 
 User <-- TXA: request for policy
 
@@ -100,16 +104,16 @@ activate DTRB
 TXB <-- DTRB: 200 Requested Asset Administration Shell Descriptors
 deactivate DTRB
 
-TXB -> IRSB: Register job (GET /irs/jobs)
+TXB -> IRSB: Register job (GET /irs/jobs) - initiate Sync of assets
 activate IRSB
 IRSB -> EDCA: GET /v2/catalog/request of Trace-X A
 note left
     (/v2/catalog/request/querySpec/filterExpression[id:digitalTwinRegistry])
 end note
 activate EDCA
-EDCA --> IRSB: return catalog
+EDCA --> IRSB: return CatalogOffer
 deactivate EDCA
-IRSB -> IRSB: extract policy definitions from catalog
+IRSB -> IRSB: extract policy definitions from CatalogOffer
 IRSB -> PSB:  get policies for BPNL
 
 activate PSB
@@ -119,11 +123,13 @@ deactivate PSB
 loop each part
 IRSB -> IRSB: compare ContractOffer policy with Company policy for BPNL
 alt policies match
-IRSB -> EDCB: start contract negotiation
-EDCB -> EDCA:  contract negotiation
-EDCB <-- EDCA: ok contractAgreement
-IRSB <-- EDCB: ok contractAgreement
-ref over IRSB, TXB: data consumption
+    IRSB -> EDCB: start contract negotiation
+    EDCB -> EDCA:  contract negotiation
+    EDCB <-- EDCA: ok contractAgreement
+    IRSB <-- EDCB: ok contractAgreement
+    ref over IRSB, TXB: data consumption
+else policies does not match
+    IRSB -> IRSB: create Tombstone with policy (JobResponse)
 end
 end
 
