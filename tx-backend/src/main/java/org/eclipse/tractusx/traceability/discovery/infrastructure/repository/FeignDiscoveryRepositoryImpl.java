@@ -45,10 +45,11 @@ public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
     private final EdcProperties edcProperties;
     private final DiscoveryFinderClient discoveryFinderClient;
     private final ObjectMapper objectMapper;
+    private final String BPN = "bpn";
 
     @Override
     public Optional<Discovery> retrieveDiscoveryByFinderAndEdcDiscoveryService(String bpn) {
-        DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(bpn));
+        DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(BPN));
         DiscoveryResponse discoveryEndpoints = discoveryFinderClient.findDiscoveryEndpoints(request);
         try {
             log.info("discoveryEndpoints");
