@@ -10,6 +10,17 @@ However, to be sure that data is shared only with companies that match one's req
 The policies used for sending and receiving notifications and parts have an identical data format, so they can be used for each process interchangeably.
 The processes itself are different and will be explained here:
 
+== Policy Types
+The EDC Connector MUST provide a possibility to restrict the access of a Data Asset to specific business partners by attribute(s), e.g., represented as a VC.
+The Connector MUST restrict the data usage to partners and purposes for a specific use case.
+
+There are two policy types used.
+* Access
+* Usage
+
+As specified by the [Dataspace Protocol](https://github.com/International-Data-Spaces-Association/ids-specification), one Data Asset MUST refer to at least one Usage Policy, expressed in ODRL.
+For additional information refer to [Connector KIT](https://eclipse-tractusx.github.io/docs-kits/kits/Connector%20Kit/Adoption%20View/connector_kit_adoption_view)
+
 == Policies for sending and receiving parts
 [plantuml, target=data-sovereignty-publish-assets, format=svg]
 ....
@@ -71,6 +82,11 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 |===
 
 It's possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For the parts that must be published with different policies, the user can repeat the process.
+
+
+**Note**:
+For more detailed information concering the functionality of IRS please refer to [IRS docu](https://eclipse-tractusx.github.io/item-relationship-service/docs/)
+
 
 **[Work-in-progress]** The user may also choose parts that have already been published - they can be republished with a different policy. The process for this is identical to the regular publishing process.
 
