@@ -71,7 +71,7 @@ tractusx-connector:
         className: "nginx"
         tls:
           enabled: true
-          secretName: tls-secret-controlplane-int-b
+          secretName: tls-secret-dataplane-int-b
 
     resources:
       limits:
