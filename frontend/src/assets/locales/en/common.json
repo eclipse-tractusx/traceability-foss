@@ -37,8 +37,8 @@
     "relations": "Part relations",
     "admin": "Administration Catena-X",
     "alerts" : "Quality notifications",
-    "receivedQualityTopics" : "Received quality notifications",
-    "sentQualityTopics" : "Sent quality notifications"
+    "receivedQualityNotification" : "Received quality notifications",
+    "sentQualityNotification" : "Sent quality notifications"
   },
   "layout": {
     "nav": {
