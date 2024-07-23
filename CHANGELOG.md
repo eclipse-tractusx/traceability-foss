@@ -10,6 +10,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 - #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
 - #xxx update IRS chart version from 7.3.1 to 7.4.0
+- XXXX updated publish documentation action
 
 ## [13.0.0 - 19.07.2024]
 
@@ -35,7 +36,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #941 made the naming for quality notifications consistent throughout the FE app
 - #1190 store accepted policies in catalog offers on startup
 - #941 updated labels from QualityTopic to QualityNotification
-
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
 - #1190 CatalogOffers are not able to provide OR constraints therefore notifications are not processed correctly on wrong policy
