@@ -19,9 +19,14 @@ name: "[BE][FE][DOCUMENTATION] Publish documentation"
 
 on:
   workflow_dispatch: # Trigger manually
+  pull_request:
+    paths:
+      - 'docs/**'
   push:
     branches:
       - main
+    paths:
+      - 'docs/**'
 
 jobs:
   publish:
@@ -57,11 +62,6 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-
-      - name: Build API documentation with Maven
-        run: |
-          mvn clean package -pl tx-backend,tx-models -DskipTests --batch-mode
-          cp tx-backend/target/generated-sources/openapi/index.html docs/src/docs/api-specification/index.html
 
       - name: Build with Maven
         env:
@@ -127,9 +127,24 @@ jobs:
         run: |
           mv docs/src/diagram-replacer/assets/ docs/target/generated-docs/assets/
 
-      - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v4.0.0
+      - name: Generate Swagger UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: swagger-ui
+          spec-file: docs/api/traceability-foss-backend.json
+
+      - name: Update documentation on GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: "./docs/target/generated-docs"
           destination_dir: "docs"
+
+      - name: Deploy Swagger UI to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "swagger-ui"
+          destination_dir: "docs/swagger-ui"
