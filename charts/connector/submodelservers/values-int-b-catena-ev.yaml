@@ -45,7 +45,7 @@ ingress:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
   hosts:
     - host: "tracex-int-b-submodel-server.int.catena-x.net"
       paths:
@@ -55,7 +55,7 @@ ingress:
     - hosts:
         - "tracex-int-b-submodel-server.int.catena-x.net"
       # Default secret for certificate creation already provided to your namespace
-      secretName: tls-secret
+      secretName: tls-secret-int-b
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
