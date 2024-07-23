@@ -51,7 +51,8 @@ public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
         DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(bpn));
         DiscoveryResponse discoveryEndpoints = discoveryFinderClient.findDiscoveryEndpoints(request);
         try {
-            objectMapper.writeValueAsString(discoveryEndpoints);
+            log.info("discoveryEndpoints");
+            log.warn(objectMapper.writeValueAsString(discoveryEndpoints));
         } catch (JsonProcessingException e) {
             log.warn("Could not write value as string");
         }
@@ -61,12 +62,19 @@ public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
             log.info("endPointAddress {}", endPointAddress);
             List<EdcDiscoveryResult> connectorEndpoints = discoveryFinderClient.findConnectorEndpoints(endPointAddress, List.of(bpn));
             try {
-                objectMapper.writeValueAsString(connectorEndpoints);
+                log.info("connectorEndpoints");
+                log.warn(objectMapper.writeValueAsString(connectorEndpoints));
             } catch (JsonProcessingException e) {
                 log.warn("Could not write value as string");
             }
             discoveryResults.addAll(connectorEndpoints);
         });
+        try {
+            log.info("DiscoveryResult");
+            log.warn(objectMapper.writeValueAsString(discoveryResults));
+        } catch (JsonProcessingException e) {
+            log.warn("Could not write value as string");
+        }
         List<EdcDiscoveryResult> discoveryResultByBPN
                 = discoveryResults.stream().filter(edcDiscoveryResult -> edcDiscoveryResult.bpn().equals(bpn)).toList();
 
