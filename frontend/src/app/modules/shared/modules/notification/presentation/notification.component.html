@@ -35,7 +35,7 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
-      [tableHeader]="'pageTitle.sentQualityTopics'"
+      [tableHeader]="'pageTitle.sentQualityNotification'"
       [tableHeaderMenuEnabled]="true"
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
@@ -63,7 +63,7 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
-      [tableHeader]="'pageTitle.receivedQualityTopics'"
+      [tableHeader]="'pageTitle.receivedQualityNotification'"
       [tableHeaderMenuEnabled]="true"
       [notificationsView$]="receivedNotifications$"
       [labelId]="receivedTabLabelId"
