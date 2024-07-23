@@ -27,6 +27,7 @@ digital-twin-registry:
       enabled: true
       tls: true
       className: nginx
+      secretName: registry-certificate-secret-int-a
       urlPrefix: /semantics/registry
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"

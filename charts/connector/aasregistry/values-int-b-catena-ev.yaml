@@ -26,6 +26,7 @@ digital-twin-registry:
     ingress:
       enabled: true
       tls: true
+      secretName: registry-certificate-secret-int-b
       className: nginx
       urlPrefix: /semantics/registry
       annotations:
