@@ -54,4 +54,4 @@ digital-twin-registry:
       username: default-user
       password: password
       database: default-database
-      existingSecret: secret-dtr-inta-postgres-init
+      existingSecret: secret-dtr-intb-postgres-init
