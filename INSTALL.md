@@ -30,6 +30,22 @@ git fetch origin
 git checkout -b chore/trace-x-integration origin/chore/trace-x-integration
 ```
 
+Build the required images for Idp and IATP mock.
+
+#### Powershell
+```powershell
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+docker build init-container/ -t init-container:testing
+docker build iatp-mock/ -t tractusx/iatp-mock:testing --platform linux/amd64
+```
+
+#### Bash
+```bash
+eval $(minikube docker-env)
+docker build init-container/ -t init-container:testing
+docker build iatp-mock/ -t tractusx/iatp-mock:testing --platform linux/amd64
+```
+
 Install the umbrella chart using the [values-adopter-trace-x.yaml](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/chore/trace-x-integration/charts/umbrella/values-adopter-trace-x.yaml)
 
 ```
