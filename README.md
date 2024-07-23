@@ -78,6 +78,10 @@ Trace-X as the Open-Source solution for Parts Traceability offers the following 
   * Quality Investigations (Company to Supplier)
   * Quality Alerts (Company to Customers)
 
+## Installation
+
+* see [Installation guide](INSTALL.md)
+
 ## How to contribute
 
 A detailed guide on how to contribute can be found [here](CONTRIBUTING.md).
@@ -110,10 +114,6 @@ Because it uses SVGs, we knew it will perform great. And we are able to have pin
 * [Node.js 18](https://nodejs.org/en)
 * [Angular CLI](https://angular.io/cli)
 * [YARN](https://yarnpkg.com/)
-
-### Frontend Installation
-
-* see [Installation guide](frontend/INSTALL.md)
 
 ### Getting started
 
@@ -157,10 +157,6 @@ See [Testing](frontend/TESTING.md).
 
 * JDK 21
 * [Docker Engine](https://docs.docker.com/engine/)
-
-### Backend Installation
-
-* see [Installation guide](tx-backend/INSTALL.md)
 
 ### Backend Testing Strategy
 See [Testing](tx-backend/TESTING.md).

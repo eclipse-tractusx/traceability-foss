@@ -1,12 +1,38 @@
 # Installation Instructions
 
+## Installation Instructions Helm
+
+### Install Helm chart from the Helm chart repository
+
+```
+# 1. Add the helm chart repository:
+helm repo add tractusx-dev https://eclipse-tractusx.github.io/
+```
+
+```
+# 2. Install traceability-foss chart into your cluster:
+helm install traceability-foss tractusx-dev/traceability-foss
+```
+### Use Helm chart as dependency on your own Helm chart
+
+```
+    dependencies:
+      - name: traceability-foss
+        repository: https://eclipse-tractusx.github.io/traceability-foss
+        version: 1.x.x
+```
+
+### Configure product-example Helm chart on your needs
+
+Please have a look into our [Helm chart documentation](charts/traceability-foss/README.md) for more information about the configuration options.
+
 ## Installation Instructions Frontend
 
-- [Installation Instructions Frontend](frontend/INSTALL.md)
+To run the frontend locally with a already existing backend, use the run configs in [frontend/package.json](frontend/package.json).
 
-## Installation Instructions Backend
+Add a run config by creating a new entry in [package.json](frontend/package.json) similar to `"start:auth": "ng serve --configuration=dev,auth"` and adding a entry in [angular.json](frontend/angular.json) at "projects.trace-x.architect.build.configuratns" and "projects.trace-x.architect.serve.configurations".
 
-- [Installation Instructions Backend](tx-backend/INSTALL.md)
+Add an environment by creating new file in [frontend/src/environments](frontend/src/environments) and reference it in the [package.json](frontend/package.json) build configuration.
 
 ## Installation Instructions Local Umbrella
 
@@ -56,8 +82,6 @@ helm install umbrella charts/umbrella/ -n umbrella --create-namespace -f charts/
 
 ### Local Frontend with Umbrella Trace-X backend
 
-To use the frontend locally, follow the [installation instructions](frontend/INSTALL.md).
-
 To integrate with the umbrella services, run the frontend with `start:auth:localUmbrella`
 
 Afterward, use one of the following users to log into the CX-Operator realm:
@@ -71,4 +95,4 @@ Afterward, use one of the following users to log into the CX-Operator realm:
 ### Out of scope
 
 - Sending notifications is currently not supported
-- IRS Asset Sync requires a new release of IRS which provides a fix for callback url validation
+- IRS Asset Sync does not yet work with IRS 5.4.0. It requires a new release of IRS which provides a fix for callback url validation.
