@@ -9,8 +9,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
 - #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
-- #xxx update IRS chart version from 7.3.1 to 7.4.0
-- XXXX updated publish documentation action
+- #XXX update springboot to 3.2.8 from 3.2.5
+- #XXX update IRS chart version from 7.3.1 to 7.4.0
+- #XXX updated publish documentation action
 
 ## [13.0.0 - 19.07.2024]
 
