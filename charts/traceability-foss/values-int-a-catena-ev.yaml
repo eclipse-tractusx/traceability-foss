@@ -144,6 +144,11 @@ backend:
   fullnameOverride: *backend_name
 
   ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
       - host: *be_host_name
         paths:
@@ -152,7 +157,7 @@ backend:
     tls:
       - hosts:
           - *be_host_name
-        secretName: tls-secret-tx-be
+        secretName: tls-secret-tx-be-int-a
 
   traceability:
     bpn: *bpn
