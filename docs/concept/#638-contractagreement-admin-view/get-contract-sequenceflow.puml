@@ -1,47 +1,54 @@
 @startuml
 title
-    ==GET api/contracts/{tx-assetId}
+    == Request Contract Agreements
 end title
 
 autonumber "<B>[00]"
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
 
-participant "Trace-X Frontend" as FE order 0
-participant "Trace-X Backend" as BE order 1
-participant "Trace-X Database" as DB order 2
-participant "EDC" as TXEDC order 3
+participant "Trace-X \n Frontend" as FE order 0
+participant "Trace-X \n Backend" as BE order 1
+participant "Trace-X \n Database" as DB order 2
+participant "EDC \n ManagementAPI" as TXEDC order 3
 
-FE -> BE: GET api/contracts/{tx-assetId}
+FE -> BE: Request for ContractResponse
+note left
+    GET /contracts by filterExpression
+end note
 
-activate BE
-BE -> DB: Take contractAgreementId for tx-assetId
-activate DB
-autonumber stop
-DB --> BE: contractAgreementId
-autonumber resume
-deactivate DB
+loop for each contract agreement
+    activate BE
+        BE -> DB: Query contractAgreementId for assetId
+    activate DB
+        DB --> BE: result contractAgreementId
+    deactivate DB
 
-BE -> TXEDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}
-activate TXEDC
-autonumber stop
-TXEDC --> BE: JSON response
-autonumber resume
-deactivate TXEDC
-BE -> BE: Extract contractSigningDate, policy
-activate BE
+    BE -> TXEDC: GET contractagreements
+    note left
+        GET edc/management/v2/contractagreements/{contractAgreementId}
+    end note
+    activate TXEDC
+    TXEDC --> BE: return contract agreements
+    deactivate TXEDC
+    BE -> BE: Extract contractSigningDate, policy
+    activate BE
+    deactivate BE
+
+    BE -> TXEDC: GET edc/management/v2/contractagreements/{contractAgreementId}/negotiation
+    activate TXEDC
+    TXEDC --> BE: Gets a contract negotiation with the given contract agreement ID
+    deactivate TXEDC
+    BE -> BE: Extract id, counterPartyAddress, state
+    activate BE
+    BE -> BE : Create ContractResponse
+    deactivate BE
+
+end loop
+
+BE --> FE: List of ContractResponses for filterExpression
 deactivate BE
-
-BE -> TXEDC: GET tx-edc/management/v2/contractagreements/{contractAgreementId}/negotiation
-activate TXEDC
 autonumber stop
-TXEDC --> BE: JSON response
-autonumber resume
-deactivate TXEDC
-BE -> BE: Extract id, counterPartyAddress, state
-activate BE
-deactivate BE
-
-autonumber stop
-BE --> FE: JSON response
-deactivate BE
-
 @enduml
