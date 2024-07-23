@@ -126,6 +126,11 @@ frontend:
     BPN: *bpn
 
   ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
       - host: *fe_host_name
         paths:
@@ -134,7 +139,7 @@ frontend:
     tls:
       - hosts:
           - *fe_host_name
-        secretName: tls-secret-tx-fe
+        secretName: tls-secret-tx-fe-int-b
 
 #########################
 # Backend Chart Values configuration     #
