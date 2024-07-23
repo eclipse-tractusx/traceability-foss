@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
 - #xxx update IRS chart version from 7.3.1 to 7.4.0
 - XXXX updated publish documentation action
+- XXXX updated Swagger-ui documentation
 
 ## [13.0.0 - 19.07.2024]
 
