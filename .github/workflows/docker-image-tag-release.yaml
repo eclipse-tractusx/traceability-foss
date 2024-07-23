@@ -25,7 +25,6 @@ on:
 
 env:
   TAG_NAME: "${{ github.ref_name }}"
-  GHCR_REGISTRY: ghcr.io
   JAVA_VERSION: 17
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
   BACKEND_IMAGE_DOCKER_HUB: traceability-foss
@@ -44,27 +43,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Login to GHCR Registry
-        env:
-          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
-        if: env.DOCKER_HUB_USER == ''
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.GHCR_REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push to GHCR Registry ${{ env.GHCR_REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }} and :latest
-        env:
-          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
-        if: env.DOCKER_HUB_USER == ''
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./frontend/Dockerfile
-          push: true
-          tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }}, ${{ env.GHCR_REGISTRY }}/${{ github.repository }}-frontend:latest
 
       - name: Login to Docker Hub
         env:
@@ -120,26 +98,6 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-
-      - name: Login to GHCR Registry
-        env:
-          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
-        if: env.DOCKER_HUB_USER == ''
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.GHCR_REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build & push docker image for GHCR Registry ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
-        env:
-          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
-        if: env.DOCKER_HUB_USER == ''
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}, ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:latest
 
       - name: Login to Docker Hub
         env:
