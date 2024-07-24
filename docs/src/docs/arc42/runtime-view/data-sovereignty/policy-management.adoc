@@ -84,7 +84,7 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 |IRS requests for CatalogOffer for globalAssetsIds passed by Trace-X [A]
 
 |28
-|Trace-X [B] extracts policies from CatalogOffer
+|IRS extracts policies from CatalogOffer
 
 |29,30
 |IRS requests for policies defined for BPNL of Trace-X [A] in PolicyStore of Trace-X [B]
