@@ -42,10 +42,11 @@ import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery
 public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
     private final EdcProperties edcProperties;
     private final DiscoveryFinderClient discoveryFinderClient;
+    private static final String BPN = "bpn";
 
     @Override
     public Optional<Discovery> retrieveDiscoveryByFinderAndEdcDiscoveryService(String bpn) {
-        DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(bpn));
+        DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(BPN));
         DiscoveryResponse discoveryEndpoints = discoveryFinderClient.findDiscoveryEndpoints(request);
         List<EdcDiscoveryResult> discoveryResults = new ArrayList<>();
         discoveryEndpoints.endpoints().forEach(discoveryEndpoint -> {

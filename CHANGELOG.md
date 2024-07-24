@@ -9,7 +9,13 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
 - #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
-- #xxx update IRS chart version from 7.3.1 to 7.4.0
+
+- #XXX updated Swagger-ui documentation
+- #XXX update IRS chart version from 7.3.1 to 7.4.0
+- #XXX updated publish documentation action
+- #1222 Removed image publishing to GHCR
+- #1222 Adjust backend baseimage in Dockerfile to major version eclipse-temurin:21-jre-alpine
+- #XXX update springboot to 3.2.8 from 3.2.5
 
 ## [13.0.0 - 19.07.2024]
 
@@ -18,6 +24,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1108 Added concept for policy management enhancement
 - #1007 Added data-sovereignty/policy-management section in arc42 documentation
 - #1190 update notification contracts on policy updates
+- XXXX added workflow to import testdata
 
 ### Changed
 - #1070 Correct semantic model in dev/README.md
@@ -33,7 +40,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1196 Update IRS to 7.3.1
 - #941 made the naming for quality notifications consistent throughout the FE app
 - #1190 store accepted policies in catalog offers on startup
-
+- #941 updated labels from QualityTopic to QualityNotification
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
 - #1190 CatalogOffers are not able to provide OR constraints therefore notifications are not processed correctly on wrong policy
