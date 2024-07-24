@@ -77,7 +77,7 @@ SPDX-License-Identifier: Apache-2.0
         <jose4j.version>0.9.4</jose4j.version>
         <restito.version>1.1.0</restito.version>
         <testcontainer-postgresql.version>1.19.8</testcontainer-postgresql.version>
-        <rest-assured.version>5.4.0</rest-assured.version>
+        <rest-assured.version>5.5.0</rest-assured.version>
         <postgresql.version>42.6.1</postgresql.version>
         <springdoc.version>2.0.4</springdoc.version>
         <assertj.version>3.24.2</assertj.version>
