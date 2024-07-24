@@ -44,38 +44,17 @@ import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery
 public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
     private final EdcProperties edcProperties;
     private final DiscoveryFinderClient discoveryFinderClient;
-    private final ObjectMapper objectMapper;
-    private final String BPN = "bpn";
+    private static final String BPN = "bpn";
 
     @Override
     public Optional<Discovery> retrieveDiscoveryByFinderAndEdcDiscoveryService(String bpn) {
         DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(BPN));
         DiscoveryResponse discoveryEndpoints = discoveryFinderClient.findDiscoveryEndpoints(request);
-        try {
-            log.info("discoveryEndpoints");
-            log.warn(objectMapper.writeValueAsString(discoveryEndpoints));
-        } catch (JsonProcessingException e) {
-            log.warn("Could not write value as string");
-        }
         List<EdcDiscoveryResult> discoveryResults = new ArrayList<>();
         discoveryEndpoints.endpoints().forEach(discoveryEndpoint -> {
             String endPointAddress = discoveryEndpoint.endpointAddress();
-            log.info("endPointAddress {}", endPointAddress);
-            List<EdcDiscoveryResult> connectorEndpoints = discoveryFinderClient.findConnectorEndpoints(endPointAddress, List.of(bpn));
-            try {
-                log.info("connectorEndpoints");
-                log.warn(objectMapper.writeValueAsString(connectorEndpoints));
-            } catch (JsonProcessingException e) {
-                log.warn("Could not write value as string");
-            }
-            discoveryResults.addAll(connectorEndpoints);
+            discoveryResults.addAll(discoveryFinderClient.findConnectorEndpoints(endPointAddress, List.of(bpn)));
         });
-        try {
-            log.info("DiscoveryResult");
-            log.warn(objectMapper.writeValueAsString(discoveryResults));
-        } catch (JsonProcessingException e) {
-            log.warn("Could not write value as string");
-        }
         List<EdcDiscoveryResult> discoveryResultByBPN
                 = discoveryResults.stream().filter(edcDiscoveryResult -> edcDiscoveryResult.bpn().equals(bpn)).toList();
 
