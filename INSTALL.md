@@ -94,5 +94,5 @@ Afterward, use one of the following users to log into the CX-Operator realm:
 
 ### Out of scope
 
-- Sending notifications is currently not supported
+- Sending/receiving of quality notifications is not supported, since it would require another tracex instance. 
 - IRS Asset Sync does not yet work with IRS 5.4.0. It requires a new release of IRS which provides a fix for callback url validation.
