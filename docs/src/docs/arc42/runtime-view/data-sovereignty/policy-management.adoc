@@ -18,8 +18,8 @@ There are two policy types used.
 * Access
 * Usage
 
-As specified by the [Dataspace Protocol](https://github.com/International-Data-Spaces-Association/ids-specification), one Data Asset MUST refer to at least one Usage Policy, expressed in ODRL.
-For additional information refer to [Connector KIT](https://eclipse-tractusx.github.io/docs-kits/kits/Connector%20Kit/Adoption%20View/connector_kit_adoption_view)
+As specified by the https://github.com/International-Data-Spaces-Association/ids-specification[Dataspace Protocol], one Data Asset MUST refer to at least one Usage Policy, expressed in ODRL.
+For additional information refer to https://eclipse-tractusx.github.io/docs-kits/kits/Connector%20Kit/Adoption%20View/connector_kit_adoption_view[Connector KIT]
 
 == Policies for sending and receiving parts
 [plantuml, target=data-sovereignty-publish-assets, format=svg]
@@ -85,7 +85,7 @@ It's possible to publish parts with different policies. For this, the user must 
 
 
 **Note**:
-For more detailed information concering the functionality of IRS please refer to [IRS docu](https://eclipse-tractusx.github.io/item-relationship-service/docs/)
+For more detailed information concerning the functionality of IRS please refer to https://eclipse-tractusx.github.io/item-relationship-service/docs/[IRS documentation]
 
 
 **[Work-in-progress]** The user may also choose parts that have already been published - they can be republished with a different policy. The process for this is identical to the regular publishing process.
