@@ -63,11 +63,10 @@ public class RestProvider {
     @Getter
     private TraceXEnvironmentEnum currentEnv;
 
-    private final Authentication authentication;
+    private Authentication authentication;
 
     public RestProvider() {
         host = null;
-        authentication = new Authentication();
 
         RestAssured.config = RestAssuredConfig.config().objectMapperConfig(new ObjectMapperConfig().jackson2ObjectMapperFactory(
                 (type, s) -> new ObjectMapper()
@@ -84,9 +83,11 @@ public class RestProvider {
     public void loginToEnvironment(TraceXEnvironmentEnum environment) {
         if (environment.equals(TRACE_X_A)) {
             host = EnvVariablesResolver.getTX_A_Host();
+            authentication = Authentication.authenticationForTracexA();
             currentEnv = TRACE_X_A;
         } else if (environment.equals(TRACE_X_B)) {
             host = EnvVariablesResolver.getTX_B_Host();
+            authentication = Authentication.authenticationForTracexB();
             currentEnv = TRACE_X_B;
         }
         System.out.println(host);
@@ -249,16 +250,17 @@ public class RestProvider {
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .body("{\n" +
-                        "    \"pageAble\": {\n" +
-                        "        \"size\": 1000 \n" +
-                        "    },\n" +
-                        "    \"searchCriteria\": {\n" +
-                        "        \"filter\": [\n" +
-                        "            \"channel,EQUAL,RECEIVER,AND\"\n" +
-                        "        ]\n" +
-                        "    }\n" +
-                        "}")
+                .body("""
+                        {
+                            "pageAble": {
+                                "size": 1000\s
+                            },
+                            "searchCriteria": {
+                                "filter": [
+                                    "channel,EQUAL,RECEIVER,AND"
+                                ]
+                            }
+                        }""")
                 .post("/api/notifications/filter")
                 .then()
                 .statusCode(HttpStatus.SC_OK)

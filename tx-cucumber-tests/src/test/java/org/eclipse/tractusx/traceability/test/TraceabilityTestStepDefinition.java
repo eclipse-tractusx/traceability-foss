@@ -53,7 +53,7 @@ import static org.awaitility.Awaitility.await;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_B;
 import static org.eclipse.tractusx.traceability.test.validator.TestUtils.normalize;
-import static org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
+import static org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithUUID;
 
 @Slf4j
 public class TraceabilityTestStepDefinition {
@@ -61,8 +61,8 @@ public class TraceabilityTestStepDefinition {
     private RestProvider restProvider;
     private Long notificationID_TXA = null;
     private Long notificationID_TXB = null;
-    protected static final String BPN_TXA = "BPNL00000003CML1";
-    protected static final String BPN_TXB = "BPNL00000003CNKC";
+    protected static final String BPN_TXA = System.getProperty("txa.bpn");
+    protected static final String BPN_TXB = System.getProperty("txb.bpn");
     private String notificationDescription = null;
     private List<AssetAsBuiltResponse> requestedAssets;
     private List<String> testAssets;
@@ -96,7 +96,7 @@ public class TraceabilityTestStepDefinition {
             throw MissingStepDefinitionException.missingAssetDefinition();
         }
 
-        notificationDescription = wrapStringWithTimestamp(input.get("description"));
+        notificationDescription = wrapStringWithUUID(input.get("description"));
 
         final Instant targetDate = input.get("targetDate") == null ? null : Instant.parse(input.get("targetDate"));
 
@@ -127,7 +127,7 @@ public class TraceabilityTestStepDefinition {
             throw MissingStepDefinitionException.missingAssetDefinition();
         }
 
-        notificationDescription = wrapStringWithTimestamp(input.get("description"));
+        notificationDescription = wrapStringWithUUID(input.get("description"));
 
         final Instant targetDate = input.get("targetDate") == null ? null : Instant.parse(input.get("targetDate"));
 
