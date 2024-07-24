@@ -14,6 +14,7 @@ participant "Trace-X \n [A]" as TXA
 participant "PolicyStore \n [A]" as PSA
 participant "Digital Twin Registry \n [A]" as DTRA
 participant "EDC \n [A]" as EDCA
+participant "SubmodelServer \n [A]" as SSA
 participant "Digital Twin Registry \n [B]" as DTRB
 participant "EDC \n [B]" as EDCB
 participant "IRS \n [B]" as IRSB
@@ -66,7 +67,7 @@ loop selected assets
 
 TXA -> EDCA: create asset (POST /v3/assets)
 note left
-    create CatalogOffer in EDC
+    create assets and CatalogOffer in EDC
 end note
 TXA <-- EDCA: 200 Asset was created successfully.
 
@@ -84,6 +85,13 @@ end note
 TXA <-- DTRA: 201 : Asset Administration Shell Descriptor created successfully
 deactivate DTRA
 
+TXA -> SSA: create submodels for twin
+activate SSA
+note left
+    create submodels in SubmodelServer
+end note
+TXA <-- SSA: submodels created
+deactivate SSA
 
 deactivate EDCA
 end
