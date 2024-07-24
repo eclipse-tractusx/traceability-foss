@@ -75,13 +75,13 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 |Trace-X [B] wants to synchronize parts and retrieve available ones from connected BPNs. In this case Trace-X [A] and Trace-X [B] have an established connection.
 
 |23,24
-|Trace-X [B] requests for digital twins (Asset Administration Shell) in decentral Digital Twin registry.
+|Trace-X [B] requests for globalAssetIds (unique identifier of digital twins (Asset Administration Shell)) in decentral Digital Twin registry.
 
 |25
-|For part synchronization the Item Relationship Service (IRS) is requested.
+|For part synchronization a synchronization job is started in the Item Relationship Service (IRS) .
 
 |26,27
-|IRS requests for CatalogOffer for assets of Trace-X [A]
+|IRS requests for CatalogOffer for globalAssetsIds passed by Trace-X [A]
 
 |28
 |Trace-X [B] extracts policies from CatalogOffer
