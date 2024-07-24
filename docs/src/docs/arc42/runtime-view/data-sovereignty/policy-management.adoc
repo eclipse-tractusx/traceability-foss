@@ -102,7 +102,7 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 |In case policy does not match IRS created tombstone.
 
 |37
-|IRS callbacks Trace-X [B] Instance after completing job processing. 
+|IRS callbacks Trace-X [B] Instance after completing job processing.
 |===
 
 It's possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For the parts that must be published with different policies, the user can repeat the process.
@@ -155,7 +155,7 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 |If no policies match, an error will be returned to the user.
 |===
 
-=== No policies when sending notifications
+=== No policies defined for Receiver BPNL when sending notifications
 [plantuml, target=data-sovereignty-notifications-policy-change, format=svg]
 ....
 include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sovereignty-notifications-policy-change.puml[]

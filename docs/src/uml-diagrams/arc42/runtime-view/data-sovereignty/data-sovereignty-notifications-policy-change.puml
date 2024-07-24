@@ -1,17 +1,18 @@
 @startuml
-
+autonumber "<B>[00]"
 skinparam monochrome true
 skinparam shadowing false
 skinparam defaultFontName "Architects daughter"
 skinparam linetype ortho
-autonumber
 
-title Policies: Sending notifications without policies
+
+title Policies: No policies defined for Receiver BPNL when sending notifications
 
 actor Admin
 actor User
-participant "Trace-X" as TraceX
-participant "Receiver EDC" as EDC
+participant "Trace-X \n [A]" as TraceX
+participant "Receiver EDC \n [B]" as EDC
+participant "Policy Store \n [A]" as PSA
 
 Admin -> TraceX: create policies
 ...
@@ -19,14 +20,19 @@ User -> TraceX: send notification to receiver BPN
 activate TraceX
 TraceX -> EDC: get catalog of receiver BPN
 activate EDC
-EDC --> TraceX: catalog
+EDC --> TraceX: return CatalogOffer
 deactivate EDC
-TraceX -> TraceX: extract required policy definition from catalog
-TraceX -> TraceX: get own policy definition for receiver BPN
+TraceX -> TraceX: extract required policy from CatalogOffer
+TraceX -> PSA: get policy definition for receiver BPN
+autonumber stop
+TraceX <--  PSA : return policy of BPNL [B]
+autonumber resume
 activate TraceX
-TraceX --> TraceX: no policyDefinition for receiver BPN -> use default policy
+opt no policyDefinition for receiver BPN
+    TraceX --> TraceX: use default policy
+end opt
 deactivate TraceX
-TraceX -> TraceX: compare policy definition with own default policy
+TraceX -> TraceX: compare policy definition of CatalogOffer with policy of BPNL
 alt policies don't match
 TraceX --> User: error: policies don't match
 deactivate TraceX

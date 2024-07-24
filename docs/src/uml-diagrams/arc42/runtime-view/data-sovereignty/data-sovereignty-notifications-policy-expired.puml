@@ -1,5 +1,5 @@
 @startuml
-autonumber
+autonumber "<B>[00]"
 title: Policies: Sending notifications with expired policy
 
 skinparam monochrome true
