@@ -20,24 +20,19 @@ A high level of transparency across the supplier network enables faster interven
   - [Introduction](#introduction)
     - [Vision and Mission Statement](#vision-and-mission-statement)
     - [Trace-X Feature list](#trace-x-feature-list)
+  - [Installation](#installation)
   - [How to contribute](#how-to-contribute)
   - [Releasing](#releasing)
-  - [Environments](#environments)
   - [Frontend Application](#frontend-application)
     - [Challenges and solutions](#challenges-and-solutions)
-    - [Prerequisites](#frontend-prerequisites)
-    - [Installation](#frontend-installation)
-    - [Getting started](#getting-started)
     - [Application authentication](#application-authentication)
     - [Application architecture & patterns](#application-architecture--patterns)
     - [User guide](#user-guide)
     - [Frontend Testing strategy](#frontend-testing-strategy)
-  - [The backend application](#the-backend-application)
+  - [The backend application](#backend-application)
     - [Prerequisites](#backend-prerequisites)
-    - [Installation](#backend-installation)
     - [Backend Testing strategy](#backend-testing-strategy)
   - [API documentation](#api-documentation)
-  - [Container Image](#container-image)
   - [Licenses](#licenses)
   - [Notice for Docker image](#notice-for-docker-image)
   - [Contact](#contact)
@@ -109,32 +104,6 @@ Our first approach was to use HTML canvas. But it turned out it is hard to perfo
 D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML, SVG, and CSS.
 Because it uses SVGs, we knew it will perform great. And we are able to have pinpoint accuracy when it comes to user actions.
 
-### Frontend Prerequisites
-
-* [Node.js 18](https://nodejs.org/en)
-* [Angular CLI](https://angular.io/cli)
-* [YARN](https://yarnpkg.com/)
-
-### Getting started
-
-Clone the source locally:
-
-```bash
-$ git clone git@github.com:eclipse-tractusx/traceability-foss.git
-$ cd traceability-foss/frontend
-```
-
-#### Install prerequisites:
-
-install [node.js](https://nodejs.org/en/download/package-manager)
-```bash
-$ npm install --global yarn
-$ npm install -g @angular/cli
-$ yarn install
-```
-
-Start application with ``yarn start`` and navigate to ``http://localhost:4200``.
-
 ### Application Authentication
 
 Please find [here](frontend/AUTHENTICATION.md) some important information about the app authentication.
@@ -146,7 +115,7 @@ so that you end up with a well-structured app.
 
 ### User Guide
 
-A detailed [explanation](docs/user/user-manual.adoc) of how to use the application.
+A detailed [explanation](docs/src/docs/user/user-manual.adoc) of how to use the application.
 
 ### Frontend Testing Strategy
 See [Testing](frontend/TESTING.md).

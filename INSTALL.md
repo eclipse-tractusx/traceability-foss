@@ -28,7 +28,33 @@ Please have a look into our [Helm chart documentation](charts/traceability-foss/
 
 ## Installation Instructions Frontend
 
-To run the frontend locally with a already existing backend, use the run configs in [frontend/package.json](frontend/package.json).
+### Prerequisites
+
+* [Node.js 18](https://nodejs.org/en)
+* [Angular CLI](https://angular.io/cli)
+* [YARN](https://yarnpkg.com/)
+
+### Getting started
+
+Clone the source locally:
+
+```bash
+$ git clone git@github.com:eclipse-tractusx/traceability-foss.git
+$ cd traceability-foss/frontend
+```
+
+#### Install prerequisites:
+
+install [node.js](https://nodejs.org/en/download/package-manager)
+```bash
+$ npm install --global yarn
+$ npm install -g @angular/cli
+$ yarn install
+```
+
+Start application with ``yarn start`` and navigate to ``http://localhost:4200``.
+
+To run the frontend locally with an already existing backend, use the run configs in [frontend/package.json](frontend/package.json).
 
 Add a run config by creating a new entry in [package.json](frontend/package.json) similar to `"start:auth": "ng serve --configuration=dev,auth"` and adding a entry in [angular.json](frontend/angular.json) at "projects.trace-x.architect.build.configuratns" and "projects.trace-x.architect.serve.configurations".
 
@@ -94,5 +120,5 @@ Afterward, use one of the following users to log into the CX-Operator realm:
 
 ### Out of scope
 
-- Sending/receiving of quality notifications is not supported, since it would require another tracex instance. 
+- Sending/receiving of quality notifications is not supported, since it would require another tracex instance.
 - IRS Asset Sync does not yet work with IRS 5.4.0. It requires a new release of IRS which provides a fix for callback url validation.
