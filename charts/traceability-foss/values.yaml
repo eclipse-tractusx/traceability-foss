@@ -275,7 +275,7 @@ backend:
     url: ""  # backend url example: https://<backend.ingress.hosts>
     leftOperand: "PURPOSE"
     operatorType: "eq"
-    rightOperand: "ID 3.0 Trace"
+    rightOperand: "changeme"
     leftOperandSecond: "anything"
     operatorTypeSecond: "eq"
     rightOperandSecond: "anything"
