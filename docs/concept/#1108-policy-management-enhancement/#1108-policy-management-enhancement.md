@@ -25,6 +25,10 @@ It must be possible for users to change policies used for asset provisioning and
 - [ ] User can not create valid, active policies for BPNs that already have a valid, active policy
   - [ ] If he wants to do so anyways, the existing policies will be invalidated (validUntil = currentTime). -> Before doing that, a modal will ask him for confirmation.
 - [ ] If the EDC of the receiving BPN provides multiple contract offers, Trace-X will check if **any of them** are active and match the own policy definition. In that case, the data will be sent. This applies to data provisioning and notification transmission.
+- [ ] After startup, additional policy is created for the own BPN. Its constraints are identical to the default-policy and it will be used for the initial contractOffer creation.
+- [ ] contractOffer is only updated when the policy for the own BPN is changed or when a new policy for the own BPN is created.
+- [ ] There must always be one policy with the own BPN included. It can not be deleted. The validUntil date for this one should be *null* and cannot be set to a different value.
+- [ ] Default-policy is always used for sending notifications, when there is no policy defined for the receiver BPN.
 
 # Concept
 
@@ -37,7 +41,7 @@ In this case, all parts using that policy must be updated. For this Trace-X must
 Then the affected parts must have their policies updated.
 
 ## Policy update process for parts
-![policy-update.png](policy-update.png)
+![policy-update.svg](policy-update.svg)
 
 1. **policyDefinition + globalAssetId**
 
@@ -601,7 +605,7 @@ If not, an error message is created and the notification will not be sent.
 If there are any expired (validUntil <= currentTime) policies configured for the receiving BPN, an error message ('policy has expired') will be created and the notification will **not** be sent.
 If there are no policies configured for the receiving BPN, the default policy will be used for the negotiation.
 
-![notification-policy.png](notification-policy.png)
+![notification-policy.svg](notification-policy.svg)
 
 In the frontend, it should not be possible to create multiple valid policies for the same BPN.
 During the creation of policies, all policies that already exist must be checked.
@@ -610,10 +614,22 @@ Before doing this the user must be informed about this process and confirm it in
 ![notification-policy-modal.png](notification-policy-modal.png)
 
 ## Contract negotiation
-
 During contract negotiation, there can only be one policy definition from Trace-X that will be compared with the catalogOffers from the receiverBPN.
-If the receiverBPN provides multiple policies in his offers, Trace-X will compare its own policy definition with all of them.
+If the receiverBPN provides multiple policies in his catalogOffer, Trace-X will compare its own policy definition with all of them.
 If **any of them** are valid **and** match the own policy definition, the data will be sent.
+
+## Updating the catalogOffer
+In order to be able to receive notifications or to share parts, a catalogOffer must be created.
+The catalogOffer includes the necessary policy definitions. On startup of Trace-X a default policy is provided. The default policy will be used to create the initial catalogOffer.
+When the administrator creates a new policy, the catalogOffer will be recreated with the new policy and the default policy will be deleted.
+If the administrator chooses a wrong policy or a wrong BPN for the policy, he might disable the application from receiving notifications.
+
+This can be avoided by creating a policy that is configured for the own BPN in addition to the default-policy.
+This policy will be created on start-up and the initial catalogOffer will be created using it.
+When sending notifications in this state the default-policy will be used.
+
+The catalogOffer will **only** be updated when this policy is changed or when another policy is created for the own BPN (that will replace the initial one).
+Creating a policy for other BPNs will not affect the catalogOffer.
 
 # Additional Details
 Given the dynamic nature of ongoing development, there might be variations between the conceptualization and the current implementation. For the latest status, refer to the documentation.

@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.integration.policy;
 
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,9 @@ import static org.hamcrest.Matchers.is;
 class PolicyControllerIT extends IntegrationTestSpecification {
     @Autowired
     IrsApiSupport irsApiSupport;
+
+    @Autowired
+    EdcSupport edcSupport;
 
     @Test
     void shouldReturnGetPolicies() throws JoseException {
@@ -97,6 +101,14 @@ class PolicyControllerIT extends IntegrationTestSpecification {
         // GIVEN
         irsApiSupport.irsApiCreatesPolicy();
         irsApiSupport.irsApiReturnsPolicies();
+        edcSupport.edcWillReturnCatalog();
+        edcSupport.edcWillReturnContractDefinitions();
+        edcSupport.edcWillRemoveContractDefinition();
+        edcSupport.edcWillRemoveNotificationAsset();
+        edcSupport.edcWillCreateAsset();
+        edcSupport.edcWillCreatePolicyDefinition();
+        edcSupport.edcWillRemovePolicyDefinition();
+        edcSupport.edcWillCreateContractDefinition();
         Payload payload = Payload.builder().build();
         RegisterPolicyRequest request = new RegisterPolicyRequest(Instant.MAX, "abc", payload);
 
@@ -143,6 +155,14 @@ class PolicyControllerIT extends IntegrationTestSpecification {
         // GIVEN
         irsApiSupport.irsApiUpdatesPolicy();
         irsApiSupport.irsApiReturnsPolicies();
+        edcSupport.edcWillReturnCatalog();
+        edcSupport.edcWillReturnContractDefinitions();
+        edcSupport.edcWillRemoveContractDefinition();
+        edcSupport.edcWillRemoveNotificationAsset();
+        edcSupport.edcWillCreateAsset();
+        edcSupport.edcWillCreatePolicyDefinition();
+        edcSupport.edcWillRemovePolicyDefinition();
+        edcSupport.edcWillCreateContractDefinition();
 
         UpdatePolicyRequest request = new UpdatePolicyRequest(List.of("abc"), List.of("abc"), Instant.MAX);
 
@@ -164,6 +184,14 @@ class PolicyControllerIT extends IntegrationTestSpecification {
         String policyId = "policy1";
         irsApiSupport.irsApiDeletesPolicy(policyId);
         irsApiSupport.irsApiReturnsPolicies();
+        edcSupport.edcWillReturnCatalog();
+        edcSupport.edcWillReturnContractDefinitions();
+        edcSupport.edcWillRemoveContractDefinition();
+        edcSupport.edcWillRemoveNotificationAsset();
+        edcSupport.edcWillCreateAsset();
+        edcSupport.edcWillCreatePolicyDefinition();
+        edcSupport.edcWillRemovePolicyDefinition();
+        edcSupport.edcWillCreateContractDefinition();
 
         // when/then
         given()

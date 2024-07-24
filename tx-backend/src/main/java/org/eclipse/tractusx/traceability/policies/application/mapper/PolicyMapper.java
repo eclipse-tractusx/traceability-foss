@@ -18,11 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.policies.application.mapper;
 
-import policies.response.ConstraintResponse;
-import policies.response.ConstraintsResponse;
-import policies.response.PermissionResponse;
-import policies.response.PolicyResponse;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.collections4.CollectionUtils;
 import org.eclipse.tractusx.irs.edc.client.asset.model.Context;
 import org.eclipse.tractusx.irs.edc.client.contract.model.EdcOperator;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
@@ -30,6 +27,10 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicy;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermission;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraint;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcPolicyPermissionConstraintExpression;
+import policies.response.ConstraintResponse;
+import policies.response.ConstraintsResponse;
+import policies.response.PermissionResponse;
+import policies.response.PolicyResponse;
 
 import java.util.List;
 
@@ -73,7 +74,7 @@ public class PolicyMapper {
     }
 
     private static List<EdcPolicyPermissionConstraintExpression> mapToConstraintExpression(List<ConstraintResponse> constraints) {
-        return emptyIfNull(constraints).stream().map(constraint -> EdcPolicyPermissionConstraintExpression.builder()
+        List<EdcPolicyPermissionConstraintExpression> constraintList = emptyIfNull(constraints).stream().map(constraint -> EdcPolicyPermissionConstraintExpression.builder()
                         .type("Constraint")
                         .leftOperand(constraint.leftOperand())
                         .rightOperand(constraint.rightOperand())
@@ -82,5 +83,6 @@ public class PolicyMapper {
                                 .build())
                         .build())
                 .toList();
+        return CollectionUtils.isEmpty(constraintList) ? null : constraintList;
     }
 }

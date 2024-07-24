@@ -43,8 +43,6 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.util.ResourceUtils;
 
 import java.io.FileNotFoundException;
@@ -95,6 +93,13 @@ public class InvestigationPolicyExpirationIT extends IntegrationTestSpecificatio
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
+        edcSupport.edcWillReturnContractDefinitions();
+        edcSupport.edcWillRemoveContractDefinition();
+        edcSupport.edcWillRemoveNotificationAsset();
+        edcSupport.edcWillCreateAsset();
+        edcSupport.edcWillCreatePolicyDefinition();
+        edcSupport.edcWillRemovePolicyDefinition();
+        edcSupport.edcWillCreateContractDefinition();
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3

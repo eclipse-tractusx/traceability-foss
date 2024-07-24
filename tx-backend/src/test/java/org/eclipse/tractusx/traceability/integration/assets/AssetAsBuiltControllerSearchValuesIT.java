@@ -145,34 +145,6 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
     }
 
     @Test
-    void givenContractAgreementId_whenCallSearchableValues_thenProperResponse() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        String fieldName = "contractAgreementId";
-        String resultLimit = "100";
-        String startWith = "abc1";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "startWith", startWith)))
-                .log().all()
-                .when()
-                .post("/api/assets/as-built/searchable-values")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .assertThat()
-                .body(".", Matchers.containsInRelativeOrder(
-                        "abc1",
-                        "abc10",
-                        "abc11",
-                        "abc12",
-                        "abc13"));
-    }
-
-    @Test
     void givenBusinessPartnerMixedCase_whenCallSearchableValues_thenProperResponse() throws JoseException {
         // given
         assetsSupport.defaultAssetsStored();

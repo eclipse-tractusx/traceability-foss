@@ -6,6 +6,7 @@ import { ContractsFacade } from '@page/admin/presentation/contracts/contracts.fa
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contract-detail',
@@ -27,7 +28,12 @@ export class ContractDetailComponent {
       })
     }
 
-    this.selectedContractDetails$ = this.contractsFacade.selectedContract$;
+    this.selectedContractDetails$ = this.contractsFacade.selectedContract$.pipe(map((viewContract) => {
+      if (!viewContract?.data?.globalAssetId) {
+        delete viewContract?.data?.globalAssetId;
+      }
+      return viewContract;
+    }));
     this.selectedContractDetails$.subscribe(next => {
       if(!next?.data?.policy) {
         return;

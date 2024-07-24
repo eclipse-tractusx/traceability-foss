@@ -89,7 +89,6 @@ export class PartsAssembler {
       semanticDataModel: partResponse.semanticDataModel,
       classification: partResponse.classification,
       semanticModel: createdSemanticModel,
-      contractAgreementId: partResponse.contractAgreementId,
 
       mainAspectType: mainAspectType,
 

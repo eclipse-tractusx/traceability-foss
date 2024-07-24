@@ -7,24 +7,33 @@ autonumber "<B>[00]"
 
 actor "User" as U order 0
 participant "Trace-X" as TX order 1
-participant "Receiver BPN" as R order 2
+participant "Receiver" as R order 2
 
 U -> TX: sendNotification(notificationID, receiverBPN)
 activate TX
-TX -> TX: searchPolicies(receiverBPN)
-TX --> TX: policyList
+TX -> R: getCatalogOffer()
+R --> TX: catalogOffer
+TX -> TX: Extract policies from catalogOffer
+TX -> TX: Get configured policy for receiver BPN
 alt NO policies found for receiverBPN
+TX -> TX: Compare receiver policies with default policy
+alt policies match
 TX -> R: sendNotification(notificationID, receiverBPN, defaultPolicy)
 TX --> U: Success
-else ONE VALID policy found
+else policies don't match
+TX --> U: Error('Default policy did not match with receiver policy')
+end
+else VALID policy found
+TX -> TX: Compare receiver policies with configured policy
+alt policies match
 TX -> R: sendNotification(notificationID, receiverBPN, validPolicy)
 TX --> U: Success
-else MULTIPLE VALID policies found
-TX --> U: Error('Multiple active policies found')
-else ONLY INVALID policies found
+else policies don't match
+TX --> U: Error('Configured policy did not match with receiver policy')
+end
+else INVALID policy found
 TX --> U: Error('Policy has expired')
 end
 deactivate TX
-
 
 @enduml

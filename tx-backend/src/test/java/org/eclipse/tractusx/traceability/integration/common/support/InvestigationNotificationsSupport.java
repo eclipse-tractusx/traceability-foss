@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSeverityBaseEntity;
@@ -79,7 +78,6 @@ public class InvestigationNotificationsSupport {
 
     private void storeCreatedInvestigations() {
         Instant now = Instant.parse("2023-10-10T10:10:10.00Z");
-        Instant monthFromNow = Instant.parse("2023-11-10T10:10:10.00Z");
         LocalDate specificDate = LocalDate.of(2023, 11, 11);
         ZonedDateTime zonedDateTime = specificDate.atStartOfDay(ZoneId.systemDefault());
         Instant instant = zonedDateTime.toInstant();

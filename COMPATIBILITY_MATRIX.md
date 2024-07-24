@@ -1,18 +1,18 @@
 # Compatibility matrix Trace-X
-## Trace-X UNRELEASED [xx.x.x](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/x.x.x) - 2024-xx-xx
+## Trace-X UNRELEASED [13.0.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/13.0.0) - 2024-07-19
 
 ### Catena-X Release?
 
-- [] yes
-- [] no
+- [x] yes
+- [ ] no
 
-### Helm Version [x.x.x](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-x.x.x)
+### Helm Version [1.3.42](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.42)
 
 | Dependency       | Name of Service              | Version              | Helm     | Comments                                            |
 |------------------|------------------------------|----------------------|----------|-----------------------------------------------------|
 | EDC              | edc-postgresql               | 15.4.0-debian-11-r45 | 12.12.10 | Enterprise Data Connector for PostgreSQL            |
-| IRS              | item-relationship-service    | 5.2.0                | 7.2.1    | Helm charts for Item Relationship Service           |
-| EDC              | tractusx-connector           | 0.7.0                | 0.7.0    | Connector for Data Transfer and Registration        |
+| IRS              | item-relationship-service    | 5.4.0                | 7.4.0    | Helm charts for Item Relationship Service           |
+| EDC              | tractusx-connector           | 0.7.3                | 0.7.3    | Connector for Data Transfer and Registration        |
 | Discovery Finder | discovery service            | 0.2.5                | -        | Service for discovering and registering artifacts   |
 | Portal           | portal                       | 1.8.0                | -        | Web portal for interacting with Trace-X             |
 | SD-Factory       | SD-Factory                   | 2.1.7                | -        | Service Discovery Factory for managing dependencies |
@@ -32,7 +32,7 @@
 
 ### Catena-X Release?
 
-- [] yes
+- [ ] yes
 - [x] no
 
 ### Helm Version [1.3.40](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.40)
@@ -63,7 +63,7 @@
 
 ### Catena-X Release?
 
-- [] yes
+- [ ] yes
 - [x] no
 
 ### Helm Version [1.3.39](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.39)
