@@ -6,7 +6,7 @@
 
 ```
 # 1. Add the helm chart repository:
-helm repo add tractusx-dev https://eclipse-tractusx.github.io/
+helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 ```
 
 ```
