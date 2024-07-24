@@ -244,7 +244,7 @@ backend:
     capabilities:
       drop:
         - ALL
-    readOnlyRootFilesystem: false
+    readOnlyRootFilesystem: true
 
   service:
     type: ClusterIP
