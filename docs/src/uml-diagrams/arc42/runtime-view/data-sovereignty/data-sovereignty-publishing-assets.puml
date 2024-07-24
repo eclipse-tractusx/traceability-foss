@@ -64,13 +64,6 @@ end opt
 
 loop selected assets
 
-TXA -> DTRA: create asset /shell-descriptors
-activate DTRA
-note left
-    create asset in DTR
-end note
-TXA <-- DTRA: 201 : Asset Administration Shell Descriptor created successfully
-deactivate DTRA
 TXA -> EDCA: create asset (POST /v3/assets)
 note left
     create CatalogOffer in EDC
@@ -82,6 +75,16 @@ note left
     create ContractDefinition in EDC
 end note
 TXA <-- EDCA: ContractDefinition created
+
+TXA -> DTRA: create asset /shell-descriptors
+activate DTRA
+note left
+    create asset in DTR
+end note
+TXA <-- DTRA: 201 : Asset Administration Shell Descriptor created successfully
+deactivate DTRA
+
+
 deactivate EDCA
 end
 
