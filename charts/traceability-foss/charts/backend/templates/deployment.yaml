@@ -164,6 +164,9 @@ spec:
             - name: http-trusted
               containerPort: 8181
               protocol: TCP
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
           # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
         {{- if .Values.healthCheck.enabled }}
           livenessProbe:
@@ -190,6 +193,9 @@ spec:
         {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: tmp
+          emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
