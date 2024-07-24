@@ -76,10 +76,16 @@ public class ContractViewRepositoryImpl extends ContractRepositoryImplBase imple
                     && (contract.getType().equals(ContractType.ASSET_AS_BUILT)
                     || contract.getType().equals(ContractType.ASSET_AS_PLANNED));
 
+            Predicate<Contract> notificationWithoutGlobalAssetId = contract -> contract.getGlobalAssetId() == null
+                    && (contract.getType().equals(ContractType.NOTIFICATION));
+
+
+            Predicate<Contract> partsWithGlobalAssetIdOrNotificationWithoutGlobalAssetId = partsWithGlobalAssetId.or(notificationWithoutGlobalAssetId);
+
             List<Contract> contracts = fetchEdcContractAgreements(baseEntities)
                     .stream()
                     .filter(contract -> contract.getContractId() != null)
-                    .filter(partsWithGlobalAssetId)
+                    .filter(partsWithGlobalAssetIdOrNotificationWithoutGlobalAssetId)
                     .toList();
 
             return new PageResult<>(contracts,
