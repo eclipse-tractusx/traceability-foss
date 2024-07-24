@@ -102,7 +102,7 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 |In case policy does not match IRS created tombstone.
 
 |37
-|IRS callbacks Trace-X [B] Instance after completing job processing.
+|IRS callbacks Trace-X [B] Instance after completing job processing. ContractAgreementId for asset is available in Trace-X passed in IRS JobResponse.
 |===
 
 It's possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For the parts that must be published with different policies, the user can repeat the process.
