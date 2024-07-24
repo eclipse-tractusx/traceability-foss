@@ -16,6 +16,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1222 Removed image publishing to GHCR
 - #1222 Adjust backend baseimage in Dockerfile to major version eclipse-temurin:21-jre-alpine
 - #XXX update springboot to 3.2.8 from 3.2.5
+- #XXX define uid and gid of backend Dockerfile directly in user, instead of variables
 
 ## [13.0.0 - 19.07.2024]
 
