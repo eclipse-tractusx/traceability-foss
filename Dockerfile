@@ -41,14 +41,11 @@ RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET 
 # Copy the jar and build image
 FROM eclipse-temurin:21-jre-alpine AS traceability-app
 
-ARG UID=10000
-ARG GID=1000
-
 WORKDIR /app
 
 COPY --chmod=755 --from=maven /build/tx-backend/target/traceability-app-*-exec.jar app.jar
 
-USER ${UID}:${GID}
+USER 10000:1000
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
