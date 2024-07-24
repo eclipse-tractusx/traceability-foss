@@ -1,11 +1,11 @@
 # \[Concept\] \[#1108\] Policy management enhancement
 
-| Key           | Value                                                                     |
-|---------------|---------------------------------------------------------------------------|
-| Author        | @ds-crehm                                                                 |
-| Creation date | 02.07.2024                                                                |
-| Ticket Id     | [#849](https://github.com/eclipse-tractusx/traceability-foss/issues/1108) |
-| State         | DRAFT                                                                     |
+| Key           | Value                                                                      |
+|---------------|----------------------------------------------------------------------------|
+| Author        | @ds-crehm                                                                  |
+| Creation date | 02.07.2024                                                                 |
+| Ticket Id     | [#1108](https://github.com/eclipse-tractusx/traceability-foss/issues/1108) |
+| State         | DRAFT                                                                      |
 
 # Table of Contents
 1. [Overview](#overview)
@@ -22,22 +22,22 @@ It must be possible for users to change policies used for asset provisioning and
   - [ ] Part will be synchronized automatically afterwards
 - [ ] Policy updates trigger an update and synchronization of all related parts
 - [ ] When sending notifications, the active policy for the respective BPN is used for contract negotiation
-- [ ] User can not create valid, active policies for BPNs that already have a valid, active policy
+- [ ] User can not create policies with expiration date in the future for BPNs that already have a policy with an expiration date in the future.
   - [ ] If he wants to do so anyways, the existing policies will be invalidated (validUntil = currentTime). -> Before doing that, a modal will ask him for confirmation.
-- [ ] If the EDC of the receiving BPN provides multiple contract offers, Trace-X will check if **any of them** are active and match the own policy definition. In that case, the data will be sent. This applies to data provisioning and notification transmission.
-- [ ] After startup, additional policy is created for the own BPN. Its constraints are identical to the default-policy and it will be used for the initial contractOffer creation.
-- [ ] contractOffer is only updated when the policy for the own BPN is changed or when a new policy for the own BPN is created.
+- [ ] If the EDC of the receiving BPN provides multiple contract offers with included policies, Trace-X will check if **any of them** are active and match the own policy definition. In that case, the data will be sent. This applies to data provisioning and notification transmission.
+- [ ] After startup, an additional policy is created for the own BPN. Its constraints are identical to the default-policy and it will be used for the initial contractOffer creation.
+- [ ] The contractOffer is only updated when the policy for the own BPN is changed or when a new policy for the own BPN is created.
 - [ ] There must always be one policy with the own BPN included. It can not be deleted. The validUntil date for this one should be *null* and cannot be set to a different value.
-- [ ] Default-policy is always used for sending notifications, when there is no policy defined for the receiver BPN.
+- [ ] The default-policy is always used for sending notifications, when there is no policy defined for the receiver BPN.
 
 # Concept
 
 ## When to update policies for parts
-A part can be republished with a different policy -> in this case the policy must be updated with the chosen policy and then republished.
-For this the policy update process below must be used and then the existing publish-process can be used to republish and synchronize the part.
+A part can be republished with a different policy. For this the administrator can simply select the part again and trigger the publish action. There he can select the desired policy.
+Then the policy update process below can be used to update the policy for the part, which will then be republished.
 
 When a policy is updated, all parts that used this policy must be updated and republished with the new policy.
-In this case, all parts using that policy must be updated. For this Trace-X must iterate through all parts and check if they use the changed policy.
+For this Trace-X must iterate through all parts and check if they use the changed policy.
 Then the affected parts must have their policies updated.
 
 ## Policy update process for parts
