@@ -22,9 +22,9 @@ xref:administration/administration-guide.adoc[Administration guide]
 
 xref:user/user-manual.adoc[User manual]
 
-== API documentation
+== Swagger-UI
 
-xref:api-specification/api-specification.adoc[OpenApi specification]
+xref:swagger-ui/index.adoc[Swagger-UI]
 
 == Architecture documentation (arc42)
 
