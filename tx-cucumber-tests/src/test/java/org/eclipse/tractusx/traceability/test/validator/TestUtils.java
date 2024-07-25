@@ -19,8 +19,10 @@
 
 package org.eclipse.tractusx.traceability.test.validator;
 
-import java.time.Instant;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -29,9 +31,8 @@ public class TestUtils {
 
     private static final String UNIQUE_SEPARATOR = ":-:";
 
-    public static String wrapStringWithTimestamp(String string) {
-
-        return UNIQUE_SEPARATOR + string + UNIQUE_SEPARATOR + Instant.now();
+    public static String wrapStringWithUUID(String string) {
+        return UNIQUE_SEPARATOR + string + UNIQUE_SEPARATOR + UUID.randomUUID();
     }
 
     public static String unWrapStringWithTimestamp(String string) {

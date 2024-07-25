@@ -40,10 +40,26 @@ public class Authentication {
     private String clientSecret;
     private String keycloakHost;
 
-    Authentication() {
-        clientId = EnvVariablesResolver.getSupervisorClientId();
-        clientSecret = EnvVariablesResolver.getSupervisorPassword();
+    private Authentication() {
+        clientId = EnvVariablesResolver.getSupervisorClientIdTracexA();
+        clientSecret = EnvVariablesResolver.getSupervisorPasswordTracexA();
         keycloakHost = EnvVariablesResolver.getKeycloakHost();
+    }
+
+    public static Authentication authenticationForTracexA(){
+        Authentication authentication = new Authentication();
+        authentication.clientId = EnvVariablesResolver.getSupervisorClientIdTracexA();
+        authentication.clientSecret = EnvVariablesResolver.getSupervisorPasswordTracexA();
+        authentication.keycloakHost = EnvVariablesResolver.getKeycloakHost();
+        return authentication;
+    }
+
+    public static Authentication authenticationForTracexB(){
+        Authentication authentication = new Authentication();
+        authentication.clientId = EnvVariablesResolver.getSupervisorClientIdTracexB();
+        authentication.clientSecret = EnvVariablesResolver.getAssociationSupervisorTxBPassword();
+        authentication.keycloakHost = EnvVariablesResolver.getKeycloakHost();
+        return authentication;
     }
 
     public String obtainAccessToken() {
