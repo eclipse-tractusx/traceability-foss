@@ -54,7 +54,7 @@
                 "createdOn" : "2022-02-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
-                "businessPartner" : "BPNL00000003CNKC"
+                "businessPartner" : "BPNL000000000DWF"
               }
             ]
           }
@@ -115,7 +115,7 @@
                 "createdOn" : "2021-01-15T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
-                "businessPartner" : "BPNL00000003CNKC"
+                "businessPartner" : "BPNL000000000DWF"
               }
             ]
           }
@@ -165,7 +165,7 @@
           "payload" : {
             "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
             "customers" : [
-              "BPNL00000003CNKC"
+              "BPNL000000000DWF"
             ],
             "parentItems" : [
               {
@@ -176,7 +176,7 @@
                 "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
                 "createdOn" : "2023-12-05T14:48:54.709Z",
                 "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
-                "businessPartner" : "BPNL00000003CNKC",
+                "businessPartner" : "BPNL000000000DWF",
                 "isOnlyPotentialParent" : false
               }
             ]
@@ -238,7 +238,7 @@
                 "createdOn" : "2022-11-22T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
-                "businessPartner" : "BPNL00000003CNKC"
+                "businessPartner" : "BPNL000000000DWF"
               }
             ]
           }
@@ -288,7 +288,7 @@
           "payload" : {
             "catenaXId" : "urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f",
             "customers" : [
-              "BPNL00000003CNKC"
+              "BPNL000000000DWF"
             ],
             "parentItems" : [
               {
@@ -299,7 +299,7 @@
                 "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
                 "createdOn" : "2023-04-13T14:48:54.709Z",
                 "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
-                "businessPartner" : "BPNL00000003CNKC",
+                "businessPartner" : "BPNL000000000DWF",
                 "isOnlyPotentialParent" : false
               }
             ]
@@ -350,7 +350,7 @@
           "payload" : {
             "catenaXId" : "urn:uuid:6ec3f1db-2798-454b-a73f-0d21a8966c74",
             "customers" : [
-              "BPNL00000003CNKC"
+              "BPNL000000000DWF"
             ],
             "parentItems" : [
               {
@@ -362,7 +362,7 @@
                 "createdOn" : "2023-08-21T14:48:54.709Z",
                 "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "isOnlyPotentialParent" : false,
-                "businessPartner" : "BPNL00000003CNKC"
+                "businessPartner" : "BPNL000000000DWF"
               }
             ]
           }
@@ -457,7 +457,7 @@
                 "createdOn" : "2016-01-20T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
-                "businessPartner" : "BPNL00000003CNKC"
+                "businessPartner" : "BPNL000000000DWF"
               }
             ]
           }
@@ -505,7 +505,7 @@
           "payload" : {
             "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
             "customers" : [
-              "BPNL00000003CNKC"
+              "BPNL000000000DWF"
             ],
             "parentItems" : [
               {
@@ -517,7 +517,7 @@
                 "createdOn" : "2022-07-03T14:48:54.709Z",
                 "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
                 "isOnlyPotentialParent" : false,
-                "businessPartner" : "BPNL00000003CNKC"
+                "businessPartner" : "BPNL000000000DWF"
               }
             ]
           }
@@ -571,7 +571,7 @@
                 "createdOn" : "2022-08-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
                 "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
-                "businessPartner" : "BPNL00000003CNKC"
+                "businessPartner" : "BPNL000000000DWF"
               }
             ]
           }
@@ -745,7 +745,7 @@
                   "value" : 1,
                   "unit" : "unit:piece"
                 },
-                "businessPartner" : "BPNL00000003CNKC",
+                "businessPartner" : "BPNL000000000DWF",
                 "createdOn" : "2022-01-03T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
               }
@@ -905,7 +905,7 @@
                   "value" : 1,
                   "unit" : "unit:litre"
                 },
-                "businessPartner" : "BPNL00000003CNKC",
+                "businessPartner" : "BPNL000000000DWF",
                 "createdOn" : "2022-02-16T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
               }
@@ -1019,7 +1019,7 @@
                   "value" : 1,
                   "unit" : "unit:litre"
                 },
-                "businessPartner" : "BPNL00000003CNKC",
+                "businessPartner" : "BPNL000000000DWF",
                 "createdOn" : "2022-02-16T14:48:54.709Z",
                 "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
               }
