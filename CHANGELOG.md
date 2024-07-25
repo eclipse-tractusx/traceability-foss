@@ -28,6 +28,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - XXXX added workflow to import testdata
 
 ### Changed
+- #1108 Rework of data sov documentation
 - #1070 Correct semantic model in dev/README.md
 - #1070 Update documentation artefacts according to TRG 1 - Documentation
 - #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
