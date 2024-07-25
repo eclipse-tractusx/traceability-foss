@@ -1,10 +1,16 @@
 @startuml
+autonumber "<B>[00]"
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
+
 participant BE
 participant EDC
 participant Registry
 participant Submodels
 participant Irs
-autonumber "<b>[000]"
+
 
 BE ->> BE: scheduler job
 BE ->> BE: receive list of IN_SYNC assets

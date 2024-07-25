@@ -1,7 +1,11 @@
 @startuml
-'https://plantuml.com/sequence-diagram
-autonumber
+autonumber "<B>[00]"
 title: Policies: Sending notifications with expired policy
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
 
 actor Admin
 actor User

@@ -16,3 +16,8 @@ These contract agreement ids will be then requested on EDC side via POST (/manag
 The contract information is then returned by the endpoint as a pageable result.
 
 If no asset ids are provided in the request, 50 contract agreement ids are handled by default.
+
+
+
+
+
