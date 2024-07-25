@@ -53,14 +53,14 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 |9
 |User with role 'Admin' selects policy under which assets are published. The user must choose the policy that is used for contract negotiation of the selected parts.
 
-|10,11
-|Trace-X [A] BE checks if PolicyDefinition for selected policy already exists.
+|10, 11
+|Assets are created in the EDC. (POST /v3/assets)
 
 |12,13
-|In case PolicyDefinition does not exist. New PolicyDefinition is created in EDC [A]. The PolicyDefinition is created in the EDC.
+|Trace-X [A] BE checks if PolicyDefinition for selected policy already exists.
 
-|14, 15
-|Assets are created in the EDC. (POST /v3/assets)
+|14,15
+|In case PolicyDefinition does not exist. New PolicyDefinition is created in EDC [A]. The PolicyDefinition is created in the EDC.
 
 |16,17
 |The created part is linked in the PolicyDefinition from the EDC. This is the last step of data provisioning. Trace-X [A] has done everything to ensure that companies that have a matching policy can access its published parts.
