@@ -111,6 +111,17 @@ end note
 AB <-- TXB: policy created
 deactivate TXB
 
+
+ref over TXB
+    Trace-X [B] publish own assets
+
+end ref
+
+note right
+    Prerequisite is that Trace-X has published own assets.
+    dDTR of Trace-X B is requested for globalAssetIds of company own assets. 
+end note
+
 ...
 TXB -> TXB: synchronize assets (assets/as-$/sync)
 note left
