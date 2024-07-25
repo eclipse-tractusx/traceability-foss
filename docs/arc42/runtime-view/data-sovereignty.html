@@ -450,6 +450,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_policy_management">Policy management</a>
 <ul class="sectlevel2">
+<li><a href="#_policy_types">Policy Types</a></li>
 <li><a href="#_policies_for_sending_and_receiving_parts">Policies for sending and receiving parts</a></li>
 <li><a href="#_policies_for_sending_and_receiving_notifications">Policies for sending and receiving notifications</a></li>
 </ul>
@@ -466,7 +467,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="return-all-contracts.svg" alt="return all contracts" width="1105" height="554">
+<img src="return-all-contracts.svg" alt="return all contracts" width="1150" height="608">
 </div>
 </div>
 <div class="sect2">
@@ -503,10 +504,26 @@ However, to be sure that data is shared only with companies that match one&#8217
 The processes itself are different and will be explained here:</p>
 </div>
 <div class="sect2">
+<h3 id="_policy_types">Policy Types</h3>
+<div class="paragraph">
+<p>The EDC Connector MUST provide a possibility to restrict the access of a Data Asset to specific business partners by attribute(s), e.g., represented as a VC.
+The Connector MUST restrict the data usage to partners and purposes for a specific use case.</p>
+</div>
+<div class="paragraph">
+<p>There are two policy types used.
+* Access
+* Usage</p>
+</div>
+<div class="paragraph">
+<p>As specified by the <a href="https://github.com/International-Data-Spaces-Association/ids-specification">Dataspace Protocol</a>, one Data Asset MUST refer to at least one Usage Policy, expressed in ODRL.
+For additional information refer to <a href="https://eclipse-tractusx.github.io/docs-kits/kits/Connector%20Kit/Adoption%20View/connector_kit_adoption_view">Connector KIT</a></p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_policies_for_sending_and_receiving_parts">Policies for sending and receiving parts</h3>
 <div class="imageblock">
 <div class="content">
-<img src="data-sovereignty-publish-assets.svg" alt="data sovereignty publish assets" width="1338" height="1004">
+<img src="data-sovereignty-publish-assets.svg" alt="data sovereignty publish assets" width="3310" height="1861">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -516,77 +533,113 @@ The processes itself are different and will be explained here:</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1, 2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Policies can be created by administrators at any time in the administration section of Trace-X.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Policies can be created by User with role 'Admin' at any time in the administration section of Trace-X. The policy is created to later used for publishing assets in the current company context.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Policies are stored in the PolicyStore which is a shared component used by Trace-X [A] app and IRS for storing usage and access policies.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Parts can be imported at any time in the parts section of Trace-X. They will be stored locally at first.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Policy is created in the policy store.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Before connected BPNs can access the imported parts, the parts must be published to the EDC and to the Digital Twin Registry (DTR).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' receives feedback that creation of policy was successful.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The user must choose the policy that is used for contract negotiation of the selected parts.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The policy is created in the EDC.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5, 6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' imports assets in Admin section of Trace-X [A]. Parts can be imported at any time in the parts section of Trace-X. They will be stored locally at first. <a href="https://github.com/eclipse-tractusx/traceability-foss/tree/main/tx-backend/testdata">Testdata for asset import</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Each part is created as a shell in the DTR. This holds all the data of the part.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' selects assets in transient state in application.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The created part is linked to the policy from the EDC. This is the last step of data provisioning. Trace-X A has done everything to ensure that companies that have a matching policy can access its published parts.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' is requested to define a policy for assets publishing.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X B wants to synchronize parts and retrieve available ones from connected BPNs. In this case Trace-X A and Trace-X B have an established connection.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' selects policy under which assets are published. The user must choose the policy that is used for contract negotiation of the selected parts.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">For part synchronization the Item Relationship Service (IRS) is requested.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10, 11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Assets are created in the EDC. (POST /v3/assets)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">First the IRS must know the policies that are used by Trace-X B, so it requests them directly.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12,13</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X [A] BE checks if PolicyDefinition for selected policy already exists.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">12</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X B returns a list of the configured policies depending on the configuration done by the administrator in step 2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">14,15</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In case PolicyDefinition does not exist. New PolicyDefinition is created in EDC [A]. The PolicyDefinition is created in the EDC.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The IRS requests the catalog from Trace-X A. In the catalog, all policies of Trace-X A are stored.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">16,17</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The created part is linked in the PolicyDefinition from the EDC. This is the last step of data provisioning. Trace-X [A] has done everything to ensure that companies that have a matching policy can access its published parts.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">14</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC of Trace-X A provides the catalog.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18,19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Each part is created as a shell in the DTR. This holds all the data of the part. Before connected BPNs can access the imported parts, the parts must be published to the EDC and to the Digital Twin Registry (DTR).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">15</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The IRS checks the catalog for the required policies and extracts them.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20,21</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' in Trace-X [B] creates policy for consuming assets of Trace-X [A].</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">16</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X [B] wants to synchronize parts and retrieve available ones from connected BPNs. In this case Trace-X [A] and Trace-X [B] have an established connection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">23,24</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X [B] requests for globalAssetIds (unique identifier of digital twins (Asset Administration Shell)) in decentral Digital Twin registry.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">25</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For part synchronization a synchronization job is started in the Item Relationship Service (IRS) .</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26,27</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IRS requests for CatalogOffer for globalAssetsIds passed by Trace-X [A]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IRS extracts policies from CatalogOffer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">29,30</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IRS requests for policies defined for BPNL of Trace-X [A] in PolicyStore of Trace-X [B]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">31</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Now that the IRS has all the relevant policies of both companies, it can start comparing the linked policy of each part to the policy list of Trace-X B. This works by comparing the included constraints logically. If no policy matches for a part, it will not be imported.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">17, 18</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If the policy of the part matches with any policy of Trace-X A, a contract agreement is created for both Trace-X A and Trace-X B. It can be viewed in the administration section of Trace-X and documents the data exchange.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32,33,34</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the policy of the part matches with any policy of Trace-X A, a contract agreement is created for both Trace-X A and Trace-X B. It can be viewed in the administration section of Trace-X and documents the data exchange. Since the contractAgreementId will be mapped to an submodel of IRS. The contracts can be seen after IRS responded to Trace-X initial sync call with the submodels including the contractAgreementId.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">35</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Now that the contract negotiation was successful, the data consumption process can take place for that part.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">36</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In case policy does not match IRS created tombstone.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">37</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IRS callbacks Trace-X [B] Instance after completing job processing. ContractAgreementId for asset is available in Trace-X passed in IRS JobResponse.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
 <p>It&#8217;s possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For the parts that must be published with different policies, the user can repeat the process.</p>
+</div>
+<div class="paragraph">
+<p><strong>Note</strong>:
+For more detailed information concerning the functionality of IRS please refer to <a href="https://eclipse-tractusx.github.io/item-relationship-service/docs/">IRS documentation</a></p>
 </div>
 <div class="paragraph">
 <p><strong>[Work-in-progress]</strong> The user may also choose parts that have already been published - they can be republished with a different policy. The process for this is identical to the regular publishing process.</p>
@@ -652,10 +705,10 @@ The processes itself are different and will be explained here:</p>
 </tbody>
 </table>
 <div class="sect3">
-<h4 id="_no_policies_when_sending_notifications">No policies when sending notifications</h4>
+<h4 id="_no_policies_defined_for_receiver_bpnl_when_sending_notifications">No policies defined for Receiver BPNL when sending notifications</h4>
 <div class="imageblock">
 <div class="content">
-<img src="data-sovereignty-notifications-policy-change.svg" alt="data sovereignty notifications policy change" width="835" height="751">
+<img src="data-sovereignty-notifications-policy-change.svg" alt="data sovereignty notifications policy change" width="987" height="798">
 </div>
 </div>
 <div class="paragraph">
@@ -666,11 +719,11 @@ The processes itself are different and will be explained here:</p>
 <h4 id="_expired_policy_when_sending_notifications">Expired policy when sending notifications</h4>
 <div class="imageblock">
 <div class="content">
-<img src="data-sovereignty-expired-policy.svg" alt="data sovereignty expired policy" width="739" height="677">
+<img src="data-sovereignty-expired-policy.svg" alt="data sovereignty expired policy" width="772" height="677">
 </div>
 </div>
 <div class="paragraph">
-<p>Policies always have an expiration time. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must either update the policy. Then the policy can be resent.</p>
+<p>Policies always have an expiration time defined by the 'validUntil' timestamp. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must either update the policy. Then the policy can be resent.</p>
 </div>
 </div>
 <div class="sect3">
@@ -691,7 +744,7 @@ The processes itself are different and will be explained here:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-24 08:07:16 UTC
+Last updated 2024-07-25 07:15:01 UTC
 </div>
 </div>
 </body>
