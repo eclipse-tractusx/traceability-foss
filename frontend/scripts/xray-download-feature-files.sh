@@ -13,8 +13,15 @@
 # under the License.
 #
 # * SPDX-License-Identifier: Apache-2.0
-
 # https://docs.getxray.app/display/XRAY/Exporting+Cucumber+Tests+-+REST
-curl -u $JIRA_USERNAME:$JIRA_PASSWORD "https://jira.catena-x.net/rest/raven/1.0/export/test?filter=${JIRA_FILTER_ID:-11645}&fz=true" -o features.zip
+
+# Get the authentication token
+token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "", "client_secret": "" }' https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
+
+# Set the output file name
+OUTPUT_FILE="features.zip"
+
 unzip -o features.zip -d cypress/e2e
-rm -f features.zip
+
+# Use the token to download the JSON file
+curl --request GET --header "Authorization: Bearer $token" "https://xray.cloud.getxray.app/api/v2/export/cucumber?filter=10005&fz=true" -o "$OUTPUT_FILE"

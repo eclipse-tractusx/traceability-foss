@@ -13,9 +13,8 @@
 # under the License.
 #
 # * SPDX-License-Identifier: Apache-2.0
+# Get the authentication token
+token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "", "client_secret": "" }' https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
 
-curl --request POST \
-          -u $JIRA_USERNAME:$JIRA_PASSWORD \
-          --header 'Content-Type: application/json' \
-          --data-binary '@cypress/reports/cucumber-report.json' \
-          "https://jira.catena-x.net/rest/raven/1.0/import/execution/cucumber"
+# Use the token to upload the JSON file
+curl --request POST --header "Content-Type: application/json" --header "Authorization: Bearer $token" --data-binary @cypress/reports/cucumber-report.json "https://xray.cloud.getxray.app/api/v2/import/execution/cucumber"
