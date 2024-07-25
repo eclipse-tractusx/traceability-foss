@@ -226,6 +226,8 @@ pgadmin4:
   nameOverride: *pgadmin_name
   fullnameOverride: *pgadmin_name
   ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
     hosts:
       - host: *pgadmin_host_name
         paths:
