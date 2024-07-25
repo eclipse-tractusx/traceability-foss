@@ -106,7 +106,7 @@ configuration:
   partnersPool: &partners_pool_url 'https://partners-pool.int.catena-x.net'
 
   digitalTwinRegistry:
-    allowedBpns: &allowed_bpns 'BPNL000000000DWF,BPNL000000000UKM'
+    allowedBpns: &allowed_bpns 'BPNL000000000DWF,BPNL000000000UKM,BPNL000000000EVQ'
     url: &dtr_url 'https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3'
     descriptorEndpoint: &dtr_shell_descriptor_url 'https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3/shell-descriptors/{aasIdentifier}'
     shellLookupEndpoint: &dtr_shell_lookup_url 'https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3/lookup/shells?assetIds={assetIds}'
