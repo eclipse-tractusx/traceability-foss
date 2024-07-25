@@ -1,7 +1,9 @@
 @startuml
+autonumber "<B>[00]"
 skinparam monochrome true
 skinparam shadowing false
-autonumber "<b>[000]"
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
 
 actor TraceXApiConsumer
 activate TraceXApiConsumer
