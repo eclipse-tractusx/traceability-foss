@@ -19,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #XXX define uid and gid of backend Dockerfile directly in user, instead of variables
 - #1244 upgraded registry from 0.4.1 to 0.5.0
 - #XXX update e2e-tests-xray_frontend.yml to support association int environment
+- #1318 fix testdata v14 where parts had the wrong bpn
 
 ### Added
 - #511 Added installation guide for local frontend with umbrella chart

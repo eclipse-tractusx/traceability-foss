@@ -971,6 +971,28 @@
               }
             ]
           }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_planned:1.1.0#SingleLevelUsageAsPlanned",
+          "payload" : {
+            "catenaXId" : "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
+            "businessPartner" : "BPNL000000000DWF",
+            "parentParts" : [
+              {
+                "validityPeriod" : {
+                  "validFrom" : "2023-03-21T08:17:29.187+01:00",
+                  "validTo" : "2024-07-01T16:10:00.000+01:00"
+                },
+                "parentCatenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:litre"
+                },
+                "createdOn" : "2022-02-13T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
+              }
+            ]
+          }
         }
       ]
     },
@@ -1211,7 +1233,7 @@
               "date" : "2022-02-04T14:48:54.000Z",
               "country" : "HUN"
             },
-            "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
+            "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c3",
             "partTypeInformation" : {
               "manufacturerPartId" : "5464168-83",
               "customerPartId" : "PRT-12345",
@@ -1332,6 +1354,66 @@
               ],
               "nameAtManufacturer" : "Sealant"
             }
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.batch:3.0.0#Batch",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000000UKM",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "BID12345678",
+                "key" : "batchId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "HUN"
+            },
+            "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "123-0.740-5656-A",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Sealant"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f",
+            "customers" : [
+              "BPNL000000000DWF"
+            ],
+            "parentItems" : [
+              {
+                "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "createdOn" : "2023-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000000DWF",
+                "isOnlyPotentialParent" : false
+              }
+            ]
           }
         }
       ]
