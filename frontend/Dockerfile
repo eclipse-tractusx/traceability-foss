@@ -75,4 +75,6 @@ USER root
 RUN chown nginx:nginx /etc/nginx/nginx.conf
 RUN chown nginx:nginx /etc/nginx/security-headers.conf
 
+RUN apk info -vv
+
 USER 101
