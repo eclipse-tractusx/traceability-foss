@@ -20,20 +20,25 @@
 import { TitleCasePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { Severity } from '@shared/model/severity.model';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
-
+import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
 describe('NotificationDetailFacade', () => {
   let notificationDetailFacade: NotificationDetailFacade;
   let notificationDetailState: NotificationDetailState;
   let partService: PartsService;
+  let formatPipe: FormatPartlistSemanticDataModelToCamelCasePipe;
+  let notificationPartsInformationSubject: BehaviorSubject<any>;
 
   beforeEach(() => {
 
@@ -56,8 +61,115 @@ describe('NotificationDetailFacade', () => {
     notificationDetailState = TestBed.inject(NotificationDetailState);
 
     partService = TestBed.inject(PartsService);
+
+    formatPipe = TestBed.inject(FormatPartlistSemanticDataModelToCamelCasePipe);
+
+    notificationPartsInformationSubject = new BehaviorSubject<any>({});
+    spyOnProperty(notificationDetailState, 'notificationPartsInformation$', 'get').and.returnValue(notificationPartsInformationSubject.asObservable());
+
   });
 
+  describe('setNotificationPartsInformation', () => {
+    let notification: Notification;
+    const createdDate = new CalendarDateModel('2023-01-01T00:00:00Z');
+    beforeEach(() => {
+      notification = {
+        id: '1',
+        title: 'Test Notification',
+        type: NotificationType.ALERT,
+        status: NotificationStatus.CREATED,
+        description: 'Test Description',
+        createdBy: 'User',
+        createdDate: createdDate,
+        assetIds: ['asset1', 'asset2'],
+        sendTo: 'Receiver',
+        severity: Severity.MAJOR,
+        messages: []
+      };
+    });
+
+  it('should set notification parts information correctly when assetIds are present', () => {
+    const parts: Part[] = [PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT)];
+    spyOn(partService, 'getPartDetailOfIds').and.returnValue(of(parts));
+    spyOn(formatPipe, 'transform');
+
+    notificationDetailFacade.setNotificationPartsInformation(notification);
+
+    expect(partService.getPartDetailOfIds).toHaveBeenCalledWith(notification.assetIds);
+    expect(formatPipe.transform).toHaveBeenCalledWith(parts);
+  });
+
+  it('should handle error when service fails', () => {
+    const error = new Error('Service failed');
+    spyOn(partService, 'getPartDetailOfIds').and.returnValue(throwError(error));
+
+    notificationDetailFacade.setNotificationPartsInformation(notification);
+
+    expect(partService.getPartDetailOfIds).toHaveBeenCalledWith(notification.assetIds);
+    expect(notificationDetailState.notificationPartsInformation.error).toBe(error);
+  });
+
+  it('should set empty data when no assetIds are present', () => {
+    notification.assetIds = [];
+
+    notificationDetailFacade.setNotificationPartsInformation(notification);
+
+    expect(notificationDetailState.notificationPartsInformation.data).toEqual([]);
+  });
+});
+
+
+  describe('setAndSupplierPartsInformation', () => {
+    let notification: Notification;
+    const createdDate = new CalendarDateModel('2023-01-01T00:00:00Z');
+
+    beforeEach(() => {
+      notification = {
+        id: '1',
+        title: 'Test Notification',
+        type: NotificationType.ALERT,
+        status: NotificationStatus.CREATED,
+        description: 'Test Description',
+        createdBy: 'User',
+        createdDate: createdDate,
+        assetIds: ['asset1', 'asset2'],
+        sendTo: 'Receiver',
+        severity: Severity.MAJOR,
+        messages: []
+      };
+      notificationPartsInformationSubject.next({ data: [PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT)] });
+    });
+
+    it('should set supplier parts information correctly when data is present', () => {
+      const parts: Part[] = [PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT)];
+      spyOn(partService, 'getPartDetailOfIds').and.returnValue(of(parts));
+      spyOn(formatPipe, 'transform');
+
+      notificationDetailFacade.setAndSupplierPartsInformation();
+
+      expect(partService.getPartDetailOfIds).toHaveBeenCalled();
+      expect(formatPipe.transform).toHaveBeenCalledWith(parts);
+    });
+
+    it('should handle error when service fails', () => {
+      const error = new Error('Service failed');
+      spyOn(partService, 'getPartDetailOfIds').and.returnValue(throwError(error));
+
+      notificationDetailFacade.setAndSupplierPartsInformation();
+
+      expect(partService.getPartDetailOfIds).toHaveBeenCalled();
+      expect(notificationDetailState.supplierPartsInformation.error).toBe(error);
+    });
+
+    it('should set empty data when no partIds are present', () => {
+      spyOn(partService, 'getPartDetailOfIds').and.returnValue(of([]));
+
+      notificationDetailFacade.setAndSupplierPartsInformation();
+
+      expect(partService.getPartDetailOfIds).toHaveBeenCalled();
+      expect(notificationDetailState.supplierPartsInformation.data).toEqual([]);
+    });
+  });
   [
     {
       method: 'sortNotificationParts',
