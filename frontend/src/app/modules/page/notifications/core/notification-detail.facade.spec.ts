@@ -99,15 +99,15 @@ describe('NotificationDetailFacade', () => {
     expect(formatPipe.transform).toHaveBeenCalledWith(parts);
   });
 
-  it('should handle error when service fails', () => {
-    const error = new Error('Service failed');
-    spyOn(partService, 'getPartDetailOfIds').and.returnValue(throwError(error));
+    it('should handle error when service fails', () => {
+      const error = new Error('Service failed');
+      spyOn(partService, 'getPartDetailOfIds').and.returnValue(throwError(() => error));
 
-    notificationDetailFacade.setNotificationPartsInformation(notification);
+      notificationDetailFacade.setNotificationPartsInformation(notification);
 
-    expect(partService.getPartDetailOfIds).toHaveBeenCalledWith(notification.assetIds);
-    expect(notificationDetailState.notificationPartsInformation.error).toBe(error);
-  });
+      expect(partService.getPartDetailOfIds).toHaveBeenCalledWith(notification.assetIds);
+      expect(notificationDetailState.notificationPartsInformation.error).toBe(error);
+    });
 
   it('should set empty data when no assetIds are present', () => {
     notification.assetIds = [];
