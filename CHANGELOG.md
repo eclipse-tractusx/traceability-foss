@@ -20,6 +20,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1244 upgraded registry from 0.4.1 to 0.5.0
 - #XXX update e2e-tests-xray_frontend.yml to support association int environment
 
+### Added
+- #511 Added installation guide for local frontend with umbrella chart
+
 ## [13.0.0 - 19.07.2024]
 
 ### Added
