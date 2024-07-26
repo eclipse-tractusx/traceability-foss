@@ -39,7 +39,7 @@ Then('select part with id {string}', function(id: string) {
 Then('start notification creation with description {string}', function(notificationType: string, description: string) {
   const date = new Date().getTime();
   notificationDescription = description + '_' + date;
-  cy.get('[data-testid="create-notification-button"]').click();
+  cy.get('[data-testid="create-notification-button"]').click({force: true});
   cy.get('mat-label').contains(/^Description$/i).click().type(notificationDescription);
 });
 
@@ -65,7 +65,7 @@ When('{string} deadline', function(deadline: string) {
 
 
 When('request the {string}', function(notificationType: string) {
-  cy.get('[data-testid="save-button"]').click();
+  cy.get('[data-testid="save-button"]').click({force: true});
 });
 
 
