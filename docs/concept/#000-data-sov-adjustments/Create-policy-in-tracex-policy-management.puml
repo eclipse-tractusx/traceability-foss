@@ -1,0 +1,63 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 10
+skinparam ranksep 100
+skinparam linetype ortho
+skinparam defaultFontName "Architects daughter"
+
+title: Create Policy in Trace-X Policy Management
+
+autonumber
+
+box Company BMW
+    actor "User" as U
+    participant "Trace-X BMW App (BPNL0000BMW)" as TXA_BMW
+    participant "Trace-X Backend" as TXB_BMW
+    participant "Policy Store" as PC_BMW
+end box
+
+participant "EDC" as EDC
+
+box Company ZF
+    participant "Trace-X ZF App (BPNL0000ZF)" as TXA_ZF
+end box
+
+U -> TXA_BMW : Create new Policy for BPNL (BPNL0000ZF)
+TXA_BMW -> TXA_BMW : Create new Policy for BPNL (BPNL0000ZF)
+TXA_BMW -> TXB_BMW : Save policy
+TXB_BMW -> PC_BMW : Register policy
+
+alt success
+    TXB_BMW <-- PC_BMW  : return 201 + policyId
+    TXA_BMW <-- TXB_BMW : policy creation ok
+
+    TXB_BMW -> EDC : Create Notification CatalogItem
+
+    alt CatalogItem created
+    TXB_BMW <-- EDC : return CatalogItem with policy
+
+    U <-- TXA_BMW : Policy created
+    else
+
+    TXA_BMW ->   PC_BMW : Delete policy
+    TXA_BMW <--   PC_BMW : policy deleted
+    U <-- TXA_BMW : Policy creation error (Try again)
+    end alt
+
+
+
+
+
+
+
+
+else exception
+     TXB_BMW <-- PC_BMW   : return error 400, 401, 403, 500
+     TXA_BMW <-- TXB_BMW : policy creation exception + cause
+     U <-- TXA_BMW : Policy creation error (Try again)
+end alt
+
+
+
+@enduml
