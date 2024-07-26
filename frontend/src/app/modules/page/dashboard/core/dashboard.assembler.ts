@@ -38,7 +38,7 @@ export class DashboardAssembler {
 
       // calculated
       totalOwnParts: dashboard.asBuiltOwnParts + dashboard.asPlannedOwnParts,
-      totalOtherParts: dashboard.asBuiltSupplierParts + dashboard.asBuiltCustomerParts + dashboard.asPlannedSupplierParts + dashboard.asPlannedSupplierParts,
+      totalOtherParts: dashboard.asBuiltSupplierParts + dashboard.asBuiltCustomerParts + dashboard.asPlannedSupplierParts,
       ownOpenInvestigationsReceived: dashboard.myPartsWithOpenInvestigations,
       ownOpenInvestigationsCreated: dashboard.supplierPartsWithOpenInvestigations + dashboard.customerPartsWithOpenInvestigations,
       ownOpenAlertsReceived: dashboard.supplierPartsWithOpenAlerts + dashboard.customerPartsWithOpenAlerts,
