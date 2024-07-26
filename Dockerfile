@@ -45,6 +45,8 @@ WORKDIR /app
 
 COPY --chmod=755 --from=maven /build/tx-backend/target/traceability-app-*-exec.jar app.jar
 
+RUN apk info -vv
+
 USER 10000:1000
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
