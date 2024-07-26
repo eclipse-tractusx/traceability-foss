@@ -1,13 +1,13 @@
 # Compatibility matrix Trace-X
 
-## Trace-X UNRELEASED [x.x.x](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/x.x.x) - 2024-xx-xx
+## Trace-X UNRELEASED [13.0.1](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/13.0.1) - 2024-07-26
 
 ### Catena-X Release?
 
-- [?] yes
+- [x] yes
 - [ ] no
 
-### Helm Version [x.x.x](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-x.x.x)
+### Helm Version [1.3.43](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/helm-charts-1.3.43)
 
 | Dependency       | Name of Service              | Version              | Helm     | Comments                                            |
 |------------------|------------------------------|----------------------|----------|-----------------------------------------------------|
