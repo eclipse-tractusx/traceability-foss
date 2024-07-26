@@ -12,6 +12,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Added
 - #511 Added installation guide for local frontend with umbrella chart
+- #XXXX added tests for notification-detail.facade.ts
 
 ### Changed
 - #1318 fix dashboard count for other parts
