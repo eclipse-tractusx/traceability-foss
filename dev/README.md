@@ -80,13 +80,13 @@ python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s http
 Sample invocation (ASSOCIATION INT A)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-int-a.int.catena-x.net/api/submodel -edc https://trace-x-edc-int-a.int.catena-x.net -a https://trace-x-registry-int-a.int.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV  --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-int-a.int.catena-x.net/api/submodel -edc https://trace-x-edc-int-a.int.catena-x.net -a https://trace-x-registry-int-a.int.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL000000000UKM BPNL000000000DWF BPNL000000000EVQ BPNL00000003CSGV  --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
 ```
 
 Sample invocation (ASSOCIATION INT B)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-int-b.int.catena-x.net/api/submodel -edc https://trace-x-edc-int-b.int.catena-x.net -a https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV  --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.12.json -s https://traceability-int-b.int.catena-x.net/api/submodel -edc https://trace-x-edc-int-b.int.catena-x.net -a https://trace-x-registry-int-b.int.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.catena-x.net -p id-3.0-trace -k <apiKey> --aas3 --edcBPN BPNL000000000UKM BPNL000000000DWF BPNL000000000EVQ BPNL00000003CSGV  --allowedBPNs BPNL000000000UKM BPNL000000000DWF BPNL00000003AZQP BPNL00000003CSGV
 ```
 
 where:
