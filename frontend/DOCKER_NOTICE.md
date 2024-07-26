@@ -17,7 +17,7 @@ __Traceability-foss__
 
 - [node:22-alpine](https://github.com/nodejs/docker-node)
 - Official Node DockerHub page: https://hub.docker.com/_/node/
-- Dockerfile: https://github.com/nodejs/docker-node/tree/main/22/alpine3.20/Dockerfile
+- Dockerfile: https://github.com/nodejs/docker-node/blob/main/20/alpine3.20/Dockerfile
 
 
 - [nginxinc/nginx-unprivileged:alpine](https://github.com/nginxinc/docker-nginx)

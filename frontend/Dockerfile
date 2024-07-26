@@ -17,7 +17,7 @@
 
 # Nonroot user is not needed beause we are using the "nginx-unprivileged" image
 # STAGE 1: Build
-FROM node:22-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Copy dependencies info
 COPY ./frontend/package.json ./frontend/yarn.lock ./
