@@ -30,9 +30,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
+- #1122 Editing notifications changes createdBy BPN
 - #1310 Part tree fullscreen error message
-- #1308 Part name in notification always
-- #1307 First message different for sender
+- #1308 Part name in notification always undefined
+- #1307 First message different for sender and receiver
 
 ## [13.0.0 - 19.07.2024]
 
