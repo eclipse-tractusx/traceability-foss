@@ -31,80 +31,62 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-sovereignty/data-sover
 
 [cols="1,5"]
 |===
-|1
-|Policies can be created by User with role 'Admin' at any time in the administration section of Trace-X. The policy is created to later used for publishing assets in the current company context.
+|1,2,3,4
+|Policies can be created by user with role 'Admin' at any time in the administration section of Trace-X. The policy is created to later used for publishing parts in the current company context. Policies are stored in the PolicyStore which is a shared component used by Trace-X [A] and Item Relationship Service (IRS) for storing usage and access policies.
 
-|2
-|Policies are stored in the PolicyStore which is a shared component used by Trace-X [A] and Item Relationship Service (IRS) for storing usage and access policies.
-
-|3
-|The policy is created in the policy store.
-
-|4
-|User with role 'Admin' receives feedback that the creation of policy was successful.
-
-|5, 6
+|5,6
 |User with role 'Admin' imports assets in the administration section of Trace-X [A]. Parts can be imported at any time in the parts section of Trace-X. They will be stored locally at first. https://github.com/eclipse-tractusx/traceability-foss/tree/main/tx-backend/testdata[Testdata for asset import]
 
-|7
-|User with role 'Admin' selects assets in transient state in application.
+|7,8,9
+|User with role 'Admin' selects parts in transient state in application and publishes them. The user must choose the policy that is used for the contract negotiation of the selected parts.
 
-|8
-|User with role 'Admin' is requested to define a policy for assets publishing.
-
-|9
-|User with role 'Admin' selects policy under which assets are published. The user must choose the policy that is used for the contract negotiation of the selected parts.
-
-|10, 11
-|Assets are created in the EDC. (POST /v3/assets)
+|10,11
+|The parts are created in the EDC. (POST /v3/assets)
 
 |12,13
-|Trace-X [A] BE checks if a PolicyDefinition for the selected policy already exists.
+|In case the PolicyDefinition does not exist yet, a new PolicyDefinition is created in the EDC [A].
 
 |14,15
-|In case PolicyDefinition does not exist, a new PolicyDefinition is created in the EDC [A].
+|A contractDefinition is created using the provided policyDefinition.
 
 |16,17
-|The created part is linked in the PolicyDefinition from the EDC. This is the last step of data provisioning. Trace-X [A] has done everything to ensure that companies that have a matching policy can access its published parts.
+|Each part is created as a Asset Administration Shell Descriptor in the Digital Twin Registry (DTR). This holds all the data of the part including the globalAssetId.
 
-|18,19
-|Each part is created as a shell in the Digital Twin Registry (DTR). This holds all the data of the part. Before connected BPNs can access the imported parts, the parts must be published to the EDC and to the DTR.
-
-|20,21
-|User with role 'Admin' in Trace-X [B] creates policy for consuming assets of Trace-X [A].
+|18,19,20,21
+|Policies can be created by user with role 'Admin' at any time in the administration section of Trace-X. When synchronizing parts, the respective policies for connected BPNLs will be used.
 
 |22
 |Trace-X [B] wants to synchronize parts and retrieve available ones from connected BPNs. In this case Trace-X [A] and Trace-X [B] have an established connection.
 
 |23,24
-|Trace-X [B] requests for globalAssetIds (unique identifier of digital twins (Asset Administration Shell)) in the DTR.
+|Trace-X [B] requests all Asset Administration Shell Descriptors in the DTR of Trace-X [A].
 
 |25
-|For part synchronization a job is started in the IRS.
+|The globalAssetIds are extracted from the Shell Descriptors.
 
-|26,27
-|IRS requests the CatalogOffer for globalAssetsIds passed by Trace-X [A].
+|26
+|For part synchronization a job is started in the IRS using the globalAssetIds from the previous step.
 
-|28
-|IRS extracts the policies from the CatalogOffer.
+|27,28
+|IRS requests the catalogOffer for all globalAssetsIds.
 
 |29,30
 |IRS requests policies defined for the BPNL of Trace-X [A] in the PolicyStore of Trace-X [B].
 
 |31
-|Now that the IRS has all the relevant policies of both companies, it can start comparing the linked policy of each part to the policy list of Trace-X [B]. This works by comparing the included constraints logically. If no policy matches for a part, it will not be imported.
+|Now that the IRS has all the relevant policies of both companies, it can start comparing the linked policy in the catalogOffer of each part to the policy list of Trace-X [B]. This works by comparing the included constraints logically.
 
-|32,33,34
-|If the policy of the part matches with any policy of Trace-X [A], a contract agreement is created for both Trace-X [A] and Trace-X [B]. It can be viewed in the administration section of Trace-X and documents the data exchange. Since the contractAgreementId will be mapped to a submodel of IRS, the contracts can be seen after IRS responded to Trace-X' initial sync call with the submodels including the contractAgreementId.
+|32,33,34,35
+|If the policy of the part matches with any policy of Trace-X [A], a contract agreement is created for both Trace-X [A] and Trace-X [B]. It can be viewed in the administration section of Trace-X and documents the data exchange.
 
-|35
-|Now that the contract negotiation was successful, the data consumption process can take place for that part.
+|ref import part data
+|Now that the contract negotiation was successful, the part data can be imported. This process is documented in the data consumption section.
 
-|36
-|In case the policy does not match, IRS creates a tombstone.
+|36,37
+|In case the policy does not match, IRS creates a tombstone and sends a job response to Trace-X [B].
 
-|37
-|IRS responds to the Trace-X [B] instance after completing job processing. The contractAgreementId for the asset is available in Trace-X from the IRS JobResponse.
+|38
+|IRS responds to the Trace-X [B] instance after completing job processing. The contractAgreementId for the asset is available in the job response.
 |===
 
 It's possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For parts that must be published with different policies, the user can repeat the process.
