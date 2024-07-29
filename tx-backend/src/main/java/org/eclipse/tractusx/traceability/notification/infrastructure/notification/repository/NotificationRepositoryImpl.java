@@ -123,7 +123,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", notification.getNotificationId().value())));
         notificationEntity.setTitle(notification.getTitle());
         notificationEntity.setDescription(notification.getDescription());
-        notificationEntity.setBpn(notification.getBpn());
+        notificationEntity.setInitialReceiverBpn(notification.getSendTo());
         notificationEntity.setAssets(getAssetEntitiesByAssetIds(notification.getAffectedPartIds()));
         notificationEntity.setStatus(NotificationStatusBaseEntity.fromStringValue(notification.getNotificationStatus().name()));
         notificationEntity.setUpdated(clock.instant());

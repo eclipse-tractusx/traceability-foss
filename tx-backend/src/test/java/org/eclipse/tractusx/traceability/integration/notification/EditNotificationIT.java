@@ -22,7 +22,6 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Collections;
@@ -145,7 +144,7 @@ class EditNotificationIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldUpdateInvestigationFields() throws JsonProcessingException, JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+    void shouldUpdateInvestigationFields() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
         Header authHeader = oAuth2Support.jwtAuthorization(SUPERVISOR);
         // given
         List<String> partIds = List.of(
@@ -255,6 +254,61 @@ class EditNotificationIT extends IntegrationTestSpecification {
         NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
         assertThat(notificationResponse.getSendTo()).isEqualTo("BPNL00000003CNKC");
 
+    }
+
+    @Test
+    void shouldUpdateReceiverBpn() throws JoseException, com.fasterxml.jackson.core.JsonProcessingException {
+        Header authHeader = oAuth2Support.jwtAuthorization(SUPERVISOR);
+
+        // given
+        List<String> partIds = List.of(
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        );
+        String description = "at least 15 characters long investigation description";
+        String title = "the initial title";
+        val startNotificationRequest = StartNotificationRequest.builder()
+                .affectedPartIds(partIds)
+                .description(description)
+                .title(title)
+                .type(NotificationTypeRequest.ALERT)
+                .severity(NotificationSeverityRequest.MINOR)
+                .receiverBpn("BPNL00000003AYRE")
+                .build();
+
+        int id = notificationAPISupport.createNotificationRequest_withDefaultAssetsStored(authHeader, startNotificationRequest, 201);
+
+        String editedDescription = "at least 15 characters long investigation description which was edited";
+
+        String editedTitle = "changed title";
+        val editNotificationRequest = EditNotificationRequest.builder()
+                .receiverBpn("BPNL00000003AABC")
+                .affectedPartIds(partIds)
+                .description(editedDescription)
+                .title(editedTitle)
+                .affectedPartIds(startNotificationRequest.getAffectedPartIds())
+                .severity(NotificationSeverityRequest.CRITICAL)
+                .build();
+
+        // when
+        notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id, 204);
+
+        // then
+        notificationMessageSupport.assertMessageSize(0);
+
+        PageableFilterRequest pageableFilterRequest =
+                new PageableFilterRequest(
+                        new OwnPageable(0, 10, Collections.emptyList()),
+                        new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND")));
+
+        PageResult<NotificationResponse> notificationResponsePageResult
+                = notificationAPISupport.getNotificationsRequest(authHeader, pageableFilterRequest);
+
+        NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
+        assertThat(notificationResponse.getId()).isEqualTo(id);
+        assertThat(notificationResponse.getSendTo()).isEqualTo(editNotificationRequest.getReceiverBpn());
+        assertThat(notificationResponse.getCreatedBy()).isEqualTo("BPNL00000003AXS3");
 
     }
 }
