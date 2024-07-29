@@ -117,7 +117,7 @@ SPDX-License-Identifier: Apache-2.0
               <app-notifications-tab
                 [notificationsView$]="alertsCreated$"
                 [translationContext]="'commonAlert'"
-                [tableHeader]="'pageTitle.sentQualityTopics'"
+                [tableHeader]="'pageTitle.sentQualityNotification'"
                 [tableType]="TableType.RECEIVED_NOTIFICATION"
                 [labelId]="'dashboard-alerts-created'"
                 [hasPagination]="false"
@@ -159,7 +159,7 @@ SPDX-License-Identifier: Apache-2.0
             <mat-card-content>
               <app-notifications-tab
                 [notificationsView$]="alertsReceived$"
-                [tableHeader]="'pageTitle.receivedQualityTopics'"
+                [tableHeader]="'pageTitle.receivedQualityNotification'"
                 [translationContext]="'commonAlert'"
                 [labelId]="'dashboard-alerts-received'"
                 [hasPagination]="false"

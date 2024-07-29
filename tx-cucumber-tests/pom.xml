@@ -35,6 +35,47 @@ SPDX-License-Identifier: Apache-2.0
     <properties>
         <sonar.skip>true</sonar.skip>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>consortia</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <txa.bpn>BPNL00000003CML1</txa.bpn>
+                                <txb.bpn>BPNL00000003CNKC</txb.bpn>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>association</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <txa.bpn>BPNL000000000UKM</txa.bpn>
+                                <txb.bpn>BPNL000000000DWF</txb.bpn>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

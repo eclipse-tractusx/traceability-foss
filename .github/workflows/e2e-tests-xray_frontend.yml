@@ -16,22 +16,17 @@
 #  SPDX-License-Identifier: Apache-2.0
 
 # Require to set secrets:
-#  - ORG_IRS_JIRA_USERNAME
-#  - ORG_IRS_JIRA_PASSWORD
+#  - ASSOCIATION_SUPERVISOR_CLIENT_ID
+#  - ASSOCIATION_SUPERVISOR_PASSWORD
 name: "[FE][TEST][E2E]- Cypress"
 
 on:
   # triggered manually by Test Manager
   workflow_dispatch:
-    inputs:
-      jira_filter_id:
-        description: 'Jira filter ID to fetch test scenarios'
-        required: false
-        # by default, we use this filter: https://jira.catena-x.net/issues/?filter=11645
-        default: 11645
   # or automatically by merge to main
-  #push:
-    branches: main
+  push:
+    branches:
+      - main
     paths:
       - 'frontend/**'
 
@@ -56,14 +51,29 @@ jobs:
         with:
           cmd: install # will run `yarn install` command
 
-    # Fetch feature files
+      # Fetch feature files
       - name: Fetch .feature files from Jira Xray
         env:
-          JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
-          JIRA_FILTER_ID: ${{ github.event.inputs.jira_filter_id }}
+          JIRA_USERNAME: ${{ secrets.ASSOCIATION_TX_JIRA_USERNAME }}
+          JIRA_PASSWORD: ${{ secrets.ASSOCIATION_TX_JIRA_PASSWORD }}
         working-directory: frontend
-        run: ./scripts/xray-download-feature-files.sh
+        run: |
+          token=$(curl -H "Content-Type: application/json" -X POST \
+          --data "{ \"client_id\": \"$JIRA_USERNAME\",\"client_secret\": \"$JIRA_PASSWORD\" }" \
+          https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
+
+          export HTTP_RESULT=$(curl -s --show-error -w "%{http_code}" --header "Authorization: Bearer $token" \
+          "https://xray.cloud.getxray.app/api/v2/export/cucumber?filter=10007&fz=true" -o features.zip)
+
+          [[ $HTTP_RESULT == 200 || $HTTP_RESULT == 400 ]]
+          echo "::set-output name=http_response::$HTTP_RESULT"
+
+      - name: Unzip feature files
+        if: ${{ steps.download.outputs.http_response == '200' }}
+        working-directory: frontend
+        run: |
+          unzip -o features.zip -d cypress/e2e
+          rm -f features.zip
 
       - name: Save cypress/e2e folder
         uses: actions/upload-artifact@v4
@@ -76,6 +86,7 @@ jobs:
   cypress-run-chrome:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    if: ${{ steps.download.outputs.http_response == '200' }}
     defaults:
       run:
         working-directory: frontend
@@ -125,22 +136,30 @@ jobs:
           working-directory: frontend
           # using wait-on parameter causes "Error: connect ECONNREFUSED 127.0.0.1:4200"
         env:
-          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.TRACE_X_SUPERVISOR_LOGIN }}
-          CYPRESS_SUPERVISOR_PW: ${{ secrets.TRACE_X_SUPERVISOR_PW }}
+          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.ASSOCIATION_SUPERVISOR_CLIENT_ID }}
+          CYPRESS_SUPERVISOR_PW: ${{ secrets.ASSOCIATION_SUPERVISOR_PASSWORD }}
           CYPRESS_ADMIN_LOGIN: ${{ secrets.TRACE_X_ADMIN_LOGIN }}
           CYPRESS_ADMIN_PW: ${{ secrets.TRACE_X_ADMIN_PW }}
           CYPRESS_USER_LOGIN: ${{ secrets.TRACE_X_USER_LOGIN }}
           CYPRESS_USER_PW: ${{ secrets.TRACE_X_USER_PW }}
-          CYPRESS_REDIRECT_URI: https://traceability-portal-e2e-a.dev.demo.catena-x.net/dashboard
+          CYPRESS_REDIRECT_URI: https://traceability-portal-int-a.int.catena-x.net/dashboard
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR
         if: github.event_name != 'pull_request' && (success() || failure())
         env:
-          JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
-          JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
+          JIRA_USERNAME: ${{ secrets.ASSOCIATION_TX_JIRA_USERNAME }}
+          JIRA_PASSWORD: ${{ secrets.ASSOCIATION_TX_JIRA_PASSWORD }}
         run: |
-          ./scripts/xray-push-test-results.sh
+          token=$(curl -H "Content-Type: application/json" -X POST \
+          --data "{ \"client_id\": \"$JIRA_USERNAME\",\"client_secret\": \"$JIRA_PASSWORD\" }" \
+          https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
+
+          curl --request POST \
+          --header 'Content-Type: application/json' \
+          --header "Authorization: Bearer $token" \
+          --data-binary '@cypress/reports/cucumber-report.json' \
+          "https://xray.cloud.getxray.app/api/v2/import/execution/cucumber"
 
       - name: Archive cypress artifacts
         if: success() || failure()
@@ -150,121 +169,3 @@ jobs:
           path: |
             frontend/cypress/videos/
             frontend/cypress/screenshots/
-
- # cypress-run-firefox:
- #   timeout-minutes: 15
- #   runs-on: ubuntu-latest
- #   defaults:
- #     run:
- #       working-directory: frontend
- #   container:
- #     # if you need to change image please make sure use the same version in all places
- #     # (here and in cypress/Dockerfile)
- #     image: cypress/browsers:node16.16.0-chrome107-ff107-edge
- #     options: --user 1001
- #   needs: install
-#
- #   steps:
- #     - name: Checkout
- #       uses: actions/checkout@v4
-#
- #     - name: Download the cypress/e2e folder
- #       uses: actions/download-artifact@v4
- #       with:
- #         name: cypress - e2e
- #         path: frontend/cypress/e2e
-#
- #     - name: Use Node.js 18.x
-  #       uses: actions/setup-node@v4
- #       with:
- #         node-version: 18.x
-#
- #     - name: Cypress run all tests
-  #       uses: cypress-io/github-action@v6.7.1 # use the explicit version number
- #       with:
- #         start: npm start
- #         wait-on: "http://localhost:4200"
- #         wait-on-timeout: 120
- #         browser: firefox
- #         working-directory: frontend
-#
- #     - name: Submit results to Xray
- #       # we don't want to submit results to xray when it was run by PR
- #       if: github.event_name != 'pull_request' && (success() || failure())
- #       env:
- #         JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
- #         JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
- #       run: |
- #         ./scripts/xray-push-test-results.sh
-#
- #     - name: Archive cypress artifacts
- #       if: success() || failure()
- #       uses: actions/upload-artifact@v4
- #       with:
- #         name: cypress generated files - firefox
- #         path: |
- #           frontend/cypress/videos/
- #           frontend/cypress/screenshots/
-#
- # cypress-run-webkit:
- #   timeout-minutes: 15
- #   runs-on: ubuntu-latest
- #   defaults:
- #     run:
- #       working-directory: frontend
- #   needs: install
-#
- #   steps:
- #     - name: Checkout
- #       uses: actions/checkout@v4
-#
- #     - name: Download the cypress/e2e folder
- #       uses: actions/download-artifact@v4
- #       with:
- #         name: cypress - e2e
- #         path: frontend/cypress/e2e
-
-# commented because if we use it here, we face with that problem:
-# "http://localhost:4200 timed out on retry 151 of 5, elapsed 150449ms, limit 150000ms
-#  Error: connect ECONNREFUSED 127.0.0.1:4200"
-
-#      - name: Use Node.js 18.x
-  #        uses: actions/setup-node@v4
-#        with:
-#          node-version: 18.x
-
- #     - name: Use Node.js 16.x
-  #       uses: actions/setup-node@v4
- #       with:
- #         node-version: 16.x
-#
- #     # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
- #     - name: Install additional dependencies
- #       run: npx playwright install --with-deps webkit
-#
- #     - name: Cypress run all tests
-  #       uses: cypress-io/github-action@v6.7.1 # use the explicit version number
- #       with:
- #         start: npm start:auth:e2ea
- #         wait-on: "http://localhost:4200"
- #         wait-on-timeout: 120
- #         browser: webkit
- #         working-directory: frontend
-#
- #     - name: Submit results to Xray
- #       # we don't want to submit results to xray when it was run by PR
- #       if: github.event_name != 'pull_request' && (success() || failure())
- #       env:
- #         JIRA_USERNAME: ${{ secrets.ORG_IRS_JIRA_USERNAME }}
- #         JIRA_PASSWORD: ${{ secrets.ORG_IRS_JIRA_PASSWORD }}
- #       run: |
- #         ./scripts/xray-push-test-results.sh
-#
- #     - name: Archive cypress artifacts
- #       if: success() || failure()
- #       uses: actions/upload-artifact@v4
- #       with:
- #         name: cypress generated files - webkit
- #         path: |
- #           frontend/cypress/videos/
- #           frontend/cypress/screenshots/

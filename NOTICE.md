@@ -20,8 +20,8 @@ source code repository logs.
 
 The Tractus-X project uses the following licenses:
 
-- Apache-2.0 for code
-- CC-BY-4.0 for non-code
+- [Apache-2.0 for code](LICENSE)
+- [CC-BY-4.0 for non-code](LICENSE_non-code)
 
 Apache-2.0:
 This program and the accompanying materials are made available under the terms of the Apache License, Version 2.0 which is available at https://www.apache.org/licenses/LICENSE-2.0.
@@ -42,7 +42,7 @@ in the GitHub organization https://github.com/eclipse-tractusx:
 
 This project leverages the following third party content.
 
-See DEPENDENCIES_BACKEND and DEPENDENCIES_FRONTEND file.
+See [DEPENDENCIES_BACKEND](DEPENDENCIES_BACKEND) and [DEPENDENCIES_FRONTEND](DEPENDENCIES_FRONTEND) file.
 
 ## Cryptography
 

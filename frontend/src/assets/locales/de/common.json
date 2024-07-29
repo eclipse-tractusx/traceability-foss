@@ -39,8 +39,8 @@
     "relations": "Beziehungen",
     "admin": "Verwaltung Catena-X",
     "alerts" : "Qualitätsthemen",
-    "receivedQualityTopics" : "Empfangene Qualitätsthemen",
-    "sentQualityTopics" : "Versendete Qualitätsthemen"
+    "receivedQualityNotification" : "Empfangene Qualitätsthemen",
+    "sentQualityNotification" : "Versendete Qualitätsthemen"
   },
   "layout": {
     "nav": {

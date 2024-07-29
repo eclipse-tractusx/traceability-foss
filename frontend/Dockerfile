@@ -17,7 +17,7 @@
 
 # Nonroot user is not needed beause we are using the "nginx-unprivileged" image
 # STAGE 1: Build
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Copy dependencies info
 COPY ./frontend/package.json ./frontend/yarn.lock ./
@@ -74,5 +74,7 @@ COPY ./frontend/scripts/replace-base-href.js /docker-entrypoint.d/
 USER root
 RUN chown nginx:nginx /etc/nginx/nginx.conf
 RUN chown nginx:nginx /etc/nginx/security-headers.conf
+
+RUN apk info -vv
 
 USER 101

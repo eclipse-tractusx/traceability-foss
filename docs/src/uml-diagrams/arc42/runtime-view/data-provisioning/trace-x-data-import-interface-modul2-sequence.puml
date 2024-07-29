@@ -1,7 +1,12 @@
 @startuml
+autonumber "<B>[00]"
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Architects daughter"
+skinparam linetype ortho
+
 participant FE
 participant BE
-autonumber "<b>[000]"
 
 FE -> BE: request assets: GET/assetsAsxxx
 BE --> FE: return assets_as_built OR assets_as_planned

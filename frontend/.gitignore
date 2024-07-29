@@ -66,3 +66,5 @@ yarn-error.log
 
 scripts/download/*
 /cypress.local.config.ts
+/cypress.local.config-original.ts
+/cypress/downloads/Exported_Contracts.csv
