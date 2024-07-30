@@ -430,6 +430,11 @@ export class TableComponent {
     return isDateFilter(key);
   }
 
+  public isOwnerElement(key: string) {
+    const OWNER_KEY = [ 'owner'];
+    return OWNER_KEY.includes(key);
+  }
+
   protected readonly MainAspectType = MainAspectType;
   protected readonly ContractType = ContractType;
 }
