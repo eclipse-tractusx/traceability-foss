@@ -9,6 +9,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Changed
+- #1252 adapt IRS example response for integration tests to reflect current state
 - #1122 Fixed editing notification sendTo attribute
 - #1328 Fixed semanticDataModel translation and part name within notification detail / edit view.
 
