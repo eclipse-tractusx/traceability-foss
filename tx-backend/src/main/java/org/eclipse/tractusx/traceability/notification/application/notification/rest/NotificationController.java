@@ -460,10 +460,10 @@ public class NotificationController {
         notificationService.updateStatusTransition(notificationId, NotificationStatus.from(NotificationStatusRequest.CLOSED), cleanCloseNotificationRequest.getReason());
     }
 
-    @Operation(operationId = "updateNotification",
-            summary = "Update notification by id",
+    @Operation(operationId = "updateNotificationStatus",
+            summary = "Update notification status by id",
             tags = {"Notifications"},
-            description = "The endpoint updates notification by their id.",
+            description = "The endpoint updates the notification status by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {
             @ApiResponse(
