@@ -6,7 +6,7 @@
 
 Trace-X uses the following table design to build consistent and user-friendly tables:
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-design.png[]
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-design.svg[]
 
 |===
 |Component |Description |Example
@@ -16,14 +16,14 @@ a|* Black icons
 * When an action cannot be executed for any reason, the icon turns grey
 * A tooltip is shown when hovering over an executable action to describe it
 * A tooltip is shown when hovering over a disabled action to describe the reason why it can't be executed
-|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-actions.png[]
+|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-actions.svg[]
 
 |Action menus
 a|* Opens when clicking on a three-dot menu
 * Disappears, when clicking anywhere outside the menu
 * List of action icons with text labels
 * The three-dot menu is sticky when used inside the table for single-item actions
-|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-action-menus.png[]
+|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-action-menus.svg[]
 
 |Multi-select box
 a|* Clicking on it when no items are selected, selects all items on the current page
@@ -32,7 +32,7 @@ a|* Clicking on it when no items are selected, selects all items on the current 
 * Clicking on the small arrow opens a menu for clearing the page selection or the entire selection
 * The menu disappears, when clicking anywhere outside the menu
 * Part of the column header row -> Sticky on top next to column headers
-|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-multi-select-box.png[]
+|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-multi-select-box.svg[]
 
 |Selection box
 a|* Clicking on it toggles item selection
@@ -47,9 +47,9 @@ a|* Shows the column title
 * Hovering over it shows a tooltip that describes sorting behaviour
 * Clicking on it toggles sorting
 * Sticky on top
-|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-tooltip.png[]
-Ascending sorting: image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-ascending.png[]
-Descending sorting: image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-descending.png[]
+|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-tooltip.svg[]
+Ascending sorting: image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-ascending.svg[]
+Descending sorting: image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-descending.svg[]
 
 |Filter
 a|* Can search for any string
@@ -61,8 +61,8 @@ a|* Can search for any string
 * When the filter is active, 'All' changes to the filtered value (+ the number of other filters)
 * For date values, the search is replaced with a date picker
 * Sticky on top below column headers
-|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter.png[]
-Date filter: image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter-date.png[]
+|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter.svg[]
+Date filter: image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter-date.svg[]
 
 |Quick filter
 a|* Used to quickly filter for specific values
@@ -77,7 +77,7 @@ a|* Opens up as an overlay
 * Selecting/deselecting columns makes them visible/invisible in the table
 * The order of the columns can be changed by selecting the column title and using the arrow buttons
 * Using the circle arrow icon resets the column visibility and column order
-|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-column-settings.png[]
+|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-column-settings.svg[]
 
 |Full-width toggle
 a|* Used to switch between full-width mode or variable-width mode
@@ -94,7 +94,7 @@ a|* Shows the currently selected page size
 * Clicking any option will select that option and close the dropdown
 * Clicking anywhere outside the dropdown closes the dropdown without applying any changes
 * Three options are always available
-|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-size-selector.png[]
+|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-size-selector.svg[]
 
 |Page information
 a|* Shows information about the amount of items on the current page and the total amount of items
@@ -104,15 +104,15 @@ a|* Shows information about the amount of items on the current page and the tota
 a|* Used to switch between pages
 * Controls are: First page, previous page, next page, last page
 * Hovering over the controls shows a tooltip that labels each control
-|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-controls.png[]
+|image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-controls.svg[]
 |===
 
 In addition, following tables are used within Trace-X:
 
 When the data is not as complex and/or extensive and single-item actions are not needed:
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-small.png[]
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-small.svg[]
 
 When data must only be shown and no actions are needed:
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-data-only.png[]
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-data-only.svg[]

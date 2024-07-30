@@ -195,8 +195,8 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   private setTableConfigs(data: Notification): void {
     this.isReceived = !data.isFromSender;
 
-    const displayedColumns = [ 'id', 'semanticDataModel', 'name', 'semanticModelId' ];
-    const sortableColumns = { id: true, semanticDataModel: true, name: true, semanticModelId: true };
+    const displayedColumns = [ 'id', 'semanticDataModel', 'nameAtManufacturer', 'semanticModelId' ];
+    const sortableColumns = { id: true, semanticDataModel: true, nameAtManufacturer: true, semanticModelId: true };
 
     const tableConfig = {
       displayedColumns,
