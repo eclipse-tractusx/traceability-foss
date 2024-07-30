@@ -8,6 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Changed
+- #1122 fix editing notification sendTo attribute
+
 ## [13.0.1 - 26.07.2024]
 
 ### Added
