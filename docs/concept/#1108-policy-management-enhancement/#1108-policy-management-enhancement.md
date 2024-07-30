@@ -611,7 +611,7 @@ In the frontend, it should not be possible to create multiple valid policies for
 During the creation of policies, all policies that already exist must be checked.
 If there is any policy that is already used for the configured BPN, the existing policy will be changed to inactive by setting the validUntil date to the currentTime.
 Before doing this the user must be informed about this process and confirm it in a modal.
-![notification-policy-modal.png](notification-policy-modal.png)
+![notification-policy-modal.svg](notification-policy-modal.svg)
 
 ## Contract negotiation
 During contract negotiation, there can only be one policy definition from Trace-X that will be compared with the catalogOffers from the receiverBPN.

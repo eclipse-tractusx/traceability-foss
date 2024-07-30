@@ -65,12 +65,12 @@ We generally follow the link:https://developers.google.com/style[Google develope
 * Writing methods which provide a response to be better testable (avoid void if feasible).
 * Naming of unit tests are as follows:
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit_test_naming.png[]
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit_test_naming.svg[]
 
 * Use given/when/then pattern for unit test structuring.
 E.g:
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given_when_then_pattern.png[]
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given_when_then_pattern.svg[]
 
 === Integration testing
 
@@ -87,7 +87,7 @@ We follow the rules and behaviour of: https://clean-code-developer.com/.
 
 As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".
 
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability_level.png[]
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability_level.svg[]
 
 == Trace-X technical class responsibilities
 
