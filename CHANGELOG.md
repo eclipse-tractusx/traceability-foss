@@ -9,7 +9,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 
 ### Changed
-- #1122 fix editing notification sendTo attribute
+- #1122 Fixed editing notification sendTo attribute
+- #1328 Fixed semanticDataModel translation and part name within notification detail / edit view.
 
 ## [13.0.1 - 26.07.2024]
 
