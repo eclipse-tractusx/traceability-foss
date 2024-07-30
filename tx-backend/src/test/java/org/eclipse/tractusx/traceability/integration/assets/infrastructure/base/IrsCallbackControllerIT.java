@@ -55,7 +55,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     AssetAsBuiltSupportRepository assetAsBuiltSupportRepository;
 
 
-
     @Test
     void givenAssets_whenCallbackReceived_thenSaveThemAndStoreContractAgreementId() throws JoseException {
         // given
@@ -171,12 +170,13 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
+
         // then
         assertThat(bpnSupportRepository.findAll()).hasSize(1);
         assetsSupport.assertAssetAsBuiltSize(14);
         assetsSupport.assertAssetAsPlannedSize(0);
-        String updatedIdShort = assetsSupport.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").getIdShort();
-        assertThat(updatedIdShort).isEqualTo("vehicle_hybrid_v2.asm");
+        String updatedIdShort = assetsSupport.findById("urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc").getIdShort();
+        assertThat(updatedIdShort).isEqualTo("ecu.asm");
         //urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb
         //vehicle_hybrid_v2.asm
     }
