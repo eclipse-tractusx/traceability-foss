@@ -33,6 +33,8 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
+    outputs:
+      http_result: ${{ steps.download.outputs.http_response }}
     defaults:
       run:
         working-directory: frontend
@@ -53,6 +55,7 @@ jobs:
 
       # Fetch feature files
       - name: Fetch .feature files from Jira Xray
+        id: download
         env:
           JIRA_USERNAME: ${{ secrets.ASSOCIATION_TX_JIRA_USERNAME }}
           JIRA_PASSWORD: ${{ secrets.ASSOCIATION_TX_JIRA_PASSWORD }}
@@ -86,7 +89,7 @@ jobs:
   cypress-run-chrome:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    if: ${{ steps.download.outputs.http_response == '200' }}
+    if: ${{ needs.install.outputs.http_result == '200' }}
     defaults:
       run:
         working-directory: frontend
