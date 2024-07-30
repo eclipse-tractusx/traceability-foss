@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base
 
 import assets.importpoc.ImportResponse;
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -221,14 +223,14 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .pathParam("assetId", "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a")
+                .pathParam("assetId", "urn:uuid:b978ad2d-be06-47ea-a578-580d9b2eca77")
                 .get("/api/assets/as-built/{assetId}")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .extract().path("tombstone");
 
-        assertThat(tombstoneAsBuilt).isEmpty();
+        assertThat(tombstoneAsBuilt).isNotEmpty();
 
     }
 
