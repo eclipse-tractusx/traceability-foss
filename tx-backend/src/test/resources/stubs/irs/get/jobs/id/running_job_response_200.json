@@ -20,7 +20,7 @@
       "bomLifecycle" : "asBuilt",
       "aspects" : [
         "SerialPart",
-        "AssemblyPartRelationship"
+        "SingleLevelUsageAsBuilt"
       ],
       "depth" : 100,
       "direction" : "downward",

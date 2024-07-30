@@ -10,8 +10,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Changed
 - #1122 fix editing notification sendTo attribute
+- #1252 adapt IRS example response for integration tests to reflect current state
 
 ## [13.0.1 - 26.07.2024]
+
 
 ### Added
 - #511 Added installation guide for local frontend with umbrella chart
