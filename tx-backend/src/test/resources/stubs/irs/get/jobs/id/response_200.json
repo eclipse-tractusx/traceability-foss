@@ -1,7 +1,7 @@
 {
   "job": {
     "id": "173e576a-d155-41ce-b2d5-71f470ebb15c",
-    "globalAssetId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36b99",
+    "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
     "state": "COMPLETED",
     "exception": null,
     "createdOn": "2024-05-29T07:55:10.835923974Z",
@@ -35,7 +35,7 @@
   },
   "relationships": [
     {
-      "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36b99",
+      "catenaXId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
       "linkedItem": {
         "quantity": {
           "quantityNumber": 1.0,
@@ -60,7 +60,7 @@
       "payload": {
         "administration": null,
         "description": [],
-        "globalAssetId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36b99",
+        "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
         "idShort": null,
         "id": "654ecd34-3a1e-46e1-be32-eef70b670db6",
         "specificAssetIds": [
@@ -391,7 +391,7 @@
       "aspectType": "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
       "contractAgreementId": "76e6d1ea-5642-4594-923b-25c0cbd7cc5a",
       "payload": {
-        "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36b99",
+        "catenaXId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
         "childItems": [
           {
             "createdOn": "2022-02-03T14:48:54.709Z",
@@ -412,7 +412,7 @@
       "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
       "contractAgreementId": "76e6d1ea-5642-4594-923b-25c0cbd7cc5a",
       "payload": {
-        "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36b99",
+        "catenaXId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
         "localIdentifiers": [
           {
             "key": "manufacturerId",

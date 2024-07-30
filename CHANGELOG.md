@@ -14,7 +14,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ## [13.0.1 - 26.07.2024]
 
-
 ### Added
 - #511 Added installation guide for local frontend with umbrella chart
 - #XXXX added tests for notification-detail.facade.ts

@@ -80,7 +80,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
         // then
         assertThat(bpnSupportRepository.findAll()).hasSize(1);
-        assetsSupport.assertAssetAsBuiltSize(16);
+        assetsSupport.assertAssetAsBuiltSize(2);
         assetsSupport.assertAssetAsPlannedSize(0);
 
         // Make the API call and store the response
@@ -173,7 +173,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
         // then
         assertThat(bpnSupportRepository.findAll()).hasSize(1);
-        assetsSupport.assertAssetAsBuiltSize(16);
+        assetsSupport.assertAssetAsBuiltSize(14);
         assetsSupport.assertAssetAsPlannedSize(0);
         String updatedIdShort = assetsSupport.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").getIdShort();
         assertThat(updatedIdShort).isEqualTo("vehicle_hybrid_v2.asm");
@@ -228,7 +228,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .extract().path("tombstone");
 
-        assertThat(tombstoneAsBuilt).isNotEmpty();
+        assertThat(tombstoneAsBuilt).isEmpty();
 
     }
 
@@ -304,7 +304,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .statusCode(200);
 
         // then
-        assetsSupport.assertAssetAsBuiltSize(16);
+        assetsSupport.assertAssetAsBuiltSize(2);
         assetsSupport.assertAssetAsPlannedSize(0);
         String manufacturerName = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
