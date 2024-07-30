@@ -1559,29 +1559,37 @@ However, to be sure that data is shared only with companies that match one&#8217
 </div>
 <div class="paragraph">
 <p>The policies used for sending and receiving notifications and parts have an identical data format, so they can be used for each process interchangeably.
-The processes itself are different and will be explained here:</p>
+The processes itself are different and will be explained in this section.</p>
 </div>
 <div class="sect4">
 <h5 id="_policy_types">Policy Types</h5>
 <div class="paragraph">
-<p>The EDC Connector MUST provide a possibility to restrict the access of a Data Asset to specific business partners by attribute(s), e.g., represented as a VC.
-The Connector MUST restrict the data usage to partners and purposes for a specific use case.</p>
+<p>The EDC connector MUST provide a possibility to restrict the access of a data asset to specific business partners by attribute(s), e.g. represented as a VC.
+The connector MUST restrict the data usage to partners and purposes for a specific use case.</p>
 </div>
 <div class="paragraph">
-<p>There are two policy types used.
-* Access
-* Usage</p>
+<p>There are two policy types used.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Access</p>
+</li>
+<li>
+<p>Usage</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>As specified by the <a href="https://github.com/International-Data-Spaces-Association/ids-specification">Dataspace Protocol</a>, one Data Asset MUST refer to at least one Usage Policy, expressed in ODRL.
-For additional information refer to <a href="https://eclipse-tractusx.github.io/docs-kits/kits/Connector%20Kit/Adoption%20View/connector_kit_adoption_view">Connector KIT</a></p>
+<p>As specified by the <a href="https://github.com/International-Data-Spaces-Association/ids-specification">Dataspace Protocol</a> one data asset MUST refer to at least one usage policy, expressed in ODRL.
+For additional information refer to the <a href="https://eclipse-tractusx.github.io/docs-kits/kits/Connector%20Kit/Adoption%20View/connector_kit_adoption_view">Connector KIT</a></p>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_policies_for_sending_and_receiving_parts">Policies for sending and receiving parts</h5>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/data-sovereignty-publish-assets.svg" alt="data sovereignty publish assets" width="3310" height="1861">
+<img src="architecture-constraints/data-sovereignty-publish-assets.svg" alt="data sovereignty publish assets" width="2420" height="1712">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -1591,60 +1599,36 @@ For additional information refer to <a href="https://eclipse-tractusx.github.io/
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Policies can be created by User with role 'Admin' at any time in the administration section of Trace-X. The policy is created to later used for publishing assets in the current company context.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1,2,3,4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Policies can be created by user with role 'Admin' at any time in the administration section of Trace-X. The policy is created to later used for publishing parts in the current company context. Policies are stored in the PolicyStore which is a shared component used by Trace-X [A] and Item Relationship Service (IRS) for storing usage and access policies.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Policies are stored in the PolicyStore which is a shared component used by Trace-X [A] app and IRS for storing usage and access policies.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5,6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' imports assets in the administration section of Trace-X [A]. Parts can be imported at any time in the parts section of Trace-X. They will be stored locally at first. <a href="https://github.com/eclipse-tractusx/traceability-foss/tree/main/tx-backend/testdata">Testdata for asset import</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Policy is created in the policy store.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7,8,9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' selects parts in transient state in application and publishes them. The user must choose the policy that is used for the contract negotiation of the selected parts.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' receives feedback that creation of policy was successful.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5, 6</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' imports assets in Admin section of Trace-X [A]. Parts can be imported at any time in the parts section of Trace-X. They will be stored locally at first. <a href="https://github.com/eclipse-tractusx/traceability-foss/tree/main/tx-backend/testdata">Testdata for asset import</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' selects assets in transient state in application.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' is requested to define a policy for assets publishing.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' selects policy under which assets are published. The user must choose the policy that is used for contract negotiation of the selected parts.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">10, 11</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Assets are created in the EDC. (POST /v3/assets)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10,11</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The parts are created in the EDC. (POST /v3/assets)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">12,13</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X [A] BE checks if PolicyDefinition for selected policy already exists.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In case the PolicyDefinition does not exist yet, a new PolicyDefinition is created in the EDC [A].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">14,15</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">In case PolicyDefinition does not exist. New PolicyDefinition is created in EDC [A]. The PolicyDefinition is created in the EDC.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A contractDefinition is created using the provided policyDefinition.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">16,17</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The created part is linked in the PolicyDefinition from the EDC. This is the last step of data provisioning. Trace-X [A] has done everything to ensure that companies that have a matching policy can access its published parts.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Each part is created as a Asset Administration Shell Descriptor in the Digital Twin Registry (DTR). This holds all the data of the part including the globalAssetId.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">18,19</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Each part is created as a shell in the DTR. This holds all the data of the part. Before connected BPNs can access the imported parts, the parts must be published to the EDC and to the Digital Twin Registry (DTR).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">20,21</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User with role 'Admin' in Trace-X [B] creates policy for consuming assets of Trace-X [A].</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18,19,20,21</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Policies can be created by user with role 'Admin' at any time in the administration section of Trace-X. When synchronizing parts, the respective policies for connected BPNLs will be used.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">22</p></td>
@@ -1652,52 +1636,52 @@ For additional information refer to <a href="https://eclipse-tractusx.github.io/
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">23,24</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X [B] requests for globalAssetIds (unique identifier of digital twins (Asset Administration Shell)) in decentral Digital Twin registry.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X [B] requests all Asset Administration Shell Descriptors in the DTR of Trace-X [A].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">25</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">For part synchronization a synchronization job is started in the Item Relationship Service (IRS) .</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The globalAssetIds are extracted from the Shell Descriptors.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">26,27</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IRS requests for CatalogOffer for globalAssetsIds passed by Trace-X [A]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">26</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For part synchronization a job is started in the IRS using the globalAssetIds from the previous step.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">28</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IRS extracts policies from CatalogOffer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">27,28</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IRS requests the catalogOffer for all globalAssetsIds.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">29,30</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IRS requests for policies defined for BPNL of Trace-X [A] in PolicyStore of Trace-X [B]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IRS requests policies defined for the BPNL of Trace-X [A] in the PolicyStore of Trace-X [B].</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">31</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Now that the IRS has all the relevant policies of both companies, it can start comparing the linked policy of each part to the policy list of Trace-X B. This works by comparing the included constraints logically. If no policy matches for a part, it will not be imported.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Now that the IRS has all the relevant policies of both companies, it can start comparing the linked policy in the catalogOffer of each part to the policy list of Trace-X [B]. This works by comparing the included constraints logically.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">32,33,34</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If the policy of the part matches with any policy of Trace-X A, a contract agreement is created for both Trace-X A and Trace-X B. It can be viewed in the administration section of Trace-X and documents the data exchange. Since the contractAgreementId will be mapped to an submodel of IRS. The contracts can be seen after IRS responded to Trace-X initial sync call with the submodels including the contractAgreementId.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">32,33,34,35</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the policy of the part matches with any policy of Trace-X [A], a contract agreement is created for both Trace-X [A] and Trace-X [B]. It can be viewed in the administration section of Trace-X and documents the data exchange.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">35</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Now that the contract negotiation was successful, the data consumption process can take place for that part.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ref import part data</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Now that the contract negotiation was successful, the part data can be imported. This process is documented in the data consumption section.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">36</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">In case policy does not match IRS created tombstone.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">36,37</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In case the policy does not match, IRS creates a tombstone and sends a job response to Trace-X [B].</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">37</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">IRS callbacks Trace-X [B] Instance after completing job processing. ContractAgreementId for asset is available in Trace-X passed in IRS JobResponse.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">38</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IRS responds to the Trace-X [B] instance after completing job processing. The contractAgreementId for the asset is available in the job response.</p></td>
 </tr>
 </tbody>
 </table>
 <div class="paragraph">
-<p>It&#8217;s possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For the parts that must be published with different policies, the user can repeat the process.</p>
+<p>It&#8217;s possible to publish parts with different policies. For this, the user must only publish a limited selection of parts for which he can select a policy. For parts that must be published with different policies, the user can repeat the process.</p>
 </div>
 <div class="paragraph">
 <p><strong>Note</strong>:
-For more detailed information concerning the functionality of IRS please refer to <a href="https://eclipse-tractusx.github.io/item-relationship-service/docs/">IRS documentation</a></p>
+For more detailed information concerning the functionality of IRS please refer to the <a href="https://eclipse-tractusx.github.io/item-relationship-service/docs/">IRS documentation</a></p>
 </div>
 <div class="paragraph">
 <p><strong>[Work-in-progress]</strong> The user may also choose parts that have already been published - they can be republished with a different policy. The process for this is identical to the regular publishing process.</p>
@@ -1726,7 +1710,7 @@ For more detailed information concerning the functionality of IRS please refer t
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">First Trace-X checks the configured policies for any valid (not expired) policies that have the BPN of the receiver in their BPN selection. <strong>There can only be one valid policy for each BPN.</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">First, Trace-X checks the configured policies for any valid (not expired) policies that have the BPN of the receiver in their BPN selection. <strong>There can only be one valid policy for each BPN.</strong></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
@@ -1763,7 +1747,7 @@ For more detailed information concerning the functionality of IRS please refer t
 </tbody>
 </table>
 <div class="sect5">
-<h6 id="_no_policies_defined_for_receiver_bpnl_when_sending_notifications">No policies defined for Receiver BPNL when sending notifications</h6>
+<h6 id="_no_policies_defined_for_receiver_when_sending_notifications">No policies defined for receiver when sending notifications</h6>
 <div class="imageblock">
 <div class="content">
 <img src="architecture-constraints/data-sovereignty-notifications-policy-change.svg" alt="data sovereignty notifications policy change" width="987" height="798">
@@ -1781,7 +1765,7 @@ For more detailed information concerning the functionality of IRS please refer t
 </div>
 </div>
 <div class="paragraph">
-<p>Policies always have an expiration time defined by the 'validUntil' timestamp. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must either update the policy. Then the policy can be resent.</p>
+<p>Policies always have an expiration time defined by the 'validUntil' timestamp. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must update or recreate the policy. Then the policy can be resent.</p>
 </div>
 </div>
 <div class="sect5">
@@ -1794,6 +1778,110 @@ For more detailed information concerning the functionality of IRS please refer t
 </div>
 <div class="paragraph">
 <p>The same applies for sending and receiving parts only then the user must choose the created test policy manually.</p>
+</div>
+<div class="paragraph">
+<p>An example testing process will be described here with two companies Trace-X A and Trace-X B:</p>
+</div>
+<div class="sect6">
+<h7 id="_step_1">Step 1</h7>
+<div class="paragraph">
+<p>In the initial state of Trace-X, only the default policy exists:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-1.svg" alt="step 1">
+</div>
+</div>
+<div class="paragraph">
+<p>The catalog offer contains the policy definition of the default policy:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-1-1.svg" alt="step 1 1">
+</div>
+</div>
+<div class="paragraph">
+<p>In this state both companies can send notifications to each other.</p>
+</div>
+</div>
+<div class="sect6">
+<h7 id="_step_2">Step 2</h7>
+<div class="paragraph">
+<p>In this example Trace-X B creates a new policy:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-2.svg" alt="step 2">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-2-1.svg" alt="step 2 1">
+</div>
+</div>
+<div class="paragraph">
+<p>Once created, the catalog offer will be updated using this policy:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-2-2.svg" alt="step 2 2">
+</div>
+</div>
+</div>
+<div class="sect6">
+<h7 id="_step_3">Step 3</h7>
+<div class="paragraph">
+<p>Since the catalog offer of Trace-X B was updated, Trace-X A won&#8217;t be able to send notifications to Trace-X B anymore:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-3.svg" alt="step 3">
+</div>
+</div>
+<div class="paragraph">
+<p>Trace-X A will take its own default policy and compare it to the catalog offer provided by Trace-X B, which will result in a mismatch.</p>
+</div>
+</div>
+<div class="sect6">
+<h7 id="_step_4">Step 4</h7>
+<div class="paragraph">
+<p>Since Trace-X B has no policy defined for Trace-X A&#8217;s BPN, it will compare its own default policy with the catalog offer provided Trace-X A which is identical to the default policy. So Trace-X B can still send notifications to Trace-X A:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-4.svg" alt="step 4">
+</div>
+</div>
+</div>
+<div class="sect6">
+<h7 id="_step_5">Step 5</h7>
+<div class="paragraph">
+<p>Now Trace-X A can create a new policy using the same constraints as Trace-X B&#8217;s policy:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-5.svg" alt="step 5">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-5-1.svg" alt="step 5 1">
+</div>
+</div>
+<div class="paragraph">
+<p>This policy will now be used when sending notifications to Trace-X B. Trace-X A&#8217;s catalog offer is unchanged.</p>
+</div>
+</div>
+<div class="sect6">
+<h7 id="_step_6">Step 6</h7>
+<div class="paragraph">
+<p>Trace-X A can now send notifications to Trace-X B again, since the policy matches with the provided catalog offer:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/runtime-view/data-sovereignty/step-6.svg" alt="step 6">
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2268,7 +2356,7 @@ The operator must have total control over the configuration of Trace-X.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit_test_naming.png" alt="unit test naming">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit_test_naming.svg" alt="unit test naming">
 </div>
 </div>
 <div class="ulist">
@@ -2281,7 +2369,7 @@ E.g:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given_when_then_pattern.png" alt="given when then pattern">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given_when_then_pattern.svg" alt="given when then pattern">
 </div>
 </div>
 </div>
@@ -2308,7 +2396,7 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability_level.png" alt="vulnerability level">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability_level.svg" alt="vulnerability level">
 </div>
 </div>
 </div>
@@ -2519,7 +2607,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-design.png" alt="table design">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-design.svg" alt="table design">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2554,7 +2642,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-actions.png" alt="table actions"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-actions.svg" alt="table actions"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Action menus</p></td>
@@ -2574,7 +2662,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-action-menus.png" alt="table action menus"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-action-menus.svg" alt="table action menus"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Multi-select box</p></td>
@@ -2600,7 +2688,7 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-multi-select-box.png" alt="table multi select box"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-multi-select-box.svg" alt="table multi select box"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Selection box</p></td>
@@ -2642,9 +2730,9 @@ Note: as soon as a resume feature is implemented, this needs to be addressed her
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-tooltip.png" alt="table sorting tooltip"></span>
-Ascending sorting: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-ascending.png" alt="table sorting ascending"></span>
-Descending sorting: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-descending.png" alt="table sorting descending"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-tooltip.svg" alt="table sorting tooltip"></span>
+Ascending sorting: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-ascending.svg" alt="table sorting ascending"></span>
+Descending sorting: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-sorting-descending.svg" alt="table sorting descending"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Filter</p></td>
@@ -2679,8 +2767,8 @@ Descending sorting: <span class="image"><img src="https://raw.githubusercontent.
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter.png" alt="table filter"></span>
-Date filter: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter-date.png" alt="table filter date"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter.svg" alt="table filter"></span>
+Date filter: <span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-filter-date.svg" alt="table filter date"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Quick filter</p></td>
@@ -2723,7 +2811,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-column-settings.png" alt="table column settings"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-column-settings.svg" alt="table column settings"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Full-width toggle</p></td>
@@ -2771,7 +2859,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-size-selector.png" alt="table page size selector"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-size-selector.svg" alt="table page size selector"></span></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Page information</p></td>
@@ -2799,7 +2887,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-controls.png" alt="table page controls"></span></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><span class="image"><img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-page-controls.svg" alt="table page controls"></span></p></td>
 </tr>
 </tbody>
 </table>
@@ -2811,7 +2899,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-small.png" alt="table small">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-small.svg" alt="table small">
 </div>
 </div>
 <div class="paragraph">
@@ -2819,7 +2907,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-data-only.png" alt="table data only">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-data-only.svg" alt="table data only">
 </div>
 </div>
 </div>
@@ -2988,7 +3076,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-26 09:45:45 UTC
+Last updated 2024-07-30 08:37:31 UTC
 </div>
 </div>
 </body>
