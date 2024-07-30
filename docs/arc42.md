@@ -34,8 +34,9 @@ in which context the service runs and which stakeholders are involved.
 * List, view and publish planned parts based on BoM AsPlanned
 * Filter and search functionality on part views
 * Show detailed information on manufactured parts from AAS description assets and aspects
-* Uses submodels SerialPart, AssemblyPartRelationship and Batch
-* List and view supplier parts (AssemblyPartRelationship) based on BoM AsBuild lifecycle
+* Uses submodels SerialPart, Batch, JustInSequence and PartAsPlanned
+* List and view supplier parts (SingleLevelBomAsBuilt) based on BoM AsBuilt lifecycle
+* List and view customer parts (SingleLevelUsageAsBuilt) based on BoM AsBuilt lifecycle
 * View parts and parts relations in a visualized parts tree
 * Send and receive top-down notifications (quality investigations) along the supply chain
 * Compliance with Catena-X guidelines
