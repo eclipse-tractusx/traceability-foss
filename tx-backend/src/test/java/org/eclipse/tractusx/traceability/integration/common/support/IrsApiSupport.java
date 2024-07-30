@@ -97,8 +97,7 @@ public class IrsApiSupport {
                 )
                 .then(
                         status(HttpStatus.INTERNAL_SERVER_ERROR_500),
-                        header("Content-Type", "application/json"),
-                        restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json")
+                        header("Content-Type", "application/json")
                 );
     }
 
