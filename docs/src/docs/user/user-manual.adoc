@@ -356,6 +356,7 @@ Part tree based on SingleLevelBomAsBuilt aspect model.
 Dependent on the semantic data model of the part the borders are in a different color.
 A green border indicates that the part is a SerialPart.
 A yellow border indicates that the part is a piece of a batch.
+A black border indicates that the part is a JustInSequence part.
 
 It is possible to adjust the view of the relationships by dragging the mouse to the desired view.
 Zooming in/out can be done with the corresponding control buttons.
