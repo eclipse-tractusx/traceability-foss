@@ -143,7 +143,7 @@ values.yaml
 
 ### Changes in Domain Model
 
-https://github.com/catenax-ng/tx-traceability-foss/blob/5b07a12830d6ecf9f3d0141d49bb89825cc86cc3/docs/src/uml-diagrams/arc42/cross-cutting/domain-model/domain-model.puml
+https://github.com/eclipse-tractusx/traceability-foss/blob/5b07a12830d6ecf9f3d0141d49bb89825cc86cc3/docs/src/uml-diagrams/arc42/cross-cutting/domain-model/domain-model.puml
 
 ### Changes in Detail View
 ![DetailViewWithPartSiteInformation](DetailViewWithPartSiteInformation.svg)

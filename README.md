@@ -9,7 +9,7 @@
 [![Kics](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/kics.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/kics.yml)
 [![Trivy](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/trivy.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/trivy.yml)
 [![Eclipse DASH IP Check](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/eclipse-dash.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/eclipse-dash.yml)
-[![[BE] Dependency check](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/dependency-check.yml)
+[![[BE] Dependency check](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/dependency-check.yml)
 
 ## Trace-X is a system for tracking parts along the supply chain.
 
