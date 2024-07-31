@@ -6,7 +6,7 @@
 
 - Hint you need to copy the access token for argo cd into the specific environment for requests against argo (argocd.token) in insomnia: argo_access_token
 
-Here you can find the [Trace-X Insomnia Collection](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/tracex.json). Use this [README](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/README.md) to find out how to setup Insomnia with the Trace-X Collection.
+Here you can find the [Trace-X Insomnia Collection](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/collection/tracex.json). Use this [README](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/collection/README.md) to find out how to setup Insomnia with the Trace-X Collection.
 
 In the Collection you will find a directory named 'Argo', in which you can delete & sync all necessary application components. Go through every directory inside the 'Argo' directory and execute every request inside the Directory 'DELETE'. To make this step easier, you can install the Insomnia Plugin ['multiple requests'](https://insomnia.rest/plugins/insomnia-plugin-multiple-requests). With this Plugin you can execute all requests inside the 'DELETE' Directory by right-clicking the directory and choosing 'send Requests'.
 

@@ -421,13 +421,21 @@ SPDX-License-Identifier: Apache-2.0
         <td
           *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data"
           [ngClass]="{'max-width-column': labelId === 'contracts' && column === 'contractId' }">
-          <ng-container *ngIf="!isDateElement(column)"
+          <ng-container *ngIf="!isDateElement(column) && !isOwnerElement(column)"
                         [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : (column === 'constraints' ? constraintsFormat : (column === 'contractType' ? contractTypeFormat : autoFormat))"
             [ngTemplateOutletContext]="{ value: element[column], row: element }"
           >
           </ng-container>
           <ng-container *ngIf="isDateElement(column)">
+          <ng-container *ngIf="element[column] !== null">
             {{ (element[column] | date:'yyyy-MM-dd HH:mm') }}
+          </ng-container>
+            <ng-container *ngIf="element[column] === null">
+              {{ (element[column]) }}
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="isOwnerElement(column)">
+            {{'table.owner.' + element[column]?.toLowerCase() | i18n}}
           </ng-container>
         </td>
       </ng-container>
