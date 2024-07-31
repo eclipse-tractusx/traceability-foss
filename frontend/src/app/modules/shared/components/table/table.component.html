@@ -427,7 +427,12 @@ SPDX-License-Identifier: Apache-2.0
           >
           </ng-container>
           <ng-container *ngIf="isDateElement(column)">
+          <ng-container *ngIf="element[column] !== null">
             {{ (element[column] | date:'yyyy-MM-dd HH:mm') }}
+          </ng-container>
+            <ng-container *ngIf="element[column] === null">
+              {{ (element[column]) }}
+            </ng-container>
           </ng-container>
           <ng-container *ngIf="isOwnerElement(column)">
             {{'table.owner.' + element[column]?.toLowerCase() | i18n}}
