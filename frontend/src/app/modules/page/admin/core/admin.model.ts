@@ -90,7 +90,7 @@ export function assembleContract(contractResponse: ContractResponse): Contract {
     contractType: contractResponse.contractType,
     counterpartyAddress: contractResponse.counterpartyAddress,
     creationDate: new CalendarDateModel(contractResponse.creationDate),
-    endDate: new CalendarDateModel(contractResponse.endDate),
+    endDate: contractResponse.endDate !== null ? new CalendarDateModel(contractResponse.endDate): null,
     state: contractResponse.state,
     policy: contractResponse.policy,
     globalAssetId: contractResponse.globalAssetId,
