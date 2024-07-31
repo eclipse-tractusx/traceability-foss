@@ -1,6 +1,6 @@
 = Runtime view
 
-This section describes the different functionalities of Trace-X application.
+This section describes the different functionalities of the Trace-X application.
 
 include::assets.adoc[leveloffset=+1]
 include::notifications.adoc[leveloffset=+1]

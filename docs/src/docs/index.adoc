@@ -1,4 +1,3 @@
-
 = Trace-X documentation
 
 == Notice
@@ -16,6 +15,7 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 * Source URL: https://github.com/eclipse-tractusx/traceability-foss
 
 == Administration guide
+
 xref:administration/administration-guide.adoc[Administration guide]
 
 == User manual

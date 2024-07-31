@@ -17,7 +17,7 @@ a|* Established programming languages are used.
 a|* Helm charts to support the deployment of the application in a Kubernetes environment.
 
 |Application reliability
-a|* Data source is the Catena-X network. Data is fetched with IRS directly from the data owner and the digital twin registry of CX.
+a|* Data source is the Catena-X network. Data is fetched directly from the data owner using the IRS and the digital twin registry of CX.
 * Trace-X can be hosted decentralized since it is an open-source reference implementation.
 
 |Security

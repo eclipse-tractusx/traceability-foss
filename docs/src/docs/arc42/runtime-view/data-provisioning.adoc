@@ -1,6 +1,6 @@
 = Data provisioning
 
-This sequence diagrams describes the process of importing data from a Trace-X dataformat
+The following sequence diagrams describe the process of importing data from a Trace-X dataformat:
 
 == Module 1
 
@@ -9,30 +9,26 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 
 [plantuml, target=business-context_data_provisioning_1, format=svg]
 ....
-
 include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul1-sequence.puml[]
 ....
 
 == Module 2
 
-The frontend is able to select assets and publish / synchronize them with the shared services. DTR / EDC / submodel API.
+The frontend is able to select assets and publish / synchronize them with the shared services DTR / EDC / submodel API.
 
 [plantuml, target=business-context_data_provisioning_2, format=svg]
 ....
-
 include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul2-sequence.puml[]
 ....
 
 == Module 3
 
-The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.
+The backend is able to persist the data in the DTR / EDC and enables the IRS to resolve assets.
 
 [plantuml, target=business-context_data_provisioning_3, format=svg]
 ....
-
 include::../../../uml-diagrams/arc42/runtime-view/data-provisioning/trace-x-data-import-interface-modul3-sequence.puml[]
 ....
-
 
 include::data-provisioning/return-import-report.adoc[leveloffset=+1]
 
