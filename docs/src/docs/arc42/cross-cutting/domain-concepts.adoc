@@ -2,7 +2,7 @@
 
 == API model
 
-For detailed information about the API model, please refer to the link:https://catenax-ng.github.io/tx-traceability-foss/docs/api-specification/api-specification.html[API specification].
+For detailed information about the API model, please refer to the link:https://eclipse-tractusx.github.io/traceability-foss/docs/api-specification/api-specification.html[API specification].
 
 == Domain models
 
