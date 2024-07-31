@@ -5,11 +5,10 @@ The deployment contains the components required to connect Trace-X to an existin
 * Trace-X frontend
 * Trace-X backend
 
-
 Optionally these components can be installed using the Trace-X backend Helm chart as well:
 
 * PostgreSQL for Trace-X backend
-* pgadmin4
+* pgAdmin 4
 * IRS
 * EDC consumer
 
@@ -28,12 +27,10 @@ Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and 
 | Category         | Action                         | User       | Supervisor   | Admin
 | View             | View Dashboard                 | x          | x            | x
 |                  | View Parts                     | x          | x            | x
-|                  | View Other parts               | x          | x            | x
 |                  | View Quality notifications     | x          | x            | x
-|                  | View Administration            |            |              | x
-| Edit             | Edit Quality notifications     |            | x            |
-
+|                  | View Administration panel      |            |              | x
 | Quality notification    | Create                         | x          | x            |
+|                         | Edit                           | x          | x            |
 |                         | Send (Approve)                 |            | x            |
 |                         | Read                           | x          | x            | x
 |                         | Cancel                         | x          | x            |
@@ -43,9 +40,6 @@ Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and 
 |                         | Close                          |            | x            |
 
 | Administration panel  | Access "BPN EDC config panel"    |          |            | x
-|                       | Access "Registry lookup Panel"   |          |            | x
-|                       | Access "Data Import Interface"   |          |            | x
-
+|                       | Access "Registry lookup panel"   |          |            | x
+|                       | Access "Data import interface"   |          |            | x
 |===
-
-

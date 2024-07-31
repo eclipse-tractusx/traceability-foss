@@ -33,13 +33,11 @@
 |Trace-X needs to be Catena-X compliant and the application has to follow the CX standards as well as interact with the core services and components.
 
 |Release as open source
-|The source code - at least partially - is made available as open source and can be found in Github Catena-X ng as well as in Eclipse Tractus-X.
+|The source code - at least partially - is made available as open source and can be found in GitHub Catena-X ng as well as in Eclipse Tractus-X.
 
 |Technology Readiness Level (TRL) for products developed within the CX consortia
 |As Trace-X is a reference implementation, the Technology Readiness Level (TRL) must not be above TRL 8.
 |===
-
-
 
 == Political constraints
 
@@ -63,5 +61,4 @@
 
 |Test coverage
 |More than 80% of the complete source code has to be test covered.
-
 |===

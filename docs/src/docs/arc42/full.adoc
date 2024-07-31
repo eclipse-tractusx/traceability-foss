@@ -14,7 +14,6 @@ This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LIC
 
 * Source URL: https://github.com/eclipse-tractusx/traceability-foss
 
-
 include::introduction-goals/index.adoc[leveloffset=+1]
 :imagesdir: architecture-constraints
 include::architecture-constraints/index.adoc[leveloffset=+1]

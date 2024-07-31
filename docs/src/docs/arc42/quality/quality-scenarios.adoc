@@ -6,19 +6,19 @@ The initial letters of the scenario identifiers (IDs) in the following table eac
 |ID |Scenario
 
 |M01
-|A developer with basic knowledge of the traceability use case looks for an introduction to the traceability architecture. He or she gets the idea of essential design very fast.
+|Developers with basic knowledge of the traceability use case look for an introduction to the traceability architecture. They get the idea of essential design very fast.
 
 |M02
-|A senior developer looks for a reference implementation of the traceability use case functionalities. He or she gets it within the source code.
+|Senior developers look for a reference implementation of the traceability use case functionalities. They get it within the source code.
 
 |M03
-|A developer wants to implement new features. He or she is able to add it to the source code easily.
+|Developers want to implement new features. They are able to add it to the source code easily.
 
 |M04
-|A developer wants to implement a new frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so.
+|Developers want to implement a new frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so.
 
 |I01
-|A user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.
+|Users want to switch from a FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.
 
 |F01
 |The application uses the Catena-X standards to ensure the correct interoperability and exchange with other participants.
@@ -30,8 +30,8 @@ The initial letters of the scenario identifiers (IDs) in the following table eac
 |A company wants to have more transparency and a visualized status of the supply / value chain. By using the application they are enabled to work with the structures and enable new features / functionalities.
 
 |F04
-|Notifications are sent using the EDC to ensure interoperability and reliability to the CX network.
+|Notifications are sent using the EDC to ensure interoperability with the CX network.
 
 |E01
-|Notifications between traceability apps need to be send out and received within a specified timeframe to minimize the negative impact of e.g. recalled serialized products/batches on the value chain.
+|Notifications between traceability apps need to be sent and received within a specified timeframe to minimize the negative impact of e.g. recalled serialized products / batches on the value chain.
 |===

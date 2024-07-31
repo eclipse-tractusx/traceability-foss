@@ -3,6 +3,6 @@ An overview of the scheduler tasks configured in the system.
 [options="header"]
 |===
 |Scheduler name | Execution interval | Description
-|PublishAssetsJob | Every hour at 30min | Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines 'as-built' and 'as-planned' assets and initiates their publication for synchronization in the traceability system.
+|PublishAssetsJob | Every hour at 30min | Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines as-built and as-planned assets and initiates their publication for synchronization in the traceability system.
 |AssetsRefreshJob | Every 2 hours | Invokes the synchronization of asset shell descriptors with the decentralized registry. It ensures the latest asset information is fetched and updated in the system from external sources.
 |===

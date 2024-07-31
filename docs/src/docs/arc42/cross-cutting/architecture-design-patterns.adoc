@@ -8,7 +8,7 @@
 *** Optional: subdomain name (in case of inheritance) → following same structure as main domain
 *** Mapper: holds the mapper of transforming domain models to response models
 *** Service: holds the interface for implementation in the domain package
-*** REST: holds the controller for providing the api for the domain
+*** REST: holds the controller for providing the API for the domain
 ** Domain
 *** Optional: subdomain name (in case of inheritance)
 *** Model: holds the domain model
@@ -19,5 +19,4 @@
 *** Model: holds the technical entities
 *** Repository: holds the data access layer
 **** E.g. JPARepository / Impl
-** All models (request / response) used in the API should be saved in the tx-model project.
-To be reusable for cucumber testing.
+** All models (request / response) used in the API should be saved in the tx-model project to be reusable for cucumber testing.

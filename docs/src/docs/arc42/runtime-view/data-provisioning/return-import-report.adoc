@@ -1,6 +1,6 @@
 = Scenario 1: Receive import report
 
-This section describes what happens when the user wants to get a report of the imported assets associated to a importJobId.
+This section describes what happens when the user wants to get a report of the imported assets associated with a importJobId.
 In this example, the user requests an import report.
 
 [plantuml,target=import-report-receive,format=svg]
@@ -11,6 +11,6 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-provisioning/import-re
 == Overview
 
 When a user requests an import report, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the endpoint returns an import report to the given importJobId.
+If yes, the endpoint returns the import report of the given importJobId.
 
 If the importJobId is not known to Trace-X, an HTTP 404 error is returned.

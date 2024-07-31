@@ -11,15 +11,12 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 
 == Helm configuration Trace-X backend (values.yaml)
 
-[source,yaml]
-----
-include::../../../../charts/traceability-foss/values.yaml[lines=121..-1]
-----
+https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml
 
 === Values explained
 
 ==== <springprofile>
-The different profiles for the different supported environments to bootstrap the resources which are required for the respective environment.
+The profiles for the different supported environments to bootstrap the resources which are required for the respective environment.
 
 |===
 |Springprofile | Description
@@ -43,13 +40,13 @@ BPN (Business Partner Number) for the traceability app used to identify the part
 The jdbc connection string to the database. jdbc:postgresql://${url}:${port}/trace
 
 ==== <datasource.username>
-The username of the datasource e.g. "trace"
+The username of the datasource e.g. "trace".
 
 ==== <datasource.password>
 The password of the datasource or the path to the vault which contains the secret. <path:../data/int/database#tracePassword>
 
 ==== <oauth2.clientId>
-Client ID for OAuth2 (KeyCloak). Request this from your Keycloak operator.
+Client ID for OAuth2 (Keycloak). Request this from your Keycloak operator.
 
 ==== <oauth2.clientSecret>
 Client secret for OAuth2. Request this from your OAuth2 operator.
@@ -64,10 +61,10 @@ The URL of the Keycloak JWK Set. Used by Trace-X to validate tokens when Trace-X
 The client which is used to authenticate the backend.
 
 ==== <edc.apiKey>
-The EDC api key or the path to the secret inside a vault. e.g. <path:../data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+The EDC api key or the path to the secret inside a vault. E.g. <path:../data/int/edc/controlplane#edc.api.control.auth.apikey.value>
 
 === <postgresql.enabled>
-Enables <true> or disables <false> PostgresSQL database.
+Enables <true> or disables <false> the PostgresSQL database.
 
 === <postgresql.auth.postgresPassword>
 Database password for the *postgres* user or the path to the secret inside a vault. <path:.../data/int/database#password>
@@ -76,25 +73,22 @@ Database password for the *postgres* user or the path to the secret inside a vau
 Database password for the application user of the path to the secret inside a vault. <path:.../data/int/database#password>
 
 === <postgresql.auth.database>
-The name  of the database instance.
+The name of the database instance.
 
 === <postgresql.auth.username>
 The user for the database instance.
 
 === <global.enablePrometheus>
-Enables <true> or disables <false> the prometheus instance.
+Enables <true> or disables <false> the Prometheus instance.
 
 === <global.enableGrafana>
-Enables <true> or disables <false> the grafana instance used for resource and application monitoring.
+Enables <true> or disables <false> the Grafana instance used for resource and application monitoring.
 
 === <irs-helm.enabled>
-Enables <true> or disables <false> irs helm charts.
+Enables <true> or disables <false> IRS helm charts.
 
 === <pgadmin4.enabled>
-Enables <true> or disables <false> pgadmin4 console for the PostgreSQL database instance
+Enables <true> or disables <false> pgAdmin 4 console for the PostgreSQL database instance.
 
 === <pgadmin4.ingress.enabled>
-Enables <true> or disables <false> a K8S Ingress for the pgadmin4 console
-
-
-
+Enables <true> or disables <false> a K8S Ingress for the pgAdmin 4 console.
