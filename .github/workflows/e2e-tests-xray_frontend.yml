@@ -139,8 +139,8 @@ jobs:
           working-directory: frontend
           # using wait-on parameter causes "Error: connect ECONNREFUSED 127.0.0.1:4200"
         env:
-          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.ASSOCIATION_SUPERVISOR_CLIENT_ID }}
-          CYPRESS_SUPERVISOR_PW: ${{ secrets.ASSOCIATION_SUPERVISOR_PASSWORD }}
+          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_A_CLIENT_ID }}
+          CYPRESS_SUPERVISOR_PW: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_A_PASSWORD }}
           CYPRESS_ADMIN_LOGIN: ${{ secrets.TRACE_X_ADMIN_LOGIN }}
           CYPRESS_ADMIN_PW: ${{ secrets.TRACE_X_ADMIN_PW }}
           CYPRESS_USER_LOGIN: ${{ secrets.TRACE_X_USER_LOGIN }}
