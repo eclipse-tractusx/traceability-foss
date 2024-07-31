@@ -5,5 +5,3 @@
 include::frontend-configuration.adoc[leveloffset=+1]
 include::backend-configuration.adoc[leveloffset=+1]
 include::portal-configuration.adoc[leveloffset=+1]
-
-

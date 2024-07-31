@@ -13,33 +13,32 @@ include::../../../uml-diagrams/arc42/building-block-view/building-block-view.pum
 |Components |Description
 
 |*Trace-X*
-|*Trace-X* is a system allowing the user to review the parts/assets catalogue, start a quality investigations and receive quality alerts.
+|*Trace-X* is a system allowing the user to review the parts / assets catalog and send / receive quality notifications related to those parts.
 
 |*Trace-X API*
-|The *Trace-X API* is the interface over which the data consumer is communicating.
+|The *Trace-X API* is the interface through which the data consumer is communicating.
 
 |*AssetsController*
-|The *AssetsController* provides a REST interface for retrieving the parts/assets information.
+|The *AssetsController* provides a REST interface for retrieving asset information.
 
 |*DashboardController*
-|The *DashboardController* provides a REST interface for retrieving overall statistics displayed on a dashboard screen.
+|The *DashboardController* provides a REST interface for retrieving overall statistics displayed on the dashboard screen.
 
 |*RegistryController*
-|The *RegistryController* provides a REST interface for retrieving the data from parts registry.
+|The *RegistryController* provides a REST interface for retrieving data from the assets registry.
 
 |*ImportController*
 |The *ImportController* provides a REST interface for importing assets and publishing them in the Catena-X network.
 
 |*AssetRepository*
-|The *AssetRepository* is a component responsible for storing and getting assets from database.
+|The *AssetRepository* is a component responsible for storing and getting assets from the database.
 
 |*BPNRepository*
 |The *BPNRepository* is a component which stores BPN -> company name mappings.
 
 |*NotificationsRepository*
-|The *NotificationsRepository* is a component responsible for storing and holding status of sent/received notifications.
+|The *NotificationsRepository* is a component responsible for storing the status and data of sent and received notifications.
 
 |*Database*
-|The *database* is a place for storing assets, relations as well as sent/received notifications.
-
+|The *database* is a place for storing assets, relations and notifications.
 |===

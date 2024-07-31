@@ -1,6 +1,6 @@
 = Stakeholder
 
-The following table presents the stakeholders of Trace-X and their respective intentions.
+The following table presents the stakeholders of Trace-X and their respective interests.
 
 |===
 |Who |Matters and concern

@@ -24,7 +24,7 @@ $ helm install -f your-values.yaml traceability-foss traceability-foss/traceabil
 
 == Dependent values
 
-Following values needs to match in order for application to start and have valid PostgreSQL connection:
+Following values need to match in order for application to start and have a valid PostgreSQL connection:
 
 [source,yaml]
 datasource:
