@@ -17,6 +17,9 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1328 Fixed semanticDataModel translation and part name within notification detail / edit view.
 - #908 Renamed header in notification detail for parts from Supplier Parts to Affected parts
 
+### Removed
+- #1227 Removed scrollbar on approval dialog
+
 ## [13.0.1 - 26.07.2024]
 
 ### Added

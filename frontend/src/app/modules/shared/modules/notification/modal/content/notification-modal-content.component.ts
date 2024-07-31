@@ -28,4 +28,7 @@ import { Notification } from '@shared/model/notification.model';
 })
 export class NotificationModalContentComponent {
   @Input() notification: Notification;
+  constructor() {
+    setTimeout(() => {console.log(this.notification, "notification")}, 2000);
+  }
 }
