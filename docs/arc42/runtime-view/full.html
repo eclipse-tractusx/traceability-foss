@@ -489,7 +489,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes the different functionalities of Trace-X application.</p>
+<p>This section describes the different functionalities of the Trace-X application.</p>
 </div>
 </div>
 </div>
@@ -499,9 +499,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_scenario_1_return_assets">Scenario 1: Return assets</h3>
 <div class="paragraph">
-<p>This section describes what happens when user lists stored assets.
-In this example, the user requests as built assets.
-The same can be done with as planned assets.</p>
+<p>This section describes what happens when users list stored assets.
+In this example, the user requests as-built assets.
+The same can be done with as-planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -515,16 +515,16 @@ The same can be done with as planned assets.</p>
 If yes, then the endpoint returns a pageable result of assets.</p>
 </div>
 <div class="paragraph">
-<p>The returned pageable result can be empty if no suitable asset has been found.</p>
+<p>The returned result can be empty if no suitable asset has been found.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_scenario_2_return_specific_assets">Scenario 2: Return specific assets</h3>
 <div class="paragraph">
-<p>This section describes what happens when user searches for a specific asset.
-This example shows the request of one as built asset.
-The same can be done with as planned assets.</p>
+<p>This section describes what happens when users search for a specific asset.
+This example shows the request of one as-built asset.
+The same can be done with as-planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -534,7 +534,7 @@ The same can be done with as planned assets.</p>
 <div class="sect3">
 <h4 id="_overview_2">Overview</h4>
 <div class="paragraph">
-<p>When a user requests a specific asset, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise asset for the given assetId, if it is found.</p>
+<p>When a user requests a specific asset, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns the asset for the given assetId, if it is found.</p>
 </div>
 <div class="paragraph">
 <p>If no asset has been found for the given ID, an AssetNotFoundException is thrown.</p>
@@ -549,7 +549,7 @@ The same can be done with as planned assets.</p>
 <div class="sect2">
 <h3 id="_receive_quality_notification">Receive quality notification</h3>
 <div class="paragraph">
-<p>This sequence diagram describes the process of receiving a quality notification from another traceability partner.</p>
+<p>This sequence diagram describes the process of receiving a quality notification from another traceability partner:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -559,13 +559,13 @@ The same can be done with as planned assets.</p>
 <div class="sect3">
 <h4 id="_overview_3">Overview</h4>
 <div class="paragraph">
-<p>As for the sending of a quality notification also for receiving of a notification EDC is used to push data from a sender to a receiver.
-To enable receiving a notification by a partner you need to</p>
+<p>The EDC is utilized to transmit data between sender and receiver for both sending and receiving notifications.
+To be able to receive notifications by a partner you need to</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Create notification endpoint for qualitynotifications/receive</p>
+<p>Create a notification endpoint for qualitynotifications/receive</p>
 </li>
 <li>
 <p>Create EDC assets</p>
@@ -579,17 +579,17 @@ To enable receiving a notification by a partner you need to</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel.</p>
+<p>Trace-X implements a functionality to create assets and their corresponding policies in the admin panel.</p>
 </div>
 <div class="paragraph">
-<p>With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to find the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to push a notification to the specified http endpoint on the receiver side.</p>
+<p>With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to find the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to send a notification to the specified http endpoint on the receiver side.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_send_quality_notification">Send quality notification</h3>
 <div class="paragraph">
-<p>This sequence diagram describes the process of sending a quality notification between traceability applications.</p>
+<p>This sequence diagram describes the process of sending a quality notification between traceability applications:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -599,13 +599,13 @@ To enable receiving a notification by a partner you need to</p>
 <div class="sect3">
 <h4 id="_overview_4">Overview</h4>
 <div class="paragraph">
-<p>For the notification feature EDC is used to push data from a sender to a receiver.
-To enable sending respective more precisely receiving a notification by a partner you need to</p>
+<p>The EDC is utilized to transmit data between sender and receiver for both sending and receiving notifications.
+To be able to send notifications to a partner you need to</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Create notification endpoint for qualitynotifications/receive</p>
+<p>Create a notification endpoint for qualitynotifications/send</p>
 </li>
 <li>
 <p>Create EDC assets</p>
@@ -619,10 +619,10 @@ To enable sending respective more precisely receiving a notification by a partne
 </ul>
 </div>
 <div class="paragraph">
-<p>Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel. With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be pushed by the sender.</p>
+<p>Trace-X implements a functionality to create assets and their corresponding policies in the admin panel.</p>
 </div>
 <div class="paragraph">
-<p>In the above UML sequence diagram the sending of quality notifications from Trace-X to a receiver (any other traceability application) is described.</p>
+<p>With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be sent by the sender.</p>
 </div>
 </div>
 </div>
@@ -632,7 +632,7 @@ To enable sending respective more precisely receiving a notification by a partne
 <h2 id="_data_consumption">Data consumption</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This sequence diagram describes the process of fetching data from a DTR and the Catena-X ecosystem.</p>
+<p>This sequence diagram describes the process of fetching data from the DTR and the Catena-X ecosystem:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -642,8 +642,8 @@ To enable sending respective more precisely receiving a notification by a partne
 <div class="sect2">
 <h3 id="_overview_5">Overview</h3>
 <div class="paragraph">
-<p>Data is fetched by a Trace-X instance using Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
-For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X, a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, parts tree / parts relations.</p>
+<p>Data is fetched by a Trace-X instance using the Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
+For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, part trees / part relations.</p>
 </div>
 </div>
 </div>
@@ -652,7 +652,7 @@ For digital twins the Asset Administration Shell (AAS) standard is used. For fet
 <h2 id="_data_provisioning">Data provisioning</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This sequence diagrams describes the process of importing data from a Trace-X dataformat</p>
+<p>The following sequence diagrams describe the process of importing data from a Trace-X dataformat:</p>
 </div>
 <div class="sect2">
 <h3 id="_module_1">Module 1</h3>
@@ -669,7 +669,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <div class="sect2">
 <h3 id="_module_2">Module 2</h3>
 <div class="paragraph">
-<p>The frontend is able to select assets and publish / synchronize them with the shared services. DTR / EDC / submodel API.</p>
+<p>The frontend is able to select assets and publish / synchronize them with the shared services DTR / EDC / submodel API.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -680,7 +680,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <div class="sect2">
 <h3 id="_module_3">Module 3</h3>
 <div class="paragraph">
-<p>The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.</p>
+<p>The backend is able to persist the data in the DTR / EDC and enables the IRS to resolve assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -691,7 +691,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <div class="sect2">
 <h3 id="_scenario_1_receive_import_report">Scenario 1: Receive import report</h3>
 <div class="paragraph">
-<p>This section describes what happens when the user wants to get a report of the imported assets associated to a importJobId.
+<p>This section describes what happens when the user wants to get a report of the imported assets associated with a importJobId.
 In this example, the user requests an import report.</p>
 </div>
 <div class="imageblock">
@@ -703,7 +703,7 @@ In this example, the user requests an import report.</p>
 <h4 id="_overview_6">Overview</h4>
 <div class="paragraph">
 <p>When a user requests an import report, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the endpoint returns an import report to the given importJobId.</p>
+If yes, the endpoint returns the import report of the given importJobId.</p>
 </div>
 <div class="paragraph">
 <p>If the importJobId is not known to Trace-X, an HTTP 404 error is returned.</p>
@@ -713,7 +713,7 @@ If yes, then the endpoint returns an import report to the given importJobId.</p>
 <div class="sect2">
 <h3 id="_scenario_2_publish_assets">Scenario 2: Publish assets</h3>
 <div class="paragraph">
-<p>This section describes user interaction when publishing assets</p>
+<p>This section describes the user interaction when publishing assets</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -724,14 +724,14 @@ If yes, then the endpoint returns an import report to the given importJobId.</p>
 <h4 id="_overview_7">Overview</h4>
 <div class="paragraph">
 <p>When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then the endpoint starts to publish assets to network.</p>
+If yes, the endpoint starts to publish assets to the network.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_scenario_3_publish_assets_error_on_edc_or_dtr">Scenario 3: Publish assets - error on EDC or DTR</h3>
 <div class="paragraph">
-<p>This section describes user interaction when publishing assets fails due to EDC or DTR error (for example when the services are unavailable).</p>
+<p>This section describes the user interaction when publishing assets fails due to an EDC or DTR error (for example when the services are unavailable).</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -742,8 +742,8 @@ If yes, then the endpoint starts to publish assets to network.</p>
 <h4 id="_overview_8">Overview</h4>
 <div class="paragraph">
 <p>When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then the endpoint starts to publish assets to network.
-If any of required services are not available or return an error response upon executing, flow assets are set to ERROR state and the user can retry publishing them at any time when services are available again.</p>
+If yes, the endpoint starts to publish assets to network.
+If any of the required services are not available or return an error response upon executing, the included assets are set to ERROR state and the user can retry publishing them at any time when services are available again.</p>
 </div>
 </div>
 </div>
@@ -755,7 +755,7 @@ If any of required services are not available or return an error response upon e
 <div class="sect2">
 <h3 id="_scenario_1_return_asset_contract_agreements">Scenario 1: Return asset contract agreements</h3>
 <div class="paragraph">
-<p>This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).</p>
+<p>This section describes the functionality and behavior when a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -766,14 +766,14 @@ If any of required services are not available or return an error response upon e
 <h4 id="_overview_9">Overview</h4>
 <div class="paragraph">
 <p>In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the requested assets will be mapped to the related contract agreement id.
-These contract agreement ids will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/{ContractAgreementId}/negotiation) to get the relevant information.</p>
+If yes, the requested assets will be mapped to the related contract agreement ID.
+These contract agreement IDs will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/{ContractAgreementId}/negotiation) to get the relevant information.</p>
 </div>
 <div class="paragraph">
 <p>The contract information is then returned by the endpoint as a pageable result.</p>
 </div>
 <div class="paragraph">
-<p>If no asset ids are provided in the request, 50 contract agreement ids are handled by default.</p>
+<p>If no asset IDs are provided in the request, 50 contract agreements are returned by default.</p>
 </div>
 </div>
 </div>
@@ -1129,11 +1129,11 @@ For more detailed information concerning the functionality of IRS please refer t
 <h4 id="_scenario_1_startup_interaction_with_the_irs_policy_store">Scenario 1: Startup interaction with the IRS policy store</h4>
 <div class="paragraph">
 <p>The Trace-X instance defines a constraint which is required for data consumption and provisioning.
-Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
+Trace-X retrieves all policies from the IRS and validates if one of the policies contains the required constraint given by Trace-X.
 If a policy with the constraint exists and is valid, the process ends. If the policy is not valid, it will create one with the given constraint.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of retrieving or creating policies within the IRS policy store based on the constraint given by Trace-X.</p>
+<p>This sequence diagram describes the process of retrieving or creating policies from the IRS policy store based on the constraint given by Trace-X:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1159,10 +1159,10 @@ The EDC policy request will be used for creating a policy for the required notif
 <div class="sect3">
 <h4 id="_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</h4>
 <div class="paragraph">
-<p>The Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver EDC.</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint for validation of catalog offers by the receiver EDC.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC.</p>
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1173,10 +1173,10 @@ The EDC policy request will be used for creating a policy for the required notif
 <div class="sect3">
 <h4 id="_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</h4>
 <div class="paragraph">
-<p>The Trace-X instance uses the policy which includes the defined constraint and reuses it for creating EDC assets.</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint for creating EDC assets.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering EDC data assets.</p>
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for registering EDC data assets:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1185,14 +1185,29 @@ The EDC policy request will be used for creating a policy for the required notif
 </div>
 </div>
 <div class="sect3">
-<h4 id="_scenario_5_updating_notification_offers_when_creatingdeletingupdating_policies">Scenario 5: Updating notification offers when creating/deleting/updating policies</h4>
+<h4 id="_scenario_5_updating_notification_offers_when_creating_deleting_updating_policies">Scenario 5: Updating notification offers when creating / deleting / updating policies</h4>
 <div class="paragraph">
 <p>The Trace-X instance uses policies for creating the EDC catalog offers of notifications.
-These offers will be created on the following actions:
-- on Trace-X application startup - creating a policy for the own BPN - updating a policy for the own BPN - deleting a policy for the own BPN</p>
+These offers will be created on the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>on Trace-X application startup</p>
+</li>
+<li>
+<p>creating a policy for the own BPN</p>
+</li>
+<li>
+<p>updating a policy for the own BPN</p>
+</li>
+<li>
+<p>deleting a policy for the own BPN</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the catalog offers are updated after policy update/create/delete</p>
+<p>This sequence diagram describes the process of how the catalog offers are updated after policy update / create / delete:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1226,7 +1241,7 @@ These offers will be created on the following actions:
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PublishAssetsJob</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Every hour at 30min</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines 'as-built' and 'as-planned' assets and initiates their publication for synchronization in the traceability system.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines as-built and as-planned assets and initiates their publication for synchronization in the traceability system.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AssetsRefreshJob</p></td>
@@ -1240,7 +1255,7 @@ These offers will be created on the following actions:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-31 08:23:43 UTC
+Last updated 2024-07-31 12:22:17 UTC
 </div>
 </div>
 </body>

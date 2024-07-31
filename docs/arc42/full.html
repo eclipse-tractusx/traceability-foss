@@ -553,8 +553,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_introduction_and_goals">Introduction and goals</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This chapter gives you an overview about the goals of the service,
-in which context the service runs and which stakeholders are involved.</p>
+<p>This chapter gives you an overview about the goals of the service, in which context the service runs and which stakeholders are involved.</p>
 </div>
 <div class="sect2">
 <h3 id="_requirements_overview">Requirements overview</h3>
@@ -575,7 +574,7 @@ in which context the service runs and which stakeholders are involved.</p>
 <p>Overview and transparency across the supplier network enable faster intervention based on recorded events in the supply chain.</p>
 </li>
 <li>
-<p>Notifications/Messages regarding quality-related incidents and a tool for inspecting the supply chain.</p>
+<p>Notifications &amp; Messages regarding quality-related incidents and a tool for inspecting the supply chain.</p>
 </li>
 </ul>
 </div>
@@ -645,7 +644,7 @@ in which context the service runs and which stakeholders are involved.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Cloud agnostic solution</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X is built as a reference architecture and able to be run on different cloud solutions. It uses Helm, i.e. Helm charts, so that it can easily be deployed on different systems.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Trace-X is built as a reference architecture and able to be run on different cloud solutions. It uses Helm charts so that it can easily be deployed on different systems.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Trustworthy application</p></td>
@@ -669,7 +668,7 @@ in which context the service runs and which stakeholders are involved.</p>
 <div class="sect2">
 <h3 id="_stakeholder">Stakeholder</h3>
 <div class="paragraph">
-<p>The following table presents the stakeholders of Trace-X and their respective intentions.</p>
+<p>The following table presents the stakeholders of Trace-X and their respective interests.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -821,7 +820,7 @@ in which context the service runs and which stakeholders are involved.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Release as open source</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The source code - at least partially - is made available as open source and can be found in Github Catena-X ng as well as in Eclipse Tractus-X.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The source code - at least partially - is made available as open source and can be found in GitHub Catena-X ng as well as in Eclipse Tractus-X.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Technology Readiness Level (TRL) for products developed within the CX consortia</p></td>
@@ -886,7 +885,7 @@ in which context the service runs and which stakeholders are involved.</p>
 <h2 id="_system_scope_and_context">System scope and context</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Trace-X is an end-user application to visualize and utilize data provided to the Catena-X network. This includes the traceability of manufactured parts and batches as well as the shipped and supplied components. To utilize the CX open ecosystem it is necessary to exchange information on serialized parts and batches with supply chain partners in a standardized, data-sovereign and interoperable way. This section describes the environment of Trace-X, its intended users and which systems and components it interacts with.</p>
+<p>Trace-X is an end-user application to visualize and utilize data provided to the Catena-X network. This includes the traceability of manufactured parts and batches as well as the shipped and supplied components. To utilize the CX open ecosystem, it is necessary to exchange information on serialized parts and batches with supply chain partners in a standardized, data-sovereign and interoperable way. This section describes the environment of Trace-X, its intended users and which systems and components it interacts with.</p>
 </div>
 <div class="sect2">
 <h3 id="_business_context">Business context</h3>
@@ -934,7 +933,7 @@ in which context the service runs and which stakeholders are involved.</p>
 Since the Trace-X component is the very last component in the Catena-X ecosystem we are mostly dependent on the other services and theirs APIs in other to deliver desired functionalities. The development of the services is not a part of the Trace-X application and each of the system that we utilize exposes a REST API that we consume and interact with directly.</p>
 </div>
 <div class="paragraph">
-<p>Trace-X is a Spring Boot based application and is secured with the OpenID connector provider Keycloak and the OAuth2. This means for the companies, that utilize Trace-X component, it is required to obtain a technical user in order to be authorized to get access to the external components within Catena-X ecosystem.</p>
+<p>Trace-X is a Spring Boot based application and is secured with the OpenID connector provider Keycloak and OAuth2. This means for the companies that utilize the Trace-X component, it is required to obtain a technical user to be authorized to get access to the external components within the Catena-X ecosystem.</p>
 </div>
 <div class="paragraph">
 <p>In order to use the Trace-X frontend with the Trace-X backend, users need to authenticate themselves in order to be authorized to get access to the Trace-X.
@@ -950,8 +949,8 @@ Once a user is authorized and has a proper role in the Trace-X backend, the back
 </div>
 </div>
 <div class="paragraph">
-<p>The Trace-X acts as a consumer of the asset administration shell registry component. Trace-X contains a restful client (REST template) that builds a REST call to the mentioned digital twin registry API based on its known URL (the AAS registry URL is configurable in Trace-X).
-Requests contain "assetIds" provided by the component during asset synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the AAS Registry. As a response, Trace-X gets the corresponding shells and shell descriptors utilized later for asset synchronization.
+<p>Trace-X acts as a consumer of the asset administration shell registry component. Trace-X contains a restful client (REST template) that builds a REST call to the mentioned digital twin registry API based on its known URL (the AAS registry URL is configurable in Trace-X).
+Requests contain 'assetIds' provided by the component during asset synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the AAS Registry. As a response, Trace-X gets the corresponding shells and shell descriptors utilized later for asset synchronization.
 The HTTP(s) transport protocol is used for the REST call communication.</p>
 </div>
 </div>
@@ -991,8 +990,8 @@ As mentioned above, the transport protocol HTTP(S) is used for the REST call com
 </div>
 <div class="paragraph">
 <p>The Trace-X acts as a consumer and provider of the EDC component.
-In Trace-X we communicate with EDC directly only for the sake of fulfilling quality investigation functionality.
-Specific use cases can be viewed in <a href="../runtime-view/index.html">Runtime view</a> section.
+In Trace-X we communicate with the EDC directly only for the sake of fulfilling the quality notification functionality.
+Specific use cases can be viewed in the <a href="../runtime-view/index.html">Runtime view</a> section.
 For these purposes the integrated EDC clients in Trace-X are responsible for creating restful requests to the EDC component.
 As mentioned above, the transport protocol HTTP(S) is used for the REST call communication.</p>
 </div>
@@ -1005,7 +1004,7 @@ As mentioned above, the transport protocol HTTP(S) is used for the REST call com
 <h2 id="_solution_strategy">Solution strategy</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section contains summarized architectural overview. A comparison of the most important goals and the corresponding solution approaches.</p>
+<p>This section contains a summarized architectural overview, a comparison of the most important goals and the corresponding solution approaches.</p>
 </div>
 <div class="sect2">
 <h3 id="_introduction">Introduction</h3>
@@ -1065,7 +1064,7 @@ As mentioned above, the transport protocol HTTP(S) is used for the REST call com
 <td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
 <ul>
 <li>
-<p>Data source is the Catena-X network. Data is fetched with IRS directly from the data owner and the digital twin registry of CX.</p>
+<p>Data source is the Catena-X network. Data is fetched directly from the data owner using the IRS and the digital twin registry of CX.</p>
 </li>
 <li>
 <p>Trace-X can be hosted decentralized since it is an open-source reference implementation.</p>
@@ -1104,7 +1103,7 @@ As mentioned above, the transport protocol HTTP(S) is used for the REST call com
 <div class="sect2">
 <h3 id="_structure">Structure</h3>
 <div class="paragraph">
-<p>Trace-X is divided into two components: frontend and backend.
+<p>Trace-X is divided into two components: Frontend and backend.
 It roughly can be broken down into the following parts:</p>
 </div>
 <div class="ulist">
@@ -1116,7 +1115,7 @@ It roughly can be broken down into the following parts:</p>
 <p>Dashboard controller to get dashboard related summed up information</p>
 </li>
 <li>
-<p>Registry controller to fetch assets from the digital twin registry</p>
+<p>Registry controller to fetch assets from the Digital Twin Registry</p>
 </li>
 <li>
 <p>Notification controller to get notification information and create EDC notification offers</p>
@@ -1145,7 +1144,7 @@ It roughly can be broken down into the following parts:</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The backend does a request to the digital twin registry utilizing the registry controller. Extracted data from the response is made available through the asset controller and the dashboard controller to the frontend.</p>
+<p>The backend does a request to the Digital Twin Registry utilizing the registry controller. Extracted data from the response is made available through the asset controller and the dashboard controller to the frontend.</p>
 </div>
 </div>
 </div>
@@ -1179,11 +1178,11 @@ It roughly can be broken down into the following parts:</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IRS</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The IRS consumes relationship information across the CX-network and builds the graph view. Within this documentation, the focus lies on the IRS.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The IRS consumes relationship information across the CX-network and builds the graph view.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDC consumer</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC consumer component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC consumer consists out of a control plane and a data plane.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC consumer component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC consumer is composed of a control plane and a data plane.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDC provider</p></td>
@@ -1223,23 +1222,23 @@ It roughly can be broken down into the following parts:</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Trace-X</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Trace-X</strong> is a system allowing the user to review the parts/assets catalogue, start a quality investigations and receive quality alerts.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Trace-X</strong> is a system allowing the user to review the parts / assets catalog and send / receive quality notifications related to those parts.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Trace-X API</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>Trace-X API</strong> is the interface over which the data consumer is communicating.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>Trace-X API</strong> is the interface through which the data consumer is communicating.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AssetsController</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>AssetsController</strong> provides a REST interface for retrieving the parts/assets information.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>AssetsController</strong> provides a REST interface for retrieving asset information.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DashboardController</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>DashboardController</strong> provides a REST interface for retrieving overall statistics displayed on a dashboard screen.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>DashboardController</strong> provides a REST interface for retrieving overall statistics displayed on the dashboard screen.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>RegistryController</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>RegistryController</strong> provides a REST interface for retrieving the data from parts registry.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>RegistryController</strong> provides a REST interface for retrieving data from the assets registry.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>ImportController</strong></p></td>
@@ -1247,7 +1246,7 @@ It roughly can be broken down into the following parts:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>AssetRepository</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>AssetRepository</strong> is a component responsible for storing and getting assets from database.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>AssetRepository</strong> is a component responsible for storing and getting assets from the database.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>BPNRepository</strong></p></td>
@@ -1255,11 +1254,11 @@ It roughly can be broken down into the following parts:</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NotificationsRepository</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>NotificationsRepository</strong> is a component responsible for storing and holding status of sent/received notifications.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>NotificationsRepository</strong> is a component responsible for storing the status and data of sent and received notifications.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Database</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>database</strong> is a place for storing assets, relations as well as sent/received notifications.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>database</strong> is a place for storing assets, relations and notifications.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1271,16 +1270,16 @@ It roughly can be broken down into the following parts:</p>
 <h2 id="_runtime_view">Runtime view</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes the different functionalities of Trace-X application.</p>
+<p>This section describes the different functionalities of the Trace-X application.</p>
 </div>
 <div class="sect2">
 <h3 id="_assets">Assets</h3>
 <div class="sect3">
 <h4 id="_scenario_1_return_assets">Scenario 1: Return assets</h4>
 <div class="paragraph">
-<p>This section describes what happens when user lists stored assets.
-In this example, the user requests as built assets.
-The same can be done with as planned assets.</p>
+<p>This section describes what happens when users list stored assets.
+In this example, the user requests as-built assets.
+The same can be done with as-planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1294,16 +1293,16 @@ The same can be done with as planned assets.</p>
 If yes, then the endpoint returns a pageable result of assets.</p>
 </div>
 <div class="paragraph">
-<p>The returned pageable result can be empty if no suitable asset has been found.</p>
+<p>The returned result can be empty if no suitable asset has been found.</p>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_scenario_2_return_specific_assets">Scenario 2: Return specific assets</h4>
 <div class="paragraph">
-<p>This section describes what happens when user searches for a specific asset.
-This example shows the request of one as built asset.
-The same can be done with as planned assets.</p>
+<p>This section describes what happens when users search for a specific asset.
+This example shows the request of one as-built asset.
+The same can be done with as-planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1313,7 +1312,7 @@ The same can be done with as planned assets.</p>
 <div class="sect4">
 <h5 id="_overview_2">Overview</h5>
 <div class="paragraph">
-<p>When a user requests a specific asset, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a precise asset for the given assetId, if it is found.</p>
+<p>When a user requests a specific asset, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns the asset for the given assetId, if it is found.</p>
 </div>
 <div class="paragraph">
 <p>If no asset has been found for the given ID, an AssetNotFoundException is thrown.</p>
@@ -1326,7 +1325,7 @@ The same can be done with as planned assets.</p>
 <div class="sect3">
 <h4 id="_receive_quality_notification">Receive quality notification</h4>
 <div class="paragraph">
-<p>This sequence diagram describes the process of receiving a quality notification from another traceability partner.</p>
+<p>This sequence diagram describes the process of receiving a quality notification from another traceability partner:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1336,13 +1335,13 @@ The same can be done with as planned assets.</p>
 <div class="sect4">
 <h5 id="_overview_3">Overview</h5>
 <div class="paragraph">
-<p>As for the sending of a quality notification also for receiving of a notification EDC is used to push data from a sender to a receiver.
-To enable receiving a notification by a partner you need to</p>
+<p>The EDC is utilized to transmit data between sender and receiver for both sending and receiving notifications.
+To be able to receive notifications by a partner you need to</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Create notification endpoint for qualitynotifications/receive</p>
+<p>Create a notification endpoint for qualitynotifications/receive</p>
 </li>
 <li>
 <p>Create EDC assets</p>
@@ -1356,17 +1355,17 @@ To enable receiving a notification by a partner you need to</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel.</p>
+<p>Trace-X implements a functionality to create assets and their corresponding policies in the admin panel.</p>
 </div>
 <div class="paragraph">
-<p>With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to find the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to push a notification to the specified http endpoint on the receiver side.</p>
+<p>With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to find the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to send a notification to the specified http endpoint on the receiver side.</p>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_send_quality_notification">Send quality notification</h4>
 <div class="paragraph">
-<p>This sequence diagram describes the process of sending a quality notification between traceability applications.</p>
+<p>This sequence diagram describes the process of sending a quality notification between traceability applications:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1376,13 +1375,13 @@ To enable receiving a notification by a partner you need to</p>
 <div class="sect4">
 <h5 id="_overview_4">Overview</h5>
 <div class="paragraph">
-<p>For the notification feature EDC is used to push data from a sender to a receiver.
-To enable sending respective more precisely receiving a notification by a partner you need to</p>
+<p>The EDC is utilized to transmit data between sender and receiver for both sending and receiving notifications.
+To be able to send notifications to a partner you need to</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Create notification endpoint for qualitynotifications/receive</p>
+<p>Create a notification endpoint for qualitynotifications/send</p>
 </li>
 <li>
 <p>Create EDC assets</p>
@@ -1396,10 +1395,10 @@ To enable sending respective more precisely receiving a notification by a partne
 </ul>
 </div>
 <div class="paragraph">
-<p>Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel. With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be pushed by the sender.</p>
+<p>Trace-X implements a functionality to create assets and their corresponding policies in the admin panel.</p>
 </div>
 <div class="paragraph">
-<p>In the above UML sequence diagram the sending of quality notifications from Trace-X to a receiver (any other traceability application) is described.</p>
+<p>With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be sent by the sender.</p>
 </div>
 </div>
 </div>
@@ -1407,7 +1406,7 @@ To enable sending respective more precisely receiving a notification by a partne
 <div class="sect2">
 <h3 id="_data_consumption">Data consumption</h3>
 <div class="paragraph">
-<p>This sequence diagram describes the process of fetching data from a DTR and the Catena-X ecosystem.</p>
+<p>This sequence diagram describes the process of fetching data from the DTR and the Catena-X ecosystem:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1417,15 +1416,15 @@ To enable sending respective more precisely receiving a notification by a partne
 <div class="sect3">
 <h4 id="_overview_5">Overview</h4>
 <div class="paragraph">
-<p>Data is fetched by a Trace-X instance using Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
-For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X, a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, parts tree / parts relations.</p>
+<p>Data is fetched by a Trace-X instance using the Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
+For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, part trees / part relations.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_data_provisioning">Data provisioning</h3>
 <div class="paragraph">
-<p>This sequence diagrams describes the process of importing data from a Trace-X dataformat</p>
+<p>The following sequence diagrams describe the process of importing data from a Trace-X dataformat:</p>
 </div>
 <div class="sect3">
 <h4 id="_module_1">Module 1</h4>
@@ -1442,7 +1441,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <div class="sect3">
 <h4 id="_module_2">Module 2</h4>
 <div class="paragraph">
-<p>The frontend is able to select assets and publish / synchronize them with the shared services. DTR / EDC / submodel API.</p>
+<p>The frontend is able to select assets and publish / synchronize them with the shared services DTR / EDC / submodel API.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1453,7 +1452,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <div class="sect3">
 <h4 id="_module_3">Module 3</h4>
 <div class="paragraph">
-<p>The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.</p>
+<p>The backend is able to persist the data in the DTR / EDC and enables the IRS to resolve assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1464,7 +1463,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <div class="sect3">
 <h4 id="_scenario_1_receive_import_report">Scenario 1: Receive import report</h4>
 <div class="paragraph">
-<p>This section describes what happens when the user wants to get a report of the imported assets associated to a importJobId.
+<p>This section describes what happens when the user wants to get a report of the imported assets associated with a importJobId.
 In this example, the user requests an import report.</p>
 </div>
 <div class="imageblock">
@@ -1476,7 +1475,7 @@ In this example, the user requests an import report.</p>
 <h5 id="_overview_6">Overview</h5>
 <div class="paragraph">
 <p>When a user requests an import report, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the endpoint returns an import report to the given importJobId.</p>
+If yes, the endpoint returns the import report of the given importJobId.</p>
 </div>
 <div class="paragraph">
 <p>If the importJobId is not known to Trace-X, an HTTP 404 error is returned.</p>
@@ -1486,7 +1485,7 @@ If yes, then the endpoint returns an import report to the given importJobId.</p>
 <div class="sect3">
 <h4 id="_scenario_2_publish_assets">Scenario 2: Publish assets</h4>
 <div class="paragraph">
-<p>This section describes user interaction when publishing assets</p>
+<p>This section describes the user interaction when publishing assets</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1497,14 +1496,14 @@ If yes, then the endpoint returns an import report to the given importJobId.</p>
 <h5 id="_overview_7">Overview</h5>
 <div class="paragraph">
 <p>When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then the endpoint starts to publish assets to network.</p>
+If yes, the endpoint starts to publish assets to the network.</p>
 </div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_scenario_3_publish_assets_error_on_edc_or_dtr">Scenario 3: Publish assets - error on EDC or DTR</h4>
 <div class="paragraph">
-<p>This section describes user interaction when publishing assets fails due to EDC or DTR error (for example when the services are unavailable).</p>
+<p>This section describes the user interaction when publishing assets fails due to an EDC or DTR error (for example when the services are unavailable).</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1515,8 +1514,8 @@ If yes, then the endpoint starts to publish assets to network.</p>
 <h5 id="_overview_8">Overview</h5>
 <div class="paragraph">
 <p>When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then the endpoint starts to publish assets to network.
-If any of required services are not available or return an error response upon executing, flow assets are set to ERROR state and the user can retry publishing them at any time when services are available again.</p>
+If yes, the endpoint starts to publish assets to network.
+If any of the required services are not available or return an error response upon executing, the included assets are set to ERROR state and the user can retry publishing them at any time when services are available again.</p>
 </div>
 </div>
 </div>
@@ -1526,7 +1525,7 @@ If any of required services are not available or return an error response upon e
 <div class="sect3">
 <h4 id="_scenario_1_return_asset_contract_agreements">Scenario 1: Return asset contract agreements</h4>
 <div class="paragraph">
-<p>This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).</p>
+<p>This section describes the functionality and behavior when a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1537,14 +1536,14 @@ If any of required services are not available or return an error response upon e
 <h5 id="_overview_9">Overview</h5>
 <div class="paragraph">
 <p>In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the requested assets will be mapped to the related contract agreement id.
-These contract agreement ids will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/{ContractAgreementId}/negotiation) to get the relevant information.</p>
+If yes, the requested assets will be mapped to the related contract agreement ID.
+These contract agreement IDs will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/{ContractAgreementId}/negotiation) to get the relevant information.</p>
 </div>
 <div class="paragraph">
 <p>The contract information is then returned by the endpoint as a pageable result.</p>
 </div>
 <div class="paragraph">
-<p>If no asset ids are provided in the request, 50 contract agreement ids are handled by default.</p>
+<p>If no asset IDs are provided in the request, 50 contract agreements are returned by default.</p>
 </div>
 </div>
 </div>
@@ -1898,11 +1897,11 @@ For more detailed information concerning the functionality of IRS please refer t
 <h5 id="_scenario_1_startup_interaction_with_the_irs_policy_store">Scenario 1: Startup interaction with the IRS policy store</h5>
 <div class="paragraph">
 <p>The Trace-X instance defines a constraint which is required for data consumption and provisioning.
-Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
+Trace-X retrieves all policies from the IRS and validates if one of the policies contains the required constraint given by Trace-X.
 If a policy with the constraint exists and is valid, the process ends. If the policy is not valid, it will create one with the given constraint.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of retrieving or creating policies within the IRS policy store based on the constraint given by Trace-X.</p>
+<p>This sequence diagram describes the process of retrieving or creating policies from the IRS policy store based on the constraint given by Trace-X:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1928,10 +1927,10 @@ The EDC policy request will be used for creating a policy for the required notif
 <div class="sect4">
 <h5 id="_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</h5>
 <div class="paragraph">
-<p>The Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver EDC.</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint for validation of catalog offers by the receiver EDC.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC.</p>
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1942,10 +1941,10 @@ The EDC policy request will be used for creating a policy for the required notif
 <div class="sect4">
 <h5 id="_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</h5>
 <div class="paragraph">
-<p>The Trace-X instance uses the policy which includes the defined constraint and reuses it for creating EDC assets.</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint for creating EDC assets.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering EDC data assets.</p>
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for registering EDC data assets:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1954,14 +1953,29 @@ The EDC policy request will be used for creating a policy for the required notif
 </div>
 </div>
 <div class="sect4">
-<h5 id="_scenario_5_updating_notification_offers_when_creatingdeletingupdating_policies">Scenario 5: Updating notification offers when creating/deleting/updating policies</h5>
+<h5 id="_scenario_5_updating_notification_offers_when_creating_deleting_updating_policies">Scenario 5: Updating notification offers when creating / deleting / updating policies</h5>
 <div class="paragraph">
 <p>The Trace-X instance uses policies for creating the EDC catalog offers of notifications.
-These offers will be created on the following actions:
-- on Trace-X application startup - creating a policy for the own BPN - updating a policy for the own BPN - deleting a policy for the own BPN</p>
+These offers will be created on the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>on Trace-X application startup</p>
+</li>
+<li>
+<p>creating a policy for the own BPN</p>
+</li>
+<li>
+<p>updating a policy for the own BPN</p>
+</li>
+<li>
+<p>deleting a policy for the own BPN</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the catalog offers are updated after policy update/create/delete</p>
+<p>This sequence diagram describes the process of how the catalog offers are updated after policy update / create / delete:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1993,7 +2007,7 @@ These offers will be created on the following actions:
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PublishAssetsJob</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Every hour at 30min</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines 'as-built' and 'as-planned' assets and initiates their publication for synchronization in the traceability system.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines as-built and as-planned assets and initiates their publication for synchronization in the traceability system.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AssetsRefreshJob</p></td>
@@ -2017,7 +2031,7 @@ These offers will be created on the following actions:
 <div class="sect2">
 <h3 id="_entity_relationship_model">Entity-relationship model</h3>
 <div class="paragraph">
-<p>Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-relationship model (ERM) in its current state.</p>
+<p>Please be informed that the 'as-planned' version currently lacks the database relations.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2077,7 +2091,7 @@ Currently, Trace-X API handles three roles: <strong>'User'</strong> and <strong>
 </ul>
 </div>
 <div class="paragraph">
-<p>You can have a look at the <a href="https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x">rights and role matrix</a> in the system overview of the administration guide.</p>
+<p>The roles and their functions are documented in the <a href="https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x">rights and role matrix</a> in the system overview of the administration guide.</p>
 </div>
 </div>
 <div class="sect4">
@@ -2098,10 +2112,10 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <div class="ulist">
 <ul>
 <li>
-<p>Quality notification callback APIs (receive, update) - called by EDC Dataplane</p>
+<p>Quality notification callback APIs (receive, update) - called by EDC data plane</p>
 </li>
 <li>
-<p>Endpoint Data Reference callback API - called by EDC Controlplane</p>
+<p>Endpoint Data Reference callback API - called by EDC control plane</p>
 </li>
 </ul>
 </div>
@@ -2110,7 +2124,7 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <div class="sect3">
 <h4 id="_credentials">Credentials</h4>
 <div class="paragraph">
-<p>Credentials must never be stored in Git!</p>
+<p>Credentials must never be stored in GitHub!</p>
 </div>
 </div>
 </div>
@@ -2138,7 +2152,7 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <p>Service: holds the interface for implementation in the domain package</p>
 </li>
 <li>
-<p>REST: holds the controller for providing the api for the domain</p>
+<p>REST: holds the controller for providing the API for the domain</p>
 </li>
 </ul>
 </div>
@@ -2186,8 +2200,7 @@ This component requires authentication via a Verifiable Credential (VC), which i
 </div>
 </li>
 <li>
-<p>All models (request / response) used in the API should be saved in the tx-model project.
-To be reusable for cucumber testing.</p>
+<p>All models (request / response) used in the API should be saved in the tx-model project to be reusable for cucumber testing.</p>
 </li>
 </ul>
 </div>
@@ -2244,15 +2257,15 @@ On the other hand, you still have the possibility to derive various, meaningful 
 <div class="paragraph">
 <p>There will always be some exception that cannot be handled inside the code correctly - or it may just have been unforeseen.
 A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
-In some cases, this is as simple as a HTTP 500.</p>
+In some cases, this is as simple as an HTTP 500.</p>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_dont_expose_too_much_exception_details_over_api">Dont expose too much exception details over API</h6>
+<h6 id="_dont_expose_too_much_exception_details_over_api">Don&#8217;t expose too much exception details over API</h6>
 <div class="paragraph">
-<p>It&#8217;s good to inform the user, why their request did not work, but only if they can do something about it (HTTP 4xx).
+<p>It&#8217;s good to inform the user why their request did not work, but only if they can do something about it (HTTP 4xx).
 So in case of application problems, you should not expose details of the problem to the caller.
-This way, we avoid opening potential attack vectors.</p>
+This way we avoid opening potential attack vectors.</p>
 </div>
 </div>
 </div>
@@ -2275,10 +2288,10 @@ New submodules should be created with care and require a review by the team.</p>
 <div class="paragraph">
 <p>The Maven build alone only leads up to the JAR artifact of Trace-X.
 To create Docker images, the Docker build feature is used.
-This copies all resources into a builder image, builds the software and creates a final Docker image at the end that can then be deployed.</p>
+This copies all resources into a build image, builds the software and creates a final Docker image at the end that can then be deployed.</p>
 </div>
 <div class="paragraph">
-<p>Although the Docker image can be deployed in various ways, the standard solution are the provided Helm charts, which describe the required components as well.</p>
+<p>Although the Docker image can be deployed in various ways, the standard solution is to use the provided Helm charts, which describe the required components as well.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2307,7 +2320,7 @@ The annotations are then used to automatically generate the OpenAPI specificatio
 <div class="sect3">
 <h4 id="_migration">Migration</h4>
 <div class="paragraph">
-<p>Data migration is handled by flyway.</p>
+<p>Data migration is handled by Flyway.</p>
 </div>
 </div>
 <div class="sect3">
@@ -2325,17 +2338,17 @@ The operator must have total control over the configuration of Trace-X.</p>
 <div class="sect3">
 <h4 id="_java_style_guide">Java style guide</h4>
 <div class="paragraph">
-<p>We generally follow the <a href="https://google.github.io/styleguide/javaguide.html">Google Java Style Guide</a>.</p>
+<p>We generally follow the <a href="https://google.github.io/styleguide/javaguide.html">Google Java style guide</a>.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_api_guide">API guide</h4>
 <div class="paragraph">
-<p>We generally follow the <a href="https://swagger.io/specification/">OpenAPI Specification</a>.</p>
+<p>We generally follow the <a href="https://swagger.io/specification/">OpenAPI specification</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_docomentation_style_guide">Docomentation style guide</h4>
+<h4 id="_documentation_style_guide">Documentation style guide</h4>
 <div class="paragraph">
 <p>We generally follow the <a href="https://developers.google.com/style">Google developer documentation style guide</a>.</p>
 </div>
@@ -2359,20 +2372,20 @@ The operator must have total control over the configuration of Trace-X.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit_test_naming.svg" alt="unit test naming">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit-test-naming.svg" alt="unit test naming">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Use given/when/then pattern for unit test structuring.
+<p>Use the given / when / then pattern for unit test structuring.
 E.g:</p>
 </li>
 </ul>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given_when_then_pattern.svg" alt="given when then pattern">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given-when-then-pattern.svg" alt="given when then pattern">
 </div>
 </div>
 </div>
@@ -2380,9 +2393,9 @@ E.g:</p>
 <h5 id="_integration_testing">Integration testing</h5>
 <div class="paragraph">
 <p>Each public API should have at least two integration tests (positive / negative).
-For integration testing, the <code>tx-backend/src/main/resources/application-integration.yml</code> is used.
+For integration testing, the file <code>tx-backend/src/main/resources/application-integration.yml</code> is used.
 Additionally, you need to have a local Docker environment running.
-For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.</p>
+For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.</p>
 </div>
 </div>
 </div>
@@ -2395,11 +2408,11 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 <div class="sect3">
 <h4 id="_secure_coding_standards">Secure coding standards</h4>
 <div class="paragraph">
-<p>As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".</p>
+<p>As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaws detected by one of our SAST, DAST, pen testing tools which are higher than "Very Low".</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability_level.svg" alt="vulnerability level">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability-level.svg" alt="vulnerability level">
 </div>
 </div>
 </div>
@@ -2416,7 +2429,7 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 <p>Has no own logic</p>
 </li>
 <li>
-<p>Includes the swagger documentation annotations</p>
+<p>Includes the Swagger documentation annotations</p>
 </li>
 <li>
 <p>Has an integration test class</p>
@@ -2533,7 +2546,7 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 Main reason is to provide immutable objects.</p>
 </li>
 <li>
-<p>As the handling with big loaded constructors is not easy and error prone, it&#8217;s recommended to use the builder pattern to have a clear understanding about what we are creating at the point of implementation.</p>
+<p>As the handling with big loaded constructors is not easy and error-prone, it&#8217;s recommended to use the builder pattern to have a clear understanding about what we are creating at the point of implementation.</p>
 </li>
 </ul>
 </div>
@@ -2567,7 +2580,7 @@ Once the Docker image has been built, these values can only be overwritten using
 <h6 id="_helm_chart">Helm chart</h6>
 <div class="paragraph">
 <p>The most relevant config properties are exposed as environment variables and must be set in the Helm chart for the application to be able to run.
-Check the Trace-X Helm chart in Git for all available variables.</p>
+Check the Trace-X Helm chart in GitHub for all available variables.</p>
 </div>
 </div>
 </div>
@@ -2954,23 +2967,23 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A developer with basic knowledge of the traceability use case looks for an introduction to the traceability architecture. He or she gets the idea of essential design very fast.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers with basic knowledge of the traceability use case look for an introduction to the traceability architecture. They get the idea of essential design very fast.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M02</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A senior developer looks for a reference implementation of the traceability use case functionalities. He or she gets it within the source code.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Senior developers look for a reference implementation of the traceability use case functionalities. They get it within the source code.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M03</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A developer wants to implement new features. He or she is able to add it to the source code easily.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers want to implement new features. They are able to add it to the source code easily.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">M04</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A developer wants to implement a new frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers want to implement a new frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">I01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users want to switch from a FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">F01</p></td>
@@ -2986,11 +2999,11 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">F04</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Notifications are sent using the EDC to ensure interoperability and reliability to the CX network.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Notifications are sent using the EDC to ensure interoperability with the CX network.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">E01</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Notifications between traceability apps need to be send out and received within a specified timeframe to minimize the negative impact of e.g. recalled serialized products/batches on the value chain.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Notifications between traceability apps need to be sent and received within a specified timeframe to minimize the negative impact of e.g. recalled serialized products / batches on the value chain.</p></td>
 </tr>
 </tbody>
 </table>
@@ -3054,7 +3067,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Interoperability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Communication and interaction with other components or Catena-X partners/players</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Communication and interaction with other components or Catena-X partners / players</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">IRS</p></td>
@@ -3079,7 +3092,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-31 08:23:43 UTC
+Last updated 2024-07-31 12:22:17 UTC
 </div>
 </div>
 </body>

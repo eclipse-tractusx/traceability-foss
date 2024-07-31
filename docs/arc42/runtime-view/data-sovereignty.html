@@ -463,7 +463,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_scenario_1_return_asset_contract_agreements">Scenario 1: Return asset contract agreements</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes functionality and the behavior in case a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).</p>
+<p>This section describes the functionality and behavior when a user requests contract agreements from Trace-X via the Trace-X contracts API (/contracts).</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -474,14 +474,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_overview">Overview</h3>
 <div class="paragraph">
 <p>In case a user requests contract agreements, Trace-X checks if the user has required roles ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the requested assets will be mapped to the related contract agreement id.
-These contract agreement ids will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/{ContractAgreementId}/negotiation) to get the relevant information.</p>
+If yes, the requested assets will be mapped to the related contract agreement ID.
+These contract agreement IDs will be then requested on EDC side via POST (/management/v2/contractagreements/request) and GET (/management/v2/contractagreements/{ContractAgreementId}/negotiation) to get the relevant information.</p>
 </div>
 <div class="paragraph">
 <p>The contract information is then returned by the endpoint as a pageable result.</p>
 </div>
 <div class="paragraph">
-<p>If no asset ids are provided in the request, 50 contract agreement ids are handled by default.</p>
+<p>If no asset IDs are provided in the request, 50 contract agreements are returned by default.</p>
 </div>
 </div>
 </div>
@@ -832,7 +832,7 @@ For more detailed information concerning the functionality of IRS please refer t
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-31 08:23:43 UTC
+Last updated 2024-07-31 12:22:17 UTC
 </div>
 </div>
 </body>

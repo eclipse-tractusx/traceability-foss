@@ -23,7 +23,7 @@ The deployment contains the components required to connect Trace-X to an existin
 Optionally these components can be installed using the Trace-X backend Helm chart as well:
 
 * PostgreSQL for Trace-X backend
-* pgadmin4
+* pgAdmin 4
 * IRS
 * EDC consumer
 
@@ -40,11 +40,10 @@ Currently, Trace-X API handles three roles: ***'User'*** and ***'Supervisor'*** 
 | Category | Action | User | Supervisor | Admin |
 | View | View Dashboard | x | x | x |
 |  | View Parts | x | x | x |
-|  | View Other parts | x | x | x |
 |  | View Quality notifications | x | x | x |
-|  | View Administration |  |  | x |
-| Edit | Edit Quality notifications |  | x |  |
+|  | View Administration panel |  |  | x |
 | Quality notification | Create | x | x |  |
+|  | Edit | x | x |  |
 |  | Send (Approve) |  | x |  |
 |  | Read | x | x | x |
 |  | Cancel | x | x |  |
@@ -53,8 +52,8 @@ Currently, Trace-X API handles three roles: ***'User'*** and ***'Supervisor'*** 
 |  | Decline | x | x |  |
 |  | Close |  | x |  |
 | Administration panel | Access "BPN EDC config panel" |  |  | x |
-|  | Access "Registry lookup Panel" |  |  | x |
-|  | Access "Data Import Interface" |  |  | x |
+|  | Access "Registry lookup panel" |  |  | x |
+|  | Access "Data import interface" |  |  | x |
 
 ## Installation
 
@@ -79,7 +78,7 @@ $ helm install -f your-values.yaml traceability-foss traceability-foss/traceabil
 
 ### Dependent values
 
-Following values needs to match in order for application to start and have valid PostgreSQL connection:
+Following values need to match in order for application to start and have a valid PostgreSQL connection:
 
 datasource:
     password: # database password
@@ -113,7 +112,7 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 
 ### Helm configuration Trace-X frontend (values.yaml)
 
-values.yaml <https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml>
+<https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml>
 
 #### Values explained
 
@@ -135,7 +134,7 @@ The hostname of the app.
 
 ##### ingress.tls
 
-The tls settings of the app.
+The TLS settings of the app.
 
 ##### livenessProbe
 
@@ -154,327 +153,13 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 
 ### Helm configuration Trace-X backend (values.yaml)
 
-```yaml
-                - key: app.kubernetes.io/name
-                  operator: DoesNotExist
-            topologyKey: kubernetes.io/hostname
-
-  ingress:
-    enabled: false
-    className: ""
-    annotations: {}
-    hosts: []
-    tls: []
-
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-  # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
-  livenessProbe:
-    failureThreshold: 6
-    initialDelaySeconds: 180
-    periodSeconds: 10
-    successThreshold: 1
-    timeoutSeconds: 1
-  readinessProbe:
-    failureThreshold: 6
-    initialDelaySeconds: 180
-    periodSeconds: 10
-    successThreshold: 1
-    timeoutSeconds: 1
-
-#########################
-# Backend Chart Values configuration     #
-#########################
-backend:
-  # Default values for k8s-helm-example.
-  # This is a YAML-formatted file.
-  # Declare variables to be passed into your templates.
-  nameOverride: "tx-backend"
-  fullnameOverride: "tx-backend"
-  replicaCount: 1
-
-  image:
-    repository: tractusx/traceability-foss
-    pullPolicy: Always
-
-  springprofile: dev  # will be set as dev
-
-  ##
-  ## Image pull secret to create to obtain the container image
-  ## Note: 'imagePullSecret.dockerconfigjson' takes precedence if configured together with 'imagePullSecrets'
-  ##
-  imagePullSecret:
-    dockerconfigjson: ""
-
-  ##
-  ## Existing image pull secret to use to obtain the container image
-  ##
-  imagePullSecrets: []
-
-  serviceAccount:
-    ##
-    ## Specifies whether a service account should be created per release
-    ##
-    create: true
-    ##
-    ## Annotations to add to the service account
-    ##
-    annotations: {}
-    ##
-    ## The name of the service account to use.
-    ## If not set and create is true, a name is generated using the fullname template
-    ##
-    name: ""
-  ## dd
-
-  podAnnotations: {}
-
-
-  podSecurityContext:
-    runAsUser: 10000
-    seccompProfile:
-      type: RuntimeDefault
-
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-  # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-  securityContext:
-    allowPrivilegeEscalation: false
-    runAsNonRoot: true
-    runAsUser: 10000
-    runAsGroup: 1000
-    capabilities:
-      drop:
-        - ALL
-    readOnlyRootFilesystem: true
-
-  service:
-    type: ClusterIP
-    port: 8080
-    trustedPort: 8181
-
-  autoscaling:
-    enabled: false
-
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-  # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 250m
-      memory: 512Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-  # @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
-  affinity:
-    podAntiAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: DoesNotExist
-            topologyKey: kubernetes.io/hostname
-
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-  # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
-  livenessProbe:
-    failureThreshold: 6
-    initialDelaySeconds: 180
-    periodSeconds: 10
-    successThreshold: 1
-    timeoutSeconds: 1
-  readinessProbe:
-    failureThreshold: 6
-    initialDelaySeconds: 180
-    periodSeconds: 10
-    successThreshold: 1
-    timeoutSeconds: 1
-
-  ingress:
-    hosts:
-      - "<https://replace.me">
-    tls:
-      - hosts:
-          - "<https://replace.me">
-        secretName: tls-secret
-
-  healthCheck:
-    enabled: true  # <healthCheck.enabled>
-
-  traceability:
-    bpn: "CHANGEME"  # <traceability.bpn>
-    url: ""  # backend url example: https://<backend.ingress.hosts>
-    leftOperand: "PURPOSE"
-    operatorType: "eq"
-    rightOperand: "ID 3.0 Trace"
-    leftOperandSecond: "anything"
-    operatorTypeSecond: "eq"
-    rightOperandSecond: "anything"
-    validUntil: "2024-09-30T23:59:59.99Z"
-  datasource:
-    url: jdbc:postgresql://tx-backend-postgresql:5432/trace
-    username: "traceuser"
-    password: "CHANGEME"  # <datasource.password>
-
-  oauth2:
-    clientId: "CHANGEME"  # <oauth2.clientId>
-    clientSecret: "CHANGEME"  # <oauth2.clientSecret>
-    clientTokenUri: "<https://changeme.com">  # <oauth2.clientTokenUri>
-    jwkSetUri: "<https://changeme.com">  # <oauth2.jwkSetUri>
-    resourceClient: "CHANGEME"  # application id created on portal
-
-  edc:
-    apiKey: "CHANGEME"  # <tractusx-connector.controlplane.endpoints.management.authKey>
-    providerUrl: "CHANGEME"  #  example: https://<tractusx-connector.controlplane.ingress.hosts>
-    callbackUrl: "CHANGEME"  # example: http://<irs-helm.nameOverride>:8181/internal/endpoint-data-reference
-    callbackUrlEdcClient: "CHANGEME"  # example: https://<backend.ingress.hosts>/api/internal/endpoint-data-reference
-    dataEndpointUrl: "CHANGEME"  # example: https://<tractusx-connector.controlplane.ingress.hosts>/management"
-    partsProviderControlplaneUrl: "CHANGEME"  # host of the parts provider EDC
-    partsProviderDataplaneUrl: "CHANGEME"
-
-  discoveryfinder:
-    baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search
-
-  irs:
-    baseUrl: "<https://replace.me">  # https://<irs-helm.ingress.host>
-  registry:
-    urlWithPath: "<https://replace.me">  # digitalTwinRegistry /semantics/registry/api/v3.0
-    allowedBpns: "BPN1,BPN2"  # "," separated list of allowed bpns for creating shells
-  portal:
-    baseUrl: "<https://replace.me">
-
-  config:
-    allowedCorsOriginFirst: "<https://replace.me">
-    allowedCorsOriginSecond: "<https://replace.me">
-
-  #  required for init containers checking for dependant pod readiness before starting up backend
-  dependencies:
-    enabled: false  # enable dependency check init containers
-    irs: "CHANGEME"  # <irs-helm.nameOverride>
-    edc: "CHANGEME"  # <tractusx-connector.nameOverride
-
-  bpdm:
-    url: "<https://replace.me">
-
-#########################
-# PG Admin configuration     #
-#########################
-pgadmin4:
-  nameOverride: "tracex-pgadmin4"
-  fullnameOverride: "tracex-pgadmin4"
-  enabled: false  # <pgadmin4.enabled>
-  ingress:
-    enabled: false   # <pgadmin4.ingress.enabled>
-
-  resources:
-    limits:
-      cpu: 1000m
-      memory: 512Mi
-    requests:
-      cpu: 256m
-      memory: 512Mi
-
-#########################
-# Postgres configuration     #
-#########################
-postgresql:
-  enabled: true
-
-  nameOverride: "tx-backend-postgresql"
-  fullnameOverride: "tx-backend-postgresql"
-
-  auth:
-    postgresPassword: "CHANGEME"
-    password: "CHANGEME"
-    database: "trace"
-    username: "traceuser"
-
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 250m
-      memory: 512Mi
-
-#########################
-# IRS configuration     #
-#########################
-item-relationship-service:
-  enabled: false  # <irs-helm.enabled>
-  nameOverride: "tracex-irs"
-  fullnameOverride: "tracex-irs"
-
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 250m
-      memory: 512Mi
-###################################
-# EDC Consumer configuration  #
-###################################
-tractusx-connector:
-  enabled: false
-  nameOverride: "tracex-consumer-edc"
-  fullnameOverride: "tracex-consumer-edc"
-  participant:
-    id: "BPN"
-
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 250m
-      memory: 512Mi
-
-  ##################################
-  # EDC Postgres Configuration #
-  ##################################
-  postgresql:
-    enabled: false
-    auth:
-      username: "CHANGEME"
-      password: "CHANGEME"
-    username: "CHANGEME"
-    password: "CHANGEME"
-    jdbcUrl: "CHANGEME"
-
-###################################
-# IRS EDC Consumer configuration  #
-###################################
-edc-postgresql:
-  nameOverride: "tracex-consumer-edc-postgresql"
-  fullnameOverride: "tracex-consumer-edc-postgresql"
-  enabled: false
-  auth:
-    postgresPassword: "CHANGEME"
-    password: "CHANGEME"
-    database: "trace"
-    username: "traceuser"
-
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 250m
-      memory: 512Mi
-```
+[github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml)
 
 #### Values explained
 
 ##### springprofile
 
-The different profiles for the different supported environments to bootstrap the resources which are required for the respective environment.
+The profiles for the different supported environments to bootstrap the resources which are required for the respective environment.
 
 | Springprofile | Description |
 | --- | --- |
@@ -496,7 +181,7 @@ The jdbc connection string to the database. jdbc:postgresql://${url}:${port}/tra
 
 ##### datasource.username
 
-The username of the datasource e.g. "trace"
+The username of the datasource e.g. "trace".
 
 ##### datasource.password
 
@@ -504,7 +189,7 @@ The password of the datasource or the path to the vault which contains the secre
 
 ##### oauth2.clientId
 
-Client ID for OAuth2 (KeyCloak). Request this from your Keycloak operator.
+Client ID for OAuth2 (Keycloak). Request this from your Keycloak operator.
 
 ##### oauth2.clientSecret
 
@@ -524,11 +209,11 @@ The client which is used to authenticate the backend.
 
 ##### edc.apiKey
 
-The EDC api key or the path to the secret inside a vault. e.g. &lt;path:../data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+The EDC api key or the path to the secret inside a vault. E.g. &lt;path:../data/int/edc/controlplane#edc.api.control.auth.apikey.value>
 
 #### postgresql.enabled
 
-Enables &lt;true> or disables &lt;false> PostgresSQL database.
+Enables &lt;true> or disables &lt;false> the PostgresSQL database.
 
 #### postgresql.auth.postgresPassword
 
@@ -540,7 +225,7 @@ Database password for the application user of the path to the secret inside a va
 
 #### postgresql.auth.database
 
-The name  of the database instance.
+The name of the database instance.
 
 #### postgresql.auth.username
 
@@ -548,57 +233,57 @@ The user for the database instance.
 
 #### global.enablePrometheus
 
-Enables &lt;true> or disables &lt;false> the prometheus instance.
+Enables &lt;true> or disables &lt;false> the Prometheus instance.
 
 #### global.enableGrafana
 
-Enables &lt;true> or disables &lt;false> the grafana instance used for resource and application monitoring.
+Enables &lt;true> or disables &lt;false> the Grafana instance used for resource and application monitoring.
 
 #### irs-helm.enabled
 
-Enables &lt;true> or disables &lt;false> irs helm charts.
+Enables &lt;true> or disables &lt;false> IRS helm charts.
 
 #### pgadmin4.enabled
 
-Enables &lt;true> or disables &lt;false> pgadmin4 console for the PostgreSQL database instance
+Enables &lt;true> or disables &lt;false> pgAdmin 4 console for the PostgreSQL database instance.
 
 #### pgadmin4.ingress.enabled
 
-Enables &lt;true> or disables &lt;false> a K8S Ingress for the pgadmin4 console
+Enables &lt;true> or disables &lt;false> a K8S Ingress for the pgAdmin 4 console.
 
 ## Portal configuration
 
 The following process is required to successfully connect to the portal:
 
-* Company registration with BPN, Company Name
-* User Registration with E-Mail
+* Company registration with BPN and company name
+* User registration with e-mail
 * Get e-mail to reset your password
 * Reset the password and log in
-* Make sure your user has the role App Management
-* Navigate to App Overview
+* Make sure your user has the role 'App Management'
+* Navigate to 'App Overview'
 * Create app
 * Choose a selection of managed roles which is necessary (currently: BPDM, Dataspace Discovery, Semantic Model Management, Identity Wallet Management)
-* Wait for app approval by portal
+* Wait for app approval by the portal team
 * Subscribe to the app
-* As app creator navigate to subscription management - click on configure
+* As app creator navigate to subscription management and click on configure
 * Add the frontend url of the application and click approve
 * Save technical user and secret
-* Navigate to Register Connector
+* Navigate to 'Register Connector'
 * Add managed connector
 * Select existing technical user (from app subscription)
 * Enter name "EDC Provider A"
-* Enter base url of controlplane (EDC)
+* Enter base url of control plane (EDC)
 * Confirm
-* Go to other company which want to participate (subscribe)
+* Go to other company which wants to participate (subscribe)
 * Login and navigate to app overview
-* Search for the app created
+* Search for the created app
 * Subscribe to the app
 * Go to the app creator company
 * Navigate to the inbox of the portal
-* Click on the nav link to give approval for the company which want to subscribe
+* Click on the link to give approval for the company which wants to subscribe
 * Enter name "EDC Provider B"
-* Enter base url of controlplane (EDC)
-* Make sure to popuplate the new client id, secrets and app id within trace-x for each company to let it run properly with the new portal configuration.
+* Enter base url of control plane (EDC)
+* Make sure to populate the new client id, secrets and app id within Trace-X for each company to let it run properly with the new portal configuration.
 
 ### Company registration
 
@@ -606,7 +291,7 @@ The following process is required to successfully connect to the portal:
 
 #### Additional info
 
-Each instance of trace-x reflects an own company, which is associated with one BPN.
+Each instance of Trace-X reflects an own company, which is associated with one BPN.
 
 ### User registration
 
@@ -622,7 +307,7 @@ The user registration is a self-service. Each user can have one or multiple Trac
 
 #### Additional info
 
-A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane URL.
+A connector in the context of Trace-X is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public control plane URL.
 
 ### App registration
 
@@ -630,7 +315,7 @@ A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This con
 
 #### Additional info
 
-A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane URL.
+A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public control plane URL.
 
 ### Create app subscription
 
@@ -638,7 +323,7 @@ A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This con
 
 #### Additional info
 
-An app subscription is necessary to be able to setup a frontend url which will be authorized through keycloak and accessible with the portal.
+An app subscription is necessary to be able to set up a frontend url which will be authorized through Keycloak and accessible with the portal.
 
 ### Activate App subscription
 

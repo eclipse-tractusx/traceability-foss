@@ -449,7 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_scenario_2_startup_interaction_with_edc">Scenario 2: Startup interaction with EDC</a></li>
 <li><a href="#_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</a></li>
 <li><a href="#_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</a></li>
-<li><a href="#_scenario_5_updating_notification_offers_when_creatingdeletingupdating_policies">Scenario 5: Updating notification offers when creating/deleting/updating policies</a></li>
+<li><a href="#_scenario_5_updating_notification_offers_when_creating_deleting_updating_policies">Scenario 5: Updating notification offers when creating / deleting / updating policies</a></li>
 </ul>
 </li>
 </ul>
@@ -463,11 +463,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h3 id="_scenario_1_startup_interaction_with_the_irs_policy_store">Scenario 1: Startup interaction with the IRS policy store</h3>
 <div class="paragraph">
 <p>The Trace-X instance defines a constraint which is required for data consumption and provisioning.
-Trace-X retrieves all policies by IRS and validates if one of the policies contains the required constraint given by Trace-X.
+Trace-X retrieves all policies from the IRS and validates if one of the policies contains the required constraint given by Trace-X.
 If a policy with the constraint exists and is valid, the process ends. If the policy is not valid, it will create one with the given constraint.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of retrieving or creating policies within the IRS policy store based on the constraint given by Trace-X.</p>
+<p>This sequence diagram describes the process of retrieving or creating policies from the IRS policy store based on the constraint given by Trace-X:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -493,10 +493,10 @@ The EDC policy request will be used for creating a policy for the required notif
 <div class="sect2">
 <h3 id="_scenario_3_provisioning_of_notifications">Scenario 3: Provisioning of notifications</h3>
 <div class="paragraph">
-<p>The Trace-X instance uses the policy which includes the defined constraint and reuses it for validation of catalog offers by the receiver EDC.</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint for validation of catalog offers by the receiver EDC.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC.</p>
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -507,10 +507,10 @@ The EDC policy request will be used for creating a policy for the required notif
 <div class="sect2">
 <h3 id="_scenario_4_provisioning_of_assets">Scenario 4: Provisioning of assets</h3>
 <div class="paragraph">
-<p>The Trace-X instance uses the policy which includes the defined constraint and reuses it for creating EDC assets.</p>
+<p>The Trace-X instance uses the policy which includes the defined constraint for creating EDC assets.</p>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the policy with the defined constraint will be reused for registering EDC data assets.</p>
+<p>This sequence diagram describes the process of how the policy with the defined constraint will be used for registering EDC data assets:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -519,14 +519,29 @@ The EDC policy request will be used for creating a policy for the required notif
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scenario_5_updating_notification_offers_when_creatingdeletingupdating_policies">Scenario 5: Updating notification offers when creating/deleting/updating policies</h3>
+<h3 id="_scenario_5_updating_notification_offers_when_creating_deleting_updating_policies">Scenario 5: Updating notification offers when creating / deleting / updating policies</h3>
 <div class="paragraph">
 <p>The Trace-X instance uses policies for creating the EDC catalog offers of notifications.
-These offers will be created on the following actions:
-- on Trace-X application startup - creating a policy for the own BPN - updating a policy for the own BPN - deleting a policy for the own BPN</p>
+These offers will be created on the following actions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>on Trace-X application startup</p>
+</li>
+<li>
+<p>creating a policy for the own BPN</p>
+</li>
+<li>
+<p>updating a policy for the own BPN</p>
+</li>
+<li>
+<p>deleting a policy for the own BPN</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>This sequence diagram describes the process of how the catalog offers are updated after policy update/create/delete</p>
+<p>This sequence diagram describes the process of how the catalog offers are updated after policy update / create / delete:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -539,7 +554,7 @@ These offers will be created on the following actions:
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-31 08:23:43 UTC
+Last updated 2024-07-31 12:22:17 UTC
 </div>
 </div>
 </body>

@@ -474,7 +474,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_configurability">Configurability</a></li>
 <li><a href="#_java_style_guide">Java style guide</a></li>
 <li><a href="#_api_guide">API guide</a></li>
-<li><a href="#_docomentation_style_guide">Docomentation style guide</a></li>
+<li><a href="#_documentation_style_guide">Documentation style guide</a></li>
 <li><a href="#_unit_and_functional_testing">Unit and functional testing</a></li>
 <li><a href="#_clean_code">Clean code</a></li>
 <li><a href="#_secure_coding_standards">Secure coding standards</a></li>
@@ -503,7 +503,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_entity_relationship_model">Entity-relationship model</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-relationship model (ERM) in its current state.</p>
+<p>Please be informed that the 'as-planned' version currently lacks the database relations.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -567,7 +567,7 @@ Currently, Trace-X API handles three roles: <strong>'User'</strong> and <strong>
 </ul>
 </div>
 <div class="paragraph">
-<p>You can have a look at the <a href="https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x">rights and role matrix</a> in the system overview of the administration guide.</p>
+<p>The roles and their functions are documented in the <a href="https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x">rights and role matrix</a> in the system overview of the administration guide.</p>
 </div>
 </div>
 <div class="sect3">
@@ -588,10 +588,10 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <div class="ulist">
 <ul>
 <li>
-<p>Quality notification callback APIs (receive, update) - called by EDC Dataplane</p>
+<p>Quality notification callback APIs (receive, update) - called by EDC data plane</p>
 </li>
 <li>
-<p>Endpoint Data Reference callback API - called by EDC Controlplane</p>
+<p>Endpoint Data Reference callback API - called by EDC control plane</p>
 </li>
 </ul>
 </div>
@@ -600,7 +600,7 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <div class="sect2">
 <h3 id="_credentials">Credentials</h3>
 <div class="paragraph">
-<p>Credentials must never be stored in Git!</p>
+<p>Credentials must never be stored in GitHub!</p>
 </div>
 </div>
 </div>
@@ -630,7 +630,7 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <p>Service: holds the interface for implementation in the domain package</p>
 </li>
 <li>
-<p>REST: holds the controller for providing the api for the domain</p>
+<p>REST: holds the controller for providing the API for the domain</p>
 </li>
 </ul>
 </div>
@@ -678,8 +678,7 @@ This component requires authentication via a Verifiable Credential (VC), which i
 </div>
 </li>
 <li>
-<p>All models (request / response) used in the API should be saved in the tx-model project.
-To be reusable for cucumber testing.</p>
+<p>All models (request / response) used in the API should be saved in the tx-model project to be reusable for cucumber testing.</p>
 </li>
 </ul>
 </div>
@@ -738,15 +737,15 @@ On the other hand, you still have the possibility to derive various, meaningful 
 <div class="paragraph">
 <p>There will always be some exception that cannot be handled inside the code correctly - or it may just have been unforeseen.
 A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
-In some cases, this is as simple as a HTTP 500.</p>
+In some cases, this is as simple as an HTTP 500.</p>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_dont_expose_too_much_exception_details_over_api">Dont expose too much exception details over API</h5>
+<h5 id="_dont_expose_too_much_exception_details_over_api">Don&#8217;t expose too much exception details over API</h5>
 <div class="paragraph">
-<p>It&#8217;s good to inform the user, why their request did not work, but only if they can do something about it (HTTP 4xx).
+<p>It&#8217;s good to inform the user why their request did not work, but only if they can do something about it (HTTP 4xx).
 So in case of application problems, you should not expose details of the problem to the caller.
-This way, we avoid opening potential attack vectors.</p>
+This way we avoid opening potential attack vectors.</p>
 </div>
 </div>
 </div>
@@ -771,10 +770,10 @@ New submodules should be created with care and require a review by the team.</p>
 <div class="paragraph">
 <p>The Maven build alone only leads up to the JAR artifact of Trace-X.
 To create Docker images, the Docker build feature is used.
-This copies all resources into a builder image, builds the software and creates a final Docker image at the end that can then be deployed.</p>
+This copies all resources into a build image, builds the software and creates a final Docker image at the end that can then be deployed.</p>
 </div>
 <div class="paragraph">
-<p>Although the Docker image can be deployed in various ways, the standard solution are the provided Helm charts, which describe the required components as well.</p>
+<p>Although the Docker image can be deployed in various ways, the standard solution is to use the provided Helm charts, which describe the required components as well.</p>
 </div>
 </div>
 <div class="sect2">
@@ -803,7 +802,7 @@ The annotations are then used to automatically generate the OpenAPI specificatio
 <div class="sect2">
 <h3 id="_migration">Migration</h3>
 <div class="paragraph">
-<p>Data migration is handled by flyway.</p>
+<p>Data migration is handled by Flyway.</p>
 </div>
 </div>
 <div class="sect2">
@@ -821,17 +820,17 @@ The operator must have total control over the configuration of Trace-X.</p>
 <div class="sect2">
 <h3 id="_java_style_guide">Java style guide</h3>
 <div class="paragraph">
-<p>We generally follow the <a href="https://google.github.io/styleguide/javaguide.html">Google Java Style Guide</a>.</p>
+<p>We generally follow the <a href="https://google.github.io/styleguide/javaguide.html">Google Java style guide</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_api_guide">API guide</h3>
 <div class="paragraph">
-<p>We generally follow the <a href="https://swagger.io/specification/">OpenAPI Specification</a>.</p>
+<p>We generally follow the <a href="https://swagger.io/specification/">OpenAPI specification</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_docomentation_style_guide">Docomentation style guide</h3>
+<h3 id="_documentation_style_guide">Documentation style guide</h3>
 <div class="paragraph">
 <p>We generally follow the <a href="https://developers.google.com/style">Google developer documentation style guide</a>.</p>
 </div>
@@ -855,20 +854,20 @@ The operator must have total control over the configuration of Trace-X.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit_test_naming.svg" alt="unit test naming">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/unit-test-naming.svg" alt="unit test naming">
 </div>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>Use given/when/then pattern for unit test structuring.
+<p>Use the given / when / then pattern for unit test structuring.
 E.g:</p>
 </li>
 </ul>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given_when_then_pattern.svg" alt="given when then pattern">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/given-when-then-pattern.svg" alt="given when then pattern">
 </div>
 </div>
 </div>
@@ -876,9 +875,9 @@ E.g:</p>
 <h4 id="_integration_testing">Integration testing</h4>
 <div class="paragraph">
 <p>Each public API should have at least two integration tests (positive / negative).
-For integration testing, the <code>tx-backend/src/main/resources/application-integration.yml</code> is used.
+For integration testing, the file <code>tx-backend/src/main/resources/application-integration.yml</code> is used.
 Additionally, you need to have a local Docker environment running.
-For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.</p>
+For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.</p>
 </div>
 </div>
 </div>
@@ -891,11 +890,11 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 <div class="sect2">
 <h3 id="_secure_coding_standards">Secure coding standards</h3>
 <div class="paragraph">
-<p>As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaw detected by one of our SAST, DAST, Pentesting tools which is higher than "Very Low".</p>
+<p>As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaws detected by one of our SAST, DAST, pen testing tools which are higher than "Very Low".</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability_level.svg" alt="vulnerability level">
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/vulnerability-level.svg" alt="vulnerability level">
 </div>
 </div>
 </div>
@@ -912,7 +911,7 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 <p>Has no own logic</p>
 </li>
 <li>
-<p>Includes the swagger documentation annotations</p>
+<p>Includes the Swagger documentation annotations</p>
 </li>
 <li>
 <p>Has an integration test class</p>
@@ -1029,7 +1028,7 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Dektop</a>.<
 Main reason is to provide immutable objects.</p>
 </li>
 <li>
-<p>As the handling with big loaded constructors is not easy and error prone, it&#8217;s recommended to use the builder pattern to have a clear understanding about what we are creating at the point of implementation.</p>
+<p>As the handling with big loaded constructors is not easy and error-prone, it&#8217;s recommended to use the builder pattern to have a clear understanding about what we are creating at the point of implementation.</p>
 </li>
 </ul>
 </div>
@@ -1065,7 +1064,7 @@ Once the Docker image has been built, these values can only be overwritten using
 <h5 id="_helm_chart">Helm chart</h5>
 <div class="paragraph">
 <p>The most relevant config properties are exposed as environment variables and must be set in the Helm chart for the application to be able to run.
-Check the Trace-X Helm chart in Git for all available variables.</p>
+Check the Trace-X Helm chart in GitHub for all available variables.</p>
 </div>
 </div>
 </div>
@@ -1420,7 +1419,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-31 08:23:43 UTC
+Last updated 2024-07-31 12:22:17 UTC
 </div>
 </div>
 </body>

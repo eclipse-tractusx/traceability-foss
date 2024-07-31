@@ -468,7 +468,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This sequence diagrams describes the process of importing data from a Trace-X dataformat</p>
+<p>The following sequence diagrams describe the process of importing data from a Trace-X dataformat:</p>
 </div>
 </div>
 </div>
@@ -490,7 +490,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <h2 id="_module_2">Module 2</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The frontend is able to select assets and publish / synchronize them with the shared services. DTR / EDC / submodel API.</p>
+<p>The frontend is able to select assets and publish / synchronize them with the shared services DTR / EDC / submodel API.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -503,7 +503,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <h2 id="_module_3">Module 3</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The backend is able to persist the data in the DTR / EDC and allows to use IRS for resolving assets.</p>
+<p>The backend is able to persist the data in the DTR / EDC and enables the IRS to resolve assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -516,7 +516,7 @@ The raw data which is needed for the shared services (DTR / EDC) will be persist
 <h2 id="_scenario_1_receive_import_report">Scenario 1: Receive import report</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes what happens when the user wants to get a report of the imported assets associated to a importJobId.
+<p>This section describes what happens when the user wants to get a report of the imported assets associated with a importJobId.
 In this example, the user requests an import report.</p>
 </div>
 <div class="imageblock">
@@ -528,7 +528,7 @@ In this example, the user requests an import report.</p>
 <h3 id="_overview">Overview</h3>
 <div class="paragraph">
 <p>When a user requests an import report, Trace-X checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR').
-If yes, then the endpoint returns an import report to the given importJobId.</p>
+If yes, the endpoint returns the import report of the given importJobId.</p>
 </div>
 <div class="paragraph">
 <p>If the importJobId is not known to Trace-X, an HTTP 404 error is returned.</p>
@@ -540,7 +540,7 @@ If yes, then the endpoint returns an import report to the given importJobId.</p>
 <h2 id="_scenario_2_publish_assets">Scenario 2: Publish assets</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes user interaction when publishing assets</p>
+<p>This section describes the user interaction when publishing assets</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -551,7 +551,7 @@ If yes, then the endpoint returns an import report to the given importJobId.</p>
 <h3 id="_overview_2">Overview</h3>
 <div class="paragraph">
 <p>When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then the endpoint starts to publish assets to network.</p>
+If yes, the endpoint starts to publish assets to the network.</p>
 </div>
 </div>
 </div>
@@ -560,7 +560,7 @@ If yes, then the endpoint starts to publish assets to network.</p>
 <h2 id="_scenario_3_publish_assets_error_on_edc_or_dtr">Scenario 3: Publish assets - error on EDC or DTR</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes user interaction when publishing assets fails due to EDC or DTR error (for example when the services are unavailable).</p>
+<p>This section describes the user interaction when publishing assets fails due to an EDC or DTR error (for example when the services are unavailable).</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -571,8 +571,8 @@ If yes, then the endpoint starts to publish assets to network.</p>
 <h3 id="_overview_3">Overview</h3>
 <div class="paragraph">
 <p>When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then the endpoint starts to publish assets to network.
-If any of required services are not available or return an error response upon executing, flow assets are set to ERROR state and the user can retry publishing them at any time when services are available again.</p>
+If yes, the endpoint starts to publish assets to network.
+If any of the required services are not available or return an error response upon executing, the included assets are set to ERROR state and the user can retry publishing them at any time when services are available again.</p>
 </div>
 </div>
 </div>
@@ -580,7 +580,7 @@ If any of required services are not available or return an error response upon e
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-07-31 08:23:43 UTC
+Last updated 2024-07-31 12:22:17 UTC
 </div>
 </div>
 </body>
