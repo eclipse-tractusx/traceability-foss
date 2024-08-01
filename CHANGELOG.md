@@ -17,6 +17,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1328 Fixed semanticDataModel translation and part name within notification detail / edit view.
 - #908 Renamed header in notification detail for parts from Supplier Parts to Affected parts
 - #1151 Display of null values within contracts in datepicker to be empty if null
+- #1194 fixed bug with misleading timezone conversion during policy creation
 
 ### Removed
 - #1227 Removed scrollbar on approval dialog
@@ -76,10 +77,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Known knowns
 - #786 Implemented short term solution for securing EDC Callback APIs
 - #1190 CatalogOffers are not able to provide OR constraints therefore notifications are not processed correctly on wrong policy
-- XXX update legal notice for documents arc42, admin and user manual to years 2024
-- #943 renamed distinctFilterValues API to searchable-values for the asBuilt, asPlanned and notification routes
-- #943 changed these endpoints to POST with body instead of GET with parameters
-- #1194 fix wrong time format in frontend and changed the response from getPolicies endpoint
 
 ## [12.0.0 - 05.07.2024]
 
