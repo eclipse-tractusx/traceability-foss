@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base
 
 import assets.importpoc.ImportResponse;
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,7 +55,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetAsBuiltSupportRepository assetAsBuiltSupportRepository;
-
 
 
     @Test
@@ -80,7 +81,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
         // then
         assertThat(bpnSupportRepository.findAll()).hasSize(1);
-        assetsSupport.assertAssetAsBuiltSize(16);
+        assetsSupport.assertAssetAsBuiltSize(2);
         assetsSupport.assertAssetAsPlannedSize(0);
 
         // Make the API call and store the response
@@ -171,12 +172,13 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200);
 
+
         // then
         assertThat(bpnSupportRepository.findAll()).hasSize(1);
-        assetsSupport.assertAssetAsBuiltSize(16);
+        assetsSupport.assertAssetAsBuiltSize(14);
         assetsSupport.assertAssetAsPlannedSize(0);
-        String updatedIdShort = assetsSupport.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").getIdShort();
-        assertThat(updatedIdShort).isEqualTo("vehicle_hybrid_v2.asm");
+        String updatedIdShort = assetsSupport.findById("urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc").getIdShort();
+        assertThat(updatedIdShort).isEqualTo("ecu.asm");
         //urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb
         //vehicle_hybrid_v2.asm
     }
@@ -221,7 +223,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .pathParam("assetId", "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a")
+                .pathParam("assetId", "urn:uuid:b978ad2d-be06-47ea-a578-580d9b2eca77")
                 .get("/api/assets/as-built/{assetId}")
                 .then()
                 .log().all()
@@ -304,7 +306,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .statusCode(200);
 
         // then
-        assetsSupport.assertAssetAsBuiltSize(16);
+        assetsSupport.assertAssetAsBuiltSize(2);
         assetsSupport.assertAssetAsPlannedSize(0);
         String manufacturerName = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))

@@ -13,15 +13,14 @@ include::../../../uml-diagrams/arc42/building-block-view/whitebox_overall.puml[]
 |Components |Description
 
 |IRS
-|The IRS consumes relationship information across the CX-network and builds the graph view. Within this documentation, the focus lies on the IRS.
+|The IRS consumes relationship information across the CX-network and builds the graph view.
 
 |EDC consumer
-|The EDC consumer component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC consumer consists out of a control plane and a data plane.
+|The EDC consumer component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC consumer is composed of a control plane and a data plane.
 
 |EDC provider
 |The EDC provider component connects with EDC consumer component and forms the endpoint for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications.
 
 |Submodel server
 |The submodel server offers endpoints for requesting the submodel aspects.
-
 |===

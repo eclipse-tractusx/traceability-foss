@@ -34,10 +34,10 @@ Of course, when using only RuntimeExceptions, this is not necessary - but those 
 
 There will always be some exception that cannot be handled inside the code correctly - or it may just have been unforeseen.
 A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
-In some cases, this is as simple as a HTTP 500.
+In some cases, this is as simple as an HTTP 500.
 
-==== Dont expose too much exception details over API
+==== Don't expose too much exception details over API
 
-It's good to inform the user, why their request did not work, but only if they can do something about it (HTTP 4xx).
+It's good to inform the user why their request did not work, but only if they can do something about it (HTTP 4xx).
 So in case of application problems, you should not expose details of the problem to the caller.
-This way, we avoid opening potential attack vectors.
+This way we avoid opening potential attack vectors.

@@ -1,6 +1,6 @@
 = Scenario 2: Publish assets
 
-This section describes user interaction when publishing assets
+This section describes the user interaction when publishing assets
 
 [plantuml,target=publish-assets,format=svg]
 ....
@@ -10,4 +10,4 @@ include::../../../../uml-diagrams/arc42/runtime-view/data-provisioning/publish-a
 == Overview
 
 When a user publishes assets, Trace-X checks if the user has an adequate role ('ROLE_ADMIN').
-If yes, then the endpoint starts to publish assets to network.
+If yes, the endpoint starts to publish assets to the network.

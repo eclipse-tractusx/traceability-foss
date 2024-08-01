@@ -34,7 +34,7 @@
 |**F**ree and **O**pen **S**ource **S**oftware
 
 |Interoperability
-|Communication and interaction with other components or Catena-X partners/players
+|Communication and interaction with other components or Catena-X partners / players
 
 |IRS
 |**I**tem **R**elationship **S**ervice. Component to provide data chains. https://eclipse-tractusx.github.io/item-relationship-service/docs/arc42/[IRS architecture documentation (arc42)]

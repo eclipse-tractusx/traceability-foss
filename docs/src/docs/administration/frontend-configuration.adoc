@@ -4,7 +4,6 @@
 :icons: font
 :icon-set: fas
 
-
 Take the following template and adjust the configuration parameters (<placeholders> mark the relevant spots).
 You can define the URLs as well as most of the secrets yourself.
 
@@ -12,7 +11,7 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 
 == Helm configuration Trace-X frontend (values.yaml)
 
-values.yaml https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml
+https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml
 
 === Values explained
 
@@ -29,7 +28,7 @@ Annotation for the ingress. E.g. `cert-manager.io/cluster-issuer: letsencrypt-pr
 The hostname of the app.
 
 ==== <ingress.tls>
-The tls settings of the app.
+The TLS settings of the app.
 
 ==== <livenessProbe>
 Following Tractus-X Helm Best Practices https://eclipse-tractusx.github.io/docs/release/

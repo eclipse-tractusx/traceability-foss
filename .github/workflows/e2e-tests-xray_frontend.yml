@@ -33,6 +33,8 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
+    outputs:
+      http_result: ${{ steps.download.outputs.http_response }}
     defaults:
       run:
         working-directory: frontend
@@ -53,6 +55,7 @@ jobs:
 
       # Fetch feature files
       - name: Fetch .feature files from Jira Xray
+        id: download
         env:
           JIRA_USERNAME: ${{ secrets.ASSOCIATION_TX_JIRA_USERNAME }}
           JIRA_PASSWORD: ${{ secrets.ASSOCIATION_TX_JIRA_PASSWORD }}
@@ -86,7 +89,7 @@ jobs:
   cypress-run-chrome:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    if: ${{ steps.download.outputs.http_response == '200' }}
+    if: ${{ needs.install.outputs.http_result == '200' }}
     defaults:
       run:
         working-directory: frontend
@@ -130,14 +133,14 @@ jobs:
 
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.7.1 # use the explicit version number
+        uses: cypress-io/github-action@v6.7.2 # use the explicit version number
         with:
           browser: chrome
           working-directory: frontend
           # using wait-on parameter causes "Error: connect ECONNREFUSED 127.0.0.1:4200"
         env:
-          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.ASSOCIATION_SUPERVISOR_CLIENT_ID }}
-          CYPRESS_SUPERVISOR_PW: ${{ secrets.ASSOCIATION_SUPERVISOR_PASSWORD }}
+          CYPRESS_SUPERVISOR_LOGIN: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_A_CLIENT_ID }}
+          CYPRESS_SUPERVISOR_PW: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_A_PASSWORD }}
           CYPRESS_ADMIN_LOGIN: ${{ secrets.TRACE_X_ADMIN_LOGIN }}
           CYPRESS_ADMIN_PW: ${{ secrets.TRACE_X_ADMIN_PW }}
           CYPRESS_USER_LOGIN: ${{ secrets.TRACE_X_USER_LOGIN }}

@@ -1,6 +1,6 @@
 = Entity-relationship model
 
-Please be informed that the 'as-planned' version currently lacks the database relations. However, kindly maintain the Entity-relationship model (ERM) in its current state.
+Please be informed that the 'as-planned' version currently lacks the database relations.
 
 [plantuml, format=svg]
 ....

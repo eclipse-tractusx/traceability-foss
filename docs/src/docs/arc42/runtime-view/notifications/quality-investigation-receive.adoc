@@ -1,6 +1,6 @@
 = Receive quality notification
 
-This sequence diagram describes the process of receiving a quality notification from another traceability partner.
+This sequence diagram describes the process of receiving a quality notification from another traceability partner:
 
 [plantuml, target=business-context_quality-investigation, format=svg]
 ....
@@ -8,14 +8,14 @@ include::../../../../uml-diagrams/arc42/runtime-view/quality-investigation-recei
 ....
 
 == Overview
-As for the sending of a quality notification also for receiving of a notification EDC is used to push data from a sender to a receiver.
-To enable receiving a notification by a partner you need to
+The EDC is utilized to transmit data between sender and receiver for both sending and receiving notifications.
+To be able to receive notifications by a partner you need to
 
-* Create notification endpoint for qualitynotifications/receive
+* Create a notification endpoint for qualitynotifications/receive
 * Create EDC assets
 * Create EDC usage policies
 * Create EDC contract definitions
 
-Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel.
+Trace-X implements a functionality to create assets and their corresponding policies in the admin panel.
 
-With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to find the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to push a notification to the specified http endpoint on the receiver side.
+With the notification asset it is possible to enable EDC contract negotiation and EDC data transfer based on access policies defined. Only if the sender is able to find the asset in the catalog offer and perform a successful contract negotiation there will be the possibility to send a notification to the specified http endpoint on the receiver side.

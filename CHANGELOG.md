@@ -8,6 +8,19 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+### Added
+- #908 Add owner field to affected parts view in notification details
+
+### Changed
+- #1252 adapt IRS example response for integration tests to reflect current state
+- #1122 Fixed editing notification sendTo attribute
+- #1328 Fixed semanticDataModel translation and part name within notification detail / edit view.
+- #908 Renamed header in notification detail for parts from Supplier Parts to Affected parts
+- #1151 Display of null values within contracts in datepicker to be empty if null
+
+### Removed
+- #1227 Removed scrollbar on approval dialog
+
 ## [13.0.1 - 26.07.2024]
 
 ### Added

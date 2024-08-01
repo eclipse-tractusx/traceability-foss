@@ -21,9 +21,6 @@ package org.eclipse.tractusx.traceability.notification.domain.base.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
-import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -54,8 +51,6 @@ public abstract class AbstractNotificationService implements NotificationService
 
     private final TraceabilityProperties traceabilityProperties;
     private final NotificationPublisherService notificationPublisherService;
-    private final AssetAsBuiltRepository assetAsBuiltRepository;
-    private final BpnRepository bpnRepository;
 
     private static final List<String> SUPPORTED_ENUM_FIELDS = List.of("status", "side", "severity", "type");
 
@@ -115,7 +110,6 @@ public abstract class AbstractNotificationService implements NotificationService
         Notification notification = loadOrNotFoundException(new NotificationId(editNotification.getId()));
 
         if (editNotification.getReceiverBpn() != null) {
-            notification.setBpn(BPN.of(editNotification.getReceiverBpn()));
             notification.setInitialReceiverBpns(List.of(editNotification.getReceiverBpn()));
             notification.setSendTo(editNotification.getReceiverBpn());
         }

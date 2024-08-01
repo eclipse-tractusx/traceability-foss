@@ -47,6 +47,7 @@ jobs:
         env:
           JIRA_USERNAME: ${{ secrets.ASSOCIATION_TX_JIRA_USERNAME }}
           JIRA_PASSWORD: ${{ secrets.ASSOCIATION_TX_JIRA_PASSWORD }}
+        working-directory: tx-cucumber-tests
           # JIRA filter 11349: project = "[TR] FOSS - Open Source (Impl.)" AND issuetype = Test AND "Test Type" = Cucumber AND status = Ready AND labels = INTEGRATION_TEST AND (environment ~ DEV OR environment ~ "INT")
           # Downloads all feature files of cucumber tests inside TRI project
         run: |
@@ -66,19 +67,20 @@ jobs:
       # Required step due to fact that jira will name feature files differently with each feature added and that will cause duplicate test runs
       - name: Cleanup repository feature files
         if: ${{ steps.download.outputs.http_response == '200' }}
-        #working-directory: tx-cucumber-tests
+        working-directory: tx-cucumber-tests
         run: |
-          rm -r tx-cucumber-tests/src/test/resources/features/*
+          rm -r src/test/resources/features/*
 
       - name: Build with Maven
         if: ${{ steps.download.outputs.http_response == '200' }}
         env:
-          KEYCLOAK_HOST: ${{ secrets.ASSOCIATION_KEYCLOAK_HOST }}
-          SUPERVISOR_CLIENT_ID: ${{ secrets.ASSOCIATION_SUPERVISOR_CLIENT_ID }}
-          SUPERVISOR_PASSWORD: ${{ secrets.ASSOCIATION_SUPERVISOR_PASSWORD }}
-          E2E_TXA_HOST: ${{ secrets.ASSOCIATION_E2E_TXA_HOST }}
-          E2E_TXB_HOST: ${{ secrets.ASSOCIATION_E2E_TXB_HOST }}
-        #working-directory: tx-cucumber-tests
+          ASSOCIATION_KEYCLOAK_HOST: ${{ secrets.ASSOCIATION_KEYCLOAK_HOST }}
+          ASSOCIATION_SUPERVISOR_TX_A_CLIENT_ID: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_A_CLIENT_ID }}
+          ASSOCIATION_SUPERVISOR_TX_A_PASSWORD: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_A_PASSWORD }}
+          ASSOCIATION_SUPERVISOR_TX_B_CLIENT_ID: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_B_CLIENT_ID }}
+          ASSOCIATION_SUPERVISOR_TX_B_PASSWORD: ${{ secrets.ASSOCIATION_SUPERVISOR_TX_B_PASSWORD }}
+          ASSOCIATION_E2E_TXA_HOST: ${{ secrets.ASSOCIATION_E2E_TXA_HOST }}
+          ASSOCIATION_E2E_TXB_HOST: ${{ secrets.ASSOCIATION_E2E_TXB_HOST }}
         run: |
           unzip -o tx-cucumber-tests/features.zip -d tx-cucumber-tests/src/test/resources/features
           mvn -pl tx-models,tx-cucumber-tests --batch-mode clean install  -D"cucumber.filter.tags"="@trace-x-automated" -P association

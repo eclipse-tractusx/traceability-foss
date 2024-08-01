@@ -13,7 +13,7 @@ The JWT token should also contain two claims:
 The list of values will be converted to roles by Trace-X.
 Currently, Trace-X API handles three roles: **'User'** and **'Supervisor'** and **'Admin'.**
 
-You can have a look at the https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x[rights and role matrix] in the system overview of the administration guide.
+The roles and their functions are documented in the https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x[rights and role matrix] in the system overview of the administration guide.
 
 === Trace-X as EDC client
 
@@ -26,12 +26,9 @@ The VC identifies and authenticates the EDC and is used to acquire access permis
 
 A second port, called the trusted port, has been introduced which can only be accessed by internal services within the Kubernetes cluster. This measure is implemented to handle APIs that are difficult to secure and involve several systems and processes. The trusted port ensures that only internal, trusted components can access these sensitive APIs, enhancing overall security.
 
-- Quality notification callback APIs (receive, update) - called by EDC Dataplane
-- Endpoint Data Reference callback API - called by EDC Controlplane
+- Quality notification callback APIs (receive, update) - called by EDC data plane
+- Endpoint Data Reference callback API - called by EDC control plane
 
 == Credentials
 
-Credentials must never be stored in Git!
-
-
-
+Credentials must never be stored in GitHub!
