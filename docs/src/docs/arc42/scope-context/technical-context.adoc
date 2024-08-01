@@ -3,10 +3,11 @@
 == Component overview
 
 === Trace-X API
+
 We provide a REST API that is consumed by Trace-X frontend in order to deliver Trace-X related features such as quality investigations or asset chain visibility.
 Since the Trace-X component is the very last component in the Catena-X ecosystem we are mostly dependent on the other services and theirs APIs in other to deliver desired functionalities. The development of the services is not a part of the Trace-X application and each of the system that we utilize exposes a REST API that we consume and interact with directly.
 
-Trace-X is a Spring Boot based application and is secured with the OpenID connector provider Keycloak and the OAuth2. This means for the companies, that utilize Trace-X component, it is required to obtain a technical user in order to be authorized to get access to the external components within Catena-X ecosystem.
+Trace-X is a Spring Boot based application and is secured with the OpenID connector provider Keycloak and OAuth2. This means for the companies that utilize the Trace-X component, it is required to obtain a technical user to be authorized to get access to the external components within the Catena-X ecosystem.
 
 In order to use the Trace-X frontend with the Trace-X backend, users need to authenticate themselves in order to be authorized to get access to the Trace-X.
 In the frontend UI users provide valid credentials and the system generates a bearer token that it gets from Keycloak and attaches it to the HTTP header parameter Authorization.
@@ -19,8 +20,8 @@ Once a user is authorized and has a proper role in the Trace-X backend, the back
 include::../../../uml-diagrams/arc42/scope-context/technical-context/aas-api-view.puml[]
 ....
 
-The Trace-X acts as a consumer of the asset administration shell registry component. Trace-X contains a restful client (REST template) that builds a REST call to the mentioned digital twin registry API based on its known URL (the AAS registry URL is configurable in Trace-X).
-Requests contain "assetIds" provided by the component during asset synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the AAS Registry. As a response, Trace-X gets the corresponding shells and shell descriptors utilized later for asset synchronization.
+Trace-X acts as a consumer of the asset administration shell registry component. Trace-X contains a restful client (REST template) that builds a REST call to the mentioned digital twin registry API based on its known URL (the AAS registry URL is configurable in Trace-X).
+Requests contain 'assetIds' provided by the component during asset synchronization. Like described in the above section, the security aspect is required in order to achieve a REST call against the AAS Registry. As a response, Trace-X gets the corresponding shells and shell descriptors utilized later for asset synchronization.
 The HTTP(s) transport protocol is used for the REST call communication.
 
 === IRS API
@@ -54,7 +55,7 @@ include::../../../uml-diagrams/arc42/scope-context/technical-context/edc-api-vie
 ....
 
 The Trace-X acts as a consumer and provider of the EDC component.
-In Trace-X we communicate with EDC directly only for the sake of fulfilling quality investigation functionality.
-Specific use cases can be viewed in xref:../runtime-view/index.adoc[Runtime view] section.
+In Trace-X we communicate with the EDC directly only for the sake of fulfilling the quality notification functionality.
+Specific use cases can be viewed in the xref:../runtime-view/index.adoc[Runtime view] section.
 For these purposes the integrated EDC clients in Trace-X are responsible for creating restful requests to the EDC component.
 As mentioned above, the transport protocol HTTP(S) is used for the REST call communication.

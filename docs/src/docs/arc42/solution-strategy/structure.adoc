@@ -1,11 +1,11 @@
 = Structure
 
-Trace-X is divided into two components: frontend and backend.
+Trace-X is divided into two components: Frontend and backend.
 It roughly can be broken down into the following parts:
 
 * Asset controllers to get asset information
 * Dashboard controller to get dashboard related summed up information
-* Registry controller to fetch assets from the digital twin registry
+* Registry controller to fetch assets from the Digital Twin Registry
 * Notification controller to get notification information and create EDC notification offers
 * Submodel controller for providing asset data functionality
 * Import controller for importing Trace-X data for data provisioning
@@ -15,5 +15,5 @@ It roughly can be broken down into the following parts:
 * Policy controller to retrieve information about policies
 * BPN controller to retrieve information about business partners
 
-The backend does a request to the digital twin registry utilizing the registry controller. Extracted data from the response is made available through the asset controller and the dashboard controller to the frontend.
+The backend does a request to the Digital Twin Registry utilizing the registry controller. Extracted data from the response is made available through the asset controller and the dashboard controller to the frontend.
 

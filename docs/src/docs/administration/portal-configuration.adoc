@@ -6,69 +6,69 @@
 
 The following process is required to successfully connect to the portal:
 
-- Company registration with BPN, Company Name
+- Company registration with BPN and company name
 
-- User Registration with E-Mail
+- User registration with e-mail
 
 - Get e-mail to reset your password
 
 - Reset the password and log in
 
-- Make sure your user has the role App Management
+- Make sure your user has the role 'App Management'
 
-- Navigate to App Overview
+- Navigate to 'App Overview'
 
 - Create app
 
 - Choose a selection of managed roles which is necessary (currently: BPDM, Dataspace Discovery, Semantic Model Management, Identity Wallet Management)
 
-- Wait for app approval by portal
+- Wait for app approval by the portal team
 
 - Subscribe to the app
 
--  As app creator navigate to subscription management - click on configure
+- As app creator navigate to subscription management and click on configure
 
--  Add the frontend url of the application and click approve
+- Add the frontend url of the application and click approve
 
--  Save technical user and secret
+- Save technical user and secret
 
--  Navigate to Register Connector
+- Navigate to 'Register Connector'
 
--  Add managed connector
+- Add managed connector
 
--  Select existing technical user (from app subscription)
+- Select existing technical user (from app subscription)
 
--  Enter name "EDC Provider A"
+- Enter name "EDC Provider A"
 
--  Enter base url of controlplane (EDC)
+- Enter base url of control plane (EDC)
 
--  Confirm
+- Confirm
 
--  Go to other company which want to participate (subscribe)
+- Go to other company which wants to participate (subscribe)
 
--  Login and navigate to app overview
+- Login and navigate to app overview
 
--  Search for the app created
+- Search for the created app
 
--  Subscribe to the app
+- Subscribe to the app
 
--  Go to the app creator company
+- Go to the app creator company
 
--  Navigate to the inbox of the portal
+- Navigate to the inbox of the portal
 
--  Click on the nav link to give approval for the company which want to subscribe
+- Click on the link to give approval for the company which wants to subscribe
 
--  Enter name "EDC Provider B"
+- Enter name "EDC Provider B"
 
--  Enter base url of controlplane (EDC)
+- Enter base url of control plane (EDC)
 
--  Make sure to popuplate the new client id, secrets and app id within trace-x for each company to let it run properly with the new portal configuration.
+- Make sure to populate the new client id, secrets and app id within Trace-X for each company to let it run properly with the new portal configuration.
 
 == Company registration
 https://portal.int.demo.catena-x.net/documentation[How-to]
 
 === Additional info
-Each instance of trace-x reflects an own company, which is associated with one BPN.
+Each instance of Trace-X reflects an own company, which is associated with one BPN.
 
 == User registration
 https://portal.int.demo.catena-x.net/documentation/[How-to]
@@ -80,19 +80,19 @@ The user registration is a self-service. Each user can have one or multiple Trac
 https://portal.int.demo.catena-x.net/documentation/[How-to]
 
 === Additional info
-A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane URL.
+A connector in the context of Trace-X is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public control plane URL.
 
 == App registration
 https://portal.int.demo.catena-x.net/documentation/[How-to]
 
 === Additional info
-A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public controlplane URL.
+A connector in the context of trace-x is a Eclipse-Dataspace-Connector. This connector needs to be configured by the public control plane URL.
 
 == Create app subscription
 https://portal.int.demo.catena-x.net/documentation/[How-to]
 
 === Additional info
-An app subscription is necessary to be able to setup a frontend url which will be authorized through keycloak and accessible with the portal.
+An app subscription is necessary to be able to set up a frontend url which will be authorized through Keycloak and accessible with the portal.
 
 == Activate App subscription
 https://portal.int.demo.catena-x.net/documentation/[How-to]

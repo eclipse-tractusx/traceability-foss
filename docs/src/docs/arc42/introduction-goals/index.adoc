@@ -1,7 +1,6 @@
 = Introduction and goals
 
-This chapter gives you an overview about the goals of the service,
-in which context the service runs and which stakeholders are involved.
+This chapter gives you an overview about the goals of the service, in which context the service runs and which stakeholders are involved.
 
 include::requirements.adoc[leveloffset=+1]
 include::quality-goals.adoc[leveloffset=+1]

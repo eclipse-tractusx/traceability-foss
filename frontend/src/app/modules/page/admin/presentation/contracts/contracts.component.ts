@@ -36,7 +36,7 @@ export class ContractsComponent {
       if (data?.data?.content.length) {
         return;
       } else {
-        this.contractsFacade.setContracts(0, 10, [ null, null ]);
+        this.contractsFacade.setContracts(0, 10, [ ]);
       }
 
     });

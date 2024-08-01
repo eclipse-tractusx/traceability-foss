@@ -8,13 +8,17 @@ include::../../../uml-diagrams/arc42/scope-context/business-context/business-con
 ....
 
 == User
+
 Trace-X can be deployed, hosted and run by every party that is part of the Catena-X network. They need to be registered, have a BPN and a technical user as well as provide valid credentials. An end-user in Trace-X can have roles provided by the CX portal (user, supervisor, admin).
 
 == IRS
+
 The Item Relationship Service is the component that is used by Trace-X to fetch data chains from Catena-X network. Data that is provided by IRS gets extracted, aggregated, transformed and is used for further actions in Trace-X. Further information can be found in the https://eclipse-tractusx.github.io/item-relationship-service/docs/arc42/[IRS architecture documentation (arc42)].
 
 == Catena-X network
+
 Trace-X and IRS are retrieving necessary information and data from the Catena-X network (users, digital twins, aspects, submodels, business partner information). If CX services are unavailable, Trace-X will not be able to perform most of its work.
 
 == Any other traceability app
+
 Trace-X interacts with any other traceability app using the CX standards. This enables sovereign data exchange as well as receiving and sending notifications to interact between different parties.

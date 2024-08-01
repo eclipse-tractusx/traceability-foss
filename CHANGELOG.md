@@ -7,22 +7,47 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
+
+### Added
+- #908 Add owner field to affected parts view in notification details
+
 ### Changed
-- #XXX Updated node:alpine 18 to 20 to fix cves
-- #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
-- #XXX updated Swagger-ui documentation
-- #XXX update IRS chart version from 7.3.1 to 7.4.0
-- #XXX updated publish documentation action
-- #1222 Removed image publishing to GHCR
-- #1222 Adjust backend baseimage in Dockerfile to major version eclipse-temurin:21-jre-alpine
-- #XXX update springboot to 3.2.8 from 3.2.5
-- #XXX define uid and gid of backend Dockerfile directly in user, instead of variables
-- #1244 upgraded registry from 0.4.1 to 0.5.0
-- #XXX update e2e-tests-xray_frontend.yml to support association int environment
+- #1252 adapt IRS example response for integration tests to reflect current state
+- #1122 Fixed editing notification sendTo attribute
+- #1328 Fixed semanticDataModel translation and part name within notification detail / edit view.
+- #908 Renamed header in notification detail for parts from Supplier Parts to Affected parts
+- #1151 Display of null values within contracts in datepicker to be empty if null
 - #1318 fix testdata v14 where parts had the wrong bpn
+
+### Removed
+- #1227 Removed scrollbar on approval dialog
+
+## [13.0.1 - 26.07.2024]
 
 ### Added
 - #511 Added installation guide for local frontend with umbrella chart
+- #XXXX added tests for notification-detail.facade.ts
+
+### Changed
+- #1318 fix dashboard count for other parts
+- #1070 Convert png to svg according to TRG 1.04 - Diagrams as code / Editable static files
+- #1222 Removed image publishing to GHCR
+- #1222 Adjust backend baseimage in Dockerfile to major version eclipse-temurin:21-jre-alpine
+- #1244 upgraded registry from 0.4.1 to 0.5.0
+- #XXX update e2e-tests-xray_frontend.yml to support association int environment
+- #XXX Updated node:alpine 18 to 20 to fix cves
+- #XXX update springboot to 3.2.8 from 3.2.5
+- #XXX define uid and gid of backend Dockerfile directly in user, instead of variables
+- #XXX updated Swagger-ui documentation
+- #XXX update IRS chart version from 7.3.1 to 7.4.0
+- #XXX updated publish documentation action
+
+### Known knowns
+- #786 Implemented short term solution for securing EDC Callback APIs
+- #1122 Editing notifications changes createdBy BPN
+- #1310 Part tree fullscreen error message
+- #1308 Part name in notification always undefined
+- #1307 First message different for sender and receiver
 
 ## [13.0.0 - 19.07.2024]
 

@@ -61,8 +61,18 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -81,16 +91,6 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "400": {
                         "description": "Bad request.",
                         "content": {
@@ -101,8 +101,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -168,28 +168,16 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "200": {
+                        "description": "Update successful",
                         "content": {
                             "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
+                                
                             }
                         }
                     },
                     "404": {
                         "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -208,11 +196,23 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "Update successful",
+                    "400": {
+                        "description": "Bad request.",
                         "content": {
                             "application/json": {
-                                
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
                             }
                         }
                     }
@@ -273,16 +273,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Returns the policies",
                         "content": {
@@ -303,6 +293,16 @@
                             }
                         }
                     },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "description": "Bad request.",
                         "content": {
@@ -313,8 +313,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -393,8 +393,11 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "204": {
+                        "description": "No content."
+                    },
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -403,11 +406,8 @@
                             }
                         }
                     },
-                    "204": {
-                        "description": "No content."
-                    },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -426,8 +426,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -485,28 +485,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -536,6 +516,26 @@
                                     "items": {
                                         "$ref": "#/components/schemas/BpnEdcMappingResponse"
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
                                 }
                             }
                         }
@@ -602,26 +602,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Returns the paged result found for BpnEdcMapping",
                         "content": {
@@ -637,8 +617,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -649,6 +629,26 @@
                     },
                     "429": {
                         "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -719,26 +719,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Returns the paged result found for BpnEdcMapping",
                         "content": {
@@ -754,8 +734,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -766,6 +746,26 @@
                     },
                     "429": {
                         "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -833,32 +833,32 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "Returns submodel payload",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Returns submodel payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
@@ -873,8 +873,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -950,16 +950,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Ok."
                     },
@@ -973,8 +963,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -986,8 +976,18 @@
                     "204": {
                         "description": "No Content."
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1055,16 +1055,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
                         "content": {
@@ -1075,8 +1065,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1095,8 +1085,18 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1175,8 +1175,11 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "204": {
+                        "description": "No content."
+                    },
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1185,11 +1188,8 @@
                             }
                         }
                     },
-                    "204": {
-                        "description": "No content."
-                    },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1208,8 +1208,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1288,8 +1288,14 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "200": {
+                        "description": "Ok."
+                    },
+                    "204": {
+                        "description": "No content."
+                    },
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1298,14 +1304,8 @@
                             }
                         }
                     },
-                    "204": {
-                        "description": "No content."
-                    },
-                    "200": {
-                        "description": "Ok."
-                    },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1324,8 +1324,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1394,16 +1394,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Ok."
                     },
@@ -1420,6 +1410,16 @@
                     "204": {
                         "description": "No content."
                     },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "description": "Bad request.",
                         "content": {
@@ -1430,8 +1430,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1500,16 +1500,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Ok."
                     },
@@ -1526,6 +1516,16 @@
                     "204": {
                         "description": "No content."
                     },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "description": "Bad request.",
                         "content": {
@@ -1536,8 +1536,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1605,8 +1605,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1630,8 +1630,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1650,8 +1650,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1689,46 +1689,6 @@
                     "required": true
                 },
                 "responses": {
-                    "401": {
-                        "description": "Authorization failed.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "415": {
-                        "description": "Unsupported media type",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Returns the paged result found for Notifications",
                         "content": {
@@ -1876,8 +1836,48 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Authorization failed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "415": {
+                        "description": "Unsupported media type",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1896,8 +1896,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1965,16 +1965,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
                         "content": {
@@ -1985,8 +1975,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2005,8 +1995,18 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2044,6 +2044,45 @@
                     "required": true
                 },
                 "responses": {
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": {
+                                        "message": "Internal server error."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": {
+                                        "message": "Bad request."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Authorization failed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": {
+                                        "message": "Authorization failed."
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "Ok.",
                         "content": {
@@ -2055,6 +2094,19 @@
                                     "description": "PageResults",
                                     "items": {
                                         "$ref": "#/components/schemas/PageResultContractResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": {
+                                        "message": "Too many requests."
                                     }
                                 }
                             }
@@ -2081,58 +2133,6 @@
                                     "type": "string",
                                     "example": {
                                         "message": "Unsupported media type."
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too many requests.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": {
-                                        "message": "Too many requests."
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Authorization failed.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": {
-                                        "message": "Authorization failed."
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": {
-                                        "message": "Internal server error."
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "string",
-                                    "example": {
-                                        "message": "Bad request."
                                     }
                                 }
                             }
@@ -2192,9 +2192,6 @@
                     "required": true
                 },
                 "responses": {
-                    "204": {
-                        "description": "No Content."
-                    },
                     "401": {
                         "description": "Authorization failed.",
                         "content": {
@@ -2225,8 +2222,21 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "204": {
+                        "description": "No Content."
+                    },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2243,16 +2253,6 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "400": {
                         "description": "Bad request.",
                         "content": {
@@ -2263,8 +2263,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2310,9 +2310,6 @@
                     }
                 },
                 "responses": {
-                    "204": {
-                        "description": "No Content."
-                    },
                     "401": {
                         "description": "Authorization failed.",
                         "content": {
@@ -2343,38 +2340,11 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
+                    "204": {
+                        "description": "No Content."
                     },
                     "404": {
                         "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "OK.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ImportResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2389,6 +2359,36 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "OK.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ImportResponse"
                                 }
                             }
                         }
@@ -2452,16 +2452,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
                         "content": {
@@ -2472,8 +2462,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2485,8 +2475,18 @@
                     "201": {
                         "description": "Created."
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2555,8 +2555,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2580,8 +2580,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2600,8 +2600,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2857,8 +2857,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2867,8 +2867,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2887,8 +2887,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2956,16 +2956,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
                         "content": {
@@ -2976,8 +2966,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2989,8 +2979,18 @@
                     "201": {
                         "description": "Created."
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3059,8 +3059,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3084,8 +3084,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3104,8 +3104,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3173,16 +3173,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
                         "content": {
@@ -3193,8 +3183,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3391,8 +3381,18 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3452,16 +3452,6 @@
                     },
                     "500": {
                         "description": "Internal server error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3663,6 +3653,16 @@
                             }
                         }
                     },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "description": "Bad request.",
                         "content": {
@@ -3673,8 +3673,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3750,36 +3750,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Returns the updated asset",
                         "content": {
@@ -3963,8 +3933,38 @@
                             }
                         }
                     },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4024,46 +4024,6 @@
                     },
                     "500": {
                         "description": "Internal server error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "429": {
-                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4254,6 +4214,46 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -4314,36 +4314,6 @@
                     },
                     "500": {
                         "description": "Internal server error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4535,8 +4505,38 @@
                             }
                         }
                     },
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "429": {
                         "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4594,8 +4594,11 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "202": {
+                        "description": "Created registry reload job."
+                    },
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4604,11 +4607,8 @@
                             }
                         }
                     },
-                    "202": {
-                        "description": "Created registry reload job."
-                    },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4627,8 +4627,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4666,6 +4666,16 @@
                     }
                 ],
                 "responses": {
+                    "200": {
+                        "description": "OK.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PolicyResponse"
+                                }
+                            }
+                        }
+                    },
                     "401": {
                         "description": "Authorization failed.",
                         "content": {
@@ -4696,8 +4706,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4706,18 +4716,8 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "Returns the policies",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PolicyResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4736,8 +4736,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4811,8 +4811,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4821,8 +4821,8 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4841,8 +4841,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4911,16 +4911,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "OK.",
                         "content": {
@@ -4946,6 +4936,16 @@
                             }
                         }
                     },
+                    "429": {
+                        "description": "Too many requests.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "description": "Bad request.",
                         "content": {
@@ -4956,8 +4956,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4985,6 +4985,16 @@
                 "description": "The endpoint can return limited data based on the user role",
                 "operationId": "dashboard",
                 "responses": {
+                    "200": {
+                        "description": "Returns dashboard data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DashboardResponse"
+                                }
+                            }
+                        }
+                    },
                     "401": {
                         "description": "Authorization failed.",
                         "content": {
@@ -5015,8 +5025,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5025,18 +5035,8 @@
                             }
                         }
                     },
-                    "200": {
-                        "description": "Returns dashboard data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DashboardResponse"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not found.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5055,8 +5055,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5095,9 +5095,6 @@
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No Content."
-                    },
                     "401": {
                         "description": "Authorization failed.",
                         "content": {
@@ -5128,16 +5125,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "OK.",
                         "content": {
@@ -5148,8 +5135,21 @@
                             }
                         }
                     },
+                    "204": {
+                        "description": "No Content."
+                    },
                     "404": {
                         "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5168,8 +5168,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5245,8 +5245,18 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
+                    "404": {
+                        "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5443,16 +5453,6 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "400": {
                         "description": "Bad request.",
                         "content": {
@@ -5463,8 +5463,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5502,6 +5502,36 @@
                     }
                 ],
                 "responses": {
+                    "401": {
+                        "description": "Authorization failed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "415": {
+                        "description": "Unsupported media type",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "200": {
                         "description": "Returns the asset by childId",
                         "content": {
@@ -5685,48 +5715,18 @@
                             }
                         }
                     },
-                    "401": {
-                        "description": "Authorization failed.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "415": {
-                        "description": "Unsupported media type",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5745,8 +5745,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5822,28 +5822,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6049,6 +6029,26 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -6099,28 +6099,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6150,6 +6130,26 @@
                                     "items": {
                                         "type": "string"
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
                                 }
                             }
                         }
@@ -6183,46 +6183,6 @@
                     }
                 ],
                 "responses": {
-                    "401": {
-                        "description": "Authorization failed.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "415": {
-                        "description": "Unsupported media type",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Returns the asset by childId",
                         "content": {
@@ -6406,8 +6366,48 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Authorization failed.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "415": {
+                        "description": "Unsupported media type",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6426,8 +6426,8 @@
                             }
                         }
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6485,16 +6485,6 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
                     "200": {
                         "description": "Ok."
                     },
@@ -6508,8 +6498,8 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad request.",
+                    "429": {
+                        "description": "Too many requests.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6521,8 +6511,18 @@
                     "204": {
                         "description": "No Content."
                     },
-                    "429": {
-                        "description": "Too many requests.",
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6590,31 +6590,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "204": {
-                        "description": "Deleted."
-                    },
                     "404": {
                         "description": "Not found.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6635,6 +6612,29 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Bad request.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Deleted."
                     }
                 },
                 "security": [

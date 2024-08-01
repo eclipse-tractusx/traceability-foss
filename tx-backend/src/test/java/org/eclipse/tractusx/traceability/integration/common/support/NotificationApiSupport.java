@@ -83,6 +83,7 @@ public class NotificationApiSupport {
                 .when()
                 .post("/api/notifications/filter")
                 .then()
+                .log().all()
                 .statusCode(200)
                 .extract().response();
 

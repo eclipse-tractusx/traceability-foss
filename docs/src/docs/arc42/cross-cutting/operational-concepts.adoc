@@ -15,7 +15,7 @@ Once the Docker image has been built, these values can only be overwritten using
 ==== Helm chart
 
 The most relevant config properties are exposed as environment variables and must be set in the Helm chart for the application to be able to run.
-Check the Trace-X Helm chart in Git for all available variables.
+Check the Trace-X Helm chart in GitHub for all available variables.
 
 == Scaling
 

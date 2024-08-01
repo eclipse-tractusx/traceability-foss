@@ -12,7 +12,7 @@ The following table entries define overall Trace-X quality goals. The order of t
 |Enable SMEs to large enterprises.
 
 |Cloud agnostic solution
-|Trace-X is built as a reference architecture and able to be run on different cloud solutions. It uses Helm, i.e. Helm charts, so that it can easily be deployed on different systems.
+|Trace-X is built as a reference architecture and able to be run on different cloud solutions. It uses Helm charts so that it can easily be deployed on different systems.
 
 |Trustworthy application
 |Trace-X uses the Catena-X standards as a basis to fulfill the interoperability (with commercial as well as other solutions) and data sovereignty requirements.
