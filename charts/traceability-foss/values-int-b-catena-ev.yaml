@@ -242,10 +242,10 @@ pgadmin4:
   resources:
     limits:
       cpu: 100m
-      memory: 512Gi
+      memory: 512Mi
     requests:
       cpu: 100m
-      memory: 512Mi
+      memory: 100Mi
 
 #########################
 # Postgres configuration     #
