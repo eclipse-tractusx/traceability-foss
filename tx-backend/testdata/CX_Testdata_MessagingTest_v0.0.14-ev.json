@@ -1987,11 +1987,11 @@
                 "quantityNumber" : 2.5,
                 "measurementUnit" : "unit:litre"
               },
-              "businessPartner" : "BPNL000000000UKM",
               "createdOn" : "2022-02-14T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z"
             }
           ],
+          "businessPartner" : "BPNL000000000UKM",
           "catenaXId" : "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b"
         }
       ]
@@ -2434,7 +2434,7 @@
             "date" : "2022-02-04T14:48:54Z",
             "country" : "HUN"
           },
-          "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c2",
+          "catenaXId" : "urn:uuid:bcfae197-40fa-4be0-821d-5c1873a1b7c3",
           "partTypeInformation" : {
             "manufacturerPartId" : "5464168-83",
             "customerPartId" : "PRT-12345",
@@ -2522,12 +2522,12 @@
     },
     {
       "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fca4f",
-      "bpnl" : "BPNL000000000UKM",
+      "bpnl" : "BPNL000000000DWF",
       "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
-              "value" : "BPNL000000000UKM",
+              "value" : "BPNL000000000DWF",
               "key" : "manufacturerId"
             },
             {
@@ -2545,6 +2545,27 @@
             "classification" : "product",
             "nameAtManufacturer" : "Sealant"
           }
+        }
+      ],
+      "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt" : [
+        {
+          "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fca4f",
+          "customers" : [
+            "BPNL000000000UKM"
+          ],
+          "parentItems" : [
+            {
+              "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4070e",
+              "quantity" : {
+                "value" : 1,
+                "unit" : "unit:piece"
+              },
+              "createdOn" : "2023-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+              "businessPartner" : "BPNL000000000UKM",
+              "isOnlyPotentialParent" : false
+            }
+          ]
         }
       ]
     },
@@ -2616,12 +2637,12 @@
     },
     {
       "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f",
-      "bpnl" : "BPNL000000000DWF",
+      "bpnl" : "BPNL000000000UKM",
       "urn:samm:io.catenax.batch:3.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
-              "value" : "BPNL000000000DWF",
+              "value" : "BPNL000000000UKM",
               "key" : "manufacturerId"
             },
             {
@@ -2639,6 +2660,27 @@
             "classification" : "product",
             "nameAtManufacturer" : "Sealant"
           }
+        }
+      ],
+      "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt" : [
+        {
+          "catenaXId" : "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fcb5f",
+          "customers" : [
+            "BPNL000000000DWF"
+          ],
+          "parentItems" : [
+            {
+              "catenaXId" : "urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f",
+              "quantity" : {
+                "value" : 1,
+                "unit" : "unit:piece"
+              },
+              "createdOn" : "2023-02-03T14:48:54.709Z",
+              "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+              "businessPartner" : "BPNL000000000DWF",
+              "isOnlyPotentialParent" : false
+            }
+          ]
         }
       ]
     }
