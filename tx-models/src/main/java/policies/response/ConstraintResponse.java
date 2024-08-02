@@ -18,16 +18,59 @@
  ********************************************************************************/
 package policies.response;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
+import org.eclipse.tractusx.irs.edc.client.policy.Operator;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import org.eclipse.tractusx.irs.edc.client.policy.Permission;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Builder
 public record ConstraintResponse(
-        @Schema(example = "PURPOSE")
+        @Schema(
+                implementation = String.class,
+                example = "string"
+        )
+        @JsonAlias({"odrl:leftOperand"})
         String leftOperand,
 
+
         @Schema
-        OperatorTypeResponse operatorTypeResponse,
-        @Schema(example = "ID Trace 3.1")
+        @JsonAlias({"odrl:operator"})
+        OperatorResponse operator,
+        @Schema(
+                implementation = String.class,
+                example = "string"
+        )
+        @JsonAlias({"odrl:rightOperand"})
         String rightOperand) {
+
+
+
+    public static List<Constraint> toDomain(List<ConstraintResponse> constraintResponse) {
+        if (constraintResponse == null) {
+            return null;
+        }
+        return constraintResponse.stream()
+                .map(ConstraintResponse::toDomain)
+                .collect(Collectors.toList());
+    }
+    public static Constraint toDomain(ConstraintResponse constraintResponse){
+        if (constraintResponse == null) {
+            return null;
+        }
+        Operator operator = new Operator(OperatorResponse.toDomain(constraintResponse.operator.operatorType()));
+
+        return new Constraint(
+                constraintResponse.leftOperand(),
+                operator,
+                constraintResponse.rightOperand()
+        );
+    }
 }

@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.integration.policy;
 
 import io.restassured.http.ContentType;
+import io.restassured.response.ValidatableResponse;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
@@ -28,14 +29,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import policies.request.Payload;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
+import policies.response.CreatePolicyResponse;
 
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 class PolicyControllerIT extends IntegrationTestSpecification {
@@ -126,14 +130,37 @@ class PolicyControllerIT extends IntegrationTestSpecification {
 
 
     @Test
-    void shouldThorwBadRequestCreatePolicy() throws JoseException {
-        // GIVEN
+    void shouldThrowBadRequestCreatePolicy() throws JoseException {
+        //given
         irsApiSupport.irsApiCreatesPolicyBadRequest();
 
-        // Sample data
+        // sample data
         List<String> businessPartnerNumbers = Arrays.asList("BPN-123", "BPN-456");
         List<String> policyIds = Arrays.asList("POLICY-789", "POLICY-101");
         Instant validUntil = Instant.parse("2025-12-31T23:59:59.00Z");
+
+
+        UpdatePolicyRequest request = new UpdatePolicyRequest(businessPartnerNumbers, policyIds, validUntil);
+        //when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/api/policies")
+                .then()
+                .statusCode(400)
+                .body(containsString("Policy with id 'default-policy3342' already exists!"))
+                .log().all();
+    }
+
+    @Test
+    void shouldThrowPolicyNotValidCreatePolicy() throws JoseException {
+
+        // GIVEN
+        List<String> businessPartnerNumbers = List.of("BPN-46t6");
+        List<String> policyIds = List.of("POLICY-790");
+        Instant validUntil = Instant.parse("2021-12-31T23:59:59.00Z");
 
         // WRONG REQUEST OBJECT
         UpdatePolicyRequest request = new UpdatePolicyRequest(businessPartnerNumbers, policyIds, validUntil);
@@ -146,8 +173,8 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .post("/api/policies")
                 .then()
                 .statusCode(400)
-                .body(containsString("Policy with id 'default-policy3342' already exists!"))
-                .log().all();
+                .body("message", equalTo("Policy is not valid because of a not accepted validUntil value RegisterPolicyRequest[validUntil=2021-12-31T23:59:59Z, businessPartnerNumber=null, payload=null]"));
+
     }
 
     @Test

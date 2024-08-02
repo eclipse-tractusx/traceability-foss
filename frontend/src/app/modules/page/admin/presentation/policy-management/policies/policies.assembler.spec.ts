@@ -81,7 +81,7 @@ describe('PoliciesAssembler', () => {
     const assembledPolicy = PoliciesAssembler.assemblePolicy(mockPolicy2);
     expect(assembledPolicy.policyName).toBe(mockPolicy2.policyId);
     expect(assembledPolicy.createdOn).toBe('2024-01-01T00:00');
-    expect(assembledPolicy.validUntil).toBe('2024-12-31T23:59');
+    expect(assembledPolicy.validUntil).toBe('2025-01-01T00:59:59');
     expect(assembledPolicy.accessType).toBe('USE');
     expect(assembledPolicy.constraints).toEqual('left1=right1left2!=right2');
 

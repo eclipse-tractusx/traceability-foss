@@ -16,25 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package policies.response;
+package org.eclipse.tractusx.traceability.policies.domain.exception;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.Generated;
-
-public enum PolicyTypeResponse {
-    ACCESS("access"),
-    USE("use");
-    @JsonValue
-    private final String value;
-
-    @Generated
-    public String getValue() {
-        return this.value;
+public class PolicyNotValidException extends RuntimeException{
+    public PolicyNotValidException(String message) {
+        super(message);
     }
-
-    @Generated
-    PolicyTypeResponse(String value) {
-        this.value = value;
-    }
-
 }

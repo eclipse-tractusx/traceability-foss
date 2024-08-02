@@ -18,42 +18,32 @@
  ********************************************************************************/
 package policies.response;
 
-
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import common.CustomOffsetDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
+import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
+import policies.response.OperatorTypeResponse;
 
-import java.time.OffsetDateTime;
-import java.util.List;
-
+import java.util.Arrays;
 @Builder
-public record PolicyResponse(
-        @Schema(example = "5a00bb50-0253-405f-b9f1-1a3150b9d51d")
-        String policyId,
-
-        @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
-        OffsetDateTime createdOn,
-        @JsonSerialize(using = CustomOffsetDateTimeSerializer.class)
-        OffsetDateTime validUntil,
-
-        @JsonAlias({"odrl:permission"})
-        List<PermissionResponse> permissions,
-        String businessPartnerNumber) {
-
-    public static Policy toDomain(PolicyResponse policyResponse){
-        if (policyResponse == null) {
+@Schema
+public record OperatorResponse(
+        @JsonProperty("@id")
+        @Schema(
+                implementation = OperatorType.class,
+                example = "odrl:eq"
+        )
+        OperatorTypeResponse operatorType
+) {
+    public static OperatorType toDomain(OperatorTypeResponse operatorTypeResponse) {
+        if (operatorTypeResponse == null) {
             return null;
         }
 
-       return Policy.builder()
-                .policyId(policyResponse.policyId)
-                .createdOn(policyResponse.createdOn)
-                .validUntil(policyResponse.validUntil)
-                .permissions(PermissionResponse.toDomain(policyResponse.permissions))
-                .build();
+        return Arrays.stream(OperatorType.values())
+                .filter(type -> type.getCode().equals(operatorTypeResponse.code))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown code: " + operatorTypeResponse.code));
     }
-
 }

@@ -60,7 +60,7 @@ public class PolicyMapper {
         return permissions.stream().map(permission -> EdcPolicyPermission.builder()
                 // https://github.com/eclipse-tractusx/traceability-foss/issues/978 here we need to make sure that the USE is lowercase in the object.
                 .action(permission.action().name().toLowerCase())
-                .edcPolicyPermissionConstraints(mapToConstraint(permission.constraints()))
+                .edcPolicyPermissionConstraints(mapToConstraint(permission.constraint()))
                 .build()
         ).toList();
     }
@@ -79,7 +79,7 @@ public class PolicyMapper {
                         .leftOperand(constraint.leftOperand())
                         .rightOperand(constraint.rightOperand())
                         .operator(EdcOperator.builder()
-                                .operatorId("odrl:" + constraint.operatorTypeResponse().getCode())
+                                .operatorId("odrl:" + constraint.operator().operatorType().getCode())
                                 .build())
                         .build())
                 .toList();

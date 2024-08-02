@@ -44,7 +44,7 @@ export interface Policy {
   // props in response
   policyId: string;
   createdOn: CalendarDateModel | string | number;
-  validUntil: CalendarDateModel | string | number;
+  validUntil:  string | number;
   permissions: PolicyPermission[];
 
   // additional props
@@ -126,6 +126,7 @@ export function getOperatorTypeSign(type: OperatorType): string {
       return '>=';
   }
 }
+
 
 export enum ConstraintLogicType {
   AND = 'AND',

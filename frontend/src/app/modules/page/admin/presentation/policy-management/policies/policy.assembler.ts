@@ -17,12 +17,25 @@ export class PoliciesAssembler {
       ...policy,
       policyName: policy.policyId,
       createdOn: isNumber(policy.createdOn) ? new Date(policy.createdOn as number * 1000).toISOString().slice(0, 19) + 'Z' : (formattedCreatedOn.isInitial() ? null : formattedCreatedOn.valueOf().toISOString().slice(0, 16)),
-      validUntil: isNumber(policy.validUntil) ? new Date(policy.validUntil as number * 1000).toISOString().slice(0, 19) + 'Z' : (formattedValidUntil.isInitial() ? null : formattedValidUntil.valueOf().toISOString().slice(0, 16)),
+      validUntil: isNumber(policy.validUntil) ? new Date(policy.validUntil as number * 1000).toISOString().slice(0, 19) + 'Z' :  (formattedValidUntil.isInitial() ? null : this.mapUtcToLocalTime(policy.validUntil)),
       accessType: policy.permissions[0].action.toUpperCase() as PolicyAction,
       constraints: policy.constraints ?? this.mapDisplayPropsToPolicyRootLevelFromPolicy(policy),
     };
   }
 
+  public static mapUtcToLocalTime(validUntil: string): string {
+    const date = new Date(validUntil);
+
+    const localYear = date.getFullYear();
+    const localMonth = String(date.getMonth() + 1).padStart(2, '0');
+    const localDate = String(date.getDate()).padStart(2, '0');
+    const localHours = String(date.getHours()).padStart(2, '0');
+    const localMinutes = String(date.getMinutes()).padStart(2, '0');
+    const localSeconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${ localYear }-${ localMonth }-${ localDate }T${ localHours }:${ localMinutes }:${ localSeconds }`;
+
+  }
   public static mapToPolicyEntryList(policyResponse: PolicyResponseMap): PolicyEntry[] {
     const list: PolicyEntry[] = [];
     for (const [ key, value ] of Object.entries(policyResponse)) {

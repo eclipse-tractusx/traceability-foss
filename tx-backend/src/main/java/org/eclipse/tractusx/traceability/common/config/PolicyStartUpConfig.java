@@ -46,12 +46,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import policies.response.IrsPolicyResponse;
+import policies.response.PolicyResponse;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static policies.response.PolicyResponse.toDomain;
 
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
@@ -105,8 +108,8 @@ public class PolicyStartUpConfig {
 
         // Map the IrsPolicyResponse objects to AcceptedPolicy objects
         List<AcceptedPolicy> irsPolicies = irsPolicyResponses.stream().map(response -> {
-            Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
-            return new AcceptedPolicy(policy, response.validUntil());
+            PolicyResponse policy = new PolicyResponse(response.payload().policyId(), response.payload().policy().createdOn(), response.validUntil(), response.payload().policy().permissions(), null);
+            return new AcceptedPolicy(toDomain(policy), response.validUntil());
         }).toList();
 
         // Return the list of AcceptedPolicy objects

@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
+import org.eclipse.tractusx.traceability.policies.domain.exception.PolicyNotValidException;
 import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
@@ -30,11 +31,13 @@ import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
 import policies.response.PolicyResponse;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static policies.response.IrsPolicyResponse.toResponse;
+import java.util.stream.Collectors;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,33 +48,46 @@ public class PolicyServiceImpl implements PolicyService {
     private final EdcNotificationContractService edcNotificationContractService;
 
     @Override
-    public Map<String, List<IrsPolicyResponse>> getIrsPolicies() {
-        return policyRepository.getPolicies();
+    public Map<String, List<PolicyResponse>> getIrsPolicies() {
+        Map<String, List<IrsPolicyResponse>> policies = policyRepository.getPolicies();
+        return policies.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> entry.getValue().stream()
+                                .map(irsPolicyResponse -> irsPolicyResponse.payload().policy())
+                                .collect(Collectors.toList())
+                ));
     }
 
     @Override
     public List<PolicyResponse> getPolicies() {
         Map<String, List<IrsPolicyResponse>> policies = policyRepository.getPolicies();
-        return toResponse(policies);
+        return policies.values().stream()
+                .flatMap(List::stream)
+                .map(irsPolicyResponse -> irsPolicyResponse.payload().policy())
+                .collect(Collectors.toList());
     }
 
     @Override
     public PolicyResponse getPolicy(String id) {
         Map<String, Optional<IrsPolicyResponse>> policies = policyRepository.getPolicy(id);
 
-        // Find the first entry with a present policy
-        return policies.entrySet().stream()
-                .filter(entry -> entry.getValue().isPresent())
+        return policies.values().stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(irsPolicyResponse -> irsPolicyResponse.payload().policy())
                 .findFirst()
-                .map(entry -> toResponse(entry.getValue().get(), entry.getKey()))
                 .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
     }
 
     @Override
     public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
-        CreatePolicyResponse policy = policyRepository.createPolicy(registerPolicyRequest);
-        edcNotificationContractService.updateNotificationContractDefinitions();
-        return policy;
+        if(registerPolicyRequest.validUntil().isAfter(Instant.now())){
+            CreatePolicyResponse policy = policyRepository.createPolicy(registerPolicyRequest);
+            edcNotificationContractService.updateNotificationContractDefinitions();
+            return policy;
+        }
+        throw new PolicyNotValidException("Policy is not valid because of a not accepted validUntil value " +registerPolicyRequest);
     }
 
     @Override
@@ -82,8 +98,12 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
+        if(updatePolicyRequest.validUntil().isAfter(Instant.now())){
         policyRepository.updatePolicy(updatePolicyRequest);
         edcNotificationContractService.updateNotificationContractDefinitions();
+        return;
+    }
+        throw new PolicyNotValidException("Policy is not valid because of a not accepted validUntil value " +updatePolicyRequest);
     }
 
 

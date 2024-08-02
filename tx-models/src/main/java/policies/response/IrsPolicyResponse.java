@@ -31,6 +31,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
@@ -86,46 +87,4 @@ public record IrsPolicyResponse(@JsonFormat(shape = JsonFormat.Shape.STRING) Off
                 }
              ]
                """;
-
-    public static List<PolicyResponse> toResponse(Map<String, List<IrsPolicyResponse>> allPolicies) {
-        return allPolicies.entrySet().stream()
-                .flatMap(entry -> entry.getValue().stream()
-                        .map(policy -> toResponse(policy, entry.getKey())))
-                .toList();
-    }
-
-    public static PolicyResponse toResponse(IrsPolicyResponse policy, String bpn) {
-        return PolicyResponse.builder()
-                .policyId(policy.payload().policyId())
-                .validUntil(policy.payload().policy().getValidUntil())
-                .createdOn(policy.payload().policy().getCreatedOn())
-                .permissions(map(policy.payload().policy()))
-                .businessPartnerNumber(bpn)
-                .build();
-    }
-
-    private static List<PermissionResponse> map(Policy policy) {
-
-        return policy.getPermissions().stream().map(permission ->
-                        new PermissionResponse(PolicyTypeResponse.valueOf(permission.getAction().name()), map(permission)))
-                .toList();
-    }
-
-    private static ConstraintsResponse map(Permission permission) {
-        return ConstraintsResponse.builder()
-                .and(mapConstraints(emptyIfNull(permission.getConstraint().getAnd())))
-                .or(mapConstraints(emptyIfNull(permission.getConstraint().getOr())))
-                .build();
-
-    }
-
-    private static List<ConstraintResponse> mapConstraints(List<Constraint> constraints) {
-        return constraints.stream().map(constraint -> ConstraintResponse.builder()
-                        .leftOperand(constraint.getLeftOperand())
-                        .operatorTypeResponse(OperatorTypeResponse.valueOf(StringUtils.upperCase(constraint.getOperator().getOperatorType().getCode())))
-                        .rightOperand(constraint.getRightOperand())
-                        .build())
-                .toList();
-    }
-
 }

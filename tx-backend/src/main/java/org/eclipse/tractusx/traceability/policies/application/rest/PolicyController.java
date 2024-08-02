@@ -112,7 +112,7 @@ public class PolicyController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping()
-    public Map<String, List<IrsPolicyResponse>> getPolicies() {
+    public Map<String, List<PolicyResponse>> getPolicies() {
         return policyService.getIrsPolicies();
     }
 

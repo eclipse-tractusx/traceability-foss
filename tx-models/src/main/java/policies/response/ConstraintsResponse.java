@@ -18,13 +18,29 @@
  ********************************************************************************/
 package policies.response;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import lombok.Builder;
+import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
 
 import java.util.List;
 
 @Builder
 public record ConstraintsResponse(
+        @ArraySchema
+        @JsonAlias({"odrl:and"})
         List<ConstraintResponse> and,
+        @ArraySchema
+        @JsonAlias({"odrl:or"})
         List<ConstraintResponse> or
 ) {
+    public static Constraints toDomain(ConstraintsResponse constraintsResponse){
+        if (constraintsResponse == null) {
+            return null;
+        }
+       return Constraints.builder()
+                .and(ConstraintResponse.toDomain(constraintsResponse.and))
+                .or(ConstraintResponse.toDomain(constraintsResponse.or))
+                .build();
+    }
 }
