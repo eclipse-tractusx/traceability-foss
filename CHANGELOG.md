@@ -17,6 +17,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #1328 Fixed semanticDataModel translation and part name within notification detail / edit view.
 - #908 Renamed header in notification detail for parts from Supplier Parts to Affected parts
 - #1151 Display of null values within contracts in datepicker to be empty if null
+- #1318 fix testdata v14 where parts had the wrong bpn
 
 ### Removed
 - #1227 Removed scrollbar on approval dialog
