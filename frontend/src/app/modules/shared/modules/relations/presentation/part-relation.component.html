@@ -18,8 +18,7 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-
-<div class="part-relation--header--navigation--container">
+<div class="part-relation--header--navigation--container" *ngIf="showMiniMap">
   <app-button
     [color]="'primary'"
     onkeydown="this.navigateBack()"
@@ -31,12 +30,11 @@ SPDX-License-Identifier: Apache-2.0
     </div>
   </app-button>
 </div>
-<div class="part-relation--part-info--relation relation">
+
 <ng-container *ngIf="this.rootPart$">
   <ng-container *viewContainer="this.rootPart$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp">
   </ng-container>
 </ng-container>
-</div>
 <ng-template #partRelationMainTmp let-partDetails="view">
   <div class="part-relation--button-container">
     <app-button
