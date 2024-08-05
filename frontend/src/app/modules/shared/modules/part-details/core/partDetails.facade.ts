@@ -70,11 +70,18 @@ export class PartDetailsFacade {
     );
   }
 
-  public getRootPart(id: string): Observable<View<Part>> {
-    return this.partsService.getPart(id).pipe(
-      map((part: Part) => ({ data: part })),
-      catchError((error: Error) => of({ error })),
-    );
+  public getRootPart(id: string, isAsBuilt: boolean): Observable<View<Part>> {
+    if (isAsBuilt){
+      return this.partsService.getPartByIdAsBuilt(id).pipe(
+        map((part: Part) => ({ data: part })),
+        catchError((error: Error) => of({ error })),
+      );
+  }else {
+      return this.partsService.getPartByIdAsPlanned(id).pipe(
+        map((part: Part) => ({ data: part })),
+        catchError((error: Error) => of({ error })),
+      );
+    }
   }
 
   public getChildPartDetails(part): Observable<Part[]> {

@@ -50,6 +50,7 @@ import { delay, switchMap, takeWhile, tap } from 'rxjs/operators';
 export class PartRelationComponent implements OnInit, OnDestroy {
   @Input() isStandalone = true;
   @Input() showMiniMap = true;
+  @Input() isAsBuilt = true;
 
   public readonly htmlIdBase = 'app-part-relation-';
   public readonly subscriptions = new Subscription();
@@ -78,7 +79,7 @@ export class PartRelationComponent implements OnInit, OnDestroy {
           if (this.partDetailsFacade.selectedPart) return this.partDetailsFacade.selectedPart$;
 
           const partId = params.get('partId');
-          return partId ? this.partDetailsFacade.getRootPart(partId) : this.partDetailsFacade.selectedPart$;
+          return partId ? this.partDetailsFacade.getRootPart(partId, this.isAsBuilt) : this.partDetailsFacade.selectedPart$;
         }),
         tap(viewData => this._rootPart$.update(viewData)),
         takeWhile(({ data }) => !data, true),

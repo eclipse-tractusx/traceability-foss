@@ -125,7 +125,34 @@ export class PartsService {
     );
   }
 
+  public getPartByIdAsBuilt(id: string): Observable<Part> {
+    if (!id || typeof id !== 'string') {
+      throw new Error('invalid ID');
+    }
 
+    const encodedId = encodeURIComponent(id);
+
+    return this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ encodedId }`).pipe(
+      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)),
+      catchError(() => of(null)),
+    );
+
+
+  }
+
+  public getPartByIdAsPlanned(id: string): Observable<Part> {
+    if (!id || typeof id !== 'string') {
+      throw new Error('invalid ID');
+    }
+
+    const encodedId = encodeURIComponent(id);
+
+    return this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ encodedId }`).pipe(
+      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)),
+      catchError(() => of(null)),
+    );
+
+  }
   public getPartDetailOfIds(assetIds: string[], isAsBuilt?: boolean): Observable<Part[]> {
 
     if (isAsBuilt !== undefined) {
