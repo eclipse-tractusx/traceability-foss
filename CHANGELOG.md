@@ -10,6 +10,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Added
 - #908 Add owner field to affected parts view in notification details
+- #1300 Added back button
 
 ### Changed
 - #1252 adapt IRS example response for integration tests to reflect current state
