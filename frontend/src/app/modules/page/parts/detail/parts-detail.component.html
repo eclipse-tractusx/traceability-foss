@@ -201,7 +201,7 @@ SPDX-License-Identifier: Apache-2.0
     </mat-card-header>
     <mat-card-content class="part-detail--relation__container">
       <ng-container>
-        <app-part-relation [isStandalone]="false" [showMiniMap]="false"></app-part-relation>
+        <app-part-relation [isStandalone]="false" [showMiniMap]="false" [isAsBuilt]="isAsBuiltPart"></app-part-relation>
         <mat-icon onkeydown="openRelationPage(partDetails.data)" (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon"
         >open_in_new
         </mat-icon>

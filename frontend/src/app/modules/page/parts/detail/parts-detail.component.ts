@@ -63,7 +63,7 @@ export class PartsDetailComponent {
 
   public currentPartId: string;
   public pageIndexHistory: {AS_BUILT_PAGE: string, AS_PLANNED_PAGE: string}
-  private isAsBuiltPart: boolean;
+  public isAsBuiltPart: boolean;
 
   constructor(public readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router, private readonly route: ActivatedRoute, public roleService: RoleService, private location: Location, private sharedPartService: SharedPartService) {
 
