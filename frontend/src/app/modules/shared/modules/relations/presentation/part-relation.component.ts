@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -57,7 +58,6 @@ export class PartRelationComponent implements OnInit, OnDestroy {
   public readonly rootPart$: Observable<View<Part>>;
   public readonly resizeTrigger$: Observable<number>;
   public readonly htmlId: string;
-
   private _rootPart$ = new State<View<Part>>({ loader: true });
   public readonly _resizeTrigger$ = new BehaviorSubject<number>(0);
 
@@ -65,6 +65,7 @@ export class PartRelationComponent implements OnInit, OnDestroy {
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
+    private readonly location: Location,
     staticIdService: StaticIdService,
   ) {
     this.resizeTrigger$ = this._resizeTrigger$.pipe(delay(0));
@@ -98,5 +99,9 @@ export class PartRelationComponent implements OnInit, OnDestroy {
 
   public decreaseSize(): void {
     this._resizeTrigger$.next(-0.1);
+  }
+
+  navigateBack() {
+    this.location.back();
   }
 }

@@ -18,12 +18,23 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
+<div class="part-relation--header--navigation--container" *ngIf="showMiniMap">
+  <app-button
+    [color]="'primary'"
+    onkeydown="this.navigateBack()"
+    (click)="this.navigateBack()"
+  >
+    <div class="flex justify-between items-center">
+      <mat-icon class="mr-2">arrow_back</mat-icon>
+      {{ 'actions.goBack' | i18n }}
+    </div>
+  </app-button>
+</div>
 
 <ng-container *ngIf="this.rootPart$">
   <ng-container *viewContainer="this.rootPart$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp">
   </ng-container>
 </ng-container>
-
 <ng-template #partRelationMainTmp let-partDetails="view">
   <div class="part-relation--button-container">
     <app-button
