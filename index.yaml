@@ -2,6 +2,47 @@ apiVersion: v1
 entries:
   traceability-foss:
   - apiVersion: v2
+    appVersion: 13.0.2
+    created: "2024-08-16T11:57:12.814105672Z"
+    dependencies:
+    - name: frontend
+      repository: file://charts/frontend
+      version: 1.3.44
+    - name: backend
+      repository: file://charts/backend
+      version: 1.3.44
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.12.10
+    - condition: pgadmin4.enabled
+      name: pgadmin4
+      repository: https://helm.runix.net
+      version: 1.23.1
+    - condition: item-relationship-service.enabled
+      name: item-relationship-service
+      repository: https://eclipse-tractusx.github.io/item-relationship-service
+      version: 7.4.0
+    - condition: tractusx-connector.enabled
+      name: tractusx-connector
+      repository: https://eclipse-tractusx.github.io/tractusx-edc
+      version: 0.7.3
+    - alias: edc-postgresql
+      condition: edc-postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.12.10
+    description: An umbrella Helm chart for eclipse-tractusx/traceability-foss project
+    digest: 8d883f4393d2d62b261798bee018efc46b5700619b6eaf326159767860e23329
+    home: https://eclipse-tractusx.github.io/
+    name: traceability-foss
+    sources:
+    - https://github.com/eclipse-tractusx/traceability-foss
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/traceability-foss/releases/download/helm-charts-1.3.44/traceability-foss-1.3.44.tgz
+    version: 1.3.44
+  - apiVersion: v2
     appVersion: 13.0.1
     created: "2024-07-26T09:47:50.998987428Z"
     dependencies:
@@ -1588,4 +1629,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/traceability-foss-frontend/releases/download/tx-traceability-foss-frontend-1.1.0/tx-traceability-foss-frontend-1.1.0.tgz
     version: 1.1.0
-generated: "2024-07-26T09:47:50.999337594Z"
+generated: "2024-08-16T11:57:12.814355769Z"
