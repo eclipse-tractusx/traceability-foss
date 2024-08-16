@@ -8,6 +8,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED - DD.MM.YYYY]
 
+## [13.0.2 - 16.08.2024]
+
 ### Added
 - #908 Add owner field to affected parts view in notification details
 - #1300 Added back button
