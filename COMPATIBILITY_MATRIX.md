@@ -1,6 +1,9 @@
 # Compatibility matrix Trace-X
 
-## Trace-X UNRELEASED [13.0.1](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/13.0.1) - 2024-07-26
+## Trace-X [13.0.2](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/13.0.2) - 2024-08-16
+#### No compatbility changes
+
+## Trace-X [13.0.1](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/13.0.1) - 2024-07-26
 
 ### Catena-X Release?
 

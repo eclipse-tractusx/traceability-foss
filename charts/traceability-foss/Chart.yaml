@@ -23,15 +23,15 @@ home: https://eclipse-tractusx.github.io/
 sources:
   - https://github.com/eclipse-tractusx/traceability-foss
 type: application
-version: 1.3.43
-appVersion: "13.0.1"
+version: 1.3.44
+appVersion: "13.0.2"
 dependencies:
   - name: frontend
     repository: "file://charts/frontend"
-    version: 1.3.43
+    version: 1.3.44
   - name: backend
     repository: "file://charts/backend"
-    version: 1.3.43
+    version: 1.3.44
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 12.12.10
