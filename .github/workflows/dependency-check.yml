@@ -22,6 +22,9 @@ on:
   pull_request:
 
 env:
+  REPO_NAME: ${{ github.repository }}
+  REPO_OWNER: ${{ github.repository_owner }}
+  REPO_URL: ${{ github.server_url }}/${{ github.repository }}
   GHCR_REGISTRY: ghcr.io
   JAVA_VERSION: 17
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
@@ -95,7 +98,7 @@ jobs:
           message: |
             ## ‼️ Dependency Check findings ‼️
             One or more high/critical findings have been found during dependency check. Please check the depenency report:
-            https://github.com/eclipse-tractusx/traceability-foss/actions/runs/${{ github.run_id }}
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
       - name: Add PR comment
         uses: mshick/add-pr-comment@v2
