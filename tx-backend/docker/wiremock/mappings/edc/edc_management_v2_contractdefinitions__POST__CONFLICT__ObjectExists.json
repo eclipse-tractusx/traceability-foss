@@ -1,0 +1,29 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "POST",
+    "urlPath": "/edc/management/v2/contractdefinitions",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.[?(@.@id == 'definition-id-already-exists')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 409,
+    "jsonBody": [
+      {
+        "message": "Object of type ContractDefinition already exists with ID = {{jsonPath request.body '$.@id'}}",
+        "type": "ObjectExists",
+        "path": null,
+        "invalidValue": null
+      }
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

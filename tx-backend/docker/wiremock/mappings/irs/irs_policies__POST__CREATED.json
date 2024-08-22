@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/irs/irs/policies"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "irs/irs_policies_response__POST__SUCCESS.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

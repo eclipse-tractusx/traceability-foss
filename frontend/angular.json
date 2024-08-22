@@ -145,6 +145,14 @@
                 }
               ]
             },
+            "localBackendTractusX": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localBackendTractusX.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -214,6 +222,9 @@
             },
             "localBackendNoAuth": {
               "browserTarget": "trace-x:build:dev,localBackendNoAuth"
+            },
+            "localBackendTractusX": {
+              "browserTarget": "trace-x:build:dev,localBackendTractusX"
             },
             "production": {
               "browserTarget": "trace-x:build:production"
