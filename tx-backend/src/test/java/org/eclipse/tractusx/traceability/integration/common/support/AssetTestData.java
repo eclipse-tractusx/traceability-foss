@@ -23,6 +23,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
+import lombok.SneakyThrows;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
@@ -48,32 +50,37 @@ public class AssetTestData {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     List<AssetBase> readAndConvertAssetsForTests() {
-        try {
-            InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_v4.json");
-            IRSResponse response = mapper.readValue(file, IRSResponse.class);
-            return assetMapperFactory.toAssetBaseList(response);
-        } catch (IOException e) {
-            return Collections.emptyList();
-        }
+        return getAssetBases("/testdata/irs_assets_as_built_1_v4.json");
+    }
+
+    List<AssetBase> readAndConvertMultipleAssetsAsBuiltForTests() {
+        // Asset 1
+        final List<AssetBase> assetBaseList = readAndConvertAssetsForTests();
+        // Asset 2
+        assetBaseList.addAll(getAssetBases("/testdata/irs_assets_as_built_2_v4.json"));
+        return assetBaseList;
     }
 
     List<AssetBase> readAndConvertTractionBatteryCodeAssetsForTests() {
-        try {
-            InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_tractionbatterycode.json");
-            IRSResponse response = mapper.readValue(file, IRSResponse.class);
-            return assetMapperFactory.toAssetBaseList(response);
-        } catch (IOException e) {
-            return Collections.emptyList();
-        }
+        return getAssetBases("/data/irs_assets_tractionbatterycode.json");
     }
 
     List<AssetBase> readAndConvertAssetsAsPlannedForTests() {
+        // Test data contains different spellings for 'catenaXSiteId', as long as no clear spelling is defined. https://github.com/eclipse-tractusx/sldt-semantic-models/issues/470
+        return getAssetBases("/testdata/irs_assets_as_planned_v4.json");
+    }
+
+    List<AssetBase> readAndConvertAssetsAsPlannedForTests(final String resourceName) {
+        return getAssetBases(resourceName);
+    }
+
+    @NotNull
+    private List<AssetBase> getAssetBases(final String resourceName) {
         try {
-            InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_as_planned_v4.json");
-            IRSResponse response = mapper.readValue(file, IRSResponse.class);
+            final InputStream file = AssetTestData.class.getResourceAsStream(resourceName);
+            final IRSResponse response = mapper.readValue(file, IRSResponse.class);
             return assetMapperFactory.toAssetBaseList(response);
         } catch (IOException e) {
-            e.printStackTrace();
             return Collections.emptyList();
         }
     }
