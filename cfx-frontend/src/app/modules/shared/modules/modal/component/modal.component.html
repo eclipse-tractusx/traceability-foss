@@ -1,0 +1,47 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<div class="bg-dustyGrayShadeWildSand modal--container">
+  <div class="modal--header">
+    <h1 mat-dialog-title>{{ data.title | i18n }}</h1>
+    <app-button (click)="cancel()" variant="icon" iconName="close" color="primary"></app-button>
+  </div>
+
+  <mat-dialog-content>
+    <ng-container *ngTemplateOutlet="data.template"></ng-container>
+  </mat-dialog-content>
+
+  <mat-dialog-actions [class]="'actions-container'">
+    <ng-container *ngIf="data?.notificationId" >
+      <mat-checkbox [class]="'checkbox-container'" [(ngModel)]="isValid">{{data?.type | i18n}} {{data?.notificationId}} </mat-checkbox>
+    </ng-container>
+    <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
+    <app-button [ngClass]="data.buttonLeft ? '' : 'centered-button'"
+                *ngIf="data.buttonRight"
+                onkeydown="confirm()"
+                (click)="confirm()"
+                [color]="data.primaryButtonColour || 'primary'"
+                variant="raised"
+                [isDisabled]="data?.notificationId ? !isValid : false"
+    >{{ data.buttonRight | i18n }}</app-button
+    >
+  </mat-dialog-actions>
+</div>

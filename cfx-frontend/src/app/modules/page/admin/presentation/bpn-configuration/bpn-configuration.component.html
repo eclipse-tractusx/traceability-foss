@@ -1,0 +1,177 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title
+    ><h3 data-testid="admin_bpn_view_header">{{ 'pageAdmin.bpnConfig.title' | i18n }}</h3></mat-card-title
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <p class="bpn-config--intro">
+      {{ 'pageAdmin.bpnConfig.intro' | i18n }}
+    </p>
+
+    <div class="bpn-config">
+      <div class="bpn--add-new">
+
+        <div *ngIf="newEntryGroup" [formGroup]="newEntryGroup" class="bpn-config--form">
+          <app-input
+            [label]="'pageAdmin.bpnConfig.bpn' | i18n"
+            class="bpn-config--input"
+            formControlName="bpn"
+          ></app-input>
+          <app-input
+            [label]="'pageAdmin.bpnConfig.url' | i18n"
+            class="bpn-config--input"
+            formControlName="url"
+          ></app-input>
+
+          <app-button class="bpn-config--button" color="primary" variant="raised">
+            <app-text-with-icon onkeydown="addEntry()" (click)="addEntry()" iconName="add">{{ 'actions.add' | i18n }}</app-text-with-icon>
+          </app-button>
+        </div>
+      </div>
+
+      <div class="bpn-config--save" *ngIf="changeInformation$ | async as info">
+        <app-text-with-icon [testId]="'text-with-icon--deleted'" iconName="delete" color="warn"
+        >{{ 'pageAdmin.bpnConfig.deleted' | i18n }}: {{ info.deleted.length }}</app-text-with-icon
+        >
+
+        <app-text-with-icon [testId]="'text-with-icon--added'" iconName="add" color="primary"
+        >{{ 'pageAdmin.bpnConfig.added' | i18n }}: {{ info.added.length }}</app-text-with-icon
+        >
+
+        <app-text-with-icon [testId]="'text-with-icon--changed'" iconName="edit"
+        >{{ 'pageAdmin.bpnConfig.changed' | i18n }}: {{ info.changed.length }}</app-text-with-icon
+        >
+
+        <app-button
+          class="bpn-config--button"
+          variant="raised"
+          color="primary"
+          [isDisabled]="!(info.deleted.length + info.added.length + info.changed.length)"
+          onkeydown="saveData()"
+          (click)="saveData()"
+        >
+          {{ 'actions.saveChanges' | i18n }}
+        </app-button>
+
+      </div>
+
+      <div class="flex w-full justify-start"
+           *ngIf="newBpnConfig.controls.length > 0 || editBpnConfig.controls.length > 0">
+
+        <app-input
+          [label]="'pageAdmin.bpnConfig.search' | i18n"
+          [formControl]="searchControl"
+          class="bpn-config--search"
+          suffixIcon="search"
+          suffixIconColor="primary"
+        ></app-input>
+      </div>
+
+      <div *ngIf="newBpnConfig.controls.length" class="bpn--container">
+        <h3>{{ 'pageAdmin.bpnConfig.newEntries' | i18n }}</h3>
+        <form [formGroup]="newBpnFormGroup">
+          <div formArrayName="bpnConfig">
+            <ng-container *ngFor="let bpnConfig of newBpnConfig.controls; let i = index" [formGroupName]="i">
+              <ng-container *ngIf="listOfHiddenElements$ | async as list">
+                <div *ngIf="!list.includes(bpnConfig.value.bpn)" class="bpn-config--form bpn-config__new">
+                  <app-input
+                    [label]="'pageAdmin.bpnConfig.bpn' | i18n"
+                    class="bpn-config--input"
+                    formControlName="bpn"
+                    [isDisabled]="true"
+                  ></app-input>
+                  <app-input
+                    [label]="'pageAdmin.bpnConfig.url' | i18n"
+                    class="bpn-config--input"
+                    formControlName="url"
+                    [isDisabled]="true"
+                  ></app-input>
+
+                  <app-button
+                    [attr.data-testid]="'bpn-url--remove-button_' + i"
+                    class="bpn-config--button"
+                    color="accent"
+                    variant="raised"
+                  >
+                    <app-text-with-icon onkeydown="onBpnRemove(i)" (click)="onBpnRemove(i)" iconName="delete"
+                    >{{ 'actions.remove' | i18n }}
+                    </app-text-with-icon>
+                  </app-button>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="editBpnConfig.controls.length" class="bpn--container">
+        <h3>{{ 'pageAdmin.bpnConfig.existingEntries' | i18n }}</h3>
+        <form [formGroup]="editBpnFormGroup">
+          <div formArrayName="bpnConfig">
+            <ng-container *ngFor="let bpnConfig of editBpnConfig.controls; let i = index" [formGroupName]="i">
+              <ng-container *ngIf="listOfHiddenElements$ | async as list">
+                <div
+                  *ngIf="!list.includes(bpnConfig.value.bpn) && newBpnConfig?.controls['bpn']?.value !== bpnConfig.value.bpn"
+                  [ngClass]="getStylingClass(bpnConfig)"
+                  [class.bpn-config--delete_animation]="isBeingDeleted(bpnConfig)"
+                  [attr.data-testid]="'bpn-url-container-' + i"
+                  class="bpn-config--form"
+                >
+                  <app-input
+                    [label]="'pageAdmin.bpnConfig.bpn' | i18n"
+                    class="bpn-config--input"
+                    formControlName="bpn"
+                  ></app-input>
+                  <app-input
+                    [label]="'pageAdmin.bpnConfig.url' | i18n"
+                    [suffixIconHover]="true"
+                    [suffixIcon]="isEditField(bpnConfig) ? 'undo' : ''"
+                    (suffixIconClick)="resetField(bpnConfig, i)"
+                    class="bpn-config--input"
+                    formControlName="url"
+                    suffixIconColor="warn"
+                  ></app-input>
+
+                  <app-button
+                    [attr.data-testid]="'bpn-url--delete-button_' + i"
+                    class="bpn-config--button"
+                    color="warn"
+                    variant="raised"
+                  >
+                    <app-text-with-icon onkeydown="onBpnDelete(i, bpnConfig)" (click)="onBpnDelete(i, bpnConfig)" iconName="delete">{{
+                      'actions.delete' | i18n
+                      }}</app-text-with-icon>
+                  </app-button>
+                </div>
+              </ng-container>
+            </ng-container>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<app-save-bpn-config-modal [updateCall]="updateCall.bind(this)"></app-save-bpn-config-modal>

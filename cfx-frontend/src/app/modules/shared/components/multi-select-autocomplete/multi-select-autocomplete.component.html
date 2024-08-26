@@ -1,0 +1,109 @@
+<!--
+Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<mat-form-field>
+
+  <mat-select *ngIf="!isDate" #selectElem [placeholder]="placeholder" [formControl]="formControl"
+              onkeydown="filterItem('')"
+              (click)="filterItem('')"
+              [multiple]="true"
+              (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown"
+              (openedChange)="options = []">
+
+    <div class="box-search">
+      <mat-checkbox *ngIf="!singleSearch && !(!searchedOptions?.length && !optionsSelected?.length)" color="primary" class="box-select-all" [disabled]="!searchedOptions?.length && !optionsSelected?.length" [(ngModel)]="selectAllChecked"
+                    (change)="toggleSelectAll($event)"></mat-checkbox>
+      <input [disabled]="" #searchInput [(ngModel)]="searchElement" type="text"
+             [ngClass]="'pl-1'"
+             (keydown)="filterKeyCommands($event)"
+             (input)="filterItem(searchInput.value)"
+             [placeholder]="('multiSelect.searchPlaceholder' | i18n)">
+      <mat-spinner *ngIf="isLoadingSuggestions" [diameter]="20"></mat-spinner>
+      <div class="box-search-icon" onkeydown="filterItem(''); clickClear()" (click)="filterItem(''); clickClear()">
+        <button mat-icon-button class="search-button">
+          <mat-icon class="mat-24" aria-label="Search icon">clear</mat-icon>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- hidden element just so that the mat-select dropdown opens -->
+    <mat-option [style.display]="'none'"></mat-option>
+
+    <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
+    <ng-container *ngFor="let option of optionsSelected">
+      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+        {{ option.display }}
+      </mat-option>
+      <ng-template #i18nKeyDisplay>
+        <mat-option [disabled]="option.disabled" [value]="option.value">
+          {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+        </mat-option>
+      </ng-template>
+    </ng-container>
+
+    <mat-divider></mat-divider>
+    <ng-container *ngIf="options?.length">
+      <ng-container *ngFor="let option of options">
+        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+          {{ option.display }}
+        </mat-option>
+        <ng-template #i18nKeyDisplay>
+          <mat-option [disabled]="option.disabled" [value]="option.value">
+            {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+          </mat-option>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+
+    <mat-option *ngIf="singleSearch" onkeydown="changeSearchTextOptionSingleSearch()" (click)="changeSearchTextOptionSingleSearch()" [value]=this.searchElement
+                [style.display]="this.shouldHideTextSearchOptionFieldSingleSearch() ? 'none': 'flex'">{{this.searchElement}}
+    </mat-option>
+    <mat-select-trigger *ngIf="selectedValue?.length > 1">
+      <div>
+        <ng-container *ngFor="let value of displayValue()">
+          <ng-container *ngIf="containsIllegalCharactersForI18nKey(value); else i18nKeyDisplay">
+            {{ value }}
+          </ng-container>
+          <ng-template #i18nKeyDisplay>
+            {{ 'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+          </ng-template>
+        </ng-container>
+      </div>
+    </mat-select-trigger>
+  </mat-select>
+
+
+  <div *ngIf="isDate" class="date-search">
+    <mat-date-range-input [rangePicker]="picker" disabled>
+      <input matStartDate [value]="startDate" [placeholder]="'datepicker.startDate' | i18n"
+             (dateChange)="startDateSelected($event)">
+      <input matEndDate [value]="endDate" [placeholder]="'datepicker.endDate' | i18n"
+             (dateChange)="endDateSelected($event)">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker disabled="false">
+      <mat-datepicker-actions>
+        <button (click)="clickClear()" mat-button matDatepickerCancel>{{ 'datepicker.cancel' | i18n }}</button>
+        <button (click)="dateFilter()" mat-raised-button color="primary"
+                matDatepickerApply>{{ 'datepicker.apply' | i18n }}</button>
+      </mat-datepicker-actions>
+    </mat-date-range-picker>
+  </div>
+
+</mat-form-field>

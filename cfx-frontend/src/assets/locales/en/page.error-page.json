@@ -1,0 +1,17 @@
+{
+  "errorPage": {
+    "title": "Error page",
+    "message": "Something went wrong."
+  },
+  "pageNotFound": {
+    "title": "Page not found",
+    "message": "The page you requested could not be found"
+  },
+  "noPermissions": {
+    "title": "No permissions",
+    "message": "You don't have access to this page. Please contact with your admin."
+  },
+  "actions": {
+    "homepage": "Dashboard"
+  }
+}

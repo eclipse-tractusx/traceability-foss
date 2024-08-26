@@ -1,0 +1,26 @@
+.header {
+  margin-bottom: 30px;
+}
+
+.container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+
+}
+
+.policies-label {
+  padding-bottom: 8px;
+}
+
+.action-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.publish-action-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}

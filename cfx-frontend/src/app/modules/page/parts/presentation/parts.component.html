@@ -1,0 +1,129 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<div class="parts-table-container">
+  <div class="search--and--quick--filter--wrapper">
+    <div class="quick--filter--wrapper">
+      <app-quick-filter (buttonClickEvent)="updatePartsByOwner($event)"></app-quick-filter>
+    </div>
+    <div class="searchbar--container" [formGroup]="searchFormGroup">
+      <app-input
+        [label]="'parts.input.global-search.placeholder' | i18n"
+        [suffixIconHover]="true"
+        [displayClearButton]="true"
+        (suffixIconClick)="triggerPartSearch()"
+        [onEnterActive]="true"
+        [suffixIcon]="'search'"
+        class="parts-search-input"
+        formControlName="partSearch"
+        [parentFormGroup]="searchFormGroup"
+        [parentControlName]="'partSearch'"
+        suffixIconColor="primary"
+      ></app-input>
+    </div>
+  </div>
+
+  <div class="split-container-wrapper">
+    <as-split  (dragEnd)="splitAreaChanged($event)" direction="horizontal" class="split-container">
+      <as-split-area  data-testid="as-split-area-1-component--test-id"  [size]="bomLifecycleSize.asBuiltSize"
+                     class="split-area">
+
+
+        <div class="parts-table-wrapper">
+          <ng-container
+            *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          <ng-template #mainTmp let-parts="view">
+            <!-- asBuilt Parts Table-->
+            <app-parts-table class="parts-asBuilt-table"
+                             [paginationData]="parts.data"
+                             (publishIconClickedEvent)="openPublisherSideNav()"
+                             (createQualityNotificationClickedEvent)="navigateToNotificationCreationView($event)"
+                             [labelId]="titleId"
+                             [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                             [selectedPartsActionLabel]="'page.selectedParts.action'"
+                             [deselectTrigger]="deselectPartTrigger$ | async"
+                             [addTrigger]="addPartTrigger$ | async"
+                             (selected)="onSelectItem($event)"
+                             (configChanged)="onAsBuiltTableConfigChange($event)"
+                             (multiSelect)="currentSelectedItems$.next($event)"
+                             (clickSelectAction)="navigateToNotificationCreationView()"
+                             (filterActivated)="filterActivated(true, $event )"
+                             [multiSortList]="tableAsBuiltSortList"
+                             (maximizeClicked)="maximizeClicked($event)"
+                             [tableHeader]='"page.asBuiltParts" | i18n'
+                             [tableType]="TableType.AS_BUILT_OWN"
+                             [mainAspectType]="MainAspectType.AS_BUILT"
+            ></app-parts-table>
+          </ng-template>
+        </div>
+      </as-split-area>
+      <as-split-area data-testid="as-split-area-2-component--test-id" [size]="bomLifecycleSize.asPlannedSize"
+                     class="split-area">
+        <div class="parts-table-wrapper">
+          <ng-container
+            *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+          <ng-template #myTmp let-parts="view">
+            <!-- asPlanned Parts Table-->
+            <app-parts-table class="parts-asPlanned-table"
+                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+                             [labelId]="titleId"
+                             (publishIconClickedEvent)="openPublisherSideNav()"
+                             [selectedPartsInfoLabel]="'page.selectedParts.info'"
+                             [selectedPartsActionLabel]="'page.selectedParts.action'"
+                             [deselectTrigger]="deselectPartTrigger$ | async"
+                             [addTrigger]="addPartTrigger$ | async"
+                             (selected)="onSelectItem($event)"
+                             (configChanged)="onAsPlannedTableConfigChange($event)"
+                             (multiSelect)="currentSelectedAsPlannedItems$.next($event)"
+                             (clickSelectAction)="isAlertOpen$.next(true)"
+                             (filterActivated)="filterActivated(false, $event)"
+                             [multiSortList]="tableAsPlannedSortList"
+                             [tableHeader]='"page.asPlannedParts" | i18n'
+                             (maximizeClicked)="maximizeClicked($event)"
+                             [tableType]="TableType.AS_PLANNED_OWN"
+                             [mainAspectType]="MainAspectType.AS_PLANNED"
+            ></app-parts-table>
+
+          </ng-template>
+        </div>
+      </as-split-area>
+
+    </as-split>
+  </div>
+
+  <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
+    <app-asset-publisher
+    [selectedAssets] = "allSelectedItems$ | async"
+    [isOpen]="isPublisherOpen$"
+    (submitted)="isPublisherOpen$.next(false); refreshPartsOnPublish($event);"
+    ></app-asset-publisher>
+  </app-sidenav-wrapper>
+
+
+  <ng-template #errorTmp let-parts="view">
+    <h1>{{ 'dataLoading.error' | i18n }}</h1>
+    <p>{{ parts.error }}</p>
+  </ng-template>
+
+  <ng-template #loaderTmp let-parts="view">
+    <mat-spinner></mat-spinner>
+  </ng-template>
+</div>

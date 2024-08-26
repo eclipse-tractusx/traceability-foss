@@ -1,0 +1,5 @@
+{
+  "pageAbout": {
+    "content": "<p class=\"text-xl p-1 leading-6\">Die Open-Source Rückverfolgbarkeitsanwendung wird innerhalb des <a class=\"text-xl\" href=\"https://catena-x.net/\" target=\"_blank\">Catena-X Projektes</a> entwickelt und befähigt alle Unternehmen an der Teilerückverfolgbarkeit teilzunehmen.</p><p class=\"text-xl p-1 leading-6\">Die Anwendung erlaubt einen Überblick über die Lieferkette. Dieses hohe Level an Transparent über die gesamte Lieferkette hinweg erlaubt schnellere Eingriffe auf Basis von Events. Zusätzlich dazu helfen automatisierte Nachrichten in Hinblick auf Qualitätsrelevante Meldungen und ein Tool zur Analyse der Lieferkette allen Unternehmen in diesen Zeiten. </p><p class=\"text-xl p-1 leading-6\">Insgesamt werden dadurch Kosten eingespart, indem die Teile einfach rückverfolgt werden können. Darüber hinaus baut die Anwendung Vertrauen auf mithilfe von klar definierten und sicheren Datenzugriffen für ausschließlich die berechtigten Personen und Unternehmen.</p>"
+  }
+}

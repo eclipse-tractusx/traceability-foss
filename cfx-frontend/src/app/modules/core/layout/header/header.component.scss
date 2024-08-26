@@ -1,0 +1,118 @@
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
+.header {
+  &--container {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(152.33deg, #e4ebf3 4.24%, #adb9c7 72.17%);
+    // background: linear-gradient(111.81deg, #9eaba9 41.97%, #b6a763 72.9%);
+  }
+
+  &--logo {
+    height: 30px;
+  }
+
+  &--breadcrumb-container {
+    height: 50px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  &--app-header {
+    padding: 0 40px;
+    // Subtract the curve height from header size
+    height: calc(85px - 32px);
+
+    & > h3 {
+      padding-top: 15px;
+    }
+  }
+
+  &--stylish-curve {
+    height: 32px;
+    width: 100%;
+    bottom: 0;
+    // this is to match our BG color
+    // color matcher used from https://codepen.io/sosuke/pen/Pjoqqp
+    filter: invert(7%) sepia(16%) saturate(53%) hue-rotate(168deg) brightness(97%) contrast(105%);
+  }
+
+  &--menu-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 85px;
+    padding: 0 40px;
+  }
+
+  &--menu {
+    width: 70%;
+    height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    &__item-iconText {
+      display: block;
+      @media (max-width: 1024px) {
+        display: none;
+      }
+    }
+
+    &__item-icon {
+      display: none;
+      @media (max-width: 1024px) {
+        display: block;
+      }
+    }
+
+    &__item {
+      @apply font-medium;
+
+      color: #888888;
+      line-height: 20px;
+      position: relative;
+
+      &.selected,
+      &:hover {
+        @apply text-primary;
+
+        &::before {
+          content: ' ';
+          width: 100%;
+          padding-top: 10px;
+          border: none;
+          position: absolute;
+          border-bottom: 2px solid #0f71cb;
+        }
+      }
+    }
+  }
+
+  &--user {
+    display: flex;
+    align-items: center;
+  }
+}

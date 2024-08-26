@@ -1,0 +1,115 @@
+<!--
+Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title
+        ><h3 class="mb-2" data-testid="admin_import_view_header">{{ 'pageAdmin.importJson.title' | i18n }}</h3></mat-card-title
+        >
+    </mat-card-header>
+    <mat-card-content>
+        <div class="import-container">
+            <ng-container *ngIf="displayUploader">
+                <div class="import-json">
+                    <div class="file-container_drag_and_drop" *ngIf="!shouldShowFileContainer_upload_file(file)">
+                        <mat-icon>upload</mat-icon>
+                        <input type="file" (change)="getFile($event)" class="file" accept=".json"/>
+                        <h4>{{ 'pageAdmin.importJson.Drag_and_Drop' | i18n }}</h4>
+                        <p class="or">{{ 'pageAdmin.importJson.or' | i18n }}</p>
+                        <div class="text-box">
+                            <p class="text-box-p">{{ 'pageAdmin.importJson.browseFiles' | i18n }}</p>
+                        </div>
+                        <p class="error-message" *ngIf=" showError">{{ 'pageAdmin.importJson.error' | i18n }}</p>
+                    </div>
+
+                    <div class="file-container_upload_file" *ngIf="shouldShowFileContainer_upload_file(file)">
+                        <mat-icon class="icon_uploadFile">upload_file</mat-icon>
+                        <p class="file-name">{{file.name}}</p>
+                        <app-button variant="raised" class="custom-button_clear" color="warn"
+                                    onkeydown="clearFile()"
+                                    (click)="clearFile()">{{ 'pageAdmin.importJson.clear_file' | i18n }}</app-button>
+                        <app-button variant="raised" class="custom-button_upload" color="primary"
+                                    onkeydown="uploadFile(file)"
+                                    (click)="uploadFile(file)">{{ 'pageAdmin.importJson.upload_file' | i18n }}</app-button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="assetResponse.length">
+                <div class="status-container">
+                    <app-button variant="stroked" class="custom-button_upload" color="primary"
+                                onkeydown="displayUploader = true; clearFile()"
+                                (click)="displayUploader = true; clearFile()">{{'pageAdmin.importStatus.uploadMore' | i18n}}</app-button>
+                    <div class="status-assets-container mt-2">
+                        <h4 class="pb-2.5">{{ 'pageAdmin.importStatus.importStatus' | i18n }}:</h4>
+                        <div class="status-content pb-0.5">
+                            <section class="import-report-content-container">
+                                <table mat-table
+                                       [dataSource]="assetResponse"
+                                       aria-describedby="importResponseTable"
+                                >
+                                    <ng-container matColumnDef="catenaXId">
+                                        <th mat-header-cell *matHeaderCellDef> {{'pageAdmin.importStatus.catenaXId' | i18n}}</th>
+                                        <td mat-cell *matCellDef="let entry">{{entry.catenaXId}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="import-status">
+                                        <th mat-header-cell *matHeaderCellDef>{{'pageAdmin.importStatus.status' | i18n}}</th>
+                                        <td mat-cell
+                                            *matCellDef="let entry">{{entry.persistedOrUpdated ? ('pageAdmin.importStatus.imported' | i18n) : ('pageAdmin.importStatus.skipped' | i18n)}}</td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="importedAssetsDisplayedColumns; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: importedAssetsDisplayedColumns;"></tr>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+                    </div>
+            </ng-container>
+            <ng-container *ngIf="errorValidationErrors.length">
+            <div class="status-validation-container">
+                <h4 class="pb-2.5">{{'pageAdmin.importStatus.validationReport' | i18n}}:</h4>
+
+                <div class="status-validation-import_state_message-container">
+                    <span class="font-semiBold pr-1 pb-1">{{'pageAdmin.importStatus.importStateMessage' | i18n}}</span>
+                    <div>{{errorImportStateMessage.length ? errorImportStateMessage : ('pageAdmin.importStatus.noImportStateMessage' | i18n)}}</div>
+                </div>
+
+                <div class="status-validation-validation_errors-container">
+                    <table mat-table
+                           [dataSource]="errorValidationErrors"
+                           aria-describedby="importValidationErrorsTable"
+                    >
+                        <ng-container matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef>{{'pageAdmin.importStatus.errors' | i18n}}</th>
+                            <td mat-cell *matCellDef="let i=index">{{i+1}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef>{{'pageAdmin.importStatus.description' | i18n}}</th>
+                            <td mat-cell
+                                *matCellDef="let errorDescription" class="text-error">{{errorDescription}}</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="validationErrorsDisplayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: validationErrorsDisplayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            </ng-container>
+        </div>
+    </mat-card-content>
+</mat-card>
+

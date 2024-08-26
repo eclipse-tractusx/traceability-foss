@@ -1,0 +1,54 @@
+{
+  "partDetail": {
+    "tombStoneErrorDetail": "Grabstein Fehlerbeschreibung",
+    "relations": "Beziehungen",
+    "overview": "Übersicht",
+    "manufacturerData": "Herstellerdaten",
+    "customerData": "Kundendaten",
+    "partSiteInformationData": "PartSite Informationen",
+    "catenaXSiteId": "Standort",
+    "psFunction": "Funktion",
+    "name": "Name",
+    "partId": "Produktnummer",
+    "semanticModelId": "Semantische Modellnummer",
+    "qualityType": "Qualitätsstufe",
+    "productionDate": "Produktionsdatum",
+    "manufacturerName": "Hersteller",
+    "manufacturerPartId": "Hersteller Produktnummer",
+    "nameAtManufacturer": "Hersteller Produktname",
+    "nameAtCustomer": "Name beim Kunden",
+    "customerPartId": "Kunden Produktnummer",
+    "semanticDataModel": "Semantisches Datenmodell",
+    "van": "Van",
+    "manufacturingDate": "Produktionsdatum",
+    "manufacturingCountry": "Produktionsland",
+    "classification": "Klassifizierung",
+    "functionValidFrom": "Funktion gülitg von",
+    "functionValidUntil": "Funktion gültig bis",
+    "tractionBatteryCodeTitle": "Traction Batterie Code",
+    "tractionBattery": "Antriebsbatterie",
+    "position": "Position",
+    "productType": "Produkttyp",
+    "tractionBatteryCode": "Batterie Code",
+    "subcomponents": "Teilkomponenten",
+    "tab": {
+      "header": "Produkt-Details",
+      "description": "Detaillierte Informationen über Ihr ausgewähltes Produkt"
+    },
+    "investigation": {
+      "headline": "Qualitätsuntersuchung für Bauteile anfordern",
+      "tab": {
+        "header": "Untersuchung für Bauteile",
+        "description": "Starten Sie eine Untersuchung für Ihre Bauteile"
+      },
+      "noSelection": {
+        "header": "Keine Bauteile ausgewählt",
+        "text": "Bitte wählen Sie Bauteile für den Start einer Untersuchung aus."
+      }
+    },
+    "importHeader": "Produktstatus",
+    "importState": "Importstatus",
+    "importNote": "Importanmerkung"
+
+  }
+}

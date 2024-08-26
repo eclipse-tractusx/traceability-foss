@@ -1,0 +1,31 @@
+{
+  "pageOtherParts": {
+    "tab": {
+      "customer": "Produkte von Kunden",
+      "supplier": "Produkte von Lieferanten"
+    }
+  },
+  "partDetail": {
+    "relations": "Beziehungen",
+    "overview": "Übersicht",
+    "manufacturerData": "Herstellerdaten",
+    "customerData": "Kundendaten",
+    "name": "Name",
+    "partId": "Produktnummer",
+    "semanticModelId": "Semantische Modellnummer",
+    "manufacturingDate": "Produktionsdatum",
+    "manufacturerName": "Hersteller",
+    "nameAtCustomer": "Name beim Kunden",
+    "customerPartId": "Kunden Produktnummer",
+    "semanticDataModel": "Semantisches Datenmodell"
+  },
+  "page": {
+    "selectedParts": {
+      "info_one": "{{count}} Produkt für diese Seite ausgewählt.",
+      "info_other": "{{count}} Produkte für diese Seite ausgewählt.",
+      "action": "Untersuchung starten"
+    },
+    "asBuiltParts": "AsBuilt Lebenszyklus",
+    "asPlannedParts": "AsPlanned Lebenszyklus"
+  }
+}

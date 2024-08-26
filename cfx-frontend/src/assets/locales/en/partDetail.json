@@ -1,0 +1,53 @@
+{
+  "partDetail": {
+    "tombStoneErrorDetail": "Tombstone Error details",
+    "relations": "Relations",
+    "overview": "Overview",
+    "manufacturerData": "Manufacturer data",
+    "customerData": "Customer data",
+    "partSiteInformationData": "PartSite Information",
+    "catenaXSiteId": "Site Id",
+    "psFunction": "Function",
+    "name": "Name",
+    "partId": "Part number",
+    "semanticModelId": "Semantic Model ID",
+    "qualityType": "Quality type",
+    "productionDate": "Production date",
+    "manufacturerName": "Manufacturer",
+    "manufacturerPartId": "Manufacturer part ID",
+    "nameAtManufacturer": "Name at manufacturer",
+    "nameAtCustomer": "Name at customer",
+    "customerPartId": "Customer part ID",
+    "semanticDataModel": "Semantic Data Model",
+    "van": "Van",
+    "manufacturingDate": "Production date",
+    "manufacturingCountry": "Production country",
+    "classification": "Classification",
+    "functionValidFrom": "Function valid from",
+    "functionValidUntil": "Function valid until",
+    "tractionBatteryCodeTitle": "Traction battery code",
+    "tractionBattery": "Traction battery",
+    "position": "Position",
+    "productType": "Product type",
+    "tractionBatteryCode": "Battery Code",
+    "subcomponents": "Subcomponents",
+    "tab": {
+      "header": "Part details",
+      "description": "Detailed information about your selected part"
+    },
+    "investigation": {
+      "headline": "Request quality investigation for child parts",
+      "tab": {
+        "header": "Investigation for components",
+        "description": "Start an investigation for components"
+      },
+      "noSelection": {
+        "header": "No parts selected.",
+        "text": "Please select parts to start and investigation."
+      }
+    },
+    "importHeader": "Asset State",
+    "importState": "Import State",
+    "importNote": "Import Note"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "pageAdmin": {
+    "bpnConfig": {
+      "title": "BPN - EDC Konfiguration",
+      "intro": "Das BPN zu EDC URL Mapping wird als weitere Quelle für den Versand von Notifications verwendet. Erste Quelle ist der Discovery Service, zweite Quelle das hier hinterlegte Mapping. Zum Hinterlegen der weiteren Quelle bitte eine BPN und die dazugehörige EDC URL, die für das Versenden von Notifications an den Partner verwendet werden soll, einfügen.",
+      "search": "Suche",
+      "bpn": "BPN",
+      "url": "URL",
+      "newEntries": "Neue Konfiguration",
+      "existingEntries": "Bestehende Konfiguration",
+      "added": "Hinzugefügt",
+      "changed": "Geändert",
+      "deleted": "Gelöscht",
+      "modal": {
+        "title": "Änderungen der Konfiguration",
+        "description": "Sind Sie sicher, dass Sie diese Änderungen speichern wollen?",
+        "successfullySaved": "Ihre Änderungen wurden erfolgreich gespeichert.",
+        "failedSave": "Beim Speichern ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
+      }
+    },
+    "importJson": {
+      "title": "Trace-X Datenimport",
+      "clear_file": "Datei löschen",
+      "upload_file": "Datei hochladen",
+      "error": "Warnung: Bitte benutzen Sie eine Json Datei",
+      "Drag_and_Drop": "Datei hineinziehen",
+      "or": "oder",
+      "browseFiles": "Dateien durchsuchen",
+      "success": "Erfolgreich hochgeladen."
+    },
+    "importStatus": {
+      "importStatus": "Import Status",
+      "catenaXId": "Catena-X ID",
+      "status": "Status",
+      "imported": "Importiert",
+      "skipped": "Übersprungen",
+      "validationReport": "Validierungsreport",
+      "importStateMessage": "Import Statusnachricht",
+      "errors": "Fehler",
+      "description": "Beschreibung",
+      "uploadMore": "Mehr Hochladen",
+      "noImportStateMessage": "Der Server hat keine weitere Information zurückgegeben."
+    },
+    "contracts": {
+      "contracts": "Verträge",
+      "contractId": "Vertrags-ID",
+      "counterpartyAddress": "Vertragspartner Adresse",
+      "creationDate": "Erstelldatum",
+      "endDate": "Ablaufdatum",
+      "state": "Status",
+      "policies": "Richtlinie",
+      "selectAtleastOne": "Selektieren Sie mindestens einen Vertrag um exportieren zu können.",
+      "exportAsCSV": ".CSV-Datei Export",
+      "overview": "Übersicht",
+      "policyDetail": "Richtlinien details",
+      "jsonViewer": "Json Ansicht",
+      "jsonTreeViewer": "Json-Baumansicht"
+    }
+  }
+}

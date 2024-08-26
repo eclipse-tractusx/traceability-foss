@@ -1,0 +1,38 @@
+.chip-container {
+  padding: 0.25rem 0.75rem 0.25rem 0.75rem;
+  width: 161px;
+  background-color: currentColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+
+  @apply font-bold;
+
+  &__PERSISTENT {
+    background-color: rgb(226,246,199);
+
+  }
+
+  &__TRANSIENT {
+    background-color: rgb(242,243,251);
+  }
+
+  &__IN_SYNCHRONIZATION {
+    background-color: rgb(255,236,189);
+  }
+
+  &__PUBLISHED_TO_CORE_SERVICES {
+    background-color: rgb(218, 245, 255);
+  }
+
+  &__ERROR {
+    background-color: rgb(254,231,226);
+  }
+
+  &__UNSET {
+    background-color: grey;
+  }
+
+}

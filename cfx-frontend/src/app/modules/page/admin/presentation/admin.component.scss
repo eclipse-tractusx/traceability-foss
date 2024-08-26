@@ -1,0 +1,94 @@
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
+.sidenav--container {
+  display: grid;
+  grid-template-columns: 52px auto;
+  grid-template-rows: 100%;
+  position: relative;
+  transition: all 0.5s;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.sidenav--expanded {
+  grid-template-columns: 220px auto;
+  word-wrap: break-word;
+}
+
+.sidenav {
+  border: none;
+  overflow: visible;
+  position: relative;
+}
+
+.sidenav--item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &:hover {
+    @apply bg-primaryLight cursor-pointer;
+  }
+}
+
+.sidenav--expanded .active::before {
+  width: 90%;
+}
+
+.active::before {
+  content: ' ';
+  width: 50%;
+  padding-top: 30px;
+  border: none;
+  position: absolute;
+  border-bottom: 2px solid #0f71cb;
+}
+
+.sidenav--toggle {
+  width: 5px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -2px;
+  cursor: ew-resize;
+  @apply bg-primaryLight;
+
+  &:hover {
+    @apply bg-primary;
+  }
+}
+
+.sidenav--toggle-button {
+  position: absolute;
+  bottom: 30px;
+  right: -20px;
+  z-index: 1;
+}
+
+.sidenav--content {
+  margin-left: 20px;
+  min-height: 300px;
+  overflow: auto;
+}

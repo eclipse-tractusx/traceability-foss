@@ -1,0 +1,83 @@
+<mat-card>
+    <mat-card-content>
+        <app-button
+                [color]="'primary'"
+                onkeydown="navigateBack()"
+                (click)="navigateBack()"
+        >
+            <div class="flex justify-between items-center">
+                <mat-icon class="mr-2">arrow_back</mat-icon>
+                {{ 'actions.goBack' | i18n }}
+            </div>
+        </app-button>
+
+        <div class="cards-container">
+            <div class="cards-container-info-card mt-1" *ngIf="!isFullscreenMode">
+                <ng-container
+                        *viewContainer="selectedContractDetails$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp">
+                </ng-container>
+            </div>
+
+            <mat-card class="cards-container-json-card" [style.grid-column]="isFullscreenMode ? 'span 2' : 'span 1'">
+                <mat-card-header>
+                    <mat-card-title><h4 class="">{{'pageAdmin.contracts.policyDetail'| i18n}}</h4></mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="policy--header--container flex justify-between mt-3">
+                        <div class="policy--header--container--selector flex">
+                            <app-view-selector
+                            (click)="defaultViewIsActivated = true;"
+                            onkeydown="defaultViewIsActivated = true;"
+                            [isSelected]="defaultViewIsActivated"
+                            >
+                                {{'pageAdmin.contracts.jsonViewer' | i18n }}
+                            </app-view-selector>
+                            <app-view-selector
+                            (click)="defaultViewIsActivated = false;"
+                            onkeydown="defaultViewIsActivated = false;"
+                            [isSelected]="!defaultViewIsActivated"
+                            >
+                                {{'pageAdmin.contracts.jsonTreeViewer' | i18n}}
+                            </app-view-selector>
+                        </div>
+                        <app-button
+                                [iconName]="'open_in_new'"
+                                onkeydown="isFullscreenMode = !isFullscreenMode"
+                                (click)="isFullscreenMode = !isFullscreenMode"
+                        >
+                        </app-button>
+                    </div>
+                    <div class="policy--content--container p-1">
+                        <ng-container *ngIf="!defaultViewIsActivated; else jsonViewer">
+                            <ngx-json-viewer [json]="policyJson"></ngx-json-viewer>
+                        </ng-container>
+                        <ng-template #jsonViewer>
+                            <pre class="json-text">{{policyJson | json}}</pre>
+                        </ng-template>
+
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <ng-template #mainTmp let-contract="view">
+
+            <app-card-list
+                    [title]="'pageAdmin.contracts.overview'"
+                    [isBoldTitle]="true"
+                    [list]="contract?.data"
+                    [i18nPrefix]="'pageAdmin.contracts'"
+            ></app-card-list>
+
+        </ng-template>
+
+        <ng-template #errorTmp let-contract="view">
+            <app-data-loading-error [error]="contract.error"></app-data-loading-error>
+        </ng-template>
+
+        <ng-template #loaderTmp>
+            <mat-spinner></mat-spinner>
+        </ng-template>
+
+    </mat-card-content>
+
+</mat-card>

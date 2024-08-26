@@ -1,0 +1,99 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<div class="user-menu-container">
+  <!-- Profile dropdown -->
+  <div class="user-menu-content">
+    <div (click)="this.expand($event)">
+      <button class="user-menu-btn" data-testid="user-menu" id="user-menu" aria-haspopup="true">
+        <span class="sr-only">{{ 'layout.nav.openUserMenu' | i18n }}</span>
+        <app-avatar></app-avatar>
+      </button>
+    </div>
+    <div
+      *ngIf="this.isExpanded"
+      [class.expand]="isExpanded"
+      class="user-menu-items-container"
+      role="menu"
+      aria-orientation="vertical"
+      aria-labelledby="user-menu"
+    >
+      <section class="flex flex-row px-4 py-2">
+        <section class="flex flex-col p-1">
+          <p class="regular-text">{{ this.userDetails.name }}</p>
+          <p class="component-headline text-doveGray break-words">{{ this.userDetails.role }}</p>
+        </section>
+      </section>
+
+      <mat-divider></mat-divider>
+
+      <div *ngIf="portalUrl" (click)="openPortalPage()" class="user-menu-items">
+        <p class="regular-text user-menu-items__label" role="menuitem">
+          {{ 'layout.nav.goToPortal' | i18n }}
+        </p>
+        <app-button variant="icon" iconName="home"></app-button>
+      </div>
+
+      <ng-container
+        *ngTemplateOutlet="menuItem; context: { name: 'admin', icon: 'apps', role: 'admin', route: 'admin' }"
+      >
+      </ng-container>
+
+      <mat-divider></mat-divider>
+
+      <div class="user-menu-items" (click)="this.logOut()">
+        <p class="regular-text user-menu-items__label" role="menuitem">
+          {{ 'layout.nav.signOut' | i18n }}
+        </p>
+        <app-button variant="icon" iconName="arrow_forward_small"></app-button>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="user-menu-language">
+        <p class="user-menu-language__items">
+          <app-language-selector></app-language-selector>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #menuItem let-name="name" let-icon="icon" let-role="role" let-route="route">
+  <div
+    class="user-menu-items"
+    matTooltip="{{'routing.unauthorized' | i18n}}"
+    matTooltipClass="table--header--tooltip"
+    matTooltipPosition="above"
+    [class.mdc-tooltip--multiline]="true"
+    [matTooltipShowDelay]="1000"
+    [matTooltipDisabled]="isAuthorized"
+    [class.user-menu-items--disabled] = "!isAuthorized"
+    [routerLink]="isAuthorized ? ['/' + route] : null"
+    [class.user-menu-items--selected]="route === activeItem"
+    data-testid="user-menu-administration-button"
+  >
+    <p class="regular-text user-menu-items__label" [class.user-menu-items__label--disabled]="!isAuthorized" role="menuitem">
+      {{ 'routing.' + name | i18n }}
+    </p>
+    <app-button variant="icon" iconName="{{ icon || name }}" [isDisabled]="!isAuthorized"></app-button>
+  </div>
+</ng-template>

@@ -1,0 +1,329 @@
+/********************************************************************************
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+:host {
+  .mat-mdc-header-row {
+    font-family: inherit !important;
+  }
+
+  .mat-mdc-header-cell {
+    font-weight: bold !important;
+  }
+}
+
+
+table {
+  width: 100%;
+  @apply font-light;
+}
+
+.table--header--first--column{
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .right-icon-container{
+    display:flex;
+  }
+
+  .action-button-tile-maximizeTable.activated{
+      background:#9b9b9b!important;
+
+  }
+
+}
+
+
+
+.table--select-all {
+  display: inline-flex;
+  align-items: center;
+
+  &__menu {
+    background: rgba(0, 0, 0, 0.04);
+
+    & > .table--select-all__dropdown:hover {
+      background: none;
+    }
+  }
+}
+
+.multi-select-header-cell {
+  padding: 0 !important;
+
+  .filter-title {
+    padding: 25px;
+  }
+
+
+}
+
+.menu-column {
+  position: sticky;
+  right: 0;
+  visibility: hidden;
+  z-index: 1;
+}
+
+
+.table--select-all__dropdown {
+  margin-left: -5px;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+  }
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  cursor: default;
+}
+
+.table--no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 250px;
+  justify-content: center;
+
+  &__icon {
+    transform: scale(2);
+  }
+}
+
+.no-hover .mat-mdc-cell {
+  cursor: default;
+}
+
+.no-hover:hover {
+  outline: unset;
+}
+
+.table--cell {
+  padding: 0 10px;
+}
+
+.table--notification--cell {
+  display: flex;
+  align-items: center;
+  cursor: default;
+}
+
+.table--notification--cell--content {
+  flex: 1;
+}
+
+.table--notification--cell--content--icon {
+  flex: 8;
+}
+
+
+.table--notification--icon {
+  color: #888888;
+}
+
+.table--selected__container {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  min-height: 35px;
+
+}
+
+.publish--disabled{
+  cursor:none!important;
+}
+
+.publish--icon{
+  cursor: pointer;
+}
+
+.icon-container{
+  width:50%;
+  display:flex;
+  margin-left: -20px;
+  mat-icon{
+    width: 28px;
+    height: 28px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333333;
+  }
+}
+.selected-text-container{
+  width:50%;
+  text-align:right;
+}
+
+.table--selected--label {
+  flex: 1;
+}
+
+.loading-table {
+  background-image: linear-gradient(to right, transparent 50%, rgba(0, 0, 0, 0.05) 50%);
+  background-size: 200% 100%;
+  animation: loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.loading {
+  background: none;
+
+  td {
+    opacity: 0.45;
+    pointer-events: none;
+    background: none;
+  }
+}
+
+tr.highlighted {
+  background-color: #ffe581;
+  &:hover {
+    background-color: #ffe271;
+  }
+}
+
+tr.error {
+  background-color: #ff878c;
+  &:hover {
+    background-color: #ff5960;
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-position: 0;
+  }
+  50% {
+    background-position: -30%;
+  }
+  80% {
+    background-position: -100%;
+  }
+  100% {
+    background-position: -200%;
+  }
+}
+
+.table--menu {
+  &__mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    &__desktop {
+      display: none;
+    }
+
+    &__mobile {
+      display: table-row;
+    }
+  }
+}
+
+.table--menu.highlighted {
+  background-color: #ffe581;
+  &:hover {
+    background-color: #ffe271;
+  }
+}
+
+.table--menu.error {
+  background-color: #ff878c;
+  &:hover {
+    background-color: #ff5960;
+  }
+}
+
+.expand-row {
+  height: 0;
+}
+
+.expand-element {
+  overflow: hidden;
+  display: flex;
+  transition: height 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expanded {
+  height: 48px;
+}
+
+.collapsed {
+  height: 0;
+  min-height: 0;
+}
+
+.table-paginator-menu {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+
+.table--header--row {
+  white-space: nowrap;
+}
+
+.table--header {
+  padding-bottom: 8px;
+}
+
+.table--header--sort--indicator {
+  margin-left: 5px;
+}
+
+.table--header--tooltip {
+  .mdc-tooltip__surface {
+    background-color: rgb(48, 48, 48);
+    @apply font-medium;
+    color: white;
+    max-width: 300px;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .mdc-tooltip--multiline {
+    white-space: pre-line;
+  }
+}
+
+.table--header--select--button {
+  cursor: not-allowed;
+  margin-left: 5px;
+}
+
+.table--settings--button {
+  width: 28px;
+  height: 28px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333333
+}
+
+.table--header--select--cell {
+  width: 90px;
+}
+
+.table--notification--cell--notification--count {
+  cursor: pointer;
+}
+
+.table--header--menu {
+  visibility: hidden;
+}
+

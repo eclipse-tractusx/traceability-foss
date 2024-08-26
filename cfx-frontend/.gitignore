@@ -1,0 +1,68 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+target/
+/out/
+.env
+application-local.yml
+.DS_Store
+*.tgz
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+/test-results
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.angular/cache
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+/audit-reports
+src/tests/test-report.xml
+
+# e2e
+cypress/videos
+cypress/screenshots
+cypress/reports/*
+cucumber-messages.ndjson
+
+# System Files
+.DS_Store
+Thumbs.db
+
+#mock
+ds-one-mock
+.scannerwork
+
+#sonar
+tslint-report.json
+
+#error
+yarn-error.log
+
+scripts/download/*
+/cypress.local.config.ts

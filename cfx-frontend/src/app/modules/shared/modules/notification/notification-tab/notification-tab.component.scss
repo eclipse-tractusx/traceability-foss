@@ -1,0 +1,68 @@
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
+.notification--table__description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 500px;
+}
+
+.notification-status {
+  @apply border-0 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs w-fit;
+
+  &:before {
+    content: ' ';
+    @apply h-2 w-2 rounded-full inline-block;
+  }
+
+  &--RECEIVED {
+    @apply bg-receivedLight text-receivedDark before:bg-receivedDark;
+  }
+
+  &--CANCELED {
+    @apply bg-closedDark text-closedLight before:bg-closedLight;
+  }
+
+  &--CLOSED {
+    @apply bg-closedDark text-closedLight before:bg-closedLight;
+  }
+
+  &--CREATED {
+    @apply bg-createdLight text-createdDark before:bg-createdDark;
+  }
+
+  &--SENT {
+    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+  }
+
+  &--ACCEPTED {
+    @apply bg-declinedLight text-declinedDark before:bg-declinedDark;
+  }
+
+  &--ACKNOWLEDGED {
+    @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
+  }
+
+  &--DECLINED {
+    @apply bg-confirmedLight text-confirmedDark before:bg-confirmedDark;
+  }
+}

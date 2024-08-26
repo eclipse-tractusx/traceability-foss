@@ -1,0 +1,7 @@
+<svg id="flag-icon-css-cr" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd" stroke-width="1pt">
+        <path d="M0 0h640v480H0z" fill="#0000b4"/>
+        <path d="M0 75.4h640v322.3H0z" fill="#fff"/>
+        <path d="M0 157.7h640v157.7H0z" fill="#d90000"/>
+    </g>
+</svg>

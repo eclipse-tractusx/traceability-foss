@@ -1,0 +1,438 @@
+<!--
+Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+
+<div class="table-header-wrapper">
+  <div *ngIf="tableHeader" class="table-header-container">
+    <div class="large-text table--header--first--column">
+      <div class="text--container">
+      {{ tableHeader }}
+      </div>
+
+      <div class="right-icon-container">
+      <div class="action-button-tile-usersettings"
+           matTooltip="{{'actions.userSettings'| i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500">
+        <app-button
+          iconName="settings"
+          class="action-button-tile ml-2"
+          (click)="openDialog()"
+          (keydown)="handleKeyDownOpenDialog($event)"
+        ></app-button>
+      </div>
+
+      <div class="action-button-tile-maximizeTable"
+           matTooltip="{{'actions.maximizeTable'| i18n}}"
+           matTooltipClass="table--header--tooltip"
+           matTooltipPosition="above"
+           [class.mdc-tooltip--multiline]="true"
+           [matTooltipShowDelay]="500">
+        <app-button
+          iconName="crop_free"
+          class="action-button-tile ml-2"
+          (click)="maximizeClickedMethod()"
+          (keydown)="handleKeyDownMaximizedClickedMethod($event)"
+        ></app-button>
+      </div>
+
+      </div>
+</div>
+
+    <div class="table--selected__container">
+      <div class="icon-container">
+
+        <div *ngIf="tableType === TableType.AS_BUILT_OWN" class="action-button-tile"
+             matTooltip="{{(roleService.isAdmin() ? 'routing.unauthorized' : (!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() ? 'routing.partMismatch' : 'table.createNotification')) | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500"
+             [matTooltipDisabled]="isAllowedToPublish() && atLeastOneSelected()">
+          <app-button
+            iconName="announcement"
+            class="action-button-tile"
+            [attr.data-testid]="'create-notification-button'"
+            [isDisabled]="!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() || roleService.isAdmin()"
+            (click)="createQualityNotificationClicked()"
+            (keydown)="handleKeyDownQualityNotificationClicked($event)"
+          ></app-button>
+        </div>
+
+
+        <div class="action-button-tile"
+             matTooltip="{{(isAllowedToPublish()  ? (atLeastOneSelected() ? 'routing.illegalAssetStateToPublish' :'requestNotification.modifyNotAllowed') : 'routing.unauthorized') | i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500"
+             [matTooltipDisabled]="isAllowedToPublish() && atLeastOneSelected() && !isIllegalSelectionToPublish()">
+          <app-button
+            iconName="published_with_changes"
+            class="action-button-tile"
+            matTooltip="{{'actions.publishAssets'| i18n}}"
+            [matTooltipShowDelay]="500"
+            matTooltipPosition="above"
+            [isDisabled]="!isAllowedToPublish() || !atLeastOneSelected() || isIllegalSelectionToPublish()"
+            (click)="publishIconClicked()"
+            (keydown)="handleKeyDownPublishIconClicked($event)"
+          ></app-button>
+        </div>
+
+      </div>
+      <div class="selected-text-container">
+        <p *ngIf="selectedPartsInfoLabel"
+           class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
+  <table
+    #tableElement
+    [dataSource]="dataSource"
+    [attr.aria-labelledby]="labelId"
+    [class.loading-table]="isDataLoading"
+    (matSortChange)="updateSortingOfData($event)"
+    mat-table
+    matSort
+    multiTemplateDataRows
+    data-testid="table-component--test-id"
+  >
+    <tr *matHeaderRowDef="tableConfig.displayedColumns; sticky: true" mat-header-row
+        data-testid="table-component--head-row"
+        class="table--header--row"></tr>
+
+    <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+
+    <ng-container matColumnDef="{{ filter.headerKey }}"
+                  *ngFor="let filter of tableViewConfig.displayFilterColumnMappings">
+      <th class="multi-select-header-cell" mat-header-cell *matHeaderCellDef
+          [ngClass]="{'menu-column': filter.headerKey === 'Menu'}">
+        <app-multiselect *ngIf="filter.headerKey!== 'Filter' && filter.headerKey !=='Menu'"
+                         [placeholder]="'multiSelect.placeholder' | i18n"
+                         [options]="filter.option"
+                         [isDate]="filter.isDate"
+                         [singleSearch]="filter.singleSearch"
+                         [filterColumn]="filter.filterKey"
+                         [tableType]="tableType"
+                         [inAssetIds]="assetIdsForAutoCompleteFilter"
+                         [placeholderMultiple]="('multiSelect.multipleResults' | i18n)"
+                         ngDefaultControl
+                         [formControl]="filterFormGroup.controls[filter.filterKey]">
+        </app-multiselect>
+
+      </th>
+    </ng-container>
+
+    <tr
+      *matRowDef="let row; columns: tableConfig.displayedColumns"
+      [class.loading]="isDataLoading"
+      [class.no-hover]="!showHover"
+      [ngClass]="{'highlighted': (row?.receivedActiveInvestigations?.length > 0 || row?.receivedActiveAlerts?.length > 0 || row?.sentActiveAlerts?.length > 0 || row?.sentActiveInvestigations?.length > 0), 'error': row?.errorMessage }"
+      mat-row
+      data-testid="table-component--body-row"
+    ></tr>
+
+    <tr *matNoDataRow class="mat-row no-hover" data-testid="table-component--body-row">
+      <td class="mat-cell" [attr.colspan]="tableConfig?.displayedColumns.length">
+        <div class="table--no-data">
+          <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
+          <br />
+          <h3>{{ 'table.noResultFound' | i18n }}</h3>
+          <p>{{ 'table.tryAgain' | i18n }}</p>
+        </div>
+      </td>
+    </tr>
+
+    <ng-container *ngFor="let column of tableConfig?.displayedColumns" [ngSwitch]="column">
+      <ng-container *ngSwitchCase="'select'">
+        <ng-container *ngTemplateOutlet="SelectColumn"></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'menu'">
+        <ng-container *ngTemplateOutlet="MenuColumn"></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <ng-container *ngTemplateOutlet="NormalColumn; context: { $implicit: column }"></ng-container>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #SelectColumn>
+      <ng-container matColumnDef="select">
+        <th *matHeaderCellDef
+            mat-header-cell
+            class="table--header--select--cell"
+        >
+          <div class="table--select-all" [class.table--select-all__menu]="isMenuOpen">
+            <mat-checkbox
+              [checked]="selection.hasValue() && areAllRowsSelected()"
+              [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
+              (change)="$event ? toggleAllRows() : null"
+              data-testid="select-all--test-id"
+              color="primary"
+            >
+            </mat-checkbox>
+            <mat-icon
+              [matMenuTriggerFor]="selectMenu"
+              (menuOpened)="isMenuOpen = true"
+              (menuClosed)="isMenuOpen = false"
+              class="table--select-all__dropdown"
+            >
+              keyboard_arrow_down
+            </mat-icon>
+          </div>
+          <mat-menu #selectMenu="matMenu" xPosition="before" class="ml-10">
+            <button mat-menu-item (click)="clearCurrentRows()">{{ 'table.clearPage' | i18n }}</button>
+            <button mat-menu-item (click)="clearAllRows()">{{ 'table.clearAll' | i18n }}</button>
+          </mat-menu>
+        </th>
+        <td *matCellDef="let row" mat-cell>
+          <div class="flex justify-start items-center">
+            <mat-checkbox
+              [checked]="isSelected(row)"
+              onkeydown="$event.stopPropagation()"
+              (click)="$event.stopPropagation()"
+              (change)="toggleSelection(row)"
+              data-testid="select-one--test-id"
+              color="primary"
+            >
+            </mat-checkbox>
+            <ng-container *ngIf="row['tombStoneErrorDetail']">
+              <mat-icon matTooltip="{{'table.tombStone' | i18n}}"
+                        matTooltipClass="table--header--tooltip"
+                        matTooltipPosition="above"
+                        [class.mdc-tooltip--multiline]="true"
+                        [matTooltipShowDelay]="1000"
+                        class="text-error"
+              >nearby_error
+              </mat-icon>
+            </ng-container>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+
+    <ng-template #NormalColumn let-column>
+      <ng-container matColumnDef="{{ column }}">
+        <th
+          *matHeaderCellDef
+          matTooltip="{{'table.multiSortingTooltip' | i18n}}"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="1000"
+          [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
+          [disabled]="!tableConfig.sortableColumns?.[column]"
+          mat-header-cell
+          class="table--cell table--header--normal--cell"
+        >
+          <!-- This is the content of the first header row -->
+          <ng-container
+            *ngIf="tableConfig?.header?.[column]; else pureColumn"
+          >{{ tableConfig?.header?.[column] | i18n }}
+            <ng-container *ngIf="tableConfig?.header?.[column].includes('Alerts')">
+         <span class="table--notification--cell--content--icon">
+                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                    class="table--notification--icon">notification_important</mat-icon>
+                          </span>
+            </ng-container>
+
+            <ng-container *ngIf="tableConfig?.header?.[column].includes('Investigations')">
+         <span class="table--notification--cell--content--icon">
+                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+
+                                    class="table--notification--icon">inbox</mat-icon>
+                          </span>
+            </ng-container>
+
+
+            <ng-container *ngIf="multiSortList && multiSortList.length >1">
+              <ng-container *ngFor="let item of multiSortList; let i = index">
+                <!-- Replace 'columnToMatch' with the specific column name you want to match -->
+                <div class="table--header--sort--indicator" *ngIf="item[0] === column">
+                  <!-- Display the array entry when it matches the column name -->
+                  {{ (i + 1) + "." }}{{ item[1] === 'asc' ? '↑' : item[1] === 'desc' ? '↓' : '' }}
+                </div>
+              </ng-container>
+            </ng-container
+            >
+          </ng-container>
+
+        </th>
+        <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
+          <div class="table--notification--cell">
+                        <span class="table--notification--cell--content">
+
+<ng-container *ngIf="isDateElement(column); else notificationCountOrImportStateElement">
+  {{ (element[column] | date:'yyyy-MM-dd') }}
+</ng-container>
+
+<ng-template #importStateElement>
+  <span class="table--importState-cell-container">
+    <app-chip [chipTextContent]="element[column]"></app-chip>
+  </span>
+</ng-template>
+
+                          <ng-template #ownerElement>
+  <ng-container *ngIf="isOwner(column); else semanticDataModelElement">
+
+      {{'table.owner.' + element[column]?.toLowerCase() | i18n}}
+
+  </ng-container>
+</ng-template>
+
+                                                    <ng-template #semanticDataModelElement>
+  <ng-container *ngIf="isSemanticDataModel(column); else autoFormatRef">
+      {{'table.semanticDataModel.' + element[column] | i18n}}
+  </ng-container>
+</ng-template>
+
+<ng-template #notificationCountElement>
+  <ng-container *ngIf="isNotificationCountColumn(column); else ownerElement">
+    <span onkeydown="deeplinkToNotification(column, element[column])" (click)="deeplinkToNotification(column, element[column])"
+          class="table--notification--cell--notification--count">
+      {{ element[column]?.length }}
+    </span>
+  </ng-container>
+</ng-template>
+
+<ng-template #notificationCountOrImportStateElement>
+  <ng-container *ngTemplateOutlet="column === 'importState' ? importStateElement : notificationCountElement">
+  </ng-container>
+</ng-template>
+
+<ng-template #autoFormatRef>
+
+                      <ng-container
+                        [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
+                        [ngTemplateOutletContext]="{ value: element[column], row: element }">
+                      </ng-container>
+                                  </ng-template>
+                        </span>
+            <ng-container [ngSwitch]="column">
+              <ng-container *ngSwitchCase="'receivedActiveAlerts'">
+                          <span class="table--notification--cell--content--icon">
+                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                    class="table--notification--icon">notification_important</mat-icon>
+                          </span>
+              </ng-container>
+              <ng-container *ngSwitchCase="'sentActiveAlerts'">
+                          <span class="table--notification--cell--content--icon">
+                          <mat-icon matTooltip="{{'table.tableSettings.alert' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                    class="table--notification--icon">notification_important</mat-icon>
+                          </span>
+              </ng-container>
+              <ng-container *ngSwitchCase="'receivedActiveInvestigations'">
+                          <span class="table--notification--cell--content--icon">
+                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                    class="table--notification--icon">inbox</mat-icon>
+                        </span>
+              </ng-container>
+              <ng-container *ngSwitchCase="'sentActiveInvestigations'">
+                          <span class="table--notification--cell--content--icon">
+                          <mat-icon matTooltip="{{'table.tableSettings.investigation' | i18n}}"
+                                    matTooltipClass="table--header--tooltip"
+                                    matTooltipPosition="above"
+                                    [matTooltipShowDelay]="100"
+                                    class="table--notification--icon">inbox</mat-icon>
+                        </span>
+              </ng-container>
+              <ng-container *ngSwitchCase="'manufacturingCountry'">
+                          <span class="table--notification--cell--content--icon">
+                          <app-country-flag-generator class="ml-2"
+                                                      [countryCode]="element[column] ? element[column] : ''">
+                          </app-country-flag-generator>
+                        </span>
+              </ng-container>
+            </ng-container>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+
+    <ng-template #MenuColumn>
+      <ng-container matColumnDef="menu" stickyEnd>
+        <th *matHeaderCellDef class="table--menu table--header--menu" mat-header-cell></th>
+        <td *matCellDef="let row" class="table--menu" mat-cell
+            [attr.colspan]="tableConfig.displayedColumns.length">
+          <div [hidden]="!menuActivated" class="table--menu__desktop">
+            <button
+              [matMenuTriggerFor]="menu"
+              [attr.aria-label]="'table.menuDescription' | i18n"
+              data-testId="table-menu-button"
+              mat-icon-button
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
+                <button
+                  *ngIf="!config.condition || config.condition(row)"
+                  (click)="config.action(row)"
+                  [attr.data-testId]="'table-menu-button--' + config.label"
+                  mat-menu-item
+                >
+                  <mat-icon>{{ config.icon }}</mat-icon>
+                  <span>{{ config.label | i18n }}</span>
+                </button>
+              </ng-container>
+            </mat-menu>
+          </div>
+        </td>
+      </ng-container>
+    </ng-template>
+  </table>
+</div>
+
+<mat-paginator class="table-paginator-menu"
+               [length]="totalItems"
+               [pageIndex]="pageIndex"
+               [pageSizeOptions]="[50, 100, 200]"
+               [attr.aria-label]="'table.selectPageSize' | i18n"
+               [attr.data-testId]="'table.selectPageSize' | i18n"
+               (page)="onPaginationChange($event)"
+               showFirstLastButtons
+>
+</mat-paginator>
+<ng-template #pureColumn>
+  {{ pureColumn }}
+</ng-template>
+
+<ng-template #autoFormat let-value="value">
+  {{ value | autoFormat | i18n }}
+</ng-template>

@@ -1,0 +1,195 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<div class="dashboard-grid">
+  <section class="metrics-section">
+    <ng-container
+      *viewContainer="
+        this.dashboardStats$ | async;
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.totalOfParts.label', icon: 'directions_car', metricData: partsMetricData }
+      "
+    >
+    </ng-container>
+  </section>
+
+  <section class="metrics-section">
+    <ng-container
+      *viewContainer="
+        this.dashboardStats$ | async;
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: 'directions_car', metricData: otherPartsMetricData  }
+      "
+    >
+    </ng-container>
+  </section>
+
+  <section class="metrics-section">
+    <ng-container
+      *viewContainer="
+        this.dashboardStats$ | async;
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.totalInvestigations.label', icon: 'find_in_page', metricData: investigationsMetricData }
+      "
+    >
+    </ng-container>
+  </section>
+
+  <section class="metrics-section">
+    <ng-container
+      *viewContainer="
+        this.dashboardStats$ | async;
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.totalAlerts.label', icon: 'notification_important', metricData: alertsMetricData }
+      "
+    >
+    </ng-container>
+  </section>
+
+
+  <section class="dashboard--alert">
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <h3 class="flex items-center">
+          <mat-icon>find_in_page</mat-icon>
+          Top 5 {{ 'pageTitle.alerts' | i18n }}
+        </h3>
+      </mat-expansion-panel-header>
+      <mat-tab-group
+        mat-stretch-tabs="false"
+        mat-align-tabs="start"
+      >
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">drafts
+            </mat-icon
+            >
+            <span>{{ 'commonAlert.tabs.queuedAndRequested' | i18n }} </span>
+          </ng-template>
+          <mat-card>
+            <mat-card-header>
+              <div class="inline-block w-full">
+                <div class=" mb-2 flex justify-end items-center">
+
+                  <app-button
+                    [color]="'primary'"
+                    [routerLink]="[notificationsLink]"
+                    [queryParams]="queuedAndRequestedNotificationsTabParam"
+                    [relativeTo]="null"
+                    [isDisabled]="((investigationsMetricData[1]?.value | async) + (alertsMetricData[1]?.value | async)) < 1"
+                  >
+                    <div class="flex justify-between items-center">
+                      <mat-icon class="mr-2">remove_red_eye</mat-icon>
+                      {{ 'commonAlert.viewAll' | i18n }} {{ '(' + ((investigationsMetricData[1]?.value | async) + (alertsMetricData[1]?.value | async)) + ')' }}
+                    </div>
+                  </app-button>
+                </div>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <app-notifications-tab
+                [notificationsView$]="alertsCreated$"
+                [translationContext]="'commonAlert'"
+                [tableHeader]="'pageTitle.sentQualityTopics'"
+                [tableType]="TableType.RECEIVED_NOTIFICATION"
+                [labelId]="'dashboard-alerts-created'"
+                [hasPagination]="false"
+                [optionalColumns]="['targetDate', 'severity', 'createdBy', 'type']"
+                [tableSettingsEnabled]="false"
+                (selected)="onAlertSelected($event)"
+              ></app-notifications-tab>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon class="mr-2">drafts
+            </mat-icon
+            >
+            <span>{{ 'commonAlert.tabs.received' | i18n }} </span>
+          </ng-template>
+          <mat-card>
+            <mat-card-header>
+              <div class="inline-block w-full">
+                <div class=" mb-2 flex justify-end items-center">
+
+                  <app-button
+                    [color]="'primary'"
+                    [routerLink]="[notificationsLink]"
+                    [queryParams]="receivedNotificationsTabParam"
+                    [relativeTo]="null"
+                    [isDisabled]="((investigationsMetricData[0]?.value | async) + (alertsMetricData[0]?.value | async)) < 1"
+                  >
+                    <div class="flex justify-between items-center">
+                      <mat-icon class="mr-2">remove_red_eye</mat-icon>
+                      {{ 'commonAlert.viewAll' | i18n }} {{ '(' + ((investigationsMetricData[0]?.value | async) + (alertsMetricData[0]?.value | async)) + ')' }}
+                    </div>
+                  </app-button>
+                </div>
+              </div>
+            </mat-card-header>
+
+            <mat-card-content>
+              <app-notifications-tab
+                [notificationsView$]="alertsReceived$"
+                [tableHeader]="'pageTitle.receivedQualityTopics'"
+                [translationContext]="'commonAlert'"
+                [labelId]="'dashboard-alerts-received'"
+                [hasPagination]="false"
+                [optionalColumns]="['targetDate', 'severity', 'createdBy', 'type']"
+                [tableType]="TableType.RECEIVED_NOTIFICATION"
+                (selected)="onAlertSelected($event)"
+              ></app-notifications-tab>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-expansion-panel>
+
+  </section>
+
+</div>
+
+<ng-template #numbersMainTmp let-numbers="view" let-context="customContext">
+  <app-card-icon [label]="context.label | i18n"
+                 [icon]="context.icon"
+                 [metricData]="context.metricData"
+  >
+  </app-card-icon>
+</ng-template>
+
+<ng-template #numbersErrorTmp let-context="customContext">
+  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [stats]="0"></app-card-icon>
+</ng-template>
+
+<ng-template #numbersLoaderTmp let-context="customContext">
+  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [stats]="''"></app-card-icon>
+</ng-template>

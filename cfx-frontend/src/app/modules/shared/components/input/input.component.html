@@ -1,0 +1,63 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<div class="textarea--container">
+  <mat-form-field [style.fontSize]="'16'" appearance="fill">
+    <mat-label>{{ label }}</mat-label>
+    <input #inputElement [formControl]="control" [attr.data-testId]="htmlId" [errorStateMatcher]="matcher" matInput />
+    <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
+    <mat-icon
+      *ngIf="!matcher.isErrorState(control) && suffixIcon"
+      [color]="suffixIconColor"
+      [class.cursor-pointer]="suffixIconHover"
+      [attr.data-testId]="htmlId + '-icon'"
+      onkeydown="suffixIconClick.emit()"
+      (click)="suffixIconClick.emit()"
+      matSuffix
+    >{{ suffixIcon }}</mat-icon
+    >
+    <mat-icon
+      *ngIf="!matcher.isErrorState(control) && displayClearButton"
+      [color]="suffixIconColor"
+      [class.cursor-pointer]="suffixIconHover"
+      [attr.data-testId]="htmlId + '-icon-clear'"
+      onkeydown="clearIconClick()"
+      (click)="clearIconClick()"
+      matSuffix
+    >clear
+    </mat-icon
+    >
+
+    <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
+    <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{
+      'input.minMaxLengthHint' | i18n : {current: control?.value?.length || 0, max: maxLength, min: minLength}
+      }}</mat-hint>
+    <mat-hint align="end" *ngIf="!maxLength && !!minLength">{{
+      'input.minLengthHint' | i18n : {current: control?.value?.length || 0, min: minLength}
+      }}</mat-hint>
+    <mat-hint align="end" *ngIf="!!maxLength && !minLength">{{
+      'input.maxLengthHint' | i18n : {rest: maxLength - (control?.value?.length || 0)}
+      }}</mat-hint>
+    <mat-error>
+      <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
+    </mat-error>
+  </mat-form-field>
+</div>

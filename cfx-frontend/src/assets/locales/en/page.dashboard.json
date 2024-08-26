@@ -1,0 +1,24 @@
+{
+  "pageDashboard": {
+    "totalInvestigations": {
+      "label": "Investigations"
+    },
+    "totalAlerts": {
+      "label": "Alerts"
+    },
+    "totalOfParts": {
+      "label": "Parts"
+    },
+    "totalOfOtherParts": {
+      "label": "Other Parts"
+    },
+    "totalAmount": "Total Amount",
+    "parts": "Parts",
+    "investigations": "Investigations",
+    "alerts": "Alerts",
+    "amountReceived": "Amount Received",
+    "amountCreated": "Amount Created",
+    "million": "M."
+
+  }
+}
