@@ -19,19 +19,37 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {CalendarDateModel} from '@core/model/calendar-date.model';
-import {Pagination, PaginationResponse} from '@core/model/pagination.model';
-
-export enum KnownAdminRoutes {
+export enum KnownAdminRouts {
+  REGISTRY = 'registry-lookups',
   BPN = 'configure-bpn',
-  IMPORT = 'configure-import',
-  CONTRACT = 'contracts',
-  CONTRACT_DETAIL_VIEW = 'contracts/:contractId'
 }
 
+export enum RegistryLookupStatus {
+  SUCCESSFUL = 'SUCCESSFUL',
+  PARTIALLY_SUCCESS = 'PARTIALLY_SUCCESS',
+  ERROR = 'ERROR',
+}
 
+export interface RegistryProcess {
+  startDate: CalendarDateModel;
+  registryLookupStatus: RegistryLookupStatus;
+  successShellDescriptorsFetchCount: number;
+  failedShellDescriptorsFetchCount: number;
+  shellDescriptorsFetchDelta: number;
+  endDate: CalendarDateModel;
+}
+
+export interface RegistryProcessResponse {
+  startDate: string; // ISO8601
+  registryLookupStatus: RegistryLookupStatus;
+  successShellDescriptorsFetchCount: number;
+  failedShellDescriptorsFetchCount: number;
+  shellDescriptorsFetchDelta: number;
+  endDate: string; // ISO8601
+}
 
 export interface BpnConfigResponse {
   organization?: string;
@@ -47,44 +65,3 @@ export interface BpnConfig {
 }
 
 export type BpnConfigFormGroup = FormGroup<{ bpnConfig: FormArray<FormControl<BpnConfig>> }>;
-
-export interface Contract {
-  contractId: string,
-  counterpartyAddress: string,
-  creationDate: CalendarDateModel,
-  endDate: CalendarDateModel,
-  state: ContractState,
-  policy: string
-}
-
-export interface ContractResponse {
-  contractId: string,
-  counterpartyAddress: string,
-  creationDate: string,
-  endDate: string,
-  state: ContractState,
-  policy: string
-}
-
-export type ContractsResponse = PaginationResponse<ContractResponse>;
-export type Contracts = Pagination<Contract>;
-export function assembleContract(contractResponse: ContractResponse): Contract {
-
-  return {
-    contractId: contractResponse.contractId,
-    counterpartyAddress: contractResponse.counterpartyAddress,
-    creationDate: new CalendarDateModel(contractResponse.creationDate),
-    endDate: new CalendarDateModel(contractResponse.endDate),
-    state: contractResponse.state,
-    policy: contractResponse.policy
-  };
-}
-
-export function assembleContracts(contractResponseList: ContractResponse[]) {
-  return contractResponseList.map(contractResponse => assembleContract(contractResponse));
-}
-
-export enum ContractState {
-  FINALIZED = 'Finalized',
-  TERMINATED = 'Terminated'
-}

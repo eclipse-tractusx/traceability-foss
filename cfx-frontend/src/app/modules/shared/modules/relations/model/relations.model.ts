@@ -21,9 +21,7 @@
 
 import { QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 
-//ToDo: Move to model.d3.ts!!
-export type LoadedElements = Record<string, TreeElement>;
-export type OpenElements = Record<string, string[]>;
+
 type State = 'done' | 'loading' | 'error' | QualityType | SemanticDataModel;
 
 export interface TreeElement {
@@ -36,6 +34,10 @@ export interface TreeElement {
   parents?: string[];
 }
 
+//ToDo: Move to model.d3.ts!!
+export type LoadedElements = Record<string, TreeElement>;
+export type OpenElements = Record<string, string[]>;
+
 export interface TreeStructure {
   id: string;
   title: string;
@@ -46,17 +48,18 @@ export interface TreeStructure {
   relations?: TreeStructure[];
 }
 
+export enum TreeDirection {
+  UP = 'UP',
+  DOWN = 'DOWN',
+}
+
 export interface TreeData {
   id: string;
   mainId: string;
   treeId?: string;
   r?: number;
   defaultZoom?: number;
+  centerXOffset?: number;
   openDetails?: (data: TreeStructure) => void;
   updateChildren?: (data: TreeStructure, direction: TreeDirection) => void;
-}
-
-export enum TreeDirection {
-  LEFT = 'LEFT',
-  RIGHT = 'RIGHT',
 }

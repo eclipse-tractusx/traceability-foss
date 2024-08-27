@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,35 +21,32 @@
 
 import { environment } from '@env';
 import { rest } from 'msw';
-import { getBpnConfig, getContracts, getImportReport } from './admin.model';
+import { applyPagination, extractPagination } from '../pagination.helper';
+import { buildMockRegistryProcesses, getBpnConfig } from './admin.model';
 
 export const adminHandler = (_ => {
-
+  const mockRegistryProcesses = buildMockRegistryProcesses();
   return [
+    rest.get(`*${environment.apiUrl}/metrics/registry-lookup`, (req, res, ctx) => {
+      const pagination = extractPagination(req);
 
-    rest.post(`*${ environment.apiUrl }/bpn-config`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(applyPagination(mockRegistryProcesses, pagination)));
+    }),
+
+    rest.post(`*${environment.apiUrl}/bpn-config`, (req, res, ctx) => {
       return res(ctx.status(204));
     }),
 
-    rest.get(`*${ environment.apiUrl }/bpn-config`, (req, res, ctx) => {
+    rest.get(`*${environment.apiUrl}/bpn-config`, (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(getBpnConfig()));
     }),
 
-    rest.put(`*${ environment.apiUrl }/bpn-config`, (req, res, ctx) => {
+    rest.put(`*${environment.apiUrl}/bpn-config`, (req, res, ctx) => {
       return res(ctx.status(204));
     }),
 
-    rest.delete(`*${ environment.apiUrl }/bpn-config/:bpn`, (req, res, ctx) => {
+    rest.delete(`*${environment.apiUrl}/bpn-config/:bpn`, (req, res, ctx) => {
       return res(ctx.status(204));
     }),
-
-    rest.post(`*${ environment.apiUrl }/assets/import`, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(getImportReport()));
-    }),
-
-    rest.post(`*${ environment.apiUrl }/contracts`, (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(getContracts()));
-    })
-
   ];
 })();

@@ -74,7 +74,7 @@ describe('Relations assembler', () => {
         text: 'Audi A1 Sportback',
         title: 'Audi A1 Sportback | 5XXGM4A77CG032209',
         state: 'done',
-        children: [ 'part_2', 'part_3' ],
+        children: ['part_2', 'part_3'],
       } as TreeElement;
       const expected = {
         children: [

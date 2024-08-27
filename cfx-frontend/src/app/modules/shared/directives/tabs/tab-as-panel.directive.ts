@@ -27,5 +27,4 @@ import { Directive } from '@angular/core';
     '[class]': '"app-tab-as-panel"',
   },
 })
-export class TabAsPanelDirective {
-}
+export class TabAsPanelDirective {}

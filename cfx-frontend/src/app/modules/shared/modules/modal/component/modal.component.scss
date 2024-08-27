@@ -18,38 +18,59 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../../theme/base.scss';
+@tailwind base;
 
-.modal--header {
+.container {
+  // padding: 10px 10px 10px 10px;
+}
+
+.header-text {
+  @apply text-primary;
+}
+
+.message-modal {
+  width: 455px;
+}
+
+.message-text {
+  @extend .body-large;
+  font-weight: 400;
+  line-height: 28px;
+  padding-bottom: 30px;
+}
+
+.header {
+  @extend .headline-medium;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 35.2px;
+  color: #333333;
+
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-
-  & > h1 {
-    margin: unset !important;
-  }
+  padding-bottom: 9px;
 }
 
-.centered-button {
+.button-text {
+  @extend .label-large;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  padding: 0 5px 0 5px;
+}
+
+.right-button-text {
+  @extend .button-text;
+  @apply text-white;
+}
+
+.left-button-text {
+  @extend .button-text;
+  @apply text-secondary;
+}
+
+.buttons-container {
   display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.checkbox-container {
-  @apply font-medium;
-  display: flex;
-  justify-content: center;
-  padding-top: 5px;
-}
-
-.actions-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: rgb(237, 240, 244);
-}
-
-.modal--container {
-  background-color: white;
+  justify-content: space-between;
 }

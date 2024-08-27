@@ -19,13 +19,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Inject, Injector, Input } from '@angular/core';
+import { Component, Inject, Injector, Input, } from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 
-type DateString = `${ string }${ string }${ string }${ string }-${ string }${ string }-${ string }${ string }`;
-type TimeString = `${ string }${ string }:${ string }${ string }`;
-export type DateTimeString = `${ DateString }T${ TimeString }`;
+type DateString = `${string}${string}${string}${string}-${string}${string}-${string}${string}`;
+type TimeString = `${string}${string}:${string}${string}`;
+export type DateTimeString = `${DateString}T${TimeString}`;
 
 @Component({
   selector: 'app-date-time',
@@ -33,21 +33,17 @@ export type DateTimeString = `${ DateString }T${ TimeString }`;
 })
 export class DateTimeComponent extends BaseInputComponent<Date> {
   @Input() set min(date: Date) {
-    this.minDate = date.toISOString().substring(0, 16) as DateTimeString;
+    this.minDate = date;
   }
 
   @Input() set max(date: Date) {
-    this.maxDate = date.toISOString().substring(0, 16) as DateTimeString;
+    this.maxDate = date;
   }
 
-  public minDate: DateTimeString;
-  public maxDate: DateTimeString;
+  public minDate: Date;
+  public maxDate: Date;
 
   constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
     super(injector, staticIdService);
-  }
-
-  openDatePicker(element: any): void{
-      element.showPicker();
   }
 }

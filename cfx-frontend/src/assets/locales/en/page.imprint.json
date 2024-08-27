@@ -1,0 +1,21 @@
+{
+  "pageImprint": {
+    "title": "Imprint",
+    "address": {
+      "content": "Cofinity-X GmbH \nBreslauer Platz 4 \n50668 Cologne \n\nRegistration Number: HRB112676 \nRegistration Court: Local court Cologne \nVAT Identification Number according to § 27 a Umsatzsteuergesetz: DE359879024\n\n"
+    },
+    "managingDirectors": {
+      "title": "Managing Directors",
+      "content": "Mr. Thomas Rösch \nMr. Martin Galas\n\n"
+    },
+    "contentResponsibility": {
+      "title": "Responsible for content according to § 55 para. 2 RStV",
+      "content": "Mr. Thomas Rösch \nBreslauer Platz 4 \n50668 Cologne\n\n"
+    },
+    "note": {
+      "title": "Note",
+      "content1": "Due to a legal obligation, we are obliged to inform you, independently of our participation in alternative dispute resolution, that the European Commission has set up an online dispute resolution platform (OS) for the out-of-court settlement of consumer disputes. You can find the platform at: ",
+      "content2": "Cofinity-X GmbH will not participate in dispute resolution proceedings before a consumer arbitration board and is not obliged to do so. Our email address is: "
+    }
+  }
+}

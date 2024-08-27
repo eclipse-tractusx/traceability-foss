@@ -28,8 +28,8 @@ describe('AppViewSelector', () => {
   it('should click regular button', async () => {
     const clickHandler = jasmine.createSpy();
     const fixture = await renderComponent(`<app-view-selector (click)="clickHandler($event)">Test</app-view-selector>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
       componentProperties: {
         clickHandler,
       },
@@ -45,8 +45,8 @@ describe('AppViewSelector', () => {
 
   it('should render accent button', async () => {
     await renderComponent(`<app-view-selector color="accent">Test</app-view-selector>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     expect(screen.getByText('Test').parentNode).toHaveClass('mat-accent');
@@ -54,8 +54,8 @@ describe('AppViewSelector', () => {
 
   it('should render warn button', async () => {
     await renderComponent(`<app-view-selector color="warn">Test</app-view-selector>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     expect(screen.getByText('Test').parentNode).toHaveClass('mat-warn');
@@ -63,8 +63,8 @@ describe('AppViewSelector', () => {
 
   it('should render enabled button', async () => {
     await renderComponent(`<app-view-selector [isDisabled]="false">Test</app-view-selector>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -75,8 +75,8 @@ describe('AppViewSelector', () => {
 
   it('should render disabled button', async () => {
     await renderComponent(`<app-view-selector [isDisabled]="true">Test</app-view-selector>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;

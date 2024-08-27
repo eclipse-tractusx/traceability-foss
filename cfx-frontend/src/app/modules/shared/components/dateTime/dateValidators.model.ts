@@ -44,7 +44,7 @@ export class DateValidators {
       const currentDate = new Date(control.value);
 
       const isError = !currentDate || minDate.getTime() >= currentDate.getTime();
-      return isError ? { minDate: { actualValue: control.value, date: minDate } } : null;
+      return isError ? { minDate: { actualValue: control.value.toUTCString(), date: minDate } } : null;
     };
   }
 
@@ -56,7 +56,20 @@ export class DateValidators {
       const currentDate = new Date(control.value);
 
       const isError = !currentDate || maxDate.getTime() <= currentDate.getTime();
-      return isError ? { maxDate: { actualValue: control.value, date: maxDate } } : null;
+      return isError ? { maxDate: { actualValue: control.value.toUTCString(), date: maxDate } } : null;
     };
   }
+
+  public static maxDeadline(deadline: Date): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null;
+      }
+      const currentDate = new Date(control.value);
+
+      const isError = !currentDate || deadline?.getTime() < currentDate.getTime();
+      return isError ? { deadlineExceeded: { date: deadline } } : null;
+    };
+  }
+
 }

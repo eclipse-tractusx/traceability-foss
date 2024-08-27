@@ -1,7 +1,7 @@
 {
   "partDetail": {
-    "tombStoneErrorDetail": "Grabstein Fehlerbeschreibung",
     "relations": "Beziehungen",
+    "fullScreenRelations": "Beziehungen für",
     "overview": "Übersicht",
     "manufacturerData": "Herstellerdaten",
     "customerData": "Kundendaten",
@@ -13,7 +13,8 @@
     "semanticModelId": "Semantische Modellnummer",
     "qualityType": "Qualitätsstufe",
     "productionDate": "Produktionsdatum",
-    "manufacturerName": "Hersteller",
+    "manufacturer": "Hersteller",
+    "manufacturerName": "Hersteller Name",
     "manufacturerPartId": "Hersteller Produktnummer",
     "nameAtManufacturer": "Hersteller Produktname",
     "nameAtCustomer": "Name beim Kunden",
@@ -25,12 +26,6 @@
     "classification": "Klassifizierung",
     "functionValidFrom": "Funktion gülitg von",
     "functionValidUntil": "Funktion gültig bis",
-    "tractionBatteryCodeTitle": "Traction Batterie Code",
-    "tractionBattery": "Antriebsbatterie",
-    "position": "Position",
-    "productType": "Produkttyp",
-    "tractionBatteryCode": "Batterie Code",
-    "subcomponents": "Teilkomponenten",
     "tab": {
       "header": "Produkt-Details",
       "description": "Detaillierte Informationen über Ihr ausgewähltes Produkt"
@@ -45,10 +40,6 @@
         "header": "Keine Bauteile ausgewählt",
         "text": "Bitte wählen Sie Bauteile für den Start einer Untersuchung aus."
       }
-    },
-    "importHeader": "Produktstatus",
-    "importState": "Importstatus",
-    "importNote": "Importanmerkung"
-
+    }
   }
 }

@@ -48,8 +48,8 @@ class SaveModalComponent implements AfterViewInit {
 
 export const renderSaveModal = async (changedInformation: ChangedInformation, originalValues: BpnConfig[]) => {
   const { fixture } = await renderComponent(SaveModalComponent, {
-    declarations: [ SaveModalComponent, SaveBpnConfigModal ],
-    imports: [ AdminModule, SharedModule, TemplateModule ],
+    declarations: [SaveModalComponent, SaveBpnConfigModal],
+    imports: [AdminModule, SharedModule, TemplateModule],
     componentProperties: { changedInformation, originalValues },
   });
 
@@ -62,9 +62,9 @@ describe('SaveBpnConfigModal', () => {
     { bpn: '321', url: 'test.com' },
   ];
   const changedInformation: ChangedInformation = {
-    added: [ { bpn: '111', url: 'newUrl.com' } ],
-    changed: [ { ...originalValues[1], url: 'newUrl.de' } ],
-    deleted: [ originalValues[0] ],
+    added: [{ bpn: '111', url: 'newUrl.com' }],
+    changed: [{ ...originalValues[1], url: 'newUrl.de' }],
+    deleted: [originalValues[0]],
   };
 
   it('should create save modal', async () => {

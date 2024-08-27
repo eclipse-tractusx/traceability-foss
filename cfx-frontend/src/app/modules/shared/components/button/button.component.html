@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
 <ng-container [ngTemplateOutlet]="{button, raised, flat, stroked, icon, fab, miniFab}[this.variant]"></ng-container>
 
 <ng-template #button>
-  <button [disabled]="isDisabled" [color]="color" mat-button>
+  <button [classList]="customClass" [disabled]="isDisabled" [color]="color" mat-button>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>

@@ -38,74 +38,74 @@ describe('FormErrorMessageComponent', () => {
   };
 
   it('should render required error message', async () => {
-    await renderErrorMessage('', [ Validators.required ]);
+    await renderErrorMessage('', [Validators.required]);
 
     expect(screen.getByText('errorMessage.required')).toBeInTheDocument();
   });
 
   it('should render required error message', async () => {
-    await renderErrorMessage('', [ Validators.required ]);
+    await renderErrorMessage('', [Validators.required]);
 
     expect(screen.getByText('errorMessage.required')).toBeInTheDocument();
   });
 
   it('should render min error message', async () => {
-    await renderErrorMessage(0, [ Validators.min(1) ]);
+    await renderErrorMessage(0, [Validators.min(1)]);
 
     expect(screen.getByText('errorMessage.min')).toBeInTheDocument();
   });
 
   it('should render max error message', async () => {
-    await renderErrorMessage(11, [ Validators.max(10) ]);
+    await renderErrorMessage(11, [Validators.max(10)]);
 
     expect(screen.getByText('errorMessage.max')).toBeInTheDocument();
   });
 
   it('should render email error message', async () => {
-    await renderErrorMessage('not an email', [ Validators.email ]);
+    await renderErrorMessage('not an email', [Validators.email]);
 
     expect(screen.getByText('errorMessage.email')).toBeInTheDocument();
   });
 
   it('should render minLength error message', async () => {
-    await renderErrorMessage('123', [ Validators.minLength(5) ]);
+    await renderErrorMessage('123', [Validators.minLength(5)]);
 
     expect(screen.getByText('errorMessage.minLength')).toBeInTheDocument();
   });
 
   it('should render maxLength error message', async () => {
-    await renderErrorMessage('123456', [ Validators.maxLength(5) ]);
+    await renderErrorMessage('123456', [Validators.maxLength(5)]);
 
     expect(screen.getByText('errorMessage.maxLength')).toBeInTheDocument();
   });
 
   it('should render pattern error message', async () => {
-    await renderErrorMessage('a', [ Validators.pattern(/d/) ]);
+    await renderErrorMessage('a', [Validators.pattern(/d/)]);
 
     expect(screen.getByText('errorMessage.pattern')).toBeInTheDocument();
   });
 
   it('should render maxDate error message', async () => {
-    await renderErrorMessage(new Date('2024-02-02'), [ DateValidators.max(new Date('2023-02-02')) ]);
+    await renderErrorMessage(new Date('2024-02-02'), [DateValidators.max(new Date('2023-02-02'))]);
 
     expect(screen.getByText('errorMessage.maxDate')).toBeInTheDocument();
   });
 
   it('should render minDate error message', async () => {
-    await renderErrorMessage(new Date('2022-02-02'), [ DateValidators.min(new Date('2023-02-02')) ]);
+    await renderErrorMessage(new Date('2022-02-02'), [DateValidators.min(new Date('2023-02-02'))]);
 
     expect(screen.getByText('errorMessage.minDate')).toBeInTheDocument();
   });
 
   it('should render currentDate error message', async () => {
-    await renderErrorMessage(new Date('2022-02-02'), [ DateValidators.atLeastNow() ]);
+    await renderErrorMessage(new Date('2022-02-02'), [DateValidators.atLeastNow()]);
 
     expect(screen.getByText('errorMessage.currentDate')).toBeInTheDocument();
   });
 
   it('should render generic error message', async () => {
     const customValidator = _ => ({ notFound: true });
-    await renderErrorMessage('', [ customValidator ]);
+    await renderErrorMessage('', [customValidator]);
 
     expect(screen.getByText('errorMessage.generic')).toBeInTheDocument();
   });

@@ -31,7 +31,7 @@ export interface SelectOption {
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
-  styleUrls: [ './select.component.scss' ],
+  styleUrls: ['./select.component.scss'],
 })
 export class SelectComponent extends BaseInputComponent<string> {
   @Input() options: SelectOption[];

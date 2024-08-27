@@ -19,20 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-mat-card {
-  height: 100% !important;
-}
-
-.card-list--container {
-}
+.card-list--container {}
 
 .card-list--row {
   display: grid;
   grid-template-columns: 35% 65%;
   grid-template-rows: minmax(23px, auto);
   align-items: center;
+  padding-bottom: 5px;
 
-  > span {
+  >span {
     line-height: 1.25rem;
   }
 
@@ -47,16 +43,6 @@ mat-card {
   @media (max-width: 1024px) {
     grid-template-columns: 30% 70%;
   }
-
-  &--textField {
-    display: grid;
-    grid-template-columns: 35% 65%;
-    grid-template-rows: minmax(23px, auto);
-    align-items: start;
-    margin-top: 4px;
-    margin-bottom: 10px;
-  }
-
 }
 
 .card-list--full-row {
@@ -75,18 +61,13 @@ mat-card {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  margin-left: 15px;
-
-  &--textField {
-    max-height: 100px;
-    overflow-y: auto;
-    white-space: wrap;
-    text-overflow: unset;
-  }
 }
 
 .card-list--full-value {
+  //text-overflow: ;
   width: 100%;
 }
 
-
+mat-card {
+  height: 100%;
+}

@@ -22,13 +22,13 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { SharedModule } from '..';
+import { SharedModule } from '@shared/shared.module';
 
 describe('FormatDatePipe', () => {
   it('should format date having the 1970 value for the year', async () => {
     const date = new CalendarDateModel(null);
     await renderComponent(`{{ date | formatDate }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { date },
     });
 
@@ -38,26 +38,26 @@ describe('FormatDatePipe', () => {
   it('should format date without issues', async () => {
     const date = new CalendarDateModel('2022-02-04T13:48:54Z');
     await renderComponent(`{{ date | formatDate }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { date },
     });
 
-    expect(screen.getByText('2/4/22')).toBeInTheDocument();
+    expect(screen.getByText('04/02/2022')).toBeInTheDocument();
   });
 
   it('should format date with options', async () => {
     const date = new CalendarDateModel('2022-02-04T13:48:54Z');
     await renderComponent(`{{ date | formatDate: {dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC'} }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { date },
     });
 
-    expect(screen.getByText('Feb 4, 2022, 1:48 PM')).toBeInTheDocument();
+    expect(screen.getByText('4 Feb 2022, 13:48')).toBeInTheDocument();
   });
 
   it('should return -- if string is empty', async () => {
     await renderComponent(`{{ '' | formatDate }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
     });
 
     expect(screen.getByText('--')).toBeInTheDocument();

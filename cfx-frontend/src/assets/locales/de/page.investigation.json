@@ -9,6 +9,7 @@
     "subHeadline": {
       "affectedParts": "Betroffene Produkte",
       "supplierParts": "Produkte von Lieferanten"
-    }
+    },
+    "forward": "Untersuchung weiterleiten"
   }
 }

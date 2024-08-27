@@ -19,14 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AdminModule } from '@page/admin/admin.module';
-import { BpnConfigurationComponent } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
-import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { AdminModule } from '@page/admin/admin.module';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { BpnConfigurationComponent } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { sleepForTests } from '../../../../../../test';
 
 describe('BpnConfigurationComponent', () => {
-  const renderBpnConfigurationComponent = () => renderComponent(BpnConfigurationComponent, { imports: [ AdminModule ] });
+  const renderBpnConfigurationComponent = () => renderComponent(BpnConfigurationComponent, { imports: [AdminModule] });
 
   it('should create', async () => {
     await renderBpnConfigurationComponent();

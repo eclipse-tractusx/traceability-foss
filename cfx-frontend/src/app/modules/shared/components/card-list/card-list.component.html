@@ -21,53 +21,12 @@ SPDX-License-Identifier: Apache-2.0
 
 <mat-card>
   <mat-card-header>
-    <ng-container *ngIf="!isBoldTitle; else boldTitle">
-      <mat-card-title>{{ title | i18n }}</mat-card-title>
-    </ng-container>
-
-    <ng-template #boldTitle>
-      <mat-card-title><h4>{{ title | i18n }}</h4></mat-card-title>
-    </ng-template>
-
+    <mat-card-title>{{ title }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let item of list | ToKeyValue" [ngClass]="item.key === 'importNote' || item.key === 'tombStoneErrorDetail' || item.key === 'contractId' ? 'card-list--row--textField' : 'card-list--row'">
-      <p class="card-list--key" *ngIf="item.key !== 'policy'">{{ i18nPrefix + '.' + item.key | i18n }}</p>
-
-      <ng-container [ngSwitch]="item.key">
-        <ng-container *ngSwitchCase="'importState'">
-          <p class="card-list--value">
-            <app-chip [chipTextContent]="valueAsString(item.value)"></app-chip>
-          </p>
-        </ng-container>
-        <ng-container *ngSwitchCase="'importNote'">
-          <div class="card-list--value">
-          <div class="card-list--value--textField">
-            {{item.value}}
-          </div>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'contractId'">
-          <div class="card-list--value">
-            <div class="card-list--value--textField">
-              {{item.value}}
-            </div>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'policy'">
-        </ng-container>
-        <ng-container *ngSwitchCase="'tombStoneErrorDetail'">
-          <div class="card-list--value mt-1">
-            <div class="card-list--value--textField text-error">
-              {{item.value}}
-            </div>
-          </div>
-        </ng-container>
-        <ng-container *ngSwitchDefault>
-          <p class="card-list--value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
-        </ng-container>
-      </ng-container>
-
+    <div *ngFor="let item of list | ToKeyValue" class="card-list--row">
+      <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
+      <p class="card-list--value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
     </div>
   </mat-card-content>
 </mat-card>

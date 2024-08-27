@@ -21,8 +21,75 @@
 
 import { TemplateRef } from '@angular/core';
 import { Role } from '@core/user/role.model';
+import { FilterOperator } from '@page/parts/model/parts.model';
 
-export type TableHeaderSort = [ string, 'asc' | 'desc' ];
+export type TableHeaderSort = [string, 'asc' | 'desc'];
+
+export interface Option {
+  display: string;
+  value: any;
+  checked: boolean;
+}
+
+export interface FilterConfig {
+  filterKey: string;
+  isTextSearch: boolean;
+  singleSearch?: boolean;
+  isDate?: boolean;
+  option: Option[];
+  maxDate?: Date | null;
+  column?: string;
+}
+
+export type DisplayColumns<T> = 'select' | 'menu' | 'settings' | T;
+
+export const CreateHeaderFromColumns = (columns: string[], headerKey: string): Record<string, string> => {
+  return columns?.reduce((header, column) => ({ ...header, [column]: `${headerKey}.${column}` }), {});
+};
+export interface FilterInfo {
+  filterValue: string;
+  filterOperator: FilterOperator;
+}
+
+export enum FilterMethod {
+  AND = 'AND',
+  OR = 'OR',
+}
+
+export interface TableFilter {
+  filterMethod: FilterMethod;
+  createdDate?: FilterInfo;
+  description?: FilterInfo;
+  status?: FilterInfo[];
+  severity?: FilterInfo[];
+  createdBy?: FilterInfo;
+  sendTo?: FilterInfo;
+}
+
+export interface TablePaginationEventConfig {
+  page: number;
+  pageSize: number;
+}
+
+export interface TableEventConfig extends TablePaginationEventConfig {
+  sorting: TableHeaderSort;
+  filtering?: TableFilter;
+}
+
+export interface MenuActionConfig<T> {
+  label: string;
+  icon: string;
+  action: (data: T) => void;
+  condition?: (data: T) => boolean;
+  isAuthorized?: boolean;
+}
+
+
+export enum SortingOptions {
+  NONE = 'NONE',
+  ASC = 'ASC',
+  DSC = 'DSC',
+}
 
 export interface TableConfig<Columns extends string = string> {
   displayedColumns: DisplayColumns<Columns>[];
@@ -32,28 +99,4 @@ export interface TableConfig<Columns extends string = string> {
   hasPagination?: boolean;
   cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
   menuActionsConfig?: MenuActionConfig<unknown>[];
-}
-
-
-export type DisplayColumns<T> = 'select' | 'menu' | 'title' | 'sendToName' | 'createdByName' | 'type' | T;
-
-export const CreateHeaderFromColumns = (columns: string[], headerKey: string): Record<string, string> => {
-  return columns.reduce((header, column) => ({ ...header, [column]: `${ headerKey }.${ column }` }), {});
-};
-
-export interface TablePaginationEventConfig {
-  page: number;
-  pageSize: number;
-}
-
-export interface TableEventConfig extends TablePaginationEventConfig {
-  sorting: TableHeaderSort;
-}
-
-export interface MenuActionConfig<T> {
-  label: string;
-  icon: string;
-  action: (data: T) => void;
-  condition?: (data: T) => boolean;
-  isAuthorized?: boolean;
 }

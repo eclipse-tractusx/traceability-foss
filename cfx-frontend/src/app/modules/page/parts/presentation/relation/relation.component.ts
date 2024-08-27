@@ -19,11 +19,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-relation',
   templateUrl: './relation.component.html',
+  styleUrls: ['./relation.component.scss'],
 })
 export class RelationComponent {
+
+  public partId: string;
+  public partName: string;
+  public overwriteContext;
+
+  constructor(@Inject(MAT_DIALOG_DATA) data: any,
+  ) {
+    this.partId = data.partId;
+    this.partName = data.partName;
+    this.overwriteContext = data.context;
+  }
+
 }

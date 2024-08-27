@@ -1,5 +1,13 @@
 {
   "pageAbout": {
-    "content": "<p class=\"text-xl p-1 leading-6\">The Open-Source Traceability application is developed within the <a class=\"text-xl\" href=\"https://catena-x.net/\" target=\"_blank\">Catena-X project</a> and enables all companies to participate in Parts Traceability. </p><p class=\"text-xl p-1 leading-6\">The application gives an overview of the supplier network. A high level of transparency across the supplier network enables faster intervention based on recorded events in the supply chain. Additionally, automated massages regarding Quality related incidents and a tool for inspecting the supply chain helps companies in these fast-moving times. </p><p class=\"text-xl p-1 leading-6\">All this saves' costs by seamlessly tracking parts as well as creates trust through clearly defined and secure data access by the companies and persons involved in the process.</p>"
+    "content1": "The Open-Source Traceability application is developed within the ",
+    "content2": "and enables all companies to participate in Parts Traceability.",
+    "content3": "\nThe application gives an overview of the supplier network. A high level of transparency across the supplier network enables faster intervention based on recorded events in the supply chain. Additionally, automated messages regarding Quality related incidents and a tool for inspecting the supply chain help companies in these fast-moving times. \n\nAll this saves costs by seamlessly tracking parts as well as creates trust through clearly defined and secure data access by the companies and persons involved in the process.",
+    "traceability": "Traceability FOSS",
+    "catenaX": "Catena-X project",
+    "license": "License",
+    "notice": "Notice",
+    "source": "Source",
+    "commitId": "Commit ID"
   }
 }

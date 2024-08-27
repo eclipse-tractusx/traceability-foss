@@ -22,8 +22,8 @@
 import { environment } from '@env';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { rest } from 'msw';
-import { applyPagination, extractPaginationOfNotifications } from '../pagination.helper';
-import { buildMockAlerts, getAlertById } from './alerts.model';
+import { applyPagination, extractPagination } from '../pagination.helper';
+import { AlertIdPrefix, buildMockAlerts, getAlertById } from './alerts.model';
 import {
   AlertIdPrefix as testAlertIdPrefix,
   buildMockAlerts as testBuildMockAlerts,
@@ -31,26 +31,26 @@ import {
 } from './alerts.test.model';
 
 const commonHandler = [
-  rest.post(`*${ environment.apiUrl }/notifications/:notificationId/close`, (req, res, ctx) => {
+  rest.post(`*${environment.apiUrl}/notifications/:alertId/close`, (req, res, ctx) => {
     return res(ctx.status(204));
   }),
 
-  rest.post(`*${ environment.apiUrl }/notifications/:notificationId/approve`, (req, res, ctx) => {
-    return res(ctx.status(400), ctx.json({message: "Failed to send alert to EDC"}));
-  }),
-
-  rest.post(`*${ environment.apiUrl }/notifications/:notificationId/cancel`, (req, res, ctx) => {
+  rest.post(`*${environment.apiUrl}/notifications/:alertId/approve`, (req, res, ctx) => {
     return res(ctx.status(204));
   }),
 
-  rest.post(`${ environment.apiUrl }/notifications/:notificationId/update`, (req, res, ctx) => {
+  rest.post(`*${environment.apiUrl}/alernotificationsts/:alertId/cancel`, (req, res, ctx) => {
+    return res(ctx.status(204));
+  }),
+
+  rest.post(`${environment.apiUrl}/notifications/:alertId/update`, (req, res, ctx) => {
     return res(ctx.status(204));
   }),
 ];
 
 export const alertsHandlers = [
-  rest.post(`*${ environment.apiUrl }/notifications/filter`, (req, res, ctx) => {
-    const pagination = extractPaginationOfNotifications(req);
+  rest.get(`*${environment.apiUrl}/notifications/created`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
 
     const currentStatus = [
       NotificationStatus.CREATED,
@@ -65,13 +65,12 @@ export const alertsHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(buildMockAlerts(currentStatus, 'SENDER'), pagination)));
   }),
 
-  rest.post(`*${ environment.apiUrl }/notifications/filter`, (req, res, ctx) => {
-    const pagination = extractPaginationOfNotifications(req);
+  rest.get(`*${environment.apiUrl}/notifications/received`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
 
     const currentStatus = [
-      NotificationStatus.RECEIVED,
+      NotificationStatus.SENT,
       NotificationStatus.ACKNOWLEDGED,
-      NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
@@ -79,7 +78,7 @@ export const alertsHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(buildMockAlerts(currentStatus, 'RECEIVER'), pagination)));
   }),
 
-  rest.get(`*${ environment.apiUrl }/notifications/:notificationId`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/notifications/:alertId`, (req, res, ctx) => {
     const { alertId } = req.params;
 
     const indexFromId = parseInt((alertId as string).replace('id-', ''), 10);
@@ -87,30 +86,25 @@ export const alertsHandlers = [
     const statusCollection = [
       NotificationStatus.CREATED,
       NotificationStatus.SENT,
-      NotificationStatus.RECEIVED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
       NotificationStatus.ACKNOWLEDGED,
-      NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
-
       NotificationStatus.ACKNOWLEDGED,
-      NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
     ];
-    const channel = [ 2, 8, 9, 10, 11, 12 ].includes(indexFromId) ? 'RECEIVER' : 'SENDER';
-    const randomNotification = buildMockAlerts([ statusCollection[indexFromId] ], channel)[0];
+    const channel = [2, 8, 9, 10, 11, 12].includes(indexFromId) ? 'RECEIVER' : 'SENDER';
+    const randomNotification = buildMockAlerts([statusCollection[indexFromId]], channel)[0];
 
     return res(ctx.status(200), ctx.json({ ...randomNotification, id: alertId }));
   }),
-  rest.post(`*${ environment.apiUrl }/notifications`, (_, res, ctx) => {
-    return res(ctx.status(400), ctx.json({message: "Error while sending Alert to EDC"} ));
-    //return res(ctx.status(200), ctx.json({ id: AlertIdPrefix + 1 }));
+  rest.post(`*${environment.apiUrl}/notifications`, (_, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ id: AlertIdPrefix + 1 }));
   }),
 
-  rest.put(`*${ environment.apiUrl }/notifications/:notificationId/status`, async (req, res, ctx) => {
+  rest.put(`*${environment.apiUrl}/notifications/:alertId/status`, async (req, res, ctx) => {
     const { alertId } = req.params;
     const { status } = await req.json();
 
@@ -121,8 +115,8 @@ export const alertsHandlers = [
 ];
 
 export const alertsTestHandlers = [
-  rest.post(`*${ environment.apiUrl }/notifications/filter`, (req, res, ctx) => {
-    const pagination = extractPaginationOfNotifications(req);
+  rest.get(`*${environment.apiUrl}/notifications/created`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
 
     const currentStatus = [
       NotificationStatus.CREATED,
@@ -135,14 +129,14 @@ export const alertsTestHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(testBuildMockAlerts(currentStatus, 'SENDER'), pagination)));
   }),
 
-  rest.post(`*${ environment.apiUrl }/notifications/filter`, (req, res, ctx) => {
-    const pagination = extractPaginationOfNotifications(req);
+  rest.get(`*${environment.apiUrl}/notifications/received`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
 
-    const currentStatus = [ NotificationStatus.RECEIVED, NotificationStatus.ACKNOWLEDGED ];
+    const currentStatus = [NotificationStatus.RECEIVED, NotificationStatus.ACKNOWLEDGED];
     return res(ctx.status(200), ctx.json(applyPagination(testBuildMockAlerts(currentStatus, 'RECEIVER'), pagination)));
   }),
 
-  rest.get(`*${ environment.apiUrl }/notifications/:notificationId`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/notifications/:alertId`, (req, res, ctx) => {
     const { alertId } = req.params;
 
     const indexFromId = parseInt((alertId as string).replace('id-', ''), 10);
@@ -150,7 +144,6 @@ export const alertsTestHandlers = [
     const statusCollection = [
       NotificationStatus.CREATED,
       NotificationStatus.SENT,
-      NotificationStatus.RECEIVED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
       NotificationStatus.ACKNOWLEDGED,
@@ -159,15 +152,15 @@ export const alertsTestHandlers = [
       NotificationStatus.ACKNOWLEDGED,
     ];
     const channel = indexFromId === 2 || indexFromId === 8 ? 'RECEIVER' : 'SENDER';
-    const randomNotification = testBuildMockAlerts([ statusCollection[indexFromId] ], channel)[0];
+    const randomNotification = testBuildMockAlerts([statusCollection[indexFromId]], channel)[0];
 
     return res(ctx.status(200), ctx.json({ ...randomNotification, id: alertId }));
   }),
-  rest.post(`*${ environment.apiUrl }/notifications`, (_, res, ctx) => {
+  rest.post(`*${environment.apiUrl}/notifications`, (_, res, ctx) => {
     return res(ctx.status(200), ctx.json({ id: testAlertIdPrefix + 1 }));
   }),
 
-  rest.put(`*${ environment.apiUrl }/notifications/:notificationId/status`, async (req, res, ctx) => {
+  rest.put(`*${environment.apiUrl}/notifications/:alertId/status`, async (req, res, ctx) => {
     const { alertId } = req.params;
     const { status } = await req.json();
 

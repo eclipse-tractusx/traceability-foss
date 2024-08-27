@@ -22,7 +22,7 @@
 import { _environment } from './_environment.base';
 
 const SCRIPT_EL_ID = 'envConfig';
-const SUPPORTED_ENV_PARAMS = [ 'keycloakUrl', 'clientId', 'apiUrl', 'baseUrl', 'portalUrl', 'gitTag', 'bpn' ];
+const SUPPORTED_ENV_PARAMS = ['keycloakUrl', 'clientId', 'apiUrl', 'baseUrl', 'portalUrl', 'gitTag'];
 
 export const readDynamicEnv = () => {
   const scriptEl = document.getElementById(SCRIPT_EL_ID) as HTMLScriptElement;
@@ -34,14 +34,14 @@ export const readDynamicEnv = () => {
         (acc, curr) =>
           dynamicEnv.hasOwnProperty(curr)
             ? {
-              ...acc,
-              [curr]: dynamicEnv[curr] || _environment[curr],
-            }
+                ...acc,
+                [curr]: dynamicEnv[curr] || _environment[curr],
+              }
             : acc,
         {},
       );
     } catch (err) {
-      console.warn(`Cannot parse JSON from <script id='${ SCRIPT_EL_ID }'>`, err);
+      console.warn(`Cannot parse JSON from <script id='${SCRIPT_EL_ID}'>`, err);
     }
   }
 

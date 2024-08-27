@@ -19,21 +19,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {TestBed} from '@angular/core/testing';
-import {SharedModule} from '@shared/shared.module';
-import {screen} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
-import {ToastService} from './toast.service';
+import { TestBed } from '@angular/core/testing';
+import { SharedModule } from '@shared/shared.module';
+import { screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { ToastService } from './toast.service';
 
 describe('toasts', () => {
   const renderToastLayout = async () => {
-    await renderComponent(`<app-toast-container></app-toast-container>`, { imports: [ SharedModule ] });
+    await renderComponent(`<app-toast-container></app-toast-container>`, { imports: [SharedModule] });
     return TestBed.inject(ToastService);
   };
 
   it('should render success toast', async () => {
     const toastService = await renderToastLayout();
-    toastService.success('some success');
+    toastService.success('title', 'some success');
 
     const toast = await screen.findByTestId('toast-container');
     expect(toast).toHaveClass('toast-icon-check');
@@ -41,7 +41,7 @@ describe('toasts', () => {
 
   it('should render info toast', async () => {
     const toastService = await renderToastLayout();
-    toastService.info('some info');
+    toastService.info('title', 'some info');
 
     const toast = await screen.findByTestId('toast-container');
 
@@ -50,7 +50,7 @@ describe('toasts', () => {
 
   it('should render warning toast', async () => {
     const toastService = await renderToastLayout();
-    toastService.warning('some warning');
+    toastService.warning('title', 'some warning');
 
     const toast = await screen.findByTestId('toast-container');
 
@@ -59,17 +59,10 @@ describe('toasts', () => {
 
   it('should render error toast', async () => {
     const toastService = await renderToastLayout();
-    toastService.error('some error');
+    toastService.error('title', 'some error');
 
     const toast = await screen.findByTestId('toast-container');
 
     expect(toast).toHaveClass('toast-icon-error');
-  });
-
-  it('should emit click action on toast', async () => {
-    const toastService = await renderToastLayout();
-    const toastActionSpy = spyOn(toastService.retryAction, 'emit')
-    toastService.emitClick();
-    expect(toastActionSpy).toHaveBeenCalled();
   });
 });

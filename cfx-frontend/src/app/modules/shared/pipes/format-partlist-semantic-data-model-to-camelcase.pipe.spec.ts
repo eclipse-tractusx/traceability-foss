@@ -51,8 +51,8 @@ describe('FormatPartlistSemanticDataModelToCamelCasePipe', () => {
     },
   ].forEach(object => {
 
-    it(`should transform semanticDataModel from ${ object.option } to ${ object.expected }`, function() {
-      let partList = [ PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT), PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT) ];
+    it(`should transform semanticDataModel from ${object.option} to ${object.expected}`, function () {
+      let partList = [PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT), PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT)];
 
       partList.forEach(part => {
         part.semanticDataModel = object.option;

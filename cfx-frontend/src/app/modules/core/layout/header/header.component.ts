@@ -21,24 +21,18 @@
 
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { KnownUrl, NavigableUrls } from '@core/known-route';
+import { NavigableUrls } from '@core/known-route';
+import { Role } from '@core/user/role.model';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: [ './header.component.scss' ],
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
   public activeMenu = '';
-
-  public readonly iconMapping: Record<KnownUrl, string> = {
-    dashboard: 'dashboard',
-    about: 'info',
-    parts: 'build',
-    inbox: 'inbox',
-    admin: 'apps',
-  };
+  protected readonly Role = Role;
 
   constructor(router: Router) {
     router.events
@@ -47,9 +41,5 @@ export class HeaderComponent {
         const currentUrl = urlAfterRedirects ?? url;
         this.activeMenu = NavigableUrls.find(menuKey => currentUrl.includes(menuKey));
       });
-  }
-
-  public openDocumentation(): void {
-    window.open('https://eclipse-tractusx.github.io/traceability-foss/docs/', '_blank', 'noopener');
   }
 }

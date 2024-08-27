@@ -18,14 +18,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+
+@tailwind base;
 
 .language-button {
-  text-transform: uppercase !important;
-  @apply font-medium text-interactive;
-  margin-right: 16px;
+  @extend .label-large;
+  @apply text-pendingDark;
+  display: flex;
 }
 
 .selectedText {
-  @apply text-dark;
-  border-bottom: 2px solid #111111;
+  @apply text-primary cursor-default;
 }

@@ -28,14 +28,14 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-error',
   templateUrl: './error-page.component.html',
-  styleUrls: [ './error-page.component.scss' ],
+  styleUrls: ['./error-page.component.scss'],
 })
 export class ErrorPageComponent {
-  public title: string = 'errorPage.title';
-  public message: string = 'errorPage.message';
-  public actionUrl: string = '#';
-  public actionLabel: string = 'actions.homepage';
-  public showSignOutButton: boolean = false;
+  public title = 'errorPage.title';
+  public message = 'errorPage.message';
+  public actionUrl = '#';
+  public actionLabel = 'actions.homepage';
+  public showSignOutButton = false;
 
   constructor(
     private readonly roleService: RoleService,
@@ -52,7 +52,7 @@ export class ErrorPageComponent {
     });
 
     // if user has no sufficient permissions to use this app
-    if (!roleService.isUser() && !roleService.isAdmin()) {
+    if (!roleService.isAtLeastUser()) {
       this.actionUrl = '';
       this.actionLabel = '';
       this.showSignOutButton = true;

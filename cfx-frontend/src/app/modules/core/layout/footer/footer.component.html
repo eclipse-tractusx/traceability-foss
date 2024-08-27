@@ -1,0 +1,40 @@
+<footer class="footer">
+  <div class="footer--container">
+    <div class="footer--items-container">
+      <div class="footer--items">
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'imprint', roles: [Role.USER, Role.ADMIN], origin: 'layout.footer' }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'about', roles: [Role.USER, Role.ADMIN], origin: 'routing' }"></ng-container>
+      </div>
+      <div class="footer--copyright">
+        <p class="footer--text">© Cofinity-X GmbH - All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<ng-template let-type="value"
+  let-roles="roles"
+  let-origin="origin"
+  #menuItem>
+  <a *appHasRole="roles"
+    [routerLink]="['/' + type]"
+    [class.selected]="type === activeMenu">
+    <p class="footer--text">{{ origin + '.' + type | i18n }}</p>
+  </a>
+</ng-template>
+
+<ng-template let-type="value"
+  let-roles="roles"
+  let-origin="origin"
+  let-link="link"
+  #menuItemExtern>
+  <a *appHasRole="roles"
+    href="{{ origin + '.' + link | i18n }}"
+    target="_blank"
+    rel="noopener"
+    [class.selected]="type === activeMenu">
+    <p class="footer--text">{{ origin + '.' + type | i18n }}</p>
+  </a>
+</ng-template>

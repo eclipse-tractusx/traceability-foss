@@ -35,8 +35,7 @@ export class RoleDirective implements OnInit {
     private readonly viewContainerRef: ViewContainerRef,
     private readonly templateRef: TemplateRef<unknown>,
     private readonly roleService: RoleService,
-  ) {
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.isVisible = true;

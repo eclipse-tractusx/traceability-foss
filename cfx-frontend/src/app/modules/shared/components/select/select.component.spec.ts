@@ -29,8 +29,8 @@ describe('SelectComponent', () => {
   it('should render the select component', async () => {
     const label = 'Test';
     await renderComponent(`<app-select [label]='label'></app-select>`, {
-      imports: [ SharedModule ],
-      declarations: [ SelectComponent ],
+      imports: [SharedModule],
+      declarations: [SelectComponent],
       componentProperties: { label },
     });
 
@@ -39,10 +39,10 @@ describe('SelectComponent', () => {
 
   it('should render the select component with options', async () => {
     const label = 'Test';
-    const options: SelectOption[] = [ { label: 'Test_01' }, { label: 'Test_02' } ];
+    const options: SelectOption[] = [{ label: 'Test_01' }, { label: 'Test_02' }];
     const fixture = await renderComponent(`<app-select [label]='label' [options]='options'></app-select>`, {
-      imports: [ SharedModule ],
-      declarations: [ SelectComponent ],
+      imports: [SharedModule],
+      declarations: [SelectComponent],
       componentProperties: { label, options },
     });
 
@@ -57,12 +57,12 @@ describe('SelectComponent', () => {
 
   it('should select correct option if selected value is set', async () => {
     const label = 'Test';
-    const options: SelectOption[] = [ { label: 'Test_01' }, { label: 'Test_02' } ];
+    const options: SelectOption[] = [{ label: 'Test_01' }, { label: 'Test_02' }];
     const formControl = new FormControl(options[1].label);
 
     await renderComponent(`<app-select [label]='label' [options]='options' [formControl]='formControl'></app-select>`, {
-      imports: [ SharedModule ],
-      declarations: [ SelectComponent ],
+      imports: [SharedModule],
+      declarations: [SelectComponent],
       componentProperties: { label, options, formControl },
     });
 
@@ -81,8 +81,8 @@ describe('SelectComponent', () => {
     const formControl = new FormControl(options[1].value);
 
     await renderComponent(`<app-select [label]='label' [options]='options' [formControl]='formControl'></app-select>`, {
-      imports: [ SharedModule ],
-      declarations: [ SelectComponent ],
+      imports: [SharedModule],
+      declarations: [SelectComponent],
       componentProperties: { label, options, formControl },
     });
 
@@ -94,13 +94,13 @@ describe('SelectComponent', () => {
 
   it('should render the select component with custom option renderer', async () => {
     const label = 'Test';
-    const options: SelectOption[] = [ { label: 'Test_01' }, { label: 'Test_02' } ];
+    const options: SelectOption[] = [{ label: 'Test_01' }, { label: 'Test_02' }];
     const fixture = await renderComponent(
       `<ng-template #test let-value='value'>_TEST_{{value}}</ng-template>
                 <app-select [label]='label' [options]='options' [optionsRenderer]='test'></app-select>`,
       {
-        imports: [ SharedModule ],
-        declarations: [ SelectComponent ],
+        imports: [SharedModule],
+        declarations: [SelectComponent],
         componentProperties: { label, options },
       },
     );

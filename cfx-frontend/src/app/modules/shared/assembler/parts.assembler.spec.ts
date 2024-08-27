@@ -68,7 +68,7 @@ describe('PartsAssembler', () => {
         'manufacturingDate': 'testdate',
         'manufacturingCountry': 'manufacturingCountry',
       };
-      const detailAspectModels = [ {
+      const detailAspectModels = [{
         type: DetailAspectType.AS_BUILT,
         data: {
           partId: 'partId',
@@ -130,7 +130,6 @@ describe('PartsAssembler', () => {
         nameAtCustomer: nameAtCustomer,
         manufacturingDate: manufacturingDate,
         manufacturingCountry: manufacturingCountry,
-        tombStoneErrorDetail: null,
 
       });
 
@@ -294,7 +293,6 @@ describe('PartsAssembler', () => {
   describe('mapForAssetStateView', () => {
     const importState = 'importState';
     const importNote = 'importNote';
-    const tombStoneErrorDetail = 'Error';
     it('should clean up data for asset state view', done => {
       const data = { importState, importNote, test: '' } as unknown as Part;
       of({ data })
@@ -313,17 +311,6 @@ describe('PartsAssembler', () => {
           done();
         });
     });
-    it('should clean up data for asset state view with tombStoneErrorDetail', done => {
-      const data = { importState, importNote, tombStoneErrorDetail } as unknown as Part;
-      of({ data })
-        .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
-        .subscribe(result => {
-          expect(result).toEqual({ data: { importState, importNote, tombStoneErrorDetail } as unknown as Part });
-          done();
-        });
-    });
   });
-
-
-
 });
+

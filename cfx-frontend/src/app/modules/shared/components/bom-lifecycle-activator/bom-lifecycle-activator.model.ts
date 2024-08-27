@@ -18,11 +18,28 @@
  ********************************************************************************/
 
 export interface BomLifecycleSize {
-  asPlannedSize: number,
-  asBuiltSize: number
+    asDesignedSize: number,
+    asPlannedSize: number,
+    asOrderedSize: number,
+    asBuiltSize: number,
+    asSupportedSize: number,
+    asRecycledSize: number,
 }
 
 export interface BomLifecycleConfig {
-  asPlannedActive: boolean,
-  asBuiltActive: boolean
+    asDesignedActive: boolean,
+    asPlannedActive: boolean,
+    asOrderedActive: boolean,
+    asBuiltActive: boolean,
+    asSupportedActive: boolean,
+    asRecycledActive: boolean,
+}
+
+export enum BomLifecycleType {
+    AS_DESIGNED = 'AsDesigned/AsDeveloped',
+    AS_PLANNED = 'AsPlanned',
+    AS_ORDERED = 'AsOrdered',
+    AS_BUILT = 'AsBuilt',
+    AS_SUPPORTED = 'AsSupported/AsFlying/AsMaintainted/AsOperated',
+    AS_RECYCLED = 'AsRecycled'
 }

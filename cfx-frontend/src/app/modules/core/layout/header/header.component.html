@@ -18,38 +18,43 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
+<div class="header">
+  <div class="header--container">
+    <nav class="header--menu-container">
+      <div class="header--logo-container"
+        [routerLink]="['/dashboard']"
+        [class.selected]="'dashboard' === activeMenu">
+        <img src="/assets/images/logo.svg"
+          alt="Trace-X"
+          class="header--logo" />
+      </div>
 
-<div class="header--container">
-  <nav class="header--menu-container">
-    <img src="/assets/images/logo.svg" alt="Trace-x" class="header--logo cursor-pointer" routerLink="dashboard" />
-
-    <div class="header--menu">
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'parts', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'inbox', role: 'user' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'about', role: 'user' }"></ng-container>
-    </div>
-
-    <div class="header--user">
-      <app-button variant="flat" color="accent" (click)="openDocumentation()">
-        {{ 'actions.help' | i18n }}
-      </app-button>
-
-      <app-user-navigation></app-user-navigation>
-    </div>
-  </nav>
+      <div class="header--menu">
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'dashboard', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'parts', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'otherParts', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'investigations', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <ng-container
+          *ngTemplateOutlet="menuItem; context: { value: 'alerts', roles: [Role.USER, Role.ADMIN] }"></ng-container>
+        <app-user-navigation></app-user-navigation>
+      </div>
+    </nav>
+  </div>
 </div>
 
-<ng-template let-type="value" let-role="role" #menuItem>
-  <a
-    class="header--menu__item"
-    *appHasRole="[role, 'admin']"
+<ng-template let-type="value"
+  let-roles="roles"
+  #menuItem>
+  <a class="header--menu__item"
+    *appHasRole="roles"
     [routerLink]="['/' + type]"
-    [class.selected]="type === activeMenu"
-  >
-    <app-text-with-icon [iconName]="iconMapping[type]" class="header--menu__item-iconText">
-      <p>{{ 'routing.' + type | i18n }}</p>
-    </app-text-with-icon>
-    <mat-icon class="header--menu__item-icon">{{ iconMapping[type] }}</mat-icon>
+    [class.selected]="type === activeMenu">
+    <div class="header--menu__item--border-top"></div>
+    <p class="header--menu__item--text">{{ 'routing.' + type | i18n }}</p>
+    <div class="header--menu__item--border-bottom"></div>
   </a>
 </ng-template>

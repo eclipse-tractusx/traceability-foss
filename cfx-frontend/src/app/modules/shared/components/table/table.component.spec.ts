@@ -33,7 +33,7 @@ describe('TableComponent', () => {
   };
   const renderTable = (
     size: number,
-    displayedColumns = [ 'name' ],
+    displayedColumns = ['name'],
     header = { name: 'Name' },
     selected = jasmine.createSpy(),
     tableType = TableType.AS_BUILT_OWN,
@@ -46,8 +46,8 @@ describe('TableComponent', () => {
     return renderComponent(
       `<app-table [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)' [tableType]="tableType" [autocompleteEnabled]="autocompleteEnabled"></app-table>`,
       {
-        declarations: [ TableComponent ],
-        imports: [ SharedModule ],
+        declarations: [TableComponent],
+        imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,
@@ -65,7 +65,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = {
-      displayedColumns: [ 'select','name' ],
+      displayedColumns: ['select', 'name'],
       header: { name: 'Name for test' },
       sortableColumns: { select: true, name: true },
     };
@@ -74,8 +74,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [ TableComponent ],
-        imports: [ SharedModule ],
+        declarations: [TableComponent],
+        imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,
@@ -100,7 +100,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = {
-      displayedColumns: [ 'select','name' ],
+      displayedColumns: ['select', 'name'],
       header: { name: 'Name for test' },
       sortableColumns: { select: true, name: true },
     };
@@ -109,8 +109,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [ TableComponent ],
-        imports: [ SharedModule ],
+        declarations: [TableComponent],
+        imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,
@@ -130,7 +130,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = {
-      displayedColumns: [ 'select','name' ],
+      displayedColumns: ['select', 'name'],
       header: { name: 'Name for test' },
       sortableColumns: { select: true, name: true },
     };
@@ -139,8 +139,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [ TableComponent ],
-        imports: [ SharedModule ],
+        declarations: [TableComponent],
+        imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,
@@ -149,7 +149,7 @@ describe('TableComponent', () => {
       },
     );
 
-    expect(screen.getByText('Name for test')).toBeInTheDocument();
+    expect(screen.getByText('table.column.name')).toBeInTheDocument();
   });
 
   it('should render select column', async () => {
@@ -158,7 +158,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = {
-      displayedColumns: [ 'select','name' ],
+      displayedColumns: ['select', 'name'],
       header: { name: 'Name Sort' },
       sortableColumns: { select: true, name: true },
     };
@@ -167,8 +167,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [ TableComponent ],
-        imports: [ SharedModule ],
+        declarations: [TableComponent],
+        imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,
@@ -190,7 +190,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = {
-      displayedColumns: [ 'select','name' ],
+      displayedColumns: ['select', 'name'],
       header: { name: 'Name Sort' },
       sortableColumns: { select: true, name: true },
     };
@@ -199,8 +199,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [ TableComponent ],
-        imports: [ SharedModule ],
+        declarations: [TableComponent],
+        imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,
@@ -231,7 +231,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = {
-      displayedColumns: [ 'name' ],
+      displayedColumns: ['name'],
       header: { name: 'Name Sort' },
       sortableColumns: { name: true },
     };
@@ -240,8 +240,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [ TableComponent ],
-        imports: [ SharedModule ],
+        declarations: [TableComponent],
+        imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,
@@ -250,14 +250,14 @@ describe('TableComponent', () => {
       },
     );
 
-    const nameElement = screen.getByText('Name Sort');
+    const nameElement = screen.getByText('table.column.name');
     nameElement.click();
 
-    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'asc' ] });
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'asc'] });
     nameElement.click();
-    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'desc' ] });
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'desc'] });
     nameElement.click();
-    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: [ 'name', 'desc' ] });
+    expect(configChange).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'desc'] });
   });
 
   it('should display menu icon', async () => {
@@ -266,7 +266,7 @@ describe('TableComponent', () => {
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
     const configChange = jasmine.createSpy();
     const tableConfig: TableConfig = {
-      displayedColumns: [ 'name', 'menu' ],
+      displayedColumns: ['name', 'menu'],
       header: { name: 'Name Sort' },
       sortableColumns: { name: true, menu: true },
     };
@@ -274,8 +274,8 @@ describe('TableComponent', () => {
     const component = await renderComponent(
       `<app-table  [paginationData]='data' [tableConfig]='tableConfig' (configChanged)='configChange($event)'></app-table>`,
       {
-        declarations: [ TableComponent ],
-        imports: [ SharedModule ],
+        declarations: [TableComponent],
+        imports: [SharedModule],
         componentProperties: {
           data,
           tableConfig,

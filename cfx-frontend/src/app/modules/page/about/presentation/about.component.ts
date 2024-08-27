@@ -23,32 +23,32 @@ import { Component } from '@angular/core';
 import { environment } from '@env';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: [ './about.component.scss' ],
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent {
-  name: string;
-  repositoryPath: string;
-  license: string;
-  licensePath: string;
-  noticePath: string;
-  sourcePath: string;
-  commitId: string;
+    name: string;
+    repositoryPath: string;
+    license: string;
+    licensePath: string;
+    noticePath: string;
+    sourcePath: string;
+    commitId: string;
 
-  constructor() {
-    this.license = 'Apache-2.0';
-    this.name = 'Traceability Foss';
-    this.commitId = environment.gitTag;
-    this.repositoryPath = 'https://github.com/eclipse-tractusx/traceability-foss';
-    this.licensePath = this.repositoryPath + '/blob/' + this.commitId + '/LICENSE';
-    this.noticePath = this.repositoryPath + '/blob/' + this.commitId + '/NOTICE.md';
-    this.sourcePath = this.repositoryPath + '/tree/' + this.commitId;
-  }
+    constructor() {
+        this.license = 'Apache-2.0';
+        this.name = "Traceability FOSS";
+        this.commitId = environment.gitTag;
+        this.repositoryPath = "https://github.com/eclipse-tractusx/traceability-foss";
+        this.licensePath = this.repositoryPath + "/blob/main/LICENSE";
+        this.noticePath = this.repositoryPath + "/blob/main/NOTICE.md";
+        this.sourcePath = this.repositoryPath;
+    }
 
-  openLink(url: string): void {
-    window.open(url, '_blank');
-  }
+    openLink(url: string): void {
+        window.open(url, '_blank');
+    }
 
-  protected readonly environment = environment;
+    protected readonly environment = environment;
 }

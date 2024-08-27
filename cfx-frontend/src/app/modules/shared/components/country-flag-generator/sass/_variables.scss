@@ -2,1501 +2,1501 @@ $flag-icon-css-path: "/assets/images/flags" !default;
 $flag-icon-rect-path: "/4x3" !default;
 
 $countries: (
-  (
-    "cioc": "AFG",
-    "name": "Afghanistan",
-    "alpha2Code": "AF",
-    "alpha3Code": "AFG"
-  ),
-  (
-    "cioc": "",
-    "name": "Åland Islands",
-    "alpha2Code": "AX",
-    "alpha3Code": "ALA"
-  ),
-  (
-    "cioc": "ALB",
-    "name": "Albania",
-    "alpha2Code": "AL",
-    "alpha3Code": "ALB"
-  ),
-  (
-    "cioc": "ALG",
-    "name": "Algeria",
-    "alpha2Code": "DZ",
-    "alpha3Code": "DZA"
-  ),
-  (
-    "cioc": "ASA",
-    "name": "American Samoa",
-    "alpha2Code": "AS",
-    "alpha3Code": "ASM"
-  ),
-  (
-    "cioc": "AND",
-    "name": "Andorra",
-    "alpha2Code": "AD",
-    "alpha3Code": "AND"
-  ),
-  (
-    "cioc": "ANG",
-    "name": "Angola",
-    "alpha2Code": "AO",
-    "alpha3Code": "AGO"
-  ),
-  (
-    "cioc": "",
-    "name": "Anguilla",
-    "alpha2Code": "AI",
-    "alpha3Code": "AIA"
-  ),
-  (
-    "cioc": "",
-    "name": "Antarctica",
-    "alpha2Code": "AQ",
-    "alpha3Code": "ATA"
-  ),
-  (
-    "cioc": "ANT",
-    "name": "Antigua and Barbuda",
-    "alpha2Code": "AG",
-    "alpha3Code": "ATG"
-  ),
-  (
-    "cioc": "ARG",
-    "name": "Argentina",
-    "alpha2Code": "AR",
-    "alpha3Code": "ARG"
-  ),
-  (
-    "cioc": "ARM",
-    "name": "Armenia",
-    "alpha2Code": "AM",
-    "alpha3Code": "ARM"
-  ),
-  (
-    "cioc": "ARU",
-    "name": "Aruba",
-    "alpha2Code": "AW",
-    "alpha3Code": "ABW"
-  ),
-  (
-    "cioc": "AUS",
-    "name": "Australia",
-    "alpha2Code": "AU",
-    "alpha3Code": "AUS"
-  ),
-  (
-    "cioc": "AUT",
-    "name": "Austria",
-    "alpha2Code": "AT",
-    "alpha3Code": "AUT"
-  ),
-  (
-    "cioc": "AZE",
-    "name": "Azerbaijan",
-    "alpha2Code": "AZ",
-    "alpha3Code": "AZE"
-  ),
-  (
-    "cioc": "BAH",
-    "name": "Bahamas",
-    "alpha2Code": "BS",
-    "alpha3Code": "BHS"
-  ),
-  (
-    "cioc": "BRN",
-    "name": "Bahrain",
-    "alpha2Code": "BH",
-    "alpha3Code": "BHR"
-  ),
-  (
-    "cioc": "BAN",
-    "name": "Bangladesh",
-    "alpha2Code": "BD",
-    "alpha3Code": "BGD"
-  ),
-  (
-    "cioc": "BAR",
-    "name": "Barbados",
-    "alpha2Code": "BB",
-    "alpha3Code": "BRB"
-  ),
-  (
-    "cioc": "BLR",
-    "name": "Belarus",
-    "alpha2Code": "BY",
-    "alpha3Code": "BLR"
-  ),
-  (
-    "cioc": "BEL",
-    "name": "Belgium",
-    "alpha2Code": "BE",
-    "alpha3Code": "BEL"
-  ),
-  (
-    "cioc": "BIZ",
-    "name": "Belize",
-    "alpha2Code": "BZ",
-    "alpha3Code": "BLZ"
-  ),
-  (
-    "cioc": "BEN",
-    "name": "Benin",
-    "alpha2Code": "BJ",
-    "alpha3Code": "BEN"
-  ),
-  (
-    "cioc": "BER",
-    "name": "Bermuda",
-    "alpha2Code": "BM",
-    "alpha3Code": "BMU"
-  ),
-  (
-    "cioc": "BHU",
-    "name": "Bhutan",
-    "alpha2Code": "BT",
-    "alpha3Code": "BTN"
-  ),
-  (
-    "cioc": "BOL",
-    "name": "Bolivia (Plurinational State of)",
-    "alpha2Code": "BO",
-    "alpha3Code": "BOL"
-  ),
-  (
-    "name": "Bonaire, Sint Eustatius and Saba",
-    "alpha2Code": "BQ",
-    "alpha3Code": "BES"
-  ),
-  (
-    "cioc": "BIH",
-    "name": "Bosnia and Herzegovina",
-    "alpha2Code": "BA",
-    "alpha3Code": "BIH"
-  ),
-  (
-    "cioc": "BOT",
-    "name": "Botswana",
-    "alpha2Code": "BW",
-    "alpha3Code": "BWA"
-  ),
-  (
-    "cioc": "",
-    "name": "Bouvet Island",
-    "alpha2Code": "BV",
-    "alpha3Code": "BVT"
-  ),
-  (
-    "cioc": "BRA",
-    "name": "Brazil",
-    "alpha2Code": "BR",
-    "alpha3Code": "BRA"
-  ),
-  (
-    "cioc": "",
-    "name": "British Indian Ocean Territory",
-    "alpha2Code": "IO",
-    "alpha3Code": "IOT"
-  ),
-  (
-    "cioc": "",
-    "name": "United States Minor Outlying Islands",
-    "alpha2Code": "UM",
-    "alpha3Code": "UMI"
-  ),
-  (
-    "cioc": "IVB",
-    "name": "Virgin Islands (British)",
-    "alpha2Code": "VG",
-    "alpha3Code": "VGB"
-  ),
-  (
-    "cioc": "ISV",
-    "name": "Virgin Islands (U.S.)",
-    "alpha2Code": "VI",
-    "alpha3Code": "VIR"
-  ),
-  (
-    "cioc": "BRU",
-    "name": "Brunei Darussalam",
-    "alpha2Code": "BN",
-    "alpha3Code": "BRN"
-  ),
-  (
-    "cioc": "BUL",
-    "name": "Bulgaria",
-    "alpha2Code": "BG",
-    "alpha3Code": "BGR"
-  ),
-  (
-    "cioc": "BUR",
-    "name": "Burkina Faso",
-    "alpha2Code": "BF",
-    "alpha3Code": "BFA"
-  ),
-  (
-    "cioc": "BDI",
-    "name": "Burundi",
-    "alpha2Code": "BI",
-    "alpha3Code": "BDI"
-  ),
-  (
-    "cioc": "CAM",
-    "name": "Cambodia",
-    "alpha2Code": "KH",
-    "alpha3Code": "KHM"
-  ),
-  (
-    "cioc": "CMR",
-    "name": "Cameroon",
-    "alpha2Code": "CM",
-    "alpha3Code": "CMR"
-  ),
-  (
-    "cioc": "CAN",
-    "name": "Canada",
-    "alpha2Code": "CA",
-    "alpha3Code": "CAN"
-  ),
-  (
-    "cioc": "CPV",
-    "name": "Cabo Verde",
-    "alpha2Code": "CV",
-    "alpha3Code": "CPV"
-  ),
-  (
-    "cioc": "CAY",
-    "name": "Cayman Islands",
-    "alpha2Code": "KY",
-    "alpha3Code": "CYM"
-  ),
-  (
-    "cioc": "CAF",
-    "name": "Central African Republic",
-    "alpha2Code": "CF",
-    "alpha3Code": "CAF"
-  ),
-  (
-    "cioc": "CHA",
-    "name": "Chad",
-    "alpha2Code": "TD",
-    "alpha3Code": "TCD"
-  ),
-  (
-    "cioc": "CHI",
-    "name": "Chile",
-    "alpha2Code": "CL",
-    "alpha3Code": "CHL"
-  ),
-  (
-    "cioc": "CHN",
-    "name": "China",
-    "alpha2Code": "CN",
-    "alpha3Code": "CHN"
-  ),
-  (
-    "cioc": "",
-    "name": "Christmas Island",
-    "alpha2Code": "CX",
-    "alpha3Code": "CXR"
-  ),
-  (
-    "cioc": "",
-    "name": "Cocos (Keeling) Islands",
-    "alpha2Code": "CC",
-    "alpha3Code": "CCK"
-  ),
-  (
-    "cioc": "COL",
-    "name": "Colombia",
-    "alpha2Code": "CO",
-    "alpha3Code": "COL"
-  ),
-  (
-    "cioc": "COM",
-    "name": "Comoros",
-    "alpha2Code": "KM",
-    "alpha3Code": "COM"
-  ),
-  (
-    "cioc": "CGO",
-    "name": "Congo",
-    "alpha2Code": "CG",
-    "alpha3Code": "COG"
-  ),
-  (
-    "cioc": "COD",
-    "name": "Congo (Democratic Republic of the)",
-    "alpha2Code": "CD",
-    "alpha3Code": "COD"
-  ),
-  (
-    "cioc": "COK",
-    "name": "Cook Islands",
-    "alpha2Code": "CK",
-    "alpha3Code": "COK"
-  ),
-  (
-    "cioc": "CRC",
-    "name": "Costa Rica",
-    "alpha2Code": "CR",
-    "alpha3Code": "CRI"
-  ),
-  (
-    "cioc": "CRO",
-    "name": "Croatia",
-    "alpha2Code": "HR",
-    "alpha3Code": "HRV"
-  ),
-  (
-    "cioc": "CUB",
-    "name": "Cuba",
-    "alpha2Code": "CU",
-    "alpha3Code": "CUB"
-  ),
-  (
-    "cioc": "",
-    "name": "Curaçao",
-    "alpha2Code": "CW",
-    "alpha3Code": "CUW"
-  ),
-  (
-    "cioc": "CYP",
-    "name": "Cyprus",
-    "alpha2Code": "CY",
-    "alpha3Code": "CYP"
-  ),
-  (
-    "cioc": "CZE",
-    "name": "Czech Republic",
-    "alpha2Code": "CZ",
-    "alpha3Code": "CZE"
-  ),
-  (
-    "cioc": "DEN",
-    "name": "Denmark",
-    "alpha2Code": "DK",
-    "alpha3Code": "DNK"
-  ),
-  (
-    "cioc": "DJI",
-    "name": "Djibouti",
-    "alpha2Code": "DJ",
-    "alpha3Code": "DJI"
-  ),
-  (
-    "cioc": "DMA",
-    "name": "Dominica",
-    "alpha2Code": "DM",
-    "alpha3Code": "DMA"
-  ),
-  (
-    "cioc": "DOM",
-    "name": "Dominican Republic",
-    "alpha2Code": "DO",
-    "alpha3Code": "DOM"
-  ),
-  (
-    "cioc": "ECU",
-    "name": "Ecuador",
-    "alpha2Code": "EC",
-    "alpha3Code": "ECU"
-  ),
-  (
-    "cioc": "EGY",
-    "name": "Egypt",
-    "alpha2Code": "EG",
-    "alpha3Code": "EGY"
-  ),
-  (
-    "cioc": "ESA",
-    "name": "El Salvador",
-    "alpha2Code": "SV",
-    "alpha3Code": "SLV"
-  ),
-  (
-    "cioc": "GEQ",
-    "name": "Equatorial Guinea",
-    "alpha2Code": "GQ",
-    "alpha3Code": "GNQ"
-  ),
-  (
-    "cioc": "ERI",
-    "name": "Eritrea",
-    "alpha2Code": "ER",
-    "alpha3Code": "ERI"
-  ),
-  (
-    "cioc": "EST",
-    "name": "Estonia",
-    "alpha2Code": "EE",
-    "alpha3Code": "EST"
-  ),
-  (
-    "cioc": "ETH",
-    "name": "Ethiopia",
-    "alpha2Code": "ET",
-    "alpha3Code": "ETH"
-  ),
-  (
-    "cioc": "",
-    "name": "Falkland Islands (Malvinas)",
-    "alpha2Code": "FK",
-    "alpha3Code": "FLK"
-  ),
-  (
-    "cioc": "",
-    "name": "Faroe Islands",
-    "alpha2Code": "FO",
-    "alpha3Code": "FRO"
-  ),
-  (
-    "cioc": "FIJ",
-    "name": "Fiji",
-    "alpha2Code": "FJ",
-    "alpha3Code": "FJI"
-  ),
-  (
-    "cioc": "FIN",
-    "name": "Finland",
-    "alpha2Code": "FI",
-    "alpha3Code": "FIN"
-  ),
-  (
-    "cioc": "FRA",
-    "name": "France",
-    "alpha2Code": "FR",
-    "alpha3Code": "FRA"
-  ),
-  (
-    "cioc": "",
-    "name": "French Guiana",
-    "alpha2Code": "GF",
-    "alpha3Code": "GUF"
-  ),
-  (
-    "cioc": "",
-    "name": "French Polynesia",
-    "alpha2Code": "PF",
-    "alpha3Code": "PYF"
-  ),
-  (
-    "cioc": "",
-    "name": "French Southern Territories",
-    "alpha2Code": "TF",
-    "alpha3Code": "ATF"
-  ),
-  (
-    "cioc": "GAB",
-    "name": "Gabon",
-    "alpha2Code": "GA",
-    "alpha3Code": "GAB"
-  ),
-  (
-    "cioc": "GAM",
-    "name": "Gambia",
-    "alpha2Code": "GM",
-    "alpha3Code": "GMB"
-  ),
-  (
-    "cioc": "GEO",
-    "name": "Georgia",
-    "alpha2Code": "GE",
-    "alpha3Code": "GEO"
-  ),
-  (
-    "cioc": "GER",
-    "name": "Germany",
-    "alpha2Code": "DE",
-    "alpha3Code": "DEU"
-  ),
-  (
-    "cioc": "GHA",
-    "name": "Ghana",
-    "alpha2Code": "GH",
-    "alpha3Code": "GHA"
-  ),
-  (
-    "cioc": "",
-    "name": "Gibraltar",
-    "alpha2Code": "GI",
-    "alpha3Code": "GIB"
-  ),
-  (
-    "cioc": "GRE",
-    "name": "Greece",
-    "alpha2Code": "GR",
-    "alpha3Code": "GRC"
-  ),
-  (
-    "cioc": "",
-    "name": "Greenland",
-    "alpha2Code": "GL",
-    "alpha3Code": "GRL"
-  ),
-  (
-    "cioc": "GRN",
-    "name": "Grenada",
-    "alpha2Code": "GD",
-    "alpha3Code": "GRD"
-  ),
-  (
-    "cioc": "",
-    "name": "Guadeloupe",
-    "alpha2Code": "GP",
-    "alpha3Code": "GLP"
-  ),
-  (
-    "cioc": "GUM",
-    "name": "Guam",
-    "alpha2Code": "GU",
-    "alpha3Code": "GUM"
-  ),
-  (
-    "cioc": "GUA",
-    "name": "Guatemala",
-    "alpha2Code": "GT",
-    "alpha3Code": "GTM"
-  ),
-  (
-    "cioc": "",
-    "name": "Guernsey",
-    "alpha2Code": "GG",
-    "alpha3Code": "GGY"
-  ),
-  (
-    "cioc": "GUI",
-    "name": "Guinea",
-    "alpha2Code": "GN",
-    "alpha3Code": "GIN"
-  ),
-  (
-    "cioc": "GBS",
-    "name": "Guinea-Bissau",
-    "alpha2Code": "GW",
-    "alpha3Code": "GNB"
-  ),
-  (
-    "cioc": "GUY",
-    "name": "Guyana",
-    "alpha2Code": "GY",
-    "alpha3Code": "GUY"
-  ),
-  (
-    "cioc": "HAI",
-    "name": "Haiti",
-    "alpha2Code": "HT",
-    "alpha3Code": "HTI"
-  ),
-  (
-    "cioc": "",
-    "name": "Heard Island and McDonald Islands",
-    "alpha2Code": "HM",
-    "alpha3Code": "HMD"
-  ),
-  (
-    "cioc": "",
-    "name": "Holy See",
-    "alpha2Code": "VA",
-    "alpha3Code": "VAT"
-  ),
-  (
-    "cioc": "HON",
-    "name": "Honduras",
-    "alpha2Code": "HN",
-    "alpha3Code": "HND"
-  ),
-  (
-    "cioc": "HKG",
-    "name": "Hong Kong",
-    "alpha2Code": "HK",
-    "alpha3Code": "HKG"
-  ),
-  (
-    "cioc": "HUN",
-    "name": "Hungary",
-    "alpha2Code": "HU",
-    "alpha3Code": "HUN"
-  ),
-  (
-    "cioc": "ISL",
-    "name": "Iceland",
-    "alpha2Code": "IS",
-    "alpha3Code": "ISL"
-  ),
-  (
-    "cioc": "IND",
-    "name": "India",
-    "alpha2Code": "IN",
-    "alpha3Code": "IND"
-  ),
-  (
-    "cioc": "INA",
-    "name": "Indonesia",
-    "alpha2Code": "ID",
-    "alpha3Code": "IDN"
-  ),
-  (
-    "cioc": "CIV",
-    "name": "Côte d'Ivoire",
-    "alpha2Code": "CI",
-    "alpha3Code": "CIV"
-  ),
-  (
-    "cioc": "IRI",
-    "name": "Iran (Islamic Republic of)",
-    "alpha2Code": "IR",
-    "alpha3Code": "IRN"
-  ),
-  (
-    "cioc": "IRQ",
-    "name": "Iraq",
-    "alpha2Code": "IQ",
-    "alpha3Code": "IRQ"
-  ),
-  (
-    "cioc": "IRL",
-    "name": "Ireland",
-    "alpha2Code": "IE",
-    "alpha3Code": "IRL"
-  ),
-  (
-    "cioc": "",
-    "name": "Isle of Man",
-    "alpha2Code": "IM",
-    "alpha3Code": "IMN"
-  ),
-  (
-    "cioc": "ISR",
-    "name": "Israel",
-    "alpha2Code": "IL",
-    "alpha3Code": "ISR"
-  ),
-  (
-    "cioc": "ITA",
-    "name": "Italy",
-    "alpha2Code": "IT",
-    "alpha3Code": "ITA"
-  ),
-  (
-    "cioc": "JAM",
-    "name": "Jamaica",
-    "alpha2Code": "JM",
-    "alpha3Code": "JAM"
-  ),
-  (
-    "cioc": "JPN",
-    "name": "Japan",
-    "alpha2Code": "JP",
-    "alpha3Code": "JPN"
-  ),
-  (
-    "cioc": "",
-    "name": "Jersey",
-    "alpha2Code": "JE",
-    "alpha3Code": "JEY"
-  ),
-  (
-    "cioc": "JOR",
-    "name": "Jordan",
-    "alpha2Code": "JO",
-    "alpha3Code": "JOR"
-  ),
-  (
-    "cioc": "KAZ",
-    "name": "Kazakhstan",
-    "alpha2Code": "KZ",
-    "alpha3Code": "KAZ"
-  ),
-  (
-    "cioc": "KEN",
-    "name": "Kenya",
-    "alpha2Code": "KE",
-    "alpha3Code": "KEN"
-  ),
-  (
-    "cioc": "KIR",
-    "name": "Kiribati",
-    "alpha2Code": "KI",
-    "alpha3Code": "KIR"
-  ),
-  (
-    "cioc": "KUW",
-    "name": "Kuwait",
-    "alpha2Code": "KW",
-    "alpha3Code": "KWT"
-  ),
-  (
-    "cioc": "KGZ",
-    "name": "Kyrgyzstan",
-    "alpha2Code": "KG",
-    "alpha3Code": "KGZ"
-  ),
-  (
-    "cioc": "LAO",
-    "name": "Lao People's Democratic Republic",
-    "alpha2Code": "LA",
-    "alpha3Code": "LAO"
-  ),
-  (
-    "cioc": "LAT",
-    "name": "Latvia",
-    "alpha2Code": "LV",
-    "alpha3Code": "LVA"
-  ),
-  (
-    "cioc": "LIB",
-    "name": "Lebanon",
-    "alpha2Code": "LB",
-    "alpha3Code": "LBN"
-  ),
-  (
-    "cioc": "LES",
-    "name": "Lesotho",
-    "alpha2Code": "LS",
-    "alpha3Code": "LSO"
-  ),
-  (
-    "cioc": "LBR",
-    "name": "Liberia",
-    "alpha2Code": "LR",
-    "alpha3Code": "LBR"
-  ),
-  (
-    "cioc": "LBA",
-    "name": "Libya",
-    "alpha2Code": "LY",
-    "alpha3Code": "LBY"
-  ),
-  (
-    "cioc": "LIE",
-    "name": "Liechtenstein",
-    "alpha2Code": "LI",
-    "alpha3Code": "LIE"
-  ),
-  (
-    "cioc": "LTU",
-    "name": "Lithuania",
-    "alpha2Code": "LT",
-    "alpha3Code": "LTU"
-  ),
-  (
-    "cioc": "LUX",
-    "name": "Luxembourg",
-    "alpha2Code": "LU",
-    "alpha3Code": "LUX"
-  ),
-  (
-    "cioc": "",
-    "name": "Macao",
-    "alpha2Code": "MO",
-    "alpha3Code": "MAC"
-  ),
-  (
-    "cioc": "MKD",
-    "name": "Macedonia (the former Yugoslav Republic of)",
-    "alpha2Code": "MK",
-    "alpha3Code": "MKD"
-  ),
-  (
-    "cioc": "MAD",
-    "name": "Madagascar",
-    "alpha2Code": "MG",
-    "alpha3Code": "MDG"
-  ),
-  (
-    "cioc": "MAW",
-    "name": "Malawi",
-    "alpha2Code": "MW",
-    "alpha3Code": "MWI"
-  ),
-  (
-    "cioc": "MAS",
-    "name": "Malaysia",
-    "alpha2Code": "MY",
-    "alpha3Code": "MYS"
-  ),
-  (
-    "cioc": "MDV",
-    "name": "Maldives",
-    "alpha2Code": "MV",
-    "alpha3Code": "MDV"
-  ),
-  (
-    "cioc": "MLI",
-    "name": "Mali",
-    "alpha2Code": "ML",
-    "alpha3Code": "MLI"
-  ),
-  (
-    "cioc": "MLT",
-    "name": "Malta",
-    "alpha2Code": "MT",
-    "alpha3Code": "MLT"
-  ),
-  (
-    "cioc": "MHL",
-    "name": "Marshall Islands",
-    "alpha2Code": "MH",
-    "alpha3Code": "MHL"
-  ),
-  (
-    "cioc": "",
-    "name": "Martinique",
-    "alpha2Code": "MQ",
-    "alpha3Code": "MTQ"
-  ),
-  (
-    "cioc": "MTN",
-    "name": "Mauritania",
-    "alpha2Code": "MR",
-    "alpha3Code": "MRT"
-  ),
-  (
-    "cioc": "MRI",
-    "name": "Mauritius",
-    "alpha2Code": "MU",
-    "alpha3Code": "MUS"
-  ),
-  (
-    "cioc": "",
-    "name": "Mayotte",
-    "alpha2Code": "YT",
-    "alpha3Code": "MYT"
-  ),
-  (
-    "cioc": "MEX",
-    "name": "Mexico",
-    "alpha2Code": "MX",
-    "alpha3Code": "MEX"
-  ),
-  (
-    "cioc": "FSM",
-    "name": "Micronesia (Federated States of)",
-    "alpha2Code": "FM",
-    "alpha3Code": "FSM"
-  ),
-  (
-    "cioc": "MDA",
-    "name": "Moldova (Republic of)",
-    "alpha2Code": "MD",
-    "alpha3Code": "MDA"
-  ),
-  (
-    "cioc": "MON",
-    "name": "Monaco",
-    "alpha2Code": "MC",
-    "alpha3Code": "MCO"
-  ),
-  (
-    "cioc": "MGL",
-    "name": "Mongolia",
-    "alpha2Code": "MN",
-    "alpha3Code": "MNG"
-  ),
-  (
-    "cioc": "MNE",
-    "name": "Montenegro",
-    "alpha2Code": "ME",
-    "alpha3Code": "MNE"
-  ),
-  (
-    "cioc": "",
-    "name": "Montserrat",
-    "alpha2Code": "MS",
-    "alpha3Code": "MSR"
-  ),
-  (
-    "cioc": "MAR",
-    "name": "Morocco",
-    "alpha2Code": "MA",
-    "alpha3Code": "MAR"
-  ),
-  (
-    "cioc": "MOZ",
-    "name": "Mozambique",
-    "alpha2Code": "MZ",
-    "alpha3Code": "MOZ"
-  ),
-  (
-    "cioc": "MYA",
-    "name": "Myanmar",
-    "alpha2Code": "MM",
-    "alpha3Code": "MMR"
-  ),
-  (
-    "cioc": "NAM",
-    "name": "Namibia",
-    "alpha2Code": "NA",
-    "alpha3Code": "NAM"
-  ),
-  (
-    "cioc": "NRU",
-    "name": "Nauru",
-    "alpha2Code": "NR",
-    "alpha3Code": "NRU"
-  ),
-  (
-    "cioc": "NEP",
-    "name": "Nepal",
-    "alpha2Code": "NP",
-    "alpha3Code": "NPL"
-  ),
-  (
-    "cioc": "NED",
-    "name": "Netherlands",
-    "alpha2Code": "NL",
-    "alpha3Code": "NLD"
-  ),
-  (
-    "cioc": "",
-    "name": "New Caledonia",
-    "alpha2Code": "NC",
-    "alpha3Code": "NCL"
-  ),
-  (
-    "cioc": "NZL",
-    "name": "New Zealand",
-    "alpha2Code": "NZ",
-    "alpha3Code": "NZL"
-  ),
-  (
-    "cioc": "NCA",
-    "name": "Nicaragua",
-    "alpha2Code": "NI",
-    "alpha3Code": "NIC"
-  ),
-  (
-    "cioc": "NIG",
-    "name": "Niger",
-    "alpha2Code": "NE",
-    "alpha3Code": "NER"
-  ),
-  (
-    "cioc": "NGR",
-    "name": "Nigeria",
-    "alpha2Code": "NG",
-    "alpha3Code": "NGA"
-  ),
-  (
-    "cioc": "",
-    "name": "Niue",
-    "alpha2Code": "NU",
-    "alpha3Code": "NIU"
-  ),
-  (
-    "cioc": "",
-    "name": "Norfolk Island",
-    "alpha2Code": "NF",
-    "alpha3Code": "NFK"
-  ),
-  (
-    "cioc": "PRK",
-    "name": "Korea (Democratic People's Republic of)",
-    "alpha2Code": "KP",
-    "alpha3Code": "PRK"
-  ),
-  (
-    "cioc": "",
-    "name": "Northern Mariana Islands",
-    "alpha2Code": "MP",
-    "alpha3Code": "MNP"
-  ),
-  (
-    "cioc": "NOR",
-    "name": "Norway",
-    "alpha2Code": "NO",
-    "alpha3Code": "NOR"
-  ),
-  (
-    "cioc": "OMA",
-    "name": "Oman",
-    "alpha2Code": "OM",
-    "alpha3Code": "OMN"
-  ),
-  (
-    "cioc": "PAK",
-    "name": "Pakistan",
-    "alpha2Code": "PK",
-    "alpha3Code": "PAK"
-  ),
-  (
-    "cioc": "PLW",
-    "name": "Palau",
-    "alpha2Code": "PW",
-    "alpha3Code": "PLW"
-  ),
-  (
-    "cioc": "PLE",
-    "name": "Palestine, State of",
-    "alpha2Code": "PS",
-    "alpha3Code": "PSE"
-  ),
-  (
-    "cioc": "PAN",
-    "name": "Panama",
-    "alpha2Code": "PA",
-    "alpha3Code": "PAN"
-  ),
-  (
-    "cioc": "PNG",
-    "name": "Papua New Guinea",
-    "alpha2Code": "PG",
-    "alpha3Code": "PNG"
-  ),
-  (
-    "cioc": "PAR",
-    "name": "Paraguay",
-    "alpha2Code": "PY",
-    "alpha3Code": "PRY"
-  ),
-  (
-    "cioc": "PER",
-    "name": "Peru",
-    "alpha2Code": "PE",
-    "alpha3Code": "PER"
-  ),
-  (
-    "cioc": "PHI",
-    "name": "Philippines",
-    "alpha2Code": "PH",
-    "alpha3Code": "PHL"
-  ),
-  (
-    "cioc": "",
-    "name": "Pitcairn",
-    "alpha2Code": "PN",
-    "alpha3Code": "PCN"
-  ),
-  (
-    "cioc": "POL",
-    "name": "Poland",
-    "alpha2Code": "PL",
-    "alpha3Code": "POL"
-  ),
-  (
-    "cioc": "POR",
-    "name": "Portugal",
-    "alpha2Code": "PT",
-    "alpha3Code": "PRT"
-  ),
-  (
-    "cioc": "PUR",
-    "name": "Puerto Rico",
-    "alpha2Code": "PR",
-    "alpha3Code": "PRI"
-  ),
-  (
-    "cioc": "QAT",
-    "name": "Qatar",
-    "alpha2Code": "QA",
-    "alpha3Code": "QAT"
-  ),
-  (
-    "name": "Republic of Kosovo",
-    "alpha2Code": "XK",
-    "alpha3Code": "KOS"
-  ),
-  (
-    "cioc": "",
-    "name": "Réunion",
-    "alpha2Code": "RE",
-    "alpha3Code": "REU"
-  ),
-  (
-    "cioc": "ROU",
-    "name": "Romania",
-    "alpha2Code": "RO",
-    "alpha3Code": "ROU"
-  ),
-  (
-    "cioc": "RUS",
-    "name": "Russian Federation",
-    "alpha2Code": "RU",
-    "alpha3Code": "RUS"
-  ),
-  (
-    "cioc": "RWA",
-    "name": "Rwanda",
-    "alpha2Code": "RW",
-    "alpha3Code": "RWA"
-  ),
-  (
-    "cioc": "",
-    "name": "Saint Barthélemy",
-    "alpha2Code": "BL",
-    "alpha3Code": "BLM"
-  ),
-  (
-    "name": "Saint Helena, Ascension and Tristan da Cunha",
-    "alpha2Code": "SH",
-    "alpha3Code": "SHN"
-  ),
-  (
-    "cioc": "SKN",
-    "name": "Saint Kitts and Nevis",
-    "alpha2Code": "KN",
-    "alpha3Code": "KNA"
-  ),
-  (
-    "cioc": "LCA",
-    "name": "Saint Lucia",
-    "alpha2Code": "LC",
-    "alpha3Code": "LCA"
-  ),
-  (
-    "cioc": "",
-    "name": "Saint Martin (French part)",
-    "alpha2Code": "MF",
-    "alpha3Code": "MAF"
-  ),
-  (
-    "cioc": "",
-    "name": "Saint Pierre and Miquelon",
-    "alpha2Code": "PM",
-    "alpha3Code": "SPM"
-  ),
-  (
-    "cioc": "VIN",
-    "name": "Saint Vincent and the Grenadines",
-    "alpha2Code": "VC",
-    "alpha3Code": "VCT"
-  ),
-  (
-    "cioc": "SAM",
-    "name": "Samoa",
-    "alpha2Code": "WS",
-    "alpha3Code": "WSM"
-  ),
-  (
-    "cioc": "SMR",
-    "name": "San Marino",
-    "alpha2Code": "SM",
-    "alpha3Code": "SMR"
-  ),
-  (
-    "cioc": "STP",
-    "name": "Sao Tome and Principe",
-    "alpha2Code": "ST",
-    "alpha3Code": "STP"
-  ),
-  (
-    "cioc": "KSA",
-    "name": "Saudi Arabia",
-    "alpha2Code": "SA",
-    "alpha3Code": "SAU"
-  ),
-  (
-    "cioc": "SEN",
-    "name": "Senegal",
-    "alpha2Code": "SN",
-    "alpha3Code": "SEN"
-  ),
-  (
-    "cioc": "SRB",
-    "name": "Serbia",
-    "alpha2Code": "RS",
-    "alpha3Code": "SRB"
-  ),
-  (
-    "cioc": "SEY",
-    "name": "Seychelles",
-    "alpha2Code": "SC",
-    "alpha3Code": "SYC"
-  ),
-  (
-    "cioc": "SLE",
-    "name": "Sierra Leone",
-    "alpha2Code": "SL",
-    "alpha3Code": "SLE"
-  ),
-  (
-    "cioc": "SIN",
-    "name": "Singapore",
-    "alpha2Code": "SG",
-    "alpha3Code": "SGP"
-  ),
-  (
-    "cioc": "",
-    "name": "Sint Maarten (Dutch part)",
-    "alpha2Code": "SX",
-    "alpha3Code": "SXM"
-  ),
-  (
-    "cioc": "SVK",
-    "name": "Slovakia",
-    "alpha2Code": "SK",
-    "alpha3Code": "SVK"
-  ),
-  (
-    "cioc": "SLO",
-    "name": "Slovenia",
-    "alpha2Code": "SI",
-    "alpha3Code": "SVN"
-  ),
-  (
-    "cioc": "SOL",
-    "name": "Solomon Islands",
-    "alpha2Code": "SB",
-    "alpha3Code": "SLB"
-  ),
-  (
-    "cioc": "SOM",
-    "name": "Somalia",
-    "alpha2Code": "SO",
-    "alpha3Code": "SOM"
-  ),
-  (
-    "cioc": "RSA",
-    "name": "South Africa",
-    "alpha2Code": "ZA",
-    "alpha3Code": "ZAF"
-  ),
-  (
-    "cioc": "",
-    "name": "South Georgia and the South Sandwich Islands",
-    "alpha2Code": "GS",
-    "alpha3Code": "SGS"
-  ),
-  (
-    "cioc": "KOR",
-    "name": "Korea (Republic of)",
-    "alpha2Code": "KR",
-    "alpha3Code": "KOR"
-  ),
-  (
-    "cioc": "",
-    "name": "South Sudan",
-    "alpha2Code": "SS",
-    "alpha3Code": "SSD"
-  ),
-  (
-    "cioc": "ESP",
-    "name": "Spain",
-    "alpha2Code": "ES",
-    "alpha3Code": "ESP"
-  ),
-  (
-    "cioc": "SRI",
-    "name": "Sri Lanka",
-    "alpha2Code": "LK",
-    "alpha3Code": "LKA"
-  ),
-  (
-    "cioc": "SUD",
-    "name": "Sudan",
-    "alpha2Code": "SD",
-    "alpha3Code": "SDN"
-  ),
-  (
-    "cioc": "SUR",
-    "name": "Suriname",
-    "alpha2Code": "SR",
-    "alpha3Code": "SUR"
-  ),
-  (
-    "cioc": "",
-    "name": "Svalbard and Jan Mayen",
-    "alpha2Code": "SJ",
-    "alpha3Code": "SJM"
-  ),
-  (
-    "cioc": "SWZ",
-    "name": "Swaziland",
-    "alpha2Code": "SZ",
-    "alpha3Code": "SWZ"
-  ),
-  (
-    "cioc": "SWE",
-    "name": "Sweden",
-    "alpha2Code": "SE",
-    "alpha3Code": "SWE"
-  ),
-  (
-    "cioc": "SUI",
-    "name": "Switzerland",
-    "alpha2Code": "CH",
-    "alpha3Code": "CHE"
-  ),
-  (
-    "cioc": "SYR",
-    "name": "Syrian Arab Republic",
-    "alpha2Code": "SY",
-    "alpha3Code": "SYR"
-  ),
-  (
-    "cioc": "TPE",
-    "name": "Taiwan",
-    "alpha2Code": "TW",
-    "alpha3Code": "TWN"
-  ),
-  (
-    "cioc": "TJK",
-    "name": "Tajikistan",
-    "alpha2Code": "TJ",
-    "alpha3Code": "TJK"
-  ),
-  (
-    "cioc": "TAN",
-    "name": "Tanzania, United Republic of",
-    "alpha2Code": "TZ",
-    "alpha3Code": "TZA"
-  ),
-  (
-    "cioc": "THA",
-    "name": "Thailand",
-    "alpha2Code": "TH",
-    "alpha3Code": "THA"
-  ),
-  (
-    "cioc": "TLS",
-    "name": "Timor-Leste",
-    "alpha2Code": "TL",
-    "alpha3Code": "TLS"
-  ),
-  (
-    "cioc": "TOG",
-    "name": "Togo",
-    "alpha2Code": "TG",
-    "alpha3Code": "TGO"
-  ),
-  (
-    "cioc": "",
-    "name": "Tokelau",
-    "alpha2Code": "TK",
-    "alpha3Code": "TKL"
-  ),
-  (
-    "cioc": "TGA",
-    "name": "Tonga",
-    "alpha2Code": "TO",
-    "alpha3Code": "TON"
-  ),
-  (
-    "cioc": "TTO",
-    "name": "Trinidad and Tobago",
-    "alpha2Code": "TT",
-    "alpha3Code": "TTO"
-  ),
-  (
-    "cioc": "TUN",
-    "name": "Tunisia",
-    "alpha2Code": "TN",
-    "alpha3Code": "TUN"
-  ),
-  (
-    "cioc": "TUR",
-    "name": "Turkey",
-    "alpha2Code": "TR",
-    "alpha3Code": "TUR"
-  ),
-  (
-    "cioc": "TKM",
-    "name": "Turkmenistan",
-    "alpha2Code": "TM",
-    "alpha3Code": "TKM"
-  ),
-  (
-    "cioc": "",
-    "name": "Turks and Caicos Islands",
-    "alpha2Code": "TC",
-    "alpha3Code": "TCA"
-  ),
-  (
-    "cioc": "TUV",
-    "name": "Tuvalu",
-    "alpha2Code": "TV",
-    "alpha3Code": "TUV"
-  ),
-  (
-    "cioc": "UGA",
-    "name": "Uganda",
-    "alpha2Code": "UG",
-    "alpha3Code": "UGA"
-  ),
-  (
-    "cioc": "UKR",
-    "name": "Ukraine",
-    "alpha2Code": "UA",
-    "alpha3Code": "UKR"
-  ),
-  (
-    "cioc": "UAE",
-    "name": "United Arab Emirates",
-    "alpha2Code": "AE",
-    "alpha3Code": "ARE"
-  ),
-  (
-    "cioc": "GBR",
-    "name": "United Kingdom of Great Britain and Northern Ireland",
-    "alpha2Code": "GB",
-    "alpha3Code": "GBR"
-  ),
-  (
-    "cioc": "USA",
-    "name": "United States of America",
-    "alpha2Code": "US",
-    "alpha3Code": "USA"
-  ),
-  (
-    "cioc": "URU",
-    "name": "Uruguay",
-    "alpha2Code": "UY",
-    "alpha3Code": "URY"
-  ),
-  (
-    "cioc": "UZB",
-    "name": "Uzbekistan",
-    "alpha2Code": "UZ",
-    "alpha3Code": "UZB"
-  ),
-  (
-    "cioc": "VAN",
-    "name": "Vanuatu",
-    "alpha2Code": "VU",
-    "alpha3Code": "VUT"
-  ),
-  (
-    "cioc": "VEN",
-    "name": "Venezuela (Bolivarian Republic of)",
-    "alpha2Code": "VE",
-    "alpha3Code": "VEN"
-  ),
-  (
-    "cioc": "VIE",
-    "name": "Viet Nam",
-    "alpha2Code": "VN",
-    "alpha3Code": "VNM"
-  ),
-  (
-    "cioc": "",
-    "name": "Wallis and Futuna",
-    "alpha2Code": "WF",
-    "alpha3Code": "WLF"
-  ),
-  (
-    "cioc": "",
-    "name": "Western Sahara",
-    "alpha2Code": "EH",
-    "alpha3Code": "ESH"
-  ),
-  (
-    "cioc": "YEM",
-    "name": "Yemen",
-    "alpha2Code": "YE",
-    "alpha3Code": "YEM"
-  ),
-  (
-    "cioc": "ZAM",
-    "name": "Zambia",
-    "alpha2Code": "ZM",
-    "alpha3Code": "ZMB"
-  ),
-  (
-    "cioc": "ZIM",
-    "name": "Zimbabwe",
-    "alpha2Code": "ZW",
-    "alpha3Code": "ZWE"
-  )
+        (
+                "cioc": "AFG",
+                "name": "Afghanistan",
+                "alpha2Code": "AF",
+                "alpha3Code": "AFG"
+        ),
+        (
+                "cioc": "",
+                "name": "Åland Islands",
+                "alpha2Code": "AX",
+                "alpha3Code": "ALA"
+        ),
+        (
+                "cioc": "ALB",
+                "name": "Albania",
+                "alpha2Code": "AL",
+                "alpha3Code": "ALB"
+        ),
+        (
+                "cioc": "ALG",
+                "name": "Algeria",
+                "alpha2Code": "DZ",
+                "alpha3Code": "DZA"
+        ),
+        (
+                "cioc": "ASA",
+                "name": "American Samoa",
+                "alpha2Code": "AS",
+                "alpha3Code": "ASM"
+        ),
+        (
+                "cioc": "AND",
+                "name": "Andorra",
+                "alpha2Code": "AD",
+                "alpha3Code": "AND"
+        ),
+        (
+                "cioc": "ANG",
+                "name": "Angola",
+                "alpha2Code": "AO",
+                "alpha3Code": "AGO"
+        ),
+        (
+                "cioc": "",
+                "name": "Anguilla",
+                "alpha2Code": "AI",
+                "alpha3Code": "AIA"
+        ),
+        (
+                "cioc": "",
+                "name": "Antarctica",
+                "alpha2Code": "AQ",
+                "alpha3Code": "ATA"
+        ),
+        (
+                "cioc": "ANT",
+                "name": "Antigua and Barbuda",
+                "alpha2Code": "AG",
+                "alpha3Code": "ATG"
+        ),
+        (
+                "cioc": "ARG",
+                "name": "Argentina",
+                "alpha2Code": "AR",
+                "alpha3Code": "ARG"
+        ),
+        (
+                "cioc": "ARM",
+                "name": "Armenia",
+                "alpha2Code": "AM",
+                "alpha3Code": "ARM"
+        ),
+        (
+                "cioc": "ARU",
+                "name": "Aruba",
+                "alpha2Code": "AW",
+                "alpha3Code": "ABW"
+        ),
+        (
+                "cioc": "AUS",
+                "name": "Australia",
+                "alpha2Code": "AU",
+                "alpha3Code": "AUS"
+        ),
+        (
+                "cioc": "AUT",
+                "name": "Austria",
+                "alpha2Code": "AT",
+                "alpha3Code": "AUT"
+        ),
+        (
+                "cioc": "AZE",
+                "name": "Azerbaijan",
+                "alpha2Code": "AZ",
+                "alpha3Code": "AZE"
+        ),
+        (
+                "cioc": "BAH",
+                "name": "Bahamas",
+                "alpha2Code": "BS",
+                "alpha3Code": "BHS"
+        ),
+        (
+                "cioc": "BRN",
+                "name": "Bahrain",
+                "alpha2Code": "BH",
+                "alpha3Code": "BHR"
+        ),
+        (
+                "cioc": "BAN",
+                "name": "Bangladesh",
+                "alpha2Code": "BD",
+                "alpha3Code": "BGD"
+        ),
+        (
+                "cioc": "BAR",
+                "name": "Barbados",
+                "alpha2Code": "BB",
+                "alpha3Code": "BRB"
+        ),
+        (
+                "cioc": "BLR",
+                "name": "Belarus",
+                "alpha2Code": "BY",
+                "alpha3Code": "BLR"
+        ),
+        (
+                "cioc": "BEL",
+                "name": "Belgium",
+                "alpha2Code": "BE",
+                "alpha3Code": "BEL"
+        ),
+        (
+                "cioc": "BIZ",
+                "name": "Belize",
+                "alpha2Code": "BZ",
+                "alpha3Code": "BLZ"
+        ),
+        (
+                "cioc": "BEN",
+                "name": "Benin",
+                "alpha2Code": "BJ",
+                "alpha3Code": "BEN"
+        ),
+        (
+                "cioc": "BER",
+                "name": "Bermuda",
+                "alpha2Code": "BM",
+                "alpha3Code": "BMU"
+        ),
+        (
+                "cioc": "BHU",
+                "name": "Bhutan",
+                "alpha2Code": "BT",
+                "alpha3Code": "BTN"
+        ),
+        (
+                "cioc": "BOL",
+                "name": "Bolivia (Plurinational State of)",
+                "alpha2Code": "BO",
+                "alpha3Code": "BOL"
+        ),
+        (
+                "name": "Bonaire, Sint Eustatius and Saba",
+                "alpha2Code": "BQ",
+                "alpha3Code": "BES"
+        ),
+        (
+                "cioc": "BIH",
+                "name": "Bosnia and Herzegovina",
+                "alpha2Code": "BA",
+                "alpha3Code": "BIH"
+        ),
+        (
+                "cioc": "BOT",
+                "name": "Botswana",
+                "alpha2Code": "BW",
+                "alpha3Code": "BWA"
+        ),
+        (
+                "cioc": "",
+                "name": "Bouvet Island",
+                "alpha2Code": "BV",
+                "alpha3Code": "BVT"
+        ),
+        (
+                "cioc": "BRA",
+                "name": "Brazil",
+                "alpha2Code": "BR",
+                "alpha3Code": "BRA"
+        ),
+        (
+                "cioc": "",
+                "name": "British Indian Ocean Territory",
+                "alpha2Code": "IO",
+                "alpha3Code": "IOT"
+        ),
+        (
+                "cioc": "",
+                "name": "United States Minor Outlying Islands",
+                "alpha2Code": "UM",
+                "alpha3Code": "UMI"
+        ),
+        (
+                "cioc": "IVB",
+                "name": "Virgin Islands (British)",
+                "alpha2Code": "VG",
+                "alpha3Code": "VGB"
+        ),
+        (
+                "cioc": "ISV",
+                "name": "Virgin Islands (U.S.)",
+                "alpha2Code": "VI",
+                "alpha3Code": "VIR"
+        ),
+        (
+                "cioc": "BRU",
+                "name": "Brunei Darussalam",
+                "alpha2Code": "BN",
+                "alpha3Code": "BRN"
+        ),
+        (
+                "cioc": "BUL",
+                "name": "Bulgaria",
+                "alpha2Code": "BG",
+                "alpha3Code": "BGR"
+        ),
+        (
+                "cioc": "BUR",
+                "name": "Burkina Faso",
+                "alpha2Code": "BF",
+                "alpha3Code": "BFA"
+        ),
+        (
+                "cioc": "BDI",
+                "name": "Burundi",
+                "alpha2Code": "BI",
+                "alpha3Code": "BDI"
+        ),
+        (
+                "cioc": "CAM",
+                "name": "Cambodia",
+                "alpha2Code": "KH",
+                "alpha3Code": "KHM"
+        ),
+        (
+                "cioc": "CMR",
+                "name": "Cameroon",
+                "alpha2Code": "CM",
+                "alpha3Code": "CMR"
+        ),
+        (
+                "cioc": "CAN",
+                "name": "Canada",
+                "alpha2Code": "CA",
+                "alpha3Code": "CAN"
+        ),
+        (
+                "cioc": "CPV",
+                "name": "Cabo Verde",
+                "alpha2Code": "CV",
+                "alpha3Code": "CPV"
+        ),
+        (
+                "cioc": "CAY",
+                "name": "Cayman Islands",
+                "alpha2Code": "KY",
+                "alpha3Code": "CYM"
+        ),
+        (
+                "cioc": "CAF",
+                "name": "Central African Republic",
+                "alpha2Code": "CF",
+                "alpha3Code": "CAF"
+        ),
+        (
+                "cioc": "CHA",
+                "name": "Chad",
+                "alpha2Code": "TD",
+                "alpha3Code": "TCD"
+        ),
+        (
+                "cioc": "CHI",
+                "name": "Chile",
+                "alpha2Code": "CL",
+                "alpha3Code": "CHL"
+        ),
+        (
+                "cioc": "CHN",
+                "name": "China",
+                "alpha2Code": "CN",
+                "alpha3Code": "CHN"
+        ),
+        (
+                "cioc": "",
+                "name": "Christmas Island",
+                "alpha2Code": "CX",
+                "alpha3Code": "CXR"
+        ),
+        (
+                "cioc": "",
+                "name": "Cocos (Keeling) Islands",
+                "alpha2Code": "CC",
+                "alpha3Code": "CCK"
+        ),
+        (
+                "cioc": "COL",
+                "name": "Colombia",
+                "alpha2Code": "CO",
+                "alpha3Code": "COL"
+        ),
+        (
+                "cioc": "COM",
+                "name": "Comoros",
+                "alpha2Code": "KM",
+                "alpha3Code": "COM"
+        ),
+        (
+                "cioc": "CGO",
+                "name": "Congo",
+                "alpha2Code": "CG",
+                "alpha3Code": "COG"
+        ),
+        (
+                "cioc": "COD",
+                "name": "Congo (Democratic Republic of the)",
+                "alpha2Code": "CD",
+                "alpha3Code": "COD"
+        ),
+        (
+                "cioc": "COK",
+                "name": "Cook Islands",
+                "alpha2Code": "CK",
+                "alpha3Code": "COK"
+        ),
+        (
+                "cioc": "CRC",
+                "name": "Costa Rica",
+                "alpha2Code": "CR",
+                "alpha3Code": "CRI"
+        ),
+        (
+                "cioc": "CRO",
+                "name": "Croatia",
+                "alpha2Code": "HR",
+                "alpha3Code": "HRV"
+        ),
+        (
+                "cioc": "CUB",
+                "name": "Cuba",
+                "alpha2Code": "CU",
+                "alpha3Code": "CUB"
+        ),
+        (
+                "cioc": "",
+                "name": "Curaçao",
+                "alpha2Code": "CW",
+                "alpha3Code": "CUW"
+        ),
+        (
+                "cioc": "CYP",
+                "name": "Cyprus",
+                "alpha2Code": "CY",
+                "alpha3Code": "CYP"
+        ),
+        (
+                "cioc": "CZE",
+                "name": "Czech Republic",
+                "alpha2Code": "CZ",
+                "alpha3Code": "CZE"
+        ),
+        (
+                "cioc": "DEN",
+                "name": "Denmark",
+                "alpha2Code": "DK",
+                "alpha3Code": "DNK"
+        ),
+        (
+                "cioc": "DJI",
+                "name": "Djibouti",
+                "alpha2Code": "DJ",
+                "alpha3Code": "DJI"
+        ),
+        (
+                "cioc": "DMA",
+                "name": "Dominica",
+                "alpha2Code": "DM",
+                "alpha3Code": "DMA"
+        ),
+        (
+                "cioc": "DOM",
+                "name": "Dominican Republic",
+                "alpha2Code": "DO",
+                "alpha3Code": "DOM"
+        ),
+        (
+                "cioc": "ECU",
+                "name": "Ecuador",
+                "alpha2Code": "EC",
+                "alpha3Code": "ECU"
+        ),
+        (
+                "cioc": "EGY",
+                "name": "Egypt",
+                "alpha2Code": "EG",
+                "alpha3Code": "EGY"
+        ),
+        (
+                "cioc": "ESA",
+                "name": "El Salvador",
+                "alpha2Code": "SV",
+                "alpha3Code": "SLV"
+        ),
+        (
+                "cioc": "GEQ",
+                "name": "Equatorial Guinea",
+                "alpha2Code": "GQ",
+                "alpha3Code": "GNQ"
+        ),
+        (
+                "cioc": "ERI",
+                "name": "Eritrea",
+                "alpha2Code": "ER",
+                "alpha3Code": "ERI"
+        ),
+        (
+                "cioc": "EST",
+                "name": "Estonia",
+                "alpha2Code": "EE",
+                "alpha3Code": "EST"
+        ),
+        (
+                "cioc": "ETH",
+                "name": "Ethiopia",
+                "alpha2Code": "ET",
+                "alpha3Code": "ETH"
+        ),
+        (
+                "cioc": "",
+                "name": "Falkland Islands (Malvinas)",
+                "alpha2Code": "FK",
+                "alpha3Code": "FLK"
+        ),
+        (
+                "cioc": "",
+                "name": "Faroe Islands",
+                "alpha2Code": "FO",
+                "alpha3Code": "FRO"
+        ),
+        (
+                "cioc": "FIJ",
+                "name": "Fiji",
+                "alpha2Code": "FJ",
+                "alpha3Code": "FJI"
+        ),
+        (
+                "cioc": "FIN",
+                "name": "Finland",
+                "alpha2Code": "FI",
+                "alpha3Code": "FIN"
+        ),
+        (
+                "cioc": "FRA",
+                "name": "France",
+                "alpha2Code": "FR",
+                "alpha3Code": "FRA"
+        ),
+        (
+                "cioc": "",
+                "name": "French Guiana",
+                "alpha2Code": "GF",
+                "alpha3Code": "GUF"
+        ),
+        (
+                "cioc": "",
+                "name": "French Polynesia",
+                "alpha2Code": "PF",
+                "alpha3Code": "PYF"
+        ),
+        (
+                "cioc": "",
+                "name": "French Southern Territories",
+                "alpha2Code": "TF",
+                "alpha3Code": "ATF"
+        ),
+        (
+                "cioc": "GAB",
+                "name": "Gabon",
+                "alpha2Code": "GA",
+                "alpha3Code": "GAB"
+        ),
+        (
+                "cioc": "GAM",
+                "name": "Gambia",
+                "alpha2Code": "GM",
+                "alpha3Code": "GMB"
+        ),
+        (
+                "cioc": "GEO",
+                "name": "Georgia",
+                "alpha2Code": "GE",
+                "alpha3Code": "GEO"
+        ),
+        (
+                "cioc": "GER",
+                "name": "Germany",
+                "alpha2Code": "DE",
+                "alpha3Code": "DEU"
+        ),
+        (
+                "cioc": "GHA",
+                "name": "Ghana",
+                "alpha2Code": "GH",
+                "alpha3Code": "GHA"
+        ),
+        (
+                "cioc": "",
+                "name": "Gibraltar",
+                "alpha2Code": "GI",
+                "alpha3Code": "GIB"
+        ),
+        (
+                "cioc": "GRE",
+                "name": "Greece",
+                "alpha2Code": "GR",
+                "alpha3Code": "GRC"
+        ),
+        (
+                "cioc": "",
+                "name": "Greenland",
+                "alpha2Code": "GL",
+                "alpha3Code": "GRL"
+        ),
+        (
+                "cioc": "GRN",
+                "name": "Grenada",
+                "alpha2Code": "GD",
+                "alpha3Code": "GRD"
+        ),
+        (
+                "cioc": "",
+                "name": "Guadeloupe",
+                "alpha2Code": "GP",
+                "alpha3Code": "GLP"
+        ),
+        (
+                "cioc": "GUM",
+                "name": "Guam",
+                "alpha2Code": "GU",
+                "alpha3Code": "GUM"
+        ),
+        (
+                "cioc": "GUA",
+                "name": "Guatemala",
+                "alpha2Code": "GT",
+                "alpha3Code": "GTM"
+        ),
+        (
+                "cioc": "",
+                "name": "Guernsey",
+                "alpha2Code": "GG",
+                "alpha3Code": "GGY"
+        ),
+        (
+                "cioc": "GUI",
+                "name": "Guinea",
+                "alpha2Code": "GN",
+                "alpha3Code": "GIN"
+        ),
+        (
+                "cioc": "GBS",
+                "name": "Guinea-Bissau",
+                "alpha2Code": "GW",
+                "alpha3Code": "GNB"
+        ),
+        (
+                "cioc": "GUY",
+                "name": "Guyana",
+                "alpha2Code": "GY",
+                "alpha3Code": "GUY"
+        ),
+        (
+                "cioc": "HAI",
+                "name": "Haiti",
+                "alpha2Code": "HT",
+                "alpha3Code": "HTI"
+        ),
+        (
+                "cioc": "",
+                "name": "Heard Island and McDonald Islands",
+                "alpha2Code": "HM",
+                "alpha3Code": "HMD"
+        ),
+        (
+                "cioc": "",
+                "name": "Holy See",
+                "alpha2Code": "VA",
+                "alpha3Code": "VAT"
+        ),
+        (
+                "cioc": "HON",
+                "name": "Honduras",
+                "alpha2Code": "HN",
+                "alpha3Code": "HND"
+        ),
+        (
+                "cioc": "HKG",
+                "name": "Hong Kong",
+                "alpha2Code": "HK",
+                "alpha3Code": "HKG"
+        ),
+        (
+                "cioc": "HUN",
+                "name": "Hungary",
+                "alpha2Code": "HU",
+                "alpha3Code": "HUN"
+        ),
+        (
+                "cioc": "ISL",
+                "name": "Iceland",
+                "alpha2Code": "IS",
+                "alpha3Code": "ISL"
+        ),
+        (
+                "cioc": "IND",
+                "name": "India",
+                "alpha2Code": "IN",
+                "alpha3Code": "IND"
+        ),
+        (
+                "cioc": "INA",
+                "name": "Indonesia",
+                "alpha2Code": "ID",
+                "alpha3Code": "IDN"
+        ),
+        (
+                "cioc": "CIV",
+                "name": "Côte d'Ivoire",
+                "alpha2Code": "CI",
+                "alpha3Code": "CIV"
+        ),
+        (
+                "cioc": "IRI",
+                "name": "Iran (Islamic Republic of)",
+                "alpha2Code": "IR",
+                "alpha3Code": "IRN"
+        ),
+        (
+                "cioc": "IRQ",
+                "name": "Iraq",
+                "alpha2Code": "IQ",
+                "alpha3Code": "IRQ"
+        ),
+        (
+                "cioc": "IRL",
+                "name": "Ireland",
+                "alpha2Code": "IE",
+                "alpha3Code": "IRL"
+        ),
+        (
+                "cioc": "",
+                "name": "Isle of Man",
+                "alpha2Code": "IM",
+                "alpha3Code": "IMN"
+        ),
+        (
+                "cioc": "ISR",
+                "name": "Israel",
+                "alpha2Code": "IL",
+                "alpha3Code": "ISR"
+        ),
+        (
+                "cioc": "ITA",
+                "name": "Italy",
+                "alpha2Code": "IT",
+                "alpha3Code": "ITA"
+        ),
+        (
+                "cioc": "JAM",
+                "name": "Jamaica",
+                "alpha2Code": "JM",
+                "alpha3Code": "JAM"
+        ),
+        (
+                "cioc": "JPN",
+                "name": "Japan",
+                "alpha2Code": "JP",
+                "alpha3Code": "JPN"
+        ),
+        (
+                "cioc": "",
+                "name": "Jersey",
+                "alpha2Code": "JE",
+                "alpha3Code": "JEY"
+        ),
+        (
+                "cioc": "JOR",
+                "name": "Jordan",
+                "alpha2Code": "JO",
+                "alpha3Code": "JOR"
+        ),
+        (
+                "cioc": "KAZ",
+                "name": "Kazakhstan",
+                "alpha2Code": "KZ",
+                "alpha3Code": "KAZ"
+        ),
+        (
+                "cioc": "KEN",
+                "name": "Kenya",
+                "alpha2Code": "KE",
+                "alpha3Code": "KEN"
+        ),
+        (
+                "cioc": "KIR",
+                "name": "Kiribati",
+                "alpha2Code": "KI",
+                "alpha3Code": "KIR"
+        ),
+        (
+                "cioc": "KUW",
+                "name": "Kuwait",
+                "alpha2Code": "KW",
+                "alpha3Code": "KWT"
+        ),
+        (
+                "cioc": "KGZ",
+                "name": "Kyrgyzstan",
+                "alpha2Code": "KG",
+                "alpha3Code": "KGZ"
+        ),
+        (
+                "cioc": "LAO",
+                "name": "Lao People's Democratic Republic",
+                "alpha2Code": "LA",
+                "alpha3Code": "LAO"
+        ),
+        (
+                "cioc": "LAT",
+                "name": "Latvia",
+                "alpha2Code": "LV",
+                "alpha3Code": "LVA"
+        ),
+        (
+                "cioc": "LIB",
+                "name": "Lebanon",
+                "alpha2Code": "LB",
+                "alpha3Code": "LBN"
+        ),
+        (
+                "cioc": "LES",
+                "name": "Lesotho",
+                "alpha2Code": "LS",
+                "alpha3Code": "LSO"
+        ),
+        (
+                "cioc": "LBR",
+                "name": "Liberia",
+                "alpha2Code": "LR",
+                "alpha3Code": "LBR"
+        ),
+        (
+                "cioc": "LBA",
+                "name": "Libya",
+                "alpha2Code": "LY",
+                "alpha3Code": "LBY"
+        ),
+        (
+                "cioc": "LIE",
+                "name": "Liechtenstein",
+                "alpha2Code": "LI",
+                "alpha3Code": "LIE"
+        ),
+        (
+                "cioc": "LTU",
+                "name": "Lithuania",
+                "alpha2Code": "LT",
+                "alpha3Code": "LTU"
+        ),
+        (
+                "cioc": "LUX",
+                "name": "Luxembourg",
+                "alpha2Code": "LU",
+                "alpha3Code": "LUX"
+        ),
+        (
+                "cioc": "",
+                "name": "Macao",
+                "alpha2Code": "MO",
+                "alpha3Code": "MAC"
+        ),
+        (
+                "cioc": "MKD",
+                "name": "Macedonia (the former Yugoslav Republic of)",
+                "alpha2Code": "MK",
+                "alpha3Code": "MKD"
+        ),
+        (
+                "cioc": "MAD",
+                "name": "Madagascar",
+                "alpha2Code": "MG",
+                "alpha3Code": "MDG"
+        ),
+        (
+                "cioc": "MAW",
+                "name": "Malawi",
+                "alpha2Code": "MW",
+                "alpha3Code": "MWI"
+        ),
+        (
+                "cioc": "MAS",
+                "name": "Malaysia",
+                "alpha2Code": "MY",
+                "alpha3Code": "MYS"
+        ),
+        (
+                "cioc": "MDV",
+                "name": "Maldives",
+                "alpha2Code": "MV",
+                "alpha3Code": "MDV"
+        ),
+        (
+                "cioc": "MLI",
+                "name": "Mali",
+                "alpha2Code": "ML",
+                "alpha3Code": "MLI"
+        ),
+        (
+                "cioc": "MLT",
+                "name": "Malta",
+                "alpha2Code": "MT",
+                "alpha3Code": "MLT"
+        ),
+        (
+                "cioc": "MHL",
+                "name": "Marshall Islands",
+                "alpha2Code": "MH",
+                "alpha3Code": "MHL"
+        ),
+        (
+                "cioc": "",
+                "name": "Martinique",
+                "alpha2Code": "MQ",
+                "alpha3Code": "MTQ"
+        ),
+        (
+                "cioc": "MTN",
+                "name": "Mauritania",
+                "alpha2Code": "MR",
+                "alpha3Code": "MRT"
+        ),
+        (
+                "cioc": "MRI",
+                "name": "Mauritius",
+                "alpha2Code": "MU",
+                "alpha3Code": "MUS"
+        ),
+        (
+                "cioc": "",
+                "name": "Mayotte",
+                "alpha2Code": "YT",
+                "alpha3Code": "MYT"
+        ),
+        (
+                "cioc": "MEX",
+                "name": "Mexico",
+                "alpha2Code": "MX",
+                "alpha3Code": "MEX"
+        ),
+        (
+                "cioc": "FSM",
+                "name": "Micronesia (Federated States of)",
+                "alpha2Code": "FM",
+                "alpha3Code": "FSM"
+        ),
+        (
+                "cioc": "MDA",
+                "name": "Moldova (Republic of)",
+                "alpha2Code": "MD",
+                "alpha3Code": "MDA"
+        ),
+        (
+                "cioc": "MON",
+                "name": "Monaco",
+                "alpha2Code": "MC",
+                "alpha3Code": "MCO"
+        ),
+        (
+                "cioc": "MGL",
+                "name": "Mongolia",
+                "alpha2Code": "MN",
+                "alpha3Code": "MNG"
+        ),
+        (
+                "cioc": "MNE",
+                "name": "Montenegro",
+                "alpha2Code": "ME",
+                "alpha3Code": "MNE"
+        ),
+        (
+                "cioc": "",
+                "name": "Montserrat",
+                "alpha2Code": "MS",
+                "alpha3Code": "MSR"
+        ),
+        (
+                "cioc": "MAR",
+                "name": "Morocco",
+                "alpha2Code": "MA",
+                "alpha3Code": "MAR"
+        ),
+        (
+                "cioc": "MOZ",
+                "name": "Mozambique",
+                "alpha2Code": "MZ",
+                "alpha3Code": "MOZ"
+        ),
+        (
+                "cioc": "MYA",
+                "name": "Myanmar",
+                "alpha2Code": "MM",
+                "alpha3Code": "MMR"
+        ),
+        (
+                "cioc": "NAM",
+                "name": "Namibia",
+                "alpha2Code": "NA",
+                "alpha3Code": "NAM"
+        ),
+        (
+                "cioc": "NRU",
+                "name": "Nauru",
+                "alpha2Code": "NR",
+                "alpha3Code": "NRU"
+        ),
+        (
+                "cioc": "NEP",
+                "name": "Nepal",
+                "alpha2Code": "NP",
+                "alpha3Code": "NPL"
+        ),
+        (
+                "cioc": "NED",
+                "name": "Netherlands",
+                "alpha2Code": "NL",
+                "alpha3Code": "NLD"
+        ),
+        (
+                "cioc": "",
+                "name": "New Caledonia",
+                "alpha2Code": "NC",
+                "alpha3Code": "NCL"
+        ),
+        (
+                "cioc": "NZL",
+                "name": "New Zealand",
+                "alpha2Code": "NZ",
+                "alpha3Code": "NZL"
+        ),
+        (
+                "cioc": "NCA",
+                "name": "Nicaragua",
+                "alpha2Code": "NI",
+                "alpha3Code": "NIC"
+        ),
+        (
+                "cioc": "NIG",
+                "name": "Niger",
+                "alpha2Code": "NE",
+                "alpha3Code": "NER"
+        ),
+        (
+                "cioc": "NGR",
+                "name": "Nigeria",
+                "alpha2Code": "NG",
+                "alpha3Code": "NGA"
+        ),
+        (
+                "cioc": "",
+                "name": "Niue",
+                "alpha2Code": "NU",
+                "alpha3Code": "NIU"
+        ),
+        (
+                "cioc": "",
+                "name": "Norfolk Island",
+                "alpha2Code": "NF",
+                "alpha3Code": "NFK"
+        ),
+        (
+                "cioc": "PRK",
+                "name": "Korea (Democratic People's Republic of)",
+                "alpha2Code": "KP",
+                "alpha3Code": "PRK"
+        ),
+        (
+                "cioc": "",
+                "name": "Northern Mariana Islands",
+                "alpha2Code": "MP",
+                "alpha3Code": "MNP"
+        ),
+        (
+                "cioc": "NOR",
+                "name": "Norway",
+                "alpha2Code": "NO",
+                "alpha3Code": "NOR"
+        ),
+        (
+                "cioc": "OMA",
+                "name": "Oman",
+                "alpha2Code": "OM",
+                "alpha3Code": "OMN"
+        ),
+        (
+                "cioc": "PAK",
+                "name": "Pakistan",
+                "alpha2Code": "PK",
+                "alpha3Code": "PAK"
+        ),
+        (
+                "cioc": "PLW",
+                "name": "Palau",
+                "alpha2Code": "PW",
+                "alpha3Code": "PLW"
+        ),
+        (
+                "cioc": "PLE",
+                "name": "Palestine, State of",
+                "alpha2Code": "PS",
+                "alpha3Code": "PSE"
+        ),
+        (
+                "cioc": "PAN",
+                "name": "Panama",
+                "alpha2Code": "PA",
+                "alpha3Code": "PAN"
+        ),
+        (
+                "cioc": "PNG",
+                "name": "Papua New Guinea",
+                "alpha2Code": "PG",
+                "alpha3Code": "PNG"
+        ),
+        (
+                "cioc": "PAR",
+                "name": "Paraguay",
+                "alpha2Code": "PY",
+                "alpha3Code": "PRY"
+        ),
+        (
+                "cioc": "PER",
+                "name": "Peru",
+                "alpha2Code": "PE",
+                "alpha3Code": "PER"
+        ),
+        (
+                "cioc": "PHI",
+                "name": "Philippines",
+                "alpha2Code": "PH",
+                "alpha3Code": "PHL"
+        ),
+        (
+                "cioc": "",
+                "name": "Pitcairn",
+                "alpha2Code": "PN",
+                "alpha3Code": "PCN"
+        ),
+        (
+                "cioc": "POL",
+                "name": "Poland",
+                "alpha2Code": "PL",
+                "alpha3Code": "POL"
+        ),
+        (
+                "cioc": "POR",
+                "name": "Portugal",
+                "alpha2Code": "PT",
+                "alpha3Code": "PRT"
+        ),
+        (
+                "cioc": "PUR",
+                "name": "Puerto Rico",
+                "alpha2Code": "PR",
+                "alpha3Code": "PRI"
+        ),
+        (
+                "cioc": "QAT",
+                "name": "Qatar",
+                "alpha2Code": "QA",
+                "alpha3Code": "QAT"
+        ),
+        (
+                "name": "Republic of Kosovo",
+                "alpha2Code": "XK",
+                "alpha3Code": "KOS"
+        ),
+        (
+                "cioc": "",
+                "name": "Réunion",
+                "alpha2Code": "RE",
+                "alpha3Code": "REU"
+        ),
+        (
+                "cioc": "ROU",
+                "name": "Romania",
+                "alpha2Code": "RO",
+                "alpha3Code": "ROU"
+        ),
+        (
+                "cioc": "RUS",
+                "name": "Russian Federation",
+                "alpha2Code": "RU",
+                "alpha3Code": "RUS"
+        ),
+        (
+                "cioc": "RWA",
+                "name": "Rwanda",
+                "alpha2Code": "RW",
+                "alpha3Code": "RWA"
+        ),
+        (
+                "cioc": "",
+                "name": "Saint Barthélemy",
+                "alpha2Code": "BL",
+                "alpha3Code": "BLM"
+        ),
+        (
+                "name": "Saint Helena, Ascension and Tristan da Cunha",
+                "alpha2Code": "SH",
+                "alpha3Code": "SHN"
+        ),
+        (
+                "cioc": "SKN",
+                "name": "Saint Kitts and Nevis",
+                "alpha2Code": "KN",
+                "alpha3Code": "KNA"
+        ),
+        (
+                "cioc": "LCA",
+                "name": "Saint Lucia",
+                "alpha2Code": "LC",
+                "alpha3Code": "LCA"
+        ),
+        (
+                "cioc": "",
+                "name": "Saint Martin (French part)",
+                "alpha2Code": "MF",
+                "alpha3Code": "MAF"
+        ),
+        (
+                "cioc": "",
+                "name": "Saint Pierre and Miquelon",
+                "alpha2Code": "PM",
+                "alpha3Code": "SPM"
+        ),
+        (
+                "cioc": "VIN",
+                "name": "Saint Vincent and the Grenadines",
+                "alpha2Code": "VC",
+                "alpha3Code": "VCT"
+        ),
+        (
+                "cioc": "SAM",
+                "name": "Samoa",
+                "alpha2Code": "WS",
+                "alpha3Code": "WSM"
+        ),
+        (
+                "cioc": "SMR",
+                "name": "San Marino",
+                "alpha2Code": "SM",
+                "alpha3Code": "SMR"
+        ),
+        (
+                "cioc": "STP",
+                "name": "Sao Tome and Principe",
+                "alpha2Code": "ST",
+                "alpha3Code": "STP"
+        ),
+        (
+                "cioc": "KSA",
+                "name": "Saudi Arabia",
+                "alpha2Code": "SA",
+                "alpha3Code": "SAU"
+        ),
+        (
+                "cioc": "SEN",
+                "name": "Senegal",
+                "alpha2Code": "SN",
+                "alpha3Code": "SEN"
+        ),
+        (
+                "cioc": "SRB",
+                "name": "Serbia",
+                "alpha2Code": "RS",
+                "alpha3Code": "SRB"
+        ),
+        (
+                "cioc": "SEY",
+                "name": "Seychelles",
+                "alpha2Code": "SC",
+                "alpha3Code": "SYC"
+        ),
+        (
+                "cioc": "SLE",
+                "name": "Sierra Leone",
+                "alpha2Code": "SL",
+                "alpha3Code": "SLE"
+        ),
+        (
+                "cioc": "SIN",
+                "name": "Singapore",
+                "alpha2Code": "SG",
+                "alpha3Code": "SGP"
+        ),
+        (
+                "cioc": "",
+                "name": "Sint Maarten (Dutch part)",
+                "alpha2Code": "SX",
+                "alpha3Code": "SXM"
+        ),
+        (
+                "cioc": "SVK",
+                "name": "Slovakia",
+                "alpha2Code": "SK",
+                "alpha3Code": "SVK"
+        ),
+        (
+                "cioc": "SLO",
+                "name": "Slovenia",
+                "alpha2Code": "SI",
+                "alpha3Code": "SVN"
+        ),
+        (
+                "cioc": "SOL",
+                "name": "Solomon Islands",
+                "alpha2Code": "SB",
+                "alpha3Code": "SLB"
+        ),
+        (
+                "cioc": "SOM",
+                "name": "Somalia",
+                "alpha2Code": "SO",
+                "alpha3Code": "SOM"
+        ),
+        (
+                "cioc": "RSA",
+                "name": "South Africa",
+                "alpha2Code": "ZA",
+                "alpha3Code": "ZAF"
+        ),
+        (
+                "cioc": "",
+                "name": "South Georgia and the South Sandwich Islands",
+                "alpha2Code": "GS",
+                "alpha3Code": "SGS"
+        ),
+        (
+                "cioc": "KOR",
+                "name": "Korea (Republic of)",
+                "alpha2Code": "KR",
+                "alpha3Code": "KOR"
+        ),
+        (
+                "cioc": "",
+                "name": "South Sudan",
+                "alpha2Code": "SS",
+                "alpha3Code": "SSD"
+        ),
+        (
+                "cioc": "ESP",
+                "name": "Spain",
+                "alpha2Code": "ES",
+                "alpha3Code": "ESP"
+        ),
+        (
+                "cioc": "SRI",
+                "name": "Sri Lanka",
+                "alpha2Code": "LK",
+                "alpha3Code": "LKA"
+        ),
+        (
+                "cioc": "SUD",
+                "name": "Sudan",
+                "alpha2Code": "SD",
+                "alpha3Code": "SDN"
+        ),
+        (
+                "cioc": "SUR",
+                "name": "Suriname",
+                "alpha2Code": "SR",
+                "alpha3Code": "SUR"
+        ),
+        (
+                "cioc": "",
+                "name": "Svalbard and Jan Mayen",
+                "alpha2Code": "SJ",
+                "alpha3Code": "SJM"
+        ),
+        (
+                "cioc": "SWZ",
+                "name": "Swaziland",
+                "alpha2Code": "SZ",
+                "alpha3Code": "SWZ"
+        ),
+        (
+                "cioc": "SWE",
+                "name": "Sweden",
+                "alpha2Code": "SE",
+                "alpha3Code": "SWE"
+        ),
+        (
+                "cioc": "SUI",
+                "name": "Switzerland",
+                "alpha2Code": "CH",
+                "alpha3Code": "CHE"
+        ),
+        (
+                "cioc": "SYR",
+                "name": "Syrian Arab Republic",
+                "alpha2Code": "SY",
+                "alpha3Code": "SYR"
+        ),
+        (
+                "cioc": "TPE",
+                "name": "Taiwan",
+                "alpha2Code": "TW",
+                "alpha3Code": "TWN"
+        ),
+        (
+                "cioc": "TJK",
+                "name": "Tajikistan",
+                "alpha2Code": "TJ",
+                "alpha3Code": "TJK"
+        ),
+        (
+                "cioc": "TAN",
+                "name": "Tanzania, United Republic of",
+                "alpha2Code": "TZ",
+                "alpha3Code": "TZA"
+        ),
+        (
+                "cioc": "THA",
+                "name": "Thailand",
+                "alpha2Code": "TH",
+                "alpha3Code": "THA"
+        ),
+        (
+                "cioc": "TLS",
+                "name": "Timor-Leste",
+                "alpha2Code": "TL",
+                "alpha3Code": "TLS"
+        ),
+        (
+                "cioc": "TOG",
+                "name": "Togo",
+                "alpha2Code": "TG",
+                "alpha3Code": "TGO"
+        ),
+        (
+                "cioc": "",
+                "name": "Tokelau",
+                "alpha2Code": "TK",
+                "alpha3Code": "TKL"
+        ),
+        (
+                "cioc": "TGA",
+                "name": "Tonga",
+                "alpha2Code": "TO",
+                "alpha3Code": "TON"
+        ),
+        (
+                "cioc": "TTO",
+                "name": "Trinidad and Tobago",
+                "alpha2Code": "TT",
+                "alpha3Code": "TTO"
+        ),
+        (
+                "cioc": "TUN",
+                "name": "Tunisia",
+                "alpha2Code": "TN",
+                "alpha3Code": "TUN"
+        ),
+        (
+                "cioc": "TUR",
+                "name": "Turkey",
+                "alpha2Code": "TR",
+                "alpha3Code": "TUR"
+        ),
+        (
+                "cioc": "TKM",
+                "name": "Turkmenistan",
+                "alpha2Code": "TM",
+                "alpha3Code": "TKM"
+        ),
+        (
+                "cioc": "",
+                "name": "Turks and Caicos Islands",
+                "alpha2Code": "TC",
+                "alpha3Code": "TCA"
+        ),
+        (
+                "cioc": "TUV",
+                "name": "Tuvalu",
+                "alpha2Code": "TV",
+                "alpha3Code": "TUV"
+        ),
+        (
+                "cioc": "UGA",
+                "name": "Uganda",
+                "alpha2Code": "UG",
+                "alpha3Code": "UGA"
+        ),
+        (
+                "cioc": "UKR",
+                "name": "Ukraine",
+                "alpha2Code": "UA",
+                "alpha3Code": "UKR"
+        ),
+        (
+                "cioc": "UAE",
+                "name": "United Arab Emirates",
+                "alpha2Code": "AE",
+                "alpha3Code": "ARE"
+        ),
+        (
+                "cioc": "GBR",
+                "name": "United Kingdom of Great Britain and Northern Ireland",
+                "alpha2Code": "GB",
+                "alpha3Code": "GBR"
+        ),
+        (
+                "cioc": "USA",
+                "name": "United States of America",
+                "alpha2Code": "US",
+                "alpha3Code": "USA"
+        ),
+        (
+                "cioc": "URU",
+                "name": "Uruguay",
+                "alpha2Code": "UY",
+                "alpha3Code": "URY"
+        ),
+        (
+                "cioc": "UZB",
+                "name": "Uzbekistan",
+                "alpha2Code": "UZ",
+                "alpha3Code": "UZB"
+        ),
+        (
+                "cioc": "VAN",
+                "name": "Vanuatu",
+                "alpha2Code": "VU",
+                "alpha3Code": "VUT"
+        ),
+        (
+                "cioc": "VEN",
+                "name": "Venezuela (Bolivarian Republic of)",
+                "alpha2Code": "VE",
+                "alpha3Code": "VEN"
+        ),
+        (
+                "cioc": "VIE",
+                "name": "Viet Nam",
+                "alpha2Code": "VN",
+                "alpha3Code": "VNM"
+        ),
+        (
+                "cioc": "",
+                "name": "Wallis and Futuna",
+                "alpha2Code": "WF",
+                "alpha3Code": "WLF"
+        ),
+        (
+                "cioc": "",
+                "name": "Western Sahara",
+                "alpha2Code": "EH",
+                "alpha3Code": "ESH"
+        ),
+        (
+                "cioc": "YEM",
+                "name": "Yemen",
+                "alpha2Code": "YE",
+                "alpha3Code": "YEM"
+        ),
+        (
+                "cioc": "ZAM",
+                "name": "Zambia",
+                "alpha2Code": "ZM",
+                "alpha3Code": "ZMB"
+        ),
+        (
+                "cioc": "ZIM",
+                "name": "Zimbabwe",
+                "alpha2Code": "ZW",
+                "alpha3Code": "ZWE"
+        )
 );

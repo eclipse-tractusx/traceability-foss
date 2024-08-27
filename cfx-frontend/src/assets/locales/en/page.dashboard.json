@@ -1,24 +1,16 @@
 {
   "pageDashboard": {
     "totalInvestigations": {
-      "label": "Investigations"
+      "label": "Open investigations"
     },
-    "totalAlerts": {
-      "label": "Alerts"
-    },
-    "totalOfParts": {
-      "label": "Parts"
+    "totalOfMyParts": {
+      "label": "My parts"
     },
     "totalOfOtherParts": {
-      "label": "Other Parts"
+      "label": "Shared parts"
     },
-    "totalAmount": "Total Amount",
-    "parts": "Parts",
-    "investigations": "Investigations",
-    "alerts": "Alerts",
-    "amountReceived": "Amount Received",
-    "amountCreated": "Amount Created",
-    "million": "M."
-
+    "totalAlerts": {
+      "label": "Open alerts"
+    }
   }
 }

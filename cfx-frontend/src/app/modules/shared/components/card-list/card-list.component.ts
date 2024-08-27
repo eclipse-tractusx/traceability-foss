@@ -24,17 +24,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 @Component({
   selector: 'app-card-list',
   templateUrl: './card-list.component.html',
-  styleUrls: [ './card-list.component.scss' ],
+  styleUrls: ['./card-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardListComponent {
   @Input() list: Record<string, string>;
   @Input() title: string;
-  @Input() i18nPrefix: string = 'partDetail';
-  @Input() isBoldTitle: boolean = false;
-
-  valueAsString(value: any): string {
-    return value as string;
-  }
-
 }

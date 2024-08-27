@@ -21,25 +21,15 @@ SPDX-License-Identifier: Apache-2.0
 
 <mat-card>
   <mat-card-content class="card-container">
-    <div class="avatar-container">
-      <div class="avatar">
-        <span class="avatar__label">
-          <mat-icon aria-hidden="false" class="card--icon">{{ this.icon }}</mat-icon>
-        </span>
+    <div class="card-content">
+      <div class="avatar-container">
+        <img [src]="iconPath + icon + '.svg'" [alt]="icon" />
       </div>
-    </div>
-    <div class="label-container">
-      <p class="font-regular text-gray uppercase" [id]="htmlId + '-label'">
-        {{ this.label }}
-      </p>
-      <div class="card--icon--card--metrics--container">
-        <ng-container *ngFor="let card of metricData">
-          <app-card-metric
-            [headerLabelKey]="'pageDashboard.' + card.metricName | i18n"
-            [value]="card.value | async"
-            [footerLabelKey]="'pageDashboard.' + card.metricUnit | i18n"
-          ></app-card-metric>
-        </ng-container>
+      <div class="label-container">
+        <p class="label-top" [id]="htmlId + '-label'">
+          {{ this.label }}
+        </p>
+        <p class="label-bottom" [attr.aria-describedby]="htmlId + '-label'">{{ this.stats }}</p>
       </div>
     </div>
   </mat-card-content>

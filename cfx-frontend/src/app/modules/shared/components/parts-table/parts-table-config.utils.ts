@@ -1,15 +1,19 @@
 import { FormControl } from '@angular/forms';
+import { FilterConfigOptions } from '@shared/model/filter-config';
+import { TranslationContext } from '@shared/model/translation-context.model';
 
 export class PartsTableConfigUtils {
+  private static excludedColumns = ['select', 'menu', 'hasAlerts'];
+
+  private static filterConfigOptions = new FilterConfigOptions();
+
 
   public static createFormGroup(displayedColumns: any): Record<string, FormControl> {
-    if (!displayedColumns) {
-      return;
-    }
     const formGroup: Record<string, FormControl> = {};
 
     for (const column of displayedColumns) {
-      if (column !== 'select' && column !== 'menu') {
+
+      if (this.excludedColumns.includes(column) === false) {
         formGroup[column] = new FormControl([]);
       }
 
@@ -17,11 +21,8 @@ export class PartsTableConfigUtils {
     return formGroup;
   }
 
-  public static createFilterColumns(displayedColumns: string[], hasFilterCol: boolean = true, hasMenuCol: boolean = true): string[] {
-    if (!displayedColumns) {
-      return;
-    }
-    const array = displayedColumns.filter((column: string) => 'select' !== column && 'menu' !== column).map((column: string) => 'filter' + column);
+  public static createFilterColumns(displayedColumns: string[], hasFilterCol = true, hasMenuCol = true): string[] {
+    const array = displayedColumns.filter((column: string) => this.excludedColumns.includes(column) === false).map((column: string) => 'filter' + column);
     let filter = null;
     let menu = null;
     if (hasFilterCol) {
@@ -30,26 +31,36 @@ export class PartsTableConfigUtils {
     if (hasMenuCol) {
       menu = 'Menu';
     }
-    return [ filter, ...array, menu ].filter(value => value !== null);
+    return [filter, ...array, menu].filter(value => value !== null);
   }
 
-  public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol: boolean = true, hasMenuCol: boolean = true): any[] {
+  public static generateFilterColumnsMapping(sortableColumns: any, dateFields?: string[], singleSearchFields?: string[], hasFilterCol = true, hasMenuCol = true, isReceivedTable = true, translationContext?: TranslationContext): any[] {
+    const { status, severity } = this.filterConfigOptions.filterKeyOptionsNotifications;
+    const { semanticDataModel } = this.filterConfigOptions.filterKeyOptionsAssets;
 
     const filterColumnsMapping: any[] = [];
-    const excludedFields = [ 'select', 'menu' ];
     for (const key in sortableColumns) {
-      if (sortableColumns.hasOwnProperty(key) && !excludedFields.includes(key)) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (sortableColumns.hasOwnProperty(key) && !this.excludedColumns.includes(key)) {
         // This key goes to the backend rest api
         const filterKey = key;
         const headerKey = 'filter' + key;
+        let option: any;
+        if (key === 'status') {
+          option = status(translationContext, isReceivedTable).option;
+        } else if (key === 'severity') {
+          option = severity.option;
+        } else if (key === 'semanticDataModel') {
+          option = semanticDataModel.option;
+        }
 
-        let columnMapping: { filterKey: string; headerKey: string; isDate?: boolean; singleSearch?: boolean; };
+        let columnMapping: { filterKey: string; headerKey: string; isDate?: boolean; singleSearch?: boolean, option?: any };
         if (dateFields?.includes(filterKey)) {
           columnMapping = { filterKey, headerKey, isDate: true };
         } else if (singleSearchFields?.includes(filterKey)) {
           columnMapping = { filterKey, headerKey, singleSearch: true };
         } else {
-          columnMapping = { filterKey, headerKey };
+          columnMapping = { filterKey, headerKey, option };
         }
 
         filterColumnsMapping.push(columnMapping);
@@ -63,16 +74,7 @@ export class PartsTableConfigUtils {
     if (hasMenuCol) {
       last = { filterKey: 'Menu', headerKey: 'Menu' };
     }
-    return [ first, ...filterColumnsMapping, last ].filter(value => value !== null);
+    return [first, ...filterColumnsMapping, last].filter(value => value !== null);
 
   }
-
-  public static getDefaultColumnVisibilityMap(displayedColumns: string[]): Map<string, boolean> {
-    const initialColumnMap = new Map<string, boolean>();
-    for (const column of displayedColumns) {
-      initialColumnMap.set(column, true);
-    }
-    return initialColumnMap;
-  }
-
 }

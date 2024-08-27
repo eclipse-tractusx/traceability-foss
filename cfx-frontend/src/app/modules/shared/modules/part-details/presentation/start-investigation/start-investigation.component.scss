@@ -18,49 +18,43 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../../../theme/base.scss';
+@tailwind base;
 
 .start-investigation--wrapper {
+  padding-top: 20px;
+}
+
+.header-container {
   display: flex;
+  justify-content: space-between;
+}
 
-  & > app-table {
-    flex-basis: 40%;
-    padding-right: 2rem;
-  }
+.buttonText {
+  @extend .label-large;
+  @apply text-white;
 
-  & > app-notification-request {
-    flex-grow: 1;
-  }
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
 
-  @media (max-width: 1024px) {
-    flex-flow: column-reverse;
-    & > app-table {
-      margin-bottom: 2rem;
+.header-text {
+  @extend .title-medium;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  padding-top: 22px;
+}
+
+.create-action-button {
+  padding-right: 10px !important;
+
+  .mat-mdc-button.mat-mdc-button-base {
+    .mdc-button {
+      width: 163px !important;
     }
   }
-}
 
-.start-investigation--no-data {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  padding-top: 2rem;
-  flex-grow: 1;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.start-investigation {
-  min-height: 300px;
-}
-
-.start-investigation--data {
-  animation: fadeIn 0.75s;
+  border-radius: 100px !important;
 }

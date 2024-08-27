@@ -23,26 +23,40 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { ModalModule } from '@shared/modules/modal/modal.module';
-import { NotificationActionModalComponent } from '@shared/modules/notification/modal/actions/notification-action-modal.component';
+import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
+import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
+import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
 import { NotificationTabComponent } from '@shared/modules/notification/notification-tab/notification-tab.component';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
+import { CloseNotificationModalComponent } from './modal/close/close-notification-modal.component';
 import { NotificationComponent } from './presentation/notification.component';
 
 @NgModule({
   declarations: [
     NotificationComponent,
     NotificationTabComponent,
-    NotificationActionModalComponent,
+    CloseNotificationModalComponent,
+    ApproveNotificationModalComponent,
+    CancelNotificationModalComponent,
+    AcceptNotificationModalComponent,
+    AcknowledgeNotificationModalComponent,
+    DeclineNotificationModalComponent,
     NotificationCommonModalComponent,
   ],
-  imports: [ CommonModule, TemplateModule, SharedModule, ModalModule ],
+  imports: [CommonModule, TemplateModule, SharedModule, ModalModule, ],
   exports: [
     NotificationCommonModalComponent,
     NotificationComponent,
     NotificationTabComponent,
-    NotificationActionModalComponent,
+    CloseNotificationModalComponent,
+    ApproveNotificationModalComponent,
+    CancelNotificationModalComponent,
+    AcknowledgeNotificationModalComponent,
+    AcceptNotificationModalComponent,
+    DeclineNotificationModalComponent,
   ],
 })
-export class NotificationModule {
-}
+export class NotificationModule {}

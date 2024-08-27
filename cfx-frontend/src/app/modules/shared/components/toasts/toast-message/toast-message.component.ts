@@ -20,24 +20,29 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ToastService } from '@shared/components/toasts/toast.service';
 import { ToastMessage } from './toast-message.model';
 
 @Component({
   selector: 'app-toast-message',
   templateUrl: './toast-message.component.html',
-  styleUrls: [ './toast-message.component.scss' ],
+  styleUrls: ['./toast-message.component.scss'],
 })
 export class ToastMessageComponent {
+  public widthTarget = '0%';
+
   @Input() toastMessage: ToastMessage;
   @Output() removeToast: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
-  constructor(private toastService: ToastService) {
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.widthTarget = '100%';
+    }, 0);
   }
 
-  handleClick(event: MouseEvent) {
-    event.stopPropagation();
-      this.toastService.emitClick();
-
-
+  getLineStyle() {
+    return {
+      '--line-duration': this.toastMessage.timeout / 1000 + 's',
+    };
   }
+
 }

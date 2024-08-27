@@ -20,7 +20,6 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { DashboardStats } from '@page/dashboard/model/dashboard.model';
 
 import { Notifications } from '@shared/model/notification.model';
 import { State } from '@shared/model/state';
@@ -29,57 +28,59 @@ import { View } from 'src/app/modules/shared/model/view.model';
 
 @Injectable()
 export class DashboardState {
+  private readonly _numberOfMyParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfOtherParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfInvestigations$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfAlerts$: State<View<number>> = new State<View<number>>({ loader: true });
 
-  private readonly _dashboardStats$: State<View<DashboardStats>> = new State<View<DashboardStats>>({ loader: true });
+  private readonly _investigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
+  private readonly _alerts$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
 
-  // recent notifications
-  private readonly _recentReceivedInvestigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
-  private readonly _recentCreatedInvestigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
-
-  private readonly _recentReceivedAlerts$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
-  private readonly _recentCreatedAlerts$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
-
-  public setDashboardStats(dashboardStatus: View<DashboardStats>): void {
-    this._dashboardStats$.update(dashboardStatus);
+  public get numberOfMyParts$(): Observable<View<number>> {
+    return this._numberOfMyParts$.observable;
   }
 
-  public get dashboardStats$(): Observable<View<DashboardStats>> {
-    return this._dashboardStats$.observable;
+  public setNumberOfMyParts(count: View<number>): void {
+    this._numberOfMyParts$.update(count);
   }
 
-  /**
-   * recent notifications getter/setter
-   */
-  public get recentReceivedInvestigations$(): Observable<View<Notifications>> {
-    return this._recentReceivedInvestigations$.observable;
+  public get numberOfOtherParts$(): Observable<View<number>> {
+    return this._numberOfOtherParts$.observable;
   }
 
-  public setRecentReceivedInvestigations(investigations: View<Notifications>): void {
-    this._recentReceivedInvestigations$.update(investigations);
+  public setNumberOfOtherParts(count: View<number>): void {
+    this._numberOfOtherParts$.update(count);
   }
 
-  public get recentCreatedInvestigations$(): Observable<View<Notifications>> {
-    return this._recentCreatedInvestigations$.observable;
+  public get numberOfInvestigations$(): Observable<View<number>> {
+    return this._numberOfInvestigations$.observable;
   }
 
-  public setRecentCreatedInvestigations(investigations: View<Notifications>): void {
-    this._recentCreatedInvestigations$.update(investigations);
+  public setNumberOfInvestigations(count: View<number>): void {
+    this._numberOfInvestigations$.update(count);
   }
 
-  public get recentReceivedAlerts$(): Observable<View<Notifications>> {
-    return this._recentReceivedAlerts$.observable;
+  public get investigations$(): Observable<View<Notifications>> {
+    return this._investigations$.observable;
   }
 
-  public setRecentReceivedAlerts(alerts: View<Notifications>): void {
-    this._recentReceivedAlerts$.update(alerts);
+  public setInvestigation(investigations: View<Notifications>): void {
+    this._investigations$.update(investigations);
   }
 
-  public get recentCreatedAlerts$(): Observable<View<Notifications>> {
-    return this._recentCreatedAlerts$.observable;
+  public get numberOfAlerts$(): Observable<View<number>> {
+    return this._numberOfAlerts$.observable;
   }
 
-  public setRecentCreatedAlerts(alerts: View<Notifications>): void {
-    this._recentCreatedAlerts$.update(alerts);
+  public setNumberOfAlerts(count: View<number>): void {
+    this._numberOfAlerts$.update(count);
   }
 
+  public get alerts$(): Observable<View<Notifications>> {
+    return this._alerts$.observable;
+  }
+
+  public setAlerts(alerts: View<Notifications>): void {
+    this._alerts$.update(alerts);
+  }
 }

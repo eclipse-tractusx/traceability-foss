@@ -28,10 +28,9 @@ import { PartRelationComponent } from './presentation/part-relation.component';
 import { TreeComponent } from './presentation/tree.component';
 
 @NgModule({
-  declarations: [ PartRelationComponent, TreeComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule ],
-  providers: [ ...getI18nPageProvider([ 'page.parts', 'partDetail' ]) ],
-  exports: [ PartRelationComponent ],
+  declarations: [PartRelationComponent, TreeComponent],
+  imports: [CommonModule, TemplateModule, SharedModule],
+  providers: [...getI18nPageProvider(['page.parts', 'partDetail'])],
+  exports: [PartRelationComponent],
 })
-export class RelationsModule {
-}
+export class RelationsModule {}

@@ -16,11 +16,25 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { Component, EventEmitter, Input, Optional, Output, ViewChild } from '@angular/core';
-import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
-import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
-import { NotificationActionModalComponent } from '@shared/modules/notification/modal/actions/notification-action-modal.component';
+import {
+  Component,
+  EventEmitter,
+  Input, Optional,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
+import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
+import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
+import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
+import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
+import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
 
 @Component({
   selector: 'app-notification-common-modal',
@@ -29,27 +43,60 @@ import { NotificationActionModalComponent } from '@shared/modules/notification/m
 
 export class NotificationCommonModalComponent {
   @Input() selectedNotification: Notification;
-  @Input() helperService: NotificationHelperService;
+  @Input() translationContext: TranslationContext;
+  @Input() helperService: InvestigationHelperService | AlertHelperService;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
-  @ViewChild(NotificationActionModalComponent) notificationActionModalComponent: NotificationActionModalComponent;
+
+  @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
+  @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
+  @ViewChild(CancelNotificationModalComponent) cancelModal: CancelNotificationModalComponent;
+
+  @ViewChild(AcceptNotificationModalComponent) acceptModal: AcceptNotificationModalComponent;
+  @ViewChild(AcknowledgeNotificationModalComponent) acknowledgeModal: AcknowledgeNotificationModalComponent;
+  @ViewChild(DeclineNotificationModalComponent) declineModal: DeclineNotificationModalComponent;
 
 
-// TODO do not delete the facade here. This will lead to a nullpointer exception within the modal call.
   public constructor(
-    @Optional() private readonly notificationsFacade: NotificationsFacade,
-  ) {
-  }
+    @Optional() private readonly investigationsFacade: InvestigationsFacade,
+    @Optional() private readonly alertsFacade: AlertsFacade
+  ) {}
 
 
   public handleModalConfirmActionCompletedEvent(): void {
     this.confirmActionCompleted.emit();
   }
 
-  public show(desiredStatus: NotificationStatus, notification?: Notification) {
-    let notificationToShow = notification || this.selectedNotification;
-    this.notificationActionModalComponent.show(notificationToShow, desiredStatus);
+  public show(modalContext: string, notification?: Notification) {
+    const notificationToShow = notification || this.selectedNotification;
+    switch (modalContext) {
+      case 'approve': {
+        this.approveModal.show(notificationToShow);
+        break;
+      }
+      case 'close': {
+        this.closeModal.show(notificationToShow);
+        break;
+      }
+      case 'cancel': {
+        this.cancelModal.show(notificationToShow);
+        break;
+      }
+      case 'accept': {
+        this.acceptModal.show(notificationToShow);
+        break;
+      }
+      case 'acknowledge': {
+        this.acknowledgeModal.show(notificationToShow);
+        break;
+      }
+      case 'decline': {
+        this.declineModal.show(notificationToShow);
+        break;
+      }
+    }
   }
 
-  protected readonly NotificationStatus = NotificationStatus;
+
+  protected readonly TranslationContext = TranslationContext;
 }

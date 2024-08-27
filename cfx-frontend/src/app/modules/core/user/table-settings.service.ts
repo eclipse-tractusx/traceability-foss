@@ -19,13 +19,9 @@
 
 import { Injectable } from '@angular/core';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { NotificationsReceivedConfigurationModel } from '@shared/components/parts-table/notifications-received-configuration.model';
-import { NotificationsSentConfigurationModel } from '@shared/components/parts-table/notifications-sent-configuration.model';
-import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
-import { PartsAsPlannedConfigurationModel } from '@shared/components/parts-table/parts-as-planned-configuration.model';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
-import { ToastService } from '@shared/components/toasts/toast.service';
 import { Subject } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,28 +30,33 @@ export class TableSettingsService {
   private settingsKey = 'TableViewSettings';
   private changeEvent = new Subject<void>();
 
-  constructor(private readonly toastService: ToastService) {
-  }
+  constructor(private userService: UserService) { }
 
   storeTableSettings(tableSettingsList: any): void {
+    const { username } = this.userService;
+
     // before setting anything, all maps in new tableSettingList should be stringified
     Object.keys(tableSettingsList).forEach(tableSetting => {
       const newMap = tableSettingsList[tableSetting].columnSettingsOptions;
       tableSettingsList[tableSetting].columnSettingsOptions = JSON.stringify(Array.from(newMap.entries()));
     });
-    localStorage.setItem(this.settingsKey, JSON.stringify(tableSettingsList));
+
+    localStorage.setItem(`${this.settingsKey}_${username}`, JSON.stringify(tableSettingsList));
   }
 
   // this returns whole settings whether empty / not for part / etc.
   getStoredTableSettings(): any {
-    const settingsJson = localStorage.getItem(this.settingsKey);
-    let settingsObject = settingsJson ? JSON.parse(settingsJson) : null;
-    if (!settingsObject) return;
+    const { username } = this.userService;
+
+    const settingsJson = localStorage.getItem(`${this.settingsKey}_${username}`);
+    const settingsObject = settingsJson ? JSON.parse(settingsJson) : null;
+    if (!settingsObject) {
+      return;
+    }
 
     // iterate through all tabletypes and parse columnSettingsOption to a map
     Object.keys(settingsObject).forEach(tableSetting => {
       settingsObject[tableSetting].columnSettingsOptions = new Map(JSON.parse(settingsObject[tableSetting].columnSettingsOptions));
-
     });
 
     return settingsObject;
@@ -65,6 +66,7 @@ export class TableSettingsService {
     let isInvalid = false;
 
     const storage = this.getStoredTableSettings();
+
     if (!storage?.[tableType]) {
       return false;
     }
@@ -88,7 +90,6 @@ export class TableSettingsService {
       }
     }
     if (isInvalid) {
-      this.toastService.warning('table.tableSettings.invalid', 10000);
       localStorage.removeItem(this.settingsKey);
     }
     return isInvalid;
@@ -101,18 +102,4 @@ export class TableSettingsService {
   getEvent() {
     return this.changeEvent.asObservable();
   }
-
-  initializeTableViewSettings(tableType: TableType): TableViewConfig {
-    switch (tableType) {
-      case TableType.AS_PLANNED_OWN:
-        return new PartsAsPlannedConfigurationModel().filterConfiguration();
-      case TableType.AS_BUILT_OWN:
-        return new PartsAsBuiltConfigurationModel().filterConfiguration();
-      case TableType.SENT_NOTIFICATION:
-        return new NotificationsSentConfigurationModel().filterConfiguration();
-      case TableType.RECEIVED_NOTIFICATION:
-        return new NotificationsReceivedConfigurationModel().filterConfiguration();
-    }
-  }
-
 }

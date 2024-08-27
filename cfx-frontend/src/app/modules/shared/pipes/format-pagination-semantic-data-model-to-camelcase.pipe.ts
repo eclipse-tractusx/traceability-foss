@@ -21,43 +21,45 @@ import { Pagination } from '@core/model/pagination.model';
 import { SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 
 @Pipe({
-  name: 'formatPaginationSemanticDataModelToCamelCase',
+  name: 'formatPaginationSemanticDataModelToCamelCase'
 })
 export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTransform {
 
   transform(value: Pagination<any>): Pagination<any> {
-    const transformedContent = value.content.map(part => {
-      switch (part.semanticDataModel.toString().toLowerCase()) {
-        case 'batch': {
-          part.semanticDataModel = SemanticDataModelInCamelCase.BATCH;
-          break;
-        }
-        case 'serialpart': {
-          part.semanticDataModel = SemanticDataModelInCamelCase.SERIALPART;
-          break;
-        }
-        case 'partasplanned': {
-          part.semanticDataModel = SemanticDataModelInCamelCase.PARTASPLANNED;
-          break;
-        }
-        case 'justinsequence': {
-          part.semanticDataModel = SemanticDataModelInCamelCase.JUSTINSEQUENCE;
-          break;
-        }
-        default: {
-          part.semanticDataModel = SemanticDataModelInCamelCase.UNKNOWN;
-          break;
-        }
-      }
-      return {
-        ...part,
-        semanticDataModel: part.semanticDataModel,
-      };
-    });
+        const transformedContent = value.content.map(part => {
+          switch (part.semanticDataModel.toString().toLowerCase()) {
 
-    return {
-      ...value,
-      content: transformedContent,
-    };
+            case 'batch': {
+              part.semanticDataModel = SemanticDataModelInCamelCase.BATCH;
+              break;
+            }
+            case 'serialpart': {
+              part.semanticDataModel = SemanticDataModelInCamelCase.SERIALPART;
+              break;
+            }
+            case 'partasplanned': {
+              part.semanticDataModel = SemanticDataModelInCamelCase.PARTASPLANNED;
+              break;
+            }
+            case 'justinsequence': {
+              part.semanticDataModel = SemanticDataModelInCamelCase.JUSTINSEQUENCE;
+              break;
+            }
+            default: {
+              part.semanticDataModel = SemanticDataModelInCamelCase.UNKNOWN;
+              break;
+            }
+
+          }
+          return {
+            ...part,
+            semanticDataModel: part.semanticDataModel
+          };
+        });
+
+        return {
+          ...value,
+          content: transformedContent
+        };
   }
 }

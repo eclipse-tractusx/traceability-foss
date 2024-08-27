@@ -20,23 +20,25 @@
  ********************************************************************************/
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { StaticIdService } from '@shared/service/staticId.service';
 import { MetricData } from '@page/dashboard/presentation/dashboard.model';
+import { StaticIdService } from '@shared/service/staticId.service';
 
 @Component({
   selector: 'app-card-icon',
   templateUrl: './card-icon.component.html',
-  styleUrls: [ './card-icon.component.scss' ],
+  styleUrls: ['./card-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardIconComponent {
   public readonly htmlIdBase = 'app-card-icon-';
   public readonly htmlId: string;
+  public readonly iconPath = '/assets/images/icons/';
 
   @Input() label: string;
   @Input() stats: number | string;
   @Input() icon: string;
   @Input() metricData: MetricData[];
+
 
   constructor(staticIdService: StaticIdService) {
     this.htmlId = staticIdService.generateId(this.htmlIdBase);

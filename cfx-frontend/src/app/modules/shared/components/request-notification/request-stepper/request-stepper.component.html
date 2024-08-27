@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="header">
+    <div>{{ context + '.headline' | i18n }}
+    </div>
+    <div>
+      <img class="close-button"
+        (click)="closeAction()"
+        src="/assets/images/icons/closeDialog_icon.svg"
+        alt="X" />
+    </div>
+  </div>
+
+  <div class="pt-5">
+    <mat-tab-group [selectedIndex]="tabIndex"
+      appTabAsPanel
+      mat-stretch-tabs="false"
+      mat-align-tabs="start"
+      class="other-parts-mat-tab-group parts-tab-wrapper stepper-tab">
+      <mat-tab [disabled]="tabIndex !== 0">
+        <ng-template mat-tab-label>
+          <div class="flex items-center">
+            <div class="step"
+              [ngClass]="tabIndex === 0 ? 'step--ACTIVE' : 'step--COMPLETED'">
+              1</div>
+            <div class="select-parts-tab">{{ 'requestNotification.selectParts' | i18n
+              }} </div>
+          </div>
+
+        </ng-template>
+
+        <div class="flex justify-between items-center pt-5">
+          <div class="flex items-center table-header">
+            {{ 'requestNotification.otherPartsList' | i18n }}
+            ({{ totalItems }})
+          </div>
+          <div [formGroup]="searchFormGroup">
+            <app-input color="accent"
+              [label]="'parts.input.global-search.placeholderAsset' | i18n"
+              [prefixIconHover]="true"
+              (prefixIconClick)="triggerPartSearch()"
+              [onEnterActive]="true"
+              [prefixIcon]="'search'"
+              [isSearchBar]="true"
+              [size]="'small'"
+              formControlName="partSearch"
+              [parentFormGroup]="searchFormGroup"
+              [parentControlName]="'partSearch'"
+              [displayClearButton]="true"
+              prefixIconColor="accent"></app-input>
+          </div>
+        </div>
+
+        <app-own-parts *ngIf="context === RequestContext.REQUEST_ALERT"
+          [bomLifecycle]="MainAspectType.AS_BUILT"
+          [showActionButton]="false"
+          [showHeader]="false"
+          [compactSize]="true"
+          (onPartDeselected)="deselectPart.emit($event)"
+          [deselectTrigger]="deselectPartTrigger$ | async"
+          (onTotalItemsChanged)="onTotalItemsChanged($event)"
+          (onPartsSelected)="onPartsSelected($event)"></app-own-parts>
+
+        <app-supplier-parts *ngIf="context === RequestContext.REQUEST_INVESTIGATION"
+          [bomLifecycle]="MainAspectType.AS_BUILT"
+          [showActionButton]="false"
+          [showHeader]="false"
+          [compactSize]="true"
+          [deselectTrigger]="deselectPartTrigger$ | async"
+          (onPartDeselected)="deselectPart.emit($event)"
+          (onTotalItemsChanged)="onTotalItemsChanged($event)"
+          (onPartsSelected)="onPartsSelected($event)"></app-supplier-parts>
+      </mat-tab>
+      <mat-tab [disabled]="tabIndex !== 1">
+        <ng-template mat-tab-label>
+          <div class="flex items-center">
+            <div class="step"
+              [ngClass]="tabIndex === 1 ? 'step--ACTIVE' : 'step--INACTIVE'">
+              2</div>
+            <div class="select-parts-tab"
+              [ngClass]="tabIndex === 0 ? 'define-tab' : ''">{{ (context === RequestContext.REQUEST_INVESTIGATION ?
+              'commonInvestigation.create' : 'commonAlert.create') | i18n
+              }} </div>
+          </div>
+        </ng-template>
+
+        <app-request-investigation *ngIf="context === RequestContext.REQUEST_INVESTIGATION"
+          (onBackClicked)="onBackClicked()"
+          (deselectPart)="onPartDeselected($event)"
+          [selectedItems]="selectedParts"
+          [closeButtonText]="'requestNotification.back'"
+          [submitButtonText]="'requestNotification.submit'"></app-request-investigation>
+        <app-request-alert *ngIf="context === RequestContext.REQUEST_ALERT"
+          (onBackClicked)="onBackClicked()"
+          (deselectPart)="onPartDeselected($event)"
+          [selectedItems]="selectedParts"
+          [closeButtonText]="'requestNotification.back'"
+          [submitButtonText]="'requestNotification.submit'"></app-request-alert>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <div *ngIf="tabIndex === 0"
+    class="buttons-wrapper">
+    <app-button [variant]="'stroked'"
+      [isDisabled]="isLoading$ | async"
+      (click)="closeAction()"
+      class="button-large request-action-button">
+      <div class="cancel-button-text">{{ 'requestNotification.cancel' | i18n }}</div>
+    </app-button>
+    <app-button [isDisabled]="selectedParts.length === 0"
+      [variant]="'flat'"
+      [color]="'primary'"
+      class="button-large request-action-button"
+      (click)="onTabChange(1)">
+      <div class="accept-button-text">{{ 'requestNotification.continue' | i18n }}</div>
+    </app-button>
+  </div>
+
+  <mat-progress-bar *ngIf="isLoading$ | async"
+    mode="indeterminate"></mat-progress-bar>
+</div>

@@ -100,27 +100,26 @@ describe('enrichFilterAndGetUpdatedParams', () => {
   });
 
   it('should handle provideFilterNotifications', () => {
-    let filterList = [];
-    filterList = provideFilterListForNotifications( null, null);
+    let filterList = provideFilterListForNotifications(null, null);
     expect(filterList.length).toEqual(0);
-  })
+  });
 
   it('should handle provideFilterNotifications successfully', () => {
-    const filter = {notificationIds: ['1']}
-    const filterList = provideFilterListForNotifications( filter, null);
-    expect(filterList).toContain('id,EQUAL,1,OR')
-  })
+    const filter = { notificationIds: [ '1' ] };
+    const filterList = provideFilterListForNotifications(filter, null);
+    expect(filterList).toContain('status,EQUAL,1,OR');
+  });
 
   it('should add filters to the filterList when fullFilter is provided', () => {
     const mockFilter = null;
     const mockFullFilter = { test: 'test' };
 
-    const mockHttpParams = jasmine.createSpyObj('HttpParams', ['getAll']);
-    mockHttpParams.getAll.and.returnValue(['filter1', 'filter2']);
+    const mockHttpParams = jasmine.createSpyObj('HttpParams', [ 'getAll' ]);
+    mockHttpParams.getAll.and.returnValue([ 'filter1', 'filter2' ]);
 
     const result = provideFilterListForNotifications(mockFilter, mockFullFilter);
 
-    expect(result).toEqual(['test,STARTS_WITH,test,AND']);
+    expect(result).toEqual([ 'test,STARTS_WITH,test,AND' ]);
   });
 
 

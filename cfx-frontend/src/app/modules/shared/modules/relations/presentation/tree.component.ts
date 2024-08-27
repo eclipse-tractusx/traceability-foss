@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 
-import { AfterViewInit, Component, Input, NgZone, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Input, NgZone, OnDestroy, inject } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { View } from '@shared/model/view.model';
 import { Part } from '@page/parts/model/parts.model';
@@ -28,7 +28,7 @@ import Minimap from '@shared/modules/relations/presentation/minimap/minimap.d3';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { RelationsFacade } from '@shared/modules/relations/core/relations.facade';
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, tap } from 'rxjs/operators';
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';
 import {
@@ -39,28 +39,35 @@ import {
   TreeStructure,
 } from '@shared/modules/relations/model/relations.model';
 import { RelationComponentState } from '@shared/modules/relations/core/component.state';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 
 @Component({
   selector: 'app-tree',
   template: '',
-  encapsulation: ViewEncapsulation.None,
-  providers: [ RelationComponentState, RelationsFacade ],
+  providers: [RelationComponentState, RelationsFacade],
 })
 export class TreeComponent implements OnDestroy, AfterViewInit {
   @Input() showMiniMap = false;
   @Input() shouldRenderParents = false;
   @Input() isStandalone = true;
   @Input() htmlId: string;
+  @Input() overwriteContext: string = undefined;
 
-  @Input() set direction(_direction: 'LEFT' | 'RIGHT') {
+  @Input() set direction(_direction: 'UP' | 'DOWN') {
     this.treeDirection = TreeDirection[_direction];
 
-    this.relationsFacade.isParentRelationTree = _direction === 'LEFT';
-    const sub = this.relationsFacade.initRequestPartDetailQueue().subscribe();
-    this.subscriptions.add(sub);
+    if (this.mainAspectType !== null) {
+      this.relationsFacade.isParentRelationTree = _direction === 'UP';
+      const sub = this.relationsFacade.initRequestPartDetailQueue(this.mainAspectType).subscribe();
+      this.subscriptions.add(sub);
+    }
   }
 
   @Input() set rootPart(data: View<Part>) {
+    if (data) {
+      this.mainAspectType = data.data.mainAspectType;
+      this.direction = this.treeDirection;
+    }
     this.resetTree(data || {});
   }
 
@@ -79,15 +86,25 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
   private _rootPart$ = new State<View<Part>>({ loader: true });
   private tree: Tree;
   private minimap: Minimap;
+  private activatedRoute = inject(ActivatedRoute);
+  private context: string;
+  private mainAspectType: MainAspectType = null;
 
   constructor(
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly relationsFacade: RelationsFacade,
     private readonly loadedElementsFacade: LoadedElementsFacade,
-    private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly ngZone: NgZone,
   ) {
     this.rootPart$ = this._rootPart$.observable;
+    this.context = this.activatedRoute?.parent?.toString().split('\'')[1];
+  }
+
+  public ngOnInit(): void {
+    if (this.overwriteContext) {
+      this.context = this.overwriteContext;
+    }
   }
 
   public ngOnDestroy(): void {
@@ -98,11 +115,14 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.isComponentInitialized = true;
-    const combined = combineLatest([ this.relationsFacade.openElements$, this.loadedElementsFacade.loadedElements$ ]);
+    const combined = combineLatest([this.relationsFacade.openElements$, this.loadedElementsFacade.loadedElements$]);
     const openElementsSubscription = combined
       .pipe(
         debounceTime(100),
-        tap(([ openElements ]) => this.renderTreeWithOpenElements(openElements)),
+        tap(([openElements]) => {
+          return this.renderTreeWithOpenElements(openElements);
+        }
+        ),
       )
       .subscribe();
 
@@ -126,8 +146,9 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
     const treeConfigRight: TreeData = {
       id,
       mainId: this.htmlId,
-      openDetails: this.isStandalone ? this.openDetails.bind(this) : _ => null,
-      defaultZoom: this.isStandalone ? 1 : 0.7,
+      openDetails: this.openDetails.bind(this),
+      defaultZoom: this.isStandalone ? 1 : 0.8,
+      centerXOffset: this.isStandalone ? 190 : 100,
       updateChildren: this.updateChildren.bind(this),
     };
 
@@ -149,6 +170,11 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
 
   private openDetails({ id }: TreeElement): void {
     this.subscriptions.add(this.partDetailsFacade.setPartFromTree(id).subscribe());
+    if (this.isStandalone) {
+      this.router.navigate([`/${this.context}/${id}`], { queryParams: { type: this.partDetailsFacade.mainAspectType } }).then(_ => window.location.reload());
+    } else {
+      this.router.navigate([`/${this.context}/${id}`], { queryParams: { type: this.partDetailsFacade.mainAspectType } });
+    }
   }
 
   private renderTreeWithOpenElements(openElements: OpenElements): void {
@@ -156,7 +182,6 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
 
     const treeData = this.relationsFacade.formatOpenElementsToTreeData(openElements);
     if (!treeData?.id) return;
-
     this.initTree();
     this.renderTree(treeData);
   }

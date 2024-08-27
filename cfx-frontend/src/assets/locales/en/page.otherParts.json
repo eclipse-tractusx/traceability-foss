@@ -14,7 +14,7 @@
     "partId": "Part number",
     "semanticModelId": "Semantic Model ID",
     "manufacturingDate": "Production date",
-    "manufacturerName": "Manufacturer",
+    "manufacturer": "Manufacturer",
     "nameAtCustomer": "Name at customer",
     "customerPartId": "Customer part ID",
     "semanticDataModel": "Semantic Data Model"

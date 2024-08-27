@@ -17,8 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 export enum Owner {
-  OWN = 'OWN',
-  SUPPLIER = 'SUPPLIER',
-  CUSTOMER = 'CUSTOMER',
-  UNKNOWN = 'UNKNOWN'
+  OWN = "OWN",
+  SUPPLIER = "SUPPLIER",
+  CUSTOMER = "CUSTOMER",
+  UNKNOWN = "UNKNOWN"
 }

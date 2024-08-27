@@ -21,6 +21,7 @@
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { TableComponent } from '@shared/components/table/table.component';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
@@ -29,54 +30,63 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, NotificationFilter, Notifications, NotificationType } from '@shared/model/notification.model';
+import { Notification, NotificationFilter, NotificationType, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notifications-tab',
   templateUrl: './notification-tab.component.html',
-  styleUrls: [ './notification-tab.component.scss' ],
+  styleUrls: ['./notification-tab.component.scss'],
 })
 export class NotificationTabComponent implements AfterViewInit {
   @Input() notificationsView$: Observable<View<Notifications>>;
   @Input() labelId: string;
   @Input() hasPagination = true;
-  @Input() translationContext: 'commonAlert';
+  @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
-  @Input() optionalColumns: Array<'title'|'targetDate' | 'severity' | 'createdBy' | 'sendTo' | 'sendToName' | 'createdByName' | 'type'> = [];
+  @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
   @Input() sortableColumns: Record<string, boolean> = {};
   @Input() multiSortList: TableHeaderSort[] = [];
+  @Input() enableScroll = true;
+  @Input() notificationType = NotificationType.INVESTIGATION;
   @Input() tableType: TableType;
-  @Input() autocompleteEnabled = false;
-  @Input() tableSettingsEnabled = false;
-  @Input() tableHeader = '';
-  @Input() tableHeaderMenuEnabled = false;
+  @Input() filterConfig: any[] = [];
+  @Input() autocompleteEnabled = true;
 
   @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
-  @Output() notificationsFilterChanged = new EventEmitter<any>();
   @Output() selected = new EventEmitter<Notification>();
-  @Output() editNotificationClicked = new EventEmitter<Notification>();
-  @Output() multiSelect = new EventEmitter<any[]>();
-  @ViewChild('titleTmp') titleTemplate: TemplateRef<unknown>;
+  @Output() itemCount = new EventEmitter<number>();
+  @Output() onPaginationPageSizeChange = new EventEmitter<number>();
+  @Output() investigationsFilterChanged = new EventEmitter<any>();
+  @Output() alertsFilterChanged = new EventEmitter<any>();
+
+  @ViewChild('idTmp') idTemplate: TemplateRef<unknown>;
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
   @ViewChild('severityTmp') severityTemplate: TemplateRef<unknown>;
   @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
   @ViewChild('targetDateTmp') targetDateTemplate: TemplateRef<unknown>;
   @ViewChild('userTmp') userTemplate: TemplateRef<unknown>;
   @ViewChild('bpnTmp') bpnTemplate: TemplateRef<unknown>;
-  @ViewChild('typeTmp') typeTemplate: TemplateRef<unknown>;
+  @ViewChild(TableComponent) tableComponent: TableComponent;
 
   public tableConfig: TableConfig<keyof Notification>;
+  public filteredContent = false;
 
-  notificationFilter: NotificationFilter;
+  public notificationFilter: NotificationFilter;
+
+  protected readonly TableType = TableType;
 
   public ngAfterViewInit(): void {
+    const defaultColumns: DisplayColumns<keyof Notification>[] = ['createdDate', 'description', 'status'];
+    const displayedColumns: DisplayColumns<keyof Notification>[] = [
+      ...defaultColumns,
+      ...this.optionalColumns,
+      'menu',
+      'settings',
+    ];
 
-    const defaultColumns: DisplayColumns<keyof Notification>[] = [ 'description', 'title', 'status', 'createdDate' ];
-    const displayedColumns: DisplayColumns<keyof Notification>[] = [ ...defaultColumns, ...this.optionalColumns, 'menu' ];
     const sortableColumns: Record<string, boolean> = this.sortableColumns;
-
     this.tableConfig = {
       displayedColumns,
       sortableColumns,
@@ -84,7 +94,6 @@ export class NotificationTabComponent implements AfterViewInit {
       hasPagination: this.hasPagination,
       menuActionsConfig: this.menuActionsConfig || [],
       cellRenderers: {
-        title: this.titleTemplate,
         status: this.statusTemplate,
         severity: this.severityTemplate,
         description: this.descriptionTemplate,
@@ -93,42 +102,42 @@ export class NotificationTabComponent implements AfterViewInit {
         sendToName: this.userTemplate,
         createdByName: this.userTemplate,
         sendTo: this.bpnTemplate,
-        type: this.typeTemplate
       },
     };
-
   }
 
-  filterActivated(notificationFilter: any): void {
-    // check if there is anything to filter, preventing multiple same requests
-    const noFilterApplied = Object.values(notificationFilter).every((arr) => Array.isArray(arr) && arr.length === 0);
-    if(noFilterApplied) {
-      return;
-    }
-
-    this.notificationFilter = notificationFilter;
-    const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
-      this.notificationsFilterChanged.emit({
-        channel: channel,
-        filter: notificationFilter,
-      });
+  public onItemCountChange(itemCount: number): void {
+    this.itemCount.emit(itemCount);
   }
 
   public selectNotification(notification: Record<string, unknown>): void {
     this.selected.emit(notification as unknown as Notification);
   }
 
-  public openEditNotification(notification: Record<string, unknown>): void {
-    this.editNotificationClicked.emit(notification as unknown as Notification);
-  }
-
   public onTableConfigChange(tableEventConfig: TableEventConfig): void {
     this.tableConfigChanged.emit(tableEventConfig);
   }
 
-  public emitMultiSelect(selected: Notification[]) {
-    this.multiSelect.emit(selected);
+  public onFilterChange(): void {
+    this.filteredContent = true;
   }
 
-  protected readonly NotificationType = NotificationType;
+  public filterActivated(notificationFilter: any): void {
+    this.notificationFilter = notificationFilter;
+    const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
+    if (this.notificationType === NotificationType.INVESTIGATION) {
+      this.investigationsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter,
+      });
+    }
+    if (this.notificationType === NotificationType.ALERT) {
+      this.alertsFilterChanged.emit({
+        channel: channel,
+        filter: notificationFilter,
+      });
+    }
+
+    this.filteredContent = true;
+  }
 }

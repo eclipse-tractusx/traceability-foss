@@ -29,10 +29,17 @@ import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
 import { UserMenuComponent } from './header/user-navigation/user-menu.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [ LayoutComponent, HeaderComponent, SpinnerOverlayComponent, SidenavComponent, UserMenuComponent ],
-  imports: [ CommonModule, LayoutRoutingModule, TemplateModule, SharedModule ],
+  declarations: [
+    LayoutComponent,
+    HeaderComponent,
+    FooterComponent,
+    SpinnerOverlayComponent,
+    SidenavComponent,
+    UserMenuComponent,
+  ],
+  imports: [CommonModule, LayoutRoutingModule, TemplateModule, SharedModule],
 })
-export class LayoutModule {
-}
+export class LayoutModule {}

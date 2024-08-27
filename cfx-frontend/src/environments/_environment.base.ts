@@ -29,6 +29,5 @@ export const _environment = {
   apiUrl: '/api',
   baseUrl: '/',
   portalUrl: 'https://portal.dev.demo.catena-x.net/',
-  gitTag: '',
-  bpn: ''
+  gitTag: ''
 };

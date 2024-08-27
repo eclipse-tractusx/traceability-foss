@@ -32,12 +32,12 @@ export class LoadedElementsState {
     return this._loadedElements$.snapshot;
   }
 
-  public get loadedElements$(): Observable<LoadedElements> {
-    return this._loadedElements$.observable;
-  }
-
   public set loadedElements(data: LoadedElements) {
     this._loadedElements$.update(data);
+  }
+
+  public get loadedElements$(): Observable<LoadedElements> {
+    return this._loadedElements$.observable;
   }
 
   public resetLoadedElements(): void {

@@ -19,39 +19,55 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="about-container">
-  <div class="mt-4 card">
-    <div class="card-content">
-      <h3 class="title-text" onkeydown="openLink(repositoryPath)" (click)="openLink(repositoryPath)">{{ name }}
-        <mat-icon class="ml-1.5 part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </h3>
-      <div *ngIf="license && licensePath" class="link-text" onkeydown="openLink(licensePath)" (click)="openLink(licensePath)">
-        License {{ license }}
-        <mat-icon class="part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </div>
-      <div *ngIf="noticePath" class="link-text" onkeydown="openLink(noticePath)" (click)="openLink(noticePath)">
-        Notice
-        <mat-icon class="part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </div>
-      <div *ngIf="sourcePath" class="link-text" onkeydown="openLink(sourcePath)" (click)="openLink(sourcePath)">
-        Source
-        <mat-icon class="part-detail--relation__icon"
-        >open_in_new
-        </mat-icon>
-      </div>
-      <div *ngIf="commitId" class="commit-id">
-        Commit ID: {{ commitId }}
+<div class="about-container-wrapper">
+  <mat-card class="about-container">
+    <div class="about-content1">{{ 'pageAbout.content1' | i18n}} <a class="content-link"
+        href="https://catena-x.net/"
+        target="_blank">{{ 'pageAbout.catenaX' | i18n}}</a> {{ 'pageAbout.content2' | i18n}}
+    </div>
+
+    <div class="about-content2">
+      {{ 'pageAbout.content3' | i18n}}
+    </div>
+
+    <div class="mt-4">
+      <div class="card-content">
+        <div class="link-text about-header"
+          (click)="openLink(repositoryPath)">
+          <div>{{ name }}</div>
+          <img src="/assets/images/icons/open_in_new.svg"
+            height="15px"
+            width="15px"
+            alt="Open in new icon" />
+        </div>
+        <div *ngIf="license && licensePath"
+          class="link-text"
+          (click)="openLink(licensePath)">
+          {{"pageAbout.license" | i18n}} {{ license }}
+          <img src="/assets/images/icons/open_in_new.svg"
+            height="15px"
+            width="15px"
+            alt="Open in new icon" />
+        </div>
+        <div *ngIf="noticePath"
+          class="link-text"
+          (click)="openLink(noticePath)">
+          {{"pageAbout.notice" | i18n}}
+          <img src="/assets/images/icons/open_in_new.svg"
+            height="15px"
+            width="15px"
+            alt="Open in new icon" />
+        </div>
+        <div *ngIf="sourcePath"
+          class="link-text link-text-bottom"
+          (click)="openLink(sourcePath)">
+          {{"pageAbout.source" | i18n}}
+          <img src="/assets/images/icons/open_in_new.svg"
+            height="15px"
+            width="15px"
+            alt="Open in new icon" />
+        </div>
       </div>
     </div>
-  </div>
-  <section
-    class="mt-6 p-0.5 regular-text"
-    [innerHTML]="'pageAbout.content' | i18n : { interpolation: { escapeValue: false } }"
-  ></section>
+  </mat-card>
 </div>

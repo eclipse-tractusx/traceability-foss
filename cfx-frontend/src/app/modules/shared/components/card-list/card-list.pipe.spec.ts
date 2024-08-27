@@ -37,7 +37,7 @@ describe('ToKeyValuePipe', () => {
   });
 
   it('should return empty array if array is given.', () => {
-    expect(pipe.transform([ 123, 'test' ] as any)).toEqual([]);
+    expect(pipe.transform([123, 'test'] as any)).toEqual([]);
   });
 
   it('should return transformed object ', () => {

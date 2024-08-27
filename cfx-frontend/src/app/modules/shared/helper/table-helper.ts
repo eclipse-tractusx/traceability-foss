@@ -18,32 +18,31 @@
  ********************************************************************************/
 
 export function removeSelectedValues(selection: any, itemsToRemove: unknown[]): void {
-  const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
-  const rowsToDelete = selection.selected.filter(data => shouldDelete(data));
+    const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
+    const selectedRows = selection.selected.filter(data => !shouldDelete(data) && !itemsToRemove.find(item => (item as any).id === data.id));
 
-  selection.deselect(...rowsToDelete);
+    if (selectedRows.length === 0) {
+        selection.clear();
+        return;
+    }
+    selection.setSelection(...[]);
+    selection.setSelection(...selectedRows);
 };
 
 export function addSelectedValues(selection: any, newData: unknown[]): void {
-  const newValues = newData.filter(data => !selection.isSelected(data));
-  selection.select(...newValues);
+    const newValues = newData.filter(data => !selection.isSelected(data));
+    selection.select(...newValues);
 }
 
 
 export function clearAllRows(selection: any, multiSelect: any): void {
-  selection.clear();
-  multiSelect.emit(this.selection.selected);
+    selection.clear();
+    multiSelect.emit(this.selection.selected);
 }
 
 export function clearCurrentRows(selection: any, dataSourceData: unknown[], multiSelect: any): void {
-  this.removeSelectedValues(selection, dataSourceData);
+    this.removeSelectedValues(selection, dataSourceData);
 
-  multiSelect.emit(this.selection.selected);
-}
-
-export function setMultiSorting( event: KeyboardEvent): boolean  {
-  if(event.type === 'keydown') {
-    return event.metaKey || event.ctrlKey
-  }
+    multiSelect.emit(this.selection.selected);
 }
 

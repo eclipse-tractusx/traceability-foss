@@ -22,23 +22,20 @@
 import { DashboardStatsResponse } from '@page/dashboard/model/dashboard.model';
 
 export const mockDashboardStats: DashboardStatsResponse = {
-  // notification counts (where open means notficaiton status not closed)
-  myPartsWithOpenAlerts: 82,
-  myPartsWithOpenInvestigations: 33543,
-  supplierPartsWithOpenAlerts: 3,
-  customerPartsWithOpenAlerts: 563,
-  supplierPartsWithOpenInvestigations: 4643,
-  customerPartsWithOpenInvestigations: 12,
-
-  // part counts
-  asBuiltCustomerParts: 100,
-  asPlannedCustomerParts: 50,
-  asBuiltSupplierParts: 163000,
-  asPlannedSupplierParts: 2563,
-  asBuiltOwnParts: 5300000,
-  asPlannedOwnParts: 11203,
-  receivedActiveAlerts: 5000,
-  receivedActiveInvestigations: 2000,
-  sentActiveAlerts: 7000,
-  sentActiveInvestigations: 5,
+  'asBuiltCustomerParts': 10,
+  'asPlannedCustomerParts': 10,
+  'asBuiltSupplierParts': 10,
+  'asPlannedSupplierParts': 10,
+  'asBuiltOwnParts': 10,
+  'asPlannedOwnParts': 10,
+  'myPartsWithOpenAlerts': 1,
+  'myPartsWithOpenInvestigations': 0,
+  'supplierPartsWithOpenAlerts': 0,
+  'customerPartsWithOpenAlerts': 0,
+  'supplierPartsWithOpenInvestigations': 1,
+  'customerPartsWithOpenInvestigations': 0,
+  'receivedActiveAlerts': 1,
+  'receivedActiveInvestigations': 5,
+  'sentActiveAlerts': 0,
+  'sentActiveInvestigations': 0,
 };

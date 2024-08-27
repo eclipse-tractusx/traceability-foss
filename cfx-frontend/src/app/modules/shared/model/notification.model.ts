@@ -36,8 +36,8 @@ export enum NotificationStatus {
 }
 
 export enum NotificationStatusGroup {
-  QUEUED_AND_REQUESTED = 'queued-and-requested',
   RECEIVED = 'received',
+  QUEUED_AND_REQUESTED = 'queued-and-requested',
 }
 
 export interface NotificationCreateResponse {
@@ -79,17 +79,12 @@ export enum NotificationType {
   ALERT = 'Alert'
 }
 
-export enum NotificationTypeResponse {
-  INVESTIGATION = 'INVESTIGATION',
-  ALERT = 'ALERT'
-}
-
 export interface NotificationResponse {
   id: string;
   description: string;
   status: NotificationStatus;
   severity: Severity;
-  title: string;
+
   createdDate: string;
   createdBy: string;
   createdByName?: string;
@@ -101,7 +96,7 @@ export interface NotificationResponse {
   targetDate?: string;
   bpn?: string;
   errorMessage?: string;
-  type: NotificationTypeResponse
+  title: string;
 }
 
 export interface Notification {
@@ -109,7 +104,7 @@ export interface Notification {
   description: string;
   status: NotificationStatus | null;
   severity: Severity | null;
-  title: string;
+
   createdDate: CalendarDateModel;
   createdBy: string;
   createdByName: string;
@@ -121,7 +116,8 @@ export interface Notification {
   targetDate?: CalendarDateModel;
   bpn?: string;
   errorMessage?: string;
-  type?: NotificationType;
+  title: string;
+  notificationType?: NotificationType;
 }
 
 export enum NotificationColumn {
@@ -130,8 +126,6 @@ export enum NotificationColumn {
   RECEIVED_INVESTIGATION = 'receivedActiveInvestigations',
   SENT_INVESTIGATION = 'sentActiveInvestigations'
 }
-export interface NotificationDeeplinkFilter {
-  notificationIds: string[];
-}
+
 export type NotificationsResponse = PaginationResponse<NotificationResponse>;
 export type Notifications = Pagination<Notification>;

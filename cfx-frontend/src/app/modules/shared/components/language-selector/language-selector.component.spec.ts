@@ -31,8 +31,8 @@ describe('LanguageSelector', () => {
     <app-language-selector></app-language-selector>
   `,
       {
-        imports: [ SharedModule ],
-        declarations: [ LanguageSelectorComponent ],
+        imports: [SharedModule],
+        declarations: [LanguageSelectorComponent],
       },
     );
 

@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Component, Input } from '@angular/core';
-import { Notification } from '@shared/model/notification.model';
+import { Notification, NotificationType } from '@shared/model/notification.model';
 
 @Component({
   selector: 'app-notification-overview',
@@ -34,4 +34,7 @@ import { Notification } from '@shared/model/notification.model';
 export class NotificationOverviewComponent {
   @Input() notification: Notification;
   @Input() showNotification = true;
+
+  protected readonly NotificationType = NotificationType;
+
 }

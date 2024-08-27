@@ -20,30 +20,44 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="textarea--container">
-  <mat-form-field [style.fontSize]="'16'" appearance="fill">
+  <mat-form-field color="accent"
+    class="textarea-field"
+    [style.fontSize]="'16'"
+    appearance="outline">
     <mat-label>{{ label }}</mat-label>
-    <textarea
-      #inputElement
+    <textarea #inputElement
       [formControl]="control"
       [attr.data-testId]="htmlId"
       [errorStateMatcher]="matcher"
-      style="line-height: 1.5;"
       matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="5"></textarea>
 
-    ></textarea>
-    <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
-    <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
-    <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{
-      'input.minMaxLengthHint' | i18n : {current: control?.value?.length || 0, max: maxLength, min: minLength}
+    <img *ngIf="matcher.isErrorState(control)"
+      matSuffix
+      class="mr-4"
+      src="/assets/images/icons/error_icon.svg"
+      alt="!" />
+
+    <mat-hint *ngIf="hint"
+      align="start">{{ hint }}</mat-hint>
+    <mat-hint align="end"
+      *ngIf="!!maxLength && !!minLength">{{
+      'input.minMaxLengthHint' | i18n : { current: control?.value?.length || 0, max: maxLength, min: minLength }
       }}</mat-hint>
-    <mat-hint align="end" *ngIf="!maxLength && !!minLength">{{
-      'input.minLengthHint' | i18n : {current: control?.value?.length || 0, min: minLength}
+    <mat-hint align="end"
+      *ngIf="!maxLength && !!minLength">{{
+      'input.minLengthHint' | i18n : { current: control?.value?.length || 0, min: minLength }
       }}</mat-hint>
-    <mat-hint align="end" *ngIf="!!maxLength && !minLength">{{
-      'input.maxLengthHint' | i18n : {rest: maxLength - (control?.value?.length || 0)}
+    <mat-hint align="end"
+      *ngIf="!!maxLength && !minLength">{{
+      'input.maxLengthHint' | i18n : { rest: maxLength - (control?.value?.length || 0) }
       }}</mat-hint>
     <mat-error>
-      <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
+      <app-form-error-message [control]="control"
+        [matcher]="matcher"></app-form-error-message>
     </mat-error>
   </mat-form-field>
 </div>

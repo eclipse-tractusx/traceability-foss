@@ -24,7 +24,7 @@ import { rest } from 'msw';
 import { mockDashboardStats } from './dashboard.model';
 
 export const dashboardHandler = [
-  rest.get(`*${ environment.apiUrl }/dashboard`, (_req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/dashboard`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockDashboardStats));
   }),
 ];

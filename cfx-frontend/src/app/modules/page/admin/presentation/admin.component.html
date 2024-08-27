@@ -19,33 +19,12 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div [class.sidenav--expanded]="showFullText" class="sidenav--container">
+<div [class.sidenav--expanded]="showFullText"
+  class="sidenav--container">
   <div class="sidenav">
     <ng-container *ngFor="let item of menuConfig">
-      <div
-        *appHasRole="item.role || 'admin'"
-        [routerLink]="item.link"
-        [class.active]="this.activeUrl === item.link"
-        class="sidenav--item"
-        [attr.data-testid]="item.link"
-      >
-        <app-text-with-icon [iconName]="item.icon" [color]="this.activeUrl === item.link ? 'primary' : undefined">
-          <ng-container *ngIf="showFullText">{{ item.name | i18n }}</ng-container>
-        </app-text-with-icon>
-      </div>
     </ng-container>
-
-    <app-button
-      onkeydown="showFullText = !showFullText"
-      (click)="showFullText = !showFullText"
-      class="sidenav--toggle-button"
-      variant="miniFab"
-      [iconName]="showFullText ? 'keyboard_arrow_left' : 'keyboard_arrow_right'"
-    ></app-button>
-
-    <div onkeydown="showFullText = !showFullText" (click)="showFullText = !showFullText" class="sidenav--toggle"></div>
   </div>
-
   <div class="sidenav--content">
     <router-outlet></router-outlet>
   </div>

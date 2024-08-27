@@ -18,8 +18,8 @@
  ********************************************************************************/
 
 export interface TableViewSettings {
-  columnsForDialog: string[],                 //--> string list in order how they are sorted
-  columnSettingsOptions: Map<string, boolean>, //--> in order of sorted Rows - also source for table -> convert to list of truth
-  columnsForTable: string[],                   //--> string list that saves the column string in the order of the dialog and only if they are true
+  columnsForDialog: string[], //--> string list in order how they are sorted
+  columnSettingsOptions: Map<string,boolean>, //--> in order of sorted Rows - also source for table -> convert to list of truth
+  columnsForTable: string[], //--> string list that saves the column string in the order of the dialog and only if they are true
   filterColumnsForTable: string[],
 }

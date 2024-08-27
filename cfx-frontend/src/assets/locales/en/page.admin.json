@@ -1,5 +1,8 @@
 {
   "pageAdmin": {
+    "scheduledRegistryProcesses": {
+      "title": "Registry lookups"
+    },
     "bpnConfig": {
       "title": "BPN - EDC configuration",
       "intro": "The BPN to EDC URL mapping is used as another source for sending notifications. The first source is the discovery service, the second source is the mapping stored here. To store the additional source, please insert a BPN and the corresponding EDC URL to be used for sending notifications to the partner.",
@@ -17,44 +20,6 @@
         "successfullySaved": "Changes saved successfully.",
         "failedSave": "Error while saving the changes. Please try again later."
       }
-    },
-    "importJson": {
-      "title": "Trace-X Data import",
-      "clear_file": "clear file",
-      "upload_file": "upload file",
-      "error": "Error: Please select a JSON file.",
-      "Drag_and_Drop": "Drag and drop",
-      "or": "or",
-      "browseFiles": "Browse files",
-      "success": "Successfully uploaded."
-    },
-    "importStatus": {
-      "importStatus": "Import Status",
-      "catenaXId": "Catena-X ID",
-      "status": "State",
-      "imported": "Imported",
-      "skipped": "Skipped",
-      "validationReport": "Validation report",
-      "importStateMessage": "Import state message",
-      "errors": "Error",
-      "description": "Description",
-      "uploadMore": "Upload more",
-      "noImportStateMessage": "No additional information was returned by the server."
-    },
-    "contracts": {
-      "contracts": "Contracts",
-      "contractId": "Contract ID",
-      "counterpartyAddress": "Counterparty address",
-      "creationDate": "Creation date",
-      "endDate": "End date",
-      "state": "State",
-      "policies": "Policies",
-      "selectAtleastOne": "Select atleast one contract to use the export functionality.",
-      "exportAsCSV": ".CSV-File Export",
-      "overview": "Overview",
-      "policyDetail": "Policy detail",
-      "jsonViewer": "Json Viewer",
-      "jsonTreeViewer": "Json Tree Viewer"
     }
   }
 }

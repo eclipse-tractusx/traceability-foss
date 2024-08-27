@@ -19,48 +19,47 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {PartsDetailComponent} from '@page/parts/detail/parts-detail.component';
-import {RelationComponent} from '@page/parts/presentation/relation/relation.component';
-import {I18NEXT_NAMESPACE_RESOLVER} from 'angular-i18next';
-import {PartsComponent} from './presentation/parts.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { RelationComponent } from '@page/parts/presentation/relation/relation.component';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
+import { PartsComponent } from './presentation/parts.component';
+import { PartDetailComponent } from '@shared/modules/part-details/presentation/part-detail.component';
 
 export /** @type {*} */
-const PARTS_ROUTING: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: PartsComponent,
-    data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-  },
-  {
-    path: 'relations',
-    pathMatch: 'full',
-    component: RelationComponent,
-    data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-  },
-  {
-    path: 'relations/:partId',
-    pathMatch: 'full',
-    component: RelationComponent,
-    data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-  },
-  {
-    path: ':partId',
-    pathMatch: 'full',
-    component: PartsDetailComponent,
-    data: { i18nextNamespaces: [ 'page.parts', 'partDetail' ] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-  },
-];
+  const PARTS_ROUTING: Routes = [
+    {
+      path: '',
+      pathMatch: 'full',
+      component: PartsComponent,
+      data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    },
+    {
+      path: ':partId',
+      pathMatch: 'full',
+      component: PartDetailComponent,
+      data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    },
+    {
+      path: 'relations',
+      pathMatch: 'full',
+      component: RelationComponent,
+      data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    },
+    {
+      path: 'relations/:partId',
+      pathMatch: 'full',
+      component: RelationComponent,
+      data: { i18nextNamespaces: ['page.parts', 'partDetail'] },
+      resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    },
+  ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(PARTS_ROUTING) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forChild(PARTS_ROUTING)],
+  exports: [RouterModule],
 })
-export class PartsRoutingModule {
-}
+export class PartsRoutingModule { }

@@ -18,19 +18,84 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
 
-.dashboard-grid {
-  @apply grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6;
+.parts-section {
+  @apply col-span-3 cursor-pointer;
 }
 
-.metrics-section {
-  @apply col-span-12 lg:col-span-3;
+.parts-sections {
+  @apply grid grid-cols-12 gap-6;
 }
 
-.dashboard--investigation {
+.parts-section-text {
+  @extend .body-medium;
+  font-size: 20px;
+}
+
+.latestFiveLabel {
+  @apply font-regular;
+  font-size: 24px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: #A6A6A6;
+}
+
+.tableHeader {
+  @apply text-pendingDark;
+}
+
+.view-button {
+  @apply text-textLink;
+}
+
+.dashboard--section {
   @apply col-span-12;
+
+  @media (max-width: 1024px) {
+    min-width: 1024px;
+  }
 }
 
-.dashboard--alert {
-  @apply col-span-12;
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.noAlerts {
+  @apply font-semiBold;
+  text-align: center;
+  font-size: 24px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.action-button-text {
+  @extend .label-medium;
+  @apply text-white;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.goto-button-wrapper {
+  padding-top: 20px;
+}
+
+.goto-button-text {
+  @extend .body-small-emphasis;
+}
+
+.description {
+  @apply font-regular;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.notications-tab {
+  padding-bottom: 10px;
 }

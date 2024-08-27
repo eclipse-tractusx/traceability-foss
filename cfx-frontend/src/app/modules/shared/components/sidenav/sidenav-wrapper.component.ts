@@ -43,8 +43,7 @@ export class SidenavWrapperComponent implements AfterViewInit {
 
   private readonly isOpen$ = new State(false);
 
-  constructor(private readonly sidenavService: SidenavService) {
-  }
+  constructor(private readonly sidenavService: SidenavService) {}
 
   public ngAfterViewInit(): void {
     if (this.isOpen$.snapshot) {

@@ -33,7 +33,7 @@ application-local.yml
 !.vscode/extensions.json
 
 # misc
-/.angular/cache
+/.angular
 /.sass-cache
 /connect.lock
 /coverage
@@ -51,7 +51,6 @@ cypress/reports/*
 cucumber-messages.ndjson
 
 # System Files
-.DS_Store
 Thumbs.db
 
 #mock
@@ -64,5 +63,7 @@ tslint-report.json
 #error
 yarn-error.log
 
+#yarn
+.yarn/*
+
 scripts/download/*
-/cypress.local.config.ts

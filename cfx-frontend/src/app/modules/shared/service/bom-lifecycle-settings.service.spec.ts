@@ -18,55 +18,83 @@
  ********************************************************************************/
 
 import { TestBed } from '@angular/core/testing';
-import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
+import { BomLifecycleSettingsService, UserSettingView } from "@shared/service/bom-lifecycle-settings.service";
 
 describe('BomLifecycleConfigUserSetting', () => {
 
-  let service: BomLifecycleSettingsService;
+    let service: BomLifecycleSettingsService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(BomLifecycleSettingsService);
-  });
-
-  afterEach(() => {
-    service.clearUserSettings();
-  });
-
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
-  it('should return default settings when no settings are stored for PARTS', () => {
-    const defaultSettings = service.getUserSettings();
-    expect(defaultSettings).toEqual({
-      asBuiltSize: 50,
-      asPlannedSize: 50,
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(BomLifecycleSettingsService);
     });
-  });
 
-  it('should store and retrieve user settings', () => {
-    const newSettings = {
-      asBuiltSize: 0,
-      asPlannedSize: 100,
-    };
-    service.setUserSettings(newSettings);
-    const retrievedSettings = service.getUserSettings();
-    expect(retrievedSettings).toEqual(newSettings);
-  });
+    afterEach(() => {
+        service.clearUserSettings(UserSettingView.PARTS);
+        service.clearUserSettings(UserSettingView.OTHER_PARTS);
+    })
 
-  it('should clear user settings', () => {
-    const newSettings = {
-      asBuiltSize: 0,
-      asPlannedSize: 100,
-    };
-    service.setUserSettings(newSettings);
-    service.clearUserSettings();
-    const retrievedSettings = service.getUserSettings();
-    expect(retrievedSettings).toEqual({
-      asBuiltSize: 50,
-      asPlannedSize: 50,
+    it('should be created', () => {
+        expect(service).toBeTruthy();
     });
-  });
 
+    it('should return default settings when no settings are stored for PARTS', () => {
+        const defaultSettings = service.getUserSettings(UserSettingView.PARTS);
+        expect(defaultSettings).toEqual({
+            asDesignedActive: false,
+            asBuiltActive: true,
+            asOrderedActive: false,
+            asPlannedActive: true,
+            asSupportedActive: false,
+            asRecycledActive: false
+        });
+    });
+
+    it('should return default settings when no settings are stored for OTHER_PARTS', () => {
+        const defaultSettings = service.getUserSettings(UserSettingView.OTHER_PARTS);
+        expect(defaultSettings).toEqual({
+            asDesignedActive: false,
+            asBuiltActive: true,
+            asOrderedActive: false,
+            asPlannedActive: true,
+            asSupportedActive: false,
+            asRecycledActive: false
+        });
+    });
+
+    it('should store and retrieve user settings', () => {
+        const newSettings = {
+            asBuiltActive: false,
+            asPlannedActive: true,
+            asDesignedActive: false,
+            asOrderedActive: false,
+            asSupportedActive: false,
+            asRecycledActive: false
+        };
+        service.setUserSettings(newSettings, UserSettingView.PARTS);
+        const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
+        expect(retrievedSettings).toEqual(newSettings);
+    });
+
+    it('should clear user settings', () => {
+        const newSettings = {
+            asBuiltActive: false,
+            asPlannedActive: true,
+            asDesignedActive: false,
+            asOrderedActive: false,
+            asSupportedActive: false,
+            asRecycledActive: false
+        };
+        service.setUserSettings(newSettings, UserSettingView.PARTS);
+        service.clearUserSettings(UserSettingView.PARTS);
+        const retrievedSettings = service.getUserSettings(UserSettingView.PARTS);
+        expect(retrievedSettings).toEqual({
+            asDesignedActive: false,
+            asBuiltActive: true,
+            asOrderedActive: false,
+            asPlannedActive: true,
+            asSupportedActive: false,
+            asRecycledActive: false
+        });
+    });
 });

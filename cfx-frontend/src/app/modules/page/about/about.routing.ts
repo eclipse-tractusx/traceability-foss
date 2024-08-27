@@ -30,14 +30,13 @@ const ABOUT_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: AboutComponent,
-    data: { i18nextNamespaces: [ 'page.about' ] },
+    data: { i18nextNamespaces: ['page.about'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(ABOUT_ROUTING) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forChild(ABOUT_ROUTING)],
+  exports: [RouterModule],
 })
-export class AboutRoutingModule {
-}
+export class AboutRoutingModule {}

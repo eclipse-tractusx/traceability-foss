@@ -22,12 +22,11 @@
 import { Component, HostListener, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-confirm',
   templateUrl: './modal.component.html',
-  styleUrls: [ './modal.component.scss' ],
+  styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent {
   @HostListener('keydown.esc')
@@ -35,16 +34,10 @@ export class ModalComponent {
     this.close(false);
   }
 
-  isValid: boolean = true;
-  notValidSubscription: Subscription;
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly data: ModalData,
     private readonly matDialogRef: MatDialogRef<ModalComponent>,
-  ) {
-    this.notValidSubscription?.unsubscribe();
-    this.isValid = !data?.notificationId;
-  }
+  ) { }
 
   public close(value: boolean): void {
     this.matDialogRef.close(value || false);
@@ -60,6 +53,10 @@ export class ModalComponent {
 
     if (!this.data.formGroup || this.data.formGroup.valid) {
       this.close(true);
+    }
+
+    if (this.data.onConfirm) {
+      this.data.onConfirm(true);
     }
   }
 }

@@ -19,25 +19,34 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div *ngIf="toastMessage" class="toast h-full px-4 py-1 toast-container">
-  <span class="hfull check-icon-container mr-2 mb-2 toast-icon-{{ toastMessage.status }}" data-testid="toast-container">
-    <mat-icon class="text-1xl">{{toastMessage.status}}</mat-icon>
-  </span>
-  <div class="large-text p-3 text-dark flex flex-wrap" id="toast-message">
-    {{ toastMessage.message | i18n }} {{toastMessage.stringMessage}}
-    <a *ngIf="toastMessage.actions"
-       href="{{toastMessage?.actions[0].link}}?tabIndex={{toastMessage?.actions[0]?.linkQueryParams?.tabIndex}}">{{toastMessage?.actions[0].text | i18n}}
-    </a>
-    <app-button *ngIf="toastMessage?.retry"
-                class="mt-1"
-                onkeydown="handleClick($event)"
-                (click)="handleClick($event)">
-      <div class="button-content font-semiBold">
-        {{"retry" | i18n}} <mat-icon class="retry-icon">refresh</mat-icon>
+<mat-card class="custom-card"
+  *ngIf="toastMessage">
+  <mat-card-content class="toast">
+    <div class="toast-container">
+      <div class="check-icon-container toast-icon-{{ toastMessage.status }}"
+        data-testid="toast-container">
+        <img [src]="'/assets/images/icons/snackbar_' + toastMessage.status + '.svg'"
+          [alt]="toastMessage.status + ' icon'" />
       </div>
-    </app-button>
-  </div>
-  <div class="btn-close p-0.5 flex flex-end">
-    <mat-icon class="text-grey mt-1 cursor-pointer" onkeydown="this.removeToast.emit(toastMessage)" (click)="this.removeToast.emit(toastMessage)">close</mat-icon>
-  </div>
-</div>
+      <div class="toast-message"
+        id="toast-message">
+        <div class="toast-title">{{ toastMessage.title | i18n }}</div>
+        <div class="toast-message-text">
+          {{toastMessage.message | i18n }}
+        </div>
+        <a class="actions-link"
+          *ngIf="toastMessage.actions"
+          href="{{toastMessage?.actions[0].link}}?tabIndex=1">{{toastMessage?.actions[0].text | i18n}}</a>
+      </div>
+      <img class="close-button toast-close-button"
+        (click)="this.removeToast.emit(toastMessage)"
+        src="/assets/images/icons/closeDialog_icon.svg"
+        width="14px"
+        height="15px"
+        alt="X" />
+    </div>
+    <div [ngClass]="'line--' + toastMessage.status"
+      [ngStyle]="getLineStyle()"
+      [style.width]="widthTarget"></div>
+  </mat-card-content>
+</mat-card>

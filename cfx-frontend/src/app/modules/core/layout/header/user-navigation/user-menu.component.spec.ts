@@ -19,13 +19,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { UserMenuComponent } from '@layout/header/user-navigation/user-menu.component';
 import { LayoutModule } from '@layout/layout.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { UserMenuComponent } from '@layout/header/user-navigation/user-menu.component';
 
 describe('UserMenuComponent', () => {
-  const renderUserMenuComponent = () => renderComponent(UserMenuComponent, { imports: [ LayoutModule ] });
+  const renderUserMenuComponent = () => renderComponent(UserMenuComponent, { imports: [LayoutModule] });
   it('should render user menu', async () => {
     await renderUserMenuComponent();
 

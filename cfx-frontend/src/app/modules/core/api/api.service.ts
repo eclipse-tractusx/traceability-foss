@@ -17,7 +17,7 @@
  * under the License.
  *
  * SPDX-License-Identifier: Apache-2.0
- *********************************************************************************/
+ ********************************************************************************/
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -28,8 +28,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private readonly httpClient: HttpClient, private readonly authService: AuthService) {
-  }
+  constructor(private readonly httpClient: HttpClient, private readonly authService: AuthService) {}
 
   private static stringifyBody<T>(body: T | null): string {
     return JSON.stringify(body === null ? {} : body);
@@ -58,20 +57,11 @@ export class ApiService {
     headers?: HttpHeaders,
     params?: HttpParams,
   ): Observable<T> {
-    const urlWithParams = params ? `${ url }${ params }` : url;
+    const urlWithParams = params ? `${url}${params}` : url;
     return this.httpClient.post<T>(urlWithParams, ApiService.stringifyBody(body), {
       headers: headers ? headers : this.buildHeaders(),
       responseType,
       withCredentials,
-    });
-  }
-
-  public postFile<T>(
-    url: string,
-    file: FormData,
-  ): Observable<T> {
-    return this.httpClient.post<T>(url, file, {
-      headers: this.buildHeadersForFile(),
     });
   }
 
@@ -115,13 +105,6 @@ export class ApiService {
     return new HttpHeaders({
       Access: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: this.authService.getBearerToken(),
-    });
-  }
-
-
-  private buildHeadersForFile(): HttpHeaders {
-    return new HttpHeaders({
       Authorization: this.authService.getBearerToken(),
     });
   }

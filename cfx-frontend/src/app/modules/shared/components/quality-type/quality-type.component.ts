@@ -25,18 +25,18 @@ import { QualityType } from '@page/parts/model/parts.model';
 @Component({
   selector: 'app-quality-type',
   templateUrl: './quality-type.component.html',
-  styleUrls: [ './quality-type.component.scss' ],
+  styleUrls: ['./quality-type.component.scss'],
 })
 export class QualityTypeComponent {
   @Input() type: QualityType;
 
   public getIconByQualityType(qualityType: QualityType): string {
     const iconMap = new Map<QualityType, string>([
-      [ QualityType.Ok, 'check_circle_outline' ],
-      [ QualityType.Minor, 'error_outline' ],
-      [ QualityType.Major, 'error' ],
-      [ QualityType.Critical, 'error_outline' ],
-      [ QualityType.LifeThreatening, 'error' ],
+      [QualityType.Ok, 'check_circle_outline'],
+      [QualityType.Minor, 'info'],
+      [QualityType.Major, 'warning'],
+      [QualityType.Critical, 'error_outline'],
+      [QualityType.LifeThreatening, 'error'],
     ]);
     return iconMap.get(qualityType) || '';
   }

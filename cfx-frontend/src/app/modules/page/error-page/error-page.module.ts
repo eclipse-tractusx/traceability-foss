@@ -29,9 +29,8 @@ import { TemplateModule } from '@shared/template.module';
 import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [ ErrorPageComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule, ErrorPageRoutingModule ],
-  providers: [ ...getI18nPageProvider('page.error-page') ],
+  declarations: [ErrorPageComponent],
+  imports: [CommonModule, TemplateModule, SharedModule, ErrorPageRoutingModule],
+  providers: [...getI18nPageProvider('page.error-page')],
 })
-export class ErrorPageModule {
-}
+export class ErrorPageModule {}

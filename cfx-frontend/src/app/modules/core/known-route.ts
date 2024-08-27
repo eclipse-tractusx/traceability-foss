@@ -23,38 +23,44 @@ import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { PageRoute } from '@shared/model/page-route.model';
 
 export const PARTS_BASE_ROUTE = 'parts';
+export const OTHER_PARTS_BASE_ROUTE = 'otherParts';
 export const DASHBOARD_BASE_ROUTE = 'dashboard';
 export const ADMIN_BASE_ROUTE = 'admin';
 export const ABOUT_BASE_ROUTE = 'about';
-export const NOTIFICATION_BASE_ROUTE = 'inbox';
+export const IMPRINT_BASE_ROUTE = 'imprint';
+export const INVESTIGATION_BASE_ROUTE = 'investigations';
+export const ALERT_BASE_ROUTE = 'alerts';
 export const NO_PERMISSION_BASE_ROUTE = 'no-permissions';
 
 export const NavigableUrls = [
   PARTS_BASE_ROUTE,
+  OTHER_PARTS_BASE_ROUTE,
   DASHBOARD_BASE_ROUTE,
   ADMIN_BASE_ROUTE,
   ABOUT_BASE_ROUTE,
-  NOTIFICATION_BASE_ROUTE,
+  IMPRINT_BASE_ROUTE,
+  INVESTIGATION_BASE_ROUTE,
+  ALERT_BASE_ROUTE,
 ] as const;
 
 export type KnownUrl = (typeof NavigableUrls)[number];
 
+const getNotificationInboxRoute = (
+  urlType: KnownUrl,
+  investigationStatusGroup?: NotificationStatusGroup,
+): PageRoute => ({
+  link: urlType,
+  queryParams: investigationStatusGroup
+    ? {
+      tabIndex: String(Object.values(NotificationStatusGroup).indexOf(investigationStatusGroup)),
+    }
+    : undefined,
+});
+
 export const getRoute = (urlType: KnownUrl, ...args): PageRoute => {
-  if (urlType === NOTIFICATION_BASE_ROUTE) {
+  if (urlType === INVESTIGATION_BASE_ROUTE || urlType === ALERT_BASE_ROUTE) {
     return getNotificationInboxRoute(urlType, ...args);
   }
 
   return { link: urlType };
 };
-
-const getNotificationInboxRoute = (
-  urlType: KnownUrl,
-  notificationStatusGroup?: NotificationStatusGroup,
-): PageRoute => ({
-  link: urlType,
-  queryParams: notificationStatusGroup
-    ? {
-      tabIndex: notificationStatusGroup === NotificationStatusGroup.RECEIVED ? '1' : '0',
-    }
-    : undefined,
-});

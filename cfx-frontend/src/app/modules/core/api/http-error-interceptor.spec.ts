@@ -34,8 +34,7 @@ import { catchError } from 'rxjs/operators';
 export class ErrorTestComponent implements AfterViewInit {
   @Input() statusCode = '404';
 
-  constructor(private readonly apiService: ApiService) {
-  }
+  constructor(private readonly apiService: ApiService) {}
 
   public ngAfterViewInit() {
     this.apiService
@@ -48,8 +47,8 @@ export class ErrorTestComponent implements AfterViewInit {
 describe('HttpErrorInterceptor', () => {
   const initErrorInterceptor = async (statusCode: string) => {
     await renderComponent(ErrorTestComponent, {
-      declarations: [ ErrorTestComponent ],
-      imports: [ SharedModule, CoreModule ],
+      declarations: [ErrorTestComponent],
+      imports: [SharedModule, CoreModule],
       componentProperties: { statusCode },
     });
   };
@@ -57,7 +56,7 @@ describe('HttpErrorInterceptor', () => {
   it('should intercept', async () => {
     await initErrorInterceptor('403');
     expect(
-      await waitFor(() => screen.queryByText('Backend returned code 403: Permission denied error message')),
-    ).not.toBeInTheDocument();
+      await waitFor(() => screen.getByText('Backend returned code 403: Permission denied error message')),
+    ).toBeInTheDocument();
   });
 });

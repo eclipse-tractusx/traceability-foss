@@ -28,20 +28,20 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('TextareaComponent', () => {
   const renderTextarea = async (label = 'Label') => {
     const form = new UntypedFormGroup({
-      formField: new UntypedFormControl(undefined, [ Validators.required ]),
+      formField: new UntypedFormControl(undefined, [Validators.required]),
     });
 
     await renderComponent(
       `
       <form [formGroup]="form">
-        <app-textarea formControlName="formField" [label]="'${ label }'"></app-textarea>
+        <app-textarea formControlName="formField" [label]="'${label}'"></app-textarea>
       </form>`,
       {
-        declarations: [ TextareaComponent ],
-        imports: [ ReactiveFormsModule, SharedModule ],
+        declarations: [TextareaComponent],
+        imports: [ReactiveFormsModule, SharedModule],
         componentProperties: {
           form: new UntypedFormGroup({
-            formField: new UntypedFormControl(undefined, [ Validators.required ]),
+            formField: new UntypedFormControl(undefined, [Validators.required]),
           }),
         },
       },

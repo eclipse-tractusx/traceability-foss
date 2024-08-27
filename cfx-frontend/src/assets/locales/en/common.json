@@ -1,45 +1,39 @@
 {
   "clipboard": "Copied \"{{value}}\" to clipboard!",
+  "clipboardTitle": "Text copied",
   "routing": {
     "home": "Home",
     "dashboard": "Dashboard",
-    "parts": "Parts",
-    "about": "About",
+    "parts": "My parts",
+    "otherParts": "Shared parts",
+    "about": "About Trace-X",
     "relations": "Relations",
     "admin": "Administration",
-    "inbox": "Quality notifications",
+    "investigations": "Quality investigations",
+    "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
-    "adminBpn": "BPN - EDC configuration",
-    "adminImport": "Data provisioning",
-    "partMismatch": "Selected parts must have same owner to create quality topic (Own, Supplier)",
-    "unauthorized": "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
-    "notAllowedForAsPlanned": "This function is not available for Parts in the Lifecycle \"AsPlanned\".",
-    "noChildPartsForInvestigation": "This function is not available for Parts without components.",
-    "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available.",
-    "illegalAssetStateToPublish": "One or more selected parts are not in the required import state \"TRANSIENT\" or \"ERROR\".",
-    "adminContract": "Contracts",
-    "createIncident": "Create quality notification",
-    "startInvestigation": "Start Quality investigation on subcomponents",
-    "notAllowedForNonPersistentPart": "Quality notifications can only be created for parts that are in the import state \"PERSISTENT\".",
-    "onlyAllowedForOwnParts": "This functionality is only possible for own parts.",
-    "publishAssets": "Publish asset",
-    "notAuthorizedOwner": "This functionality is only allowed for own and supplier parts."
+    "adminBpn": "BPN - EDC configuration"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
     "parts": "My parts",
-    "about": "About Catena-X Open-Source Traceability",
+    "otherParts": "Shared parts",
+    "about": "About Trace-X",
     "relations": "Part relations",
     "admin": "Administration Catena-X",
-    "alerts" : "Quality topics",
-    "receivedQualityTopics" : "Received quality topics",
-    "sentQualityTopics" : "Sent quality topics"
+    "investigations": "Quality investigations",
+    "alerts": "Quality alerts"
   },
   "layout": {
     "nav": {
-      "openUserMenu": "Open user menu",
-      "signOut": "Sign out",
-      "goToPortal": "Go to CX Portal"
+      "faqs": "FAQs",
+      "helpdesk": "Helpdesk",
+      "signOut": "Logout"
+    },
+    "footer": {
+      "imprint": "Imprint",
+      "version": "Version updates",
+      "imprintLink": "https://www.cofinity-x.com/contact/imprint/"
     }
   },
   "actions": {
@@ -53,7 +47,6 @@
     "close": "Close",
     "decline": "Decline",
     "viewDetails": "View details",
-    "edit": "Edit",
     "help": "Help",
     "add": "Add",
     "saveChanges": "Save changes",
@@ -61,75 +54,60 @@
     "remove": "Remove",
     "delete": "Delete",
     "goToQueue": "Go to Queue",
-    "goBack": "Back",
-    "publishAssets": "Publish assets",
-    "maximizeTable": "Full width",
-    "userSettings": "Table settings"
-  },
-  "publisher": {
-    "selectedAssets": "Assets selected",
-    "policyToApply": "Policy to apply",
-    "selectPolicyLabel": "Select Policy",
-    "selectPolicyError": "Please select one policy",
-    "publish": "Publish"
+    "goBack": "Back"
   },
   "table": {
-    "tombStone": "Tombstone",
+    "invalid": "Due to an error table settings have been reset",
+    "invalidTitle": "Invalid table settings",
+    "latestFive": "(Latest 5)",
     "noResultFound": "NO RESULTS FOUND.",
     "tryAgain": "Please try again later.",
     "selectPageSize": "Select page of periodic elements",
     "menuDescription": "Action menu",
     "clearPage": "Clear page selections",
     "clearAll": "Clear all selections",
-    "multiSortingTooltip": "First click: sort in ascending order ↑ Second click: sort in descending order ↓ Third click: reset sorting",
     "filterTitle": "Filter",
-    "owner": {
-      "own": "Own",
-      "supplier": "Supplier",
-      "customer": "Customer"
-    },
-    "semanticDataModel": {
-      "BATCH": "Batch",
-      "SERIALPART": "SerialPart",
-      "PARTASPLANNED": "PartAsPlanned",
-      "JUSTINSEQUENCE": "JustInSequence",
-      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
-      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+    "adminColumn": {
+      "startDate": "Start date",
+      "registryLookupStatus": "Status",
+      "successShellDescriptorsFetchCount": "Successful fetches",
+      "failedShellDescriptorsFetchCount": "Failed fetches",
+      "shellDescriptorsFetchDelta": "Fetch Delta",
+      "endDate": "End date"
     },
     "tableSettings": {
-      "invalid": "Due to an error table settings have been reset",
-      "title": "Table column settings",
+      "titleSettings": "Table settings",
+      "resetAllFilters": "Reset filters and sorting",
+      "title": "Column settings",
       "selectAll": "All",
-      "orderTooltip": "Table column order can be changed by selecting a column and move it up or down by clicking on the icon ↑ (up) or ↓ (down)",
       "refreshTooltip": "Reset individual table column settings to default",
-      "saveAction": "Save",
-      "alert": "Quality Alert"
+      "saveAction": "Save"
     },
-    "createNotification" : "Create quality topic",
-    "sendNotification" : "Send quality topics",
-    "cancelNotification" : "Cancel quality topics",
-    "addParts" : "Add parts to quality topics",
-    "viewDetails" : "View details",
-    "more" : "More actions",
-    "editNotification" : "Edit quality topics",
-    "selectAtLeastOne" : "Actions require atleast one selection in the table",
-    "unauthorized" : "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
-    "noFunctionality" : "Functionality is not implemented yet",
-    "onlyNotificationInStatusCreatedAllowed" : "Action only allowed with a selection of notifications in status \"Queued\".",
     "column": {
       "id": "ID",
+      "hasAlerts": "!",
+      "alertId": "Alert ID",
+      "investigationId": "Investigation ID",
       "idShort": "ID Short",
-      "owner": "Owner",
       "name": "Name",
-      "manufacturerName": "Manufacturer",
-      "partId": "Part number",
+      "sentActiveAlerts": "Sent Active Alerts",
+      "sentActiveInvestigations": "Sent Active Investigations",
       "businessPartner": "Business partner number",
+      "manufacturer": "Manufacturer",
+      "importstate": "Import state",
+      "sendToName": "Sent to Manufacturer",
+      "createdByName": "Created by Manufacturer",
+      "title": "Title",
+      "importnote ": "Import note",
+      "partId": "Part number",
+      "receivedActiveAlerts": "Active alerts",
+      "receivedActiveInvestigations": "Active investigations",
+      "manufacturerName": "Manufacturer name",
       "manufacturerPartId": "Manufacturer part ID",
       "customerPartId": "Customer part ID",
       "classification": "Classification",
       "nameAtCustomer": "Customer part name",
-      "nameAtManufacturer": "Manufacturer part name",
+      "nameAtManufacturer": "Name",
       "semanticModelId": "Semantic Model ID",
       "manufacturingDate": "Production date",
       "qualityType": "Quality type",
@@ -140,25 +118,16 @@
       "status": "Status",
       "targetDate": "Deadline",
       "createdDate": "Created",
-      "createdBy": "Created by BPN",
-      "createdByName": "Created by Manufacturer",
-      "sendTo": "Sent to BPN",
-      "sendToName": "Sent to Manufacturer",
+      "createdBy": "Created by",
+      "sendTo": "Send to",
       "severity": "Severity",
       "semanticDataModel": "Semantic Data Model",
-      "catenaXSiteId": "SiteId",
+      "catenaXSiteId": "Site ID",
       "psFunction": "Function",
       "functionValidFrom": "Function valid from",
-      "functionValidUntil" : "Function valid until",
-      "sentActiveAlerts" : "Created",
-      "receivedActiveInvestigations" : "Received",
-      "receivedActiveAlerts" : "Received",
-      "sentActiveInvestigations" : "Created",
-      "importState": "Import State",
-      "importNote": "Import Note",
-      "importDate": "Import Date",
-      "type": "Type",
-      "title": "Title"
+      "functionValidUntil": "Function valid until",
+      "activeAlerts": "Active Quality alerts",
+      "activeInvestigations": "Active Quality investigations"
     }
   },
   "dataLoading": {
@@ -170,21 +139,13 @@
     "Minor": "Minor",
     "Major": "Major",
     "Critical": "Critical",
-    "LifeThreatening": "Life-Threatening"
-  },
-  "importState": {
-    "PERSISTENT": "PERSISTENT",
-    "TRANSIENT": "TRANSIENT",
-    "IN_SYNCHRONIZATION": "IN SYNCHRONIZATION",
-    "ERROR": "ERROR",
-    "UNSET": "UNSET",
-    "PUBLISHED_TO_CORE_SERVICES": "PUBLISHED"
+    "LifeThreatening": "Life threatening"
   },
   "severity": {
     "MINOR": "Minor",
     "MAJOR": "Major",
     "CRITICAL": "Critical",
-    "LIFE-THREATENING": "Life-Threatening"
+    "LIFE-THREATENING": "Life threatening"
   },
   "input": {
     "minMaxLengthHint": "{{current}} Characters. (Min. {{min}} and max. {{max}} characters)",
@@ -198,94 +159,81 @@
     "required": "This field is required!",
     "requiredTrue": "This checkbox must be checked!",
     "email": "Please enter a valid E-Mail.",
-    "minLength": "Please enter a text that is larger than: {{minLength}}. Current: {{current}}",
-    "maxLength": "Please enter a text that is smaller than: {{maxLength}}. Current: {{current}}",
+    "minLength": "Please provide more than {{minLength}} characters. Current: {{current}}",
+    "maxLength": "Please provide less than {{maxLength}} characters. Current: {{current}}",
     "pattern": "Please enter data that matches this pattern: {{- pattern}}.",
     "url": "Please enter a valid URL.",
     "bpn": "Please enter a valid BPN.",
     "maxDate": "Please select a date that is before {{- maxDate}}.",
     "minDate": "Please select a date that is after {{- minDate}}.",
     "currentDate": "Please select a date that is after {{- currentDate}}.",
-    "generic": "Please enter valid data.",
-    "invalidBpn": "Must not be own BPN."
+    "deadlineExceeded": "The deadline exceeds the original deadline ({{- deadlineExceeded}}).",
+    "generic": "Please enter valid data."
   },
   "unitTest": {
     "test01": "This is for unit tests purposes.",
     "test02": "This is for unit tests purposes. {{test}}"
   },
   "requestAlert": {
-    "headline": "Create quality alert",
-    "titleDescription": "Title",
+    "headline": "Start quality alert",
     "textAreaDescription": "Add a description about the alert.",
+    "successTitle": "Alert queued successfully",
     "success_one": "You queued an alert for {{count}} part",
-    "success_other": "You queued an alert for {{count}} parts",
-    "serverError": "Server error:"
+    "success_other": "You queued an alert for {{count}} parts"
   },
   "requestInvestigations": {
     "headline": "Request quality investigation",
     "textAreaDescription": "Add a description about the investigation.",
+    "successTitle": "Investigation queued successfully",
     "success_one": "You queued an investigation for {{count}} part",
-    "success_other": "You queued an investigation for {{count}} parts",
-    "serverError": "Server error:"
-
+    "success_other": "You queued an investigation for {{count}} parts"
   },
   "requestNotification": {
-    "investigation": "Quality investigation",
-    "alert": "Quality alert",
-    "header": "Create notification",
-    "editNotificationHeader": "Edit notification",
-    "createNotificationHeader": "Create notification",
-    "affectedParts": "Affected parts",
-    "unAffectedParts": "Available parts",
-    "partDescription": "You selected the following parts:",
+    "selectParts": "Select suspect part(s)",
+    "otherPartsList": "List of shared parts",
+    "partDescription": "You selected the following parts",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
-    "titleLabel": "Title",
-    "titleDescription": "Specify a short title.",
     "targetDateLabel": "Deadline",
-    "typeDescription": "Type of quality topic.",
-    "typeLabel": "Type",
-    "bpnLabel": "BPN",
-    "bpnDescription": "Please specify the receiver BPN.",
+    "bpnLabel": "Recipient BPN",
+    "bpnDescription": "Please enter the recipient BPN",
     "restoreItem": "Do you want to restore your last item?",
     "textAreaLabel": "Description",
-    "cancel": "CANCEL",
-    "submit": "ADD TO QUEUE",
+    "textAreaLabelTitle": "Title",
+    "cancel": "Cancel",
+    "back": "Back",
+    "submitTooltip": "You must first fill in all fields marked with an *",
+    "submit": "Add to queue",
+    "continue": "Continue",
     "severity": "Severity",
-    "severityDescription": "Select the severity for the problem at hand.",
-    "serverError": "Server error:",
-    "remove": "Remove selection",
-    "add": "Add selection",
-    "modifyNotAllowed": "Requires at least one selection in the parts table.",
-    "modifyAffectedNotAllowed" : "Requires at least one selection in the affected parts table.",
-    "modifyAvailableNotAllowed" : "Requires at least one selection in the available parts table.",
-    "textAreaDescription": "Describe the quality issue.",
-    "saveNotAllowed": "Requires valid form input.",
-    "noPartsSelected" : "Requires at least one affected part",
-    "saveSuccess": "Quality topic was created successfully.",
-    "saveError": "An error occurred while creating the quality topic.",
-    "saveEditSuccess": "Quality topic was updated successfully.",
-    "saveEditError": "An error occurred while updating the quality topic.",
-    "save": "Save quality topic"
+    "severityDescription": "Select the severity for the problem at hand",
+    "userInfoDataSovereignty": "Respect data sovereignty, don't share information that reveals the identity of the original contributor."
   },
-  "editNotification": {
-    "saveButton": "Save",
-    "cancelButton": "Cancel"
-  },
-  "requestPublishAssets": {
-    "success": "Request to publish assets was successful",
-    "error": ""
+  "forwardNotification": {
+    "requestAlert": {
+      "headline": "Forward alert"
+    },
+    "requestInvestigations": {
+      "headline": "Forward investigation",
+      "selectAffectedParts": "Select the affected Part(s)"
+    }
   },
   "pagination": {
-    "itemsPerPageLabel": "Items per page:",
+    "itemsPerPageLabel": "Show",
     "nextPageLabel": "Next page",
     "previousPageLabel": "Previous page",
     "firstPageLabel": "First page",
     "lastPageLabel": "Last page",
     "emptyRange": "0 of {{length}}",
-    "range": "{{startIndex}} – {{endIndex}} of {{length}}"
+    "range": "{{startIndex}} of {{length}}"
   },
   "commonInvestigation": {
-    "viewAll": "View all",
+    "viewAll": "Go to all investigations",
+    "selectedPartsActions": "Start investigation",
+    "create": "Define investigation",
+    "discardHeader": "Discard investigation?",
+    "discardMessage": "Your selection and input will be lost. To continue working on your investigation, click \"Resume\".",
+    "noInvestigations": "No current quality investigations",
+    "noInvestigationsDescription": "If there are any quality investigations, they will be displayed here.",
     "tabs": {
       "received": "Received",
       "queuedAndRequested": "Queued & Requested"
@@ -301,36 +249,53 @@
       "DECLINED": "Declined"
     },
     "modal": {
-      "acceptTitle": "Accept of investigation",
+      "acceptTitle": "Accept investigation",
       "acceptReasonHint": "Enter the reason for accepting this investigation.",
-      "acknowledgeTitle": "Acknowledgment of investigation",
-      "approvalTitle": "Approval of investigation",
-      "closeTitle": "Close of investigation",
-      "closeReasonHint": "Enter the reason for close action.",
-      "cancellationTitle": "Cancellation of investigation",
-      "cancellationHint": "Enter the ID of the investigation to confirm your cancellation.",
-      "cancellationConfirmationLabel": "Yes, I confirm that I want to cancel the investigation with the ID: ",
-      "declineTitle": "Decline of investigation",
-      "declineReasonHint": "Enter the reason for declining this investigation.",
+      "acknowledgeTitle": "Acknowledge investigation",
+      "approvalTitle": "Approve investigation",
+      "closeTitle": "Close investigation",
+      "closeReasonHint": "Enter the reason for closing this investigation",
+      "cancellationTitle": "Cancel investigation",
+      "cancellationHint": "Enter the ID of the investigation to confirm your cancellation",
+      "declineTitle": "Decline investigation",
+      "declineReasonHint": "Enter the reason for declining this investigation",
       "successfullyAccepted": "Investigation was accepted successfully.",
+      "successfullyAcceptedTitle": "Accept investigation successful",
       "successfullyAcknowledged": "Investigation was acknowledged successfully.",
+      "successfullyAcknowledgedTitle": "Acknowledge investigation successful",
       "successfullyApproved": "Investigation was approved successfully.",
+      "successfullyApprovedTitle": "Aprrove investigation successful",
       "successfullyCanceled": "Investigation was canceled successfully.",
+      "successfullyCanceledTitle": "Cancel investigation successful",
       "successfullyClosed": "Investigation was closed successfully.",
+      "successfullyClosedTitle": "Close investigation successful",
       "successfullyDeclined": "Investigation was declined successfully.",
+      "successfullyDeclinedTitle": "Decline investigation successful",
       "failedAccept": "Investigation failed to accept, please try again.",
+      "failedAcceptTitle": "Accept investigation failed",
       "failedAcknowledge": "Investigation failed to acknowledge, please try again.",
+      "failedAcknowledgeTitle": "Acknowledge investigation failed",
       "failedApprove": "Investigation failed to approve, please try again.",
+      "failedApproveTitle": "Approve investigation failed",
       "failedCancel": "Investigation failed to cancel, please try again.",
+      "failedCancelTitle": "Cancel investigation failed",
       "failedClose": "Investigation failed to close, please try again.",
-      "failedDecline": "Investigation failed to decline, please try again."
+      "failedCloseTitle": "Close investigation failed",
+      "failedDecline": "Investigation failed to decline, please try again.",
+      "failedDeclineTitle": "Decline investigation failed"
     }
   },
   "commonAlert": {
-    "viewAll": "View all",
+    "viewAll": "Go to all alerts",
+    "noAlerts": "No current quality alerts",
+    "discardHeader": "Discard alert?",
+    "discardMessage": "Your selection and input will be lost. To continue working on your alert, click \"Resume\".",
+    "selectedPartsActions": "Create alert",
+    "noAlertsDescription": "If there are any quality alerts, they will be displayed here.",
+    "create": "Define alert",
     "tabs": {
-      "received" : "Received",
-      "queuedAndRequested" : "Sent"
+      "received": "Received",
+      "queuedAndRequested": "Queued & Sent"
     },
     "status": {
       "SENT": "Requested",
@@ -343,92 +308,94 @@
       "DECLINED": "Declined"
     },
     "modal": {
-      "acceptTitle": "Accept of alert",
-      "acceptReasonHint": "Enter the reason for accepting this alert.",
-      "acknowledgeTitle": "Acknowledgment of alert",
-      "approvalTitle": "Approval of alert",
-      "closeTitle": "Close of alert",
-      "closeReasonHint": "Enter the reason for close action.",
-      "cancellationTitle": "Cancellation of alert",
-      "cancellationHint": "Enter the ID of the alert to confirm your cancellation.",
-      "cancellationConfirmationLabel": "Yes, I confirm that I want to cancel the alert with the ID: ",
-      "declineTitle": "Decline of alert",
-      "declineReasonHint": "Enter the reason for declining this alert.",
+      "acceptTitle": "Accept alert",
+      "acceptReasonHint": "Enter the reason for accepting this alert",
+      "acknowledgeTitle": "Acknowledge alert",
+      "approvalTitle": "Approve alert",
+      "closeTitle": "Close alert",
+      "closeReasonHint": "Enter the reason for closing this alert",
+      "cancellationTitle": "Cancel alert",
+      "cancellationHint": "Enter the ID of the alert to confirm your cancellation",
+      "declineTitle": "Decline alert",
+      "declineReasonHint": "Enter the reason for declining this alert",
       "successfullyAccepted": "Alert was accepted successfully.",
+      "successfullyAcceptedTitle": "Accept alert successful",
       "successfullyAcknowledged": "Alert was acknowledged successfully.",
+      "successfullyAcknowledgedTitle": "Acknowledge alert successful",
       "successfullyApproved": "Alert was approved successfully.",
+      "successfullyApprovedTitle": "Approve alert successful",
       "successfullyCanceled": "Alert was canceled successfully.",
+      "successfullyCanceledTitle": "Cancel alert successful",
       "successfullyClosed": "Alert was closed successfully.",
+      "successfullyClosedTitle": "Close alert successful",
       "successfullyDeclined": "Alert was declined successfully.",
+      "successfullyDeclinedTitle": "Decline alert successful",
       "failedAccept": "Alert failed to accept, please try again.",
+      "failedAcceptTitle": "Accept alert failed",
       "failedAcknowledge": "Alert failed to acknowledge, please try again.",
-      "failedApprove": "Alert failed to send, please try again.",
+      "failedAcknowledgeTitle": "Acknowledge alert failed",
+      "failedApprove": "Alert failed to approve, please try again.",
+      "failedApproveTitle": "Approve alert failed",
       "failedCancel": "Alert failed to cancel, please try again.",
+      "failedCanceTitle": "Cancel alert failed",
       "failedClose": "Alert failed to close, please try again.",
-      "failedDecline": "Alert failed to decline, please try again."
+      "failedCloseTitle": "Close alert failed",
+      "failedDecline": "Alert failed to decline, please try again.",
+      "failedDeclineTitle": "Decline alert failed"
     }
   },
   "bomLifecycleActivator": {
+    "selectLifeCycles": "Select 2 lifecycle stages",
     "asBuilt": "As Built",
-    "asPlanned": "As Planned"
-  },
-  "quickFilter": {
-    "own": "OWN",
-    "supplier": "SUPPLIER",
-    "customer": "CUSTOMER"
+    "asPlanned": "As Planned",
+    "unImplemented": "Coming soon"
   },
   "multiSelect": {
+    "multipleResults": "Others",
+    "placeHolder": "All",
+    "selectAll": "All",
     "filterLabel": "Filter",
-    "placeholder": "All",
-    "searchPlaceholder": "Search..",
-    "choosePlaceholder": "Choose..",
-    "suggestionError": "No suggestions found.",
-    "multipleResults": "others",
-    "mappedText": {
-      "RECEIVED": "RECEIVED",
-      "CREATED": "QUEUED",
-      "SENT": "REQUESTED",
-      "CANCELED": "CANCELLED",
-      "CLOSED": "CLOSED",
-      "ACCEPTED": "ACCEPTED",
-      "ACKNOWLEDGED": "ACKNOWLEDGED",
-      "DECLINED": "DECLINED",
-      "MINOR": "Minor",
-      "MAJOR": "Major",
-      "CRITICAL": "Critical",
-      "LIFE_THREATENING": "Life-Threatening",
-      "BATCH": "Batch",
-      "SERIALPART": "SerialPart",
-      "PARTASPLANNED": "PartAsPlanned",
-      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
-      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
-      "JUSTINSEQUENCE": "JustInSequence",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode",
-      "TRANSIENT": "Transient",
-      "PERSISTENT": "Persistent",
-      "IN_SYNCHRONIZATION": "In Synchronization",
-      "ERROR": "Error",
-      "UNSET": "Unset",
-      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht",
-      "OWN": "Own",
-      "SUPPLIER": "Supplier",
-      "CUSTOMER": "Customer",
-      "UNKNOWN": "Unknown"
-    }
+    "filterLabelDate": "Filter by date",
+    "filterLabelSelect": "Choose",
+    "inputLabelText": "Search...",
+    "inputLabelDate": "DD/MM/YYYY",
+    "inputTextHint": "Enter starting characters matching the list items",
+    "noResults": "No results found."
   },
   "parts": {
     "input": {
       "global-search": {
-        "placeholder" : "Search by entering ID, part ID or Business partner number (BPN)",
-        "toastInfo": "Any local filters on table level were removed."
+        "placeholderAsset": "Search for IDs, Name, Manufacturer, Customer Part...",
+        "placeholderAlertsAndInvestigations": "Search for Description and BPN ",
+        "toastInfoTitle": "Search info",
+        "toastInfo": "By using global search on view level, the local filters on table level was removed."
       }
+    },
+    "openInvestigations": "Open alerts/investigations",
+    "confirmationDialog": {
+      "removePartTitle": "Remove part?",
+      "removePartMessage": "If you remove this part, it will be deleted from the current selection",
+      "removePartButton": "Remove",
+      "discard": "Discard",
+      "resume": "Resume"
     }
   },
   "datepicker": {
-    "apply": "Filter",
-    "cancel": "Reset",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "filter": "Filter",
+    "reset": "Reset",
     "startDate": "Start Date",
     "endDate": "End Date"
   },
-  "retry": "Try again"
+  "semanticDataModels": {
+    "BATCH": "Batch",
+    "JUSTINSEQUENCE": "JustInSequence",
+    "SERIALPART": "SerialPart",
+    "UNKNOWN": "Unknown",
+    "PARTASPLANNED": "PartAsPlanned"
+  },
+  "confirmationDialog": {
+    "cancel": "Cancel"
+  }
 }

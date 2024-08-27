@@ -30,7 +30,7 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [ AuthGuard ],
+    canActivate: [AuthGuard],
     data: { breadcrumb: 'home' },
     loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule),
   },
@@ -48,9 +48,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' }) ],
-  exports: [ RouterModule ],
-  providers: [ AuthGuard ],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+  exports: [RouterModule],
+  providers: [AuthGuard],
 })
-export class CoreRoutingModule {
-}
+export class CoreRoutingModule {}

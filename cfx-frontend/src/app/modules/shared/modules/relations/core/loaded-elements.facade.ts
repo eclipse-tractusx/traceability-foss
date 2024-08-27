@@ -27,8 +27,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class LoadedElementsFacade {
-  constructor(private readonly loadedElementsState: LoadedElementsState) {
-  }
+  constructor(private readonly loadedElementsState: LoadedElementsState) { }
 
   public get loadedElements(): LoadedElements {
     return this.loadedElementsState.loadedElements;

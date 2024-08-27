@@ -14,7 +14,7 @@
     "partId": "Produktnummer",
     "semanticModelId": "Semantische Modellnummer",
     "manufacturingDate": "Produktionsdatum",
-    "manufacturerName": "Hersteller",
+    "manufacturer": "Hersteller",
     "nameAtCustomer": "Name beim Kunden",
     "customerPartId": "Kunden Produktnummer",
     "semanticDataModel": "Semantisches Datenmodell"

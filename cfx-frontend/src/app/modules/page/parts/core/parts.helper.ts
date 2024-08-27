@@ -37,13 +37,13 @@ export function resetMultiSelectionAutoCompleteComponent(partsTableComponents: Q
 
 export function provideDataObject(data: Pagination<any>) {
   let usedData: Pagination<any>;
-  if (!data || !data.content?.length) {
+  if (!data.content?.length) {
     usedData = {
       content: [],
       page: 0,
       pageCount: 0,
       pageSize: 0,
-      totalItems: 0,
+      totalItems: 0
     };
 
   } else {
@@ -51,4 +51,3 @@ export function provideDataObject(data: Pagination<any>) {
   }
   return usedData;
 }
-

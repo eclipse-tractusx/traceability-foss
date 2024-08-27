@@ -32,22 +32,22 @@ export const MOCK_part_5 = {
   manufacturerPartId: 'ManuPartID',
   classification: 'A-Level',
   semanticModelId: 'semanticID',
-  detailAspectModels: [ {
+  detailAspectModels: [{
     type: DetailAspectType.AS_PLANNED,
     data: {
       validityPeriodFrom: '01.01.2023',
       validityPeriodTo: '01.02.2023',
     },
   },
-    {
-      type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
-      data: {
-        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
-        function: 'production',
-        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
-        catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
-      },
+  {
+    type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
+    data: {
+      functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+      function: 'production',
+      functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+      catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
     },
+  },
   ],
   owner: Owner.OWN,
   childRelations: [],
@@ -70,22 +70,22 @@ export const MOCK_part_4 = {
   manufacturerPartId: 'ManuPartID',
   semanticModelId: 'semanticID',
   classification: 'B-Level',
-  detailAspectModels: [ {
+  detailAspectModels: [{
     type: DetailAspectType.AS_PLANNED,
     data: {
       validityPeriodFrom: '01.01.2023',
       validityPeriodTo: '01.02.2023',
     },
   },
-    {
-      type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
-      data: {
-        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
-        function: 'production',
-        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
-        catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
-      },
+  {
+    type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
+    data: {
+      functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+      function: 'production',
+      functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+      catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
     },
+  },
   ],
   owner: Owner.OWN,
   childRelations: [],
@@ -108,25 +108,25 @@ export const MOCK_part_3 = {
   nameAtManufacturer: 'Back Door Left',
   manufacturerPartId: 'ManuPartID',
   classification: 'C-Level',
-  detailAspectModels: [ {
+  detailAspectModels: [{
     type: DetailAspectType.AS_PLANNED,
     data: {
       validityPeriodFrom: '01.01.2022',
       validityPeriodTo: '01.02.2022',
     },
   },
-    {
-      type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
-      data: {
-        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
-        function: 'production',
-        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
-        catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
-      },
+  {
+    type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
+    data: {
+      functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+      function: 'production',
+      functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+      catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
     },
+  },
   ],
   owner: Owner.OWN,
-  childRelations: [ { id: MOCK_part_5.id, idShort: MOCK_part_5.idShort } ],
+  childRelations: [{ id: MOCK_part_5.id, idShort: MOCK_part_5.idShort }],
   parentRelations: [],
   qualityType: QualityType.Major,
   van: 'myvan3',
@@ -146,25 +146,25 @@ export const MOCK_part_2 = {
   manufacturerPartId: 'ManuPartID',
   semanticModelId: 'semanticID',
   classification: 'A-Level',
-  detailAspectModels: [ {
+  detailAspectModels: [{
     type: DetailAspectType.AS_PLANNED,
     data: {
       validityPeriodFrom: '01.01.2023',
       validityPeriodTo: '01.02.2023',
     },
   },
-    {
-      type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
-      data: {
-        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
-        function: 'production',
-        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
-        catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
-      },
+  {
+    type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
+    data: {
+      functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+      function: 'production',
+      functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+      catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
     },
+  },
   ],
   owner: Owner.OWN,
-  childRelations: [ { id: MOCK_part_4.id, idShort: MOCK_part_4.idShort } ],
+  childRelations: [{ id: MOCK_part_4.id, idShort: MOCK_part_4.idShort }],
   parentRelations: [],
   qualityType: QualityType.Minor,
   van: 'myvan2',
@@ -184,29 +184,29 @@ export const MOCK_part_1 = {
   nameAtManufacturer: 'MyAsPlannedPartName',
   manufacturerPartId: 'ManuPartID',
   classification: 'C-Level',
-  detailAspectModels: [ {
+  detailAspectModels: [{
     type: DetailAspectType.AS_PLANNED,
     data: {
       validityPeriodFrom: '01.01.2023',
       validityPeriodTo: '01.02.2023',
     },
   },
-    {
-      type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
-      data: {
-        functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
-        function: 'production',
-        functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
-        catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
-      },
+  {
+    type: DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED,
+    data: {
+      functionValidUntil: 'Sat Feb 08 03:30:48 GMT 2025',
+      function: 'production',
+      functionValidFrom: 'Wed Aug 21 00:10:36 GMT 2019',
+      catenaXSiteId: 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01',
     },
+  },
   ],
   owner: Owner.OWN,
   childRelations: [
     { id: MOCK_part_2.id, idShort: MOCK_part_2.idShort },
     { id: MOCK_part_3.id, idShort: MOCK_part_3.idShort },
   ],
-  parentRelations: [ { id: MOCK_part_4.id, idShort: MOCK_part_4.idShort } ],
+  parentRelations: [{ id: MOCK_part_4.id, idShort: MOCK_part_4.idShort }],
   qualityType: QualityType.Ok,
   van: 'myvan1',
   semanticDataModel: SemanticDataModel.SERIALPART,
@@ -217,7 +217,7 @@ export const MOCK_part_1 = {
 };
 
 export const mockAssets: PartsResponse = {
-  content: [ MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5 ],
+  content: [MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5],
   page: 0,
   pageCount: 1,
   pageSize: 10,

@@ -17,6 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 // should be mapped into
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type SemanticModel = {}
 
 export type AsBuiltAspectModel = {
@@ -44,6 +45,3 @@ export type TractionBatteryCode = {
   tractionBatteryCode: string,
   subcomponents?: TractionBatteryCode[]
 }
-
-
-

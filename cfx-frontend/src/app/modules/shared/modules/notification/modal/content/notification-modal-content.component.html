@@ -19,15 +19,27 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="m-2 flex">
-  <mat-card class="mr-5">
-    <mat-card-content>
-      <app-notification-overview [notification]="notification" [showNotification]="false"></app-notification-overview>
-    </mat-card-content>
-  </mat-card>
-  <mat-card class="max-h-74 overflow-y-scroll">
-    <mat-card-content>
+<div class="detail--wrapper">
+  <div class="section-details">
+    <div class="pb-1">
+      <div>
+        <h4>{{ 'page' + notification.notificationType + '.info' | i18n }}</h4>
+      </div>
+    </div>
+    <div>
+      <app-notification-overview [notification]="notification"
+        [showNotification]="false"></app-notification-overview>
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <div class="pb-1">
+        <h4>{{ 'page' + notification.notificationType + '.reason' | i18n }}</h4>
+      </div>
+    </div>
+    <div class="section-status-content">
       <app-notification-reason [notification]="notification"></app-notification-reason>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
 </div>

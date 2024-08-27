@@ -206,13 +206,6 @@ You might find some CSS warnings on vscode. To disable those, you must configure
 
 This prevents the default linter from validating the css.
 
-### Capitalization
-Please make sure to follow this [capitalization guideline](https://developers.google.com/style/capitalization) to keep consistent capitalization throughout the UI.
-
-The most significant rules are:
-- The start of a header / label / sentence begins with an upper case followed by lowercase letters
-- Domain specific names such as "As-Built", "As-Planned" can also be written in upper case even when the letter is not at the start of a header / label / sentence.
-
 ### Icons
 
 We use the open source icons from [Material Icons](https://fonts.google.com/icons?query=Material+Icon).

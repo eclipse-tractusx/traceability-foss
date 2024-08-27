@@ -19,65 +19,59 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-tab-group
-  [selectedIndex]="tabIndex$ | async"
-  (selectedTabChange)="onTabChange($event.index)"
+<mat-tab-group [selectedIndex]="tabIndex$ | async"
   appTabAsPanel
   mat-stretch-tabs="false"
-  mat-align-tabs="start"
->
+  mat-align-tabs="start">
   <mat-tab>
     <ng-template mat-tab-label>
-      <mat-icon class="mr-2">send
-      </mat-icon
-      >
-      <span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
+      <div [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }}</div>
+      <div>({{ itemCount[0] }})</div>
     </ng-template>
-    <app-notifications-tab
+    <app-notifications-tab *ngIf="menuActionsConfig"
+      [notificationType]="notificationType"
+      [tableType]="tablesType[0]"
+      [notificationsView$]="receivedNotifications$"
+      [labelId]="receivedTabLabelId"
+      [translationContext]="translationContext"
+      [menuActionsConfig]="menuActionsConfig"
+      [optionalColumns]="receivedOptionalColumns"
+      [sortableColumns]="receivedSortableColumns"
+      [multiSortList]="receivedMultiSortList"
+      [filterConfig]="receivedFilterConfig"
+      (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
+      (itemCount)="onItemCountChanged($event, 0)"
+      (selected)="selected.emit($event)"
+      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)"
+      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
+      (alertsFilterChanged)="alertFilterChanged.emit($event)">
+      <ng-content></ng-content></app-notifications-tab>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div [id]="queuedAndRequestedTabLabelId">
+        {{ translationContext + '.tabs.queuedAndRequested' | i18n }}
+      </div>
+      <div>({{ itemCount[1] }})</div>
+    </ng-template>
+    <app-notifications-tab class="headerLine"
       *ngIf="menuActionsConfig"
-      [tableHeader]="'pageTitle.sentQualityTopics'"
-      [tableHeaderMenuEnabled]="true"
+      [tableType]="tablesType[1]"
+      [notificationType]="notificationType"
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
-      [translationContext]=translationContext
+      [translationContext]="translationContext"
       [menuActionsConfig]="menuActionsConfig"
-      [autocompleteEnabled]="true"
-      [tableType]="TableType.SENT_NOTIFICATION"
       [optionalColumns]="queuedAndRequestedOptionalColumns"
       [sortableColumns]="queuedAndRequestedSortableColumns"
       [multiSortList]="queuedAndRequestedMultiSortList"
-      [tableSettingsEnabled]="true"
+      [filterConfig]="queuedAndRequestedFilterConfig"
+      (itemCount)="onItemCountChanged($event, 1)"
       (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
-      (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
       (selected)="selected.emit($event)"
-      (multiSelect)="currentSelectedItems$.next($event)"
-      (editNotificationClicked)="editNotificationClicked.emit($event)"
-    ></app-notifications-tab>
-  </mat-tab>
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <mat-icon class="mr-2">drafts
-      </mat-icon
-      >
-      <span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
-    </ng-template>
-    <app-notifications-tab
-      *ngIf="menuActionsConfig"
-      [tableHeader]="'pageTitle.receivedQualityTopics'"
-      [tableHeaderMenuEnabled]="true"
-      [notificationsView$]="receivedNotifications$"
-      [labelId]="receivedTabLabelId"
-      [translationContext]="'commonAlert'"
-      [tableType]="TableType.RECEIVED_NOTIFICATION"
-      [menuActionsConfig]="menuActionsConfig"
-      [optionalColumns]="receivedOptionalColumns"
-      [autocompleteEnabled]="true"
-      [sortableColumns]="receivedSortableColumns"
-      [multiSortList]="receivedMultiSortList"
-      [tableSettingsEnabled]="true"
-      (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
-      (selected)="selected.emit($event)"
-      (notificationsFilterChanged)="notificationsFilterChanged.emit($event)"
-    ></app-notifications-tab>
+      (investigationsFilterChanged)="investigationFilterChanged.emit($event)"
+      (alertsFilterChanged)="alertFilterChanged.emit($event)"
+      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)"><ng-content></ng-content></app-notifications-tab>
   </mat-tab>
 </mat-tab-group>

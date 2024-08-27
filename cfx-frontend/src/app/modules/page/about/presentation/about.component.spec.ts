@@ -28,7 +28,7 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('About Page', () => {
 
   it('should open link in new tab', async () => {
-    const { fixture } = await renderComponent(AboutComponent, { imports: [ AboutModule ] });
+    const { fixture } = await renderComponent(AboutComponent, { imports: [AboutModule] });
     let component = fixture.componentInstance;
     const url = 'https://www.example.com';
 
@@ -41,8 +41,8 @@ describe('About Page', () => {
 
 
   it('should render about page', async () => {
-    await renderComponent(AboutComponent, { imports: [ AboutModule ], providers: [ AboutComponent ] });
-    expect(screen.getByText('pageAbout.content')).toBeInTheDocument();
+    await renderComponent(AboutComponent, { imports: [AboutModule], providers: [AboutComponent] });
+    expect(screen.getByText('pageAbout.source')).toBeInTheDocument();
     const componentInstance = TestBed.inject(AboutComponent);
 
     expect(componentInstance.name).toBeDefined();

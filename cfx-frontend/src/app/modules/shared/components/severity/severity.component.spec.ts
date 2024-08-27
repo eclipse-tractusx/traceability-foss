@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Severity } from '@shared/model/severity.model';
 import { SharedModule } from '@shared/shared.module';
 import { screen } from '@testing-library/angular';
@@ -29,28 +30,46 @@ import { SeverityComponent } from './severity.component';
 describe('SeverityComponent', () => {
   const renderSeverity = (severity: Severity) => {
     return renderComponent(`<app-severity [severity]='severity'>Test</app-severity>`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
+      componentProperties: { severity },
+    });
+  };
+
+  const renderSeverityComponent = (severity: Severity) => {
+    return renderComponent(SeverityComponent, {
+      imports: [SharedModule],
       componentProperties: { severity },
     });
   };
 
   it('should render correct Minor icon', async () => {
-    await renderSeverity(Severity.MINOR);
-    expect(screen.getByText('error_outline')).toBeInTheDocument();
+    const { fixture } = await renderSeverity(Severity.MINOR);
+    const img: any = fixture.nativeElement.querySelector('img');
+    expect(img.src).toContain('/assets/images/icons/info.svg');
   });
 
   it('should render correct Major icon', async () => {
-    await renderSeverity(Severity.MAJOR);
-    expect(screen.getByText('error')).toBeInTheDocument();
+    const { fixture } = await renderSeverity(Severity.MAJOR);
+    const img: any = fixture.nativeElement.querySelector('img');
+    expect(img.src).toContain('/assets/images/icons/warning.svg');
   });
 
   it('should render correct Critical icon', async () => {
-    await renderSeverity(Severity.CRITICAL);
-    expect(screen.getByText('error_outline')).toBeInTheDocument();
+    const { fixture } = await renderSeverity(Severity.CRITICAL);
+    const img: any = fixture.nativeElement.querySelector('img');
+    expect(img.src).toContain('/assets/images/icons/error_outline.svg');
   });
 
   it('should render correct LifeThreatening icon', async () => {
-    await renderSeverity(Severity.LIFE_THREATENING);
-    expect(screen.getByText('error')).toBeInTheDocument();
+    const { fixture } = await renderSeverity(Severity.LIFE_THREATENING);
+    const img: any = fixture.nativeElement.querySelector('img');
+    expect(img.src).toContain('/assets/images/icons/error.svg');
+  });
+
+  it('should get the correct icon', async () => {
+    const { fixture } = await renderSeverityComponent(Severity.LIFE_THREATENING);
+    const { componentInstance } = fixture;
+    expect(componentInstance.getIconBySeverity(Severity.LIFE_THREATENING)).toContain('/assets/images/icons/error.svg');
+    expect(componentInstance.getIconBySeverity(undefined)).toEqual('');
   });
 });

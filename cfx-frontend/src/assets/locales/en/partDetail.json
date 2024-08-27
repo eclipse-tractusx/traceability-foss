@@ -1,21 +1,22 @@
 {
   "partDetail": {
-    "tombStoneErrorDetail": "Tombstone Error details",
     "relations": "Relations",
+    "fullScreenRelations": "Relations for",
     "overview": "Overview",
     "manufacturerData": "Manufacturer data",
     "customerData": "Customer data",
     "partSiteInformationData": "PartSite Information",
-    "catenaXSiteId": "Site Id",
+    "catenaXSiteId": "Site ID",
     "psFunction": "Function",
     "name": "Name",
     "partId": "Part number",
     "semanticModelId": "Semantic Model ID",
     "qualityType": "Quality type",
     "productionDate": "Production date",
-    "manufacturerName": "Manufacturer",
+    "manufacturer": "Manufacturer",
     "manufacturerPartId": "Manufacturer part ID",
     "nameAtManufacturer": "Name at manufacturer",
+    "manufacturerName": "Manufacturer name",
     "nameAtCustomer": "Name at customer",
     "customerPartId": "Customer part ID",
     "semanticDataModel": "Semantic Data Model",
@@ -25,12 +26,6 @@
     "classification": "Classification",
     "functionValidFrom": "Function valid from",
     "functionValidUntil": "Function valid until",
-    "tractionBatteryCodeTitle": "Traction battery code",
-    "tractionBattery": "Traction battery",
-    "position": "Position",
-    "productType": "Product type",
-    "tractionBatteryCode": "Battery Code",
-    "subcomponents": "Subcomponents",
     "tab": {
       "header": "Part details",
       "description": "Detailed information about your selected part"
@@ -43,11 +38,8 @@
       },
       "noSelection": {
         "header": "No parts selected.",
-        "text": "Please select parts to start and investigation."
+        "text": "Please select parts to start an investigation."
       }
-    },
-    "importHeader": "Asset State",
-    "importState": "Import State",
-    "importNote": "Import Note"
+    }
   }
 }

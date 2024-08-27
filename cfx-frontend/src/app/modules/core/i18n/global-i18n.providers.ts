@@ -45,15 +45,15 @@ export function appInit(i18next: ITranslationService) {
         },
         detection: {
           // order and from where user language should be detected
-          order: [ 'querystring', 'localStorage', 'navigator', 'htmlTag' ],
+          order: ['querystring', 'localStorage', 'navigator', 'htmlTag'],
 
           // keys or params to lookup language from
           lookupQuerystring: 'lng',
           lookupLocalStorage: 'i18nextLng',
 
-          caches: [ 'localStorage' ],
+          caches: ['localStorage'],
         },
-        ns: [ 'common' ],
+        ns: ['common'],
       });
 }
 
@@ -65,12 +65,12 @@ export const I18N_PROVIDERS = [
   {
     provide: APP_INITIALIZER,
     useFactory: appInit,
-    deps: [ I18NEXT_SERVICE ],
+    deps: [I18NEXT_SERVICE],
     multi: true,
   },
   {
     provide: LOCALE_ID,
-    deps: [ I18NEXT_SERVICE ],
+    deps: [I18NEXT_SERVICE],
     useFactory: localeIdFactory,
   },
 ];

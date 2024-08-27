@@ -20,25 +20,32 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="flex flex-col">
-  <mat-form-field tabindex=0>
+  <mat-form-field color="accent"
+    appearance="outline"
+    [floatLabel]="'auto'"
+    data-testid="multi-select-autocomplete--date-search-form">
     <mat-label>{{ label }}</mat-label>
-    <input
-      #inputElement
+    <input matInput
+      readonly
+      [ngxMatDatetimePicker]="picker"
+      [min]="minDate || null"
+      [max]="maxDate || null"
       [attr.data-testId]="htmlId"
-      [attr.min]="minDate || null"
-      [attr.max]="maxDate || null"
       [formControl]="control"
-      [errorStateMatcher]="matcher"
-      onkeydown="return false"
-      (click)="openDatePicker(inputElement)"
-      matInput
-      type="datetime-local"
-      placeholder="start date"
-    />
-    <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
-    <mat-hint *ngIf="hint" align="start">{{ hint }}</mat-hint>
+      [errorStateMatcher]="matcher" />
+    <mat-datepicker-toggle matSuffix
+      [disableRipple]="true"
+      class="date-picker-icon"
+      [for]="$any(picker)"></mat-datepicker-toggle>
+    <ngx-mat-datetime-picker #picker
+      color="primary"
+      restoreFocus="false">
+    </ngx-mat-datetime-picker>
+    <mat-hint *ngIf="hint"
+      align="start">{{ hint }}</mat-hint>
     <mat-error>
-      <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
+      <app-form-error-message [control]="control"
+        [matcher]="matcher"></app-form-error-message>
     </mat-error>
   </mat-form-field>
 </div>

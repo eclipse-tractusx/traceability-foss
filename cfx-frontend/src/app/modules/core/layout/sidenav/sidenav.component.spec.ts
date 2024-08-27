@@ -29,9 +29,9 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('SidenavComponent', () => {
   it('should render sidenav', async () => {
     await renderComponent(`<app-sidenav></app-sidenav><app-sidenav-wrapper></app-sidenav-wrapper>`, {
-      declarations: [ SidenavComponent, SidenavWrapperComponent ],
-      imports: [ LayoutModule ],
-      providers: [ { provide: SidenavService } ],
+      declarations: [SidenavComponent, SidenavWrapperComponent],
+      imports: [LayoutModule],
+      providers: [{ provide: SidenavService }],
     });
 
     await waitFor(() => expect(screen.getByTestId('sidenav--test-id')).toBeInTheDocument());
@@ -39,9 +39,9 @@ describe('SidenavComponent', () => {
 
   it('should render closed sidenav', async () => {
     await renderComponent(`<app-sidenav></app-sidenav><app-sidenav-wrapper [isOpen]='false'></app-sidenav-wrapper>`, {
-      declarations: [ SidenavComponent, SidenavWrapperComponent ],
-      imports: [ LayoutModule ],
-      providers: [ { provide: SidenavService } ],
+      declarations: [SidenavComponent, SidenavWrapperComponent],
+      imports: [LayoutModule],
+      providers: [{ provide: SidenavService }],
     });
 
     const sidenavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
@@ -53,10 +53,10 @@ describe('SidenavComponent', () => {
   it('should render open sidenav with content', async () => {
     const text = 'Some text';
     await renderComponent(
-      `<app-sidenav></app-sidenav><app-sidenav-wrapper [isOpen]='true'><p>${ text }</p></app-sidenav-wrapper>`,
+      `<app-sidenav></app-sidenav><app-sidenav-wrapper [isOpen]='true'><p>${text}</p></app-sidenav-wrapper>`,
       {
-        declarations: [ SidenavComponent, SidenavWrapperComponent ],
-        imports: [ LayoutModule ],
+        declarations: [SidenavComponent, SidenavWrapperComponent],
+        imports: [LayoutModule],
       },
     );
 

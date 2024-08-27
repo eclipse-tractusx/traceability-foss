@@ -28,8 +28,8 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('Button', () => {
   it('should render regular button', async () => {
     await renderComponent(`<app-button (click)="clickHandler">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -42,8 +42,8 @@ describe('Button', () => {
   it('should click regular button', async () => {
     const clickHandler = jasmine.createSpy();
     const fixture = await renderComponent(`<app-button (click)="clickHandler($event)">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
       componentProperties: {
         clickHandler,
       },
@@ -59,8 +59,8 @@ describe('Button', () => {
 
   it('should render accent button', async () => {
     await renderComponent(`<app-button color="accent">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     expect(screen.getByText('Test').parentNode).toHaveClass('mat-accent');
@@ -68,8 +68,8 @@ describe('Button', () => {
 
   it('should render warn button', async () => {
     await renderComponent(`<app-button color="warn">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     expect(screen.getByText('Test').parentNode).toHaveClass('mat-warn');
@@ -77,8 +77,8 @@ describe('Button', () => {
 
   it('should render enabled button', async () => {
     await renderComponent(`<app-button [isDisabled]="false">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -89,8 +89,8 @@ describe('Button', () => {
 
   it('should render disabled button', async () => {
     await renderComponent(`<app-button [isDisabled]="true">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -99,8 +99,8 @@ describe('Button', () => {
 
   it('should render raised button', async () => {
     await renderComponent(`<app-button variant="raised">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -109,8 +109,8 @@ describe('Button', () => {
 
   it('should render flat button', async () => {
     await renderComponent(`<app-button variant="flat">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -120,8 +120,8 @@ describe('Button', () => {
 
   it('should render stroked button', async () => {
     await renderComponent(`<app-button variant="stroked">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -131,8 +131,8 @@ describe('Button', () => {
 
   it('should render stroked button', async () => {
     await renderComponent(`<app-button variant="stroked">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -142,8 +142,8 @@ describe('Button', () => {
 
   it('should render icon button', async () => {
     await renderComponent(`<app-button variant="icon" iconName="home">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode;
@@ -155,8 +155,8 @@ describe('Button', () => {
 
   it('should render fab button', async () => {
     await renderComponent(`<app-button variant="fab" iconName="home">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode.parentNode;
@@ -168,8 +168,8 @@ describe('Button', () => {
 
   it('should render mini fab button', async () => {
     await renderComponent(`<app-button variant="miniFab" iconName="home">Test</app-button>`, {
-      declarations: [ ButtonComponent ],
-      imports: [ SharedModule, TemplateModule ],
+      declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
     const buttonEl = screen.getByText('Test').parentNode.parentNode;

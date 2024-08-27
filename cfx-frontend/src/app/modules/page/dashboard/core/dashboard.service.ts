@@ -31,12 +31,11 @@ import { DashboardAssembler } from './dashboard.assembler';
 export class DashboardService {
   private url = environment.apiUrl;
 
-  constructor(private readonly apiService: ApiService) {
-  }
+  constructor(private readonly apiService: ApiService) {}
 
   public getStats(): Observable<DashboardStats> {
     return this.apiService
-      .get(`${ this.url }/dashboard`)
+      .get(`${this.url}/dashboard`)
       .pipe(map((payload: DashboardStatsResponse) => DashboardAssembler.assembleDashboard(payload)));
   }
 }

@@ -22,12 +22,15 @@
 .textarea--container {
   display: flex;
   flex-direction: column;
-
-  textarea {
-    min-height: 280px;
-    max-height: 430px;
-    margin-top: 7px;
-  }
-
 }
 
+.textarea-field {
+  height: 100%;
+}
+
+.hide-clear-button {
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  width: 0 !important;
+}

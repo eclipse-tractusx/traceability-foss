@@ -34,7 +34,7 @@ interface LocaleEntry {
 @Component({
   selector: 'app-language-selector',
   templateUrl: './language-selector.component.html',
-  styleUrls: [ './language-selector.component.scss' ],
+  styleUrls: ['./language-selector.component.scss'],
 })
 export class LanguageSelectorComponent implements OnDestroy {
   public readonly locales: LocaleEntry[];
@@ -45,9 +45,9 @@ export class LanguageSelectorComponent implements OnDestroy {
   constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService, private readonly location: Location) {
     const supportedLanguages = this.i18NextService.options.supportedLngs || [];
 
-    this.locales = (Object.entries(ALL_KNOWN_LOCALES) as [ KnownLocale, string ][])
-      .filter(([ locale ]) => supportedLanguages.includes(locale))
-      .map(([ locale, label ]) => ({
+    this.locales = (Object.entries(ALL_KNOWN_LOCALES) as [KnownLocale, string][])
+      .filter(([locale]) => supportedLanguages.includes(locale))
+      .map(([locale, label]) => ({
         locale,
         label,
       }));

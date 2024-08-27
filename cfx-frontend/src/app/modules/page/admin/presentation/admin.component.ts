@@ -21,13 +21,13 @@
 
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Role } from '@core/user/role.model';
 import { filter } from 'rxjs/operators';
+import { Role } from '@core/user/role.model';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: [ './admin.component.scss' ],
+  styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
   public activeUrl: string;
@@ -37,22 +37,14 @@ export class AdminComponent {
     link: string;
     role?: Role;
   }[] = [
-    {
-      name: 'routing.adminBpn',
-      icon: 'edit',
-      link: '/admin/configure-bpn',
-    },
-    {
-      name: 'routing.adminImport',
-      icon: 'upload',
-      link: '/admin/configure-import',
-    },
-    {
-      name: 'routing.adminContract',
-      icon: 'assignment_ind',
-      link: '/admin/contracts',
-    },
-  ];
+      {
+        name: 'routing.adminBpn',
+        icon: 'edit',
+        link: '/admin/configure-bpn',
+      },
+    ];
+
+  protected readonly Role = Role;
 
   constructor(router: Router) {
     this.activeUrl = router.url;

@@ -20,8 +20,14 @@
  ********************************************************************************/
 
 .layout-container {
-  @apply h-screen flex flex-row justify-start overflow-hidden;
+  @apply h-screen flex flex-row justify-start overflow-y-auto;
   flex: 1;
+  max-width: 100%;
+}
+
+.background {
+  overflow-x: hidden;
+  min-width: 1200px;
 }
 
 .layout-sidebar {
@@ -33,14 +39,20 @@
 }
 
 .layout-content {
-  @apply flex flex-1 flex-col min-w-0 relative overflow-auto;
-  will-change: padding-left;
-  transition: padding-left 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
+  @apply flex flex-1 flex-col min-w-0 relative;
+  gap: 40px;
+  margin: 0 auto;
+  height: 100%;
 
   &__box-modal {
-    @apply pt-6 px-8 pb-12 min-w-0;
-    order: 1;
+    @apply min-w-0;
     flex: 1 0;
+    padding: 0 136px;
+
+    @media (max-width: 1200px) {
+      min-width: 1200px;
+      padding: 0 24px 0 24px;
+    }
   }
 }
 
@@ -49,4 +61,26 @@
   top: 8%;
   right: 0;
   z-index: 120;
+}
+
+.layout-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  box-shadow: 0px 15px 25px 0px #3333330D, -10px -10px 15px 0px #FFFFFF1A, 0px 0px 25px 0px #33333308;
+  background-color: white;
+
+  @media (max-width: 1200px) {
+    min-width: 1200px;
+  }
+}
+
+.layout-footer {
+  @apply bg-surfaceDim;
+
+  @media (max-width: 1200px) {
+    min-width: 1200px;
+  }
 }

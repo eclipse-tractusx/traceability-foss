@@ -49,7 +49,7 @@ export class ErrorMessagePipe implements PipeTransform {
     }
 
     const getErrorMapping = (key: string, value?: any, options: Record<string, unknown> = {}): ParameterizedMessage => {
-      return { id: `errorMessage.${ key }`, values: { [key]: value, ...options } };
+      return { id: `errorMessage.${key}`, values: { [key]: value, ...options } };
     };
 
     const formatDate = (date: Date): string => {
@@ -59,8 +59,8 @@ export class ErrorMessagePipe implements PipeTransform {
     };
 
     const errorMessageMapping = new Map<string, any>([
-      [ 'min', ({ min }: MinError) => getErrorMapping('min', min) ],
-      [ 'max', ({ max }: MaxError) => getErrorMapping('max', max) ],
+      ['min', ({ min }: MinError) => getErrorMapping('min', min)],
+      ['max', ({ max }: MaxError) => getErrorMapping('max', max)],
       [
         'minlength',
         ({ requiredLength, actualLength }: MinLengthError) =>
@@ -71,17 +71,17 @@ export class ErrorMessagePipe implements PipeTransform {
         ({ requiredLength, actualLength }: MaxLengthError) =>
           getErrorMapping('maxLength', requiredLength, { current: actualLength }),
       ],
-      [ 'pattern', ({ requiredPattern }: PatternError) => getErrorMapping('pattern', requiredPattern) ],
-      [ 'maxDate', ({ date }: DateError) => getErrorMapping('maxDate', formatDate(date)) ],
-      [ 'minDate', ({ date }: DateError) => getErrorMapping('minDate', formatDate(date)) ],
-      [ 'currentDate', ({ date }: DateError) => getErrorMapping('currentDate', formatDate(date)) ],
+      ['pattern', ({ requiredPattern }: PatternError) => getErrorMapping('pattern', requiredPattern)],
+      ['maxDate', ({ date }: DateError) => getErrorMapping('maxDate', formatDate(date))],
+      ['minDate', ({ date }: DateError) => getErrorMapping('minDate', formatDate(date))],
+      ['currentDate', ({ date }: DateError) => getErrorMapping('currentDate', formatDate(date))],
+      ['deadlineExceeded', ({ date }: DateError) => getErrorMapping('deadlineExceeded', formatDate(date))],
 
-      [ 'required', _ => getErrorMapping('required') ],
-      [ 'url', _ => getErrorMapping('url') ],
-      [ 'bpn', _ => getErrorMapping('bpn') ],
-      [ 'invalidBpn', _ => getErrorMapping('invalidBpn' ) ],
-      [ 'email', _ => getErrorMapping('email') ],
-      [ 'generic', _ => getErrorMapping('generic') ],
+      ['required', _ => getErrorMapping('required')],
+      ['url', _ => getErrorMapping('url')],
+      ['bpn', _ => getErrorMapping('bpn')],
+      ['email', _ => getErrorMapping('email')],
+      ['generic', _ => getErrorMapping('generic')],
     ]);
 
     const keys = Object.keys(errors);

@@ -32,6 +32,7 @@ describe('modalComponent', () => {
 
   const confirmModalDataDefault = {
     title: 'Modal title',
+    message: 'Modal message',
     buttonLeft: 'Cancel text',
     buttonRight: 'Confirm text',
     formGroup: undefined,
@@ -42,12 +43,12 @@ describe('modalComponent', () => {
   // by default we use component as a string, but when need to use spyOn we pass componend class
   const renderModalComponent = (component = `<app-confirm></app-confirm>` as any) => {
     return renderComponent(component, {
-      declarations: [ ModalComponent ],
+      declarations: [ModalComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: confirmModalData },
         { provide: MatDialogRef, useValue: { close: jasmine.createSpy() } },
       ],
-      imports: [ SharedModule ],
+      imports: [SharedModule],
     });
   };
 
@@ -58,6 +59,9 @@ describe('modalComponent', () => {
 
     const cancelText = await waitFor(() => screen.getByText(confirmModalData.buttonLeft));
     expect(cancelText).toBeInTheDocument();
+
+    const messageText = await waitFor(() => screen.getByText(confirmModalData.message));
+    expect(messageText).toBeInTheDocument();
 
     const confirmText = await waitFor(() => screen.getByText(confirmModalData.buttonRight));
     expect(confirmText).toBeInTheDocument();
@@ -92,24 +96,8 @@ describe('modalComponent', () => {
     await waitFor(() => expect(spyOnClose).toHaveBeenCalledWith(false));
   });
 
-  it('should click confirm button and close - no formGroup', async () => {
-    const { fixture } = await renderModalComponent(ModalComponent);
-
-    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.buttonRight));
-    expect(confirmTextElement).toBeInTheDocument();
-
-    const spyOnConfirm = spyOn(fixture.componentInstance as any, 'confirm').and.callThrough();
-    const spyOnClose = spyOn(fixture.componentInstance as any, 'close').and.callThrough();
-
-    confirmTextElement.click();
-
-    await waitFor(() => expect(spyOnConfirm).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(spyOnClose).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(spyOnClose).toHaveBeenCalledWith(true));
-  });
-
   it('should click confirm button and close - with valid formGroup', async () => {
-    const spyOnFormGroup = jasmine.createSpyObj('FormGroup', [ 'markAllAsTouched', 'updateValueAndValidity' ], {
+    const spyOnFormGroup = jasmine.createSpyObj('FormGroup', ['markAllAsTouched', 'updateValueAndValidity'], {
       valid: true,
     });
     confirmModalData.formGroup = spyOnFormGroup as any;
@@ -132,7 +120,7 @@ describe('modalComponent', () => {
   });
 
   it('should click confirm button but not close', async () => {
-    const spyOnFormGroup = jasmine.createSpyObj('FormGroup', [ 'markAllAsTouched', 'updateValueAndValidity' ], {
+    const spyOnFormGroup = jasmine.createSpyObj('FormGroup', ['markAllAsTouched', 'updateValueAndValidity'], {
       valid: false,
     });
     confirmModalData.formGroup = spyOnFormGroup as any;
@@ -151,5 +139,18 @@ describe('modalComponent', () => {
     await waitFor(() => expect(spyOnClose).toHaveBeenCalledTimes(0));
     await waitFor(() => expect(spyOnFormGroup.markAllAsTouched).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(spyOnFormGroup.updateValueAndValidity).toHaveBeenCalledTimes(1));
+  });
+
+  it('should call onConfirm when the confirm button is clicked', async () => {
+    const { fixture } = await renderModalComponent(ModalComponent);
+
+    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.buttonRight));
+    expect(confirmTextElement).toBeInTheDocument();
+
+    confirmModalData.onConfirm = jasmine.createSpy('onConfirm');
+
+    confirmTextElement.click();
+
+    await waitFor(() => expect(confirmModalData.onConfirm).toHaveBeenCalledTimes(1));
   });
 });

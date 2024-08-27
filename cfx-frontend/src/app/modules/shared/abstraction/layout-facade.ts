@@ -32,14 +32,13 @@ export class LayoutFacade {
     private readonly layoutState: LayoutState,
     private readonly userService: UserService,
     private readonly authService: AuthService,
-  ) {
-  }
+  ) {}
 
   public get userInformation(): { name: string; email: string; role: string } {
     return {
-      name: `${ this.userService.firstname } ${ this.userService.surname }`,
-      email: `${ this.userService.email }`,
-      role: `${ this.userService.roles.join(', ') }`,
+      name: `${this.userService.firstname} ${this.userService.surname}`,
+      email: `${this.userService.email}`,
+      role: `${this.userService.roles.join(', ')}`,
     };
   }
 

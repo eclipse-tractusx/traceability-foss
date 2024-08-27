@@ -26,21 +26,7 @@
   border-style: unset;
 }
 
-/* Sets the opened local filter to be full width*/
-.cdk-overlay-pane {
-  width: unset !important;
-}
-
 app-multiselect {
-
-  /* Overriding defaults for mat-input*/
-  input {
-    font-size: 0.75rem !important;
-    line-height: 1rem !important;
-    font-family: Catena-X Light, sans-serif !important;
-    font-weight: 300 !important;
-  }
-
   /* Removing grey background for date picker*/
   .mdc-text-field--disabled.mdc-text-field--filled {
     background-color: inherit;

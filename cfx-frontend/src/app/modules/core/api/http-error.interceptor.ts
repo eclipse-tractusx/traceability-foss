@@ -22,15 +22,10 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { ToastService } from 'src/app/modules/shared/components/toasts/toast.service';
+import { ToastService } from '@shared/components/toasts/toast.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
-
-  // List of request.url that should not automatically display a toast but are handled custom (Can be extended later by METHOD)
-  private avoidList = [ '/api/notifications', '/api/notifications/*/approve' ];
-
-  constructor(private readonly toastService: ToastService) {
-  }
+  constructor(private readonly toastService: ToastService) { }
 
   public intercept(
     request: HttpRequest<Record<string, unknown>>,
@@ -44,28 +39,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         // Add logging server to store errors from the FE
         // Intercept "console.error" and send to logging server for further analysis
         const { error, message } = errorResponse;
-        const errorMessage = !error.message ? message : `Backend returned code ${ error.status }: ${ error.message }`;
+        const errorMessage = !error.message ? message : `Backend returned code ${error.status}: ${error.message}`;
 
-        // Check if the request URL matches any pattern in the avoidList
-        if (!this.isOnAlreadyHandledUrlList(request.url)) {
-          this.toastService.error(errorMessage);
-        }
-
+        this.toastService.error('Error', errorMessage);
         return throwError(() => errorResponse);
       }),
     );
   }
-
-// Helper method to check if the URL matches any pattern in the avoidList
-  private isOnAlreadyHandledUrlList(url: string): boolean {
-    return !this.avoidList.some(pattern => this.urlMatchesPattern(url, pattern));
-  }
-
-// Helper method to check if the URL matches a wildcard pattern
-  private urlMatchesPattern(url: string, pattern: string): boolean {
-    const regexPattern = pattern.replace(/\*/g, '.*');
-    const regex = new RegExp(`^${regexPattern}$`);
-    return regex.test(url);
-  }
-
 }

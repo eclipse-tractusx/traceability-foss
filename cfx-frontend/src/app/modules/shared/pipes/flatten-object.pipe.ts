@@ -24,7 +24,7 @@ export class FlattenObjectPipe implements PipeTransform {
         result[property] = current;
       } else if (Array.isArray(current)) {
         result[property] = current.map((item, index) => ({
-          [`${ property }[${ index }]`]: item,
+          [`${property}[${index}]`]: item,
         }));
       } else {
         for (const p in current) {

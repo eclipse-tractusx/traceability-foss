@@ -51,11 +51,8 @@ export class PaginatorIntlService implements MatPaginatorIntl {
     }
     length = Math.max(length, 0);
     const startIndex = page * pageSize;
-    // If the start index exceeds the list length, do not try and fix the end index to the end.
-    const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
     return this.i18NextService.t('pagination.range', {
       startIndex: startIndex + 1,
-      endIndex,
       length,
     } as Record<string, number>);
   }

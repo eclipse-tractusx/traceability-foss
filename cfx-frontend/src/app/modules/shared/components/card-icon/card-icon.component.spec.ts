@@ -28,16 +28,16 @@ import { renderComponent } from '@tests/test-render.utils';
 
 describe('CardIcon', () => {
   it('should render card icon', async () => {
-    await renderComponent(`<app-card-icon label='Test' stats='123' icon='directions_car'></app-card-icon>`, {
-      declarations: [ CardIconComponent ],
-      imports: [ MatCardModule, MatIconModule, SharedModule ],
+    await renderComponent(`<app-card-icon label='Test' stats='123'></app-card-icon>`, {
+      declarations: [CardIconComponent],
+      imports: [MatCardModule, MatIconModule, SharedModule],
     });
 
     const cardLabelElement = screen.getByText('Test');
     expect(cardLabelElement).toBeInTheDocument();
 
-    const iconElement = screen.getByText('directions_car');
-    expect(iconElement).toBeInTheDocument();
+    const cardStatsElement = screen.getByText('123');
+    expect(cardStatsElement).toBeInTheDocument();
   });
 
   it('should increment ids for multiple cards', async () => {
@@ -47,8 +47,8 @@ describe('CardIcon', () => {
       <app-card-icon label='Test01' stats='' icon=''></app-card-icon>
     `,
       {
-        declarations: [ CardIconComponent ],
-        imports: [ MatCardModule, MatIconModule, SharedModule ],
+        declarations: [CardIconComponent],
+        imports: [MatCardModule, MatIconModule, SharedModule],
       },
     );
 

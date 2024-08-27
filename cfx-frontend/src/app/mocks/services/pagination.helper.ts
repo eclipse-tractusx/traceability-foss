@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import _deepClone from 'lodash-es/cloneDeep';
-import {RestRequest} from 'msw';
+import { RestRequest } from 'msw';
 
 export type SortDirection = 'asc' | 'desc' | '';
 
@@ -34,7 +34,7 @@ export interface PaginationFilters {
 export const extractPagination = (req: RestRequest): PaginationFilters => {
   const page = parseInt(req.url.searchParams.get('page') ?? '0', 10);
   const size = parseInt(req.url.searchParams.get('size') ?? '5', 10);
-  const [ sortItem, sortDirection ] = (req.url.searchParams.get('sort') ?? ',').split(',');
+  const [sortItem, sortDirection] = (req.url.searchParams.get('sort') ?? ',').split(',');
 
   return {
     page,
@@ -43,20 +43,6 @@ export const extractPagination = (req: RestRequest): PaginationFilters => {
     sortDirection,
   } as PaginationFilters;
 };
-
-export const extractPaginationOfNotifications = (req: RestRequest): PaginationFilters => {
-
-  const page = parseInt(req.body['pageAble']?.page ?? '0', 10);
-  const size = parseInt(req.body['pageAble']?.size ?? '5', 10);
-  const [ sortItem, sortDirection ] = (req.body['pageAble']?.sort[0] ?? ',').split(',');
-
-  return {
-    page,
-    size,
-    sortItem,
-    sortDirection,
-  } as PaginationFilters;
-}
 
 export const applyPagination = (items: unknown[], filters: PaginationFilters) => {
   const currentItems = _deepClone(items);

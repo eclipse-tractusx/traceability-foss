@@ -18,32 +18,59 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
 
-.card--icon {
-  @apply text-white;
-}
+@tailwind base;
 
 .card-container {
-  @apply flex flex-row gap-x-5 items-start;
-}
+  @apply bg-white;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  padding: 20px;
+  gap: 20px;
+  box-shadow: 0px 15px 25px 0px #3333330d, -10px -10px 15px 0px #ffffff1a, 0px 0px 25px 0px #33333308;
 
-.avatar-container {
-  height: 100%;
-  @apply flex flex-col items-start justify-start;
-}
+  &:hover {
+    box-shadow: 0px 15px 25px 0px #33333326, -10px -10px 15px 0px #ffffff26, 0px 0px 25px 0px #3333331a;
 
-.avatar {
-  border-radius: 50%;
-  text-align: center;
-  @apply bg-primary;
-
-  &__label {
-    @apply flex flex-col items-center justify-center p-2;
+    &:active {
+      box-shadow: none;
+    }
   }
 }
 
+.card-content {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.avatar-container {
+  @apply flex items-center justify-center;
+  width: 48px;
+  height: 48px;
+}
+
 .label-container {
-  @apply flex flex-col gap-y-1;
+  @apply flex flex-col;
+  justify-content: space-between;
+  padding-bottom: 5px;
+}
+
+.label-top {
+  @apply text-pendingDark;
+  @extend .body-small;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.label-bottom {
+  @apply font-medium text-pendingDark;
+  font-size: 32px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
 }
 
 p:empty {
@@ -51,11 +78,4 @@ p:empty {
   background: #dedfe1 linear-gradient(to right, #dedfe1 0%, #f2f3f5 20%, #dedfe1 40%, #dedfe1 100%) no-repeat;
   width: 100px;
   height: 10px;
-}
-
-.card--icon--card--metrics--container {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 3px;
 }

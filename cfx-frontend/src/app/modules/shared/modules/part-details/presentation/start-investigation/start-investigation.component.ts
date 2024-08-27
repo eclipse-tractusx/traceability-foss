@@ -20,11 +20,12 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { SharedPartService } from '@page/notifications/detail/edit/shared-part.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Owner } from '@page/parts/model/owner.enum';
 import { Part } from '@page/parts/model/parts.model';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
-import { NotificationType } from '@shared/model/notification.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -34,7 +35,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 @Component({
   selector: 'app-start-investigation',
   templateUrl: './start-investigation.component.html',
-  styleUrls: [ './start-investigation.component.scss' ],
+  styleUrls: ['./start-investigation.component.scss'],
 })
 export class StartInvestigationComponent {
   @Input()
@@ -51,7 +52,10 @@ export class StartInvestigationComponent {
 
     this.childPartListSubscription?.unsubscribe();
     this.childPartListSubscription = this.partDetailsFacade.getChildPartDetails(this._part.data).subscribe({
-      next: data => this.childPartsState.update({ data }),
+      next: data => {
+        const otherChildren = data.filter((part) => part.owner !== Owner.OWN);
+        this.childPartsState.update({ data: otherChildren });
+      },
       error: error => this.childPartsState.update({ error }),
     });
   }
@@ -75,15 +79,14 @@ export class StartInvestigationComponent {
   constructor(
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
-    private sharedPartService: SharedPartService,
-    private readonly router: Router,
+    public dialog: MatDialog,
   ) {
     this.childParts$ = this.childPartsState.observable;
     this.selectedChildParts$ = this.selectedChildPartsState.observable;
 
-    const displayedColumns: string[] = [ 'select', 'name', 'semanticModelId' ];
+    const displayedColumns: string[] = ['select', 'nameAtManufacturer', 'semanticModelId'];
     const sortableColumns: Record<string, boolean> = {
-      name: true,
+      nameAtManufacturer: true,
       semanticModelId: true,
     };
 
@@ -95,21 +98,47 @@ export class StartInvestigationComponent {
     };
   }
 
+  public removeChildPartFromSelection(part: Part): void {
+    this.selectedChildPartsState.update([...this.selectedChildPartsState.snapshot.filter(c => c.id !== part.id)]);
+    this.deselectPartTrigger$.next([part]);
+  }
+
+  public addChildPartToSelection(part: Part): void {
+    this.selectedChildPartsState.update([...this.selectedChildPartsState.snapshot, part]);
+    this.addPartTrigger$.next(part);
+  }
+
+  public clearSelectedChildParts(): void {
+    this.selectedChildPartsState.reset();
+  }
+
   public onMultiSelect(parts: unknown[]): void {
     this.selectedChildPartsState.update(parts as Part[]);
   }
 
   public onChildPartsSort({ sorting }: TableEventConfig) {
-    const [ name, direction ] = sorting || [ '', '' ];
+    const [name, direction] = sorting || ['', ''];
 
     const data = this.partDetailsFacade.sortChildParts(this.childPartsState.snapshot, name, direction);
     this.childPartsState.update({ data });
   }
 
-  navigateToNotificationCreationView() {
-    this.sharedPartService.affectedParts = this.childPartsState.snapshot.data;
-    this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: NotificationType.INVESTIGATION } });
-  }
+  public openInvestigationDialog(): void {
+    const dialogRef = this.dialog.open(RequestStepperComponent, {
+      autoFocus: false,
+      data: {
+        selectedItems: this.selectedChildPartsState.snapshot,
+        context: RequestContext.REQUEST_INVESTIGATION,
+        tabIndex: 1,
+        fromExternal: true,
+      },
+    });
 
-    protected readonly NotificationType = NotificationType;
+    dialogRef?.componentInstance.deselectPart.subscribe(this.removeChildPartFromSelection);
+    if (dialogRef?.afterClosed) {
+      dialogRef.afterClosed().subscribe((_part: Part) => {
+        dialogRef.componentInstance.deselectPart.unsubscribe();
+      });
+    }
+  }
 }

@@ -99,8 +99,8 @@ As the name suggests, the structure of `TreeElement` is not that far off from th
 #### The second approach would be integrated within a detailed view for assets.
 
 1. Add this code snippet in your components HTML
-    1. `<app-part-relation [treeHeight]="" [treeWidth]=""></app-part-relation>`
-    2. `treeHeight` and `treeWidth` are optional, but they define the size of the rendered SVG.
+   1. `<app-part-relation [treeHeight]="" [treeWidth]=""></app-part-relation>`
+   2. `treeHeight` and `treeWidth` are optional, but they define the size of the rendered SVG.
 2. Next you need to set a `selectedPart`
 3. By setting the `selectedPart` property of the `parts.state`, the render of the diagramm is triggered.
-    1. This tree will display the selected part with all its children.
+   1. This tree will display the selected part with all its children.

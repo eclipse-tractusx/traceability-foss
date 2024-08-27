@@ -24,7 +24,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 
 @Directive({
   selector: '[appTooltip]',
-  providers: [ MatTooltip ],
+  providers: [MatTooltip],
 })
 export class TooltipDirective {
   @Input() tooltip: string;

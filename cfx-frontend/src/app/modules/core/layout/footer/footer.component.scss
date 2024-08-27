@@ -1,0 +1,51 @@
+.footer {
+  @apply bg-surfaceDim;
+  width: 100vw;
+
+  &--container {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 0px 136px;
+    gap: 85px;
+
+    @media (max-width: 1200px) {
+      min-width: 1200px;
+      padding: 0px 24px 0px 24px;
+    }
+  }
+
+  &--items-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 20px;
+    width: 100%;
+  }
+
+  &--items {
+    display: flex;
+    gap: 40px;
+  }
+
+  &--copyright {
+    display: flex;
+    gap: 40px;
+  }
+
+  &--text {
+    @apply font-medium m-0 p-0 text-secondary;
+    font-size: 16px;
+    letter-spacing: 0.1;
+    line-height: 125%;
+  }
+}
+
+@media (min-width: 1920px) {
+  .footer {
+    margin-left: calc((1920px - 100vw) / 2);
+
+    &--container {
+      margin-left: calc((100vw - 1920px) / 2);
+    }
+  }
+}

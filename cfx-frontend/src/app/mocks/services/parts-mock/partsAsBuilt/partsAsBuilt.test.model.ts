@@ -138,10 +138,10 @@ export const MOCK_part_2 = {
   'idShort': '--',
   'semanticModelId': 'NO-341449848714937445621543',
   'businessPartner': 'BPNL00000003CML1',
-  'manufacturerName': 'BMW AG',
+  'manufacturerName': 'SupOne',
   nameAtManufacturer: 'MyAsBuiltPartName',
   manufacturerPartId: 'ManuPartID',
-  'owner': Owner.OWN,
+  'owner': Owner.SUPPLIER,
   'childRelations': [
     {
       id: 'MOCK_part_4',
@@ -185,15 +185,15 @@ export const MOCK_part_1 = {
   nameAtManufacturer: 'Modell Z4',
   manufacturerPartId: 'ManuPartID',
   'owner': Owner.OWN,
-  'childRelations': [ {
+  'childRelations': [{
     id: MOCK_part_2.id,
     idShort: '--',
   },
   ],
-  'parentRelations': [ {
+  'parentRelations': [{
     id: MOCK_part_3.id,
     idShort: '--',
-  } ],
+  }],
   'qualityType': QualityType.Ok,
   'van': '--',
   'semanticDataModel': SemanticDataModel.BATCH,
@@ -217,7 +217,7 @@ export const MOCK_part_1 = {
 };
 
 export const mockAssets: PartsResponse = {
-  content: [ MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5 ],
+  content: [MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5],
   page: 0,
   pageCount: 1,
   pageSize: 10,

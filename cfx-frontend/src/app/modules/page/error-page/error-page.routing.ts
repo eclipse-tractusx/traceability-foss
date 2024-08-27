@@ -29,14 +29,13 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     component: ErrorPageComponent,
-    data: { i18nextNamespaces: [ 'page.error-page' ] },
+    data: { i18nextNamespaces: ['page.error-page'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(routes) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class ErrorPageRoutingModule {
-}
+export class ErrorPageRoutingModule {}

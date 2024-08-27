@@ -24,51 +24,50 @@ SPDX-License-Identifier: Apache-2.0
   </ng-container>
 </ng-container>
 
-<ng-template #partRelationMainTmp let-partDetails="view">
-  <div class="part-relation--button-container">
-    <app-button
-      onkeydown="decreaseSize()"
-      (click)="decreaseSize()"
+<ng-template #partRelationMainTmp
+  let-partDetails="view">
+  <mat-card class="part-relation--button-container">
+    <app-button (click)="decreaseSize()"
+      class="button-decrease"
       [label]="'relation.decrease' | i18n"
-      data-testid="tree--zoom__increase"
-      color="primary"
-    >+
+      data-testid="tree--zoom__increase">
+      <img src="/assets/images/icons/plus_icon.svg"
+        alt="+" />
     </app-button>
-    <app-button
-      onkeydown="increaseSize()"
-      (click)="increaseSize()"
+    <mat-divider class="button-container-divider"></mat-divider>
+    <app-button (click)="increaseSize()"
+      class="button-increase"
       [label]="'relation.increase' | i18n"
-      data-testid="tree--zoom__decrease"
-      color="primary"
-    >-
+      data-testid="tree--zoom__decrease">
+      <img src="/assets/images/icons/minus_icon.svg"
+        alt="-" />
     </app-button>
-  </div>
-  <figure class="part-relation--container" data-testId="part-relation--test-id" [id]="htmlId"></figure>
-  <app-tree
-    [rootPart]="rootPart$ | async"
+  </mat-card>
+  <figure [ngClass]="isStandalone ? 'part-relation--container-fullscreen' : 'part-relation--container'"
+    data-testId="part-relation--test-id"
+    [id]="htmlId"></figure>
+  <app-tree [rootPart]="rootPart$ | async"
     [resizeTrigger$]="resizeTrigger$"
     [showMiniMap]="showMiniMap"
     [shouldRenderParents]="true"
     [isStandalone]="isStandalone"
     [htmlId]="htmlId"
-    [direction]="'RIGHT'"
-  ></app-tree>
-  <app-tree
-    [rootPart]="rootPart$ | async"
+    [direction]="'DOWN'"
+    [overwriteContext]="overwriteContext? overwriteContext : undefined"></app-tree>
+  <app-tree [rootPart]="rootPart$ | async"
     [resizeTrigger$]="resizeTrigger$"
     [isStandalone]="isStandalone"
     [htmlId]="htmlId"
-    [direction]="'LEFT'"
-  ></app-tree>
-  <figure
-    *ngIf="this.showMiniMap"
+    [direction]="'UP'"
+    [overwriteContext]="overwriteContext? overwriteContext : undefined"></app-tree>
+  <figure *ngIf="this.showMiniMap"
     class="part-relation--minimap"
     data-testId="part-relation--minimap--test-id"
-    [id]="htmlId + '--minimap'"
-  ></figure>
+    [id]="htmlId + '--minimap'"></figure>
 </ng-template>
 
-<ng-template #errorTmp let-partDetails="view">
+<ng-template #errorTmp
+  let-partDetails="view">
   <h1>{{ 'dataLoading.error' | i18n }}</h1>
   <p>{{ partDetails.error.message }}</p>
 </ng-template>

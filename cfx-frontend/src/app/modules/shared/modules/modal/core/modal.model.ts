@@ -24,13 +24,12 @@ import { UntypedFormGroup } from '@angular/forms';
 
 export interface ModalData {
   title: string;
-  type?: string;
-  buttonLeft?: string;
+  buttonLeft: string;
   buttonRight: string;
   primaryButtonColour?: 'primary' | 'accent' | 'warn';
-  notificationId?: string;
 
-  template: TemplateRef<unknown>;
+  template?: TemplateRef<unknown>;
+  message?: string;
   onConfirm: (isConfirmed: boolean) => void;
 
   formGroup?: UntypedFormGroup;

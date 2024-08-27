@@ -20,22 +20,22 @@
  ********************************************************************************/
 
 import { Component, HostListener } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { NavigableUrls } from '@core/known-route';
-import { environment } from '@env';
 import { LayoutFacade } from '@shared/abstraction/layout-facade';
+import { NavigationEnd, Router } from '@angular/router';
+import { environment } from '@env';
 import { filter } from 'rxjs/operators';
+import { NavigableUrls } from '@core/known-route';
 
 @Component({
   selector: 'app-user-navigation',
   templateUrl: './user-menu.component.html',
-  styleUrls: [ './user-menu.component.scss' ],
+  styleUrls: ['./user-menu.component.scss'],
 })
 export class UserMenuComponent {
   public isExpanded = false;
   public userInitials = '';
   public userDetails = { name: '', email: '', role: '' };
-  public activeItem: string = '';
+  public activeItem = '';
   public portalUrl = environment.portalUrl;
   public isAuthorized: boolean;
 

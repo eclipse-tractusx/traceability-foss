@@ -16,7 +16,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-.view-selector-container {
+.view-selector-container{
+  padding-bottom: 16px;
 
   button.selected {
     color: rgb(13, 85, 175) !important;
@@ -33,7 +34,7 @@
     border-radius: 50px !important;
     padding: 10px 18px !important;
     margin-right: 16px;
-    background-color: unset !important;
+    background-color: unset!important;
   }
 
 }

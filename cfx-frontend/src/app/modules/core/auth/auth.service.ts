@@ -37,8 +37,7 @@ export interface UserData {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private readonly keycloakService: KeycloakService) {
-  }
+  constructor(private readonly keycloakService: KeycloakService) {}
 
   public getBearerToken(): string {
     return 'Bearer ' + this.keycloakService.getKeycloakInstance().token;

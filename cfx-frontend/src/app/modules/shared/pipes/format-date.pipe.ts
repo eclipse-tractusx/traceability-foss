@@ -53,7 +53,7 @@ export class FormatDatePipe implements PipeTransform, OnDestroy {
       return '--';
     }
 
-    const dateFormat = new Intl.DateTimeFormat(this.language, dateTimeOptions || this.formatOptions);
+    const dateFormat = new Intl.DateTimeFormat(this.language === 'en' ? 'en-GB' : this.language, dateTimeOptions || this.formatOptions);
     return dateFormat.format(date);
   }
 

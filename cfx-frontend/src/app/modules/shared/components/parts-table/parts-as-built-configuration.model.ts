@@ -22,11 +22,10 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
   constructor() {
     const sortableColumns = {
       select: false,
-      owner: true,
+      hasAlerts: false,
       id: true,
       idShort: true,
       nameAtManufacturer: true,
-      businessPartner: true,
       manufacturerName: true,
       manufacturerPartId: true,
       customerPartId: true,
@@ -38,15 +37,11 @@ export class PartsAsBuiltConfigurationModel extends TableFilterConfiguration {
       manufacturingCountry: true,
       receivedActiveAlerts: true,
       receivedActiveInvestigations: true,
-      sentActiveAlerts: true,
-      sentActiveInvestigations: true,
-      importState: true,
-      importNote: true,
       menu: false,
     };
 
-    const dateFields = [ 'manufacturingDate' ];
-    const singleSearchFields = [ 'receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations' ];
+    const dateFields = ['manufacturingDate'];
+    const singleSearchFields = ['receivedActiveAlerts', 'sentActiveAlerts', 'receivedActiveInvestigations', 'sentActiveInvestigations'];
     super(sortableColumns, dateFields, singleSearchFields);
   }
 

@@ -17,14 +17,43 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 import { Injectable } from '@angular/core';
-import { AdminService } from '@page/admin/core/admin.service';
+import { Owner } from '@page/parts/model/owner.enum';
 import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { PartsService } from '@shared/service/parts.service';
-import { of } from 'rxjs';
 
 export abstract class AutocompleteStrategy {
-  abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string, inAssetIds?: string[]): any;
+  abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any;
+}
+
+export function getOwnerOfTable(tableType: TableType): Owner {
+  if (tableType === TableType.AS_BUILT_OWN || tableType === TableType.AS_PLANNED_OWN) {
+    return Owner.OWN;
+  } else if (tableType === TableType.AS_BUILT_CUSTOMER || tableType === TableType.AS_PLANNED_CUSTOMER) {
+    return Owner.CUSTOMER;
+  } else if (tableType === TableType.AS_BUILT_SUPPLIER || tableType === TableType.AS_PLANNED_SUPPLIER) {
+    return Owner.SUPPLIER;
+  } else {
+    return Owner.UNKNOWN;
+  }
+}
+
+export function isAsBuilt(tableType: TableType): boolean {
+  const isAsBuiltElement = [TableType.AS_BUILT_SUPPLIER, TableType.AS_BUILT_OWN, TableType.AS_BUILT_CUSTOMER];
+  return isAsBuiltElement.includes(tableType);
+}
+
+export function channelOfNotification(tableType: TableType): NotificationChannel {
+  if (tableType === TableType.CREATED_ALERT || tableType === TableType.CREATED_INVESTIGATION) {
+    return NotificationChannel.SENDER;
+  } else {
+    return NotificationChannel.RECEIVER;
+  }
+
+}
+
+export function isInvestigation(tableType: TableType): boolean {
+  return [TableType.RECEIVED_INVESTIGATION, TableType.CREATED_INVESTIGATION].includes(tableType);
 }
 
 @Injectable({
@@ -38,18 +67,14 @@ export class PartsStrategy extends AutocompleteStrategy {
     this.partsService = partsService;
   }
 
-  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string, inAssetIds?: string[]): any {
+  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
+    const tableOwner = getOwnerOfTable(tableType);
     const asBuilt = isAsBuilt(tableType);
-
-    if(inAssetIds?.length < 1) {
-      return of([]);
-    }
-
     return this.partsService.getDistinctFilterValues(
       asBuilt,
+      tableOwner,
       filterColumns,
       searchElement,
-      inAssetIds,
     );
   }
 }
@@ -57,7 +82,7 @@ export class PartsStrategy extends AutocompleteStrategy {
 @Injectable({
   providedIn: 'any',
 })
-export class NotificationStrategy extends AutocompleteStrategy {
+export class InvestigationStrategy extends AutocompleteStrategy {
   notificationService: NotificationService;
 
   constructor(notificationService: NotificationService) {
@@ -78,16 +103,18 @@ export class NotificationStrategy extends AutocompleteStrategy {
 @Injectable({
   providedIn: 'any',
 })
-export class ContractsStrategy extends AutocompleteStrategy {
-  adminService: AdminService;
+export class AlertStrategy extends AutocompleteStrategy {
+  notificationService: NotificationService;
 
-  constructor(adminService: AdminService) {
+  constructor(notificationService: NotificationService) {
     super();
-    this.adminService = adminService;
+    this.notificationService = notificationService;
   }
 
   retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
-    return this.adminService.getDistinctFilterValues(
+    const notificationChannel = channelOfNotification(tableType);
+    return this.notificationService.getDistinctFilterValues(
+      notificationChannel,
       filterColumns,
       searchElement,
     );
@@ -95,24 +122,15 @@ export class ContractsStrategy extends AutocompleteStrategy {
 }
 
 export const AutocompleteStrategyMap = new Map<TableType, any>([
-  [ TableType.AS_BUILT_OWN, PartsStrategy ],
-  [ TableType.AS_PLANNED_OWN, PartsStrategy ],
-  [ TableType.RECEIVED_NOTIFICATION, NotificationStrategy ],
-  [ TableType.SENT_NOTIFICATION, NotificationStrategy ],
-  [ TableType.CONTRACTS, ContractsStrategy ],
+  [TableType.AS_BUILT_OWN, PartsStrategy],
+  [TableType.AS_BUILT_SUPPLIER, PartsStrategy],
+  [TableType.AS_BUILT_CUSTOMER, PartsStrategy],
+  [TableType.AS_PLANNED_OWN, PartsStrategy],
+  [TableType.AS_PLANNED_CUSTOMER, PartsStrategy],
+  [TableType.AS_PLANNED_SUPPLIER, PartsStrategy],
+  [TableType.RECEIVED_INVESTIGATION, InvestigationStrategy],
+  [TableType.CREATED_INVESTIGATION, InvestigationStrategy],
+  [TableType.RECEIVED_ALERT, AlertStrategy],
+  [TableType.CREATED_ALERT, AlertStrategy],
 ]);
 
-
-export function isAsBuilt(tableType: TableType): boolean {
-  const isAsBuiltElement = [ TableType.AS_BUILT_OWN ];
-  return isAsBuiltElement.includes(tableType);
-}
-
-export function channelOfNotification(tableType: TableType): NotificationChannel {
-  if (tableType === TableType.SENT_NOTIFICATION) {
-    return NotificationChannel.SENDER;
-  } else {
-    return NotificationChannel.RECEIVER;
-  }
-
-}

@@ -18,6 +18,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
 
 .detail--info__wrapper {
   display: flex;
@@ -28,9 +30,21 @@
   padding-bottom: 0.5rem;
 }
 
+.detail--value {
+  @extend .body-small;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  color: black;
+}
+
 .detail--text {
   &__bold {
     font-weight: bold;
     padding-right: 1rem;
+    color: black;
+    line-height: 20px;
+    letter-spacing: 1px;
   }
 }

@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,10 +24,10 @@ import {
   adminHandler,
   dashboardHandler,
   errorHandler,
+  investigationsTestHandlers,
   otherPartsAsBuiltHandlers,
   otherPartsAsBuiltHandlersTest,
   partsHandlersTest,
-  policyHandler,
 } from '../app/mocks/services';
 import { alertsTestHandlers } from '../app/mocks/services/alerts-mock/alerts.handler';
 
@@ -36,9 +36,9 @@ const handlers = [
   ...otherPartsAsBuiltHandlers,
   ...otherPartsAsBuiltHandlersTest,
   ...partsHandlersTest,
+  ...investigationsTestHandlers,
   ...alertsTestHandlers,
   ...adminHandler,
   ...errorHandler,
-  ...policyHandler,
 ];
 export const worker = setupWorker(...handlers);

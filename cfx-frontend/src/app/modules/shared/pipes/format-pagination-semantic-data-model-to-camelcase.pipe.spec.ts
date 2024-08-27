@@ -31,10 +31,10 @@ describe('FormatPaginationSemanticDataModelToCamelCasePipe', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        FormatPaginationSemanticDataModelToCamelCasePipe,
-      ],
+        FormatPaginationSemanticDataModelToCamelCasePipe
+      ]
     });
-    formatPaginationSemanticDataModelToCamelCasePipe = TestBed.inject(FormatPaginationSemanticDataModelToCamelCasePipe);
+    formatPaginationSemanticDataModelToCamelCasePipe = TestBed.inject(FormatPaginationSemanticDataModelToCamelCasePipe)
   });
 
   [
@@ -52,33 +52,33 @@ describe('FormatPaginationSemanticDataModelToCamelCasePipe', () => {
     },
   ].forEach(object => {
 
-    it(`should transform semanticDataModel from ${ object.option } to ${ object.expected }`, function() {
+    it(`should transform semanticDataModel from ${object.option} to ${object.expected}`, function()  {
 
-      let partList = [ PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT), PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT) ];
+      let partList = [PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT), PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT)];
 
       let paginationData: Pagination<any> = {
         page: 0,
         pageCount: 1,
         pageSize: 50,
         totalItems: 1,
-        content: partList,
-      };
+        content: partList
+      }
 
       paginationData.content.forEach(part => {
-        part.semanticDataModel = object.option;
-      });
+        part.semanticDataModel = object.option
+      })
 
       partList.map(part => {
-        expect(part.semanticDataModel).toEqual(object.option);
-      });
+        expect(part.semanticDataModel).toEqual(object.option)
+      })
 
 
-      let transformedPartData = formatPaginationSemanticDataModelToCamelCasePipe.transform(paginationData);
+      let transformedPartData = formatPaginationSemanticDataModelToCamelCasePipe.transform(paginationData)
 
       transformedPartData.content.map(part => {
         expect(part.semanticDataModel).toEqual(object.expected);
-      });
+      })
 
-    });
-  });
-});
+    })
+  })
+})

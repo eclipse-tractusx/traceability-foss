@@ -44,6 +44,10 @@ export class UserService {
     this._roles = roles as Role[];
   }
 
+  public get username(): string {
+    return this._username;
+  }
+
   public get firstname(): string {
     return this._firstname;
   }

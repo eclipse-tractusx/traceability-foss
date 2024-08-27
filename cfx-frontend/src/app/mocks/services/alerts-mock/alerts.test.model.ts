@@ -20,14 +20,14 @@
  ********************************************************************************/
 
 import type { NotificationResponse } from '@shared/model/notification.model';
-import { NotificationStatus, NotificationTypeResponse } from '@shared/model/notification.model';
+import { NotificationStatus } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { getRandomAsset } from '../parts-mock/partsAsPlanned/partsAsPlanned.model';
 import { MOCK_part_1 } from '../parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 export const AlertIdPrefix = 'id-';
 
-const severities = [ Severity.MINOR, Severity.MAJOR, Severity.CRITICAL, Severity.LIFE_THREATENING ];
+const severities = [Severity.MINOR, Severity.MAJOR, Severity.CRITICAL, Severity.LIFE_THREATENING];
 export const buildMockAlerts = (
   statuses: NotificationStatus[],
   channel: 'SENDER' | 'RECEIVER',
@@ -39,29 +39,28 @@ export const buildMockAlerts = (
     const numberToString = (i: number) => i.toString().padStart(2, '0');
     const month = (index % 12) + 1;
     const day = (index % 28) + 1;
-    const errorAlert = (index + 1) % 10 === 0 ? 'The Services returned an Error while processing this Alert' : '';
+    const errorAlert = (index+1) % 10 === 0 ? "The Services returned an Error while processing this Alert" : "";
 
     return {
-      id: `${ AlertIdPrefix }${ index + 1 }`,
-      description: `Alert No ${ index + 1 }`,
+      id: `${AlertIdPrefix}${index + 1}`,
+      description: `Alert No ${index + 1}`,
       status,
       severity,
       channel,
       createdBy: 'BPN10000000OEM0A',
       createdByName: 'OEM xxxxxxxxxxxxxxx A',
       sendTo: 'BPN20000000OEM0B',
-      title: 'Title',
       sendToName: 'OEM xxxxxxxxxxxxxxx B',
       reason: { close: '', accept: '', decline: '' },
-      createdDate: `2022-${ numberToString(month) }-${ numberToString(day) }T12:34:12`,
-      assetIds: [ MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id ],
+      createdDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
+      assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
       errorMessage: errorAlert,
-      type: NotificationTypeResponse.ALERT,
+      title: 'Title'
     };
   });
 
 export const MockEmptyAlert: NotificationResponse = {
-  id: `${ AlertIdPrefix }000`,
+  id: `${AlertIdPrefix}000`,
   description: `Alert No 000`,
   status: NotificationStatus.CREATED,
   severity: Severity.MINOR,
@@ -71,10 +70,9 @@ export const MockEmptyAlert: NotificationResponse = {
   sendToName: 'OEM xxxxxxxxxxxxxxx B',
   reason: { close: '', accept: '', decline: '' },
   createdDate: `2022-05-01T12:34:12`,
-  assetIds: [ getRandomAsset().id ],
+  assetIds: [getRandomAsset().id],
   channel: 'SENDER',
   title: 'Title',
-  type: NotificationTypeResponse.ALERT,
 };
 
 export const getAlertById = (id: string) => {

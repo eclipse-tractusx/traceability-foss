@@ -23,34 +23,33 @@ import { environment } from '@env';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../../pagination.helper';
 import { getAssetAsPlannedById, mockBmwAsPlannedAssets } from './partsAsPlanned.model';
-
 export const partsAsPlannedHandlers = [
 
-  rest.get(`*${ environment.apiUrl }/assets/as-planned`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-planned`, (req, res, ctx) => {
     const pagination = extractPagination(req);
     return res(ctx.status(200), ctx.json(applyPagination(mockBmwAsPlannedAssets, pagination)));
   }),
 
-  rest.post(`*${ environment.apiUrl }/assets/as-planned/detail-information`, async (req, res, ctx) => {
+  rest.post(`*${environment.apiUrl}/assets/as-planned/detail-information`, async (req, res, ctx) => {
     const { assetIds } = await req.json();
 
     const response = assetIds.map(id => getAssetAsPlannedById(id));
     return res(ctx.status(200), ctx.json(response.filter(data => !!data)));
   }),
 
-  rest.get(`*${ environment.apiUrl }/assets/as-planned/:partId`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-planned/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentAsset = getAssetAsPlannedById(partId as string);
     return res(ctx.status(200), ctx.json(currentAsset));
   }),
 
-  rest.patch(`*${ environment.apiUrl }/assets/as-planned/:partId`, (req, res, ctx) => {
+  rest.patch(`*${environment.apiUrl}/assets/as-planned/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentPart = getAssetAsPlannedById(partId as string);
     return res(ctx.status(200), ctx.json({ ...currentPart, ...req.json() }));
   }),
 
-  rest.get(`*${ environment.apiUrl }/assets/as-planned/:assetId/children/:childId`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-planned/:assetId/children/:childId`, (req, res, ctx) => {
     const { childId } = req.params;
     const currentAsset = getAssetAsPlannedById(childId as string);
     return res(ctx.status(200), ctx.json(currentAsset));

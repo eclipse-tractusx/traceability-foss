@@ -29,6 +29,7 @@ import { LayoutModule } from '@layout/layout.module';
 import { AboutModule } from '@page/about/about.module';
 import { AdminModule } from '@page/admin/admin.module';
 import { DashboardModule } from '@page/dashboard/dashboard.module';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsModule } from '@page/parts/parts.module';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { I18NextModule } from 'angular-i18next';
@@ -44,14 +45,9 @@ import { CoreRoutingModule } from './core.routing';
 import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
 import { UserService } from './user/user.service';
 import { ErrorPageModule } from '@page/error-page/error-page.module';
-import { registerLocaleData } from '@angular/common';
-import localeDe from '@angular/common/locales/de';
-import localeDeExtra from '@angular/common/locales/extra/de';
-
-registerLocaleData(localeDe, 'de', localeDeExtra);
 
 @NgModule({
-  declarations: [ AppComponent ],
+  declarations: [AppComponent],
   imports: [
     CoreRoutingModule,
     BrowserAnimationsModule,
@@ -63,6 +59,7 @@ registerLocaleData(localeDe, 'de', localeDeExtra);
     AboutModule,
     DashboardModule,
     PartsModule,
+    OtherPartsModule,
     AdminModule,
     I18NextModule.forRoot(),
   ],
@@ -78,7 +75,7 @@ registerLocaleData(localeDe, 'de', localeDeExtra);
       provide: APP_INITIALIZER,
       useFactory: KeycloakHelper,
       multi: true,
-      deps: [ KeycloakService ],
+      deps: [KeycloakService],
     },
     {
       provide: MAT_DATE_LOCALE,
@@ -92,7 +89,7 @@ registerLocaleData(localeDe, 'de', localeDeExtra);
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true,
-      deps: [ ToastService ],
+      deps: [ToastService],
     },
     {
       provide: HTTP_INTERCEPTORS,
@@ -101,7 +98,6 @@ registerLocaleData(localeDe, 'de', localeDeExtra);
     },
     ...I18N_PROVIDERS,
   ],
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
 })
-export class CoreModule {
-}
+export class CoreModule { }

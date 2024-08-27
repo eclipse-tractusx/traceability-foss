@@ -22,7 +22,7 @@
 import { UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { SharedModule } from '..';
+import { SharedModule } from '@shared/shared.module';
 
 describe('ErrorMessagePipe', () => {
   const getErrorsForRules = (value: string | number, rules: ValidatorFn[]) => {
@@ -33,9 +33,9 @@ describe('ErrorMessagePipe', () => {
   };
 
   it('should render error message for required', async () => {
-    const errors = getErrorsForRules('', [ Validators.required ]);
+    const errors = getErrorsForRules('', [Validators.required]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 
@@ -43,9 +43,9 @@ describe('ErrorMessagePipe', () => {
   });
 
   it('should render error message for minimum number', async () => {
-    const errors = getErrorsForRules(9, [ Validators.min(10) ]);
+    const errors = getErrorsForRules(9, [Validators.min(10)]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 
@@ -53,9 +53,9 @@ describe('ErrorMessagePipe', () => {
   });
 
   it('should render error message for maximum number', async () => {
-    const errors = getErrorsForRules(10, [ Validators.max(5) ]);
+    const errors = getErrorsForRules(10, [Validators.max(5)]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 
@@ -63,9 +63,9 @@ describe('ErrorMessagePipe', () => {
   });
 
   it('should render error message for minimum length', async () => {
-    const errors = getErrorsForRules('12345', [ Validators.minLength(10) ]);
+    const errors = getErrorsForRules('12345', [Validators.minLength(10)]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 
@@ -73,9 +73,9 @@ describe('ErrorMessagePipe', () => {
   });
 
   it('should render error message for maximum length', async () => {
-    const errors = getErrorsForRules('123456', [ Validators.maxLength(5) ]);
+    const errors = getErrorsForRules('123456', [Validators.maxLength(5)]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 
@@ -83,9 +83,9 @@ describe('ErrorMessagePipe', () => {
   });
 
   it('should render error message for a specific pattern', async () => {
-    const errors = getErrorsForRules('123', [ Validators.pattern(/[a-z]+/g) ]);
+    const errors = getErrorsForRules('123', [Validators.pattern(/[a-z]+/g)]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 
@@ -93,9 +93,9 @@ describe('ErrorMessagePipe', () => {
   });
 
   it('should render error message for invalid email', async () => {
-    const errors = getErrorsForRules('thisIsNotAndEmail(AT).catena.de', [ Validators.email ]);
+    const errors = getErrorsForRules('thisIsNotAndEmail(AT).catena.de', [Validators.email]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 
@@ -104,9 +104,9 @@ describe('ErrorMessagePipe', () => {
 
   it('should render error message a not defined validation function', async () => {
     const customValidation = () => ({ customValidation: { valid: false } });
-    const errors = getErrorsForRules('', [ customValidation ]);
+    const errors = getErrorsForRules('', [customValidation]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 
@@ -114,9 +114,9 @@ describe('ErrorMessagePipe', () => {
   });
 
   it('should render required error message first if multiple fail', async () => {
-    const errors = getErrorsForRules('', [ Validators.required, Validators.minLength(10) ]);
+    const errors = getErrorsForRules('', [Validators.required, Validators.minLength(10)]);
     await renderComponent(`{{ errors | errorMessage | i18n }}`, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       componentProperties: { errors },
     });
 

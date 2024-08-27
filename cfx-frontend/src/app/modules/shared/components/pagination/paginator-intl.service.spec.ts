@@ -27,7 +27,7 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('PaginatorIntlService', () => {
   const instantiatePaginationService = async () => {
     await renderComponent('', {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
     });
 
     return TestBed.inject(MatPaginatorIntl);

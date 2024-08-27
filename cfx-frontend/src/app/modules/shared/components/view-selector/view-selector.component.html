@@ -17,20 +17,20 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 <div class="view-selector-container">
-  <ng-container [ngTemplateOutlet]="{flat}[this.variant]"></ng-container>
-  <ng-template #flat>
-    <button [ngClass]="{'selected': isSelected}" [disabled]="isDisabled" [color]="color" mat-flat-button>
-      <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
-    </button>
-  </ng-template>
+<ng-container [ngTemplateOutlet]="{flat}[this.variant]"></ng-container>
+<ng-template #flat>
+  <button [ngClass]="{'selected': isSelected}" [disabled]="isDisabled" [color]="color" mat-flat-button>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+</ng-template>
 
-  <ng-template #buttonContent>
-    <ng-container>
-      <ng-container [ngTemplateOutlet]="content"></ng-container>
-    </ng-container>
-  </ng-template>
+<ng-template #buttonContent>
+  <ng-container>
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+  </ng-container>
+</ng-template>
 
-  <ng-template #content>
-    <ng-content></ng-content>
-  </ng-template>
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>
 </div>

@@ -20,9 +20,10 @@
  ********************************************************************************/
 
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
+import { localeIdFactory } from '@core/i18n/global-i18n.providers';
 import { Role } from '@core/user/role.model';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -30,6 +31,7 @@ import { render, RenderComponentOptions, RenderResult, RenderTemplateOptions, wa
 import { Screen } from '@testing-library/dom';
 import { I18NEXT_SERVICE, I18NextModule, ITranslationService } from 'angular-i18next';
 import { KeycloakService } from 'keycloak-angular';
+import { node } from 'webpack';
 
 type RenderFnOptionsExtension = {
   translations?: string[];
@@ -47,7 +49,6 @@ declare function ExtendedRenderFn<WrapperType = WrapperComponent>(
   template: string,
   renderOptions?: RenderTemplateOptions<WrapperType> & RenderFnOptionsExtension,
 ): Promise<RenderResult<WrapperType>>;
-
 declare class WrapperComponent {
   static ɵfac: ɵɵFactoryDeclaration<WrapperComponent, never>;
   static ɵcmp: ɵɵComponentDeclaration<WrapperComponent, 'atl-wrapper-component', never, {}, {}, never, never>;
@@ -55,7 +56,7 @@ declare class WrapperComponent {
 
 export const renderComponent: typeof ExtendedRenderFn = (
   cmp,
-  { imports = [], providers = [], translations = [], roles = [ 'user' ], ...restConfig },
+  { imports = [], providers = [], translations = [], roles = [Role.USER], ...restConfig },
 ) =>
   render(cmp, {
     imports: [
@@ -82,11 +83,11 @@ export const renderComponent: typeof ExtendedRenderFn = (
           return () =>
             i18next.init({
               lng: 'en',
-              supportedLngs: [ 'en', 'de' ],
+              supportedLngs: ['en', 'de'],
               resources: {},
             });
         },
-        deps: [ I18NEXT_SERVICE ],
+        deps: [I18NEXT_SERVICE],
         multi: true,
       },
     ],

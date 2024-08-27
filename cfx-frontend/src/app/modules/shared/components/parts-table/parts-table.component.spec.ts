@@ -17,165 +17,84 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Sort } from '@angular/material/sort';
-import { Pagination } from '@core/model/pagination.model';
-import { PartsFacade } from '@page/parts/core/parts.facade';
-import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { NotificationType } from '@shared/model/notification.model';
-import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { Pagination } from '@core/model/pagination.model';
+import { TableConfig } from '@shared/components/table/table.model';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { Sort } from '@angular/material/sort';
+import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { TableType } from '../multi-select-autocomplete/table-type.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 
 describe('PartsTableComponent', () => {
-  const renderPartsTableComponent = (
-    size: number,
-    tableType: TableType = TableType.AS_BUILT_OWN,
-  ) => {
+  const renderPartsTableComponent = (size: number, tableType: TableType = TableType.AS_BUILT_OWN) => {
     const multiSelectActive = true;
     const content = generateTableContent(size);
     const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
     return renderComponent(PartsTableComponent, {
-      imports: [ SharedModule ],
+      imports: [SharedModule],
       providers: [
         // Provide the PartsFacade mock as a value for the PartsFacade token
         { provide: PartsFacade },
         { provide: FormatPartSemanticDataModelToCamelCasePipe },
       ],
-      componentProperties: { paginationData, tableType },
+      componentProperties: { multiSelectActive, paginationData, tableType },
     });
   };
 
   const generateTableContent = (size: number) => {
     return Array.apply(null, Array(size)).map((_, i) => ({ name: 'name_' + i, test: 'test' }));
   };
-
-  it('should render parts asbuilt table', async () => {
-    const tableSize = 7;
-    await renderPartsTableComponent(tableSize, TableType.AS_BUILT_OWN);
-
-    expect(await waitFor(() => screen.getByTestId('table-component--test-id'))).toBeInTheDocument();
-  });
-
-  it('should emit maximizeClicked event when Enter key is pressed', async () => {
-    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
-    const { componentInstance } = fixture;
-    spyOn(componentInstance.maximizeClicked, 'emit');
-    componentInstance.tableType = TableType.AS_BUILT_OWN;
-
-    const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-    componentInstance.handleKeyDownMaximizedClickedMethod(keyboardEvent);
-
-    expect(componentInstance.maximizeClicked.emit).toHaveBeenCalledWith(componentInstance.tableType);
-  });
-
-  it('should not emit maximizeClicked event when key other than Enter is pressed', async () => {
-    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
-    const { componentInstance } = fixture;
-    spyOn(componentInstance.maximizeClicked, 'emit');
-
-    const keyboardEvent = new KeyboardEvent('keydown', { key: 'Space' });
-    componentInstance.handleKeyDownMaximizedClickedMethod(keyboardEvent);
-
-    expect(componentInstance.maximizeClicked.emit).not.toHaveBeenCalled();
-  });
-
-  it('should emit createQualityNotificationClickedEvent when Enter key is pressed', async () => {
-    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
-    const { componentInstance } = fixture;
-    spyOn(componentInstance.createQualityNotificationClickedEvent, 'emit');
-    componentInstance.notificationType = NotificationType.ALERT;
-
-    const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
-    componentInstance.handleKeyDownQualityNotificationClicked(keyboardEvent);
-
-    expect(componentInstance.createQualityNotificationClickedEvent.emit).toHaveBeenCalledWith(componentInstance.notificationType);
-  });
-
-  it('should not emit createQualityNotificationClickedEvent when key other than Enter is pressed', async () => {
-    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
-    const { componentInstance } = fixture;
-    spyOn(componentInstance.createQualityNotificationClickedEvent, 'emit');
-
-    const keyboardEvent = new KeyboardEvent('keydown', { key: 'Space' });
-    componentInstance.handleKeyDownQualityNotificationClicked(keyboardEvent);
-
-    expect(componentInstance.createQualityNotificationClickedEvent.emit).not.toHaveBeenCalled();
-  });
-
-  it('should have correct sizes for split areas', async () => {
-    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
-    const { componentInstance } = fixture;
-    expect(componentInstance.tableType).toEqual(TableType.AS_BUILT_OWN);
-  });
-
-  it('should init the correct columns for asBuilt', async () => {
-    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
-    const { componentInstance } = fixture;
-
-    componentInstance.ngOnInit();
-
-    // Expect that the event was emitted with the correct data
-    expect(componentInstance.displayedColumns).toEqual([
+  const renderPartsTable = (
+    size: number,
+    displayedColumns = [
       'Filter',
-      'filterowner',
-      'filterid',
-      'filteridShort',
-      'filternameAtManufacturer', // nameAtManufacturer
-      'filterbusinessPartner',
-      'filtermanufacturerName',
-      'filtermanufacturerPartId',
-      'filtercustomerPartId', // --> semanticModel.customerPartId
-      'filterclassification',
+      'filterId',
+      'filterIdShort',
+      'filterName', // nameAtManufacturer
+      'filterManufacturer',
+      'filterPartId', // Part number / Batch Number / JIS Number
+      'filterManufacturerPartId',
+      'filterCustomerPartId', // --> semanticModel.customerPartId
+      'filterClassification',
       //'nameAtManufacturer', --> already in name
-      'filternameAtCustomer', // --> semanticModel.nameAtCustomer
-      'filtersemanticModelId',
-      'filtersemanticDataModel',
-      'filtermanufacturingDate',
-      'filtermanufacturingCountry',
-      'filterreceivedActiveAlerts',
-      'filterreceivedActiveInvestigations',
-      'filtersentActiveAlerts',
-      'filtersentActiveInvestigations',
-      'filterimportState',
-      'filterimportNote',
-      'Menu',
-    ]);
-  });
+      'filterNameAtCustomer', // --> semanticModel.nameAtCustomer
+      'filterSemanticModelId',
+      'filterSemanticDataModel',
+      'filterManufacturingDate',
+      'filterManufacturingCountry',
+    ],
+    header = { name: 'Name' },
+    selected = jasmine.createSpy(),
+    tableType: TableType = TableType.AS_BUILT_OWN,
+  ) => {
+    const content = generateTableContent(size);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
-  it('should init the correct columns for asPlanned own', async () => {
-    const { fixture } = await renderPartsTableComponent(1, TableType.AS_PLANNED_OWN);
-    const { componentInstance } = fixture;
+    const tableConfig: TableConfig = { displayedColumns, header };
 
-    componentInstance.ngOnInit();
+    const multiSelectActive = true;
 
-    expect(componentInstance.displayedColumns).toEqual([
-      'Filter',
-      'filterowner',
-      'filterid',
-      'filteridShort',
-      'filternameAtManufacturer',
-      'filterbusinessPartner',
-      'filtermanufacturerName',
-      'filtermanufacturerPartId',
-      'filterclassification',
-      'filtersemanticDataModel',
-      'filtersemanticModelId',
-      'filtervalidityPeriodFrom',
-      'filtervalidityPeriodTo',
-      'filterpsFunction',
-      'filtercatenaXSiteId',
-      'filterfunctionValidFrom',
-      'filterfunctionValidUntil',
-      'filterimportState',
-      'filterimportNote',
-      'Menu',
-    ]);
-  });
+    return renderComponent(
+      `<app-parts-table [tableType]='tableType' [multiSelectActive]='multiSelectActive' [paginationData]='data' (selected)='selected($event)'></app-parts-table>`,
+      {
+        declarations: [PartsTableComponent],
+        imports: [SharedModule],
+        componentProperties: {
+          data,
+          tableConfig,
+          selected,
+          multiSelectActive,
+          tableType,
+        },
+      },
+    );
+  };
 
   it('should update sorting data and emit configChanged event', async () => {
-
     const { fixture } = await renderPartsTableComponent(1, TableType.AS_PLANNED_OWN);
     const { componentInstance } = fixture;
 
@@ -193,7 +112,7 @@ describe('PartsTableComponent', () => {
     expect(configChangedSpy).toHaveBeenCalledWith({
       page: 0,
       pageSize: componentInstance.paginationData.pageSize,
-      sorting: [ 'name', 'asc' ],
+      sorting: ['name', 'asc'],
     });
   });
 
@@ -212,14 +131,26 @@ describe('PartsTableComponent', () => {
       ],
     };
 
-
     componentInstance.paginationData = paginationData;
 
     expect(componentInstance.totalItems).toEqual(paginationData.totalItems);
     expect(componentInstance.paginationData.pageSize).toEqual(paginationData.pageSize);
     expect(componentInstance.pageIndex).toEqual(paginationData.page);
     expect(componentInstance.isDataLoading).toBe(false);
+  });
 
+  it('should select or deselect a row and emit selected event if menuActionsConfig is not defined', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
+
+    const row1 = { id: 1, name: 'Item 1' };
+
+    spyOn(componentInstance.selected, 'emit');
+
+    componentInstance.selectElement(row1);
+
+    expect(componentInstance.selected.emit).toHaveBeenCalledWith(row1);
+    expect(componentInstance.selectedRow).toEqual(row1);
   });
 
   it('should remove selected values and emit multiSelect', async () => {
@@ -228,9 +159,9 @@ describe('PartsTableComponent', () => {
 
     componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
 
-    componentInstance.deselectTrigger = [ { id: 2 }, { id: 3 } ];
+    componentInstance.deselectTrigger = [{ id: 2 }, { id: 3 }];
 
-    expect(componentInstance.selection.selected).toEqual([ { id: 1 } ]);
+    expect(componentInstance.selection.selected).toEqual([{ id: 1 }]);
   });
 
   it('should not remove selected values if deselectItem is not provided', async () => {
@@ -241,7 +172,7 @@ describe('PartsTableComponent', () => {
 
     componentInstance.deselectTrigger = null;
 
-    expect(componentInstance.selection.selected).toEqual([ { id: 1 }, { id: 2 }, { id: 3 } ]);
+    expect(componentInstance.selection.selected).toEqual([{ id: 1 }, { id: 2 }, { id: 3 }]);
   });
 
   it('should emit multiSelect event', async () => {
@@ -252,13 +183,26 @@ describe('PartsTableComponent', () => {
 
     const multiSelectSpy = spyOn(componentInstance.multiSelect, 'emit');
 
-    componentInstance.deselectTrigger = [ { id: 2 }, { id: 3 } ];
+    componentInstance.deselectTrigger = [{ id: 2 }, { id: 3 }];
 
-    expect(multiSelectSpy).toHaveBeenCalledWith([ { id: 1 } ]);
+    expect(multiSelectSpy).toHaveBeenCalledWith([{ id: 1 }]);
+  });
+
+  it('should emit the correct events in an onPaginationChange event.', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_PLANNED_OWN);
+    const { componentInstance } = fixture;
+
+
+    const onSizeChangeSpy = spyOn(componentInstance.onPaginationPageSizeChange, 'emit');
+    const configChangedSpy = spyOn(componentInstance.configChanged, 'emit');
+
+    componentInstance.onPaginationChange({ pageSize: 10, pageIndex: 0, length: 10 });
+
+    expect(onSizeChangeSpy).toHaveBeenCalledWith(10);
+    expect(configChangedSpy).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: undefined });
   });
 
   it('should toggle all rows correctly', async () => {
-
     const { fixture } = await renderPartsTableComponent(1, TableType.AS_PLANNED_OWN);
     const { componentInstance } = fixture;
 
@@ -266,14 +210,15 @@ describe('PartsTableComponent', () => {
 
     componentInstance.toggleAllRows();
 
-    expect(componentInstance.selection.selected).toEqual([ { id: 1 }, { id: 2 }, { id: 3 }, {
-      name: 'name_0',
-      test: 'test',
-    } ]);
+    expect(componentInstance.selection.selected).toEqual([
+      { id: 1 },
+      { id: 2 },
+      { id: 3 },
+      { name: 'name_0', test: 'test' },
+    ]);
   });
 
   it('should clear all rows correctly', async () => {
-
     const { fixture } = await renderPartsTableComponent(1, TableType.AS_PLANNED_OWN);
     const { componentInstance } = fixture;
     componentInstance.selection.select({ id: 1 }, { id: 2 }, { id: 3 });
@@ -296,4 +241,3 @@ describe('PartsTableComponent', () => {
   });
 
 });
-

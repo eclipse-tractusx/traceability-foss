@@ -18,23 +18,42 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
 
 .parts-table-container {
   width: 100%;
-
-  .search--and--quick--filter--wrapper {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-
-  .searchbar--container {
-    flex-grow: 1;
-  }
 }
 
+.app-bom-lifecycle-activator-container {
+  grid-column: 1 / span 2;
+  /* This will make it span both columns */
+  width: 100%;
+  border-bottom: 1px solid;
+  @apply border-inactiveShape;
+}
 
+.split-container {
+  column-gap: 5px;
+  padding-right: 10px;
+}
 
+.split-container-wrapper {
+  height: 470.5px;
+  padding-top: 20px;
+}
 
+.parts-table-wrapper {
+  height: 100% !important;
+  overflow-y: auto !important;
+}
 
+.split-area {
+  overflow-y: hidden !important;
+  height: 405px;
+}
 
+.parts-compact-table-wrapper {
+  height: 80% !important;
+  overflow-y: auto !important;
+}

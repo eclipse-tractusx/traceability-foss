@@ -21,57 +21,31 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RoleGuard } from '@core/user/role.guard';
-import { KnownAdminRoutes } from '@page/admin/core/admin.model';
-import { BpnConfigurationComponent } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
-import { ContractDetailComponent } from '@page/admin/presentation/contracts/contract-detail/contract-detail.component';
-import { ContractsComponent } from '@page/admin/presentation/contracts/contracts.component';
-import { ImportJsonComponent } from '@page/admin/presentation/import-json/import-json.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
+import { ScheduledRegistryProcessesComponent } from '@page/admin/presentation/scheduled-registry-processes/scheduled-registry-processes.component';
+import { KnownAdminRouts } from '@page/admin/core/admin.model';
+import { BpnConfigurationComponent } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
+import { RoleGuard } from '@core/user/role.guard';
 
 export /** @type {*} */
 const ADMIN_ROUTING: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: KnownAdminRoutes.BPN,
+    redirectTo: KnownAdminRouts.BPN,
   },
   {
-    path: KnownAdminRoutes.BPN,
+    path: KnownAdminRouts.BPN,
     pathMatch: 'full',
     component: BpnConfigurationComponent,
-    data: { i18nextNamespaces: [ 'page.admin' ] },
+    data: { i18nextNamespaces: ['page.admin'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-    canActivate: [ RoleGuard ],
-  },
-  {
-    path: KnownAdminRoutes.IMPORT,
-    pathMatch: 'full',
-    component: ImportJsonComponent,
-    data: { i18nextNamespaces: [ 'page.admin' ] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-  },
-  {
-    path: KnownAdminRoutes.CONTRACT,
-    pathMatch: 'full',
-    component: ContractsComponent,
-    data: { i18nextNamespaces: [ 'page.admin' ] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-    canActivate: [ RoleGuard ],
-  },
-  {
-    path: KnownAdminRoutes.CONTRACT_DETAIL_VIEW,
-    pathMatch: 'full',
-    component: ContractDetailComponent,
-    data: { i18nextNamespaces: [ 'page.admin' ] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-    canActivate: [ RoleGuard ],
+    canActivate: [RoleGuard],
   },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(ADMIN_ROUTING) ],
-  exports: [ RouterModule ],
+  imports: [RouterModule.forChild(ADMIN_ROUTING)],
+  exports: [RouterModule],
 })
-export class AdminRoutingModule {
-}
+export class AdminRoutingModule {}

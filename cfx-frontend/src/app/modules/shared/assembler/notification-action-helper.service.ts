@@ -31,48 +31,36 @@ export class NotificationActionHelperService {
   constructor(private readonly roleService: RoleService) {
   }
 
-  public isAtLeastSupervisor(): boolean {
-    return this.roleService.isSupervisor();
-  }
-
-  public showEditButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED;
-  }
-
   public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED;
+    return this.roleService.isAtLeastSupervisor() && isFromSender && status === NotificationStatus.CREATED;
   }
 
   public showCancelButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED;
+    return this.roleService.isAtLeastUser() && isFromSender && status === NotificationStatus.CREATED;
   }
 
   public showCloseButton({ status, isFromSender } = {} as Notification): boolean {
-    const disallowedStatus = [ NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED ];
-    return isFromSender && !disallowedStatus.includes(status);
+    const disallowedStatus = [NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED];
+    return this.roleService.isAtLeastSupervisor() && isFromSender && !disallowedStatus.includes(status);
   }
 
   public showAcknowledgeButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.RECEIVED;
+    return this.roleService.isAtLeastUser() && !isFromSender && status === NotificationStatus.RECEIVED;
   }
 
   public showAcceptButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
+    return this.roleService.isAtLeastUser() && !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
   }
 
   public showDeclineButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
-  }
-
-  public isAllowedToEdit() {
-    return this.roleService.isSupervisor() || this.roleService.isUser();
+    return this.roleService.isAtLeastUser() && !isFromSender && status === NotificationStatus.ACKNOWLEDGED;
   }
 
   public isAuthorizedForButton(action: NotificationAction): boolean {
     if (action === NotificationAction.APPROVE || action === NotificationAction.CLOSE) {
-      return this.roleService.isSupervisor();
+      return this.roleService.isAtLeastSupervisor();
     } else {
-      return this.roleService.isUser();
+      return this.roleService.isAtLeastUser();
     }
   }
 }

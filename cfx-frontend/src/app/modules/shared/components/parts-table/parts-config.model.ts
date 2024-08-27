@@ -18,8 +18,10 @@
  ********************************************************************************/
 
 
-import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
 import { TableViewConfig } from '@shared/components/parts-table/table-view-config.model';
+
+
+import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
 
 
 export class TableFilterConfiguration implements TableViewConfig {
@@ -29,13 +31,12 @@ export class TableFilterConfiguration implements TableViewConfig {
   filterFormGroup: any;
   sortableColumns: any;
 
-  constructor(sortableColumns: any, dateFields?: any, singleSearchFields?: any, hasFilterColumn?: boolean) {
+  constructor(sortableColumns: any, dateFields?: any, singleSearchFields?: any) {
     this.displayedColumns = Object.keys(sortableColumns);
     this.filterFormGroup = PartsTableConfigUtils.createFormGroup(this.displayedColumns);
-    this.filterColumns = PartsTableConfigUtils.createFilterColumns(this.displayedColumns, hasFilterColumn);
+    this.filterColumns = PartsTableConfigUtils.createFilterColumns(this.displayedColumns);
     this.sortableColumns = sortableColumns;
-    this.displayFilterColumnMappings = PartsTableConfigUtils.generateFilterColumnsMapping(sortableColumns, dateFields, singleSearchFields, hasFilterColumn);
-
+    this.displayFilterColumnMappings = PartsTableConfigUtils.generateFilterColumnsMapping(sortableColumns, dateFields, singleSearchFields);
   }
 
   public filterConfiguration(): TableViewConfig {

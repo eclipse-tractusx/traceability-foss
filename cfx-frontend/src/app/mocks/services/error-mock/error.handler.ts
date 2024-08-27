@@ -24,14 +24,14 @@ import { rest } from 'msw';
 import { errorMessageMapping } from './error.model';
 
 export const errorHandler = [
-  rest.get(`*${ environment.apiUrl }/error/:statusCode`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/error/:statusCode`, (req, res, ctx) => {
     const { statusCode } = req.params as { statusCode: string };
 
     const errorResponse = { status: statusCode, message: errorMessageMapping[statusCode] };
     return res(ctx.status(Number.parseInt(statusCode, 10)), ctx.json(errorResponse));
   }),
 
-  rest.get(`*${ environment.apiUrl }/error/:statusCode/:errorCode`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/error/:statusCode/:errorCode`, (req, res, ctx) => {
     const { statusCode, errorCode } = req.params as { statusCode: string; errorCode: string };
 
     const errorResponse = { status: errorCode, message: errorMessageMapping[statusCode] };

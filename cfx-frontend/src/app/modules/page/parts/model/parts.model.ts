@@ -25,6 +25,116 @@ import { DetailAspectModel } from '@page/parts/model/detailAspectModel.model';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 
+// TODO: needs to be aligned with Severity in the future in terms of coding standards and use
+export enum QualityType {
+  Ok = 'Ok',
+  Minor = 'Minor',
+  Major = 'Major',
+  Critical = 'Critical',
+  LifeThreatening = 'LifeThreatening',
+}
+
+export enum SemanticDataModel {
+  BATCH = 'BATCH',
+  SERIALPART = 'SERIALPART',
+  PARTASPLANNED = 'PARTASPLANNED',
+  JUSTINSEQUENCE = 'JUSTINSEQUENCE',
+  TRACTIONBATTERYCODE = 'TRACTIONBATTERYCODE',
+  UNKNOWN = 'UNKNOWN'
+}
+
+export enum SemanticDataModelInCamelCase {
+  BATCH = 'Batch',
+  SERIALPART = 'SerialPart',
+  PARTASPLANNED = 'PartAsPlanned',
+  JUSTINSEQUENCE = 'JustInSequence',
+  TRACTIONBATTERYCODE = 'TractionBatteryCode',
+  UNKNOWN = 'Unknown'
+}
+
+export interface Relation {
+  id: string;
+  idShort: string;
+}
+
+export enum ImportState {
+  TRANSIENT = "TRANSIENT",
+  PERSISTENT = "PERSISTENT",
+  IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION",
+  ERROR = "ERROR",
+  UNSET = "UNSET"
+}
+
+export enum ImportStateInCamelCase {
+  TRANSIENT = "Transient",
+  PERSISTENT = "Persistent",
+  IN_SYNCHRONIZATION = "In Synchronization",
+  ERROR = "Error",
+  UNSET = "Unset"
+}
+
+export enum FilterOperator {
+  EQUAL = 'EQUAL',
+  AT_LOCAL_DATE = 'AT_LOCAL_DATE',
+  STARTS_WITH = 'STARTS_WITH',
+  BEFORE_LOCAL_DATE = 'BEFORE_LOCAL_DATE',
+  AFTER_LOCAL_DATE = 'AFTER_LOCAL_DATE',
+  NOTIFICATION_COUNT_EQUAL = 'NOTIFICATION_COUNT_EQUAL'
+}
+
+export function getFilterOperatorValue(operator: FilterOperator) {
+  return operator as string;
+}
+
+export interface AssetAsBuiltFilter {
+  id?: string,
+  idShort?: string,
+  name?: string,
+  manufacturerName?: string,
+  partId?: string,
+  manufacturerPartId?: string,
+  customerPartId?: string,
+  classification?: string,
+  nameAtCustomer?: string,
+  semanticModelId?: string,
+  semanticDataModel?: string[],
+  manufacturingDate?: string,
+  manufacturingCountry?: string
+}
+
+export interface AssetAsPlannedFilter {
+  id?: string,
+  idShort?: string,
+  name?: string,
+  manufacturer?: string,
+  manufacturerPartId?: string,
+  classification?: string,
+  semanticDataModel?: string[],
+  semanticModelId?: string,
+  validityPeriodFrom?: string,
+  validityPeriodTo?: string,
+  psFunction?: string,
+  catenaXSiteId?: string,
+  functionValidFrom?: string,
+  functionValidUntil?: string,
+}
+
+export interface AssetAsDesignedFilter {
+  id?: string;
+}
+
+export interface AssetAsSupportedFilter {
+  id?: string;
+}
+
+export interface AssetAsOrderedFilter {
+  id?: string;
+}
+
+export interface AssetAsRecycledFilter {
+  id?: string;
+}
+
 export interface Part {
   id: string;
   idShort: string;
@@ -67,14 +177,13 @@ export interface Part {
   functionValidUntil?: string;
 
   // count of notifications
-  sentActiveAlerts: string [];
-  sentActiveInvestigations: string [];
-  receivedActiveAlerts: string [];
-  receivedActiveInvestigations: string [];
+  sentActiveAlerts: string[];
+  sentActiveInvestigations: string[];
+  receivedActiveAlerts: string[];
+  receivedActiveInvestigations: string[];
 
   importNote?: string;
   importState?: ImportState;
-  tombStoneErrorDetail?: string;
 }
 
 export interface PartResponse {
@@ -99,116 +208,7 @@ export interface PartResponse {
   sentQualityInvestigationIdsInStatusActive: string[],
   receivedQualityInvestigationIdsInStatusActive: string[]
   importNote?: string,
-  importState?: ImportState,
-  tombstone?: string,
+  importState?: ImportState
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;
-
-// TODO: needs to be aligned with Severity in the future in terms of coding standards and use
-export enum QualityType {
-  Ok = 'Ok',
-  Minor = 'Minor',
-  Major = 'Major',
-  Critical = 'Critical',
-  LifeThreatening = 'LifeThreatening',
-}
-
-export enum SemanticDataModel {
-  BATCH = 'BATCH',
-  SERIALPART = 'SERIALPART',
-  PARTASPLANNED = 'PARTASPLANNED',
-  JUSTINSEQUENCE = 'JUSTINSEQUENCE',
-  TRACTIONBATTERYCODE = 'TRACTIONBATTERYCODE',
-  TOMBSTONEASBUILT = 'TOMBSTONEASBUILT',
-  TOMBSTONEASPLANNED = 'TOMBSTONEASPLANNED',
-  UNKNOWN = 'UNKNOWN'
-}
-
-export enum SemanticDataModelInCamelCase {
-  BATCH = 'Batch',
-  SERIALPART = 'SerialPart',
-  PARTASPLANNED = 'PartAsPlanned',
-  JUSTINSEQUENCE = 'JustInSequence',
-  TRACTIONBATTERYCODE = 'TractionBatteryCode',
-  TOMBSTONEASBUILT = 'TombstoneAsBuilt',
-  TOMBSTONEASPLANNED = 'TombstoneAsPlanned',
-  UNKNOWN = 'Unknown'
-}
-
-
-export interface Relation {
-  id: string;
-  idShort: string;
-}
-
-export interface AssetAsBuiltFilter {
-  id?: string,
-  ids?: string[],
-  excludeIds?: string[],
-  idShort?: string,
-  name?: string,
-  manufacturerName?: string,
-  businessPartner?: string,
-  partId?: string,
-  manufacturerPartId?: string,
-  customerPartId?: string,
-  classification?: string,
-  nameAtCustomer?: string,
-  semanticModelId?: string,
-  semanticDataModel?: string[],
-  manufacturingDate?: string,
-  manufacturingCountry?: string,
-  owner?: Owner
-}
-
-export interface AssetAsPlannedFilter {
-  id?: string,
-  idShort?: string,
-  name?: string,
-  manufacturer?: string,
-  businessPartner?: string,
-  manufacturerPartId?: string,
-  classification?: string,
-  semanticDataModel?: string[],
-  semanticModelId?: string,
-  validityPeriodFrom?: string,
-  validityPeriodTo?: string,
-  psFunction?: string,
-  catenaXSiteId?: string,
-  functionValidFrom?: string,
-  functionValidUntil?: string,
-  owner?: Owner
-}
-
-export enum ImportState {
-  TRANSIENT = "TRANSIENT",
-  PERSISTENT = "PERSISTENT",
-  IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION",
-  ERROR = "ERROR",
-  UNSET = "UNSET",
-  PUBLISHED_TO_CORE_SERVICES="PUBLISHED_TO_CORE_SERVICES"
-}
-
-export enum ImportStateInCamelCase {
-  TRANSIENT = "Transient",
-  PERSISTENT = "Persistent",
-  IN_SYNCHRONIZATION = "In Synchronization",
-  ERROR = "Error",
-  UNSET = "Unset",
-  PUBLISHED_TO_CORE_SERVICES="Published to Core Services"
-}
-
-export enum FilterOperator {
-  EQUAL = 'EQUAL',
-  AT_LOCAL_DATE = 'AT_LOCAL_DATE',
-  STARTS_WITH = 'STARTS_WITH',
-  BEFORE_LOCAL_DATE = 'BEFORE_LOCAL_DATE',
-  AFTER_LOCAL_DATE = 'AFTER_LOCAL_DATE',
-  NOTIFICATION_COUNT_EQUAL = 'NOTIFICATION_COUNT_EQUAL',
-  EXCLUDE = 'EXCLUDE'
-}
-
-export function getFilterOperatorValue(operator: FilterOperator) {
-  return operator as string;
-}

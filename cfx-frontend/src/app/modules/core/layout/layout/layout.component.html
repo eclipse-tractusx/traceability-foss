@@ -20,15 +20,24 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <main class="layout-container">
-  <div class="layout-content">
-    <app-header></app-header>
-    <div class="layout-content__box-modal relative">
-      <div class="flex flex-col h-full">
-        <router-outlet></router-outlet>
-        <div class="layout-toast-component">
-          <app-toast-container></app-toast-container>
+  <div class="background"
+    [ngStyle]="{
+      backgroundImage: 'url(./assets/images/background.svg)',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'bottom left',
+      backgroundSize: '100% auto',
+    }">
+    <div class="layout-content">
+      <app-header class="layout-header"></app-header>
+      <div class="layout-content__box-modal relative">
+        <div class="flex flex-col h-full">
+          <router-outlet></router-outlet>
+          <div class="layout-toast-component">
+            <app-toast-container></app-toast-container>
+          </div>
         </div>
       </div>
+      <app-footer class="layout-footer"></app-footer>
     </div>
   </div>
 

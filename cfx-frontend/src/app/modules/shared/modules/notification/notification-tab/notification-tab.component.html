@@ -19,69 +19,78 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<ng-container
-  *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
-></ng-container>
-<ng-template #mainTmp let-notifications="view">
-  <app-table
-    [paginationData]="notifications.data"
-    [additionalTableHeader]="true"
-    [tableHeaderMenuEnabled]="tableHeaderMenuEnabled"
-    [autocompleteEnabled]="autocompleteEnabled"
-    [tableHeader]="tableHeader"
-    [tableConfig]="tableConfig"
-    [noShadow]="true"
-    [labelId]="labelId"
-    [showHover]="false"
-    [multiSortList]="multiSortList"
-    [tableType]="tableType"
-    [tableSettingsEnabled]="tableSettingsEnabled"
-    (selected)="selectNotification($event)"
-    (configChanged)="onTableConfigChange($event)"
-    (editClicked)="openEditNotification($event)"
-    (filterActivated)="filterActivated($event)"
-    (multiSelect)="emitMultiSelect($event)"
-  ></app-table>
+<ng-container *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp">
+</ng-container>
+<ng-template #mainTmp
+  let-notifications="view">
+  {{ onItemCountChange(notifications.data.totalItems) }}
+  <div *ngIf="notifications.data.totalItems > 0 || filteredContent; else displayMessage">
+    <app-table [tableType]="tableType"
+      class="notifications-tab"
+      [autocompleteEnabled]="autocompleteEnabled"
+      [paginationData]="notifications.data"
+      [tableConfig]="tableConfig"
+      [noShadow]="true"
+      [labelId]="labelId"
+      [showHover]="false"
+      [multiSortList]="multiSortList"
+      (selected)="selectNotification($event)"
+      (configChanged)="onTableConfigChange($event)"
+      (filterChange)="onFilterChange()"
+      (filterActivated)="filterActivated($event)"
+      (onPaginationPageSizeChange)="onPaginationPageSizeChange.emit($event)">
+    </app-table>
+  </div>
+
+  <ng-template #displayMessage>
+    <ng-content select="[emptyContent]"></ng-content>
+  </ng-template>
 </ng-template>
 
-<ng-template #errorTmp let-notifications="view">
+<ng-template #errorTmp
+  let-notifications="view">
   <app-data-loading-error [error]="notifications.error"></app-data-loading-error>
 </ng-template>
 
 <ng-template #loaderTmp>
-  <mat-spinner></mat-spinner>
+  <mat-spinner class="loader"></mat-spinner>
 </ng-template>
 
-<ng-template #titleTmp let-title="value">
-  <p class="notification--table__description">{{ title }}</p>
-</ng-template>
-
-<ng-template #statusTmp let-status="value">
-  <div *ngIf="status" class="notification-status notification-status--{{ status }}">
+<ng-template #statusTmp
+  let-status="value">
+  <div *ngIf="status"
+    class="notification-status notification-status--{{ status }}">
     {{ translationContext + '.status.' + status | i18n }}
   </div>
 </ng-template>
 
-<ng-template #severityTmp let-severity="value">
-  <app-severity [severity]="severity"></app-severity>
+<ng-template #severityTmp
+  let-severity="value">
+  <app-severity [alternativeTextStyle]="true"
+    [severity]="severity"></app-severity>
 </ng-template>
 
-<ng-template #descriptionTmp let-text="value">
-  <p class="notification--table__description">{{ text }}</p>
+<ng-template #idTmp
+  let-text="value">
+  <p class="notification--table__cell notification--table__description-text body-small">{{ text }}</p>
 </ng-template>
 
-<ng-template #targetDateTmp let-text="value">
-  <p class="notification--table__description">{{ text | formatDate : {dateStyle: 'short', timeStyle: 'short'} }}</p>
+<ng-template #descriptionTmp
+  let-text="value">
+  <p class="notification--table__cell notification--table__description-text body-small">{{ text }}</p>
 </ng-template>
 
-<ng-template #userTmp let-text="value">
-  <p class="notification--table__description">{{ text }}</p>
+<ng-template #targetDateTmp
+  let-text="value">
+  <p class="notification--table__cell body-small">
+    {{ text | formatDate : { dateStyle: 'short', timeStyle: 'short' } }}
+  </p>
 </ng-template>
 
-<ng-template #bpnTmp let-text="value">
-  <p class="notification--table__description">{{ text }}</p>
-</ng-template>
-
-<ng-template #typeTmp let-type="value">
-  <p class="notification--table__description">{{ type }}</p>
+<ng-template #userTmp
+  let-text="value">
+  <p class="notification--table__cell body-small">
+    <app-notification-user [user]="text"
+      mode="normal"></app-notification-user>
+  </p>
 </ng-template>

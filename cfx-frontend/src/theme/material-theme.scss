@@ -22,18 +22,10 @@
 @use '@angular/material' as mat;
 
 $primary-palette: (
-  50: #e2f1fc,
-  100: #b9dcf9,
-  200: #8dc6f5,
-  300: #60b0f1,
-  400: #3d9fef,
-  500: #1790ec,
-  600: #1482de,
-  700: #0f71cb,
-  800: #0a5fb9,
-  900: #02429a,
-  contrast: (
-    50: rgba(black, 0.87),
+  100: #338e7d,
+  500: #00725C,
+  700: #005b4a,
+  contrast: (50: rgba(black, 0.87),
     100: rgba(black, 0.87),
     200: rgba(black, 0.87),
     300: rgba(black, 0.87),
@@ -47,22 +39,14 @@ $primary-palette: (
 );
 
 $accent-palette: (
-  50: #eaf1fe,
-  100: #cadbfb,
-  200: #a6c4f8,
-  300: #7facf4,
-  400: #5a97f0,
-  500: #2a82ed,
-  600: #1f79e1,
-  700: #066dd4,
-  800: #0063c8,
-  900: #0050b2,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
+  100: #4D4D4D,
+  500: #4D4D4D,
+  700: #4D4D4D,
+  contrast: (50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
     500: white,
     600: white,
     700: white,
@@ -72,18 +56,10 @@ $accent-palette: (
 );
 
 $warn-palette: (
-  50: #ffeaec,
-  100: #ffcbcd,
-  200: #f59691,
-  300: #ec6d66,
-  400: #f54a3e,
-  500: #f9381b,
-  600: #eb2c1d,
-  700: #d91e18,
-  800: #cc130f,
-  900: #be0000,
-  contrast: (
-    50: rgba(black, 0.87),
+  100: #B62100,
+  500: #B62100,
+  700: #B62100,
+  contrast: (50: rgba(black, 0.87),
     100: rgba(black, 0.87),
     200: rgba(black, 0.87),
     300: rgba(black, 0.87),
@@ -96,19 +72,15 @@ $warn-palette: (
   ),
 );
 
-$my-primary: mat.define-palette($primary-palette, 700);
-$my-accent: mat.define-palette($accent-palette, 50);
-$my-warn: mat.define-palette($warn-palette, 700);
+$my-primary: mat.define-palette($primary-palette, 500);
+$my-accent: mat.define-palette($accent-palette, 500);
+$my-warn: mat.define-palette($warn-palette, 500);
 
-$tracefoss-theme: mat.define-light-theme(
-    (
-      color: (
-        primary: $my-primary,
+$tracefoss-theme: mat.define-light-theme((color: (primary: $my-primary,
         accent: $my-accent,
         warn: $my-warn,
       ),
-    )
-);
+    ));
 
 @include mat.core();
 @include mat.core-theme($tracefoss-theme);

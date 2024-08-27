@@ -28,8 +28,8 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('CardList', () => {
   it('should render card list', async () => {
     await renderComponent(`<app-card-list [list]="{ test_key: 'test_value' }" title='Test title'></app-card-list>`, {
-      declarations: [ CardListComponent ],
-      imports: [ MatCardModule, SharedModule ],
+      declarations: [CardListComponent],
+      imports: [MatCardModule, SharedModule],
     });
 
     const cardTitleElement = screen.getByText('Test title');

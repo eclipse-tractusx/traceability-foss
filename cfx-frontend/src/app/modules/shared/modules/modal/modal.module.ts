@@ -19,20 +19,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {MatDialogModule} from '@angular/material/dialog';
-import {ModalService} from '@shared/modules/modal/core/modal.service';
-import {SharedModule} from '@shared/shared.module';
-import {ModalComponent} from './component/modal.component';
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {FormsModule} from "@angular/forms";
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalService } from '@shared/modules/modal/core/modal.service';
+import { SharedModule } from '@shared/shared.module';
+import { ModalComponent } from './component/modal.component';
 
 @NgModule({
-  declarations: [ ModalComponent ],
-  exports: [ ModalComponent ],
-    imports: [CommonModule, MatDialogModule, SharedModule, MatCheckboxModule, FormsModule],
-  providers: [ ModalService ],
+  declarations: [ModalComponent],
+  exports: [ModalComponent],
+  imports: [CommonModule, MatDialogModule, SharedModule],
+  providers: [ModalService],
 })
-export class ModalModule {
-}
+export class ModalModule {}

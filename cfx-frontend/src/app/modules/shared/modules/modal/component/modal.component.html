@@ -19,29 +19,39 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="bg-dustyGrayShadeWildSand modal--container">
-  <div class="modal--header">
-    <h1 mat-dialog-title>{{ data.title | i18n }}</h1>
-    <app-button (click)="cancel()" variant="icon" iconName="close" color="primary"></app-button>
+<div class="container"
+  [ngClass]="data.message ? 'message-modal' : ''">
+  <div class="header">
+    <div class="header-text">{{ data.title | i18n }}</div>
+    <img mat-dialog-close
+      class="close-button pr-2"
+      src="/assets/images/icons/closeDialog_icon.svg"
+      alt="X" />
   </div>
 
-  <mat-dialog-content>
+  <mat-dialog-content *ngIf="data.template">
     <ng-container *ngTemplateOutlet="data.template"></ng-container>
   </mat-dialog-content>
 
-  <mat-dialog-actions [class]="'actions-container'">
-    <ng-container *ngIf="data?.notificationId" >
-      <mat-checkbox [class]="'checkbox-container'" [(ngModel)]="isValid">{{data?.type | i18n}} {{data?.notificationId}} </mat-checkbox>
-    </ng-container>
-    <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
-    <app-button [ngClass]="data.buttonLeft ? '' : 'centered-button'"
-                *ngIf="data.buttonRight"
-                onkeydown="confirm()"
-                (click)="confirm()"
-                [color]="data.primaryButtonColour || 'primary'"
-                variant="raised"
-                [isDisabled]="data?.notificationId ? !isValid : false"
-    >{{ data.buttonRight | i18n }}</app-button
-    >
-  </mat-dialog-actions>
+  <div *ngIf="data.message">
+    <div class="message-text">{{data.message | i18n}}</div>
+  </div>
+
+  <div class="buttons-container">
+    <app-button *ngIf="data.buttonLeft"
+      class="button-large"
+      [variant]="'stroked'"
+      (click)="cancel()">
+      <div class="left-button-text">{{ data.buttonLeft| i18n }}</div>
+    </app-button>
+
+    <app-button *ngIf="data.buttonRight"
+      class="button-large"
+      [variant]="'flat'"
+      [color]="'primary'"
+      (click)="confirm()">
+      <div class="right-button-text">{{ data.buttonRight| i18n }}</div>
+    </app-button>
+
+  </div>
 </div>

@@ -1,7 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
  * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,7 +21,7 @@
 
 import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
 import { Owner } from '@page/parts/model/owner.enum';
-import { ImportState, PartResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
+import { PartResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { otherPartsAssets } from '../../otherParts-mock/otherParts.model';
 
 export const mockBmwAssets = [
@@ -66,8 +66,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PUBLISHED_TO_CORE_SERVICES',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:0733946c-59c6-41ae-9570-cb43a6e43842',
@@ -100,8 +98,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'TRANSIENT',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:4a5e9ff6-2d5c-4510-a90e-d55af3ba502f',
@@ -112,10 +108,10 @@ export const mockBmwAssets = [
     'nameAtManufacturer': 'MyAsBuiltPartName',
     'manufacturerPartId': 'ManuPartID',
     'owner': 'OWN',
-    'childRelations': [ {
+    'childRelations': [{
       'id': 'urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d',
       'idShort': null,
-    } ],
+    }],
     'parentRelations': [
       {
         'id': 'urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd',
@@ -142,8 +138,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'TRANSIENT',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03',
@@ -181,18 +175,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.',
-    'tombstone': `\t\t{
-\t\t\t"catenaXId": "urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
-\t\t\t"endpointURL": null,
-\t\t\t"processingError": {
-\t\t\t\t"processStep": "BpdmRequest",
-\t\t\t\t"errorDetail": "Cannot find ManufacturerId for CatenaXId: urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
-\t\t\t\t"lastAttempt": "2022-11-08T08:37:18.724609316Z",
-\t\t\t\t"retryCounter": 0
-\t\t\t}
-\t\t}`
   },
   {
     'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01',
@@ -225,18 +207,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.',
-    'tombstone': `\t\t{
-\t\t\t"catenaXId": "urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
-\t\t\t"endpointURL": null,
-\t\t\t"processingError": {
-\t\t\t\t"processStep": "BpdmRequest",
-\t\t\t\t"errorDetail": "Cannot find ManufacturerId for CatenaXId: urn:uuid:68c9b1bf-b2c1-456a-883c-2aac5f5cb5f4",
-\t\t\t\t"lastAttempt": "2022-11-08T08:37:18.724609316Z",
-\t\t\t\t"retryCounter": 0
-\t\t\t}
-\t\t}`
   },
   {
     'id': 'urn:uuid:d8030bbf-a874-49fb-b2e1-7610f0ccad12',
@@ -274,8 +244,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'IN_SYNCHRONIZATION',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a',
@@ -308,8 +276,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'ERROR',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02',
@@ -347,8 +313,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'UNSET',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01',
@@ -381,8 +345,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22',
@@ -420,8 +382,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:c47b9f8b-48d0-4ef4-8f0b-e965a225cb8d',
@@ -454,8 +414,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd',
@@ -488,8 +446,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02',
@@ -522,8 +478,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.'
   },
   {
     'id': 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd',
@@ -556,8 +510,6 @@ export const mockBmwAssets = [
     'receivedQualityAlertIdsInStatusActive': [],
     'sentQualityInvestigationIdsInStatusActive': [],
     'receivedQualityInvestigationIdsInStatusActive': [],
-    'importState': 'PERSISTENT',
-    'importNote': 'This is a test import note.'
   },
 ] as PartResponse[];
 
@@ -570,7 +522,7 @@ const MockEmptyPart: PartResponse = {
   nameAtManufacturer: 'MyAsBuiltPartName',
   manufacturerPartId: 'ManuDefaultPartID',
   classification: 'B-Level',
-  detailAspectModels: [ {
+  detailAspectModels: [{
     type: DetailAspectType.AS_BUILT,
     data: {
       partId: 'TV-65',
@@ -580,7 +532,7 @@ const MockEmptyPart: PartResponse = {
       manufacturingCountry: 'KWT',
     },
 
-  } ],
+  }],
   owner: Owner.OWN,
   childRelations: [],
   parentRelations: [],
@@ -591,17 +543,15 @@ const MockEmptyPart: PartResponse = {
   receivedQualityAlertIdsInStatusActive: [],
   sentQualityInvestigationIdsInStatusActive: [],
   receivedQualityInvestigationIdsInStatusActive: [],
-  importState: ImportState.TRANSIENT,
-  importNote: 'This is a test import note.'
 };
 
 
 export const getAssetById = (id: string) => {
-  return [ ...mockBmwAssets, ...otherPartsAssets ].find(asset => asset.id === id) || { ...MockEmptyPart, id };
+  return [...mockBmwAssets, ...otherPartsAssets].find(asset => asset.id === id) || { ...MockEmptyPart, id };
 };
 
 export const getRandomAsset = () => {
-  const parts = [ ...mockBmwAssets, ...otherPartsAssets ];
+  const parts = [...mockBmwAssets, ...otherPartsAssets];
   return parts[Math.floor(Math.random() * parts.length)];
 };
 

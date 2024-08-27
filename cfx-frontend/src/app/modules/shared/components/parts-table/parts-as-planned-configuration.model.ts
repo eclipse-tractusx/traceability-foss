@@ -22,8 +22,7 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
 
   constructor() {
     const sortableColumns = {
-      select: false,
-      owner: true,
+      hasAlerts: true,
       id: true,
       idShort: true,
       nameAtManufacturer: true,
@@ -39,12 +38,10 @@ export class PartsAsPlannedConfigurationModel extends TableFilterConfiguration {
       catenaXSiteId: true,
       functionValidFrom: true,
       functionValidUntil: true,
-      importState: true,
-      importNote: true,
       menu: false,
     };
 
-    const dateFields = [ 'validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil' ];
+    const dateFields = ['validityPeriodFrom', 'validityPeriodTo', 'functionValidFrom', 'functionValidUntil'];
     super(sortableColumns, dateFields);
   }
 }

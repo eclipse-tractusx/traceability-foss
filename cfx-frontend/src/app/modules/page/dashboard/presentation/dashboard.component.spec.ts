@@ -19,35 +19,63 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { TestBed } from '@angular/core/testing';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Role } from '@core/user/role.model';
 import { PartsModule } from '@page/parts/parts.module';
+import { RequestContext } from '@shared/components/request-notification/request-notification.base';
+import { RequestStepperComponent } from '@shared/components/request-notification/request-stepper/request-stepper.component';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { of } from 'rxjs';
 import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
 
+class MatDialogMock {
+  open(): MatDialogRef<RequestStepperComponent> {
+    return {} as MatDialogRef<RequestStepperComponent>;
+  }
+}
+
 describe('Dashboard', () => {
+
+  const renderDashboardComponent = () => {
+    return renderComponent(DashboardComponent, {
+      imports: [ DashboardModule, SharedModule, PartsModule ],
+      providers: [
+        { provide: MatDialog, useClass: MatDialogMock },
+      ],
+    });
+  };
+
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
       imports: [ DashboardModule, SharedModule, PartsModule ],
       translations: [ 'page.dashboard' ],
       roles,
+      providers: [
+        { provide: MatDialog, useClass: MatDialogMock },
+      ],
     });
 
+  // TODO fix test
   it('should render total of parts', async () => {
-    const { fixture } = await renderDashboard();
-    const { componentInstance } = fixture;
+    await renderDashboard({
+      roles: [ Role.SUPERVISOR ],
+    });
 
-    componentInstance.partsMetricData = [ { metricUnit: 'parts', value: of(3), metricName: 'parts' } ];
+    expect(await waitFor(() => screen.getByText('20'))).toBeInTheDocument();
 
-    expect(await waitFor(() => screen.getByText('3'))).toBeInTheDocument();
-
+    expect(screen.getByText('pageDashboard.totalOfMyParts.label')).toHaveAttribute(
+      'id',
+      screen.getByText('20').getAttribute('aria-describedby'),
+    );
   });
+
 
   it('should render supervisor section when supervisor user', async () => {
     await renderDashboard({
-      roles: [ 'supervisor' ],
+      roles: [ Role.SUPERVISOR ],
     });
 
     expect(await screen.findByText('pageDashboard.totalOfOtherParts.label')).toBeInTheDocument();
@@ -55,24 +83,66 @@ describe('Dashboard', () => {
 
   it('should render supervisor section when admin user', async () => {
     await renderDashboard({
-      roles: [ 'admin' ],
+      roles: [ Role.ADMIN ],
     });
 
-    expect(await screen.findByText('pageDashboard.totalOfParts.label')).toBeInTheDocument();
+    expect(await screen.findByText('pageDashboard.totalOfMyParts.label')).toBeInTheDocument();
   });
+
 
   describe('investigations', () => {
     it('should render count for investigations', async () => {
-      const { fixture } = await renderDashboard();
-      const { componentInstance } = fixture;
+      await renderDashboard();
 
-      componentInstance.partsMetricData = [ {
-        metricUnit: 'investigations',
-        value: of(20),
-        metricName: 'investigations',
-      } ];
+      expect(await waitFor(() => screen.getByText('5'))).toBeInTheDocument();
 
-      expect(await waitFor(() => screen.getByText('20'))).toBeInTheDocument();
+      expect(screen.getByText('pageDashboard.totalInvestigations.label')).toHaveAttribute(
+        'id',
+        screen.getByText('5').getAttribute('aria-describedby'),
+      );
+    });
+  });
+
+  it('should open the RequestStepperComponent with RequestContext.REQUEST_INVESTIGATION', async () => {
+    const component = (await renderDashboardComponent()).fixture.componentInstance;
+    const matDialog = TestBed.inject(MatDialog);
+
+    spyOn(matDialog, 'open').and.callThrough();
+
+    component.openRequestDialog(true);
+
+    expect(matDialog.open).toHaveBeenCalledWith(RequestStepperComponent, {
+      autoFocus: false,
+      disableClose: true,
+      data: { context: RequestContext.REQUEST_INVESTIGATION },
+    });
+  });
+
+  it('should open the RequestStepperComponent with RequestContext.REQUEST_ALERT', async () => {
+    const component = (await renderDashboardComponent()).fixture.componentInstance;
+    const matDialog = TestBed.inject(MatDialog);
+    spyOn(matDialog, 'open').and.callThrough();
+
+    component.openRequestDialog(false);
+
+    expect(matDialog.open).toHaveBeenCalledWith(RequestStepperComponent, {
+      autoFocus: false,
+      disableClose: true,
+      data: { context: RequestContext.REQUEST_ALERT },
+    });
+  });
+
+
+  describe('alerts', () => {
+    it('should render count for alerts', async () => {
+      await renderDashboard();
+
+      expect(await waitFor(() => screen.getByText('1'))).toBeInTheDocument();
+
+      expect(screen.getByText('pageDashboard.totalAlerts.label')).toHaveAttribute(
+        'id',
+        screen.getByText('1').getAttribute('aria-describedby'),
+      );
     });
   });
 });

@@ -20,13 +20,37 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { BpnConfig } from '@page/admin/core/admin.model';
+import { Pagination } from '@core/model/pagination.model';
+import { BpnConfig, RegistryProcess } from '@page/admin/core/admin.model';
 import { AdminService } from '@page/admin/core/admin.service';
-import { Observable } from 'rxjs';
+import { AdminState } from '@page/admin/core/admin.state';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { View } from '@shared/model/view.model';
+import _deepClone from 'lodash-es/cloneDeep';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable()
 export class AdminFacade {
-  constructor( private readonly adminService: AdminService) {
+  private scheduledRegistryProcessesSubscription: Subscription;
+
+  constructor(private readonly adminState: AdminState, private readonly adminService: AdminService) {}
+
+  public get scheduledRegistryProcesses$(): Observable<View<Pagination<RegistryProcess>>> {
+    return this.adminState.scheduledRegistryProcesses$;
+  }
+
+  public set scheduledRegistryProcesses(view: View<Pagination<RegistryProcess>>) {
+    this.adminState.scheduledRegistryProcesses = _deepClone(view);
+  }
+
+  public setScheduledRegistryProcesses(page = 0, pageSize = 50, sorting: TableHeaderSort = null) {
+    this.scheduledRegistryProcessesSubscription?.unsubscribe();
+    this.scheduledRegistryProcessesSubscription = this.adminService
+      .getScheduledRegistryProcesses(page, pageSize, sorting)
+      .subscribe({
+        next: data => (this.adminState.scheduledRegistryProcesses = { data }),
+        error: error => (this.adminState.scheduledRegistryProcesses = { error }),
+      });
   }
 
   public createBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
@@ -44,9 +68,4 @@ export class AdminFacade {
   public deleteBpnFallbackConfig(bpnId: string): Observable<void> {
     return this.adminService.deleteBpnFallbackConfig(bpnId);
   }
-
-  public postJsonImport(file: File): Observable<void>{
-    return this.adminService.postJsonFile(file);
-  }
-
 }

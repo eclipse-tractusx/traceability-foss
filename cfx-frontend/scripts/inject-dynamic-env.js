@@ -26,8 +26,7 @@ const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
   CATENAX_PORTAL_URL: 'portalUrl',
-  GIT_TAG: 'gitTag',
-  BPN: 'bpn'
+  GIT_TAG: 'gitTag'
 };
 
 const ROOT_DIR = '/usr/share/nginx/html';

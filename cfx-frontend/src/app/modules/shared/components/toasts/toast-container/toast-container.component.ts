@@ -28,16 +28,15 @@ import { notifyAnimation } from './animation';
 @Component({
   selector: 'app-toast-container',
   templateUrl: './toast-container.component.html',
-  styleUrls: [ './toast-container.component.scss' ],
-  animations: [ notifyAnimation ],
+  styleUrls: ['./toast-container.component.scss'],
+  animations: [notifyAnimation],
 })
 export class ToastContainerComponent implements OnInit, OnDestroy {
   public toastMessages: ToastMessage[] = [];
 
   private subscription: Subscription;
 
-  constructor(private readonly toastService: ToastService) {
-  }
+  constructor(private readonly toastService: ToastService) {}
 
   public ngOnInit(): void {
     this.subscription = this.toastService.getCurrentToast$().subscribe(toast => this.add(toast));

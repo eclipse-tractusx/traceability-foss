@@ -18,5 +18,21 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-
-<app-part-relation></app-part-relation>
+<div class="part-relation-full-screen">
+  <div class="part-relation-full-screen-title headline-medium">
+    <div>{{'partDetail.fullScreenRelations' | i18n}} "{{partName}}"</div>
+    <img class="close-button"
+      src="/assets/images/icons/closeDialog_icon.svg"
+      alt="X"
+      width="21px"
+      height="21px"
+      mat-dialog-close>
+  </div>
+  <mat-card class="part-relation-full-screen-container">
+    <mat-card-content class="part-relation-full-screen-container">
+      <app-part-relation [showMiniMap]="false"
+        [partId]="partId"
+        [overwriteContext]="overwriteContext"></app-part-relation>
+    </mat-card-content>
+  </mat-card>
+</div>

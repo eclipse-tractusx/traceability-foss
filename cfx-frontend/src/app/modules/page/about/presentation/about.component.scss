@@ -18,48 +18,73 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../theme/base.scss';
+@tailwind base;
 
-.about-container {
-  @apply flex flex-col;
-  align-items: center;
+.about-container-wrapper {
+  @apply flex justify-center;
 }
 
-.card {
-  display: flex;
-  justify-content: center;
-  max-width: 800px;
-  align-items: center;
+.about-container {
+  padding: 40px;
+  max-width: 600px;
+}
+
+.about-content1 {
+  @extend .title-small;
+  font-size: 18px;
+  line-height: 25.2px;
+}
+
+.about-content2 {
+  @extend .body-medium;
+  line-height: 25.2px;
+  white-space: pre-line;
+  padding-bottom: 20px;
 }
 
 .card-content {
   background: #FFFFFF;
-  box-shadow: 0px 5px 10px rgba(80, 80, 80, 0.3);
   border-radius: 8px;
   width: 100%;
 }
 
-.title-text {
-  display: flex;
-  justify-content: flex-start;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  padding: 20px 20px;
+.link-pointer {
   cursor: pointer;
-  align-items: center;
-  text-transform: uppercase;
-  margin-bottom: 0;
+}
+
+.content-link {
+  @extend .about-content1;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .link-text {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  padding: 20px 20px;
-  cursor: pointer;
-  align-items: center;
+  @extend .link-pointer;
   font-size: 18px;
+  line-height: 18px;
+  letter-spacing: 0.1px;
+  width: 170px;
+  padding-bottom: 17px;
+}
+
+.link-text-bottom {
+  padding-bottom: 0;
 }
 
 .commit-id {
   font-size: 18px;
   padding: 20px 20px;
+}
+
+.about-header {
+  @extend .link-pointer;
+  @extend .title-small;
+  font-size: 18px;
+  line-height: 25.2px;
+  padding-bottom: 12px;
 }

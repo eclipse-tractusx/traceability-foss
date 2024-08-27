@@ -36,5 +36,5 @@ const notifyAnimation = trigger('notify', [
     }),
   ),
   state('show', style({ transform: 'translateX(5%)' })),
-  transition('void => show, show => void', [ animate('0.30s') ]),
+  transition('void => show, show => void', [animate('0.30s')]),
 ]);

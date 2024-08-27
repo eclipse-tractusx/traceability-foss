@@ -23,20 +23,22 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        bold: ['Catena-X Bold', 'sans-serif'],
-        boldItalic: ['Catena-X BoldItalic', 'sans-serif'],
+        bold: ['Cofinity-X Bold', 'sans-serif'],
+        boldItalic: ['Cofinity-X BoldItalic', 'sans-serif'],
 
-        italic: ['Catena-X Italic', 'sans-serif'],
-        regular: ['Catena-X Regular', 'sans-serif'],
+        italic: ['Cofinity-X Italic', 'sans-serif'],
 
-        light: ['Catena-X Light', 'sans-serif'],
-        lightItalic: ['Catena-X LightItalic', 'sans-serif'],
+        light: ['Cofinity-X Light', 'sans-serif'],
+        lightItalic: ['Cofinity-X LightItalic', 'sans-serif'],
 
-        medium: ['Catena-X Medium', 'sans-serif'],
-        mediumItalic: ['Catena-X MediumItalic', 'sans-serif'],
+        medium: ['Cofinity-X Medium', 'sans-serif'],
+        mediumItalic: ['Cofinity-X MediumItalic', 'sans-serif'],
 
-        semiBold: ['Catena-X SemiBold', 'sans-serif'],
-        semiBoldItalic: ['Catena-X SemiBoldItalic', 'sans-serif'],
+        regular: ['Cofinity-X Regular', 'sans-serif'],
+        regularItalic: ['Cofinity-X Italic', 'sans-serif'],
+
+        semiBold: ['Cofinity-X SemiBold', 'sans-serif'],
+        semiBoldItalic: ['Cofinity-X SemiBoldItalic', 'sans-serif'],
       },
       minHeight: {
         0: '0',
@@ -58,9 +60,9 @@ module.exports = {
       },
       fontSize: {
         tiny: '12px',
-        sm: '14px',
-        base: '16px',
-        xl: '18px',
+        sm: '16px',
+        base: '18px',
+        xl: '20px',
       },
       fill: theme => ({
         green: theme('success'),
@@ -75,16 +77,24 @@ module.exports = {
     },
     colors: {
       // Theme colors
-      primary: '#0f71cb',
-      secondary: '#eaf1fe',
+      primary: '#00725C',
+      secondary: '#4D4D4D',
+      tertiary: '#F58220',
 
-      primaryLight: '#9fc6ea',
-      primaryDark: '#0d55af',
+      checkbox: '#6BA13C',
 
-      secondaryLight: '#9fc6ea',
-      secondaryDark: '#d4e3fe',
+      primaryLight: '#338e7d',
+      primaryDark: '#005b4a',
 
-      danger: '#D91E18',
+      secondaryLight: '#808080',
+
+      secondaryButton: '#333333',
+
+      tertiaryLight: '#F58220',
+      tertiaryDark: '#B62100',
+
+      danger: '#B62100',
+
       dangerLight: '#E5231D',
 
       interactive: '#0F71CB',
@@ -99,7 +109,7 @@ module.exports = {
       gray: '#888888',
 
       // Alert colors
-      error: '#D91E18',
+      error: '#B62100',
       success: '#00AA55',
       warning: '#F2BA00',
       alert: '#fe6702',
@@ -111,6 +121,17 @@ module.exports = {
       tundoraShadeNobel: '#b4b4b4',
       tundoraShadeAlto: '#dadada',
       accordionGray: '#fafafa',
+
+      // Surface colors
+      surfaceBase: '#FFFFFF',
+      surfaceBright: '#FAFAFA',
+      surfaceMedium: '#EDEDED',
+      surfaceDim: '#DFDFDF',
+
+      inactiveText: '#A6A6A6',
+      inactiveShape: '#D2D2D2',
+
+      positive: '#6BA13C',
 
       // Gray accent color
       dustyGray: '#999999',
@@ -129,39 +150,59 @@ module.exports = {
 
       footer: '#fff5cc',
 
+      textLink: '#2484C6',
+
       // Status colors for notification badges
+
+      acceptedLight: '#FFFFFF',
+      acceptedDark: '#6BA13C',
+
 
       createdLight: '#f2f3fb',
       createdDark: '#111111',
 
-      receivedLight: '#e1f1fe',
-      receivedDark: '#2b4078',
+      receivedLight: '#2484C633',
+      receivedDark: '#2484C6',
 
-      pendingLight: '#FFECBD',
-      pendingDark: '#975b26',
+      pendingLight: '#FDB913',
+      pendingDark: '#262124',
 
       confirmedLight: '#e2f6c7',
       confirmedDark: '#5c8d46',
 
-      declinedLight: '#fee7e2',
-      declinedDark: '#ff5330',
+      declinedLight: '#FF000033',
+      declinedDark: '#B62100',
+
+      queuedLight: '#FFFFFF56',
+      queuedDark: '#F58220',
 
       closedLight: '#ffffff',
-      closedDark: '#5d3416',
+      closedDark: '#000000',
+
+      canceledLight: '#FFFFFF',
+      canceledDark: '#4D4D4D',
+
+      requestedLight: '#FDB91366',
+      requestedDark: '#785707',
+
+      acknowledgedLight: '#A6CE3980',
+      acknowledgedDark: '#486D28',
+
+      black: '#000000',
 
       qualityTypeOk: '#3db014',
       qualityTypeMinor: '#ffd74a',
-      qualityTypeMajor: '#ffd74a',
-      qualityTypeCritical: '#E5231D',
+      qualityTypeMajor: '#c67700',
+      qualityTypeCritical: '#981b5e',
       qualityTypeLifeThreatening: '#E5231D',
 
       severityMinor: '#ffd74a',
-      severityMajor: '#ffd74a',
-      severityCritical: '#E5231D',
+      severityMajor: '#c67700',
+      severityCritical: '#981b5e',
       severityLifeThreatening: '#E5231D',
 
       semanticDataModelSerialPart: '#3db014',
-      semanticDataModelBatch: '#ffd21d'
+      semanticDataModelBatch: '#ffd21d',
     },
     screens: {
       sm: '640px',

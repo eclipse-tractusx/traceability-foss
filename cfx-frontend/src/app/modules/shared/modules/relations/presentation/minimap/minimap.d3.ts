@@ -54,7 +54,7 @@ export class Minimap {
     };
 
     this.setIds();
-    this.mainElement = d3.select(`#${ this.ids.minimap }`);
+    this.mainElement = d3.select(`#${this.ids.minimap}`);
 
     this.width = HelperD3.calculateWidth(this.mainElement);
     this.height = HelperD3.calculateHeight(this.mainElement);
@@ -70,22 +70,22 @@ export class Minimap {
 
   private setIds(): void {
     const minimap = this.treeInstance.mainId + '--minimap';
-    const main = `${ minimap }--main`;
-    const closeButton = `${ minimap }--closing`;
-    const viewport = `${ minimap }--rect`;
-    const viewportContainer = `${ minimap }--rect-group`;
-    const circle = `${ minimap }--Circle`;
-    const closing = `${ minimap }--closing`;
-    const icon = `${ minimap }--icon`;
+    const main = `${minimap}--main`;
+    const closeButton = `${minimap}--closing`;
+    const viewport = `${minimap}--rect`;
+    const viewportContainer = `${minimap}--rect-group`;
+    const circle = `${minimap}--Circle`;
+    const closing = `${minimap}--closing`;
+    const icon = `${minimap}--icon`;
 
     this.ids = { minimap, main, closeButton, viewport, viewportContainer, circle, closing, icon };
   }
 
   public renderMinimap(data: TreeStructure): TreeSvg {
-    d3.select(`#${ this.ids.main }`).remove();
+    d3.select(`#${this.ids.main}`).remove();
     const root = d3.hierarchy(data);
 
-    let svg = d3.select(`#${ this.ids.main }`) as TreeSvg;
+    let svg = d3.select(`#${this.ids.main}`) as TreeSvg;
     if (svg.empty()) svg = this.creatMainSvg(root);
 
     // First draw paths so paths are behind circles.
@@ -95,9 +95,10 @@ export class Minimap {
     this.setMapHeight();
 
     this.drawTreeViewport(svg);
+
     D3RenderHelper.renderMinimapClosing(
       svg,
-      `${ this.ids.closing }`,
+      `${this.ids.closing}`,
       this.xOffset,
       this.yOffset,
       this.closingEventListener.bind(this),
@@ -107,11 +108,11 @@ export class Minimap {
   }
 
   private getViewBox(): number[] {
-    return [ this.xOffset, this.yOffset, this.width, this.height ];
+    return [this.xOffset, this.yOffset, this.width, this.height];
   }
 
   private creatMainSvg(root: HierarchyNode<TreeStructure>): TreeSvg {
-    d3.tree().nodeSize([ this.r * 3, 250 / this.scale ])(root);
+    d3.tree().nodeSize([this.r * 3, 250 / this.scale])(root);
     this.height = HelperD3.calculateHeight(this.mainElement);
 
     const calculatedHeight = this.height / (root.height || 1);
@@ -129,6 +130,8 @@ export class Minimap {
 
   private drawTreeViewport(svg: TreeSvg): void {
     const { width, height } = this.getBorderSize();
+    const xOffset = 64;
+    const yOffset = 5;
 
     const rectGroup = svg
       .append('g')
@@ -136,18 +139,19 @@ export class Minimap {
       .attr('data-testid', this.ids.viewportContainer);
     const rect = rectGroup
       .append('rect')
-      .attr('x', this.treeViewportX)
-      .attr('y', this.treeViewportY)
+      .attr('x', this.treeViewportX + xOffset)
+      .attr('y', this.treeViewportY + yOffset)
       .attr('width', width)
       .attr('height', height)
       .classed('tree--minimap', true);
 
-    this.zoom = d3.zoom().scaleExtent([ 0, 0 ]);
+    this.zoom = d3.zoom().scaleExtent([0, 0]);
     this.zoom.on('zoom', ({ transform }) => {
       const { k, x, y } = this.currentZoom;
 
       if (transform.k === 0) return rectGroup.call(this.zoom.transform, new ZoomTransform(1 / k, x, y));
-      if (this.nextTreeUpdateAt < Date.now()) this.moveTree(transform);
+
+      if (this.nextTreeUpdateAt < Date.now()) this.moveTree(new ZoomTransform(transform.k, transform.x - 10, transform.y));
 
       this.currentZoom = new ZoomTransform(1 / transform.k, transform.x, transform.y);
       return rect.attr('transform', this.currentZoom as any);
@@ -172,7 +176,7 @@ export class Minimap {
     const transform = new ZoomTransform(1 / k, x + total_distance_x, y + total_distance_y);
 
     this.currentZoom = transform;
-    const rect = d3.select(`#${ this.ids.viewportContainer }`).transition().duration(500) as any;
+    const rect = d3.select(`#${this.ids.viewportContainer}`).transition().duration(500) as any;
     this.zoom.transform(rect, transform);
   }
 
@@ -200,7 +204,7 @@ export class Minimap {
 
     this.nextTreeUpdateAt = Date.now() + 250;
     const transform = new ZoomTransform(k, -(x / this.scale) / k, -(y / this.scale) / k);
-    d3.select(`#${ this.ids.viewportContainer }`).call(this.zoom.transform as any, transform);
+    d3.select(`#${this.ids.viewportContainer}`).call(this.zoom.transform as any, transform);
   }
 
   private moveTree({ k, x, y }: ZoomTransform): void {
@@ -209,7 +213,7 @@ export class Minimap {
   }
 
   private setMapHeight(): void {
-    const circleContainer = d3.select(`#${ this.ids.circle }`).node() as HTMLElement;
+    const circleContainer = d3.select(`#${this.ids.circle}`).node() as HTMLElement;
     let { lowestPoint, highestPoint } = this.getLowestAndHighestPointFromCircles(circleContainer);
 
     const padding = this.r / 2;
@@ -224,7 +228,7 @@ export class Minimap {
       this.yOffset = minOffset;
     }
 
-    d3.select(`#${ this.ids.main }`).attr('viewBox', this.getViewBox()).attr('height', this.height);
+    d3.select(`#${this.ids.main}`).attr('viewBox', this.getViewBox()).attr('height', this.height);
   }
 
   private getLowestAndHighestPointFromCircles(circlesContainer: HTMLElement) {
@@ -242,7 +246,7 @@ export class Minimap {
   private closingEventListener(event: MouseEvent): void {
     event?.stopPropagation();
 
-    d3.select(`#${ this.ids.minimap }`).classed('tree--minimap__closed', true);
+    d3.select(`#${this.ids.minimap}`).classed('tree--minimap__closed', true);
     d3.xml('/assets/images/layer-icon.svg')
       .then(data => {
         const closeIcon = this.mainElement.node().appendChild(data.documentElement);
@@ -251,8 +255,8 @@ export class Minimap {
         closeIcon.addEventListener(
           'click',
           () => {
-            d3.select(`#${ this.ids.minimap }`).classed('tree--minimap__closed', false);
-            d3.select(`#${ this.ids.icon }`).remove();
+            d3.select(`#${this.ids.minimap}`).classed('tree--minimap__closed', false);
+            d3.select(`#${this.ids.icon}`).remove();
           },
           { passive: true },
         );

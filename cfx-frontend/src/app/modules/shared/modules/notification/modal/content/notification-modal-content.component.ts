@@ -25,6 +25,7 @@ import { Notification } from '@shared/model/notification.model';
 @Component({
   selector: 'app-notification-modal-content',
   templateUrl: './notification-modal-content.component.html',
+  styleUrls: ['./notification-modal-content.component.scss'],
 })
 export class NotificationModalContentComponent {
   @Input() notification: Notification;

@@ -56,21 +56,23 @@ export class HelperD3 {
     return element?.node?.()?.getBoundingClientRect?.()?.height || window.innerHeight - 200;
   }
 
-  public static shortenText(text: string): string {
+  public static shortenText(text: string, maxLength = 11): string {
     if (!text) {
       return '';
     }
 
-    if (text.length > 12) {
-      return text.substring(0, 9) + '...';
+    const shortenedLength = maxLength - 3;
+
+    if (text.length > maxLength) {
+      return text.substring(0, shortenedLength) + '...';
     }
 
-    if (text.length < 12) {
-      const spaceCount = 12 - text.length;
+    if (text.length < maxLength) {
+      const spaceCount = maxLength - text.length;
       const spacerStart = new Array(Math.floor(spaceCount / 2)).fill(' ').join('');
       const spacerEnd = new Array(Math.ceil(spaceCount / 2)).fill(' ').join('');
 
-      return `${ spacerStart }${ text }${ spacerEnd }`;
+      return `${spacerStart}${text}${spacerEnd}`;
     }
     return text;
   }

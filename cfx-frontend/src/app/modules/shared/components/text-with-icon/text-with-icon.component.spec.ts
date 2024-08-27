@@ -28,7 +28,7 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('TextWithIcon', () => {
   it('should render text with icon', async () => {
     await renderComponent(`<app-text-with-icon iconName='help'>Test</app-text-with-icon>`, {
-      declarations: [ TextWithIconComponent ],
+      declarations: [TextWithIconComponent],
     });
 
     const textElement = screen.getByText('Test');

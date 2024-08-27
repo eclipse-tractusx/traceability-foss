@@ -19,111 +19,108 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="parts-table-container">
-  <div class="search--and--quick--filter--wrapper">
-    <div class="quick--filter--wrapper">
-      <app-quick-filter (buttonClickEvent)="updatePartsByOwner($event)"></app-quick-filter>
+<mat-card class="card-container">
+  <mat-card-header>
+    <div class="inline-block w-full">
+      <div class="flex justify-between items-center">
+        <h3 class="flex items-center">
+          <img class="pr-2"
+            src="/assets/images/icons/my_parts_icon_header.svg"
+            alt="My parts icon" />
+          {{ 'pageTitle.parts' | i18n }}
+        </h3>
+      </div>
     </div>
-    <div class="searchbar--container" [formGroup]="searchFormGroup">
-      <app-input
-        [label]="'parts.input.global-search.placeholder' | i18n"
-        [suffixIconHover]="true"
-        [displayClearButton]="true"
-        (suffixIconClick)="triggerPartSearch()"
+    <div [formGroup]="searchFormGroup">
+      <app-input color="accent"
+        [label]="'parts.input.global-search.placeholderAsset' | i18n"
+        [prefixIconHover]="true"
+        (prefixIconClick)="triggerPartSearch()"
         [onEnterActive]="true"
-        [suffixIcon]="'search'"
-        class="parts-search-input"
+        [prefixIcon]="'search'"
+        [isSearchBar]="true"
         formControlName="partSearch"
         [parentFormGroup]="searchFormGroup"
         [parentControlName]="'partSearch'"
-        suffixIconColor="primary"
-      ></app-input>
+        [displayClearButton]="true"
+        prefixIconColor="accent"></app-input>
     </div>
-  </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="parts-table-container">
+      <div class="app-bom-lifecycle-activator-container">
+        <app-bom-lifecycle-activator [view]=UserSettingView.PARTS
+          (buttonClickEvent)="handleTableActivationEvent($event)"></app-bom-lifecycle-activator>
+      </div>
+      <div class="split-container-wrapper">
+        <as-split direction="horizontal"
+          class="split-container">
+          <as-split-area *ngIf="bomLifecycleSize?.asBuiltSize > 0"
+            data-testid="as-split-area-1-component--test-id"
+            [size]="bomLifecycleSize.asBuiltSize"
+            class="split-area">
+            <div class="parts-table-wrapper">
+              <app-own-parts [bomLifecycle]="MainAspectType.AS_BUILT"></app-own-parts>
+            </div>
+          </as-split-area>
 
-  <div class="split-container-wrapper">
-    <as-split  (dragEnd)="splitAreaChanged($event)" direction="horizontal" class="split-container">
-      <as-split-area  data-testid="as-split-area-1-component--test-id"  [size]="bomLifecycleSize.asBuiltSize"
-                     class="split-area">
+          <as-split-area *ngIf="bomLifecycleSize?.asPlannedSize > 0"
+            data-testid="as-split-area-2-component--test-id"
+            [size]="bomLifecycleSize.asPlannedSize"
+            class="split-area">
+            <div class="parts-table-wrapper">
+              <app-own-parts [bomLifecycle]="MainAspectType.AS_PLANNED"></app-own-parts>
+            </div>
+          </as-split-area>
 
+          <as-split-area *ngIf="bomLifecycleSize?.asDesignedSize > 0"
+            data-testid="as-split-area-2-component--test-id"
+            [size]="bomLifecycleSize.asDesignedSize"
+            class="split-area">
+            <div class="parts-table-wrapper">
+              <app-own-parts [bomLifecycle]="MainAspectType.AS_DESIGNED"></app-own-parts>
+            </div>
+          </as-split-area>
 
-        <div class="parts-table-wrapper">
-          <ng-container
-            *viewContainer="partsAsBuilt$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-          <ng-template #mainTmp let-parts="view">
-            <!-- asBuilt Parts Table-->
-            <app-parts-table class="parts-asBuilt-table"
-                             [paginationData]="parts.data"
-                             (publishIconClickedEvent)="openPublisherSideNav()"
-                             (createQualityNotificationClickedEvent)="navigateToNotificationCreationView($event)"
-                             [labelId]="titleId"
-                             [selectedPartsInfoLabel]="'page.selectedParts.info'"
-                             [selectedPartsActionLabel]="'page.selectedParts.action'"
-                             [deselectTrigger]="deselectPartTrigger$ | async"
-                             [addTrigger]="addPartTrigger$ | async"
-                             (selected)="onSelectItem($event)"
-                             (configChanged)="onAsBuiltTableConfigChange($event)"
-                             (multiSelect)="currentSelectedItems$.next($event)"
-                             (clickSelectAction)="navigateToNotificationCreationView()"
-                             (filterActivated)="filterActivated(true, $event )"
-                             [multiSortList]="tableAsBuiltSortList"
-                             (maximizeClicked)="maximizeClicked($event)"
-                             [tableHeader]='"page.asBuiltParts" | i18n'
-                             [tableType]="TableType.AS_BUILT_OWN"
-                             [mainAspectType]="MainAspectType.AS_BUILT"
-            ></app-parts-table>
-          </ng-template>
-        </div>
-      </as-split-area>
-      <as-split-area data-testid="as-split-area-2-component--test-id" [size]="bomLifecycleSize.asPlannedSize"
-                     class="split-area">
-        <div class="parts-table-wrapper">
-          <ng-container
-            *viewContainer="partsAsPlanned$ | async; main: myTmp; error: errorTmp; loading: loaderTmp"></ng-container>
-          <ng-template #myTmp let-parts="view">
-            <!-- asPlanned Parts Table-->
-            <app-parts-table class="parts-asPlanned-table"
-                             [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
-                             [labelId]="titleId"
-                             (publishIconClickedEvent)="openPublisherSideNav()"
-                             [selectedPartsInfoLabel]="'page.selectedParts.info'"
-                             [selectedPartsActionLabel]="'page.selectedParts.action'"
-                             [deselectTrigger]="deselectPartTrigger$ | async"
-                             [addTrigger]="addPartTrigger$ | async"
-                             (selected)="onSelectItem($event)"
-                             (configChanged)="onAsPlannedTableConfigChange($event)"
-                             (multiSelect)="currentSelectedAsPlannedItems$.next($event)"
-                             (clickSelectAction)="isAlertOpen$.next(true)"
-                             (filterActivated)="filterActivated(false, $event)"
-                             [multiSortList]="tableAsPlannedSortList"
-                             [tableHeader]='"page.asPlannedParts" | i18n'
-                             (maximizeClicked)="maximizeClicked($event)"
-                             [tableType]="TableType.AS_PLANNED_OWN"
-                             [mainAspectType]="MainAspectType.AS_PLANNED"
-            ></app-parts-table>
+          <as-split-area *ngIf="bomLifecycleSize?.asOrderedSize > 0"
+            data-testid="as-split-area-2-component--test-id"
+            [size]="bomLifecycleSize.asOrderedSize"
+            class="split-area">
+            <div class="parts-table-wrapper">
+              <app-own-parts [bomLifecycle]="MainAspectType.AS_ORDERED"></app-own-parts>
+            </div>
+          </as-split-area>
 
-          </ng-template>
-        </div>
-      </as-split-area>
+          <as-split-area *ngIf="bomLifecycleSize?.asSupportedSize > 0"
+            data-testid="as-split-area-2-component--test-id"
+            [size]="bomLifecycleSize.asOrderedSize"
+            class="split-area">
+            <div class="parts-table-wrapper">
+              <app-own-parts [bomLifecycle]="MainAspectType.AS_SUPPORTED"></app-own-parts>
+            </div>
+          </as-split-area>
 
-    </as-split>
-  </div>
+          <as-split-area *ngIf="bomLifecycleSize?.asRecycledSize > 0"
+            data-testid="as-split-area-2-component--test-id"
+            [size]="bomLifecycleSize.asRecycledSize"
+            class="split-area">
+            <div class="parts-table-wrapper">
+              <app-own-parts [bomLifecycle]="MainAspectType.AS_RECYCLED"></app-own-parts>
+            </div>
+          </as-split-area>
+        </as-split>
+      </div>
 
-  <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
-    <app-asset-publisher
-    [selectedAssets] = "allSelectedItems$ | async"
-    [isOpen]="isPublisherOpen$"
-    (submitted)="isPublisherOpen$.next(false); refreshPartsOnPublish($event);"
-    ></app-asset-publisher>
-  </app-sidenav-wrapper>
+      <ng-template #errorTmp
+        let-parts="view">
+        <h1>{{ 'dataLoading.error' | i18n }}</h1>
+        <p>{{ parts.error }}</p>
+      </ng-template>
 
-
-  <ng-template #errorTmp let-parts="view">
-    <h1>{{ 'dataLoading.error' | i18n }}</h1>
-    <p>{{ parts.error }}</p>
-  </ng-template>
-
-  <ng-template #loaderTmp let-parts="view">
-    <mat-spinner></mat-spinner>
-  </ng-template>
-</div>
+      <ng-template #loaderTmp
+        let-parts="view">
+        <mat-spinner></mat-spinner>
+      </ng-template>
+    </div>
+  </mat-card-content>
+</mat-card>

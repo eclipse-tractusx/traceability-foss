@@ -24,6 +24,6 @@ import { I18NEXT_NAMESPACE } from 'angular-i18next';
 export const getI18nPageProvider = (pageNs: string | string[]) => [
   {
     provide: I18NEXT_NAMESPACE,
-    useValue: [ 'common', ...(typeof pageNs === 'string' ? [ pageNs ] : pageNs) ],
+    useValue: ['common', ...(typeof pageNs === 'string' ? [pageNs] : pageNs)],
   },
 ];

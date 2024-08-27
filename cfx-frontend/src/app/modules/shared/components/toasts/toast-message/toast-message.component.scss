@@ -18,14 +18,31 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+@import '../../../../../../theme/base.scss';
+@tailwind base;
 
 .toast {
-  @apply flex flex-row justify-between bg-white w-96 h-full z-120;
+  width: 420px;
 }
 
+.toast-title {
+  @extend .title-medium;
+  padding-bottom: 10px;
+}
 
 .toast-container {
   border-radius: 8px;
+  padding: 14px 0 0 0 !important;
+  display: flex;
+}
+
+.toast-message {
+  width: 352px;
+  padding: 0 12px 0px 12px
+}
+
+.toast-message-text {
+  @extend .body-medium;
 }
 
 .toast-icon-check {
@@ -41,25 +58,70 @@
 }
 
 .toast-icon-info {
-  color: rgb(5 113 203);
+  color: rgb(103, 107, 198);
 }
 
 .btn-close {
   border: 0;
 }
 
+.toast-close-button {
+  right: 14px;
+  top: 14px;
+  position: fixed;
+}
+
+.actions-link {
+  padding-top: 10px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25.2px;
+  color: #2484C6;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.actions-link:hover {
+  text-decoration: underline;
+  color: #2484C6
+}
+
 .check-icon-container {
   display: flex;
   align-items: center;
+  height: 26px;
 }
 
-.button-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.custom-card {
+  position: relative;
+  overflow: hidden;
 }
 
-.retry-icon {
-  color: grey;
+.line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  width: 0px;
+  transition: width var(--line-duration, 5s) linear;
 }
 
+.line--check {
+  @extend .line;
+  background-color: #6BA13C;
+}
+
+.line--error {
+  @extend .line;
+  background-color: #B62100;
+}
+
+.line--info {
+  @extend .line;
+  background-color: #4D4D4D;
+}
+
+.line--warning {
+  @extend .line;
+  background-color: #F58220;
+}

@@ -1,0 +1,217 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<mat-card class="card-container">
+  <div class="detail--header__title">
+    <div class="detail--header">
+      <h3 (click)="navigateBackToParts()"
+        class="pl-2 mb-4 flex items-center header-link">
+        <img class="pr-2"
+          [src]="'/assets/images/icons/' + context + '_icon_link.svg'"
+          alt="Parts icon" />
+        {{ 'pageTitle.' + context | i18n }}
+      </h3>
+      <h3 class="mb-4 pl-2 flex items-center">
+        <img class="pr-2"
+          src="/assets/images/icons/chevron_left.svg"
+          alt="<" />
+        <div class="header-description">
+          {{ manufacturerNameHeader }}
+        </div>
+      </h3>
+    </div>
+    <img class="close-button"
+      (click)="navigateBackToParts()"
+      data-testid="Part-details-back-button-test-id"
+      src="/assets/images/icons/closeDialog_icon.svg"
+      width="20px"
+      height="20px"
+      alt="X" />
+  </div>
+
+  <mat-card-content>
+    <mat-tab-group (selectedTabChange)="onTabChange($event)"
+      appTabAsPanel
+      mat-stretch-tabs="false"
+      mat-align-tabs="start"
+      class="other-parts-mat-tab-group parts-tab-wrapper">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div>{{ 'partDetail.tab.header' | i18n }} </div>
+        </ng-template>
+
+        <div class="part-detail--part-info">
+          <div class="part-column">
+            <div>
+              <ng-container
+                *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp">
+              </ng-container>
+            </div>
+            <div>
+              <ng-container *viewContainer="
+                                  manufacturerDetails$ | async;
+                                  main: manufacturerDetailsMainTmp;
+                                  error: errorTmp;
+                                  loading: loaderTmp
+                                "></ng-container>
+              <ng-container
+                *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
+            </div>
+          </div>
+          <div class="part-column">
+            <ng-container
+              *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp">
+            </ng-container>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab *appHasRole="[Role.USER]"
+        [disabled]="(selectedPartDetails$ | async)?.data?.children?.length === 0">
+        <ng-template mat-tab-label>
+          <div>{{ 'partDetail.investigation.tab.header' | i18n }} </div>
+        </ng-template>
+        <app-start-investigation *ngIf="(selectedPartDetails$ | async)?.data?.children?.length"
+          [part]="selectedPartDetails$ | async"></app-start-investigation>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #manufacturerDetailsMainTmp
+  let-manufacturerDetails="view">
+  <app-info-list class="part-detail-section-item"
+    [list]="manufacturerDetails.data"
+    [title]="'partDetail.manufacturerData' | i18n"></app-info-list>
+  <mat-divider class="parts-details-info-divider"></mat-divider>
+</ng-template>
+
+<ng-template #customerOrPartSiteDetailsMainTmp
+  let-customerOrPartSiteDetails="view">
+  <app-info-list class="part-detail-section-item"
+    [list]="customerOrPartSiteDetails.data"
+    [title]=" customerOrPartSiteHeader.toString() | i18n"></app-info-list>
+</ng-template>
+
+<ng-template #partRelationMainTmp
+  let-partDetails="view">
+  <div>
+    <h4 class="pb-1">{{ 'partDetail.relations' | i18n }}</h4>
+    <mat-card *ngIf="showRelation"
+      class="part-detail--relation__card">
+      <mat-card-content class="part-detail--relation__container">
+        <ng-container>
+          <app-part-relation [partId]="partDetails?.data?.id"
+            [isStandalone]="false"
+            [showMiniMap]="false">
+          </app-part-relation>
+          <mat-icon (click)="openRelationPage(partDetails?.data)"
+            class="part-detail--relation__icon">open_in_new
+          </mat-icon>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-template>
+
+<ng-template #errorTmp
+  let-customerOrPartSiteDetails="view">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ 'dataLoading.error' | i18n }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>{{ customerOrPartSiteDetails.error.message }}</mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #loaderTmp>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ 'dataLoading.inProgress' | i18n }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #listElement
+  let-item="item">
+  <div *ngIf="item.value"
+    class="card-list--row">
+    <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
+    <p class="card-list--value"
+      title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
+  </div>
+</ng-template>
+
+<ng-template #partDetailsMainTmp
+  let-partDetails="view">
+  <div>
+    <div>
+      <h4>{{ 'partDetail.overview' | i18n }}</h4>
+    </div>
+    <div>
+      <ng-container *ngFor="let item of partDetails.data | ToKeyValue"
+        [ngTemplateOutlet]="item.key !== 'qualityType' ? listElement : qualityTypeElement"
+        [ngTemplateOutletContext]="{ item }">
+      </ng-container>
+    </div>
+  </div>
+  <mat-divider class="parts-details-info-divider"></mat-divider>
+</ng-template>
+
+<ng-template #qualityTypeElement
+  let-item="item">
+  <div *ngIf="item.value"
+    [class.card-list--row]="!showQualityTypeDropdown"
+    [class.card-list--qualityType]="!!showQualityTypeDropdown">
+    <ng-container *ngIf="!showQualityTypeDropdown">
+      <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
+      <div (click)="showQualityTypeDropdown = true"
+        (keydown.enter)="showQualityTypeDropdown = true"
+        class="card-list--value card-list--icon"
+        tabindex="0">
+        <app-quality-type [type]="qualityTypeControl.value"></app-quality-type>
+        <mat-icon class="ml-2"
+          inline>edit</mat-icon>
+      </div>
+    </ng-container>
+
+    <div *ngIf="showQualityTypeDropdown"
+      class="card-list--qualityType">
+      <app-select [label]="'partDetail.' + item.key | i18n"
+        [options]="qualityTypeOptions"
+        [formControl]="qualityTypeControl"
+        [optionsRenderer]="qualityTypeOptionTmp"></app-select>
+      <mat-icon (click)="showQualityTypeDropdown = false"
+        (keydown.enter)="showQualityTypeDropdown = false"
+        tabindex="0"
+        inline>close
+      </mat-icon>
+    </div>
+  </div>
+  <mat-divider class="parts-details-info-divider"></mat-divider>
+
+</ng-template>
+
+<ng-template let-label="value"
+  #qualityTypeOptionTmp>
+  <app-quality-type [type]="label"></app-quality-type>
+</ng-template>

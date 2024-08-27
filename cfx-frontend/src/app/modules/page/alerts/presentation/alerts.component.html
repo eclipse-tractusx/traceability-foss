@@ -1,0 +1,111 @@
+<!--
+Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<mat-card class="card-container">
+  <mat-card-header>
+    <div>
+      <div class="flex justify-between items-center">
+        <h3 class="pl-2 mb-4 flex items-center tableHeader">
+          <img class="pr-2"
+            src="/assets/images/icons/alert.svg"
+            alt="Alerts icon" />
+          {{ 'pageTitle.alerts' | i18n }}
+        </h3>
+      </div>
+    </div>
+    <div class="input-wrapper">
+      <div [formGroup]="searchFormGroup">
+        <app-input color="accent"
+          [label]="'parts.input.global-search.placeholderAlertsAndInvestigations' | i18n"
+          [prefixIconHover]="true"
+          [onEnterActive]="true"
+          [prefixIcon]="'search'"
+          (prefixIconClick)="triggerSearch()"
+          formControlName="alertSearch"
+          [isSearchBar]="true"
+          [parentFormGroup]="searchFormGroup"
+          [parentControlName]="'alertSearch'"
+          [displayClearButton]="true"
+          prefixIconColor="accent"></app-input>
+      </div>
+      <div *appHasRole="[Role.USER]">
+        <app-button class="button-large pl-5 request-action-button"
+          (click)="openRequestDialog()"
+          [color]="'primary'"
+          variant="flat">
+          <div class="flex justify-between items-center">
+            <img class="pr-2"
+              src="/assets/images/icons/quality_alert_dashboard_icon.svg"
+              alt="quality alert icon" />
+            <div class="action-button-text">
+              {{ 'commonAlert.selectedPartsActions' | i18n }}
+            </div>
+          </div>
+        </app-button>
+      </div>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <app-notification-common-modal (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+      [helperService]="helperService"
+      [translationContext]="TranslationContext.COMMONALERT">
+    </app-notification-common-modal>
+    <app-notification [notificationType]="NotificationType.ALERT"
+      [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
+      [receivedNotifications$]="alertsReceived$"
+      [tablesType]="[TableType.RECEIVED_ALERT, TableType.CREATED_ALERT]"
+      [translationContext]="TranslationContext.COMMONALERT"
+      [receivedOptionalColumns]="['severity', 'createdBy']"
+      [receivedMultiSortList]="alertReceivedSortList"
+      [receivedSortableColumns]="{
+        description: true,
+        title: true,
+        status: true,
+        createdDate: true,
+        severity: true,
+        createdBy: true
+      }"
+      [receivedFilterConfig]="alertsReceivedFilterConfiguration"
+      [queuedAndRequestedOptionalColumns]="['severity', 'sendTo']"
+      [queuedAndRequestedSortableColumns]="{
+        description: true,
+        title: true,
+        status: true,
+        createdDate: true,
+        severity: true,
+        sendTo: true
+      }"
+      [queuedAndRequestedMultiSortList]="alertQueuedAndRequestedSortList"
+      [queuedAndRequestedFilterConfig]="alertsQueuedAndRequestedFilterConfiguration"
+      (onPaginationPageSizeChange)="onDefaultPaginationSizeChange($event)"
+      (onReceivedTableConfigChanged)="onReceivedTableConfigChange($event)"
+      (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
+      (selected)="openDetailPage($event)"
+      (alertFilterChanged)="filterNotifications($event)"
+      [menuActionsConfig]="menuActionsConfig">
+      <div emptyContent>
+        <img src="/assets/images/icons/noAlert.svg"
+          class="center py-5"
+          alt="No alert" />
+        <div class="noAlerts pb-3">{{ 'commonAlert.noAlerts' | i18n }}</div>
+        <div class="description pb-10">{{ 'commonAlert.noAlertsDescription' | i18n }}</div>
+      </div>
+    </app-notification>
+  </mat-card-content>
+</mat-card>
