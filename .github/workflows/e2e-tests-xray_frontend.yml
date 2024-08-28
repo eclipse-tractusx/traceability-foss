@@ -133,7 +133,7 @@ jobs:
 
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v6.7.2 # use the explicit version number
+        uses: cypress-io/github-action@v6.7.3 # use the explicit version number
         with:
           browser: chrome
           working-directory: frontend
