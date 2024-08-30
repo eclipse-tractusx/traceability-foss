@@ -16,7 +16,7 @@ ref over TraceX, DS
 end ref
 
 ref over TraceX, EDC, DTR
-    Get catalog offer of DTR
+    Get catalog offer of DTR and negotiate it
 end ref
 
 
