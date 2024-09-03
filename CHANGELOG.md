@@ -9,7 +9,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED - DD.MM.YYYY]
 ### Changed
 - #XXX updated variables in github actions to be more generic
-
+- #XXX correct concept "data-consumption-process_part1_tracex_scaling.puml" with new insights 
 ## [13.0.2 - 16.08.2024]
 
 ### Added
