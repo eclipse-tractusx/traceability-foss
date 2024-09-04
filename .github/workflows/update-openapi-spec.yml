@@ -24,7 +24,7 @@ jobs:
         run: mvn test -B -Dsurefire.failIfNoSpecifiedTests=false -Dtest=OpenApiDocumentationIT -Dopenapi-doc.generate=true
 
       - name: Create pull request for OpenAPI spec update
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "chore(release): updated OpenAPI spec"
           branch: chore/update-openapi-spec
