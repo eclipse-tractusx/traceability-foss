@@ -117,6 +117,16 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
+    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds) {
+        final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
+
+        if (isSupportedEnumType(fieldName)) {
+            return getAssetEnumFieldValues(fieldName);
+        }
+        return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner, inAssetIds);
+    }
+
+    @Override
     public List<String> getSearchableValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds) {
         final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
 

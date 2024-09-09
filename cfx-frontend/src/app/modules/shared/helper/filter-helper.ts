@@ -130,7 +130,7 @@ export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean
       manufacturerName: formValues,
       businessPartner: formValues,
       classification: formValues,
-      catenaXSiteId: formValues,
+      catenaxSiteId: formValues,
     } as AssetAsPlannedFilter;
   }
 
