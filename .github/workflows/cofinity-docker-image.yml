@@ -1,0 +1,46 @@
+name: "[BE][FE][BUILT] Docker Image"
+
+on:
+  workflow_dispatch: # Trigger manually
+  push:
+    branches:
+      - main
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+  pull_request:
+
+concurrency:
+  # cancel older running jobs on the same branch
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  push-image-to-registry:
+    strategy:
+      matrix:
+        config:
+          - image_name: "traceability-foss"
+            dockerfile_path: "./Dockerfile"
+          - image_name: "traceability-foss-frontend"
+            dockerfile_path: "./frontend/Dockerfile"
+          # TODO enable cfx frontend image build once the image can be built
+#          - image_name: "cfx-traceability-foss-frontend"
+#            dockerfile_path: "./cfx-frontend/Dockerfile"
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+      id-token: write
+    name: Central Pipelines (Docker)
+    uses: Cofinity-X/central-pipelines/.github/workflows/reusable-publish-image-to-acr.yaml@main
+    with:
+      team_name: "trace-x"
+      repository_name: "traceability-foss"
+      service_name: "${{ matrix.config.image_name }}"
+      dockerfile_path: "${{ matrix.config.dockerfile_path }}"
+      environment: "lower-env-acr"
+      push: true
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
