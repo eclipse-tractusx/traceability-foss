@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
+## [UNRELEASED -17.09.2024]
+
+### Added
+- #48 Functionality to choose two themes (cofinityx /catenax) during build.
+
 ## [UNRELEASED -09.09.2024]
 
 ### Added

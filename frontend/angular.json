@@ -153,6 +153,51 @@
                 }
               ]
             },
+            "localBackendTractusXCofinity": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localBackendTractusX.ts"
+                }
+              ],
+              "styles": [
+                "src/styles.cofinityx.scss"
+              ]
+            },
+            "prodBackendTractusXCofinity": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
+              "styles": [
+                "src/styles.cofinityx.scss"
+              ]
+            },
+            "localBackendTractusXCatena": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localBackendTractusX.ts"
+                }
+              ],
+              "styles": [
+                "src/styles.catenax.scss"
+              ]
+            },
+
+            "prodBackendTractusXCatena": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
+                }
+              ],
+              "styles": [
+                "src/styles.catenax.scss"
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -226,6 +271,18 @@
             "localBackendTractusX": {
               "browserTarget": "trace-x:build:dev,localBackendTractusX"
             },
+            "localBackendTractusXCofinity": {
+              "browserTarget": "trace-x:build:dev,localBackendTractusXCofinity"
+            },
+            "prodBackendTractusXCofinity": {
+              "browserTarget": "trace-x:build:production,prodBackendTractusXCofinity"
+            },
+            "localBackendTractusXCatena": {
+              "browserTarget": "trace-x:build:dev,localBackendTractusXCatena"
+            },
+            "prodBackendTractusXCatena": {
+              "browserTarget": "trace-x:build:production,prodBackendTractusXCatena"
+            },
             "production": {
               "browserTarget": "trace-x:build:production"
             },
@@ -260,7 +317,8 @@
               "src/favicon"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.cofinity-x.scss",
+              "src/styles.catena-x.scss"
             ],
             "customWebpackConfig": {
               "path": "./webpack.config.js",
