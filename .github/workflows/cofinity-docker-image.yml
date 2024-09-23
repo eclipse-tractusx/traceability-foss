@@ -44,3 +44,71 @@ jobs:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  # To dispatch a workflow in core-services-charts repo for auto image tag update. The following job could be developed as reusable workflow in the future.
+  auto-deploy-dispatch:
+    needs: push-image-to-registry
+    name: Dispatch charts repo workflow
+    runs-on: ubuntu-latest
+    if: ${{ (github.event_name != 'pull_request') && (github.ref_type != 'tag') }}  # Execute only if container image is pushed and no tag is published
+    steps:
+      # Get image tags from the previous job filter the tag that needs to be updated (Currently, it's main-{sha})
+      - name: Get image tags
+        id: get_tag
+        run: |
+          for image_tag in $(echo "${{ needs.dockerizing-application.outputs.image_tags }}")
+          do
+            tag=$(echo $image_tag | cut -d ":" -f2)
+            if [[ $tag == main* ]];
+            then
+              main_tag=$tag
+            fi
+          done
+          echo "main_tag=$main_tag" >> $GITHUB_OUTPUT
+
+      # Generate a temporary token using Github app
+      - name: Get token
+        id: get_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.CORE_SERVICES_WORKFLOW_TRIGGER_GH_APP_ID }}
+          private-key: ${{ secrets.CORE_SERVICES_WORKFLOW_TRIGGER_GH_APP_PRIVATE_KEY }}
+          repositories: trace-x-charts
+          owner: cofinity-x
+
+      # Trigger remote workflow of core-services-chart to update the image tag in the helm values
+      - name: Trigger workflow for trace-x-a
+        id: trigger_remote_workflow-trace-x-a
+        env:
+          TOKEN: ${{ steps.get_token.outputs.token }}
+          HELM_VALUES_PATH: "traceability-foss/dev/values-dev-a.yaml"
+          IMAGE_TAG: ${{ steps.get_tag.outputs.main_tag }}
+          IMAGE_TAG_PROPERTY: '(.[\"service\", \"migrations\"].image.tag)'
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/cofinity-x/trace-x-charts/dispatches \
+            -d '{"event_type":"update_dev_image_tag","client_payload": { "image_tag": "'"$IMAGE_TAG"'", "helm_values_path": "'"$HELM_VALUES_PATH"'", "image_tag_property": "'"$IMAGE_TAG_PROPERTY"'", "dispatcher_info": "'"Runner id - $GITHUB_RUN_ID"'" }}' \
+            --fail
+
+      # Trigger remote workflow of core-services-chart to update the image tag in the helm values
+      - name: Trigger workflow for trace-x-b
+        id: trigger_remote_workflow-trace-x-b
+        env:
+          TOKEN: ${{ steps.get_token.outputs.token }}
+          HELM_VALUES_PATH: "traceability-foss/dev/values-dev-b.yaml"
+          IMAGE_TAG: ${{ steps.get_tag.outputs.main_tag }}
+          IMAGE_TAG_PROPERTY: '(.[\"service\", \"migrations\"].image.tag)'
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/cofinity-x/trace-x-charts/dispatches \
+            -d '{"event_type":"update_dev_image_tag","client_payload": { "image_tag": "'"$IMAGE_TAG"'", "helm_values_path": "'"$HELM_VALUES_PATH"'", "image_tag_property": "'"$IMAGE_TAG_PROPERTY"'", "dispatcher_info": "'"Runner id - $GITHUB_RUN_ID"'" }}' \
+            --fail
