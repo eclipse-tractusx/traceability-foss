@@ -70,8 +70,8 @@ jobs:
         id: get_token
         uses: actions/create-github-app-token@v1
         with:
-          app-id: ${{ secrets.CORE_SERVICES_WORKFLOW_TRIGGER_GH_APP_ID }}
-          private-key: ${{ secrets.CORE_SERVICES_WORKFLOW_TRIGGER_GH_APP_PRIVATE_KEY }}
+          app-id: ${{ secrets.TRACE_X_WORKFLOW_TRIGGER_GH_APP_ID }}
+          private-key: ${{ secrets.TRACE_X_WORKFLOW_TRIGGER_GH_APP_PRIVATE_KEY }}
           repositories: trace-x-charts
           owner: cofinity-x
 
@@ -82,7 +82,7 @@ jobs:
           TOKEN: ${{ steps.get_token.outputs.token }}
           HELM_VALUES_PATH: "traceability-foss/dev/values-dev-a.yaml"
           IMAGE_TAG: ${{ steps.get_tag.outputs.main_tag }}
-          IMAGE_TAG_PROPERTY: '(.[\"service\", \"migrations\"].image.tag)'
+          IMAGE_TAG_PROPERTY: '(.[\"backend\", \"frontend\"].image.tag)'
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: |
           curl -L \
@@ -101,7 +101,7 @@ jobs:
           TOKEN: ${{ steps.get_token.outputs.token }}
           HELM_VALUES_PATH: "traceability-foss/dev/values-dev-b.yaml"
           IMAGE_TAG: ${{ steps.get_tag.outputs.main_tag }}
-          IMAGE_TAG_PROPERTY: '(.[\"service\", \"migrations\"].image.tag)'
+          IMAGE_TAG_PROPERTY: '(.[\"backend\", \"frontend\"].image.tag)'
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: |
           curl -L \
