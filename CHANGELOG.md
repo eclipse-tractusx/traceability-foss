@@ -6,17 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
-## [UNRELEASED -17.09.2024]
+## [UNRELEASED]
+
+### Changed 
+
+- #50 Made the discovery type configurable, with a default value of bpnl in (FeignDiscoveryRepositoryImpl).
 
 ### Added
 - #48 Functionality to choose two themes (cofinityx /catenax) during build.
-
-## [UNRELEASED -09.09.2024]
-
-### Added
 - #43 Implemented backend API for search filtering (asBuilt and asPlanned).
 - #43 Integrated search functionality in the CFX frontend.
 - #43 Added integration tests for search functionality based on legacy repo code.
+
 ### Fixed
 - #43 Resolved missing API issues causing search functionality in CFX frontend to fail.
 

@@ -54,5 +54,6 @@ public class TraceabilityProperties {
 
     private String irsBase;
     private String submodelBase;
+    private String discoveryType;
 
 }

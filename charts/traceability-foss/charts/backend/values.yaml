@@ -142,6 +142,7 @@ traceability:
   operatorType: "CHANGEME" #<traceability.operatorType>
   rightOperand: "CHANGEME" #<traceability.rightOperand>
   validUntil: "CHANGEME" #<traceability.validUntil>
+  discoveryType: "bpnl"  # discovery type to find bpnl type in EDC discovery
 
 datasource:
   url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace

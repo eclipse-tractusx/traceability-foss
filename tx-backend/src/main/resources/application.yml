@@ -35,7 +35,7 @@ traceability:
   irsPoliciesPath: "/irs/policies"
   submodelBase: ${SUBMODEL_URL}
   submodelPath: ${SUBMODEL_PATH}
-
+  discoveryType: ${DISCOVERY_TYPE}
 edc:
   ids:
     path: "/api/v1/dsp"

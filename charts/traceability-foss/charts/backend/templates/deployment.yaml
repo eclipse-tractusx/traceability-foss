@@ -150,6 +150,8 @@ spec:
               value: {{ .Values.javaToolOptions | default "" | quote }}
             - name: BPDM_URL
               value: {{ .Values.bpdm.url | quote }}
+            - name: DISCOVERY_TYPE
+              value: {{ .Values.traceability.discoveryType | quote }}
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}

@@ -52,7 +52,7 @@ class TraceabilityPropertiesTest {
         assertThat(traceabilityProperties.getLeftOperandSecond()).isNotEmpty();
         assertThat(traceabilityProperties.getOperatorTypeSecond()).isNotEmpty();
         assertThat(traceabilityProperties.getRightOperandSecond()).isNotEmpty();
-
+        assertThat(traceabilityProperties.getDiscoveryType()).isNotEmpty();
     }
 
 }

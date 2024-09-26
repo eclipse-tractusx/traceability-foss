@@ -25,8 +25,10 @@ import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryFinderRequest;
 import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryResponse;
 import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -42,11 +44,13 @@ import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery
 public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
     private final EdcProperties edcProperties;
     private final DiscoveryFinderClient discoveryFinderClient;
-    private static final String BPN = "bpn";
+    private final TraceabilityProperties traceabilityProperties;
+
 
     @Override
     public Optional<Discovery> retrieveDiscoveryByFinderAndEdcDiscoveryService(String bpn) {
-        DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(BPN));
+        final String discoveryType = traceabilityProperties.getDiscoveryType();
+        DiscoveryFinderRequest request = new DiscoveryFinderRequest(List.of(discoveryType));
         DiscoveryResponse discoveryEndpoints = discoveryFinderClient.findDiscoveryEndpoints(request);
         List<EdcDiscoveryResult> discoveryResults = new ArrayList<>();
         discoveryEndpoints.endpoints().forEach(discoveryEndpoint -> {
