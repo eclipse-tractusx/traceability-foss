@@ -157,7 +157,8 @@ oauth2:
   resourceClient: "CHANGEME" #<oauth2.resourceClient>
 
 edc:
-  apiKey: "" #<edc.apiKey>
+  consumerApiKey: "" #<edc.consumerApiKey>
+  providerApiKey: ""  #<edc.providerApiKey>
   providerUrl: "" #<edc.providerUrl>
   callbackUrl: "https://replace.me"
   callbackUrlEdcClient: "https://replace.me"

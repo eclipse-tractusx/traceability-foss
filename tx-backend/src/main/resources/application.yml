@@ -39,7 +39,7 @@ traceability:
 edc:
   ids:
     path: "/api/v1/dsp"
-  api-auth-key: ${EDC_API_KEY}
+  api-auth-key: ${EDC_PROVIDER_API_KEY}
   provider-edc-url: ${EDC_PROVIDER_URL}
   provider-dataplane-edc-url: ${EDC_PROVIDER_DATAPLANE_URL}
 

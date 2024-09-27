@@ -8,11 +8,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED]
 
-### Changed 
+### Changed
 
 - #50 Made the discovery type configurable, with a default value of bpnl in (FeignDiscoveryRepositoryImpl).
+- #55 Added distinct environment variable to configure provider EDC API key
 
 ### Added
+
 - #48 Functionality to choose two themes (cofinityx /catenax) during build.
 - #43 Implemented backend API for search filtering (asBuilt and asPlanned).
 - #43 Integrated search functionality in the CFX frontend.

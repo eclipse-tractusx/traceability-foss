@@ -105,7 +105,9 @@ spec:
             - name: OAUTH2_JWK_SET_URI
               value: {{ .Values.oauth2.jwkSetUri | quote }}
             - name: EDC_API_KEY
-              value: {{ .Values.edc.apiKey | quote }}
+              value: {{ .Values.edc.consumerApiKey | quote }}
+            - name: EDC_PROVIDER_API_KEY
+              value: {{ .Values.edc.providerApiKey | quote }}
             - name: EDC_PROVIDER_URL
               value: {{ .Values.edc.providerUrl | quote }}
             - name: EDC_PROVIDER_DATAPLANE_URL
