@@ -49,6 +49,7 @@ traceability:
   irsBase: http://localhost:5001/irs
   irsPoliciesPath: "/irs/policies"
   submodelBase: http://localhost:8082
+  technicalServiceApiKey: "test-key"
 
 edc:
   api-auth-key: api-key

@@ -21,11 +21,13 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import org.eclipse.tractusx.traceability.common.security.TechnicalServiceApiKeyInterceptor;
 import org.eclipse.tractusx.traceability.common.security.InjectedJwtAuthenticationHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -38,8 +40,14 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${jwt.resource-client}")
     private String resourceClient;
 
+    private final TechnicalServiceApiKeyInterceptor technicalServiceApiKeyInterceptor;
+
+    public WebConfig(final TechnicalServiceApiKeyInterceptor technicalServiceApiKeyInterceptor) {
+        this.technicalServiceApiKeyInterceptor = technicalServiceApiKeyInterceptor;
+    }
+
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.
                 addResourceHandler("/swagger-ui/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
@@ -47,18 +55,23 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
+    public void addViewControllers(final ViewControllerRegistry registry) {
         registry.addViewController("/swagger-ui/")
                 .setViewName("forward:" + "/swagger-ui/index.html");
     }
 
     @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new InjectedJwtAuthenticationHandler(resourceClient));
     }
 
     @Override
-    public void addFormatters(FormatterRegistry registry) {
+    public void addFormatters(final FormatterRegistry registry) {
         registry.addConverter(new StringToStringListConverter());
+    }
+
+    @Override
+    public void addInterceptors(final InterceptorRegistry registry) {
+        registry.addInterceptor(technicalServiceApiKeyInterceptor).addPathPatterns("/internal/**");
     }
 }

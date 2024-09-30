@@ -281,6 +281,7 @@ backend:
     rightOperandSecond: "anything"
     validUntil: "2024-09-30T23:59:59.99Z"
     discoveryType: "bpnl"  # discovery type to find bpnl type in EDC discovery
+    technicalServiceApiKey: "" #<traceability.technicalServiceApiKey>
 
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql:5432/trace

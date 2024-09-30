@@ -148,6 +148,8 @@ spec:
               value: {{ .Values.irsAdminApiKey | quote }}
             - name: IRS_REGULAR_API_KEY
               value: {{ .Values.irsRegularApiKey | quote }}
+            - name: TECHNICAL_SERVICE_API_KEY
+              value: {{ .Values.technicalServiceApiKey | quote }}
             - name: JAVA_TOOL_OPTIONS
               value: {{ .Values.javaToolOptions | default "" | quote }}
             - name: BPDM_URL

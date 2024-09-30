@@ -36,6 +36,8 @@ traceability:
   submodelBase: ${SUBMODEL_URL}
   submodelPath: ${SUBMODEL_PATH}
   discoveryType: ${DISCOVERY_TYPE}
+  technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY}
+
 edc:
   ids:
     path: "/api/v1/dsp"
