@@ -1,26 +1,26 @@
 -- ${flyway:timestamp}
 -- TODO remove after demo / discovery is working
 INSERT INTO assets_as_built (id,
-                             idShort,
+                             id_short,
                              owner,
                              classification,
                              qualityType,
-                             manufacturerPartId,
-                             manufacturerId,
-                             manufacturerName,
-                             nameAtManufacturer,
-                             semanticDataModel,
-                             semanticModelId,
+                             manufacturer_part_id,
+                             manufacturer_id,
+                             manufacturer_name,
+                             name_at_manufacturer,
+                             semantic_data_model,
+                             semantic_model_id,
                              van,
-                             importState,
-                             importNote,
-                             policyId,
+                             import_state,
+                             import_note,
+                             policy_id,
                              tombstone,
-                             manufacturingDate,
-                             manufacturingCountry,
-                             nameAtCustomer,
-                             customerPartId,
-                             productType)
+                             manufacturing_date,
+                             manufacturing_country,
+                             name_at_customer,
+                             customer_part_id,
+                             product_type)
 VALUES ('urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22', -- id
         NULL, -- idShort
         'SUPPLIER', -- owner (Enum)
