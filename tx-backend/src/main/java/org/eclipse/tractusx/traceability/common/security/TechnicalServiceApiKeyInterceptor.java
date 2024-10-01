@@ -37,7 +37,7 @@ public class TechnicalServiceApiKeyInterceptor implements HandlerInterceptor {
         final String requestApiKey = request.getHeader("x-technical-service-key");
 
         if (apiKey.equals(requestApiKey)) {
-            return true;
+            return false;
         }
 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

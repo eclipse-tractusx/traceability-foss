@@ -21,13 +21,11 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
-import org.eclipse.tractusx.traceability.common.security.TechnicalServiceApiKeyInterceptor;
 import org.eclipse.tractusx.traceability.common.security.InjectedJwtAuthenticationHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -40,10 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${jwt.resource-client}")
     private String resourceClient;
 
-    private final TechnicalServiceApiKeyInterceptor technicalServiceApiKeyInterceptor;
-
-    public WebConfig(final TechnicalServiceApiKeyInterceptor technicalServiceApiKeyInterceptor) {
-        this.technicalServiceApiKeyInterceptor = technicalServiceApiKeyInterceptor;
+    public WebConfig() {
     }
 
     @Override
