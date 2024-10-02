@@ -8,6 +8,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED]
 
+
+## [13.0.2-cfx-4]
+
 ### Changed
 
 - #50 Made the discovery type configurable, with a default value of bpnl in (FeignDiscoveryRepositoryImpl).
