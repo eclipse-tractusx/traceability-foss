@@ -15,6 +15,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 - #50 Made the discovery type configurable, with a default value of bpnl in (FeignDiscoveryRepositoryImpl).
 - #55 Added distinct environment variable to configure provider EDC API key
+- #64 updated the irs-client version to 2.1.14 to adapt the edc discovery flow(bpnl)
 
 ### Added
 
