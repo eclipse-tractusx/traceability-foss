@@ -168,6 +168,8 @@ digitalTwinRegistryClient:
   shellDescriptorTemplate: /shell-descriptors/{aasIdentifier} # The path to retrieve AAS descriptors from the decentral DTR, must contain the placeholder {aasIdentifier}
   lookupShellsTemplate: /lookup/shells?assetIds={assetIds} # The path to lookup shells from the decentral DTR, must contain the placeholder {assetIds}
   oAuthClientId: keycloak
+  discovery:
+    type: ${DISCOVERY_TYPE}
   type: "decentral"
   discoveryFinderUrl: ${DISCOVERY_FINDER_URL_WITH_PATH}
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
