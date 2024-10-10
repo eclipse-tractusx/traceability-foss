@@ -29,9 +29,9 @@ import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
+import org.eclipse.tractusx.traceability.common.properties.SubmodelProperties;
 import org.eclipse.tractusx.traceability.policies.application.service.PolicyService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import policies.response.PolicyResponse;
 
@@ -47,10 +47,10 @@ public class EdcAssetCreationService {
     private final EdcAssetService edcAssetService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
-    private final TraceabilityProperties traceabilityProperties;
+    private final RegistryProperties registryProperties;
+    private final SubmodelProperties submodelProperties;
     private final PolicyService policyService;
-    @Value("${registry.urlWithPath}")
-    String registryUrlWithPath = null;
+
 
     public String createEdcContractDefinitionsForDtrAndSubmodel(String policyId) throws CreateEdcPolicyDefinitionException, CreateEdcAssetException, CreateEdcContractDefinitionException {
         PolicyResponse policy = policyService.getPolicy(policyId);
@@ -59,8 +59,8 @@ public class EdcAssetCreationService {
             boolean exists = edcPolicyDefinitionService.policyDefinitionExists(policyId);
             if (exists) {
                 log.info("Policy with id " + policyId + " already exists and contains necessary application constraints. Reusing for edc asset contract definition.");
-                createdPolicyId =policyId;
-            } else{
+                createdPolicyId = policyId;
+            } else {
                 createdPolicyId = edcPolicyDefinitionService.createAccessPolicy(mapToEdcPolicyRequest(policy));
                 log.info("DTR Policy Id created :{}", createdPolicyId);
             }
@@ -72,7 +72,7 @@ public class EdcAssetCreationService {
 
         String dtrAssetId;
         try {
-            dtrAssetId = edcAssetService.createDtrAsset(registryUrlWithPath, REGISTRY_ASSET_ID);
+            dtrAssetId = edcAssetService.createDtrAsset(registryProperties.getUrlWithPathInternal(), REGISTRY_ASSET_ID);
             log.info("DTR Asset Id created :{}", dtrAssetId);
         } catch (EdcAssetAlreadyExistsException e) {
             dtrAssetId = REGISTRY_ASSET_ID;
@@ -90,7 +90,7 @@ public class EdcAssetCreationService {
         String submodelAssetId;
         String submodelAssetIdToCreate = "urn:uuid:" + UUID.randomUUID();
         try {
-            submodelAssetId = edcAssetService.createSubmodelAsset(traceabilityProperties.getSubmodelBase(), submodelAssetIdToCreate);
+            submodelAssetId = edcAssetService.createSubmodelAsset(submodelProperties.getSubmodelBaseInternal(), submodelAssetIdToCreate);
             log.info("Submodel Asset Id created :{}", submodelAssetId);
         } catch (EdcAssetAlreadyExistsException e) {
             submodelAssetId = submodelAssetIdToCreate;

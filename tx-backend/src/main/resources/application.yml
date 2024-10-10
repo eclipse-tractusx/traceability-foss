@@ -33,10 +33,19 @@ traceability:
   regularApiKey: ${IRS_REGULAR_API_KEY}
   irsBase: ${IRS_URL}
   irsPoliciesPath: "/irs/policies"
-  submodelBase: ${SUBMODEL_URL}
-  submodelPath: ${SUBMODEL_PATH}
   discoveryType: ${DISCOVERY_TYPE}
   technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY:defaultApiKey}
+
+provisioning:
+  submodel:
+    submodelBaseInternal: ${SUBMODEL_URL_INTERNAL}
+    submodelBaseExternal: ${SUBMODEL_URL_EXTERNAL}
+    submodelPath: ${SUBMODEL_PATH}
+  registry:
+    urlWithPathInternal: ${REGISTRY_URL_WITH_PATH_INTERNAL:https://registry.net/semantics/registry/api/v3.0}
+    urlWithPathExternal: ${REGISTRY_URL_WITH_PATH_EXTERNAL:https://registry.net/semantics/registry/api/v3.0}
+    shellDescriptorUrl: /shell-descriptors
+    allowedBpns: ${REGISTRY_ALLOWED_BPNS:BPNL00000003CML1,BPNL00000003CNKC}
 
 edc:
   ids:
@@ -158,11 +167,6 @@ cors:
   origins: >
     ${ALLOWED_CORS_ORIGIN_FIRST},
     ${ALLOWED_CORS_ORIGIN_SECOND}
-
-registry:
-  urlWithPath: ${REGISTRY_URL_WITH_PATH:https://registry.net/semantics/registry/api/v3.0}
-  shellDescriptorUrl: /shell-descriptors
-  allowedBpns: ${REGISTRY_ALLOWED_BPNS:BPNL00000003CML1,BPNL00000003CNKC}
 
 digitalTwinRegistryClient:
   shellDescriptorTemplate: /shell-descriptors/{aasIdentifier} # The path to retrieve AAS descriptors from the decentral DTR, must contain the placeholder {aasIdentifier}

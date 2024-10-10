@@ -50,9 +50,9 @@ import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfig
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class EdcConfiguration {
 
-    @Value("${registry.urlWithPath}")
-    String registryUrlWithPath;
-    @Value("${registry.shellDescriptorUrl}")
+    @Value("${provisioning.registry.urlWithPathExternal}")
+    String registryUrlWithPathExternal;
+    @Value("${provisioning.registry.shellDescriptorUrl}")
     String shellDescriptorUrl;
 
     @Bean
@@ -72,6 +72,6 @@ public class EdcConfiguration {
 
     @Bean
     public DigitalTwinRegistryCreateShellService dtrCreateShellService(@Qualifier(DIGITAL_TWIN_REGISTRY_CREATE_SHELL_REST_TEMPLATE) RestTemplate digitalTwinRegistryCreateShellRestTemplate) {
-        return new DigitalTwinRegistryCreateShellService(digitalTwinRegistryCreateShellRestTemplate, registryUrlWithPath + shellDescriptorUrl);
+        return new DigitalTwinRegistryCreateShellService(digitalTwinRegistryCreateShellRestTemplate, registryUrlWithPathExternal + shellDescriptorUrl);
     }
 }

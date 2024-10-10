@@ -112,12 +112,29 @@ spec:
               value: {{ .Values.edc.providerUrl | quote }}
             - name: EDC_PROVIDER_DATAPLANE_URL
               value: {{ .Values.edc.providerDataplaneUrl | quote }}
-            - name: REGISTRY_URL_WITH_PATH
-              value: {{ .Values.registry.urlWithPath | quote }}
+            - name: REGISTRY_URL_WITH_PATH_EXTERNAL
+              value: {{ .Values.provisioning.registry.urlExternalWithPath | quote }}
+            - name: REGISTRY_URL_WITH_PATH_INTERNAL
+              value: {{ .Values.provisioning.registry.urlInternalWithPath | quote }}
             - name: REGISTRY_ALLOWED_BPNS
-              value: {{ .Values.registry.allowedBpns | quote }}
-            - name: SUBMODEL_URL
-              value: {{ .Values.submodel.baseUrl | quote }}
+              value: {{ .Values.provisioning.registry.allowedBpns | quote }}
+            - name: REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID
+              value: {{ .Values.provisioning.registry.oauthProviderRegistrationId | quote }}
+            - name: REGISTRY_CLIENT_ID
+              value: {{ .Values.provisioning.registry.clientId | quote }}
+            - name: REGISTRY_CLIENT_SECRET
+              value: {{ .Values.provisioning.registry.clientSecret | quote }}
+
+            - name: SUBMODEL_URL_EXTERNAL
+              value: {{ .Values.provisioning.submodel.urlExternal | quote }}
+            - name: SUBMODEL_URL_INTERNAL
+              value: {{ .Values.provisioning.submodel.urlInternal | quote }}
+            - name: SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID
+              value: {{ .Values.provisioning.submodel.oauthProviderRegistrationId | quote }}
+            - name: SUBMODEL_CLIENT_ID
+              value: {{ .Values.provisioning.submodel.clientId | quote }}
+            - name: SUBMODEL_CLIENT_SECRET
+              value: {{ .Values.provisioning.submodel.clientSecret | quote }}
             - name: IRS_URL
               value: {{ .Values.irs.baseUrl | quote }}
             - name: PORTAL_URL

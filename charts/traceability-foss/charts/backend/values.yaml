@@ -144,6 +144,20 @@ traceability:
   validUntil: "CHANGEME" #<traceability.validUntil>
   discoveryType: "bpnl"  # discovery type to find bpnl type in EDC discovery
   technicalServiceApiKey: "" #<traceability.technicalServiceApiKey>
+provisioning:
+  submodel:
+    urlExternal: "https://replace.me"
+    urlInternal: "https://replace.me"
+    oauthProviderRegistrationId: "CHANGEME"
+    clientId: "CHANGEME"
+    clientSecret: "CHANGEME"
+  registry:
+    urlExternalWithPath: "https://replace.me"
+    urlInternalWithPath: "https://replace.me"
+    allowedBpns: "CHANGEME"
+    oauthProviderRegistrationId: "CHANGEME"
+    clientId: "CHANGEME"
+    clientSecret: "CHANGEME"
 
 datasource:
   url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
@@ -167,13 +181,9 @@ edc:
 
 discoveryfinder:
   baseUrl: "https://replace.me"
-submodel:
-  baseUrl: "https://replace.me"
 irs:
   baseUrl: "https://replace.me"
-registry:
-  urlWithPath: "https://replace.me"
-  allowedBpns: "replace me"
+
 portal:
   baseUrl: "https://replace.me"
 

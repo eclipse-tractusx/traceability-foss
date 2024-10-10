@@ -7,6 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [UNRELEASED]
+### Added
+- #350 Added properties for provisioning to submodel / dtr service
 
 
 ## [13.0.2-cfx-4]

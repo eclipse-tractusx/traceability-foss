@@ -34,6 +34,7 @@ import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShel
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -56,9 +57,7 @@ public class DtrService {
     private final SubmodelPayloadRepository submodelPayloadRepository;
     private final SubmodelServerRepository submodelServerRepository;
     private final EdcProperties edcProperties;
-
-    @Value("${registry.allowedBpns}")
-    String allowedBpns;
+    private final RegistryProperties registryProperties;
 
     public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(assetBase.getId());
@@ -187,6 +186,6 @@ public class DtrService {
 
     // TODO: Issue #740 will handle and decide how to avoid having allowed bpns in config ( should be managed by policy to access data ) needs investigation
     public List<String> getAllowedBpns() {
-        return Arrays.stream(allowedBpns.split(",")).toList();
+        return Arrays.stream(registryProperties.getAllowedBpns().split(",")).toList();
     }
 }
