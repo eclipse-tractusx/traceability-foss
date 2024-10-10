@@ -173,6 +173,10 @@ spec:
               value: {{ .Values.bpdm.url | quote }}
             - name: DISCOVERY_TYPE
               value: {{ .Values.traceability.discoveryType | quote }}
+            - name: TRACEABILITY_ASSETS_REFRESH_CRON
+              value: {{ .Values.traceability.assetRefreshJobCronExpression | quote }}
+            - name: TRACEABILITY_ASSETS_REFRESH_ZONE
+              value: {{ .Values.traceability.assetRefreshJobZone | quote }}
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}

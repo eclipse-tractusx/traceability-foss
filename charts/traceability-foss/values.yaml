@@ -281,8 +281,9 @@ backend:
     rightOperandSecond: "anything"
     validUntil: "2024-09-30T23:59:59.99Z"
     discoveryType: "bpnl"  # discovery type to find bpnl type in EDC discovery
-    technicalServiceApiKey: "" #<traceability.technicalServiceApiKey>
-
+    technicalServiceApiKey: ""  # <traceability.technicalServiceApiKey>
+    assetRefreshJobCronExpression: "0 0 */2 * * ?"  # Default value for assets refresh cron job expression
+    assetRefreshJobZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql:5432/trace
     username: "traceuser"

@@ -35,6 +35,9 @@ traceability:
   irsPoliciesPath: "/irs/policies"
   discoveryType: ${DISCOVERY_TYPE}
   technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY:defaultApiKey}
+  assetRefreshJobCronExpression: ${TRACEABILITY_ASSETS_REFRESH_CRON:0 0 */2 * * ?}
+  assetRefreshJobZone: ${TRACEABILITY_ASSETS_REFRESH_ZONE:Europe/Berlin}
+
 
 provisioning:
   submodel:
