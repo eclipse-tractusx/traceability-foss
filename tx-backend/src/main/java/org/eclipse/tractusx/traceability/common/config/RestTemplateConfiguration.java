@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
+import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
 import org.eclipse.tractusx.traceability.common.properties.SubmodelProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,24 +147,27 @@ public class RestTemplateConfiguration {
 
     /* RestTemplate used by trace x for the submodel server*/
     @Bean(SUBMODEL_REST_TEMPLATE)
-    public RestTemplate submodelRestTemplate(@Autowired SubmodelProperties submodelProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
-        return new RestTemplateBuilder()
-                .rootUri(submodelProperties.getSubmodelBaseExternal())
+    public RestTemplate submodelRestTemplate(@Autowired SubmodelProperties submodelProperties, @Autowired FeignDefaultProperties feignDefaultProperties,
+                                             final RestTemplateBuilder restTemplateBuilder) {
+
+        return oAuthRestTemplate(restTemplateBuilder, submodelProperties.getOauthProviderRegistrationId())
+                .rootUri(submodelProperties.getBaseExternal())
                 .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
                 .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 
+
     /* RestTemplate used by the digital twin registry client library*/
     @Bean(DIGITAL_TWIN_REGISTRY_REST_TEMPLATE)
     public RestTemplate digitalTwinRegistryRestTemplate(
             final RestTemplateBuilder restTemplateBuilder,
-            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
+            RegistryProperties registryProperties) {
         oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).build();
+                registryProperties.getOauthProviderRegistrationId()).build();
         return oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).build();
+                registryProperties.getOauthProviderRegistrationId()).build();
     }
 
     /* RestTemplate used by the edc client library*/

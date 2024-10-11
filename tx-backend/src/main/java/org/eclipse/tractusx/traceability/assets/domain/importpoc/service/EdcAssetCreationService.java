@@ -90,7 +90,7 @@ public class EdcAssetCreationService {
         String submodelAssetId;
         String submodelAssetIdToCreate = "urn:uuid:" + UUID.randomUUID();
         try {
-            submodelAssetId = edcAssetService.createSubmodelAsset(submodelProperties.getSubmodelBaseInternal(), submodelAssetIdToCreate);
+            submodelAssetId = edcAssetService.createSubmodelAsset(submodelProperties.getBaseInternal(), submodelAssetIdToCreate);
             log.info("Submodel Asset Id created :{}", submodelAssetId);
         } catch (EdcAssetAlreadyExistsException e) {
             submodelAssetId = submodelAssetIdToCreate;

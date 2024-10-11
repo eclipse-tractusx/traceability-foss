@@ -40,10 +40,10 @@ class SubmodelPropertiesTest {
         //GIVEN
         //WHEN
         //THEN
-        assertThat(submodelProperties.getSubmodelPath()).isNotEmpty();
-        assertThat(submodelProperties.getSubmodelBaseInternal()).isNotEmpty();
-        assertThat(submodelProperties.getSubmodelBaseExternal()).isNotEmpty();
-        assertThat(submodelProperties.getSubmodelPath()).isNotEmpty();
+        assertThat(submodelProperties.getPath()).isNotEmpty();
+        assertThat(submodelProperties.getBaseInternal()).isNotEmpty();
+        assertThat(submodelProperties.getBaseExternal()).isNotEmpty();
+        assertThat(submodelProperties.getPath()).isNotEmpty();
     }
 
 }

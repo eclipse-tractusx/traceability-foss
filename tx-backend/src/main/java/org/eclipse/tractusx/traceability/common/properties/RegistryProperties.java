@@ -17,4 +17,8 @@ public class RegistryProperties {
     private String urlWithPathExternal;
     private String shellDescriptorUrl;
     private String allowedBpns;
+    private String clientId;
+    private String clientSecret;
+    private String tokenUrl;
+    private String oauthProviderRegistrationId;
 }

@@ -41,13 +41,21 @@ traceability:
 
 provisioning:
   submodel:
-    submodelBaseInternal: ${SUBMODEL_URL_INTERNAL}
-    submodelBaseExternal: ${SUBMODEL_URL_EXTERNAL}
-    submodelPath: ${SUBMODEL_PATH}
+    baseInternal: ${SUBMODEL_URL_INTERNAL}
+    baseExternal: ${SUBMODEL_URL_EXTERNAL}
+    path: ${SUBMODEL_PATH}
+    clientId:  ${SUBMODEL_CLIENT_ID}
+    clientSecret: ${SUBMODEL_CLIENT_SECRET}
+    tokenUrl:  ${SUBMODEL_TOKEN_URL}
+    oauthProviderRegistrationId:  ${SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID}
   registry:
     urlWithPathInternal: ${REGISTRY_URL_WITH_PATH_INTERNAL:https://registry.net/semantics/registry/api/v3.0}
     urlWithPathExternal: ${REGISTRY_URL_WITH_PATH_EXTERNAL:https://registry.net/semantics/registry/api/v3.0}
     shellDescriptorUrl: /shell-descriptors
+    clientId: ${REGISTRY_CLIENT_ID}
+    clientSecret: ${REGISTRY_CLIENT_SECRET}
+    tokenUrl: ${REGISTRY_TOKEN_URL}
+    oauthProviderRegistrationId: ${REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID}
     allowedBpns: ${REGISTRY_ALLOWED_BPNS:BPNL00000003CML1,BPNL00000003CNKC}
 
 edc:
@@ -142,11 +150,26 @@ spring:
             client-secret: ${OAUTH2_CLIENT_SECRET}
             authorization-grant-type: client_credentials
             scope: ${OAUTH2_CLIENT_SCOPE:openid}
+          # Second Identity Provider (for DTR and Submodel services)
+          dtr:
+            client-id: ${REGISTRY_CLIENT_ID}
+            client-secret: ${REGISTRY_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope: ${REGISTRY_CLIENT_SCOPE:openid}
+          submodel:
+            client-id: ${SUBMODEL_CLIENT_ID}
+            client-secret: ${SUBMODEL_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope: ${SUBMODEL_CLIENT_SCOPE:openid}
         provider:
           keycloak:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
           OKTA:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
+          dtr:
+            token-uri: ${DTR_TOKEN_URI}
+          submodel:
+            token-uri: ${SUBMODEL_TOKEN_URL}
       resourceserver:
         jwt:
           jwk-set-uri: ${OAUTH2_JWK_SET_URI:https://default}

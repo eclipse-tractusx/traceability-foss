@@ -124,6 +124,8 @@ spec:
               value: {{ .Values.provisioning.registry.clientId | quote }}
             - name: REGISTRY_CLIENT_SECRET
               value: {{ .Values.provisioning.registry.clientSecret | quote }}
+            - name: REGISTRY_TOKEN_URL
+              value: {{ .Values.provisioning.registry.oauthTokenUrl | quote }}
 
             - name: SUBMODEL_URL_EXTERNAL
               value: {{ .Values.provisioning.submodel.urlExternal | quote }}
@@ -135,6 +137,8 @@ spec:
               value: {{ .Values.provisioning.submodel.clientId | quote }}
             - name: SUBMODEL_CLIENT_SECRET
               value: {{ .Values.provisioning.submodel.clientSecret | quote }}
+            - name: SUBMODEL_TOKEN_URL
+              value: {{ .Values.provisioning.submodel.oauthTokenUrl | quote }}
             - name: IRS_URL
               value: {{ .Values.irs.baseUrl | quote }}
             - name: PORTAL_URL

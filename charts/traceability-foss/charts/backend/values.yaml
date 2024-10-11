@@ -146,7 +146,7 @@ traceability:
   technicalServiceApiKey: "" #<traceability.technicalServiceApiKey>
   assetRefreshJobCronExpression: "0 0 */2 * * ?" # Default value for assets refresh cron job expression
   assetRefreshJobZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
-  
+
 provisioning:
   submodel:
     urlExternal: "https://replace.me"
@@ -154,6 +154,7 @@ provisioning:
     oauthProviderRegistrationId: "CHANGEME"
     clientId: "CHANGEME"
     clientSecret: "CHANGEME"
+    oauthTokenUrl: "https://replace.me"
   registry:
     urlExternalWithPath: "https://replace.me"
     urlInternalWithPath: "https://replace.me"
@@ -161,7 +162,8 @@ provisioning:
     oauthProviderRegistrationId: "CHANGEME"
     clientId: "CHANGEME"
     clientSecret: "CHANGEME"
-    
+    oauthTokenUrl: "https://replace.me"
+
 datasource:
   url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
   username: "traceuser"

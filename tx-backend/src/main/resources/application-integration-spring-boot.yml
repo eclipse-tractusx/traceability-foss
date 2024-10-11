@@ -35,7 +35,7 @@ traceability:
   irsPoliciesPath: "/irs/policies"
   submodelBase: localhost:${server.port}/api/submodel/data
   technicalServiceApiKey: "test-key"
-  discoveryType: 'bpnl'
+  discoveryType: "bpnl"
 provisioning:
   submodel:
     submodelBaseInternal: localhost:${server.port}/api/submodel/data
@@ -93,7 +93,7 @@ logging:
 
 digitalTwinRegistryClient:
   discovery:
-    type: 'bpnl'
+    type: "bpnl"
   oAuthClientId: keycloak
   discoveryFinderUrl: ""
 

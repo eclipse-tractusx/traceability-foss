@@ -11,7 +11,11 @@ import org.springframework.stereotype.Component;
 @Data
 @ConfigurationProperties("provisioning.submodel")
 public class SubmodelProperties {
-    private String submodelBaseInternal;
-    private String submodelBaseExternal;
-    private String submodelPath;
+    private String baseInternal;
+    private String baseExternal;
+    private String path;
+    private String clientId;
+    private String clientSecret;
+    private String tokenUrl;
+    private String oauthProviderRegistrationId;
 }
