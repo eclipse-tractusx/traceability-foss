@@ -51,4 +51,5 @@ public class TraceabilityProperties {
     private String regularApiKey;
     private String irsBase;
     private String discoveryType;
+    private String technicalServiceApiKey;
 }

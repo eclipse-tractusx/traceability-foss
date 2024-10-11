@@ -37,6 +37,7 @@ import org.eclipse.tractusx.irs.edc.client.contract.model.EdcContractDefinitionQ
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
+import org.eclipse.tractusx.irs.edc.client.model.EdcTechnicalServiceAuthentication;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
@@ -51,6 +52,7 @@ import org.eclipse.tractusx.traceability.notification.application.contract.model
 import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.policies.application.mapper.PolicyMapper;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import policies.response.PolicyResponse;
@@ -135,12 +137,14 @@ public class EdcNotificationContractService {
         log.info("Creating EDC asset notification contract for {} method and {} notification type", notificationMethod.getValue(), request.notificationType().getValue());
 
         String notificationAssetId;
+        final EdcTechnicalServiceAuthentication edcTechnicalServiceAuthentication =
+                EdcTechnicalServiceAuthentication.builder().technicalServiceApiKey(traceabilityProperties.getTechnicalServiceApiKey()).build();
         try {
             notificationAssetId = edcAssetService.createNotificationAsset(
                     createBaseUrl(request.notificationType(), request.notificationMethod()),
                     request.notificationType().name() + " " + request.notificationMethod().name(),
                     org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()),
-                    NotificationType.valueOf(request.notificationType().name()));
+                    NotificationType.valueOf(request.notificationType().name()), edcTechnicalServiceAuthentication);
         } catch (CreateEdcAssetException e) {
             throw new CreateNotificationContractException(e);
         }

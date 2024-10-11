@@ -26,6 +26,7 @@ import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetE
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.irs.edc.client.model.EdcTechnicalServiceAuthentication;
 import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
@@ -89,6 +90,8 @@ class EdcNotificationContractServiceTest {
         // given
         NotificationType notificationType = NotificationType.QUALITY_INVESTIGATION;
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
+        final EdcTechnicalServiceAuthentication edcTechnicalServiceAuthentication =
+                EdcTechnicalServiceAuthentication.builder().technicalServiceApiKey(traceabilityProperties.getTechnicalServiceApiKey()).build();
 
         // Create a single IrsPolicyResponse and put it into a map
         IrsPolicyResponse irsPolicyResponse = createIrsPolicyResponse("test", OffsetDateTime.now(), "orLeft", "andLeft", "or", "and");
@@ -99,7 +102,7 @@ class EdcNotificationContractServiceTest {
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
-        when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
+        when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getInternalUrl()).thenReturn("https://test");
         when(edcPolicyDefinitionService.createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class))).thenReturn(accessPolicyId);
         when(edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId)).thenReturn(contractDefinitionId);
@@ -115,7 +118,8 @@ class EdcNotificationContractServiceTest {
                 "https://test/api/internal/qualitynotifications/resolve",
                 "QUALITY_INVESTIGATION RESOLVE",
                 org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.RESOLVE,
-                org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType.QUALITY_INVESTIGATION);
+                org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType.QUALITY_INVESTIGATION,
+                edcTechnicalServiceAuthentication);
     }
 
 
@@ -126,7 +130,7 @@ class EdcNotificationContractServiceTest {
         NotificationMethod notificationMethod = NotificationMethod.RESOLVE;
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
         when(traceabilityProperties.getInternalUrl()).thenReturn("https://test");
-        doThrow(CreateEdcAssetException.class).when(edcNotificationAssetService).createNotificationAsset(any(), any(), any(), any());
+        doThrow(CreateEdcAssetException.class).when(edcNotificationAssetService).createNotificationAsset(any(), any(), any(), any(), any());
 
         // when/then
         assertThrows(CreateNotificationContractException.class, () -> edcNotificationContractService.createNotificationContract(request));
@@ -147,7 +151,7 @@ class EdcNotificationContractServiceTest {
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
-        when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
+        when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getInternalUrl()).thenReturn("https://test");
 
         doThrow(CreateEdcPolicyDefinitionException.class).when(edcPolicyDefinitionService).createAccessPolicy(any(EdcCreatePolicyDefinitionRequest.class));
@@ -173,7 +177,7 @@ class EdcNotificationContractServiceTest {
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
-        when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any())).thenReturn(notificationAssetId);
+        when(edcNotificationAssetService.createNotificationAsset(any(), any(), any(), any(), any())).thenReturn(notificationAssetId);
         when(traceabilityProperties.getInternalUrl()).thenReturn("https://test");
 
         doThrow(CreateEdcContractDefinitionException.class).when(edcContractDefinitionService).createContractDefinition(any(), any());

@@ -9,9 +9,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [UNRELEASED]
 ### Added
 - #350 Added properties for provisioning to submodel / dtr service
-
-### Added
 - #62 - Added configurable assert refresh cron job with default values
+
+### Changed
+- #105 Upgraded irs client library to 2.1.15
 
 ## [13.0.2-cfx-4]
 
