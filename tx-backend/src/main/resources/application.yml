@@ -167,7 +167,7 @@ spring:
           OKTA:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
           dtr:
-            token-uri: ${DTR_TOKEN_URI}
+            token-uri: ${REGISTRY_TOKEN_URL}
           submodel:
             token-uri: ${SUBMODEL_TOKEN_URL}
       resourceserver:

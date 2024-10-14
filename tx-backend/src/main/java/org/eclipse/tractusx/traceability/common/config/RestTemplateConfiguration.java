@@ -33,6 +33,7 @@ import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
 import org.eclipse.tractusx.traceability.common.properties.SubmodelProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +49,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +117,6 @@ public class RestTemplateConfiguration {
             @Autowired RegistryProperties registryProperties) {
         return oAuthRestTemplate(restTemplateBuilder,
                 registryProperties.getOauthProviderRegistrationId())
-                .rootUri(registryProperties.getUrlWithPathExternal() + registryProperties.getShellDescriptorUrl())
                 .build();
     }
 
