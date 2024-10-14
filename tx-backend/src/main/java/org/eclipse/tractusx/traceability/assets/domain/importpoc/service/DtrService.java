@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +38,6 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.Subm
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
-import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.SubmodelUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -70,6 +69,12 @@ public class DtrService {
 
         List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
         AssetAdministrationShellDescriptor assetAdministrationShellDescriptor = aasFrom(assetBase, descriptors);
+        try {
+            String requestBody = objectMapper.writeValueAsString(assetAdministrationShellDescriptor);
+            log.info("Creating DTR asset with request body {}", requestBody);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         dtrCreateShellService.createShell(assetAdministrationShellDescriptor);
         return assetBase.getId();
     }
