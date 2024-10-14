@@ -42,24 +42,22 @@ public class SubmodelClient {
         this.submodelRestTemplate = submodelRestTemplate;
     }
 
-    public void createSubmodel(String submodelId, String payload) {
-
+    public void createSubmodel(String payload) {
         await()
                 .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
                             try {
-                                submodelRestTemplate.exchange("/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
-                                log.info("Submodel created successfully with id: {}", submodelId);
+                                submodelRestTemplate.exchange("/", HttpMethod.POST, new HttpEntity<>(payload), Void.class);
+                                log.info("Submodel created successfully.");
                                 return true;
                             } catch (Exception e) {
-                                log.warn("Retrying to create submodel with id: {}. Exception: {}", submodelId, e.getMessage());
+                                log.warn("Retrying to create submodel. Exception: {}", e.getMessage());
                                 log.debug("Exception details:", e);
                                 return false;
                             }
                         }
                 );
-
     }
 
 

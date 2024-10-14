@@ -126,7 +126,6 @@ spec:
               value: {{ .Values.provisioning.registry.clientSecret | quote }}
             - name: REGISTRY_TOKEN_URL
               value: {{ .Values.provisioning.registry.oauthTokenUrl | quote }}
-
             - name: SUBMODEL_URL_EXTERNAL
               value: {{ .Values.provisioning.submodel.urlExternal | quote }}
             - name: SUBMODEL_URL_INTERNAL

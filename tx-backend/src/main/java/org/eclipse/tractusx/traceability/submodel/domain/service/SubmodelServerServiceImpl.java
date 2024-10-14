@@ -28,9 +28,8 @@ import org.springframework.stereotype.Service;
 public class SubmodelServerServiceImpl {
     private final SubmodelServerRepository submodelServerRepository;
 
-    public String saveSubmodel(String submodelId, String submodel) {
-        submodelServerRepository.saveSubmodel(submodelId, submodel);
-        return submodelId;
+    public void saveSubmodel(String submodel) {
+        submodelServerRepository.saveSubmodel(submodel);
     }
 
     public String getSubmodel(String submodelId) {

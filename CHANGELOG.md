@@ -10,10 +10,11 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #350 Added properties for provisioning to submodel / dtr service
 - #349 Added second identity provider for Oauth2 for DTR and submodel service
-- #62 - Added configurable assert refresh cron job with default values
+- #62 Added configurable assert refresh cron job with default values
 
 ### Changed
 - #105 Upgraded irs client library to 2.1.15
+- #30 Submodel client enriches the submodelId to the creation request, instead of adding it to the path
 
 ## [13.0.2-cfx-4]
 

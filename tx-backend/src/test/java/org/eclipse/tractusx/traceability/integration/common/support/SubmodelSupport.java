@@ -23,8 +23,11 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.status;
+import static com.xebialabs.restito.semantics.Action.stringContent;
 import static com.xebialabs.restito.semantics.Condition.startsWithUri;
 
 @Component
@@ -35,10 +38,12 @@ public class SubmodelSupport {
 
     public void willCreateSubmodel() {
 
-        whenHttp(restitoProvider.stubServer()).match(startsWithUri("/api/submodel/data")
-        ).then(
-                status(HttpStatus.CREATED_201)
-        );
+
+        whenHttp(restitoProvider.stubServer())
+                .match(startsWithUri("/api/submodel/data"))
+                .then(
+                        status(HttpStatus.CREATED_201)
+                );
     }
 
 }

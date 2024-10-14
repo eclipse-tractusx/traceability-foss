@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.submodel.domain.repository;
 
 public interface SubmodelServerRepository {
-    void saveSubmodel(String submodelId, String submodel);
+    String saveSubmodel(String submodel);
 
     String getSubmodel(String submodelId);
 }

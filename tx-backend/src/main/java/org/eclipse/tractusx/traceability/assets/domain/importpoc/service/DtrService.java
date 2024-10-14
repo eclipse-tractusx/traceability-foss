@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
@@ -36,6 +37,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.Subm
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.repository.SubmodelUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -58,10 +60,11 @@ public class DtrService {
     private final SubmodelServerRepository submodelServerRepository;
     private final EdcProperties edcProperties;
     private final RegistryProperties registryProperties;
+    private final ObjectMapper objectMapper;
 
     public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(assetBase.getId());
-        Map<String, UUID> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
+        Map<String, String> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
                 .map(this::createSubmodel)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
@@ -71,7 +74,7 @@ public class DtrService {
         return assetBase.getId();
     }
 
-    private List<SubmodelDescriptor> toSubmodelDescriptors(Map<String, UUID> createdSubmodelIdByAspectType, String submodelServerAssetId) {
+    private List<SubmodelDescriptor> toSubmodelDescriptors(Map<String, String> createdSubmodelIdByAspectType, String submodelServerAssetId) {
         return createdSubmodelIdByAspectType.entrySet()
                 .stream().map(entry ->
                         toSubmodelDescriptor(entry.getKey(), entry.getValue(), submodelServerAssetId)
@@ -79,11 +82,11 @@ public class DtrService {
                 ).toList();
     }
 
-    private SubmodelDescriptor toSubmodelDescriptor(String aspectType, UUID submodelServerIdReference, String submodelServerAssetId) {
+    private SubmodelDescriptor toSubmodelDescriptor(String aspectType, String submodelServerIdReference, String submodelServerAssetId) {
         return SubmodelDescriptor.builder()
                 .description(List.of())
                 .idShort(aspectTypeToSimpleSubmodelName(aspectType))
-                .id(submodelServerIdReference.toString())
+                .id(submodelServerIdReference)
                 .semanticId(
                         Reference.builder()
                                 .type(EXTERNAL_REFERENCE)
@@ -123,9 +126,8 @@ public class DtrService {
         return split[1];
     }
 
-    private Map.Entry<String, UUID> createSubmodel(Map.Entry<String, String> payloadByAspectType) {
-        UUID submodelId = UUID.randomUUID();
-        submodelServerRepository.saveSubmodel(submodelId.toString(), payloadByAspectType.getValue());
+    private Map.Entry<String, String> createSubmodel(Map.Entry<String, String> payloadByAspectType) {
+        String submodelId = submodelServerRepository.saveSubmodel(payloadByAspectType.getValue());
         log.info("create submodelId {} for aspectType {} on submodelServer", submodelId, payloadByAspectType.getKey());
         return Map.entry(payloadByAspectType.getKey(), submodelId);
     }
