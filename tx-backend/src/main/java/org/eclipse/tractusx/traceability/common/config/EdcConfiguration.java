@@ -36,6 +36,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.util.UriTemplateHandler;
 
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.DIGITAL_TWIN_REGISTRY_CREATE_SHELL_REST_TEMPLATE;
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_ASSET_REST_TEMPLATE;
@@ -72,6 +73,9 @@ public class EdcConfiguration {
 
     @Bean
     public DigitalTwinRegistryCreateShellService dtrCreateShellService(@Qualifier(DIGITAL_TWIN_REGISTRY_CREATE_SHELL_REST_TEMPLATE) RestTemplate digitalTwinRegistryCreateShellRestTemplate) {
+
+        UriTemplateHandler uriTemplateHandler = digitalTwinRegistryCreateShellRestTemplate.getUriTemplateHandler();
+        log.info("dtrCreateShellService base URI: {}", uriTemplateHandler);
         return new DigitalTwinRegistryCreateShellService(digitalTwinRegistryCreateShellRestTemplate, registryUrlWithPathExternal + shellDescriptorUrl);
     }
 }
