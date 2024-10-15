@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
@@ -33,7 +34,6 @@ import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
 import org.eclipse.tractusx.traceability.common.properties.SubmodelProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,7 +49,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -163,15 +162,10 @@ public class RestTemplateConfiguration {
     }
 
 
-    /* RestTemplate used by the digital twin registry client library*/
     @Bean(DIGITAL_TWIN_REGISTRY_REST_TEMPLATE)
     public RestTemplate digitalTwinRegistryRestTemplate(
-            final RestTemplateBuilder restTemplateBuilder,
-            RegistryProperties registryProperties) {
-        oAuthRestTemplate(restTemplateBuilder,
-                registryProperties.getOauthProviderRegistrationId()).build();
-        return oAuthRestTemplate(restTemplateBuilder,
-                registryProperties.getOauthProviderRegistrationId()).build();
+            final RestTemplateBuilder restTemplateBuilder){
+        return oAuthRestTemplate(restTemplateBuilder, "keycloak").build();
     }
 
     /* RestTemplate used by the edc client library*/
