@@ -39,6 +39,11 @@ SPDX-License-Identifier: Apache-2.0
 
     <repositories>
         <repository>
+            <id>github</id>
+            <name>GitHub Cofinity-X Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Cofinity-X/item-relationship-service</url>
+        </repository>
+        <repository>
             <id>oss-sonatype</id>
             <name>oss-sonatype</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
