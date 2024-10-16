@@ -43,7 +43,7 @@ import static org.eclipse.tractusx.traceability.policies.application.mapper.Poli
 @Service
 @RequiredArgsConstructor
 public class EdcAssetCreationService {
-    private static final String REGISTRY_ASSET_ID = "registry-asset";
+    private static final String REGISTRY_ASSET_ID = "registry-asset-" + UUID.randomUUID().toString();
     private final EdcAssetService edcAssetService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
@@ -58,32 +58,36 @@ public class EdcAssetCreationService {
         try {
             boolean exists = edcPolicyDefinitionService.policyDefinitionExists(policyId);
             if (exists) {
-                log.info("Policy with id " + policyId + " already exists and contains necessary application constraints. Reusing for edc asset contract definition.");
+                log.info("EDC Policy (DTR) already exists with id: {} reusing it", policyId);
                 createdPolicyId = policyId;
             } else {
                 createdPolicyId = edcPolicyDefinitionService.createAccessPolicy(mapToEdcPolicyRequest(policy));
-                log.info("DTR Policy Id created :{}", createdPolicyId);
+                log.info("EDC Policy (DTR) created with id :{}", createdPolicyId);
             }
         } catch (EdcPolicyDefinitionAlreadyExists e) {
             createdPolicyId = policyId;
         } catch (Exception exception) {
+            log.warn("EDC Policy (DTR) could not be created: {}", exception.getMessage());
             throw new CreateEdcPolicyDefinitionException(exception);
         }
 
         String dtrAssetId;
         try {
             dtrAssetId = edcAssetService.createDtrAsset(registryProperties.getUrlWithPathInternal(), REGISTRY_ASSET_ID);
-            log.info("DTR Asset Id created :{}", dtrAssetId);
+            log.info("EDC Asset (DTR) created with id :{}", dtrAssetId);
         } catch (EdcAssetAlreadyExistsException e) {
+            log.info("EDC Asset (DTR) already exists with id: {} reusing it", REGISTRY_ASSET_ID);
             dtrAssetId = REGISTRY_ASSET_ID;
         } catch (Exception exception) {
+            log.warn("EDC Asset (DTR) could not be created: {}", exception.getMessage());
             throw new CreateEdcAssetException(exception);
         }
 
         try {
             String dtrContractId = edcContractDefinitionService.createContractDefinition(dtrAssetId, createdPolicyId);
-            log.info("DTR Contract Id created :{}", dtrContractId);
+            log.info("EDC ContractDefinition (DTR) created with id :{}", dtrContractId);
         } catch (Exception e) {
+            log.warn("EDC ContractDefinition (DTR) could not be created: {}", e.getMessage());
             throw new CreateEdcContractDefinitionException(e);
         }
 
@@ -91,17 +95,20 @@ public class EdcAssetCreationService {
         String submodelAssetIdToCreate = "urn:uuid:" + UUID.randomUUID();
         try {
             submodelAssetId = edcAssetService.createSubmodelAsset(submodelProperties.getBaseInternal(), submodelAssetIdToCreate);
-            log.info("Submodel Asset Id created :{}", submodelAssetId);
+            log.info("EDC Asset (Submodel) created with id :{}", submodelAssetId);
         } catch (EdcAssetAlreadyExistsException e) {
             submodelAssetId = submodelAssetIdToCreate;
+            log.info("EDC Asset (Submodel) already exists with id: {} reusing it", submodelAssetId);
         } catch (Exception exception) {
+            log.warn("EDC Asset (Submodel) could not be created: {}", exception.getMessage());
             throw new CreateEdcAssetException(exception);
         }
 
         try {
             String submodelContractId = edcContractDefinitionService.createContractDefinition(submodelAssetId, createdPolicyId);
-            log.info("Submodel Contract Id created :{}", submodelContractId);
+            log.info("EDC ContractDefinition (Submodel) created with id :{}", submodelContractId);
         } catch (Exception e) {
+            log.warn("EDC ContractDefinition (Submodel) could not be created: {}", e.getMessage());
             throw new CreateEdcContractDefinitionException(e);
         }
 

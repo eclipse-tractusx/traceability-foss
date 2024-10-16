@@ -84,8 +84,6 @@ public class PolicyStartUpConfig {
     @NotNull
     private List<AcceptedPolicy> buildAcceptedPolicies() {
         List<AcceptedPolicy> acceptedPolicies = new ArrayList<>(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
-
-        //add IRS policies
         try {
             acceptedPolicies.addAll(createIrsAcceptedPolicies());
         } catch (Exception exception) {
@@ -95,21 +93,17 @@ public class PolicyStartUpConfig {
     }
 
     private List<AcceptedPolicy> createIrsAcceptedPolicies() {
-        // Get the policies map from the repository
         Map<String, List<IrsPolicyResponse>> policiesMap = policyRepository.getPolicies();
 
-        // Flatten the map into a list of IrsPolicyResponse objects
         List<IrsPolicyResponse> irsPolicyResponses = policiesMap.values().stream()
                 .flatMap(List::stream)
                 .toList();
 
-        // Map the IrsPolicyResponse objects to AcceptedPolicy objects
         List<AcceptedPolicy> irsPolicies = irsPolicyResponses.stream().map(response -> {
             Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());
         }).toList();
 
-        // Return the list of AcceptedPolicy objects
         return new ArrayList<>(irsPolicies);
     }
 
