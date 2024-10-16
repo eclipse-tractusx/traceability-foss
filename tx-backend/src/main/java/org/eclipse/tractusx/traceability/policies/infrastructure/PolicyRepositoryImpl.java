@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.policies.infrastructure;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
@@ -51,6 +53,7 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     private final PolicyClient policyClient;
     private final TraceabilityProperties traceabilityProperties;
     private AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Map<String, List<IrsPolicyResponse>> getPolicies() {
@@ -81,26 +84,45 @@ public class PolicyRepositoryImpl implements PolicyRepository {
 
     @Override
     public void createPolicyBasedOnAppConfig() {
-        log.info("Check if irs policy exists");
+        log.info("Starting policy creation based on application configuration...");
+
+        // Fetch and log available IRS policies
+        log.info("Fetching existing IRS policies...");
         final Map<String, List<IrsPolicyResponse>> irsPolicies = this.policyClient.getPolicies();
         final List<String> irsPoliciesIds = irsPolicies.values().stream()
                 .flatMap(List::stream)
                 .map(irsPolicyResponse -> irsPolicyResponse.payload().policyId())
                 .toList();
-        log.info("Irs has following policies: {}", irsPoliciesIds);
+        log.info("Retrieved IRS policies: {}", irsPoliciesIds.isEmpty() ? "No policies in IRS found" : irsPoliciesIds);
 
-        log.info("Required constraints - 2 -");
-        log.info("First constraint requirements: leftOperand {} operator {} and rightOperand {}", traceabilityProperties.getLeftOperand(), traceabilityProperties.getOperatorType(), traceabilityProperties.getRightOperand());
-        log.info("Second constraint requirements: leftOperand {} operator {} and rightOperand {}", traceabilityProperties.getLeftOperandSecond(), traceabilityProperties.getOperatorTypeSecond(), traceabilityProperties.getRightOperandSecond());
+        // Log details about required constraints
+        log.info("Applying required constraints for policy creation (total: 2)");
+        log.info("First constraint: leftOperand='{}', operator='{}', rightOperand='{}'",
+                traceabilityProperties.getLeftOperand(),
+                traceabilityProperties.getOperatorType(),
+                traceabilityProperties.getRightOperand());
+        log.info("Second constraint: leftOperand='{}', operator='{}', rightOperand='{}'",
+                traceabilityProperties.getLeftOperandSecond(),
+                traceabilityProperties.getOperatorTypeSecond(),
+                traceabilityProperties.getRightOperandSecond());
 
+        // Check for matching policy
+        log.info("Checking for an existing policy that matches the required constraints...");
         IrsPolicyResponse matchingPolicy = findMatchingPolicy(irsPolicies);
 
         if (matchingPolicy == null) {
+            log.warn("No matching policy found. Creating missing policies...");
             createMissingPolicies();
         } else {
+            log.info("Matching policy found (policyId: {}). Verifying and updating policy if necessary...", matchingPolicy.payload().policyId());
             checkAndUpdatePolicy(matchingPolicy);
         }
+
+        // Update accepted policies for provider
+        log.info("Updating accepted policies for the provider (client lib) ...");
         updateAcceptedPoliciesProvider();
+
+        log.info("Policy creation process completed.");
     }
 
     @Override
@@ -184,7 +206,14 @@ public class PolicyRepositoryImpl implements PolicyRepository {
             Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());
         }).toList();
+
         defaultAcceptedPoliciesProvider.addAcceptedPolicies(irsPolicies);
+        try {
+            String irsPoliciesString = objectMapper.writeValueAsString(irsPolicies);
+            log.info("Adding the following policies to the client library validator {}", irsPoliciesString);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

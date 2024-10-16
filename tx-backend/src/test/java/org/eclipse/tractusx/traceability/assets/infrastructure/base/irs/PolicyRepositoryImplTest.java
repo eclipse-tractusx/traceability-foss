@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
 import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
@@ -60,6 +61,9 @@ class PolicyRepositoryImplTest {
 
     @Mock
     AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
+
+    @Mock
+    ObjectMapper objectMapper;
 
 
     @Mock
