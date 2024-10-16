@@ -180,7 +180,6 @@ edc:
   consumerApiKey: "" #<edc.consumerApiKey>
   providerApiKey: ""  #<edc.providerApiKey>
   providerUrl: "" #<edc.providerUrl>
-  callbackUrl: "https://replace.me"
   callbackUrlEdcClient: "https://replace.me"
   dataEndpointUrl: "https://replace.me"
 

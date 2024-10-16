@@ -15,7 +15,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Changed
 - #105 Upgraded irs client library to 2.1.15
 - #30 Submodel client enriches the submodelId to the creation request, instead of adding it to the path
-
+- #30 Removed not needed callback URL
+## [13.0.2-cfx-4]
 
 ### Changed
 - #XXX updated variables in github actions to be more generic

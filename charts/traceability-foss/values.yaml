@@ -300,7 +300,6 @@ backend:
     consumerApiKey: "CHANGEME"  # <tractusx-connector.controlplane.endpoints.management.authKey>
     providerApiKey: ""  # edc api key for the dataprovider edc part of traceability-foss
     providerUrl: "CHANGEME"  #  example: https://<tractusx-connector.controlplane.ingress.hosts>
-    callbackUrl: "CHANGEME"  # example: http://<irs-helm.nameOverride>:8181/internal/endpoint-data-reference
     callbackUrlEdcClient: "CHANGEME"  # example: https://<backend.ingress.hosts>/api/internal/endpoint-data-reference
     dataEndpointUrl: "CHANGEME"  # example: https://<tractusx-connector.controlplane.ingress.hosts>/management"
     partsProviderControlplaneUrl: "CHANGEME"  # host of the parts provider EDC

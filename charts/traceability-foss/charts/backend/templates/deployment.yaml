@@ -142,8 +142,6 @@ spec:
               value: {{ .Values.irs.baseUrl | quote }}
             - name: PORTAL_URL
               value: {{ .Values.portal.baseUrl | quote }}
-            - name: EDC_CALLBACK_URL
-              value: {{ .Values.edc.callbackUrl | quote }}
             - name: EDC_CALLBACK_URL_EDC_CLIENT
               value: {{ .Values.edc.callbackUrlEdcClient | quote }}
             - name: ALLOWED_CORS_ORIGIN_FIRST
