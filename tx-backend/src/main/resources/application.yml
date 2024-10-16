@@ -57,6 +57,7 @@ provisioning:
     tokenUrl: ${REGISTRY_TOKEN_URL}
     oauthProviderRegistrationId: ${REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID}
     allowedBpns: ${REGISTRY_ALLOWED_BPNS:BPNL00000003CML1,BPNL00000003CNKC}
+    edcAssetId: ${REGISTRY_EDC_ASSET_ID:registry-asset}
 
 edc:
   ids:

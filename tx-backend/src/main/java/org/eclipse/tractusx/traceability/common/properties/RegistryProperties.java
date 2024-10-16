@@ -21,4 +21,5 @@ public class RegistryProperties {
     private String clientSecret;
     private String tokenUrl;
     private String oauthProviderRegistrationId;
+    private String edcAssetId;
 }

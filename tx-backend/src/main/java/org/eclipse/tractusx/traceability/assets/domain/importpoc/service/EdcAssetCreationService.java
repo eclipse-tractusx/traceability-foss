@@ -43,7 +43,6 @@ import static org.eclipse.tractusx.traceability.policies.application.mapper.Poli
 @Service
 @RequiredArgsConstructor
 public class EdcAssetCreationService {
-    private static final String REGISTRY_ASSET_ID = "registry-asset-" + UUID.randomUUID().toString();
     private final EdcAssetService edcAssetService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
@@ -73,11 +72,11 @@ public class EdcAssetCreationService {
 
         String dtrAssetId;
         try {
-            dtrAssetId = edcAssetService.createDtrAsset(registryProperties.getUrlWithPathInternal(), REGISTRY_ASSET_ID);
+            dtrAssetId = edcAssetService.createDtrAsset(registryProperties.getUrlWithPathInternal(), registryProperties.getEdcAssetId());
             log.info("EDC Asset (DTR) created with id :{}", dtrAssetId);
         } catch (EdcAssetAlreadyExistsException e) {
-            log.info("EDC Asset (DTR) already exists with id: {} reusing it", REGISTRY_ASSET_ID);
-            dtrAssetId = REGISTRY_ASSET_ID;
+            log.info("EDC Asset (DTR) already exists with id: {} reusing it", registryProperties.getEdcAssetId());
+            dtrAssetId = registryProperties.getEdcAssetId();
         } catch (Exception exception) {
             log.warn("EDC Asset (DTR) could not be created: {}", exception.getMessage());
             throw new CreateEdcAssetException(exception);

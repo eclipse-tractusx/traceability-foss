@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #350 Added properties for provisioning to submodel / dtr service
 - #349 Added second identity provider for Oauth2 for DTR and submodel service
 - #62 Added configurable assert refresh cron job with default values
+- #30 Added mapping for edc asset id for the dtr
 
 ### Changed
 - #105 Upgraded irs client library to 2.1.15

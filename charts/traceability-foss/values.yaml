@@ -284,6 +284,23 @@ backend:
     technicalServiceApiKey: ""  # <traceability.technicalServiceApiKey>
     assetRefreshJobCronExpression: "0 0 */2 * * ?"  # Default value for assets refresh cron job expression
     assetRefreshJobZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
+  provisioning:
+    submodel:
+      urlExternal: "https://replace.me"
+      urlInternal: "https://replace.me"
+      oauthProviderRegistrationId: "CHANGEME"
+      clientId: "CHANGEME"
+      clientSecret: "CHANGEME"
+      oauthTokenUrl: "https://replace.me"
+    registry:
+      urlExternalWithPath: "https://replace.me"
+      urlInternalWithPath: "https://replace.me"
+      allowedBpns: "CHANGEME"
+      oauthProviderRegistrationId: "CHANGEME"
+      clientId: "CHANGEME"
+      clientSecret: "CHANGEME"
+      oauthTokenUrl: "https://replace.me"
+      edcAssetId: "CHANGEME"
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql:5432/trace
     username: "traceuser"
