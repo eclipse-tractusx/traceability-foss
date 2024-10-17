@@ -55,6 +55,9 @@ public class BpdmClient {
         } catch (HttpClientErrorException httpClientErrorException) {
             log.debug("Could not request BPDM service. {}", httpClientErrorException.getMessage());
             return BusinessPartnerResponse.builder().bpn(bpn).build();
+        } catch (Exception e){
+            log.error("Unexpected error while retrieving business partner for BPN '{}'", bpn, e);
+            return BusinessPartnerResponse.builder().bpn(bpn).build();
         }
 
     }

@@ -107,7 +107,7 @@ public class DtrService {
                                         .interfaceInformation("SUBMODEL-3.0")
                                         .protocolInformation(
                                                 ProtocolInformation.builder()
-                                                        .href(edcProperties.getProviderDataplaneEdcUrl() + "/api/public/" + submodelServerIdReference)
+                                                        .href(edcProperties.getProviderDataplaneEdcUrl() + "/api/public/data" + submodelServerIdReference)
                                                         .endpointProtocol("HTTP")
                                                         .endpointProtocolVersion(List.of("1.1"))
                                                         .subprotocol("DSP")
