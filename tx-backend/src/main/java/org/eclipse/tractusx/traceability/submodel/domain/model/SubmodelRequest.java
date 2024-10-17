@@ -27,7 +27,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class SubmodelPayload {
-    private String id;
-    private String json;
+public class SubmodelRequest {
+    private String submodelId;
+    private String data;
 }

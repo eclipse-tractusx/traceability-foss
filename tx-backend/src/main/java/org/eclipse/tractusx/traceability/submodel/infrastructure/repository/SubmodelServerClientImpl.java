@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelRequest;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,13 @@ public class SubmodelServerClientImpl implements SubmodelServerRepository {
         try {
             String submodelEnriched = SubmodelUtil.enrichWithSubmodelUuid(objectMapper, submodel);
             submodelId = SubmodelUtil.getSubmodelId(objectMapper, submodelEnriched);
-            submodelClient.createSubmodel(submodelEnriched);
+            SubmodelRequest submodelRequest =
+                    SubmodelRequest
+                            .builder()
+                            .submodelId(submodelId)
+                            .data(submodel)
+                            .build();
+            submodelClient.createSubmodel(submodelRequest);
             log.info("Submodel saved with ID: {}", submodelId);
         } catch (Exception e) {
             log.error("Error saving submodel: {}", e.getMessage());

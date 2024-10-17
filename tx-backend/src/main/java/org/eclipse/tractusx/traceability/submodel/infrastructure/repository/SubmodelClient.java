@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.awaitility.Durations;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -42,13 +43,13 @@ public class SubmodelClient {
         this.submodelRestTemplate = submodelRestTemplate;
     }
 
-    public void createSubmodel(String payload) {
+    public void createSubmodel(SubmodelRequest submodelRequest) {
         await()
                 .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
                             try {
-                                submodelRestTemplate.exchange("/", HttpMethod.POST, new HttpEntity<>(payload), Void.class);
+                                submodelRestTemplate.exchange("/", HttpMethod.POST, new HttpEntity<>(submodelRequest), Void.class);
                                 log.info("Submodel created successfully.");
                                 return true;
                             } catch (Exception e) {
