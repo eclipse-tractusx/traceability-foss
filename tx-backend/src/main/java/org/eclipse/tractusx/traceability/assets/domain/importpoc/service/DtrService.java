@@ -65,7 +65,15 @@ public class DtrService {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(assetBase.getId());
         Map<String, String> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
                 .map(this::createSubmodel)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existingValue, newValue) -> {
+                            log.warn("Duplicate key detected. Using the new value: {}.",
+                                    newValue);
+                            return newValue;
+                        }
+                ));
 
         List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
         AssetAdministrationShellDescriptor assetAdministrationShellDescriptor = aasFrom(assetBase, descriptors);
