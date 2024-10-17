@@ -18,6 +18,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.awaitility.Awaitility;
 import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +35,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -49,13 +53,14 @@ class SubmodelClientTest {
     private RestTemplate submodelRestTemplate;
 
     private SubmodelClient submodelClient;
-
+    private ObjectMapper objectMapper;
     @Captor
     private ArgumentCaptor<HttpEntity<SubmodelRequest>> httpEntityArgumentCaptor;
 
     @BeforeEach
     public void setUp() {
         submodelClient = new SubmodelClient(submodelRestTemplate);
+        objectMapper = new ObjectMapper();
     }
 
     @Test
@@ -93,7 +98,17 @@ class SubmodelClientTest {
                 "\t\t\"nameAtManufacturer\": \"a/dev Vehicle Hybrid\"\n" +
                 "\t}\n" +
                 "}";
-        SubmodelRequest expectedSubmodelRequest = SubmodelRequest.builder().submodelId(UUID.randomUUID().toString()).data(submodelData).build();
+
+        Map<String, Object> jsonData = null;
+        try {
+            jsonData = objectMapper.readValue(submodelData, new TypeReference<Map<String, Object>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        SubmodelRequest expectedSubmodelRequest = SubmodelRequest.builder().submodelId(UUID.randomUUID().toString()).data(jsonData).build();
 
         // Mock the exchange method to throw an exception the first few times and then succeed
         given(submodelRestTemplate.exchange(anyString(), any(HttpMethod.class), any(HttpEntity.class), any(Class.class)))
