@@ -44,3 +44,69 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 16) Execute GitHub action (from main branch) [Update OpenAPI spec](https://github.com/Cofinity-X/traceability-foss/actions/workflows/update-openapi-spec.yml)
 17) Verify that this pull request has been opened: `chore: update OpenAPI spec` and merge it
 18) Merge release branch into main (when merging make sure to restore release branch since it should stay)
+
+# Provide Update to Upstream Repository and Publish Package to Registry
+
+## 1. Check Merged Changes in IRS
+
+1. Verify if the changes are merged in the IRS.
+2. Update the changelog accordingly.
+
+> **Note:** For more details, refer to [Traceability FOSS Docs/Release-cfx.md](#irs-library-release).
+
+## 2. Manage Remote Repositories in IntelliJ
+
+1. Add the entry repository as `remote` in your remote settings.
+2. Ensure the `entry` repository's `main` branch is checked out.
+
+## 3. Create a Branch and Cherry-Pick Commits
+
+1. Create a new branch from the `entry` repository's `main` branch.
+2. Cherry-pick the commit you want to merge from `cfx irs` repo `main` branch.
+
+## 4. Push Changes to Entry Repository
+
+1. Push your new branch to the `entry` repository.
+
+## 5. Create a Pull Request Upstream
+
+1. Navigate to the upstream repository.
+2. Create a Pull Request (PR) using the "compare across forks" option for the branch created in step 3 from the `entry`.
+3. Request a review from a contributor of the upstream repository.
+4. Merge the branch after approval.
+
+## 6. Create Release Version and Run Workflow
+
+1. IRS registry Client Version Action
+2. Determine the nature of the change introduced (e.g., major, minor, patch).
+3. In the Workflow Check create release version.
+4. Run the workflow (to be executed by an Eclipse committer).
+5. A PR will be created and reviewed by an Eclipse committer.
+6. The package will be published to Maven Central.
+
+## 7. Sync Back Repositories
+
+1. Access the sync enablement services workflow:
+
+    - [Sync Enablement Services Entry Repos](https://github.com/Cofinity-X/entry-pipelines/actions/workflows/sync-enablement-services-entry-repos.yaml)
+
+2. **Note:** Contact the infra team for permission if required.
+
+## 8. Cleanup in Cofinity-X IRS Repository
+
+1. Check out the `cfx irs` repository.
+2. Create a `cleanup` branch.
+3. Revert the `cfx` contributed commit on this branch.
+4. Create a PR to merge into `main`.
+
+## 9. Merge Entry Main into Cofinity IRS Main
+
+1. Create a new branch from `cfx irs main`.
+2. Merge `entry/main` into your branch.
+3. Push the changes to `origin/main`.
+4. Create a PR for the merge.
+
+## 10. Update Version in Trace-X Repository
+
+1. Navigate to the Trace-X repository.
+2. Update the version in the root `pom.xml` file of the repository.
