@@ -17,6 +17,9 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ### Changed
 - #105 Upgraded irs client library to 2.1.15
 
+### Fixed
+- #55 ids path for notification catalog requests is only appended if not already present.
+
 ## [13.0.2-cfx-4]
 
 ### Changed

@@ -61,6 +61,7 @@ import java.util.Optional;
 
 import static java.lang.String.format;
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.EDC_NOTIFICATION_TEMPLATE;
+import static org.eclipse.tractusx.traceability.common.request.UrlUtils.appendSuffix;
 
 @Slf4j
 @Component
@@ -133,7 +134,7 @@ public class NotificationsEDCFacade {
 
         try {
             log.info("Negotiation of contract agreement for receiverEdcUrl {} and catalogItem {}", receiverEdcUrl, catalogItem);
-            return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem, null, receiverBpn))
+            return Optional.ofNullable(contractNegotiationService.negotiate(appendSuffix(receiverEdcUrl, edcProperties.getIdsPath()), catalogItem, null, receiverBpn))
                     .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
@@ -158,7 +159,7 @@ public class NotificationsEDCFacade {
             return edcCatalogFacade.fetchCatalogItems(
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
-                                    .counterPartyAddress(receiverEdcUrl + edcProperties.getIdsPath())
+                                    .counterPartyAddress(appendSuffix(receiverEdcUrl, edcProperties.getIdsPath()))
                                     .counterPartyId(notification.getSentTo())
                                     .querySpec(QuerySpec.Builder.newInstance()
                                             // https://github.com/eclipse-tractusx/traceability-foss/issues/978

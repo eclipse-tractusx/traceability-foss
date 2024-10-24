@@ -52,7 +52,6 @@ import org.eclipse.tractusx.traceability.notification.application.contract.model
 import org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.policies.application.mapper.PolicyMapper;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import policies.response.PolicyResponse;
@@ -60,6 +59,7 @@ import policies.response.PolicyResponse;
 import java.util.List;
 import java.util.Optional;
 
+import static org.eclipse.tractusx.traceability.common.request.UrlUtils.appendSuffix;
 import static org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade.CX_TAXO_QUALITY_ALERT_RECEIVE;
 import static org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade.CX_TAXO_QUALITY_ALERT_UPDATE;
 import static org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade.CX_TAXO_QUALITY_INVESTIGATION_RECEIVE;
@@ -237,7 +237,7 @@ public class EdcNotificationContractService {
     private CatalogRequest catalogRequest() {
         return CatalogRequest.Builder.newInstance()
                 .protocol(DEFAULT_PROTOCOL)
-                .counterPartyAddress(edcProperties.getProviderEdcUrl() + edcProperties.getIdsPath())
+                .counterPartyAddress(appendSuffix(edcProperties.getProviderEdcUrl(), edcProperties.getIdsPath()))
                 .counterPartyId(traceabilityProperties.getBpn().value())
                 .querySpec(QuerySpec.Builder.newInstance()
                         .filter(
