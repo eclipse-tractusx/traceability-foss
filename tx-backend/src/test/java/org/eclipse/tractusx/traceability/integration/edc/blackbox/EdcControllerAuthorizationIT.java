@@ -62,51 +62,51 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
                 .statusCode(400);
     }
 
-//    @ParameterizedTest
-//    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
-//    void shouldNotAllowQnReceiveEndpointRegardlessOfRoleWithoutApiKey(final JwtRole role) throws JoseException, IOException {
-//        // Given
-//        final String notificationJson = readFile("/testdata/edc_notification_okay.json");
-//        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-//
-//        // Then
-//        given()
-//                .contentType(ContentType.JSON)
-//                .body(edcNotification)
-//                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-//                .when()
-//                .post(ROOT + "/qualitynotifications/receive")
-//                .then()
-//                .assertThat()
-//                .statusCode(401);
-//    }
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    void shouldNotAllowQnReceiveEndpointRegardlessOfRoleWithoutApiKey(final JwtRole role) throws JoseException, IOException {
+        // Given
+        final String notificationJson = readFile("/testdata/edc_notification_okay.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-//    @ParameterizedTest
-//    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
-//    void shouldNotAllowQnReceiveEndpointRegardlessOfRoleWithWrongApiKey(final JwtRole role) throws JoseException, IOException {
-//        // Given
-//        final String notificationJson = readFile("/testdata/edc_notification_okay.json");
-//        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-//
-//        // Then
-//        given()
-//                .contentType(ContentType.JSON)
-//                .body(edcNotification)
-//                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-//                .header(API_KEY_HEADER, "wrong-api-key")
-//                .when()
-//                .post(ROOT + "/qualitynotifications/receive")
-//                .then()
-//                .assertThat()
-//                .statusCode(401);
-//    }
+        // Then
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .when()
+                .post(ROOT + "/qualitynotifications/receive")
+                .then()
+                .assertThat()
+                .statusCode(401);
+    }
+
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    void shouldNotAllowQnReceiveEndpointRegardlessOfRoleWithWrongApiKey(final JwtRole role) throws JoseException, IOException {
+        // Given
+        final String notificationJson = readFile("/testdata/edc_notification_okay.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+
+        // Then
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .header(API_KEY_HEADER, "wrong-api-key")
+                .when()
+                .post(ROOT + "/qualitynotifications/receive")
+                .then()
+                .assertThat()
+                .statusCode(401);
+    }
 
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
     void shouldAllowQnUpdateEndpointRegardlessOfRole(final JwtRole role) throws JoseException, IOException {
         // Given
-        String notificationJson = readFile("/testdata/edc_notification_okay_update.json");
-        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+        final String notificationJson = readFile("/testdata/edc_notification_okay_update.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
         // Then
         given()
@@ -121,51 +121,51 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
                 .statusCode(404);
     }
 
-//    @ParameterizedTest
-//    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
-//    void shouldNotAllowQnUpdateEndpointRegardlessOfRoleWithoutApiKey(final JwtRole role) throws JoseException, IOException {
-//        // Given
-//        final String notificationJson = readFile("/testdata/edc_notification_okay_update.json");
-//        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-//
-//        // Then
-//        given()
-//                .contentType(ContentType.JSON)
-//                .body(edcNotification)
-//                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-//                .when()
-//                .post(ROOT + "/qualitynotifications/update")
-//                .then()
-//                .assertThat()
-//                .statusCode(401);
-//    }
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    void shouldNotAllowQnUpdateEndpointRegardlessOfRoleWithoutApiKey(final JwtRole role) throws JoseException, IOException {
+        // Given
+        final String notificationJson = readFile("/testdata/edc_notification_okay_update.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-//    @ParameterizedTest
-//    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
-//    void shouldNotAllowQnUpdateEndpointRegardlessOfRoleWithWrongApiKey(final JwtRole role) throws JoseException, IOException {
-//        // Given
-//        final String notificationJson = readFile("/testdata/edc_notification_okay_update.json");
-//        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-//
-//        // Then
-//        given()
-//                .contentType(ContentType.JSON)
-//                .body(edcNotification)
-//                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-//                .header(API_KEY_HEADER, "wrong-api-key")
-//                .when()
-//                .post(ROOT + "/qualitynotifications/update")
-//                .then()
-//                .assertThat()
-//                .statusCode(401);
-//    }
+        // Then
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .when()
+                .post(ROOT + "/qualitynotifications/update")
+                .then()
+                .assertThat()
+                .statusCode(401);
+    }
+
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    void shouldNotAllowQnUpdateEndpointRegardlessOfRoleWithWrongApiKey(final JwtRole role) throws JoseException, IOException {
+        // Given
+        final String notificationJson = readFile("/testdata/edc_notification_okay_update.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+
+        // Then
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .header(API_KEY_HEADER, "wrong-api-key")
+                .when()
+                .post(ROOT + "/qualitynotifications/update")
+                .then()
+                .assertThat()
+                .statusCode(401);
+    }
 
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
     void shouldAllowAnReceiveEndpointRegardlessOfRole(final JwtRole role) throws JoseException, IOException {
         // Given
-        String notificationJson = readFile("/testdata/edc_alert_okay.json");
-        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+        final String notificationJson = readFile("/testdata/edc_alert_okay.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
         // Then
         given()
@@ -180,51 +180,51 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
                 .statusCode(400);
     }
 
-//    @ParameterizedTest
-//    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
-//    void shouldNotAllowAnReceiveEndpointRegardlessOfRoleWithoutApiKey(final JwtRole role) throws JoseException, IOException {
-//        // Given
-//        final String notificationJson = readFile("/testdata/edc_alert_okay.json");
-//        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-//
-//        // Then
-//        given()
-//                .contentType(ContentType.JSON)
-//                .body(edcNotification)
-//                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-//                .when()
-//                .post(ROOT + "/qualityalerts/receive")
-//                .then()
-//                .assertThat()
-//                .statusCode(401);
-//    }
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    void shouldNotAllowAnReceiveEndpointRegardlessOfRoleWithoutApiKey(final JwtRole role) throws JoseException, IOException {
+        // Given
+        final String notificationJson = readFile("/testdata/edc_alert_okay.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-//    @ParameterizedTest
-//    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
-//    void shouldNotAllowAnReceiveEndpointRegardlessOfRoleWithWrongApiKey(final JwtRole role) throws JoseException, IOException {
-//        // Given
-//        final String notificationJson = readFile("/testdata/edc_alert_okay.json");
-//        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-//
-//        // Then
-//        given()
-//                .contentType(ContentType.JSON)
-//                .body(edcNotification)
-//                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-//                .header(API_KEY_HEADER, "wrong-api-key")
-//                .when()
-//                .post(ROOT + "/qualityalerts/receive")
-//                .then()
-//                .assertThat()
-//                .statusCode(401);
-//    }
+        // Then
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .when()
+                .post(ROOT + "/qualityalerts/receive")
+                .then()
+                .assertThat()
+                .statusCode(401);
+    }
+
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    void shouldNotAllowAnReceiveEndpointRegardlessOfRoleWithWrongApiKey(final JwtRole role) throws JoseException, IOException {
+        // Given
+        final String notificationJson = readFile("/testdata/edc_alert_okay.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+
+        // Then
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .header(API_KEY_HEADER, "wrong-api-key")
+                .when()
+                .post(ROOT + "/qualityalerts/receive")
+                .then()
+                .assertThat()
+                .statusCode(401);
+    }
 
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
     void shouldAllowAnUpdateEndpointRegardlessOfRole(final JwtRole role) throws JoseException, IOException {
         // Given
-        String notificationJson = readFile("/testdata/edc_alert_okay_update.json");
-        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+        final String notificationJson = readFile("/testdata/edc_alert_okay_update.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
         // Then
         given()
@@ -239,47 +239,47 @@ class EdcControllerAuthorizationIT extends IntegrationTestSpecification {
                 .statusCode(400);
     }
 
-//    @ParameterizedTest
-//    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
-//    void shouldNotAllowAnUpdateEndpointRegardlessOfRoleWithoutApiKey(final JwtRole role) throws JoseException, IOException {
-//        // Given
-//        final String notificationJson = readFile("/testdata/edc_alert_okay_update.json");
-//        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-//
-//        // Then
-//        given()
-//                .contentType(ContentType.JSON)
-//                .body(edcNotification)
-//                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-//                .when()
-//                .post(ROOT + "/qualityalerts/update")
-//                .then()
-//                .assertThat()
-//                .statusCode(401);
-//    }
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    void shouldNotAllowAnUpdateEndpointRegardlessOfRoleWithoutApiKey(final JwtRole role) throws JoseException, IOException {
+        // Given
+        final String notificationJson = readFile("/testdata/edc_alert_okay_update.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-//    @ParameterizedTest
-//    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
-//    void shouldNotAllowAnUpdateEndpointRegardlessOfRoleWithWrongApiKey(final JwtRole role) throws JoseException, IOException {
-//        // Given
-//        final String notificationJson = readFile("/testdata/edc_alert_okay_update.json");
-//        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
-//
-//        // Then
-//        given()
-//                .contentType(ContentType.JSON)
-//                .body(edcNotification)
-//                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-//                .header(API_KEY_HEADER, "wrong-api-key")
-//                .when()
-//                .post(ROOT + "/qualityalerts/update")
-//                .then()
-//                .assertThat()
-//                .statusCode(401);
-//    }
+        // Then
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .when()
+                .post(ROOT + "/qualityalerts/update")
+                .then()
+                .assertThat()
+                .statusCode(401);
+    }
+
+    @ParameterizedTest
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#noRoleRequired")
+    void shouldNotAllowAnUpdateEndpointRegardlessOfRoleWithWrongApiKey(final JwtRole role) throws JoseException, IOException {
+        // Given
+        final String notificationJson = readFile("/testdata/edc_alert_okay_update.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+
+        // Then
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
+                .header(API_KEY_HEADER, "wrong-api-key")
+                .when()
+                .post(ROOT + "/qualityalerts/update")
+                .then()
+                .assertThat()
+                .statusCode(401);
+    }
 
     private String readFile(final String filePath) throws IOException {
-        try (InputStream file = EdcControllerIT.class.getResourceAsStream(filePath)) {
+        try (final InputStream file = EdcControllerIT.class.getResourceAsStream(filePath)) {
             if (file == null) {
                 return null;
             }

@@ -34,7 +34,7 @@ traceability:
   irsBase: ${IRS_URL}
   irsPoliciesPath: "/irs/policies"
   discoveryType: ${DISCOVERY_TYPE}
-  technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY:defaultApiKey}
+  technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY}
   assetRefreshJobCronExpression: ${TRACEABILITY_ASSETS_REFRESH_CRON:0 0 */2 * * ?}
   assetRefreshJobZone: ${TRACEABILITY_ASSETS_REFRESH_ZONE:Europe/Berlin}
 

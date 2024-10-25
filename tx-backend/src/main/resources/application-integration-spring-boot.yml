@@ -34,6 +34,7 @@ traceability:
   irsBase: "http://127.0.0.1"
   irsPoliciesPath: "/irs/policies"
   submodelBase: localhost:${server.port}/api/submodel/data
+  discoveryType: ""
   technicalServiceApiKey: "test-key"
   discoveryType: "bpnl"
 provisioning:
@@ -96,7 +97,8 @@ digitalTwinRegistryClient:
     type: "bpnl"
   oAuthClientId: keycloak
   discoveryFinderUrl: ""
-
+  discovery:
+    type: ""
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
 feign:

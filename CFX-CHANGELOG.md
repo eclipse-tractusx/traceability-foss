@@ -13,9 +13,12 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - #350 Added properties for provisioning to submodel / dtr service
 - #349 Added second identity provider for Oauth2 for DTR and submodel service
 - #62 - Added configurable assert refresh cron job with default values
+- #66 Added api key authorization for /qualitynotifications and /qualityalerts
 
 ### Changed
 - #105 Upgraded irs client library to 2.1.15
+- #66 changed integration tests for edc notifications
+- #66 changed error handling config and added new exception InvalidApiKeyException
 
 ### Fixed
 - #55 ids path for notification catalog requests is only appended if not already present.

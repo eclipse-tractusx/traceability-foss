@@ -44,6 +44,7 @@ import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaF
 import org.eclipse.tractusx.traceability.common.request.exception.InvalidFilterException;
 import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
+import org.eclipse.tractusx.traceability.common.security.exception.InvalidApiKeyException;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
@@ -84,6 +85,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Slf4j
 @RestControllerAdvice
@@ -450,6 +452,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         log.error("Contract exception", exception);
 
         return ResponseEntity.status(NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidApiKeyException.class)
+    ResponseEntity<ErrorResponse> handleInvalidApiKeyException(final InvalidApiKeyException exception) {
+        log.warn("handleInvalidApiKeyException", exception);
+        return ResponseEntity.status(UNAUTHORIZED)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 }
