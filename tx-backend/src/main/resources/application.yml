@@ -37,6 +37,8 @@ traceability:
   technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY}
   assetRefreshJobCronExpression: ${TRACEABILITY_ASSETS_REFRESH_CRON:0 0 */2 * * ?}
   assetRefreshJobZone: ${TRACEABILITY_ASSETS_REFRESH_ZONE:Europe/Berlin}
+  publishAssetCronExpression: ${TRACEABILITY_PUBLISH_ASSET_CRON:0 30 */1 * * ?}
+  publishAssetCronZone: ${TRACEABILITY_PUBLISH_ASSET_ZONE:Europe/Berlin}
 
 
 provisioning:

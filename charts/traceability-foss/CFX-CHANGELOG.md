@@ -12,6 +12,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 - #50 added the discovery type configurable, with a default value of bpnl under Traceability (DISCOVERY_TYPE).
 - #55 renamed `backend.edc.apiKey` to `backend.edc.consumerApiKey`
+- #99 added configurable publish asset job
 
 ### Added
 
