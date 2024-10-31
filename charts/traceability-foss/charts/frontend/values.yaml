@@ -65,7 +65,6 @@ podSecurityContext:
   seccompProfile:
     type: RuntimeDefault
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
 securityContext:
   allowPrivilegeEscalation: false
@@ -82,7 +81,6 @@ service:
   port: 8080
 
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
 resources:
   limits:
@@ -96,7 +94,6 @@ nodeSelector: { }
 
 tolerations: [ ]
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
 affinity:
   podAntiAffinity:
@@ -116,7 +113,6 @@ ingress:
   hosts: []
   tls: []
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
 livenessProbe:
   failureThreshold: 3
