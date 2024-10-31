@@ -25,8 +25,8 @@ jobs:
           - image_name: "traceability-foss-frontend"
             dockerfile_path: "./frontend/Dockerfile"
           # TODO enable cfx frontend image build once the image can be built
-#          - image_name: "cfx-traceability-foss-frontend"
-#            dockerfile_path: "./cfx-frontend/Dockerfile"
+    #          - image_name: "cfx-traceability-foss-frontend"
+    #            dockerfile_path: "./cfx-frontend/Dockerfile"
     permissions:
       contents: read
       actions: read
@@ -45,6 +45,9 @@ jobs:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      PACKAGES_ACCESS_USERNAME: ${{ secrets.PACKAGES_ACCESS_USERNAME }}
+      PACKAGES_ACCESS_TOKEN: ${{ secrets.PACKAGES_ACCESS_TOKEN }}
+
   # To dispatch a workflow in core-services-charts repo for auto image tag update. The following job could be developed as reusable workflow in the future.
   auto-deploy-dispatch:
     needs: push-image-to-registry

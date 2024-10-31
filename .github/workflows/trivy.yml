@@ -175,7 +175,9 @@ jobs:
         with:
           context: .
           push: false
+          file: "./Dockerfile"
           tags: localhost:5000/traceability-foss:trivy
+          build-args: "ARGS=${{ secrets.PACKAGES_ACCESS_USERNAME }},${{ secrets.PACKAGES_ACCESS_TOKEN }}"
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.24.0

@@ -48,7 +48,7 @@ jobs:
       - name: Run mvn clean install
         run: |
           mvn -B -DskipTests -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn\
-          clean install
+          clean install -s settings.xml -DPACKAGES_ACCESS_USERNAME=${{ secrets.PACKAGES_ACCESS_USERNAME }} -DPACKAGES_ACCESS_TOKEN=${{ secrets.PACKAGES_ACCESS_TOKEN }}
 
       - name: Dependency check tx-backend # possible severity values: <'fail'|'warn'|'ignore'>
         uses: dependency-check/Dependency-Check_Action@3102a65fd5f36d0000297576acc56a475b0de98d

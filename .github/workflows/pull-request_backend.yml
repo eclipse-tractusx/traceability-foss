@@ -72,7 +72,8 @@ jobs:
           cache: 'maven'
 
       - name: Run unit & integration tests
-        run: mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B verify
+        run: |
+          mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B verify -s settings.xml -DPACKAGES_ACCESS_USERNAME=${{ secrets.PACKAGES_ACCESS_USERNAME }} -DPACKAGES_ACCESS_TOKEN=${{ secrets.PACKAGES_ACCESS_TOKEN }}
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2

@@ -38,19 +38,17 @@ SPDX-License-Identifier: Apache-2.0
     <name>TX Backend</name>
 
     <repositories>
-      <!--  <repository>
+        <repository>
             <id>github</id>
             <name>GitHub Cofinity-X Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/Cofinity-X/item-relationship-service</url>
-        </repository>-->
+        </repository>
         <repository>
             <id>oss-sonatype</id>
             <name>oss-sonatype</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
-    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.websocket/websocket-parent -->
-
 
     <dependencies>
         <dependency>

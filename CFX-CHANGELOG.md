@@ -15,6 +15,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - #62 - Added configurable assert refresh cron job with default values
 - #99 added configurable publish asset job
 - #66 Added api key authorization for /qualitynotifications and /qualityalerts
+- #346 Reconfigured GitHub workflows to use GitHub Packages to fetch dependencies
 
 ### Changed
 - #105 Upgraded irs client library to 2.1.15
