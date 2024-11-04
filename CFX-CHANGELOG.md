@@ -25,6 +25,10 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ### Fixed
 - #55 ids path for notification catalog requests is only appended if not already present.
 
+### Fixed
+
+- #375 fixed auto dispatch workflow for auto deployment from main
+
 ## [13.0.2-cfx-4]
 
 ### Changed
