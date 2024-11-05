@@ -8,7 +8,6 @@ on:
     tags:
       - '[0-9]+.[0-9]+.[0-9]+'
       - '[0-9]+.[0-9]+.[0-9]+-*'
-  pull_request:
 
 concurrency:
   # cancel older running jobs on the same branch
