@@ -1,4 +1,4 @@
-package org.eclipse.tractusx.traceability.common.properties; /********************************************************************************
+/********************************************************************************
  * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -16,6 +16,7 @@ package org.eclipse.tractusx.traceability.common.properties; /******************
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.common.properties;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
