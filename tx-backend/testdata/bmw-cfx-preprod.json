@@ -1,0 +1,666 @@
+{
+  "assets" : [
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000000ISY",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-313869652971440618042264",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "22782277-50",
+              "customerPartId" : "22782277-50",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Electric vehicle",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+                ],
+                "nameAtManufacturer" : "Example Car 1",
+                 "nameAtCustomer" : "Example Car 1"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
+            "childItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2023-02-20T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5",
+                "businessPartner" : "BPNLCOFINITYEZFA"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000000ISY",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-313869652971440618042264",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "22782277-51",
+              "customerPartId" : "22782277-51",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Electric vehicle",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ],
+              "nameAtManufacturer" : "Example Car 2",
+              "nameAtCustomer" : "Example Car 2"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f",
+            "childItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2023-02-20T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de",
+                "businessPartner" : "BPNLCOFINITYEZFA"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000000ISY",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-313869652971440618042264",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "22782277-52",
+              "customerPartId" : "22782277-52",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Electric vehicle",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ],
+              "nameAtManufacturer" : "Example Car 3",
+              "nameAtCustomer" : "Example Car 3"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b",
+            "childItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2023-02-20T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f",
+                "businessPartner" : "BPNLCOFINITYEZFA"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000000ISY",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-313869652971440618042264",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "22782277-53",
+              "customerPartId" : "22782277-53",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Electric vehicle",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ],
+              "nameAtManufacturer" : "Example Car 4",
+              "nameAtCustomer" : "Example Car 4"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54",
+            "childItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2023-02-20T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da",
+                "businessPartner" : "BPNLCOFINITYEZFA"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000000ISY",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-313869652971440618042264",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "22782277-54",
+              "customerPartId" : "22782277-54",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Electric vehicle",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ],
+              "nameAtManufacturer" : "Example Car 5",
+              "nameAtCustomer" : "Example Car 5"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621",
+            "childItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2023-02-20T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9",
+                "businessPartner" : "BPNLCOFINITYEZFA"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo": {
+        "catenaXId": "urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5"
+      },
+      "submodels" : [
+        {
+          "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload": {
+            "localIdentifiers": [
+              {
+                "key": "manufacturerId",
+                "value": "BPNLCOFINITYEZFA"
+              }
+            ],
+            "manufacturingInformation": {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country": "DEU",
+              "sites": [
+                {
+                  "catenaXsiteId": "BPNS1234567890ZZ",
+                  "function": "production"
+                }
+              ]
+            },
+            "catenaXId": "urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5",
+            "partTypeInformation": {
+              "customerPartId": "798-515297795-A",
+              "manufacturerPartId" : "22782277-51",
+              "nameAtManufacturer": "High Voltage Battery 1",
+              "nameAtCustomer": "High Voltage Battery 1",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Traction Battery",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5",
+            "customers" : [
+              "BPNL000000000ISY"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
+                "createdOn" : "2023-05-29T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000000ISY",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo": {
+        "catenaXId": "urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de"
+      },
+      "submodels" : [
+        {
+          "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload": {
+            "localIdentifiers": [
+              {
+                "key": "manufacturerId",
+                "value": "BPNLCOFINITYEZFA"
+              }
+            ],
+            "manufacturingInformation": {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country": "DEU",
+              "sites": [
+                {
+                  "catenaXsiteId": "BPNS1234567890ZZ",
+                  "function": "production"
+                }
+              ]
+            },
+            "catenaXId": "urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de",
+            "partTypeInformation": {
+              "customerPartId": "798-515297795-A",
+              "manufacturerPartId" : "22782277-52",
+              "nameAtManufacturer": "High Voltage Battery 2",
+              "nameAtCustomer": "High Voltage Battery 2",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Traction Battery",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de",
+            "customers" : [
+              "BPNL000000000ISY"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f",
+                "createdOn" : "2023-05-29T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000000ISY",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },{
+      "assetMetaInfo": {
+        "catenaXId": "urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f"
+      },
+      "submodels" : [
+        {
+          "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload": {
+            "localIdentifiers": [
+              {
+                "key": "manufacturerId",
+                "value": "BPNLCOFINITYEZFA"
+              }
+            ],
+            "manufacturingInformation": {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country": "DEU",
+              "sites": [
+                {
+                  "catenaXsiteId": "BPNS1234567890ZZ",
+                  "function": "production"
+                }
+              ]
+            },
+            "catenaXId": "urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f",
+            "partTypeInformation": {
+              "customerPartId": "798-515297795-A",
+              "manufacturerPartId" : "22782277-53",
+              "nameAtManufacturer": "High Voltage Battery 3",
+              "nameAtCustomer": "High Voltage Battery 3",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Traction Battery",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f",
+            "customers" : [
+              "BPNL000000000ISY"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b",
+                "createdOn" : "2023-05-29T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000000ISY",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },{
+      "assetMetaInfo": {
+        "catenaXId": "urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da"
+      },
+      "submodels" : [
+        {
+          "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload": {
+            "localIdentifiers": [
+              {
+                "key": "manufacturerId",
+                "value": "BPNLCOFINITYEZFA"
+              }
+            ],
+            "manufacturingInformation": {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country": "DEU",
+              "sites": [
+                {
+                  "catenaXsiteId": "BPNS1234567890ZZ",
+                  "function": "production"
+                }
+              ]
+            },
+            "catenaXId": "urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da",
+            "partTypeInformation": {
+              "customerPartId": "798-515297795-A",
+              "manufacturerPartId" : "22782277-54",
+              "nameAtManufacturer": "High Voltage Battery 4",
+              "nameAtCustomer": "High Voltage Battery 4",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Traction Battery",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da",
+            "customers" : [
+              "BPNL000000000ISY"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54",
+                "createdOn" : "2023-05-29T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000000ISY",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },{
+      "assetMetaInfo": {
+        "catenaXId": "urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9"
+      },
+      "submodels" : [
+        {
+          "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload": {
+            "localIdentifiers": [
+              {
+                "key": "manufacturerId",
+                "value": "BPNLCOFINITYEZFA"
+              }
+            ],
+            "manufacturingInformation": {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country": "DEU",
+              "sites": [
+                {
+                  "catenaXsiteId": "BPNS1234567890ZZ",
+                  "function": "production"
+                }
+              ]
+            },
+            "catenaXId": "urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9",
+            "partTypeInformation": {
+              "customerPartId": "798-515297795-A",
+              "manufacturerPartId" : "22782277-55",
+              "nameAtManufacturer": "High Voltage Battery 5",
+              "nameAtCustomer": "High Voltage Battery 5",
+              "partClassification": [
+                {
+                  "classificationStandard": "GIN 20510-21513",
+                  "classificationID": "1004712",
+                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
+                },
+                {
+                  "classificationStandard": "OEM Part Classification 1022-102",
+                  "classificationID": "Traction Battery",
+                  "classificationDescription": "OEM standard for classification of parts."
+                }
+              ]
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9",
+            "customers" : [
+              "BPNL000000000ISY"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621",
+                "createdOn" : "2023-05-29T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000000ISY",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
