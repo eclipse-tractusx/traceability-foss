@@ -7,6 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [Unreleased - DD.MM.YYYY]
+
+### Added
+
+### Changed
+
+- [13.0.2-cfx-5 - 06.11.2024]
 ### Added
 - #350 Added properties for provisioning to submodel / dtr service
 - #349 Added second identity provider for Oauth2 for DTR and submodel service
@@ -18,6 +24,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #30 Submodel client enriches the submodelId to the creation request, instead of adding it to the path
 - #30 Removed not needed callback URL
 - #30 Adapt submodel api request object
+
 ## [13.0.2-cfx-4]
 
 ### Changed
