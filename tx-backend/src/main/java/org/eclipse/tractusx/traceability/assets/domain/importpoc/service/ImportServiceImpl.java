@@ -40,12 +40,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.eclipse.tractusx.traceability.assets.domain.importpoc.service.ImportJsonServiceImpl.getAssetBaseBooleanMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -142,10 +142,6 @@ public class ImportServiceImpl implements ImportService {
     }
 
     public static Map<AssetBase, Boolean> compareForUploadResult(List<AssetBase> incoming, List<AssetBase> persisted) {
-        return incoming.stream().map(asset -> {
-                    Optional<AssetBase> persistedAssetOptional = persisted.stream().filter(persistedAsset -> persistedAsset.getId().equals(asset.getId())).findFirst();
-                    return persistedAssetOptional.map(assetBase -> Map.entry(assetBase, true)).orElseGet(() -> Map.entry(asset, false));
-                }
-        ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
+        return getAssetBaseBooleanMap(incoming, persisted);
     }
 }

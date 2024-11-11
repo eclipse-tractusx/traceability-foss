@@ -62,6 +62,7 @@ SPDX-License-Identifier: Apache-2.0
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <!-- versions for 3rd party dependecies -->
+        <commons.fileupload>1.5</commons.fileupload>
         <logback.version>1.5.6</logback.version>
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>

@@ -80,5 +80,4 @@ public class ApplicationStartupConfig {
         });
         executor.shutdown();
     }
-
 }
