@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.awaitility.Durations;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -37,29 +38,26 @@ public class SubmodelClient {
 
     private final RestTemplate submodelRestTemplate;
 
-
     public SubmodelClient(@Qualifier(SUBMODEL_REST_TEMPLATE) RestTemplate submodelRestTemplate) {
         this.submodelRestTemplate = submodelRestTemplate;
     }
 
-    public void createSubmodel(String submodelId, String payload) {
-
+    public void createSubmodel(SubmodelRequest submodelRequest) {
         await()
                 .atMost(Durations.FIVE_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
                             try {
-                                submodelRestTemplate.exchange("/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
-                                log.info("Submodel created successfully with id: {}", submodelId);
+                                submodelRestTemplate.exchange("/", HttpMethod.POST, new HttpEntity<>(submodelRequest), Void.class);
+                                log.info("Submodel created successfully.");
                                 return true;
                             } catch (Exception e) {
-                                log.warn("Retrying to create submodel with id: {}. Exception: {}", submodelId, e.getMessage());
+                                log.warn("Retrying to create submodel. Exception: {}", e.getMessage());
                                 log.debug("Exception details:", e);
                                 return false;
                             }
                         }
                 );
-
     }
 
 

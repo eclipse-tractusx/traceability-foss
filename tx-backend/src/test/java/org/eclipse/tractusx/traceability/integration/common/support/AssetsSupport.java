@@ -20,11 +20,15 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @Component
@@ -39,6 +43,8 @@ public class AssetsSupport {
     @Autowired
     OAuth2ApiSupport oAuth2ApiSupport;
 
+    @Autowired
+    JpaNotificationRepository jpaInvestigationRepository;
 
     public String emptyText() {
         return "";
@@ -47,36 +53,58 @@ public class AssetsSupport {
     public void defaultAssetsStored() {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         bpnSupport.providesBpdmLookup();
-        List<AssetBase> assetBases = assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests();
-        assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetBases);
+        assetRepositoryProvider.assetAsBuiltRepository()
+                .saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests());
     }
-
 
     public AssetAsBuiltEntity findById(String id) {
         return AssetAsBuiltEntity.from(assetRepositoryProvider.assetAsBuiltRepository.getAssetById(id));
     }
 
+    public void defaultMultipleAssetsAsBuiltStored() {
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        bpnSupport.providesBpdmLookup();
+        assetRepositoryProvider.assetAsBuiltRepository()
+                .saveAll(assetRepositoryProvider.testdataProvider().readAndConvertMultipleAssetsAsBuiltForTests());
+    }
+
     public void tractionBatteryCodeAssetsStored() {
         bpnSupport.providesBpdmLookup();
-        assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.testdataProvider().readAndConvertTractionBatteryCodeAssetsForTests());
+        assetRepositoryProvider.assetAsBuiltRepository()
+                .saveAll(assetRepositoryProvider.testdataProvider().readAndConvertTractionBatteryCodeAssetsForTests());
     }
 
     public void defaultAssetsAsPlannedStored() {
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         bpnSupport.providesBpdmLookup();
-        List<AssetBase> assetBases = assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests();
-        assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetBases);
+        assetRepositoryProvider.assetAsPlannedRepository()
+                .saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests());
     }
 
-    public void assertAssetAsBuiltSize(int size) {
-        long assetCount = assetRepositoryProvider.assetAsBuiltRepository().countAssets();
+    public void assetsAsPlannedStored(final String resourceName) {
+        bpnSupport.providesBpdmLookup();
+        assetRepositoryProvider.assetAsPlannedRepository()
+                .saveAll(assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests(resourceName));
+    }
+
+    public void assertAssetAsBuiltSize(final int size) {
+        final long assetCount = assetRepositoryProvider.assetAsBuiltRepository().countAssets();
         log.info("AsBuiltRepository asset count: {}, expected: {}", assetCount, size);
         assert assetCount == size;
     }
 
-    public void assertAssetAsPlannedSize(int size) {
-        long assetCount = assetRepositoryProvider.assetAsPlannedRepository().countAssets();
-        log.info("AsPlannedRepository asset count: {}", assetCount);
+    public void assertAssetAsPlannedSize(final int size) {
+        final long assetCount = assetRepositoryProvider.assetAsPlannedRepository().countAssets();
+        log.info("AsPlannedRepository asset count: {}, expected: {}", assetCount, size);
         assert assetCount == size;
+    }
+
+    public void validateAssetsCreatedByOwner(int assetOwnCount, int assetSupplierCount) {
+        List<AssetBase> all = assetRepositoryProvider.assetAsBuiltRepository().findAll();
+        int ownCount = all.stream().filter(assetBase -> assetBase.getOwner().equals(Owner.OWN)).toList().size();
+        int supplierCount = all.stream().filter(assetBase -> assetBase.getOwner().equals(Owner.SUPPLIER)).toList().size();
+        assertThat(ownCount).isEqualTo(assetOwnCount);
+        assertThat(supplierCount).isEqualTo(assetSupplierCount);
     }
 
     public void assertNoAssetsStored() {

@@ -35,10 +35,12 @@ public class SubmodelSupport {
 
     public void willCreateSubmodel() {
 
-        whenHttp(restitoProvider.stubServer()).match(startsWithUri("/api/submodel/data")
-        ).then(
-                status(HttpStatus.CREATED_201)
-        );
+
+        whenHttp(restitoProvider.stubServer())
+                .match(startsWithUri("/api/submodel/data"))
+                .then(
+                        status(HttpStatus.CREATED_201)
+                );
     }
 
 }

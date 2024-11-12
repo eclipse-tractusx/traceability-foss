@@ -17,27 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
+import { _environment } from './_environment.base';
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-
-@Getter
-public enum LocalIdKey {
-    @JsonProperty("manufacturerId") MANUFACTURER_ID("manufacturerId"),
-    @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID("manufacturerPartId"),
-    @JsonProperty("partInstanceId") PART_INSTANCE_ID("partInstanceId"),
-    @JsonProperty("digitalTwinType") DIGITAL_TWIN_TYPE("digitalTwinType"),
-    @JsonProperty("batchId") BATCH_ID("batchId"),
-    @JsonEnumDefaultValue UNKNOWN("unknown"),
-    @JsonProperty("van") VAN("van"),
-    @JsonProperty("jisNumber") JIS_NUMBER("jisNumber");
-
-    private final String value;
-
-    LocalIdKey(String value) {
-        this.value = value;
-    }
-
-}
+export const environment = {
+  ..._environment,
+  mockService: false,
+  authDisabled: false,
+  apiUrl: 'https://traceability-test.dev.demo.catena-x.net/api',
+  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
+  clientId: 'Cl17-CX-Part',
+  api: '',
+};

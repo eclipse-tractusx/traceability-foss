@@ -16,28 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.integration.common.config;
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
+public class BmwBpnConfig {
 
-@Getter
-public enum LocalIdKey {
-    @JsonProperty("manufacturerId") MANUFACTURER_ID("manufacturerId"),
-    @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID("manufacturerPartId"),
-    @JsonProperty("partInstanceId") PART_INSTANCE_ID("partInstanceId"),
-    @JsonProperty("digitalTwinType") DIGITAL_TWIN_TYPE("digitalTwinType"),
-    @JsonProperty("batchId") BATCH_ID("batchId"),
-    @JsonEnumDefaultValue UNKNOWN("unknown"),
-    @JsonProperty("van") VAN("van"),
-    @JsonProperty("jisNumber") JIS_NUMBER("jisNumber");
 
-    private final String value;
-
-    LocalIdKey(String value) {
-        this.value = value;
+    public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "traceability.bpn=BPNL000000000ISY"
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
-
 }

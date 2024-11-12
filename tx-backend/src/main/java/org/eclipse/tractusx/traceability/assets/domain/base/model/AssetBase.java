@@ -45,6 +45,7 @@ public class AssetBase {
     private String manufacturerName;
     private String nameAtManufacturer;
     private String manufacturerPartId;
+    private String digitalTwinType;
     private Owner owner;
     @Singular
     private List<Descriptions> childRelations;

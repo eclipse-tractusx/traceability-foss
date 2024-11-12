@@ -78,7 +78,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @CollectionTable(name = "traction_battery_code_subcomponent", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
     private List<TractionBatteryCodeSubcomponents> subcomponents;
 
-
     @ElementCollection
     @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
     private List<AssetAsBuiltEntity.ChildDescription> childDescriptors;
@@ -89,7 +88,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     @ManyToMany(mappedBy = "assets")
     private List<NotificationEntity> notifications = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
     private List<SubmodelPayloadEntity> submodels;
@@ -108,6 +106,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .manufacturerPartId(manufacturingInfo.getManufacturerPartId())
                 .semanticModelId(asset.getSemanticModelId())
                 .manufacturerId(asset.getManufacturerId())
+                .digitalTwinType(asset.getDigitalTwinType())
                 .manufacturerName(asset.getManufacturerName())
                 .nameAtCustomer(manufacturingInfo.getNameAtCustomer())
                 .customerPartId(manufacturingInfo.getCustomerPartId())
@@ -141,6 +140,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .semanticDataModel(SemanticDataModelEntity.toDomain(this.getSemanticDataModel()))
                 .semanticModelId(this.getSemanticModelId())
                 .manufacturerId(this.getManufacturerId())
+                .digitalTwinType(this.getDigitalTwinType())
                 .manufacturerName(this.getManufacturerName())
                 .nameAtManufacturer(this.getNameAtManufacturer())
                 .manufacturerPartId(this.getManufacturerPartId())

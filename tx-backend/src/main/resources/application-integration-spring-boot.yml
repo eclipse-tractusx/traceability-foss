@@ -34,9 +34,18 @@ traceability:
   irsBase: "http://127.0.0.1"
   irsPoliciesPath: "/irs/policies"
   submodelBase: localhost:${server.port}/api/submodel/data
-
-registry:
-  urlWithPath: "http://127.0.0.1"
+  technicalServiceApiKey: "test-key"
+  discoveryType: "bpnl"
+provisioning:
+  submodel:
+    submodelBaseInternal: localhost:${server.port}/api/submodel/data
+    submodelBaseExternal: localhost:${server.port}/api/submodel/data
+    submodelPath: ''
+  registry:
+    urlWithPathInternal: "http://127.0.0.1"
+    urlWithPathExternal: "http://127.0.0.1"
+    shellDescriptorUrl: /shell-descriptors
+    allowedBpns: BPNL00000003CML1,BPNL00000003CNKC
 
 edc:
   ids:
@@ -82,12 +91,11 @@ logging:
     org.springframework.security: INFO
     org.springframework: INFO
 
-
-
 digitalTwinRegistryClient:
+  discovery:
+    type: "bpnl"
   oAuthClientId: keycloak
   discoveryFinderUrl: ""
-
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
 feign:

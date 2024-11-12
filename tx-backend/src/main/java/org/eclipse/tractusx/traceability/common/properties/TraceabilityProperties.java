@@ -25,17 +25,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 
-@Component
+@Configuration
 @Getter
 @Setter
 @ConfigurationProperties("traceability")
 public class TraceabilityProperties {
-
     private BPN bpn;
     private String url;
     private String internalUrl;
@@ -47,12 +46,13 @@ public class TraceabilityProperties {
     private String rightOperandSecond;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime validUntil;
-
     private String adminApiKey;
-
     private String regularApiKey;
-
     private String irsBase;
-    private String submodelBase;
+    private String discoveryType;
+    private String technicalServiceApiKey;
 
+    public boolean isApplicationBpn(final String bpn) {
+        return BPN.of(bpn).equals(this.bpn);
+    }
 }

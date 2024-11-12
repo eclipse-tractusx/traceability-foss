@@ -29,9 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
+import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
+import org.eclipse.tractusx.traceability.common.properties.SubmodelProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,7 +48,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +72,6 @@ public class RestTemplateConfiguration {
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final ClientRegistrationRepository clientRegistrationRepository;
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     /* RestTemplate used by trace x for the resolution of manufacturer names by BPN.*/
     @Bean(BPDM_CLIENT_REST_TEMPLATE)
@@ -109,9 +108,13 @@ public class RestTemplateConfiguration {
                 .build();
     }
 
+    /* RestTemplate used by the digital twin registry client library*/
     @Bean(DIGITAL_TWIN_REGISTRY_CREATE_SHELL_REST_TEMPLATE)
-    public RestTemplate digitalTwinRegistryCreateShellRestTemplate() {
-        return new RestTemplateBuilder()
+    public RestTemplate digitalTwinRegistryCreateShellRestTemplate(
+            final RestTemplateBuilder restTemplateBuilder,
+            @Autowired RegistryProperties registryProperties) {
+        return oAuthRestTemplate(restTemplateBuilder,
+                registryProperties.getOauthProviderRegistrationId())
                 .build();
     }
 
@@ -146,24 +149,22 @@ public class RestTemplateConfiguration {
 
     /* RestTemplate used by trace x for the submodel server*/
     @Bean(SUBMODEL_REST_TEMPLATE)
-    public RestTemplate submodelRestTemplate(@Autowired TraceabilityProperties traceabilityProperties, @Autowired FeignDefaultProperties feignDefaultProperties) {
-        return new RestTemplateBuilder()
-                .rootUri(traceabilityProperties.getSubmodelBase())
+    public RestTemplate submodelRestTemplate(@Autowired SubmodelProperties submodelProperties, @Autowired FeignDefaultProperties feignDefaultProperties,
+                                             final RestTemplateBuilder restTemplateBuilder) {
+
+        return oAuthRestTemplate(restTemplateBuilder, submodelProperties.getOauthProviderRegistrationId())
+                .rootUri(submodelProperties.getBaseExternal())
                 .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
                 .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 
-    /* RestTemplate used by the digital twin registry client library*/
+
     @Bean(DIGITAL_TWIN_REGISTRY_REST_TEMPLATE)
     public RestTemplate digitalTwinRegistryRestTemplate(
-            final RestTemplateBuilder restTemplateBuilder,
-            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
-        oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).build();
-        return oAuthRestTemplate(restTemplateBuilder,
-                clientRegistrationId).build();
+            final RestTemplateBuilder restTemplateBuilder) {
+        return oAuthRestTemplate(restTemplateBuilder, "keycloak").build();
     }
 
     /* RestTemplate used by the edc client library*/

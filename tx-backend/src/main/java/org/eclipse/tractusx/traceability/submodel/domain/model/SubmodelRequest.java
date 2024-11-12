@@ -25,9 +25,11 @@ package org.eclipse.tractusx.traceability.submodel.domain.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 @Builder
-public class SubmodelPayload {
-    private String id;
-    private String json;
+public class SubmodelRequest {
+    private String submodelId;
+    private Map<String, Object> data;
 }

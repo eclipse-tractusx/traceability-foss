@@ -19,21 +19,47 @@
 
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelRequest;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
 import org.springframework.stereotype.Service;
-@Slf4j
+
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SubmodelServerClientImpl implements SubmodelServerRepository {
 
-
     private final SubmodelClient submodelClient;
+    private final ObjectMapper objectMapper;
 
     @Override
-    public void saveSubmodel(String submodelId, String submodel) {
-        submodelClient.createSubmodel(submodelId, submodel);
+    public String saveSubmodel(String submodel) {
+        String submodelId;
+        try {
+            String submodelEnriched = SubmodelUtil.enrichWithSubmodelUuid(objectMapper, submodel);
+            submodelId = SubmodelUtil.getSubmodelId(objectMapper, submodelEnriched);
+            Map<String, Object> jsonData = objectMapper.readValue(submodelEnriched, new TypeReference<>() {
+            });
+
+            SubmodelRequest submodelRequest =
+                    SubmodelRequest
+                            .builder()
+                            .submodelId(submodelId)
+                            .data(jsonData)
+                            .build();
+            submodelClient.createSubmodel(submodelRequest);
+            log.info("Submodel saved with ID: {}", submodelId);
+        } catch (Exception e) {
+            log.error("Error saving submodel: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return submodelId;
+
     }
 
     @Override
