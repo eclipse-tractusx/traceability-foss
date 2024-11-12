@@ -69,7 +69,6 @@ public class SerialPartMapper implements SubmodelMapper {
                 .build();
     }
 
-
     @Override
     public boolean validMapper(IrsSubmodel submodel) {
         return submodel.getPayload() instanceof SerialPart300Schema;
@@ -94,7 +93,7 @@ public class SerialPartMapper implements SubmodelMapper {
         UrnSammIoCatenaxSerialPart300KeyValueList object = localIdentifiers.stream()
                 .filter(localId -> localId.getKey().equalsIgnoreCase(key))
                 .findFirst()
-                .orElseGet(() -> null);
+                .orElse(null);
 
         if (object != null) {
             return object.getValue();

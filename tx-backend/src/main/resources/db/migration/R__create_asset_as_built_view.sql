@@ -20,7 +20,8 @@ INSERT INTO assets_as_built (id,
                              manufacturing_country,
                              name_at_customer,
                              customer_part_id,
-                             product_type)
+                             product_type,
+                             digital_twin_type)
 VALUES ('urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22', -- id
         NULL, -- idShort
         'SUPPLIER', -- owner (Enum)
@@ -41,7 +42,8 @@ VALUES ('urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22', -- id
         'DEU', -- manufacturingCountry
         NULL, -- nameAtCustomer
         NULL, -- customerPartId
-        NULL -- productType
+        NULL, -- productType
+        'digitalTwinType' -- digitalTwinType
        )
 ON CONFLICT (id) DO NOTHING;
 

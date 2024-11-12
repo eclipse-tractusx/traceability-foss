@@ -46,6 +46,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - #43 Implemented backend API for search filtering (asBuilt and asPlanned).
 - #43 Integrated search functionality in the CFX frontend.
 - #43 Added integration tests for search functionality based on legacy repo code.
+- #353 Added digitalTwinType for assets provisioning
 
 ### Fixed
 - #43 Resolved missing API issues causing search functionality in CFX frontend to fail.

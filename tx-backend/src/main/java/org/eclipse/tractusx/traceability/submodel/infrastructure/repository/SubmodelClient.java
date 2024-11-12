@@ -38,7 +38,6 @@ public class SubmodelClient {
 
     private final RestTemplate submodelRestTemplate;
 
-
     public SubmodelClient(@Qualifier(SUBMODEL_REST_TEMPLATE) RestTemplate submodelRestTemplate) {
         this.submodelRestTemplate = submodelRestTemplate;
     }

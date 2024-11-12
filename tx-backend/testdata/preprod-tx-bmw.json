@@ -2,7 +2,8 @@
   "assets" : [
     {
       "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
+        "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
+        "digitalTwinType": "partInstance"
       },
       "submodels" : [
         {
@@ -66,7 +67,8 @@
     },
     {
       "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f"
+        "catenaXId" : "urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f",
+        "digitalTwinType": "partInstance"
       },
       "submodels" : [
         {
@@ -130,7 +132,8 @@
     },
     {
       "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b"
+        "catenaXId" : "urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b",
+        "digitalTwinType": "partInstance"
       },
       "submodels" : [
         {
@@ -194,7 +197,8 @@
     },
     {
       "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54"
+        "catenaXId" : "urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54",
+        "digitalTwinType": "partInstance"
       },
       "submodels" : [
         {
@@ -258,7 +262,8 @@
     },
     {
       "assetMetaInfo" : {
-        "catenaXId" : "urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621"
+        "catenaXId" : "urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621",
+        "digitalTwinType": "partInstance"
       },
       "submodels" : [
         {

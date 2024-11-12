@@ -34,17 +34,16 @@ import java.util.Map;
 @Slf4j
 public class SubmodelServerClientImpl implements SubmodelServerRepository {
 
-
     private final SubmodelClient submodelClient;
     private final ObjectMapper objectMapper;
 
     @Override
     public String saveSubmodel(String submodel) {
-        String submodelId = null;
+        String submodelId;
         try {
             String submodelEnriched = SubmodelUtil.enrichWithSubmodelUuid(objectMapper, submodel);
             submodelId = SubmodelUtil.getSubmodelId(objectMapper, submodelEnriched);
-            Map<String, Object> jsonData = objectMapper.readValue(submodelEnriched, new TypeReference<Map<String, Object>>() {
+            Map<String, Object> jsonData = objectMapper.readValue(submodelEnriched, new TypeReference<>() {
             });
 
             SubmodelRequest submodelRequest =

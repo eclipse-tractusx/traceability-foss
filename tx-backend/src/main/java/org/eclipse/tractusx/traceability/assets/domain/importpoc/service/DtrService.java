@@ -19,6 +19,10 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.DIGITAL_TWIN_TYPE;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.MANUFACTURER_ID;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.MANUFACTURER_PART_ID;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -90,9 +94,8 @@ public class DtrService {
     private List<SubmodelDescriptor> toSubmodelDescriptors(Map<String, String> createdSubmodelIdByAspectType, String submodelServerAssetId) {
         return createdSubmodelIdByAspectType.entrySet()
                 .stream().map(entry ->
-                        toSubmodelDescriptor(entry.getKey(), entry.getValue(), submodelServerAssetId)
-
-                ).toList();
+                        toSubmodelDescriptor(entry.getKey(), entry.getValue(), submodelServerAssetId))
+                .toList();
     }
 
     private SubmodelDescriptor toSubmodelDescriptor(String aspectType, String submodelServerIdReference, String submodelServerAssetId) {
@@ -106,9 +109,8 @@ public class DtrService {
                                 .keys(
                                         List.of(SemanticId.builder()
                                                 .type(GLOBAL_REFERENCE)
-                                                .value(aspectType).build())
-                                ).build()
-                )
+                                                .value(aspectType).build()))
+                                .build())
                 .endpoints(
                         List.of(
                                 Endpoint.builder()
@@ -122,11 +124,10 @@ public class DtrService {
                                                         .subprotocolBodyEncoding("plain")
                                                         .subprotocolBody(getSubProtocol(submodelServerAssetId))
                                                         .securityAttributes(
-                                                                List.of(SecurityAttribute.none())
-                                                        ).build()
-                                        ).build()
-                        )
-                ).build();
+                                                                List.of(SecurityAttribute.none()))
+                                                        .build())
+                                        .build()))
+                .build();
     }
 
     private String getSubProtocol(String submodelServerAssetId) {
@@ -159,7 +160,7 @@ public class DtrService {
 
         List<IdentifierKeyValuePair> identifierKeyValuePairs = List.of(
                 IdentifierKeyValuePair.builder()
-                        .name("manufacturerId")
+                        .name(MANUFACTURER_ID.getValue())
                         .value(assetBase.getManufacturerId())
                         .externalSubjectId(
                                 Reference.builder()
@@ -168,8 +169,17 @@ public class DtrService {
                                         .build())
                         .build(),
                 IdentifierKeyValuePair.builder()
-                        .name("manufacturerPartId")
+                        .name(MANUFACTURER_PART_ID.getValue())
                         .value(assetBase.getManufacturerPartId())
+                        .externalSubjectId(
+                                Reference.builder()
+                                        .type(EXTERNAL_REFERENCE)
+                                        .keys(getExternalSubjectIds())
+                                        .build())
+                        .build(),
+                IdentifierKeyValuePair.builder()
+                        .name(DIGITAL_TWIN_TYPE.getValue())
+                        .value(assetBase.getDigitalTwinType())
                         .externalSubjectId(
                                 Reference.builder()
                                         .type(EXTERNAL_REFERENCE)
@@ -181,7 +191,6 @@ public class DtrService {
         return identifierKeyValuePairs;
     }
 
-
     private List<SemanticId> getExternalSubjectIds() {
         List<SemanticId> externalSubjectIds = List.of(SemanticId.builder()
                 .type(GLOBAL_REFERENCE)
@@ -192,8 +201,7 @@ public class DtrService {
                         SemanticId.builder()
                                 .type(GLOBAL_REFERENCE)
                                 .value(allowedBpn)
-                                .build()
-                )
+                                .build())
                 .toList();
 
         return Stream.concat(externalSubjectIds.stream(), configurationExternalSubjectIds.stream()).toList();

@@ -79,7 +79,7 @@ public class IntegrationTestSpecification {
         return new JsonBuilder(map).toPrettyString();
     }
 
-    protected void eventually(Callable<Boolean> conditions) throws InterruptedException {
+    protected void eventually(Callable<Boolean> conditions) {
         Awaitility.setDefaultPollInterval(500, TimeUnit.MILLISECONDS);
         Awaitility.setDefaultTimeout(30, TimeUnit.SECONDS);
         Awaitility.pollInSameThread();
