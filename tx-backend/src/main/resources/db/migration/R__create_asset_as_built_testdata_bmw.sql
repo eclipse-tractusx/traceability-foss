@@ -34,31 +34,29 @@ DO $$
                 tombstone,
                 contract_agreement_id,
                 digital_twin_type
-            ) VALUES (
-                         'urn:uuid:6b2286cc-26c0-4f98-8a22-092338c31888',
-                         '5756987-94',
-                         'IDSHORT002',
-                         manufacturerId,  -- manufacturer_id gets the value of applicationBpn
-                         'Acme Corp',
-                         'MANUF_PART_456',
-                         'DEU',
-                         'Widget Pro',
-                         'Widget Mk2',
-                         'OK',
-                         'VAN123456',
-                         'SUPPLIER',
-                         'NO-613963493493659233961306',
-                         'SERIALPART',
-                         'ClassA',
-                         'Electronics',
-                         '2024-11-13 10:00:00+00',
-                         'PERSISTENT',
-                         'Asset successfully created in the system.',
-                         'default-policy',
-                         NULL,
-                         'CONTRACT_AGR_001',
-                      'partType'
-                     )
+            ) VALUES ('urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd', -- catenaXId
+                      '22782277-50',                                   -- customerPartId
+                      'IDSHORT002',                                    -- ID Short (unchanged)
+                      bmwBpn,                              -- manufacturerId from localIdentifiers
+                      'Acme Corp',                                     -- manufacturerName (remains as 'Acme Corp' as not specified)
+                      '22782277-50',                                   -- manufacturerPartId
+                      'DEU',                                           -- manufacturingCountry from manufacturingInformation
+                      'Example Car 1',                                 -- nameAtCustomer
+                      'Example Car 1',                                 -- nameAtManufacturer
+                      'OK',                                            -- qualityType (unchanged)
+                      'VAN123456',                                     -- van (unchanged)
+                      'OWN',                                           -- owner (unchanged)
+                      'NO-313869652971440618042264',                   -- semanticModelId from partInstanceId in localIdentifiers
+                      'SERIALPART',                                    -- semanticDataModel mapped from aspectType
+                      'ClassA',                                        -- classification (remains as 'ClassA' as classification info is nested)
+                      'Electronics',                                   -- productType (unchanged)
+                      '2022-02-04 14:48:54+00',                        -- manufacturingDate from manufacturingInformation date
+                      'PERSISTENT',                                    -- importState (unchanged)
+                      'Asset successfully created in the system.',     -- importNote (unchanged)
+                      'default-policy',                                -- policyId (unchanged)
+                      NULL,                                            -- tombstone (unchanged)
+                      'CONTRACT_AGR_001',                              -- contractAgreementId (unchanged)
+                      'partType'      )
             ON CONFLICT (id) DO NOTHING;
 
 
@@ -87,44 +85,46 @@ DO $$
                 contract_agreement_id,
                 digital_twin_type
             ) VALUES (
-                         'urn:uuid:6b2296cc-26c0-4f99-8a22-092338c31999',
-                         '5756987-94',
-                         'IDSHORT001',
-                         cofinityBpn,  -- manufacturer_id gets the value of applicationBpn
-                         'Acme Corp',
-                         'MANUF_PART_456',
-                         'DEU',
-                         'Widget Pro',
-                         'Widget Mk2',
-                         'OK',
-                         'VAN123456',
-                         'OWN',
-                         'NO-613963493493659233961306',
-                         'SERIALPART',
-                         'ClassA',
-                         'Electronics',
-                         '2024-11-13 10:00:00+00',
-                         'PERSISTENT',
-                         'Asset successfully created in the system.',
-                         'default-policy',
-                         NULL,
-                         'CONTRACT_AGR_001',
-                    'partType'
-                     )
+
+                                     'urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5', -- catenaXId
+                                     '798-515297795-A',                              -- customerPartId
+                                     'HighVoltageBattery1',                                   -- ID Short (unchanged)
+                                     cofinityBpn,                           -- manufacturerId from localIdentifiers
+                                     'Cofinity-X',                                    -- manufacturerName (remains as 'Acme Corp' as not specified)
+                                     '22782277-51',                                  -- manufacturerPartId
+                                     'DEU',                                          -- manufacturingCountry from manufacturingInformation
+                                     'High Voltage Battery 1',                       -- nameAtCustomer
+                                     'High Voltage Battery 1',                       -- nameAtManufacturer
+                                     'OK',                                           -- qualityType (unchanged)
+                                     'VAN123456',                                    -- van (unchanged)
+                                     'SUPPLIER',                                          -- owner (unchanged)
+                                     'NO-613963493493659233961306',                  -- semanticModelId (unchanged)
+                                     'SERIALPART',                                   -- semanticDataModel mapped from aspectType
+                                     'GIN 20510-21513',                                       -- classification (remains as 'ClassA' as classification info is nested)
+                                     'Battery',                                  -- productType (unchanged)
+                                     '2022-02-04 14:48:54+00',                       -- manufacturingDate from manufacturingInformation date
+                                     'PERSISTENT',                                   -- importState (unchanged)
+                                     'Asset successfully created in the system.',    -- importNote (unchanged)
+                                     'default-policy',                               -- policyId (unchanged)
+                                     NULL,                                           -- tombstone (unchanged)
+                                     'CONTRACT_AGR_001',                             -- contractAgreementId (unchanged)
+                                     'partType'
+
+                                 )
 
             ON CONFLICT (id) DO NOTHING;
 
             IF NOT EXISTS (
                 SELECT 1 FROM assets_as_built_childs
-                WHERE asset_as_built_id = 'urn:uuid:6b2286cc-26c0-4f98-8a22-092338c31888'
-                  AND id = 'urn:uuid:6b2296cc-26c0-4f99-8a22-092338c31999'
+                WHERE asset_as_built_id = 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
+                  AND id = 'urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5'
             ) THEN
                 -- Perform the insert if id does not exist
                 INSERT INTO assets_as_built_childs (
                     asset_as_built_id, id, id_short
                 ) VALUES (
-                             'urn:uuid:6b2286cc-26c0-4f98-8a22-092338c31888',
-                             'urn:uuid:6b2296cc-26c0-4f99-8a22-092338c31999',
+                             'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd',
+                             'urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5',
                              'IDSHORT001'
                          );
             END IF;
