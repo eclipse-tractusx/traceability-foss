@@ -47,6 +47,8 @@ VALUES ('urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22', -- id
        )
 ON CONFLICT (id) DO NOTHING;
 
+drop view assets_as_built_view;
+
 create
 or replace view assets_as_built_view as
 select asset.*,
