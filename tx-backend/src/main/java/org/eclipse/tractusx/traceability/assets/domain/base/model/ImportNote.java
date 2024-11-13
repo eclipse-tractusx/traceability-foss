@@ -23,6 +23,7 @@ public class ImportNote {
     public static final String TRANSIENT_UPDATED = "Asset updated successfully in transient state.";
     public static final String PERSISTENT_NO_UPDATE = "Asset in sync with digital twin registry. Twin will not be updated.";
     public static final String PERSISTED = "Asset created/updated successfully in persistent state.";
+    public static final String MOCK = "Asset successfully created in the system.";
     public static final String IN_SYNCHRONIZATION = "Twin in sync with digital twin registry. Twin will not be updated.";
     public static final String PUBLISHED_TO_CORE_SERVICES = "Assets published to core services.";
     public static final String ERROR_DTR_SHELL_CREATION_FAILED = "Failed to create shell in DTR.";

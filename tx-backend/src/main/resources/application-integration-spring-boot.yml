@@ -75,6 +75,10 @@ spring:
     username: postgres
   flyway:
     enabled: true
+    placeholders:
+      applicationBpn: BPNL00000003AXS3
+      bmwBpn: BPNL000000000ISY
+      cofinityBpn: BPNLCOFINITYEZFA
 
 jwt:
   resource-client: "Integration-Test"

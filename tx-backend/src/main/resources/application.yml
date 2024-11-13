@@ -41,6 +41,7 @@ traceability:
   publishAssetCronZone: ${TRACEABILITY_PUBLISH_ASSET_ZONE:Europe/Berlin}
 
 
+
 provisioning:
   submodel:
     baseInternal: ${SUBMODEL_URL_INTERNAL}
@@ -135,6 +136,12 @@ spring:
         format_sql: true
   main:
     allow-bean-definition-overriding: true
+  flyway:
+    enabled: true
+    placeholders:
+      applicationBpn: ${TRACEABILITY_BPN}
+      bmwBpn: BPNL000000000ISY
+      cofinityBpn: BPNLCOFINITYEZFA
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
