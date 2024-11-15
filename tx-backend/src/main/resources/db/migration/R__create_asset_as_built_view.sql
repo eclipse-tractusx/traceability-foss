@@ -43,7 +43,7 @@ VALUES ('urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22', -- id
         NULL, -- nameAtCustomer
         NULL, -- customerPartId
         NULL, -- productType
-        'digitalTwinType' -- digitalTwinType
+        'partType' -- digitalTwinType
        )
 ON CONFLICT (id) DO NOTHING;
 
