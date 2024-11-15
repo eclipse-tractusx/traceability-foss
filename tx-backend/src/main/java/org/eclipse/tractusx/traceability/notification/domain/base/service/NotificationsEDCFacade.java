@@ -156,7 +156,7 @@ public class NotificationsEDCFacade {
                 taxoValue = CX_TAXO_QUALITY_INVESTIGATION_UPDATE;
             }
 
-            return edcCatalogFacade.fetchCatalogItems(
+            Optional<CatalogItem> firstCatalogOfferMatchingFilter = edcCatalogFacade.fetchCatalogItems(
                             CatalogRequest.Builder.newInstance()
                                     .protocol(DEFAULT_PROTOCOL)
                                     .counterPartyAddress(appendSuffix(receiverEdcUrl, edcProperties.getIdsPath()))
@@ -173,8 +173,21 @@ public class NotificationsEDCFacade {
                                             .build())
                                     .build()
                     ).stream()
-                    .findFirst()
-                    .orElseThrow();
+                    .findFirst();
+
+            try {
+                if (firstCatalogOfferMatchingFilter.isPresent()) {
+                    log.info("Using catalogOffer with id {}  for type {} | ", firstCatalogOfferMatchingFilter.get().getOfferId(), taxoValue);
+                    final String policyString = objectMapper.writeValueAsString(firstCatalogOfferMatchingFilter.get().getPolicy());
+                    log.info("CatalogOffer with id {} contains policy {}", firstCatalogOfferMatchingFilter.get().getOfferId(), policyString);
+                } else {
+                    log.info("Could not find catalogOffer for type {}", taxoValue);
+                }
+                return firstCatalogOfferMatchingFilter
+                        .orElseThrow();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } catch (Exception e) {
             log.error("Exception was thrown while requesting catalog items from Lib", e);
             throw new NoCatalogItemException(e);

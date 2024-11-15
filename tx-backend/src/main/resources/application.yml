@@ -189,7 +189,7 @@ jwt:
 feign:
   default:
     connectionTimeoutMillis: 200
-    readTimeoutMillis: 500
+    readTimeoutMillis: 5000
     maxIdleConnections: 10
     keepAliveDurationMinutes: 5
 

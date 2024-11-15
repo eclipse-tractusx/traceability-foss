@@ -24,7 +24,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - #105 Upgraded irs client library to 2.1.15
 - #66 changed integration tests for edc notifications
 - #66 changed error handling config and added new exception InvalidApiKeyException
-
+- #410 extended timeout for feign client
 ### Fixed
 - #55 ids path for notification catalog requests is only appended if not already present.
 

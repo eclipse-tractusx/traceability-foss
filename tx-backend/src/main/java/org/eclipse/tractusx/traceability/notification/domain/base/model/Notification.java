@@ -65,7 +65,6 @@ public class Notification {
 
     public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate, List<String> affectedPartIds, List<String> initialReceiverBpns, String receiverBpn) {
 
-
         return Notification.builder()
                 .title(title)
                 .bpn(bpn)
