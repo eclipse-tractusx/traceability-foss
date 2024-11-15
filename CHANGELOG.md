@@ -9,6 +9,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ## [Unreleased - DD.MM.YYYY]
 
 ### Added
+- #124 Added new section under crosscuting/api-endpoints to arc42 documentation
 
 ### Changed
 

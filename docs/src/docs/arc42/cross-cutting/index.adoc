@@ -8,3 +8,4 @@
 - xref:development-concepts.adoc[Development concepts]
 - xref:operational-concepts.adoc[Operational concepts]
 - xref:user-experience.adoc[User experience]
+- xref:api-endpoints.adoc[API Endpoints]

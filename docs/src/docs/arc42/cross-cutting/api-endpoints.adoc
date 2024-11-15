@@ -1,0 +1,658 @@
+= API Documentation
+
+This document provides an overview of the API endpoints, their supported HTTP methods, visibility status, and the reasons for their current or future public accessibility.
+
+== Table of Contents
+
+. <<_1_assets,1. Assets>>
+.. <<_as_built,As-Built>>
+.. <<_as_planned,As-Planned>>
+.. <<_import_report,Import Report>>
+.. <<_publish,Publish>>
+. <<_2_bpn_configuration,2. BPN Configuration>>
+. <<_3_contracts,3. Contracts>>
+. <<_4_dashboard,4. Dashboard>>
+. <<_5_edc_notification_contract,5. EDC Notification Contract>>
+. <<_6_internal_quality_alerts_and_notifications,6. Internal Quality Alerts and Notifications>>
+. <<_7_notifications,7. Notifications>>
+. <<_8_policies,8. Policies>>
+. <<_9_registry,9. Registry>>
+. <<_10_submodel_data,10. Submodel Data>>
+
+[#_1_assets]
+== 1. Assets
+
+[#_as_built]
+=== As-Built
+
+==== GET `/assets/as-built`
+
+*Description*: Retrieve a list of as-built assets.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== GET `/assets/as-built/*/children/+{childId}+`
+
+*Description*: Retrieve child assets for a specific as-built asset.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== GET `/assets/as-built/+{assetId}+`
+
+*Description*: Retrieve details of a specific as-built asset.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== PATCH `/assets/as-built/+{assetId}+`
+
+*Description*: Update specific fields of an as-built asset.
+
+*Visibility*:
+- Current: Public
+- Future: Public
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== GET `/assets/as-built/countries`
+
+*Description*: Retrieve a list of countries associated with as-built assets.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/assets/as-built/detail-Information`
+
+*Description*: Add detailed information to as-built assets.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/assets/as-built/searchable-values`
+
+*Description*: Add searchable values to as-built assets.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/assets/as-built/sync`
+
+*Description*: Synchronize as-built assets across instances.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_as_planned]
+=== As-Planned
+
+==== GET `/assets/as-planned`
+
+*Description*: Retrieve a list of as-planned assets.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== GET `/assets/as-planned/*/children/+{childId}+`
+
+*Description*: Retrieve child assets for a specific as-planned asset.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== GET `/assets/as-planned/+{assetId}+`
+
+*Description*: Retrieve details of a specific as-planned asset.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== PATCH `/assets/as-planned/+{assetId}+`
+
+*Description*: Update specific fields of an as-planned asset.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/assets/as-planned/detail-Information`
+
+*Description*: Add detailed information to as-planned assets.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/assets/as-planned/searchable-values`
+
+*Description*: Add searchable values to as-planned assets.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/assets/as-planned/sync`
+
+*Description*: Synchronize as-planned assets across instances.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_import_report]
+=== Import Report
+
+==== GET `/assets/import/report/+{importJobId}+`
+
+*Description*: Retrieve the report of a specific asset import job.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_publish]
+=== Publish
+
+==== POST `/assets/publish`
+
+*Description*: Publish assets to make them available to other instances.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_2_bpn_configuration]
+== 2. BPN Configuration
+
+=== GET `/bpn-config`
+
+*Description*: Retrieve the current BPN (Business Partner Number) configurations.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== PUT `/bpn-config`
+
+*Description*: Update the BPN configurations.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/bpn-config`
+
+*Description*: Add new BPN configurations.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== DELETE `/bpn-config/+{bpn}+`
+
+*Description*: Delete a specific BPN configuration.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_3_contracts]
+== 3. Contracts
+
+=== POST `/contracts`
+
+*Description*: Create new contracts between instances.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_4_dashboard]
+== 4. Dashboard
+
+=== GET `/Dashboard`
+
+*Description*: Retrieve dashboard information.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_5_edc_notification_contract]
+== 5. EDC Notification Contract
+
+=== POST `/edc/notification/contract`
+
+*Description*: Create contracts for EDC notifications.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_6_internal_quality_alerts_and_notifications]
+== 6. Internal Quality Alerts and Notifications
+
+*Note*: These endpoints are marked as private and are intended for internal use.
+
+=== POST `/internal/qualityalerts/receive`
+
+*Description*: Receive internal quality alerts.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/internal/qualityalerts/update`
+
+*Description*: Update internal quality alerts.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/internal/qualitynotifications/receive`
+
+*Description*: Receive internal quality notifications.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+*Reason for visibility*: Is accessed from other instances.
+
+==== POST `/internal/qualitynotifications/update`
+
+*Description*: Update internal quality notifications.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_7_notifications]
+== 7. Notifications
+
+=== PUT `/notification/+{notificationId}+/edit`
+
+*Description*: Edit a specific notification.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/notifications`
+
+*Description*: Create new notifications.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/notifications/filter`
+
+*Description*: Filter notifications based on criteria.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/notifications/searchable-values`
+
+*Description*: Add searchable values to notifications.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== GET `/notifications/+{notificationId}+`
+
+*Description*: Retrieve a specific notification.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/notifications/+{notificationId}+/approve`
+
+*Description*: Approve a notification.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/notifications/+{notificationId}+/cancel`
+
+*Description*: Cancel a notification.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/notifications/+{notificationId}+/close`
+
+*Description*: Close a notification.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/notifications/+{notificationId}+/update`
+
+*Description*: Update a notification.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_8_policies]
+== 8. Policies
+
+=== GET `/policies`
+
+*Description*: Retrieve a list of policies.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== PUT `/policies`
+
+*Description*: Update existing policies.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/policies`
+
+*Description*: Create new policies.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== GET `/policies/+{policyID}+`
+
+*Description*: Retrieve a specific policy by ID.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== DELETE `/policies/+{policyID}+`
+
+*Description*: Delete a specific policy by ID.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_9_registry]
+== 9. Registry
+
+=== GET `/registry/reload`
+
+*Description*: Reload the registry data.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_10_submodel_data]
+== 10. Submodel Data
+
+=== DELETE `/submodel/data`
+
+*Description*: Delete submodel data.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== GET `/submodel/data/+{submodelId}+`
+
+*Description*: Retrieve data for a specific submodel.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/submodel/data/+{submodelId}+`
+
+*Description*: Add data to a specific submodel.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
