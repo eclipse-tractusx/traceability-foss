@@ -19,6 +19,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - #66 Added api key authorization for /qualitynotifications and /qualityalerts
 - #346 Reconfigured GitHub workflows to use GitHub Packages to fetch dependencies
 - #373 Added test data for CFX/BMW for Preprod
+- #127 Enhanced getManufacturerId logic to fallback to specificAssetIds in Shell.Payload when manufacturerId is not available in local_identifiers.
 
 ### Changed
 - #105 Upgraded irs client library to 2.1.15

@@ -33,6 +33,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,9 +116,20 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
         if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
             return irsResponse.jobStatus().parameter().bpn();
         }
+
+        if (assetBase.getManufacturerId() == null) {
+            return irsResponse.shells().stream()
+                    .map(Shell::payload)
+                    .filter(Objects::nonNull)
+                    .flatMap(payload -> payload.specificAssetIds().stream())
+                    .filter(specificAssetId -> "manufacturerId".equalsIgnoreCase(specificAssetId.name()))
+                    .map(Shell.Payload.SpecificAssetId::value)
+                    .findFirst()
+                    .orElse(null);
+        }
+
         return assetBase.getManufacturerId();
     }
-
 }
 
 
