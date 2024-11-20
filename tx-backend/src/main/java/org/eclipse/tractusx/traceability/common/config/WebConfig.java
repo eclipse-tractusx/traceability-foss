@@ -64,10 +64,4 @@ public class WebConfig implements WebMvcConfigurer {
     public void addFormatters(final FormatterRegistry registry) {
         registry.addConverter(new StringToStringListConverter());
     }
-
-    // TODO refactor
-    //    @Override
-    //    public void addInterceptors(final InterceptorRegistry registry) {
-    //        registry.addInterceptor(technicalServiceApiKeyInterceptor).addPathPatterns("/internal/**");
-    //    }
 }

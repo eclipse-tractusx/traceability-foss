@@ -29,13 +29,18 @@
 # but cypress/included:12.3.0 version base on cypress/browsers:node16.16.0-chrome107-ff107-edge
 FROM cypress/included:12.3.0
 
-USER root
+# Create a new non-root user
+RUN groupadd -r cypressuser && useradd -r -g cypressuser cypressuser
+USER cypressuser
+
 RUN mkdir /ng-app
 WORKDIR /ng-app
 
 # Copy dependencies info
 COPY package.json  /ng-app/package.json
 COPY yarn.lock /ng-app/yarn.lock
+
+RUN chown -R cypressuser:cypressuser /ng-app
 
 RUN yarn install
 # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
