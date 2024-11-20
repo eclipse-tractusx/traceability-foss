@@ -7,7 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding JIRA issue number in each changelog entry, please.**_
 ## [Unreleased - DD.MM.YYYY]
+
+### Added
+
+### Changed
 - #373 Integrated automatic test data upload for BMW and Trace-X A on preprod
+- #117 updated spring boot to v3.3.5
 
 ## [13.0.2-cfx-5 - 06.11.2024]
 

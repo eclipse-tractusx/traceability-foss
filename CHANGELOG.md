@@ -12,6 +12,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #124 Added new section under crosscuting/api-endpoints to arc42 documentation
 
 ### Changed
+- #117 updated spring boot to v3.3.5
 
 - [13.0.2-cfx-5 - 06.11.2024]
 ### Added
