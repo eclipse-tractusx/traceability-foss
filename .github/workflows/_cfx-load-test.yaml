@@ -1,0 +1,73 @@
+name: "[BE] Load Test"
+
+on:
+  workflow_dispatch:
+    inputs:
+      simulation-class:
+        description: 'Select the simulation class to run'
+        required: true
+        default: 'simulation.SynchonizationSimulation'
+        options:
+          - 'simulation.SynchonizationSimulation'
+          - 'simulation.NotificationSimulation'
+          - 'simulation.DashboardSimulation'
+      base-url:
+        description: 'Select the base url of the target environment'
+        required: true
+        default: 'https://traceability-foss-a.integration.cofinity-x.com/api'
+        options:
+          - 'https://traceability-foss-a.integration.cofinity-x.com/api'
+          - 'https://traceability-foss-b.integration.cofinity-x.com/api'
+
+env:
+  JAVA_VERSION: 17
+
+jobs:
+  check-config:
+    runs-on: [ self-hosted, linux ]
+    steps:
+      - name: Check if OAUTH2_CLIENT_TOKEN_URI is defined
+        run: |
+          if [[ -z "${{ secrets.OAUTH2_CLIENT_TOKEN_URI }}" ]]; then
+            echo "Error: Missing secret: Please configure OAUTH2_CLIENT_TOKEN_URI."
+            exit 1
+          fi
+      - name: Check if OAUTH2_CLIENT_SECRET is defined
+        run: |
+          if [[ -z "${{ secrets.OAUTH2_CLIENT_SECRET }}" ]]; then
+            echo "Error: Missing secret: Please configure OAUTH2_CLIENT_SECRET."
+            exit 1
+          fi
+      - name: Check if OAUTH2_CLIENT_ID is defined
+        run: |
+          if [[ -z "${{ secrets.OAUTH2_CLIENT_ID }}" ]]; then
+            echo "Error: Missing secret: Please configure OAUTH2_CLIENT_ID."
+            exit 1
+          fi
+        shell: bash
+
+  load-test:
+    needs: check-config
+    runs-on: [ self-hosted, linux ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Run Gatling tests
+        env:
+          OAUTH2_HOST: ${{ secrets.OAUTH2_CLIENT_TOKEN_URI }}
+          OAUTH2_CLIENT_SECRET: ${{ secrets.OAUTH2_CLIENT_SECRET }}
+          OAUTH2_CLIENT_ID: ${{ secrets.OAUTH2_CLIENT_ID }}
+          BASE_URL: ${{ github.event.inputs.base-url }}
+        run: |
+          mvn gatling:test -pl tx-gatling-tests -Dgatling.simulationClass=${{ github.event.inputs.simulation-class }}
+
+      - name: Upload results
+        uses: actions/upload-artifact@master
+        with:
+          name: gatling-results
+          path: tx-gatling-tests/target/gatling/
