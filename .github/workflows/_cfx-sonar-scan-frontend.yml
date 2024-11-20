@@ -1,4 +1,4 @@
-#    Copyright (c) 2023 Contributors to the Eclipse Foundation
+#    Copyright (c) 2024 Contributors to the Eclipse Foundation
 #
 #    See the NOTICE file(s) distributed with this work for additional
 #    information regarding copyright ownership.
@@ -15,15 +15,11 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "[FE][SECURITY] Sonar"
+name: "[CFX][FE][SECURITY] Sonar"
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
   pull_request:
-  schedule:
-    - cron: "0 0 * * *"
 
 jobs:
   build:
@@ -49,11 +45,8 @@ jobs:
         run: CHROMIUM_BIN=$(which chrome) yarn test:ci # will run `test:ci` command
       - name: Run SonarCloud check
         uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_FRONTEND }}
         with:
           projectBaseDir: frontend
           args: >
-            -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_FRONTEND }}
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY_FRONTEND }}

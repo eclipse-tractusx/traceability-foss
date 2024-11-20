@@ -9,6 +9,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ## [Unreleased - DD.MM.YYYY]
 
 ### Added
+- #377 Added Github workflow for Sonar scanning
 
 ### Changed
 - #373 Integrated automatic test data upload for BMW and Trace-X A on preprod
