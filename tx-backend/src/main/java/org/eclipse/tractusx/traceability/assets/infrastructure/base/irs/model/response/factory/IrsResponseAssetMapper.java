@@ -120,7 +120,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
         if (assetBase.getManufacturerId() == null) {
             return irsResponse.shells().stream()
                     .map(Shell::payload)
-                    .filter(Objects::nonNull)
+                    .filter(Objects::nonNull).filter(payload -> payload.globalAssetId().equals(assetBase.getId()))
                     .flatMap(payload -> payload.specificAssetIds().stream())
                     .filter(specificAssetId -> "manufacturerId".equalsIgnoreCase(specificAssetId.name()))
                     .map(Shell.Payload.SpecificAssetId::value)
