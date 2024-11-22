@@ -36,19 +36,19 @@ DO $$
                 digital_twin_type
             ) VALUES ('urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd',
                       '22782277-50',
-                      'X2 sDrive18d_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQLG',
+                      'BMW i5 M60_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQLG',
                       bmwBpn,
                       'BMW',
                       '22782277-50',
                       'DEU',
-                      'X2 sDrive18d',
-                      'X2 sDrive18d',
+                      'BMW i5 M60',
+                      'G61 BEV',
                       'OK',
                       'VAN123456',
                       'OWN',
                       'NO-313869652971440618042264',
                       'SERIALPART',
-                      'product',
+                      'BEV',
                       'Electronics',
                       '2022-02-04 14:48:54+00',
                       'PERSISTENT',
@@ -109,13 +109,13 @@ DO $$
             ) VALUES (
                                      'urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5',
                                      '798-515297795-A',
-                                     'HighVoltageBattery1',
+                                     'High Voltage Battery SE27',
                                      cofinityBpn,
                                      'Cofinity-X',
                                      '22782277-51',
                                      'DEU',
-                                     'High Voltage Battery 1',
-                                     'High Voltage Battery 1',
+                                     'High Voltage Battery SE27',
+                                     '22782277-51',
                                      'OK',
                                      'VAN123456',
                                      'SUPPLIER',
@@ -168,10 +168,10 @@ DO $$
                 ) VALUES (
                              'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd',
                              'urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5',
-                             'X2 sDrive18d_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQLG'
+                             'BMW i5 M60_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQLG'
                          );
                 ELSE
-                UPDATE assets_as_built_childs SET id_short = 'X2 sDrive18d_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQLG'
+                UPDATE assets_as_built_childs SET id_short = 'BMW i5 M60_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQLG'
                 WHERE asset_as_built_id = 'urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd'
                   AND id = 'urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5';
             END IF;
@@ -202,19 +202,19 @@ DO $$
                 digital_twin_type
             ) VALUES ('urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f',
                       '22782277-51',
-                      'X3 sDrive25d_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQZF',
+                      'BMW 550e xDrive_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQZF',
                       bmwBpn,
                       'BMW',
                       '22782277-51',
                       'DEU',
-                      'X3 sDrive25d',
-                      'X3 sDrive25d',
+                      'BMW 550e xDrive',
+                      'G60 PHEV',
                       'OK',
                       'VAN123456',
                       'OWN',
                       'NO-313869652971440618042264',
                       'SERIALPART',
-                      'product',
+                      'PHEV',
                       'Electronics',
                       '2022-02-04 14:48:54+00',
                       'PERSISTENT',
@@ -276,13 +276,13 @@ DO $$
 
                          'urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de',
                          '798-515297795-A',
-                         'HighVoltageBattery2',
+                         'High Voltage Battery SP56',
                          cofinityBpn,
                          'Cofinity-X',
                          '22782277-51',
                          'DEU',
-                         'High Voltage Battery 2',
-                         'High Voltage Battery 2',
+                         'High Voltage Battery SP56',
+                         '22782277-51',
                          'OK',
                          'VAN123456',
                          'SUPPLIER',
@@ -336,10 +336,10 @@ DO $$
                 ) VALUES (
                              'urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f',
                              'urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de',
-                             'X3 sDrive25d_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQZF'
+                             'BMW 550e xDrive_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQZF'
                          );
             ELSE
-                UPDATE assets_as_built_childs SET id_short = 'X3 sDrive25d_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQZF'
+                UPDATE assets_as_built_childs SET id_short = 'BMW 550e xDrive_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQZF'
                 WHERE asset_as_built_id = 'urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f'
                   AND id = 'urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de';
             END IF;
@@ -370,19 +370,19 @@ DO $$
                 digital_twin_type
             ) VALUES ('urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b',
                       '22782277-52',
-                      'X4 M40i_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAE+FS8lQLF',
+                      'BMW i7 eDrive50_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAE+FS8lQLF',
                       bmwBpn,
                       'BMW',
                       '22782277-52',
                       'DEU',
-                      'X4 M40i',
-                      'X4 M40i',
+                      'BMW i7 eDrive50',
+                      'G70 BEV',
                       'OK',
                       'VAN123456',
                       'OWN',
                       'NO-313869652971440618042264',
                       'SERIALPART',
-                      'product',
+                      'BEV',
                       'Electronics',
                       '2022-02-04 14:48:54+00',
                       'PERSISTENT',
@@ -444,13 +444,13 @@ DO $$
 
                          'urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f',
                          '798-515297795-A',
-                         'HighVoltageBattery3',
+                         'High Voltage Battery SE30',
                          cofinityBpn,
                          'Cofinity-X',
                          '22782277-53',
                          'DEU',
-                         'High Voltage Battery 3',
-                         'High Voltage Battery 3',
+                         'High Voltage Battery SE30',
+                         '22782277-51',
                          'OK',
                          'VAN123456',
                          'SUPPLIER',
@@ -504,10 +504,10 @@ DO $$
                 ) VALUES (
                              'urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b',
                              'urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f',
-                             'X4 M40i_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAE+FS8lQLF'
+                             'BMW i7 eDrive50_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAE+FS8lQLF'
                          );
             ELSE
-                UPDATE assets_as_built_childs SET id_short = 'X4 M40i_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAE+FS8lQLF'
+                UPDATE assets_as_built_childs SET id_short = 'BMW i7 eDrive50_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAE+FS8lQLF'
                 WHERE asset_as_built_id = 'urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b'
                   AND id = 'urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f';
             END IF;
@@ -538,19 +538,19 @@ DO $$
                 digital_twin_type
             ) VALUES ('urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54',
                       '22782277-53',
-                      'M3 Competition xDrive Touring_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjT+EvC8UjQKv0DqAW+FS8lQLF',
+                      'BMW i7 xDrive60_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjT+EvC8UjQKv0DqAW+FS8lQLF',
                       bmwBpn,
                       'BMW',
                       '22782277-53',
                       'DEU',
-                      'M3 Competition M xDrive Touring',
-                      'M3 Competition M xDrive Touring',
+                      'BMW i7 xDrive60',
+                      'G70 BEV',
                       'OK',
                       'VAN123456',
                       'OWN',
                       'NO-313869652971440618042264',
                       'SERIALPART',
-                      'product',
+                      'BEV',
                       'Electronics',
                       '2022-02-04 14:48:54+00',
                       'PERSISTENT',
@@ -617,8 +617,8 @@ DO $$
                          'Cofinity-X',
                          '22782277-54',
                          'DEU',
-                         'High Voltage Battery 4',
-                         'High Voltage Battery 4',
+                         'High Voltage Battery SE30',
+                         '22782277-51',
                          'OK',
                          'VAN123456',
                          'SUPPLIER',
@@ -671,10 +671,10 @@ DO $$
                 ) VALUES (
                              'urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54',
                              'urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da',
-                             'M3 Competition xDrive Touring_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjT+EvC8UjQKv0DqAW+FS8lQLF'
+                             'BMW i7 xDrive60_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjT+EvC8UjQKv0DqAW+FS8lQLF'
                          );
             ELSE
-                UPDATE assets_as_built_childs SET id_short = 'M3 Competition xDrive Touring_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjT+EvC8UjQKv0DqAW+FS8lQLF'
+                UPDATE assets_as_built_childs SET id_short = 'BMW i7 xDrive60_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjT+EvC8UjQKv0DqAW+FS8lQLF'
                 WHERE asset_as_built_id = 'urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54'
                   AND id = 'urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da';
             END IF;
@@ -705,19 +705,19 @@ DO $$
                 digital_twin_type
             ) VALUES ('urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621',
                       '22782277-54',
-                      'M850i xDrive Cabrio_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS9lQLF',
+                      'BMW 750e xDrive_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS9lQLF',
                       bmwBpn,
                       'BMW',
                       '22782277-54',
                       'DEU',
-                      'M850i xDrive Cabrio',
-                      'M850i xDrive Cabrio',
+                      'BMW 750e xDrive',
+                      'G70 PHEV',
                       'OK',
                       'VAN123456',
                       'OWN',
                       'NO-313869652971440618042264',
                       'SERIALPART',
-                      'product',
+                      'PHEV',
                       'Electronics',
                       '2022-02-04 14:48:54+00',
                       'PERSISTENT',
@@ -785,8 +785,8 @@ DO $$
                          'Cofinity-X',
                          '22782277-55',
                          'DEU',
-                         'High Voltage Battery 5',
-                         'High Voltage Battery 5',
+                         'High Voltage Battery SP56',
+                         '22782277-51',
                          'OK',
                          'VAN123456',
                          'SUPPLIER',
@@ -839,10 +839,10 @@ DO $$
                 ) VALUES (
                              'urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621',
                              'urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9',
-                             'M850i xDrive Cabrio_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS9lQLF'
+                             'BMW 750e xDrive_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS9lQLF'
                          );
             ELSE
-                UPDATE assets_as_built_childs SET id_short = 'M850i xDrive Cabrio_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS9lQLF'
+                UPDATE assets_as_built_childs SET id_short = 'BMW 750e xDrive_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS9lQLF'
                 WHERE asset_as_built_id = 'urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621'
                   AND id = 'urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9';
             END IF;

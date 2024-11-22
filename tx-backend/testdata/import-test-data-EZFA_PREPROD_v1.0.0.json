@@ -29,18 +29,13 @@
             "partTypeInformation": {
               "customerPartId": "798-515297795-A",
               "manufacturerPartId" : "22782277-51",
-              "nameAtManufacturer": "High Voltage Battery 1",
-              "nameAtCustomer": "High Voltage Battery 1",
+              "nameAtManufacturer": "22782277-51",
+              "nameAtCustomer": "High Voltage Battery SE27",
               "partClassification": [
                 {
                   "classificationStandard": "GIN 20510-21513",
                   "classificationID": "1004712",
                   "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
-                  "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Traction Battery",
-                  "classificationDescription": "OEM standard for classification of parts."
                 }
               ]
             }
@@ -99,18 +94,13 @@
             "partTypeInformation": {
               "customerPartId": "798-515297795-A",
               "manufacturerPartId" : "22782277-52",
-              "nameAtManufacturer": "High Voltage Battery 2",
-              "nameAtCustomer": "High Voltage Battery 2",
+              "nameAtManufacturer": "22782277-51",
+              "nameAtCustomer": "High Voltage Battery SP56",
               "partClassification": [
                 {
                   "classificationStandard": "GIN 20510-21513",
                   "classificationID": "1004712",
                   "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
-                  "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Traction Battery",
-                  "classificationDescription": "OEM standard for classification of parts."
                 }
               ]
             }
@@ -169,18 +159,13 @@
             "partTypeInformation": {
               "customerPartId": "798-515297795-A",
               "manufacturerPartId" : "22782277-53",
-              "nameAtManufacturer": "High Voltage Battery 3",
-              "nameAtCustomer": "High Voltage Battery 3",
+              "nameAtManufacturer": "22782277-51",
+              "nameAtCustomer": "High Voltage Battery SE30",
               "partClassification": [
                 {
                   "classificationStandard": "GIN 20510-21513",
                   "classificationID": "1004712",
                   "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
-                  "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Traction Battery",
-                  "classificationDescription": "OEM standard for classification of parts."
                 }
               ]
             }
@@ -239,18 +224,13 @@
             "partTypeInformation": {
               "customerPartId": "798-515297795-A",
               "manufacturerPartId" : "22782277-54",
-              "nameAtManufacturer": "High Voltage Battery 4",
-              "nameAtCustomer": "High Voltage Battery 4",
+              "nameAtManufacturer": "22782277-51",
+              "nameAtCustomer": "High Voltage Battery SE30",
               "partClassification": [
                 {
                   "classificationStandard": "GIN 20510-21513",
                   "classificationID": "1004712",
                   "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
-                  "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Traction Battery",
-                  "classificationDescription": "OEM standard for classification of parts."
                 }
               ]
             }
@@ -309,18 +289,13 @@
             "partTypeInformation": {
               "customerPartId": "798-515297795-A",
               "manufacturerPartId" : "22782277-55",
-              "nameAtManufacturer": "High Voltage Battery 5",
-              "nameAtCustomer": "High Voltage Battery 5",
+              "nameAtManufacturer": "22782277-51",
+              "nameAtCustomer": "High Voltage Battery SP56",
               "partClassification": [
                 {
                   "classificationStandard": "GIN 20510-21513",
                   "classificationID": "1004712",
                   "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
-                  "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Traction Battery",
-                  "classificationDescription": "OEM standard for classification of parts."
                 }
               ]
             }

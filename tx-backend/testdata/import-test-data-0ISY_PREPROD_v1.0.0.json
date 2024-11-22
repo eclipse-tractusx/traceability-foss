@@ -29,18 +29,13 @@
               "customerPartId" : "22782277-50",
               "partClassification": [
                 {
-                  "classificationStandard": "GIN 20510-21513",
-                  "classificationID": "1004712",
-                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
                   "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Electric vehicle",
+                  "classificationID": "BEV",
                   "classificationDescription": "OEM standard for classification of parts."
                 }
                 ],
-                "nameAtManufacturer" : "Example Car 1",
-                 "nameAtCustomer" : "Example Car 1"
+                "nameAtManufacturer" : "G61 BEV",
+                 "nameAtCustomer" : "BMW i5 M60"
             }
           }
         },
@@ -94,18 +89,13 @@
               "customerPartId" : "22782277-51",
               "partClassification": [
                 {
-                  "classificationStandard": "GIN 20510-21513",
-                  "classificationID": "1004712",
-                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
                   "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Electric vehicle",
+                  "classificationID": "PHEV",
                   "classificationDescription": "OEM standard for classification of parts."
                 }
               ],
-              "nameAtManufacturer" : "Example Car 2",
-              "nameAtCustomer" : "Example Car 2"
+              "nameAtManufacturer" : "G60 PHEV",
+              "nameAtCustomer" : "BMW 550e xDrive"
             }
           }
         },
@@ -159,18 +149,13 @@
               "customerPartId" : "22782277-52",
               "partClassification": [
                 {
-                  "classificationStandard": "GIN 20510-21513",
-                  "classificationID": "1004712",
-                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
                   "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Electric vehicle",
+                  "classificationID": "BEV",
                   "classificationDescription": "OEM standard for classification of parts."
                 }
               ],
-              "nameAtManufacturer" : "Example Car 3",
-              "nameAtCustomer" : "Example Car 3"
+              "nameAtManufacturer" : "G70 BEV",
+              "nameAtCustomer" : "BMW i7 eDrive50"
             }
           }
         },
@@ -224,18 +209,13 @@
               "customerPartId" : "22782277-53",
               "partClassification": [
                 {
-                  "classificationStandard": "GIN 20510-21513",
-                  "classificationID": "1004712",
-                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
                   "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Electric vehicle",
+                  "classificationID": "BEV",
                   "classificationDescription": "OEM standard for classification of parts."
                 }
               ],
-              "nameAtManufacturer" : "Example Car 4",
-              "nameAtCustomer" : "Example Car 4"
+              "nameAtManufacturer" : "G70 BEV",
+              "nameAtCustomer" : "BMW i7 xDrive60"
             }
           }
         },
@@ -289,18 +269,13 @@
               "customerPartId" : "22782277-54",
               "partClassification": [
                 {
-                  "classificationStandard": "GIN 20510-21513",
-                  "classificationID": "1004712",
-                  "classificationDescription": "Generic standard for classification of parts in the automotive industry."
-                },
-                {
                   "classificationStandard": "OEM Part Classification 1022-102",
-                  "classificationID": "Electric vehicle",
+                  "classificationID": "PHEV",
                   "classificationDescription": "OEM standard for classification of parts."
                 }
               ],
-              "nameAtManufacturer" : "Example Car 5",
-              "nameAtCustomer" : "Example Car 5"
+              "nameAtManufacturer" : "G70 PHEV",
+              "nameAtCustomer" : "BMW 750e xDrive"
             }
           }
         },
