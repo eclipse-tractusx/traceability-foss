@@ -113,23 +113,32 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
     }
 
     private String getManufacturerId(IRSResponse irsResponse, AssetBase assetBase) {
+        log.debug("Starting getManufacturerId for AssetBase ID: {}", assetBase.getId());
+
         if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
-            return irsResponse.jobStatus().parameter().bpn();
+            String manufacturerIdFromJob = irsResponse.jobStatus().parameter().bpn();
+            log.debug("Manufacturer ID found in job status: {}", manufacturerIdFromJob);
+            return manufacturerIdFromJob;
         }
 
         if (assetBase.getManufacturerId() == null) {
+            log.debug("Attempting to derive manufacturerId from Shell Payloads...");
+
             return irsResponse.shells().stream()
-                    .map(Shell::payload)
-                    .filter(Objects::nonNull).filter(payload -> payload.globalAssetId().equals(assetBase.getId()))
-                    .flatMap(payload -> payload.specificAssetIds().stream())
+                    .filter(shell -> shell.payload() != null)
+                    .filter(shell -> shell.payload().id().equals(assetBase.getId()))
+                    .flatMap(shell -> shell.payload().specificAssetIds().stream())
                     .filter(specificAssetId -> "manufacturerId".equalsIgnoreCase(specificAssetId.name()))
+                    .peek(specificAssetId -> log.debug("Found manufacturerId in specificAssetIds: {}", specificAssetId.value()))
                     .map(Shell.Payload.SpecificAssetId::value)
                     .findFirst()
                     .orElse(null);
         }
 
+        log.debug("Returning existing manufacturerId: {}", assetBase.getManufacturerId());
         return assetBase.getManufacturerId();
     }
+
 }
 
 
