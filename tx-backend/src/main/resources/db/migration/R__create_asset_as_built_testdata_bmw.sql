@@ -612,7 +612,7 @@ DO $$
             ) VALUES (
                          'urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da',
                          '798-515297795-A',
-                         'HighVoltageBattery4',
+                         'High Voltage Battery SE30',
                          cofinityBpn,
                          'Cofinity-X',
                          '22782277-54',
@@ -780,7 +780,7 @@ DO $$
 
                          'urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9',
                          '798-515297795-A',
-                         'HighVoltageBattery5',
+                         'High Voltage Battery SP56',
                          cofinityBpn,
                          'Cofinity-X',
                          '22782277-55',
