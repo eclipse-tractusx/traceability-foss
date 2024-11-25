@@ -54,4 +54,6 @@ public interface AssetBaseService {
     List<String> getAssetIdsInImportState(ImportState... importStates);
 
     List<AssetBase> findAll();
+
+    void deleteAssetById(final String assetId);
 }

@@ -10,6 +10,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ### Added
 - #377 Added Github workflow for Sonar scanning
+- #476 Delete asset by id api provided
 
 ### Changed
 - #373 Integrated automatic test data upload for BMW and Trace-X A on preprod

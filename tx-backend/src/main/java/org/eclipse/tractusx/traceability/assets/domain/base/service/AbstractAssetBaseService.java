@@ -100,6 +100,11 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
+    public void deleteAssetById(String assetId) {
+        getAssetRepository().deleteAssetById(assetId);
+    }
+
+    @Override
     public List<AssetBase> getAssetsById(List<String> assetIds) {
         return getAssetRepository().getAssetsById(assetIds);
     }
