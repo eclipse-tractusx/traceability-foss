@@ -3,7 +3,7 @@
 The user authentication is managed by the central keycloak instance managed by catena.
 You can configure your IDP there.
 
-[Here is a link on how to do that.](https://github.com/catenax-ng/tx-portal-assets/blob/main/docs/02.%20Technical%20Integration/02.%20Identity%20Provider%20Management/02.%20Configure%20Company%20IdP.md)
+[Here is a link on how to do that.](https://github.com/eclipse-tractusx/portal-assets/blob/main/docs/developer/02.%20Technical%20Integration/02.%20Identity%20Provider%20Management/02.%20Configure%20Company%20IdP.md)
 
 In the app module, there is a function which is executed during the app bootstrap.
 That function retrieves the realm provided in the environment variables,
