@@ -25,7 +25,7 @@ Repeat those steps for registry, trace-x-provider-edcs, tracex-instances
 
 ## 2) Data upload of assets
 
-In order to upload data to EDC Provider, please use [IRS project script](https://github.com/catenax-ng/tx-item-relationship-service/blob/main/local/testing/testdata/transform-and-upload.py)
+In order to upload data to EDC Provider, please use [IRS project script](https://github.com/eclipse-tractusx/item-relationship-service/blob/main/local/testing/testdata/transform-and-upload.py)
 
 Keep in mind to always update DEV and TEST since they are dependend on each other.
 
