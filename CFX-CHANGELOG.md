@@ -8,6 +8,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding JIRA issue number in each changelog entry, please.**_
 ## [Unreleased - DD.MM.YYYY]
 
+## [13.0.2-cfx-7 - 20.11.2024]
+
 ### Added
 - #377 Added Github workflow for Sonar scanning
 - #476 Delete asset by id api provided
