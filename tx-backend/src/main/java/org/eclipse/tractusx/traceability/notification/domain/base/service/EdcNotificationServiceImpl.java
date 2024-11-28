@@ -80,6 +80,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
 
             if (Boolean.TRUE.equals(wasSent)) {
+                resetNotificationError(notification, message);
                 return CompletableFuture.completedFuture(message);
             }
 
@@ -112,11 +113,16 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     }
 
     private void enrichNotificationByError(Exception e, Notification notification, NotificationMessage message) {
-
         log.info("Notification for error message enrichment {}", message);
         message.setErrorMessage(e.getMessage());
         notificationRepository.updateErrorMessage(notification, message);
-
     }
+
+    private void resetNotificationError(Notification notification, NotificationMessage message) {
+        log.info("Notification for resetting error message {}", message);
+        message.setErrorMessage(null);
+        notificationRepository.updateErrorMessage(notification, message);
+    }
+
 }
 

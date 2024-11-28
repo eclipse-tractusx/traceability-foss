@@ -13,6 +13,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #476 Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity
 ### Changed
 - #117 updated spring boot to v3.3.5
+- #464 Resetting notification message in case it could be successfully send
 
 - [13.0.2-cfx-5 - 06.11.2024]
 ### Added
