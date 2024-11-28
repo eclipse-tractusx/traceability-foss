@@ -10,7 +10,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 ### Added
 - #124 Added new section under crosscuting/api-endpoints to arc42 documentation
-
+- #476 Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity
 ### Changed
 - #117 updated spring boot to v3.3.5
 

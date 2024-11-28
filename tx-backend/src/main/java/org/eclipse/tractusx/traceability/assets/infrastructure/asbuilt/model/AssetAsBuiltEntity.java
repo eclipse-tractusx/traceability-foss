@@ -89,7 +89,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @ManyToMany(mappedBy = "assets")
     private List<NotificationEntity> notifications = new ArrayList<>();
 
-    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<SubmodelPayloadEntity> submodels;
 
     @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

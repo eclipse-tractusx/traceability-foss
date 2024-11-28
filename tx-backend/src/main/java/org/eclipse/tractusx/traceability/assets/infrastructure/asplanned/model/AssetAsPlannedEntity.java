@@ -80,7 +80,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
         private String idShort;
     }
 
-    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<SubmodelPayloadEntity> submodels;
 
 
