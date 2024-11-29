@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.importJob.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -59,11 +60,11 @@ public class ImportJobEntity {
     @Enumerated(EnumType.STRING)
     private ImportJobStatus importJobStatus;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "import_job_assets_as_built", joinColumns = @JoinColumn(name = "import_job_id"), inverseJoinColumns = @JoinColumn(name = "asset_as_built_id"))
     private List<AssetAsBuiltEntity> assetsAsBuilt;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "import_job_assets_as_planned", joinColumns = @JoinColumn(name = "import_job_id"), inverseJoinColumns = @JoinColumn(name = "asset_as_planned_id"))
     private List<AssetAsPlannedEntity> assetsAsPlanned;
 
