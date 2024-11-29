@@ -27,6 +27,7 @@ public class RestitoConfig {
     public static final String OAUTH2_JWK_PATH = "/auth/realms/CX-Central/protocol/openid-connect/certs";
     public static final String OAUTH2_TOKEN_PATH = "/auth/realms/CX-Central/protocol/openid-connect/token";
 
+
     private static final StubServer STUB_SERVER;
     private static final int STUB_SERVER_PORT;
 

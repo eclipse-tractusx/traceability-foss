@@ -24,11 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
-import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.springframework.stereotype.Service;
 import policies.request.RegisterPolicyRequest;
@@ -41,9 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Stream;
-
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Slf4j
 @Service
@@ -51,7 +44,6 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class PolicyRepositoryImpl implements PolicyRepository {
 
     private final PolicyClient policyClient;
-    private final TraceabilityProperties traceabilityProperties;
     private AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
     private final ObjectMapper objectMapper;
 
@@ -61,8 +53,8 @@ public class PolicyRepositoryImpl implements PolicyRepository {
     }
 
     @Override
-    public Optional<PolicyResponse> getNewestPolicyByOwnBpn() {
-        return policyClient.getNewestPolicyByOwnBpn();
+    public List<PolicyResponse> getLatestPoliciesByApplicationBPNOrDefaultPolicy() {
+        return policyClient.getPoliciesByApplicationBPNOrDefault();
     }
 
     @Override
@@ -79,50 +71,6 @@ public class PolicyRepositoryImpl implements PolicyRepository {
         });
 
         return result;
-    }
-
-
-    @Override
-    public void createPolicyBasedOnAppConfig() {
-        log.info("Starting policy creation based on application configuration...");
-
-        // Fetch and log available IRS policies
-        log.info("Fetching existing IRS policies...");
-        final Map<String, List<IrsPolicyResponse>> irsPolicies = this.policyClient.getPolicies();
-        final List<String> irsPoliciesIds = irsPolicies.values().stream()
-                .flatMap(List::stream)
-                .map(irsPolicyResponse -> irsPolicyResponse.payload().policyId())
-                .toList();
-        log.info("Retrieved IRS policies: {}", irsPoliciesIds.isEmpty() ? "No policies in IRS found" : irsPoliciesIds);
-
-        // Log details about required constraints
-        log.info("Applying required constraints for policy creation (total: 2)");
-        log.info("First constraint: leftOperand='{}', operator='{}', rightOperand='{}'",
-                traceabilityProperties.getLeftOperand(),
-                traceabilityProperties.getOperatorType(),
-                traceabilityProperties.getRightOperand());
-        log.info("Second constraint: leftOperand='{}', operator='{}', rightOperand='{}'",
-                traceabilityProperties.getLeftOperandSecond(),
-                traceabilityProperties.getOperatorTypeSecond(),
-                traceabilityProperties.getRightOperandSecond());
-
-        // Check for matching policy
-        log.info("Checking for an existing policy that matches the required constraints...");
-        IrsPolicyResponse matchingPolicy = findMatchingPolicy(irsPolicies);
-
-        if (matchingPolicy == null) {
-            log.warn("No matching policy found. Creating missing policies...");
-            createMissingPolicies();
-        } else {
-            log.info("Matching policy found (policyId: {}). Verifying and updating policy if necessary...", matchingPolicy.payload().policyId());
-            checkAndUpdatePolicy(matchingPolicy);
-        }
-
-        // Update accepted policies for provider
-        log.info("Updating accepted policies for the provider (client lib) ...");
-        updateAcceptedPoliciesProvider();
-
-        log.info("Policy creation process completed.");
     }
 
     @Override
@@ -144,55 +92,6 @@ public class PolicyRepositoryImpl implements PolicyRepository {
         return policy;
     }
 
-
-    private IrsPolicyResponse findMatchingPolicy(Map<String, List<IrsPolicyResponse>> irsPolicies) {
-        return irsPolicies.values().stream()
-                .flatMap(List::stream)
-                .filter(this::checkConstraints)
-                .findFirst()
-                .orElse(null);
-    }
-
-    private boolean checkConstraints(IrsPolicyResponse irsPolicy) {
-        boolean firstConstraintExists = checkConstraint(irsPolicy, traceabilityProperties.getRightOperand());
-        boolean secondConstraintExists = checkConstraint(irsPolicy, traceabilityProperties.getRightOperandSecond());
-        return firstConstraintExists && secondConstraintExists;
-    }
-
-    private boolean checkConstraint(IrsPolicyResponse irsPolicy, String rightOperand) {
-        return emptyIfNull(irsPolicy.payload().policy().getPermissions()).stream()
-                .flatMap(this::getConstraintsStream)
-                .anyMatch(constraint -> constraint.getRightOperand().equals(rightOperand));
-    }
-
-    private Stream<Constraint> getConstraintsStream(Permission permission) {
-        Constraints constraint = permission.getConstraint();
-        if (constraint == null) {
-            return Stream.empty();
-        }
-        return Stream.concat(
-                emptyIfNull(constraint.getAnd()).stream(),
-                emptyIfNull(constraint.getOr()).stream()
-        );
-    }
-
-
-    private void createMissingPolicies() {
-        log.info("Irs policy does not exist creating {}", traceabilityProperties.getRightOperand());
-        this.policyClient.createPolicyFromAppConfig();
-    }
-
-    private void checkAndUpdatePolicy(IrsPolicyResponse requiredPolicy) {
-        if (isPolicyExpired(requiredPolicy)) {
-            log.info("IRS Policy {} has outdated validity updating new ttl", traceabilityProperties.getRightOperand());
-            this.policyClient.deletePolicy(traceabilityProperties.getRightOperand());
-            this.policyClient.createPolicyFromAppConfig();
-        }
-    }
-
-    private boolean isPolicyExpired(IrsPolicyResponse requiredPolicy) {
-        return traceabilityProperties.getValidUntil().isAfter(requiredPolicy.validUntil());
-    }
 
     private void updateAcceptedPoliciesProvider() {
         defaultAcceptedPoliciesProvider.removeAcceptedPolicies(defaultAcceptedPoliciesProvider.getAcceptedPolicies(null));

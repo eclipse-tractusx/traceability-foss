@@ -38,12 +38,6 @@ public class TraceabilityProperties {
     private BPN bpn;
     private String url;
     private String internalUrl;
-    private String leftOperand;
-    private String operatorType;
-    private String rightOperand;
-    private String leftOperandSecond;
-    private String operatorTypeSecond;
-    private String rightOperandSecond;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime validUntil;
     private String adminApiKey;
@@ -52,7 +46,4 @@ public class TraceabilityProperties {
     private String discoveryType;
     private String technicalServiceApiKey;
 
-    public boolean isApplicationBpn(final String bpn) {
-        return BPN.of(bpn).equals(this.bpn);
-    }
 }

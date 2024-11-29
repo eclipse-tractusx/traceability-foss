@@ -18,8 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xebialabs.restito.semantics.Action;
 import com.xebialabs.restito.semantics.Condition;
+import org.eclipse.tractusx.traceability.common.config.PolicyStartUpConfig;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -43,6 +45,14 @@ public class IrsApiSupport {
 
     @Autowired
     RestitoProvider restitoProvider;
+
+    @Autowired
+    PolicyStartUpConfig policyStartUpConfig;
+
+    public void provideAcceptedPolicies() throws JsonProcessingException {
+        irsApiReturnsPolicies();
+        policyStartUpConfig.registerDecentralRegistryPermissions();
+    }
 
     public void irsApiTriggerJob() {
         whenHttp(restitoProvider.stubServer()).match(
@@ -114,7 +124,7 @@ public class IrsApiSupport {
 
     public void irsApiReturnsPoliciesNotFound(String id) {
         whenHttp(restitoProvider.stubServer()).match(
-                Condition.get("/irs/policies/" +id)
+                Condition.get("/irs/policies/" + id)
         ).then(
                 Action.status(HttpStatus.NOT_FOUND_404),
                 Action.header("Content-Type", "application/json"),
@@ -141,6 +151,7 @@ public class IrsApiSupport {
                 restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_createPolicy.json")
         );
     }
+
     public void irsApiCreatesPolicyBadRequest() {
         whenHttp(restitoProvider.stubServer()).match(
                 Condition.post("/irs/policies")
@@ -188,6 +199,16 @@ public class IrsApiSupport {
                 Action.status(HttpStatus.OK_200),
                 Action.header("Content-Type", "application/json"),
                 restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies_CONSTRAINTS_MISMATCHING.json")
+        );
+    }
+
+    public void irsApiReturnsValidPolicies() {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.get("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies.json")
         );
     }
 

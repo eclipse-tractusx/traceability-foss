@@ -109,6 +109,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldReceiveAlert() {
         // given
+
         assetsSupport.defaultAssetsStored();
         NotificationType notificationType = NotificationType.ALERT;
         NotificationMessage message = NotificationMessage.builder()
@@ -470,12 +471,13 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCloseAlertStatus() throws JoseException, JsonProcessingException {
         // given
-        irsApiSupport.irsApiReturnsPolicies();
+
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
 
+        irsApiSupport.provideAcceptedPolicies();
         String filterString = "channel,EQUAL,SENDER,AND";
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE

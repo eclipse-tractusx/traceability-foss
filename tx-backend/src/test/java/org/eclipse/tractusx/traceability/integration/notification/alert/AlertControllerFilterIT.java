@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecificatio
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -60,6 +61,9 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;
+
+    @Autowired
+    IrsApiSupport irsApiSupport;
 
     @Autowired
     JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;

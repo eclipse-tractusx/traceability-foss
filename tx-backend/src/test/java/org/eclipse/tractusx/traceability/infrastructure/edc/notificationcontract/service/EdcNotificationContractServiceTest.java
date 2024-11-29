@@ -98,7 +98,7 @@ class EdcNotificationContractServiceTest {
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
-        when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyRepository.getLatestPoliciesByApplicationBPNOrDefaultPolicy()).thenReturn(List.of((policyResponses.get(0))));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
@@ -108,12 +108,12 @@ class EdcNotificationContractServiceTest {
         when(edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId)).thenReturn(contractDefinitionId);
 
         // when
-        CreateNotificationContractResponse response = edcNotificationContractService.createNotificationContract(request);
+        List<CreateNotificationContractResponse> response = edcNotificationContractService.createNotificationContract(request);
 
         // then
-        assertThat(notificationAssetId).isEqualTo(response.notificationAssetId());
-        assertThat(accessPolicyId).isEqualTo(response.accessPolicyId());
-        assertThat(contractDefinitionId).isEqualTo(response.contractDefinitionId());
+        assertThat(notificationAssetId).isEqualTo(response.get(0).notificationAssetId());
+        assertThat(accessPolicyId).isEqualTo(response.get(0).accessPolicyId());
+        assertThat(contractDefinitionId).isEqualTo(response.get(0).contractDefinitionId());
         verify(edcNotificationAssetService).createNotificationAsset(
                 "https://test/api/internal/qualitynotifications/resolve",
                 "QUALITY_INVESTIGATION RESOLVE",
@@ -147,7 +147,7 @@ class EdcNotificationContractServiceTest {
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
-        when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyRepository.getLatestPoliciesByApplicationBPNOrDefaultPolicy()).thenReturn(List.of((policyResponses.get(0))));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 
@@ -173,7 +173,7 @@ class EdcNotificationContractServiceTest {
         Map<String, List<IrsPolicyResponse>> policyMap = Map.of("testKey", List.of(irsPolicyResponse));
 
         List<PolicyResponse> policyResponses = IrsPolicyResponse.toResponse(policyMap);
-        when(policyRepository.getNewestPolicyByOwnBpn()).thenReturn(Optional.of(policyResponses.get(0)));
+        when(policyRepository.getLatestPoliciesByApplicationBPNOrDefaultPolicy()).thenReturn(List.of((policyResponses.get(0))));
 
         CreateNotificationContractRequest request = new CreateNotificationContractRequest(notificationType, notificationMethod);
 

@@ -92,7 +92,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .get("/api/policies/" + policyId)
                 .then()
                 .statusCode(404)
-                .body(containsString("404 Not Found: [no body]"))
+                .body(containsString("Policy with id: default-policy-not-exist not found."))
                 .log().all();
     }
 

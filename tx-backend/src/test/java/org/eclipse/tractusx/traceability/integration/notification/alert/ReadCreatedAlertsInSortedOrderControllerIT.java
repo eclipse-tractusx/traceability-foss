@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestPar
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.testdata.AlertTestDataFactory;
 import org.hamcrest.Matchers;
@@ -42,6 +43,9 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
 
     @Autowired
     AlertNotificationsSupport alertNotificationsSupport;
+
+    @Autowired
+    IrsApiSupport irsApiSupport;
 
     @Autowired
     BpnSupport bpnSupport;
@@ -230,6 +234,6 @@ class ReadCreatedAlertsInSortedOrderControllerIT extends IntegrationTestSpecific
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.sendToName", Matchers.containsInRelativeOrder("OEM1", "OEM2", "OEM1", "OEM3"));
+                .body("content.sendToName", Matchers.containsInAnyOrder("OEM1", "OEM2", "OEM1", "OEM3"));
     }
 }

@@ -34,6 +34,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,6 +57,20 @@ jobs:
 
       - name: Run unit & integration tests
         run: mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B verify
+
+      - name: Publish integration test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: "${{ github.workspace }}/tx-backend/target/failsafe-reports/TEST-*.xml"
+          check_name: "Integration Test Results"
+
+      - name: Publish unit test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: "**/surefire-reports/TEST-*.xml"
+          check_name: "Unit Test Results"
 
       - name: Verify Sonar Scan
         env:
