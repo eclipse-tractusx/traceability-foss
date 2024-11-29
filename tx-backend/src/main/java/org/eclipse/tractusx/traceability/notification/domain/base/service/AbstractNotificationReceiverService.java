@@ -63,12 +63,22 @@ public abstract class AbstractNotificationReceiverService implements Notificatio
         NotificationMessage notificationMessage = getNotificationMessageMapper().toNotificationMessage(edcNotification, notificationType);
         emptyIfNull(notification.getNotifications()).stream().findFirst().ifPresent(notificationMessage1 -> notificationMessage.setAffectedParts(notificationMessage1.getAffectedParts()));
 
+
         switch (edcNotification.convertNotificationStatus()) {
             case ACKNOWLEDGED -> notification.acknowledge();
-            case ACCEPTED -> notification.accept(edcNotification.getInformation(), notificationMessage);
-            case DECLINED -> notification.decline(edcNotification.getInformation(), notificationMessage);
-            case CLOSED ->
-                    notification.close(BPN.of(notification.getBpn()), edcNotification.getInformation(), notificationMessage);
+            case ACCEPTED -> {
+                notification.accept();
+                notificationMessage.setMessage(edcNotification.getInformation());
+            }
+            case DECLINED -> {
+                notification.decline();
+                notificationMessage.setMessage(edcNotification.getInformation());
+            }
+            case CLOSED -> {
+                notification.close(BPN.of(notification.getBpn()));
+                notificationMessage.setMessage(edcNotification.getInformation());
+
+            }
             default ->
                     throw getIllegalUpdateException("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }
