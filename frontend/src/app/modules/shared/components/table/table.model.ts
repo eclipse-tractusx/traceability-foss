@@ -57,4 +57,5 @@ export interface MenuActionConfig<T> {
   condition?: (data: T) => boolean;
   isAuthorized?: boolean;
   isLoading?: (data: T) => boolean;
+  disabled?: boolean;
 }

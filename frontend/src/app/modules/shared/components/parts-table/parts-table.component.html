@@ -421,7 +421,14 @@ SPDX-License-Identifier: Apache-2.0
                   *ngIf="!config.condition || config.condition(row)"
                   (click)="config.action(row)"
                   [attr.data-testId]="'table-menu-button--' + config.label"
+                  [disabled]="config.disabled"
                   mat-menu-item
+                  matTooltip="{{'table.unauthorized' | i18n}}"
+                  matTooltipClass="table--header--tooltip"
+                  matTooltipPosition="above"
+                  [class.mdc-tooltip--multiline]="true"
+                  [matTooltipShowDelay]="500"
+                  [matTooltipDisabled]="!config?.disabled ?? false"
                 >
                   <mat-icon>{{ config.icon }}</mat-icon>
                   <span>{{ config.label | i18n }}</span>

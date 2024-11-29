@@ -317,8 +317,8 @@
               "src/favicon"
             ],
             "styles": [
-              "src/styles.cofinity-x.scss",
-              "src/styles.catena-x.scss"
+              "src/styles.cofinityx.scss",
+              "src/styles.catenax.scss"
             ],
             "customWebpackConfig": {
               "path": "./webpack.config.js",

@@ -57,6 +57,7 @@
     "cancellationConfirm": "Confirm cancellation",
     "close": "Close",
     "decline": "Decline",
+    "deletePart": "Delete part",
     "viewDetails": "View details",
     "edit": "Edit",
     "help": "Help",
@@ -76,7 +77,9 @@
     "viewNotifications" : "View notification",
     "viewPartsTooltip" : "View part using this contract",
     "viewNotificationsTooltip" : "View notification using this contract",
-    "notificationInProgress" : "Notification is currently in processing state"
+    "notificationInProgress" : "Notification is currently in processing state",
+    "deletePartMessageSuccess" : "Deleted part successfully",
+    "deletePartMessageError" : "Failed to delete part"
   },
   "publisher": {
     "selectedAssets": "Assets selected",

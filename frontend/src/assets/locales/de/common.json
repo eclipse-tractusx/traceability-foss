@@ -61,6 +61,7 @@
     "acknowledge": "Bestätigen",
     "confirm": "Genehmigen",
     "decline": "Ablehnen",
+    "deletePart": "Teil entfernen",
     "help": "Hilfe",
     "add": "Hinzufügen",
     "saveChanges" : "Änderungen speichern",
@@ -78,7 +79,9 @@
     "viewNotifications" : "Qualitätsthema ansehen",
     "viewPartsTooltip" : "Produkt unter diesem Vertrag ansehen",
     "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen",
-    "notificationInProgress" : "Qualitätsthema befindet sich im Verarbeitungsstatus"
+    "notificationInProgress" : "Qualitätsthema befindet sich im Verarbeitungsstatus",
+    "deletePartMessageSuccess" : "Teil erfolgreich entfernt",
+    "deletePartMessageError" : "Fehler beim Entfernen des Teils"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",

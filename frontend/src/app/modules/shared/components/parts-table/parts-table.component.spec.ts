@@ -22,31 +22,58 @@ import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
+import { Part } from '@page/parts/model/parts.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationType } from '@shared/model/notification.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { of } from 'rxjs';
 import { TableType } from '../multi-select-autocomplete/table-type.model';
 
 describe('PartsTableComponent', () => {
   const renderPartsTableComponent = (
     size: number,
     tableType: TableType = TableType.AS_BUILT_OWN,
+    extraProviders: any[] = [],
   ) => {
     const multiSelectActive = true;
     const content = generateTableContent(size);
     const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+    const partsFacadeMock = jasmine.createSpyObj('PartsFacade', [
+      'deletePartByIdAsPlanned',
+      'deletePartByIdAsBuild',
+    ]);
     return renderComponent(PartsTableComponent, {
       imports: [ SharedModule ],
       providers: [
         // Provide the PartsFacade mock as a value for the PartsFacade token
-        { provide: PartsFacade },
+        { provide: PartsFacade, useValue: partsFacadeMock },
         { provide: FormatPartSemanticDataModelToCamelCasePipe },
+        ...extraProviders,
       ],
       componentProperties: { paginationData, tableType },
     });
+  };
+
+  const renderPartsTableComponentWithMocks = async (
+    size: number,
+    tableType: TableType = TableType.AS_BUILT_OWN,
+  ) => {
+    const partsFacadeMock = jasmine.createSpyObj('PartsFacade', [
+      'deletePartByIdAsPlanned',
+      'deletePartByIdAsBuild',
+    ]);
+    const toastServiceMock = jasmine.createSpyObj('ToastService', ['success', 'error']);
+
+    const { fixture } = await renderPartsTableComponent(size, tableType, [
+      { provide: PartsFacade, useValue: partsFacadeMock },
+      { provide: ToastService, useValue: toastServiceMock },
+    ]);
+    const componentInstance = fixture.componentInstance;
+    return { fixture, componentInstance, partsFacadeMock, toastServiceMock };
   };
 
   const generateTableContent = (size: number) => {
@@ -330,5 +357,20 @@ describe('PartsTableComponent', () => {
 
     expect(emitPartReloadSpy).toHaveBeenCalledWith(PartReloadOperation.SYNC_PARTS_AS_PLANNED);
   });
-});
 
+  it('should delete AS_PLANNED part successfully', async () => {
+    const { componentInstance, partsFacadeMock, toastServiceMock } = await renderPartsTableComponentWithMocks(
+      1,
+      TableType.AS_BUILT_OWN,
+    );
+
+    const part: Part = { id: '123', mainAspectType: MainAspectType.AS_PLANNED } as Part;
+    partsFacadeMock.deletePartByIdAsPlanned.and.returnValue(of({}));
+
+    componentInstance.deleteItem(part);
+
+    expect(partsFacadeMock.deletePartByIdAsPlanned).toHaveBeenCalledWith('123');
+    expect(partsFacadeMock.deletePartByIdAsBuild).not.toHaveBeenCalled();
+    expect(toastServiceMock.success).toHaveBeenCalledWith('Part has been deleted successfully');
+  });
+});

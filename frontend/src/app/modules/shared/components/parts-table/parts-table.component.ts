@@ -39,6 +39,7 @@ import { EmptyPagination, Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { TableSettingsService } from '@core/user/table-settings.service';
 import { UserService } from '@core/user/user.service';
+import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
@@ -54,6 +55,7 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
@@ -140,6 +142,8 @@ export class PartsTableComponent implements OnInit {
     private route: ActivatedRoute,
     private deeplinkService: DeeplinkService,
     public roleService: RoleService,
+    private readonly partsFacade: PartsFacade,
+    private readonly toastService: ToastService,
   ) {
     this.preFilter = route.snapshot.queryParams['contractId'];
   }
@@ -355,6 +359,11 @@ export class PartsTableComponent implements OnInit {
         label: 'actions.viewDetails',
         icon: 'remove_red_eye',
         action: (data: Record<string, unknown>) => this.selected.emit(data),
+      }, {
+        label: 'actions.deletePart',
+        icon: 'delete',
+        action: (data: Record<string, Part>) => this.deleteItem(data as unknown as Part),
+        disabled: !this.roleService.isAdmin(),
       } ],
     };
     this.displayedColumns = displayedColumns;
@@ -374,6 +383,23 @@ export class PartsTableComponent implements OnInit {
   public clearAllRows(): void {
     this.selection.clear();
     this.emitMultiSelect();
+  }
+
+  public deleteItem(data: Part) {
+    const deleteObservable = data.mainAspectType === MainAspectType.AS_PLANNED
+      ? this.partsFacade.deletePartByIdAsPlanned(data.id)
+      : this.partsFacade.deletePartByIdAsBuilt(data.id);
+
+    deleteObservable.subscribe({
+      next: () => {
+        this.toastService.success('actions.deletePartMessageSuccess');
+        this.reloadTableData();
+      }
+    });
+  }
+
+  private reloadTableData(): void {
+    this.configChanged.emit({ page: this.pageIndex, pageSize: this.pageSize, sorting: this.sorting });
   }
 
   public clearCurrentRows(): void {
