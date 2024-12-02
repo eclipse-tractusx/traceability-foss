@@ -2,6 +2,7 @@ DO $$
     DECLARE
         applicationBpn TEXT := '${applicationBpn}';
         bmwBpn TEXT := '${bmwBpn}';
+        cofinityBpn TEXT := '${cofinityBpn}';
         manufacturerId TEXT;
     BEGIN
         -- Check if the application BPN matches the cofinity BPN
@@ -38,8 +39,8 @@ DO $$
                                      'urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5',
                                      '798-515297795-A',
                                      'High Voltage Battery SE27',
-                                     'BPNLCOFINITYEZFA',
-                                     'Cofinity-X',
+                                     cofinityBpn,
+                                     'BMW',
                                      '22782277-51',
                                      'DEU',
                                      'High Voltage Battery SE27',
@@ -198,8 +199,8 @@ DO $$
                          'urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de',
                          '798-515297795-A',
                          'High Voltage Battery SP56',
-                         'BPNLCOFINITYEZFA',
-                         'Cofinity-X',
+                         cofinityBpn,
+                         'BMW',
                          '22782277-52',
                          'DEU',
                          'High Voltage Battery SP56',
@@ -359,8 +360,8 @@ DO $$
                          'urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f',
                          '798-515297795-A',
                          'High Voltage Battery SE30',
-                         'BPNLCOFINITYEZFA',
-                         'Cofinity-X',
+                         cofinityBpn,
+                         'BMW',
                          '22782277-53',
                          'DEU',
                          'High Voltage Battery SE30',
@@ -520,8 +521,8 @@ DO $$
                          'urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da',
                          '798-515297795-A',
                          'High Voltage Battery SE30',
-                         'BPNLCOFINITYEZFA',
-                         'Cofinity-X',
+                         cofinityBpn,
+                         'BMW',
                          '22782277-54',
                          'DEU',
                          'High Voltage Battery SE30',
@@ -681,8 +682,8 @@ DO $$
                          'urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9',
                          '798-515297795-A',
                          'High Voltage Battery SP56',
-                         'BPNLCOFINITYEZFA',
-                         'Cofinity-X',
+                         cofinityBpn,
+                         'BMW',
                          '22782277-55',
                          'DEU',
                          'High Voltage Battery SP56',
