@@ -72,7 +72,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-built")
                 .then()
-                .log().all()
                 .statusCode(200)
                 .body("content.manufacturerName", everyItem(not(equalTo(assetsSupport.emptyText()))));
     }

@@ -45,6 +45,7 @@ import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -125,6 +126,7 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/sync")
+    @ApiKeyEnabled
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
         assetService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
     }

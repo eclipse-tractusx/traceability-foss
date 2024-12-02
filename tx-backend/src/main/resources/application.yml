@@ -29,7 +29,7 @@ traceability:
   operatorTypeSecond: ${TRACEABILITY_OPERATOR_TYPE_SECOND}
   rightOperandSecond: ${TRACEABILITY_RIGHT_OPERAND_SECOND}
   validUntil: ${TRACEABILITY_VALID_UNTIL}
-  adminApiKey: ${IRS_ADMIN_API_KEY}
+  irsAdminApiKey: ${IRS_ADMIN_API_KEY}
   regularApiKey: ${IRS_REGULAR_API_KEY}
   irsBase: ${IRS_URL}
   irsPoliciesPath: "/irs/policies"
@@ -39,6 +39,8 @@ traceability:
   assetRefreshJobZone: ${TRACEABILITY_ASSETS_REFRESH_ZONE:Europe/Berlin}
   publishAssetCronExpression: ${TRACEABILITY_PUBLISH_ASSET_CRON:0 30 */1 * * ?}
   publishAssetCronZone: ${TRACEABILITY_PUBLISH_ASSET_ZONE:Europe/Berlin}
+  enableApiKeyAuthentication: ${TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION:false}
+  tracexAdminKey: ${TRACEABILITY_ADMIN_KEY}
 
 
 

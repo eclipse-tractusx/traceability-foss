@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
@@ -133,7 +132,7 @@ public class RestTemplateConfiguration {
         return new RestTemplateBuilder()
                 .rootUri(traceabilityProperties.getIrsBase())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // Set Content-Type header
-                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getAdminApiKey())
+                .defaultHeader(IRS_API_KEY_HEADER_NAME, traceabilityProperties.getIrsAdminApiKey())
                 .build();
     }
 

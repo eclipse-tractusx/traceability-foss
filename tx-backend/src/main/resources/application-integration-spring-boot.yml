@@ -35,6 +35,8 @@ traceability:
   irsPoliciesPath: "/irs/policies"
   submodelBase: localhost:${server.port}/api/submodel/data
   technicalServiceApiKey: "test-key"
+  enableApiKeyAuthentication: true
+  tracexAdminKey: "tracexAdminKey-test"
   discoveryType: "bpnl"
 provisioning:
   submodel:

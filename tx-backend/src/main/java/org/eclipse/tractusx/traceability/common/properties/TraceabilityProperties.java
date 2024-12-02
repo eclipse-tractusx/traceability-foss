@@ -40,10 +40,12 @@ public class TraceabilityProperties {
     private String internalUrl;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private OffsetDateTime validUntil;
-    private String adminApiKey;
+    private String irsAdminApiKey;
     private String regularApiKey;
     private String irsBase;
     private String discoveryType;
     private String technicalServiceApiKey;
+    private boolean enableApiKeyAuthentication;
+    private String tracexAdminKey;
 
 }
