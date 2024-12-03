@@ -42,8 +42,6 @@ traceability:
   enableApiKeyAuthentication: ${TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION:false}
   tracexAdminKey: ${TRACEABILITY_ADMIN_KEY}
 
-
-
 provisioning:
   submodel:
     baseInternal: ${SUBMODEL_URL_INTERNAL}
@@ -144,6 +142,7 @@ spring:
       applicationBpn: ${TRACEABILITY_BPN}
       bmwBpn: BPNL000000000ISY
       cofinityBpn: BPNLCOFINITYEZFA
+      cleanupNotifications: ${NOTIFICATIONS_CLEANUP}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
