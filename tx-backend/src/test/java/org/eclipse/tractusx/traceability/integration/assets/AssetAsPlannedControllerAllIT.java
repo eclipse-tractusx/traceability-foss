@@ -75,7 +75,7 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .body("totalItems", is(greaterThan(0)))
-                .body("content.manufacturerName", everyItem(not(equalTo(assetsSupport.emptyText()))));
+                .body("content.manufacturerName", everyItem(not(equalTo(null))));
     }
 
     @ParameterizedTest

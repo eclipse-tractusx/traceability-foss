@@ -19,6 +19,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - #93 Added load testing with Gatling
 - #116 Change User in Dockerfile for CFX Frontend
 - #117 updated spring boot to v3.3.5
+- Replace null values from Manufacturer in as built and as planned response
 
 ## [13.0.2-cfx-5 - 06.11.2024]
 

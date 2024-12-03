@@ -308,7 +308,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
         // then
         assetsSupport.assertAssetAsBuiltSize(2);
         assetsSupport.assertAssetAsPlannedSize(0);
-        String manufacturerName = given()
+        final String manufacturerName = given()
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
                 .contentType(ContentType.JSON)
                 .log().all()
@@ -319,7 +319,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .extract().path("manufacturerName");
-        assertThat(manufacturerName).isNull();
+        assertThat(manufacturerName).isEmpty();
     }
 
 
