@@ -2,7 +2,7 @@
 
 == Component diagram
 
-[plantuml, target=level-1, format=svg]
+[plantuml,target=building-block-view,format=svg]
 ....
 include::../../../uml-diagrams/arc42/building-block-view/building-block-view.puml[]
 ....
