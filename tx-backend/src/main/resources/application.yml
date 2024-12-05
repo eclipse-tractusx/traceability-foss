@@ -142,7 +142,7 @@ spring:
       applicationBpn: ${TRACEABILITY_BPN}
       bmwBpn: BPNL000000000ISY
       cofinityBpn: BPNLCOFINITYEZFA
-      cleanupNotifications: ${NOTIFICATIONS_CLEANUP}
+      cleanupNotifications: ${NOTIFICATIONS_CLEANUP:false}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
