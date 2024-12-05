@@ -13,6 +13,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - Added api key authentication feature (TRX-471)
 - #476 Delete asset by id api provided
 - #476 Delete Part in added in FE
+- Added dedicated cofinity trivy workflow (TRX-441)
 
 ### Changed
 - #373 Integrated automatic test data upload for BMW and Trace-X A on preprod
