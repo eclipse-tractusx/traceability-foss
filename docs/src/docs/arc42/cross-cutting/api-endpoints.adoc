@@ -4,23 +4,23 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 == Table of Contents
 
-. <<_1_assets,1. Assets>>
+. <<_assets,Assets>>
 .. <<_as_built,As-Built>>
 .. <<_as_planned,As-Planned>>
 .. <<_import_report,Import Report>>
 .. <<_publish,Publish>>
-. <<_2_bpn_configuration,2. BPN Configuration>>
-. <<_3_contracts,3. Contracts>>
-. <<_4_dashboard,4. Dashboard>>
-. <<_5_edc_notification_contract,5. EDC Notification Contract>>
-. <<_6_internal_quality_alerts_and_notifications,6. Internal Quality Alerts and Notifications>>
-. <<_7_notifications,7. Notifications>>
-. <<_8_policies,8. Policies>>
-. <<_9_registry,9. Registry>>
-. <<_10_submodel_data,10. Submodel Data>>
+. <<_bpn_configuration,BPN Configuration>>
+. <<_contracts,Contracts>>
+. <<_dashboard,Dashboard>>
+. <<_edc_notification_contract,EDC Notification Contract>>
+. <<_internal_quality_alerts_and_notifications,Internal Quality Alerts and Notifications>>
+. <<_notifications,Notifications>>
+. <<_policies,Policies>>
+. <<_registry,Registry>>
+. <<_submodel_data,Submodel Data>>
 
-[#_1_assets]
-== 1. Assets
+[#_assets]
+== Assets
 
 [#_as_built]
 === As-Built
@@ -252,8 +252,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_2_bpn_configuration]
-== 2. BPN Configuration
+[#_bpn_configuration]
+== BPN Configuration
 
 === GET `/bpn-config`
 
@@ -307,8 +307,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_3_contracts]
-== 3. Contracts
+[#_contracts]
+== Contracts
 
 === POST `/contracts`
 
@@ -323,8 +323,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_4_dashboard]
-== 4. Dashboard
+[#_dashboard]
+== Dashboard
 
 === GET `/Dashboard`
 
@@ -339,8 +339,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_5_edc_notification_contract]
-== 5. EDC Notification Contract
+[#_edc_notification_contract]
+== EDC Notification Contract
 
 === POST `/edc/notification/contract`
 
@@ -355,8 +355,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_6_internal_quality_alerts_and_notifications]
-== 6. Internal Quality Alerts and Notifications
+[#_internal_quality_alerts_and_notifications]
+== Internal Quality Alerts and Notifications
 
 *Note*: These endpoints are marked as private and are intended for internal use.
 
@@ -411,8 +411,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_7_notifications]
-== 7. Notifications
+[#_notifications]
+== Notifications
 
 === PUT `/notification/+{notificationId}+/edit`
 
@@ -531,8 +531,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_8_policies]
-== 8. Policies
+[#_policies]
+== Policies
 
 === GET `/policies`
 
@@ -599,8 +599,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_9_registry]
-== 9. Registry
+[#_registry]
+== Registry
 
 === GET `/registry/reload`
 
@@ -615,8 +615,8 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 *Reason for visibility*: Is accessed from other instances.
 
-[#_10_submodel_data]
-== 10. Submodel Data
+[#_submodel_data]
+== Submodel Data
 
 === DELETE `/submodel/data`
 
