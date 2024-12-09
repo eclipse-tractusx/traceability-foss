@@ -174,7 +174,8 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
 
         // then
-        assertThat(bpnSupportRepository.findAll()).hasSize(1);
+        assertThat(bpnSupportRepository.findById("BPNL000000012345"))
+                .hasValueSatisfying(entity -> assertThat(entity.getManufacturerName()).isEqualTo("OEM A Short"));
         assetsSupport.assertAssetAsBuiltSize(14);
         assetsSupport.assertAssetAsPlannedSize(0);
         String updatedIdShort = assetsSupport.findById("urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc").getIdShort();

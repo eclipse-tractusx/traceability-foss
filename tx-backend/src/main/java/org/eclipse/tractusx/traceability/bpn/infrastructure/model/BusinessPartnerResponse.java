@@ -32,7 +32,8 @@ import java.util.List;
 @Jacksonized
 public class BusinessPartnerResponse {
 
-    private String bpn;
-    private List<NameResponse> names;
+    String bpnl;
+    String legalName;
+    String legalShortName;
 
 }

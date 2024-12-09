@@ -22,16 +22,15 @@ package org.eclipse.tractusx.traceability.bpn.infrastructure.repository;
 import bpn.request.BpnMappingRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.model.NameResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -41,7 +40,7 @@ public class BpnRepositoryImpl implements BpnRepository {
     private final JpaBpnRepository repository;
 
     @Override
-    public BpnEdcMapping findByIdOrThrowNotFoundException(String bpn) {
+    public BpnEdcMapping findByIdOrThrowNotFoundException(final String bpn) {
         return repository.findById(bpn)
                 .map(this::toDTO)
                 .orElseThrow(() -> new BpnNotFoundException("EDC URL mapping with BPN %s was not found."
@@ -49,7 +48,7 @@ public class BpnRepositoryImpl implements BpnRepository {
     }
 
     @Override
-    public boolean existsWhereUrlNotNull(String manufacturerId) {
+    public boolean existsWhereUrlNotNull(final String manufacturerId) {
         return repository.existsByManufacturerIdAndUrlIsNotNull(manufacturerId);
     }
 
@@ -59,12 +58,12 @@ public class BpnRepositoryImpl implements BpnRepository {
     }
 
     @Override
-    public void deleteById(String bpn) {
+    public void deleteById(final String bpn) {
         repository.deleteById(bpn);
     }
 
     @Override
-    public String findManufacturerName(String manufacturerId) {
+    public String findManufacturerName(final String manufacturerId) {
         if (manufacturerId != null) {
             return repository.findById(manufacturerId).map(BpnEntity::getManufacturerName).orElse(null);
         }
@@ -72,8 +71,8 @@ public class BpnRepositoryImpl implements BpnRepository {
     }
 
     @Override
-    public void updateManufacturers(Map<String, String> bpns) {
-        List<BpnEntity> entities = bpns.entrySet().stream()
+    public void updateManufacturers(final Map<String, String> bpns) {
+        final List<BpnEntity> entities = bpns.entrySet().stream()
                 .map(entry -> BpnEntity.builder()
                         .manufacturerId(entry.getKey())
                         .manufacturerName(entry.getValue())
@@ -84,27 +83,39 @@ public class BpnRepositoryImpl implements BpnRepository {
                 persistedBpnEntity.setManufacturerName(bpnEntity.getManufacturerName());
                 repository.save(persistedBpnEntity);
             }, () -> repository.save(bpnEntity)));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             log.warn("Exception in bpn mapping storage", e);
         }
     }
 
     @Override
-    public BpnEntity save(BusinessPartnerResponse businessPartner) {
-        String value = businessPartner.getNames() == null ? null : businessPartner.getNames().stream()
-                .filter(it -> StringUtils.isNotBlank(it.getValue()))
-                .findFirst().map(NameResponse::getValue).orElse(null);
-        BpnEntity entity = BpnEntity.builder().manufacturerId(businessPartner.getBpn()).manufacturerName(value).build();
+    public BpnEntity save(final BusinessPartnerResponse businessPartner) {
+        final String preferredManufacturerName = Optional.ofNullable(businessPartner.getLegalShortName())
+                .orElse(businessPartner.getLegalName());
+        final BpnEntity entity;
+        final Optional<BpnEntity> manufacturerRecord = repository.findById(businessPartner.getBpnl());
+
+        if (manufacturerRecord.isPresent()) {
+            entity = manufacturerRecord.get();
+            entity.setManufacturerName(preferredManufacturerName);
+        } else {
+            entity = BpnEntity.builder()
+                    .manufacturerId(businessPartner.getBpnl())
+                    .manufacturerName(preferredManufacturerName)
+                    .build();
+        }
+
+        log.info("Saving BpnEntity: {}", entity);
         return repository.save(entity);
     }
 
     @Override
-    public List<BpnEdcMapping> saveAll(List<BpnMappingRequest> bpnEdcMappings) {
-        List<BpnEntity> bpnEdcMappingEntities = bpnEdcMappings.stream().map(this::toEntity).toList();
+    public List<BpnEdcMapping> saveAll(final List<BpnMappingRequest> bpnEdcMappings) {
+        final List<BpnEntity> bpnEdcMappingEntities = bpnEdcMappings.stream().map(this::toEntity).toList();
         return repository.saveAll(bpnEdcMappingEntities).stream().map(this::toDTO).toList();
     }
 
-    private BpnEdcMapping toDTO(BpnEntity entity) {
+    private BpnEdcMapping toDTO(final BpnEntity entity) {
         return new BpnEdcMapping(
                 entity.getManufacturerId(),
                 entity.getUrl(),
@@ -112,11 +123,11 @@ public class BpnRepositoryImpl implements BpnRepository {
         );
     }
 
-    private List<BpnEdcMapping> toDTOList(List<BpnEntity> bpnEntities) {
+    private List<BpnEdcMapping> toDTOList(final List<BpnEntity> bpnEntities) {
         return bpnEntities.stream().map(this::toDTO).toList();
     }
 
-    private BpnEntity toEntity(BpnMappingRequest bpnEdcMappings) {
+    private BpnEntity toEntity(final BpnMappingRequest bpnEdcMappings) {
         return BpnEntity.builder()
                 .manufacturerId(bpnEdcMappings.bpn())
                 .url(bpnEdcMappings.url())

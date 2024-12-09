@@ -172,6 +172,11 @@ spring:
             client-secret: ${SUBMODEL_CLIENT_SECRET}
             authorization-grant-type: client_credentials
             scope: ${SUBMODEL_CLIENT_SCOPE:openid}
+          bpdm:
+            authorization-grant-type: client_credentials
+            client-id: ${BPDM_CLIENT_ID}
+            client-secret: ${BPDM_CLIENT_SECRET}
+            scope: ${OAUTH2_CLIENT_SCOPE:openid}
         provider:
           keycloak:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
@@ -181,6 +186,8 @@ spring:
             token-uri: ${REGISTRY_TOKEN_URL}
           submodel:
             token-uri: ${SUBMODEL_TOKEN_URL}
+          bpdm:
+            token-uri: ${BPDM_TOKEN_URL}
       resourceserver:
         jwt:
           jwk-set-uri: ${OAUTH2_JWK_SET_URI:https://default}
@@ -215,8 +222,8 @@ digitalTwinRegistryClient:
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
 
 bpdm:
-  bpnEndpoint: "${BPDM_URL:}/api/catena/legal-entities/{partnerId}?idType={idType}" # Endpoint to resolve BPNs, must contain the placeholders {partnerId} and {idType}
-  oAuthClientId: keycloak # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
+  bpnEndpoint: ${BPDM_URL} # Endpoint to resolve BPNs, must contain the placeholders {partnerId} and {idType}
+  oAuthClientId: bpdm # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
   timeout:
     read: PT90S # HTTP read timeout for the bpdm client
     connect: PT90S # HTTP connect timeout for the bpdm client

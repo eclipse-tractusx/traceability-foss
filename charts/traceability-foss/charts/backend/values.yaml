@@ -167,6 +167,7 @@ provisioning:
     oauthTokenUrl: "https://replace.me"
     edcAssetId: "CHANGEME"
 
+
 datasource:
   url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
   username: "traceuser"
@@ -206,3 +207,6 @@ dependencies:
 
 bpdm:
   url: "https://replace.me"
+  clientId: "CHANGEME"
+  clientSecret: "CHANGEME"
+  oauthTokenUrl: "https://replace.me"

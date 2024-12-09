@@ -129,7 +129,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content[0]", hasEntry("idShort", "vehicle_hybrid.asm"))
                 .body("content[0]", hasEntry("semanticModelId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0]", hasEntry("businessPartner", "BPNL00000003AYRE"))
-                .body("content[0]", hasEntry("manufacturerName", "OEM A"))
+                .body("content[0]", hasEntry("manufacturerName", "OEM A Short"))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0].detailAspectModels[0].data", hasEntry("manufacturingCountry", "DEU"))

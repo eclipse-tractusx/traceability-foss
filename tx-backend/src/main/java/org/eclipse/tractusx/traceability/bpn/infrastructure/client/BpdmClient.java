@@ -27,37 +27,30 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Map;
-
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.BPDM_CLIENT_REST_TEMPLATE;
 
 @Service
 @Slf4j
 public class BpdmClient {
-
-    private static final String PLACEHOLDER_BPID = "partnerId";
-    private static final String PLACEHOLDER_ID_TYPE = "idType";
-    private static final String ID_TYPE = "BPN";
     private final @Qualifier(BPDM_CLIENT_REST_TEMPLATE) RestTemplate bpdmRestTemplate;
     private final BpdmProperties bpdmProperties;
 
-    public BpdmClient(@Qualifier(BPDM_CLIENT_REST_TEMPLATE) RestTemplate bpdmRestTemplate, BpdmProperties bpdmProperties) {
+    public BpdmClient(@Qualifier(BPDM_CLIENT_REST_TEMPLATE) final RestTemplate bpdmRestTemplate, final BpdmProperties bpdmProperties) {
         this.bpdmRestTemplate = bpdmRestTemplate;
         this.bpdmProperties = bpdmProperties;
     }
 
     public BusinessPartnerResponse getBusinessPartner(final String bpn) {
         final UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(bpdmProperties.getBpnEndpoint());
-        final Map<String, String> values = Map.of(PLACEHOLDER_BPID, bpn, PLACEHOLDER_ID_TYPE, ID_TYPE);
 
         try {
-            return bpdmRestTemplate.getForObject(uriBuilder.build(values), BusinessPartnerResponse.class);
-        } catch (HttpClientErrorException httpClientErrorException) {
+            return bpdmRestTemplate.getForObject(uriBuilder.pathSegment(bpn).build().toUri(), BusinessPartnerResponse.class);
+        } catch (final HttpClientErrorException httpClientErrorException) {
             log.debug("Could not request BPDM service. {}", httpClientErrorException.getMessage());
-            return BusinessPartnerResponse.builder().bpn(bpn).build();
-        } catch (Exception e){
+            return BusinessPartnerResponse.builder().bpnl(bpn).build();
+        } catch (final Exception e){
             log.error("Unexpected error while retrieving business partner for BPN '{}'", bpn, e);
-            return BusinessPartnerResponse.builder().bpn(bpn).build();
+            return BusinessPartnerResponse.builder().bpnl(bpn).build();
         }
 
     }
