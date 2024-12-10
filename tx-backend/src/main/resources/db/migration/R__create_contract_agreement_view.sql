@@ -1,4 +1,4 @@
-CREATE VIEW contract_agreement_full AS
+CREATE OR REPLACE VIEW contract_agreement_full AS
 SELECT
     id,
     contract_agreement_id,
