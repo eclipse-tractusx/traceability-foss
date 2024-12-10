@@ -22,6 +22,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - #117 updated spring boot to v3.3.5
 - #540 Refactor bpdm repository to use legalShortName (legalName as fallback) for manufacturer name
 - Replace null values from Manufacturer in as built and as planned response
+- #437 Set not null constraint to contractAgreementId in contract tables
 
 
 ## [13.0.2-cfx-5 - 06.11.2024]

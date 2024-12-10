@@ -133,7 +133,9 @@ public class JobRepositoryImpl implements JobRepository {
         }
 
         ContractType contractType = asset.getSemanticDataModel().isAsBuilt() ? ContractType.ASSET_AS_BUILT : ContractType.ASSET_AS_PLANNED;
-        agreementsToAdd.add(ContractAgreement.toDomain(asset.getLatestContractAgreementId(), asset.getId(), contractType));
+        if (asset.getLatestContractAgreementId() != null) {
+            agreementsToAdd.add(ContractAgreement.toDomain(asset.getLatestContractAgreementId(), asset.getId(), contractType));
+        }
         asset.setContractAgreements(agreementsToAdd);
         try {
             log.info("Found the following NEW contractAgreements {}", this.objectMapper.writeValueAsString(agreementsToAdd));

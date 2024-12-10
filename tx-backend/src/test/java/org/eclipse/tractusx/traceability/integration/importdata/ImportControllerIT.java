@@ -35,6 +35,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repositor
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.model.ContractAgreementViewEntity;
+import org.eclipse.tractusx.traceability.contracts.infrastructure.repository.JpaContractAgreementViewRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.DtrApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
@@ -64,6 +66,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
+
+    @Autowired
+    JpaContractAgreementViewRepository jpaContractAgreementViewRepository;
 
     @Autowired
     EdcSupport edcApiSupport;
@@ -117,7 +122,9 @@ class ImportControllerIT extends IntegrationTestSpecification {
         );
 
         AssetAsBuiltEntity entity = jpaAssetAsBuiltRepository.findById("urn:uuid:254604ab-2153-45fb-8cad-54ef09f4080f").get();
+        List<ContractAgreementViewEntity> contractAgreementViewRepositoryAll = jpaContractAgreementViewRepository.findAll();
         assertThat(entity.getSubmodels()).isNotEmpty();
+        assertThat(contractAgreementViewRepositoryAll).isEmpty();
     }
 
     @Test

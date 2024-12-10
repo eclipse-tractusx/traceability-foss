@@ -67,7 +67,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
     private List<AssetAsPlannedEntity.ChildDescription> childDescriptors;
 
-    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.LAZY)
     private List<ContractAgreementAsPlannedEntity> contractAgreements;
 
     @Builder

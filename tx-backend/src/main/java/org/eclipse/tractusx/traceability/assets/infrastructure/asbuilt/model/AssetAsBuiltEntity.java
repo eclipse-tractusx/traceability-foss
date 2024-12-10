@@ -92,7 +92,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<SubmodelPayloadEntity> submodels;
 
-    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assetAsBuilt", fetch = FetchType.EAGER)
     private List<ContractAgreementAsBuiltEntity> contractAgreements;
 
     public static AssetAsBuiltEntity from(AssetBase asset) {
