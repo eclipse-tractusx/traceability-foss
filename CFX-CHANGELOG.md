@@ -9,21 +9,21 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ## [Unreleased - DD.MM.YYYY]
 
 ### Added
-- #377 Added Github workflow for Sonar scanning
-- Added api key authentication feature (TRX-471)
-- #476 Delete asset by id api provided
-- #476 Delete Part in added in FE
-- Added dedicated cofinity trivy workflow (TRX-441)
+- TRX-377 Added Github workflow for Sonar scanning
+- TRX-471 Added api key authentication feature
+- TRX-476 Delete asset by id api provided
+- TRX-476 Delete Part in added in FE
+- TRX-441 Added dedicated cofinity trivy workflow
 
 ### Changed
-- #373 Integrated automatic test data upload for BMW and Trace-X A on preprod
-- #93 Added load testing with Gatling
-- #116 Change User in Dockerfile for CFX Frontend
-- #117 updated spring boot to v3.3.5
-- #540 Refactor bpdm repository to use legalShortName (legalName as fallback) for manufacturer name
-- Replace null values from Manufacturer in as built and as planned response
-- #437 Set not null constraint to contractAgreementId in contract tables
-
+- TRX-373 Integrated automatic test data upload for BMW and Trace-X A on preprod
+- TRX-93 Added load testing with Gatling
+- TRX-116 Change User in Dockerfile for CFX Frontend
+- TRX-117 updated spring boot to v3.3.5
+- TRX-540 Refactor bpdm repository to use legalShortName (legalName as fallback) for manufacturer name
+- TRX-XXX Replace null values from Manufacturer in as built and as planned response
+- TRX-426 Changed building block to current architecture ()
+- TRX-437 Set not null constraint to contractAgreementId in contract tables
 
 ## [13.0.2-cfx-5 - 06.11.2024]
 
