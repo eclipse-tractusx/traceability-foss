@@ -6,7 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding JIRA issue number in each changelog entry, please.**_
-## [Unreleased - DD.MM.YYYY]
+
+## [Unreleased]
+
+## [13.0.2-cfx-8 - 11.12.2024]
 
 ### Added
 - TRX-377 Added Github workflow for Sonar scanning
