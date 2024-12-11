@@ -49,6 +49,8 @@ import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractExce
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.CatalogItemPolicyMismatchException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationNotFoundException;
@@ -306,6 +308,20 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     ResponseEntity<ErrorResponse> handleValidationException(final ValidationException exception) {
         log.warn("handleValidationException", exception);
         return ResponseEntity.status(BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(CatalogItemPolicyMismatchException.class)
+    ResponseEntity<ErrorResponse> handlePolicyMismatchException(final CatalogItemPolicyMismatchException exception) {
+        log.warn("handlePolicyMismatchException", exception);
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(NoCatalogItemException.class)
+    ResponseEntity<ErrorResponse> handleNoCatalogItemException(final NoCatalogItemException exception) {
+        log.warn("handlePolicyMismatchException", exception);
+        return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 

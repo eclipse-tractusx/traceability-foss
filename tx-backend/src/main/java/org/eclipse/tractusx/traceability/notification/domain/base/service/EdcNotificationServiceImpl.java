@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.CatalogItemPolicyMismatchException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoEndpointDataReferenceException;
@@ -98,6 +99,10 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             return true;
         } catch (NoCatalogItemException e) {
             log.warn("Could not send message to {} no catalog item found. ", receiverUrl, e);
+            enrichNotificationByError(e, notification, message);
+        } catch (CatalogItemPolicyMismatchException e) {
+            String error = String.format("Could not send message to '%s'. Provided policy in the edc notification contract does not comply with configured application policy. Exception message: '%s'", receiverUrl, e.getMessage());
+            log.warn(error);
             enrichNotificationByError(e, notification, message);
         } catch (SendNotificationException e) {
             log.warn("Could not send message to {} ", receiverUrl, e);

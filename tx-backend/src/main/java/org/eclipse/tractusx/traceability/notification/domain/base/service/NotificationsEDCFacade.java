@@ -33,18 +33,19 @@ import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
 import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractService;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.BadRequestException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.CatalogItemPolicyMismatchException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.notification.infrastructure.edc.model.EDCNotificationFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,21 +66,19 @@ import static org.eclipse.tractusx.traceability.common.request.UrlUtils.appendSu
 
 @Slf4j
 @Component
-@Transactional(dontRollbackOn = {ContractNegotiationException.class, NoCatalogItemException.class, SendNotificationException.class, NoEndpointDataReferenceException.class})
+@Transactional(dontRollbackOn = {ContractNegotiationException.class, NoCatalogItemException.class, SendNotificationException.class, NoEndpointDataReferenceException.class, CatalogItemPolicyMismatchException.class})
 public class NotificationsEDCFacade {
 
     public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
-
     private final ObjectMapper objectMapper;
-
     private final EdcProperties edcProperties;
-
-
     private final RestTemplate edcNotificationTemplate;
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
     private final ContractService contractNotificationServiceImpl;
+    private final TraceabilityProperties traceabilityProperties;
+    private final PolicyCheckerService policyCheckerService;
 
     public NotificationsEDCFacade(ObjectMapper objectMapper,
                                   EdcProperties edcProperties,
@@ -87,7 +86,9 @@ public class NotificationsEDCFacade {
                                   EDCCatalogFacade edcCatalogFacade,
                                   ContractNegotiationService contractNegotiationService,
                                   EndpointDataReferenceStorage endpointDataReferenceStorage,
-                                  @Qualifier("contractNotificationServiceImpl") ContractService contractNotificationServiceImpl) {
+                                  @Qualifier("contractNotificationServiceImpl") ContractService contractNotificationServiceImpl,
+                                  TraceabilityProperties traceabilityProperties,
+                                  PolicyCheckerService policyCheckerService) {
         this.objectMapper = objectMapper;
         this.edcProperties = edcProperties;
         this.edcNotificationTemplate = edcNotificationTemplate;
@@ -95,12 +96,9 @@ public class NotificationsEDCFacade {
         this.contractNegotiationService = contractNegotiationService;
         this.endpointDataReferenceStorage = endpointDataReferenceStorage;
         this.contractNotificationServiceImpl = contractNotificationServiceImpl;
+        this.traceabilityProperties = traceabilityProperties;
+        this.policyCheckerService = policyCheckerService;
     }
-
-    public static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
-    public static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
-    public static final String CX_TAXO_QUALITY_ALERT_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification";
-    public static final String CX_TAXO_QUALITY_ALERT_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityAlertNotification";
 
     public void startEdcTransfer(
             final NotificationMessage notificationMessage,
@@ -108,7 +106,7 @@ public class NotificationsEDCFacade {
             final String senderEdcUrl,
             final Notification notification) {
 
-        CatalogItem catalogItem = getCatalogItem(notificationMessage, receiverEdcUrl);
+        CatalogItem catalogItem = getFirstValidCatalogOfferForNotificationType(notificationMessage, receiverEdcUrl);
 
         String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem, notificationMessage.getSentTo());
 
@@ -125,6 +123,8 @@ public class NotificationsEDCFacade {
         try {
             EdcNotificationRequest notificationRequest = toEdcNotificationRequest(notificationMessage, senderEdcUrl, dataReference, notification);
             sendRequest(notificationRequest);
+        } catch (CatalogItemPolicyMismatchException | NoCatalogItemException exception) {
+            throw exception;
         } catch (Exception e) {
             throw new SendNotificationException("Failed to send notificationMessage.", e);
         }
@@ -142,57 +142,55 @@ public class NotificationsEDCFacade {
         }
     }
 
-    private CatalogItem getCatalogItem(final NotificationMessage notification, final String receiverEdcUrl) {
+    private CatalogItem getFirstValidCatalogOfferForNotificationType(final NotificationMessage notification, final String receiverEdcUrl) {
         try {
+            String taxoValue = notification.getTaxoValue();
 
-            String taxoValue;
-            if (NotificationType.ALERT.equals(notification.getType()) && notification.getNotificationStatus().equals(NotificationStatus.SENT)) {
-                taxoValue = CX_TAXO_QUALITY_ALERT_RECEIVE;
-            } else if (!NotificationType.ALERT.equals(notification.getType()) && notification.getNotificationStatus().equals(NotificationStatus.SENT)) {
-                taxoValue = CX_TAXO_QUALITY_INVESTIGATION_RECEIVE;
-            } else if (NotificationType.ALERT.equals(notification.getType())) {
-                taxoValue = CX_TAXO_QUALITY_ALERT_UPDATE;
-            } else {
-                taxoValue = CX_TAXO_QUALITY_INVESTIGATION_UPDATE;
+            log.info("Fetching catalog items for receiverEdcUrl: {}, taxoValue: {}", receiverEdcUrl, taxoValue);
+
+            List<CatalogItem> catalogItems = edcCatalogFacade.fetchCatalogItems(
+                    CatalogRequest.Builder.newInstance()
+                            .protocol(DEFAULT_PROTOCOL)
+                            .counterPartyAddress(appendSuffix(receiverEdcUrl, edcProperties.getIdsPath()))
+                            .counterPartyId(notification.getSentTo())
+                            .querySpec(QuerySpec.Builder.newInstance()
+                                    .filter(
+                                            List.of(new Criterion("'http://purl.org/dc/terms/type'.'@id'", "=", taxoValue))
+                                    )
+                                    .build())
+                            .build()
+            );
+
+            log.info("Fetched {} catalog items for receiverEdcUrl: {}", catalogItems.size(), receiverEdcUrl);
+
+            if (catalogItems.isEmpty()) {
+                String error = String.format("Receiver EDC: %s does not provide a notification contract for taxoValue: %s.", receiverEdcUrl, taxoValue);
+                throw new NoCatalogItemException(error);
             }
 
-            Optional<CatalogItem> firstCatalogOfferMatchingFilter = edcCatalogFacade.fetchCatalogItems(
-                            CatalogRequest.Builder.newInstance()
-                                    .protocol(DEFAULT_PROTOCOL)
-                                    .counterPartyAddress(appendSuffix(receiverEdcUrl, edcProperties.getIdsPath()))
-                                    .counterPartyId(notification.getSentTo())
-                                    .querySpec(QuerySpec.Builder.newInstance()
-                                            // https://github.com/eclipse-tractusx/traceability-foss/issues/978
-                                            // Probably:
-                                            // leftOperand = 'http://purl.org/dc/terms/type'.'@id'
-                                            // rightOperand = https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification (make sure to check the input for the correct one Receive/Update and Alert or Investigation
-                                            // The types are all in the ticket documented
-                                            .filter(
-                                                    List.of(new Criterion("'http://purl.org/dc/terms/type'.'@id'", "=", taxoValue))
-                                            )
-                                            .build())
-                                    .build()
-                    ).stream()
-                    .findFirst();
-
-            try {
-                if (firstCatalogOfferMatchingFilter.isPresent()) {
-                    log.info("Using catalogOffer with id {}  for type {} | ", firstCatalogOfferMatchingFilter.get().getOfferId(), taxoValue);
-                    final String policyString = objectMapper.writeValueAsString(firstCatalogOfferMatchingFilter.get().getPolicy());
-                    log.info("CatalogOffer with id {} contains policy {}", firstCatalogOfferMatchingFilter.get().getOfferId(), policyString);
-                } else {
-                    log.info("Could not find catalogOffer for type {}", taxoValue);
-                }
-                return firstCatalogOfferMatchingFilter
-                        .orElseThrow();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            return catalogItems.stream()
+                    .filter(catalogItem -> {
+                        if (catalogItem.getPolicy() == null) {
+                            return false;
+                        }
+                        boolean isValid = policyCheckerService.isValid(catalogItem.getPolicy(), traceabilityProperties.getBpn().value());
+                        log.debug("CatalogItem with offerId {} is valid: {}", catalogItem.getOfferId(), isValid);
+                        return isValid;
+                    })
+                    .findFirst()
+                    .orElseThrow(() -> {
+                        String error = String.format("Receiver EDC: %s does not provide a valid notification contract for taxoValue: %s which complies with application policies.", receiverEdcUrl, taxoValue);
+                        log.warn(error);
+                        return new CatalogItemPolicyMismatchException(error);
+                    });
+        } catch (CatalogItemPolicyMismatchException | NoCatalogItemException exception) {
+            throw exception;
         } catch (Exception e) {
-            log.error("Exception was thrown while requesting catalog items from Lib", e);
-            throw new NoCatalogItemException(e);
+            log.error("Exception was thrown while requesting catalog items for receiverEdcUrl: {}", receiverEdcUrl, e);
+            throw new SendNotificationException(e.getMessage());
         }
     }
+
 
     // TODO this method should be completly handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
     private EdcNotificationRequest toEdcNotificationRequest(

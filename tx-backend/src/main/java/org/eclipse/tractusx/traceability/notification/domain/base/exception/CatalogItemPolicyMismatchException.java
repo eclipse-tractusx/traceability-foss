@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,24 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+package org.eclipse.tractusx.traceability.notification.domain.base.exception;
 
-import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
-import org.junit.jupiter.api.Test;
+public class CatalogItemPolicyMismatchException extends RuntimeException {
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-class SendNotificationExceptionTest {
-
-    @Test
-    void givenSendNotificationException_thenShouldHaveProperMessage() {
-        // given
-        final String message = "message";
-        final Throwable exceptionParam = new RuntimeException("test");
-        SendNotificationException exception = new SendNotificationException(message, exceptionParam);
-
-        // then
-        assertThat(exception.getMessage()).isEqualTo(message);
-        assertThat(exception.getCause()).isEqualTo(exceptionParam);
+    public CatalogItemPolicyMismatchException(String message) {
+        super(message);
     }
 }

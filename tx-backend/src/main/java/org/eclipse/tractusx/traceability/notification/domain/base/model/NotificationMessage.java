@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,6 +57,11 @@ public class NotificationMessage {
     private NotificationType type;
     private String errorMessage;
 
+    public static final String CX_TAXO_QUALITY_INVESTIGATION_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification";
+    public static final String CX_TAXO_QUALITY_INVESTIGATION_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityInvestigationNotification";
+    public static final String CX_TAXO_QUALITY_ALERT_RECEIVE = "https://w3id.org/catenax/taxonomy#ReceiveQualityAlertNotification";
+    public static final String CX_TAXO_QUALITY_ALERT_UPDATE = "https://w3id.org/catenax/taxonomy#UpdateQualityAlertNotification";
+
     public void changeStatusTo(NotificationStatus to) {
         boolean transitionAllowed = notificationStatus.transitionAllowed(to);
 
@@ -63,6 +69,22 @@ public class NotificationMessage {
             throw new NotificationStatusTransitionNotAllowed(id, notificationStatus, to);
         }
         this.notificationStatus = to;
+    }
+
+    public @NotNull String getTaxoValue() {
+        boolean isAlert = NotificationType.ALERT.equals(getType());
+        boolean isInvestigation = !isAlert;
+        boolean isSent = getNotificationStatus().equals(NotificationStatus.SENT);
+
+        if (isAlert && isSent) {
+            return CX_TAXO_QUALITY_ALERT_RECEIVE;
+        } else if (isInvestigation && isSent) {
+            return CX_TAXO_QUALITY_INVESTIGATION_RECEIVE;
+        } else if (isAlert) {
+            return CX_TAXO_QUALITY_ALERT_UPDATE;
+        } else {
+            return CX_TAXO_QUALITY_INVESTIGATION_UPDATE;
+        }
     }
 
     public static NotificationMessage create(BPN applicationBpn, String receiverBpn, NotificationType notificationType, Map.Entry<String, List<AssetBase>> asset, String creator, String sendToName) {

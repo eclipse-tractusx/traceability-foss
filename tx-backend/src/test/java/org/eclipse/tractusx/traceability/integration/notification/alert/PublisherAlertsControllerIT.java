@@ -444,6 +444,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         alertNotificationsSupport.assertAlertNotificationsSize(1);
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
 
+        irsApiSupport.provideAcceptedPolicies();
         given()
                 .contentType(ContentType.JSON)
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))

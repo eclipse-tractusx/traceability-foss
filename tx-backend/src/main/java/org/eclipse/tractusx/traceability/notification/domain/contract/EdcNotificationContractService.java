@@ -60,10 +60,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.common.request.UrlUtils.appendSuffix;
-import static org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade.CX_TAXO_QUALITY_ALERT_RECEIVE;
-import static org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade.CX_TAXO_QUALITY_ALERT_UPDATE;
-import static org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade.CX_TAXO_QUALITY_INVESTIGATION_RECEIVE;
-import static org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade.CX_TAXO_QUALITY_INVESTIGATION_UPDATE;
+import static org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage.CX_TAXO_QUALITY_ALERT_RECEIVE;
+import static org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage.CX_TAXO_QUALITY_ALERT_UPDATE;
+import static org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage.CX_TAXO_QUALITY_INVESTIGATION_RECEIVE;
+import static org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage.CX_TAXO_QUALITY_INVESTIGATION_UPDATE;
 import static org.eclipse.tractusx.traceability.notification.domain.base.service.NotificationsEDCFacade.DEFAULT_PROTOCOL;
 
 @Slf4j

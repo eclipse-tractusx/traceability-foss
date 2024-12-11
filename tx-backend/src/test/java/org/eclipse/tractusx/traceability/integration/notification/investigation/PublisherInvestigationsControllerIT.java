@@ -444,6 +444,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCloseInvestigationStatus() throws JoseException, JsonProcessingException {
         // given
+        irsApiSupport.provideAcceptedPolicies();
         irsApiSupport.irsApiReturnsPolicies();
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();

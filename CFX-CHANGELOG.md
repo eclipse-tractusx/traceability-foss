@@ -24,6 +24,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - TRX-XXX Replace null values from Manufacturer in as built and as planned response
 - TRX-426 Changed building block to current architecture ()
 - TRX-437 Set not null constraint to contractAgreementId in contract tables
+- TRX-485 Adapt query catalog to find first valid contractOffer
 
 ## [13.0.2-cfx-5 - 06.11.2024]
 
