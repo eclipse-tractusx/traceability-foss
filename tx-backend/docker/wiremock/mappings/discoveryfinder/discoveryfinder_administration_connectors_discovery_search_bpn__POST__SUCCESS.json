@@ -4,7 +4,7 @@
     "urlPath": "/discoveryfinder/administration/connectors/discovery/search",
     "bodyPatterns": [
       {
-        "matchesJsonPath": "$.types[?(@ == 'bpn')]"
+        "matchesJsonPath": "$.types[?(@ == '')]"
       }
     ]
   },

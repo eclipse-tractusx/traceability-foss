@@ -69,6 +69,7 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
 
   private paramSubscription: Subscription;
   private toastActionSubscription: Subscription;
+  private tableConfigInitialized = false;
 
   constructor(
     public readonly helperService: NotificationHelperService,
@@ -92,13 +93,9 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
         } else if (result?.error) {
           this.toastService.error(`requestNotification.failed${ formattedStatus }`, 15000, true);
         }
-        this.notificationProcessingService.deleteNotificationId(result?.context?.notificationId);
+        this.notificationProcessingService.deleteNotificationIdWithoutEmit(result?.context?.notificationId);
         this.ngAfterViewInit();
       },
-    });
-
-    this.notificationProcessingService.doneEmit.subscribe(() => {
-      this.ngAfterViewInit();
     });
 
     this.selected$ = this.notificationDetailFacade.selected$;
@@ -117,7 +114,10 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
       .pipe(
         filter(({ data }) => !!data),
         tap(({ data }) => {
-          this.setTableConfigs(data);
+          if (!this.tableConfigInitialized){
+            this.setTableConfigs(data);
+            this.tableConfigInitialized = true;
+          }
           this.selectedNotification = data;
         }),
       )
