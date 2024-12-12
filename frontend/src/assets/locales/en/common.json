@@ -133,6 +133,7 @@
     "selectOnlyOne" : "Action requires only one selection from the table",
     "unauthorized" : "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "noFunctionality" : "Functionality is not implemented yet",
+    "missingBusinessPartner" : "The selection does not contain a Business partner number. Please check your selected parts.",
     "onlyNotificationInStatusCreatedAllowed" : "Action only allowed with a selection of notifications in status \"Queued\".",
     "createPolicy" : "Create policy",
     "deletePolicy" : "Delete selected policies",

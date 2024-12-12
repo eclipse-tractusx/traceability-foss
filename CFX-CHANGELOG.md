@@ -17,6 +17,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - TRX-476 Delete asset by id api provided
 - TRX-476 Delete Part in added in FE
 - TRX-441 Added dedicated cofinity trivy workflow
+- TRX-458 Create quality notification will not be allowed if a business partner number is missing on a corresponding part.
 
 ### Changed
 - TRX-373 Integrated automatic test data upload for BMW and Trace-X A on preprod

@@ -59,10 +59,8 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
-import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
 import { DeeplinkService } from '@shared/service/deeplink.service';
-// TODO
-// 1. Create alert, Create Investigation, Publish Asset buttons needs to be integrated in the html actions
+
 @Component({
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
@@ -136,7 +134,6 @@ export class PartsTableComponent implements OnInit {
 
   constructor(
     private readonly tableSettingsService: TableSettingsService,
-    public readonly userSettingsService: BomLifecycleSettingsService,
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
@@ -145,8 +142,46 @@ export class PartsTableComponent implements OnInit {
     private readonly partsFacade: PartsFacade,
     private readonly toastService: ToastService,
   ) {
-    this.preFilter = route.snapshot.queryParams['contractId'];
+    this.preFilter = this.route.snapshot.queryParams['contractId'];
   }
+
+  public isAllowedToCreateInvestigation(): boolean {
+    const selected = this.selection.selected as Part[];
+    const hasDifferentOwner = selected.some(value => value.owner !== Owner.SUPPLIER);
+    return !hasDifferentOwner;
+  }
+
+  public isAllowedToCreateAlert(): boolean {
+    const selected = this.selection.selected as Part[];
+    const hasDifferentOwner = selected.some(value => value.owner !== Owner.OWN);
+    return !hasDifferentOwner;
+  }
+  public isBusinessPartnerValid(): boolean {
+    const selected = this.selection.selected as Part[];
+    const hasNullBusinessPartner = selected.some(value => value.businessPartner === null || value.businessPartner === "");
+    return !hasNullBusinessPartner;
+  }
+
+  public isActionButtonDisabled(): boolean {
+    return (!this.isAllowedToCreateAlert() && !this.isAllowedToCreateInvestigation()) || this.roleService.isAdmin() || !this.isBusinessPartnerValid();
+  }
+
+
+  getTooltipText(): string {
+    if (this.roleService.isAdmin()) {
+      return 'routing.unauthorized';
+    }
+    if (!this.isAllowedToCreateAlert() && !this.isAllowedToCreateInvestigation() && this.isBusinessPartnerValid()) {
+      return this.selectionContainsCustomerPart()
+        ? 'routing.hasCustomerPart'
+        : 'routing.partMismatch';
+    }
+    if (!this.isBusinessPartnerValid()){
+      return 'table.missingBusinessPartner';
+    }
+    return 'table.createNotification';
+  }
+
 
   handleKeyDownOpenDialog(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -168,24 +203,14 @@ export class PartsTableComponent implements OnInit {
     return this.selection.selected?.length > 0;
   }
 
-  public isAllowedToCreateInvestigation(): boolean {
-    const selected = this.selection.selected as Part[];
-    const hasDifferentOwner = selected.some(value => value.owner !== Owner.SUPPLIER);
-    return !hasDifferentOwner;
-  }
 
-  public isAllowedToCreateAlert(): boolean {
-    const selected = this.selection.selected as Part[];
-    const hasDifferentOwner = selected.some(value => value.owner !== Owner.OWN);
-    return !hasDifferentOwner;
-  }
 
   selectionContainsCustomerPart(): boolean {
     const selected = this.selection.selected as Part[];
     return selected.some(part => part.owner === Owner.CUSTOMER);
   }
 
-  handleKeyDownQualityNotificationClicked(event: KeyboardEvent){
+  handleKeyDownQualityNotificationClicked(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.createQualityNotificationClicked();
     }
@@ -205,7 +230,7 @@ export class PartsTableComponent implements OnInit {
     });
   }
 
-  handleKeyDownPublishIconClicked(event: KeyboardEvent): void{
+  handleKeyDownPublishIconClicked(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.publishIconClicked();
     }
@@ -394,7 +419,7 @@ export class PartsTableComponent implements OnInit {
       next: () => {
         this.toastService.success('actions.deletePartMessageSuccess');
         this.reloadTableData();
-      }
+      },
     });
   }
 

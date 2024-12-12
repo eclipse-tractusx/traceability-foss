@@ -135,6 +135,7 @@
     "selectAtLeastOne" : "Erfordert mindestens eine Selektion in der Tabelle",
     "selectOnlyOne" : "Aktion erfordert eine einzige Selektion in der Tabelle",
     "unauthorized" : "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
+    "missingBusinessPartner" : "Die Selektion enthält keine Business Partner Nummer. Bitte überprüfen Sie Ihre ausgewählten Teile.",
     "noFunctionality" : "Funktionalität wurde noch nicht implementiert.",
     "onlyNotificationInStatusCreatedAllowed" : "Aktion erfordert eine Selektion an Qualitätsthemen im Status \"Erstellt\".",
     "createPolicy" : "Richtlinie erstellen",

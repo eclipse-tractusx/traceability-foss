@@ -22,46 +22,46 @@ SPDX-License-Identifier: Apache-2.0
   <div *ngIf="tableHeader" class="table-header-container">
     <div class="large-text table--header--first--column">
       <div class="text--container">
-      {{ tableHeader }}
+        {{ tableHeader }}
       </div>
 
       <div class="right-icon-container">
-      <div class="action-button-tile-usersettings"
-           matTooltip="{{'actions.userSettings'| i18n}}"
-           matTooltipClass="table--header--tooltip"
-           matTooltipPosition="above"
-           [class.mdc-tooltip--multiline]="true"
-           [matTooltipShowDelay]="500">
-        <app-button
-          iconName="settings"
-          class="action-button-tile ml-2"
-          (click)="openDialog()"
-          (keydown)="handleKeyDownOpenDialog($event)"
-        ></app-button>
-      </div>
+        <div class="action-button-tile-usersettings"
+             matTooltip="{{'actions.userSettings'| i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500">
+          <app-button
+            iconName="settings"
+            class="action-button-tile ml-2"
+            (click)="openDialog()"
+            (keydown)="handleKeyDownOpenDialog($event)"
+          ></app-button>
+        </div>
 
-      <div class="action-button-tile-maximizeTable"
-           matTooltip="{{'actions.maximizeTable'| i18n}}"
-           matTooltipClass="table--header--tooltip"
-           matTooltipPosition="above"
-           [class.mdc-tooltip--multiline]="true"
-           [matTooltipShowDelay]="500">
-        <app-button
-          iconName="crop_free"
-          class="action-button-tile ml-2"
-          (click)="maximizeClickedMethod()"
-          (keydown)="handleKeyDownMaximizedClickedMethod($event)"
-        ></app-button>
-      </div>
+        <div class="action-button-tile-maximizeTable"
+             matTooltip="{{'actions.maximizeTable'| i18n}}"
+             matTooltipClass="table--header--tooltip"
+             matTooltipPosition="above"
+             [class.mdc-tooltip--multiline]="true"
+             [matTooltipShowDelay]="500">
+          <app-button
+            iconName="crop_free"
+            class="action-button-tile ml-2"
+            (click)="maximizeClickedMethod()"
+            (keydown)="handleKeyDownMaximizedClickedMethod($event)"
+          ></app-button>
+        </div>
 
       </div>
-</div>
+    </div>
 
     <div class="table--selected__container">
       <div class="icon-container">
 
         <div *ngIf="tableType === TableType.AS_BUILT_OWN" class="action-button-tile"
-             matTooltip="{{(roleService.isAdmin() ? 'routing.unauthorized' : (!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() ? ( selectionContainsCustomerPart() ? 'routing.hasCustomerPart':'routing.partMismatch') : 'table.createNotification')) | i18n}}"
+             [matTooltip]="getTooltipText() | i18n"
              matTooltipClass="table--header--tooltip"
              matTooltipPosition="above"
              [class.mdc-tooltip--multiline]="true"
@@ -71,7 +71,7 @@ SPDX-License-Identifier: Apache-2.0
             iconName="announcement"
             class="action-button-tile"
             [attr.data-testid]="'create-notification-button'"
-            [isDisabled]="!isAllowedToCreateAlert() && !isAllowedToCreateInvestigation() || roleService.isAdmin()"
+            [isDisabled]="isActionButtonDisabled()"
             (click)="createQualityNotificationClicked()"
             (keydown)="handleKeyDownQualityNotificationClicked($event)"
           ></app-button>
@@ -318,20 +318,21 @@ SPDX-License-Identifier: Apache-2.0
                           <ng-template #ownerElement>
   <ng-container *ngIf="isOwner(column); else semanticDataModelElement">
 
-      {{'table.owner.' + element[column]?.toLowerCase() | i18n}}
+      {{ 'table.owner.' + element[column]?.toLowerCase() | i18n }}
 
   </ng-container>
 </ng-template>
 
                                                     <ng-template #semanticDataModelElement>
   <ng-container *ngIf="isSemanticDataModel(column); else autoFormatRef">
-      {{'table.semanticDataModel.' + element[column]?.toUpperCase() | i18n}}
+      {{ 'table.semanticDataModel.' + element[column]?.toUpperCase() | i18n }}
   </ng-container>
 </ng-template>
 
 <ng-template #notificationCountElement>
   <ng-container *ngIf="isNotificationCountColumn(column); else ownerElement">
-    <span onkeydown="deeplinkToNotification(column, element[column])" (click)="deeplinkToNotification(column, element[column])"
+    <span onkeydown="deeplinkToNotification(column, element[column])"
+          (click)="deeplinkToNotification(column, element[column])"
           class="table--notification--cell--notification--count">
       {{ element[column]?.length }}
     </span>
