@@ -28,7 +28,6 @@ import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -68,7 +67,7 @@ public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
         );
 
         if (discoveryResultByBPN.size() > 1) {
-            log.warn("Multiple discoveryResults with same bpn {} found, but only the edcDiscoveryResultOptional will be used!", bpn);
+            log.warn("Multiple discoveryResults with same bpn {} found, but only the first will be used!", bpn);
         }
 
         Optional<EdcDiscoveryResult> edcDiscoveryResultOptional = discoveryResultByBPN.stream().findFirst();

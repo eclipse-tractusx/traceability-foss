@@ -21,18 +21,24 @@ package org.eclipse.tractusx.traceability.discovery.domain.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 @Setter
 @Getter
+@Slf4j
 @Builder
 public class Discovery {
     private String senderUrl;
@@ -54,23 +60,39 @@ public class Discovery {
         return Discovery.builder().receiverUrls(edcDiscoveryResult.connectorEndpoint()).senderUrl(senderUrl).build();
     }
 
-    public static Discovery mergeDiscoveries(List<Discovery> discoveries) {
-        Discovery mergedDiscovery = Discovery.builder().build();
-        List<String> mergedReceiverUrls = new ArrayList<>();
-        for (Discovery discovery : discoveries) {
+
+    public static Discovery mergeDiscoveriesAndRemoveDuplicates(List<Discovery> discoveries) {
+        Discovery mergedDiscovery = Discovery.builder().receiverUrls(new ArrayList<>()).build();
+        final Set<String> seenHosts = new HashSet<>();
+
+        discoveries.forEach(discovery -> {
             mergedDiscovery.setSenderUrl(discovery.getSenderUrl());
+            mergedDiscovery.getReceiverUrls().addAll(discovery.getReceiverUrls());
+        });
 
-
-            for (String receiverUrl : discovery.getReceiverUrls()) {
-                if (!mergedReceiverUrls.contains(receiverUrl)) {
-                    mergedReceiverUrls.add(receiverUrl);
-                }
+        List<String> receiverUrlsWithoutDuplicates = mergedDiscovery.getReceiverUrls().stream().filter(receiverUrl -> {
+            try {
+                String domain = extractDomain(receiverUrl);
+                return seenHosts.add(domain);
+            } catch (URISyntaxException e) {
+                log.warn("Discovery connector response is not a valid URL: {}", receiverUrl);
+                return false;
             }
-
-
-        }
-        mergedDiscovery.setReceiverUrls(mergedReceiverUrls);
+        }).toList();
+        mergedDiscovery.setReceiverUrls(receiverUrlsWithoutDuplicates);
         return mergedDiscovery;
     }
+
+    private static String extractDomain(String url) throws URISyntaxException {
+        URI uri = new URI(url);
+        String domain = uri.getHost();
+        // Ensure consistency by stripping "www." if present
+        if (domain != null && domain.startsWith("www.")) {
+            domain = domain.substring(4);
+        }
+        log.info(domain, "domain");
+        return domain;
+    }
+
 
 }
