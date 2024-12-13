@@ -25,10 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,7 +41,6 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 public class Discovery {
     private String senderUrl;
     private List<String> receiverUrls;
-
 
     public static Discovery toDiscovery(String receiverUrl, String senderUrl) {
         return Discovery.builder().receiverUrls(List.of(receiverUrl)).senderUrl(senderUrl).build();
@@ -61,38 +58,33 @@ public class Discovery {
     }
 
 
-    public static Discovery mergeDiscoveriesAndRemoveDuplicates(List<Discovery> discoveries) {
+    public static Discovery mergeDiscoveriesAndRemoveDuplicates(List<Discovery> discoveries, String dspPath) {
         Discovery mergedDiscovery = Discovery.builder().receiverUrls(new ArrayList<>()).build();
-        final Set<String> seenHosts = new HashSet<>();
-
+        List<String> receiverUrlsIncludingDspPath = new ArrayList<>();
         discoveries.forEach(discovery -> {
             mergedDiscovery.setSenderUrl(discovery.getSenderUrl());
-            mergedDiscovery.getReceiverUrls().addAll(discovery.getReceiverUrls());
+            discovery.getReceiverUrls().forEach(receiverUrl ->
+                    receiverUrlsIncludingDspPath.add(ensureStandardDspEndpoint(receiverUrl, dspPath))
+            );
         });
-
-        List<String> receiverUrlsWithoutDuplicates = mergedDiscovery.getReceiverUrls().stream().filter(receiverUrl -> {
-            try {
-                String domain = extractDomain(receiverUrl);
-                return seenHosts.add(domain);
-            } catch (URISyntaxException e) {
-                log.warn("Discovery connector response is not a valid URL: {}", receiverUrl);
-                return false;
-            }
-        }).toList();
-        mergedDiscovery.setReceiverUrls(receiverUrlsWithoutDuplicates);
+        List<String> receiverUrls = removeDuplicates(receiverUrlsIncludingDspPath);
+        mergedDiscovery.setReceiverUrls(receiverUrls);
         return mergedDiscovery;
     }
 
-    private static String extractDomain(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        // Ensure consistency by stripping "www." if present
-        if (domain != null && domain.startsWith("www.")) {
-            domain = domain.substring(4);
-        }
-        log.info(domain, "domain");
-        return domain;
+    private static List<String> removeDuplicates(List<String> urls) {
+        Set<String> uniqueUrls = new LinkedHashSet<>(urls);
+        return new ArrayList<>(uniqueUrls);
     }
 
 
+    private static String ensureStandardDspEndpoint(String url, String dspPath) {
+        if (!url.endsWith(dspPath)) {
+            if (url.endsWith("/")) {
+                url = url.substring(0, url.length() - 1);
+            }
+            url += dspPath;
+        }
+        return url;
+    }
 }

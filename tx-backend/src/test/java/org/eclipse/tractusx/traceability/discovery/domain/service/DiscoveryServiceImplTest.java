@@ -39,6 +39,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class DiscoveryServiceImplTest {
 
+    private static final String DSP_PATH = "/api/v1/dsp";
     @InjectMocks
     private DiscoveryServiceImpl discoveryService;
 
@@ -61,10 +62,11 @@ class DiscoveryServiceImplTest {
         when(bpnRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
         when(edcProperties.getProviderEdcUrl()).thenReturn("https://sender2.de");
+        when(edcProperties.getIdsPath()).thenReturn(DSP_PATH);
         // when
         Discovery discoveryByBPN = discoveryService.getDiscoveryByBPN("bpn");
         // then
-        assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("https://receiver2.de", "https://receiver.de"));
+        assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("https://receiver2.de" + DSP_PATH, "https://receiver.de" + DSP_PATH));
         assertThat(discoveryByBPN.getSenderUrl()).isEqualTo("https://sender2.de");
     }
 
@@ -77,12 +79,12 @@ class DiscoveryServiceImplTest {
         when(bpnRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
         when(edcProperties.getProviderEdcUrl()).thenReturn("https://sender2.de");
-
+        when(edcProperties.getIdsPath()).thenReturn(DSP_PATH);
         // when
         Discovery discoveryByBPN = discoveryService.getDiscoveryByBPN("bpn");
 
         // then
-        assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("https://receiver2.de", "https://receiver.de"));
+        assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("https://receiver2.de" + DSP_PATH, "https://receiver.de" + DSP_PATH));
         assertThat(discoveryByBPN.getSenderUrl()).isEqualTo("https://sender2.de");
     }
 
@@ -94,12 +96,12 @@ class DiscoveryServiceImplTest {
 
         when(bpnRepository.existsWhereUrlNotNull(any())).thenReturn(false);
         when(discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(any())).thenReturn(Optional.of(discoveryByService));
-
+        when(edcProperties.getIdsPath()).thenReturn(DSP_PATH);
         // when
         Discovery discoveryByBPN = discoveryService.getDiscoveryByBPN("bpn");
 
         // then
-        assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("https://receiver2.de"));
+        assertThat(discoveryByBPN.getReceiverUrls()).isEqualTo(List.of("https://receiver2.de" + DSP_PATH));
         assertThat(discoveryByBPN.getSenderUrl()).isEqualTo("https://sender2.de");
     }
 }

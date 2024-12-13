@@ -70,7 +70,7 @@ public class DiscoveryServiceImpl implements DiscoveryService {
         Optional<Discovery> optionalDiscoveryFromBpnDatabase = getOptionalDiscoveryFromBpnDatabase(bpn);
         optionalDiscoveryFromBpnDatabase.ifPresent(discovery -> log.info("Retrieved discovery by bpn from BPN Mapping Table receiverUrls: {}, senderUrls: {}", discovery.getReceiverUrls().toString(), discovery.getSenderUrl()));
         optionalDiscoveryFromBpnDatabase.ifPresent(discoveryList::add);
-        return mergeDiscoveriesAndRemoveDuplicates(discoveryList);
+        return mergeDiscoveriesAndRemoveDuplicates(discoveryList, edcProperties.getIdsPath());
     }
 
     private static String removeTrailingSlash(String inputString) {

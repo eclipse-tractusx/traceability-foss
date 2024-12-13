@@ -32,9 +32,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(MockitoExtension.class)
 class DiscoveryTest {
 
+    final String dspPath = "/api/v1/dsp";
+
     @Test
     void testMergeDiscoveryNotNull() {
-        Discovery discovery = Discovery.mergeDiscoveriesAndRemoveDuplicates(Collections.emptyList());
+        Discovery discovery = Discovery.mergeDiscoveriesAndRemoveDuplicates(Collections.emptyList(), dspPath);
         assertNotNull(discovery);
     }
 
@@ -42,9 +44,9 @@ class DiscoveryTest {
     void testMergeDiscoverySuccessful() {
         Discovery discovery1 = Discovery.toDiscovery("https://test2.de", "https://sender.de");
         Discovery discovery2 = Discovery.toDiscovery("https://test3.de", "https://sender.de");
-        Discovery discovery = Discovery.mergeDiscoveriesAndRemoveDuplicates(List.of(discovery2, discovery1));
-        assertThat(discovery.getReceiverUrls()).contains("https://test2.de");
-        assertThat(discovery.getReceiverUrls()).contains("https://test3.de");
+        Discovery discovery = Discovery.mergeDiscoveriesAndRemoveDuplicates(List.of(discovery2, discovery1), dspPath);
+        assertThat(discovery.getReceiverUrls()).contains("https://test2.de" + dspPath);
+        assertThat(discovery.getReceiverUrls()).contains("https://test3.de" + dspPath);
         assertThat(discovery.getReceiverUrls().size()).isEqualTo(2);
     }
 
@@ -52,8 +54,8 @@ class DiscoveryTest {
     void testMergeDiscoverySuccessfulRemoveDuplicates() {
         Discovery discovery1 = Discovery.toDiscovery("https://test2.de", "https://sender.de");
         Discovery discovery2 = Discovery.toDiscovery("https://test2.de", "https://sender.de");
-        Discovery discovery = Discovery.mergeDiscoveriesAndRemoveDuplicates(List.of(discovery2, discovery1));
-        assertThat(discovery.getReceiverUrls()).contains("https://test2.de");
+        Discovery discovery = Discovery.mergeDiscoveriesAndRemoveDuplicates(List.of(discovery2, discovery1), dspPath);
+        assertThat(discovery.getReceiverUrls()).contains("https://test2.de" + dspPath);
         assertThat(discovery.getReceiverUrls().size()).isEqualTo(1);
     }
 
@@ -63,12 +65,12 @@ class DiscoveryTest {
         ConnectorDiscoveryMappingResponse connectorDiscoveryMappingResponse = new ConnectorDiscoveryMappingResponse("bpn", List.of("https://abc.de", "https://abc2.de"));
         ConnectorDiscoveryMappingResponse connectorDiscoveryMappingResponse2 = new ConnectorDiscoveryMappingResponse("bpn2", List.of("https://abc3.de", "https://abc4.de"));
         Discovery discovery2 = Discovery.toDiscovery(List.of(connectorDiscoveryMappingResponse, connectorDiscoveryMappingResponse2), "bpn", "https://sender.de");
-        Discovery discovery = Discovery.mergeDiscoveriesAndRemoveDuplicates(List.of(discovery2, discovery1));
-        assertThat(discovery.getReceiverUrls()).contains("https://test.de");
-        assertThat(discovery.getReceiverUrls()).contains("https://abc.de");
-        assertThat(discovery.getReceiverUrls()).contains("https://abc2.de");
-        assertThat(discovery.getReceiverUrls()).doesNotContain("https://abc3.de");
-        assertThat(discovery.getReceiverUrls()).doesNotContain("https://abc4.de");
+        Discovery discovery = Discovery.mergeDiscoveriesAndRemoveDuplicates(List.of(discovery2, discovery1), dspPath);
+        assertThat(discovery.getReceiverUrls()).contains("https://test.de" + dspPath);
+        assertThat(discovery.getReceiverUrls()).contains("https://abc.de" + dspPath);
+        assertThat(discovery.getReceiverUrls()).contains("https://abc2.de" + dspPath);
+        assertThat(discovery.getReceiverUrls()).doesNotContain("https://abc3.de" + dspPath);
+        assertThat(discovery.getReceiverUrls()).doesNotContain("https://abc4.de" + dspPath);
         assertThat(discovery.getSenderUrl()).isEqualTo("https://sender.de");
     }
 }
