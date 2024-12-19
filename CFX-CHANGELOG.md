@@ -12,23 +12,24 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ## [13.0.2-cfx-8 - 11.12.2024]
 
 ### Added
-- TRX-377 Added Github workflow for Sonar scanning
+- TRX-377 Added GitHub workflow for Sonar scanning
 - TRX-471 Added api key authentication feature
 - TRX-476 Delete asset by id api provided
 - TRX-476 Delete Part in added in FE
-- TRX-441 Added dedicated cofinity trivy workflow
+- TRX-441 Added dedicated Cofinity-X Trivy workflow
 - TRX-458 Create quality notification will not be allowed if a business partner number is missing on a corresponding part.
 - TRX-543 Duplicate connector urls returned by the discovery service will be filtered out.
 - TRX-326 Added Metrics and Prometheus Endpoint
+- TRACEX-159 Added concept and arc42 documentation for improved EDC discovery flow
 
 ### Changed
 - TRX-373 Integrated automatic test data upload for BMW and Trace-X A on preprod
 - TRX-93 Added load testing with Gatling
 - TRX-116 Change User in Dockerfile for CFX Frontend
 - TRX-117 updated spring boot to v3.3.5
-- TRX-540 Refactor bpdm repository to use legalShortName (legalName as fallback) for manufacturer name
+- TRX-540 Refactor BPDM repository to use legalShortName (legalName as fallback) for manufacturer name
 - TRX-XXX Replace null values from Manufacturer in as built and as planned response
-- TRX-426 Changed building block to current architecture ()
+- TRX-426 Changed building block to current architecture
 - TRX-437 Set not null constraint to contractAgreementId in contract tables
 - TRX-485 Adapt query catalog to find first valid contractOffer
 - TRX-540 Adjust Notification Detail view to make less requests to the backend
