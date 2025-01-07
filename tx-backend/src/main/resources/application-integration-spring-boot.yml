@@ -81,7 +81,6 @@ spring:
       applicationBpn: BPNL00000003AXS3
       bmwBpn: BPNL000000000ISY
       cofinityBpn: BPNLCOFINITYEZFA
-      cleanupNotifications: false
 
 jwt:
   resource-client: "Integration-Test"
