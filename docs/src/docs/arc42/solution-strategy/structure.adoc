@@ -7,7 +7,6 @@ It roughly can be broken down into the following parts:
 * Dashboard controller to get dashboard related summed up information
 * Registry controller to fetch assets from the Digital Twin Registry
 * Notification controller to get notification information and create EDC notification offers
-* Submodel controller for providing asset data functionality
 * Import controller for importing Trace-X data for data provisioning
 * Contract controller to get information about contract agreements
 * EDC controller to retrieve notifications
