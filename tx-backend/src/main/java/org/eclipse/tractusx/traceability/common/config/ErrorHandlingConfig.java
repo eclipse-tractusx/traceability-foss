@@ -61,7 +61,6 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.except
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
-import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -122,9 +121,8 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 final ResponseEntity<ErrorResponse> errorResponse = mapIRSBadRequestToErrorResponse(exception);
                 if (errorResponse != null) return errorResponse;
             } catch (final Exception e) {
-                final ResponseEntity<ErrorResponse> body = ResponseEntity.status(BAD_REQUEST)
-                        .body(new ErrorResponse(exception.getMessage()));
-                return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
+                return ResponseEntity.status(BAD_REQUEST)
+                        .body(new ErrorResponse(exception.getMessage())); // Handle the case where the message cannot be mapped to IRSErrorResponse
             }
 
         } else if (status.equals(NOT_FOUND)) {
@@ -132,9 +130,8 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 final ResponseEntity<ErrorResponse> errorResponse = mapIRSNotFoundToErrorResponse(exception);
                 if (errorResponse != null) return errorResponse;
             } catch (final Exception e) {
-                final ResponseEntity<ErrorResponse> body = ResponseEntity.status(NOT_FOUND)
-                        .body(new ErrorResponse(exception.getMessage()));
-                return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
+                return ResponseEntity.status(NOT_FOUND)
+                        .body(new ErrorResponse(exception.getMessage())); // Handle the case where the message cannot be mapped to IRSErrorResponse
             }
         } else {
             errorMessage = exception.getMessage();
@@ -445,15 +442,6 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
-    }
-
-    @ExceptionHandler(SubmodelNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleSubmodelNotFoundException(final SubmodelNotFoundException exception) {
-        final String errorMessage = exception
-                .getMessage();
-        log.warn("handleSubmodelNotFoundException", exception);
-        return ResponseEntity.status(NOT_FOUND)
-                .body(new ErrorResponse(errorMessage));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

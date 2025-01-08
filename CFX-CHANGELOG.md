@@ -35,6 +35,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - TRX-437 Set not null constraint to contractAgreementId in contract tables
 - TRX-485 Adapt query catalog to find first valid contractOffer
 - TRX-540 Adjust Notification Detail view to make less requests to the backend
+- TRX-201 Remove submodel api
 
 ## [13.0.2-cfx-5 - 06.11.2024]
 
