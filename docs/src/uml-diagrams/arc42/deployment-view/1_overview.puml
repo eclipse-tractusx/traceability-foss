@@ -16,16 +16,10 @@ cloud pgadmin4
 
 
 
-node "Trace-X App Kubernetes Cluster" as k8sfe {
-	component "Trace-X Frontend" as TraceXFrontend
-
-}
-
-
 node "Trace-X App Kubernetes Cluster" as k8sbe {
 
     component "Trace-X Backend" as TraceXBackend
-
+    component "Trace-X Frontend" as TraceXFrontend
     TraceXBackend -> PostgreSQL
     TraceXBackend --> consumer
     TraceXBackend ---> IRS

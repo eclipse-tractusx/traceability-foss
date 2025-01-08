@@ -8,6 +8,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding JIRA issue number in each changelog entry, please.**_
 
 ## [Unreleased]
+### Added
+- TRX-179 Added reverse proxy to frontend nginx configuration
 
 ## [13.0.2-cfx-8 - 11.12.2024]
 

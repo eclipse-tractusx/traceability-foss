@@ -39,12 +39,13 @@ frontend:
   image:
     repository: tractusx/traceability-foss
     pullPolicy: Always
-    CATENAX_PORTAL_API_URL: "CHANGEME"  # https://<backend.ingres.host>/api
+    CATENAX_PORTAL_API_URL: "http://changeme.de/"  # https://<backend.ingres.host>/api
     CATENAX_PORTAL_KEYCLOAK_URL: "CHANGEME"  # portal api keycloak example: https://keycloak.net/auth
     CATENAX_PORTAL_BACKEND_DOMAIN: "CHANGEME"  # portal backend domain example: catena-x.net
     CATENAX_PORTAL_URL: "CHANGEME"  # portal url example: https://portal.net/
     CATENAX_PORTAL_CLIENT_ID: "CHANGEME"  # application id created on portal
     BPN: "CHANGEME"
+    ALLOWED_REFERER: "http://changeme.de/"
 
   ##
   ## Image pull secret to create to obtain the container image
