@@ -9,6 +9,9 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ## [Unreleased]
 
+
+## [13.0.2-cfx-9 - 09.01.2025]
+
 ### Added
 - TRX-179 Added reverse proxy to frontend nginx configuration
 - TRX-366 Provide proper imprint and legal links
