@@ -82,6 +82,10 @@ spec:
               value: "{{ .Values.image.tag }}"
             - name: BPN
               value: "{{ .Values.image.BPN }}"
+            - name: IMPRINT_URL
+              value: "{{ .Values.image.IMPRINT_URL}}"
+            - name: PRIVACY_URL
+              value: "{{ .Values.image.PRIVACY_URL}}"
 
           ports:
             - name: http

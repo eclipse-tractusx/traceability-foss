@@ -45,7 +45,10 @@ frontend:
     CATENAX_PORTAL_URL: "CHANGEME"  # portal url example: https://portal.net/
     CATENAX_PORTAL_CLIENT_ID: "CHANGEME"  # application id created on portal
     BPN: "CHANGEME"
+    IMPRINT_URL: "CHANGEME"  # URL to a valid imprint page
+    PRIVACY_URL: "CHANGEME"  # URL to a valid privacy page
     ALLOWED_REFERER: "http://changeme.de/"
+
 
   ##
   ## Image pull secret to create to obtain the container image
