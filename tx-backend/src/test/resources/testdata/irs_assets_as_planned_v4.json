@@ -1,0 +1,454 @@
+{
+  "job" : {
+    "id" : "895871b4-238b-4839-8dda-537e18c058d9",
+    "globalAssetId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+    "state" : "COMPLETED",
+    "exception" : null,
+    "createdOn" : "2023-07-21T08:38:53.551699292Z",
+    "startedOn" : "2023-07-21T08:38:53.551856296Z",
+    "lastModifiedOn" : "2023-07-21T08:41:29.077474138Z",
+    "completedOn" : "2023-07-21T08:41:29.077476638Z",
+    "owner" : "sa-cl6-cx-10",
+    "summary" : {
+      "asyncFetchedItems" : {
+        "running" : 0,
+        "completed" : 3,
+        "failed" : 0
+      },
+      "bpnLookups" : {
+        "completed" : 0,
+        "failed" : 0
+      }
+    },
+    "parameter" : {
+      "bomLifecycle" : "asPlanned",
+      "aspects" : [
+        "PartAsPlanned",
+        "PartSiteInformationAsPlanned"
+      ],
+      "depth" : 2,
+      "bpn" : "BPNL00000003CML1",
+      "direction" : "downward",
+      "collectAspects" : true,
+      "lookupBPNs" : false,
+      "callbackUrl" : null
+    }
+  },
+  "relationships" : [
+    {
+      "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+      "linkedItem" : {
+        "quantity" : {
+          "quantityNumber" : 1.0,
+          "measurementUnit" : {
+            "datatypeURI" : null,
+            "lexicalValue" : "unit:piece"
+          }
+        },
+        "lifecycleContext" : "asPlanned",
+        "assembledOn" : "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+        "childCatenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01"
+      },
+      "aspectType" : "SingleLevelBomAsPlanned"
+    },
+    {
+      "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+      "linkedItem" : {
+        "quantity" : {
+          "quantityNumber" : 1.0,
+          "measurementUnit" : {
+            "datatypeURI" : null,
+            "lexicalValue" : "unit:piece"
+          }
+        },
+        "lifecycleContext" : "asPlanned",
+        "assembledOn" : "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+        "childCatenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
+      },
+      "aspectType" : "SingleLevelBomAsPlanned"
+    }
+  ],
+  "shells" : [
+    {
+      "contractAgreementId" : "abc",
+      "payload" : {
+        "administration" : null,
+        "description" : [],
+        "globalAssetId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+        "idShort" : "VehicleModelA",
+        "id" : "urn:uuid:4338d397-8811-4a41-a5ea-7cd7bb2f9014",
+        "specificAssetIds" : [
+          {
+            "name" : "manufacturerPartId",
+            "subjectId" : null,
+            "value" : "ZX-55",
+            "semanticId" : null
+          },
+          {
+            "name" : "manufacturerId",
+            "subjectId" : null,
+            "value" : "BPNL00000003CML1",
+            "semanticId" : null
+          }
+        ],
+        "submodelDescriptors" : [
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "PartAsPlanned",
+            "id" : "urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8",
+            "semanticId" : {
+              "keys" : [
+                {
+                  "value" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+                  "type" : "Submodel"
+                }
+              ],
+              "type" : "ExternalReference"
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "href" : "https://trace-x-edc.dev.demo.catena-x.net/shells/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01/submodels/urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8/submodel",
+                  "endpointProtocol" : "HTTP",
+                  "endpointProtocolVersion" : [
+                    "1.1"
+                  ],
+                  "subprotocol" : "DSP",
+                  "subprotocolBody" : "id=urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01-urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8;dspEndpoint=https://trace-x-edc.dev.demo.catena-x.net",
+                  "subprotocolBodyEncoding" : "plain"
+                },
+                "interface" : "SUBMODEL-3.0"
+              }
+            ]
+          },
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "PartSiteInformationAsPlanned",
+            "id" : "urn:uuid:6507e9fc-2544-4ce1-a41c-b0aa57d7b30a",
+            "semanticId" : {
+              "keys" : [
+                {
+                  "value" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+                  "type" : "Submodel"
+                }
+              ],
+              "type" : "ExternalReference"
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "href" : "https://trace-x-edc.dev.demo.catena-x.net/shells/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01/submodels/urn:uuid:6507e9fc-2544-4ce1-a41c-b0aa57d7b30a/submodel",
+                  "endpointProtocol" : "HTTP",
+                  "endpointProtocolVersion" : [
+                    "1.1"
+                  ],
+                  "subprotocol" : "DSP",
+                  "subprotocolBody" : "id=urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01-urn:uuid:6507e9fc-2544-4ce1-a41c-b0aa57d7b30a;dspEndpoint=https://trace-x-edc.dev.demo.catena-x.net",
+                  "subprotocolBodyEncoding" : "plain"
+                },
+                "interface" : "SUBMODEL-3.0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "contractAgreementId" : "abc",
+      "payload" : {
+        "administration" : null,
+        "description" : [],
+        "globalAssetId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+        "idShort" : "VehicleModelB",
+        "id" : "urn:uuid:e20655b1-6711-4f88-a90f-72c092d434b0",
+        "specificAssetIds" : [
+          {
+            "name" : "manufacturerPartId",
+            "subjectId" : null,
+            "value" : "ZX-55",
+            "semanticId" : null
+          },
+          {
+            "name" : "manufacturerId",
+            "subjectId" : null,
+            "value" : "BPNL00000003CNKC",
+            "semanticId" : null
+          }
+        ],
+        "submodelDescriptors" : [
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "PartAsPlanned",
+            "id" : "urn:uuid:81d16457-d9af-4b4d-a124-84d3ae17d951",
+            "semanticId" : {
+              "keys" : [
+                {
+                  "value" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+                  "type" : "Submodel"
+                }
+              ],
+              "type" : "ExternalReference"
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "href" : "https://trace-x-test-edc.dev.demo.catena-x.net/shells/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01/submodels/urn:uuid:81d16457-d9af-4b4d-a124-84d3ae17d951/submodel",
+                  "endpointProtocol" : "HTTP",
+                  "endpointProtocolVersion" : [
+                    "1.1"
+                  ],
+                  "subprotocol" : "DSP",
+                  "subprotocolBody" : "id=urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01-urn:uuid:81d16457-d9af-4b4d-a124-84d3ae17d951;dspEndpoint=https://trace-x-test-edc.dev.demo.catena-x.net",
+                  "subprotocolBodyEncoding" : "plain"
+                },
+                "interface" : "SUBMODEL-3.0"
+              }
+            ]
+          },
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "PartSiteInformationAsPlanned",
+            "id" : "urn:uuid:3331cecf-8183-4966-aa4c-d99d61d20c0b",
+            "semanticId" : {
+              "keys" : [
+                {
+                  "value" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+                  "type" : "Submodel"
+                }
+              ],
+              "type" : "ExternalReference"
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "href" : "https://trace-x-test-edc.dev.demo.catena-x.net/shells/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01/submodels/urn:uuid:3331cecf-8183-4966-aa4c-d99d61d20c0b/submodel",
+                  "endpointProtocol" : "HTTP",
+                  "endpointProtocolVersion" : [
+                    "1.1"
+                  ],
+                  "subprotocol" : "DSP",
+                  "subprotocolBody" : "id=urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01-urn:uuid:3331cecf-8183-4966-aa4c-d99d61d20c0b;dspEndpoint=https://trace-x-test-edc.dev.demo.catena-x.net",
+                  "subprotocolBodyEncoding" : "plain"
+                },
+                "interface" : "SUBMODEL-3.0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "contractAgreementId" : "abc",
+      "payload" : {
+        "administration" : null,
+        "description" : [],
+        "globalAssetId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+        "idShort" : "VehicleModelA",
+        "id" : "urn:uuid:4338d397-8811-4a41-a5ea-7cd7bb2f9014",
+        "specificAssetIds" : [
+          {
+            "name" : "manufacturerPartId",
+            "subjectId" : null,
+            "value" : "ZX-55",
+            "semanticId" : null
+          },
+          {
+            "name" : "manufacturerId",
+            "subjectId" : null,
+            "value" : "BPNL00000003CML1",
+            "semanticId" : null
+          }
+        ],
+        "submodelDescriptors" : [
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "PartAsPlanned",
+            "id" : "urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8",
+            "semanticId" : {
+              "keys" : [
+                {
+                  "value" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+                  "type" : "Submodel"
+                }
+              ],
+              "type" : "ExternalReference"
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "href" : "https://trace-x-edc.dev.demo.catena-x.net/shells/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01/submodels/urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8/submodel",
+                  "endpointProtocol" : "HTTP",
+                  "endpointProtocolVersion" : [
+                    "1.1"
+                  ],
+                  "subprotocol" : "DSP",
+                  "subprotocolBody" : "id=urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01-urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8;dspEndpoint=https://trace-x-edc.dev.demo.catena-x.net",
+                  "subprotocolBodyEncoding" : "plain"
+                },
+                "interface" : "SUBMODEL-3.0"
+              }
+            ]
+          },
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "PartSiteInformationAsPlanned",
+            "id" : "urn:uuid:6507e9fc-2544-4ce1-a41c-b0aa57d7b30a",
+            "semanticId" : {
+              "keys" : [
+                {
+                  "value" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+                  "type" : "Submodel"
+                }
+              ],
+              "type" : "ExternalReference"
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "href" : "https://trace-x-edc.dev.demo.catena-x.net/shells/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01/submodels/urn:uuid:6507e9fc-2544-4ce1-a41c-b0aa57d7b30a/submodel",
+                  "endpointProtocol" : "HTTP",
+                  "endpointProtocolVersion" : [
+                    "1.1"
+                  ],
+                  "subprotocol" : "DSP",
+                  "subprotocolBody" : "id=urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01-urn:uuid:6507e9fc-2544-4ce1-a41c-b0aa57d7b30a;dspEndpoint=https://trace-x-edc.dev.demo.catena-x.net",
+                  "subprotocolBodyEncoding" : "plain"
+                },
+                "interface" : "SUBMODEL-3.0"
+              }
+            ]
+          },
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "SingleLevelBomAsPlanned",
+            "id" : "urn:uuid:3d9d966b-27e1-4512-be13-2715ae623ab1",
+            "semanticId" : {
+              "keys" : [
+                {
+                  "value" : "urn:samm:io.catenax.single_level_bom_as_planned:3.0.0#SingleLevelBomAsPlanned",
+                  "type" : "Submodel"
+                }
+              ],
+              "type" : "ExternalReference"
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "href" : "https://trace-x-edc.dev.demo.catena-x.net/shells/urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01/submodels/urn:uuid:3d9d966b-27e1-4512-be13-2715ae623ab1/submodel",
+                  "endpointProtocol" : "HTTP",
+                  "endpointProtocolVersion" : [
+                    "1.1"
+                  ],
+                  "subprotocol" : "DSP",
+                  "subprotocolBody" : "id=urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01-urn:uuid:3d9d966b-27e1-4512-be13-2715ae623ab1;dspEndpoint=https://trace-x-edc.dev.demo.catena-x.net",
+                  "subprotocolBodyEncoding" : "plain"
+                },
+                "interface" : "SUBMODEL-3.0"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "tombstones" : [],
+  "submodels" : [
+    {
+      "identification" : "urn:uuid:9a1cf54a-56e1-4d20-9931-5479db0ce6f8",
+      "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+      "payload" : {
+        "validityPeriod" : {
+          "validFrom" : "2019-04-04T03:19:03.000Z",
+          "validTo" : "2024-12-29T10:25:12.000Z"
+        },
+        "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+        "partTypeInformation" : {
+          "manufacturerPartId" : "ZX-55",
+          "classification" : "product",
+          "nameAtManufacturer" : "Vehicle Model A"
+        },
+        "partSitesInformationAsPlanned" : [
+          {
+            "catenaXsiteId" : "BPNS123456789A",
+            "function" : "production",
+            "functionValidFrom" : "2024-04-25T10:00:00Z",
+            "functionValidUntil" : "2024-04-30T10:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "identification" : "urn:uuid:6507e9fc-2544-4ce1-a41c-b0aa57d7b30a",
+      "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+      "payload" : {
+        "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+        "sites" : [
+          {
+            "functionValidUntil" : "2025-02-08T04:30:48.000Z",
+            "function" : "production",
+            "functionValidFrom" : "2019-08-21T02:10:36.000Z",
+            "catenaXSiteId" : "BPNS000004711DMY"
+          }
+        ]
+      }
+    },
+    {
+      "identification" : "urn:uuid:81d16457-d9af-4b4d-a124-84d3ae17d951",
+      "aspectType" : "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned",
+      "payload" : {
+        "validityPeriod" : {
+          "validFrom" : "2019-04-04T03:19:03.000Z",
+          "validTo" : "2024-12-29T10:25:12.000Z"
+        },
+        "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+        "partTypeInformation" : {
+          "manufacturerPartId" : "ZX-55",
+          "classification" : "product",
+          "nameAtManufacturer" : "Vehicle Model B"
+        },
+        "partSitesInformationAsPlanned" : [
+          {
+            "catenaXsiteId" : "BPNS123456789A",
+            "function" : "production",
+            "functionValidFrom" : "2024-04-25T10:00:00Z",
+            "functionValidUntil" : "2024-04-30T10:00:00Z"
+          }
+        ]
+      }
+    },
+    {
+      "identification" : "urn:uuid:3331cecf-8183-4966-aa4c-d99d61d20c0b",
+      "aspectType" : "urn:samm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned",
+      "payload" : {
+        "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+        "sites" : [
+          {
+            "functionValidUntil" : "2025-02-08T04:30:48.000Z",
+            "function" : "production",
+            "functionValidFrom" : "2019-08-21T02:10:36.000Z",
+            "catenaXSiteId" : "BPNS000004711DMY"
+          }
+        ]
+      }
+    }
+  ],
+  "bpns" : [
+    {
+      "manufacturerId" : "BPNL00000003CML1",
+      "manufacturerName" : "TEST_MANUFACTURER_NAME_CML1"
+    },
+    {
+      "manufacturerId" : "BPNL00000003CNKC",
+      "manufacturerName" : "TEST_MANUFACTURER_NAME_CNKC"
+    }
+  ]
+}

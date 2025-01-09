@@ -1,0 +1,173 @@
+{
+  "job" : {
+    "id" : "ff51b6b2-c3b5-43b8-befd-ae0a011f604b",
+    "globalAssetId" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
+    "state" : "COMPLETED",
+    "exception" : null,
+    "createdOn" : "2022-09-01T10:49:30.099898402Z",
+    "startedOn" : "2022-09-01T10:49:30.100119699Z",
+    "lastModifiedOn" : "2022-09-01T10:53:12.845021701Z",
+    "completedOn" : "2022-09-01T10:53:12.845072801Z",
+    "owner" : "sa-cl6-cx-9",
+    "summary" : {
+      "asyncFetchedItems" : {
+        "running" : 0,
+        "completed" : 13,
+        "failed" : 0
+      }
+    },
+    "parameter" : {
+      "bomLifecycle" : "asBuilt",
+      "aspects" : [
+        "SingleLevelBomAsBuilt",
+        "SerialPart"
+      ],
+      "depth" : 10,
+      "direction" : "downward",
+      "collectAspects" : true
+    }
+  },
+  "relationships" : [],
+  "shells" : [
+    {
+      "contractAgreementId" : "abc",
+      "payload" : {
+        "administration" : null,
+        "description" : [
+          {
+            "language" : "en",
+            "text" : "Vehicle Hybrid"
+          }
+        ],
+        "globalAssetId" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
+        "idShort" : "vehicle_hybrid.asm",
+        "identification" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
+        "specificAssetIds" : [
+          {
+            "key" : "http://pwc.t-systems.com/datamodel/common",
+            "subjectId" : null,
+            "value" : "OMA-TGFAYUHXFLHHUQQMPLTE",
+            "semanticId" : null
+          },
+          {
+            "key" : "urn:VR:wt.part.WTPart#",
+            "subjectId" : null,
+            "value" : "KR-09",
+            "semanticId" : null
+          }
+        ],
+        "submodelDescriptors" : [
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "serial-part",
+            "identification" : "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218",
+            "semanticId" : {
+              "value" : [
+                "urn:samm:io.catenax.serial_part:3.0.0#SerialPart"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "http://irs-provider-controlplane:8282/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb-urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "AAS/SUBMODEL",
+                  "endpointProtocolVersion" : "1.0RC02",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "https://BPNL00000003B2OM.connector"
+              }
+            ]
+          },
+          {
+            "administration" : null,
+            "description" : [],
+            "idShort" : "assembly-part-relationship",
+            "identification" : "urn:uuid:50de024d-60b3-49cd-ac74-37d81ce4bb7b",
+            "semanticId" : {
+              "value" : [
+                "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt"
+              ]
+            },
+            "endpoints" : [
+              {
+                "protocolInformation" : {
+                  "endpointAddress" : "http://irs-provider-controlplane:8282/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb-urn:uuid:50de024d-60b3-49cd-ac74-37d81ce4bb7b/submodel?content=value&extent=withBlobValue",
+                  "endpointProtocol" : "AAS/SUBMODEL",
+                  "endpointProtocolVersion" : "1.0RC02",
+                  "subprotocol" : null,
+                  "subprotocolBody" : null,
+                  "subprotocolBodyEncoding" : null
+                },
+                "interface" : "https://BPNL00000003AYRE.connector"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "tombstones" : [],
+  "submodels" : [
+    {
+      "identification" : "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218",
+      "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+      "payload" : {
+        "localIdentifiers" : [
+          {
+            "value" : "BPNL00000003AYRE",
+            "key" : "manufacturerId"
+          },
+          {
+            "value" : "OMA-TGFAYUHXFLHHUQQMPLTE",
+            "key" : "partInstanceId"
+          },
+          {
+            "value" : "OMA-TGFAYUHXFLHHUQQMPLTE",
+            "key" : "van"
+          }
+        ],
+        "manufacturingInformation" : {
+          "date" : "2014-11-18T09:23:55.000Z",
+          "country" : "DEU"
+        },
+        "catenaXId" : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
+        "partTypeInformation" : {
+          "manufacturerPartId" : "KR-09",
+          "customerPartId" : "KR-09",
+          "partClassification" : [
+            {
+              "classificationStandard" : "classificationStandard",
+              "classificationID" : "classificationID",
+              "classificationDescription" : "classificationDescription"
+            }
+          ],
+          "nameAtManufacturer" : "a/dev Door Key",
+          "nameAtCustomer" : "Door Key"
+        }
+      }
+    },
+    {
+      "identification" : "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0217",
+      "aspectType" : "urn:samm:io.catenax.traction_battery_code:2.0.0#TractionBatteryCode",
+      "payload" : {
+        "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
+        "subcomponents" : [
+          {
+            "tractionBatteryCode" : "X12MCPM27KLPCLX2M2382320",
+            "productType" : "cell"
+          }
+        ],
+        "productType" : "cell"
+      }
+    }
+  ],
+  "bpns" : [
+    {
+      "manufacturerId" : "BPNL00000003AYRE",
+      "manufacturerName" : "Manufacturer Name 1"
+    }
+  ]
+}

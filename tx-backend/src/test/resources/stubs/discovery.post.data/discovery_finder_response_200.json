@@ -1,7 +1,7 @@
 {
   "endpoints" : [
     {
-      "type" : "bpn",
+      "type" : "bpnl",
       "description" : "Service to discover EDC to a particular BPN",
       "endpointAddress" : "${Placeholder}",
       "documentation" : "http://.../swagger/index.html",
