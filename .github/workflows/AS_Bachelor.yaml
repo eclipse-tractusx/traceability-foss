@@ -1,0 +1,43 @@
+name: Generate Changelog
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  generate-changelog:
+    if: github.event.pull_request.merged == true  # Nur bei gemergten Pull Requests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract PR Details
+        id: pr_details
+        uses: tibdex/github-app-token@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          pr-number: ${{ github.event.pull_request.number }}
+
+      - name: Fetch Pull Request Data
+        id: fetch_pr
+        run: |
+           echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_ENV
+           echo "PR_BODY=${{ github.event.pull_request.body }}" >> $GITHUB_ENV
+           echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+
+      - name: Generate Diff
+        run: |
+          git fetch origin ${{ github.event.pull_request.head.sha }}
+          git diff origin/main..${{ github.event.pull_request.head.sha }} > pr_diff.txt
+
+      - name: Output Fetched Data
+        run: |
+          echo "Pull Request Title: $PR_TITLE"
+          echo "Pull Request Body: $PR_BODY"
+          echo "Pull Request Author: $PR_AUTHOR"
+          echo "Diff Content:"
+          cat pr_diff.txt
