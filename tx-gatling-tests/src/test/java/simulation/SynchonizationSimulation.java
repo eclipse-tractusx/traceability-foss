@@ -32,7 +32,7 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 public class SynchonizationSimulation extends Simulation {
     private static final String BASE_URL = System.getenv("BASE_URL");
-    private static String authorizationToken = "";
+    private static final String X_API_KEY = System.getenv("TECHNICAL_API_KEY");
     FeederBuilder.FileBased<Object> feeder = CoreDsl.jsonFile("requests/post_asset_synchronization.json").random();
 
     HttpProtocolBuilder httpProtocol = http
@@ -44,7 +44,7 @@ public class SynchonizationSimulation extends Simulation {
             .exec(
                     http("POST /sync")
                             .post("/assets/as-built/sync")
-                            .header("Authorization", "Bearer " + authorizationToken)
+                            .header("X-API-KEY", X_API_KEY)
                             .body(StringBody("#{request.jsonStringify()}")).asJson()
                             .check(status().is(200)) // Check that the response status is 200 OK
             );

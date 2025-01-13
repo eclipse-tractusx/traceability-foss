@@ -29,7 +29,7 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 public class DashboardSimulation extends Simulation {
     private static final String BASE_URL = System.getenv("BASE_URL");
-    private static String authorizationToken = "";
+    private static final String X_API_KEY = System.getenv("TECHNICAL_API_KEY");
 
     HttpProtocolBuilder httpProtocol = http
             .baseUrl(BASE_URL)
@@ -40,7 +40,7 @@ public class DashboardSimulation extends Simulation {
                     http("GET /dashboard")
 
                             .get("/dashboard")
-                            .header("Authorization", "Bearer " + authorizationToken)
+                            .header("X-API-KEY", X_API_KEY)
                             .check(status().is(200)) // Check that the response status is 200 OK
             );
 
