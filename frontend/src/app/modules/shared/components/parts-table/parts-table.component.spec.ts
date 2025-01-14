@@ -371,6 +371,6 @@ describe('PartsTableComponent', () => {
 
     expect(partsFacadeMock.deletePartByIdAsPlanned).toHaveBeenCalledWith('123');
     expect(partsFacadeMock.deletePartByIdAsBuild).not.toHaveBeenCalled();
-    expect(toastServiceMock.success).toHaveBeenCalledWith('Part has been deleted successfully');
+    expect(toastServiceMock.success).toHaveBeenCalledWith('actions.deletePartMessageSuccess');
   });
 });

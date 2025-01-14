@@ -15,6 +15,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #117 updated spring boot to v3.3.5
 - #476 Updated database schema to reflect cascade deletion of elements.
 - #464 Resetting notification message in case it could be successfully send
+- #95 Fixed some frontend unit tests
 
 
 - [13.0.2-cfx-5 - 06.11.2024]
