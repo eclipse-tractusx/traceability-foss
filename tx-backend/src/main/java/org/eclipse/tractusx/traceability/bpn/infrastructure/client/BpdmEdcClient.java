@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,20 +16,25 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.common.properties;
+package org.eclipse.tractusx.traceability.bpn.infrastructure.client;
 
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnEdcFacade;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
+import org.springframework.stereotype.Service;
 
-@Getter
-@Configuration
-public class BpdmProperties {
+@Service
+@Slf4j
+public class BpdmEdcClient {
 
-    @Value("${bpdm.providerUrl}")
-    private String providerUrl;
+    private final BpnEdcFacade bpnEdcFacade;
 
-    @Value("${bpdm.providerBpnl}")
-    private String providerBpnl;
+    BpdmEdcClient(BpnEdcFacade bpnEdcFacade) {
+        this.bpnEdcFacade = bpnEdcFacade;
+    }
+
+    public BusinessPartnerResponse getBusinessPartnerLegalName(final String bpn) {
+        return bpnEdcFacade.resolveBusinessPartnerByBpn(bpn);
+    }
 
 }

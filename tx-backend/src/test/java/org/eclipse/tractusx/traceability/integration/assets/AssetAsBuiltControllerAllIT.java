@@ -19,12 +19,15 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -45,10 +48,19 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Autowired
-    BpnSupport bpnSupport;
+    AssetsSupport assetsSupport;
 
     @Autowired
-    AssetsSupport assetsSupport;
+    EdcSupport edcSupport;
+
+    @Autowired
+    IrsApiSupport irsApiSupport;
+
+    @BeforeEach
+    void setUp() throws JsonProcessingException {
+        edcSupport.performSupportActionsForBpdmAccess();
+        irsApiSupport.irsApiReturnsPoliciesBpdm();
+    }
 
     private static Stream<Arguments> owners() {
         return Stream.of(
@@ -61,7 +73,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnAssetsWithManufacturerName() throws JoseException {
         //GIVEN
-        bpnSupport.cachedBpnsForDefaultAssets();
         assetsSupport.defaultAssetsStored();
 
         //THEN

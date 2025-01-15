@@ -62,9 +62,6 @@ irs-edc-client:
   controlplane:
     endpoint:
       data: http://localhost:5001
-      catalog: /edc/api/v2/catalog/request # EDC consumer controlplane catalog path
-      contract-negotiation: /edc/api/v2/contractnegotiations # EDC consumer controlplane contract negotiation path
-      transfer-process: /edc/api/v2/transferprocesses # EDC consumer controlplane transfer process path
     api-key:
       secret: password
 
@@ -130,3 +127,7 @@ irs:
   policies:
     - policyId: "ID 3.0 Trace"
       ttl: "2024-09-30T23:59:59.99Z"
+
+bpdm:
+  providerUrl: https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp
+  providerBpnl: BPNLCOFINITYEZFA

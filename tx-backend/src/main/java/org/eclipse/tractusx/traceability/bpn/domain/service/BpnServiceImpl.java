@@ -17,17 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.infrastructure.repository;
+package org.eclipse.tractusx.traceability.bpn.domain.service;
 
 import bpn.request.BpnMappingRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
-import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.client.BpdmClient;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.client.BpdmEdcClient;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BpnEntity;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
+import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,15 +39,25 @@ import java.util.List;
 public class BpnServiceImpl implements BpnService {
 
     private final BpnRepository bpnRepository;
-    private final BpdmClient bpdmClient;
+    private final BpdmEdcClient bpdmEdcClient;
 
     @Override
     public String findByBpn(String bpn) {
+
+        if (StringUtils.isEmpty(bpn)) {
+            return null;
+        }
+
         String manufacturerName = bpnRepository.findManufacturerName(bpn);
-        if (manufacturerName == null && bpn != null) {
-            BusinessPartnerResponse businessPartner = bpdmClient.getBusinessPartner(bpn);
-            BpnEntity bpnEntity = bpnRepository.save(businessPartner);
-            manufacturerName = bpnEntity.getManufacturerName();
+        if (manufacturerName == null) {
+            try {
+                BusinessPartnerResponse businessPartner = bpdmEdcClient.getBusinessPartnerLegalName(bpn);
+                BpnEntity bpnEntity = bpnRepository.save(businessPartner);
+                manufacturerName = bpnEntity.getManufacturerName();
+            } catch (Exception e) {
+                log.error("Error resolving business partner data: {}", e.getMessage());
+                return null;
+            }
         }
         return manufacturerName;
     }

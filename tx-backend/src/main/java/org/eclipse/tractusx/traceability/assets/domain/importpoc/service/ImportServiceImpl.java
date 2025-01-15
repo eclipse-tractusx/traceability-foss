@@ -35,7 +35,6 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.Subm
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.ImportAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.importJob.model.ImportJobEntity;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

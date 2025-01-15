@@ -18,17 +18,19 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.assets;
 
-import io.restassured.http.ContentType;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.Header;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
@@ -39,6 +41,18 @@ class AssetAsPlannedControllerDeleteByIdIT extends IntegrationTestSpecification 
 
     @Autowired
     AssetsApiSupport assetsApiSupport;
+
+    @Autowired
+    EdcSupport edcSupport;
+
+    @Autowired
+    IrsApiSupport irsApiSupport;
+
+    @BeforeEach
+    void setUp() throws JsonProcessingException {
+        edcSupport.performSupportActionsForBpdmAccess();
+        irsApiSupport.irsApiReturnsPoliciesBpdm();
+    }
 
     @Test
     void shouldDeleteAssetById() throws JoseException {

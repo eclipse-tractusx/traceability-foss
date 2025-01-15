@@ -27,11 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.header;
 import static com.xebialabs.restito.semantics.Action.ok;
@@ -111,7 +106,6 @@ public class IrsApiSupport {
                 );
     }
 
-
     public void irsApiReturnsPolicies() {
         whenHttp(restitoProvider.stubServer()).match(
                 Condition.get("/irs/policies")
@@ -122,6 +116,17 @@ public class IrsApiSupport {
         );
     }
 
+    public void irsApiReturnsPoliciesBpdm() throws JsonProcessingException {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.get("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies_bpdm.json")
+        );
+        policyStartUpConfig.registerDecentralRegistryPermissions();
+    }
+
     public void irsApiReturnsPoliciesNotFound(String id) {
         whenHttp(restitoProvider.stubServer()).match(
                 Condition.get("/irs/policies/" + id)
@@ -129,16 +134,6 @@ public class IrsApiSupport {
                 Action.status(HttpStatus.NOT_FOUND_404),
                 Action.header("Content-Type", "application/json"),
                 restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_404_get_policyById.json")
-        );
-    }
-
-    public void irsApiReturnsPolicyById(String policyId) {
-        whenHttp(restitoProvider.stubServer()).match(
-                Condition.get("/irs/policies/" + policyId)
-        ).then(
-                Action.status(HttpStatus.OK_200),
-                Action.header("Content-Type", "application/json"),
-                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policyById.json")
         );
     }
 
@@ -202,19 +197,4 @@ public class IrsApiSupport {
         );
     }
 
-    public void irsApiReturnsValidPolicies() {
-        whenHttp(restitoProvider.stubServer()).match(
-                Condition.get("/irs/policies")
-        ).then(
-                Action.status(HttpStatus.OK_200),
-                Action.header("Content-Type", "application/json"),
-                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies.json")
-        );
-    }
-
-    private String readFile(String filePath) throws IOException {
-        // Implement reading file content from the specified filePath
-        // This is a utility method to read the JSON response from a file
-        return new String(Files.readAllBytes(Paths.get(filePath)), StandardCharsets.UTF_8);
-    }
 }

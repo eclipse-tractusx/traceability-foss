@@ -212,10 +212,7 @@ public class NotificationsEDCFacade {
                 .url(dataReference.getEndpoint())
                 .body(body)
                 .headers(headers).build();
-
-
     }
-
 
     private void sendRequest(final EdcNotificationRequest request) {
         HttpEntity<String> entity = new HttpEntity<>(request.getBody(), request.getHeaders());

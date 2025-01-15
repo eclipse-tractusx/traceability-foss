@@ -223,8 +223,5 @@ digitalTwinRegistryClient:
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
 
 bpdm:
-  bpnEndpoint: ${BPDM_URL} # Endpoint to resolve BPNs, must contain the placeholders {partnerId} and {idType}
-  oAuthClientId: bpdm # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
-  timeout:
-    read: PT90S # HTTP read timeout for the bpdm client
-    connect: PT90S # HTTP connect timeout for the bpdm client
+  providerUrl: ${BPDM_URL} # Endpoint to resolve BPNs, must contain the placeholders {partnerId} and {idType}
+  providerBpnl: ${BPDM_PROVIDER_BPNL}

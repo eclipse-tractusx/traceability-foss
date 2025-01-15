@@ -26,7 +26,6 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.FeignDefaultProperties;
 import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
@@ -65,25 +64,12 @@ public class RestTemplateConfiguration {
     public static final String SUBMODEL_REST_TEMPLATE = "submodelRestTemplate";
     public static final String DIGITAL_TWIN_REGISTRY_REST_TEMPLATE = "digitalTwinRegistryRestTemplate";
     public static final String EDC_CLIENT_REST_TEMPLATE = "edcClientRestTemplate";
-    public static final String BPDM_CLIENT_REST_TEMPLATE = "bpdmClientRestTemplate";
 
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
     private static final String IRS_API_KEY_HEADER_NAME = "X-API-KEY";
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final ClientRegistrationRepository clientRegistrationRepository;
-
-    /* RestTemplate used by trace x for the resolution of manufacturer names by BPN.*/
-    @Bean(BPDM_CLIENT_REST_TEMPLATE)
-    public RestTemplate bpdmClientRestTemplate(@Autowired BpdmProperties bpdmProperties) {
-        final var clientRegistration = clientRegistrationRepository.findByRegistrationId(bpdmProperties.getOAuthClientId());
-
-        return new RestTemplateBuilder().additionalInterceptors(
-                        new OAuthClientCredentialsRestTemplateInterceptor(authorizedClientManager(), clientRegistration))
-                .setConnectTimeout(Duration.parse(bpdmProperties.getConnectTimeout()))
-                .setReadTimeout(Duration.parse(bpdmProperties.getReadTimeout()))
-                .build();
-    }
 
     /* RestTemplate used by trace x for the edc contracts used within the edc provider.*/
     @Bean(EDC_REST_TEMPLATE)

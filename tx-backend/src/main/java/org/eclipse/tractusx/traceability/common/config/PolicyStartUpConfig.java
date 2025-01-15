@@ -38,7 +38,6 @@ import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 import policies.response.ConstraintResponse;

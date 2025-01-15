@@ -1,0 +1,154 @@
+{
+  "@id": "205b5a0d-5e7b-4f1f-b89a-62a141163c2c",
+  "@type": "dcat:Catalog",
+  "dspace:participantId": "BPNLCOFINITYEZFA",
+  "dcat:dataset": {
+    "@id": "97c31887-e3af-4d69-b3b8-a3c3a525a05e",
+    "@type": "dcat:Dataset",
+    "odrl:hasPolicy": {
+      "@id": "OGJmMzI4NDItODRmOC00ZGFkLTk1OWEtMjViZTFhNjhkYmRh:OTdjMzE4ODctZTNhZi00ZDY5LWIzYjgtYTNjM2E1MjVhMDVl:ODc3YWU1YWQtZmQ1Zi00YTdiLWJkMDItZTJiNmUyOTFmOWMz",
+      "@type": "odrl:Offer",
+      "odrl:permission": {
+        "odrl:action": {
+          "@id": "odrl:use"
+        },
+        "odrl:constraint": {
+          "odrl:and": [
+            {
+              "odrl:leftOperand": {
+                "@id": "cx-policy:FrameworkAgreement"
+              },
+              "odrl:operator": {
+                "@id": "odrl:eq"
+              },
+              "odrl:rightOperand": "DataExchangeGovernance:1.0"
+            },
+            {
+              "odrl:leftOperand": {
+                "@id": "cx-policy:UsagePurpose"
+              },
+              "odrl:operator": {
+                "@id": "odrl:eq"
+              },
+              "odrl:rightOperand": "cx.bpdm.pool:1"
+            }
+          ]
+        }
+      },
+      "odrl:prohibition": [],
+      "odrl:obligation": []
+    },
+    "dcat:distribution": [
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AzureStorage-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "HttpData-PULL"
+        },
+        "dcat:accessService": {
+          "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "HttpData-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AmazonS3-PULL"
+        },
+        "dcat:accessService": {
+          "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AmazonS3-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AzureStorage-PULL"
+        },
+        "dcat:accessService": {
+          "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+        }
+      }
+    ],
+    "https://purl.org/dc/terms/subject": "cx-taxo:ReadAccessPoolForCatenaXMember",
+    "https://purl.org/dc/terms/description": "Grants the Catena-X Member read access to the Pool API. This can be used to read legal entity, site, address, legal form, identifier type and administrative area level 1 data. To that end, it also grants read access to the respective changelog entries and identifier mappings, as well as relational data.",
+    "BusinessPartnerNumber": "BPNL000000016G47",
+    "id": "97c31887-e3af-4d69-b3b8-a3c3a525a05e",
+    "https://purl.org/dc/terms/type": "cx-taxo:BPDMPool",
+    "https://w3id.org/catenax/ontology/common/version": "6.0"
+  },
+  "dcat:service": {
+    "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
+    "@type": "dcat:DataService",
+    "dcat:endpointDescription": "dspace:connector",
+    "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+    "dct:terms": "dspace:connector",
+    "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+  },
+  "participantId": "BPNLCOFINITYEZFA",
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "odrl": "http://www.w3.org/ns/odrl/2/",
+    "dspace": "https://w3id.org/dspace/v0.8/"
+  }
+}

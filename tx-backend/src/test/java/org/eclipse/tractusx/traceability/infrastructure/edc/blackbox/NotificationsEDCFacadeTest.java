@@ -18,11 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
-import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
-import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
@@ -44,26 +40,18 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class NotificationsEDCFacadeTest {
-    @Mock
-    ObjectMapper objectMapper;
+
     @Mock
     EdcProperties edcProperties;
     @Mock
     EDCCatalogFacade edcCatalogFacade;
     @Mock
-    ContractNegotiationService contractNegotiationService;
-    @Mock
-    EndpointDataReferenceStorage endpointDataReferenceStorage;
-    @Mock
-    EndpointDataReference endpointDataReference;
-    @Mock
     Notification notification;
     @InjectMocks
     NotificationsEDCFacade notificationsEDCFacade;
 
-
     @Test
-    void givenCorrectInvestigationMessageButSendRequestThrowsException_whenStartEdcTransfer_thenThrowNoCatalogItemException() throws Exception {
+    void givenCorrectInvestigationMessageButSendRequestThrowsException_whenStartEdcTransfer_thenThrowNoCatalogItemException() {
         // given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
@@ -78,7 +66,7 @@ class NotificationsEDCFacadeTest {
     }
 
     @Test
-    void givenCorrectInvestigationMessageButNegotiateContractAgreementHasNoCatalogItem_whenStartEdcTransfer_thenThrowNoCatalogFoundException() throws Exception {
+    void givenCorrectInvestigationMessageButNegotiateContractAgreementHasNoCatalogItem_whenStartEdcTransfer_thenThrowNoCatalogFoundException() {
         // given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";

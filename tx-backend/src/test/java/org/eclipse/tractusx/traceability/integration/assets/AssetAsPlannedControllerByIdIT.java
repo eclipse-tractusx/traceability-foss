@@ -18,14 +18,15 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.assets;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
-import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -46,13 +47,16 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
     AssetsSupport assetsSupport;
 
     @Autowired
-    JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
+    EdcSupport edcSupport;
 
     @Autowired
-    AlertsSupport alertsSupport;
+    IrsApiSupport irsApiSupport;
 
-    @Autowired
-    InvestigationsSupport investigationsSupport;
+    @BeforeEach
+    void setUp() throws JsonProcessingException {
+        edcSupport.performSupportActionsForBpdmAccess();
+        irsApiSupport.irsApiReturnsPoliciesBpdm();
+    }
 
     private static Stream<Arguments> requests() {
         return Stream.of(

@@ -9,6 +9,10 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ## [Unreleased]
 
+### Added
+
+- TRX-145 Access and Authentication for BPDM Lookup over EDC communication
+
 ### Changed
 
 - TRACEX-224 Setup Trace-X gatling test workflow using containers and switch to technical api key
@@ -16,6 +20,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ## [13.0.2-cfx-9 - 09.01.2025]
 
 ### Added
+
 - TRX-179 Added reverse proxy to frontend nginx configuration
 - TRX-366 Provide proper imprint and legal links
 

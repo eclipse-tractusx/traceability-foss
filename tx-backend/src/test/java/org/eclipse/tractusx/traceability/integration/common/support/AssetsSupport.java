@@ -19,16 +19,10 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.repository.JpaNotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @Component
@@ -42,9 +36,6 @@ public class AssetsSupport {
 
     @Autowired
     OAuth2ApiSupport oAuth2ApiSupport;
-
-    @Autowired
-    JpaNotificationRepository jpaInvestigationRepository;
 
     public String emptyText() {
         return "";
@@ -97,14 +88,6 @@ public class AssetsSupport {
         final long assetCount = assetRepositoryProvider.assetAsPlannedRepository().countAssets();
         log.info("AsPlannedRepository asset count: {}, expected: {}", assetCount, size);
         assert assetCount == size;
-    }
-
-    public void validateAssetsCreatedByOwner(int assetOwnCount, int assetSupplierCount) {
-        List<AssetBase> all = assetRepositoryProvider.assetAsBuiltRepository().findAll();
-        int ownCount = all.stream().filter(assetBase -> assetBase.getOwner().equals(Owner.OWN)).toList().size();
-        int supplierCount = all.stream().filter(assetBase -> assetBase.getOwner().equals(Owner.SUPPLIER)).toList().size();
-        assertThat(ownCount).isEqualTo(assetOwnCount);
-        assertThat(supplierCount).isEqualTo(assetSupplierCount);
     }
 
     public void assertNoAssetsStored() {

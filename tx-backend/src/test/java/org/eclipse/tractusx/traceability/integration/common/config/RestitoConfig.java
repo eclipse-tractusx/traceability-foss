@@ -74,7 +74,8 @@ public class RestitoConfig {
                     "provisioning.registry.urlWithPathExternal=http://127.0.0.1:" + STUB_SERVER_PORT + "/semantics/registry/api/v3.0",
                     "edc.parts-provider-edc-controlplane-url=http://localhost:" + STUB_SERVER_PORT,
                     "edc.callbackUrls=http://localhost:" + STUB_SERVER_PORT + "/callback/redirect",
-                    "bpdm.bpnEndpoint=http://localhost:" + STUB_SERVER_PORT + "/api/catena/legal-entities/{partnerId}?idType={idType}",
+                    "bpdm.providerUrl=http://localhost/providerUrl",
+                    "bpdm.providerBpnl=BPNLCOFINITYEZFA",
                     "digitalTwinRegistryClient.discoveryFinderUrl=http://localhost:" + STUB_SERVER_PORT + "/v1.0/administration/connectors/discovery/search"
             ).applyTo(configurableApplicationContext.getEnvironment());
         }

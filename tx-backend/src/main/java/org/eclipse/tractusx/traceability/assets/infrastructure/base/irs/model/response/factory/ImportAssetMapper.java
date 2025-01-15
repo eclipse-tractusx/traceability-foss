@@ -34,6 +34,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.SubmodelMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.relationship.SubmodelRelationshipMapper;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -55,6 +56,7 @@ public class ImportAssetMapper implements AssetBaseMappers<List<ImportRequest.As
 
     private final AssetBaseMapperProvider assetBaseMapperProvider;
     private final TraceabilityProperties traceabilityProperties;
+    private final BpnService bpnService;
 
     @Override
     public List<AssetBase> toAssetBaseList(List<ImportRequest.AssetImportRequest> assetImportRequestList) {
@@ -74,6 +76,7 @@ public class ImportAssetMapper implements AssetBaseMappers<List<ImportRequest.As
                     assetBase.setImportNote(ImportNote.TRANSIENT_CREATED);
                     assetBase.setImportState(ImportState.TRANSIENT);
                     assetBase.setManufacturerId(traceabilityProperties.getBpn().value());
+                    assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
                     assetBase.setDigitalTwinType(assetMetaInfoRequest.digitalTwinType());
                     enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
                     enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);

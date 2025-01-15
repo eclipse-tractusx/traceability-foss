@@ -20,21 +20,21 @@
 package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base;
 
 import assets.importpoc.ImportResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.repository.AssetAsBuiltSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.repository.BpnSupportRepository;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,22 +48,28 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     BpnSupportRepository bpnSupportRepository;
 
     @Autowired
-    BpnSupport bpnSupport;
-
-    @Autowired
     AssetsSupport assetsSupport;
 
     @Autowired
-    AssetAsBuiltSupportRepository assetAsBuiltSupportRepository;
+    EdcSupport edcSupport;
 
+    @Autowired
+    BpnSupport bpnSupport;
+
+    @BeforeEach
+    void setUp() throws JsonProcessingException {
+        edcSupport.performSupportActionsForBpdmAccess();
+        irsApiSupport.irsApiReturnsPoliciesBpdm();
+        bpnSupport.providesBpdmLookup();
+    }
 
     @Test
-    void givenAssets_whenCallbackReceived_thenSaveThemAndStoreContractAgreementId() throws JoseException {
+    void givenAssets_whenCallbackReceived_thenSaveThemAndStoreContractAgreementId()
+            throws JoseException {
         // given
-
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
+
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
         String jobState = "COMPLETED";
 
@@ -100,7 +106,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     @Test
     void givenNoAssets_whenCallbackReceivedForAsPlanned_thenSaveThem() {
         // given
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();
         String jobId = "ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED";
@@ -154,7 +159,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     void givenAssetExist_whenCallbackReceived_thenUpdateIt() {
         // given
         assetsSupport.defaultAssetsStored();
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
@@ -188,7 +192,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateAsBuiltAsset() throws JoseException {
         // given
 
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
         String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
@@ -238,7 +241,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateAsPlannedAsset() throws JoseException {
         // given
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();
         String jobId = "ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED";
@@ -283,45 +285,5 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
         assertThat(tombstoneAsPlanned).isNotEmpty();
     }
-
-
-    @Test
-    void givenNoAssets_whenCallbackReceived_thenSaveThem_withoutManufacturerName() throws JoseException {
-        // given
-
-        bpnSupport.returnsBpdmLookup401Unauthorized();
-        irsApiSupport.irsApiReturnsJobDetails();
-        String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
-        String jobState = "COMPLETED";
-
-        // when
-        given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .param("id", jobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
-                .then()
-                .log().all()
-                .statusCode(200);
-
-        // then
-        assetsSupport.assertAssetAsBuiltSize(2);
-        assetsSupport.assertAssetAsPlannedSize(0);
-        final String manufacturerName = given()
-                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .pathParam("assetId", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
-                .get("/api/assets/as-built/{assetId}")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .extract().path("manufacturerName");
-        assertThat(manufacturerName).isEmpty();
-    }
-
 
 }
