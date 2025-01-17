@@ -12,6 +12,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ### Added
 
 - TRX-145 Access and Authentication for BPDM Lookup over EDC communication
+- TRX-184 Change Quality Notification API according to CX-0125 Traceability Use Case v2.0.0
 
 ### Changed
 

@@ -21,6 +21,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.notification.domain.contract;
 
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -29,9 +30,13 @@ import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
 import org.eclipse.tractusx.irs.edc.client.asset.EdcAssetService;
+import org.eclipse.tractusx.irs.edc.client.asset.model.Asset;
+import org.eclipse.tractusx.irs.edc.client.asset.model.Notification;
 import org.eclipse.tractusx.irs.edc.client.asset.model.NotificationType;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.asset.model.exception.DeleteEdcAssetException;
+import org.eclipse.tractusx.irs.edc.client.asset.model.exception.GetEdcAssetException;
+import org.eclipse.tractusx.irs.edc.client.asset.model.exception.UpdateEdcAssetException;
 import org.eclipse.tractusx.irs.edc.client.contract.model.EdcContractDefinition;
 import org.eclipse.tractusx.irs.edc.client.contract.model.EdcContractDefinitionQuerySpec;
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
@@ -42,6 +47,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.model.EdcCreatePolicyDefinitio
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.DeleteEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.EdcPolicyDefinitionAlreadyExists;
+import org.eclipse.tractusx.irs.edc.client.policy.model.exception.GetEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.service.EdcPolicyDefinitionService;
 import org.eclipse.tractusx.traceability.common.config.ApplicationConfig;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
@@ -78,6 +84,8 @@ public class EdcNotificationContractService {
             new CreateNotificationContractRequest(org.eclipse.tractusx.traceability.notification.application.contract.model.NotificationType.QUALITY_INVESTIGATION, NotificationMethod.RECEIVE)
     );
 
+    public static final String BASE_URL_PROPERTY = "baseUrl";
+
     private final EdcAssetService edcAssetService;
     private final EdcPolicyDefinitionService edcPolicyDefinitionService;
     private final EdcContractDefinitionService edcContractDefinitionService;
@@ -85,7 +93,6 @@ public class EdcNotificationContractService {
     private final PolicyRepository policyRepository;
     private final EDCCatalogFacade edcCatalogFacade;
     private final EdcProperties edcProperties;
-
 
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = ApplicationConfig.CONTEXT_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualitynotifications/%s";
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = ApplicationConfig.CONTEXT_PATH + ApplicationConfig.INTERNAL_ENDPOINT + "/qualityalerts/%s";
@@ -131,79 +138,166 @@ public class EdcNotificationContractService {
     }
 
     public List<CreateNotificationContractResponse> createNotificationContract(final CreateNotificationContractRequest request) {
+        final List<PolicyResponse> policiesResponse = policyRepository.getLatestPoliciesByApplicationBPNOrDefaultPolicy();
 
-        final NotificationMethod notificationMethod = request.notificationMethod();
+        String baseUrl = createBaseUrl(request.notificationType(), request.notificationMethod());
 
-        log.info("Creating EDC asset notification contract for {} method and {} notification type", notificationMethod.getValue(), request.notificationType().getValue());
+        Notification notification = Notification.toNotification(
+                org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(
+                        request.notificationMethod().name()),
+                NotificationType.valueOf(request.notificationType().name()));
 
+        String notificationAssetId = findAndUpdateNotificationContractOffers(notification, baseUrl);
+
+        List<CreateNotificationContractResponse> notificationContractResponses = new ArrayList<>();
+
+        if (notificationAssetId == null) {
+
+            Asset notificationAssetWithoutContractDefinition = findNotificationAssetWithoutContractDefinition(
+                    notification);
+
+            if (notificationAssetWithoutContractDefinition == null) {
+                log.info("Creating EDC asset notification contract for {} method and {} notification type",
+                        request.notificationMethod().getValue(), request.notificationType().getValue());
+
+                notificationAssetId = createNotificationAsset(request, baseUrl);
+            } else {
+                notificationAssetId = notificationAssetWithoutContractDefinition.getAssetId();
+            }
+
+            List<EdcCreatePolicyDefinitionRequest> edcCreatePolicyDefinitionRequestList = policiesResponse.stream()
+                    .map(PolicyMapper::mapToEdcPolicyRequest).toList();
+
+            for (EdcCreatePolicyDefinitionRequest singleEdcCreatePolicyDefinitionRequest : edcCreatePolicyDefinitionRequestList) {
+                String accessPolicyId = findNotificationPolicy(singleEdcCreatePolicyDefinitionRequest);
+
+                if (accessPolicyId == null) {
+                    accessPolicyId = createNotificationPolicy(notificationAssetId, singleEdcCreatePolicyDefinitionRequest);
+                }
+
+                notificationContractResponses.add(createNotificationContractDefinition(accessPolicyId, notificationAssetId));
+            }
+        }
+        return notificationContractResponses;
+    }
+
+    private Asset findNotificationAssetWithoutContractDefinition(Notification notification) {
+        try {
+            ResponseEntity<Asset> assetResponse = edcAssetService.getAsset(notification.getAssetId());
+            return assetResponse != null ? assetResponse.getBody() : null;
+        } catch (GetEdcAssetException e) {
+            log.error("Could not find an asset: {}", notification.getAssetId());
+            return null;
+        }
+    }
+
+    private CreateNotificationContractResponse createNotificationContractDefinition(String accessPolicyId,
+            String notificationAssetId) {
+        final String contractDefinitionId;
+        try {
+            contractDefinitionId = edcContractDefinitionService.createContractDefinition(notificationAssetId,
+                    accessPolicyId);
+            log.info(
+                    "Created notification contract for {} notification asset id, access policy id {} and contract definition id {}",
+                    notificationAssetId,
+                    accessPolicyId,
+                    contractDefinitionId);
+
+            return new CreateNotificationContractResponse(
+                    notificationAssetId,
+                    accessPolicyId,
+                    contractDefinitionId
+            );
+        } catch (final CreateEdcContractDefinitionException e) {
+            revertAccessPolicy(accessPolicyId);
+            revertNotificationAsset(notificationAssetId);
+            throw new CreateNotificationContractException(e);
+        }
+    }
+
+    private String findNotificationPolicy(EdcCreatePolicyDefinitionRequest singleEdcCreatePolicyDefinitionRequest) {
+        String accessPolicyId = null;
+        try {
+            final boolean exists = edcPolicyDefinitionService.policyDefinitionExists(
+                    singleEdcCreatePolicyDefinitionRequest.getPolicyDefinitionId());
+            if (exists) {
+                log.info("Policy with id " + singleEdcCreatePolicyDefinitionRequest.getPolicyDefinitionId()
+                        + "already exists and contains necessary application constraints. Reusing for notification contract.");
+                accessPolicyId = singleEdcCreatePolicyDefinitionRequest.getPolicyDefinitionId();
+            }
+        } catch (GetEdcPolicyDefinitionException e) {
+            log.warn("EdcPolicyDefinition could not be queried {}", e.getMessage());
+        }
+        return accessPolicyId;
+    }
+
+    private String createNotificationPolicy(String notificationAssetId,
+            EdcCreatePolicyDefinitionRequest singleEdcCreatePolicyDefinitionRequest) {
+        String accessPolicyId;
+        try {
+            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(
+                    singleEdcCreatePolicyDefinitionRequest);
+        } catch (final CreateEdcPolicyDefinitionException e) {
+            revertNotificationAsset(notificationAssetId);
+            throw new CreateNotificationContractException(e);
+        } catch (final EdcPolicyDefinitionAlreadyExists alreadyExists) {
+            accessPolicyId = singleEdcCreatePolicyDefinitionRequest.getPolicyDefinitionId();
+            log.info("Policy with id " + accessPolicyId + " already exists, using for notification contract.");
+        }
+
+        return accessPolicyId;
+    }
+
+    private String findAndUpdateNotificationContractOffers(Notification notification, String baseUrl) {
+        List<CatalogItem> existingContractOffers = edcCatalogFacade.fetchCatalogItems(catalogRequest()).stream()
+                .toList();
+
+        Optional<CatalogItem> maybeAsset = existingContractOffers.stream()
+                .filter(offer -> offer.getAssetPropId().equals(notification.getAssetId())).findFirst();
+
+        if (maybeAsset.isPresent()) {
+            CatalogItem existingNotificationAsset = maybeAsset.get();
+            updateIfBaseUrlDoesNotMatch(existingNotificationAsset, baseUrl);
+            return existingNotificationAsset.getAssetPropId();
+        }
+
+        return null;
+    }
+
+    private String createNotificationAsset(CreateNotificationContractRequest request, String baseUrl) {
         String notificationAssetId;
         final EdcTechnicalServiceAuthentication edcTechnicalServiceAuthentication =
-                EdcTechnicalServiceAuthentication.builder().technicalServiceApiKey(traceabilityProperties.getTechnicalServiceApiKey()).build();
+                EdcTechnicalServiceAuthentication.builder()
+                        .technicalServiceApiKey(traceabilityProperties.getTechnicalServiceApiKey()).build();
         try {
             notificationAssetId = edcAssetService.createNotificationAsset(
-                    createBaseUrl(request.notificationType(), request.notificationMethod()),
+                    baseUrl,
                     request.notificationType().name() + " " + request.notificationMethod().name(),
-                    org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(request.notificationMethod().name()),
+                    org.eclipse.tractusx.irs.edc.client.asset.model.NotificationMethod.valueOf(
+                            request.notificationMethod().name()),
                     NotificationType.valueOf(request.notificationType().name()), edcTechnicalServiceAuthentication);
         } catch (CreateEdcAssetException e) {
             throw new CreateNotificationContractException(e);
         }
 
-
-        final List<PolicyResponse> policiesResponse = policyRepository.getLatestPoliciesByApplicationBPNOrDefaultPolicy();
-
-        List<EdcCreatePolicyDefinitionRequest> edcCreatePolicyDefinitionRequestList = policiesResponse.stream().map(PolicyMapper::mapToEdcPolicyRequest).toList();
-
-
-        String accessPolicyId = "";
-        List<CreateNotificationContractResponse> notificationContractResponses = new ArrayList<>();
-        for (EdcCreatePolicyDefinitionRequest singleEdcCreatePolicyDefinitionRequest : edcCreatePolicyDefinitionRequestList) {
-            try {
-                final boolean exists = edcPolicyDefinitionService.policyDefinitionExists(singleEdcCreatePolicyDefinitionRequest.getPolicyDefinitionId());
-                if (exists) {
-                    log.info("Policy with id " + singleEdcCreatePolicyDefinitionRequest.getPolicyDefinitionId() + "already exists and contains necessary application constraints. Reusing for notification contract.");
-                    accessPolicyId = singleEdcCreatePolicyDefinitionRequest.getPolicyDefinitionId();
-                } else {
-                    accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(singleEdcCreatePolicyDefinitionRequest);
-                }
-            } catch (final CreateEdcPolicyDefinitionException e) {
-                revertNotificationAsset(notificationAssetId);
-                throw new CreateNotificationContractException(e);
-            } catch (final EdcPolicyDefinitionAlreadyExists alreadyExists) {
-                accessPolicyId = singleEdcCreatePolicyDefinitionRequest.getPolicyDefinitionId();
-                log.info("Policy with id " + accessPolicyId + " already exists, using for notification contract.");
-            } catch (
-                    final
-                    org.eclipse.tractusx.irs.edc.client.policy.model.exception.GetEdcPolicyDefinitionException edcPolicyDefinitionException) {
-                log.warn("EdcPolicyDefinition could not be queried {}", edcPolicyDefinitionException.getMessage());
-            }
-            final String contractDefinitionId;
-            try {
-                contractDefinitionId = edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId);
-                log.info(
-                        "Created notification contract for {} notification asset id, access policy id {} and contract definition id {}",
-                        notificationAssetId,
-                        accessPolicyId,
-                        contractDefinitionId);
-
-
-                notificationContractResponses.add(new CreateNotificationContractResponse(
-                        notificationAssetId,
-                        accessPolicyId,
-                        contractDefinitionId
-                ));
-
-            } catch (final CreateEdcContractDefinitionException e) {
-                revertAccessPolicy(accessPolicyId);
-                revertNotificationAsset(notificationAssetId);
-
-                throw new CreateNotificationContractException(e);
-            }
-        }
-        return notificationContractResponses;
-
+        return notificationAssetId;
     }
 
+    private void updateIfBaseUrlDoesNotMatch(CatalogItem existingNotificationAsset, String baseUrl) {
+        try {
+            ResponseEntity<Asset> response = edcAssetService.getAsset(existingNotificationAsset.getAssetPropId());
+            if (response != null) {
+                Asset existingAsset = response.getBody();
+                if (existingAsset != null && !existingAsset.getDataAddress().get(BASE_URL_PROPERTY).equals(baseUrl)) {
+                    log.info("Updating baseUrl for asset {}", existingAsset.getAssetId());
+                    existingAsset.getDataAddress().put(BASE_URL_PROPERTY, baseUrl);
+                    edcAssetService.updateAsset(existingAsset);
+                }
+            }
+        } catch (GetEdcAssetException | UpdateEdcAssetException e) {
+            throw new CreateNotificationContractException(e);
+        }
+    }
 
     public void updateNotificationContractDefinitions() {
         deleteNotificationContracts();

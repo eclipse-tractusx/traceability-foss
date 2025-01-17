@@ -136,7 +136,7 @@ public class NotificationsEDCFacade {
             log.info("Negotiation of contract agreement for receiverEdcUrl {} and catalogItem {}", receiverEdcUrl, catalogItem);
             return Optional.ofNullable(contractNegotiationService.negotiate(appendSuffix(receiverEdcUrl, edcProperties.getIdsPath()), catalogItem, null, receiverBpn))
                     .orElseThrow()
-                    .getContractAgreementId();
+                    .getContractId();
         } catch (Exception e) {
             throw new ContractNegotiationException("Failed to negotiate contract agreement: " + e.getMessage(), e);
         }

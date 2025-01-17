@@ -35,7 +35,7 @@ import org.eclipse.tractusx.irs.edc.client.exceptions.TransferProcessException;
 import org.eclipse.tractusx.irs.edc.client.exceptions.UsagePolicyExpiredException;
 import org.eclipse.tractusx.irs.edc.client.exceptions.UsagePolicyPermissionException;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
-import org.eclipse.tractusx.irs.edc.client.model.NegotiationResponse;
+import org.eclipse.tractusx.irs.edc.client.model.TransferProcessResponse;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
 import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.junit.jupiter.api.Test;
@@ -94,8 +94,8 @@ public class BpnEdcFacadeTest {
                 any(),
                 any(),
                 eq(providerBpnl)))
-                .thenReturn(NegotiationResponse.builder()
-                        .contractAgreementId(contractAgreementId)
+                .thenReturn(TransferProcessResponse.builder()
+                        .contractId(contractAgreementId)
                         .build());
 
         EndpointDataReference edr = EndpointDataReference.Builder.newInstance()

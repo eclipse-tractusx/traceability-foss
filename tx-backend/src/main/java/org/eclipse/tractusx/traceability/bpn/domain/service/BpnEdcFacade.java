@@ -111,7 +111,7 @@ public class BpnEdcFacade {
         try {
             return Optional.ofNullable(contractNegotiationService.negotiate(url, catalogItem, null, bpn))
                     .orElseThrow()
-                    .getContractAgreementId();
+                    .getContractId();
         } catch (Exception e) {
             throw new ContractNegotiationException("Failed to negotiate contract agreement: " + e.getMessage(), e);
         }
