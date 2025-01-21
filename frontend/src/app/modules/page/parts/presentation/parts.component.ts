@@ -300,7 +300,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.assetAsBuiltFilter.owner = this.quickFilterComponents.get(0)?.owner;
     }
     if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
-      this.partsFacade.setPartsAsBuilt(FIRST_PAGE, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
     }
@@ -319,7 +319,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.assetsAsPlannedFilter.owner = this.quickFilterComponents.get(0)?.owner;
     }
     if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
-      this.partsFacade.setPartsAsPlanned(FIRST_PAGE, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
+      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
     } else {
       this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
     }

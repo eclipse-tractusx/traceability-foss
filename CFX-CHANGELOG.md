@@ -18,6 +18,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 - TRACEX-224 Setup Trace-X gatling test workflow using containers and switch to technical api key
 - TRX-419 Fix env variables in settings.xml
+- TRACEX-374 Fix bug in FE pagination for asbuilt and asplanned tables
 
 ## [13.0.2-cfx-9 - 09.01.2025]
 
