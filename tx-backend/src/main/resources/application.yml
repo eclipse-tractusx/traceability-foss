@@ -56,6 +56,7 @@ provisioning:
     urlWithPathInternal: ${REGISTRY_URL_WITH_PATH_INTERNAL:https://registry.net/semantics/registry/api/v3.0}
     urlWithPathExternal: ${REGISTRY_URL_WITH_PATH_EXTERNAL:https://registry.net/semantics/registry/api/v3.0}
     shellDescriptorUrl: /shell-descriptors
+    oauthEnabled: ${REGISTRY_OAUTH_ENABLED:false}
     clientId: ${REGISTRY_CLIENT_ID}
     clientSecret: ${REGISTRY_CLIENT_SECRET}
     tokenUrl: ${REGISTRY_TOKEN_URL}

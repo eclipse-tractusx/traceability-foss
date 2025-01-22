@@ -303,6 +303,7 @@ backend:
       urlExternalWithPath: "https://replace.me"
       urlInternalWithPath: "https://replace.me"
       allowedBpns: "CHANGEME"
+      oauthEnabled: false
       oauthProviderRegistrationId: "CHANGEME"
       clientId: "CHANGEME"
       clientSecret: "CHANGEME"

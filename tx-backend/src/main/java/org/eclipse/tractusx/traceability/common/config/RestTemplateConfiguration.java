@@ -99,9 +99,14 @@ public class RestTemplateConfiguration {
     public RestTemplate digitalTwinRegistryCreateShellRestTemplate(
             final RestTemplateBuilder restTemplateBuilder,
             @Autowired RegistryProperties registryProperties) {
-        return oAuthRestTemplate(restTemplateBuilder,
-                registryProperties.getOauthProviderRegistrationId())
-                .build();
+        if (registryProperties.getOauthEnabled()) {
+
+            return oAuthRestTemplate(restTemplateBuilder,
+                    registryProperties.getOauthProviderRegistrationId())
+                    .build();
+        } else {
+            return restTemplateBuilder.build();
+        }
     }
 
     /* RestTemplate used by trace x for the notification transfer to the edc controlplane including edc api key*/
@@ -149,8 +154,13 @@ public class RestTemplateConfiguration {
 
     @Bean(DIGITAL_TWIN_REGISTRY_REST_TEMPLATE)
     public RestTemplate digitalTwinRegistryRestTemplate(
-            final RestTemplateBuilder restTemplateBuilder){
-        return oAuthRestTemplate(restTemplateBuilder, "keycloak").build();
+            final RestTemplateBuilder restTemplateBuilder,
+            @Autowired RegistryProperties registryProperties) {
+        if (registryProperties.getOauthEnabled()) {
+            return oAuthRestTemplate(restTemplateBuilder, "keycloak").build();
+        } else {
+            return restTemplateBuilder.build();
+        }
     }
 
     /* RestTemplate used by the edc client library*/

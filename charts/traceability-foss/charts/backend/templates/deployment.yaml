@@ -118,6 +118,8 @@ spec:
               value: {{ .Values.provisioning.registry.urlInternalWithPath | quote }}
             - name: REGISTRY_ALLOWED_BPNS
               value: {{ .Values.provisioning.registry.allowedBpns | quote }}
+            - name: REGISTRY_OAUTH_ENABLED
+              value: {{ .Values.provisioning.registry.oauthEnabled | default "false" | quote }}
             - name: REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID
               value: {{ .Values.provisioning.registry.oauthProviderRegistrationId | quote }}
             - name: REGISTRY_CLIENT_ID

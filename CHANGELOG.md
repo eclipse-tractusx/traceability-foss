@@ -11,6 +11,8 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #124 Added new section under crosscuting/api-endpoints to arc42 documentation
 - #476 Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity
+- #XXX Added flag to enable OAuth authorized DTR requests
+
 ### Changed
 - #117 updated spring boot to v3.3.5
 - #476 Updated database schema to reflect cascade deletion of elements.
@@ -18,6 +20,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #95 Fixed some frontend unit tests
 - #369 Add config for disabling policy fetching on start. Disable for helm linting to prevent startup failure
 - #369 Add environment variables to Helm linting workflow
+
 
 - [13.0.2-cfx-5 - 06.11.2024]
 ### Added
