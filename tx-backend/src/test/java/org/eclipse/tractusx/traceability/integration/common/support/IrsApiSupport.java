@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xebialabs.restito.semantics.Action;
 import com.xebialabs.restito.semantics.Condition;
+import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.common.config.PolicyStartUpConfig;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.get;
 import static com.xebialabs.restito.semantics.Condition.post;
 import static com.xebialabs.restito.semantics.Condition.withHeader;
+import static io.restassured.RestAssured.given;
 
 @Component
 public class IrsApiSupport {
@@ -80,6 +82,39 @@ public class IrsApiSupport {
                         ok(),
                         header("Content-Type", "application/json"),
                         restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json")
+                );
+    }
+
+    public void irsApiReturnsOrderAndBatchDetails() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/orders/ebb79c45-7bba-4169-bf17-3e719989ab54/batches/ebb79c45-7bba-4169-bf17-3e719989ab55")
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/order/response_200.json")
+                );
+    }
+
+    public void irsApiReturnsOrderAndBatchDetailsAsPlanned() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/orders/ebb79c45-7bba-4169-bf17-3e719989ab57/batches/ebb79c45-7bba-4169-bf17-3e719989ab58")
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/order/response_200_asplanned.json")
+                );
+    }
+
+    public void irsApiReturnsOrderAndBatchDetailsAsPlannedNoJobs() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/orders/ebb79c45-7bba-4169-bf17-3e719989ab51/batches/ebb79c45-7bba-4169-bf17-3e719989ab52")
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/order/response_200_asplanned_nojobs.json")
                 );
     }
 
@@ -195,6 +230,21 @@ public class IrsApiSupport {
                 Action.header("Content-Type", "application/json"),
                 restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies_CONSTRAINTS_MISMATCHING.json")
         );
+    }
+
+    public static void sendCallback(String orderId, String batchId, String orderState, String batchState, int expectedStatus) {
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("orderId", orderId)
+                .param("batchId", batchId)
+                .param("orderState", orderState)
+                .param("batchState", batchState)
+                .get("/api/irs/order/callback")
+                .then()
+                .log().all()
+                .statusCode(expectedStatus);
     }
 
 }

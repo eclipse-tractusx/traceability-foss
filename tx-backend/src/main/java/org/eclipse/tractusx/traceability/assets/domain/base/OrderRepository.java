@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,20 +21,15 @@ package org.eclipse.tractusx.traceability.assets.domain.base;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 
 import java.util.List;
 
-public interface JobRepository {
-    /**
-     * Finds a list of assets with the given global asset ID and direction.
-     *
-     * @param globalAssetId the global asset ID to search for
-     * @param direction     the direction of the search
-     * @param aspects       the list of aspects
-     */
-    void createJobToResolveAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+public interface OrderRepository {
 
-    void handleJobFinishedCallback(String jobId, String jobState);
+    void createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+
+    void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState);
 
 
 }

@@ -16,18 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
 
-package org.eclipse.tractusx.traceability.submodel.domain.model;
+public enum ProcessingState {
+    INITIALIZED,
+    COMPLETED,
+    PROCESSING,
+    PARTIAL,
+    ERROR
 
-
-import lombok.Builder;
-import lombok.Data;
-
-import java.util.Map;
-
-@Data
-@Builder
-public class SubmodelRequest {
-    private String submodelId;
-    private Map<String, Object> data;
 }

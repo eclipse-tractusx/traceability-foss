@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.base.service;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -30,7 +30,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataMo
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.springframework.scheduling.annotation.Async;
 
@@ -40,6 +39,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect.upwardAspectsForAssetsAsBuilt;
+
 @Slf4j
 public abstract class AbstractAssetBaseService implements AssetBaseService {
 
@@ -47,43 +48,30 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     protected abstract AssetRepository getAssetRepository();
 
-    protected abstract JobRepository getJobRepository();
-
     protected abstract List<String> getDownwardAspects();
 
     protected abstract List<String> getUpwardAspects();
 
     protected abstract BomLifecycle getBomLifecycle();
 
+    protected abstract OrderRepository getOrderRepository();
+
+
     @Override
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void synchronizeAssetsAsync(String globalAssetId) {
-        log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
+    public void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds) {
+        log.info("Synchronizing assets for globalAssetIds: {}", globalAssetIds);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                getJobRepository().createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
+                getOrderRepository().createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
             }
 
             if (!getUpwardAspects().isEmpty()) {
-
-                // TODO: change BomLifecycle.AS_BUILT to getBomLifecycle()
-                getJobRepository().createJobToResolveAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+                getOrderRepository().createOrderToResolveAssets(globalAssetIds, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
             }
 
         } catch (Exception e) {
-            log.warn("Exception during assets synchronization for globalAssetId: {}. Message: {}.", globalAssetId, e.getMessage(), e);
-        }
-    }
-
-    @Override
-    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void synchronizeAssetsAsync(List<String> globalAssetIds) {
-        for (String globalAssetId : globalAssetIds) {
-            try {
-                synchronizeAssetsAsync(globalAssetId);
-            } catch (Exception e) {
-                log.warn("Cannot fetch assets for id: {}. Error: {}", globalAssetId, e.getMessage());
-            }
+            log.warn("Exception during assets synchronization for globalAssetIds: {}. Message: {}.", globalAssetIds, e.getMessage(), e);
         }
     }
 

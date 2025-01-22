@@ -11,6 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 ### Added
 - #124 Added new section under crosscuting/api-endpoints to arc42 documentation
 - #476 Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity
+- #195 Implemented connection to the irs order api
 - #XXX Added flag to enable OAuth authorized DTR requests
 
 ### Changed
@@ -18,6 +19,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #476 Updated database schema to reflect cascade deletion of elements.
 - #464 Resetting notification message in case it could be successfully send
 - #95 Fixed some frontend unit tests
+- #195 DecentralRegistry service now syncronizes assets using the irs order api
 - #369 Add config for disabling policy fetching on start. Disable for helm linting to prevent startup failure
 - #369 Add environment variables to Helm linting workflow
 

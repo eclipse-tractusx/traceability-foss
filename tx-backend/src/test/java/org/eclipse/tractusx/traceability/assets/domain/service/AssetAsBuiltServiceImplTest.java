@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -29,6 +29,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.mockito.Mockito.verify;
 
@@ -39,20 +41,21 @@ class AssetAsBuiltServiceImplTest {
     private AssetAsBuiltServiceImpl assetService;
 
     @Mock
-    private JobRepository jobRepository;
+    private OrderRepository orderRepository;
 
 
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
         // given
         String globalAssetId = "123";
+        List<String> globalAssetIds = List.of(globalAssetId);
 
         // when
-        assetService.synchronizeAssetsAsync(globalAssetId);
+        assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds);
 
         // then
-        verify(jobRepository).createJobToResolveAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-        verify(jobRepository).createJobToResolveAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
     }
 
 

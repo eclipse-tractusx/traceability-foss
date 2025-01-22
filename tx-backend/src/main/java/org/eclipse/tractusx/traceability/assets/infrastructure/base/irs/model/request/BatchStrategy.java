@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,18 +16,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
-package org.eclipse.tractusx.traceability.submodel.domain.model;
-
-
-import lombok.Builder;
-import lombok.Data;
-
-import java.util.Map;
-
-@Data
-@Builder
-public class SubmodelRequest {
-    private String submodelId;
-    private Map<String, Object> data;
+public enum BatchStrategy {
+    PRESERVE_BATCH_JOB_ORDER
 }

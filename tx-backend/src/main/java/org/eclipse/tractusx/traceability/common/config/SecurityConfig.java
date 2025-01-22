@@ -59,7 +59,7 @@ public class SecurityConfig {
             "/internal/**",
             "/api/internal/**",
             "/actuator/**",
-            "/irs/job/callback"
+            "/irs/order/callback"
 
     };
 

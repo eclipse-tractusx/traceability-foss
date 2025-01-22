@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterOrderRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -35,6 +36,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -43,9 +45,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class JobRepositoryImplTest {
+class OrderRepositoryImplTest {
     @InjectMocks
-    private JobRepositoryImpl jobRepositoryImpl;
+    private OrderRepositoryImpl orderRepositoryImpl;
 
     @Mock
     TraceabilityProperties traceabilityProperties;
@@ -60,7 +62,7 @@ class JobRepositoryImplTest {
     private BpnRepository bpnRepository;
 
     @Mock
-    private JobClient jobClient;
+    private OrderClient orderClient;
 
     @Mock
     private IrsResponseAssetMapper assetMapperFactory;
@@ -72,10 +74,10 @@ class JobRepositoryImplTest {
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
         // When
-        jobRepositoryImpl.createJobToResolveAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        orderRepositoryImpl.createOrderToResolveAssets(List.of("1"), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         // Then
-        verify(jobClient, times(1)).registerJob(any(RegisterJobRequest.class));
+        verify(orderClient, times(1)).registerOrder(any(RegisterOrderRequest.class));
     }
 
     private static Stream<Arguments> provideDirections() {

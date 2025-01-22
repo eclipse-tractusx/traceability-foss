@@ -31,9 +31,7 @@ import java.util.Map;
 
 public interface AssetBaseService {
 
-    void synchronizeAssetsAsync(List<String> globalAssetIds);
-
-    void synchronizeAssetsAsync(String globalAssetId);
+    void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds);
 
     Map<String, Long> getAssetsCountryMap();
 

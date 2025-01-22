@@ -128,7 +128,7 @@ public class AssetAsPlannedController {
     @PostMapping("/sync")
     @ApiKeyEnabled
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
+        assetService.syncAssetsAsyncUsingIRSOrderAPI(syncAssetsRequest.globalAssetIds());
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "AssetsAsPlanned",

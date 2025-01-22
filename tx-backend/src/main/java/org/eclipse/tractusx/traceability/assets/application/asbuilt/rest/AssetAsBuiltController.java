@@ -132,7 +132,7 @@ public class AssetAsBuiltController {
     @PostMapping("/sync")
     @ApiKeyEnabled
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetBaseService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
+        assetBaseService.syncAssetsAsyncUsingIRSOrderAPI(syncAssetsRequest.globalAssetIds());
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "assets",

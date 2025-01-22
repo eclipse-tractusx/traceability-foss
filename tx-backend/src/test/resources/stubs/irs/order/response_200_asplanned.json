@@ -1,0 +1,19 @@
+{
+  "batchId": "ebb79c45-7bba-4169-bf17-3e719989ab58",
+  "batchNumber": 1,
+  "batchProcessingState": "COMPLETED",
+  "batchTotal": 1,
+  "completedOn": "2024-05-29T07:56:04.716574102Z",
+  "jobs": [
+    {
+      "completedOn": "2024-05-29T07:56:04.716574102Z",
+      "id": "ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED",
+      "startedOn": "2024-05-29T07:56:04.716574102Z",
+      "state": "COMPLETED"
+    }
+  ],
+  "jobsInBatchChecksum": 1,
+  "orderId": "ebb79c45-7bba-4169-bf17-3e719989ab57",
+  "startedOn": "2024-05-29T07:56:04.716574102Z",
+  "totalJobs": 1
+}
