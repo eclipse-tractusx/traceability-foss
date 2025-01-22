@@ -1,5 +1,5 @@
 <!--
-Copyright (c) 2023 Contributors to the Eclipse Foundation
+Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
 
 See the NOTICE file(s) distributed with this work for additional
 information regarding copyright ownership.
@@ -23,7 +23,7 @@ SPDX-License-Identifier: Apache-2.0
               (click)="filterItem('')"
               [multiple]="true"
               (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown"
-              (openedChange)="options = []">
+              (openedChange)="options = []; filterItem(searchInput.value)">
 
     <div class="box-search">
       <mat-checkbox *ngIf="!singleSearch && !(!searchedOptions?.length && !optionsSelected?.length)" color="primary" class="box-select-all" [disabled]="!searchedOptions?.length && !optionsSelected?.length" [(ngModel)]="selectAllChecked"
@@ -47,11 +47,11 @@ SPDX-License-Identifier: Apache-2.0
 
     <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
     <ng-container *ngFor="let option of optionsSelected">
-      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
         {{ option.display }}
       </mat-option>
       <ng-template #i18nKeyDisplay>
-        <mat-option [disabled]="option.disabled" [value]="option.value">
+        <mat-option [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
           {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
         </mat-option>
       </ng-template>
@@ -60,11 +60,11 @@ SPDX-License-Identifier: Apache-2.0
     <mat-divider></mat-divider>
     <ng-container *ngIf="options?.length">
       <ng-container *ngFor="let option of options">
-        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
+        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
           {{ option.display }}
         </mat-option>
         <ng-template #i18nKeyDisplay>
-          <mat-option [disabled]="option.disabled" [value]="option.value">
+          <mat-option [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
             {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
           </mat-option>
         </ng-template>

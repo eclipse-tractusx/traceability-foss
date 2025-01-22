@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -60,6 +60,8 @@ import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
 import { DeeplinkService } from '@shared/service/deeplink.service';
+import { FilterService } from '@shared/service/filter.service';
+import { QuickfilterService } from '@shared/service/quickfilter.service';
 
 @Component({
   selector: 'app-parts-table',
@@ -132,6 +134,29 @@ export class PartsTableComponent implements OnInit {
   @Output() filterActivated = new EventEmitter<any>();
   @Output() maximizeClicked = new EventEmitter<TableType>();
 
+  filterKeys = [
+    'owner',
+    'id',
+    'idShort',
+    'nameAtManufacturer',
+    'businessPartner',
+    'manufacturerName',
+    'manufacturerPartId',
+    'customerPartId',
+    'classification',
+    'nameAtCustomer',
+    'semanticModelId',
+    'semanticDataModel',
+    'manufacturingDate',
+    'manufacturingCountry',
+    'receivedActiveAlerts',
+    'receivedActiveInvestigations',
+    'sentActiveAlerts',
+    'sentActiveInvestigations',
+    'importState',
+    'importNote',
+  ];
+
   constructor(
     private readonly tableSettingsService: TableSettingsService,
     private dialog: MatDialog,
@@ -141,6 +166,8 @@ export class PartsTableComponent implements OnInit {
     public roleService: RoleService,
     private readonly partsFacade: PartsFacade,
     private readonly toastService: ToastService,
+    private readonly quickFilterService: QuickfilterService,
+    private filterService: FilterService
   ) {
     this.preFilter = this.route.snapshot.queryParams['contractId'];
   }
@@ -331,6 +358,17 @@ export class PartsTableComponent implements OnInit {
       }
 
     });
+    this.quickFilterService.owner$.subscribe((currentOwner: Owner) => {
+      this.updateOwnerFilter(currentOwner);
+    });
+
+    const filter = this.filterService.getFilter(this.tableType);
+
+    this.filterKeys.forEach((key) => {
+      if (filter[key]) {
+        this.filterFormGroup.get(key)?.setValue(filter[key]);
+      }
+    });
 
 
   }
@@ -398,7 +436,6 @@ export class PartsTableComponent implements OnInit {
         this.filterFormGroup.addControl(controlName, filterFormGroup[controlName]);
       }
     }
-
   }
 
   public areAllRowsSelected(): boolean {
@@ -474,6 +511,23 @@ export class PartsTableComponent implements OnInit {
 
   private removeSelectedValues(itemsToRemove: unknown[]): void {
     removeSelectedValues(this.selection, itemsToRemove);
+  }
+
+  private updateOwnerFilter(ownerValue: Owner): void {
+    const ownerControl = this.filterFormGroup.get('owner');
+    if (!ownerControl) {
+      return;
+    }
+
+    if (ownerValue !== Owner.UNKNOWN) {
+      // Set `owner` form control to array containing the new value
+      // @ts-ignore
+      ownerControl.setValue([ownerValue]);
+    } else {
+      // Clear it if the ownerValue is UNKNOWN
+      // @ts-ignore
+      ownerControl.setValue([]);
+    }
   }
 
   openDialog(): void {

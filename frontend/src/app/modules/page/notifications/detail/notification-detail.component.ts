@@ -108,7 +108,6 @@ export class NotificationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    console.log('ngAfterViewInit');
     this.selectedNotificationBasedOnUrl();
 
     this.subscription = this.selected$
