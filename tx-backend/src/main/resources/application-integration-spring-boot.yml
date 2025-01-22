@@ -33,6 +33,7 @@ traceability:
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
   irsPoliciesPath: "/irs/policies"
+  register-decentral-registry-permissions: true
   submodelBase: localhost:${server.port}/api/submodel/data
   technicalServiceApiKey: "test-key"
   enableApiKeyAuthentication: true

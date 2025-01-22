@@ -290,6 +290,7 @@ backend:
     assetRefreshJobZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
     publishAssetCronExpression: "0 30 */1 * * ?"  # Default value for publish assets  cron job expression
     publishAssetCronZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
+    registerDecentralRegistryPermissions: false
   provisioning:
     submodel:
       urlExternal: "https://replace.me"

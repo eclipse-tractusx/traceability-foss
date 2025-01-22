@@ -180,6 +180,8 @@ spec:
               value: {{ .Values.bpdm.clientSecret | quote }}
             - name: BPDM_TOKEN_URL
               value: {{ .Values.bpdm.oauthTokenUrl | quote }}
+            - name: BPDM_PROVIDER_BPNL
+              value: {{ .Values.bpdm.providerBpnl | quote }}
             - name: DISCOVERY_TYPE
               value: {{ .Values.traceability.discoveryType | quote }}
             - name: TRACEABILITY_ASSETS_REFRESH_CRON
@@ -190,6 +192,8 @@ spec:
               value: {{ .Values.traceability.publishAssetCronExpression | quote }}
             - name: TRACEABILITY_PUBLISH_ASSET_ZONE
               value: {{ .Values.traceability.publishAssetCronZone | quote }}
+            - name: TRACEABILITY_REGISTER_DECENTRAL_REGISTRY_PERMISSIONS
+              value: {{ ne .Values.traceability.registerDecentralRegistryPermissions false | quote }}
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}

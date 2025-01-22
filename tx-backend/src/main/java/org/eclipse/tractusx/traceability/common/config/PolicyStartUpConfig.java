@@ -36,7 +36,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
@@ -63,9 +63,15 @@ public class PolicyStartUpConfig {
     @Lazy
     private final PolicyRepository policyRepository;
 
+    @Value("${traceability.register-decentral-registry-permissions}")
+    private boolean registerDecentralRegistryPermissions;
+
     @PostConstruct
-    @ConditionalOnProperty(name = "applicationConfig.registerDecentralRegistryPermissions.enabled", havingValue = "true")
     public void registerDecentralRegistryPermissions() throws JsonProcessingException {
+        if (!registerDecentralRegistryPermissions) {
+            log.info("registerDecentralRegistryPermissions disabled");
+            return;
+        }
         log.info("registerDecentralRegistryPermissions");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
