@@ -20,6 +20,11 @@ name: "[CFX][FE][SECURITY] Sonar"
 on:
   workflow_dispatch:
   pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   build:
