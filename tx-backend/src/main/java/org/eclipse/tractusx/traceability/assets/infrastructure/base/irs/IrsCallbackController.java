@@ -27,15 +27,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import org.springframework.boot.actuate.endpoint.Sanitizer;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.eclipse.tractusx.traceability.common.security.Sanitizer.sanitize;
 
 @Slf4j
 @RestController
@@ -97,13 +99,41 @@ public class IrsCallbackController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/irs/order/callback")
     void handleIrsOrderCallback(
-            @RequestParam("orderId") @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
-                    message = "Invalid UUID format for orderId") String orderId,
-            @RequestParam(value = "batchId", required = false) @Pattern( regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$",
-                    message = "Invalid UUID format for batchId") String batchId,
-            @RequestParam("orderState") ProcessingState orderState,
-            @RequestParam(value = "batchState", required = false) ProcessingState batchState) {
-        orderRepository.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
+            @RequestParam("orderId") String orderId,
+            @RequestParam(value = "batchId", required = false) String batchId,
+            @RequestParam("orderState") String orderState,
+            @RequestParam(value = "batchState", required = false) String batchState) {
+
+        log.info("Received IRS order callback with orderId: {}, batchId: {}, orderState: {}, batchState: {}",
+                sanitize(orderId), sanitize(batchId), sanitize(orderState), sanitize(batchState));
+        try {
+            validateIds(orderId, batchId);
+            log.debug("Validated orderId and batchId successfully.");
+
+            ProcessingState orderStateEnum = ProcessingState.fromString(orderState);
+            ProcessingState batchStateEnum = ProcessingState.fromString(batchState);
+
+            log.debug("Parsed orderState: {} and batchState: {}", orderStateEnum, batchStateEnum);
+
+            orderRepository.handleOrderFinishedCallback(orderId, batchId, orderStateEnum, batchStateEnum);
+            log.info("Successfully handled callback for orderId: {}", sanitize(orderId));
+        } catch (IllegalArgumentException e) {
+            log.warn("Validation failed for callback parameters: {}", e.getMessage());
+            throw e; // Re-throw to ensure appropriate HTTP response
+        } catch (Exception e) {
+            log.error("Error occurred while handling IRS order callback for orderId: {}", sanitize(orderId), e);
+            throw e; // Re-throw to ensure appropriate HTTP response
+        }
     }
+
+    private void validateIds(String... ids) {
+        for (String id : ids) {
+            if (id != null && !id.isEmpty() && !id.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")) {
+                log.warn("Invalid UUID format detected: {}", sanitize(id));
+                throw new IllegalArgumentException("Invalid UUID format " + id);
+            }
+        }
+    }
+
 
 }

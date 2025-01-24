@@ -64,7 +64,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
 
     @Override
     public void deleteAssetById(String assetId) {
-            jpaAssetAsBuiltRepository.deleteById(assetId);
+        jpaAssetAsBuiltRepository.deleteById(assetId);
     }
 
     @Override

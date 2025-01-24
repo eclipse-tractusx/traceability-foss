@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,25 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
+package org.eclipse.tractusx.traceability.common.security;
 
-import static org.eclipse.tractusx.traceability.common.security.Sanitizer.sanitize;
+import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
 
-public enum ProcessingState {
-    INITIALIZED,
-    COMPLETED,
-    PROCESSING,
-    PARTIAL,
-    ERROR;
-
-    public static ProcessingState fromString(String value) {
-        if (value == null || value.isEmpty()) {
+@UtilityClass
+public class Sanitizer {
+    public static String sanitize(String input) {
+        if (input == null) {
             return null;
         }
-        try {
-            return ProcessingState.valueOf(value.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid ProcessingState value: " + sanitize(value));
-        }
+        return StringUtils.replaceEach(input, new String[]{"\n", "\r"}, new String[]{"", ""});
     }
 }

@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
+import static org.eclipse.tractusx.traceability.common.security.Sanitizer.sanitize;
 
 @Slf4j
 @Service
@@ -94,24 +95,33 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState) {
 
+        log.info("Handling order finished callback for orderId: {}, batchId: {}, orderState: {}, batchState: {}",
+                sanitize(orderId), sanitize(batchId), orderState, batchState);
         if (!STATUS_COMPLETED.equals(batchState)) {
+            log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is not COMPLETED (actual: {}).",
+                    sanitize(orderId), sanitize(batchId), batchState);
             return;
         }
 
         final IrsBatchResponse irsBatchResponse = this.orderClient.getBatchByOrder(orderId, batchId);
 
         if (irsBatchResponse == null) {
-            log.warn("Received order callback by the item relationship service is incorrect");
+            log.warn("Received null response for batch details from IRS for orderId: {}, batchId: {}.",
+                    sanitize(orderId), sanitize(batchId));
             return;
         }
 
 
         if (irsBatchResponse.jobs().isEmpty()) {
-            log.warn("Received order callback by the item relationship service has no jobs.");
+            log.warn("IRS batch response for orderId: {}, batchId: {} contains no jobs.", sanitize(orderId), sanitize(batchId));
             return;
         }
 
+        log.info("Processing {} jobs in IRS batch response for orderId: {}, batchId: {}.",
+                irsBatchResponse.jobs().size(), sanitize(orderId), sanitize(batchId));
+
         irsBatchResponse.jobs().forEach(jobRecord -> {
+            log.debug("Processing job with ID: {} for orderId: {}, batchId: {}.", jobRecord.id(), sanitize(orderId), sanitize(batchId));
             IRSResponse irsJobDetailResponse = jobClient.getIrsJobDetailResponse(jobRecord.id());
             List<AssetBase> assets = assetMapperFactory.toAssetBaseList(irsJobDetailResponse);
             assets.forEach(assetBase -> {
