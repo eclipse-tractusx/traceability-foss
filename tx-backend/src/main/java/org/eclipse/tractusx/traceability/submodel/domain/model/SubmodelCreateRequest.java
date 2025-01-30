@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,21 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
+package org.eclipse.tractusx.traceability.submodel.domain.model;
 
-import org.apache.commons.lang3.NotImplementedException;
-import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelRequest;
+import lombok.Builder;
+import lombok.Data;
 
-public interface SubmodelClient {
-
-    default void createSubmodel(SubmodelRequest submodelRequest) {
-        throw new NotImplementedException();
-    }
-
-    default void createSubmodel(String submodelId, String payload) {
-        throw new NotImplementedException();
-    }
-
-    String getSubmodel(String submodelId);
-
+@Data
+@Builder
+public class SubmodelCreateRequest {
+    private String submodelId;
+    private String submodel;
 }

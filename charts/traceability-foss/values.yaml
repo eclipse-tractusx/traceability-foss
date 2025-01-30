@@ -299,6 +299,7 @@ backend:
       clientId: "CHANGEME"
       clientSecret: "CHANGEME"
       oauthTokenUrl: "https://replace.me"
+      useCustomImplementation: false
     registry:
       urlExternalWithPath: "https://replace.me"
       urlInternalWithPath: "https://replace.me"

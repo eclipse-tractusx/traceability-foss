@@ -138,6 +138,8 @@ spec:
               value: {{ .Values.provisioning.submodel.oauthProviderRegistrationId | quote }}
             - name: SUBMODEL_CLIENT_ID
               value: {{ .Values.provisioning.submodel.clientId | quote }}
+            - name: SUBMODEL_CUSTOM_IMPLEMENTATION_ENABLED
+              value: {{ .Values.provisioning.submodel.useCustomImplementation | quote }}
             - name: SUBMODEL_CLIENT_SECRET
               value: {{ .Values.provisioning.submodel.clientSecret | quote }}
             - name: SUBMODEL_TOKEN_URL

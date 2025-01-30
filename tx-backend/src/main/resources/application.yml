@@ -52,6 +52,7 @@ provisioning:
     clientSecret: ${SUBMODEL_CLIENT_SECRET}
     tokenUrl:  ${SUBMODEL_TOKEN_URL}
     oauthProviderRegistrationId:  ${SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID}
+    useCustomImplementation: ${SUBMODEL_CUSTOM_IMPLEMENTATION_ENABLED:true}
   registry:
     urlWithPathInternal: ${REGISTRY_URL_WITH_PATH_INTERNAL:https://registry.net/semantics/registry/api/v3.0}
     urlWithPathExternal: ${REGISTRY_URL_WITH_PATH_EXTERNAL:https://registry.net/semantics/registry/api/v3.0}

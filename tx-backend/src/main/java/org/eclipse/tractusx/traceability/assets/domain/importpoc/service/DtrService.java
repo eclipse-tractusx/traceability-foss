@@ -19,10 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.DIGITAL_TWIN_TYPE;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.MANUFACTURER_ID;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.MANUFACTURER_PART_ID;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +37,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelCreateRequest;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +47,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.DIGITAL_TWIN_TYPE;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.MANUFACTURER_ID;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.MANUFACTURER_PART_ID;
 
 @Slf4j
 @Service
@@ -141,7 +142,8 @@ public class DtrService {
     }
 
     private Map.Entry<String, String> createSubmodel(Map.Entry<String, String> payloadByAspectType) {
-        String submodelId = submodelServerRepository.saveSubmodel(payloadByAspectType.getValue());
+        SubmodelCreateRequest submodelCreateRequest = SubmodelCreateRequest.builder().submodel(payloadByAspectType.getValue()).build();
+        String submodelId = submodelServerRepository.saveSubmodel(submodelCreateRequest);
         log.info("create submodelId {} for aspectType {} on submodelServer", submodelId, payloadByAspectType.getKey());
         return Map.entry(payloadByAspectType.getKey(), submodelId);
     }
