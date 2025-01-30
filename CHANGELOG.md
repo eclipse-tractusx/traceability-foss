@@ -13,6 +13,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #476 Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity
 - #195 Implemented connection to the irs order api
 - #XXX Added flag to enable OAuth authorized DTR requests
+- #221 Restricted Supervisor role from modifying policies
 
 ### Changed
 - #117 updated spring boot to v3.3.5

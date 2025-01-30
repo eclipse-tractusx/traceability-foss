@@ -50,6 +50,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecification {
@@ -119,7 +120,7 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
         // for this test
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
                 .body(ResourceUtils.getFile("classpath:stubs/irs/policies/request_create_policy.json"))
                 .post("/api/policies")
@@ -163,7 +164,7 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
         irsApiSupport.irsApiReturnsPolicies();
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
                 .body(ResourceUtils.getFile("classpath:stubs/irs/policies/request_create_policy.json"))
                 .post("/api/policies")
