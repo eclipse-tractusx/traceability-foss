@@ -61,13 +61,14 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
     public void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds) {
         log.info("Synchronizing assets for globalAssetIds: {}", globalAssetIds);
+        List<AssetBase> assetList = getAssetRepository().getAssetsById(globalAssetIds);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
+                getOrderRepository().createOrderToResolveAssets(assetList, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
             }
 
             if (!getUpwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(globalAssetIds, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+                getOrderRepository().createOrderToResolveAssets(assetList, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
             }
 
         } catch (Exception e) {

@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public interface OrderRepository {
 
-    void createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+    void createOrderToResolveAssets(List<AssetBase> assetList, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
 
     void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState);
 

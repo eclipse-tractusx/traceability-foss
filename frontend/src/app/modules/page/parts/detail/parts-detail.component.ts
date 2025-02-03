@@ -199,9 +199,7 @@ export class PartsDetailComponent {
     if(!this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     }
-    if(this.partOwner !== Owner.OWN) {
-      return 'routing.onlyAllowedForOwnParts';
-    } else {
+    else {
       return 'routing.publishAssets'
     }
 

@@ -83,10 +83,9 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
+    public void createOrderToResolveAssets(List<AssetBase> assetList, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
         final String callbackUrl = traceabilityProperties.getUrl();
-        String applicationBpn = traceabilityProperties.getBpn().toString();
-        List<PartChainIdentificationKey> keys = globalAssetIds.stream().map(s -> new PartChainIdentificationKey(s, applicationBpn)).collect(Collectors.toList());
+        List<PartChainIdentificationKey> keys = assetList.stream().map(assetBase -> new PartChainIdentificationKey(assetBase.getId(), assetBase.getManufacturerId())).collect(Collectors.toList());
         RegisterOrderRequest registerOrderRequest = RegisterOrderRequest.buildOrderRequest(aspects, bomLifecycle, callbackUrl, direction, keys);
         this.orderClient.registerOrder(registerOrderRequest);
     }

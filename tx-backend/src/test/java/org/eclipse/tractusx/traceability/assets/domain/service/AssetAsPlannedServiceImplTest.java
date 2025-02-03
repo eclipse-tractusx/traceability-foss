@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.assets.domain.service;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -34,29 +35,47 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AssetAsPlannedServiceImplTest {
 
     @InjectMocks
-    private AssetAsPlannedServiceImpl assetService;
+    private AssetAsPlannedServiceImpl assetService; // Injects mocks into the service
 
     @Mock
-    private OrderRepository orderRepository;
+    private OrderRepository orderRepository; // Mock for OrderRepository
 
     @Mock
-    private AssetAsPlannedRepository assetRepository;
+    private AssetAsPlannedRepository assetAsPlannedRepository; // Mock the concrete repository
 
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
-        // given
+        // Given
         String globalAssetId = "123";
         List<String> globalAssetIds = List.of(globalAssetId);
-        // when
+
+        AssetBase mockAssetBase = AssetBase.builder()
+                .id(globalAssetId)
+                .manufacturerId("456")
+                .build();
+
+        List<AssetBase> mockAssets = List.of(mockAssetBase);
+
+        // Mock the concrete repository's behavior
+        when(assetAsPlannedRepository.getAssetsById(globalAssetIds)).thenReturn(mockAssets);
+
+        // When
         assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds);
 
-        // then
-        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
+        // Then
+        verify(orderRepository).createOrderToResolveAssets(
+                mockAssets,
+                Direction.DOWNWARD,
+                Aspect.downwardAspectsForAssetsAsPlanned(), // Match AS_PLANNED aspects
+                BomLifecycle.AS_PLANNED // Match AS_PLANNED lifecycle
+        );
     }
 }
+
 

@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterOrderRequest;
@@ -40,9 +41,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderRepositoryImplTest {
@@ -70,15 +69,22 @@ class OrderRepositoryImplTest {
     @ParameterizedTest
     @MethodSource("provideDirections")
     void testFindAssets_completedJob_returnsConvertedAssets(Direction direction) {
-        // Given
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
+        // given
+        lenient().when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
 
-        // When
-        orderRepositoryImpl.createOrderToResolveAssets(List.of("1"), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        AssetBase mockAsset = AssetBase.builder()
+                .id("1")
+                .manufacturerId("test-manufacturer")
+                .build();
+        List<AssetBase> mockAssets = List.of(mockAsset);
 
-        // Then
+        // when
+        orderRepositoryImpl.createOrderToResolveAssets(mockAssets, direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+
+        // then
         verify(orderClient, times(1)).registerOrder(any(RegisterOrderRequest.class));
     }
+
 
     private static Stream<Arguments> provideDirections() {
         return Stream.of(
