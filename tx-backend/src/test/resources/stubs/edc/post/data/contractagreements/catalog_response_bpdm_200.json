@@ -1,7 +1,7 @@
 {
   "@id": "205b5a0d-5e7b-4f1f-b89a-62a141163c2c",
   "@type": "dcat:Catalog",
-  "dspace:participantId": "BPNLCOFINITYEZFA",
+  "dspace:participantId" : "BPNLWHATEVEREZFA",
   "dcat:dataset": {
     "@id": "97c31887-e3af-4d69-b3b8-a3c3a525a05e",
     "@type": "dcat:Dataset",
@@ -48,9 +48,9 @@
           "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
           "@type": "dcat:DataService",
           "dcat:endpointDescription": "dspace:connector",
-          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dcat:endpointUrl" : "https://whatever.com/api/v1/dsp",
           "dct:terms": "dspace:connector",
-          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+          "dct:endpointUrl" : "https://whatever.com/api/v1/dsp"
         }
       },
       {
@@ -62,9 +62,9 @@
           "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
           "@type": "dcat:DataService",
           "dcat:endpointDescription": "dspace:connector",
-          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dcat:endpointUrl" : "https://whatever.com/api/v1/dsp",
           "dct:terms": "dspace:connector",
-          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+          "dct:endpointUrl" : "https://whatever.com/api/v1/dsp"
         }
       },
       {
@@ -76,9 +76,9 @@
           "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
           "@type": "dcat:DataService",
           "dcat:endpointDescription": "dspace:connector",
-          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dcat:endpointUrl" : "https://whatever.com/api/v1/dsp",
           "dct:terms": "dspace:connector",
-          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+          "dct:endpointUrl" : "https://whatever.com/api/v1/dsp"
         }
       },
       {
@@ -90,9 +90,9 @@
           "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
           "@type": "dcat:DataService",
           "dcat:endpointDescription": "dspace:connector",
-          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dcat:endpointUrl" : "https://whatever.com/api/v1/dsp",
           "dct:terms": "dspace:connector",
-          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+          "dct:endpointUrl" : "https://whatever.com/api/v1/dsp"
         }
       },
       {
@@ -104,9 +104,9 @@
           "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
           "@type": "dcat:DataService",
           "dcat:endpointDescription": "dspace:connector",
-          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dcat:endpointUrl" : "https://whatever.com/api/v1/dsp",
           "dct:terms": "dspace:connector",
-          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+          "dct:endpointUrl" : "https://whatever.com/api/v1/dsp"
         }
       },
       {
@@ -118,9 +118,9 @@
           "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
           "@type": "dcat:DataService",
           "dcat:endpointDescription": "dspace:connector",
-          "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+          "dcat:endpointUrl" : "https://whatever.com/api/v1/dsp",
           "dct:terms": "dspace:connector",
-          "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+          "dct:endpointUrl" : "https://whatever.com/api/v1/dsp"
         }
       }
     ],
@@ -135,11 +135,11 @@
     "@id": "1996d1d9-d239-4126-8040-83aa22ebc8e8",
     "@type": "dcat:DataService",
     "dcat:endpointDescription": "dspace:connector",
-    "dcat:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp",
+    "dcat:endpointUrl" : "https://whatever.com/api/v1/dsp",
     "dct:terms": "dspace:connector",
-    "dct:endpointUrl": "https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp"
+    "dct:endpointUrl" : "https://whatever.com/api/v1/dsp"
   },
-  "participantId": "BPNLCOFINITYEZFA",
+  "participantId" : "BPNLWHATEVEREZFA",
   "@context": {
     "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
     "edc": "https://w3id.org/edc/v0.0.1/ns/",

@@ -80,8 +80,8 @@ spring:
     enabled: true
     placeholders:
       applicationBpn: BPNL00000003AXS3
-      bmwBpn: BPNL000000000ISY
-      cofinityBpn: BPNLCOFINITYEZFA
+      bpnB: BPNL000000000IAX
+      bpnA: BPNLWHATEVEREZFA
 
 jwt:
   resource-client: "Integration-Test"

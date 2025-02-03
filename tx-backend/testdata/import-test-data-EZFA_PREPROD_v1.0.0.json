@@ -12,7 +12,7 @@
             "localIdentifiers": [
               {
                 "key": "manufacturerId",
-                "value": "BPNLCOFINITYEZFA"
+                "value" : "BPNLWHATEVEREZFA"
               }
             ],
             "manufacturingInformation": {
@@ -77,7 +77,7 @@
             "localIdentifiers": [
               {
                 "key": "manufacturerId",
-                "value": "BPNLCOFINITYEZFA"
+                "value" : "BPNLWHATEVEREZFA"
               }
             ],
             "manufacturingInformation": {
@@ -142,7 +142,7 @@
             "localIdentifiers": [
               {
                 "key": "manufacturerId",
-                "value": "BPNLCOFINITYEZFA"
+                "value" : "BPNLWHATEVEREZFA"
               }
             ],
             "manufacturingInformation": {
@@ -207,7 +207,7 @@
             "localIdentifiers": [
               {
                 "key": "manufacturerId",
-                "value": "BPNLCOFINITYEZFA"
+                "value" : "BPNLWHATEVEREZFA"
               }
             ],
             "manufacturingInformation": {
@@ -272,7 +272,7 @@
             "localIdentifiers": [
               {
                 "key": "manufacturerId",
-                "value": "BPNLCOFINITYEZFA"
+                "value" : "BPNLWHATEVEREZFA"
               }
             ],
             "manufacturingInformation": {

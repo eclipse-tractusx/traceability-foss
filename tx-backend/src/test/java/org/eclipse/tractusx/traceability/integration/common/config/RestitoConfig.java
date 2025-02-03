@@ -56,9 +56,9 @@ public class RestitoConfig {
                     "spring.security.oauth2.client.provider.OKTA.token-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_TOKEN_PATH,
                     "spring.security.oauth2.client.provider.dtr.token-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_TOKEN_PATH,
                     "spring.security.oauth2.client.provider.submodel.token-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_TOKEN_PATH,
-                    "spring.flyway.placeholders.applicationBpn=BPNL000000000ISY",
-                    "spring.flyway.placeholders.bmwBpn=BPNL000000000ISY",
-                    "spring.flyway.placeholders.cofinityBpn=BPNLCOFINITYEZFA",
+                    "spring.flyway.placeholders.applicationBpn=BPNL000000000IAX",
+                    "spring.flyway.placeholders.bpnB=BPNL000000000IAX",
+                    "spring.flyway.placeholders.bpnA=BPNLWHATEVEREZFA",
                     "feign.bpnApi.url=http://127.0.0.1:" + STUB_SERVER_PORT,
                     "traceability.irsBase=http://127.0.0.1:" + STUB_SERVER_PORT,
                     "provisioning.submodel.baseExternal=http://127.0.0.1:" + STUB_SERVER_PORT + "/api/submodel/data",
@@ -75,7 +75,7 @@ public class RestitoConfig {
                     "edc.parts-provider-edc-controlplane-url=http://localhost:" + STUB_SERVER_PORT,
                     "edc.callbackUrls=http://localhost:" + STUB_SERVER_PORT + "/callback/redirect",
                     "bpdm.providerUrl=http://localhost/providerUrl",
-                    "bpdm.providerBpnl=BPNLCOFINITYEZFA",
+                    "bpdm.providerBpnl=BPNLWHATEVEREZFA",
                     "digitalTwinRegistryClient.discoveryFinderUrl=http://localhost:" + STUB_SERVER_PORT + "/v1.0/administration/connectors/discovery/search"
             ).applyTo(configurableApplicationContext.getEnvironment());
         }

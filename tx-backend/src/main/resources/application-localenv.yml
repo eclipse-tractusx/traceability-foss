@@ -129,5 +129,5 @@ irs:
       ttl: "2024-09-30T23:59:59.99Z"
 
 bpdm:
-  providerUrl: https://golden-record-provider-edc.dataspaceos.preprod.cofinity-x.com/api/v1/dsp
-  providerBpnl: BPNLCOFINITYEZFA
+  providerUrl: https://golden-record-provider-edc.dataspaceos.preprod.whatever.com/api/v1/dsp
+  providerBpnl: BPNLWHATEVEREZFA

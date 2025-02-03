@@ -145,8 +145,8 @@ spring:
     enabled: true
     placeholders:
       applicationBpn: ${TRACEABILITY_BPN}
-      bmwBpn: BPNL000000000ISY
-      cofinityBpn: BPNLCOFINITYEZFA
+      bpnB: ${TRACEABILITY_BPN_B}
+      bpnA: ${TRACEABILITY_BPN_A}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}

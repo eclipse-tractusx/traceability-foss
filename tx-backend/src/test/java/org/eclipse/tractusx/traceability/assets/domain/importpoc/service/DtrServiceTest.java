@@ -18,16 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Map;
-import java.util.UUID;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.registryclient.decentral.DigitalTwinRegistryCreateShellService;
 import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShellException;
@@ -43,6 +34,16 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Map;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DtrServiceTest {
@@ -96,7 +97,7 @@ class DtrServiceTest {
         .build();
 
     String submodelPayload = """
-        {"catenaXId":"urn:uuid:1310c43c-a8c8-4221-9a6b-1b86533e0c55","localIdentifiers":[{"key":"manufacturerId","value":"BPNL000000000ISY"},{"key":"partInstanceId","value":"NO-313869652971440618042264"}],"manufacturingInformation":{"date":"2022-02-04T14:48:54.000Z","country":"DEU","sites":[]},"partTypeInformation":{"manufacturerPartId":"22782277-50","customerPartId":"22782277-50","nameAtManufacturer":"Example Car 1","nameAtCustomer":"Example Car 1","partClassification":[{"classificationStandard":"GIN 20510-21513","classificationID":"1004712","classificationDescription":"Generic standard for classification of parts in the automotive industry."},{"classificationStandard":"OEM Part Classification 1022-102","classificationID":"Electric vehicle","classificationDescription":"OEM standard for classification of parts."}]}}""";
+            {"catenaXId":"urn:uuid:1310c43c-a8c8-4221-9a6b-1b86533e0c55","localIdentifiers":[{"key":"manufacturerId","value":"BPNL000000000IAX"},{"key":"partInstanceId","value":"NO-313869652971440618042264"}],"manufacturingInformation":{"date":"2022-02-04T14:48:54.000Z","country":"DEU","sites":[]},"partTypeInformation":{"manufacturerPartId":"22782277-50","customerPartId":"22782277-50","nameAtManufacturer":"Example Car 1","nameAtCustomer":"Example Car 1","partClassification":[{"classificationStandard":"GIN 20510-21513","classificationID":"1004712","classificationDescription":"Generic standard for classification of parts in the automotive industry."},{"classificationStandard":"OEM Part Classification 1022-102","classificationID":"Electric vehicle","classificationDescription":"OEM standard for classification of parts."}]}}""";
 
     when(submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(eq(assetBaseId))).thenReturn(
         Map.of("urn:samm:io.catenax.serial_part:3.0.0#SerialPart", submodelPayload));

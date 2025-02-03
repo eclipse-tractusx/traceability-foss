@@ -276,6 +276,8 @@ backend:
 
   traceability:
     bpn: "CHANGEME"  # <traceability.bpn>
+    bpnA: "CHANGEME"  # <traceability.bpnA>
+    bpnB: "CHANGEME"  # <traceability.bpnB>
     url: ""  # backend url example: https://<backend.ingress.hosts>
     leftOperand: "PURPOSE"
     operatorType: "eq"

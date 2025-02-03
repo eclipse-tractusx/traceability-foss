@@ -76,6 +76,10 @@ spec:
               value: {{ .Values.springprofile | quote }}
             - name: TRACEABILITY_BPN
               value: {{ .Values.traceability.bpn | quote }}
+            - name: TRACEABILITY_BPN_A
+              value: {{ .Values.traceability.bpnA | quote }}
+            - name: TRACEABILITY_BPN_B
+              value: {{ .Values.traceability.bpnB | quote }}
             - name: TRACEABILITY_URL
               value: {{ .Values.traceability.url | quote }}
             - name: TRACEABILITY_URL_INTERNAL

@@ -137,6 +137,8 @@ healthCheck:
 
 traceability:
   bpn: "CHANGEME" #<traceability.bpn>
+  bpnA: "CHANGEME"  # <traceability.bpnA>
+  bpnB: "CHANGEME"  # <traceability.bpnB>
   url: "" #<traceability.url>
   leftOperand: "CHANGEME" #<traceability.leftOperand>
   operatorType: "CHANGEME" #<traceability.operatorType>

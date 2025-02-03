@@ -1,12 +1,12 @@
 DO $$
     DECLARE
         applicationBpn TEXT := '${applicationBpn}';
-        bmwBpn TEXT := '${bmwBpn}';
-        cofinityBpn TEXT := '${cofinityBpn}';
+        bpnB TEXT := '${bpnB}';
+        bpnA TEXT := '${bpnA}';
         manufacturerId TEXT;
     BEGIN
-        -- Check if the application BPN matches the cofinity BPN
-        IF applicationBpn = '${cofinityBpn}' THEN
+        -- Check if the application BPN matches the BPN B
+        IF applicationBpn = '${bpnA}' THEN
             -- Assign applicationBpn to manufacturerId
             manufacturerId := applicationBpn;
 
@@ -39,7 +39,7 @@ DO $$
                                      'urn:uuid:a930fa6d-557f-4eb2-9f36-0a2f53c54fd5',
                                      '798-515297795-A',
                                      'High Voltage Battery SE27',
-                                     cofinityBpn,
+                                     bpnA,
                                      'BMW',
                                      '22782277-51',
                                      'DEU',
@@ -113,7 +113,7 @@ DO $$
             ) VALUES ('urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd',
                       '22782277-50',
                       'BMW i5 M60_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQLG',
-                      bmwBpn,
+                      bpnB,
                       'BMW',
                       '22782277-50',
                       'DEU',
@@ -199,7 +199,7 @@ DO $$
                          'urn:uuid:24cc69ef-8dd4-44a9-abe3-2fd9e39f61de',
                          '798-515297795-A',
                          'High Voltage Battery SP56',
-                         cofinityBpn,
+                         bpnA,
                          'BMW',
                          '22782277-52',
                          'DEU',
@@ -273,7 +273,7 @@ DO $$
             ) VALUES ('urn:uuid:8956d0d4-1252-4ace-8c68-086aac930b7f',
                       '22782277-51',
                       'BMW 550e xDrive_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS8lQZF',
-                      bmwBpn,
+                      bpnB,
                       'BMW',
                       '22782277-51',
                       'DEU',
@@ -360,7 +360,7 @@ DO $$
                          'urn:uuid:0d01bfa9-ea9f-4054-a67d-2e86a8b7c16f',
                          '798-515297795-A',
                          'High Voltage Battery SE30',
-                         cofinityBpn,
+                         bpnA,
                          'BMW',
                          '22782277-53',
                          'DEU',
@@ -434,7 +434,7 @@ DO $$
             ) VALUES ('urn:uuid:6dd0e26c-6fcb-49bb-9b37-e6fe40e4e18b',
                       '22782277-52',
                       'BMW i7 eDrive50_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAE+FS8lQLF',
-                      bmwBpn,
+                      bpnB,
                       'BMW',
                       '22782277-52',
                       'DEU',
@@ -521,7 +521,7 @@ DO $$
                          'urn:uuid:01d8aad4-2b57-4ecf-83ed-24c24ecba8da',
                          '798-515297795-A',
                          'High Voltage Battery SE30',
-                         cofinityBpn,
+                         bpnA,
                          'BMW',
                          '22782277-54',
                          'DEU',
@@ -595,7 +595,7 @@ DO $$
             ) VALUES ('urn:uuid:65f8d0b9-4790-4669-a713-ef6fd05a0b54',
                       '22782277-53',
                       'BMW i7 xDrive60_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjT+EvC8UjQKv0DqAW+FS8lQLF',
-                      bmwBpn,
+                      bpnB,
                       'BMW',
                       '22782277-53',
                       'DEU',
@@ -682,7 +682,7 @@ DO $$
                          'urn:uuid:aba71b24-0af9-482c-8d4b-2048113c55e9',
                          '798-515297795-A',
                          'High Voltage Battery SP56',
-                         cofinityBpn,
+                         bpnA,
                          'BMW',
                          '22782277-55',
                          'DEU',
@@ -756,7 +756,7 @@ DO $$
             ) VALUES ('urn:uuid:eca3850f-fa90-4f7a-a151-34df05958621',
                       '22782277-54',
                       'BMW 750e xDrive_BPNL000000000ISY_AAIFx6fw5Jf4BJtrN1mtTCqn8QqS4sskyKX872b+o68VrjR+EvC8UjQKv0DqAW+FS9lQLF',
-                      bmwBpn,
+                      bpnB,
                       'BMW',
                       '22782277-54',
                       'DEU',
