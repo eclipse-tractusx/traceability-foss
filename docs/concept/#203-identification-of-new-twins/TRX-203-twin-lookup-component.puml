@@ -1,0 +1,22 @@
+@startuml
+package "Database Schema" {
+    entity "aas" as AAS {
+        + aasId : String [PK]
+        --
+        ttl : Integer
+        created : DateTime
+        updated : DateTime
+        actor : String
+        globalAssetId : String [FK -> parts.globalAssetId, NULLABLE]
+    }
+
+    entity "parts" as Parts {
+        + globalAssetId : String [PK]
+        --
+        manufacturerId : String
+        otherColumns : ...
+    }
+}
+
+AAS::globalAssetId --> Parts::globalAssetId : Optional FK (1:0 or 1:1)
+@enduml
