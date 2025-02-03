@@ -24,9 +24,8 @@ jobs:
             dockerfile_path: "./Dockerfile"
           - image_name: "traceability-foss-frontend"
             dockerfile_path: "./frontend/Dockerfile"
-          # TODO enable cfx frontend image build once the image can be built
-    #          - image_name: "cfx-traceability-foss-frontend"
-    #            dockerfile_path: "./cfx-frontend/Dockerfile"
+          - image_name: "cfx-traceability-foss-frontend"
+            dockerfile_path: "./cfx-frontend/Dockerfile"
     permissions:
       contents: read
       actions: read
@@ -113,7 +112,7 @@ jobs:
           TOKEN: ${{ steps.get_token.outputs.token }}
           HELM_VALUES_PATH: ${{ matrix.environment.helm_values_path }}
           IMAGE_TAG: ${{ steps.get_image_tag.outputs.image_tag }}
-          IMAGE_TAG_PROPERTY: '(.backend.image.tag, .frontend.image.tag)'
+          IMAGE_TAG_PROPERTY: '(.backend.image.tag, .frontend.image.tag, .cfx-frontend.image.tag)'
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: |
           curl -L \
