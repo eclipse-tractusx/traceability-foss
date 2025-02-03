@@ -68,3 +68,4 @@ yarn-error.log
 scripts/download/*
 /frontend/cypress/environment/cypress.local.config.ts
 /frontend/cypress/e2e/
+/.github/workflows/custom/
