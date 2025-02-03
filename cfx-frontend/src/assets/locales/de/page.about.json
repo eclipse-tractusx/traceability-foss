@@ -1,0 +1,13 @@
+{
+  "pageAbout": {
+    "content1": "Die Open-Source-Tracebilityapplikation wird innerhalb des ",
+    "content2": " entwickelt und ermöglicht es allen Unternehmen, einzelne Teile rückzuverfolgen.",
+    "content3": "\nDie Applikation bietet einen Überblick über die Lieferkette. Dieses hohe Maß an Transparenz über die gesamte Lieferkette hinweg ermöglicht schnellere Eingriffe auf Basis von Ereignissen. Zusätzlich helfen automatisierte Nachrichten in Bezug auf qualitätsrelevante Meldungen und ein Tool zur Analyse der Lieferkette allen Unternehmen in diesen Zeiten. \n\nInsgesamt werden dadurch Kosten eingespart, indem die Teile einfach rückverfolgt werden können. Darüber hinaus baut die Applikation Vertrauen auf, indem sie klar definierte und sichere Datenzugriffe nur für berechtigte Personen und Unternehmen ermöglicht.",
+    "traceability": "Traceability FOSS",
+    "catenaX": "Catena-X-Projekts",
+    "license": "Lizenz",
+    "notice": "Notiz",
+    "source": "Source",
+    "commitId": "Commit ID"
+  }
+}

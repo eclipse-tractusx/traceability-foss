@@ -1,0 +1,133 @@
+################################################################################
+# Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+# Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+# Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+################################################################################
+
+# TraceX Backend in the local setup fails to start with the profile name "local" due to the issue in IRS below:
+################################################################################
+# Description:
+# Parameter 0 of constructor in org.eclipse.tractusx.irs.edc.client.EdcSubmodelClientLocalStub required a bean of type 'org.eclipse.tractusx.irs.data.CxTestDataContainer' that could not be found.
+# Action:
+# Consider defining a bean of type 'org.eclipse.tractusx.irs.data.CxTestDataContainer' in your configuration.
+################################################################################
+# Having the profile name "localenv" is a workaround until the profile name "local" in IRS is fixed
+
+server:
+  trustedPort: http://localhost:8082/
+  servlet:
+    context-path: /api
+  port: 8082
+
+traceability:
+  bpn: BPNL000000000001
+  url: http://localhost:8082
+  leftOperand: "PURPOSE"
+  operatorType: eq
+  rightOperand: "ID 3.0 Trace"
+  leftOperandSecond: anything
+  operatorTypeSecond: eq
+  rightOperandSecond: anything
+  validUntil: 2124-07-04T16:01:05.309Z
+  adminApiKey: test
+  regularApiKey: test
+  irsBase: http://localhost:5001/irs
+  irsPoliciesPath: "/irs/policies"
+  submodelBase: http://localhost:8082
+  discoveryType: ""
+  technicalServiceApiKey: "test-key"
+
+edc:
+  api-auth-key: api-key
+  provider-edc-url: http://localhost:5001/edc
+  provider-dataplane-edc-url: http://localhost:5001/edc
+
+irs-edc-client:
+  callback-url: http://localhost:8082
+  controlplane:
+    endpoint:
+      data: http://localhost:5001
+    api-key:
+      secret: password
+
+digitalTwinRegistryClient:
+  discoveryFinderUrl: http://localhost:5001/discoveryfinder/administration/connectors/discovery/search
+
+cors:
+  origins: >
+    http://localhost:4200,
+    http://localhost:4201,
+    http://localhost:5200
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/trace
+    username: postgres
+    password: docker
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: catena-client-id
+            # This client secret is meant for local env
+            client-secret: r8jiU6MM5wCuaVL54mCLI6OeaWWRqzL4
+            scope: service-acct-role
+          OKTA:
+            client-id: catena-client-id
+            # This client secret is meant for local env
+            client-secret: r8jiU6MM5wCuaVL54mCLI6OeaWWRqzL4
+            scope: service-acct-role
+        provider:
+          keycloak:
+            token-uri: http://localhost:4011/realms/CX-Central/protocol/openid-connect/token
+          OKTA:
+            token-uri: http://localhost:4011/realms/CX-Central/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:4011/realms/CX-Central/protocol/openid-connect/certs
+
+jwt:
+  resource-client: Cl17-CX-Part
+
+# reduced attempts config for local env
+#resilience4j:
+#  retry:
+#    instances:
+#      irs-get:
+#        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.JobRunning'
+#        maxAttempts: 3
+#        waitDuration: 30s
+#        enableExponentialBackoff: true
+#        exponentialBackoffMultiplier: 2
+#      registry:
+#        maxAttempts: 3
+#        waitDuration: 10s
+#        enableExponentialBackoff: true
+#        exponentialBackoffMultiplier: 1
+
+irs:
+  policies:
+    - policyId: "ID 3.0 Trace"
+      ttl: "2024-09-30T23:59:59.99Z"
+
+bpdm:
+  providerUrl: https://golden-record-provider-edc.dataspaceos.preprod.whatever.com/api/v1/dsp
+  providerBpnl: BPNLWHATEVEREZFA

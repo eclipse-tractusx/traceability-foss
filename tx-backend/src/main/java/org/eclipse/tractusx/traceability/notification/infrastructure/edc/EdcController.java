@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.security.TechnicalServiceApiKeyValidator;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.service.NotificationReceiverService;
@@ -106,6 +107,7 @@ public class EdcController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/qualitynotifications/receive")
+    @TechnicalServiceApiKeyValidator
     public void investigationNotificationReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [investigationNotificationReceive] notificationId:{}", cleanEdcNotification);
@@ -167,6 +169,7 @@ public class EdcController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/qualitynotifications/update")
+    @TechnicalServiceApiKeyValidator
     public void investigationNotificationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [investigationNotificationUpdate] notificationId:{}", cleanEdcNotification);
@@ -226,6 +229,7 @@ public class EdcController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/qualityalerts/receive")
+    @TechnicalServiceApiKeyValidator
     public void alertNotificationReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [alertNotificationReceive] notificationId:{}", cleanEdcNotification);
@@ -286,6 +290,7 @@ public class EdcController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/qualityalerts/update")
+    @TechnicalServiceApiKeyValidator
     public void alertNotificationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
         EDCNotification cleanEdcNotification = sanitize(edcNotification);
         log.info("EdcController [alertNotificationUpdate] notificationId:{}", cleanEdcNotification);

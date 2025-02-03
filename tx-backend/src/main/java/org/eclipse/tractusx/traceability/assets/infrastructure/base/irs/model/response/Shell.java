@@ -21,7 +21,12 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
+import java.util.List;
+
 public record Shell(String contractAgreementId, Payload payload) {
-    public record Payload(String globalAssetId, String idShort, String id) {
+    public record Payload(String globalAssetId, String idShort, String id, List<SpecificAssetId> specificAssetIds) {
+        public record SpecificAssetId(String name, String value) {
+        }
     }
+
 }

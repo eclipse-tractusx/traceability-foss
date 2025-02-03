@@ -44,6 +44,10 @@ export class NotificationProcessingService {
     this.onNotificationIdsInLoadingStateRemoval();
   }
 
+  public deleteNotificationIdWithoutEmit(id: string): void {
+    this._notificationIdsInLoadingState.delete(id);
+  }
+
   public isInLoadingProcess({ id } = {} as Notification): boolean {
     return this._notificationIdsInLoadingState.has(id);
   }

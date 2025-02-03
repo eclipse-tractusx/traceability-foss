@@ -1,0 +1,86 @@
+<!--
+Copyright (c) 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<div class="container"
+  cdkDropListGroup>
+  <div class="dialog--content">
+    <div class="dialog--header--container">
+      <div class="dialog--header--text">{{title | i18n}}</div>
+      <div>
+        <img class="close-button"
+          (click)="dialogRef.close()"
+          src="/assets/images/icons/closeDialog_icon.svg"
+          width="14px"
+          height="14px"
+          alt="X" />
+      </div>
+    </div>
+    <div class="dialog--content--container">
+      <div class="dialog--columns--container">
+        <div class="select-all-container">
+          <mat-checkbox color="accent"
+            class="dialog--columns--columns--list"
+            (change)="selectAll($event.checked)"
+            [checked]="selectAllSelected">{{'table.tableSettings.selectAll' | i18n}}
+          </mat-checkbox>
+          <img matTooltip="{{'table.tableSettings.refreshTooltip' | i18n}}"
+            matTooltipClass="table--header--tooltip"
+            matTooltipPosition="above"
+            class="reset-button"
+            [class.mdc-tooltip--multiline]="true"
+            [matTooltipShowDelay]="1000"
+            (click)="resetColumns()"
+            src="/assets/images/icons/refresh_icon.svg"
+            width="17.67px"
+            height="15px"
+            alt="<" />
+        </div>
+        <div cdkDropList
+          [cdkDropListData]="dialogColumns"
+          (cdkDropListDropped)="drop($event)"
+          class="dialog--item--list">
+          <ng-container class="dialog--columns--columns--list"
+            *ngFor="let item of dialogColumns; let index=index">
+            <div *ngIf="item !== 'select' && item !== 'menu' && item !== 'settings'"
+              [ngClass]="dragActive ? 'dialog--item--container_static' : 'dialog--item--container'"
+              (cdkDragStarted)="dragging(true)"
+              (cdkDragEnded)="dragging(false)"
+              cdkDrag>
+              <img class="drag-icon"
+                src="/assets/images/drag_indicator.svg"
+                width="8.46px"
+                height="14.46px"
+                alt="↓" />
+              <mat-checkbox color="accent"
+                [checked]="columnOptions.get(item)"
+                [value]="item"
+                [class.selected-item]="selectedColumn === item"
+                (change)="$event ? handleCheckBoxChange(item, $event.checked) : null"
+                (click)="handleListItemClick($event, item)"
+                class="dialog--columns--columns--list">
+                {{'table.column.' + item | i18n}}
+                <div class="placeholder"
+                  *cdkDragPlaceholder></div>
+              </mat-checkbox>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

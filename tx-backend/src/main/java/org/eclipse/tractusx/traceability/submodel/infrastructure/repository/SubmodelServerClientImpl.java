@@ -21,19 +21,24 @@ package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelCreateRequest;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "provisioning.submodel.use-custom-implementation", havingValue = "false")
 public class SubmodelServerClientImpl implements SubmodelServerRepository {
 
 
     private final SubmodelClient submodelClient;
 
     @Override
-    public void saveSubmodel(String submodelId, String submodel) {
-        submodelClient.createSubmodel(submodelId, submodel);
+    public String saveSubmodel(SubmodelCreateRequest submodelCreateRequest) {
+        submodelClient.createSubmodel(submodelCreateRequest.getSubmodelId(), submodelCreateRequest.getSubmodel());
+        return "";
     }
 
     @Override

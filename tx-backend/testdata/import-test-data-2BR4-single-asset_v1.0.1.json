@@ -1,0 +1,143 @@
+{
+  "assets" : [
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002BR4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "OMAOYGBDTSRCMYSCX",
+                "key" : "partInstanceId"
+              },
+              {
+                "value" : "OMAOYGBDTSRCMYSCX",
+                "key" : "van"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2018-09-28T04:15:57.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3500076-05",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Parent with 8 childs"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+            "childItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2022-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421000",
+                "businessPartner" : "BPNL000000002CS4"
+              },
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2022-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421001",
+                "businessPartner" : "BPNL000000002CS4"
+              },
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2022-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421002",
+                "businessPartner" : "BPNL000000002CS4"
+              },
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2022-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421003",
+                "businessPartner" : "BPNL000000002CS4"
+              },
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2022-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421004",
+                "businessPartner" : "BPNL000000002CS4"
+              },
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2022-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421005",
+                "businessPartner" : "BPNL000000002CS4"
+              },
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2022-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421006",
+                "businessPartner" : "BPNL000000002CS4"
+              },
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "hasAlternatives" : true,
+                "createdOn" : "2022-02-03T14:48:54.709Z",
+                "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
+                "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421007",
+                "businessPartner" : "BPNL000000002CS4"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

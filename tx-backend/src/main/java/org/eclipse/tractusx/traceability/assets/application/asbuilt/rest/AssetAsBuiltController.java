@@ -34,6 +34,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.QualityTypeMapper;
@@ -41,25 +42,30 @@ import org.eclipse.tractusx.traceability.assets.application.base.mapper.OwnerTyp
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
+
 @Tag(name = "AssetsAsBuilt")
 @RequestMapping(path = "/assets/as-built", produces = "application/json", consumes = "application/json")
 public class AssetAsBuiltController {
@@ -73,7 +79,7 @@ public class AssetAsBuiltController {
         this.assetBaseService = assetService;
         this.fieldMapper = fieldMapper;
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
             tags = {"AssetsAsBuilt"},
@@ -124,10 +130,11 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/sync")
+    @ApiKeyEnabled
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetBaseService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
+        assetBaseService.syncAssetsAsyncUsingIRSOrderAPI(syncAssetsRequest.globalAssetIds());
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "assets",
             summary = "Get assets by pagination",
             tags = {"AssetsAsBuilt"},
@@ -193,7 +200,7 @@ public class AssetAsBuiltController {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssets(OwnPageable.toPageable(pageable, fieldMapper), searchCriteriaRequestParam.toSearchCriteria(fieldMapper)));
     }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "searchable-values",
             summary = "Get searchable values for a fieldName",
             tags = {"Assets"},
@@ -258,7 +265,7 @@ public class AssetAsBuiltController {
         return assetBaseService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
                 request.startWith(), request.size(), OwnerTypeMapper.from(request.owner()), request.inAssetIds());
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "assetsCountryMap",
             summary = "Get map of assets",
             tags = {"AssetsAsBuilt"},
@@ -323,7 +330,7 @@ public class AssetAsBuiltController {
         return assetBaseService.getAssetsCountryMap();
     }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "assetById",
             summary = "Get asset by id",
             tags = {"AssetsAsBuilt"},
@@ -378,8 +385,58 @@ public class AssetAsBuiltController {
     public AssetAsBuiltResponse getAssetById(@PathVariable("assetId") String assetId) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetById(assetId));
     }
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @Operation(operationId = "deleteAssetById",
+            summary = "Delete asset by id",
+            tags = {"AssetsAsBuilt"},
+            description = "The endpoint deletes an asset by id .",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(
+            responseCode = "200",
+            description = "Ok."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
 
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @DeleteMapping("/{assetId}")
+    public void deleteAssetById(@PathVariable("assetId") String assetId) {
+        assetBaseService.deleteAssetById(assetId);
+    }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "assetByChildId",
             summary = "Get asset by child id",
             tags = {"AssetsAsBuilt"},
@@ -434,7 +491,7 @@ public class AssetAsBuiltController {
     public AssetAsBuiltResponse getAssetChildId(@PathVariable("childId") String childId) {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetByChildId(childId));
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "updateAsset",
             summary = "Updates asset",
             tags = {"AssetsAsBuilt"},
@@ -490,7 +547,7 @@ public class AssetAsBuiltController {
         return AssetAsBuiltResponseMapper.from(
                 assetBaseService.updateQualityType(assetId, QualityTypeMapper.toDomain(updateAssetRequest.qualityType())));
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "getDetailInformation",
             summary = "Searches for assets by ids.",
             tags = {"AssetsAsBuilt"},
@@ -555,5 +612,79 @@ public class AssetAsBuiltController {
         return AssetAsBuiltResponseMapper.from(
                 assetBaseService.getAssetsById(getDetailInformationRequest.assetIds())
         );
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
+    @Operation(operationId = "distinctFilterValues",
+            summary = "getDistinctFilterValues",
+            tags = {"Assets"},
+            description = "The endpoint returns a distinct filter values for given fieldName.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
+            mediaType = "application/json",
+            array = @ArraySchema(
+                    schema = @Schema(
+                            description = "FilterValues",
+                            implementation = String.class,
+                            additionalProperties = Schema.AdditionalPropertiesValue.FALSE
+                    ),
+                    maxItems = Integer.MAX_VALUE,
+                    minItems = 0)
+    )),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @GetMapping("distinctFilterValues")
+    public List<String> distinctFilterValues(
+            @RequestParam("fieldName") String fieldName,
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "startWith", required = false) String startWith,
+            @RequestParam(value = "owner", required = false) Owner owner,
+            @RequestParam(value = "inAssetIds", required = false) String[] inAssetIds) {
+        List<String> inAssetIdsList = List.of();
+        if (ArrayUtils.isNotEmpty(inAssetIds)) {
+            inAssetIdsList = Arrays.asList(inAssetIds);
+        }
+        return assetBaseService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner, inAssetIdsList);
     }
 }

@@ -1,0 +1,58 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/edc/management/v2/policydefinitions/default-policy"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "@id": "default-policy",
+      "@type": "PolicyDefinition",
+      "createdAt": 1728040901480,
+      "policy": {
+        "@id": "01138364-8b2e-43e1-adbb-e62a975f298b",
+        "@type": "odrl:Set",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      "@context": {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+        "edc": "https://w3id.org/edc/v0.0.1/ns/",
+        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+        "tx-auth": "https://w3id.org/tractusx/auth/",
+        "cx-policy": "https://w3id.org/catenax/policy/",
+        "odrl": "http://www.w3.org/ns/odrl/2/"
+      }
+    }
+  }
+}

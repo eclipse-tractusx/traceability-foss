@@ -64,6 +64,10 @@ public abstract class BaseSpecification<T> implements Specification<T> {
                     fieldPath.as(String.class),
                     expectedFieldValue);
         }
+        if (SearchCriteriaStrategy.IS_NOT_NULL.equals(criteria.getStrategy())) {
+            return builder.isNotNull(
+                    fieldPath.as(String.class));
+        }
 
         if (SearchCriteriaStrategy.EQUAL.equals(criteria.getStrategy()) || NOTIFICATION_COUNT_EQUAL.equals(criteria.getStrategy())) {
             return builder.equal(

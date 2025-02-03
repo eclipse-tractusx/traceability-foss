@@ -379,6 +379,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     void shouldApproveInvestigationStatus() throws JoseException, JsonProcessingException {
         // given
         irsApiSupport.irsApiReturnsPolicies();
+        irsApiSupport.provideAcceptedPolicies();
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
@@ -443,6 +444,7 @@ class PublisherInvestigationsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCloseInvestigationStatus() throws JoseException, JsonProcessingException {
         // given
+        irsApiSupport.provideAcceptedPolicies();
         irsApiSupport.irsApiReturnsPolicies();
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();

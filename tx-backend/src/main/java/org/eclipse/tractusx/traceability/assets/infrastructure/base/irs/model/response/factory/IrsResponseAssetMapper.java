@@ -33,6 +33,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,9 +113,29 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
     }
 
     private String getManufacturerId(IRSResponse irsResponse, AssetBase assetBase) {
+        log.debug("Starting getManufacturerId for AssetBase ID: {}", assetBase.getId());
+
         if (assetBase.getManufacturerId() == null && assetBase.getId().equals(irsResponse.jobStatus().globalAssetId())) {
-            return irsResponse.jobStatus().parameter().bpn();
+            String manufacturerIdFromJob = irsResponse.jobStatus().parameter().bpn();
+            log.debug("Manufacturer ID found in job status: {}", manufacturerIdFromJob);
+            return manufacturerIdFromJob;
         }
+
+        if (assetBase.getManufacturerId() == null) {
+            log.debug("Attempting to derive manufacturerId from Shell Payloads...");
+
+            return irsResponse.shells().stream()
+                    .filter(shell -> shell.payload() != null)
+                    .filter(shell -> shell.payload().id().equals(assetBase.getId()))
+                    .flatMap(shell -> shell.payload().specificAssetIds().stream())
+                    .filter(specificAssetId -> "manufacturerId".equalsIgnoreCase(specificAssetId.name()))
+                    .peek(specificAssetId -> log.debug("Found manufacturerId in specificAssetIds: {}", specificAssetId.value()))
+                    .map(Shell.Payload.SpecificAssetId::value)
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        log.debug("Returning existing manufacturerId: {}", assetBase.getManufacturerId());
         return assetBase.getManufacturerId();
     }
 

@@ -4,7 +4,7 @@
     "home": "Home",
     "dashboard": "Dashboard",
     "parts": "Parts",
-    "about": "About",
+    "about": "About & Legal",
     "relations": "Relations",
     "admin": "Administration",
     "inbox": "Quality notifications",
@@ -57,6 +57,7 @@
     "cancellationConfirm": "Confirm cancellation",
     "close": "Close",
     "decline": "Decline",
+    "deletePart": "Delete part",
     "viewDetails": "View details",
     "edit": "Edit",
     "help": "Help",
@@ -76,7 +77,9 @@
     "viewNotifications" : "View notification",
     "viewPartsTooltip" : "View part using this contract",
     "viewNotificationsTooltip" : "View notification using this contract",
-    "notificationInProgress" : "Notification is currently in processing state"
+    "notificationInProgress" : "Notification is currently in processing state",
+    "deletePartMessageSuccess" : "Deleted part successfully",
+    "deletePartMessageError" : "Failed to delete part"
   },
   "publisher": {
     "selectedAssets": "Assets selected",
@@ -130,6 +133,7 @@
     "selectOnlyOne" : "Action requires only one selection from the table",
     "unauthorized" : "Functionality is disabled because of missing role. Ask your administrator to provide the required role for the functionality.",
     "noFunctionality" : "Functionality is not implemented yet",
+    "missingBusinessPartner" : "The selection does not contain a Business partner number. Please check your selected parts.",
     "onlyNotificationInStatusCreatedAllowed" : "Action only allowed with a selection of notifications in status \"Queued\".",
     "createPolicy" : "Create policy",
     "deletePolicy" : "Delete selected policies",

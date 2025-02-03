@@ -19,8 +19,10 @@
 
 package org.eclipse.tractusx.traceability.submodel.domain.repository;
 
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelCreateRequest;
+
 public interface SubmodelServerRepository {
-    void saveSubmodel(String submodelId, String submodel);
+    String saveSubmodel(SubmodelCreateRequest submodelCreateRequest);
 
     String getSubmodel(String submodelId);
 }

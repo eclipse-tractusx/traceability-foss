@@ -60,4 +60,5 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: run maven spotbugs plugin
-        run: mvn clean package -pl tx-models,tx-backend  -DskipTests=true -Pspotbugs-check spotbugs:check
+        run: |
+          mvn clean package -pl tx-models,tx-backend -DskipTests=true -Pspotbugs-check spotbugs:check -s settings.xml -DPACKAGES_ACCESS_USERNAME=${{ secrets.PACKAGES_ACCESS_USERNAME }} -DPACKAGES_ACCESS_TOKEN=${{ secrets.PACKAGES_ACCESS_TOKEN }}

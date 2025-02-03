@@ -1,0 +1,25 @@
+{
+  "pageAdmin": {
+    "scheduledRegistryProcesses": {
+      "title": "Registry lookups"
+    },
+    "bpnConfig": {
+      "title": "BPN - EDC configuration",
+      "intro": "The BPN to EDC URL mapping is used as another source for sending notifications. The first source is the discovery service, the second source is the mapping stored here. To store the additional source, please insert a BPN and the corresponding EDC URL to be used for sending notifications to the partner.",
+      "search": "Search",
+      "bpn": "BPN",
+      "url": "URL",
+      "newEntries": "New Entries",
+      "existingEntries": "Existing Entries",
+      "added": "Added",
+      "changed": "Changed",
+      "deleted": "Deleted",
+      "modal": {
+        "title": "Configuration changes",
+        "description": "Do you want to save these changes?",
+        "successfullySaved": "Changes saved successfully.",
+        "failedSave": "Error while saving the changes. Please try again later."
+      }
+    }
+  }
+}

@@ -107,6 +107,15 @@ jobs:
           npx downdoc -o docs/target/generated-docs/arc42.md docs/src/diagram-replacer/generated-adocs/arc42.adoc
           npx downdoc -o docs/target/generated-docs/user-manual.md docs/src/diagram-replacer/generated-adocs/user-manual.adoc
 
+      - name: Upload Markdown
+        if: always()
+        uses: actions/upload-artifact@master
+        with:
+          path: |
+            docs/target/generated-docs/arc42.md
+            docs/target/generated-docs/adminguide.md
+            docs/target/generated-docs/user-manual.md
+
       - name: MD files post-processing
         working-directory: docs/src/post-processing/
         run: |
@@ -129,6 +138,8 @@ jobs:
 
       - name: Generate Swagger UI
         uses: Legion2/swagger-ui-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           output: swagger-ui
           spec-file: docs/api/traceability-foss-backend.json

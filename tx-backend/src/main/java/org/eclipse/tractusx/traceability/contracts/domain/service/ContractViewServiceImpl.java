@@ -22,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
@@ -43,6 +46,7 @@ public class ContractViewServiceImpl implements ContractServiceReadOnly {
     public PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest) {
         Pageable pageable = OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), contractFieldMapper);
         SearchCriteria searchCriteria = pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(contractFieldMapper);
+        searchCriteria.getSearchCriteriaFilterList().add(SearchCriteriaFilter.builder().key("contractAgreementId").strategy(SearchCriteriaStrategy.IS_NOT_NULL).operator(SearchCriteriaOperator.AND).build());
         return contractViewRepository.getContractsByPageable(pageable, searchCriteria);
     }
 

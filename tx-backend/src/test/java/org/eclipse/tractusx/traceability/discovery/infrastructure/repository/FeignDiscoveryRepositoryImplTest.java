@@ -22,6 +22,7 @@ import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryEndpoint;
 import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryFinderClient;
 import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryResponse;
 import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.junit.jupiter.api.Assertions;
@@ -51,16 +52,20 @@ class FeignDiscoveryRepositoryImplTest {
     @Mock
     private DiscoveryFinderClient discoveryFinderClient;
 
+    @Mock
+    private TraceabilityProperties traceabilityProperties;
+
     @Test
     void testGetDiscoveryByBpnFromConnectorEndpointSuccessful() {
-        DiscoveryEndpoint discoveryEndpoint = new DiscoveryEndpoint("bpn", "description", "test.de", "documentation", "resourceId");
+        DiscoveryEndpoint discoveryEndpoint = new DiscoveryEndpoint("bpnl", "description", "test.de", "documentation", "resourceId");
         DiscoveryResponse discoveryResponse = new DiscoveryResponse(List.of(discoveryEndpoint));
         when(discoveryFinderClient.findDiscoveryEndpoints(any())).thenReturn(discoveryResponse);
 
-        EdcDiscoveryResult edcDiscoveryResult = new EdcDiscoveryResult("bpn", List.of("test.de"));
+        EdcDiscoveryResult edcDiscoveryResult = new EdcDiscoveryResult("bpnl", List.of("test.de"));
         when(discoveryFinderClient.findConnectorEndpoints(any(), any())).thenReturn(List.of(edcDiscoveryResult));
         when(edcProperties.getProviderEdcUrl()).thenReturn("sender.de");
-        Optional<Discovery> discovery = feignDiscoveryRepositoryImpl.retrieveDiscoveryByFinderAndEdcDiscoveryService("bpn");
+        when(traceabilityProperties.getDiscoveryType()).thenReturn("bpnl");
+        Optional<Discovery> discovery = feignDiscoveryRepositoryImpl.retrieveDiscoveryByFinderAndEdcDiscoveryService("bpnl");
 
         Assertions.assertTrue(discovery.isPresent());
         assertThat(discovery.get().getReceiverUrls()).isEqualTo(List.of("test.de"));
@@ -71,7 +76,8 @@ class FeignDiscoveryRepositoryImplTest {
     void testGetDiscoveryByBpnFromConnectorEndpointException() {
         DiscoveryResponse discoveryResponse = new DiscoveryResponse(Collections.emptyList());
         when(discoveryFinderClient.findDiscoveryEndpoints(any())).thenReturn(discoveryResponse);
-        Optional<Discovery> discoveryByBpnFromConnectorEndpoint = feignDiscoveryRepositoryImpl.retrieveDiscoveryByFinderAndEdcDiscoveryService("bpn");
+        when(traceabilityProperties.getDiscoveryType()).thenReturn("bpnl");
+        Optional<Discovery> discoveryByBpnFromConnectorEndpoint = feignDiscoveryRepositoryImpl.retrieveDiscoveryByFinderAndEdcDiscoveryService("bpnl");
         Assertions.assertTrue(discoveryByBpnFromConnectorEndpoint.isEmpty());
     }
 }

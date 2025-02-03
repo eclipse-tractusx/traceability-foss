@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="header">
+    <div>{{ 'forwardNotification.' + context + '.headline' | i18n }}
+    </div>
+    <div>
+      <img class="close-button"
+           (click)="closeAction()"
+           src="/assets/images/icons/closeDialog_icon.svg"
+           alt="X" />
+    </div>
+  </div>
+
+  <div class="pt-5">
+    <div *ngIf="context === RequestContext.REQUEST_INVESTIGATION" class="investigation-wrapper">
+      <div class="investigation-parts-table">
+        <div [formGroup]="searchFormGroup"
+             class="flex justify-between items-center pt-5">
+          <div class="flex items-center title-large">
+            {{ 'forwardNotification.requestInvestigations.selectAffectedParts' | i18n }}
+          </div>
+          <div>
+            <app-input color="accent"
+                       [label]="'parts.input.global-search.placeholderAsset' | i18n"
+                       [prefixIconHover]="true"
+                       (prefixIconClick)="triggerPartSearch()"
+                       [onEnterActive]="true"
+                       [prefixIcon]="'search'"
+                       [isSearchBar]="true"
+                       [size]="'small'"
+                       formControlName="partSearch"
+                       [parentFormGroup]="searchFormGroup"
+                       [parentControlName]="'partSearch'"
+                       [displayClearButton]="true"
+                       prefixIconColor="accent"></app-input>
+          </div>
+        </div>
+        <app-supplier-parts [bomLifecycle]="MainAspectType.AS_BUILT"
+                            [showActionButton]="false"
+                            [showHeader]="false"
+                            [compactSize]="true"
+                            [deselectTrigger]="deselectPartTrigger$ | async"
+                            (onPartDeselected)="deselectPart.emit($event)"
+                            (onTotalItemsChanged)="onTotalItemsChanged($event)"
+                            (onPartsSelected)="onPartsSelected($event)"></app-supplier-parts>
+
+      </div>
+      <app-request-investigation
+        (onBackClicked)="closeAction()"
+        (deselectPart)="onPartDeselected($event)"
+        [forwardedNotification]="forwardedNotification"
+        [selectedItems]="selectedParts"
+        [closeButtonText]="'requestNotification.cancel'"
+        [submitButtonText]="'requestNotification.submit'"></app-request-investigation>
+
+    </div>
+    <app-request-alert *ngIf="context === RequestContext.REQUEST_ALERT"
+                       (onBackClicked)="closeAction()"
+                       (deselectPart)="onPartDeselected($event)"
+                       [forwardedNotification]="forwardedNotification"
+                       [closeButtonText]="'requestNotification.cancel'"
+                       [submitButtonText]="'requestNotification.submit'"></app-request-alert>
+  </div>
+</div>

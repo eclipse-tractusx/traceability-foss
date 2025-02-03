@@ -30,6 +30,7 @@ SPDX-License-Identifier: Apache-2.0
     <modules>
         <module>tx-models</module>
         <module>tx-cucumber-tests</module>
+        <module>tx-gatling-tests</module>
         <module>tx-backend</module>
         <module>tx-parent-spring-boot</module>
         <module>docs</module>
@@ -37,7 +38,7 @@ SPDX-License-Identifier: Apache-2.0
     </modules>
 
     <properties>
-        <springboot.version>3.2.8</springboot.version>
+        <springboot.version>3.3.5</springboot.version>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -62,6 +63,7 @@ SPDX-License-Identifier: Apache-2.0
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <!-- versions for 3rd party dependecies -->
+        <commons.fileupload>1.5</commons.fileupload>
         <logback.version>1.5.6</logback.version>
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
@@ -88,8 +90,9 @@ SPDX-License-Identifier: Apache-2.0
         <cucumber.version>7.17.0</cucumber.version>
         <junit-bom.version>5.10.3</junit-bom.version>
         <awaitility.version>4.2.1</awaitility.version>
+        <micrometer.version>1.11.4</micrometer.version>
         <!-- TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978 update to the cx release version of irs lib IMPORTANT NO SNAPSHOT-->
-        <irs-client-lib.version>2.1.9</irs-client-lib.version>
+        <irs-client-lib.version>2.1.22</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>

@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.ContractsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,8 @@ class ContractsControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     EdcSupport edcSupport;
-
+    @Autowired
+    ContractsSupport contractsSupport;
 
     @Test
     void shouldReturnOnlyOneContract() throws JoseException {
@@ -52,6 +54,7 @@ class ContractsControllerIT extends IntegrationTestSpecification {
         edcSupport.edcWillReturnOnlyOneContractAgreement();
         edcSupport.edcWillReturnContractAgreementNegotiation();
         assetsSupport.defaultAssetsStored();
+        contractsSupport.defaultContractAgreementAsBuiltStored();
 
         //WHEN
         PageResult<ContractResponse> contractResponsePageResult = given()

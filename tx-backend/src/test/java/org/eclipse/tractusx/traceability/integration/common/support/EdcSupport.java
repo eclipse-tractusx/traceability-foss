@@ -37,6 +37,7 @@ import static com.xebialabs.restito.semantics.Action.noContent;
 import static com.xebialabs.restito.semantics.Action.ok;
 import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.composite;
+import static com.xebialabs.restito.semantics.Condition.get;
 import static com.xebialabs.restito.semantics.Condition.matchesUri;
 import static com.xebialabs.restito.semantics.Condition.method;
 import static com.xebialabs.restito.semantics.Condition.post;
@@ -66,6 +67,18 @@ public class EdcSupport {
         edcWillReturnTransferprocessesOnlyState();
         edcWillReturnTransferprocessesState();
         edcWillSendRequest();
+    }
+
+    public void performSupportActionsForBpdmAccess() {
+        edcWillReturnCatalogForBpdmGoldenRecord();
+        edcWillCreateContractNegotiation();
+        edcWillReturnContractNegotiationOnlyState();
+        edcWillReturnContractNegotiationState();
+        edcWillCreateTransferprocesses();
+        edcWillReturnTransferprocessesOnlyState();
+        edcWillReturnTransferprocessesState();
+        edcWillCallCallbackController();
+        edcWillSendRequestAndReturnBpdmResponse();
     }
 
     public void edcWillCallCallbackController() {
@@ -140,13 +153,13 @@ public class EdcSupport {
         );
     }
 
-    public void edcWillReturnContractAgreements() {
+    public void edcWillReturnCatalogForBpdmGoldenRecord() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/contractagreements/request"),
+                post("/management/v2/catalog/request"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
-                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/all_contractagreements_response_200.json")
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/catalog_response_bpdm_200.json")
         );
     }
 
@@ -186,16 +199,6 @@ public class EdcSupport {
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.INTERNAL_SERVER_ERROR_500)
-        );
-    }
-
-    void edcNotificationAssetAlreadyExist() {
-        whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/assets"),
-                EDC_API_KEY_HEADER
-        ).then(
-                status(HttpStatus.CONFLICT_409),
-                restitoProvider.jsonResponseFromFile("./stubs/edc/post/management/v2/assets/response_409.json")
         );
     }
 
@@ -325,6 +328,16 @@ public class EdcSupport {
                 status(HttpStatus.OK_200)
         );
     }
+
+    public void edcWillSendRequestAndReturnBpdmResponse() {
+        whenHttp(restitoProvider.stubServer()).match(
+                get("/endpointdatareference")
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/bpdm/response_200.json")
+        );
+    }
+
     public void verifyCreateNotificationAssetEndpointCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,
                 post("/management/v2/assets")
@@ -363,6 +376,5 @@ public class EdcSupport {
                 startsWithUri("/management/v2/contractdefinitions")
         );
     }
-
 
 }

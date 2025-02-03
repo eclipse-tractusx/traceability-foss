@@ -18,16 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
@@ -38,39 +33,10 @@ import static com.xebialabs.restito.semantics.Condition.matchesUri;
 public class BpnSupport {
 
     @Autowired
-    BpnRepository bpnRepository;
-    @Autowired
-    AssetRepositoryProvider assetRepositoryProvider;
-
-
-    @Autowired
     RestitoProvider restitoProvider;
 
     @Value("${traceability.bpn}")
     String bpn = null;
-
-    public void cachedBpnsForDefaultAssets() {
-        providesBpdmLookup();
-        List<String> assetIds = assetRepositoryProvider.testdataProvider().readAndConvertAssetsForTests().stream().map(AssetBase::getManufacturerId).toList();
-        Map<String, String> bpnMappings = new HashMap<>();
-
-        for (String assetId : assetIds) {
-            bpnMappings.put(assetId, "Manufacturer Name $i");
-        }
-
-        bpnRepository.updateManufacturers(bpnMappings);
-    }
-
-    public void cachedBpnsForAsPlannedAssets() {
-        List<String> assetIds = assetRepositoryProvider.testdataProvider().readAndConvertAssetsAsPlannedForTests().stream().map(AssetBase::getManufacturerId).toList();
-        Map<String, String> bpnMappings = new HashMap<>();
-
-        for (String assetId : assetIds) {
-            bpnMappings.put(assetId, "Manufacturer Name $i");
-        }
-
-        bpnRepository.updateManufacturers(bpnMappings);
-    }
 
     public String testBpn() {
         return bpn;
@@ -78,18 +44,11 @@ public class BpnSupport {
 
     public void providesBpdmLookup() {
         whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/api/catena/legal-entities/.+"))
+                matchesUri(Pattern.compile("/endpointdatareference/members/legal-entities/search"))
         ).then(
                 status(HttpStatus.OK_200),
                 restitoProvider.jsonResponseFromFile("stubs/bpdm/response_200.json")
         );
     }
 
-    public void returnsBpdmLookup401Unauthorized() {
-        whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/api/catena/legal-entities/.+"))
-        ).then(
-                status(HttpStatus.UNAUTHORIZED_401)
-        );
-    }
 }

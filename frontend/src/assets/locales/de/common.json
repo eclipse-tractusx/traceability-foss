@@ -5,7 +5,7 @@
     "dashboard": "Dashboard",
     "parts": "Produkte",
     "otherParts": "Andere Produkte",
-    "about": "Über uns",
+    "about": "Info & Rechtliches",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
     "inbox": "Qualitätsthemen",
@@ -61,6 +61,7 @@
     "acknowledge": "Bestätigen",
     "confirm": "Genehmigen",
     "decline": "Ablehnen",
+    "deletePart": "Teil entfernen",
     "help": "Hilfe",
     "add": "Hinzufügen",
     "saveChanges" : "Änderungen speichern",
@@ -78,7 +79,9 @@
     "viewNotifications" : "Qualitätsthema ansehen",
     "viewPartsTooltip" : "Produkt unter diesem Vertrag ansehen",
     "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen",
-    "notificationInProgress" : "Qualitätsthema befindet sich im Verarbeitungsstatus"
+    "notificationInProgress" : "Qualitätsthema befindet sich im Verarbeitungsstatus",
+    "deletePartMessageSuccess" : "Teil erfolgreich entfernt",
+    "deletePartMessageError" : "Fehler beim Entfernen des Teils"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",
@@ -132,6 +135,7 @@
     "selectAtLeastOne" : "Erfordert mindestens eine Selektion in der Tabelle",
     "selectOnlyOne" : "Aktion erfordert eine einzige Selektion in der Tabelle",
     "unauthorized" : "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
+    "missingBusinessPartner" : "Die Selektion enthält keine Business Partner Nummer. Bitte überprüfen Sie Ihre ausgewählten Teile.",
     "noFunctionality" : "Funktionalität wurde noch nicht implementiert.",
     "onlyNotificationInStatusCreatedAllowed" : "Aktion erfordert eine Selektion an Qualitätsthemen im Status \"Erstellt\".",
     "createPolicy" : "Richtlinie erstellen",

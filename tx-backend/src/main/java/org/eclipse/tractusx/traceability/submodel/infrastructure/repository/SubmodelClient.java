@@ -18,52 +18,19 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.submodel.infrastructure.repository;
 
-import lombok.extern.slf4j.Slf4j;
-import org.awaitility.Durations;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.apache.commons.lang3.NotImplementedException;
+import org.eclipse.tractusx.traceability.submodel.infrastructure.model.SubmodelRequest;
 
-import java.util.concurrent.TimeUnit;
+public interface SubmodelClient {
 
-import static org.awaitility.Awaitility.await;
-import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.SUBMODEL_REST_TEMPLATE;
-
-@Slf4j
-@Component
-public class SubmodelClient {
-
-    private final RestTemplate submodelRestTemplate;
-
-
-    public SubmodelClient(@Qualifier(SUBMODEL_REST_TEMPLATE) RestTemplate submodelRestTemplate) {
-        this.submodelRestTemplate = submodelRestTemplate;
+    default void createSubmodel(SubmodelRequest submodelRequest) {
+        throw new NotImplementedException();
     }
 
-    public void createSubmodel(String submodelId, String payload) {
-
-        await()
-                .atMost(Durations.FIVE_MINUTES)
-                .pollInterval(1, TimeUnit.SECONDS)
-                .until(() -> {
-                            try {
-                                submodelRestTemplate.exchange("/" + submodelId, HttpMethod.POST, new HttpEntity<>(payload), Void.class);
-                                log.info("Submodel created successfully with id: {}", submodelId);
-                                return true;
-                            } catch (Exception e) {
-                                log.warn("Retrying to create submodel with id: {}. Exception: {}", submodelId, e.getMessage());
-                                log.debug("Exception details:", e);
-                                return false;
-                            }
-                        }
-                );
-
+    default void createSubmodel(String submodelId, String payload) {
+        throw new NotImplementedException();
     }
 
+    String getSubmodel(String submodelId);
 
-    public String getSubmodel(String submodelId) {
-        return submodelRestTemplate.exchange("/" + submodelId, HttpMethod.GET, null, String.class).getBody();
-    }
 }

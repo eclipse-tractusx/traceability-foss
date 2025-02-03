@@ -128,12 +128,12 @@ export class NotificationActionModalComponent {
       const reason = this.formGroup.get('reason').value;
       this.callback(desiredStatus, notification.id, reason).subscribe({
         next: () => {
-          this.notificationProcessingService.deleteNotificationId(notification.id);
+          this.notificationProcessingService.deleteNotificationIdWithoutEmit(notification.id);
           this.toastService.success(modalData.successMessage);
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.notificationProcessingService.deleteNotificationId(notification.id);
+          this.notificationProcessingService.deleteNotificationIdWithoutEmit(notification.id);
           this.toastService.error(modalData.errorMessage, 15000, true);
           this.confirmActionCompleted.emit();
         },

@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportRequest;
@@ -25,6 +26,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repositor
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +45,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SubmodelPayloadRepositoryIT extends IntegrationTestSpecification {
 
     @Autowired
-    JpaAssetAsBuiltRepository assetAsBuiltRepository;
+    EdcSupport edcSupport;
+    @Autowired
+    IrsApiSupport irsApiSupport;
     @Autowired
     AssetsSupport assetsSupport;
 
@@ -55,9 +60,11 @@ class SubmodelPayloadRepositoryIT extends IntegrationTestSpecification {
 
     @BeforeEach
     @Transactional
-    void setUp() {
+    void setUp() throws JsonProcessingException {
         objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+        edcSupport.performSupportActionsForBpdmAccess();
+        irsApiSupport.irsApiReturnsPoliciesBpdm();
     }
 
     @Test

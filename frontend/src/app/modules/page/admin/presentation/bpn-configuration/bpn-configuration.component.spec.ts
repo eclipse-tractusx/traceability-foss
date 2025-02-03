@@ -222,7 +222,7 @@ describe('BpnConfigurationComponent', () => {
       right <= (window.innerWidth || document.documentElement.clientWidth);
 
     const buttonElement = (await waitFor(() => screen.getByTestId('bpn-config-save-button'))) as HTMLButtonElement;
-    const bpnInputElement = (await waitFor(() => screen.getByTestId('BaseInputElement-15'))) as HTMLInputElement;
+    const bpnInputElement = (await waitFor(() => screen.getByTestId('BaseInputElement-23'))) as HTMLInputElement;
 
     expect(bpnInputElement).toBeInTheDocument();
     expect(isInViewPort(bpnInputElement.getBoundingClientRect())).toBeFalsy();

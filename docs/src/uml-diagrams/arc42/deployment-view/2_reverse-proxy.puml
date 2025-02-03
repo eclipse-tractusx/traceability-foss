@@ -1,0 +1,32 @@
+@startuml
+
+'Title for clarity
+title Kubernetes Cluster Proxy Setup
+
+'Single Kubernetes Cluster
+node "Kubernetes Cluster" as PublicCluster #orange {
+    'Frontend Components
+    component "NGINX Static Webserver #Public" as NGINXStaticWebserver {
+        [Serves Angular Static Files]
+    }
+    component "NGINX Reverse Proxy #Public" as NGINXReverseProxy {
+        [Routes API Requests to Backend]
+    }
+
+    'Backend Components
+    component "REST API Services #Private" as BackendAPI {
+        [Stateless REST API Endpoints]
+    }
+}
+
+'Browser representation
+node "Browser" as Browser {
+    [Angular Frontend]
+}
+
+'Connections
+Browser --> NGINXStaticWebserver : HTTPS Request (Static Files)
+Browser --> NGINXReverseProxy : HTTPS Request (API Call)
+NGINXReverseProxy --> BackendAPI : Internal REST Call (Cluster Network)
+
+@enduml

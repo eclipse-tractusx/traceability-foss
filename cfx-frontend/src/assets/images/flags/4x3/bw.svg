@@ -1,0 +1,7 @@
+<svg id="flag-icon-css-bw" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+    <g fill-rule="evenodd">
+        <path d="M0 0h640v480H0z" fill="#00cbff"/>
+        <path d="M0 160h640v160H0z" fill="#fff"/>
+        <path d="M0 186h640v108H0z"/>
+    </g>
+</svg>

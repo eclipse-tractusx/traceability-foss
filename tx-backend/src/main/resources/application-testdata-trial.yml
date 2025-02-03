@@ -1,0 +1,164 @@
+################################################################################
+# Copyright (c) 2022                                              , 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+# Copyright (c) 2022                                              , 2023 ZF Friedrichshafen AG
+# Copyright (c) 2022                                              , 2023 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License                                     , Version 2.0 which is available at
+# https:                                                                                                                                          //www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing       , software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND                            , either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier                                         : Apache-2.0
+################################################################################
+
+spring:
+  flyway:
+    locations                              : /db/migration                                    , /db/testdata-trial
+    placeholders:
+
+      bpnOwn                               : "'BPNL000000000001'"
+      bpnOwnName                           : "'SupOne'"
+
+      bpnSupplier1                         : "'BPNL000SUPPLIER1'"
+      bpnSupplier1Name                     : "'LuminaTech'"
+      bpnSupplier2                         : "'BPNL000SUPPLIER2'"
+      bpnSupplier2Name                     : "'BrightSolutions'"
+
+      bpnSupplier3                         : "'BPNL000SUPPLIER3'"
+      bpnSupplier3Name                     : "'CableCraft'"
+      bpnSupplier4                         : "'BPNL000SUPPLIER4'"
+      bpnSupplier4Name                     : "'Linkage'"
+
+      bpnSupplier5                         : "'BPNL000SUPPLIER5'"
+      bpnSupplier5Name                     : "'LuxLite'"
+      bpnSupplier6                         : "'BPNL000SUPPLIER6'"
+      bpnSupplier6Name                     : "'CaseFactory'"
+      bpnSupplier21                        : "'BPNL00SUPPLIER21'"
+      bpnSupplier21Name                    : "'Schott'"
+      bpnSupplier22                        : "'BPNL00SUPPLIER22'"
+      bpnSupplier22Name                    : "'Petersmeier'"
+
+      bpnCustomer1                         : "'BPNL000CUSTOMER1'"
+      bpnCustomer1Name                     : "'Manu'"
+
+      bpnCustomer2                         : "'BPNL000CUSTOMER2'"
+      bpnCustomer2Name                     : "'Mecury'"
+
+      assetAsBuiltId01                     : "'urn:uuid:0d21a896-a73f-454b-2798-6c776ec3f1db'"
+      assetAsBuiltId02                     : "'urn:uuid:b7273a4c-b453-476b-caab-7c01132fd82b'"
+      assetAsBuiltId03                     : "'urn:uuid:a4cb7ca7-9d86-4e79-546f-b900c0edce5c'"
+      assetAsBuiltId04                     : "'urn:uuid:e8cd5091-b5cb-4726-dec0-a9f26b739098'"
+      assetAsBuiltId05                     : "'urn:uuid:bbcd1aeb-b217-417b-4c74-dd8d0f440d8a'"
+      assetAsBuiltId06                     : "'urn:uuid:a5a77fdb-98c7-46f3-59f2-2d2fb3707747'"
+      assetAsBuiltId07                     : "'urn:uuid:02ce0853-b64c-4a73-38a6-dc42c032bf1f'"
+      assetAsBuiltId08                     : "'urn:uuid:4f0b86e2-b055-4618-01f5-924f6d547770'"
+      assetAsBuiltId09                     : "'urn:uuid:ea64ac70-935a-4e92-c8f4-3e33c09aa1f9'"
+      assetAsBuiltId10                     : "'urn:uuid:1377ecc3-a686-499f-2a52-8ab7135249bf'"
+      assetAsBuiltId11                     : "'urn:uuid:ecbc2814-a97b-4d1b-4136-369e2bb95b83'"
+      assetAsBuiltId12                     : "'urn:uuid:09c0c9b5-b472-4374-eaa1-0a0acfbc8379'"
+      assetAsBuiltId13                     : "'urn:uuid:d3b15c27-8038-4593-7171-b5f96e082245'"
+      assetAsBuiltId14                     : "'urn:uuid:d8b36353-991f-4127-e7fb-975c059bd389'"
+      assetAsBuiltId15                     : "'urn:uuid:4069fd05-8cf1-453e-1c2e-51110f643092'"
+      assetAsBuiltId16                     : "'urn:uuid:8e6e5d6b-9abc-41b2-0cdc-a974998ab013'"
+      assetAsBuiltId17                     : "'urn:uuid:34fb0250-b46a-434d-f91c-e05b907d3ec4'"
+      assetAsBuiltId18                     : "'urn:uuid:9c4b0fa0-a4b5-4bed-741e-860c1e04733b'"
+      assetAsBuiltId19                     : "'urn:uuid:8b9f7eec-a187-40e8-e5f6-dc5791a8d11a'"
+      assetAsBuiltId20                     : "'urn:uuid:f791a928-a295-43f5-6e86-59f1614bdfcf'"
+      assetAsBuiltId21                     : "'urn:uuid:1a0c64ea-a7b2-40fe-2e6b-0ad49e85f88a'"
+      assetAsBuiltId22                     : "'urn:uuid:a4b7ef5c-ac34-4f47-0cbe-d6ffb69cb0d1'"
+
+      assetAsPlannedId01                   : "'urn:uuid:e97699c1-89c1-474b-8a92-c3a887c6b4c0'"
+      assetAsPlannedId02                   : "'urn:uuid:78e5523d-73b6-4770-b5f5-5ea314c33674'"
+      assetAsPlannedId03                   : "'urn:uuid:233fda23-3d10-454e-abec-6cb29813bcd5'"
+      assetAsPlannedId04                   : "'urn:uuid:cce342a3-910f-4802-b8a2-c37c59344cf2'"
+      assetAsPlannedId05                   : "'urn:uuid:daa579ab-23e5-407b-b2cf-0b24ff400fec'"
+      assetAsPlannedId06                   : "'urn:uuid:25f34391-f73c-49f7-bcf5-95c1c8de4f2e'"
+      assetAsPlannedId07                   : "'urn:uuid:94be6a68-f8f0-47e2-9a23-a37d15c0c680'"
+      assetAsPlannedId08                   : "'urn:uuid:2af628f6-522f-4eb9-aeff-2e52ed619548'"
+      assetAsPlannedId09                   : "'urn:uuid:e266a50e-174d-4e73-9158-3a98eac1ad58'"
+      assetAsPlannedId10                   : "'urn:uuid:c8d6ebd6-f205-430f-93d1-d09a1540d307'"
+
+      alertSentId1                         : 1
+      alertSentId2                         : 2
+      alertSentId3                         : 3
+      alertSentId4                         : 4
+      alertSentId5                         : 5
+      alertSentId6                         : 6
+      alertSentId7                         : 7
+
+      alertReceivedId1                     : 8
+      alertReceivedId2                     : 9
+      alertReceivedId3                     : 10
+      alertReceivedId4                     : 11
+      alertReceivedId5                     : 12
+
+      alertNotificationSentId1             : "'4939c189-b75d-4647-94cb-a75b83a92313'"
+      alertNotificationSentId2             : "'a15583ac-101e-44e0-9fba-33ceaa4d3540'"
+      alertNotificationSentId3a            : "'8b1319a4-4ba8-46bc-a0b0-1c71d9186d25'"
+      alertNotificationSentId3b            : "'cab39b22-3938-4b27-9a78-68ef980147dc'"
+      alertNotificationSentId4a            : "'86ef99d6-15c9-4bb0-87ee-9828fe06a3d2'"
+      alertNotificationSentId4b            : "'c8216fd5-88cf-44eb-baa5-c942912cae7e'"
+      alertNotificationSentId5a            : "'3d5a6398-c807-4bb8-9a8c-7bc436988964'"
+      alertNotificationSentId5b            : "'35b7e479-7469-4b83-bfc1-0f0c13ad09f6'"
+      alertNotificationSentId6             : "'0b2ee6b3-6bc8-487d-b8f2-75c027e51b26'"
+      alertNotificationSentId7a            : "'21bc7f55-59ae-4711-b961-6af1a7c25757'"
+      alertNotificationSentId7b            : "'f03a4de5-0820-45bb-828e-96e38d433c87'"
+
+      alertNotificationReceivedId1         : "'e3de866d-044b-4db9-9349-841365189a9b'"
+      alertNotificationReceivedId2a        : "'98d5107c-f11b-4a69-9207-906c660be7f6'"
+      alertNotificationReceivedId2b        : "'194b32b5-8b28-40d8-a29a-58a30a1ac2c5'"
+      alertNotificationReceivedId3a        : "'df5b7e53-5b5e-445b-adbe-0fe6dabc05e3'"
+      alertNotificationReceivedId3b        : "'d51d8ea4-67b1-49ed-a0c0-b40a452362db'"
+      alertNotificationReceivedId4a        : "'fef2174d-4ea6-4b06-b189-6f7fe7809418'"
+      alertNotificationReceivedId4b        : "'cf6e4290-6d86-4a8e-94f1-8fee275ce133'"
+      alertNotificationReceivedId5a        : "'38c47db2-9f92-4e58-9d5b-3245c064d0fa'"
+      alertNotificationReceivedId5b        : "'3eefa3d4-126a-424d-a030-aa53384573fd'"
+
+      investigationSentId1                 : 13
+      investigationSentId2                 : 14
+      investigationSentId3                 : 15
+      investigationSentId4                 : 16
+      investigationSentId5                 : 17
+      investigationSentId6                 : 18
+      investigationSentId7                 : 19
+
+      investigationReceivedId1             : 20
+      investigationReceivedId2             : 21
+      investigationReceivedId3             : 22
+      investigationReceivedId4             : 23
+      investigationReceivedId5             : 24
+
+      investigationNotificationSentId1     : "'7486286d-a098-4617-81ea-3015bc866a7e'"
+      investigationNotificationSentId2     : "'94032934-8ec8-4f97-a38d-6b16d448cbfb'"
+      investigationNotificationSentId3a    : "'b5b4612e-6ed6-47c2-8f52-adefe3d5b99a'"
+      investigationNotificationSentId3b    : "'62eea0b3-c8b1-48d9-a220-cb01c3a3f4fe'"
+      investigationNotificationSentId4a    : "'36e270c0-4a40-4516-b2f0-c21f8c033f2b'"
+      investigationNotificationSentId4b    : "'317fa3d4-126a-424d-a030-aa53384573fc'"
+      investigationNotificationSentId5a    : "'531ca5d8-3634-4439-8090-743a7a63be75'"
+      investigationNotificationSentId5b    : "'a5444374-a0a6-452a-9d45-079930468800'"
+      investigationNotificationSentId6     : "'54511ec0-304b-41ef-8426-6585a1ee1558'"
+      investigationNotificationSentId7a    : "'6adc3d93-7efb-4c2b-bd9d-bbb1b61549f0'"
+      investigationNotificationSentId7b    : "'8e866bf4-fa92-43fb-a012-a27556659579'"
+
+
+      investigationNotificationReceivedId1 : "'0678b9c6-a9c4-4ff9-a5e2-c6cd19c5f8c6'"
+      investigationNotificationReceivedId2a: "'3fbd0206-2507-445c-aa6b-ec726d0eeae2'"
+      investigationNotificationReceivedId2b: "'989ae19d-d682-4c1b-baaf-4bb779d91d8d'"
+      investigationNotificationReceivedId3a: "'7561d71a-0706-4dd9-bf7e-29d8be482e19'"
+      investigationNotificationReceivedId3b: "'2dae86e5-77b6-449c-b51d-6031e39f0fcb'"
+      investigationNotificationReceivedId4a: "'907e4a54-7855-454b-a8e7-5be3d46496c9'"
+      investigationNotificationReceivedId4b: "'829f95f4-38a8-4678-b761-ff66346a047e'"
+      investigationNotificationReceivedId5a: "'55781066-d7ae-41f2-8adb-133983f18c2a'"
+      investigationNotificationReceivedId5b: "'a9c8fa69-5e6b-4adc-99a2-307bf3a83f5d'"
+
+# own BPN
+traceability:
+  bpn                                      : {bpnOwn}

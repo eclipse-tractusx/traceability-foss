@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
+import io.restassured.http.Header;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
@@ -43,7 +44,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
     AssetsSupport assetsSupport;
 
     @Test
-    void shouldNotSynchronizeAssetsWhenIrsFailedToReturnJobDetails() throws JoseException, InterruptedException {
+    void shouldNotSynchronizeAssetsWhenIrsFailedToReturnJobDetails() {
         //GIVEN
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
@@ -57,7 +58,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                         asJson(Map.of("globalAssetIds", List.of("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
                         )
                 )
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .header(new Header("X-API-KEY", "tracexAdminKey-test"))
                 .when()
                 .post("/api/assets/as-built/sync")
                 .then()
@@ -71,7 +72,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldNotSynchronizeAssetsWhenIrsKeepsReturningJobInRunningState() throws JoseException, InterruptedException {
+    void shouldNotSynchronizeAssetsWhenIrsKeepsReturningJobInRunningState() throws JoseException {
         //GIVEN
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();

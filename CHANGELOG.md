@@ -6,7 +6,41 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
-## [UNRELEASED - DD.MM.YYYY]
+## [Unreleased - DD.MM.YYYY]
+
+### Added
+- #124 Added new section under crosscuting/api-endpoints to arc42 documentation
+- #476 Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity
+- #195 Implemented connection to the irs order api
+- #XXX Added flag to enable OAuth authorized DTR requests
+- #221 Restricted Supervisor role from modifying policies
+
+### Changed
+- #117 updated spring boot to v3.3.5
+- #476 Updated database schema to reflect cascade deletion of elements.
+- #464 Resetting notification message in case it could be successfully send
+- #95 Fixed some frontend unit tests
+- #195 DecentralRegistry service now syncronizes assets using the irs order api
+- #369 Add config for disabling policy fetching on start. Disable for helm linting to prevent startup failure
+- #369 Add environment variables to Helm linting workflow
+- #385 refactor submodel implementation to accept custom implementations
+
+
+- [13.0.2-cfx-5 - 06.11.2024]
+### Added
+- #350 Added properties for provisioning to submodel / dtr service
+- #349 Added second identity provider for Oauth2 for DTR and submodel service
+- #62 Added configurable assert refresh cron job with default values
+- #30 Added mapping for edc asset id for the dtr
+
+### Changed
+- #105 Upgraded irs client library to 2.1.15
+- #30 Submodel client enriches the submodelId to the creation request, instead of adding it to the path
+- #30 Removed not needed callback URL
+- #30 Adapt submodel api request object
+
+## [13.0.2-cfx-4]
+
 ### Changed
 - #XXX updated variables in github actions to be more generic
 

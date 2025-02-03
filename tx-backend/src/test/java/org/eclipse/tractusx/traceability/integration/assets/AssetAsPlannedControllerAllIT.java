@@ -18,11 +18,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.assets;
 
-
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -45,9 +43,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
 
     @Autowired
-    BpnSupport bpnSupport;
-
-    @Autowired
     AssetsSupport assetsSupport;
 
     private static Stream<Arguments> owners() {
@@ -61,7 +56,6 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnAssetsWithManufacturerName() throws JoseException {
         //GIVEN
-        bpnSupport.cachedBpnsForAsPlannedAssets();
         assetsSupport.defaultAssetsAsPlannedStored();
 
         //THEN
@@ -75,7 +69,7 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
                 .log().all()
                 .statusCode(200)
                 .body("totalItems", is(greaterThan(0)))
-                .body("content.manufacturerName", everyItem(not(equalTo(assetsSupport.emptyText()))));
+                .body("content.manufacturerName", everyItem(not(equalTo(null))));
     }
 
     @ParameterizedTest

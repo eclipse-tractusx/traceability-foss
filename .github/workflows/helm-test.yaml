@@ -67,6 +67,9 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.APP_NAME}}:${{ env.TAG }}
+          secrets: |
+            "PACKAGES_ACCESS_USERNAME=${{ secrets.PACKAGES_ACCESS_USERNAME }}"
+            "PACKAGES_ACCESS_TOKEN=${{ secrets.PACKAGES_ACCESS_TOKEN }}"
 
       - name: Build & push Image Frontend to KinD
         uses: docker/build-push-action@v6

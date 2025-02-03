@@ -1,0 +1,23 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "urlPath": "/edc/management/v2/policydefinitions"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "@context": {
+        "edc": "https://w3id.org/edc/v0.0.1/ns/"
+      },
+      "@id": "{{jsonPath request.body '$.@id'}}",
+      "createdAt": 1688465655
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

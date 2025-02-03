@@ -44,10 +44,13 @@ import org.eclipse.tractusx.traceability.common.model.UnsupportedSearchCriteriaF
 import org.eclipse.tractusx.traceability.common.request.exception.InvalidFilterException;
 import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortException;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
+import org.eclipse.tractusx.traceability.common.security.exception.InvalidApiKeyException;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.CatalogItemPolicyMismatchException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.InvestigationNotFoundException;
@@ -58,9 +61,9 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.except
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
-import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelNotFoundException;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -83,7 +86,9 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Slf4j
 @RestControllerAdvice
@@ -93,8 +98,8 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     private final ObjectMapper objectMapper;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        String errorMessage = exception
+    ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(final MethodArgumentNotValidException exception) {
+        final String errorMessage = exception
                 .getBindingResult()
                 .getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -105,30 +110,28 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     }
 
     @ExceptionHandler(HttpClientErrorException.class)
-    ResponseEntity<ErrorResponse> handleHttpClientErrorException(HttpClientErrorException exception) {
+    ResponseEntity<ErrorResponse> handleHttpClientErrorException(final HttpClientErrorException exception) {
         log.warn("handleHttpClientErrorException", exception);
 
-        HttpStatusCode status = HttpStatusCode.valueOf(exception.getStatusCode().value());
-        String errorMessage;
+        final HttpStatusCode status = HttpStatusCode.valueOf(exception.getStatusCode().value());
+        final String errorMessage;
 
         if (status.equals(BAD_REQUEST)) {
             try {
-                ResponseEntity<ErrorResponse> errorResponse = mapIRSBadRequestToErrorResponse(exception);
+                final ResponseEntity<ErrorResponse> errorResponse = mapIRSBadRequestToErrorResponse(exception);
                 if (errorResponse != null) return errorResponse;
-            } catch (Exception e) {
-                ResponseEntity<ErrorResponse> body = ResponseEntity.status(BAD_REQUEST)
-                        .body(new ErrorResponse(exception.getMessage()));
-                return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
+            } catch (final Exception e) {
+                return ResponseEntity.status(BAD_REQUEST)
+                        .body(new ErrorResponse(exception.getMessage())); // Handle the case where the message cannot be mapped to IRSErrorResponse
             }
 
         } else if (status.equals(NOT_FOUND)) {
             try {
-                ResponseEntity<ErrorResponse> errorResponse = mapIRSNotFoundToErrorResponse(exception);
+                final ResponseEntity<ErrorResponse> errorResponse = mapIRSNotFoundToErrorResponse(exception);
                 if (errorResponse != null) return errorResponse;
-            } catch (Exception e) {
-                ResponseEntity<ErrorResponse> body = ResponseEntity.status(NOT_FOUND)
-                        .body(new ErrorResponse(exception.getMessage()));
-                return body; // Handle the case where the message cannot be mapped to IRSErrorResponse
+            } catch (final Exception e) {
+                return ResponseEntity.status(NOT_FOUND)
+                        .body(new ErrorResponse(exception.getMessage())); // Handle the case where the message cannot be mapped to IRSErrorResponse
             }
         } else {
             errorMessage = exception.getMessage();
@@ -138,62 +141,62 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         return ResponseEntity.status(status).body(new ErrorResponse(exception.getMessage()));
     }
 
-    private @Nullable ResponseEntity<ErrorResponse> mapIRSBadRequestToErrorResponse(HttpClientErrorException exception) throws JsonProcessingException {
-        String rawMessage = exception.getMessage().replaceAll("<EOL>", "");
+    private @Nullable ResponseEntity<ErrorResponse> mapIRSBadRequestToErrorResponse(final HttpClientErrorException exception) throws JsonProcessingException {
+        final String rawMessage = exception.getMessage().replaceAll("<EOL>", "");
         // Extract the JSON part of the message
-        int jsonStart = rawMessage.indexOf("{");
-        int jsonEnd = rawMessage.lastIndexOf("}");
+        final int jsonStart = rawMessage.indexOf("{");
+        final int jsonEnd = rawMessage.lastIndexOf("}");
         if (jsonStart != -1 && jsonEnd != -1) {
-            String jsonString = rawMessage.substring(jsonStart, jsonEnd + 1);
-            IRSErrorResponse badRequestResponse = objectMapper.readValue(jsonString, IRSErrorResponse.class);
-            List<String> messages = badRequestResponse.getMessages();
-            String concatenatedMessages = String.join(", ", messages);
+            final String jsonString = rawMessage.substring(jsonStart, jsonEnd + 1);
+            final IRSErrorResponse badRequestResponse = objectMapper.readValue(jsonString, IRSErrorResponse.class);
+            final List<String> messages = badRequestResponse.getMessages();
+            final String concatenatedMessages = String.join(", ", messages);
             return ResponseEntity.status(400).body(new ErrorResponse(concatenatedMessages));
         }
         return null;
     }
 
-    private @Nullable ResponseEntity<ErrorResponse> mapIRSNotFoundToErrorResponse(HttpClientErrorException exception) throws JsonProcessingException {
-        String rawMessage = exception.getMessage().replaceAll("<EOL>", "");
+    private @Nullable ResponseEntity<ErrorResponse> mapIRSNotFoundToErrorResponse(final HttpClientErrorException exception) throws JsonProcessingException {
+        final String rawMessage = exception.getMessage().replaceAll("<EOL>", "");
         // Extract the JSON part of the message
-        int jsonStart = rawMessage.indexOf("{");
-        int jsonEnd = rawMessage.lastIndexOf("}");
+        final int jsonStart = rawMessage.indexOf("{");
+        final int jsonEnd = rawMessage.lastIndexOf("}");
         if (jsonStart != -1 && jsonEnd != -1) {
-            String jsonString = rawMessage.substring(jsonStart, jsonEnd + 1);
-            IRSErrorResponse badRequestResponse = objectMapper.readValue(jsonString, IRSErrorResponse.class);
-            List<String> messages = badRequestResponse.getMessages();
-            String concatenatedMessages = String.join(", ", messages);
+            final String jsonString = rawMessage.substring(jsonStart, jsonEnd + 1);
+            final IRSErrorResponse badRequestResponse = objectMapper.readValue(jsonString, IRSErrorResponse.class);
+            final List<String> messages = badRequestResponse.getMessages();
+            final String concatenatedMessages = String.join(", ", messages);
             return ResponseEntity.status(404).body(new ErrorResponse(concatenatedMessages));
         }
         return null;
     }
 
     @ExceptionHandler(PolicyBadRequestException.class)
-    ResponseEntity<ErrorResponse> handlePolicyBadRequestException(PolicyBadRequestException exception) {
+    ResponseEntity<ErrorResponse> handlePolicyBadRequestException(final PolicyBadRequestException exception) {
         log.warn("handlePolicyBadRequestException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(HttpServerErrorException.class)
-    public ResponseEntity<ErrorResponse> handleHttpServerErrorException(HttpServerErrorException exception) {
+    public ResponseEntity<ErrorResponse> handleHttpServerErrorException(final HttpServerErrorException exception) {
         log.warn("handleHttpServerErrorException", exception);
 
-        HttpStatusCode status = exception.getStatusCode();
-        String errorMessage = exception.getMessage();
+        final HttpStatusCode status = exception.getStatusCode();
+        final String errorMessage = exception.getMessage();
         return ResponseEntity.status(status)
                 .body(new ErrorResponse(errorMessage));
     }
 
     @ExceptionHandler(JpaSystemException.class)
-    ResponseEntity<ErrorResponse> handleJpaSystemException(JpaSystemException exception) {
+    ResponseEntity<ErrorResponse> handleJpaSystemException(final JpaSystemException exception) {
         log.warn("handleJpaSystemException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse("Failed to deserialize request body."));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+    ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(final HttpMessageNotReadableException exception) {
         log.warn("handleHttpMessageNotReadableException", exception);
         String message = "Failed to deserialize request body.";
 
@@ -205,189 +208,210 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     }
 
     @ExceptionHandler(AssetNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException exception) {
+    ResponseEntity<ErrorResponse> handleAssetNotFoundException(final AssetNotFoundException exception) {
         log.warn("handleAssetNotFoundException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(PolicyNotFoundException.class)
-    ResponseEntity<ErrorResponse> handlePolicyNotFoundException(PolicyNotFoundException exception) {
+    ResponseEntity<ErrorResponse> handlePolicyNotFoundException(final PolicyNotFoundException exception) {
         log.warn("handlePolicyNotFoundException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(DiscoveryFinderException.class)
-    ResponseEntity<ErrorResponse> handleDiscoveryFinderException(DiscoveryFinderException exception) {
+    ResponseEntity<ErrorResponse> handleDiscoveryFinderException(final DiscoveryFinderException exception) {
         log.warn("handleDiscoveryFinderException", exception);
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(PublishAssetException.class)
-    ResponseEntity<ErrorResponse> handlePublishAssetException(PublishAssetException exception) {
+    ResponseEntity<ErrorResponse> handlePublishAssetException(final PublishAssetException exception) {
         log.warn("handlePublishAssetException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(ImportException.class)
-    ResponseEntity<ErrorResponse> handleImportException(ImportException exception) {
+    ResponseEntity<ErrorResponse> handleImportException(final ImportException exception) {
         log.warn("handleImportException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleInvestigationNotFoundException(InvestigationNotFoundException exception) {
+    ResponseEntity<ErrorResponse> handleInvestigationNotFoundException(final InvestigationNotFoundException exception) {
         log.warn("handleInvestigationNotFoundException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(NotificationNotSupportedException.class)
-    ResponseEntity<ErrorResponse> handleInvestigationNotSupportedException(NotificationNotSupportedException exception) {
+    ResponseEntity<ErrorResponse> handleInvestigationNotSupportedException(final NotificationNotSupportedException exception) {
         log.warn("handleInvestigationNotSupportedException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(NotificationNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleNotificationNotFoundException(NotificationNotFoundException exception) {
+    ResponseEntity<ErrorResponse> handleNotificationNotFoundException(final NotificationNotFoundException exception) {
         log.warn("handleNotificationNotFoundException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationStatusTransitionNotAllowed.class)
-    ResponseEntity<ErrorResponse> handleInvestigationStatusTransitionNotAllowed(InvestigationStatusTransitionNotAllowed exception) {
+    ResponseEntity<ErrorResponse> handleInvestigationStatusTransitionNotAllowed(
+            final InvestigationStatusTransitionNotAllowed exception) {
         log.warn("handleInvestigationStatusTransitionNotAllowed", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(BpnNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleBpnEdcMappingNotFoundException(BpnNotFoundException exception) {
+    ResponseEntity<ErrorResponse> handleBpnEdcMappingNotFoundException(final BpnNotFoundException exception) {
         log.warn("handleBpnEdcMappingNotFoundException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationReceiverBpnMismatchException.class)
-    ResponseEntity<ErrorResponse> handleInvestigationReceiverBpnMismatchException(InvestigationReceiverBpnMismatchException exception) {
+    ResponseEntity<ErrorResponse> handleInvestigationReceiverBpnMismatchException(
+            final InvestigationReceiverBpnMismatchException exception) {
         log.warn("handleInvestigationReceiverBpnMismatchException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(NotificationSenderAndReceiverBPNEqualException.class)
-    ResponseEntity<ErrorResponse> handleNotificationSenderAndReceiverBPNEqualException(NotificationSenderAndReceiverBPNEqualException exception) {
+    ResponseEntity<ErrorResponse> handleNotificationSenderAndReceiverBPNEqualException(
+            final NotificationSenderAndReceiverBPNEqualException exception) {
         log.warn("handleNotificationSenderAndReceiverBPNEqualException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(SendNotificationException.class)
-    ResponseEntity<ErrorResponse> handleSendNotificationException(SendNotificationException exception) {
+    ResponseEntity<ErrorResponse> handleSendNotificationException(final SendNotificationException exception) {
         log.warn("handleSendNotificationException", exception);
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(ValidationException.class)
-    ResponseEntity<ErrorResponse> handleValidationException(ValidationException exception) {
+    ResponseEntity<ErrorResponse> handleValidationException(final ValidationException exception) {
         log.warn("handleValidationException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
+    @ExceptionHandler(CatalogItemPolicyMismatchException.class)
+    ResponseEntity<ErrorResponse> handlePolicyMismatchException(final CatalogItemPolicyMismatchException exception) {
+        log.warn("handlePolicyMismatchException", exception);
+        return ResponseEntity.status(BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(NoCatalogItemException.class)
+    ResponseEntity<ErrorResponse> handleNoCatalogItemException(final NoCatalogItemException exception) {
+        log.warn("handlePolicyMismatchException", exception);
+        return ResponseEntity.status(NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
     @ExceptionHandler(InvestigationIllegalUpdate.class)
-    ResponseEntity<ErrorResponse> handleInvestigationIllegalUpdate(InvestigationIllegalUpdate exception) {
+    ResponseEntity<ErrorResponse> handleInvestigationIllegalUpdate(final InvestigationIllegalUpdate exception) {
         log.warn("handleInvestigationIllegalUpdate", exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(NotificationIllegalUpdate.class)
-    ResponseEntity<ErrorResponse> handleAlertIllegalUpdate(NotificationIllegalUpdate exception) {
+    ResponseEntity<ErrorResponse> handleAlertIllegalUpdate(final NotificationIllegalUpdate exception) {
         log.warn("handleAlertIllegalUpdate", exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
+    ResponseEntity<ErrorResponse> handleIllegalArgumentException(final IllegalArgumentException exception) {
         log.warn("handleIllegalArgumentException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(ParseLocalDateException.class)
-    ResponseEntity<ErrorResponse> handleParseLocalDateException(ParseLocalDateException exception) {
+    ResponseEntity<ErrorResponse> handleParseLocalDateException(final ParseLocalDateException exception) {
         log.warn("handleParseLocalDateException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException exception) {
+    ResponseEntity<ErrorResponse> handleAccessDeniedException(final AccessDeniedException exception) {
         log.warn("handleAccessDeniedException", exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(TechnicalUserAuthorizationException.class)
-    ResponseEntity<ErrorResponse> handleTechnicalUserAuthorizationException(TechnicalUserAuthorizationException exception) {
+    ResponseEntity<ErrorResponse> handleTechnicalUserAuthorizationException(final TechnicalUserAuthorizationException exception) {
         log.error("Couldn't retrieve token for technical user", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Please try again later."));
     }
 
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleAuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException exception) {
+    ResponseEntity<ErrorResponse> handleAuthenticationCredentialsNotFoundException(
+            final AuthenticationCredentialsNotFoundException exception) {
         log.warn("Couldn't find authentication for the request", exception);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorResponse("Authentication not found."));
     }
 
     @ExceptionHandler(NotificationStatusTransitionNotAllowed.class)
-    ResponseEntity<ErrorResponse> handleNotificationStatusTransitionNotAllowed(NotificationStatusTransitionNotAllowed exception) {
+    ResponseEntity<ErrorResponse> handleNotificationStatusTransitionNotAllowed(
+            final NotificationStatusTransitionNotAllowed exception) {
         log.warn("handleNotificationStatusTransitionNotAllowed", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(UpdateNotificationValidationException.class)
-    ResponseEntity<ErrorResponse> handleUpdateNotificationValidationException(UpdateNotificationValidationException exception) {
+    ResponseEntity<ErrorResponse> handleUpdateNotificationValidationException(
+            final UpdateNotificationValidationException exception) {
         log.warn("handleUpdateNotificationValidationException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvalidFilterException.class)
-    ResponseEntity<ErrorResponse> handleInvalidFilterException(InvalidFilterException exception) {
+    ResponseEntity<ErrorResponse> handleInvalidFilterException(final InvalidFilterException exception) {
         log.warn("handleInvalidFilterException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(UnsupportedSearchCriteriaFieldException.class)
-    ResponseEntity<ErrorResponse> handleUnsupportedSearchCriteriaFieldException(UnsupportedSearchCriteriaFieldException exception) {
+    ResponseEntity<ErrorResponse> handleUnsupportedSearchCriteriaFieldException(
+            final UnsupportedSearchCriteriaFieldException exception) {
         log.warn("handleInvalidFilterException", exception);
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(CreateNotificationContractException.class)
-    ResponseEntity<ErrorResponse> handleCreateNotificationContractException(CreateNotificationContractException exception) {
+    ResponseEntity<ErrorResponse> handleCreateNotificationContractException(final CreateNotificationContractException exception) {
         log.warn("handleCreateNotificationContractException", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Failed to create notification contract."));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> unhandledException(Exception exception) {
+    public ResponseEntity<ErrorResponse> unhandledException(final Exception exception) {
         log.error("Unhandled exception", exception);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -395,7 +419,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     }
 
     @ExceptionHandler(JsonFileProcessingException.class)
-    public ResponseEntity<ErrorResponse> handle(JsonFileProcessingException exception) {
+    public ResponseEntity<ErrorResponse> handle(final JsonFileProcessingException exception) {
         log.error("JsonFileProcessingException", exception);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -403,9 +427,9 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     }
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+    public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException exception) throws IOException {
         log.error("AuthenticationException exception", exception);
-        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
+        final ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
@@ -418,15 +442,6 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
         return ResponseEntity.status(BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
-    }
-
-    @ExceptionHandler(SubmodelNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleSubmodelNotFoundException(SubmodelNotFoundException exception) {
-        String errorMessage = exception
-                .getMessage();
-        log.warn("handleSubmodelNotFoundException", exception);
-        return ResponseEntity.status(NOT_FOUND)
-                .body(new ErrorResponse(errorMessage));
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -451,5 +466,23 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidApiKeyException.class)
+    ResponseEntity<ErrorResponse> handleInvalidApiKeyException(final InvalidApiKeyException exception) {
+        log.warn("handleInvalidApiKeyException", exception);
+        return ResponseEntity.status(UNAUTHORIZED)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    ResponseEntity<ErrorResponse> handleDataIntegrityException(final DataIntegrityViolationException exception) {
+        log.warn("handleDataIntegrityException", exception);
+        String message = exception.getMessage();
+        if (message != null && message.length() > 200) {
+            message = message.substring(0, 200);
+        }
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(message));
     }
 }

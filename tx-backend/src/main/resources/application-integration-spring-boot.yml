@@ -33,10 +33,22 @@ traceability:
   regularApiKey: testRegularKey
   irsBase: "http://127.0.0.1"
   irsPoliciesPath: "/irs/policies"
+  register-decentral-registry-permissions: true
   submodelBase: localhost:${server.port}/api/submodel/data
-
-registry:
-  urlWithPath: "http://127.0.0.1"
+  technicalServiceApiKey: "test-key"
+  enableApiKeyAuthentication: true
+  tracexAdminKey: "tracexAdminKey-test"
+  discoveryType: "bpnl"
+provisioning:
+  submodel:
+    submodelBaseInternal: localhost:${server.port}/api/submodel/data
+    submodelBaseExternal: localhost:${server.port}/api/submodel/data
+    submodelPath: ''
+  registry:
+    urlWithPathInternal: "http://127.0.0.1"
+    urlWithPathExternal: "http://127.0.0.1"
+    shellDescriptorUrl: /shell-descriptors
+    allowedBpns: BPNL00000003CML1,BPNL00000003CNKC
 
 edc:
   ids:
@@ -66,6 +78,10 @@ spring:
     username: postgres
   flyway:
     enabled: true
+    placeholders:
+      applicationBpn: BPNL00000003AXS3
+      bpnB: BPNL000000000IAX
+      bpnA: BPNLWHATEVEREZFA
 
 jwt:
   resource-client: "Integration-Test"
@@ -82,12 +98,11 @@ logging:
     org.springframework.security: INFO
     org.springframework: INFO
 
-
-
 digitalTwinRegistryClient:
+  discovery:
+    type: "bpnl"
   oAuthClientId: keycloak
   discoveryFinderUrl: ""
-
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
 feign:
@@ -110,13 +125,14 @@ cors:
   origins: >
     "https://localhost:4200"
 
-
 irs-edc-client:
   controlplane:
     api-key:
       secret: "integration-tests"
-bpdm:
-  oAuthClientId: OKTA
 
 openapi-doc:
   generate: false
+
+bpdm:
+  providerUrl: "providerUrl"
+  providerBpnl: "providerBpnl"

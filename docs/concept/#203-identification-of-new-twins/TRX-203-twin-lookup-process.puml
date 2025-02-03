@@ -1,0 +1,32 @@
+@startuml
+'autonumber
+participant TraceXDB
+participant TraceX
+participant "Digital Twin Registry" as DTR
+
+TraceX -> DTR: lookup assets by configured "BPN" and "digitalTwinType"
+rnote right TraceX
+Interval:
+1. "digitalTwinType" = "partType"
+2. "digitalTwinType" = "partInstance"
+end rnote
+
+TraceX <-- DTR: List<Page<aasID>>
+
+alt Query all pages first
+    loop For all pages
+        TraceX <-- DTR: Page<aasID>
+    end
+    TraceX --> TraceXDB: Compare all AASIDs for diff
+    TraceX -> TraceXDB: Update new and outdated twins
+end
+
+alt Process each page
+    loop For each page
+        TraceX <-- DTR: Page<aasID>
+        TraceX --> TraceXDB: Compare AASIDs in this page for diff
+        TraceX -> TraceXDB: Update new and outdated twins
+    end
+end
+
+@enduml

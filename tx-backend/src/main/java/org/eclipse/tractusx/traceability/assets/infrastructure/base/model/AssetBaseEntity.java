@@ -49,6 +49,7 @@ public class AssetBaseEntity {
     private QualityType qualityType;
     private String manufacturerPartId;
     private String manufacturerId;
+    private String digitalTwinType;
     private String manufacturerName;
     private String nameAtManufacturer;
     @Enumerated(EnumType.STRING)

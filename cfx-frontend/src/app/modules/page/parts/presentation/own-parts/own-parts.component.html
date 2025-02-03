@@ -1,0 +1,80 @@
+<div class="pt-5"
+  [ngClass]="compactSize ? 'parts-compact-table-wrapper' : 'parts-table-wrapper' "
+  *ngIf="bomLifecycle === MainAspectType.AS_BUILT">
+  <ng-container *viewContainer="
+          partsAsBuilt$ | async;
+          main: mainTmp;
+          error: errorTmp;
+          loading: loaderTmp;
+          customContext: { labelId: titleId }
+        "></ng-container>
+  <ng-template #mainTmp
+    let-parts="view"
+    let-customContext="customContext">
+    <app-parts-table [tableHeader]="'page.asBuiltParts' | i18n"
+      [showHeader]="showHeader"
+      [showActionButton]="showActionButton"
+      [canClickSelect]="!compactSize"
+      [actionIcon]="'/assets/images/icons/createAlert_icon.svg'"
+      [actionIconAlternative]="'Create alert icon'"
+      [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+      [selectedPartsInfoLabel]="'page.selectedParts.info'"
+      [selectedPartsActionLabel]="'page.selectedParts.action'"
+      [deselectTrigger]="deselectPartTrigger$ | async"
+      [addTrigger]="addPartTrigger$ | async"
+      [noShadow]="true"
+      [labelId]="customContext.labelId"
+      [multiSortList]="tableAsBuiltSortList"
+      [multiSelectActive]="true"
+      [tableType]="TableType.AS_BUILT_OWN"
+      (selected)="onSelectItem($event)"
+      (onTotalItemsChanged)="onTotalItemsChanged.emit($event)"
+      (configChanged)="onAsBuiltTableConfigChange($event)"
+      (multiSelect)="onMultiSelect($event)"
+      (clickSelectAction)="openDialog()"
+      (filterActivated)="filterActivated(MainAspectType.AS_BUILT, $event )"
+      (onPaginationPageSizeChange)="onDefaultPaginationSizeChange($event)"></app-parts-table>
+  </ng-template>
+</div>
+<div class="parts-table-wrapper pt-5"
+  *ngIf="bomLifecycle === MainAspectType.AS_PLANNED">
+  <ng-container *viewContainer="
+          partsAsPlanned$ | async;
+          main: myTmp;
+          error: errorTmp;
+          loading: loaderTmp;
+          customContext: { labelId: titleId }
+        "></ng-container>
+
+  <ng-template #myTmp
+    let-parts="view"
+    let-customContext="customContext">
+    <app-parts-table [tableHeader]="'page.asPlannedParts' | i18n"
+      [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
+      [selectedPartsInfoLabel]="'page.selectedParts.info'"
+      [selectedPartsActionLabel]="'page.selectedParts.action'"
+      [deselectTrigger]="deselectPartTrigger$ | async"
+      [addTrigger]="addPartTrigger$ | async"
+      [noShadow]="true"
+      [labelId]="customContext.labelId"
+      [multiSelectActive]="true"
+      [tableType]="TableType.AS_PLANNED_OWN"
+      (selected)="onSelectItem($event)"
+      (configChanged)="onAsPlannedTableConfigChange($event)"
+      (multiSelect)="onMultiSelect($event)"
+      (clickSelectAction)="openDialog()"
+      [multiSortList]="tableAsPlannedSortList"
+      (filterActivated)="filterActivated(MainAspectType.AS_PLANNED, $event)"
+      (onPaginationPageSizeChange)="onDefaultPaginationSizeChange($event)"></app-parts-table>
+  </ng-template>
+</div>
+
+<ng-template #errorTmp
+  let-parts="view">
+  <app-data-loading-error [error]="parts.error"></app-data-loading-error>
+</ng-template>
+
+<ng-template #loaderTmp
+  let-parts="view">
+  <mat-spinner></mat-spinner>
+</ng-template>

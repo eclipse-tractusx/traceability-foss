@@ -57,6 +57,9 @@ class EdcControllerIT extends IntegrationTestSpecification {
     @Autowired
     InvestigationsSupport investigationsSupport;
 
+    public static final String API_KEY_HEADER = "x-technical-service-key";
+    public static final String API_KEY_VALUE = "test-key";
+
     ObjectMapper objectMapper;
 
     @BeforeEach
@@ -68,14 +71,15 @@ class EdcControllerIT extends IntegrationTestSpecification {
     void shouldRejectInvestigationNotificationOnAPICallClass_whenAppBpnEqualsSenderBpn() throws IOException, JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        String notificationJson = readFile("/testdata/edc_notification_okay.json");
-        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+        final String notificationJson = readFile("/testdata/edc_notification_okay.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
         // when/then
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .header(API_KEY_HEADER, API_KEY_VALUE)
                 .when()
                 .post("/api/internal/qualitynotifications/receive")
                 .then()
@@ -89,14 +93,15 @@ class EdcControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCreateAnInvestigationOnApiCallbackBadRequestBpnDoesNotMatchAppBpn() throws IOException, JoseException {
         // given
-        String notificationJson = readFile("/testdata/edc_notification_wrong_bpn.json");
-        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+        final String notificationJson = readFile("/testdata/edc_notification_wrong_bpn.json");
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
         // when
         given()
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .header(API_KEY_HEADER, API_KEY_VALUE)
                 .when()
                 .post("/api/internal/qualitynotifications/receive")
                 .then()
@@ -112,9 +117,9 @@ class EdcControllerIT extends IntegrationTestSpecification {
         // given
         assetsSupport.defaultAssetsStored();
 
-        AssetAsBuiltEntity assetAsBuiltEntity = assetsSupport.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb");
+        final AssetAsBuiltEntity assetAsBuiltEntity = assetsSupport.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb");
 
-        NotificationMessageEntity notification = NotificationMessageEntity
+        final NotificationMessageEntity notification = NotificationMessageEntity
                 .builder()
                 .id("1")
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
@@ -122,7 +127,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .assets(List.of(assetAsBuiltEntity))
                 .build();
 
-        NotificationMessageEntity notificationSent = NotificationMessageEntity
+        final NotificationMessageEntity notificationSent = NotificationMessageEntity
                 .builder()
                 .id("2")
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
@@ -130,7 +135,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .assets(List.of(assetAsBuiltEntity))
                 .build();
 
-        NotificationEntity investigation = NotificationEntity.builder()
+        final NotificationEntity investigation = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXB3")
                 .status(NotificationStatusBaseEntity.SENT)
@@ -140,25 +145,25 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .initialReceiverBpn("BPNL00000003AXB4")
                 .build();
 
-        NotificationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
+        final NotificationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
 
-        NotificationMessageEntity notificationEntity = investigationNotificationsSupport.storedNotification(notification);
+        final NotificationMessageEntity notificationEntity = investigationNotificationsSupport.storedNotification(notification);
         notificationEntity.setNotification(persistedInvestigation);
 
-        NotificationMessageEntity notificationEntitySent = investigationNotificationsSupport.storedNotification(notificationSent);
+        final NotificationMessageEntity notificationEntitySent = investigationNotificationsSupport.storedNotification(notificationSent);
         notificationEntitySent.setNotification(persistedInvestigation);
 
-        NotificationMessageEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
-        NotificationMessageEntity persistedNotificationSent = investigationNotificationsSupport.storedNotification(notificationEntitySent);
-        List<NotificationMessageEntity> notificationEntities = new ArrayList<>();
+        final NotificationMessageEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
+        final NotificationMessageEntity persistedNotificationSent = investigationNotificationsSupport.storedNotification(notificationEntitySent);
+        final List<NotificationMessageEntity> notificationEntities = new ArrayList<>();
         notificationEntities.add(persistedNotificationSent);
         notificationEntities.add(persistedNotification);
         investigation.setMessages(notificationEntities);
 
         investigationsSupport.storedInvestigationFullObject(investigation);
 
-        String notificationJson = readFile("/testdata/edc_notification_okay_update.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId());
-        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+        final String notificationJson = readFile("/testdata/edc_notification_okay_update.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId());
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
 
         // when
@@ -166,6 +171,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .header(API_KEY_HEADER, API_KEY_VALUE)
                 .when()
                 .post("/api/internal/qualitynotifications/update")
                 .then()
@@ -181,14 +187,14 @@ class EdcControllerIT extends IntegrationTestSpecification {
     void shouldThrowBadRequestBecauseEdcNotificationMethodIsNotSupported() throws IOException, JoseException {
         // given
         assetsSupport.defaultAssetsStored();
-        NotificationMessageEntity notification = NotificationMessageEntity
+        final NotificationMessageEntity notification = NotificationMessageEntity
                 .builder()
                 .id("1")
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                 .build();
 
 
-        NotificationEntity investigation = NotificationEntity.builder()
+        final NotificationEntity investigation = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(NotificationStatusBaseEntity.SENT)
@@ -198,19 +204,19 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .initialReceiverBpn("BPNL00000003AXB4")
                 .build();
 
-        NotificationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
+        final NotificationEntity persistedInvestigation = investigationsSupport.storedInvestigationFullObject(investigation);
 
-        NotificationMessageEntity notificationEntity = investigationNotificationsSupport.storedNotification(notification);
+        final NotificationMessageEntity notificationEntity = investigationNotificationsSupport.storedNotification(notification);
         notificationEntity.setNotification(persistedInvestigation);
-        NotificationMessageEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
+        final NotificationMessageEntity persistedNotification = investigationNotificationsSupport.storedNotification(notificationEntity);
 
         investigation.setMessages(List.of(persistedNotification));
 
         investigationsSupport.storedInvestigationFullObject(investigation);
 
 
-        String notificationJson = readFile("/testdata/edc_notification_classification_unsupported.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId());
-        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+        final String notificationJson = readFile("/testdata/edc_notification_classification_unsupported.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId());
+        final EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
 
         // when
@@ -218,6 +224,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .body(edcNotification)
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .header(API_KEY_HEADER, API_KEY_VALUE)
                 .when()
                 .post("/api/internal/qualitynotifications/receive")
                 .then()
@@ -231,7 +238,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCallUpdateApiWithWrongRequestObject() throws JoseException {
         // given
-        NotificationEntity investigation = NotificationEntity.builder()
+        final NotificationEntity investigation = NotificationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .type(NotificationTypeEntity.INVESTIGATION)
@@ -266,6 +273,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
                         "\t}\n" +
                         "}")
                 .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
+                .header(API_KEY_HEADER, API_KEY_VALUE)
                 .when()
                 .post("/api/internal/qualitynotifications/update")
                 .then()
@@ -278,7 +286,7 @@ class EdcControllerIT extends IntegrationTestSpecification {
     }
 
     private String readFile(final String filePath) throws IOException {
-        InputStream file = EdcControllerIT.class.getResourceAsStream(filePath);
+        final InputStream file = EdcControllerIT.class.getResourceAsStream(filePath);
         return new String(file.readAllBytes(), StandardCharsets.UTF_8);
     }
 }

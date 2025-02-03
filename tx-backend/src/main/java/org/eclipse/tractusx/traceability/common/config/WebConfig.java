@@ -38,8 +38,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${jwt.resource-client}")
     private String resourceClient;
 
+    public WebConfig() {
+    }
+
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.
                 addResourceHandler("/swagger-ui/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
@@ -47,18 +50,18 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
+    public void addViewControllers(final ViewControllerRegistry registry) {
         registry.addViewController("/swagger-ui/")
                 .setViewName("forward:" + "/swagger-ui/index.html");
     }
 
     @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new InjectedJwtAuthenticationHandler(resourceClient));
     }
 
     @Override
-    public void addFormatters(FormatterRegistry registry) {
+    public void addFormatters(final FormatterRegistry registry) {
         registry.addConverter(new StringToStringListConverter());
     }
 }

@@ -1,0 +1,15 @@
+{
+  "pageInvestigation": {
+    "info": "Overview",
+    "reason": "Message history",
+    "selectedParts_one": "{{count}} Part selected for this page.",
+    "selectedParts_other": "{{count}} Parts selected for this page.",
+    "selectPartsAction": "Start investigation",
+
+    "subHeadline": {
+      "affectedParts": "Affected parts",
+      "supplierParts": "Supplier parts"
+    },
+    "forward": "Forward investigation"
+  }
+}

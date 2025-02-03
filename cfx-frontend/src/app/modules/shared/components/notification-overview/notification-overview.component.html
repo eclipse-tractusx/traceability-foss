@@ -1,0 +1,183 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<!-- <div class="detail--info__content">
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.description' | i18n }}</span>
+    <span class="card-list--value detail--text__description detail--value"
+      title="{{ notification?.description }}">{{
+      notification?.description
+      }}</span>
+  </div>
+  <div *ngIf="notification?.targetDate"
+    class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.targetDate' | i18n }}</span>
+    <ng-container [ngTemplateOutlet]="dateTmp"
+      [ngTemplateOutletContext]="{
+          value: notification.targetDate | formatDate : { dateStyle: 'long', timeStyle: 'short' }
+        }"></ng-container>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ (notification.notificationType === NotificationType.ALERT ?
+      ('table.column.alertId' | i18n) : ('table.column.investigationId' | i18n)) }}</span>
+    <span class="card-list--value detail--value"
+      title="{{ notification?.id }}">{{ notification?.id }}</span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.status' | i18n }}</span>
+    <span class="notification-status notification-status--{{ notification?.status }}"
+      title="{{ 'commonInvestigation.status.' + notification?.status | i18n }}">
+      {{ 'commonInvestigation.status.' + notification?.status | i18n }}
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.severity' | i18n }}</span>
+    <span class="card-list--value">
+      <app-severity [alternativeTextStyle]="true"
+        [severity]="notification?.severity"></app-severity>
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.createdDate' | i18n }}</span>
+    <ng-container [ngTemplateOutlet]="dateTmp"
+      [ngTemplateOutletContext]="{
+        value: notification.createdDate | formatDate : { dateStyle: 'long', timeStyle: 'short' }
+      }"></ng-container>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.createdBy' | i18n }}</span>
+    <span class="card-list--value detail--value">
+      <app-notification-user [user]="notification.createdBy"
+        mode="sup"></app-notification-user>
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.sendTo' | i18n }}</span>
+    <span class="card-list--value detail--value">
+      <app-notification-user [user]="notification.sendTo"
+        mode="sup"></app-notification-user>
+    </span>
+  </div>
+</div>
+<!-- Error Message-->
+<div *ngIf="notification.errorMessage"
+  class="card-list--full-row">
+  <mat-icon class="mr-2">error</mat-icon>
+  <span class="card-list--full-value">
+    <!--{{notification?.errorMessage | i18n}}-->
+    {{"errorMessage.notificationError" | i18n}}
+  </span>
+</div>
+<ng-template let-date="value"
+  #dateTmp>
+  <span class="card-list--value detail--value"
+    title="{{ date }}">{{ date }}</span>
+</ng-template>
+
+<div class="detail--info__content">
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.id' | i18n }}</span>
+    <span class="card-list--value"
+      title="{{ notification?.id }}">{{ notification?.id }}</span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.title' | i18n }}</span>
+    <span class="card-list--value">
+      <span>{{notification.title}}</span>
+    </span>
+  </div>
+  <div *ngIf="showNotification"
+    class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.description' | i18n }}</span>
+    <span class="card-list--value detail--text__description"
+      title="{{ notification?.description }}">{{
+      notification?.description
+      }}</span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.status' | i18n }}</span>
+    <span class="notification-status card-list--value notification-status--{{ notification?.status }}"
+      title="{{ 'commonInvestigation.status.' + notification?.status | i18n }}">
+      {{ 'commonInvestigation.status.' + notification?.status | i18n }}
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.createdDate' | i18n }}</span>
+    <ng-container [ngTemplateOutlet]="dateTmp"
+      [ngTemplateOutletContext]="{
+        value: notification.createdDate | formatDate : { dateStyle: 'long', timeStyle: 'short' }
+      }"></ng-container>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.createdBy' | i18n }}</span>
+    <span class="card-list--value">
+      <span>{{notification.createdBy}}</span>
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.createdByName' | i18n }}</span>
+    <span class="card-list--value">
+      <span>{{notification.createdByName}}</span>
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.sendTo' | i18n }}</span>
+    <span class="card-list--value">
+      <span>{{notification.sendTo}}</span>
+    </span>
+  </div>
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.sendToName' | i18n }}</span>
+    <span class="card-list--value">
+      <span>{{notification.sendToName}}</span>
+    </span>
+  </div>
+
+  <div *ngIf="notification?.targetDate"
+    class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.targetDate' | i18n }}</span>
+    <ng-container [ngTemplateOutlet]="dateTmp"
+      [ngTemplateOutletContext]="{
+        value: notification.targetDate | formatDate : { dateStyle: 'long', timeStyle: 'short' }
+      }"></ng-container>
+  </div>
+
+  <div class="card-list--row">
+    <span class="card-list--key detail--text__bold">{{ 'table.column.severity' | i18n }}</span>
+    <span class="card-list--value">
+      <app-severity [severity]="notification?.severity"></app-severity>
+    </span>
+  </div>
+</div>
+<!-- Error Message-->
+<div *ngIf="notification.errorMessage"
+  class="card-list--full-row">
+  <mat-icon class="mr-2">error</mat-icon>
+  <span class="card-list--full-value">
+    <!--{{notification?.errorMessage | i18n}}-->
+    {{"errorMessage.notificationError" | i18n}}
+  </span>
+</div>
+<ng-template let-date="value"
+  #dateTmp>
+  <span class="card-list--value"
+    title="{{ date }}">{{ date }}</span>
+</ng-template>

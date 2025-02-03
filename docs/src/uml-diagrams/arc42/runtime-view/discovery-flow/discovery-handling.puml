@@ -1,0 +1,66 @@
+@startuml
+
+actor User
+
+User -> DiscoveryServiceImpl : getDiscoveryByBPN(bpn)
+activate DiscoveryServiceImpl
+
+alt try
+    DiscoveryServiceImpl -> DiscoveryRepository : retrieveDiscoveryByFinderAndEdcDiscoveryService(bpn)
+    activate DiscoveryRepository
+    DiscoveryRepository --> DiscoveryServiceImpl : Optional<Discovery>
+    deactivate DiscoveryRepository
+else catch
+    DiscoveryFinderException --> User : throw new DiscoveryFinderException("DiscoveryFinder could not determine result.")
+end alt
+
+DiscoveryServiceImpl -> DiscoveryServiceImpl : checkDuplicateUrlsforBpn
+alt duplicate Urls for bpn registered
+     DiscoveryFinderException --> User : Exception
+    note left
+        DiscoveryFinder detected an invalid state
+        Multiple identical URLs have been registered
+        for the same BPN. Please ensure each BPN
+        is associated with a unique URL.
+    end note
+else
+    return false,
+end
+
+note left
+    check if duplicate urls are registered for the same bpnl
+end note
+
+
+DiscoveryServiceImpl -> DiscoveryServiceImpl: getDiscoveryFromBpnDatabase(bpn)
+DiscoveryServiceImpl -> BpnRepository : existsWhereUrlNotNull(bpn)
+alt BpnEdcMapping exists
+   DiscoveryServiceImpl <-- BpnRepository : return BpnEdcMapping
+else
+DiscoveryServiceImpl -> User : throw new BpnNotFoundException()
+end alt
+activate BpnRepository
+BpnRepository --> DiscoveryServiceImpl : boolean
+deactivate BpnRepository
+
+alt BPN exists and URL is not null
+    DiscoveryServiceImpl -> BpnRepository : findByIdOrThrowNotFoundException(bpn)
+    note left
+        In case the BpnNotFoundException is thrown the bpn url from DiscoveryService is never used.
+    end note
+    activate BpnRepository
+    BpnRepository --> DiscoveryServiceImpl : BpnRecord
+    deactivate BpnRepository
+    DiscoveryServiceImpl -> Discovery : toDiscovery(receiverUrl, senderUrl)
+else DiscoveryFinderException occurs
+    DiscoveryFinderException --> User : throw new DiscoveryFinderException()
+end
+
+activate Discovery
+    DiscoveryServiceImpl -> DiscoveryServiceImpl : mergeDiscoveriesAndRemoveDuplicates
+    DiscoveryServiceImpl -> DiscoveryServiceImpl :  removeDuplicates
+deactivate Discovery
+
+deactivate DiscoveryServiceImpl
+
+@enduml

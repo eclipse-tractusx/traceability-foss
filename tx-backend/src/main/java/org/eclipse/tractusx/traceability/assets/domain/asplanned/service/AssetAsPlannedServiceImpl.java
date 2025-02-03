@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -43,7 +43,7 @@ public class AssetAsPlannedServiceImpl extends AbstractAssetBaseService {
 
     private final AssetAsPlannedRepository assetAsPlannedRepository;
 
-    private final JobRepository jobRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     protected AssetRepository getAssetRepository() {
@@ -66,8 +66,8 @@ public class AssetAsPlannedServiceImpl extends AbstractAssetBaseService {
     }
 
     @Override
-    protected JobRepository getJobRepository() {
-        return jobRepository;
+    protected OrderRepository getOrderRepository() {
+        return orderRepository;
     }
 
     @Override

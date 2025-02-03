@@ -258,5 +258,55 @@ describe('PartsService', () => {
     httpMock.verify();
   });
 
+  it('should handle network errors gracefully when deletePartByIdAsPlanned fails', () => {
+    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+    const id = 'valid-id';
+    const expectedUrl = `${environment.apiUrl}/assets/as-planned/${encodeURIComponent(id)}`;
+
+    service.deletePartByIdAsPlanned(id).subscribe({
+      error: (error) => {
+        expect(error).toBeTruthy();
+      }
+    });
+
+    const req = httpMock.expectOne((request) => {
+      return request.url === expectedUrl && request.method === 'DELETE';
+    });
+
+    req.error(new ErrorEvent('Network error'));
+
+    httpMock.verify();
+  });
+
+  it('should ensure deletePartByIdAsPlanned does not make a network call when ID validation fails', () => {
+    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+    expect(() => service.deletePartByIdAsPlanned('')).toThrowError('Invalid ID');
+
+    httpMock.expectNone((request) => request.method === 'DELETE');
+    httpMock.verify();
+  });
+
+  it('should call the correct URL when deletePartByIdAsPlanned is invoked with a valid ID', () => {
+    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
+
+    const id = 'valid-id';
+    const expectedUrl = `${environment.apiUrl}/assets/as-planned/${encodeURIComponent(id)}`;
+
+    service.deletePartByIdAsPlanned(id).subscribe(() => {
+      expect().nothing(); // No need to expect anything on success
+    });
+
+    const req = httpMock.expectOne((request) => {
+      return request.url === expectedUrl && request.method === 'DELETE';
+    });
+
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+
+    httpMock.verify();
+  });
+
 
 });

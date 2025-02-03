@@ -1,0 +1,100 @@
+= Digital Twin Lookup handling in Trace-X
+
+This sequence diagram describes the process of fetching data from the DTR and the Catena-X ecosystem:
+
+[plantuml, target=business-context_twin_lookup, format=svg]
+....
+include::TRX-203-twin-lookup-process.puml[]
+....
+
+== Overview
+
+Data is fetched by a Trace-X instance using the Digital Twin Registry (DTR).
+For digital twins the Asset Administration Shell (AAS) standard is used.
+
+== Context and problem Statement
+Currently, trace-x is configured with a BPN which identifies a participant in the data space. Trace-X queries the DTR by its BPN to retrieve all AASIds each associated to a digital twin. Those digital twins will be sent to the IRS. IRS then resolves the BOM for trace-x and sends it back. Trace-X then maps the semantic model to a part. Since there are huge loads of parts a day expected and the full process of transforming an digital twin to a part as implemented right now will not be possible anymore for the full load of existing digital twins per BPN.
+
+== Strategies for persisting AAS Data
+
+The approach will focus on incrementally syncing AASIDs:
+
+=== Process
+* Retrieve AASIDs from the DTR filtered by partType (e.g., partInstance, partType), Manufacturer's BPN (BPN).
+* Fetch AASIDs page by page, ensuring that each page contains a manageable subset of data.
+* Keep track of pagination metadata (e.g., pageToken, nextPage, or offset).
+* Query the Trace-X Database for AASIDs
+** For each page of AASIDs fetched from the DTR:
+* Extract the list of aasId values.
+* Query the Trace-X database to fetch:
+** Existing aasId values from the aas table.
+
+
+For each page of AASIDs, compare the data between the DTR and the Trace-X database:
+
+
+* New AASIDs (present in DTR but not in the database).
+** Add aasIds into the database with a new TTL
+* Removed AASIDs (present in the database but not in the DTR).
+** Remove aasIds from database
+* Existing AASIDs (present in both but requiring updates).
+** Update TTL, Updated fields
+
+== Optimization considerations
+* Indexing the assId
+* Lazy load
+* Creating a view for the diff check
+* Streaming, would be more efficient than polling, but requires additional infrastructure
+** xref:TRX-203-concept2.adoc[Concept 2]
+
+== Pros and cons of alternatives:
+* Concept 1: Integration of AAS Lookup into Trace-X
+** Pros:
+*** Lower infrastructure complexity – No need for an additional microservice, reducing maintenance overhead.
+*** Lower network latency – Direct querying ensures minimal network overhead compared to a streaming-based approach.
+*** Immediate consistency – Data is retrieved and processed within the same service, reducing synchronization issues.
+*** Simpler debugging – Since everything runs within Trace-X, tracing issues becomes easier.
+
+** Cons:
+*** Scalability limitations – Running everything inside Trace-X can lead to performance bottlenecks, especially with high loads.
+*** Memory-intensive for large datasets – Querying all pages at once could cause memory issues.
+*** Limited flexibility – Tightly coupling AAS lookup with Trace-X makes future adaptations harder.
+*** Increased database load – Each instance of Trace-X performs lookups and comparisons, adding strain to the database.
+
+* Concept 2: Microservice Provides AASIDs via Stream
+** Pros:
+*** Better scalability – The microservice can be independently scaled to handle high loads.
+*** Efficient processing – Streaming allows real-time processing and event-driven workflows.
+*** Reduced memory footprint – Since AASIDs are processed in small batches, memory consumption is more predictable.
+*** Loose coupling – Decoupling Trace-X from AASID fetching allows independent development and updates.
+*** Improved resilience – Failures in Trace-X do not affect the AASID lookup process.
+
+** Cons:
+*** Higher infrastructure complexity – Requires additional services (Kafka, RabbitMQ, microservice management).
+*** Potential for data inconsistency – If the streaming process fails, there could be a delay in updates.
+*** Increased operational effort – Requires monitoring and maintenance of an additional microservice.
+
+== Batch or full processing
+=== Process all pages
+* Pros
+** Warning Query all pages first
+** Low database usage since we only use one transaction and one commit to persist
+* Cons
+** Huge memory usage since all aasIds retrieved (page by page) needs to be stored in the memory
+** Process cannot scale horizontal
+
+===  Process page by page
+* Pros
+** Batch processing
+** Horizontal scaling possible
+** Lower memory usage
+* Cons
+** Medium database usage
+
+Given the need to handle millions of datasets and support horizontal scaling, the page-by-page processing approach has been chosen over the "query all pages first" approach. This ensures:
+
+✅Efficient memory usage by processing small chunks of data at a time.
+
+✅Horizontal scalability to allow multiple pods of Trace-X to work in parallel.
+
+✅Lower overall latency for incremental updates.

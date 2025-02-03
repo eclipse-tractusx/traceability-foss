@@ -35,24 +35,26 @@ import {
 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('Parts facade', () => {
-  let partsFacade: PartsFacade, partsState: PartsState, partsServiceMok: PartsService;
+  let partsFacade: PartsFacade, partsState: PartsState, partsServiceMock: PartsService;
 
   beforeEach(() => {
-    partsServiceMok = {
+    partsServiceMock = {
       getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartsAsBuilt: (_page, _pageSize, _sorting, assetAsBuiltFilter) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
       getPartsAsPlanned: (_page, _pageSize, _sorting, assetAsPlannedFilter) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
+      deletePartByIdAsBuilt: id => of(void 0),
+      deletePartByIdAsPlanned: id => of(void 0),
     } as PartsService;
 
     partsState = new PartsState();
-    partsFacade = new PartsFacade(partsServiceMok, partsState);
+    partsFacade = new PartsFacade(partsServiceMock, partsState);
   });
 
   describe('setParts', () => {
     it('should set parts if request is successful', async () => {
-      const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuilt').and.returnValue(
+      const serviceSpy = spyOn(partsServiceMock, 'getPartsAsBuilt').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
       );
       partsFacade.setPartsAsBuilt(0, 10);
@@ -71,7 +73,7 @@ describe('Parts facade', () => {
     });
 
     it('should set second parts if request is successful', async () => {
-      const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuilt').and.returnValue(
+      const serviceSpy = spyOn(partsServiceMock, 'getPartsAsBuilt').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
       );
       partsFacade.setPartsAsBuiltSecond(0, 10);
@@ -90,7 +92,7 @@ describe('Parts facade', () => {
     });
 
     it('should set parts including filter if request is successful', async () => {
-      const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuilt').and.returnValue(
+      const serviceSpy = spyOn(partsServiceMock, 'getPartsAsBuilt').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
       );
       const filter = { id: '123' } as AssetAsBuiltFilter;
@@ -110,7 +112,7 @@ describe('Parts facade', () => {
     });
 
     it('should set partsasplanned including filter if request is successful', async () => {
-      const serviceSpy = spyOn(partsServiceMok, 'getPartsAsPlanned').and.returnValue(
+      const serviceSpy = spyOn(partsServiceMock, 'getPartsAsPlanned').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_PLANNED)),
       );
       const filter = { id: '123' } as AssetAsPlannedFilter;
@@ -131,12 +133,54 @@ describe('Parts facade', () => {
 
     it('should not set parts if request fails', async () => {
       const spyData = new BehaviorSubject(null).pipe(switchMap(_ => throwError(() => new Error('error'))));
-      spyOn(partsServiceMok, 'getPartsAsPlanned').and.returnValue(spyData);
+      spyOn(partsServiceMock, 'getPartsAsPlanned').and.returnValue(spyData);
 
       partsFacade.setPartsAsPlanned(0, 10);
 
       const parts = await firstValueFrom(partsState.partsAsPlanned$);
       await waitFor(() => expect(parts).toEqual({ data: undefined, loader: undefined, error: new Error('error') }));
+    });
+
+    it('should handle error when deletePartByIdAsPlanned fails and ensure error is propagated', async () => {
+      const error = new Error('Deletion failed');
+      spyOn(partsServiceMock, 'deletePartByIdAsPlanned').and.returnValue(throwError(() => error));
+
+      try {
+        await firstValueFrom(partsFacade.deletePartByIdAsPlanned('invalid-id'));
+        fail('Expected error to be thrown');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
+    });
+
+    it('should call deletePartByIdAsPlanned with correct id and verify the service method is invoked', () => {
+      const id = 'test-id';
+      const serviceSpy = spyOn(partsServiceMock, 'deletePartByIdAsPlanned').and.callThrough();
+
+      partsFacade.deletePartByIdAsPlanned(id);
+
+      expect(serviceSpy).toHaveBeenCalledWith(id);
+    });
+
+    it('should handle error when deletePartByIdAsBuilt fails and ensure error is propagated', async () => {
+      const error = new Error('Deletion failed');
+      spyOn(partsServiceMock, 'deletePartByIdAsBuilt').and.returnValue(throwError(() => error));
+
+      try {
+        await firstValueFrom(partsFacade.deletePartByIdAsBuilt('invalid-id'));
+        fail('Expected error to be thrown');
+      } catch (err) {
+        expect(err).toBe(error);
+      }
+    });
+
+    it('should call deletePartByIdAsBuilt with correct id and verify the service method is invoked', () => {
+      const id = 'test-id';
+      const serviceSpy = spyOn(partsServiceMock, 'deletePartByIdAsBuilt').and.callThrough();
+
+      partsFacade.deletePartByIdAsBuilt(id);
+
+      expect(serviceSpy).toHaveBeenCalledWith(id);
     });
   });
 });

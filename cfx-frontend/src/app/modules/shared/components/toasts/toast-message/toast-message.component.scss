@@ -1,0 +1,127 @@
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+@import '../../../../../../theme/base.scss';
+@tailwind base;
+
+.toast {
+  width: 420px;
+}
+
+.toast-title {
+  @extend .title-medium;
+  padding-bottom: 10px;
+}
+
+.toast-container {
+  border-radius: 8px;
+  padding: 14px 0 0 0 !important;
+  display: flex;
+}
+
+.toast-message {
+  width: 352px;
+  padding: 0 12px 0px 12px
+}
+
+.toast-message-text {
+  @extend .body-medium;
+}
+
+.toast-icon-check {
+  color: rgb(0, 170, 85);
+}
+
+.toast-icon-warning {
+  color: rgb(255, 166, 0);
+}
+
+.toast-icon-error {
+  color: rgb(217, 30, 24);
+}
+
+.toast-icon-info {
+  color: rgb(103, 107, 198);
+}
+
+.btn-close {
+  border: 0;
+}
+
+.toast-close-button {
+  right: 14px;
+  top: 14px;
+  position: fixed;
+}
+
+.actions-link {
+  padding-top: 10px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 25.2px;
+  color: #2484C6;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.actions-link:hover {
+  text-decoration: underline;
+  color: #2484C6
+}
+
+.check-icon-container {
+  display: flex;
+  align-items: center;
+  height: 26px;
+}
+
+.custom-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  width: 0px;
+  transition: width var(--line-duration, 5s) linear;
+}
+
+.line--check {
+  @extend .line;
+  background-color: #6BA13C;
+}
+
+.line--error {
+  @extend .line;
+  background-color: #B62100;
+}
+
+.line--info {
+  @extend .line;
+  background-color: #4D4D4D;
+}
+
+.line--warning {
+  @extend .line;
+  background-color: #F58220;
+}

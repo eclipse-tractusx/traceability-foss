@@ -1,0 +1,56 @@
+@import '../../../../../theme/base.scss';
+@tailwind base;
+
+.imprint-container-wrapper {
+  @apply flex justify-center;
+}
+
+.imprint-container {
+  max-width: 800px;
+  padding: 20px;
+}
+
+.imprint-title {
+  @extend .headline-small;
+  font-weight: 600;
+  line-height: 30.8px;
+  padding-bottom: 30px;
+}
+
+.imprint-content {
+  @extend .body-medium;
+  line-height: 25.2px;
+  white-space: pre-line;
+}
+
+.imprint-header {
+  @extend .title-small;
+  font-size: 18px;
+  line-height: 25.2px;
+}
+
+.imprint-link:hover {
+  text-decoration: underline
+}
+
+.imprint-note-title {
+  @extend .title-small;
+  font-size: 16px;
+  line-height: 22.6px
+}
+
+.imprint-note-text {
+  @extend .imprint-content;
+  font-size: 16px;
+  line-height: 22.6px;
+}
+
+.imprint-note-content1 {
+  padding-bottom: 22px;
+}
+
+.imprint-divider {
+  padding-bottom: 5px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid #d2d2d2;
+}
