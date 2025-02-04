@@ -59,7 +59,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.jsonschema2pojo</groupId>
             <artifactId>jsonschema2pojo-core</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2</version>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
