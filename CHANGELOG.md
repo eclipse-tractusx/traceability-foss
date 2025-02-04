@@ -25,7 +25,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #369 Add config for disabling policy fetching on start. Disable for helm linting to prevent startup failure
 - #369 Add environment variables to Helm linting workflow
 - #385 refactor submodel implementation to accept custom implementations
-
+- #362 Upgrade Spring Boot to fix vulnerability CVE-2024-50379
 
 - [13.0.2-cfx-5 - 06.11.2024]
 ### Added
