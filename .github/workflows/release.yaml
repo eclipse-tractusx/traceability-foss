@@ -10,8 +10,8 @@ on:
 env:
   JAVA_VERSION: 17
   # Specific CHANGELOG file which is used for releasing the product. Default <CHANGELOG.md>.
-  CHANGELOG_PATH: 'CFX-CHANGELOG.md'
-  HELM_CHANGELOG_PATH: 'charts/traceability-foss/CFX-CHANGELOG.md'
+  CHANGELOG_PATH: 'CHANGELOG.md'
+  HELM_CHANGELOG_PATH: 'charts/traceability-foss/CHANGELOG.md'
   CHARTS_YAML_PATH: 'charts/traceability-foss/Chart.yaml'
   CHARTS_YAML_FE_PATH: 'charts/traceability-foss/charts/frontend/Chart.yaml'
 
@@ -28,7 +28,7 @@ jobs:
         with:
           app-id: ${{ secrets.TRACE_X_RELEASE_DOCUMENTATION_GH_APP_ID }}
           private-key: ${{ secrets.TRACE_X_RELEASE_DOCUMENTATION_GH_APP_PRIVATE_KEY }}
-          
+
       - uses: actions/checkout@v4
 
       - name: Calculate Helm release version from CHANGELOG

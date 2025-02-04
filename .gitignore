@@ -70,3 +70,4 @@ scripts/download/*
 /frontend/cypress/e2e/
 /.github/workflows/custom/
 /tx-backend/src/main/java/org/eclipse/tractusx/traceability/submodel/infrastructure/repository/custom/
+/cfx-frontend/
