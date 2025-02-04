@@ -1,7 +1,0 @@
-<svg id="flag-icon-css-ga" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
-    <g fill-rule="evenodd">
-        <path d="M640 480H0V0h640z" fill="#ffe700"/>
-        <path d="M640 160H0V0h640z" fill="#36a100"/>
-        <path d="M640 480H0V320h640z" fill="#006dbc"/>
-    </g>
-</svg>

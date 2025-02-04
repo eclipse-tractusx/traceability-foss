@@ -1,8 +1,0 @@
-{
-  "/api/*": {
-    "target": "https://traceability.int.demo.catena-x.net",
-    "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true
-  }
-}

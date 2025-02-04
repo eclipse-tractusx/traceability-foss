@@ -1,8 +1,0 @@
-{
-  "_hint": "Translation file used for testing",
-  "routing": {
-    "home": "Home_Test",
-    "test": "Test",
-    "path": "Path"
-  }
-}

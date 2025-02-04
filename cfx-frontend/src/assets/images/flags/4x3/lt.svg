@@ -1,7 +1,0 @@
-<svg id="flag-icon-css-lt" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
-    <g fill-rule="evenodd" stroke-width="1pt" transform="scale(.64143 .96773)">
-        <rect fill="#006a44" height="708.7" rx="0" ry="0" transform="scale(.93865 .69686)" width="1063"/>
-        <rect fill="#c1272d" height="236.2" rx="0" ry="0" transform="scale(.93865 .69686)" width="1063" y="475.6"/>
-        <path d="M0 0h997.8v164.6H0z" fill="#fdb913"/>
-    </g>
-</svg>
