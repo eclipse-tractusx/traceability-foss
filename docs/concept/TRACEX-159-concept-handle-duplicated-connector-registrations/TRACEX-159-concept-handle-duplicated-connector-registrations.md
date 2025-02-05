@@ -1,11 +1,11 @@
 # \[Concept\] \[TRACEX-159\] Handle duplicated connector registrations
 
-| Key           | Value           |
-|---------------|-----------------|
-| Author        | mkanal          |
-| Creation date | 16.12.2024      |
-| Ticket Id     | TRACEX-159      |
-| State         | WIP |
+| Key           | Value      |
+|---------------|------------|
+| Author        | mkanal     |
+| Creation date | 16.12.2024 |
+| Ticket Id     | TRACEX-159 |
+| State         | WIP        |
 
 # Table of Contents
 1. [Overview](#overview)
