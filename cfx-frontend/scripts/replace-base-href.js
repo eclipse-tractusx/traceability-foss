@@ -26,10 +26,16 @@ const HTML_PATH = '/usr/share/nginx/html/index.html';
 const files = fs.readdirSync('/usr/share/nginx/html/');
 const RUNTIME_PATH = '/usr/share/nginx/html/' + files.find((file) => file.startsWith('runtime.') && file.endsWith('.js'));
 
-const BASE_HREF_PLACEHOLDER_VAR = '/{baseHrefPlaceholder}';
-const BACKEND_DOMAIN_PLACEHOLDER_VAR = '{backendDomain}';
+const BASE_API_INTERNAL_PLACEHOLDER_VAR = '{baseApiInternalPlaceholder}';
+const BASE_API_INTERNAL = process.env.CATENAX_PORTAL_API_URL || '';
 
+const ALLOWED_REFERER_PLACEHOLDER_VAR = '{allowedRefererPlaceholder}';
+const ALLOWED_REFERER = process.env.ALLOWED_REFERER || '';
+
+const BASE_HREF_PLACEHOLDER_VAR = '/{baseHrefPlaceholder}';
 const BASE_URL = process.env.CATENAX_PORTAL_BASE_URL || '';
+
+const BACKEND_DOMAIN_PLACEHOLDER_VAR = '{backendDomain}';
 const BACKEND_DOMAIN = process.env.CATENAX_PORTAL_BACKEND_DOMAIN || '';
 
 const INDEX_HTML = fs.readFileSync(HTML_PATH, 'utf8');
@@ -41,9 +47,11 @@ const RUNTIME_JS_WITH_BASE = RUNTIME_JS.split(BASE_HREF_PLACEHOLDER_VAR).join(BA
 fs.writeFileSync(RUNTIME_PATH, RUNTIME_JS_WITH_BASE, 'utf8');
 
 const NGINX_CONF = fs.readFileSync(NGINX_CONF_PATH, 'utf8');
-const NGINX_CONF_WITH_BASE = NGINX_CONF.split(BASE_HREF_PLACEHOLDER_VAR).join(BASE_URL);
-fs.writeFileSync(NGINX_CONF_PATH, NGINX_CONF_WITH_BASE, 'utf8');
+const NGINX_CONF_WITH_BASE = NGINX_CONF.split(BASE_API_INTERNAL_PLACEHOLDER_VAR).join(BASE_API_INTERNAL);
+const NGINX_CONF_WITH_ALLOWED_REFERER = NGINX_CONF_WITH_BASE.split(ALLOWED_REFERER_PLACEHOLDER_VAR).join(ALLOWED_REFERER);
+fs.writeFileSync(NGINX_CONF_PATH, NGINX_CONF_WITH_ALLOWED_REFERER, 'utf8');
 
 const NGINX_SECURITY_CONF = fs.readFileSync(NGINX_SECURITY_CONF_PATH, 'utf8');
 const NGINX_SECURITY_CONF_WITH_DOMAIN = NGINX_SECURITY_CONF.split(BACKEND_DOMAIN_PLACEHOLDER_VAR).join(BACKEND_DOMAIN);
 fs.writeFileSync(NGINX_SECURITY_CONF_PATH, NGINX_SECURITY_CONF_WITH_DOMAIN, 'utf8');
+

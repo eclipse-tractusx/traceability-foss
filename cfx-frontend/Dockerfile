@@ -17,7 +17,7 @@
 
 # Nonroot user is not needed beause we are using the "nginx-unprivileged" image
 # STAGE 1: Build
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Copy dependencies info
 COPY ./cfx-frontend/package.json ./cfx-frontend/yarn.lock ./
@@ -69,4 +69,6 @@ USER root
 RUN chown nginx:nginx /etc/nginx/nginx.conf
 RUN chown nginx:nginx /etc/nginx/security-headers.conf
 
-USER 10100
+RUN apk info -vv
+
+USER 101
