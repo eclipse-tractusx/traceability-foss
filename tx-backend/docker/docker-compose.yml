@@ -1,4 +1,4 @@
-# Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -18,30 +18,50 @@ name: trace-foss
 
 services:
   postgres:
-    image: "postgres:15.4"
+    image: postgres:15.4
+    environment:
+      - POSTGRES_PASSWORD=docker
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./db-init:/docker-entrypoint-initdb.d
     ports:
-      - "127.0.0.1:5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=docker
+      - 5432:5432
     expose:
-      - "5432"
+      - 5432
     networks:
-      net:
-    security_opt:
-      - no-new-privileges:true
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    cap_drop:
-      - all
+      - tracex-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      DB_SCHEMA: public
+      KC_HOSTNAME: ${KC_HOSTNAME:-localhost}
+    volumes:
+      # Mount path can be customized according to the project folder structure
+      - ./cx_keycloak_realm/cx-realm.json:/opt/keycloak/data/import/realm.json
+    ports:
+      - 4011:8080
+    command:
+      - start-dev
+      - --import-realm
+    networks:
+      - tracex-net
+
+  wiremock:
+    image: wiremock/wiremock:3.4.2
+    volumes:
+      - ./wiremock:/home/wiremock
+    ports:
+      - 5001:8080
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      - tracex-net
 
 networks:
-  net:
+  tracex-net:
 
 volumes:
   postgres-data:

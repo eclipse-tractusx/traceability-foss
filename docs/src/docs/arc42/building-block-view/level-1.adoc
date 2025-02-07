@@ -2,7 +2,7 @@
 
 == Component diagram
 
-[plantuml, target=level-1, format=svg]
+[plantuml,target=building-block-view,format=svg]
 ....
 include::../../../uml-diagrams/arc42/building-block-view/building-block-view.puml[]
 ....
@@ -38,6 +38,12 @@ include::../../../uml-diagrams/arc42/building-block-view/building-block-view.pum
 
 |*NotificationsRepository*
 |The *NotificationsRepository* is a component responsible for storing the status and data of sent and received notifications.
+
+|*BpnMappingController*
+|The *BpnMappingController* provides a REST interface providing BPN EDC URL mappings.
+
+|*BpnService*
+|The *BpnService* provides crud operations for bpn mappings.
 
 |*Database*
 |The *database* is a place for storing assets, relations and notifications.

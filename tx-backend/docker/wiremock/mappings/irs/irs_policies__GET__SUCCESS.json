@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/irs/irs/policies"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "irs/irs_policies_response__GET__SUCCESS.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

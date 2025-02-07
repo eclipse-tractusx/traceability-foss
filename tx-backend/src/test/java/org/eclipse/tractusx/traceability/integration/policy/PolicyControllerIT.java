@@ -35,6 +35,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
@@ -92,7 +93,7 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .get("/api/policies/" + policyId)
                 .then()
                 .statusCode(404)
-                .body(containsString("404 Not Found: [no body]"))
+                .body(containsString("Policy with id: default-policy-not-exist not found."))
                 .log().all();
     }
 
@@ -201,6 +202,63 @@ class PolicyControllerIT extends IntegrationTestSpecification {
                 .delete("/api/policies/" + policyId)
                 .then()
                 .statusCode(200)
+                .log().all();
+    }
+
+    @Test
+    void shouldReturnForbiddenWhenSupervisorTriesToGetPolicies() throws JoseException {
+        given()
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/policies")
+                .then()
+                .statusCode(403)
+                .log().all();
+    }
+
+    @Test
+    void shouldReturnForbiddenWhenSupervisorTriesToCreatePolicy() throws JoseException {
+        Payload payload = Payload.builder().build();
+        RegisterPolicyRequest request = new RegisterPolicyRequest(Instant.MAX, "supervisor-policy", payload);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/api/policies")
+                .then()
+                .statusCode(403)
+                .log().all();
+    }
+
+    @Test
+    void shouldReturnForbiddenWhenSupervisorTriesToUpdatePolicy() throws JoseException {
+        UpdatePolicyRequest request = new UpdatePolicyRequest(List.of("abc"), List.of("abc"), Instant.MAX);
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .put("/api/policies")
+                .then()
+                .statusCode(403)
+                .log().all();
+    }
+
+    @Test
+    void shouldReturnForbiddenWhenSupervisorTriesToGetPolicyById() throws JoseException {
+        String policyId = "some-policy";
+
+        given()
+                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/policies/" + policyId)
+                .then()
+                .statusCode(403)
                 .log().all();
     }
 }

@@ -29,9 +29,7 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.except
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static org.eclipse.tractusx.traceability.common.date.DateUtil.convertInstantToString;
@@ -65,7 +63,6 @@ public class Notification {
 
     public static Notification startNotification(String title, Instant createDate, BPN bpn, String description, NotificationType notificationType, NotificationSeverity severity, Instant targetDate, List<String> affectedPartIds, List<String> initialReceiverBpns, String receiverBpn) {
 
-
         return Notification.builder()
                 .title(title)
                 .bpn(bpn)
@@ -84,10 +81,6 @@ public class Notification {
                 .build();
     }
 
-    public void clearNotifications() {
-        notifications = new ArrayList<>();
-    }
-
     public List<String> getAffectedPartIds() {
         return Collections.unmodifiableList(affectedPartIds);
     }
@@ -102,12 +95,10 @@ public class Notification {
         changeStatusTo(NotificationStatus.CANCELED);
     }
 
-    public void close(BPN applicationBpn, String reason, NotificationMessage notificationMessage) {
+    public void close(BPN applicationBpn) {
         validateBPN(applicationBpn);
         updatedDate = Instant.now();
         changeStatusTo(NotificationStatus.CLOSED);
-        notificationMessage.setMessage(reason);
-        this.notifications.forEach(notification -> notification.setMessage(reason));
     }
 
     public void acknowledge() {
@@ -116,22 +107,20 @@ public class Notification {
 
     }
 
-    public void accept(String reason, NotificationMessage message) {
+    public void accept() {
         changeStatusTo(NotificationStatus.ACCEPTED);
         updatedDate = Instant.now();
-        message.setMessage(reason);
     }
 
-    public void decline(String reason, NotificationMessage message) {
+    public void decline() {
         changeStatusTo(NotificationStatus.DECLINED);
         updatedDate = Instant.now();
-        message.setMessage(reason);
+
     }
 
-    public void close(String reason, NotificationMessage notificationMessage) {
+    public void close() {
         changeStatusTo(NotificationStatus.CLOSED);
         updatedDate = Instant.now();
-        notificationMessage.setMessage(reason);
     }
 
     public void send(BPN applicationBpn) {
@@ -169,43 +158,9 @@ public class Notification {
         affectedPartIds = Collections.unmodifiableList(newAssetIds); //
     }
 
-    public void addNotificationMessages(List<NotificationMessage> notificationMessages) {
-        notificationMessages.forEach(this::addNotificationMessage);
-    }
 
     public boolean isActiveState() {
         return this.notificationStatus.isActiveState();
-    }
-
-    public List<NotificationMessage> secondLatestNotifications() {
-
-        Optional<NotificationMessage> highestState = notifications.stream()
-                .max(Comparator.comparing(NotificationMessage::getCreated));
-
-        if (highestState.isPresent()) {
-            NotificationMessage highestMessage = highestState.get();
-            NotificationStatus highestStatus = highestMessage.getNotificationStatus();
-            log.info("Highest status found: {}", highestStatus);
-
-            Optional<NotificationMessage> secondHighestState = notifications.stream()
-                    .filter(message -> !message.getNotificationStatus().equals(highestStatus))
-                    .max(Comparator.comparing(NotificationMessage::getCreated));
-
-            if (secondHighestState.isPresent()) {
-                log.info("Second highest status found: {}", secondHighestState.get().getNotificationStatus());
-                return notifications.stream()
-                        .filter(message -> message.getNotificationStatus().equals(secondHighestState.get().getNotificationStatus()))
-                        .toList();
-            } else {
-                log.info("No second highest status found. Returning notifications with highest status.");
-                return notifications.stream()
-                        .filter(message -> message.getNotificationStatus().equals(highestStatus))
-                        .toList();
-            }
-        } else {
-            log.warn("No notifications found. Returning empty list.");
-            return Collections.emptyList();
-        }
     }
 
 }

@@ -1,0 +1,12 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/irs/irs/jobs"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "id": "ebb79c45-7bba-4169-bf17-3e719989ab54"
+    }
+  }
+}

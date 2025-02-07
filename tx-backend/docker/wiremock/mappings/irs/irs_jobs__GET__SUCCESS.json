@@ -1,0 +1,10 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/irs/irs/jobs/.*"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "irs/irs_jobs_response__GET__SUCCESS.json"
+  }
+}

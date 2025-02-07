@@ -1,6 +1,5 @@
 {
-  "bpn" : "BPNL000000012345",
-  "names" : [
-    "OEM A"
-  ]
+  "bpnl" : "BPNL000000012345",
+  "legalName" : "OEM A",
+  "legalShortName" : "OEM A Short"
 }

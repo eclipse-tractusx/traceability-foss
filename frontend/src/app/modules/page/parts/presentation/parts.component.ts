@@ -1,7 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023, 2025 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023, 2025 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023, 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -75,6 +75,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public tableAsBuiltSortList: TableHeaderSort[];
   public tableAsPlannedSortList: TableHeaderSort[];
+
+  public currentQuickFilter = Owner.UNKNOWN;
 
   public ctrlKeyState = false;
   isPublisherOpen$ = new Subject<boolean>();
@@ -201,6 +203,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.partsFacade.setPartsAsPlanned(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, filter, true);
     this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, filter, true);
+    this.currentQuickFilter = owner;
+
   }
 
   refreshPartsOnPublish(message: string) {
@@ -300,7 +304,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.assetAsBuiltFilter.owner = this.quickFilterComponents.get(0)?.owner;
     }
     if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
-      this.partsFacade.setPartsAsBuilt(FIRST_PAGE, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
     }
@@ -319,7 +323,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.assetsAsPlannedFilter.owner = this.quickFilterComponents.get(0)?.owner;
     }
     if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
-      this.partsFacade.setPartsAsPlanned(FIRST_PAGE, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
+      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
     } else {
       this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
     }

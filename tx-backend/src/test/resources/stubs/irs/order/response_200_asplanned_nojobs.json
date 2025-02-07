@@ -1,0 +1,12 @@
+{
+  "batchId": "ebb79c45-7bba-4169-bf17-3e719989ab52",
+  "batchNumber": 1,
+  "batchProcessingState": "COMPLETED",
+  "batchTotal": 1,
+  "completedOn": "2024-05-29T07:56:04.716574102Z",
+  "jobs": [],
+  "jobsInBatchChecksum": 0,
+  "orderId": "ebb79c45-7bba-4169-bf17-3e719989ab51",
+  "startedOn": "2024-05-29T07:56:04.716574102Z",
+  "totalJobs": 0
+}

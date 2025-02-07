@@ -18,17 +18,15 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xebialabs.restito.semantics.Action;
 import com.xebialabs.restito.semantics.Condition;
+import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.common.config.PolicyStartUpConfig;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.header;
@@ -37,12 +35,21 @@ import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.get;
 import static com.xebialabs.restito.semantics.Condition.post;
 import static com.xebialabs.restito.semantics.Condition.withHeader;
+import static io.restassured.RestAssured.given;
 
 @Component
 public class IrsApiSupport {
 
     @Autowired
     RestitoProvider restitoProvider;
+
+    @Autowired
+    PolicyStartUpConfig policyStartUpConfig;
+
+    public void provideAcceptedPolicies() throws JsonProcessingException {
+        irsApiReturnsPolicies();
+        policyStartUpConfig.registerDecentralRegistryPermissions();
+    }
 
     public void irsApiTriggerJob() {
         whenHttp(restitoProvider.stubServer()).match(
@@ -78,6 +85,39 @@ public class IrsApiSupport {
                 );
     }
 
+    public void irsApiReturnsOrderAndBatchDetails() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/orders/ebb79c45-7bba-4169-bf17-3e719989ab54/batches/ebb79c45-7bba-4169-bf17-3e719989ab55")
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/order/response_200.json")
+                );
+    }
+
+    public void irsApiReturnsOrderAndBatchDetailsAsPlanned() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/orders/ebb79c45-7bba-4169-bf17-3e719989ab57/batches/ebb79c45-7bba-4169-bf17-3e719989ab58")
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/order/response_200_asplanned.json")
+                );
+    }
+
+    public void irsApiReturnsOrderAndBatchDetailsAsPlannedNoJobs() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/orders/ebb79c45-7bba-4169-bf17-3e719989ab51/batches/ebb79c45-7bba-4169-bf17-3e719989ab52")
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/order/response_200_asplanned_nojobs.json")
+                );
+    }
+
     public void irsApiReturnsJobInRunningState() {
         whenHttp(restitoProvider.stubServer()).match(
                         get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54"),
@@ -101,7 +141,6 @@ public class IrsApiSupport {
                 );
     }
 
-
     public void irsApiReturnsPolicies() {
         whenHttp(restitoProvider.stubServer()).match(
                 Condition.get("/irs/policies")
@@ -112,23 +151,24 @@ public class IrsApiSupport {
         );
     }
 
+    public void irsApiReturnsPoliciesBpdm() throws JsonProcessingException {
+        whenHttp(restitoProvider.stubServer()).match(
+                Condition.get("/irs/policies")
+        ).then(
+                Action.status(HttpStatus.OK_200),
+                Action.header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policies_bpdm.json")
+        );
+        policyStartUpConfig.registerDecentralRegistryPermissions();
+    }
+
     public void irsApiReturnsPoliciesNotFound(String id) {
         whenHttp(restitoProvider.stubServer()).match(
-                Condition.get("/irs/policies/" +id)
+                Condition.get("/irs/policies/" + id)
         ).then(
                 Action.status(HttpStatus.NOT_FOUND_404),
                 Action.header("Content-Type", "application/json"),
                 restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_404_get_policyById.json")
-        );
-    }
-
-    public void irsApiReturnsPolicyById(String policyId) {
-        whenHttp(restitoProvider.stubServer()).match(
-                Condition.get("/irs/policies/" + policyId)
-        ).then(
-                Action.status(HttpStatus.OK_200),
-                Action.header("Content-Type", "application/json"),
-                restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_get_policyById.json")
         );
     }
 
@@ -141,6 +181,7 @@ public class IrsApiSupport {
                 restitoProvider.jsonResponseFromFile("./stubs/irs/policies/response_200_createPolicy.json")
         );
     }
+
     public void irsApiCreatesPolicyBadRequest() {
         whenHttp(restitoProvider.stubServer()).match(
                 Condition.post("/irs/policies")
@@ -191,9 +232,19 @@ public class IrsApiSupport {
         );
     }
 
-    private String readFile(String filePath) throws IOException {
-        // Implement reading file content from the specified filePath
-        // This is a utility method to read the JSON response from a file
-        return new String(Files.readAllBytes(Paths.get(filePath)), StandardCharsets.UTF_8);
+    public static void sendCallback(String orderId, String batchId, String orderState, String batchState, int expectedStatus) {
+        given()
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when()
+                .param("orderId", orderId)
+                .param("batchId", batchId)
+                .param("orderState", orderState)
+                .param("batchState", batchState)
+                .get("/api/irs/order/callback")
+                .then()
+                .log().all()
+                .statusCode(expectedStatus);
     }
+
 }

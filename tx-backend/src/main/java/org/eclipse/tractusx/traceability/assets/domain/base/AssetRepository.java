@@ -28,6 +28,8 @@ import java.util.List;
 public interface AssetRepository {
     AssetBase getAssetById(String assetId);
 
+    void deleteAssetById(String assetId);
+
     List<AssetBase> getAssetsById(List<String> assetIds);
 
     boolean existsById(String assetId);

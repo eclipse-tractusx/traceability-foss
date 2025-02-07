@@ -19,12 +19,15 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -45,10 +48,19 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     @Autowired
-    BpnSupport bpnSupport;
+    AssetsSupport assetsSupport;
 
     @Autowired
-    AssetsSupport assetsSupport;
+    EdcSupport edcSupport;
+
+    @Autowired
+    IrsApiSupport irsApiSupport;
+
+    @BeforeEach
+    void setUp() throws JsonProcessingException {
+        edcSupport.performSupportActionsForBpdmAccess();
+        irsApiSupport.irsApiReturnsPoliciesBpdm();
+    }
 
     private static Stream<Arguments> owners() {
         return Stream.of(
@@ -61,7 +73,6 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnAssetsWithManufacturerName() throws JoseException {
         //GIVEN
-        bpnSupport.cachedBpnsForDefaultAssets();
         assetsSupport.defaultAssetsStored();
 
         //THEN
@@ -72,9 +83,8 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .when()
                 .get("/api/assets/as-built")
                 .then()
-                .log().all()
                 .statusCode(200)
-                .body("content.manufacturerName", everyItem(not(equalTo(assetsSupport.emptyText()))));
+                .body("content.manufacturerName", everyItem(not(equalTo(null))));
     }
 
     @Test
@@ -130,7 +140,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content[0]", hasEntry("idShort", "vehicle_hybrid.asm"))
                 .body("content[0]", hasEntry("semanticModelId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0]", hasEntry("businessPartner", "BPNL00000003AYRE"))
-                .body("content[0]", hasEntry("manufacturerName", "OEM A"))
+                .body("content[0]", hasEntry("manufacturerName", "OEM A Short"))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0].detailAspectModels[0].data", hasEntry("manufacturingCountry", "DEU"))

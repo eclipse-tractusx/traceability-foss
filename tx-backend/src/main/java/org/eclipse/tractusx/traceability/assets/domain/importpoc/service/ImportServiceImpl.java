@@ -47,6 +47,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -141,11 +142,15 @@ public class ImportServiceImpl implements ImportService {
         return assets.stream().filter(asset -> asset.getId().equals(assetId)).findFirst().orElseThrow(() -> new ImportException("Failed when trying to persist raw payload to persisted Assets"));
     }
 
-    public static Map<AssetBase, Boolean> compareForUploadResult(List<AssetBase> incoming, List<AssetBase> persisted) {
+    static Map<AssetBase, Boolean> getAssetBaseBooleanMap(List<AssetBase> incoming, List<AssetBase> persisted) {
         return incoming.stream().map(asset -> {
                     Optional<AssetBase> persistedAssetOptional = persisted.stream().filter(persistedAsset -> persistedAsset.getId().equals(asset.getId())).findFirst();
                     return persistedAssetOptional.map(assetBase -> Map.entry(assetBase, true)).orElseGet(() -> Map.entry(asset, false));
                 }
         ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
+    }
+
+    public static Map<AssetBase, Boolean> compareForUploadResult(List<AssetBase> incoming, List<AssetBase> persisted) {
+        return getAssetBaseBooleanMap(incoming, persisted);
     }
 }

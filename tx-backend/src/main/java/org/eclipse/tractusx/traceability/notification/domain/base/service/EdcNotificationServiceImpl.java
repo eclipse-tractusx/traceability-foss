@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
+import org.eclipse.tractusx.traceability.notification.domain.base.exception.CatalogItemPolicyMismatchException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoEndpointDataReferenceException;
@@ -80,6 +81,7 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
             Boolean wasSent = sendResults.stream().anyMatch(Boolean.TRUE::equals);
 
             if (Boolean.TRUE.equals(wasSent)) {
+                resetNotificationError(notification, message);
                 return CompletableFuture.completedFuture(message);
             }
 
@@ -98,6 +100,10 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
         } catch (NoCatalogItemException e) {
             log.warn("Could not send message to {} no catalog item found. ", receiverUrl, e);
             enrichNotificationByError(e, notification, message);
+        } catch (CatalogItemPolicyMismatchException e) {
+            String error = String.format("Could not send message to '%s'. Provided policy in the edc notification contract does not comply with configured application policy. Exception message: '%s'", receiverUrl, e.getMessage());
+            log.warn(error);
+            enrichNotificationByError(e, notification, message);
         } catch (SendNotificationException e) {
             log.warn("Could not send message to {} ", receiverUrl, e);
             enrichNotificationByError(e, notification, message);
@@ -112,11 +118,16 @@ public class EdcNotificationServiceImpl implements EdcNotificationService {
     }
 
     private void enrichNotificationByError(Exception e, Notification notification, NotificationMessage message) {
-
         log.info("Notification for error message enrichment {}", message);
         message.setErrorMessage(e.getMessage());
         notificationRepository.updateErrorMessage(notification, message);
-
     }
+
+    private void resetNotificationError(Notification notification, NotificationMessage message) {
+        log.info("Notification for resetting error message {}", message);
+        message.setErrorMessage(null);
+        notificationRepository.updateErrorMessage(notification, message);
+    }
+
 }
 

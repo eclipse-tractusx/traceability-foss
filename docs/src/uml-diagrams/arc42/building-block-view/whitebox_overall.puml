@@ -1,57 +1,68 @@
-The interfaces show how the components interact with each other and which interfaces the TraceX is providing.
-
-Component Diagram
-
 @startuml
-skinparam monochrome true
-skinparam shadowing false
-skinparam defaultFontName "Architects daughter"
+!include https://raw.githubusercontent.com/doubleSlashde/umltheme/main/puml-theme-doubleslash-general.puml
+
 skinparam linetype ortho
-skinparam spacing 50
+skinparam spacing 300
+
+title: The interfaces show how the components interact with each other and which interfaces the TraceX is providing.
 
 
-component [**TraceXApplication**] <<System>> {
-	component [**TraceX**] <<System>> as TraceX
-	component [**EDC Consumer**] <<System>> as EDC
-
-}
 
 component [**CatenaX-Network**] <<CX-Environment>> {
     component [**Portal**] <<System>> as PORTAL
-    component [**Digital Twin Registry**] <<System>> as DT_REG
-    component [**IRS**] <<System>> as IRS
-    PORTAL --[hidden]> DT_REG
-    DT_REG --[hidden]>  IRS
+    component [**DiscoveryFinder**] <<System>> as DiscoveryFinder
+    component [**EDC Discovery Service**] <<System>> as EDCDiscoveryService
 }
 
-component [**Tier/OEM**] <<Tier/OEM-Environment>> {
 
-    component [**EDC_Provider_OEM**] <<System>> as EDCProviderOEM
-    component [**EDC_Provider_Tier1**] <<System>> as EDCProviderTier1
-    component [**EDC_Provider_Tier1.1**] <<System>> as EDCProviderTier11
-    component [**SubmodelServer_OEM**] <<System>> as SubmodelServerOEM
-    component [**SubmodelServer_Tier1**] <<System>> as SubmodelServerTier1
-    component [**SubmodelServer_Tier1.1**] <<System>> as SubmodelServerTier11
+component [**OEM**] <<OEM-Environment>> {
+    component [**EDC_Provider OEM**] <<System>> as EDCProviderOEM
+    component [**Digital Twin Registry OEM**] <<System>> as DT_OEM
+    component [**SubmodelServer OEM**] <<System>> as SubmodelServerOEM
+
+    component [**TraceXApplication**] <<System>> {
+    	component [**TraceX**] <<System>> as TraceX
+    	component [**EDC Consumer**] <<System>> as EDC
+        component [**IRS**] <<System>> as IRS
+    }
 }
+
+component [**Tier1**] <<Supplier Tier1-Environment>> {
+    component [**EDC_Provider Tier1**] <<System>> as EDCProviderTier1
+    component [**Digital Twin Registry Tier1**] <<System>> as DT_Tier1
+    component [**SubmodelServer Tier1**] <<System>> as SubmodelServerTier1
+}
+component [**Tier2**] <<Supplier Tier2-Environment>> {
+    component [**EDC_Provider Tier2**] <<System>> as EDCProviderTier2
+    component [**Digital Twin Registry Tier2**] <<System>> as DT_Tier2
+    component [**SubmodelServer Tier2**] <<System>> as SubmodelServerTier2
+}
+
 
 
 actor IrsApiConsumer
 
 IrsApiConsumer -right(0- TraceX
-IrsApiConsumer <.r.> PORTAL
-TraceX <.d.> EDC
+IrsApiConsumer -right(0- PORTAL
 TraceX <.l.> PORTAL
+TraceX <..> DiscoveryFinder
+TraceX <..> EDCDiscoveryService
+TraceX <.d.> EDC
 TraceX <..> IRS
-EDC <..> DT_REG
+
+IRS <..> DiscoveryFinder
+IRS <..> EDCDiscoveryService
+IRS <..> EDC
+
 EDC <..> EDCProviderOEM
-EDC <...> EDCProviderTier1
-EDC <....> EDCProviderTier11
-IRS <..> EDCProviderOEM
-IRS <...> EDCProviderTier1
-IRS <....> EDCProviderTier11
+EDC <..> EDCProviderTier1
+EDC <..> EDCProviderTier2
+
 EDCProviderOEM <..> SubmodelServerOEM
 EDCProviderTier1 <..> SubmodelServerTier1
-EDCProviderTier1 <..> SubmodelServerTier1
-EDCProviderTier11 <..> SubmodelServerTier11
+EDCProviderTier2 <..> SubmodelServerTier2
+EDCProviderOEM <..> DT_OEM
+EDCProviderTier1 <..> DT_Tier1
+EDCProviderTier2 <..> DT_Tier2
 
 @enduml

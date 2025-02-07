@@ -75,7 +75,7 @@ jobs:
 
       - name: Check dependencies
         run: |
-          mvn package org.eclipse.dash:license-tool-plugin:license-check -DskipTests=true -Ddash.summary=DEPENDENCIES_BACKEND -Ddash.fail=true
+          mvn package org.eclipse.dash:license-tool-plugin:license-check -DskipTests=true -Ddash.summary=DEPENDENCIES_BACKEND -Ddash.fail=true -s settings.xml -DPACKAGES_ACCESS_USERNAME=${{ secrets.PACKAGES_ACCESS_USERNAME }} -DPACKAGES_ACCESS_TOKEN=${{ secrets.PACKAGES_ACCESS_TOKEN }}
 
       - name: upload results
         if: always()

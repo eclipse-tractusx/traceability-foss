@@ -34,7 +34,7 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
                 .classification(asset.getClassification())
                 .semanticModelId(asset.getSemanticModelId())
                 .businessPartner(asset.getManufacturerId())
-                .manufacturerName(asset.getManufacturerName())
+                .manufacturerName(asset.getManufacturerName() != null ? asset.getManufacturerName() : "")
                 .nameAtManufacturer(asset.getNameAtManufacturer())
                 .manufacturerPartId(asset.getManufacturerPartId())
                 .owner(from(asset.getOwner()))

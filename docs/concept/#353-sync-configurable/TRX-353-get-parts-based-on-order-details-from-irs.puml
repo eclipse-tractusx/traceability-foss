@@ -1,0 +1,20 @@
+@startuml
+
+title Sync Completed/Partial Orders from IRS
+
+participant CronJob
+participant TraceX
+participant IRS
+participant TraceXDB
+
+CronJob -> TraceX: Trigger Sync (Order State == COMPLETED or PARTIAL with time threshold)
+TraceX -> TraceXDB: Query Completed/Partial Orders (time threshold = updated_at distance)
+loop For each Completed/Partial Order (threshold met)
+    TraceX -> IRS: Request Order Details (using OrderID)
+    IRS --> TraceX: Return Order Details (Parts Data)
+    TraceX -> TraceXDB: Persist Part Details (PartsAsBuilt or PartsAsPlanned)
+    TraceX -> TraceXDB: Update TTL of each part
+    note right of TraceXDB: TTL makes it transparent when the part should be next time synced
+end
+
+@enduml

@@ -29,25 +29,31 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import org.springframework.boot.actuate.endpoint.Sanitizer;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import static org.eclipse.tractusx.traceability.common.security.Sanitizer.sanitize;
 
 @Slf4j
 @RestController
 @Hidden
 @RequiredArgsConstructor
+@Validated
 public class IrsCallbackController {
 
-    private final JobRepository jobRepository;
+    private final OrderRepository orderRepository;
 
     @Operation(operationId = "irsCallback",
-            summary = "Callback of irs get job details",
+            summary = "Callback of irs get order details",
             tags = {"IRSCallback"},
-            description = "The endpoint retrieves the information about a job which has been completed recently.",
+            description = "The endpoint retrieves the information about a order which has been completed recently.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Retrieves job id in completed state."),
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Retrieves order id in completed state."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -91,11 +97,43 @@ public class IrsCallbackController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/irs/job/callback")
-    void handleIrsJobCallback(@RequestParam("id") String jobId, @RequestParam("state") String jobState) {
-        // Security measurment for injection
-        if (jobId.matches("^[a-zA-Z0-9_-]*$")) {
-            jobRepository.handleJobFinishedCallback(jobId, jobState);
+    @GetMapping("/irs/order/callback")
+    void handleIrsOrderCallback(
+            @RequestParam("orderId") String orderId,
+            @RequestParam(value = "batchId", required = false) String batchId,
+            @RequestParam("orderState") String orderState,
+            @RequestParam(value = "batchState", required = false) String batchState) {
+
+        log.info("Received IRS order callback with orderId: {}, batchId: {}, orderState: {}, batchState: {}",
+                sanitize(orderId), sanitize(batchId), sanitize(orderState), sanitize(batchState));
+        try {
+            validateIds(orderId, batchId);
+            log.debug("Validated orderId and batchId successfully.");
+
+            ProcessingState orderStateEnum = ProcessingState.fromString(orderState);
+            ProcessingState batchStateEnum = ProcessingState.fromString(batchState);
+
+            log.debug("Parsed orderState: {} and batchState: {}", orderStateEnum, batchStateEnum);
+
+            orderRepository.handleOrderFinishedCallback(orderId, batchId, orderStateEnum, batchStateEnum);
+            log.info("Successfully handled callback for orderId: {}", sanitize(orderId));
+        } catch (IllegalArgumentException e) {
+            log.warn("Validation failed for callback parameters: {}", e.getMessage());
+            throw e; // Re-throw to ensure appropriate HTTP response
+        } catch (Exception e) {
+            log.error("Error occurred while handling IRS order callback for orderId: {}", sanitize(orderId), e);
+            throw e; // Re-throw to ensure appropriate HTTP response
         }
     }
+
+    private void validateIds(String... ids) {
+        for (String id : ids) {
+            if (id != null && !id.isEmpty() && !id.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")) {
+                log.warn("Invalid UUID format detected: {}", sanitize(id));
+                throw new IllegalArgumentException("Invalid UUID format " + id);
+            }
+        }
+    }
+
+
 }

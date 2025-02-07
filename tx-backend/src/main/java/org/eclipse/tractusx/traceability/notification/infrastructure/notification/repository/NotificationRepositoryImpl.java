@@ -187,6 +187,18 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return assetsAsBuiltRepository.findByIdIn(assetIds);
     }
 
+    @jakarta.transaction.Transactional
+    @Override
+    public long countPartsByStatusAndOwnershipAndTypeAndNotificationType(List<NotificationStatus> statuses, Owner owner, NotificationType notificationType) {
+        return jpaNotificationRepository.findAllByStatusIn(NotificationStatusBaseEntity.from(statuses))
+                .stream()
+                .map(NotificationEntity::getAssets)
+                .flatMap(Collection::stream)
+                .filter(assetAsBuiltEntity -> assetAsBuiltEntity.getOwner().equals(owner))
+                .distinct()
+                .toList().size();
+    }
+
     private void handleMessageCreate(NotificationEntity notificationEntity, NotificationMessage messageDomain, List<AssetAsBuiltEntity> assetEntities) {
         NotificationMessageEntity notificationMessageEntity = toNotificationMessageEntity(notificationEntity, messageDomain, assetEntities);
 

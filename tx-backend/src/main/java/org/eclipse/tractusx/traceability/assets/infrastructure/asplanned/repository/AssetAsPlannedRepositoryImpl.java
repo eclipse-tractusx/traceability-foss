@@ -77,6 +77,11 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
+    public void deleteAssetById(String assetId) {
+            jpaAssetAsPlannedRepository.deleteById(assetId);
+    }
+
+    @Override
     public AssetBase getAssetByChildId(String childId) {
         return jpaAssetAsPlannedRepository.findById(childId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));

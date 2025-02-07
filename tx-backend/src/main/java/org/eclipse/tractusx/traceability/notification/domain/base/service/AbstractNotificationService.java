@@ -95,7 +95,7 @@ public abstract class AbstractNotificationService implements NotificationService
 
         Notification updatedNotification;
         try {
-            updatedNotification = notificationPublisherService.updateNotificationPublisher(notification, notificationStatus, reason);
+            updatedNotification = notificationPublisherService.publishNotificationByStateAndReason(notification, notificationStatus, reason);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
             throw new SendNotificationException(exception.getMessage());
@@ -144,7 +144,7 @@ public abstract class AbstractNotificationService implements NotificationService
 
         final Notification approvedInvestigation;
         try {
-            approvedInvestigation = notificationPublisherService.approveNotification(notification);
+            approvedInvestigation = notificationPublisherService.publishNotificationByStateAndReason(notification, NotificationStatus.SENT, null);
         } catch (SendNotificationException exception) {
             log.info("Notification status rollback", exception);
             throw new SendNotificationException(exception.getMessage(), exception);

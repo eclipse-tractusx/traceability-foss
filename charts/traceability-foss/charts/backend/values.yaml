@@ -133,12 +133,40 @@ healthCheck:
 
 traceability:
   bpn: "CHANGEME" #<traceability.bpn>
+  bpnA: "CHANGEME"  # <traceability.bpnA>
+  bpnB: "CHANGEME"  # <traceability.bpnB>
   url: "" #<traceability.url>
-  internalUrl: ""
   leftOperand: "CHANGEME" #<traceability.leftOperand>
   operatorType: "CHANGEME" #<traceability.operatorType>
   rightOperand: "CHANGEME" #<traceability.rightOperand>
   validUntil: "CHANGEME" #<traceability.validUntil>
+  discoveryType: "bpnl"  # discovery type to find bpnl type in EDC discovery
+  technicalServiceApiKey: "CHANGEME" #<traceability.technicalServiceApiKey>
+  assetRefreshJobCronExpression: "0 0 */2 * * ?" # Default value for assets refresh cron job expression
+  assetRefreshJobZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
+  publishAssetCronExpression: "0 30 */1 * * ?"  # Default value for publish assets  cron job expression
+  publishAssetCronZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
+  registerDecentralRegistryPermissions: true
+
+provisioning:
+  submodel:
+    urlExternal: "https://replace.me"
+    urlInternal: "https://replace.me"
+    oauthProviderRegistrationId: "CHANGEME"
+    clientId: "CHANGEME"
+    clientSecret: "CHANGEME"
+    oauthTokenUrl: "https://replace.me"
+    useCustomImplementation: false
+  registry:
+    urlExternalWithPath: "https://replace.me"
+    urlInternalWithPath: "https://replace.me"
+    allowedBpns: "CHANGEME"
+    oauthProviderRegistrationId: "CHANGEME"
+    clientId: "CHANGEME"
+    clientSecret: "CHANGEME"
+    oauthTokenUrl: "https://replace.me"
+    edcAssetId: "CHANGEME"
+
 
 datasource:
   url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
@@ -153,22 +181,17 @@ oauth2:
   resourceClient: "CHANGEME" #<oauth2.resourceClient>
 
 edc:
-  apiKey: "" #<edc.apiKey>
+  consumerApiKey: "" #<edc.consumerApiKey>
+  providerApiKey: ""  #<edc.providerApiKey>
   providerUrl: "" #<edc.providerUrl>
-  callbackUrl: "https://replace.me"
   callbackUrlEdcClient: "https://replace.me"
   dataEndpointUrl: "https://replace.me"
 
 discoveryfinder:
   baseUrl: "https://replace.me"
-
-submodel:
-  baseUrl: "https://replace.me"
 irs:
   baseUrl: "https://replace.me"
-registry:
-  urlWithPath: "https://replace.me"
-  allowedBpns: "replace me"
+
 portal:
   baseUrl: "https://replace.me"
 
@@ -179,8 +202,12 @@ config:
 
 dependencies:
   enabled: false
-  irs: CHANGEME #<item-relationship-service.nameOverride>
+  irs: CHANGEME #<irs-helm.nameOverride>
   edc: CHANGEME #<tractusx-connector.nameOverride>-controlplane
 
 bpdm:
   url: "https://replace.me"
+  clientId: "CHANGEME"
+  clientSecret: "CHANGEME"
+  oauthTokenUrl: "https://replace.me"
+  providerBpnl: "CHANGEME"

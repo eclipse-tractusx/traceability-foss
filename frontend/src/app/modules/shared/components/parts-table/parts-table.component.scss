@@ -17,15 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 :host {
-  .mat-mdc-header-row {
-    font-family: inherit !important;
-  }
-
   .mat-mdc-header-cell {
     font-weight: bold !important;
   }
 }
-
 
 table {
   width: 100%;
@@ -47,8 +42,6 @@ table {
   }
 
 }
-
-
 
 .table--select-all {
   display: inline-flex;

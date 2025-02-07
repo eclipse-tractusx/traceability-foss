@@ -19,22 +19,17 @@
 package org.eclipse.tractusx.traceability.common.properties;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-@RequiredArgsConstructor
 @Getter
 @Configuration
 public class BpdmProperties {
 
-    @Value("${bpdm.bpnEndpoint}")
-    private String bpnEndpoint;
-    @Value("${bpdm.oAuthClientId}")
-    private String oAuthClientId;
-    @Value("${bpdm.timeout.read}")
-    private String readTimeout;
-    @Value("${bpdm.timeout.connect}")
-    private String connectTimeout;
+    @Value("${bpdm.providerUrl}")
+    private String providerUrl;
+
+    @Value("${bpdm.providerBpnl}")
+    private String providerBpnl;
 
 }

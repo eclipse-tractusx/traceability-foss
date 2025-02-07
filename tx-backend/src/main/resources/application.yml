@@ -29,17 +29,46 @@ traceability:
   operatorTypeSecond: ${TRACEABILITY_OPERATOR_TYPE_SECOND}
   rightOperandSecond: ${TRACEABILITY_RIGHT_OPERAND_SECOND}
   validUntil: ${TRACEABILITY_VALID_UNTIL}
-  adminApiKey: ${IRS_ADMIN_API_KEY}
+  irsAdminApiKey: ${IRS_ADMIN_API_KEY}
   regularApiKey: ${IRS_REGULAR_API_KEY}
   irsBase: ${IRS_URL}
   irsPoliciesPath: "/irs/policies"
-  submodelBase: ${SUBMODEL_URL}
-  submodelPath: ${SUBMODEL_PATH}
+  register-decentral-registry-permissions: ${TRACEABILITY_REGISTER_DECENTRAL_REGISTRY_PERMISSIONS}
+  discoveryType: ${DISCOVERY_TYPE}
+  technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY}
+  assetRefreshJobCronExpression: ${TRACEABILITY_ASSETS_REFRESH_CRON:0 0 */2 * * ?}
+  assetRefreshJobZone: ${TRACEABILITY_ASSETS_REFRESH_ZONE:Europe/Berlin}
+  publishAssetCronExpression: ${TRACEABILITY_PUBLISH_ASSET_CRON:0 30 */1 * * ?}
+  publishAssetCronZone: ${TRACEABILITY_PUBLISH_ASSET_ZONE:Europe/Berlin}
+  enableApiKeyAuthentication: ${TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION:false}
+  tracexAdminKey: ${TRACEABILITY_ADMIN_KEY}
+
+provisioning:
+  submodel:
+    baseInternal: ${SUBMODEL_URL_INTERNAL}
+    baseExternal: ${SUBMODEL_URL_EXTERNAL}
+    path: ${SUBMODEL_PATH}
+    clientId:  ${SUBMODEL_CLIENT_ID}
+    clientSecret: ${SUBMODEL_CLIENT_SECRET}
+    tokenUrl:  ${SUBMODEL_TOKEN_URL}
+    oauthProviderRegistrationId:  ${SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID}
+    useCustomImplementation: ${SUBMODEL_CUSTOM_IMPLEMENTATION_ENABLED:true}
+  registry:
+    urlWithPathInternal: ${REGISTRY_URL_WITH_PATH_INTERNAL:https://registry.net/semantics/registry/api/v3.0}
+    urlWithPathExternal: ${REGISTRY_URL_WITH_PATH_EXTERNAL:https://registry.net/semantics/registry/api/v3.0}
+    shellDescriptorUrl: /shell-descriptors
+    oauthEnabled: ${REGISTRY_OAUTH_ENABLED:false}
+    clientId: ${REGISTRY_CLIENT_ID}
+    clientSecret: ${REGISTRY_CLIENT_SECRET}
+    tokenUrl: ${REGISTRY_TOKEN_URL}
+    oauthProviderRegistrationId: ${REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID}
+    allowedBpns: ${REGISTRY_ALLOWED_BPNS:BPNL00000003CML1,BPNL00000003CNKC}
+    edcAssetId: ${REGISTRY_EDC_ASSET_ID:registry-asset}
 
 edc:
   ids:
     path: "/api/v1/dsp"
-  api-auth-key: ${EDC_API_KEY}
+  api-auth-key: ${EDC_PROVIDER_API_KEY}
   provider-edc-url: ${EDC_PROVIDER_URL}
   provider-dataplane-edc-url: ${EDC_PROVIDER_DATAPLANE_URL}
 
@@ -99,6 +128,8 @@ management:
   endpoints:
     web:
       base-path: /actuator
+      exposure:
+        include: health, threaddump, loggers, prometheus, info, metrics
   server:
     port: 8081
 
@@ -110,6 +141,12 @@ spring:
         format_sql: true
   main:
     allow-bean-definition-overriding: true
+  flyway:
+    enabled: true
+    placeholders:
+      applicationBpn: ${TRACEABILITY_BPN}
+      bpnB: ${TRACEABILITY_BPN_B}
+      bpnA: ${TRACEABILITY_BPN_A}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -128,11 +165,33 @@ spring:
             client-secret: ${OAUTH2_CLIENT_SECRET}
             authorization-grant-type: client_credentials
             scope: ${OAUTH2_CLIENT_SCOPE:openid}
+          # Second Identity Provider (for DTR and Submodel services)
+          dtr:
+            client-id: ${REGISTRY_CLIENT_ID}
+            client-secret: ${REGISTRY_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope: ${REGISTRY_CLIENT_SCOPE:openid}
+          submodel:
+            client-id: ${SUBMODEL_CLIENT_ID}
+            client-secret: ${SUBMODEL_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope: ${SUBMODEL_CLIENT_SCOPE:openid}
+          bpdm:
+            authorization-grant-type: client_credentials
+            client-id: ${BPDM_CLIENT_ID}
+            client-secret: ${BPDM_CLIENT_SECRET}
+            scope: ${OAUTH2_CLIENT_SCOPE:openid}
         provider:
           keycloak:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
           OKTA:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
+          dtr:
+            token-uri: ${REGISTRY_TOKEN_URL}
+          submodel:
+            token-uri: ${SUBMODEL_TOKEN_URL}
+          bpdm:
+            token-uri: ${BPDM_TOKEN_URL}
       resourceserver:
         jwt:
           jwk-set-uri: ${OAUTH2_JWK_SET_URI:https://default}
@@ -142,7 +201,7 @@ jwt:
 feign:
   default:
     connectionTimeoutMillis: 200
-    readTimeoutMillis: 500
+    readTimeoutMillis: 5000
     maxIdleConnections: 10
     keepAliveDurationMinutes: 5
 
@@ -157,11 +216,6 @@ cors:
     ${ALLOWED_CORS_ORIGIN_FIRST},
     ${ALLOWED_CORS_ORIGIN_SECOND}
 
-registry:
-  urlWithPath: ${REGISTRY_URL_WITH_PATH:https://registry.net/semantics/registry/api/v3.0}
-  shellDescriptorUrl: /shell-descriptors
-  allowedBpns: ${REGISTRY_ALLOWED_BPNS:BPNL00000003CML1,BPNL00000003CNKC}
-
 digitalTwinRegistryClient:
   shellDescriptorTemplate: /shell-descriptors/{aasIdentifier} # The path to retrieve AAS descriptors from the decentral DTR, must contain the placeholder {aasIdentifier}
   lookupShellsTemplate: /lookup/shells?assetIds={assetIds} # The path to lookup shells from the decentral DTR, must contain the placeholder {assetIds}
@@ -172,8 +226,5 @@ digitalTwinRegistryClient:
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
 
 bpdm:
-  bpnEndpoint: "${BPDM_URL:}/api/catena/legal-entities/{partnerId}?idType={idType}" # Endpoint to resolve BPNs, must contain the placeholders {partnerId} and {idType}
-  oAuthClientId: keycloak # ID of the OAuth2 client registration to use, see config spring.security.oauth2.client
-  timeout:
-    read: PT90S # HTTP read timeout for the bpdm client
-    connect: PT90S # HTTP connect timeout for the bpdm client
+  providerUrl: ${BPDM_URL} # Endpoint to resolve BPNs, must contain the placeholders {partnerId} and {idType}
+  providerBpnl: ${BPDM_PROVIDER_BPNL}

@@ -1,0 +1,508 @@
+{
+  "assets" : [
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421000",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002CS4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-989134870198932317923938",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421000",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3880383-57",
+              "customerPartId" : "3880383-57",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Child 1 of 092338c31000",
+              "nameAtCustomer" : "Child 1 of 092338c31000"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421000",
+            "customers" : [
+              "BPNL000000002BR4"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000002BR4",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421001",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002CS4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-989134870198932317923938",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421001",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3880383-57",
+              "customerPartId" : "3880383-57",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Child 2 of 092338c31000",
+              "nameAtCustomer" : "Child 2 of 092338c31000"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421001",
+            "customers" : [
+              "BPNL000000002BR4"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000002BR4",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421002",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002CS4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-989134870198932317923938",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421002",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3880383-57",
+              "customerPartId" : "3880383-57",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Child 3 of 092338c31000",
+              "nameAtCustomer" : "Child 3 of 092338c31000"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421002",
+            "customers" : [
+              "BPNL000000002BR4"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000002BR4",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421003",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002CS4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-989134870198932317923938",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421003",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3880383-57",
+              "customerPartId" : "3880383-57",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Child 4 of 092338c31000",
+              "nameAtCustomer" : "Child 4 of 092338c31000"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421003",
+            "customers" : [
+              "BPNL000000002BR4"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000002BR4",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421004",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002CS4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-989134870198932317923938",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421004",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3880383-57",
+              "customerPartId" : "3880383-57",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Child 5 of 092338c31000",
+              "nameAtCustomer" : "Child 5 of 092338c31000"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421004",
+            "customers" : [
+              "BPNL000000002BR4"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000002BR4",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421005",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002CS4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-989134870198932317923938",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421005",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3880383-57",
+              "customerPartId" : "3880383-57",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Child 6 of 092338c31000",
+              "nameAtCustomer" : "Child 6 of 092338c31000"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421005",
+            "customers" : [
+              "BPNL000000002BR4"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000002BR4",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421006",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002CS4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-989134870198932317923938",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421006",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3880383-57",
+              "customerPartId" : "3880383-57",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Child 7 of 092338c31000",
+              "nameAtCustomer" : "Child 7 of 092338c31000"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421006",
+            "customers" : [
+              "BPNL000000002BR4"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000002BR4",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "assetMetaInfo" : {
+        "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421007",
+        "digitalTwinType" : "partInstance"
+      },
+      "submodels" : [
+        {
+          "aspectType" : "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+          "payload" : {
+            "localIdentifiers" : [
+              {
+                "value" : "BPNL000000002CS4",
+                "key" : "manufacturerId"
+              },
+              {
+                "value" : "NO-989134870198932317923938",
+                "key" : "partInstanceId"
+              }
+            ],
+            "manufacturingInformation" : {
+              "date" : "2022-02-04T14:48:54.000Z",
+              "country" : "DEU"
+            },
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421007",
+            "partTypeInformation" : {
+              "manufacturerPartId" : "3880383-57",
+              "customerPartId" : "3880383-57",
+              "partClassification" : [
+                {
+                  "classificationStandard" : "classificationStandard",
+                  "classificationID" : "classificationID",
+                  "classificationDescription" : "classificationDescription"
+                }
+              ],
+              "nameAtManufacturer" : "Child 8 of 092338c31000",
+              "nameAtCustomer" : "Child 8 of 092338c31000"
+            }
+          }
+        },
+        {
+          "aspectType" : "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+          "payload" : {
+            "catenaXId" : "urn:uuid:5205f736-8fc2-4585-b869-6bf368421007",
+            "customers" : [
+              "BPNL000000002BR4"
+            ],
+            "parentItems" : [
+              {
+                "quantity" : {
+                  "value" : 1,
+                  "unit" : "unit:piece"
+                },
+                "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c31000",
+                "createdOn" : "2023-07-15T14:48:54.709Z",
+                "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+                "businessPartner" : "BPNL000000002BR4",
+                "isOnlyPotentialParent" : false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

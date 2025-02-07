@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.infrastructure.jpa.bpn_edc;
 import bpn.request.BpnMappingRequest;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnServiceImpl;
+import org.eclipse.tractusx.traceability.bpn.domain.service.BpnServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

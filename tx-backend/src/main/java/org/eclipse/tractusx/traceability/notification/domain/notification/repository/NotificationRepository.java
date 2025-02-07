@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.notification.domain.base.model.Notifica
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import org.springframework.data.domain.Pageable;
 
@@ -58,4 +59,5 @@ public interface NotificationRepository {
 
     void deleteByIdIn(List<String> messageIds);
 
+    long countPartsByStatusAndOwnershipAndTypeAndNotificationType(List<NotificationStatus> received, Owner owner, NotificationType notificationType);
 }

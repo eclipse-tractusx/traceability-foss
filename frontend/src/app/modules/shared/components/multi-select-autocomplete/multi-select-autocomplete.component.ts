@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,7 +20,16 @@
 import { DatePipe, registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-import { Component, EventEmitter, Inject, Injector, Input, LOCALE_ID, OnChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Injector,
+  Input,
+  LOCALE_ID,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -31,7 +40,9 @@ import {
 } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { FilterService } from '@shared/service/filter.service';
 import { PartsService } from '@shared/service/parts.service';
+import { QuickfilterService } from '@shared/service/quickfilter.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -111,7 +122,9 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   constructor(public datePipe: DatePipe, public _adapter: DateAdapter<any>,
               @Inject(MAT_DATE_LOCALE) public _locale: string, @Inject(LOCALE_ID) private locale: string, public partsService: PartsService,
               private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
-              private injector: Injector) {
+              private injector: Injector,
+              private readonly quickFilterService: QuickfilterService,
+              private readonly filterService: FilterService) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
   }
@@ -131,6 +144,15 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
       this.selectedValue = [ this.searchElement ];
       this.formControl.patchValue(this.selectedValue);
       this.updateOptionsAndSelections();
+    }
+
+    if(this.filterService.isFilterSet(this.tableType, this.filterColumn)) {
+      const currFilter = this.filterService.getFilter(this.tableType)
+      const filter = [];
+      currFilter[this.filterColumn].forEach((item: any) => {
+        filter.push({ display: item, value: item });
+      })
+      this.optionsSelected = filter;
     }
 
   }
@@ -191,7 +213,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   filterItem(value: any): void {
-
     if (!this.searchElement?.length) {
       return;
     }
@@ -270,6 +291,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.options = [];
     this.selectedValue = [];
     this.suggestionError = false;
+
+    const currentQuickFilter = this.quickFilterService.getOwner();
+    if (this.filterColumn === 'owner' && currentQuickFilter && currentQuickFilter !== 'UNKNOWN') {
+      this.selectedValue = [currentQuickFilter];
+      this.formControl.patchValue(this.selectedValue);
+    }
+
     this.updateOptionsAndSelections();
   }
 
@@ -304,6 +332,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.selectedValue = matSelectChange.value;
     this.formControl.patchValue(matSelectChange.value);
     this.updateOptionsAndSelections();
+    this.filterService.setFilter(this.tableType, {[this.filterColumn]: this.selectedValue});
   }
 
   private handleAllSelectedCheckbox() {
@@ -321,6 +350,16 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   containsIllegalCharactersForI18nKey(text: string) {
     const allowedCharacters = /^\w+$/;
     return !allowedCharacters.test(text);
+  }
+
+  private currentQuickFilterValue(): string | null {
+    const quickFilter = this.quickFilterService.getOwner();
+    return quickFilter && quickFilter !== 'UNKNOWN' ? quickFilter : null;
+  }
+
+  isQuickFilterOption(value: any): boolean {
+    return this.filterColumn === 'owner'
+      && value === this.currentQuickFilterValue();
   }
 
 }

@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.integration.assets;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +33,6 @@ import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.hasSize;
 
 class AssetAsPlannedControllerDetailInformationIT extends IntegrationTestSpecification {
-
-
-    @Autowired
-    BpnSupport bpnSupport;
 
     @Autowired
     AssetsSupport assetsSupport;

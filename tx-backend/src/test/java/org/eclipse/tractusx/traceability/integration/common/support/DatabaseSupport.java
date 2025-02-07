@@ -43,7 +43,13 @@ public class DatabaseSupport {
             "assets_as_planned",
             "bpn_storage",
             "traction_battery_code_subcomponent",
-            "import_job"
+            "import_job",
+            "contract_agreement_as_built",
+            "contract_agreement_as_planned",
+            "contract_agreement_notification",
+            "import_job",
+            "import_job_assets_as_built",
+            "import_job_assets_as_planned"
     });
 
 

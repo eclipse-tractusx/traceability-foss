@@ -25,7 +25,9 @@ import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.ValidationException;
+import lombok.SneakyThrows;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.validation.exception.JsonFileProcessingException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpnNotFoundException;
@@ -52,9 +54,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.DirectFieldBindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.lang.reflect.Method;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -228,11 +233,12 @@ class ErrorHandlingConfigTest {
     @RestController
     private static class DummyController {
 
+        @SneakyThrows
         @GetMapping("/methodArgumentNotValidException")
-        public void methodArgumentNotValidException() throws MethodArgumentNotValidException {
-            MethodParameter methodParameter = mock(MethodParameter.class);
-            BindingResult bindingResult = mock(BindingResult.class);
-            throw new MethodArgumentNotValidException(methodParameter, bindingResult);
+        public void methodArgumentNotValidException() {
+            MethodParameter parameter = new MethodParameter(getClass().getMethod("methodArgumentNotValidException"), 0);
+            BindingResult bindingResult = new DirectFieldBindingResult(null, "");
+            throw new MethodArgumentNotValidException(parameter, bindingResult);
         }
 
         @GetMapping("/jpaSystemException")

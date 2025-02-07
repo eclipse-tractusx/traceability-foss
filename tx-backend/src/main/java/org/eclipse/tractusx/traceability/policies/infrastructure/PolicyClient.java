@@ -21,13 +21,6 @@ package org.eclipse.tractusx.traceability.policies.infrastructure;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraint;
-import org.eclipse.tractusx.irs.edc.client.policy.Constraints;
-import org.eclipse.tractusx.irs.edc.client.policy.Operator;
-import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
-import org.eclipse.tractusx.irs.edc.client.policy.Permission;
-import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,23 +28,19 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import policies.request.Context;
-import policies.request.Payload;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
 import policies.response.PolicyResponse;
 
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.eclipse.tractusx.traceability.common.config.RestTemplateConfiguration.IRS_ADMIN_TEMPLATE;
@@ -73,42 +62,67 @@ public class PolicyClient {
         this.traceabilityProperties = traceabilityProperties;
     }
 
-    /**
-     * returns
-     *
-     * @return the newest policy by own BPN. If the BPN is not found, the provided default policy is used.
-     */
-    public Optional<PolicyResponse> getNewestPolicyByOwnBpn() {
+    public List<PolicyResponse> getPoliciesByApplicationBPNOrDefault() {
         Map<String, List<IrsPolicyResponse>> policies = getPolicies();
-        if (CollectionUtils.isEmpty(policies.get(traceabilityProperties.getBpn().value()))) {
+        String applicationBPN = traceabilityProperties.getBpn().value();
+
+        List<IrsPolicyResponse> irsPolicyResponsesByBpn = policies.get(applicationBPN);
+
+        if (CollectionUtils.isEmpty(irsPolicyResponsesByBpn)) {
             Stream<IrsPolicyResponse> defaultPolicies = Stream.concat(
                     CollectionUtils.emptyIfNull(policies.get(DEFAULT_POLICY_PLACEHOLDER)).stream(),
                     CollectionUtils.emptyIfNull(policies.get(DEFAULT_POLICY_EMPTY_PLACEHOLDER)).stream());
 
             return defaultPolicies
                     .max(Comparator.comparing(p -> p.payload().policy().getCreatedOn()))
-                    .map(irsPolicyResponse -> IrsPolicyResponse.toResponse(irsPolicyResponse, traceabilityProperties.getBpn().value()));
+                    .map(irsPolicyResponse -> IrsPolicyResponse.toResponse(irsPolicyResponse, applicationBPN)).stream().toList();
         } else {
-            return policies.get(traceabilityProperties.getBpn().value())
+            return irsPolicyResponsesByBpn
                     .stream()
-                    .max(Comparator.comparing(p -> p.payload().policy().getCreatedOn()))
-                    .map(irsPolicyResponse -> IrsPolicyResponse.toResponse(irsPolicyResponse, traceabilityProperties.getBpn().value()));
+                    .map(irsPolicyResponse -> IrsPolicyResponse.toResponse(irsPolicyResponse, applicationBPN)).toList();
         }
 
     }
 
     public Map<String, List<IrsPolicyResponse>> getPolicies() {
-        Map<String, List<IrsPolicyResponse>> body = irsAdminTemplate.exchange(policiesPath, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, List<IrsPolicyResponse>>>() {
-        }).getBody();
+        Map<String, List<IrsPolicyResponse>> body;
 
-        if (body != null) {
-            body.forEach((key, valueList) -> {
-                log.info("Key: {}", StringUtils.normalizeSpace(key));
-                valueList.forEach(value -> log.info("Policy: {}", StringUtils.normalizeSpace(value.toString())));
-            });
-        } else {
-            log.info("No policies retrieved from IRS Policy Store");
+        try {
+            // Attempt to fetch the response body
+            body = irsAdminTemplate.exchange(
+                    policiesPath,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<Map<String, List<IrsPolicyResponse>>>() {}
+            ).getBody();
+        } catch (HttpClientErrorException.NotFound e) {
+            // Handle 404 (Not Found) specifically
+            log.warn("No policies found at the provided path: {}", policiesPath);
+            return Collections.emptyMap(); // Return an empty map for 404 responses
+        } catch (RestClientException e) {
+            // Handle other client-related errors
+            log.error("Failed to retrieve policies from IRS Policy Store: {}", e.getMessage(), e);
+            throw e; // Re-throw the exception if desired, or handle it based on application requirements
         }
+
+        // Null-safe handling of the body
+        if (body == null || body.isEmpty()) {
+            log.info("No policies retrieved from IRS Policy Store");
+            return Collections.emptyMap();
+        }
+
+        // Process and log the retrieved policies
+        body.forEach((key, valueList) -> {
+            String normalizedKey = StringUtils.normalizeSpace(key);
+            log.info("Key: {}", normalizedKey);
+
+            if (valueList != null) {
+                valueList.forEach(value -> log.info("Policy: {}", StringUtils.normalizeSpace(value.toString())));
+            } else {
+                log.info("No policies for key: {}", normalizedKey);
+            }
+        });
+
         return body;
     }
 
@@ -126,27 +140,4 @@ public class PolicyClient {
         return irsAdminTemplate.exchange(policiesPath, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), CreatePolicyResponse.class).getBody();
     }
 
-    public void createPolicyFromAppConfig() {
-        OffsetDateTime validUntil = traceabilityProperties.getValidUntil();
-        Context context = Context.getDefault();
-        String policyId = UUID.randomUUID().toString();
-
-        Constraint constraint = new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.EQ), traceabilityProperties.getRightOperand());
-        Constraint constraintSecond = new Constraint(traceabilityProperties.getLeftOperandSecond(), new Operator(OperatorType.EQ), traceabilityProperties.getRightOperandSecond());
-
-        Constraints constraints = Constraints.builder()
-                .and(List.of(constraint, constraintSecond))
-                .build();
-
-        Permission permission = Permission.builder()
-                .action(PolicyType.USE)
-                .constraint(constraints)
-                .build();
-
-        Policy policy = new Policy(policyId, Instant.now().atOffset(ZoneOffset.UTC), validUntil, List.of(permission));
-
-        Payload payload = new Payload(context, policyId, policy);
-        RegisterPolicyRequest registerPolicyRequest = new RegisterPolicyRequest(validUntil.toInstant(), traceabilityProperties.getBpn().value(), payload);
-        irsAdminTemplate.exchange(policiesPath, HttpMethod.POST, new HttpEntity<>(registerPolicyRequest), Void.class);
-    }
 }

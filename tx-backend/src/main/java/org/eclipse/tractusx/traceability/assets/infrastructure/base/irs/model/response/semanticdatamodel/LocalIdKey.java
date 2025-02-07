@@ -21,11 +21,14 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
+@Getter
 public enum LocalIdKey {
     @JsonProperty("manufacturerId") MANUFACTURER_ID("manufacturerId"),
     @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID("manufacturerPartId"),
     @JsonProperty("partInstanceId") PART_INSTANCE_ID("partInstanceId"),
+    @JsonProperty("digitalTwinType") DIGITAL_TWIN_TYPE("digitalTwinType"),
     @JsonProperty("batchId") BATCH_ID("batchId"),
     @JsonEnumDefaultValue UNKNOWN("unknown"),
     @JsonProperty("van") VAN("van"),
@@ -37,7 +40,4 @@ public enum LocalIdKey {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 }

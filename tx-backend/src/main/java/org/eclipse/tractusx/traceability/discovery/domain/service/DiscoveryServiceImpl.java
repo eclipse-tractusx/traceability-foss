@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery.mergeDiscoveries;
+import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery.mergeDiscoveriesAndRemoveDuplicates;
 import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery.toDiscovery;
 
 @Slf4j
@@ -70,7 +70,7 @@ public class DiscoveryServiceImpl implements DiscoveryService {
         Optional<Discovery> optionalDiscoveryFromBpnDatabase = getOptionalDiscoveryFromBpnDatabase(bpn);
         optionalDiscoveryFromBpnDatabase.ifPresent(discovery -> log.info("Retrieved discovery by bpn from BPN Mapping Table receiverUrls: {}, senderUrls: {}", discovery.getReceiverUrls().toString(), discovery.getSenderUrl()));
         optionalDiscoveryFromBpnDatabase.ifPresent(discoveryList::add);
-        return mergeDiscoveries(discoveryList);
+        return mergeDiscoveriesAndRemoveDuplicates(discoveryList, edcProperties.getIdsPath());
     }
 
     private static String removeTrailingSlash(String inputString) {

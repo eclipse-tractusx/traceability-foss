@@ -63,12 +63,11 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     private Instant functionValidFrom;
     private String catenaxSiteId;
 
-
     @ElementCollection
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
     private List<AssetAsPlannedEntity.ChildDescription> childDescriptors;
 
-    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.LAZY)
     private List<ContractAgreementAsPlannedEntity> contractAgreements;
 
     @Builder
@@ -81,7 +80,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
         private String idShort;
     }
 
-    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<SubmodelPayloadEntity> submodels;
 
 
@@ -95,6 +94,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .manufacturerId(asset.getManufacturerId())
                 .nameAtManufacturer(asset.getNameAtManufacturer())
                 .manufacturerPartId(asset.getManufacturerPartId())
+                .digitalTwinType(asset.getDigitalTwinType())
                 .manufacturerName(asset.getManufacturerName())
                 .semanticModelId(asset.getSemanticModelId())
                 .van(asset.getVan())
@@ -125,6 +125,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .manufacturerPartId(entity.getManufacturerPartId())
                 .nameAtManufacturer(entity.getNameAtManufacturer())
                 .manufacturerName(entity.getManufacturerName())
+                .digitalTwinType(entity.getDigitalTwinType())
                 .manufacturerId(entity.getManufacturerId())
                 .van(entity.getVan())
                 .classification(entity.getClassification())

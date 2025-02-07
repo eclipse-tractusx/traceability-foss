@@ -100,7 +100,7 @@ public class JsonSchemaTest {
     }
 
     private String findHighestVersionFile() throws URISyntaxException, IOException {
-        Path dir = Path.of(JsonSchemaTest.class.getResource("/testdata/jsonfiles").toURI());
+        Path dir = Path.of(Objects.requireNonNull(JsonSchemaTest.class.getResource("/testdata/jsonfiles")).toURI());
         Pattern pattern = Pattern.compile("CX_Testdata_MessagingTest_v(\\d+\\.\\d+\\.\\d+)\\.json");
 
         String highestVersionFile = null;

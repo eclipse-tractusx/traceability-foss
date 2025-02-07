@@ -148,7 +148,7 @@ public class ImportController {
         }
 
 
-        Map<AssetBase, Boolean> resultMap = null;
+        Map<AssetBase, Boolean> resultMap;
         try {
             resultMap = importService.importAssets(file, importJob);
         } catch (ImportException e) {

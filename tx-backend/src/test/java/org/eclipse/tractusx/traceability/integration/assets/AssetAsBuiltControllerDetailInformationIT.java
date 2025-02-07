@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.integration.assets;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +34,12 @@ import static org.hamcrest.Matchers.hasSize;
 
 class AssetAsBuiltControllerDetailInformationIT extends IntegrationTestSpecification {
 
-
-    @Autowired
-    BpnSupport bpnSupport;
-
     @Autowired
     AssetsSupport assetsSupport;
 
     @Test
     void shouldNotReturnAassetsDetailInformationWhenUserIsNotAuthenticated() {
         //GIVEN
-        bpnSupport.cachedBpnsForDefaultAssets();
         assetsSupport.defaultAssetsStored();
 
         //THEN
@@ -64,7 +58,6 @@ class AssetAsBuiltControllerDetailInformationIT extends IntegrationTestSpecifica
     @Test
     void shouldReturnAssetsDetailInformation() throws JoseException {
         //GIVEN
-        bpnSupport.cachedBpnsForDefaultAssets();
         assetsSupport.defaultAssetsStored();
 
         //THEN
