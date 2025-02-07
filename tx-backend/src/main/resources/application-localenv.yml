@@ -51,6 +51,7 @@ traceability:
   submodelBase: http://localhost:8082
   discoveryType: ""
   technicalServiceApiKey: "test-key"
+  register-decentral-registry-permissions: true
 
 edc:
   api-auth-key: api-key

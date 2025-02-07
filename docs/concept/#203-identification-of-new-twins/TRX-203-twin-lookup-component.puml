@@ -10,13 +10,22 @@ package "Database Schema" {
         globalAssetId : String [FK -> parts.globalAssetId, NULLABLE]
     }
 
-    entity "parts" as Parts {
+    entity "partAsBuilt" as PartsAsBuilt {
         + globalAssetId : String [PK]
         --
         manufacturerId : String
         otherColumns : ...
     }
+
+        entity "partAsPlanned" as PartsAsPlanned {
+            + globalAssetId : String [PK]
+            --
+            manufacturerId : String
+            otherColumns : ...
+        }
 }
 
-AAS::globalAssetId --> Parts::globalAssetId : Optional FK (1:0 or 1:1)
+AAS::globalAssetId --> PartsAsBuilt::globalAssetId : Optional FK (1:0 or 1:1)
+AAS::globalAssetId --> PartsAsPlanned::globalAssetId : Optional FK (1:0 or 1:1)
+
 @enduml

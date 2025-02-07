@@ -44,6 +44,7 @@ provisioning:
     submodelBaseInternal: localhost:${server.port}/api/submodel/data
     submodelBaseExternal: localhost:${server.port}/api/submodel/data
     submodelPath: ''
+    useCustomImplementation: true
   registry:
     urlWithPathInternal: "http://127.0.0.1"
     urlWithPathExternal: "http://127.0.0.1"

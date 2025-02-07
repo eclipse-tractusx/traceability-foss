@@ -39,7 +39,6 @@ public class ContractsSupport {
     @Transactional
     public void defaultContractAgreementAsBuiltStored() {
         ContractAgreementAsBuiltEntity contractAgreement = new ContractAgreementAsBuiltEntity();
-        contractAgreement.setId("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb");
         contractAgreement.setContractAgreementId("abc1");
         contractAgreement.setGlobalAssetId("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb");
         contractAgreement.setCreated(LocalDateTime.now().toInstant(ZoneOffset.UTC));

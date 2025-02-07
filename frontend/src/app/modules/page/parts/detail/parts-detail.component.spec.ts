@@ -96,14 +96,11 @@ describe('PartsDetailComponent', () => {
 
     // publish assets success
     componentInstance.partOwner = Owner.OWN;
-    expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.publishAssets");
-
-    componentInstance.partOwner = Owner.SUPPLIER;
     expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.publishAssets")
 
     // publish assets - not own Part
     componentInstance.partOwner = Owner.CUSTOMER;
-    expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.publishAssets");
+    expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.onlyAllowedForOwnParts");
 
     componentInstance.partOwner = Owner.OWN
     // sucomponent investigation - not as built

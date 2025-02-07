@@ -17,7 +17,6 @@ truncate table
     import_job_assets_as_planned,
     notification,
     notification_message,
-    submodel,
     submodel_payload,
     traction_battery_code_subcomponent
     cascade;

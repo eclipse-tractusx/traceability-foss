@@ -1,0 +1,34 @@
+@startuml
+
+title Registering Orders (CronJob & REST-API)
+
+participant Trigger as "CronJob/Admin"
+participant TraceX
+participant IRS
+participant TraceXDB
+
+' Order Registration Trigger
+Trigger -> TraceX: Trigger Sync (TTL Reached) / Register Order via REST-API
+note right of Trigger
+- **CronJob:** Checks parts with TTL reached
+- **Admin:** Provides tuples directly via API
+end note
+
+' Data Retrieval (only for CronJob)
+Trigger -> TraceXDB: Query Parts where TTL is Reached
+note right of TraceXDB: Only applicable for CronJob-based trigger
+
+' Registering the Order
+TraceX -> IRS: Register Order (tuples of globalAssetId, BPN, including Order Configuration)
+IRS --> TraceX: Return OrderID
+
+' Persisting the Order
+TraceX -> TraceXDB: Persist OrderID in Orders table
+TraceX -> TraceXDB: Update state of each part to "In Synchronisation" in parts table
+
+' Order Status Updates from IRS
+IRS -> TraceX: Callback (OrderId, OrderState, BatchId, BatchState)
+note right of TraceX: Multiple callbacks will always override the current order
+TraceX -> TraceXDB: Persist Order (Orders table)
+
+@enduml

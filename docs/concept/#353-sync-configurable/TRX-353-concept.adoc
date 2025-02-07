@@ -1,0 +1,82 @@
+== Registering Orders
+
+This document outlines the workflows for registering orders within the system. Orders can be triggered either automatically based on the Time-To-Live (TTL) of parts or manually via a REST-API by an Admin. Both processes share a common structure, with differences primarily in the initiation step.
+
+=== Process Overview
+
+1. **Triggering the Order Registration**:
+- **CronJob-based**: A `CronJob` triggers `TraceX` to check for parts with expired TTL by querying `TraceXDB`.
+- **REST-API-based**: An `Admin` manually registers an order via the REST-API, sending tuples of `globalAssetId`, `BPN`, and order configurations to `TraceX`.
+
+2. **Registering Orders**:
+- In both cases, `TraceX` registers the order with the `IRS`, including the provided tuples (`globalAssetId`, `BPN`, and order configurations).
+- `IRS` responds with an `OrderID`.
+
+3. **Persisting Data**:
+- `TraceX` persists the `OrderID` in the `Orders` table of `TraceXDB`.
+- The state of each part involved is updated to `"In Synchronisation"` in the `parts` table.
+
+4. **Order Status Updates**:
+- `IRS` sends callbacks to `TraceX` with updates, including `OrderId`, `OrderState`, `BatchId`, and `BatchState`.
+- `TraceX` persists the updated order status and `OrderId` in the `Orders` table.
+- The `BatchId` and `BatchState` will not be persisted.
+- Multiple callbacks will always override the current order status.
+
+=== Key Differences
+
+==== Trigger Mechanism:
+- *CronJob-based*: Automatically triggered based on TTL of parts.
+- *REST-API-based*: Manually triggered by an Admin via REST-API.
+
+==== Initial Data Source:
+- *CronJob-based*: `TraceX` queries `TraceXDB` to identify parts with expired TTL.
+- *REST-API-based*: Data is provided directly by the Admin in the API request.
+
+
+[plantuml, target=business-context_registering-orders, format=svg]
+....
+include::TRX-353-registering-orders.puml[]
+....
+
+== Sync Completed/Partial Orders from IRS
+
+This process ensures that parts related to completed and partially completed orders (meeting a time threshold) are synchronized from the Item Relationship Service (IRS) to the TraceX system.
+
+=== Process Overview
+
+1. **Trigger Sync:** A `CronJob` triggers the synchronization in `TraceX` for orders with:
+- Status `COMPLETED`
+- Status `PARTIAL`, only if the `updated_at` time threshold is met
+
+2. **Query Orders:** `TraceX` queries `TraceXDB` for relevant orders based on the above criteria.
+
+3. **Fetch Order Details:** For each identified order:
+- `TraceX` requests order details from `IRS` using the `OrderID`
+- `IRS` responds with parts data (`PartsAsBuilt` or `PartsAsPlanned`)
+
+4. **Persist Data:** `TraceX` stores the parts data in `TraceXDB`.
+
+5. **Update TTL:** The Time-to-Live (TTL) for each part is updated to determine when the part should be synced again, ensuring data freshness and efficient resource usage.
+
+=== Key Notes
+- The time threshold is based on the `updated_at` field, defining when partial orders qualify for resynchronization.
+- TTL updates provide transparency for future sync cycles, optimizing system performance.
+
+
+[plantuml, target=business-context_get-parts-based-on-order-details-from-irs, format=svg]
+....
+include::TRX-353-get-parts-based-on-order-details-from-irs.puml[]
+....
+
+[plantuml, target=business-context_registering-orders-component, format=svg]
+....
+include::TRX-353-registering-orders-component.puml[]
+....
+
+=== Screen Mockup
+
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/concepts/TRX-353-sync-job-configurable/screen-mockup.svg[]
+image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/concepts/TRX-353-sync-job-configurable/screen-mockup2.svg[]
+
+
+

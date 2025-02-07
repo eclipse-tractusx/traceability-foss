@@ -20,13 +20,7 @@
 package org.eclipse.tractusx.traceability.common.repository;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Path;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -53,10 +47,12 @@ public class CriteriaUtility {
         Root<?> root = cq.from(assetEntityClass);
 
         Path<String> fieldPath = root.get(fieldName);
+        // Cast to string
+        Expression<String> stringFieldPath = builder.concat(fieldPath, "");
 
-        cq.select(fieldPath.as(String.class))
+        cq.select(stringFieldPath)
                 .distinct(true)
-                .orderBy(List.of(builder.asc(fieldPath.as(String.class))));
+                .orderBy(List.of(builder.asc(stringFieldPath)));
 
         List<Predicate> predicates = new ArrayList<>();
         if (nonNull(startWith)) {
@@ -94,16 +90,18 @@ public class CriteriaUtility {
         Root<?> root = cq.from(notificationEntityClass);
 
         Path<String> fieldPath1 = getFieldPath(root, fieldName);
+        // Cast to string
+        Expression<String> stringFieldPath1 = builder.concat(fieldPath1, "");
 
-        cq.select(fieldPath1.as(String.class))
+        cq.select(stringFieldPath1)
                 .distinct(true)
-                .orderBy(List.of(builder.asc(fieldPath1.as(String.class))));
+                .orderBy(List.of(builder.asc(stringFieldPath1)));
 
         List<Predicate> predicates = new ArrayList<>();
         if (nonNull(startWith)) {
             predicates.add(
                     builder.like(
-                            builder.lower(fieldPath1),
+                            builder.lower(stringFieldPath1),
                             startWith.toLowerCase() + "%")
             );
         }
