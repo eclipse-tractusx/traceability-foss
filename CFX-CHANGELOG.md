@@ -9,23 +9,25 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ## [Unreleased]
 
+## [13.0.2-cfx-13]
+
 ### Added
 
-- TRX-145 Access and Authentication for BPDM Lookup over EDC communication
-- TRX-184 Change Quality Notification API according to CX-0125 Traceability Use Case v2.0.0
-- TRX-357 Add concept for BPDM Lookup Handling in UI and regarding Updates of BPDM information
-- TRX-420 functionality to Sync child/supplier parts for Admin
-- TRX-203 Added concept for aas lookup
+- TRACEX-145 Access and Authentication for BPDM Lookup over EDC communication
+- TRACEX-184 Change Quality Notification API according to CX-0125 Traceability Use Case v2.0.0
+- TRACEX-357 Add concept for BPDM Lookup Handling in UI and regarding Updates of BPDM information
+- TRACEX-420 functionality to Sync child/supplier parts for Admin
+- TRACEX-203 Added concept for aas lookup
 
 ### Changed
 
 - TRACEX-224 Setup Trace-X gatling test workflow using containers and switch to technical api key
-- TRX-419 Fix env variables in settings.xml
+- TRACEX-419 Fix env variables in settings.xml
 - TRACEX-374 Fix bug in FE pagination for asbuilt and asplanned tables
 - TRACEX-141 Fix global table filters
 - Bump jsonschema2pojo-core to 1.2.2 to fix CVE-2024-47554
 - Bump springdoc-openapi-starter-webmvc-ui to 2.8.3 to fix CVE-2024-45801, CVE-2024-47875, CVE-2024-48910
-- TRX-384  Remove null check for manufacturerName in findByBpn
+- TRACEX-384  Remove null check for manufacturerName in findByBpn
 - TRACEX-278 Enable nginx forward proxy for cfx-frontend
 
 ## [13.0.2-cfx-9 - 09.01.2025]
