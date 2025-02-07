@@ -20,24 +20,26 @@
 package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base;
 
 import assets.importpoc.ImportResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.apache.http.protocol.HTTP;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.repository.AssetAsBuiltSupportRepository;
 import org.eclipse.tractusx.traceability.integration.common.support.repository.BpnSupportRepository;
 import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport.sendCallback;
 
 class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
@@ -48,150 +50,116 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     BpnSupportRepository bpnSupportRepository;
 
     @Autowired
-    BpnSupport bpnSupport;
-
-    @Autowired
     AssetsSupport assetsSupport;
 
     @Autowired
-    AssetAsBuiltSupportRepository assetAsBuiltSupportRepository;
+    EdcSupport edcSupport;
 
+    @Autowired
+    BpnSupport bpnSupport;
+
+    private final static int HTTP_STATUS_OKAY = 200;
+
+    @BeforeEach
+    void setUp() throws JsonProcessingException {
+        edcSupport.performSupportActionsForBpdmAccess();
+        irsApiSupport.irsApiReturnsPoliciesBpdm();
+        bpnSupport.providesBpdmLookup();
+    }
 
     @Test
-    void givenAssets_whenCallbackReceived_thenSaveThemAndStoreContractAgreementId() throws JoseException {
+    void givenAssets_whenCallbackReceived_thenSaveThemAndStoreContractAgreementId()
+            throws JoseException {
         // given
-
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        irsApiSupport.irsApiReturnsOrderAndBatchDetails();
         irsApiSupport.irsApiReturnsJobDetails();
-        String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
-        String jobState = "COMPLETED";
+
+        String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
+        String batchId = "ebb79c45-7bba-4169-bf17-3e719989ab55";
+        String orderState = "PROCESSING";
+        String batchState = "COMPLETED";
 
         // when
-        given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .param("id", jobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
-                .then()
-                .log().all()
-                .statusCode(200);
+        sendCallback(orderId, batchId, orderState, batchState, HTTP_STATUS_OKAY);
 
         // then
         assertThat(bpnSupportRepository.findAll()).hasSize(1);
         assetsSupport.assertAssetAsBuiltSize(2);
         assetsSupport.assertAssetAsPlannedSize(0);
-
-        // Make the API call and store the response
-        given()
-                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .pathParam("assetId", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
-                .get("/api/assets/as-built/{assetId}")
-                .then()
-                .log().all()
-                .statusCode(200);
     }
 
     @Test
     void givenNoAssets_whenCallbackReceivedForAsPlanned_thenSaveThem() {
         // given
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();
-        String jobId = "ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED";
-        String jobState = "COMPLETED";
-
+        irsApiSupport.irsApiReturnsOrderAndBatchDetailsAsPlanned();
+        String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab57";
+        String batchId = "ebb79c45-7bba-4169-bf17-3e719989ab58";
+        String orderState = "COMPLETED";
+        String batchState = "COMPLETED";
         // when
-        given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .param("id", jobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
-                .then()
-                .log().all()
-                .statusCode(200);
+        sendCallback(orderId, batchId, orderState, batchState, HTTP_STATUS_OKAY);
 
         // then
-        assertThat(bpnSupportRepository.findAll()).hasSize(1);
-        assetsSupport.assertAssetAsBuiltSize(0);
         assetsSupport.assertAssetAsPlannedSize(3);
     }
 
     @Test
-    void givenInvalidJobId_whenCallbackReceivedForAsPlanned_thenNothingSynchronized() {
+    void givenNoBatchIdNoBatchState_whenCallbackReceivedOrderCompleted_thenSimplyDoNothing() {
         // given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();
-        String invalidJobId = "irs/admin/test/ID";
-        String jobState = "COMPLETED";
+        irsApiSupport.irsApiReturnsOrderAndBatchDetailsAsPlanned();
+        String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab57";
+        String batchId = "ebb79c45-7bba-4169-bf17-3e719989ab58";
+        String orderState = "COMPLETED";
 
-        // when
+        // when then
         given()
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .param("id", invalidJobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
+                .param("orderId", orderId)
+                .param("orderState", orderState)
+                .get("/api/irs/order/callback")
                 .then()
                 .log().all()
-                .statusCode(200);
+                .statusCode(HTTP_STATUS_OKAY);
+
+    }
+
+
+    @Test
+    void givenNoJobsForOrder_whenCallbackReceivedForAsPlanned_thenNothingSynchronized() {
+        // given
+        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
+        irsApiSupport.irsApiReturnsOrderAndBatchDetailsAsPlannedNoJobs();
+        String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab51";
+        String batchId = "ebb79c45-7bba-4169-bf17-3e719989ab52";
+        String orderState = "COMPLETED";
+        String batchState = "COMPLETED";
+
+        // when
+        sendCallback(orderId, batchId, orderState, batchState, HTTP_STATUS_OKAY);
 
         // then
         assertThat(bpnSupportRepository.findAll()).isEmpty();
-        assetsSupport.assertAssetAsBuiltSize(0);
         assetsSupport.assertAssetAsPlannedSize(0);
-    }
-
-    @Test
-    void givenAssetExist_whenCallbackReceived_thenUpdateIt() {
-        // given
-        assetsSupport.defaultAssetsStored();
-        bpnSupport.providesBpdmLookup();
-        oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
-        irsApiSupport.irsApiReturnsJobDetails();
-        String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
-        String jobState = "COMPLETED";
-
-        // when
-        given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .param("id", jobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
-                .then()
-                .log().all()
-                .statusCode(200);
-
-
-        // then
-        assertThat(bpnSupportRepository.findAll()).hasSize(1);
-        assetsSupport.assertAssetAsBuiltSize(14);
-        assetsSupport.assertAssetAsPlannedSize(0);
-        String updatedIdShort = assetsSupport.findById("urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc").getIdShort();
-        assertThat(updatedIdShort).isEqualTo("ecu.asm");
-        //urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb
-        //vehicle_hybrid_v2.asm
     }
 
     @Test
     void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateAsBuiltAsset() throws JoseException {
         // given
 
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsJobDetails();
-        String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
-        String jobState = "COMPLETED";
+        irsApiSupport.irsApiReturnsOrderAndBatchDetails();
+        String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
+        String batchId = "ebb79c45-7bba-4169-bf17-3e719989ab55";
+        String orderState = "COMPLETED";
+        String batchState = "COMPLETED";
 
         String path = getClass().getResource("/testdata/importfiles/validImportFile.json").getFile();
         File file = new File(path);
@@ -202,20 +170,11 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
-                .statusCode(200)
+                .statusCode(HTTP_STATUS_OKAY)
                 .extract().as(ImportResponse.class);
 
         // when
-        given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .param("id", jobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
-                .then()
-                .log().all()
-                .statusCode(200);
+        sendCallback(orderId, batchId, orderState, batchState, HTTP_STATUS_OKAY);
 
         // then
         String tombstoneAsBuilt = given()
@@ -227,7 +186,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built/{assetId}")
                 .then()
                 .log().all()
-                .statusCode(200)
+                .statusCode(HTTP_STATUS_OKAY)
                 .extract().path("tombstone");
 
         assertThat(tombstoneAsBuilt).isNotEmpty();
@@ -237,11 +196,13 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateAsPlannedAsset() throws JoseException {
         // given
-        bpnSupport.providesBpdmLookup();
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();
-        String jobId = "ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED";
-        String jobState = "COMPLETED";
+        irsApiSupport.irsApiReturnsOrderAndBatchDetailsAsPlanned();
+        String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab57";
+        String batchId = "ebb79c45-7bba-4169-bf17-3e719989ab58";
+        String orderState = "COMPLETED";
+        String batchState = "COMPLETED";
 
         String path = getClass().getResource("/testdata/importfiles/validImportFile-onlyAsPlannedAsset.json").getFile();
         File file = new File(path);
@@ -252,20 +213,11 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .multiPart(file)
                 .post("/api/assets/import")
                 .then()
-                .statusCode(200)
+                .statusCode(HTTP_STATUS_OKAY)
                 .extract().as(ImportResponse.class);
 
         // when
-        given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .param("id", jobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
-                .then()
-                .log().all()
-                .statusCode(200);
+        sendCallback(orderId, batchId, orderState, batchState, HTTP_STATUS_OKAY);
 
         // then
         String tombstoneAsPlanned = given()
@@ -277,50 +229,10 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-planned/{assetId}")
                 .then()
                 .log().all()
-                .statusCode(200)
+                .statusCode(HTTP_STATUS_OKAY)
                 .extract().path("tombstone");
 
         assertThat(tombstoneAsPlanned).isNotEmpty();
     }
-
-
-    @Test
-    void givenNoAssets_whenCallbackReceived_thenSaveThem_withoutManufacturerName() throws JoseException {
-        // given
-
-        bpnSupport.returnsBpdmLookup401Unauthorized();
-        irsApiSupport.irsApiReturnsJobDetails();
-        String jobId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
-        String jobState = "COMPLETED";
-
-        // when
-        given()
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .param("id", jobId)
-                .param("state", jobState)
-                .get("/api/irs/job/callback")
-                .then()
-                .log().all()
-                .statusCode(200);
-
-        // then
-        assetsSupport.assertAssetAsBuiltSize(2);
-        assetsSupport.assertAssetAsPlannedSize(0);
-        String manufacturerName = given()
-                .header(oAuth2Support.jwtAuthorization(JwtRole.ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .pathParam("assetId", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
-                .get("/api/assets/as-built/{assetId}")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .extract().path("manufacturerName");
-        assertThat(manufacturerName).isNull();
-    }
-
 
 }

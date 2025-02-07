@@ -46,7 +46,7 @@ public class PublishAssetsJob {
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final PublishService publishService;
 
-    @Scheduled(cron = "0 30 */1 * * ?", zone = "Europe/Berlin")
+    @Scheduled(cron = "${traceability.publishAssetCronExpression}", zone = "${traceability.publishAssetCronZone}")
     public void publishAssets() {
         log.info("Start publish assets cron job");
         List<AssetBase> assetsAsBuiltInSync = assetAsBuiltRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION);

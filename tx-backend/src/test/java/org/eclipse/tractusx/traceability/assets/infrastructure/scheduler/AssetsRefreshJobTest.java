@@ -51,6 +51,10 @@ class AssetsRefreshJobTest {
     void refresh_shouldBeScheduledForEveryTwoHours() throws NoSuchMethodException {
         Scheduled scheduledAnnotation = AssetsRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(Scheduled.class);
         String cronExpression = scheduledAnnotation.cron();
-        assertEquals("0 0 */2 * * ?", cronExpression);
+        String cronZone = scheduledAnnotation.zone();
+        assertNotNull(cronExpression);
+        assertNotNull(cronZone);
+        assertEquals("${traceability.assetRefreshJobCronExpression}", cronExpression);
+        assertEquals("${traceability.assetRefreshJobZone}", cronZone);
     }
 }

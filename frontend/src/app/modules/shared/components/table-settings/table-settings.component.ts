@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -108,7 +108,6 @@ export class TableSettingsComponent {
   }
 
   handleListItemClick(event: MouseEvent, item: string) {
-    ;
     let element = event.currentTarget as HTMLElement;
     if ((event.target as HTMLElement).tagName !== 'INPUT') {
       this.selectedColumn = item;

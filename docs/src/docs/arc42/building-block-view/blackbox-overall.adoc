@@ -23,4 +23,10 @@ include::../../../uml-diagrams/arc42/building-block-view/whitebox_overall.puml[]
 
 |Submodel server
 |The submodel server offers endpoints for requesting the submodel aspects.
+
+|DiscoveryFinder
+|Discovery Finder service enables the lookup of the suitable BPN Discovery services.
+
+|EDC Discovery Service
+| The EDC discovery service as defined in CX-0001 supports to find EDC endpoints of participants of the data space via BPNs, CX-0010. In some use cases the BPN is not known at the start of the process. This means that all EDCs in the data space need to be accessed to find a specific EDC data asset under consideration. This broadcasting has very low performance and produces a high access load on the EDCs.
 |===

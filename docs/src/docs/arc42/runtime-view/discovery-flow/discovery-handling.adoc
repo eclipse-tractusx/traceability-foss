@@ -1,0 +1,55 @@
+= Scenario: EDC Discovery Flow
+
+This section describes the discovery flow and the handling of receiving EDC Urls for a given bpn in Trace-X.
+
+[plantuml,target=discovery-flow,format=svg]
+....
+include::../../../../uml-diagrams/arc42/runtime-view/discovery-flow/discovery-handling.puml[]
+....
+
+
+== Overview
+
+This sequence diagram provides a detailed visualization of the EDC Discovery process. It highlights the interactions between the user, the DiscoveryServiceImpl, and supporting repositories while addressing key scenarios like exception handling, duplicate URL detection, and the retrieval of BPN-related data. Below is a step-by-step explanation of the process:
+
+[cols="2", options="header"]
+|===
+| Step | Description
+
+| **1. User Request**
+| The process begins with the user calling the `getDiscoveryByBPN(bpn)` method of the `DiscoveryServiceImpl`.
+
+| **2. Discovery Retrieval**
+| The `DiscoveryServiceImpl` attempts to retrieve discovery information by calling `retrieveDiscoveryByFinderAndEdcDiscoveryService(bpn)` on the `DiscoveryRepository`.
+If successful, an optional discovery object is returned. Otherwise, an exception is thrown.
+
+| **3. Duplicate URL Check**
+| The `DiscoveryServiceImpl` invokes `checkDuplicateUrlsForBpn` to ensure no duplicate URLs are registered for the same BPN.
+If duplicates are found:
+- A `DiscoveryFinderException` is thrown.
+- A note explains the issue: "Multiple identical URLs have been registered for the same BPN. Ensure each BPN has a unique URL."
+If no duplicates are found, the process continues.
+
+| **4. BPN Data Retrieval**
+| The `DiscoveryServiceImpl` queries the `BpnRepository` using `existsWhereUrlNotNull(bpn)` to verify if a mapping exists and has a non-null URL.
+- If mapping exists, the repository returns the mapping.
+- If not, a `BpnNotFoundException` is thrown.
+
+| **5. Fetch BPN Record**
+| If the BPN exists, the service retrieves its details using `findByIdOrThrowNotFoundException(bpn)` from the `BpnRepository`.
+A note clarifies that if a `BpnNotFoundException` occurs, the URL from DiscoveryService is not used.
+
+| **6. Convert Data to Discovery Object**
+| The `DiscoveryServiceImpl` converts the BPN data into a `Discovery` object using `toDiscovery(receiverUrl, senderUrl)`.
+
+| **7. Merge and Remove Duplicates**
+| Final steps involve invoking `mergeDiscoveriesAndRemoveDuplicates` and `removeDuplicates` methods to ensure data integrity.
+
+| **8. Completion**
+| Once all operations are successfully executed, the discovery data is returned to the user.
+
+| **Exception Scenarios**
+| *DiscoveryFinderException*: Triggered when multiple identical URLs are registered for the same BPN.
+*BpnNotFoundException*: Thrown if the requested BPN is not found in the repository.
+
+|===

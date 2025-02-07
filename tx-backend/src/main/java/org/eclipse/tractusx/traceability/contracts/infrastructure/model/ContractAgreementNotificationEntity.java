@@ -25,7 +25,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
-import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 
 import java.time.Instant;
@@ -51,13 +50,4 @@ public class ContractAgreementNotificationEntity extends ContractAgreementBaseEn
         return contracts.stream().map(contract -> ContractAgreementNotificationEntity.from(contract, contractType)).toList();
     }
 
-
-    public static ContractAgreementNotificationEntity fromDomainToEntity(ContractAgreement contractAgreement) {
-        return ContractAgreementNotificationEntity.builder()
-                .contractAgreementId(contractAgreement.getContractAgreementId())
-                .globalAssetId(contractAgreement.getGlobalAssetId())
-                .type(contractAgreement.getType())
-                .created(contractAgreement.getCreated())
-                .updated(contractAgreement.getUpdated()).build();
-    }
 }

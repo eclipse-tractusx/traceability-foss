@@ -1,0 +1,359 @@
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
+/*--------------------------------------------------------*/
+/*  BASE CSS
+/*--------------------------------------------------------*/
+
+@layer base {
+  body {
+    @apply font-light bg-white m-0 p-0 overflow-hidden;
+    font-family: 'Catena-X Light', sans-serif;
+    font-size: 14px;
+  }
+
+  h1 {
+    @apply font-medium uppercase text-dark;
+    font-size: 56px;
+  }
+
+  h1,
+  normal-case {
+    @apply font-medium text-dark;
+    font-size: 56px;
+    text-transform: none;
+  }
+
+  h2 {
+    @apply font-medium uppercase text-dark;
+    font-size: 36px;
+  }
+
+  h2,
+  normal-case {
+    @apply font-medium uppercase text-dark;
+    font-size: 36px;
+    text-transform: none;
+  }
+
+  h3 {
+    @apply font-semiBold sm:text-xl text-dark;
+    font-size: 24px;
+  }
+
+  h3,
+  upper-case {
+    @apply uppercase font-semiBold sm:text-xl text-dark;
+    font-size: 24px;
+  }
+
+  h4 {
+    @apply font-semiBold sm:text-lg text-dark;
+    font-size: 18px;
+  }
+
+  h5 {
+    @apply font-semiBold sm:text-base text-dark;
+    font-size: 16px;
+  }
+
+  p,
+  span,
+  .regular-text {
+    @apply font-light lg:text-sm sm:text-xs;
+  }
+
+  .large-text {
+    @apply font-light lg:text-base sm:text-sm text-dark;
+  }
+
+  .small-text {
+    @apply font-light lg:text-xs sm:text-tiny text-dark;
+  }
+
+  .component-headline {
+    @apply font-light lg:text-sm sm:text-xs text-dark;
+  }
+
+  a {
+    @apply font-light text-sm text-blueBayouxShadeLynch cursor-pointer hover:text-blueBayouxShadePigeonPost;
+    text-decoration: none;
+    white-space: pre-wrap;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  // Style fixes for material library
+  .mat-mdc-dialog-actions {
+    justify-content: space-between !important;
+  }
+
+  .mat-mdc-icon-button {
+    @apply focus:outline-none;
+  }
+
+  .mat-mdc-unelevated-button {
+    border-radius: 50px !important;
+  }
+
+  .mat-mdc-unelevated-button > .mdc-button__label {
+    @apply text-interactive;
+  }
+
+  .mat-mdc-form-field {
+    @apply font-light lg:text-base sm:text-sm text-dark ml-0 !important;
+  }
+
+  .mat-paginator,
+  mat-chip {
+    @apply font-light;
+  }
+
+  .mat-mdc-form-field-hint {
+    @apply font-regular text-gray;
+    font-size: 14px;
+  }
+
+  .mat-sort-header {
+    @apply text-gray;
+  }
+
+  .mat-sort-header-sorted > .mat-sort-header-content {
+    @apply font-semiBold;
+  }
+}
+
+.mdc-text-field__input::-webkit-calendar-picker-indicator {
+  display: flex !important;
+}
+
+/* Make slider of split area always visible and align with containers */
+.as-split-gutter {
+  height: auto !important;
+}
+
+.split-area::before {
+  box-shadow: 3px 3px 5px #888 !important;
+}
+
+.filter-row{
+  th{
+    top:54px!important;
+  }
+}
+
+
+
+as-split-area {
+  box-shadow: 0 2px 2px -3px rgba(0, 0, 0, 0.2), 0px 4px 6px -1px rgba(0, 0, 0, 0.14), 0px 1px 8px -2px rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  overflow: hidden !important;
+  height: 55vh;
+}
+
+app-parts-table {
+
+  /* Avoid sticky head to be over sidenav component*/
+  th {
+    z-index: 2 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+  }
+}
+
+as-split {
+
+  @media screen and (max-height: 1049px) {
+    height: 66vh !important
+  }
+
+  @media screen and (min-height: 1050px) {
+    height: 75vh !important
+  }
+
+}
+
+app-parts{
+  .parts-search-input .mat-mdc-form-field-subscript-wrapper{
+    margin-bottom: -1.25em;
+
+  }
+  .table-wrapper {
+    @media screen and (max-height: 1049px) {
+      height: 52vh !important;
+      max-height: 52vh !important;
+    }
+
+    @media screen and (min-height: 1050px) {
+      height: 60vh !important;
+      max-height: 60vh !important;
+    }
+  }
+
+  .mat-mdc-paginator-page-size {
+    margin-bottom: 3px !important;
+  }
+}
+
+app-notifications-tab, app-policies {
+  .table-wrapper {
+    background-color: white;
+    @media screen and (max-height: 1049px) {
+      height: 56vh;
+    }
+
+    @media screen and (min-height: 1050px) {
+      height: 70vh;
+      max-height: 70vh;
+    }
+
+    border-left: 1px solid rgb(220, 220, 220);
+    box-shadow: 0 3px 5px #888;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+
+  }
+}
+
+app-notification-edit {
+  .table-wrapper {
+    background-color: white;
+    height:30vh;
+    overflow:auto;
+    @media screen and (max-height: 1049px) {
+      max-height: 45vh;
+      height: 30vh;
+    }
+
+    @media screen and (min-height: 1050px) {
+      height: 25vh;
+      max-height: 45vh;
+    }
+  }
+}
+
+app-parts, app-notification-tab {
+  .table-wrapper {
+    background-color: white;
+    height: 45vh;
+    border-left: 1px solid rgb(220, 220, 220);
+    box-shadow: 0 3px 5px #888
+  }
+}
+
+app-multiselect {
+  .mat-date-range-input-container {
+    text-align: center !important;
+  }
+
+  /* Make sure multi-select text field does fit with other content and does not extend the column width */
+  .mat-mdc-form-field {
+    width: 100%;
+  }
+}
+
+.app-multiselect-filter-dropdown {
+  max-height: 300px !important;
+  top: unset;
+  bottom: 0;
+}
+
+app-parts, app-notifications-tab, app-policies {
+
+  .mat-mdc-table .mdc-data-table__row:last-child {
+    border-bottom: 1px solid lightgrey;
+  }
+
+  .table-header-wrapper {
+    mat-icon {
+      float: right;
+    }
+
+    justify-content: center;
+    border: 1px solid rgb(220, 220, 220);
+    border-radius: 24px 24px 0 0;
+    background-color: rgba(0, 0, 0, 0.02);
+    box-shadow: 0 3px 5px #888;
+
+    .table-header-container {
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      min-height: 100px;
+      padding: 8px 32px 8px 32px;
+    }
+  }
+
+  .table-wrapper {
+    overflow: auto;
+  }
+
+  .mat-mdc-paginator {
+    border-radius: 0 0 24px 24px;
+  }
+
+  .mat-mdc-row:hover {
+    transition: 0.1s ease !important;
+    filter: brightness(0.9) !important;
+    border: none !important;
+  }
+
+  .parts-search-input {
+    .mat-mdc-text-field-wrapper {
+      border: 1px solid rgb(220, 220, 220);
+      border-radius: 16px;
+      background-color: rgb(249, 249, 249);
+    }
+
+    .mdc-line-ripple {
+      display: none
+    }
+
+  }
+
+}
+
+/* Align icon with text centered*/
+app-table-settings {
+  .mat-mdc-checkbox label {
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+/* Make sure multi-select text field does fit with other content and does not extend the column width */
+app-multiselect .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+  width: 100%;
+}
+
+/* Apply correct padding for text value inside of textarea*/
+app-textarea {
+  .mat-mdc-form-field-infix {
+    padding-top: 14px !important;
+  }
+}
+
+app-admin {
+  .table-wrapper {
+    overflow-x: auto;
+  }
+}

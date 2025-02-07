@@ -1,40 +1,167 @@
 @startuml
+!include https://raw.githubusercontent.com/doubleSlashde/umltheme/main/puml-theme-doubleslash-general.puml
+
 skinparam monochrome true
 skinparam shadowing false
-skinparam defaultFontName "Architects daughter"
 skinparam linetype ortho
+skinparam spacing 100
+skinparam nodesep 30
+skinparam ranksep 70
 
 component [**TraceX-Application**] <<System>> as TraceX {
-    component [**AssetsController**] <<Component>> as AssetsController
-    component [**DashboardController**] <<Component>> as DashboardController
-    component [**RegistryController**] <<Component>> as RegistryController
 
-    component [**AssetRepository**] <<Component>> as AssetRepository
-    component [**NotificationsRepository**] <<Component>> as NotificationsRepository
-    component [**BPNRepository**] <<Component>> as BPNRepository
+' Controllers
+   component [**AssetAsBuiltController**] <<Component>> as AssetAsBuiltController
+   component [**AssetAsPlannedController**] <<Component>> as AssetAsPlannedController
+   component [**RegistryController**] <<Component>> as RegistryController
+   component [**DashboardController**] <<Component>> as DashboardController
+   component [**ImportController**] <<Component>> as ImportController
+   component [**NotificationController**] <<Component>> as NotificationController
+   component [**BpnMappingController**] <<Component>> as BpnMappingController
+   component [**EdcController**] <<Component>> as EdcController
+   component [**EdcNotificationContractController**] <<Component>> as EdcNotificationContractController
+
+ ' Standalone Components
+   component [**PublishJob**] <<Service>> as PublishJob
+
+ ' Services
+   component [**AssetBaseService**] <<Service>> as AssetBaseService
+   component [**DecentralRegistryService**] <<Service>> as DecentralRegistryService
+   component [**NotificationService**] <<Service>> as NotificationService
+   component [**DashboardService**] <<Service>> as DashboardService
+   component [**AssetAsBuiltService**] <<Component>> as AssetAsBuiltService
+   component [**AssetAsPlannedService**] <<Component>> as AssetAsPlannedService
+   component [**NotificationReceiverService**] <<Component>> as NotificationReceiverService
+   component [**DiscoveryService**] <<Service>> as DiscoveryService
+   component [**BpnService**] <<Service>> as BpnService
+   component [**ImportService**] <<Service>> as ImportService
+   component [**PublishService**] <<Service>> as PublishService
+   component [**EdcNotificationContractService**] <<Service>> as EdcNotificationContractService
+
+' Repositories
+   component [**AssetAsBuiltRepository**] <<Component>> as AssetAsBuiltRepository
+   component [**AssetAsBuiltViewRepository**] <<Component>> as AssetAsBuiltViewRepository
+   component [**AssetAsPlannedRepository**] <<Component>> as AssetAsPlannedRepository
+   component [**NotificationRepository**] <<Component>> as NotificationRepository
+   component [**JpaNotificationRepository**] <<Component>> as JpaNotificationRepository
+   component [**JpaNotificationMessageRepository**] <<Component>> as JpaNotificationMessageRepository
+   component [**AssetRepository**] <<Component>> as AssetRepository
+   component [**JobRepository**] <<Component>> as JobRepository
+   component [**JpaAssetAsBuiltRepository**] <<Component>> as JpaAssetAsBuiltRepository
+   component [**JpaAssetAsPlannedRepository**] <<Component>> as JpaAssetAsPlannedRepository
+   component [**BPNRepository**] <<Component>> as BPNRepository
+   component [**DiscoveryRepository**] <<Component>> as DiscoveryRepository
+   component [**ImportJobRepository**] <<Component>> as ImportJobRepository
+   component [**JpaBpnRepository**] <<Component>> as JpaBpnRepository
+   component [**JpaImportJobRepository**] <<Component>> as JpaImportJobRepository
+   component [**DecentralRegistryRepository**] <<Component>> as DecentralRegistryRepository
 
     port "TraceX API" as API_PORT
 
-    () "JPARepository" as StoreInterface
+    () JPARepository as StoreInterface
+    () "HTTP Interface" as HttpInterface
 
-    AssetsController <..> AssetRepository
-    AssetsController <..> NotificationsRepository
-    AssetsController <..> BPNRepository
-    DashboardController <..> AssetRepository
-    RegistryController <..> AssetRepository
+    component [**IRS**] <<External>> as IRS
+    component [**BPDM**] <<External>> as BPDM
+    component [**Discovery**] <<External>> as Discovery
+    component [**DigitalTwinRegistry**] <<External>> as DigitalTwinRegistry
+    component [**SubmodelServer**] <<External>> as SubmodelServer
+    component [**EDC**] <<External>> as EDC
 
-    BPNRepository --( StoreInterface
-    AssetRepository --( StoreInterface
-    NotificationsRepository --( StoreInterface
+' Connecting infrastructure to storage
+JpaAssetAsBuiltRepository ---( StoreInterface
+AssetAsBuiltViewRepository ---( StoreInterface
+JpaAssetAsPlannedRepository ---( StoreInterface
+JpaNotificationMessageRepository --( StoreInterface
+JpaNotificationRepository ---( StoreInterface
+JpaBpnRepository ---( StoreInterface
+JpaImportJobRepository ---( StoreInterface
+DiscoveryRepository ---( StoreInterface
+JobRepository --( StoreInterface
+
+' Connecting infrastructure to http service interface
+JobRepository ---( HttpInterface : IRS
+BPNRepository ---( HttpInterface: BPDM
+EdcNotificationContractService ---( HttpInterface : EDC
+PublishService ---( HttpInterface : DigitalTwinRegistry
+PublishService ---( HttpInterface : SubmodelServer
+PublishService ---( HttpInterface : EDC
+DiscoveryRepository ---( HttpInterface : Discovery
+
+' Connecting http interface to external services
+HttpInterface --> IRS
+HttpInterface --> BPDM
+HttpInterface --> Discovery
+HttpInterface --> DigitalTwinRegistry
+HttpInterface --> EDC
+HttpInterface --> SubmodelServer
+
 }
 
+' Modelling flow
 actor TraceXUser
 TraceXUser -(0- API_PORT
-AssetsController -up- API_PORT
-DashboardController -up- API_PORT
 RegistryController -up- API_PORT
+RegistryController -> DecentralRegistryService
+DecentralRegistryService --> JobRepository
 
-database "Database" as BlobStore
-StoreInterface -down- BlobStore
+DecentralRegistryService --> AssetAsBuiltService
+DecentralRegistryService --> AssetAsPlannedService
+DecentralRegistryService --> DecentralRegistryRepository
+DecentralRegistryRepository --> Discovery
 
+AssetAsBuiltController -up- API_PORT
+AssetAsBuiltController --> AssetBaseService
+AssetBaseService --> AssetAsBuiltService
+AssetAsBuiltService --> JobRepository
+AssetAsBuiltService --> AssetRepository
+AssetAsBuiltService --> AssetAsBuiltViewRepository
+AssetRepository --> AssetAsBuiltRepository
+AssetAsBuiltRepository --> JpaAssetAsBuiltRepository
+
+AssetAsPlannedController -up- API_PORT
+AssetAsPlannedController --> AssetBaseService
+AssetBaseService --> AssetAsPlannedService
+AssetAsPlannedService --> AssetRepository
+AssetAsPlannedService ---> JobRepository
+AssetRepository --> AssetAsPlannedRepository
+AssetAsPlannedRepository --> JpaAssetAsPlannedRepository
+
+NotificationController -up- API_PORT
+NotificationController --> NotificationService
+NotificationService --> NotificationRepository
+NotificationRepository --> JpaNotificationRepository
+NotificationRepository --> JpaNotificationMessageRepository
+NotificationRepository --> JpaAssetAsBuiltRepository
+
+BpnMappingController -up- API_PORT
+BpnMappingController --> BpnService
+BpnService --> BPNRepository
+BPNRepository --> JpaBpnRepository
+
+ImportController -up- API_PORT
+ImportController --> ImportService
+ImportService --> ImportJobRepository
+ImportJobRepository --> JpaImportJobRepository
+
+EdcNotificationContractController -up- API_PORT
+EdcNotificationContractController --> EdcNotificationContractService
+
+DashboardController -up- API_PORT
+DashboardController --> DashboardService
+DashboardService ---> AssetAsBuiltRepository
+DashboardService ---> AssetAsPlannedRepository
+DashboardService ---> NotificationRepository
+
+EdcController -up- API_PORT
+EdcController --> NotificationReceiverService
+NotificationReceiverService --> NotificationRepository
+
+PublishJob --> PublishService
+PublishService --> JpaAssetAsBuiltRepository
+
+DiscoveryService --> DiscoveryRepository
+
+database "Database" as Database
+StoreInterface -down- Database
 @enduml

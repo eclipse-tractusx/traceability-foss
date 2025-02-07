@@ -19,6 +19,8 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
@@ -34,8 +36,9 @@ import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShel
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.repository.SubmodelPayloadRepository;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.RegistryProperties;
+import org.eclipse.tractusx.traceability.submodel.domain.model.SubmodelCreateRequest;
 import org.eclipse.tractusx.traceability.submodel.domain.repository.SubmodelServerRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -44,6 +47,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.DIGITAL_TWIN_TYPE;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.MANUFACTURER_ID;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.LocalIdKey.MANUFACTURER_PART_ID;
 
 @Slf4j
 @Service
@@ -56,44 +63,55 @@ public class DtrService {
     private final SubmodelPayloadRepository submodelPayloadRepository;
     private final SubmodelServerRepository submodelServerRepository;
     private final EdcProperties edcProperties;
-
-    @Value("${registry.allowedBpns}")
-    String allowedBpns;
+    private final RegistryProperties registryProperties;
+    private final ObjectMapper objectMapper;
 
     public String createShellInDtr(final AssetBase assetBase, String submodelServerAssetId) throws CreateDtrShellException {
         Map<String, String> payloadByAspectType = submodelPayloadRepository.getAspectTypesAndPayloadsByAssetId(assetBase.getId());
-        Map<String, UUID> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
+        Map<String, String> createdSubmodelIdByAspectType = payloadByAspectType.entrySet().stream()
                 .map(this::createSubmodel)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existingValue, newValue) -> {
+                            log.warn("Duplicate key detected. Using the new value: {}.",
+                                    newValue);
+                            return newValue;
+                        }
+                ));
 
         List<SubmodelDescriptor> descriptors = toSubmodelDescriptors(createdSubmodelIdByAspectType, submodelServerAssetId);
         AssetAdministrationShellDescriptor assetAdministrationShellDescriptor = aasFrom(assetBase, descriptors);
+        try {
+            String requestBody = objectMapper.writeValueAsString(assetAdministrationShellDescriptor);
+            log.info("Creating DTR asset with request body {}", requestBody);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         dtrCreateShellService.createShell(assetAdministrationShellDescriptor);
         return assetBase.getId();
     }
 
-    private List<SubmodelDescriptor> toSubmodelDescriptors(Map<String, UUID> createdSubmodelIdByAspectType, String submodelServerAssetId) {
+    private List<SubmodelDescriptor> toSubmodelDescriptors(Map<String, String> createdSubmodelIdByAspectType, String submodelServerAssetId) {
         return createdSubmodelIdByAspectType.entrySet()
                 .stream().map(entry ->
-                        toSubmodelDescriptor(entry.getKey(), entry.getValue(), submodelServerAssetId)
-
-                ).toList();
+                        toSubmodelDescriptor(entry.getKey(), entry.getValue(), submodelServerAssetId))
+                .toList();
     }
 
-    private SubmodelDescriptor toSubmodelDescriptor(String aspectType, UUID submodelServerIdReference, String submodelServerAssetId) {
+    private SubmodelDescriptor toSubmodelDescriptor(String aspectType, String submodelServerIdReference, String submodelServerAssetId) {
         return SubmodelDescriptor.builder()
                 .description(List.of())
                 .idShort(aspectTypeToSimpleSubmodelName(aspectType))
-                .id(submodelServerIdReference.toString())
+                .id(submodelServerIdReference)
                 .semanticId(
                         Reference.builder()
                                 .type(EXTERNAL_REFERENCE)
                                 .keys(
                                         List.of(SemanticId.builder()
                                                 .type(GLOBAL_REFERENCE)
-                                                .value(aspectType).build())
-                                ).build()
-                )
+                                                .value(aspectType).build()))
+                                .build())
                 .endpoints(
                         List.of(
                                 Endpoint.builder()
@@ -107,11 +125,10 @@ public class DtrService {
                                                         .subprotocolBodyEncoding("plain")
                                                         .subprotocolBody(getSubProtocol(submodelServerAssetId))
                                                         .securityAttributes(
-                                                                List.of(SecurityAttribute.none())
-                                                        ).build()
-                                        ).build()
-                        )
-                ).build();
+                                                                List.of(SecurityAttribute.none()))
+                                                        .build())
+                                        .build()))
+                .build();
     }
 
     private String getSubProtocol(String submodelServerAssetId) {
@@ -124,9 +141,9 @@ public class DtrService {
         return split[1];
     }
 
-    private Map.Entry<String, UUID> createSubmodel(Map.Entry<String, String> payloadByAspectType) {
-        UUID submodelId = UUID.randomUUID();
-        submodelServerRepository.saveSubmodel(submodelId.toString(), payloadByAspectType.getValue());
+    private Map.Entry<String, String> createSubmodel(Map.Entry<String, String> payloadByAspectType) {
+        SubmodelCreateRequest submodelCreateRequest = SubmodelCreateRequest.builder().submodel(payloadByAspectType.getValue()).build();
+        String submodelId = submodelServerRepository.saveSubmodel(submodelCreateRequest);
         log.info("create submodelId {} for aspectType {} on submodelServer", submodelId, payloadByAspectType.getKey());
         return Map.entry(payloadByAspectType.getKey(), submodelId);
     }
@@ -145,7 +162,7 @@ public class DtrService {
 
         List<IdentifierKeyValuePair> identifierKeyValuePairs = List.of(
                 IdentifierKeyValuePair.builder()
-                        .name("manufacturerId")
+                        .name(MANUFACTURER_ID.getValue())
                         .value(assetBase.getManufacturerId())
                         .externalSubjectId(
                                 Reference.builder()
@@ -154,8 +171,17 @@ public class DtrService {
                                         .build())
                         .build(),
                 IdentifierKeyValuePair.builder()
-                        .name("manufacturerPartId")
+                        .name(MANUFACTURER_PART_ID.getValue())
                         .value(assetBase.getManufacturerPartId())
+                        .externalSubjectId(
+                                Reference.builder()
+                                        .type(EXTERNAL_REFERENCE)
+                                        .keys(getExternalSubjectIds())
+                                        .build())
+                        .build(),
+                IdentifierKeyValuePair.builder()
+                        .name(DIGITAL_TWIN_TYPE.getValue())
+                        .value(assetBase.getDigitalTwinType())
                         .externalSubjectId(
                                 Reference.builder()
                                         .type(EXTERNAL_REFERENCE)
@@ -167,7 +193,6 @@ public class DtrService {
         return identifierKeyValuePairs;
     }
 
-
     private List<SemanticId> getExternalSubjectIds() {
         List<SemanticId> externalSubjectIds = List.of(SemanticId.builder()
                 .type(GLOBAL_REFERENCE)
@@ -178,8 +203,7 @@ public class DtrService {
                         SemanticId.builder()
                                 .type(GLOBAL_REFERENCE)
                                 .value(allowedBpn)
-                                .build()
-                )
+                                .build())
                 .toList();
 
         return Stream.concat(externalSubjectIds.stream(), configurationExternalSubjectIds.stream()).toList();
@@ -187,6 +211,6 @@ public class DtrService {
 
     // TODO: Issue #740 will handle and decide how to avoid having allowed bpns in config ( should be managed by policy to access data ) needs investigation
     public List<String> getAllowedBpns() {
-        return Arrays.stream(allowedBpns.split(",")).toList();
+        return Arrays.stream(registryProperties.getAllowedBpns().split(",")).toList();
     }
 }

@@ -50,6 +50,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 
 public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecification {
@@ -119,7 +120,7 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
         // for this test
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
                 .body(ResourceUtils.getFile("classpath:stubs/irs/policies/request_create_policy.json"))
                 .post("/api/policies")
@@ -155,8 +156,7 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1))
                 .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
-                .body("content[0].messages[0].errorMessage", Matchers.endsWith("did not match with policy from BPNL00000003CNKC."))
-                .body("content[0].messages[1].errorMessage", Matchers.endsWith("did not match with policy from BPNL00000003CNKC."));
+                .body("content[0].messages[0].errorMessage", Matchers.endsWith("does not provide a valid notification contract for taxoValue: https://w3id.org/catenax/taxonomy#ReceiveQualityInvestigationNotification which complies with application policies."));
 
         notificationMessageSupport.assertMessageSize(2);
 
@@ -164,7 +164,7 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
         irsApiSupport.irsApiReturnsPolicies();
         given()
                 .contentType(ContentType.JSON)
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
                 .body(ResourceUtils.getFile("classpath:stubs/irs/policies/request_create_policy.json"))
                 .post("/api/policies")

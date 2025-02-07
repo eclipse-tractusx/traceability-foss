@@ -1,4 +1,4 @@
-package org.eclipse.tractusx.traceability.common.properties; /********************************************************************************
+/********************************************************************************
  * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -16,6 +16,7 @@ package org.eclipse.tractusx.traceability.common.properties; /******************
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.common.properties;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,13 +47,7 @@ class TraceabilityPropertiesTest {
         //THEN
         assertThat(traceabilityProperties.getUrl()).isNotEmpty();
         assertThat(traceabilityProperties.getBpn().toString()).isNotEmpty();
-        assertThat(traceabilityProperties.getLeftOperand()).isNotEmpty();
-        assertThat(traceabilityProperties.getOperatorType()).isNotEmpty();
-        assertThat(traceabilityProperties.getRightOperand()).isNotEmpty();
-        assertThat(traceabilityProperties.getLeftOperandSecond()).isNotEmpty();
-        assertThat(traceabilityProperties.getOperatorTypeSecond()).isNotEmpty();
-        assertThat(traceabilityProperties.getRightOperandSecond()).isNotEmpty();
-
+        assertThat(traceabilityProperties.getDiscoveryType()).isNotEmpty();
     }
 
 }

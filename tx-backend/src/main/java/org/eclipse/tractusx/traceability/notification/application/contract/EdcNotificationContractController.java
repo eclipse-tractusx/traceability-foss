@@ -42,6 +42,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Validated
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
@@ -103,7 +105,7 @@ public class EdcNotificationContractController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/contract")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateNotificationContractResponse createNotificationContract(@Valid @RequestBody CreateNotificationContractRequest request) {
+    public List<CreateNotificationContractResponse> createNotificationContract(@Valid @RequestBody CreateNotificationContractRequest request) {
         return edcNotificationContractService.createNotificationContract(request);
     }
 }

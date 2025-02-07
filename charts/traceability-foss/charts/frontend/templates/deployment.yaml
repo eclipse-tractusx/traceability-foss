@@ -76,10 +76,16 @@ spec:
               value: "{{ .Values.image.CATENAX_PORTAL_BACKEND_DOMAIN }}"
             - name: CATENAX_PORTAL_URL
               value: "{{ .Values.image.CATENAX_PORTAL_URL }}"
+            - name: ALLOWED_REFERER
+              value: "{{ .Values.image.ALLOWED_REFERER }}"
             - name: GIT_TAG
               value: "{{ .Values.image.tag }}"
             - name: BPN
               value: "{{ .Values.image.BPN }}"
+            - name: IMPRINT_URL
+              value: "{{ .Values.image.IMPRINT_URL}}"
+            - name: PRIVACY_URL
+              value: "{{ .Values.image.PRIVACY_URL}}"
 
           ports:
             - name: http

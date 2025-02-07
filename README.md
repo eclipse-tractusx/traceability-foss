@@ -17,25 +17,25 @@ A high level of transparency across the supplier network enables faster interven
 
 ## Table of Contents
 - [Trace-X](#trace-x-is-a-system-for-tracking-parts-along-the-supply-chain)
-  - [Introduction](#introduction)
-    - [Vision and Mission Statement](#vision-and-mission-statement)
-    - [Trace-X Feature list](#trace-x-feature-list)
-  - [Installation](#installation)
-  - [How to contribute](#how-to-contribute)
-  - [Releasing](#releasing)
-  - [Frontend Application](#frontend-application)
-    - [Challenges and solutions](#challenges-and-solutions)
-    - [Application authentication](#application-authentication)
-    - [Application architecture & patterns](#application-architecture--patterns)
-    - [User guide](#user-guide)
-    - [Frontend Testing strategy](#frontend-testing-strategy)
-  - [The backend application](#backend-application)
-    - [Prerequisites](#backend-prerequisites)
-    - [Backend Testing strategy](#backend-testing-strategy)
-  - [API documentation](#api-documentation)
-  - [Licenses](#licenses)
-  - [Notice for Docker image](#notice-for-docker-image)
-  - [Contact](#contact)
+    - [Introduction](#introduction)
+        - [Vision and Mission Statement](#vision-and-mission-statement)
+        - [Trace-X Feature list](#trace-x-feature-list)
+    - [Installation](#installation)
+    - [How to contribute](#how-to-contribute)
+    - [Releasing](#releasing)
+    - [Frontend Application](#frontend-application)
+        - [Challenges and solutions](#challenges-and-solutions)
+        - [Application authentication](#application-authentication)
+        - [Application architecture & patterns](#application-architecture--patterns)
+        - [User guide](#user-guide)
+        - [Frontend Testing strategy](#frontend-testing-strategy)
+    - [The backend application](#backend-application)
+        - [Prerequisites](#backend-prerequisites)
+        - [Backend Testing strategy](#backend-testing-strategy)
+    - [API documentation](#api-documentation)
+    - [Licenses](#licenses)
+    - [Notice for Docker image](#notice-for-docker-image)
+    - [Contact](#contact)
 
 ## Introduction
 
@@ -56,22 +56,22 @@ Trace-X as the Open-Source solution for Parts Traceability offers the following 
 * List and view planned parts based on BoM AsPlanned
 * Filter and search functionality on part views
 * Show detailed information on manufactured parts
-  * Asset Administration Shell description
-  * Submodel description such as
-     * SerialPart
-     * SingleLevelBomAsBuilt
-     * SingleLevelUsageAsBuilt
-     * Batch
-     * JustInSequence
-     * PartAsPlanned
-     * SingleLevelBomAsPlanned
-     * SingleLevelUsageAsPlanned
+    * Asset Administration Shell description
+    * Submodel description such as
+        * SerialPart
+        * SingleLevelBomAsBuilt
+        * SingleLevelUsageAsBuilt
+        * Batch
+        * JustInSequence
+        * PartAsPlanned
+        * SingleLevelBomAsPlanned
+        * SingleLevelUsageAsPlanned
 * List and view Supplier parts based on BoM As Built
 * List of Supplier parts based on SingleLevelBomAsBuilt/SingleLevelUsageAsBuilt Aspect
 * View parts and parts relations in parts tree
 * Send and receive quality investigations along the supply chain
-  * Quality Investigations (Company to Supplier)
-  * Quality Alerts (Company to Customers)
+    * Quality Investigations (Company to Supplier)
+    * Quality Alerts (Company to Customers)
 
 ## Installation
 

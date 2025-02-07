@@ -34,58 +34,56 @@ import org.eclipse.tractusx.irs.edc.client.policy.OperatorType;
 import org.eclipse.tractusx.irs.edc.client.policy.Permission;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyType;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.policies.domain.PolicyRepository;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.stereotype.Component;
+import policies.response.ConstraintResponse;
 import policies.response.IrsPolicyResponse;
+import policies.response.PermissionResponse;
+import policies.response.PolicyResponse;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-@Configuration
-@ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
-@EnableWebMvc
+import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
+
 @EnableAsync(proxyTargetClass = true)
-@EnableConfigurationProperties
-@Slf4j
-@EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 @RequiredArgsConstructor
+@Component
+@Slf4j
 public class PolicyStartUpConfig {
 
     private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
-    private final TraceabilityProperties traceabilityProperties;
 
     @Lazy
     private final PolicyRepository policyRepository;
 
+    @Value("${traceability.register-decentral-registry-permissions}")
+    private boolean registerDecentralRegistryPermissions;
+
     @PostConstruct
-    @ConditionalOnProperty(name = "applicationConfig.registerDecentralRegistryPermissions.enabled", havingValue = "true")
     public void registerDecentralRegistryPermissions() throws JsonProcessingException {
+        if (!registerDecentralRegistryPermissions) {
+            log.info("registerDecentralRegistryPermissions disabled");
+            return;
+        }
+        log.info("registerDecentralRegistryPermissions");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
         List<AcceptedPolicy> acceptedPolicy = buildAcceptedPolicies();
         defaultAcceptedPoliciesProvider.addAcceptedPolicies(acceptedPolicy);
         log.info("Successfully added permission to irs client lib provider: {}", mapper.writeValueAsString(acceptedPolicy));
     }
 
     @NotNull
-    private List<AcceptedPolicy> buildAcceptedPolicies() {
-        List<AcceptedPolicy> acceptedPolicies = new ArrayList<>(createOwnAcceptedPolicies(traceabilityProperties.getValidUntil()));
-
-        //add IRS policies
+    public List<AcceptedPolicy> buildAcceptedPolicies() {
+        List<AcceptedPolicy> acceptedPolicies = new ArrayList<>(createOwnAcceptedPolicies());
         try {
             acceptedPolicies.addAll(createIrsAcceptedPolicies());
         } catch (Exception exception) {
@@ -95,40 +93,75 @@ public class PolicyStartUpConfig {
     }
 
     private List<AcceptedPolicy> createIrsAcceptedPolicies() {
-        // Get the policies map from the repository
         Map<String, List<IrsPolicyResponse>> policiesMap = policyRepository.getPolicies();
 
-        // Flatten the map into a list of IrsPolicyResponse objects
         List<IrsPolicyResponse> irsPolicyResponses = policiesMap.values().stream()
                 .flatMap(List::stream)
                 .toList();
 
-        // Map the IrsPolicyResponse objects to AcceptedPolicy objects
         List<AcceptedPolicy> irsPolicies = irsPolicyResponses.stream().map(response -> {
             Policy policy = new Policy(response.payload().policyId(), response.payload().policy().getCreatedOn(), response.validUntil(), response.payload().policy().getPermissions());
             return new AcceptedPolicy(policy, response.validUntil());
         }).toList();
 
-        // Return the list of AcceptedPolicy objects
         return new ArrayList<>(irsPolicies);
     }
 
-    private List<AcceptedPolicy> createOwnAcceptedPolicies(OffsetDateTime offsetDateTime) {
-        List<Constraint> andConstraintList = new ArrayList<>();
-        List<Constraint> orConstraintList = new ArrayList<>();
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperand(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorType())), traceabilityProperties.getRightOperand()));
-        andConstraintList.add(new Constraint(traceabilityProperties.getLeftOperandSecond(), new Operator(OperatorType.fromValue(traceabilityProperties.getOperatorTypeSecond())), traceabilityProperties.getRightOperandSecond()));
 
-        List<Permission> permissions = List.of(
-                new Permission(
-                        PolicyType.USE,
-                        new Constraints(
-                                andConstraintList,
-                                orConstraintList)
+    private List<AcceptedPolicy> createOwnAcceptedPolicies() {
 
-                ));
+        List<PolicyResponse> policyResponses = policyRepository
+                .getLatestPoliciesByApplicationBPNOrDefaultPolicy();
 
-        Policy ownPolicy = new Policy(UUID.randomUUID().toString(), OffsetDateTime.now(), offsetDateTime, permissions);
-        return List.of(new AcceptedPolicy(ownPolicy, offsetDateTime));
+        List<AcceptedPolicy> acceptedPolicies = new ArrayList<>();
+
+        for (PolicyResponse policyResponse : policyResponses) {
+            List<PermissionResponse> permissionsResponse = policyResponse.permissions();
+
+            List<Constraint> andConstraintList = new ArrayList<>();
+            List<Constraint> orConstraintList = new ArrayList<>();
+
+            for (ConstraintResponse andConstraint : permissionsResponse.get(0).constraints().and()) {
+                andConstraintList.add(
+                        new Constraint(
+                                andConstraint.leftOperand(),
+                                new Operator(OperatorType.fromValue(andConstraint.operatorTypeResponse().getCode())),
+                                andConstraint.rightOperand()
+                        )
+                );
+            }
+
+            for (ConstraintResponse orConstraint : permissionsResponse.get(0).constraints().or()) {
+                orConstraintList.add(
+                        new Constraint(
+                                orConstraint.leftOperand(),
+                                new Operator(OperatorType.fromValue(orConstraint.operatorTypeResponse().getCode())),
+                                orConstraint.rightOperand()
+                        )
+                );
+            }
+
+            List<Permission> permissions = List.of(
+                    new Permission(
+                            PolicyType.USE,
+                            new Constraints(
+                                    andConstraintList,
+                                    orConstraintList
+                            )
+                    )
+            );
+
+            Policy ownPolicy = new Policy(
+                    policyResponse.policyId(),
+                    OffsetDateTime.now(),
+                    policyResponse.validUntil(),
+                    permissions
+            );
+
+            acceptedPolicies.add(new AcceptedPolicy(ownPolicy, policyResponse.validUntil()));
+        }
+
+        return acceptedPolicies;
     }
+
 }

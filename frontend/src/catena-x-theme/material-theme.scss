@@ -1,0 +1,115 @@
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
+@use '@angular/material' as mat;
+
+$primary-palette: (
+  50: #e2f1fc,
+  100: #b9dcf9,
+  200: #8dc6f5,
+  300: #60b0f1,
+  400: #3d9fef,
+  500: #1790ec,
+  600: #1482de,
+  700: #0f71cb,
+  800: #0a5fb9,
+  900: #02429a,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$accent-palette: (
+  50: #eaf1fe,
+  100: #cadbfb,
+  200: #a6c4f8,
+  300: #7facf4,
+  400: #5a97f0,
+  500: #2a82ed,
+  600: #1f79e1,
+  700: #066dd4,
+  800: #0063c8,
+  900: #0050b2,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$warn-palette: (
+  50: #ffeaec,
+  100: #ffcbcd,
+  200: #f59691,
+  300: #ec6d66,
+  400: #f54a3e,
+  500: #f9381b,
+  600: #eb2c1d,
+  700: #d91e18,
+  800: #cc130f,
+  900: #be0000,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$my-primary: mat.define-palette($primary-palette, 700);
+$my-accent: mat.define-palette($accent-palette, 50);
+$my-warn: mat.define-palette($warn-palette, 700);
+
+$tracefoss-theme: mat.define-light-theme(
+    (
+      color: (
+        primary: $my-primary,
+        accent: $my-accent,
+        warn: $my-warn,
+      ),
+    )
+);
+
+@include mat.core();
+@include mat.core-theme($tracefoss-theme);
+@include mat.all-component-themes($tracefoss-theme);

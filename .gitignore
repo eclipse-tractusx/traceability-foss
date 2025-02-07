@@ -68,3 +68,6 @@ yarn-error.log
 scripts/download/*
 /frontend/cypress/environment/cypress.local.config.ts
 /frontend/cypress/e2e/
+/.github/workflows/custom/
+/tx-backend/src/main/java/org/eclipse/tractusx/traceability/submodel/infrastructure/repository/custom/
+/cfx-frontend/

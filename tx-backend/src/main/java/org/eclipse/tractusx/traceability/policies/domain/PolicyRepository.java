@@ -31,11 +31,9 @@ import java.util.Optional;
 public interface PolicyRepository {
     Map<String, List<IrsPolicyResponse>> getPolicies();
 
-    Optional<PolicyResponse> getNewestPolicyByOwnBpn();
+    List<PolicyResponse> getLatestPoliciesByApplicationBPNOrDefaultPolicy();
 
     Map<String, Optional<IrsPolicyResponse>> getPolicy(String policyId);
-
-    void createPolicyBasedOnAppConfig();
 
     void deletePolicy(String policyId);
 

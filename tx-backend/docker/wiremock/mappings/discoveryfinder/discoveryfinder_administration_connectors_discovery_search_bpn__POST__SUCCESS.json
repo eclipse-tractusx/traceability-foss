@@ -1,0 +1,31 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/discoveryfinder/administration/connectors/discovery/search",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.types[?(@ == '')]"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "endpoints": [
+        {
+          "type": "bpn",
+          "description": "Service to discover EDC to a particular BPN",
+          "endpointAddress": "{{request.scheme}}://{{request.host}}:{{request.port}}/EDCDiscovery/administration/connectors/discovery",
+          "documentation": "http://.../swagger/index.html",
+          "resourceId": "316417cd-0fb5-4daf-8dfa-8f68125923f1"
+        }
+      ]
+    },
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

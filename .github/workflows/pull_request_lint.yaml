@@ -1,0 +1,12 @@
+name: Lint
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  pull_request_lint:
+    permissions:
+      pull-requests: write
+    name: PR Title
+    uses: Cofinity-X/central-pipelines/.github/workflows/_pull_request_lint.yaml@v1.2.0

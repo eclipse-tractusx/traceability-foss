@@ -102,6 +102,27 @@ export class PartsService {
       .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
   }
 
+  public deletePartByIdAsBuilt(id: string): Observable<void> {
+    if (!id || typeof id !== 'string') {
+      throw new Error('Invalid ID');
+    }
+
+    const encodedId = encodeURIComponent(id);
+
+    return this.apiService.delete<void>(`${this.url}/assets/as-built/${encodedId}`);
+  }
+
+  public deletePartByIdAsPlanned(id: string): Observable<void> {
+    if (!id || typeof id !== 'string') {
+      throw new Error('Invalid ID');
+    }
+
+    const encodedId = encodeURIComponent(id);
+
+    return this.apiService.delete<void>(`${this.url}/assets/as-planned/${encodedId}`);
+  }
+
+
   public getPart(id: string): Observable<Part> {
     if (!id || typeof id !== 'string') {
       throw new Error('invalid ID');

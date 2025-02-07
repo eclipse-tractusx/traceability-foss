@@ -153,7 +153,7 @@ class EdcNotificationServiceImplTest {
                 .type(NotificationType.INVESTIGATION)
                 .build();
         Notification notification = testNotification(bpn);
-        doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(message, edcReceiverUrl, edcSenderUrl, notification);
+        doThrow(new NoCatalogItemException("No catalog item found.")).when(edcFacade).startEdcTransfer(message, edcReceiverUrl, edcSenderUrl, notification);
         // when
         notificationsService.asyncNotificationMessageExecutor(message, notification);
 
@@ -247,7 +247,7 @@ class EdcNotificationServiceImplTest {
                 .build();
         Notification notification = testNotification(bpn);
 
-        doThrow(new NoCatalogItemException()).when(edcFacade).startEdcTransfer(message, edcReceiverUrl, edcSenderUrl, notification);
+        doThrow(new NoCatalogItemException("No catalog item found.")).when(edcFacade).startEdcTransfer(message, edcReceiverUrl, edcSenderUrl, notification);
 
         // when
         notificationsService.asyncNotificationMessageExecutor(message, notification);

@@ -1,0 +1,10 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "urlPath": "/edc/management/v2/assets"
+  },
+  "response": {
+    "status": 200
+  }
+}

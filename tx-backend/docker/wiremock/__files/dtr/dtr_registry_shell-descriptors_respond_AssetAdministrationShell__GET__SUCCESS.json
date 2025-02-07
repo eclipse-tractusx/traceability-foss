@@ -1,0 +1,121 @@
+{
+  "description": [
+    {
+      "language": "en",
+      "text": "complete shell example"
+    }
+  ],
+  "displayName": [
+    {
+      "language": "en",
+      "text": "shell example"
+    }
+  ],
+  "assetKind": "Instance",
+  "assetType": "AssetType",
+  "globalAssetId": "c022729fe-416c-9723-f2781628fe2",
+  "idShort": "shell example",
+  "id": "69cfc420-8c1e-4212-b790-ed121820527f3",
+  "specificAssetIds": [
+    {
+      "externalSubjectId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "AssetAdministrationShell",
+            "value": "TENANT_ONE"
+          }
+        ]
+      },
+      "semanticId": {
+        "type": "ModelReference",
+        "keys": [
+          {
+            "type": "AssetAdministrationShell",
+            "value": "specificAssetIdReference key"
+          }
+        ]
+      },
+      "supplementalSemanticIds": [
+        {
+          "type": "ExternalReference",
+          "keys": [
+            {
+              "type": "BasicEventElement",
+              "value": "assetIdKey value"
+            }
+          ]
+        }
+      ],
+      "name": "testname",
+      "value": "testvalue"
+    }
+  ],
+  "submodelDescriptors": [
+    {
+      "displayName": [
+        {
+          "language": "de",
+          "text": "das ist eine Beispielbeschreibung 1"
+        },
+        {
+          "language": "en",
+          "text": "this is an example description 1"
+        }
+      ],
+      "endpoints": [
+        {
+          "interface": "interfaceNameExample",
+          "protocolInformation": {
+            "href": "edc://provider.connector:port/BPNL7588787849VQ/urn%3Auuid%3Ac227a880-b82b-40f7-846c-3942ddf26c29-urn%3Auuid%3A53125dc3-5e6f-4f4b-838d-447432b97918/submodel?content=value&extent=WithBLOBValue",
+            "endpointProtocol": "endpointProtocolExample",
+            "endpointProtocolVersion": [
+              "e"
+            ],
+            "subprotocol": "subprotocolExample",
+            "subprotocolBody": "subprotocolBodyExample",
+            "subprotocolBodyEncoding": "subprotocolBodyExample",
+            "securityAttributes": [
+              {
+                "type": "NONE",
+                "key": "Security Attribute key",
+                "value": "Security Attribute value"
+              }
+            ]
+          }
+        }
+      ],
+      "id": "dbf364c1-1215-43ca-98d4-f0a3d084120e3",
+      "semanticId": {
+        "type": "ExternalReference",
+        "keys": [
+          {
+            "type": "Submodel",
+            "value": "semanticIdExample"
+          }
+        ]
+      },
+      "supplementalSemanticId": [
+        {
+          "type": "ExternalReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "supplementalsemanticIdExample value"
+            }
+          ]
+        }
+      ],
+      "description": [
+        {
+          "language": "de",
+          "text": "das ist eine Beispielbeschreibung"
+        },
+        {
+          "language": "en",
+          "text": "this is an example description"
+        }
+      ]
+    }
+  ]
+}

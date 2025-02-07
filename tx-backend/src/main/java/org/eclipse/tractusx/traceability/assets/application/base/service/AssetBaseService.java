@@ -31,9 +31,7 @@ import java.util.Map;
 
 public interface AssetBaseService {
 
-    void synchronizeAssetsAsync(List<String> globalAssetIds);
-
-    void synchronizeAssetsAsync(String globalAssetId);
+    void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds);
 
     Map<String, Long> getAssetsCountryMap();
 
@@ -47,9 +45,13 @@ public interface AssetBaseService {
 
     AssetBase updateQualityType(String assetId, QualityType qualityType);
 
+    List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds);
+
     List<String> getSearchableValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds);
 
     List<String> getAssetIdsInImportState(ImportState... importStates);
 
     List<AssetBase> findAll();
+
+    void deleteAssetById(final String assetId);
 }

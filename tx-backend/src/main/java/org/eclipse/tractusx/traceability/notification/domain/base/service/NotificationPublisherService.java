@@ -45,6 +45,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.stream.Collectors.groupingBy;
+import static org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus.CLOSED;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -111,99 +112,96 @@ public class NotificationPublisherService {
      *
      * @param notification the Notification to send
      */
-    public Notification approveNotification(Notification notification) {
+    public Notification publishNotificationByStateAndReason(Notification notification, NotificationStatus desiredStatus, String reason) {
+        log.info("Starting process for desired state: {} with {} notifications", desiredStatus, notification.getNotifications().size());
+
         BPN applicationBPN = traceabilityProperties.getBpn();
-        notification.send(applicationBPN);
 
-        log.info("Quality Notification starts approval process with {} notifications", notification.getNotifications().size());
-
-        createMessages(notification, applicationBPN, assetAsBuiltRepository);
-
-        // For each asset within investigation a notification was created before
-        List<CompletableFuture<NotificationMessage>> futures =
-                notification
-                        .getNotifications()
-                        .stream()
-                        .filter(notificationMessage ->
-                                notificationMessage.getNotificationStatus().name()
-                                        .equals(NotificationStatus.SENT.name()))
-                        .filter(notificationMessage -> StringUtils.isBlank(notificationMessage.getErrorMessage()))
-                        .map(notificationMessage -> edcNotificationService.asyncNotificationMessageExecutor(notificationMessage, notification))
-                        .filter(Objects::nonNull)
-                        .toList();
-        List<NotificationMessage> sentMessages = futures.stream()
-                .map(CompletableFuture::join)
-                .filter(Objects::nonNull)
-                .toList();
-        if (sentMessages.isEmpty()) {
-            throw new SendNotificationException("No Message was sent");
+        if (requiresMessagePreparation(desiredStatus)) {
+            createMessages(notification, applicationBPN, assetAsBuiltRepository);
         }
-        return notification;
-    }
-
-    /**
-     * Updates an ongoing notification with the given BPN, ID, status and reason.
-     *
-     * @param notification the Notification to update
-     * @param status       the NotificationStatus of the notification to update
-     * @param reason       the reason for update of the notification
-     */
-    public Notification updateNotificationPublisher(Notification notification, NotificationStatus status, String reason) {
-        BPN applicationBPN = traceabilityProperties.getBpn();
-        validate(applicationBPN, status, notification);
 
         List<NotificationMessage> relevantNotifications =
                 notification
                         .getNotifications()
                         .stream()
-                        .filter(notificationMessage -> status.equals(notificationMessage.getNotificationStatus()))
+                        .filter(notificationMessage ->
+                                desiredStatus.equals(notificationMessage.getNotificationStatus()) &&
+                                        StringUtils.isBlank(notificationMessage.getErrorMessage()))
                         .toList();
 
-        relevantNotifications.forEach(qNotification -> {
-            switch (status) {
-                case ACKNOWLEDGED -> notification.acknowledge();
-                case ACCEPTED -> notification.accept(reason, qNotification);
-                case DECLINED -> notification.decline(reason, qNotification);
-                case CLOSED -> notification.close(reason, qNotification);
-                default ->
-                        throw new NotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
-            }
-            log.info("::updateNotificationPublisher::notificationToSend {}", qNotification);
-        });
+        if (relevantNotifications.isEmpty()) {
+            throw new NotificationIllegalUpdate("No valid notifications found for desired status: " + desiredStatus);
+        }
 
-        List<CompletableFuture<NotificationMessage>> futures = relevantNotifications.stream()
-                .map(message -> edcNotificationService.asyncNotificationMessageExecutor(message, notification))
-                .filter(Objects::nonNull)
-                .toList();
-        List<NotificationMessage> sentMessages = futures.stream()
-                .map(CompletableFuture::join)
-                .filter(Objects::nonNull)
-                .toList();
+
+        validate(applicationBPN, desiredStatus, notification);
+
+        handleNotificationByStatus(notification, desiredStatus, applicationBPN);
+
+        if (reason != null) {
+            relevantNotifications.forEach(notificationMessage -> notificationMessage.setMessage(reason));
+        }
+
+        List<NotificationMessage> sentMessages = executeAsyncTasks(relevantNotifications, notification);
 
         if (sentMessages.isEmpty()) {
             throw new SendNotificationException("No Message was sent");
         }
-
         return notification;
+    }
+
+    private List<NotificationMessage> executeAsyncTasks(List<NotificationMessage> notifications, Notification notification) {
+        return notifications.stream()
+                .map(notificationMessage -> edcNotificationService.asyncNotificationMessageExecutor(notificationMessage, notification))
+                .filter(Objects::nonNull)
+                .map(CompletableFuture::join)
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    private boolean requiresMessagePreparation(NotificationStatus status) {
+        return status == NotificationStatus.SENT;
+    }
+
+    private void handleNotificationByStatus(Notification notification, NotificationStatus desiredStatus, BPN applicationBPN) {
+
+        switch (desiredStatus) {
+
+            case SENT -> {
+                notification.send(applicationBPN);
+            }
+            case ACKNOWLEDGED -> notification.acknowledge();
+            case ACCEPTED -> notification.accept();
+            case DECLINED -> notification.decline();
+            case CLOSED -> notification.close();
+
+            default -> throw new NotificationIllegalUpdate(
+                    "Transition from status '%s' to status '%s' is not allowed for notification with id '%s'"
+                            .formatted(notification.getNotificationStatus().name(), desiredStatus, notification.getNotificationId()));
+        }
     }
 
     private void validate(BPN applicationBpn, NotificationStatus status, Notification notification) {
 
         final boolean isInvalidAcknowledgeOrAcceptOrDecline = !NotificationSide.RECEIVER.equals(notification.getNotificationSide()) && applicationBpn.value().equals(notification.getBpn());
-        final boolean isInvalidClose = NotificationStatus.CLOSED.equals(status) && !applicationBpn.value().equals(notification.getBpn());
+        final boolean isInvalidClose = CLOSED.equals(status) && !applicationBpn.value().equals(notification.getBpn());
+        final boolean isInvalidSent = !applicationBpn.value().equals(notification.getBpn());
+
         switch (status) {
-            case ACKNOWLEDGED, ACCEPTED, DECLINED -> {
-                if (isInvalidAcknowledgeOrAcceptOrDecline) {
-                    throw new NotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with BPN '%s' and application with BPN '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getBpn(), applicationBpn.value()));
-                }
-            }
-            case CLOSED -> {
-                if (isInvalidClose) {
-                    throw new NotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with BPN '%s' and application with BPN '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getBpn(), applicationBpn.value()));
-                }
-            }
+            case SENT -> throwNotificationIllegalUpdateException(applicationBpn, status, notification, isInvalidSent);
+            case ACKNOWLEDGED, ACCEPTED, DECLINED ->
+                    throwNotificationIllegalUpdateException(applicationBpn, status, notification, isInvalidAcknowledgeOrAcceptOrDecline);
+            case CLOSED ->
+                    throwNotificationIllegalUpdateException(applicationBpn, status, notification, isInvalidClose);
             default ->
                     throw new NotificationIllegalUpdate("Unknown Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
+        }
+    }
+
+    private static void throwNotificationIllegalUpdateException(BPN applicationBpn, NotificationStatus status, Notification notification, boolean isInvalidSent) {
+        if (isInvalidSent) {
+            throw new NotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with BPN '%s' and application with BPN '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getBpn(), applicationBpn.value()));
         }
     }
 }

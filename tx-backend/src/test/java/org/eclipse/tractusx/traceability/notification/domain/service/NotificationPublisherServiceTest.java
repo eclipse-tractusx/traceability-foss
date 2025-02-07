@@ -162,7 +162,7 @@ class NotificationPublisherServiceTest {
         when(notificationsService.asyncNotificationMessageExecutor(any(), any())).thenReturn(CompletableFuture.completedFuture(notificationMessage));
 
         // When
-        Notification result = notificationPublisherService.approveNotification(investigation);
+        Notification result = notificationPublisherService.publishNotificationByStateAndReason(investigation, NotificationStatus.SENT, null);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.SENT);
@@ -178,7 +178,7 @@ class NotificationPublisherServiceTest {
         when(notificationsService.asyncNotificationMessageExecutor(any(), any())).thenReturn(CompletableFuture.completedFuture(null));
 
         // When/Then
-        assertThrows(SendNotificationException.class, () -> notificationPublisherService.approveNotification(investigation));
+        assertThrows(SendNotificationException.class, () -> notificationPublisherService.publishNotificationByStateAndReason(investigation, NotificationStatus.SENT, null));
         verify(notificationsService).asyncNotificationMessageExecutor(any(), any());
     }
 
@@ -216,7 +216,7 @@ class NotificationPublisherServiceTest {
         when(notificationsService.asyncNotificationMessageExecutor(any(), any())).thenReturn(CompletableFuture.completedFuture(notification2));
 
         // When
-        Notification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
+        Notification result = notificationPublisherService.publishNotificationByStateAndReason(investigationTestData, status, reason);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.ACKNOWLEDGED);
@@ -259,7 +259,7 @@ class NotificationPublisherServiceTest {
         when(notificationsService.asyncNotificationMessageExecutor(any(), any())).thenReturn(CompletableFuture.completedFuture(notification2));
 
         // When
-        Notification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
+        Notification result = notificationPublisherService.publishNotificationByStateAndReason(investigationTestData, status, reason);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.ACCEPTED);
@@ -301,7 +301,7 @@ class NotificationPublisherServiceTest {
         when(notificationsService.asyncNotificationMessageExecutor(any(), any())).thenReturn(CompletableFuture.completedFuture(notification2));
 
         // When
-        Notification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
+        Notification result = notificationPublisherService.publishNotificationByStateAndReason(investigationTestData, status, reason);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.DECLINED);
@@ -343,7 +343,7 @@ class NotificationPublisherServiceTest {
         when(notificationsService.asyncNotificationMessageExecutor(any(), any())).thenReturn(CompletableFuture.completedFuture(notification2));
 
         // When
-        Notification result = notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason);
+        Notification result = notificationPublisherService.publishNotificationByStateAndReason(investigationTestData, status, reason);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(NotificationStatus.CLOSED);
@@ -373,7 +373,7 @@ class NotificationPublisherServiceTest {
         Notification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(NotificationStatus.SENT, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
         // When
-        assertThrows(NotificationIllegalUpdate.class, () -> notificationPublisherService.updateNotificationPublisher(investigationTestData, status, reason));
+        assertThrows(NotificationIllegalUpdate.class, () -> notificationPublisherService.publishNotificationByStateAndReason(investigationTestData, status, reason));
 
         // Then
         Mockito.verify(repository, never()).updateNotification(investigationTestData);

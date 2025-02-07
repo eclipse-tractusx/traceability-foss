@@ -1,0 +1,71 @@
+@startuml
+
+package "Database Schema" {
+    entity "ORDERS" as Orders {
+        + order_id : long <<PK>>
+        --
+        status : enum (INITIALIZED,COMPLETED,PROCESSING,PARTIAL,ERROR)
+        created_at : timestamp
+        updated_at : timestamp
+        message: string
+    }
+
+    entity "TRIGGER_CONFIGURATIONS" as TriggerConfigurations {
+        + trigger_configuration_id : long <<PK>>
+        - order_id : long <<FK, UNIQUE>>
+        --
+        cron_expression_register_order_ttl_reached : string
+        cron_expression_map_completed_orders : string
+        part_ttl : string
+        created_at : timestamp
+        updated_at : timestamp
+    }
+
+    entity "ORDER_CONFIGURATIONS" as OrderConfigurations {
+        + order_configuration_id : long <<PK>>
+        - order_id : long <<FK, UNIQUE>>
+        --
+        batch_size : int (10-100, steps of 10)
+        timeout_ms : int (60-86400)
+        job_timeout_ms : int (60-7200)
+        created_at : timestamp
+        updated_at : timestamp
+    }
+
+
+    entity "PARTS_AS_BUILT" as PartsAsBuilt {
+        + global_asset_id : string <<PK>>
+        --
+        bpn: string
+        created_at : timestamp
+        updated_at : timestamp
+        ttl: timestamp
+        ...
+    }
+
+    entity "PARTS_AS_PLANNED" as PartsAsPlanned {
+        + global_asset_id : string <<PK>>
+        --
+        bpn: string
+        created_at : timestamp
+        updated_at : timestamp
+        ttl: timestamp
+        ...
+    }
+
+    entity "ORDER_PARTS" as OrderParts {
+        + order_part_id : long <<PK>>
+        - order_id : long <<FK>>
+        - global_asset_id : string <<FK>>
+        --
+        created_at : timestamp
+        updated_at : timestamp
+    }
+}
+
+Orders ||--|| OrderConfigurations : "1 : 1"
+Orders ||--o{ OrderParts : "1 : n"
+OrderParts }o--|| PartsAsBuilt : "n : 1"
+OrderParts }o--|| PartsAsPlanned : "n : 1"
+
+@enduml

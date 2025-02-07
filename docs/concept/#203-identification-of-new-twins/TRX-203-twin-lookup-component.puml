@@ -1,0 +1,31 @@
+@startuml
+package "Database Schema" {
+    entity "aas" as AAS {
+        + aasId : String [PK]
+        --
+        ttl : Integer
+        created : DateTime
+        updated : DateTime
+        actor : String
+        globalAssetId : String [FK -> parts.globalAssetId, NULLABLE]
+    }
+
+    entity "partAsBuilt" as PartsAsBuilt {
+        + globalAssetId : String [PK]
+        --
+        manufacturerId : String
+        otherColumns : ...
+    }
+
+        entity "partAsPlanned" as PartsAsPlanned {
+            + globalAssetId : String [PK]
+            --
+            manufacturerId : String
+            otherColumns : ...
+        }
+}
+
+AAS::globalAssetId --> PartsAsBuilt::globalAssetId : Optional FK (1:0 or 1:1)
+AAS::globalAssetId --> PartsAsPlanned::globalAssetId : Optional FK (1:0 or 1:1)
+
+@enduml

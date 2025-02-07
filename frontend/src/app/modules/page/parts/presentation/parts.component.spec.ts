@@ -31,10 +31,20 @@ import { QuickFilterComponent } from '@shared/components/quick-filter/quick-filt
 import {TableHeaderSort} from '@shared/components/table/table.model';
 import {toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
 import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import { QuickfilterService } from '@shared/service/quickfilter.service';
 import {SharedModule} from '@shared/shared.module';
 import {screen, waitFor} from '@testing-library/angular';
 import {renderComponent} from '@tests/test-render.utils';
+import { of } from 'rxjs';
 import {PartsModule} from '../parts.module';
+
+const mockQuickfilterService = {
+  setOwner: jasmine.createSpy('setOwner'),
+  getOwner: jasmine.createSpy('getOwner').and.returnValue(Owner.UNKNOWN),
+  isQuickFilterSet: jasmine.createSpy('isQuickFilterSet').and.returnValue(false),
+  // For completeness, if the component ever subscribes to owner$:
+  owner$: of(Owner.UNKNOWN),
+} as Partial<QuickfilterService> as QuickfilterService;
 
 describe('Parts', () => {
 
@@ -124,7 +134,7 @@ describe('Parts', () => {
     componentInstance.ctrlKeyState = true;
     // Set up QueryList of QuickFilterComponent
     const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent();
+    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
     quickFilterComponentMock.owner = Owner.UNKNOWN;
     quickFilterComponents.reset([quickFilterComponentMock]);
     componentInstance.quickFilterComponents = quickFilterComponents;
@@ -203,7 +213,7 @@ describe('Parts', () => {
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
     // Set up QueryList of QuickFilterComponent
     const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent();
+    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
     quickFilterComponentMock.owner = Owner.UNKNOWN;
     quickFilterComponents.reset([quickFilterComponentMock]);
     componentInstance.quickFilterComponents = quickFilterComponents;    // Act
@@ -232,7 +242,7 @@ describe('Parts', () => {
 
     // Set up QueryList of QuickFilterComponent
     const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent();
+    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
     quickFilterComponentMock.owner = Owner.UNKNOWN;
     quickFilterComponents.reset([quickFilterComponentMock]);
     componentInstance.quickFilterComponents = quickFilterComponents;    // Act
@@ -252,7 +262,7 @@ describe('Parts', () => {
     componentInstance.ctrlKeyState = false;
     // Set up QueryList of QuickFilterComponent
     const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent();
+    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
     quickFilterComponentMock.owner = Owner.UNKNOWN;
     quickFilterComponents.reset([quickFilterComponentMock]);
     componentInstance.quickFilterComponents = quickFilterComponents;
@@ -292,7 +302,7 @@ describe('Parts', () => {
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
     // Set up QueryList of QuickFilterComponent
     const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent();
+    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
     quickFilterComponentMock.owner = Owner.UNKNOWN;
     quickFilterComponents.reset([quickFilterComponentMock]);
     componentInstance.quickFilterComponents = quickFilterComponents;

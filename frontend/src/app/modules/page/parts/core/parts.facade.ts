@@ -63,6 +63,14 @@ export class PartsFacade {
     return this.partsService.syncPartsAsPlanned(assetIds);
   }
 
+  public deletePartByIdAsPlanned(id: string) {
+    return this.partsService.deletePartByIdAsPlanned(id);
+  }
+
+  public deletePartByIdAsBuilt(id: string) {
+    return this.partsService.deletePartByIdAsBuilt(id);
+  }
+
   public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscription?.unsubscribe();
     this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({

@@ -23,17 +23,8 @@ table {
   @apply font-light;
 }
 
-.mat-mdc-header-row {
-  font-family: inherit !important;
-}
-
 .mat-mdc-header-cell {
   font-weight: bold !important;
-}
-
-
-.mat-mdc-row {
-  font-family: Catena-X Light, sans-serif !important;
 }
 
 .menu-column {
@@ -253,7 +244,6 @@ tr.error {
 
 .policy-table-header {
   font-size: 24px;
-  font-family: Catena-X SemiBold, sans-serif;
   text-transform: uppercase;
   color: rgb(17, 17, 17);
 }

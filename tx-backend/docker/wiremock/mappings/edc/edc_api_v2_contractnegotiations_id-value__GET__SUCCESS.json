@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/edc/api/v2/contractnegotiations/id-value"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "edc/edc_api_v2_contractnegotiations_id-value_response__GET__SUCCESS.json",
+    "transformers": [
+      "response-template"
+    ]
+  }
+}

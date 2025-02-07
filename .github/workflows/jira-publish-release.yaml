@@ -1,0 +1,91 @@
+#    Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+#    See the NOTICE file(s) distributed with this work for additional
+#    information regarding copyright ownership.
+#
+#    This program and the accompanying materials are made available under the
+#    terms of the Apache License, Version 2.0 which is available at
+#    https://www.apache.org/licenses/LICENSE-2.0.
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#    License for the specific language governing permissions and limitations
+#    under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+name: "[BE][FE][RELEASE] Jira release publishing"
+
+on:
+  workflow_dispatch: # Trigger manually
+    inputs:
+      version:
+        required: true
+        type: string
+        description: Version that will be released in Jira, eg. 2.0.0
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: Version that will be released in Jira, eg. 2.0.0
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+      - name: Echo current date
+        run: echo $NOW
+
+      - name: Get Version Id Of Release
+        env:
+          JIRA_USERNAME: ${{ secrets.RELEASE_IRS_JIRA_USERNAME }}
+          JIRA_PASSWORD: ${{ secrets.RELEASE_IRS_JIRA_PASSWORD }}
+        run: |
+          echo "versionId=$(curl --request GET --url 'https://jira.catena-x.net/rest/api/latest/project/10211/versions' \
+          --user $JIRA_USERNAME:$JIRA_PASSWORD --header 'Accept: application/json' | jq -r '.[] | select(.name == "NEXT_RELEASE").id')" >> $GITHUB_ENV
+      - name: Echo versionId to release
+        run: echo Exported $versionId as version id to release
+
+      - name: Release Version in Jira
+        env:
+          JIRA_USERNAME: ${{ secrets.RELEASE_IRS_JIRA_USERNAME }}
+          JIRA_PASSWORD: ${{ secrets.RELEASE_IRS_JIRA_PASSWORD }}
+          VERSION: ${{ github.event.inputs.version }}
+          VERSION_ID: ${{ env.versionId }}
+          RELEASE_DATE: ${{ env.NOW }}
+        run: |
+          curl --request PUT --url "https://jira.catena-x.net/rest/api/latest/version/$VERSION_ID" \
+          --user $JIRA_USERNAME:$JIRA_PASSWORD \
+          --header 'Accept: application/json' \
+          --header 'Content-Type: application/json' \
+          --data "{
+            \"archived\": false,
+            \"description\": \"$VERSION\",
+            \"id\": $VERSION_ID,
+            \"name\": \"$VERSION\",
+            \"releaseDate\": \"$RELEASE_DATE\",
+            \"released\": true,
+            \"overdue\": false,
+            \"projectId\": 10211
+          }"
+
+      - name: Create NEXT_RELEASE Version in Jira
+        env:
+          JIRA_USERNAME: ${{ secrets.RELEASE_IRS_JIRA_USERNAME }}
+          JIRA_PASSWORD: ${{ secrets.RELEASE_IRS_JIRA_PASSWORD }}
+        run: |
+          curl --request POST --url 'https://jira.catena-x.net/rest/api/latest/version' \
+          --user $JIRA_USERNAME:$JIRA_PASSWORD \
+          --header 'Accept: application/json' \
+          --header 'Content-Type: application/json' \
+          --data '{
+            "archived": false,
+            "name": "NEXT_RELEASE",
+            "projectId": 10211,
+            "released": false
+          }'

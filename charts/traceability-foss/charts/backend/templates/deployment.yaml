@@ -76,6 +76,10 @@ spec:
               value: {{ .Values.springprofile | quote }}
             - name: TRACEABILITY_BPN
               value: {{ .Values.traceability.bpn | quote }}
+            - name: TRACEABILITY_BPN_A
+              value: {{ .Values.traceability.bpnA | quote }}
+            - name: TRACEABILITY_BPN_B
+              value: {{ .Values.traceability.bpnB | quote }}
             - name: TRACEABILITY_URL
               value: {{ .Values.traceability.url | quote }}
             - name: TRACEABILITY_URL_INTERNAL
@@ -105,23 +109,49 @@ spec:
             - name: OAUTH2_JWK_SET_URI
               value: {{ .Values.oauth2.jwkSetUri | quote }}
             - name: EDC_API_KEY
-              value: {{ .Values.edc.apiKey | quote }}
+              value: {{ .Values.edc.consumerApiKey | quote }}
+            - name: EDC_PROVIDER_API_KEY
+              value: {{ .Values.edc.providerApiKey | quote }}
             - name: EDC_PROVIDER_URL
               value: {{ .Values.edc.providerUrl | quote }}
             - name: EDC_PROVIDER_DATAPLANE_URL
               value: {{ .Values.edc.providerDataplaneUrl | quote }}
-            - name: REGISTRY_URL_WITH_PATH
-              value: {{ .Values.registry.urlWithPath | quote }}
+            - name: REGISTRY_URL_WITH_PATH_EXTERNAL
+              value: {{ .Values.provisioning.registry.urlExternalWithPath | quote }}
+            - name: REGISTRY_URL_WITH_PATH_INTERNAL
+              value: {{ .Values.provisioning.registry.urlInternalWithPath | quote }}
             - name: REGISTRY_ALLOWED_BPNS
-              value: {{ .Values.registry.allowedBpns | quote }}
-            - name: SUBMODEL_URL
-              value: {{ .Values.submodel.baseUrl | quote }}
+              value: {{ .Values.provisioning.registry.allowedBpns | quote }}
+            - name: REGISTRY_OAUTH_ENABLED
+              value: {{ .Values.provisioning.registry.oauthEnabled | default "false" | quote }}
+            - name: REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID
+              value: {{ .Values.provisioning.registry.oauthProviderRegistrationId | quote }}
+            - name: REGISTRY_CLIENT_ID
+              value: {{ .Values.provisioning.registry.clientId | quote }}
+            - name: REGISTRY_CLIENT_SECRET
+              value: {{ .Values.provisioning.registry.clientSecret | quote }}
+            - name: REGISTRY_TOKEN_URL
+              value: {{ .Values.provisioning.registry.oauthTokenUrl | quote }}
+            - name: REGISTRY_EDC_ASSET_ID
+              value: {{ .Values.provisioning.registry.edcAssetId | quote }}
+            - name: SUBMODEL_URL_EXTERNAL
+              value: {{ .Values.provisioning.submodel.urlExternal | quote }}
+            - name: SUBMODEL_URL_INTERNAL
+              value: {{ .Values.provisioning.submodel.urlInternal | quote }}
+            - name: SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID
+              value: {{ .Values.provisioning.submodel.oauthProviderRegistrationId | quote }}
+            - name: SUBMODEL_CLIENT_ID
+              value: {{ .Values.provisioning.submodel.clientId | quote }}
+            - name: SUBMODEL_CUSTOM_IMPLEMENTATION_ENABLED
+              value: {{ .Values.provisioning.submodel.useCustomImplementation | quote }}
+            - name: SUBMODEL_CLIENT_SECRET
+              value: {{ .Values.provisioning.submodel.clientSecret | quote }}
+            - name: SUBMODEL_TOKEN_URL
+              value: {{ .Values.provisioning.submodel.oauthTokenUrl | quote }}
             - name: IRS_URL
               value: {{ .Values.irs.baseUrl | quote }}
             - name: PORTAL_URL
               value: {{ .Values.portal.baseUrl | quote }}
-            - name: EDC_CALLBACK_URL
-              value: {{ .Values.edc.callbackUrl | quote }}
             - name: EDC_CALLBACK_URL_EDC_CLIENT
               value: {{ .Values.edc.callbackUrlEdcClient | quote }}
             - name: ALLOWED_CORS_ORIGIN_FIRST
@@ -146,10 +176,32 @@ spec:
               value: {{ .Values.irsAdminApiKey | quote }}
             - name: IRS_REGULAR_API_KEY
               value: {{ .Values.irsRegularApiKey | quote }}
+            - name: TECHNICAL_SERVICE_API_KEY
+              value: {{ .Values.traceability.technicalServiceApiKey | quote }}
             - name: JAVA_TOOL_OPTIONS
               value: {{ .Values.javaToolOptions | default "" | quote }}
             - name: BPDM_URL
               value: {{ .Values.bpdm.url | quote }}
+            - name: BPDM_CLIENT_ID
+              value: {{ .Values.bpdm.clientId | quote }}
+            - name: BPDM_CLIENT_SECRET
+              value: {{ .Values.bpdm.clientSecret | quote }}
+            - name: BPDM_TOKEN_URL
+              value: {{ .Values.bpdm.oauthTokenUrl | quote }}
+            - name: BPDM_PROVIDER_BPNL
+              value: {{ .Values.bpdm.providerBpnl | quote }}
+            - name: DISCOVERY_TYPE
+              value: {{ .Values.traceability.discoveryType | quote }}
+            - name: TRACEABILITY_ASSETS_REFRESH_CRON
+              value: {{ .Values.traceability.assetRefreshJobCronExpression | quote }}
+            - name: TRACEABILITY_ASSETS_REFRESH_ZONE
+              value: {{ .Values.traceability.assetRefreshJobZone | quote }}
+            - name: TRACEABILITY_PUBLISH_ASSET_CRON
+              value: {{ .Values.traceability.publishAssetCronExpression | quote }}
+            - name: TRACEABILITY_PUBLISH_ASSET_ZONE
+              value: {{ .Values.traceability.publishAssetCronZone | quote }}
+            - name: TRACEABILITY_REGISTER_DECENTRAL_REGISTRY_PERMISSIONS
+              value: {{ ne .Values.traceability.registerDecentralRegistryPermissions false | quote }}
             {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,18 +16,25 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Owner } from '@page/parts/model/owner.enum';
+import { QuickfilterService } from '@shared/service/quickfilter.service';
 
 @Component({
   selector: 'app-quick-filter',
   templateUrl: './quick-filter.component.html',
   styleUrls: [ './quick-filter.component.scss' ],
 })
-export class QuickFilterComponent {
+export class QuickFilterComponent implements OnInit {
+
+  constructor(private quickFilterService: QuickfilterService) {}
 
   owner: Owner;
   @Output() buttonClickEvent = new EventEmitter<Owner>();
+
+  ngOnInit(): void {
+    this.owner = this.quickFilterService.getOwner();
+  }
 
   emitQuickFilter(owner: Owner) {
     if (this.owner === owner) {
@@ -36,6 +43,7 @@ export class QuickFilterComponent {
       this.owner = owner;
     }
     this.buttonClickEvent.emit(this.owner);
+    this.quickFilterService.setOwner(this.owner);
   }
 
 

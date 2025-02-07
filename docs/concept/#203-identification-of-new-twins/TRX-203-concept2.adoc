@@ -1,0 +1,34 @@
+= Digital Twin Lookup handling in Trace-X (Alternative Concept)
+
+This sequence diagram describes the process of retrieving data from the DTR and the Catena-X ecosystem with
+a microservice streaming approach
+
+[plantuml, target=business-context_twin_lookup_alternative, format=svg]
+....
+include::TRX-203-twin-lookup-process-streaming.puml[]
+....
+
+== Overview
+
+Data is fetched by a AASID Collector Service using the Digital Twin Registry (DTR),
+provides that to a AASID Processor Service which then provides the data via stream to the trace-x instance.
+For digital twins the Asset Administration Shell (AAS) standard is used.
+
+=== Components
+* AASID Collector Service (Producer)
+** Fetches AASIDs from the Digital Twin Registry (DTR) via HTTP
+** Temporarily stores AASIDs in an in-memory queue or directly forwards them.
+** Uses a Scheduled Task to periodically retrieve AASIDs at configured intervals and TTL of the elements
+
+* Message Broker
+** Distributes AASIDs to consumers.
+** Advantages: Decouples systems, improves scalability, and ensures reliable delivery.
+
+* AASID Processor Service (Consumer)
+** Listens for new AASIDs from Kafka or RabbitMQ.
+** Performs optional transformations or validations before processing.
+** Streams or forwards AASIDs to the target service for further processing.
+
+=== Notice
+Since this concept was provided as a alternative and the decision was taken to not implement it,
+the details of the implementations are not described here.

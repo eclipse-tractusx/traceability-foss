@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltViewRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.JobRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
@@ -48,11 +48,17 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
 
     private final AssetAsBuiltViewRepository assetAsBuiltViewRepository;
 
-    private final JobRepository jobRepository;
+
+    private final OrderRepository orderRepository;
 
     @Override
     protected AssetRepository getAssetRepository() {
         return assetAsBuiltRepository;
+    }
+
+    @Override
+    protected OrderRepository getOrderRepository() {
+        return orderRepository;
     }
 
     @Override
@@ -70,10 +76,6 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
         return BomLifecycle.AS_BUILT;
     }
 
-    @Override
-    protected JobRepository getJobRepository() {
-        return jobRepository;
-    }
 
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {

@@ -1,0 +1,37 @@
+@startuml
+'autonumber
+participant "AASID Collector" as Collector
+participant "Digital Twin Registry" as DTR
+participant "Message Broker (Kafka/RabbitMQ)" as Broker
+participant "AASID Processor" as Processor
+participant "TraceX" as TraceX
+
+Collector -> DTR: Periodic lookup for AASIDs
+rnote right Collector
+Interval:
+1. Configurable schedule
+2. Business Logic on TTL
+end rnote
+
+Collector <-- DTR: List<Page<AASID>>
+
+alt Query all pages first
+    loop For all pages
+        Collector <-- DTR: Page<AASID>
+    end
+    Collector -> Broker: Publish all AASIDs
+end
+
+alt Process each page immediately
+    loop For each page
+        Collector <-- DTR: Page<AASID>
+        Collector -> Broker: Publish AASIDs in this page
+    end
+end
+
+Processor -> Broker: Subscribe to AASID events
+Processor <-- Broker: Receive AASIDs
+
+Processor -> TraceX: Stream AASIDs to TraceX service
+
+@enduml

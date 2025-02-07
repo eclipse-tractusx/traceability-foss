@@ -1,0 +1,18 @@
+[
+  {
+    "request" : {
+      "globalAssetIds" : [
+        "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b",
+        "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b"
+      ]
+    }
+  },
+  {
+    "request" : {
+      "globalAssetIds" : [
+        "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b",
+        "urn:uuid:44347dec-21d1-47aa-b2a7-f959bf9d424b"
+      ]
+    }
+  }
+]

@@ -21,23 +21,26 @@ package org.eclipse.tractusx.traceability.discovery.domain.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 @Setter
 @Getter
+@Slf4j
 @Builder
 public class Discovery {
     private String senderUrl;
     private List<String> receiverUrls;
-
 
     public static Discovery toDiscovery(String receiverUrl, String senderUrl) {
         return Discovery.builder().receiverUrls(List.of(receiverUrl)).senderUrl(senderUrl).build();
@@ -54,23 +57,34 @@ public class Discovery {
         return Discovery.builder().receiverUrls(edcDiscoveryResult.connectorEndpoint()).senderUrl(senderUrl).build();
     }
 
-    public static Discovery mergeDiscoveries(List<Discovery> discoveries) {
-        Discovery mergedDiscovery = Discovery.builder().build();
-        List<String> mergedReceiverUrls = new ArrayList<>();
-        for (Discovery discovery : discoveries) {
+
+    public static Discovery mergeDiscoveriesAndRemoveDuplicates(List<Discovery> discoveries, String dspPath) {
+        Discovery mergedDiscovery = Discovery.builder().receiverUrls(new ArrayList<>()).build();
+        List<String> receiverUrlsIncludingDspPath = new ArrayList<>();
+        discoveries.forEach(discovery -> {
             mergedDiscovery.setSenderUrl(discovery.getSenderUrl());
-
-
-            for (String receiverUrl : discovery.getReceiverUrls()) {
-                if (!mergedReceiverUrls.contains(receiverUrl)) {
-                    mergedReceiverUrls.add(receiverUrl);
-                }
-            }
-
-
-        }
-        mergedDiscovery.setReceiverUrls(mergedReceiverUrls);
+            discovery.getReceiverUrls().forEach(receiverUrl ->
+                    receiverUrlsIncludingDspPath.add(ensureStandardDspEndpoint(receiverUrl, dspPath))
+            );
+        });
+        List<String> receiverUrls = removeDuplicates(receiverUrlsIncludingDspPath);
+        mergedDiscovery.setReceiverUrls(receiverUrls);
         return mergedDiscovery;
     }
 
+    private static List<String> removeDuplicates(List<String> urls) {
+        Set<String> uniqueUrls = new LinkedHashSet<>(urls);
+        return new ArrayList<>(uniqueUrls);
+    }
+
+
+    private static String ensureStandardDspEndpoint(String url, String dspPath) {
+        if (!url.endsWith(dspPath)) {
+            if (url.endsWith("/")) {
+                url = url.substring(0, url.length() - 1);
+            }
+            url += dspPath;
+        }
+        return url;
+    }
 }

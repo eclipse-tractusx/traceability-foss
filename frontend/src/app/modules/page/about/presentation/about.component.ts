@@ -29,6 +29,8 @@ import { environment } from '@env';
 })
 export class AboutComponent {
   name: string;
+  imprintPath: string;
+  privacyPath: string;
   repositoryPath: string;
   license: string;
   licensePath: string;
@@ -40,6 +42,8 @@ export class AboutComponent {
     this.license = 'Apache-2.0';
     this.name = 'Traceability Foss';
     this.commitId = environment.gitTag;
+    this.imprintPath = environment.imprintPath;
+    this.privacyPath = environment.privacyPath;
     this.repositoryPath = 'https://github.com/eclipse-tractusx/traceability-foss';
     this.licensePath = this.repositoryPath + '/blob/' + this.commitId + '/LICENSE';
     this.noticePath = this.repositoryPath + '/blob/' + this.commitId + '/NOTICE.md';

@@ -14,6 +14,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.AssetBaseMapperProvider;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asbuilt.AsBuiltDetailMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.asplanned.AsPlannedDetailMapper;
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
@@ -42,6 +44,11 @@ public class MapperHelper {
         } else {
             return Owner.CUSTOMER;
         }
+    }
+
+    public static Owner getOwner(AssetBase assetBase, TraceabilityProperties traceabilityProperties) {
+        boolean isOwn = BPN.of(assetBase.getManufacturerId()).equals(traceabilityProperties.getBpn());
+        return isOwn ? Owner.OWN : Owner.SUPPLIER;
     }
 
     public static String getShortId(List<Shell> shells, String globalAssetId) {

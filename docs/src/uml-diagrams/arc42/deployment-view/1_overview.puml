@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 100
+skinparam ranksep 20
+
+cloud "OIDC Provider" as oidc
+cloud "Digital Twin Registry" as dtr
+cloud "EDC Providers" as providers
+cloud IRS
+cloud "HashiCorp Vault" as vault
+cloud  "EDC Consumer" as consumer
+
+cloud PostgreSQL
+cloud pgadmin4
+
+
+
+node "Trace-X App Kubernetes Cluster" as k8sbe {
+
+    component "Trace-X Backend" as TraceXBackend
+    component "Trace-X Frontend" as TraceXFrontend
+    TraceXBackend -> PostgreSQL
+    TraceXBackend --> consumer
+    TraceXBackend ---> IRS
+    IRS -->  consumer
+    pgadmin4 --> PostgreSQL
+
+}
+
+TraceXFrontend --(0-- TraceXBackend
+
+oidc - TraceXFrontend
+oidc - TraceXBackend
+TraceXBackend -> dtr
+IRS --> dtr
+consumer --> providers
+consumer -- vault
+k8sbe -- vault
+
+@enduml

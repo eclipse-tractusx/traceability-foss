@@ -33,6 +33,18 @@ SPDX-License-Identifier: Apache-2.0
     <properties>
         <sonar.skip>true</sonar.skip>
     </properties>
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>GitHub Cofinity-X Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/Cofinity-X/item-relationship-service</url>
+        </repository>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>oss-sonatype</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <!-- managed by spring boot -->
         <dependency>

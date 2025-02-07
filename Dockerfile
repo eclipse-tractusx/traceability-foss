@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 # Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -23,12 +24,14 @@ WORKDIR /build
 
 # Copy to Working Directory
 COPY pom.xml .
+COPY settings.xml .
 COPY tx-parent-spring-boot tx-parent-spring-boot
 COPY tx-cucumber-tests tx-cucumber-tests
 COPY tx-coverage tx-coverage
 COPY tx-models tx-models
 COPY docs docs
 COPY tx-backend tx-backend
+COPY tx-gatling-tests tx-gatling-tests
 
 # the --mount option requires BuildKit.
 # --mount=type=cache,target=/root/.m2 -> mounts cache volume to the .m2 directorym in container
@@ -36,7 +39,12 @@ COPY tx-backend tx-backend
 # -pl specify project to build
 # :Variable specifies an artifact ID of project to build
 # -am build all dependencies of a project
-RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests
+
+RUN --mount=type=secret,id=PACKAGES_ACCESS_USERNAME,env=PACKAGES_ACCESS_USERNAME \
+    --mount=type=secret,id=PACKAGES_ACCESS_TOKEN,env=PACKAGES_ACCESS_TOKEN \
+    mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests -s settings.xml -U \
+    -DPACKAGES_ACCESS_USERNAME=$PACKAGES_ACCESS_USERNAME \
+    -DPACKAGES_ACCESS_TOKEN=$PACKAGES_ACCESS_TOKEN
 
 # Copy the jar and build image
 FROM eclipse-temurin:21-jre-alpine AS traceability-app

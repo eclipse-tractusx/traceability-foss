@@ -54,6 +54,10 @@ public class OAuth2Support {
         return new Header(HttpHeaders.AUTHORIZATION, jwtToken());
     }
 
+    public Header jwtAuthorizationWithOptionalRole(JwtRole role) throws JoseException {
+        return role == null ? jwtAuthorization() : jwtAuthorization(role);
+    }
+
     private String jwtToken(JwtRole... jwtRoles) throws JoseException {
         RsaJsonWebKey rsaJsonWebKey = rsaJsonWebKeyProvider.rsaJsonWebKey();
 

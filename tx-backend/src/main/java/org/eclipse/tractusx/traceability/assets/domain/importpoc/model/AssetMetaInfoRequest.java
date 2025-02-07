@@ -18,5 +18,5 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.model;
 
-public record AssetMetaInfoRequest(String catenaXId) {
+public record AssetMetaInfoRequest(String catenaXId, String digitalTwinType) {
 }
