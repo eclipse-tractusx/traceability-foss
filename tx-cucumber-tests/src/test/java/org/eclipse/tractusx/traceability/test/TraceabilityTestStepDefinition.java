@@ -32,7 +32,7 @@ import notification.request.UpdateNotificationStatusRequest;
 import notification.response.NotificationIdResponse;
 import notification.response.NotificationResponse;
 import org.awaitility.Durations;
-import org.eclipse.tractusx.traceability.test.exteption.MissingStepDefinitionException;
+import org.eclipse.tractusx.traceability.test.exception.MissingStepDefinitionException;
 import org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;

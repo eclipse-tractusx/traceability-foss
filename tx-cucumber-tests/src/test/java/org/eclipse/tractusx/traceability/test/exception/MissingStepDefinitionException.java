@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.test.exteption;
+package org.eclipse.tractusx.traceability.test.exception;
 
 public class MissingStepDefinitionException extends RuntimeException {
     private MissingStepDefinitionException(String message) {
