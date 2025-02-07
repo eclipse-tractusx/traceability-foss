@@ -20,11 +20,11 @@ A list of user or technical roles can be found below:
 
 #### Trace-X app roles
 
-Available roles: <https://portal.int.demo.catena-x.net/appusermanagement/3bbc88ae-5f0d-45cb-ab3e-8c7602ff58b4>
+Available roles: Admin. User , Supervisor
 
 ![app-roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/general-information/app-roles.svg)
 
-Assignment of roles: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F02.+Modify+User+Account%2F03.+User+Permissions.md>
+Assignment of roles: <https://github.com/eclipse-tractusx/portal-assets/blob/d922bf4cbbccccab1b30ff3be5184e52c9a94c5e/docs/user/03.%20User%20Management/02.%20Modify%20User%20Account/03.%20User%20Permissions.md>
 
 To enable users to access an application, minimum one application app need to get assigned to the respective user(s).
 
@@ -39,7 +39,7 @@ Role details: <https://portal.int.demo.catena-x.net/role-details>
 
 ![cx-portal-roles](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/user-manual/general-information/cx-portal-roles.svg)
 
-User accounts: <https://portal.int.demo.catena-x.net/documentation/?path=docs%2F03.+User+Management%2F01.+User+Account>
+User accounts: <https://github.com/eclipse-tractusx/portal-assets/blob/d922bf4cbbccccab1b30ff3be5184e52c9a94c5e/docs/user/03.%20User%20Management/01.%20User%20Account/02.%20User%20Account.md>
 
 #### Technical users
 
@@ -50,7 +50,7 @@ To login use the credentials provided by the hosting company.
 The application is configured with a technical user, which holds the required IRS roles:
 
 * Creating a policy in IRS -> admin_irs
-* Requesting jobs in IRS -> view_irs
+* Requesting orders in IRS -> view_irs
 
 For usage of an EDC it is necessary to provide another technical user. Required roles:
 

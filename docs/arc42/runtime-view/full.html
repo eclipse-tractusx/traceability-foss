@@ -482,6 +482,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_scheduler">Scheduler</a></li>
+<li><a href="#_scenario_edc_discovery_flow">Scenario: EDC Discovery Flow</a>
+<ul class="sectlevel2">
+<li><a href="#_overview_11">Overview</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1252,10 +1257,88 @@ These offers will be created on the following actions:</p>
 </table>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_scenario_edc_discovery_flow">Scenario: EDC Discovery Flow</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes the discovery flow and the handling of receiving EDC Urls for a given bpn in Trace-X.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="discovery-flow.svg" alt="discovery flow" width="1699" height="974">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_overview_11">Overview</h3>
+<div class="paragraph">
+<p>This sequence diagram provides a detailed visualization of the EDC Discovery process. It highlights the interactions between the user, the DiscoveryServiceImpl, and supporting repositories while addressing key scenarios like exception handling, duplicate URL detection, and the retrieval of BPN-related data. Below is a step-by-step explanation of the process:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Step</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1. User Request</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The process begins with the user calling the <code>getDiscoveryByBPN(bpn)</code> method of the <code>DiscoveryServiceImpl</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>2. Discovery Retrieval</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> attempts to retrieve discovery information by calling <code>retrieveDiscoveryByFinderAndEdcDiscoveryService(bpn)</code> on the <code>DiscoveryRepository</code>.
+If successful, an optional discovery object is returned. Otherwise, an exception is thrown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>3. Duplicate URL Check</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> invokes <code>checkDuplicateUrlsForBpn</code> to ensure no duplicate URLs are registered for the same BPN.
+If duplicates are found:
+- A <code>DiscoveryFinderException</code> is thrown.
+- A note explains the issue: "Multiple identical URLs have been registered for the same BPN. Ensure each BPN has a unique URL."
+If no duplicates are found, the process continues.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>4. BPN Data Retrieval</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> queries the <code>BpnRepository</code> using <code>existsWhereUrlNotNull(bpn)</code> to verify if a mapping exists and has a non-null URL.
+- If mapping exists, the repository returns the mapping.
+- If not, a <code>BpnNotFoundException</code> is thrown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>5. Fetch BPN Record</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the BPN exists, the service retrieves its details using <code>findByIdOrThrowNotFoundException(bpn)</code> from the <code>BpnRepository</code>.
+A note clarifies that if a <code>BpnNotFoundException</code> occurs, the URL from DiscoveryService is not used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>6. Convert Data to Discovery Object</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> converts the BPN data into a <code>Discovery</code> object using <code>toDiscovery(receiverUrl, senderUrl)</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>7. Merge and Remove Duplicates</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Final steps involve invoking <code>mergeDiscoveriesAndRemoveDuplicates</code> and <code>removeDuplicates</code> methods to ensure data integrity.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>8. Completion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Once all operations are successfully executed, the discovery data is returned to the user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Exception Scenarios</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DiscoveryFinderException</strong>: Triggered when multiple identical URLs are registered for the same BPN.
+<strong>BpnNotFoundException</strong>: Thrown if the requested BPN is not found in the repository.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-30 12:19:20 UTC
+Last updated 2025-02-07 14:22:54 UTC
 </div>
 </div>
 </body>

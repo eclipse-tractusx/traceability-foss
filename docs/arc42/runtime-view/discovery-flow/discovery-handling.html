@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Level 0 - Cluster overview</title>
+<title>Scenario: EDC Discovery Flow</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -437,16 +437,100 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>Level 0 - Cluster overview</h1>
+<h1>Scenario: EDC Discovery Flow</h1>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_overview">Overview</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
-
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section describes the discovery flow and the handling of receiving EDC Urls for a given bpn in Trace-X.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="discovery-flow.svg" alt="discovery flow" width="1699" height="974">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview">Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This sequence diagram provides a detailed visualization of the EDC Discovery process. It highlights the interactions between the user, the DiscoveryServiceImpl, and supporting repositories while addressing key scenarios like exception handling, duplicate URL detection, and the retrieval of BPN-related data. Below is a step-by-step explanation of the process:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Step</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1. User Request</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The process begins with the user calling the <code>getDiscoveryByBPN(bpn)</code> method of the <code>DiscoveryServiceImpl</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>2. Discovery Retrieval</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> attempts to retrieve discovery information by calling <code>retrieveDiscoveryByFinderAndEdcDiscoveryService(bpn)</code> on the <code>DiscoveryRepository</code>.
+If successful, an optional discovery object is returned. Otherwise, an exception is thrown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>3. Duplicate URL Check</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> invokes <code>checkDuplicateUrlsForBpn</code> to ensure no duplicate URLs are registered for the same BPN.
+If duplicates are found:
+- A <code>DiscoveryFinderException</code> is thrown.
+- A note explains the issue: "Multiple identical URLs have been registered for the same BPN. Ensure each BPN has a unique URL."
+If no duplicates are found, the process continues.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>4. BPN Data Retrieval</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> queries the <code>BpnRepository</code> using <code>existsWhereUrlNotNull(bpn)</code> to verify if a mapping exists and has a non-null URL.
+- If mapping exists, the repository returns the mapping.
+- If not, a <code>BpnNotFoundException</code> is thrown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>5. Fetch BPN Record</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the BPN exists, the service retrieves its details using <code>findByIdOrThrowNotFoundException(bpn)</code> from the <code>BpnRepository</code>.
+A note clarifies that if a <code>BpnNotFoundException</code> occurs, the URL from DiscoveryService is not used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>6. Convert Data to Discovery Object</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> converts the BPN data into a <code>Discovery</code> object using <code>toDiscovery(receiverUrl, senderUrl)</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>7. Merge and Remove Duplicates</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Final steps involve invoking <code>mergeDiscoveriesAndRemoveDuplicates</code> and <code>removeDuplicates</code> methods to ensure data integrity.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>8. Completion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Once all operations are successfully executed, the discovery data is returned to the user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Exception Scenarios</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DiscoveryFinderException</strong>: Triggered when multiple identical URLs are registered for the same BPN.
+<strong>BpnNotFoundException</strong>: Thrown if the requested BPN is not found in the repository.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-30 12:19:20 UTC
+Last updated 2025-02-07 14:22:54 UTC
 </div>
 </div>
 </body>

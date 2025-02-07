@@ -487,19 +487,75 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_data_sovereignty">Data sovereignty</a></li>
 <li><a href="#_policies">Policies</a></li>
 <li><a href="#_scheduler">Scheduler</a></li>
+<li><a href="#_scenario_edc_discovery_flow">Scenario: EDC Discovery Flow</a></li>
 </ul>
 </li>
-<li><a href="#_deployment_view">Deployment view</a></li>
 <li><a href="#_cross_cutting_concepts">Cross-cutting concepts</a>
-<ul class="sectlevel2">
+<ul class="sectlevel1">
 <li><a href="#_entity_relationship_model">Entity-relationship model</a></li>
-<li><a href="#_domain_concepts">Domain concepts</a></li>
-<li><a href="#_safety_and_security_concepts">Safety and security concepts</a></li>
-<li><a href="#_architecture_and_design_patterns">Architecture and design patterns</a></li>
-<li><a href="#_under_the_hood_concepts">"Under-the-hood" concepts</a></li>
-<li><a href="#_development_concepts">Development concepts</a></li>
-<li><a href="#_operational_concepts">Operational concepts</a></li>
-<li><a href="#_user_experience">User experience</a></li>
+<li><a href="#_domain_concepts">Domain concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_api_model">API model</a></li>
+<li><a href="#_domain_models">Domain models</a></li>
+</ul>
+</li>
+<li><a href="#_safety_and_security_concepts">Safety and security concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_authentication_authorization">Authentication / authorization</a></li>
+<li><a href="#_credentials">Credentials</a></li>
+</ul>
+</li>
+<li><a href="#_architecture_and_design_patterns">Architecture and design patterns</a>
+<ul class="sectlevel2">
+<li><a href="#_module_package_structure">Module / package structure</a></li>
+</ul>
+</li>
+<li><a href="#_under_the_hood_concepts">"Under-the-hood" concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_exception_and_error_handling">Exception and error handling</a></li>
+</ul>
+</li>
+<li><a href="#_development_concepts">Development concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_build_test_deploy">Build, test, deploy</a></li>
+<li><a href="#_code_generation">Code generation</a></li>
+<li><a href="#_migration">Migration</a></li>
+<li><a href="#_configurability">Configurability</a></li>
+<li><a href="#_java_style_guide">Java style guide</a></li>
+<li><a href="#_api_guide">API guide</a></li>
+<li><a href="#_documentation_style_guide">Documentation style guide</a></li>
+<li><a href="#_unit_and_functional_testing">Unit and functional testing</a></li>
+<li><a href="#_clean_code">Clean code</a></li>
+<li><a href="#_secure_coding_standards">Secure coding standards</a></li>
+<li><a href="#_trace_x_technical_class_responsibilities">Trace-X technical class responsibilities</a></li>
+</ul>
+</li>
+<li><a href="#_operational_concepts">Operational concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_administration">Administration</a></li>
+<li><a href="#_scaling">Scaling</a></li>
+<li><a href="#_clustering">Clustering</a></li>
+<li><a href="#_logging">Logging</a></li>
+<li><a href="#_monitoring">Monitoring</a></li>
+</ul>
+</li>
+<li><a href="#_user_experience">User experience</a>
+<ul class="sectlevel2">
+<li><a href="#_user_interface">User interface</a></li>
+</ul>
+</li>
+<li><a href="#_api_documentation">API Documentation</a>
+<ul class="sectlevel2">
+<li><a href="#_table_of_contents">Table of Contents</a></li>
+<li><a href="#_assets">Assets</a></li>
+<li><a href="#_bpn_configuration">BPN Configuration</a></li>
+<li><a href="#_contracts">Contracts</a></li>
+<li><a href="#_dashboard">Dashboard</a></li>
+<li><a href="#_edc_notification_contract">EDC Notification Contract</a></li>
+<li><a href="#_internal_quality_alerts_and_notifications">Internal Quality Alerts and Notifications</a></li>
+<li><a href="#_notifications">Notifications</a></li>
+<li><a href="#_policies">Policies</a></li>
+<li><a href="#_registry">Registry</a></li>
 </ul>
 </li>
 <li><a href="#_quality_requirements">Quality requirements</a>
@@ -509,6 +565,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_glossary">Glossary</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1121,9 +1179,6 @@ It roughly can be broken down into the following parts:</p>
 <p>Notification controller to get notification information and create EDC notification offers</p>
 </li>
 <li>
-<p>Submodel controller for providing asset data functionality</p>
-</li>
-<li>
 <p>Import controller for importing Trace-X data for data provisioning</p>
 </li>
 <li>
@@ -1133,7 +1188,7 @@ It roughly can be broken down into the following parts:</p>
 <p>EDC controller to retrieve notifications</p>
 </li>
 <li>
-<p>IRS callback controller to retrieve asynchronous jobs completed by IRS</p>
+<p>IRS callback controller to retrieve asynchronous orders completed by IRS</p>
 </li>
 <li>
 <p>Policy controller to retrieve information about policies</p>
@@ -1158,7 +1213,7 @@ It roughly can be broken down into the following parts:</p>
 <h4 id="_component_diagram">Component diagram</h4>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/whitebox-overview.svg" alt="whitebox overview" width="781" height="770">
+<img src="architecture-constraints/whitebox-overview.svg" alt="whitebox overview" width="2298" height="866">
 </div>
 </div>
 </div>
@@ -1192,6 +1247,14 @@ It roughly can be broken down into the following parts:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Submodel server</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The submodel server offers endpoints for requesting the submodel aspects.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">DiscoveryFinder</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Discovery Finder service enables the lookup of the suitable BPN Discovery services.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">EDC Discovery Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The EDC discovery service as defined in CX-0001 supports to find EDC endpoints of participants of the data space via BPNs, CX-0010. In some use cases the BPN is not known at the start of the process. This means that all EDCs in the data space need to be accessed to find a specific EDC data asset under consideration. This broadcasting has very low performance and produces a high access load on the EDCs.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1202,7 +1265,7 @@ It roughly can be broken down into the following parts:</p>
 <h4 id="_component_diagram_2">Component diagram</h4>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/level-1.svg" alt="level 1" width="876" height="663">
+<img src="architecture-constraints/building-block-view.svg" alt="building block view" width="2227" height="1526">
 </div>
 </div>
 </div>
@@ -1255,6 +1318,14 @@ It roughly can be broken down into the following parts:</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>NotificationsRepository</strong></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>NotificationsRepository</strong> is a component responsible for storing the status and data of sent and received notifications.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>BpnMappingController</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>BpnMappingController</strong> provides a REST interface providing BPN EDC URL mappings.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>BpnService</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <strong>BpnService</strong> provides crud operations for bpn mappings.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Database</strong></p></td>
@@ -2017,19 +2088,92 @@ These offers will be created on the following actions:</p>
 </tbody>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_deployment_view">Deployment view</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_cross_cutting_concepts">Cross-cutting concepts</h2>
-<div class="sectionbody">
 <div class="sect2">
-<h3 id="_entity_relationship_model">Entity-relationship model</h3>
+<h3 id="_scenario_edc_discovery_flow">Scenario: EDC Discovery Flow</h3>
+<div class="paragraph">
+<p>This section describes the discovery flow and the handling of receiving EDC Urls for a given bpn in Trace-X.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/discovery-flow.svg" alt="discovery flow" width="1699" height="974">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_overview_11">Overview</h4>
+<div class="paragraph">
+<p>This sequence diagram provides a detailed visualization of the EDC Discovery process. It highlights the interactions between the user, the DiscoveryServiceImpl, and supporting repositories while addressing key scenarios like exception handling, duplicate URL detection, and the retrieval of BPN-related data. Below is a step-by-step explanation of the process:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Step</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>1. User Request</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The process begins with the user calling the <code>getDiscoveryByBPN(bpn)</code> method of the <code>DiscoveryServiceImpl</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>2. Discovery Retrieval</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> attempts to retrieve discovery information by calling <code>retrieveDiscoveryByFinderAndEdcDiscoveryService(bpn)</code> on the <code>DiscoveryRepository</code>.
+If successful, an optional discovery object is returned. Otherwise, an exception is thrown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>3. Duplicate URL Check</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> invokes <code>checkDuplicateUrlsForBpn</code> to ensure no duplicate URLs are registered for the same BPN.
+If duplicates are found:
+- A <code>DiscoveryFinderException</code> is thrown.
+- A note explains the issue: "Multiple identical URLs have been registered for the same BPN. Ensure each BPN has a unique URL."
+If no duplicates are found, the process continues.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>4. BPN Data Retrieval</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> queries the <code>BpnRepository</code> using <code>existsWhereUrlNotNull(bpn)</code> to verify if a mapping exists and has a non-null URL.
+- If mapping exists, the repository returns the mapping.
+- If not, a <code>BpnNotFoundException</code> is thrown.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>5. Fetch BPN Record</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the BPN exists, the service retrieves its details using <code>findByIdOrThrowNotFoundException(bpn)</code> from the <code>BpnRepository</code>.
+A note clarifies that if a <code>BpnNotFoundException</code> occurs, the URL from DiscoveryService is not used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>6. Convert Data to Discovery Object</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>DiscoveryServiceImpl</code> converts the BPN data into a <code>Discovery</code> object using <code>toDiscovery(receiverUrl, senderUrl)</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>7. Merge and Remove Duplicates</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Final steps involve invoking <code>mergeDiscoveriesAndRemoveDuplicates</code> and <code>removeDuplicates</code> methods to ensure data integrity.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>8. Completion</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Once all operations are successfully executed, the discovery data is returned to the user.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Exception Scenarios</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>DiscoveryFinderException</strong>: Triggered when multiple identical URLs are registered for the same BPN.
+<strong>BpnNotFoundException</strong>: Thrown if the requested BPN is not found in the repository.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Unresolved directive in full.adoc - include::deployment-view/index.adoc[leveloffset=+1]
+:leveloffset: +1</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<h1 id="_cross_cutting_concepts" class="sect0">Cross-cutting concepts</h1>
+<div class="sect1">
+<h2 id="_entity_relationship_model">Entity-relationship model</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Please be informed that the 'as-planned' version currently lacks the database relations.</p>
 </div>
@@ -2039,26 +2183,28 @@ These offers will be created on the following actions:</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_domain_concepts">Domain concepts</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_domain_concepts">Domain concepts</h3>
-<div class="sect3">
-<h4 id="_api_model">API model</h4>
+<h3 id="_api_model">API model</h3>
 <div class="paragraph">
 <p>For detailed information about the API model, please refer to the <a href="https://eclipse-tractusx.github.io/traceability-foss/docs/api-specification/api-specification.html">API specification</a>.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_domain_models">Domain models</h3>
 <div class="sect3">
-<h4 id="_domain_models">Domain models</h4>
-<div class="sect4">
-<h5 id="_assets_2">Assets</h5>
+<h4 id="_assets_2">Assets</h4>
 <div class="imageblock">
 <div class="content">
 <img src="architecture-constraints/level-1.svg" alt="level 1" width="1623" height="1827">
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_quality_notifications">Quality notifications</h5>
+<div class="sect3">
+<h4 id="_quality_notifications">Quality notifications</h4>
 <div class="imageblock">
 <div class="content">
 <img src="architecture-constraints/level-2.svg" alt="level 2" width="1641" height="680">
@@ -2067,12 +2213,14 @@ These offers will be created on the following actions:</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_safety_and_security_concepts">Safety and security concepts</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_safety_and_security_concepts">Safety and security concepts</h3>
+<h3 id="_authentication_authorization">Authentication / authorization</h3>
 <div class="sect3">
-<h4 id="_authentication_authorization">Authentication / authorization</h4>
-<div class="sect4">
-<h5 id="_trace_x_api_2">Trace-X API</h5>
+<h4 id="_trace_x_api_2">Trace-X API</h4>
 <div class="paragraph">
 <p>The Trace-X API is secured using OAuth2.0 / Open ID Connect.
 Every request to the Trace-X API requires a valid bearer token.
@@ -2094,8 +2242,8 @@ Currently, Trace-X API handles three roles: <strong>'User'</strong> and <strong>
 <p>The roles and their functions are documented in the <a href="https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/src/docs/administration/system-overview.adoc#rights-and-role-matrix-of-trace-x">rights and role matrix</a> in the system overview of the administration guide.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_trace_x_as_edc_client">Trace-X as EDC client</h5>
+<div class="sect3">
+<h4 id="_trace_x_as_edc_client">Trace-X as EDC client</h4>
 <div class="paragraph">
 <p>The Trace-X accesses the Catena-X network via the EDC consumer connector.
 This component requires authentication via a Verifiable Credential (VC), which is provided to the EDC via the managed identity wallet.</p>
@@ -2104,8 +2252,8 @@ This component requires authentication via a Verifiable Credential (VC), which i
 <p>The VC identifies and authenticates the EDC and is used to acquire access permissions for the data transferred via EDC.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_trusted_port_for_internal_apis">Trusted Port for Internal APIs</h5>
+<div class="sect3">
+<h4 id="_trusted_port_for_internal_apis">Trusted Port for Internal APIs</h4>
 <div class="paragraph">
 <p>A second port, called the trusted port, has been introduced which can only be accessed by internal services within the Kubernetes cluster. This measure is implemented to handle APIs that are difficult to secure and involve several systems and processes. The trusted port ensures that only internal, trusted components can access these sensitive APIs, enhancing overall security.</p>
 </div>
@@ -2121,17 +2269,19 @@ This component requires authentication via a Verifiable Credential (VC), which i
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_credentials">Credentials</h4>
+<div class="sect2">
+<h3 id="_credentials">Credentials</h3>
 <div class="paragraph">
 <p>Credentials must never be stored in GitHub!</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_architecture_and_design_patterns">Architecture and design patterns</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_architecture_and_design_patterns">Architecture and design patterns</h3>
-<div class="sect3">
-<h4 id="_module_package_structure">Module / package structure</h4>
+<h3 id="_module_package_structure">Module / package structure</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -2209,15 +2359,17 @@ This component requires authentication via a Verifiable Credential (VC), which i
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_under_the_hood_concepts">"Under-the-hood" concepts</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_under_the_hood_concepts">"Under-the-hood" concepts</h3>
-<div class="sect3">
-<h4 id="_exception_and_error_handling">Exception and error handling</h4>
+<h3 id="_exception_and_error_handling">Exception and error handling</h3>
 <div class="paragraph">
 <p>There are two types of potential errors in Trace-X:</p>
 </div>
-<div class="sect4">
-<h5 id="_technical_errors">Technical errors</h5>
+<div class="sect3">
+<h4 id="_technical_errors">Technical errors</h4>
 <div class="paragraph">
 <p>Technical errors occur when there is a problem with the application itself, its configuration or directly connected infrastructure, e.g. the Postgres database.
 Usually, the application cannot solve these problems by itself and requires some external support (manual work or automated recovery mechanisms, e.g. Kubernetes liveness probes).</p>
@@ -2226,24 +2378,24 @@ Usually, the application cannot solve these problems by itself and requires some
 <p>These errors are printed mainly to the application log and are relevant for the health-checks.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_functional_errors">Functional errors</h5>
+<div class="sect3">
+<h4 id="_functional_errors">Functional errors</h4>
 <div class="paragraph">
 <p>Functional errors occur when there is a problem with the data that is being processed or external systems are unavailable and data cannot be sent / fetched as required for the process.
 While the system might not be able to provide the required function at that moment, it may work with a different dataset or as soon as the external systems recover.</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_rules_for_exception_handling">Rules for exception handling</h4>
 <div class="sect4">
-<h5 id="_rules_for_exception_handling">Rules for exception handling</h5>
-<div class="sect5">
-<h6 id="_throw_or_log_dont_do_both">Throw or log, don&#8217;t do both</h6>
+<h5 id="_throw_or_log_dont_do_both">Throw or log, don&#8217;t do both</h5>
 <div class="paragraph">
 <p>When catching an exception, either log the exception and handle the problem or rethrow it, so it can be handled at a higher level of the code.
 By doing both, an exception might be written to the log multiple times, which can be confusing.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_write_own_base_exceptions_for_internal_interfaces">Write own base exceptions for (internal) interfaces</h6>
+<div class="sect4">
+<h5 id="_write_own_base_exceptions_for_internal_interfaces">Write own base exceptions for (internal) interfaces</h5>
 <div class="paragraph">
 <p>By defining a common (checked) base exception for an interface, the caller is forced to handle potential errors, but can keep the logic simple.
 On the other hand, you still have the possibility to derive various, meaningful exceptions for different error cases, which can then be thrown via the API.</p>
@@ -2252,16 +2404,16 @@ On the other hand, you still have the possibility to derive various, meaningful 
 <p>Of course, when using only RuntimeExceptions, this is not necessary - but those can be overlooked quite easily, so be careful there.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_central_fallback_exception_handler">Central fallback exception handler</h6>
+<div class="sect4">
+<h5 id="_central_fallback_exception_handler">Central fallback exception handler</h5>
 <div class="paragraph">
 <p>There will always be some exception that cannot be handled inside the code correctly - or it may just have been unforeseen.
 A central fallback exception handler is required so all problems are visible in the log and the API always returns meaningful responses.
 In some cases, this is as simple as an HTTP 500.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_dont_expose_too_much_exception_details_over_api">Don&#8217;t expose too much exception details over API</h6>
+<div class="sect4">
+<h5 id="_dont_expose_too_much_exception_details_over_api">Don&#8217;t expose too much exception details over API</h5>
 <div class="paragraph">
 <p>It&#8217;s good to inform the user why their request did not work, but only if they can do something about it (HTTP 4xx).
 So in case of application problems, you should not expose details of the problem to the caller.
@@ -2271,10 +2423,12 @@ This way we avoid opening potential attack vectors.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_development_concepts">Development concepts</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_development_concepts">Development concepts</h3>
-<div class="sect3">
-<h4 id="_build_test_deploy">Build, test, deploy</h4>
+<h3 id="_build_test_deploy">Build, test, deploy</h3>
 <div class="paragraph">
 <p>Trace-X is built using Maven and utilizes all the standard concepts of it.
 Test execution is part of the build process and a minimum test coverage of 80% is enforced.</p>
@@ -2294,20 +2448,20 @@ This copies all resources into a build image, builds the software and creates a 
 <p>Although the Docker image can be deployed in various ways, the standard solution is to use the provided Helm charts, which describe the required components as well.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_code_generation">Code generation</h4>
+<div class="sect2">
+<h3 id="_code_generation">Code generation</h3>
 <div class="paragraph">
 <p>There are two methods of code generation in Trace-X:</p>
 </div>
-<div class="sect4">
-<h5 id="_lombok">Lombok</h5>
+<div class="sect3">
+<h4 id="_lombok">Lombok</h4>
 <div class="paragraph">
 <p>The Lombok library is heavily used to generate boilerplate code (like constructors, getters, setters, builders&#8230;&#8203;).
 This way, code can be written faster and this boilerplate code is excluded from test coverage, which keeps the test base lean.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_swagger_openapi">Swagger / OpenAPI</h5>
+<div class="sect3">
+<h4 id="_swagger_openapi">Swagger / OpenAPI</h4>
 <div class="paragraph">
 <p>The API uses OpenAPI annotations to describe the endpoints with all necessary information.
 The annotations are then used to automatically generate the OpenAPI specification file, which can be viewed in the Swagger UI that is deployed with the application.</p>
@@ -2317,14 +2471,14 @@ The annotations are then used to automatically generate the OpenAPI specificatio
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_migration">Migration</h4>
+<div class="sect2">
+<h3 id="_migration">Migration</h3>
 <div class="paragraph">
 <p>Data migration is handled by Flyway.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_configurability">Configurability</h4>
+<div class="sect2">
+<h3 id="_configurability">Configurability</h3>
 <div class="paragraph">
 <p>Trace-X utilizes the configuration mechanism provided by Spring Boot.
 Configuration properties can be defined in the file <code>src/main/resources/application.yml</code></p>
@@ -2335,28 +2489,28 @@ Instead, the configuration can be overwritten using Spring&#8217;s external conf
 The operator must have total control over the configuration of Trace-X.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_java_style_guide">Java style guide</h4>
+<div class="sect2">
+<h3 id="_java_style_guide">Java style guide</h3>
 <div class="paragraph">
 <p>We generally follow the <a href="https://google.github.io/styleguide/javaguide.html">Google Java style guide</a>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_api_guide">API guide</h4>
+<div class="sect2">
+<h3 id="_api_guide">API guide</h3>
 <div class="paragraph">
 <p>We generally follow the <a href="https://swagger.io/specification/">OpenAPI specification</a>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_documentation_style_guide">Documentation style guide</h4>
+<div class="sect2">
+<h3 id="_documentation_style_guide">Documentation style guide</h3>
 <div class="paragraph">
 <p>We generally follow the <a href="https://developers.google.com/style">Google developer documentation style guide</a>.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_unit_and_functional_testing">Unit and functional testing</h3>
 <div class="sect3">
-<h4 id="_unit_and_functional_testing">Unit and functional testing</h4>
-<div class="sect4">
-<h5 id="_general_unit_testing">General unit testing</h5>
+<h4 id="_general_unit_testing">General unit testing</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2389,8 +2543,8 @@ E.g:</p>
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_integration_testing">Integration testing</h5>
+<div class="sect3">
+<h4 id="_integration_testing">Integration testing</h4>
 <div class="paragraph">
 <p>Each public API should have at least two integration tests (positive / negative).
 For integration testing, the file <code>tx-backend/src/main/resources/application-integration.yml</code> is used.
@@ -2399,14 +2553,14 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_clean_code">Clean code</h4>
+<div class="sect2">
+<h3 id="_clean_code">Clean code</h3>
 <div class="paragraph">
 <p>We follow the rules and behaviour of: <a href="https://clean-code-developer.com/" class="bare">https://clean-code-developer.com/</a>.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_secure_coding_standards">Secure coding standards</h4>
+<div class="sect2">
+<h3 id="_secure_coding_standards">Secure coding standards</h3>
 <div class="paragraph">
 <p>As there is no other guideline of C-X, we fix any vulnerabilities, exposures, flaws detected by one of our SAST, DAST, pen testing tools which are higher than "Very Low".</p>
 </div>
@@ -2416,10 +2570,10 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_trace_x_technical_class_responsibilities">Trace-X technical class responsibilities</h3>
 <div class="sect3">
-<h4 id="_trace_x_technical_class_responsibilities">Trace-X technical class responsibilities</h4>
-<div class="sect4">
-<h5 id="_controller">Controller</h5>
+<h4 id="_controller">Controller</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2443,8 +2597,8 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_response_object">Response object</h5>
+<div class="sect3">
+<h4 id="_response_object">Response object</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2462,8 +2616,8 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_facade">Facade</h5>
+<div class="sect3">
+<h4 id="_facade">Facade</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2475,8 +2629,8 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_serviceimpl">ServiceImpl</h5>
+<div class="sect3">
+<h4 id="_serviceimpl">ServiceImpl</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2497,8 +2651,8 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_repository">Repository</h5>
+<div class="sect3">
+<h4 id="_repository">Repository</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2507,8 +2661,8 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_domain_object">Domain object</h5>
+<div class="sect3">
+<h4 id="_domain_object">Domain object</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2520,8 +2674,8 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_config_object">Config object</h5>
+<div class="sect3">
+<h4 id="_config_object">Config object</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2533,8 +2687,8 @@ For this, we recommend <a href="https://rancherdesktop.io/">Rancher Desktop</a>.
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_constructing_objects">Constructing objects</h5>
+<div class="sect3">
+<h4 id="_constructing_objects">Constructing objects</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -2559,25 +2713,27 @@ Main reason is to provide immutable objects.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_operational_concepts">Operational concepts</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_operational_concepts">Operational concepts</h3>
+<h3 id="_administration">Administration</h3>
 <div class="sect3">
-<h4 id="_administration">Administration</h4>
-<div class="sect4">
-<h5 id="_configuration">Configuration</h5>
+<h4 id="_configuration">Configuration</h4>
 <div class="paragraph">
 <p>Trace-X can be configured using two mechanisms:</p>
 </div>
-<div class="sect5">
-<h6 id="_application_yml">application.yml</h6>
+<div class="sect4">
+<h5 id="_application_yml">application.yml</h5>
 <div class="paragraph">
 <p>If you build Trace-X yourself, you can modify the application.yml config that is shipped with Trace-X.
 This file contains all possible config entries for the application.
 Once the Docker image has been built, these values can only be overwritten using the Spring external config mechanism (see <a href="https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html" class="bare">https://docs.spring.io/spring-boot/docs/2.1.9.RELEASE/reference/html/boot-features-external-config.html</a>), e.g. by mounting a config file in the right path or using environment variables.</p>
 </div>
 </div>
-<div class="sect5">
-<h6 id="_helm_chart">Helm chart</h6>
+<div class="sect4">
+<h5 id="_helm_chart">Helm chart</h5>
 <div class="paragraph">
 <p>The most relevant config properties are exposed as environment variables and must be set in the Helm chart for the application to be able to run.
 Check the Trace-X Helm chart in GitHub for all available variables.</p>
@@ -2585,39 +2741,41 @@ Check the Trace-X Helm chart in GitHub for all available variables.</p>
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_scaling">Scaling</h4>
+<div class="sect2">
+<h3 id="_scaling">Scaling</h3>
 <div class="paragraph">
 <p>If the number of consumers rises, Trace-X can be scaled up by using more resources for the deployment pod.
 Those resources can be used to utilize more parallel threads to handle job execution.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_clustering">Clustering</h4>
+<div class="sect2">
+<h3 id="_clustering">Clustering</h3>
 <div class="paragraph">
 <p>Trace-X can run in clustered mode, as each running job is only present in one pod at a time.
 Note: as soon as a resume feature is implemented, this needs to be addressed here.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_logging">Logging</h4>
+<div class="sect2">
+<h3 id="_logging">Logging</h3>
 <div class="paragraph">
 <p>Logs are being written directly to stdout and are picked up by the cluster management.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_monitoring">Monitoring</h4>
+<div class="sect2">
+<h3 id="_monitoring">Monitoring</h3>
 <div class="paragraph">
 <p>Currently, there is on monitoring supported in Trace-X.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_user_experience">User experience</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_user_experience">User experience</h3>
+<h3 id="_user_interface">User interface</h3>
 <div class="sect3">
-<h4 id="_user_interface">User interface</h4>
-<div class="sect4">
-<h5 id="_table_design">Table design</h5>
+<h4 id="_table_design">Table design</h4>
 <div class="paragraph">
 <p>Trace-X uses the following table design to build consistent and user-friendly tables:</p>
 </div>
@@ -2930,6 +3088,1379 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_api_documentation">API Documentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document provides an overview of the API endpoints, their supported HTTP methods, visibility status, and the reasons for their current or future public accessibility.</p>
+</div>
+<div class="sect2">
+<h3 id="_table_of_contents">Table of Contents</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="#_assets">Assets</a></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><a href="#_as_built">As-Built</a></p>
+</li>
+<li>
+<p><a href="#_as_planned">As-Planned</a></p>
+</li>
+<li>
+<p><a href="#_import_report">Import Report</a></p>
+</li>
+<li>
+<p><a href="#_publish">Publish</a></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><a href="#_bpn_configuration">BPN Configuration</a></p>
+</li>
+<li>
+<p><a href="#_contracts">Contracts</a></p>
+</li>
+<li>
+<p><a href="#_dashboard">Dashboard</a></p>
+</li>
+<li>
+<p><a href="#_edc_notification_contract">EDC Notification Contract</a></p>
+</li>
+<li>
+<p><a href="#_internal_quality_alerts_and_notifications">Internal Quality Alerts and Notifications</a></p>
+</li>
+<li>
+<p><a href="#_notifications">Notifications</a></p>
+</li>
+<li>
+<p><a href="#_policies">Policies</a></p>
+</li>
+<li>
+<p><a href="#_registry">Registry</a></p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_assets">Assets</h3>
+<div class="sect3">
+<h4 id="_as_built">As-Built</h4>
+<div class="sect4">
+<h5 id="_get_assetsas_built">GET <code>/assets/as-built</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a list of as-built assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_builtchildrenchildid">GET <code>/assets/as-built/*/children/+{childId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve child assets for a specific as-built asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_builtassetid">GET <code>/assets/as-built/+{assetId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve details of a specific as-built asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_patch_assetsas_builtassetid">PATCH <code>/assets/as-built/+{assetId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Update specific fields of an as-built asset.</p>
+</div>
+<div class="paragraph">
+<p><strong>Visibility</strong>:
+- Current: Public
+- Future: Public</p>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_builtcountries">GET <code>/assets/as-built/countries</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a list of countries associated with as-built assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_builtdetail_information">POST <code>/assets/as-built/detail-Information</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Add detailed information to as-built assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_builtsearchable_values">POST <code>/assets/as-built/searchable-values</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Add searchable values to as-built assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_builtsync">POST <code>/assets/as-built/sync</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Synchronize as-built assets across instances.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_as_planned">As-Planned</h4>
+<div class="sect4">
+<h5 id="_get_assetsas_planned">GET <code>/assets/as-planned</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a list of as-planned assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_plannedchildrenchildid">GET <code>/assets/as-planned/*/children/+{childId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve child assets for a specific as-planned asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_plannedassetid">GET <code>/assets/as-planned/+{assetId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve details of a specific as-planned asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_patch_assetsas_plannedassetid">PATCH <code>/assets/as-planned/+{assetId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Update specific fields of an as-planned asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_planneddetail_information">POST <code>/assets/as-planned/detail-Information</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Add detailed information to as-planned assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_plannedsearchable_values">POST <code>/assets/as-planned/searchable-values</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Add searchable values to as-planned assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_plannedsync">POST <code>/assets/as-planned/sync</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Synchronize as-planned assets across instances.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_import_report">Import Report</h4>
+<div class="sect4">
+<h5 id="_get_assetsimportreportimportjobid">GET <code>/assets/import/report/+{importJobId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve the report of a specific asset import job.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_publish">Publish</h4>
+<div class="sect4">
+<h5 id="_post_assetspublish">POST <code>/assets/publish</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Publish assets to make them available to other instances.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bpn_configuration">BPN Configuration</h3>
+<div class="sect3">
+<h4 id="_get_bpn_config">GET <code>/bpn-config</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve the current BPN (Business Partner Number) configurations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_put_bpn_config">PUT <code>/bpn-config</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Update the BPN configurations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_bpn_config">POST <code>/bpn-config</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Add new BPN configurations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_delete_bpn_configbpn">DELETE <code>/bpn-config/+{bpn}+</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Delete a specific BPN configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contracts">Contracts</h3>
+<div class="sect3">
+<h4 id="_post_contracts">POST <code>/contracts</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Create new contracts between instances.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dashboard">Dashboard</h3>
+<div class="sect3">
+<h4 id="_get_dashboard">GET <code>/Dashboard</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve dashboard information.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_edc_notification_contract">EDC Notification Contract</h3>
+<div class="sect3">
+<h4 id="_post_edcnotificationcontract">POST <code>/edc/notification/contract</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Create contracts for EDC notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_internal_quality_alerts_and_notifications">Internal Quality Alerts and Notifications</h3>
+<div class="paragraph">
+<p><strong>Note</strong>: These endpoints are marked as private and are intended for internal use.</p>
+</div>
+<div class="sect3">
+<h4 id="_post_internalqualityalertsreceive">POST <code>/internal/qualityalerts/receive</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Receive internal quality alerts.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+<div class="sect4">
+<h5 id="_post_internalqualityalertsupdate">POST <code>/internal/qualityalerts/update</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Update internal quality alerts.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_internalqualitynotificationsreceive">POST <code>/internal/qualitynotifications/receive</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Receive internal quality notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_internalqualitynotificationsupdate">POST <code>/internal/qualitynotifications/update</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Update internal quality notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notifications">Notifications</h3>
+<div class="sect3">
+<h4 id="_put_notificationnotificationidedit">PUT <code>/notification/+{notificationId}+/edit</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Edit a specific notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notifications">POST <code>/notifications</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Create new notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsfilter">POST <code>/notifications/filter</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Filter notifications based on criteria.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationssearchable_values">POST <code>/notifications/searchable-values</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Add searchable values to notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_notificationsnotificationid">GET <code>/notifications/+{notificationId}+</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a specific notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsnotificationidapprove">POST <code>/notifications/+{notificationId}+/approve</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Approve a notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsnotificationidcancel">POST <code>/notifications/+{notificationId}+/cancel</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Cancel a notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsnotificationidclose">POST <code>/notifications/+{notificationId}+/close</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Close a notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsnotificationidupdate">POST <code>/notifications/+{notificationId}+/update</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Update a notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_policies">Policies</h3>
+<div class="sect3">
+<h4 id="_get_policies">GET <code>/policies</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a list of policies.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_put_policies">PUT <code>/policies</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Update existing policies.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_policies">POST <code>/policies</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Create new policies.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_policiespolicyid">GET <code>/policies/+{policyID}+</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a specific policy by ID.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_delete_policiespolicyid">DELETE <code>/policies/+{policyID}+</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Delete a specific policy by ID.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_registry">Registry</h3>
+<div class="sect3">
+<h4 id="_get_registryreload">GET <code>/registry/reload</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Reload the registry data.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="sect1">
 <h2 id="_quality_requirements">Quality requirements</h2>
@@ -3092,7 +4623,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-30 12:19:20 UTC
+Last updated 2025-02-07 14:22:54 UTC
 </div>
 </div>
 </body>

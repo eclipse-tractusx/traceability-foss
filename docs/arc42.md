@@ -212,11 +212,10 @@ It roughly can be broken down into the following parts:
 * Dashboard controller to get dashboard related summed up information
 * Registry controller to fetch assets from the Digital Twin Registry
 * Notification controller to get notification information and create EDC notification offers
-* Submodel controller for providing asset data functionality
 * Import controller for importing Trace-X data for data provisioning
 * Contract controller to get information about contract agreements
 * EDC controller to retrieve notifications
-* IRS callback controller to retrieve asynchronous jobs completed by IRS
+* IRS callback controller to retrieve asynchronous orders completed by IRS
 * Policy controller to retrieve information about policies
 * BPN controller to retrieve information about business partners
 
@@ -229,12 +228,6 @@ The backend does a request to the Digital Twin Registry utilizing the registry c
 ### Component diagram
 
 ![arc42_005](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_005.png)
-```bash
-The interfaces show how the components interact with each other and which interfaces the TraceX is providing.
-
-Component Diagram
-
-```
 
 ### Component description
 
@@ -244,12 +237,12 @@ Component Diagram
 | EDC consumer | The EDC consumer component is there to fulfill the GAIA-X and IDSA-data sovereignty principles. The EDC consumer is composed of a control plane and a data plane. |
 | EDC provider | The EDC provider component connects with EDC consumer component and forms the endpoint for the actual exchange of data. It handles automatic contract negotiation and the subsequent exchange of data assets for connected applications. |
 | Submodel server | The submodel server offers endpoints for requesting the submodel aspects. |
+| DiscoveryFinder | Discovery Finder service enables the lookup of the suitable BPN Discovery services. |
+| EDC Discovery Service | The EDC discovery service as defined in CX-0001 supports to find EDC endpoints of participants of the data space via BPNs, CX-0010. In some use cases the BPN is not known at the start of the process. This means that all EDCs in the data space need to be accessed to find a specific EDC data asset under consideration. This broadcasting has very low performance and produces a high access load on the EDCs. |
 
 ## Level 1
 
 ### Component diagram
-
-![arc42_006](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_006.png)
 
 ### Component description
 
@@ -264,6 +257,8 @@ Component Diagram
 | **AssetRepository** | The **AssetRepository** is a component responsible for storing and getting assets from the database. |
 | **BPNRepository** | The **BPNRepository** is a component which stores BPN -> company name mappings. |
 | **NotificationsRepository** | The **NotificationsRepository** is a component responsible for storing the status and data of sent and received notifications. |
+| **BpnMappingController** | The **BpnMappingController** provides a REST interface providing BPN EDC URL mappings. |
+| **BpnService** | The **BpnService** provides crud operations for bpn mappings. |
 | **Database** | The **database** is a place for storing assets, relations and notifications. |
 
 ## Runtime view
@@ -278,7 +273,7 @@ This section describes what happens when users list stored assets.
 In this example, the user requests as-built assets.
 The same can be done with as-planned assets.
 
-![arc42_007](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_007.png)
+![arc42_006](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_006.png)
 
 ### Overview
 
@@ -293,7 +288,7 @@ This section describes what happens when users search for a specific asset.
 This example shows the request of one as-built asset.
 The same can be done with as-planned assets.
 
-![arc42_008](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_008.png)
+![arc42_007](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_007.png)
 
 ### Overview
 
@@ -307,7 +302,7 @@ If no asset has been found for the given ID, an AssetNotFoundException is thrown
 
 This sequence diagram describes the process of receiving a quality notification from another traceability partner:
 
-![arc42_009](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_009.png)
+![arc42_008](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_008.png)
 
 ### Overview
 
@@ -327,7 +322,7 @@ With the notification asset it is possible to enable EDC contract negotiation an
 
 This sequence diagram describes the process of sending a quality notification between traceability applications:
 
-![arc42_010](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_010.png)
+![arc42_009](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_009.png)
 
 ### Overview
 
@@ -347,7 +342,7 @@ With the notification asset it is possible to enable EDC contract negotiation an
 
 This sequence diagram describes the process of fetching data from the DTR and the Catena-X ecosystem:
 
-![arc42_011](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_011.png)
+![arc42_010](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_010.png)
 
 ### Overview
 
@@ -363,19 +358,19 @@ The following sequence diagrams describe the process of importing data from a Tr
 Data will be imported by the Trace-X frontend into the Trace-X backend and will be persisted as an asset in a transient state.
 The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.
 
-![arc42_012](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_012.png)
+![arc42_011](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_011.png)
 
 ### Module 2
 
 The frontend is able to select assets and publish / synchronize them with the shared services DTR / EDC / submodel API.
 
-![arc42_013](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_013.png)
+![arc42_012](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_012.png)
 
 ### Module 3
 
 The backend is able to persist the data in the DTR / EDC and enables the IRS to resolve assets.
 
-![arc42_014](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_014.png)
+![arc42_013](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_013.png)
 
 ## Scenario 1: Receive import report
 
@@ -451,7 +446,7 @@ For additional information refer to the [Connector KIT](https://eclipse-tractusx
 
 ### Policies for sending and receiving parts
 
-![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
+![arc42_014](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_014.png)
 
 |     |     |
 | --- | --- |
@@ -484,7 +479,7 @@ For more detailed information concerning the functionality of IRS please refer t
 
 ### Policies for sending and receiving notifications
 
-![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
 
 |     |     |
 | --- | --- |
@@ -502,13 +497,13 @@ For more detailed information concerning the functionality of IRS please refer t
 
 #### No policies defined for receiver when sending notifications
 
-![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
+![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
 
 If no policies are configured for the receiving BPN and a notification is sent to that BPN, the default policy of Trace-X is used as a backup. If the default policy is accepted by the receiving BPN, the process can continue as normally and the notification can be sent. When the policy does not match and the notification can’t be sent, an administrator can create policies for the receiving BPN. Then the notification can be resent and will use the new policy.
 
 #### Expired policy when sending notifications
 
-![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
+![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
 
 Policies always have an expiration time defined by the 'validUntil' timestamp. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must update or recreate the policy. Then the policy can be resent.
 
@@ -588,7 +583,7 @@ If a policy with the constraint exists and is valid, the process ends. If the po
 
 This sequence diagram describes the process of retrieving or creating policies from the IRS policy store based on the constraint given by Trace-X:
 
-![arc42_019](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_019.png)
+![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
 ```bash
 
 
@@ -604,7 +599,7 @@ The EDC policy request will be used for creating a policy for the required notif
 
 This sequence diagram describes the process of retrieving the correct policy by IRS policy store based on the constraint given by Trace-X and reuses it for creating an EDC policy.
 
-![arc42_020](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_020.png)
+![arc42_019](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_019.png)
 ```bash
 
 
@@ -618,7 +613,7 @@ The Trace-X instance uses the policy which includes the defined constraint for v
 
 This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC:
 
-![arc42_021](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_021.png)
+![arc42_020](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_020.png)
 
 #### Scenario 4: Provisioning of assets
 
@@ -626,7 +621,7 @@ The Trace-X instance uses the policy which includes the defined constraint for c
 
 This sequence diagram describes the process of how the policy with the defined constraint will be used for registering EDC data assets:
 
-![arc42_022](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_022.png)
+![arc42_021](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_021.png)
 
 #### Scenario 5: Updating notification offers when creating / deleting / updating policies
 
@@ -657,7 +652,39 @@ An overview of the scheduler tasks configured in the system.
 | PublishAssetsJob | Every hour at 30min | Publishes assets in IN_SYNCHRONIZATION state to core services. The process combines as-built and as-planned assets and initiates their publication for synchronization in the traceability system. |
 | AssetsRefreshJob | Every 2 hours | Invokes the synchronization of asset shell descriptors with the decentralized registry. It ensures the latest asset information is fetched and updated in the system from external sources. |
 
-## Deployment view
+## Scenario: EDC Discovery Flow
+
+This section describes the discovery flow and the handling of receiving EDC Urls for a given bpn in Trace-X.
+
+### Overview
+
+This sequence diagram provides a detailed visualization of the EDC Discovery process. It highlights the interactions between the user, the DiscoveryServiceImpl, and supporting repositories while addressing key scenarios like exception handling, duplicate URL detection, and the retrieval of BPN-related data. Below is a step-by-step explanation of the process:
+
+|     |
+| --- |
+| Step |
+| Description |
+| ***1. User Request*** |
+| The process begins with the user calling the `getDiscoveryByBPN(bpn)` method of the `DiscoveryServiceImpl`. |
+| ***2. Discovery Retrieval*** |
+| The `DiscoveryServiceImpl` attempts to retrieve discovery information by calling `retrieveDiscoveryByFinderAndEdcDiscoveryService(bpn)` on the `DiscoveryRepository`. If successful, an optional discovery object is returned. Otherwise, an exception is thrown. |
+| ***3. Duplicate URL Check*** |
+| The `DiscoveryServiceImpl` invokes `checkDuplicateUrlsForBpn` to ensure no duplicate URLs are registered for the same BPN. If duplicates are found: - A `DiscoveryFinderException` is thrown. - A note explains the issue: "Multiple identical URLs have been registered for the same BPN. Ensure each BPN has a unique URL." If no duplicates are found, the process continues. |
+| ***4. BPN Data Retrieval*** |
+| The `DiscoveryServiceImpl` queries the `BpnRepository` using `existsWhereUrlNotNull(bpn)` to verify if a mapping exists and has a non-null URL. - If mapping exists, the repository returns the mapping. - If not, a `BpnNotFoundException` is thrown. |
+| ***5. Fetch BPN Record*** |
+| If the BPN exists, the service retrieves its details using `findByIdOrThrowNotFoundException(bpn)` from the `BpnRepository`. A note clarifies that if a `BpnNotFoundException` occurs, the URL from DiscoveryService is not used. |
+| ***6. Convert Data to Discovery Object*** |
+| The `DiscoveryServiceImpl` converts the BPN data into a `Discovery` object using `toDiscovery(receiverUrl, senderUrl)`. |
+| ***7. Merge and Remove Duplicates*** |
+| Final steps involve invoking `mergeDiscoveriesAndRemoveDuplicates` and `removeDuplicates` methods to ensure data integrity. |
+| ***8. Completion*** |
+| Once all operations are successfully executed, the discovery data is returned to the user. |
+| ***Exception Scenarios*** |
+| **DiscoveryFinderException**: Triggered when multiple identical URLs are registered for the same BPN. **BpnNotFoundException**: Thrown if the requested BPN is not found in the repository. |
+
+Unresolved directive in full.adoc - include::deployment-view/index.adoc[leveloffset=+1]
+:leveloffset: +1
 
 ## Cross-cutting concepts
 
@@ -666,12 +693,12 @@ An overview of the scheduler tasks configured in the system.
 Please be informed that the 'as-planned' version currently lacks the database relations.
 
 ```bash
-image::./assets/arc42/arc42_023.png[]
+image::./assets/arc42/arc42_022.png[]
 ```
 
 #### Quality notifications
 
-![arc42_024](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_024.png)
+![arc42_023](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_023.png)
 ```bash
 
 ```
@@ -995,6 +1022,525 @@ When data must only be shown and no actions are needed:
 
 ![table-data-only](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/cross-cutting/user-experience/table-data-only.svg)
 
+## API Documentation
+
+This document provides an overview of the API endpoints, their supported HTTP methods, visibility status, and the reasons for their current or future public accessibility.
+
+### Table of Contents
+
+1. [Assets](#assets)
+   1. [As-Built](#as-built)
+   2. [As-Planned](#as-planned)
+   3. [Import Report](#import-report)
+   4. [Publish](#publish)
+2. [BPN Configuration](#bpn-configuration)
+3. [Contracts](#contracts)
+4. [Dashboard](#dashboard)
+5. [EDC Notification Contract](#edc-notification-contract)
+6. [Internal Quality Alerts and Notifications](#internal-quality-alerts-and-notifications)
+7. [Notifications](#notifications)
+8. [Policies](#policies)
+9. [Registry](#registry)
+
+### Assets
+
+#### As-Built
+
+##### GET `/assets/as-built`
+
+**Description**: Retrieve a list of as-built assets.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### GET `/assets/as-built/*/children/+{childId}+`
+
+**Description**: Retrieve child assets for a specific as-built asset.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### GET `/assets/as-built/+{assetId}+`
+
+**Description**: Retrieve details of a specific as-built asset.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### PATCH `/assets/as-built/+{assetId}+`
+
+**Description**: Update specific fields of an as-built asset.
+
+**Visibility**:
+- Current: Public
+- Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### GET `/assets/as-built/countries`
+
+**Description**: Retrieve a list of countries associated with as-built assets.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### POST `/assets/as-built/detail-Information`
+
+**Description**: Add detailed information to as-built assets.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### POST `/assets/as-built/searchable-values`
+
+**Description**: Add searchable values to as-built assets.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### POST `/assets/as-built/sync`
+
+**Description**: Synchronize as-built assets across instances.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### As-Planned
+
+##### GET `/assets/as-planned`
+
+**Description**: Retrieve a list of as-planned assets.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### GET `/assets/as-planned/*/children/+{childId}+`
+
+**Description**: Retrieve child assets for a specific as-planned asset.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### GET `/assets/as-planned/+{assetId}+`
+
+**Description**: Retrieve details of a specific as-planned asset.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### PATCH `/assets/as-planned/+{assetId}+`
+
+**Description**: Update specific fields of an as-planned asset.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### POST `/assets/as-planned/detail-Information`
+
+**Description**: Add detailed information to as-planned assets.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### POST `/assets/as-planned/searchable-values`
+
+**Description**: Add searchable values to as-planned assets.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### POST `/assets/as-planned/sync`
+
+**Description**: Synchronize as-planned assets across instances.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### Import Report
+
+##### GET `/assets/import/report/+{importJobId}+`
+
+**Description**: Retrieve the report of a specific asset import job.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### Publish
+
+##### POST `/assets/publish`
+
+**Description**: Publish assets to make them available to other instances.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+### BPN Configuration
+
+#### GET `/bpn-config`
+
+**Description**: Retrieve the current BPN (Business Partner Number) configurations.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### PUT `/bpn-config`
+
+**Description**: Update the BPN configurations.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/bpn-config`
+
+**Description**: Add new BPN configurations.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### DELETE `/bpn-config/+{bpn}+`
+
+**Description**: Delete a specific BPN configuration.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+### Contracts
+
+#### POST `/contracts`
+
+**Description**: Create new contracts between instances.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+### Dashboard
+
+#### GET `/Dashboard`
+
+**Description**: Retrieve dashboard information.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+### EDC Notification Contract
+
+#### POST `/edc/notification/contract`
+
+**Description**: Create contracts for EDC notifications.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+### Internal Quality Alerts and Notifications
+
+**Note**: These endpoints are marked as private and are intended for internal use.
+
+#### POST `/internal/qualityalerts/receive`
+
+**Description**: Receive internal quality alerts.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### POST `/internal/qualityalerts/update`
+
+**Description**: Update internal quality alerts.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+##### POST `/internal/qualitynotifications/receive`
+
+**Description**: Receive internal quality notifications.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+  **Reason for visibility**: Is accessed from other instances.
+
+##### POST `/internal/qualitynotifications/update`
+
+**Description**: Update internal quality notifications.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+### Notifications
+
+#### PUT `/notification/+{notificationId}+/edit`
+
+**Description**: Edit a specific notification.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/notifications`
+
+**Description**: Create new notifications.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/notifications/filter`
+
+**Description**: Filter notifications based on criteria.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/notifications/searchable-values`
+
+**Description**: Add searchable values to notifications.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### GET `/notifications/+{notificationId}+`
+
+**Description**: Retrieve a specific notification.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/notifications/+{notificationId}+/approve`
+
+**Description**: Approve a notification.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/notifications/+{notificationId}+/cancel`
+
+**Description**: Cancel a notification.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/notifications/+{notificationId}+/close`
+
+**Description**: Close a notification.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/notifications/+{notificationId}+/update`
+
+**Description**: Update a notification.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+### Policies
+
+#### GET `/policies`
+
+**Description**: Retrieve a list of policies.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### PUT `/policies`
+
+**Description**: Update existing policies.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/policies`
+
+**Description**: Create new policies.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### GET `/policies/+{policyID}+`
+
+**Description**: Retrieve a specific policy by ID.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### DELETE `/policies/+{policyID}+`
+
+**Description**: Delete a specific policy by ID.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+### Registry
+
+#### GET `/registry/reload`
+
+**Description**: Reload the registry data.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
 ## Quality requirements
 
 This section includes concrete quality scenarios to better capture the key quality objectives but also other required quality attributes.
@@ -1003,7 +1549,7 @@ This section includes concrete quality scenarios to better capture the key quali
 
 The tree structure provides an overview for a sometimes large number of quality requirements.
 
-![arc42_025](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_025.png)
+![arc42_024](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_024.png)
 
 ## Quality scenarios
 

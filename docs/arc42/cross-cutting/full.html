@@ -495,6 +495,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_user_interface">User interface</a></li>
 </ul>
 </li>
+<li><a href="#_api_documentation">API Documentation</a>
+<ul class="sectlevel2">
+<li><a href="#_table_of_contents">Table of Contents</a></li>
+<li><a href="#_assets">Assets</a></li>
+<li><a href="#_bpn_configuration">BPN Configuration</a></li>
+<li><a href="#_contracts">Contracts</a></li>
+<li><a href="#_dashboard">Dashboard</a></li>
+<li><a href="#_edc_notification_contract">EDC Notification Contract</a></li>
+<li><a href="#_internal_quality_alerts_and_notifications">Internal Quality Alerts and Notifications</a></li>
+<li><a href="#_notifications">Notifications</a></li>
+<li><a href="#_policies">Policies</a></li>
+<li><a href="#_registry">Registry</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1416,10 +1430,1384 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_api_documentation">API Documentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This document provides an overview of the API endpoints, their supported HTTP methods, visibility status, and the reasons for their current or future public accessibility.</p>
+</div>
+<div class="sect2">
+<h3 id="_table_of_contents">Table of Contents</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="#_assets">Assets</a></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><a href="#_as_built">As-Built</a></p>
+</li>
+<li>
+<p><a href="#_as_planned">As-Planned</a></p>
+</li>
+<li>
+<p><a href="#_import_report">Import Report</a></p>
+</li>
+<li>
+<p><a href="#_publish">Publish</a></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><a href="#_bpn_configuration">BPN Configuration</a></p>
+</li>
+<li>
+<p><a href="#_contracts">Contracts</a></p>
+</li>
+<li>
+<p><a href="#_dashboard">Dashboard</a></p>
+</li>
+<li>
+<p><a href="#_edc_notification_contract">EDC Notification Contract</a></p>
+</li>
+<li>
+<p><a href="#_internal_quality_alerts_and_notifications">Internal Quality Alerts and Notifications</a></p>
+</li>
+<li>
+<p><a href="#_notifications">Notifications</a></p>
+</li>
+<li>
+<p><a href="#_policies">Policies</a></p>
+</li>
+<li>
+<p><a href="#_registry">Registry</a></p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_assets">Assets</h3>
+<div class="sect3">
+<h4 id="_as_built">As-Built</h4>
+<div class="sect4">
+<h5 id="_get_assetsas_built">GET <code>/assets/as-built</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a list of as-built assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_builtchildrenchildid">GET <code>/assets/as-built/*/children/+{childId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve child assets for a specific as-built asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_builtassetid">GET <code>/assets/as-built/+{assetId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve details of a specific as-built asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_patch_assetsas_builtassetid">PATCH <code>/assets/as-built/+{assetId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Update specific fields of an as-built asset.</p>
+</div>
+<div class="paragraph">
+<p><strong>Visibility</strong>:
+- Current: Public
+- Future: Public</p>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_builtcountries">GET <code>/assets/as-built/countries</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a list of countries associated with as-built assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_builtdetail_information">POST <code>/assets/as-built/detail-Information</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Add detailed information to as-built assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_builtsearchable_values">POST <code>/assets/as-built/searchable-values</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Add searchable values to as-built assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_builtsync">POST <code>/assets/as-built/sync</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Synchronize as-built assets across instances.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_as_planned">As-Planned</h4>
+<div class="sect4">
+<h5 id="_get_assetsas_planned">GET <code>/assets/as-planned</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a list of as-planned assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_plannedchildrenchildid">GET <code>/assets/as-planned/*/children/+{childId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve child assets for a specific as-planned asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_get_assetsas_plannedassetid">GET <code>/assets/as-planned/+{assetId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve details of a specific as-planned asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_patch_assetsas_plannedassetid">PATCH <code>/assets/as-planned/+{assetId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Update specific fields of an as-planned asset.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_planneddetail_information">POST <code>/assets/as-planned/detail-Information</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Add detailed information to as-planned assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_plannedsearchable_values">POST <code>/assets/as-planned/searchable-values</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Add searchable values to as-planned assets.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_assetsas_plannedsync">POST <code>/assets/as-planned/sync</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Synchronize as-planned assets across instances.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_import_report">Import Report</h4>
+<div class="sect4">
+<h5 id="_get_assetsimportreportimportjobid">GET <code>/assets/import/report/+{importJobId}+</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve the report of a specific asset import job.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_publish">Publish</h4>
+<div class="sect4">
+<h5 id="_post_assetspublish">POST <code>/assets/publish</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Publish assets to make them available to other instances.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bpn_configuration">BPN Configuration</h3>
+<div class="sect3">
+<h4 id="_get_bpn_config">GET <code>/bpn-config</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve the current BPN (Business Partner Number) configurations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_put_bpn_config">PUT <code>/bpn-config</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Update the BPN configurations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_bpn_config">POST <code>/bpn-config</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Add new BPN configurations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_delete_bpn_configbpn">DELETE <code>/bpn-config/+{bpn}+</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Delete a specific BPN configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contracts">Contracts</h3>
+<div class="sect3">
+<h4 id="_post_contracts">POST <code>/contracts</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Create new contracts between instances.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dashboard">Dashboard</h3>
+<div class="sect3">
+<h4 id="_get_dashboard">GET <code>/Dashboard</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve dashboard information.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_edc_notification_contract">EDC Notification Contract</h3>
+<div class="sect3">
+<h4 id="_post_edcnotificationcontract">POST <code>/edc/notification/contract</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Create contracts for EDC notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_internal_quality_alerts_and_notifications">Internal Quality Alerts and Notifications</h3>
+<div class="paragraph">
+<p><strong>Note</strong>: These endpoints are marked as private and are intended for internal use.</p>
+</div>
+<div class="sect3">
+<h4 id="_post_internalqualityalertsreceive">POST <code>/internal/qualityalerts/receive</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Receive internal quality alerts.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+<div class="sect4">
+<h5 id="_post_internalqualityalertsupdate">POST <code>/internal/qualityalerts/update</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Update internal quality alerts.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_internalqualitynotificationsreceive">POST <code>/internal/qualitynotifications/receive</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Receive internal quality notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_post_internalqualitynotificationsupdate">POST <code>/internal/qualitynotifications/update</code></h5>
+<div class="paragraph">
+<p><strong>Description</strong>: Update internal quality notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_notifications">Notifications</h3>
+<div class="sect3">
+<h4 id="_put_notificationnotificationidedit">PUT <code>/notification/+{notificationId}+/edit</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Edit a specific notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notifications">POST <code>/notifications</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Create new notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsfilter">POST <code>/notifications/filter</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Filter notifications based on criteria.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationssearchable_values">POST <code>/notifications/searchable-values</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Add searchable values to notifications.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_notificationsnotificationid">GET <code>/notifications/+{notificationId}+</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a specific notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsnotificationidapprove">POST <code>/notifications/+{notificationId}+/approve</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Approve a notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsnotificationidcancel">POST <code>/notifications/+{notificationId}+/cancel</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Cancel a notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsnotificationidclose">POST <code>/notifications/+{notificationId}+/close</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Close a notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_notificationsnotificationidupdate">POST <code>/notifications/+{notificationId}+/update</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Update a notification.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_policies">Policies</h3>
+<div class="sect3">
+<h4 id="_get_policies">GET <code>/policies</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a list of policies.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_put_policies">PUT <code>/policies</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Update existing policies.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_policies">POST <code>/policies</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Create new policies.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_policiespolicyid">GET <code>/policies/+{policyID}+</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieve a specific policy by ID.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_delete_policiespolicyid">DELETE <code>/policies/+{policyID}+</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Delete a specific policy by ID.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_registry">Registry</h3>
+<div class="sect3">
+<h4 id="_get_registryreload">GET <code>/registry/reload</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Reload the registry data.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2024-08-30 12:19:20 UTC
+Last updated 2025-02-07 14:22:54 UTC
 </div>
 </div>
 </body>
