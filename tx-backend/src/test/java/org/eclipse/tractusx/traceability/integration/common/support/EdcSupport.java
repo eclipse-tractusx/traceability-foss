@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 
 import com.xebialabs.restito.semantics.Condition;
 import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
-import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
+import org.eclipse.tractusx.irs.edc.client.storage.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
