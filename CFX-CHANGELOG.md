@@ -9,6 +9,10 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ## [Unreleased]
 
+### Changed
+
+- Bump irs-registry-client to 2.1.25 to fix CVE-2024-7254
+
 ### Removed
 
 - Remove unused vulnerable dependency commons-fileupload to fix CVE-2024-47554
