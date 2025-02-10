@@ -9,6 +9,10 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ## [Unreleased]
 
+### Removed
+
+- Remove unused vulnerable dependency commons-fileupload to fix CVE-2024-47554
+
 ## [13.0.2-cfx-13]
 
 ### Added
