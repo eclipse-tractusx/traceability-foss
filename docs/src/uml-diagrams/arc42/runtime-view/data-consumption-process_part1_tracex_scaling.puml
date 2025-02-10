@@ -1,0 +1,58 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+participant TraceXFE
+participant TraceX
+participant "DiscoveryService" as DS
+participant "Eclipse Dataspace Connector" as EDC
+participant "decentral Digital Twin Registry" as DTR
+
+participant IRS
+rnote right TraceX
+Blackbox view on EDC
+end rnote
+ref over TraceX, DS
+ EDC discovery
+end ref
+
+ref over TraceX, EDC, DTR
+    Get catalog offer of DTR and negotiate it
+end ref
+
+
+TraceX -> DTR: Query for aasIDs by bpn
+DTR -> TraceX: Retrieve aasIDs by bpn
+rnote right TraceX
+Current state: TraceX requests for each aasID the shellDescriptor via EDC / DTR.
+Because we need to know the BOMLifecycle Type (asBuilt/asPlanned) before requesting IRS with the globalAssetId.
+Then for each BOMLifecycle Type we do two requests (upward/downward) to the IRS job API
+end rnote
+rnote right TraceX
+Optimization: Trace-X uses  digitaltwinregistry.externalSubjectIdWildcardAllowedTypes = digitalTwinType in dtr query to detect bom lifecycle.
+end rnote
+TraceX -> IRS: Register order for parts to get semantic models and traversal aspects for all aasIds (e.g. 200.000)
+rnote right TraceX
+TraceX provides a callback url which will be requested by IRS once a batch of the previous registered order is completed.
+This results in multiple callbacks until the full list of aasIDs has been processed by the IRS.
+end rnote
+TraceX <-- IRS: Receive callback request by IRS including order ID.
+rnote right TraceX
+Current state: TraceX extracts semantic models and traversal aspects and directly map and persists them into the database
+end rnote
+TraceX -> TraceX: Store jobIds completed into a separate database table and set status to JOB_COMPLETED
+rnote right TraceX
+Introducing states to manage data records (JOB_COMPLETED, PERSISTENCE_COMPLETED)
+Sequential processing of data records and transitioning them to the correct status.
+end rnote
+TraceX -> IRS: Jobs within the order of irs will be requested when they have the state JOB_COMPLETED
+IRS -> TraceX: Provide associated semantic models and traversal aspects
+TraceX -> TraceX: Semantic models and traversal aspects will be extracted, mapped to parts and persisted into database.
+TraceX -> TraceX: Update status of new data record table for the completed entry to PERSISTENCE_COMPLETED
+
+rnote right TraceXFE
+Expectation: This request assumes that all data processing in TraceX has been completed and the data is available.
+end rnote
+TraceXFE -> TraceX: Get parts
+TraceX -> TraceXFE: List<Parts>
+
+@enduml

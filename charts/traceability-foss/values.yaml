@@ -86,7 +86,6 @@ frontend:
   podSecurityContext: {}
   # fsGroup: 2000
 
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   securityContext:
     allowPrivilegeEscalation: false
@@ -99,7 +98,6 @@ frontend:
     port: 8080
 
 
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
@@ -113,7 +111,6 @@ frontend:
 
   tolerations: []
 
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
   affinity:
     podAntiAffinity:
@@ -133,7 +130,6 @@ frontend:
     hosts: []
     tls: []
 
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
   livenessProbe:
     failureThreshold: 6
@@ -201,7 +197,6 @@ backend:
     seccompProfile:
       type: RuntimeDefault
 
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   securityContext:
     allowPrivilegeEscalation: false
@@ -221,7 +216,6 @@ backend:
   autoscaling:
     enabled: false
 
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
@@ -235,7 +229,6 @@ backend:
 
   tolerations: []
 
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
   affinity:
     podAntiAffinity:
@@ -248,7 +241,6 @@ backend:
                   operator: DoesNotExist
             topologyKey: kubernetes.io/hostname
 
-  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
   livenessProbe:
     failureThreshold: 6

@@ -16,21 +16,21 @@
 		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
 	</clipPath>
 	<g style="clip-path:url(#SVGID_00000143602642287705540720000003922164097930743446_);">
-		
+
 			<linearGradient id="SVGID_00000023959575782040000920000002126089743318593725_" gradientUnits="userSpaceOnUse" x1="0.5" y1="-0.5998" x2="15.5" y2="-0.5998" gradientTransform="matrix(1 0 0 -1 0 2.0798)">
 			<stop  offset="0" style="stop-color:#FDB913"/>
 			<stop  offset="1" style="stop-color:#D31184"/>
 		</linearGradient>
 		<path style="fill:url(#SVGID_00000023959575782040000920000002126089743318593725_);" d="M13.4,4.8c1.2,0,2.1-1,2.1-2.1
 			c0-1.2-1-2.1-2.1-2.1c-1.2,0-2.1,1-2.1,2.1C11.2,3.9,12.2,4.8,13.4,4.8z"/>
-		
+
 			<linearGradient id="SVGID_00000117646770964169613400000006068467234060340411_" gradientUnits="userSpaceOnUse" x1="0.5" y1="-11.2405" x2="15.5" y2="-11.2405" gradientTransform="matrix(1 0 0 -1 0 2.0798)">
 			<stop  offset="0" style="stop-color:#FDB913"/>
 			<stop  offset="1" style="stop-color:#D31184"/>
 		</linearGradient>
 		<path style="fill:url(#SVGID_00000117646770964169613400000006068467234060340411_);" d="M13.4,15.5c1.2,0,2.1-1,2.1-2.1
 			s-1-2.1-2.1-2.1c-1.2,0-2.1,1-2.1,2.1S12.2,15.5,13.4,15.5z"/>
-		
+
 			<linearGradient id="SVGID_00000113317491167760259960000013058935610224486557_" gradientUnits="userSpaceOnUse" x1="0.5" y1="-5.9202" x2="15.5" y2="-5.9202" gradientTransform="matrix(1 0 0 -1 0 2.0798)">
 			<stop  offset="0" style="stop-color:#FDB913"/>
 			<stop  offset="1" style="stop-color:#D31184"/>

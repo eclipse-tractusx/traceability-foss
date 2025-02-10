@@ -110,7 +110,7 @@ export class InputComponent extends BaseInputComponent<string> {
 
     @HostListener('keydown.enter', ['$event'])
     onEnterKey(event: KeyboardEvent): void {
-        // Check if the Enter key was 
+        // Check if the Enter key was
 
         if (event.key === 'Enter') {
             // Trigger the suffixIconClick or prefixIconClick output event

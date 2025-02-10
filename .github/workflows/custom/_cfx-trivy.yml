@@ -13,8 +13,8 @@ jobs:
         config:
           - image_name: "traceability-foss"
           - image_name: "traceability-foss-frontend"
-         # TODO enable cfx frontend image build once the image can be built
-         # - image_name: "cfx-traceability-foss-frontend"
+          # TODO enable cfx frontend image build once the image can be built
+          # - image_name: "cfx-traceability-foss-frontend"
     permissions:
       actions: read
       security-events: write

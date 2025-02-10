@@ -172,7 +172,7 @@ export class PartsTableComponent implements OnInit {
     private toastService: ToastService,
   ) {
 
-    //TODO: Need to update role based features 
+    //TODO: Need to update role based features
     // if (this.roleService.hasAccess([Role.USER])) {
     //   const selectColumn = 'select';
     //   this.displayedColumnsAsBuiltSupplierForTable.splice(0, 0, selectColumn);
