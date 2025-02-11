@@ -104,7 +104,7 @@ frontend:
       cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 250m
+      cpu: 15m
       memory: 512Mi
 
   nodeSelector: {}
@@ -222,7 +222,7 @@ backend:
       cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 250m
+      cpu: 15m
       memory: 512Mi
 
   nodeSelector: {}
