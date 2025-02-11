@@ -8,42 +8,86 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [Unreleased - DD.MM.YYYY]
 
+### Fixed
+- fixed auto dispatch workflow for auto deployment from main (#1386)
+- ids path for notification catalog requests is only appended if not already present (#1386)
+
 ### Added
-- #124 Added new section under crosscuting/api-endpoints to arc42 documentation
-- #476 Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity
-- #195 Implemented connection to the irs order api
-- #XXX Added flag to enable OAuth authorized DTR requests
-- #222 Remove null check for manufacturerName in findByBpn
-- #221 Restricted Supervisor role from modifying policies
+- Added new section under crosscuting/api-endpoints to arc42 documentation (#1386)
+- Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity (#1386)
+- Implemented connection to the irs order api https://github.com/eclipse-tractusx/sig-release/issues/946
+- Added flag to enable OAuth authorized DTR requests (#1386)
+- Remove null check for manufacturerName in findByBpn (#1386)
+- Restricted Supervisor role from modifying policies (#1386)
+- Added properties for provisioning to submodel / dtr service (#1386)
+- Added second identity provider for Oauth2 for DTR and submodel service (#1386)
+- Added configurable assert refresh cron job with default values (#1386)
+- Added mapping for edc asset id for the dtr (#1386)
+- Implemented backend API for search filtering (asBuilt and asPlanned) (#1386)
+- Added integration tests for search functionality based on legacy repo code (#1386)
+- Added digitalTwinType for assets provisioning https://github.com/eclipse-tractusx/sig-release/issues/940
+- added configurable publish asset job (#1386)
+- Added api key authorization for /qualitynotifications and /qualityalerts (#1386)
+- Reconfigured GitHub workflows to use GitHub Packages to fetch dependencies (#1386)
+- Enhanced getManufacturerId logic to fallback to specificAssetIds in Shell.Payload when manufacturerId is not available in local_identifiers. (#1386)
+-  Added GitHub workflow for Sonar scanning (#1386)
+- Added api key authentication feature (#1386)
+- Delete asset by id api provided (#1386)
+- Delete Part in added in FE (#1386)
+- Create quality notification will not be allowed if a business partner number is missing on a corresponding part. (#1386)
+- Duplicate connector urls returned by the discovery service will be filtered out. (#1386)
+- Added Metrics and Prometheus Endpoint (#1386)
+- Added concept and arc42 documentation for improved EDC discovery flow (#1386)
+- Added reverse proxy to frontend nginx configuration (#1386)
+- Provide proper imprint and legal links- TRACEX-145 Access and Authentication for BPDM Lookup over EDC communication (#1386)
+- Change Quality Notification API according to CX-0125 Traceability Use Case v2.0.0 (#1386)
+- Add concept for BPDM Lookup Handling in UI and regarding Updates of BPDM information (#1386)
+- functionality to Sync child/supplier parts for Admin (#1386)
+- Added concept for aas lookup (#1386)
 
 ### Changed
-- #117 updated spring boot to v3.3.5
-- #476 Updated database schema to reflect cascade deletion of elements.
-- #464 Resetting notification message in case it could be successfully send
-- #95 Fixed some frontend unit tests
-- #195 DecentralRegistry service now syncronizes assets using the irs order api
-- #369 Add config for disabling policy fetching on start. Disable for helm linting to prevent startup failure
-- #369 Add environment variables to Helm linting workflow
-- #385 refactor submodel implementation to accept custom implementations
-- #362 Upgrade Spring Boot to fix vulnerability CVE-2024-50379
+- updated spring boot to v3.3.5 (#1386)
+- Updated database schema to reflect cascade deletion of elements. (#1386)
+- Resetting notification message in case it could be successfully send (#1386)
+- Fixed some frontend unit tests (#1386)
+- DecentralRegistry service now syncronizes assets using the irs order api (#1386)
+- Add config for disabling policy fetching on start. Disable for helm linting to prevent startup failure (#1386)
+- Add environment variables to Helm linting workflow (#1386)
+- refactor submodel implementation to accept custom implementations (#1386)
+- Upgrade Spring Boot to fix vulnerability CVE-2024-50379 (#1386)
+- Upgraded irs client library to 2.1.15 (#1386)
+- Submodel client enriches the submodelId to the creation request, instead of adding it to the path (#1386)
+- Removed not needed callback URL (#1386)
+-  Adapt submodel api request object (#1386)
+- updated variables in GitHub actions to be more generic (#1386)
+- Made the discovery type configurable, with a default value of bpnl in (FeignDiscoveryRepositoryImpl). (#1386)
+- Added distinct environment variable to configure provider EDC API key (#1386)
+- updated the irs-client version to 2.1.14 to adapt the edc discovery flow(bpnl) (#1386)
+- Upgraded irs client library to 2.1.15 (#1386)
+- changed integration tests for edc notifications (#1386)
+- changed error handling config and added new exception InvalidApiKeyException (#1386)
+- extended timeout for feign client (#1386)
+- Integrated automatic test data upload for BMW and Trace-X A on preprod (#1386)
+- Added load testing with Gatling (#1386)
+- updated spring boot to v3.3.5 (#1386)
+- Refactor BPDM repository to use legalShortName (legalName as fallback) for manufacturer name (#1386)
+- Replace null values from Manufacturer in as built and as planned response (#1386)
+- Changed building block to current architecture (#1386)
+- Set not null constraint to contractAgreementId in contract tables (#1386)
+- Adapt query catalog to find first valid contractOffer (#1386)
+- Adjust Notification Detail view to make less requests to the backend (#1386)
+- Remove submodel api- TRACEX-224 Setup Trace-X gatling test workflow using containers and switch to technical api key (#1386)
+- Fix env variables in settings.xml (#1386)
+- Fix bug in FE pagination for asbuilt and asplanned tables (#1386)
+- Fix global table filters (#1386)
+- Bump jsonschema2pojo-core to 1.2.2 to fix CVE-2024-47554 (#1386)
+- Bump springdoc-openapi-starter-webmvc-ui to 2.8.3 to fix CVE-2024-45801, CVE-2024-47875, CVE-2024-48910 (#1386)
+- Remove null check for manufacturerName in findByBpn (#1386)
+- Bump irs-registry-client to 2.1.25 to fix CVE-2024-7254 (#1386)
 
-- [13.0.2-cfx-5 - 06.11.2024]
-### Added
-- #350 Added properties for provisioning to submodel / dtr service
-- #349 Added second identity provider for Oauth2 for DTR and submodel service
-- #62 Added configurable assert refresh cron job with default values
-- #30 Added mapping for edc asset id for the dtr
+### Removed
 
-### Changed
-- #105 Upgraded irs client library to 2.1.15
-- #30 Submodel client enriches the submodelId to the creation request, instead of adding it to the path
-- #30 Removed not needed callback URL
-- #30 Adapt submodel api request object
-
-## [13.0.2-cfx-4]
-
-### Changed
-- #XXX updated variables in github actions to be more generic
+- Remove unused vulnerable dependency commons-fileupload to fix CVE-2024-47554 (#1386)
 
 ## [13.0.2 - 16.08.2024]
 
