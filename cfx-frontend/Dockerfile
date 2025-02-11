@@ -59,11 +59,15 @@ COPY ./cfx-frontend/build/security-headers.conf ./cfx-frontend/build/nginx.conf 
 
 # Copy custom script runner
 COPY ./cfx-frontend/scripts/custom-injector.sh /docker-entrypoint.d/00-custom-injector.sh
+RUN chmod +x /docker-entrypoint.d/00-custom-injector.sh
 
 # Add env variables inject script
 COPY ./cfx-frontend/scripts/inject-dynamic-env.js /docker-entrypoint.d/
 # Add replace base url script
 COPY ./cfx-frontend/scripts/replace-base-href.js /docker-entrypoint.d/
+
+RUN chmod +x /docker-entrypoint.d/inject-dynamic-env.js
+RUN chmod +x /docker-entrypoint.d/replace-base-href.js 
 
 USER root
 RUN chown nginx:nginx /etc/nginx/nginx.conf
