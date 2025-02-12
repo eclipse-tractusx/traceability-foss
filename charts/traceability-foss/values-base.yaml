@@ -388,6 +388,13 @@ item-relationship-service:
       create: false
     rootUser: 'CHANGE_ME'
     rootPassword: 'CHANGE_ME'
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 15m
+        memory: 512Mi
 
 
 ###################################
