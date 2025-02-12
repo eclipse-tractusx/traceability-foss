@@ -116,7 +116,7 @@ backend:
       cpu: 1500m
       memory: 512Mi
     requests:
-      cpu: 100m
+      cpu: 15m
       memory: 256Mi
 
   springprofile: dev
@@ -234,7 +234,7 @@ pgadmin4:
       cpu: 768m
       memory: 768Mi
     requests:
-      cpu: 100m
+      cpu: 15m
       memory: 256Mi
 
 #########################
@@ -251,6 +251,16 @@ postgresql:
     password: 'CHANGE_ME'
     database: "trace"
     username: "trace"  # extract to vault
+  primary:
+    persistence:
+      size: 4Gi
+    resources:
+      limits:
+        cpu: 200m
+        memory: 1Gi
+      requests:
+        cpu: 15m
+        memory: 1Gi
 
 #########################
 # IRS configuration     #
@@ -284,7 +294,7 @@ item-relationship-service:
       cpu: 2000m
       memory: 2Gi
     requests:
-      cpu: 500m
+      cpu: 15m
       memory: 2Gi
 
   nameOverride: 'CHANGE_ME'
@@ -538,7 +548,6 @@ tractusx-connector:
   # EDC Postgres Configuration #
   ##################################
   postgresql:
-    enabled: true
     auth:
       username: 'CHANGE_ME'
       password: 'CHANGE_ME'
@@ -553,11 +562,11 @@ edc-postgresql:
   primary:
     resources:
       limits:
-        cpu: 2000m
-        memory: 4Gi
+        cpu: 200m
+        memory: 1Gi
       requests:
-        cpu: 100m
-        memory: 4Gi
+        cpu: 15m
+        memory: 1Gi
   nameOverride: 'CHANGE_ME'
   fullnameOverride: 'CHANGE_ME'
   enabled: true

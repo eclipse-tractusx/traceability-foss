@@ -216,7 +216,7 @@ backend:
       cpu: 1000m
       memory: 512Mi
     requests:
-      cpu: 200m
+      cpu: 15m
       memory: 512Mi
 
 #########################
@@ -244,8 +244,8 @@ pgadmin4:
       cpu: 100m
       memory: 512Mi
     requests:
-      cpu: 100m
-      memory: 100Mi
+      cpu: 15m
+      memory: 512Mi
 
 #########################
 # Postgres configuration     #
@@ -403,7 +403,7 @@ tractusx-connector:
         cpu: 400m
         memory: 1.5Gi
       requests:
-        cpu: 200m
+        cpu: 15m
         memory: 1.5Gi
 
   dataplane:
@@ -431,7 +431,7 @@ tractusx-connector:
         cpu: 200m
         memory: 512Mi
       requests:
-        cpu: 100m
+        cpu: 15m
         memory: 512Mi
 
   ## currently we need to provide a url but is not used anywhere
@@ -469,16 +469,6 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
-  primary:
-    persistence:
-      size: 4Gi
-    resources:
-      limits:
-        cpu: 200m
-        memory: 1Gi
-      requests:
-        cpu: 100m
-        memory: 1Gi
   nameOverride: *edc_database_name
   fullnameOverride: *edc_database_name
   auth:

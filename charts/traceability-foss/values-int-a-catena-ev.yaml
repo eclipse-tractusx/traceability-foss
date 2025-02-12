@@ -216,7 +216,7 @@ backend:
       cpu: 1000m
       memory: 512Mi
     requests:
-      cpu: 200m
+      cpu: 15m
       memory: 512Mi
 
 #########################
@@ -242,21 +242,17 @@ pgadmin4:
   resources:
     limits:
       cpu: 100m
-      memory: 512Mi
+      memory: 100Mi
     requests:
-      cpu: 100m
+      cpu: 15m
       memory: 100Mi
 
 #########################
 # Postgres configuration     #
 #########################
 postgresql:
-  primary:
-    persistence:
-      size: 4Gi
   nameOverride: *backend_database_name
   fullnameOverride: *backend_database_name
-
   auth:
     postgresPassword: *backend_database_root_password  # Do we need 2 passwords ? or can reuse the one below
     password: *backend_database_password
@@ -403,7 +399,7 @@ tractusx-connector:
         cpu: 400m
         memory: 1.5Gi
       requests:
-        cpu: 200m
+        cpu: 15m
         memory: 1.5Gi
 
   dataplane:
@@ -431,7 +427,7 @@ tractusx-connector:
         cpu: 200m
         memory: 512Mi
       requests:
-        cpu: 100m
+        cpu: 15m
         memory: 512Mi
 
   ## currently we need to provide a url but is not used anywhere
@@ -469,16 +465,6 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
-  primary:
-    persistence:
-      size: 4Gi
-    resources:
-      limits:
-        cpu: 200m
-        memory: 1Gi
-      requests:
-        cpu: 100m
-        memory: 1Gi
   nameOverride: *edc_database_name
   fullnameOverride: *edc_database_name
   auth:
