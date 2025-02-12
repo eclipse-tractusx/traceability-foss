@@ -75,6 +75,7 @@ edc:
 irs-edc-client:
   callback:
     mapping: /internal/endpoint-data-reference
+    negotiation-mapping: /internal/negotiation-callback
   callback-url: ${EDC_CALLBACK_URL_EDC_CLIENT}
   controlplane:
     request-ttl: PT10M # How long to wait for an async EDC negotiation request to finish, ISO 8601 Duration

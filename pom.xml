@@ -63,7 +63,6 @@ SPDX-License-Identifier: Apache-2.0
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <!-- versions for 3rd party dependecies -->
-        <commons.fileupload>1.5</commons.fileupload>
         <logback.version>1.5.6</logback.version>
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
@@ -92,7 +91,7 @@ SPDX-License-Identifier: Apache-2.0
         <awaitility.version>4.2.1</awaitility.version>
         <micrometer.version>1.11.4</micrometer.version>
         <!-- TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978 update to the cx release version of irs lib IMPORTANT NO SNAPSHOT-->
-        <irs-client-lib.version>2.1.22</irs-client-lib.version>
+        <irs-client-lib.version>2.1.25</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
