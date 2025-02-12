@@ -51,7 +51,13 @@ frontend:
     CATENAX_PORTAL_URL: 'CHANGE_ME'
     CATENAX_PORTAL_CLIENT_ID: 'CHANGE_ME'
     BPN: 'CHANGE_ME'
-
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 15m
+      memory: 512Mi
   ingress:
     enabled: true
     className: "nginx"
