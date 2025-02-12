@@ -37,25 +37,25 @@ digital-twin-registry:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
         nginx.ingress.kubernetes.io/use-regex: "true"
 
-      resources:
-        limits:
-          cpu: 1500m
-          memory: 2Gi
-        requests:
-          cpu: 15m
-          memory: 2Gi
+    resources:
+      limits:
+        cpu: 100m
+        memory: 512Mi
+      requests:
+        cpu: 15m
+        memory: 512Mi
   postgresql:
     primary:
-    resources:
-      requests:
-        cpu: 100m
-        memory: 1Gi
-      limits:
-        cpu: 15m
-        memory: 1Gi
-      persistence:
-        enabled: true
-        size: 1Gi
+      resources:
+        requests:
+          cpu: 15m
+          memory: 1Gi
+        limits:
+          cpu: 100m
+          memory: 1Gi
+        persistence:
+          enabled: true
+          size: 1Gi
     service:
       ports:
         postgresql: 5432
