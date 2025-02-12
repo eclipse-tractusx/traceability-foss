@@ -42,10 +42,17 @@ digital-twin-registry:
           cpu: 1500m
           memory: 2Gi
         requests:
-          cpu: 200m
+          cpu: 15m
           memory: 2Gi
   postgresql:
     primary:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 1Gi
+      limits:
+        cpu: 15m
+        memory: 1Gi
       persistence:
         enabled: true
         size: 1Gi

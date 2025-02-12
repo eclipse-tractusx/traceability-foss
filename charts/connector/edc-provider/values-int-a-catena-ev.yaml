@@ -49,7 +49,7 @@ tractusx-connector:
         cpu: 1500m
         memory: 1.5Gi
       requests:
-        cpu: 500m
+        cpu: 15m
         memory: 1.5Gi
 
   dataplane:
@@ -78,7 +78,7 @@ tractusx-connector:
         cpu: 200m
         memory: 512Mi
       requests:
-        cpu: 100m
+        cpu: 15m
         memory: 512Mi
 
   backendService:
@@ -120,7 +120,7 @@ edc-postgresql:
         cpu: 100m
         memory: 1Gi
       limits:
-        cpu: 200m
+        cpu: 15m
         memory: 1Gi
   auth:
     database: edc
