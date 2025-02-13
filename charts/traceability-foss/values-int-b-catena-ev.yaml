@@ -74,6 +74,7 @@ configuration:
     name: &irs_name 'tx-irs-int-b'
     hostName: &irs_host_name "tx-irs-int-b.int.catena-x.net"
     url: &irs_url 'https://tx-irs-int-b.int.catena-x.net'
+    negotiationCallbackurl: &irsNegotiationCallbackurl 'https://tx-irs-int-b.int.catena-x.net/internal/negotiation-callback'
     irsDatabase:
       name: &irs_database_name 'tx-irs-minio-int-b'
       username: &irs_database_username <path:traceability-foss/data/int-b/irs#MINIO_USER>
@@ -312,6 +313,13 @@ postgresql:
 # IRS configuration     #
 #########################
 item-relationship-service:
+  job:
+    batch:
+      threadCount: 5
+    scheduled:
+      threadCount: 5
+    cached:
+      threadCount: 5
   apiKeyAdmin: *irs_admin_api_key
   apiKeyRegular: *irs_regular_api_key
   nameOverride: *irs_name
@@ -335,6 +343,7 @@ item-relationship-service:
           - *irs_host_name
         secretName: tls-secret-tx-irs-ev-b
   discovery:
+    type: bpn
     discoveryFinderUrl: *discovery_finder_url
   digitalTwinRegistry:
     descriptorEndpoint: *dtr_shell_descriptor_url
@@ -384,7 +393,11 @@ item-relationship-service:
     clientTokenUri: *central_idp_token_uri
 
   edc:
+    orchestration:
+      threadPoolSize: 5
+    negotiationCallbackurl: *irsNegotiationCallbackurl
     controlplane:
+      edrManagementEnabled: true
       endpoint:
         data: *edc_controlplane_management_url
       apikey:
