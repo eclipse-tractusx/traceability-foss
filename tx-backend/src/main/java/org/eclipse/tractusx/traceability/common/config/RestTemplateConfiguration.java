@@ -165,9 +165,8 @@ public class RestTemplateConfiguration {
 
     /* RestTemplate used by the edc client library*/
     @Bean(EDC_CLIENT_REST_TEMPLATE)
-    public RestTemplate edcClientRestTemplate(@Autowired EdcProperties edcProperties) {
+    public RestTemplate edcClientRestTemplate() {
         return new RestTemplateBuilder()
-                .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .build();
     }
 

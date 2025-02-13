@@ -94,7 +94,7 @@ irs-edc-client:
     catalog-page-size: 50 # Number of items to fetch at one page from the EDC provider catalog when using pagination
     api-key:
       header: "X-Api-Key" # API header key to use in communication with the EDC consumer controlplane
-      secret: ${EDC_API_KEY} # API header secret to use in communication with the EDC consumer controlplane
+      secret: ${EDC_PROVIDER_API_KEY} # API header secret to use in communication with the EDC consumer controlplane
     datareference:
       storage:
         duration: PT1H # Time after which stored data references will be cleaned up, ISO 8601 Duration
