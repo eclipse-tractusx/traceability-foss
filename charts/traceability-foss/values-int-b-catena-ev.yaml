@@ -26,7 +26,7 @@ configuration:
     name: &fe_name 'tx-frontend-int-b'
     hostName: &fe_host_name 'traceability-portal-int-b.int.catena-x.net'
     backendApiUrl: &be_api_url <path:traceability-foss/data/int-b/frontend#catenax_portal_api_url>
-    allowedReferer: &allowed_referer <path:traceability-foss/data/int-a/frontend#allowed_referer>
+    allowedReferer: &allowed_referer <path:traceability-foss/data/int-b/frontend#allowed_referer>
     imprintUrl: &imprint_url 'https://traceability-portal-int-b.int.catena-x.net'
     privacyUrl: &privacy_url 'https://traceability-portal-int-b.int.catena-x.net'
   backend:
@@ -82,7 +82,7 @@ configuration:
 
   edc:
     provider:
-      apiKey: &edc_provider_api_key <path:traceability-foss/data/int-a/edc/controlplane#edc.api.control.auth.apikey.value>
+      apiKey: &edc_provider_api_key <path:traceability-foss/data/int-b/edc/controlplane#edc.api.control.auth.apikey.value>
       controlPlaneHost: &edc_provider_controlplane_url 'https://trace-x-edc-int-b.int.catena-x.net'
       dataPlaneHost: &edc_provider_dataplane_url 'https://trace-x-edc-int-b-dataplane.int.catena-x.net'
     consumer:
