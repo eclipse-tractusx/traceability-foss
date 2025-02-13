@@ -184,7 +184,8 @@ backend:
     resourceClient: *central_idp_resource_client
 
   edc:
-    apiKey: *edc_api_key
+    providerApiKey: *edc_api_key
+    consumerApiKey: *edc_api_key
     providerUrl: *edc_provider_controlplane_url
     providerDataplaneUrl: *edc_provider_dataplane_url
     callbackUrl: *irs_callback_url
