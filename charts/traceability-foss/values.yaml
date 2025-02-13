@@ -449,11 +449,11 @@ edc-postgresql:
       requests:
         cpu: 15m
         memory: 1Gi
-  nameOverride: 'CHANGE_ME'
-  fullnameOverride: 'CHANGE_ME'
+  nameOverride: 'changeme'
+  fullnameOverride: 'changeme'
   enabled: true
   auth:
     database: edc
-    username: 'CHANGE_ME'
-    postgresPassword: 'CHANGE_ME'
-    password: 'CHANGE_ME'
+    username: 'changeme'
+    postgresPassword: 'changeme'
+    password: 'changeme'
