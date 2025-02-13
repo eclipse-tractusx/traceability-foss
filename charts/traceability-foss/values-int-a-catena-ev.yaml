@@ -20,11 +20,16 @@
 configuration:
   env:
     bpn: &bpn 'BPNL000000000UKM'
+    bpnA: &bpnA 'BPNLDECCFFGYEZDB'
+    bpnB: &bpnB 'BPNL123000789ABC'
 
   frontend:
     name: &fe_name 'tx-frontend-int-a'
     hostName: &fe_host_name 'traceability-portal-int-a.int.catena-x.net'
     backendApiUrl: &be_api_url <path:traceability-foss/data/int-a/frontend#catenax_portal_api_url>
+    allowedReferer: &allowed_referer <path:traceability-foss/data/int-a/frontend#allowed_referer>
+    imprintUrl: &imprint_url 'https://traceability-portal-int-a.int.catena-x.net'
+    privacyUrl: &privacy_url 'https://traceability-portal-int-a.int.catena-x.net'
 
   backend:
     name: &backend_name 'tx-backend-int-a'
@@ -32,7 +37,6 @@ configuration:
     # -- backend host with https://
     url: &be_url 'https://traceability-int-a.int.catena-x.net'
     internalUrl: &be_url_internal 'http://tx-backend-int-a:8181'
-    submodelUrl: &submodel_url 'https://tracex-int-a-submodel-server.int.catena-x.net'
     edcClient:
       callbackUrl: &backend_edc_client_callback_url 'http://tx-backend-int-a:8181/api/internal/endpoint-data-reference'
     backendDatabase:
@@ -40,10 +44,29 @@ configuration:
       name: &backend_database_name 'tx-backend-postgresql-int-a'
       password: &backend_database_password <path:traceability-foss/data/int-a/database#tracePassword>
       rootPassword: &backend_database_root_password <path:traceability-foss/data/int-a/database#postgresPassword>
+    technicalServiceApiKey: &technical_service_api_key <path:traceability-foss/data/int-a/backend#TECHNICAL_SERVICE_API_KEY>
+    tracexAdminKey: &tracexAdminKey <path:traceability-foss/data/int-a/backend#ADMIN_API_KEY>
     security:
       # -- required to allow FE connection
-      allowedCorsOrigins: &backend_security_allowed_fe 'https://traceability-portal-int-a.int.catena-x.net/'
-
+      allowedCorsOriginFirst: &backend_security_allowed_fe 'https://traceability-portal-int-a.int.catena-x.net/'
+      allowedCorsOriginSecond: &backend_security_allowed_fe_second 'https://traceability-portal-int-a.int.catena-x.net/'
+    provisioning:
+      submodel:
+        urlExternal: &submodel_url_external 'https://tracex-int-a-submodel-server.int.catena-x.net'
+        urlInternal: &submodel_url_internal 'https://tracex-int-a-submodel-server.int.catena-x.net'
+        oauthProviderRegistrationId: &submodel_provider_registration_id <path:traceability-foss/data/int-a/provisioning#SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID>
+        oauthTokenUrl: &submodel_token_url <path:traceability-foss/data/int-a/provisioning#SUBMODEL_OAUTH_TOKEN_URL>
+        clientId: &submodel_client_id <path:traceability-foss/data/int-a/provisioning#SUBMODEL_OAUTH_CLIENT_ID>
+        clientSecret: &submodel_client_secret <path:traceability-foss/data/int-a/provisioning#SUBMODEL_OAUTH_CLIENT_SECRET>
+      registry:
+        allowedBpns: &allowed_bpns 'BPNL000000002CS4,BPNL000000002BR4'
+        urlExternalWithPath: &registry_url_external_with_path 'https://backend.enablement.integration.cofinity-x.com/api/v4/dtr/666255be-0b25-4333-ba44-a8965d99d7c0'
+        urlInternalWithPath: &registry_url_internal_with_path 'http://tracexa-dtr:8080/api/v3'
+        oauthProviderRegistrationId: &registry_provider_registration_id <path:traceability-foss/data/int-a/provisioning#REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID>
+        oauthTokenUrl: &registry_token_url <path:traceability-foss/data/int-a/provisioning#REGISTRY_OAUTH_TOKEN_URL>
+        clientId: &registry_client_id <path:traceability-foss/data/int-a/provisioning#REGISTRY_OAUTH_CLIENT_ID>
+        clientSecret: &registry_client_secret <path:traceability-foss/data/int-a/provisioning#REGISTRY_OAUTH_CLIENT_SECRET>
+        edcAssetId: &registry_edc_asset_id trace-x-dtr-asset
   pgadmin4:
     name: &pgadmin_name 'tx-pgadmin-int-a'
     hostName: &pgadmin_host_name 'tx-pgadmin-int-a.int.catena-x.net'
@@ -53,7 +76,7 @@ configuration:
     name: &irs_name 'tx-irs-int-a'
     hostName: &irs_host_name "tx-irs-int-a.int.catena-x.net"
     url: &irs_url 'https://tx-irs-int-a.int.catena-x.net'
-    callbackUrl: &irs_callback_url 'http://tx-irs-int-a:8181/internal/endpoint-data-reference'
+
     irsDatabase:
       name: &irs_database_name 'tx-irs-minio-int-a'
       username: &irs_database_username <path:traceability-foss/data/int-a/irs#MINIO_USER>
@@ -62,6 +85,7 @@ configuration:
 
   edc:
     provider:
+      apiKey: &edc_provider_api_key <path:traceability-foss/data/int-a/edc/controlplane#edc.api.control.auth.apikey.value>
       controlPlaneHost: &edc_provider_controlplane_url 'https://trace-x-edc-int-a.int.catena-x.net'
       dataPlaneHost: &edc_provider_dataplane_url 'https://trace-x-edc-int-a-dataplane.int.catena-x.net'
     consumer:
@@ -123,7 +147,10 @@ frontend:
     CATENAX_PORTAL_BACKEND_DOMAIN: *portal_domain
     CATENAX_PORTAL_URL: *portal_url
     CATENAX_PORTAL_CLIENT_ID: *central_idp_resource_client
+    ALLOWED_REFERER: *allowed_referer
     BPN: *bpn
+    IMPRINT_URL: *imprint_url
+    PRIVACY_URL: *privacy_url
 
   ingress:
     annotations:
@@ -163,11 +190,35 @@ backend:
       - hosts:
           - *be_host_name
         secretName: tls-secret-tx-be-int-a
-
+  healthCheck:
+    enabled: false
   traceability:
     bpn: *bpn
+    bpnA: *bpnA
+    bpnB: *bpnB
     url: *be_url
     internalUrl: *be_url_internal
+    technicalServiceApiKey: *technical_service_api_key
+    tracexAdminKey: *tracexAdminKey
+
+  provisioning:
+    submodel:
+      urlExternal: *submodel_url_external
+      urlInternal: *submodel_url_internal
+      oauthProviderRegistrationId: *submodel_provider_registration_id
+      oauthTokenUrl: *submodel_token_url
+      clientId: *submodel_client_id
+      clientSecret: *submodel_client_secret
+    registry:
+      urlExternalWithPath: *registry_url_external_with_path
+      urlInternalWithPath: *registry_url_internal_with_path
+      allowedBpns: *allowed_bpns
+      oauthEnabled: true
+      oauthProviderRegistrationId: *registry_provider_registration_id
+      oauthTokenUrl: *registry_token_url
+      clientId: *registry_client_id
+      clientSecret: *registry_client_secret
+      edcAssetId: *registry_edc_asset_id
 
   irsAdminApiKey: &irs_admin_api_key <path:traceability-foss/data/int-a/irs#API_KEY_ADMIN>
   irsRegularApiKey: &irs_regular_api_key <path:traceability-foss/data/int-a/irs#API_KEY_REGULAR>
@@ -188,15 +239,12 @@ backend:
     providerApiKey: *edc_api_key
     providerUrl: *edc_provider_controlplane_url
     providerDataplaneUrl: *edc_provider_dataplane_url
-    callbackUrl: *irs_callback_url
     callbackUrlEdcClient: *backend_edc_client_callback_url
     dataEndpointUrl: *edc_controlplane_management_url
 
   discoveryfinder:
     baseUrl: *discovery_finder_url
 
-  submodel:
-    baseUrl: *submodel_url
   irs:
     baseUrl: *irs_url
   registry:
@@ -206,7 +254,8 @@ backend:
     baseUrl: *portal_backend_url
 
   config:
-    allowedCorsOriginSecond: *backend_security_allowed_fe
+    allowedCorsOriginFirst: *backend_security_allowed_fe
+    allowedCorsOriginSecond: *backend_security_allowed_fe_second
 
   dependencies:
     irs: *irs_name
@@ -337,7 +386,6 @@ item-relationship-service:
     clientTokenUri: *central_idp_token_uri
 
   edc:
-    callbackurl: *irs_callback_url
     controlplane:
       endpoint:
         data: *edc_controlplane_management_url

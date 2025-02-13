@@ -152,7 +152,14 @@ backend:
     leftOperandSecond: 'https://w3id.org/catenax/policy/UsagePurpose'
     operatorTypeSecond: 'eq'
     rightOperandSecond: 'cx.core.industrycore:1'
-
+    discoveryType: "bpn"
+    technicalServiceApiKey: CHANGEME
+    assetRefreshJobCronExpression: "-" # Default value for assets refresh cron job expression
+    assetRefreshJobZone: "Europe/Berlin" # Default value for assets refresh cron job zone
+    publishAssetCronExpression: "0 30 */1 * * ?"
+    publishAssetCronZone: "Europe/Berlin"
+    enableApiKeyAuthentication: true
+    tracexAdminKey: CHANGEME
   datasource:
     url: 'CHANGE_ME'
     username: trace
