@@ -27,15 +27,14 @@ configuration:
     hostName: &fe_host_name 'traceability-portal-int-b.int.catena-x.net'
     backendApiUrl: &be_api_url <path:traceability-foss/data/int-b/frontend#catenax_portal_api_url>
     allowedReferer: &allowed_referer <path:traceability-foss/data/int-a/frontend#allowed_referer>
-    imprintUrl: &imprint_url 'https://www.cofinity-x.com/imprint'
-    privacyUrl: &privacy_url 'https://www.cofinity-x.com/privacy-policy'
+    imprintUrl: &imprint_url 'https://traceability-portal-int-b.int.catena-x.net'
+    privacyUrl: &privacy_url 'https://traceability-portal-int-b.int.catena-x.net'
   backend:
     name: &backend_name 'tx-backend-int-b'
     hostName: &be_host_name 'traceability-int-b.int.catena-x.net'
     # -- backend host with https://
     url: &be_url 'https://traceability-int-b.int.catena-x.net'
     internalUrl: &be_url_internal 'http://tx-backend-int-b:8181'
-    submodelUrl: &submodel_url 'https://tracex-int-b-submodel-server.int.catena-x.net'
     edcClient:
       callbackUrl: &backend_edc_client_callback_url 'http://tx-backend-int-b:8181/api/internal/endpoint-data-reference'
     backendDatabase:
@@ -43,8 +42,8 @@ configuration:
       name: &backend_database_name 'tx-backend-postgresql-int-b'
       password: &backend_database_password <path:traceability-foss/data/int-b/database#tracePassword>
       rootPassword: &backend_database_root_password <path:traceability-foss/data/int-b/database#postgresPassword>
-    technicalServiceApiKey: &technical_service_api_key <path:traceability-foss/data/int-b//backend#TECHNICAL_SERVICE_API_KEY>
-    tracexAdminKey: &tracexAdminKey <path:traceability-foss/data/int-b//backend#ADMIN_API_KEY>
+    technicalServiceApiKey: &technical_service_api_key <path:traceability-foss/data/int-b/backend#TECHNICAL_SERVICE_API_KEY>
+    tracexAdminKey: &tracexAdminKey <path:traceability-foss/data/int-b/backend#ADMIN_API_KEY>
     security:
       # -- required to allow FE connection
       allowedCorsOriginFirst: &backend_security_allowed_fe 'https://traceability-portal-int-b.int.catena-x.net/'
@@ -53,18 +52,18 @@ configuration:
       submodel:
         urlExternal: &submodel_url_external 'https://backend.enablement.integration.cofinity-x.com/api/v3/aas/6c1bf117-196b-44d9-a293-cb00faa9dd2e/submodels'
         urlInternal: &submodel_url_internal 'http://tracexa-submodel:8080/v1/aas/submodels/data'
-        oauthProviderRegistrationId: &submodel_provider_registration_id <path:traceability-foss/data/int-b//provisioning#SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID>
-        oauthTokenUrl: &submodel_token_url <path:traceability-foss/data/int-b//provisioning#SUBMODEL_OAUTH_TOKEN_URL>
-        clientId: &submodel_client_id <path:traceability-foss/data/int-b//provisioning#SUBMODEL_OAUTH_CLIENT_ID>
-        clientSecret: &submodel_client_secret <path:traceability-foss/data/int-b//provisioning#SUBMODEL_OAUTH_CLIENT_SECRET>
+        oauthProviderRegistrationId: &submodel_provider_registration_id <path:traceability-foss/data/int-b/provisioning#SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID>
+        oauthTokenUrl: &submodel_token_url <path:traceability-foss/data/int-b/provisioning#SUBMODEL_OAUTH_TOKEN_URL>
+        clientId: &submodel_client_id <path:traceability-foss/data/int-b/provisioning#SUBMODEL_OAUTH_CLIENT_ID>
+        clientSecret: &submodel_client_secret <path:traceability-foss/data/int-b/provisioning#SUBMODEL_OAUTH_CLIENT_SECRET>
       registry:
         allowedBpns: &allowed_bpns 'BPNL000000002CS4,BPNL000000002BR4'
         urlExternalWithPath: &registry_url_external_with_path 'https://backend.enablement.integration.cofinity-x.com/api/v4/dtr/666255be-0b25-4333-ba44-a8965d99d7c0'
         urlInternalWithPath: &registry_url_internal_with_path 'http://tracexa-dtr:8080/api/v3'
-        oauthProviderRegistrationId: &registry_provider_registration_id <path:traceability-foss/data/int-b//provisioning#REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID>
-        oauthTokenUrl: &registry_token_url <path:traceability-foss/data/int-b//provisioning#REGISTRY_OAUTH_TOKEN_URL>
-        clientId: &registry_client_id <path:traceability-foss/data/int-b//provisioning#REGISTRY_OAUTH_CLIENT_ID>
-        clientSecret: &registry_client_secret <path:traceability-foss/data/int-b//provisioning#REGISTRY_OAUTH_CLIENT_SECRET>
+        oauthProviderRegistrationId: &registry_provider_registration_id <path:traceability-foss/data/int-b/provisioning#REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID>
+        oauthTokenUrl: &registry_token_url <path:traceability-foss/data/int-b/provisioning#REGISTRY_OAUTH_TOKEN_URL>
+        clientId: &registry_client_id <path:traceability-foss/data/int-b/provisioning#REGISTRY_OAUTH_CLIENT_ID>
+        clientSecret: &registry_client_secret <path:traceability-foss/data/int-b/provisioning#REGISTRY_OAUTH_CLIENT_SECRET>
         edcAssetId: &registry_edc_asset_id trace-x-dtr-asset
   pgadmin4:
     name: &pgadmin_name 'tx-pgadmin-int-b'
