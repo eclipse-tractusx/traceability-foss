@@ -449,11 +449,11 @@ edc-postgresql:
       requests:
         cpu: 15m
         memory: 1Gi
-  nameOverride: 'changeme'
-  fullnameOverride: 'changeme'
+  nameOverride: 'tracex-consumer-edc-postgresql'
+  fullnameOverride: 'tracex-consumer-edc-postgresql'
   enabled: true
   auth:
-    database: edc
-    username: 'changeme'
-    postgresPassword: 'changeme'
-    password: 'changeme'
+    database: trace
+    username: 'traceuser'
+    postgresPassword: 'CHANGEME'
+    password: 'CHANGEME'
