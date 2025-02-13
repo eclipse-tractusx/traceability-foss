@@ -384,7 +384,6 @@ item-relationship-service:
     clientTokenUri: *central_idp_token_uri
 
   edc:
-    callbackurl: *irs_callback_url
     controlplane:
       endpoint:
         data: *edc_controlplane_management_url
