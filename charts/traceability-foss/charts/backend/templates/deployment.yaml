@@ -61,9 +61,6 @@ spec:
         - name: wait-for-edc-controlplane
           image: appropriate/curl:latest
           command: [ 'sh', '-c', 'until curl -s http://{{ tpl (.Values.dependencies.edc | default "") . }}-controlplane:8080/api/check/liveness; do echo waiting for other pod; sleep 2; done;' ]
-        - name: wait-for-irs
-          image: appropriate/curl:latest
-          command: [ 'sh', '-c', 'until curl -s http://{{ tpl (.Values.dependencies.irs | default "") . }}:8080/actuator/health/liveness; do echo waiting for other pod; sleep 2; done;' ]
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -72,6 +69,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.springprofile | quote }}
             - name: TRACEABILITY_BPN
@@ -98,6 +96,10 @@ spec:
               value: {{ .Values.traceability.rightOperandSecond | quote }}
             - name: TRACEABILITY_VALID_UNTIL
               value: {{ .Values.traceability.validUntil | quote }}
+            - name: TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION
+              value: {{ .Values.traceability.enableApiKeyAuthentication | default "false" | quote }}
+            - name: TRACEABILITY_ADMIN_KEY
+              value: {{ .Values.traceability.tracexAdminKey | quote }}
             - name: OAUTH2_CLIENT_ID
               value: {{ .Values.oauth2.clientId | quote }}
             - name: OAUTH2_CLIENT_SECRET
@@ -122,10 +124,10 @@ spec:
               value: {{ .Values.provisioning.registry.urlInternalWithPath | quote }}
             - name: REGISTRY_ALLOWED_BPNS
               value: {{ .Values.provisioning.registry.allowedBpns | quote }}
-            - name: REGISTRY_OAUTH_ENABLED
-              value: {{ .Values.provisioning.registry.oauthEnabled | default "false" | quote }}
             - name: REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID
               value: {{ .Values.provisioning.registry.oauthProviderRegistrationId | quote }}
+            - name: REGISTRY_OAUTH_ENABLED
+              value: {{ .Values.provisioning.registry.oauthEnabled | default "false" | quote }}
             - name: REGISTRY_CLIENT_ID
               value: {{ .Values.provisioning.registry.clientId | quote }}
             - name: REGISTRY_CLIENT_SECRET
@@ -140,10 +142,10 @@ spec:
               value: {{ .Values.provisioning.submodel.urlInternal | quote }}
             - name: SUBMODEL_OAUTH_PROVIDER_REGISTRATION_ID
               value: {{ .Values.provisioning.submodel.oauthProviderRegistrationId | quote }}
-            - name: SUBMODEL_CLIENT_ID
-              value: {{ .Values.provisioning.submodel.clientId | quote }}
             - name: SUBMODEL_CUSTOM_IMPLEMENTATION_ENABLED
               value: {{ .Values.provisioning.submodel.useCustomImplementation | quote }}
+            - name: SUBMODEL_CLIENT_ID
+              value: {{ .Values.provisioning.submodel.clientId | quote }}
             - name: SUBMODEL_CLIENT_SECRET
               value: {{ .Values.provisioning.submodel.clientSecret | quote }}
             - name: SUBMODEL_TOKEN_URL
@@ -152,6 +154,8 @@ spec:
               value: {{ .Values.irs.baseUrl | quote }}
             - name: PORTAL_URL
               value: {{ .Values.portal.baseUrl | quote }}
+            - name: EDC_CALLBACK_URL
+              value: {{ .Values.edc.callbackUrl | quote }}
             - name: EDC_CALLBACK_URL_EDC_CLIENT
               value: {{ .Values.edc.callbackUrlEdcClient | quote }}
             - name: ALLOWED_CORS_ORIGIN_FIRST
@@ -210,7 +214,7 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-            - name: metrics
+            - name: actuator
               containerPort: 8081
               protocol: TCP
             - name: http-trusted
@@ -221,30 +225,30 @@ spec:
               mountPath: /tmp
           # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
         {{- if .Values.healthCheck.enabled }}
-          livenessProbe:
-            httpGet:
-              path: "/actuator/health/liveness"
-              port: 8081
-              scheme: HTTP
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.livenessProbe.successThreshold }}
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
-          readinessProbe:
-            httpGet:
-              path: "/actuator/health/readiness"
-              port: 8081
-              scheme: HTTP
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.readinessProbe.successThreshold }}
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+        livenessProbe:
+          httpGet:
+            path: "/actuator/health/liveness"
+            port: 8081
+            scheme: HTTP
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+        # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
+        readinessProbe:
+          httpGet:
+            path: "/actuator/health/readiness"
+            port: 8081
+            scheme: HTTP
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
         {{- end }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: tmp
           emptyDir: {}
