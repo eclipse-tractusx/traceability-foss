@@ -27,15 +27,21 @@ import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
 export class AuthGuard extends KeycloakAuthGuard {
   constructor(protected router: Router, protected keycloakService: KeycloakService) {
     super(router, keycloakService);
+    console.log('keycloakService check:', this.keycloakService.isLoggedIn());
+    debugger; // This will pause execution in DevTools
   }
 
   public async isAccessAllowed(route: ActivatedRouteSnapshot): Promise<boolean> {
+    console.log('authenticated first check:', this.authenticated);
+    debugger; // This will pause execution in DevTools
     if (!this.authenticated) {
+      console.log('authenticated second check:', this.authenticated);
       await this.keycloakService.login().then();
     }
 
     // Get the roles required from the route.
     const requiredRoles = route.data.roles;
+    console.log('required roles', requiredRoles);
 
     // Allow the user to proceed if no additional roles are required to access the route.
     if (!(requiredRoles instanceof Array) || requiredRoles.length === 0) {
