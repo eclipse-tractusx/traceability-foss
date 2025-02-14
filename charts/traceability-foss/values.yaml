@@ -382,16 +382,13 @@ postgresql:
     database: "trace"
     username: "traceuser"
 
-  primary:
-    persistence:
-      size: 4Gi
-    resources:
-      limits:
-        cpu: 500m
-        memory: 512Mi
-      requests:
-        cpu: 15m
-        memory: 512Mi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 512Mi
 
 #########################
 # IRS configuration     #
