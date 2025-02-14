@@ -30,6 +30,8 @@ import * as mockService from '../../../mocks/mock';
 })
 export class AppComponent {
   constructor() {
+    console.warn('INFO AppComponent loaded');
+    debugger;
     if (environment.mockService) void mockService.worker.start({ onUnhandledRequest: 'bypass' });
   }
 }
