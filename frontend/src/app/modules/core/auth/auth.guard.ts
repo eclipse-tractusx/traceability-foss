@@ -36,7 +36,7 @@ export class AuthGuard extends KeycloakAuthGuard {
     debugger; // This will pause execution in DevTools
     if (!this.authenticated) {
       console.log('authenticated second check:', this.authenticated);
-      await this.keycloakService.login().then();
+      //await this.keycloakService.login().then();
     }
 
     // Get the roles required from the route.
