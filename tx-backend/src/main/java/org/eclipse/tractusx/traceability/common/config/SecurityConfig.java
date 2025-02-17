@@ -66,9 +66,6 @@ public class SecurityConfig {
     @Value("${jwt.resource-client}")
     private String resourceClient;
 
-    @Value("${jwt.resource-client-second}")
-    private String resourceClientSecond;
-
 
     @Bean
     @Order
@@ -90,7 +87,7 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt((jwt) -> jwt.jwtAuthenticationConverter(
-                        new JwtAuthenticationTokenConverter(resourceClient, resourceClientSecond)))
+                        new JwtAuthenticationTokenConverter(resourceClient)))
                 )
                 .oauth2Client(Customizer.withDefaults());
 

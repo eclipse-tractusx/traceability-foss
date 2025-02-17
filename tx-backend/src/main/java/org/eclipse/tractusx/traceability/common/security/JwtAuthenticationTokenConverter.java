@@ -31,21 +31,16 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JwtAuthenticationTokenConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
     private final String resourceClient;
-    private final String resourceClientSecond;
     private final JwtGrantedAuthoritiesConverter defaultGrantedAuthoritiesConverter;
 
-    public JwtAuthenticationTokenConverter(String resourceClient, String resourceClientSecond) {
+    public JwtAuthenticationTokenConverter(String resourceClient) {
         this.resourceClient = resourceClient;
-        this.resourceClientSecond = resourceClientSecond;
         this.defaultGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
     }
 
@@ -59,13 +54,9 @@ public class JwtAuthenticationTokenConverter implements Converter<Jwt, AbstractA
     public AbstractAuthenticationToken convert(@NotNull Jwt source) {
         Collection<GrantedAuthority> grantedAuthorities = defaultGrantedAuthoritiesConverter.convert(source);
         Collection<GrantedAuthority> authorities =
-                Stream.concat(
-                        grantedAuthorities != null ? grantedAuthorities.stream() : Stream.empty(),
-                        Stream.concat(
-                                extractRoles(source, resourceClient).stream(),
-                                extractRoles(source, resourceClientSecond).stream()
-                        )
+                Stream.concat((grantedAuthorities != null ? grantedAuthorities.stream() : Stream.empty()), extractRoles(source, resourceClient).stream()
                 ).collect(Collectors.toSet());
+
         return new JwtAuthenticationToken(source, authorities);
     }
 }

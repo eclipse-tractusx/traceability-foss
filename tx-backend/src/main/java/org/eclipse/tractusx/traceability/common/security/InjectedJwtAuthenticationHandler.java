@@ -34,19 +34,15 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Slf4j
 public class InjectedJwtAuthenticationHandler implements HandlerMethodArgumentResolver {
 
 
     private final String resourceClient;
-    private final String resourceClientSecond;
 
-    public InjectedJwtAuthenticationHandler(String resourceClient, String resourceClientSecond) {
+    public InjectedJwtAuthenticationHandler(String resourceClient) {
         this.resourceClient = resourceClient;
-        this.resourceClientSecond = resourceClientSecond;
     }
 
     @Override
@@ -65,10 +61,7 @@ public class InjectedJwtAuthenticationHandler implements HandlerMethodArgumentRe
                 .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("Authentication not found."));
 
         if (credentials instanceof Jwt jwtToken) {
-            Set<JwtRole> jwtRoles = Stream.concat(
-                    JwtRolesExtractor.extract(jwtToken, resourceClient).stream(),
-                    JwtRolesExtractor.extract(jwtToken, resourceClientSecond).stream()
-            ).collect(Collectors.toSet());
+            Set<JwtRole> jwtRoles = JwtRolesExtractor.extract(jwtToken, resourceClient);
 
             return new JwtAuthentication(jwtRoles);
         }

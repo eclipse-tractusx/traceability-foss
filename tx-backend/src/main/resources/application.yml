@@ -199,7 +199,6 @@ spring:
 
 jwt:
   resource-client: ${JWT_RESOURCE_CLIENT}
-  resource-client-second: ${JWT_RESOURCE_CLIENT_SECOND:}
 feign:
   default:
     connectionTimeoutMillis: 200

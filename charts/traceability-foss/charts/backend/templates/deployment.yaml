@@ -166,8 +166,6 @@ spec:
               value: {{ .Values.discoveryfinder.baseUrl | quote }}
             - name: JWT_RESOURCE_CLIENT
               value: {{ .Values.oauth2.resourceClient | quote }}
-            - name: JWT_RESOURCE_CLIENT_SECOND
-              value: {{ .Values.oauth2.resourceClientSecond | quote }}
             - name: SPRING_DATASOURCE_URL
               value: {{ .Values.datasource.url | quote }}
             - name: SPRING_DATASOURCE_USERNAME
