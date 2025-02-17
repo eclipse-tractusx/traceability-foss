@@ -63,7 +63,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @Tag(name = "AssetsImport")
 @RequestMapping(path = "/assets")
 public class ImportController {
