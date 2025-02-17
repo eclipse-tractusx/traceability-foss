@@ -315,6 +315,7 @@ backend:
     clientTokenUri: "https://changeme.com"  # <oauth2.clientTokenUri>
     jwkSetUri: "https://changeme.com"  # <oauth2.jwkSetUri>
     resourceClient: "CHANGEME"  # application id created on portal
+    resourceClientSecond: "CHANGEME"  # secondary application id created on portal
 
   edc:
     consumerApiKey: "CHANGEME"  # <tractusx-connector.controlplane.endpoints.management.authKey>

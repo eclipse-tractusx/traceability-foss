@@ -38,6 +38,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${jwt.resource-client}")
     private String resourceClient;
 
+    @Value("${jwt.resource-client-second}")
+    private String resourceClientSecond;
+
     public WebConfig() {
     }
 
@@ -57,7 +60,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(final List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new InjectedJwtAuthenticationHandler(resourceClient));
+        resolvers.add(new InjectedJwtAuthenticationHandler(resourceClient, resourceClientSecond));
     }
 
     @Override

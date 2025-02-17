@@ -179,6 +179,7 @@ oauth2:
   clientTokenUri: "https://changeme.com" #<oauth2.clientTokenUri>
   jwkSetUri: "https://changeme.com" #<oauth2.jwkSetUri>
   resourceClient: "CHANGEME" #<oauth2.resourceClient>
+  resourceClientSecond: "CHANGEME" #<oauth2.resourceClientSecond>
 
 edc:
   consumerApiKey: "" #<edc.consumerApiKey>
