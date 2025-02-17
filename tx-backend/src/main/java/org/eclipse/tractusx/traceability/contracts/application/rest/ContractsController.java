@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @Tag(name = "Contracts")
 @RequestMapping(path = "/contracts", produces = "application/json", consumes = "application/json")
 public class ContractsController {
