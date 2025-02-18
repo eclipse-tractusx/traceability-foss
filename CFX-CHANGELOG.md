@@ -11,6 +11,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ### Changed
 
+- TRACEX-516 Remove supervisor role from admin endpoints
 - Bump irs-registry-client to 2.1.25 to fix CVE-2024-7254
 
 ### Removed
