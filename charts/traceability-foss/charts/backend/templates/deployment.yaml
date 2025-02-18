@@ -114,6 +114,10 @@ spec:
               value: {{ .Values.edc.providerApiKey | quote }}
             - name: EDC_PROVIDER_URL
               value: {{ .Values.edc.providerUrl | quote }}
+            - name: TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION
+              value: {{ .Values.traceability.enableApiKeyAuthentication | default "false" | quote }}
+            - name: TRACEABILITY_ADMIN_KEY
+              value: {{ .Values.traceability.tracexAdminKey | quote }}
             - name: EDC_PROVIDER_DATAPLANE_URL
               value: {{ .Values.edc.providerDataplaneUrl | quote }}
             - name: REGISTRY_URL_WITH_PATH_EXTERNAL
