@@ -2,6 +2,47 @@ apiVersion: v1
 entries:
   traceability-foss:
   - apiVersion: v2
+    appVersion: 14.0.0
+    created: "2025-02-18T14:52:52.028391969Z"
+    dependencies:
+    - name: frontend
+      repository: file://charts/frontend
+      version: 1.4.0
+    - name: backend
+      repository: file://charts/backend
+      version: 1.4.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.12.10
+    - condition: pgadmin4.enabled
+      name: pgadmin4
+      repository: https://helm.runix.net
+      version: 1.23.1
+    - condition: item-relationship-service.enabled
+      name: item-relationship-service
+      repository: https://eclipse-tractusx.github.io/item-relationship-service
+      version: 8.0.0
+    - condition: tractusx-connector.enabled
+      name: tractusx-connector
+      repository: https://eclipse-tractusx.github.io/tractusx-edc
+      version: 0.7.7
+    - alias: edc-postgresql
+      condition: edc-postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.12.10
+    description: An umbrella Helm chart for eclipse-tractusx/traceability-foss project
+    digest: 97c8a232c1d0a4b2f9ec08787d45fe3a2c18fd7f3dd74021600d517b5f44f3eb
+    home: https://eclipse-tractusx.github.io/
+    name: traceability-foss
+    sources:
+    - https://github.com/eclipse-tractusx/traceability-foss
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/traceability-foss/releases/download/helm-charts-1.4.0/traceability-foss-1.4.0.tgz
+    version: 1.4.0
+  - apiVersion: v2
     appVersion: 13.0.2
     created: "2024-08-16T11:57:12.814105672Z"
     dependencies:
@@ -1629,4 +1670,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/traceability-foss-frontend/releases/download/tx-traceability-foss-frontend-1.1.0/tx-traceability-foss-frontend-1.1.0.tgz
     version: 1.1.0
-generated: "2024-08-16T11:57:12.814355769Z"
+generated: "2025-02-18T14:52:52.028742476Z"
