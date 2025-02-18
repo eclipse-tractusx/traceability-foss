@@ -53,6 +53,9 @@ import { map } from 'rxjs/operators';
   selector: 'app-parts',
   templateUrl: './parts.component.html',
   styleUrls: [ './parts.component.scss' ],
+  host: {
+    'class': 'app-parts-style'
+  }
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
