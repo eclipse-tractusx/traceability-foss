@@ -2,7 +2,7 @@
   "priority": 10,
   "request": {
     "method": "POST",
-    "urlPath": "/edc/management/v2/policydefinitions"
+    "urlPath": "/edc/management/v3/policydefinitions"
   },
   "response": {
     "status": 200,

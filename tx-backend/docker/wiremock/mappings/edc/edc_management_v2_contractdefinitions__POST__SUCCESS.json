@@ -2,7 +2,7 @@
   "priority": 10,
   "request": {
     "method": "POST",
-    "urlPath": "/edc/management/v2/contractdefinitions"},
+    "urlPath": "/edc/management/v3/contractdefinitions"},
   "response": {
     "status": 200,
     "jsonBody": {

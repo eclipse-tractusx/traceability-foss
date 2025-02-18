@@ -98,7 +98,7 @@ public class EdcSupport {
     }
     public void edcWillCreateNotificationAsset() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/assets"),
+                post("/management/v3/assets"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200)
@@ -136,7 +136,7 @@ public class EdcSupport {
     public void edcWillRemoveContractDefinition() {
         whenHttp(restitoProvider.stubServer()).match(
                 method(DELETE),
-                startsWithUri("/management/v2/contractdefinitions"),
+                startsWithUri("/management/v3/contractdefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
                 ok()
@@ -145,7 +145,7 @@ public class EdcSupport {
 
     public void edcWillReturnCatalog() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/catalog/request"),
+                post("/management/v3/catalog/request"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -155,7 +155,7 @@ public class EdcSupport {
 
     public void edcWillReturnCatalogForBpdmGoldenRecord() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/catalog/request"),
+                post("/management/v3/catalog/request"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -165,7 +165,7 @@ public class EdcSupport {
 
     public void edcWillReturnOnlyOneContractAgreement() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/contractagreements/request"),
+                post("/management/v3/contractagreements/request"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -175,7 +175,7 @@ public class EdcSupport {
 
     public void edcWillReturnContractAgreementNegotiation() {
         whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/management/v2/contractagreements/[\\w]+/negotiation")),
+                matchesUri(Pattern.compile("/management/v3/contractagreements/[\\w]+/negotiation")),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -185,7 +185,7 @@ public class EdcSupport {
 
     public void edcWillReturnContractDefinitions() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/contractdefinitions/request"),
+                post("/management/v3/contractdefinitions/request"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -195,7 +195,7 @@ public class EdcSupport {
 
     public void edcWillFailToCreateNotificationAsset() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/assets"),
+                post("/management/v3/assets"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.INTERNAL_SERVER_ERROR_500)
@@ -204,7 +204,7 @@ public class EdcSupport {
 
     public void edcWillCreatePolicyDefinition() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/policydefinitions"),
+                post("/management/v3/policydefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200)
@@ -213,7 +213,7 @@ public class EdcSupport {
 
     public void edcWillReturnConflictWhenCreatePolicyDefinition() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/policydefinitions"),
+                post("/management/v3/policydefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.CONFLICT_409)
@@ -224,7 +224,7 @@ public class EdcSupport {
         whenHttp(restitoProvider.stubServer()).match(
                 composite(
                         method(DELETE),
-                        startsWithUri("/management/v2/policydefinitions/")
+                        startsWithUri("/management/v3/policydefinitions/")
                 ),
                 EDC_API_KEY_HEADER
         ).then(
@@ -234,7 +234,7 @@ public class EdcSupport {
 
     public void edcWillFailToCreatePolicyDefinition() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/policydefinitions"),
+                post("/management/v3/policydefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.SERVICE_UNAVAILABLE_503)
@@ -243,7 +243,7 @@ public class EdcSupport {
 
     public void edcWillCreateContractDefinition() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/contractdefinitions"),
+                post("/management/v3/contractdefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200)
@@ -252,7 +252,7 @@ public class EdcSupport {
 
     public void edcWillFailToCreateContractDefinition() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/contractdefinitions"),
+                post("/management/v3/contractdefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.INTERNAL_SERVER_ERROR_500)
@@ -261,7 +261,7 @@ public class EdcSupport {
 
     public void edcWillCreateContractNegotiation() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/contractnegotiations"),
+                post("/management/v3/contractnegotiations"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -271,7 +271,7 @@ public class EdcSupport {
 
     public void edcWillReturnContractNegotiationOnlyState() {
         whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/management/v2/contractnegotiations/" + uuidRegex + "/state")),
+                matchesUri(Pattern.compile("/management/v3/contractnegotiations/" + uuidRegex + "/state")),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -281,7 +281,7 @@ public class EdcSupport {
 
     public void edcWillReturnContractNegotiationState() {
         whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/management/v2/contractnegotiations/" + uuidRegex)),
+                matchesUri(Pattern.compile("/management/v3/contractnegotiations/" + uuidRegex)),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -291,7 +291,7 @@ public class EdcSupport {
 
     public void edcWillCreateTransferprocesses() {
         whenHttp(restitoProvider.stubServer()).match(
-                post("/management/v2/transferprocesses"),
+                post("/management/v3/transferprocesses"),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -301,7 +301,7 @@ public class EdcSupport {
 
     public void edcWillReturnTransferprocessesOnlyState() {
         whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/management/v2/transferprocesses/" + uuidRegex + "/state")),
+                matchesUri(Pattern.compile("/management/v3/transferprocesses/" + uuidRegex + "/state")),
                 EDC_API_KEY_HEADER
         ).then(
                 status(HttpStatus.OK_200),
@@ -311,7 +311,7 @@ public class EdcSupport {
 
     public void edcWillReturnTransferprocessesState() {
         whenHttp(restitoProvider.stubServer()).match(
-                matchesUri(Pattern.compile("/management/v2/transferprocesses/" + uuidRegex)),
+                matchesUri(Pattern.compile("/management/v3/transferprocesses/" + uuidRegex)),
                 EDC_API_KEY_HEADER
 
         ).then(
@@ -340,40 +340,40 @@ public class EdcSupport {
 
     public void verifyCreateNotificationAssetEndpointCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,
-                post("/management/v2/assets")
+                post("/management/v3/assets")
         );
     }
 
     public void verifyDeleteNotificationAssetEndpointCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,
                 method(DELETE),
-                startsWithUri("/management/v2/assets")
+                startsWithUri("/management/v3/assets")
         );
     }
 
     public void verifyCreatePolicyDefinitionEndpointCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,
-                post("/management/v2/policydefinitions")
+                post("/management/v3/policydefinitions")
         );
     }
 
     public void verifyDeletePolicyDefinitionEndpointCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,
                 method(DELETE),
-                startsWithUri("/management/v2/policydefinitions")
+                startsWithUri("/management/v3/policydefinitions")
         );
     }
 
     public void verifyCreateContractDefinitionEndpointCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,
-                post("/management/v2/contractdefinitions")
+                post("/management/v3/contractdefinitions")
         );
     }
 
     public void verifyDeleteContractDefinitionEndpointCalledTimes(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,
                 method(DELETE),
-                startsWithUri("/management/v2/contractdefinitions")
+                startsWithUri("/management/v3/contractdefinitions")
         );
     }
 

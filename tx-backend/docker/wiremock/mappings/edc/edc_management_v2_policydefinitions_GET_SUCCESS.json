@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "urlPath": "/edc/management/v2/policydefinitions/default-policy"
+    "urlPath": "/edc/management/v3/policydefinitions/default-policy"
   },
   "response": {
     "status": 200,

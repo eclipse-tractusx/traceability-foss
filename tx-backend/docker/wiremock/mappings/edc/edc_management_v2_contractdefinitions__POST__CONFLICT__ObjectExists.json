@@ -2,7 +2,7 @@
   "priority": 1,
   "request": {
     "method": "POST",
-    "urlPath": "/edc/management/v2/contractdefinitions",
+    "urlPath": "/edc/management/v3/contractdefinitions",
     "bodyPatterns": [
       {
         "matchesJsonPath": "$.[?(@.@id == 'definition-id-already-exists')]"
