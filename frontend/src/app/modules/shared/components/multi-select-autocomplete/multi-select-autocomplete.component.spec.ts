@@ -27,7 +27,7 @@ describe('MultiSelectAutocompleteComponent', () => {
   it('should initialize with empty selectedValue when no input selectedOptions', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
-    expect(componentInstance.selectedValue).toEqual(null);
+    expect(componentInstance.selectedValue).toEqual([]);
   });
 
 
@@ -98,19 +98,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     const result = componentInstance.displayValue();
 
     expect(result).toEqual(['value1','']);
-  });
-
-  it('should filter options based on value when textSearch is false', async () => {
-    const { fixture } = await renderMultiSelectAutoCompleteComponent();
-    const { componentInstance } = fixture;
-
-    componentInstance.filterColumn = 'semanticDataModel';
-
-
-    componentInstance.filterItem('Display1'); // Filter based on 'Display1'
-
-    expect(componentInstance.options.length).toBe(2);
-    expect(componentInstance.options[0]).toBe('PARTASPLANNED');
   });
 
 

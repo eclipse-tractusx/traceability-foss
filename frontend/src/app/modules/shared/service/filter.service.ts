@@ -43,9 +43,15 @@ export class FilterService {
     const current = this.filterStateSubject.value;
 
     if (tableType === TableType.AS_BUILT_OWN) {
-      current.asBuilt = { ...filter };
+      current.asBuilt = {
+        ...current.asBuilt,
+        ...filter
+      };
     } else if (tableType === TableType.AS_PLANNED_OWN) {
-      current.asPlanned = { ...filter };
+      current.asPlanned = {
+        ...current.asPlanned,
+        ...filter
+      };
     }
 
     this.filterStateSubject.next({ ...current });
@@ -66,7 +72,35 @@ export class FilterService {
    * Clears the filter for the specified tableType (sets it to `{}`).
    */
   public clearFilter(tableType: TableType): void {
-    this.setFilter(tableType, {});
+    const current = this.filterStateSubject.value;
+
+    if (tableType === TableType.AS_BUILT_OWN) {
+      current.asBuilt = {
+      };
+    } else if (tableType === TableType.AS_PLANNED_OWN) {
+      current.asPlanned = {
+      };
+    }
+
+    this.filterStateSubject.next({ ...current });
+    this.saveToLocalStorage(this.filterStateSubject.value);
+  }
+
+  /**
+   * Removes a specific key from the filter for the given tableType.
+   */
+  public removeFilterKey(tableType: TableType, key: string): void {
+    const current = this.filterStateSubject.value;
+
+    if (tableType === TableType.AS_BUILT_OWN) {
+      delete current.asBuilt[key];
+    } else if (tableType === TableType.AS_PLANNED_OWN) {
+      delete current.asPlanned[key];
+    }
+
+    // Emit updated state and save
+    this.filterStateSubject.next({ ...current });
+    this.saveToLocalStorage(this.filterStateSubject.value);
   }
 
   /**

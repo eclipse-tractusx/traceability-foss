@@ -179,7 +179,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   triggerPartSearch() {
 
-    this.resetFilterAndShowToast(true);
+    this.resetFilterAndShowToast();
 
     const searchValue = this.searchFormGroup.get('partSearch').value;
 
@@ -265,11 +265,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  private resetFilterAndShowToast(resetOwner?: boolean) {
+  private resetFilterAndShowToast() {
     let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
-    if (resetOwner) {
-      this.quickFilterComponents.get(0).owner = Owner.UNKNOWN;
-    }
     if (filterIsSet) {
       this.toastService.info('parts.input.global-search.toastInfo');
     }

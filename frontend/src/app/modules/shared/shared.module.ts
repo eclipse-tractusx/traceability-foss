@@ -23,11 +23,15 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { AdvancedTableFilterComponent } from '@shared/components/advanced-table-filter/advanced-table-filter.component';
 import { AssetPublisherComponent } from '@shared/components/asset-publisher/asset-publisher.component';
+import { AutocompleteChipInputComponent } from '@shared/components/autocomplete-chip-input/autocomplete-chip-input.component';
+import { AutocompleteInputComponent } from '@shared/components/autocomplete-input/autocomplete-input.component';
 import { CardMetricComponent } from '@shared/components/card-metric/card-metric.component';
 import { ChipComponent } from '@shared/components/chip/chip.component';
 import { ContractsQuickFilterComponent } from '@shared/components/contracts-quick-filter/contracts-quick-filter.component';
 import { CountryFlagGeneratorComponent } from '@shared/components/country-flag-generator/country-flag-generator.component';
+import { DatepickerInputComponent } from '@shared/components/datepicker-input/datepicker-input.component';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
 import { InputComponent } from '@shared/components/input/input.component';
@@ -79,6 +83,7 @@ import { I18nPipe } from './pipes/i18n.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -133,8 +138,12 @@ import { TemplateModule } from './template.module';
     CardMetricComponent,
     AssetPublisherComponent,
     ChipComponent,
+    AdvancedTableFilterComponent,
+    AutocompleteChipInputComponent,
+    DatepickerInputComponent,
+    AutocompleteInputComponent
   ],
-  imports: [ TemplateModule, RouterModule, I18NextModule ],
+  imports: [ TemplateModule, RouterModule, I18NextModule, MatAutocompleteModule ],
   exports: [
     ToastContainerComponent,
     ToastMessageComponent,
@@ -185,6 +194,10 @@ import { TemplateModule } from './template.module';
     CardMetricComponent,
     AssetPublisherComponent,
     ChipComponent,
+    AdvancedTableFilterComponent,
+    AutocompleteChipInputComponent,
+    DatepickerInputComponent,
+    AutocompleteInputComponent
   ],
   providers: [
     FormatDatePipe,

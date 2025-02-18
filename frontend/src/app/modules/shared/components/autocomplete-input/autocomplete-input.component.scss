@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,27 +16,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package assets.request;
-
-import assets.response.base.OwnerType;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
-import java.util.List;
-
-public record SearchableAssetsRequest(
-        @NotNull
-        String fieldName,
-        @Size()
-        String startWith,
-        Integer size,
-        OwnerType owner,
-        List<String> inAssetIds) {
-
-    public SearchableAssetsRequest {
-        if (size == null) {
-            size = 200;
-        }
-    }
+.input-list-wrapper {
+  width: 100%;
 }

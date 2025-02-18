@@ -33,6 +33,22 @@
   }
 }
 
+.parts-table-wrapper {
+  height: 100%;
+}
+
+.parts-asBuilt-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.parts-asPlanned-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 
 
 

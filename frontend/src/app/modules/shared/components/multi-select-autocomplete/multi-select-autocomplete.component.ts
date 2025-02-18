@@ -27,7 +27,7 @@ import {
   Injector,
   Input,
   LOCALE_ID,
-  OnChanges,
+  OnChanges, OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -51,7 +51,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: [ 'multi-select-autocomplete.component.scss' ],
 })
 
-export class MultiSelectAutocompleteComponent implements OnChanges {
+export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
 
   @Input()
   placeholder: string;
@@ -130,7 +130,20 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   }
 
   ngOnInit(): void {
-    this.strategy = this.injector.get<AutocompleteStrategy>(AutocompleteStrategyMap.get(this.tableType));
+    this.initStrategy();
+    this.subscribeToSearchElementChange();
+    this.initializePrefilterValue();
+    this.initializeExistingFilter();
+    this.subscribeToFilterUpdates();
+  }
+
+  private initStrategy(): void {
+    this.strategy = this.injector.get<AutocompleteStrategy>(
+      AutocompleteStrategyMap.get(this.tableType)
+    );
+  }
+
+  private subscribeToSearchElementChange(): void {
     this.searchElementChange.subscribe((value) => {
       if (this.delayTimeoutId) {
         clearTimeout(this.delayTimeoutId);
@@ -138,29 +151,83 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
         this.filterItem(value);
       }
     });
+  }
 
-    if (this.prefilterValue?.length > 0) {
-      this.searchElement = this.prefilterValue;
-      this.selectedValue = [ this.searchElement ];
-      this.formControl.patchValue(this.selectedValue);
-      this.updateOptionsAndSelections();
+  private initializePrefilterValue(): void {
+    if (!this.prefilterValue?.length) {
+      return;
     }
 
-    if(this.filterService.isFilterSet(this.tableType, this.filterColumn)) {
-      const currFilter = this.filterService.getFilter(this.tableType)
-      const filter = [];
-      currFilter[this.filterColumn].forEach((item: any) => {
-        filter.push({ display: item, value: item });
-      })
-      this.optionsSelected = filter;
+    this.searchElement = this.prefilterValue;
+    this.selectedValue = [this.searchElement];
+    this.formControl.patchValue(this.selectedValue);
+    this.updateOptionsAndSelections();
+  }
+
+  private initializeExistingFilter(): void {
+    if (!this.filterService.isFilterSet(this.tableType, this.filterColumn)) {
+      return;
     }
 
+    const currFilter = this.filterService.getFilter(this.tableType);
+
+    if (!this.isDate) {
+      this.optionsSelected = (currFilter[this.filterColumn] || []).map((item: any) => ({
+        display: item,
+        value: item
+      }));
+      return;
+    }
+
+    this.searchElement = currFilter[this.filterColumn];
+    const [startStr, endStr] = this.searchElement.split(',');
+    this.startDate = new Date(startStr);
+    this.endDate = new Date(endStr);
+  }
+
+  private subscribeToFilterUpdates(): void {
+    this.filterService.filterState$.subscribe((state) => {
+      const relevant = this.tableType === TableType.AS_BUILT_OWN
+        ? state.asBuilt
+        : state.asPlanned;
+
+      if (this.isDate) {
+        this.handleDateFilterChange(relevant);
+      } else {
+        this.handleNonDateFilterChange(relevant);
+      }
+    });
+  }
+
+  private handleDateFilterChange(relevant: any): void {
+    this.searchElement = relevant[this.filterColumn];
+    if (!this.searchElement) {
+      this.startDate = null;
+      this.endDate = null;
+      return;
+    }
+
+    const [startStr, endStr] = this.searchElement.split(',');
+    this.startDate = new Date(startStr);
+    this.endDate = new Date(endStr);
+  }
+
+  private handleNonDateFilterChange(relevant: any): void {
+
+    //if there is a saved filter state, set this as value otherwise use preFilter Value
+    const newSelectedValue = relevant[this.filterColumn] ?? [];
+    if(this.prefilterValue && newSelectedValue.length === 0){
+      this.selectedValue = [this.prefilterValue];
+    } else{
+      this.selectedValue = newSelectedValue;
+    }
+    this.formControl.patchValue(newSelectedValue);
+    this.updateOptionsAndSelections();
   }
 
   ngOnChanges(): void {
     this.selectedValue = this.formControl.value;
     this.formControl.patchValue(this.selectedValue);
-
   }
 
   toggleSelectAll(selectCheckbox: any): void {
@@ -225,7 +292,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     if (this.singleSearch) {
       return;
     }
-
     // emit an event that the searchElement changed
     // if there is a timeout currently, abort the changes.
     if (this.delayTimeoutId) {
@@ -292,16 +358,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
     this.selectedValue = [];
     this.suggestionError = false;
 
-    const currentQuickFilter = this.quickFilterService.getOwner();
-    if (this.filterColumn === 'owner' && currentQuickFilter && currentQuickFilter !== 'UNKNOWN') {
-      this.selectedValue = [currentQuickFilter];
-      this.formControl.patchValue(this.selectedValue);
-    }
+    this.filterService.setFilter(this.tableType, {[this.filterColumn]: this.selectedValue});
 
     this.updateOptionsAndSelections();
   }
 
   private updateOptionsAndSelections() {
+
     if (this.singleSearch) {
       return;
     }
@@ -326,6 +389,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
 
   dateFilter() {
     this.formControl.patchValue(this.searchElement);
+    this.filterService.setFilter(this.tableType, {[this.filterColumn]: this.searchElement});
   }
 
   onSelectionChange(matSelectChange: MatSelectChange) {
@@ -350,16 +414,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges {
   containsIllegalCharactersForI18nKey(text: string) {
     const allowedCharacters = /^\w+$/;
     return !allowedCharacters.test(text);
-  }
-
-  private currentQuickFilterValue(): string | null {
-    const quickFilter = this.quickFilterService.getOwner();
-    return quickFilter && quickFilter !== 'UNKNOWN' ? quickFilter : null;
-  }
-
-  isQuickFilterOption(value: any): boolean {
-    return this.filterColumn === 'owner'
-      && value === this.currentQuickFilterValue();
   }
 
 }

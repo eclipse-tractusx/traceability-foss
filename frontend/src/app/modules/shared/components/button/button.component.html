@@ -64,7 +64,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #iconElement>
-  <div class="flex items-center">
+  <div class="flex items-center" [class.gap-2]="useGap" [ngStyle]="useWhiteText && {'color': 'white'}">
     <mat-icon>{{ this.iconName }}</mat-icon>
     <ng-container [ngTemplateOutlet]="content"></ng-container>
   </div>
