@@ -61,12 +61,27 @@ describe('FilterService', () => {
     expect(localStorage.setItem).toHaveBeenCalled();
   });
 
-  it('should overwrite existing filter for the same table', () => {
+  it('should add to existing filter for the same table', () => {
     service.setFilter(TableType.AS_BUILT_OWN, { owner: 'OWN' });
     service.setFilter(TableType.AS_BUILT_OWN, { classification: 'myClass' });
 
     const asBuiltFilter = service.getFilter(TableType.AS_BUILT_OWN);
-    expect(asBuiltFilter).toEqual({ classification: 'myClass' });
+    expect(asBuiltFilter).toEqual({
+      owner: 'OWN',
+      classification: 'myClass'
+    });
+  });
+
+  it('should overwrite existing filter for the same table', () => {
+    service.setFilter(TableType.AS_BUILT_OWN, { owner: 'OWN' });
+
+    let asBuiltFilter = service.getFilter(TableType.AS_BUILT_OWN);
+    expect(asBuiltFilter).toEqual({ owner: 'OWN' });
+
+    service.setFilter(TableType.AS_BUILT_OWN, { owner: 'SUPPLIER' });
+
+    asBuiltFilter = service.getFilter(TableType.AS_BUILT_OWN);
+    expect(asBuiltFilter).toEqual({ owner: 'SUPPLIER' });
   });
 
   it('should return false if no filter is set', () => {

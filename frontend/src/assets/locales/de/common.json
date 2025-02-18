@@ -81,7 +81,13 @@
     "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen",
     "notificationInProgress" : "Qualitätsthema befindet sich im Verarbeitungsstatus",
     "deletePartMessageSuccess" : "Teil erfolgreich entfernt",
-    "deletePartMessageError" : "Fehler beim Entfernen des Teils"
+    "deletePartMessageError" : "Fehler beim Entfernen des Teils",
+    "advancedSearch": "Erweiterte Suche",
+    "createNotification": "Qualitätsthema erstellen",
+    "applySearch": "Suche anwenden",
+    "clearSearch": "Suche löschen",
+    "closeAdvancedSearch": "Erweiterte Suche schließen",
+    "showTableFilter": "Tabellenfilter anzeigen"
   },
   "publisher": {
     "selectedAssets": "Ausgewählte Produkte",
@@ -489,5 +495,24 @@
     "startDate": "Startdatum",
     "endDate": "Enddatum"
   },
-  "retry": "Erneut versuchen"
+  "retry": "Erneut versuchen",
+  "filter": {
+    "select-all": "Alles auswählen",
+    "placeholder": {
+      "owner": "Eigentümer Filtern",
+      "importState": "Importstatus Filtern",
+      "businessPartner": "BPNL Filtern",
+      "nameAtManufacturer": "Produktnamen Filtern",
+      "manufacturerName": "Herstellernamen Filtern",
+      "id": "IDs Filtern",
+      "idShort": "Kurz-IDs Filtern",
+      "manufacturerPartId": "Hersteller Produktnummern Filtern",
+      "customerPartId": "Kunden Produktnummern Filtern",
+      "manufacturingCountry": "Produktionsland Filtern",
+      "manufacturingDate": "Produktionsdatum Filtern",
+      "semanticModelId": "Semantische Modellnummer Filtern",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum"
+    }
+  }
 }

@@ -26,6 +26,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
 
       <div class="right-icon-container">
+        <p><mat-slide-toggle labelPosition="before" [(ngModel)]="toggleTableFilter">{{'actions.showTableFilter'| i18n}}</mat-slide-toggle></p>
         <div class="action-button-tile-usersettings"
              matTooltip="{{'actions.userSettings'| i18n}}"
              matTooltipClass="table--header--tooltip"
@@ -33,7 +34,7 @@ SPDX-License-Identifier: Apache-2.0
              [class.mdc-tooltip--multiline]="true"
              [matTooltipShowDelay]="500">
           <app-button
-            iconName="settings"
+            iconName="table_chart"
             class="action-button-tile ml-2"
             (click)="openDialog()"
             (keydown)="handleKeyDownOpenDialog($event)"
@@ -47,7 +48,7 @@ SPDX-License-Identifier: Apache-2.0
              [class.mdc-tooltip--multiline]="true"
              [matTooltipShowDelay]="500">
           <app-button
-            iconName="crop_free"
+            [iconName]="isMaximized ? 'close_fullscreen' : 'open_in_full'"
             class="action-button-tile ml-2"
             (click)="maximizeClickedMethod()"
             (keydown)="handleKeyDownMaximizedClickedMethod($event)"
@@ -60,22 +61,19 @@ SPDX-License-Identifier: Apache-2.0
     <div class="table--selected__container">
       <div class="icon-container">
 
-        <div *ngIf="tableType === TableType.AS_BUILT_OWN" class="action-button-tile"
-             [matTooltip]="getTooltipText() | i18n"
-             matTooltipClass="table--header--tooltip"
-             matTooltipPosition="above"
-             [class.mdc-tooltip--multiline]="true"
-             [matTooltipShowDelay]="500"
-        >
-          <app-button
-            iconName="announcement"
-            class="action-button-tile"
-            [attr.data-testid]="'create-notification-button'"
-            [isDisabled]="isActionButtonDisabled()"
-            (click)="createQualityNotificationClicked()"
-            (keydown)="handleKeyDownQualityNotificationClicked($event)"
-          ></app-button>
-        </div>
+        <app-button
+          *ngIf="tableType === TableType.AS_BUILT_OWN"
+          iconName="announcement"
+          class="action-button-tile"
+          variant="flat"
+          color="primary"
+          [useWhiteText]="true"
+          [useGap]="true"
+          [attr.data-testid]="'create-notification-button'"
+          [isDisabled]="isActionButtonDisabled()"
+          (click)="createQualityNotificationClicked()"
+          (keydown)="handleKeyDownQualityNotificationClicked($event)"
+        > {{ 'actions.createNotification' | i18n }}</app-button>
 
 
         <div class="action-button-tile"
@@ -111,12 +109,41 @@ SPDX-License-Identifier: Apache-2.0
             (keydown)="handleKeyDownPartReloadIconClicked($event)"
           ></app-button>
         </div>
+        <div class="vertical-line"></div>
+
+        <div class="notification">
+          <app-button
+            [iconName]="toggleAdvancedFilter ? 'close' : 'filter_list'"
+            class="action-button-tile"
+            variant="button"
+            [useGap]="true"
+            [attr.data-testid]="'open-advanced-search-button'"
+            (click)="toggleAdvancedSearch()"
+            (keydown)="handleKeyDownToggleAdvancedSearch($event)"
+          >
+            {{ toggleAdvancedFilter ? ('actions.closeAdvancedSearch' | i18n) : ('actions.advancedSearch' | i18n) }}
+          </app-button>
+
+          <!-- Show badge only if there is at least one active filter -->
+          <span class="badge"
+                [ngClass]="{
+            'badge-normal': activeFiltersCount < 10,
+            'badge-big': activeFiltersCount >= 10,
+          }">
+            {{ activeFiltersCount }}
+          </span>
+        </div>
 
       </div>
       <div class="selected-text-container">
         <p *ngIf="selectedPartsInfoLabel"
            class="regular-text table&#45;&#45;selected&#45;&#45;label">{{ selectedPartsInfoLabel | i18n : {count: selection?.selected?.length || 0} }}</p>
       </div>
+    </div>
+    <hr class="filter-header-divider" />
+    <div class="advanced-filter-wrapper" [@advancedFilterExpand]="toggleAdvancedFilter ? 'expanded' : 'collapsed'">
+      <app-advanced-table-filter [tableType]="tableType"
+      ></app-advanced-table-filter>
     </div>
   </div>
 </div>
@@ -137,7 +164,8 @@ SPDX-License-Identifier: Apache-2.0
         data-testid="table-component--head-row"
         class="table--header--row"></tr>
 
-    <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <tr class="filter-row" mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" [@tableFilterExpand]="toggleTableFilter ? 'expanded' : 'collapsed'"></tr>
 
 
     <ng-container matColumnDef="{{ filter.headerKey }}"
@@ -453,6 +481,7 @@ SPDX-License-Identifier: Apache-2.0
                showFirstLastButtons
 >
 </mat-paginator>
+
 <ng-template #pureColumn>
   {{ pureColumn }}
 </ng-template>

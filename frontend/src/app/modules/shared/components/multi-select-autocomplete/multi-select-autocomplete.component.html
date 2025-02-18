@@ -47,11 +47,11 @@ SPDX-License-Identifier: Apache-2.0
 
     <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
     <ng-container *ngFor="let option of optionsSelected">
-      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
+      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
         {{ option.display }}
       </mat-option>
       <ng-template #i18nKeyDisplay>
-        <mat-option [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
+        <mat-option [disabled]="option.disabled" [value]="option.value">
           {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
         </mat-option>
       </ng-template>
@@ -60,11 +60,11 @@ SPDX-License-Identifier: Apache-2.0
     <mat-divider></mat-divider>
     <ng-container *ngIf="options?.length">
       <ng-container *ngFor="let option of options">
-        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
+        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
           {{ option.display }}
         </mat-option>
         <ng-template #i18nKeyDisplay>
-          <mat-option [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
+          <mat-option [disabled]="option.disabled" [value]="option.value">
             {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
           </mat-option>
         </ng-template>
@@ -97,7 +97,7 @@ SPDX-License-Identifier: Apache-2.0
              (dateChange)="endDateSelected($event)">
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker disabled="false">
+    <mat-date-range-picker #picker [disabled]="false">
       <mat-datepicker-actions>
         <button (click)="clickClear()" mat-button matDatepickerCancel>{{ 'datepicker.cancel' | i18n }}</button>
         <button (click)="dateFilter()" mat-raised-button color="primary"

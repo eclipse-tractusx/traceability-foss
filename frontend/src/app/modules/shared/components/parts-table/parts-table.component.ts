@@ -17,6 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
 import {
   Component,
@@ -59,14 +60,27 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
 import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
+import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
 import { DeeplinkService } from '@shared/service/deeplink.service';
 import { FilterService } from '@shared/service/filter.service';
 import { QuickfilterService } from '@shared/service/quickfilter.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
   styleUrls: [ 'parts-table.component.scss' ],
+  animations: [
+    trigger('tableFilterExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+    trigger('advancedFilterExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+    ]),
+  ],
 })
 export class PartsTableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
@@ -94,6 +108,10 @@ export class PartsTableComponent implements OnInit {
 
   preFilter: string;
   public tableConfig: TableConfig;
+  toggleTableFilter: boolean = true;
+  isMaximized = false;
+  toggleAdvancedFilter: boolean = false;
+  activeFiltersCount = 0;
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
@@ -167,7 +185,8 @@ export class PartsTableComponent implements OnInit {
     private readonly partsFacade: PartsFacade,
     private readonly toastService: ToastService,
     private readonly quickFilterService: QuickfilterService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private bomLifeCycleSettingsService: BomLifecycleSettingsService,
   ) {
     this.preFilter = this.route.snapshot.queryParams['contractId'];
   }
@@ -223,6 +242,7 @@ export class PartsTableComponent implements OnInit {
   }
 
   public maximizeClickedMethod(): void {
+    this.isMaximized = !this.isMaximized;
     this.maximizeClicked.emit(this.tableType);
   }
 
@@ -288,6 +308,16 @@ export class PartsTableComponent implements OnInit {
     }
   }
 
+  toggleAdvancedSearch() {
+    this.toggleAdvancedFilter = !this.toggleAdvancedFilter;
+  }
+
+  handleKeyDownToggleAdvancedSearch(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.toggleAdvancedFilter = !this.toggleAdvancedFilter;
+    }
+  }
+
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
 
@@ -344,9 +374,6 @@ export class PartsTableComponent implements OnInit {
       this.setupTableViewSettings();
     });
     this.setupTableViewSettings();
-    this.filterFormGroup.valueChanges.subscribe((formValues) => {
-      this.filterActivated.emit(formValues);
-    });
     this.selection.changed.subscribe((change: SelectionChange<Part>) => {
       // Handle selection change here
       if (this.isAllowedToCreateInvestigation()) {
@@ -370,7 +397,58 @@ export class PartsTableComponent implements OnInit {
       }
     });
 
+    this.filterService.filterState$
+      .pipe(
+        map(filterState =>
+          this.tableType === TableType.AS_BUILT_OWN
+            ? filterState.asBuilt
+            : filterState.asPlanned,
+        )
+      )
+      .subscribe(filterForThisTable => {
+        this.filterKeys.forEach(key => {
+          const value = filterForThisTable[key] ?? null;
+          this.filterFormGroup.get(key)?.setValue(value, { emitEvent: false });
+        });
+        this.activeFiltersCount = this.countActiveFilters(filterForThisTable);
+        this.filterActivated.emit(filterForThisTable);
+      });
 
+
+    this.bomLifeCycleSettingsService.settings$.subscribe((settings) => {
+      if (this.tableType === TableType.AS_BUILT_OWN) {
+        this.isMaximized = (settings.asBuiltSize === 100);
+      } else {
+        this.isMaximized = (settings.asPlannedSize === 100);
+      }
+    });
+  }
+
+  private countActiveFilters(filterObject: Record<string, any>): number {
+    if (!filterObject) {
+      return 0;
+    }
+
+    return Object.keys(filterObject).reduce((count, key) => {
+      const value = filterObject[key];
+
+      if (Array.isArray(value) && value.length > 0) {
+        return count + 1;
+      }
+
+      if (typeof value === 'string' && value.trim() !== '') {
+        return count + 1;
+      }
+
+      if (value && typeof value === 'object' && Object.keys(value).length > 0) {
+        return count + 1;
+      }
+      if (value && typeof value !== 'object') {
+        return count + 1;
+      }
+
+      return count;
+    }, 0);
   }
 
 

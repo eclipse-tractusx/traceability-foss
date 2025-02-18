@@ -79,7 +79,13 @@
     "viewNotificationsTooltip" : "View notification using this contract",
     "notificationInProgress" : "Notification is currently in processing state",
     "deletePartMessageSuccess" : "Deleted part successfully",
-    "deletePartMessageError" : "Failed to delete part"
+    "deletePartMessageError" : "Failed to delete part",
+    "advancedSearch": "Advanced search",
+    "createNotification": "Create notification",
+    "applySearch": "Apply search",
+    "clearSearch": "Clear search",
+    "closeAdvancedSearch": "Close Advanced Search",
+    "showTableFilter": "Show filter in table"
   },
   "publisher": {
     "selectedAssets": "Assets selected",
@@ -487,5 +493,24 @@
     "startDate": "Start Date",
     "endDate": "End Date"
   },
-  "retry": "Try again"
+  "retry": "Try again",
+  "filter": {
+    "select-all": "Select all",
+    "placeholder": {
+      "owner": "Filter part ownership",
+      "importState": "Filter import state",
+      "businessPartner": "Filter for BPNL",
+      "nameAtManufacturer": "Filter part name",
+      "manufacturerName": "Filter manufacturer name",
+      "id": "Filter for IDs",
+      "idShort": "Filter for short IDs",
+      "manufacturerPartId": "Filter for manufacturer part IDs",
+      "customerPartId": "Filter for customer part IDs",
+      "manufacturingCountry": "Filter production country",
+      "manufacturingDate": "Filter production date",
+      "semanticModelId": "Filter semantic model IDs",
+      "startDate": "Start date",
+      "endDate": "End date"
+    }
+  }
 }
