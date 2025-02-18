@@ -98,6 +98,10 @@ spec:
               value: {{ .Values.traceability.rightOperandSecond | quote }}
             - name: TRACEABILITY_VALID_UNTIL
               value: {{ .Values.traceability.validUntil | quote }}
+            - name: TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION
+              value: {{ .Values.traceability.enableApiKeyAuthentication | default "false" | quote }}
+            - name: TRACEABILITY_ADMIN_KEY
+              value: {{ .Values.traceability.tracexAdminKey | quote }}
             - name: OAUTH2_CLIENT_ID
               value: {{ .Values.oauth2.clientId | quote }}
             - name: OAUTH2_CLIENT_SECRET
