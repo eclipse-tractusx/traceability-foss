@@ -358,6 +358,17 @@ describe('PartsTableComponent', () => {
     expect(emitPartReloadSpy).toHaveBeenCalledWith(PartReloadOperation.SYNC_PARTS_AS_PLANNED);
   });
 
+  it('should emit selected event when row is double clicked', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+    spyOn(componentInstance.selected, 'emit');
+    const mockRow = { id: 1, name: 'Test' };
+
+    componentInstance.onRowDoubleClick(mockRow);
+
+    expect(componentInstance.selected.emit).toHaveBeenCalledWith(mockRow);
+  });
+
   it('should delete AS_PLANNED part successfully', async () => {
     const { componentInstance, partsFacadeMock, toastServiceMock } = await renderPartsTableComponentWithMocks(
       1,

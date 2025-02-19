@@ -285,4 +285,36 @@ describe('TableComponent', () => {
     );
     expect(screen.getAllByText('more_vert').length).toBe(tableSize);
   });
+
+  it('should navigate to detail page on double click', async () => {
+    const tableSize = 3;
+    const content = generateTableContent(tableSize);
+    const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
+
+    const tableConfig: TableConfig = {
+      displayedColumns: [ 'select', 'name' ],
+      header: { name: 'Name Sort' },
+      sortableColumns: { select: true, name: true },
+    };
+
+    const selected = jasmine.createSpy();
+    const component = await renderComponent(
+      `<app-table [paginationData]='data' [tableConfig]='tableConfig' (selected)='selected($event)'></app-table>`,
+      {
+        declarations: [ TableComponent ],
+        imports: [ SharedModule ],
+        componentProperties: {
+          data,
+          tableConfig,
+          selected,
+        },
+      },
+    );
+    const firstRow = screen.getAllByTestId('table-component--body-row')[0];
+
+    fireEvent.dblClick(firstRow);
+
+    expect(selected).toHaveBeenCalledWith(content[0]);
+  });
+
 });

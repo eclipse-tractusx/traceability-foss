@@ -251,7 +251,6 @@ export class PartsTableComponent implements OnInit {
   }
 
 
-
   selectionContainsCustomerPart(): boolean {
     const selected = this.selection.selected as Part[];
     return selected.some(part => part.owner === Owner.CUSTOMER);
@@ -523,6 +522,10 @@ export class PartsTableComponent implements OnInit {
   public clearAllRows(): void {
     this.selection.clear();
     this.emitMultiSelect();
+  }
+
+  public onRowDoubleClick(row: Record<string, unknown>) {
+    this.selected.emit(row);
   }
 
   public deleteItem(data: Part) {

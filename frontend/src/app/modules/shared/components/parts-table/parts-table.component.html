@@ -196,6 +196,7 @@ SPDX-License-Identifier: Apache-2.0
       [ngClass]="{'highlighted': (row?.receivedActiveInvestigations?.length > 0 || row?.receivedActiveAlerts?.length > 0 || row?.sentActiveAlerts?.length > 0 || row?.sentActiveInvestigations?.length > 0), 'error': row?.errorMessage }"
       mat-row
       data-testid="table-component--body-row"
+      (dblclick)="onRowDoubleClick(row)"
     ></tr>
 
     <tr *matNoDataRow class="mat-row no-hover" data-testid="table-component--body-row">
