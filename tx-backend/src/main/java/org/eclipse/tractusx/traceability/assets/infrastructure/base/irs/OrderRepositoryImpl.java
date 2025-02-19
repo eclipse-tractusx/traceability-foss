@@ -22,8 +22,10 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.edc.spi.types.domain.asset.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.PartChainIdentificationKey;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterOrderRequest;
@@ -123,7 +125,9 @@ public class OrderRepositoryImpl implements OrderRepository {
             log.debug("Processing job with ID: {} for orderId: {}, batchId: {}.", jobRecord.id(), sanitize(orderId), sanitize(batchId));
             IRSResponse irsJobDetailResponse = jobClient.getIrsJobDetailResponse(jobRecord.id());
             List<AssetBase> assets = assetMapperFactory.toAssetBaseList(irsJobDetailResponse);
+
             assets.forEach(assetBase -> {
+                restoreTombstoneBPN(assetBase);
                 if (assetBase.getBomLifecycle() == AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
                 } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
@@ -132,6 +136,18 @@ public class OrderRepositoryImpl implements OrderRepository {
             });
         });
 
+    }
+
+    void restoreTombstoneBPN(AssetBase assetBase){
+        if (assetBase.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASBUILT)){
+        assetAsBuiltCallbackRepository
+                .findById(assetBase.getId())
+                .ifPresent(oldAsset -> assetBase.setManufacturerId(oldAsset.getManufacturerId()));
+        } else if (assetBase.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASPLANNED)){
+            assetAsPlannedCallbackRepository
+                    .findById(assetBase.getId())
+                    .ifPresent(oldAsset -> assetBase.setManufacturerId(oldAsset.getManufacturerId()));
+        }
     }
 
     void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {

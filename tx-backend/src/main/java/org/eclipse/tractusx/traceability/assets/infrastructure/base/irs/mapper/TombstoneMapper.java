@@ -54,6 +54,9 @@ public class TombstoneMapper {
         } catch (JsonProcessingException e) {
             log.error("Could not process tombstone from IRS", e);
         }
+
+
+
         return AssetBase.builder()
                 .id(tombstone.getCatenaXId())
                 .tombstone(tombstoneString)
