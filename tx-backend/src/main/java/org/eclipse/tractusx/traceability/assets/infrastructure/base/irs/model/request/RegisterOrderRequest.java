@@ -37,7 +37,7 @@ public record RegisterOrderRequest(
         int timeout
 ) {
     public static RegisterOrderRequest buildOrderRequest(List<String> aspects, BomLifecycle bomLifecycle, String callbackUrl, Direction direction, List<PartChainIdentificationKey> keys) {
-        return new RegisterOrderRequest(aspects, DEFAULT_BATCH_SIZE, DEFAULT_BATCH_STRATEGY, bomLifecycle, callbackUrl, DEFAULT_COLLECT_ASPECTS, DEFAULT_DEPTH, direction, DEFAULT_JOB_TIMEOUT, keys, DEFAULT_TIMEOUT);
+        return new RegisterOrderRequest(aspects, DEFAULT_BATCH_SIZE, DEFAULT_BATCH_STRATEGY, bomLifecycle, callbackUrl + "/api/irs/order/callback", DEFAULT_COLLECT_ASPECTS, DEFAULT_DEPTH, direction, DEFAULT_JOB_TIMEOUT, keys, DEFAULT_TIMEOUT);
     }
 
     public static final int DEFAULT_DEPTH = 2;
