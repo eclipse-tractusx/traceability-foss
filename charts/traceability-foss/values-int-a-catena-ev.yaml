@@ -76,7 +76,8 @@ configuration:
     name: &irs_name 'tx-irs-int-a'
     hostName: &irs_host_name "tx-irs-int-a.int.catena-x.net"
     url: &irs_url 'https://tx-irs-int-a.int.catena-x.net'
-    negotiationCallbackurl: &irsNegotiationCallbackurl 'https://tx-irs-int-a.int.catena-x.net/internal/negotiation-callback'
+    negotiationCallbackurl: &irsNegotiationCallbackurl 'https://tx-irs-int-a:8181/internal/negotiation-callback'
+    callbackurl: &irsCallbackurl 'https://tx-irs-int-a:8181/internal/endpoint-data-reference'
 
     irsDatabase:
       name: &irs_database_name 'tx-irs-minio-int-a'
@@ -398,6 +399,7 @@ item-relationship-service:
     orchestration:
       threadPoolSize: 5
     negotiationCallbackurl: *irsNegotiationCallbackurl
+    callbackurl: *irsCallbackurl
     controlplane:
       edrManagementEnabled: true
       endpoint:
