@@ -403,7 +403,7 @@ item-relationship-service:
       endpoint:
         data: *edc_controlplane_management_url
         catalog: /v3/catalog/request
-        edrManagement: /v3/edrs
+        edrManagement: /v2/edrs
         contractnegotiation: /v3/contractnegotiations
         transferprocess: /v3/transferprocesses
         contractAgreements: /v3/contractagreements
