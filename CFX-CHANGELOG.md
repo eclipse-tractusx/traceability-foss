@@ -27,6 +27,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - TRACEX-357 Add concept for BPDM Lookup Handling in UI and regarding Updates of BPDM information
 - TRACEX-420 functionality to Sync child/supplier parts for Admin
 - TRACEX-203 Added concept for aas lookup
+- TRACEX-394 add double click listener to open detail view
 
 ### Changed
 
