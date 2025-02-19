@@ -17,6 +17,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ### Removed
 
 - Remove unused vulnerable dependency commons-fileupload to fix CVE-2024-47554
+- TRACEX-463 remove callbacks path parameters templates
 
 ## [13.0.2-cfx-13]
 
