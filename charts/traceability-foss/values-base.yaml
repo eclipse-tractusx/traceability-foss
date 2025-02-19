@@ -348,6 +348,7 @@ item-relationship-service:
 
   edc:
     callbackurl: 'CHANGE_ME'
+    negotiationCallbackurl: 'CHANGE_ME'
     catalog:
       catalog:
         acceptedPolicies: >
