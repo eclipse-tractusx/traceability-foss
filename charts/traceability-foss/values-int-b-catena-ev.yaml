@@ -74,8 +74,8 @@ configuration:
     name: &irs_name 'tx-irs-int-b'
     hostName: &irs_host_name "tx-irs-int-b.int.catena-x.net"
     url: &irs_url 'https://tx-irs-int-b.int.catena-x.net'
-    negotiationCallbackurl: &irsNegotiationCallbackurl 'https://tx-irs-int-b:8181/internal/negotiation-callback'
-    callbackurl: &irsCallbackurl 'https://tx-irs-int-b:8181/internal/endpoint-data-reference'
+    negotiationCallbackurl: &irsNegotiationCallbackurl 'http://tx-irs-int-b:8181/internal/negotiation-callback'
+    callbackurl: &irsCallbackurl 'http://tx-irs-int-b:8181/internal/endpoint-data-reference'
     irsDatabase:
       name: &irs_database_name 'tx-irs-minio-int-b'
       username: &irs_database_username <path:traceability-foss/data/int-b/irs#MINIO_USER>
