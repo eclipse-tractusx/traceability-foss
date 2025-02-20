@@ -35,15 +35,21 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Slf4j
 public class MapperHelper {
 
-    public static Owner getOwner(AssetBase assetBase, IRSResponse irsResponse) {
+    public static Owner getOwner(AssetBase assetBase, IRSResponse irsResponse, String applicationBpn) {
+        String bomLifecycle = irsResponse.jobStatus().parameter().bomLifecycle();
+        String direction = irsResponse.jobStatus().parameter().direction();
         boolean isOwn = assetBase.getId().equals(irsResponse.jobStatus().globalAssetId());
-        if (isOwn) {
-            return Owner.OWN;
-        } else if (irsResponse.jobStatus().parameter().direction().equalsIgnoreCase(Direction.DOWNWARD.name())) {
-            return Owner.SUPPLIER;
-        } else {
-            return Owner.CUSTOMER;
+        if ("asBuilt".equalsIgnoreCase(bomLifecycle)) {
+            if (Objects.equals(assetBase.getManufacturerId(), applicationBpn)) {
+                return Owner.OWN;
+            }
         }
+        else if ("asPlanned".equalsIgnoreCase(bomLifecycle)) {
+            if (isOwn) {
+                return Owner.OWN;
+            }
+        }
+        return direction.equalsIgnoreCase(Direction.DOWNWARD.name()) ? Owner.SUPPLIER : Owner.CUSTOMER;
     }
 
     public static Owner getOwner(AssetBase assetBase, TraceabilityProperties traceabilityProperties) {

@@ -64,9 +64,9 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
 
     private static Stream<Arguments> owners() {
         return Stream.of(
-                arguments("OWN", 1),
+                arguments("OWN", 2),
                 arguments("CUSTOMER", 0),
-                arguments("SUPPLIER", 12),
+                arguments("SUPPLIER", 11),
                 arguments("UNKNOWN", 0));
     }
 
@@ -101,7 +101,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(12));
+                .body("totalItems", equalTo(11));
     }
 
     @Test
@@ -118,7 +118,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(1));
+                .body("totalItems", equalTo(2));
     }
 
     @Test

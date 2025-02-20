@@ -75,7 +75,7 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         Long result = repository.countPartsByStatusAndOwnershipAndTypeAndNotificationType(List.of(NotificationStatus.RECEIVED), Owner.SUPPLIER, NotificationType.ALERT);
 
         // Then
-        assertThat(result).isEqualTo(12);
+        assertThat(result).isEqualTo(11);
     }
 
     @Test
@@ -98,6 +98,6 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         long result = repository.countPartsByStatusAndOwnershipAndTypeAndNotificationType(List.of(NotificationStatus.SENT), Owner.OWN,NotificationType.ALERT);
 
         // Then
-        assertThat(result).isEqualTo(1);
+        assertThat(result).isEqualTo(2);
     }
 }

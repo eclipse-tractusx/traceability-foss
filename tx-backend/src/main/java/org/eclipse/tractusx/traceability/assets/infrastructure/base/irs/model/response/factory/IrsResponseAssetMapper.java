@@ -31,6 +31,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.SubmodelMapper;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
@@ -57,6 +58,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
     private final AssetBaseMapperProvider assetBaseMapperProvider;
     private final ObjectMapper objectMapper;
     private final BpnService bpnService;
+    private final TraceabilityProperties traceabilityProperties;
 
 
     @Override
@@ -76,7 +78,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
                     Optional<SubmodelMapper> mapper = assetBaseMapperProvider.getMainSubmodelMapper(irsSubmodel);
                     if (mapper.isPresent()) {
                         AssetBase assetBase = mapper.get().extractSubmodel(irsSubmodel);
-                        assetBase.setOwner(getOwner(assetBase, irsResponse));
+                        assetBase.setOwner(getOwner(assetBase, irsResponse, traceabilityProperties.getBpn().toString()));
                         assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setLatestContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setManufacturerId(getManufacturerId(irsResponse, assetBase));

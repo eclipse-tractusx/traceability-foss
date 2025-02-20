@@ -1,6 +1,6 @@
 {
   "name": "trace-x",
-  "version": "14.0.1",
+  "version": "13.0.2",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
     "build:prod": "ng build --output-hashing=all --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/ ",
@@ -129,10 +129,8 @@
   },
   "resolutions": {
     "@angular-devkit/build-angular": "16.2.12",
-    "cross-spawn": "^7.0.5",
-    "webpack-dev-middleware": "6.1.2",
-    "http-proxy-middleware": "^2.0.7",
-    "semver": "^7.5.2"
+    "path-to-regexp": "^0.1.12",
+    "cross-spawn": "^7.0.5"
   },
   "msw": {
     "workerDirectory": "src"
