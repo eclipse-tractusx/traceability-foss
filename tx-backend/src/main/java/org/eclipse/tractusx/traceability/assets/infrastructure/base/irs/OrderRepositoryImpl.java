@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.edc.spi.types.domain.asset.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.PartChainIdentificationKey;
@@ -137,7 +138,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             List<AssetBase> assets = assetMapperFactory.toAssetBaseList(irsJobDetailResponse);
 
             assets.forEach(assetBase -> {
-                restoreTombstoneBPN(assetBase);
+                addTombstoneDetails(assetBase);
                 if (assetBase.getBomLifecycle() == AS_BUILT) {
                     saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
                 } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
@@ -148,15 +149,25 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     }
 
-    void restoreTombstoneBPN(AssetBase assetBase){
-        if (assetBase.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASBUILT)){
-        assetAsBuiltCallbackRepository
-                .findById(assetBase.getId())
-                .ifPresent(oldAsset -> assetBase.setManufacturerId(oldAsset.getManufacturerId()));
-        } else if (assetBase.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASPLANNED)){
+    void addTombstoneDetails(AssetBase tombstone) {
+        if (tombstone.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASBUILT)) {
+            assetAsBuiltCallbackRepository
+                    .findById(tombstone.getId())
+                    .ifPresent(oldAsset -> {
+                        tombstone.setManufacturerId(oldAsset.getManufacturerId());
+                        if (oldAsset.getOwner() != null && tombstone.getOwner() == Owner.UNKNOWN) {
+                            tombstone.setOwner(oldAsset.getOwner());
+                        }
+                    });
+        } else if (tombstone.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASPLANNED)) {
             assetAsPlannedCallbackRepository
-                    .findById(assetBase.getId())
-                    .ifPresent(oldAsset -> assetBase.setManufacturerId(oldAsset.getManufacturerId()));
+                    .findById(tombstone.getId())
+                    .ifPresent(oldAsset -> {
+                        tombstone.setManufacturerId(oldAsset.getManufacturerId());
+                        if (oldAsset.getOwner() != null && tombstone.getOwner() == Owner.UNKNOWN) {
+                            tombstone.setOwner(oldAsset.getOwner());
+                        }
+                    });
         }
     }
 

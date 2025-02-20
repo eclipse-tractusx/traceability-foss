@@ -66,7 +66,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
         List<DetailAspectModel> tractionBatteryCode = MapperHelper.extractTractionBatteryCode(irsResponse.submodels(), irsResponse.jobStatus().globalAssetId(), assetBaseMapperProvider);
         List<DetailAspectModel> partSiteInformationAsPlanned = MapperHelper.extractPartSiteInformationAsPlanned(irsResponse.submodels(), assetBaseMapperProvider);
-        List<AssetBase> tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper);
+        List<AssetBase> tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper, traceabilityProperties.getBpn().value() );
         if (tombstones != null) {
             log.info("Found {} tombstones", tombstones.size());
         }
