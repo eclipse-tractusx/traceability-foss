@@ -294,7 +294,7 @@
     "remove": "Remove selection",
     "add": "Add selection",
     "modifyNotAllowed": "Requires at least one selection in the parts table.",
-    "invalidOwnerSelection": "Only OWN parts are allowed in the As-Planned table.",
+    "invalidOwnerSelection": "Only OWN parts are allowed to sync within the As-Planned BOM lifecycle.",
     "modifyAffectedNotAllowed" : "Requires at least one selection in the affected parts table.",
     "modifyAvailableNotAllowed" : "Requires at least one selection in the available parts table.",
     "textAreaDescription" : "Describe the issue.",

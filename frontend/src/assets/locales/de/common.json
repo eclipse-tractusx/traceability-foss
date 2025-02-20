@@ -295,6 +295,7 @@
     "remove": "Auswahl entfernen",
     "add": "Auswahl hinzufügen",
     "modifyNotAllowed": "Erfordert mindestens eine Selektion innerhalb der Tabelle",
+    "invalidOwnerSelection": "Nur eigene Teile können im As-Planned BOM synchronisiert werden.",
     "modifyAffectedNotAllowed" : "Erfordert mindestens eine Selektion in der Tabelle für betroffene Teile.",
     "modifyAvailableNotAllowed" : "Erfordert mindestens eine Selektion in der Tabelle für verfügbare Teile.",
     "textAreaDescription": "Beschreiben Sie das Problem.",
