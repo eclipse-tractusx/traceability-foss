@@ -15,6 +15,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #XXX Added flag to enable OAuth authorized DTR requests
 - #222 Remove null check for manufacturerName in findByBpn
 - #221 Restricted Supervisor role from modifying policies
+- #239 Fixed correct owner assignment after supplier sync
 - #XXX Tombstones will still have the bpn value
 
 ### Changed

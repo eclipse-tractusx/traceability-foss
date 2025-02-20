@@ -96,15 +96,16 @@ SPDX-License-Identifier: Apache-2.0
         </div>
 
         <div class="action-button-tile"
-             matTooltip="{{(isAdmin() ? (atLeastOneSelected() ? 'routing.syncSelectedParts' :'routing.refreshAllParts') : 'routing.unauthorized') | i18n}}"
+             matTooltip="{{ !isAdmin() ? 'routing.unauthorized' : (!isValidOwnerSelection() ? 'requestNotification.invalidOwnerSelection' : 'routing.syncSelectedParts' ) | i18n }}"
              matTooltipClass="table--header--tooltip"
              matTooltipPosition="above"
              [class.mdc-tooltip--multiline]="true"
-             [matTooltipShowDelay]="500">
+             [matTooltipShowDelay]="500"
+             [matTooltipDisabled]="isAdmin() && isValidOwnerSelection()">
           <app-button
             iconName="published_with_changes"
             class="action-button-tile"
-            [isDisabled]="!isAdmin()"
+            [isDisabled]="!isAdmin() || !isValidOwnerSelection()"
             (click)="partReloadIconClicked()"
             (keydown)="handleKeyDownPartReloadIconClicked($event)"
           ></app-button>

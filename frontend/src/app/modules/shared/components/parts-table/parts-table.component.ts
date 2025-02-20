@@ -250,6 +250,14 @@ export class PartsTableComponent implements OnInit {
     return this.selection.selected?.length > 0;
   }
 
+  isValidOwnerSelection(): boolean {
+    const selected = this.selection.selected as Part[];
+    if (this.tableType === TableType.AS_PLANNED_OWN) {
+      return selected.length > 0 && selected.every(part => part.owner === Owner.OWN);
+    }
+    return true;
+  }
+  
 
   selectionContainsCustomerPart(): boolean {
     const selected = this.selection.selected as Part[];

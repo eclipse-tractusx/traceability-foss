@@ -117,7 +117,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(1));
+                .body("size()", is(2));
     }
 
     @Test
@@ -250,7 +250,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(12));
+                .body("size()", is(11));
     }
 
     @Test
@@ -302,7 +302,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(2));
+                .body("size()", is(1));
     }
 
     private static Stream<Arguments> fieldNameTestProvider() {

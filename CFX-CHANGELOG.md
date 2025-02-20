@@ -40,6 +40,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - Bump springdoc-openapi-starter-webmvc-ui to 2.8.3 to fix CVE-2024-45801, CVE-2024-47875, CVE-2024-48910
 - TRACEX-384  Remove null check for manufacturerName in findByBpn
 - TRACEX-278 Enable nginx forward proxy for cfx-frontend
+- TRACEX-493 Fixed correct owner assignment after supplier sync
 
 ## [13.0.2-cfx-9 - 09.01.2025]
 
