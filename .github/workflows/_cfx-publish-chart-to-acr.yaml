@@ -1,0 +1,34 @@
+name: '[CFX] Lint and publish Helm chart to Azure container registry'
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - charts/traceability-foss/**
+      - .github/workflows/_cfx-publish-chart-to-acr.yaml
+  push:
+    branches: [ main ]
+    paths:
+      - charts/traceability-foss/**
+      - .github/workflows/_cfx-publish-chart-to-acr.yaml
+
+jobs:
+  publish-portal-chart-to-registry:
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+
+    name: Lint, package, and publish helm chart
+    uses: Cofinity-X/central-pipelines/.github/workflows/reusable-publish-chart-to-acr.yaml@f0bb8858ee1a26f0578088c6f5841bf17134dedf
+    with:
+      team_name: trace-x
+      repository_name: traceability-foss
+      service_name: traceability-foss
+      environment: lower-env-acr
+      push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

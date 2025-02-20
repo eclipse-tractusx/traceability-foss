@@ -13,6 +13,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 - TRACEX-516 Remove supervisor role from admin endpoints
 - Bump irs-registry-client to 2.1.25 to fix CVE-2024-7254
+- TRACEX-471 Add pipeline for publishing Helm charts
 
 ### Removed
 
