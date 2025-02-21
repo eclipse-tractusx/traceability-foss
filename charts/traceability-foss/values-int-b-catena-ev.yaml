@@ -199,6 +199,7 @@ backend:
     internalUrl: *be_url_internal
     technicalServiceApiKey: *technical_service_api_key
     tracexAdminKey: *tracexAdminKey
+    discoveryType: bpn
 
   provisioning:
     submodel:
