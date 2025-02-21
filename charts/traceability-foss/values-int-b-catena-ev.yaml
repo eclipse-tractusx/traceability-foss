@@ -34,9 +34,9 @@ configuration:
     hostName: &be_host_name 'traceability-int-b.int.catena-x.net'
     # -- backend host with https://
     url: &be_url 'https://traceability-int-b.int.catena-x.net'
-    internalUrl: &be_url_internal 'http://tx-backend-int-b:8181'
+    internalUrl: &be_url_internal 'http://tx-backend-int-b:8080'
     edcClient:
-      callbackUrl: &backend_edc_client_callback_url 'http://tx-backend-int-b:8181/api/internal/endpoint-data-reference'
+      callbackUrl: &backend_edc_client_callback_url 'http://tx-backend-int-b:8080/api/internal/endpoint-data-reference'
     backendDatabase:
       url: &backend_database_url 'jdbc:postgresql://tx-backend-postgresql-int-b:5432/trace'
       name: &backend_database_name 'tx-backend-postgresql-int-b'
