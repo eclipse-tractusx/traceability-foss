@@ -11,6 +11,12 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ### Changed
 
+### Removed
+
+## [14.0.0-cfx-1]
+
+### Changed
+
 - TRACEX-528 upgrade keycloak libs for keycloak 25 compatibility
 - TRACEX-516 Remove supervisor role from admin endpoints
 - Bump irs-registry-client to 2.1.25 to fix CVE-2024-7254
