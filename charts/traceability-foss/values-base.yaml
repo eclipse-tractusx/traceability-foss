@@ -197,7 +197,7 @@ backend:
   config:
     allowedCorsOriginFirst: "http://localhost:4200/"
     allowedCorsOriginSecond: 'CHANGE_ME'
-    trustedPort: 8181
+
 
   irsAdminApiKey: &irs_admin_api_key <path:traceability-foss/data/dev/irs#API_KEY_ADMIN>
   irsRegularApiKey: &irs_regular_api_key <path:traceability-foss/data/dev/irs#API_KEY_REGULAR>
