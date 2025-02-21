@@ -134,6 +134,11 @@ management:
   server:
     port: 8081
 
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
 spring:
   jpa:
     show-sql: false

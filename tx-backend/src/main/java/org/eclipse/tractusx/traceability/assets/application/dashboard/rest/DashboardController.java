@@ -41,7 +41,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Tag(name = "Dashboard")
 @RequestMapping(path = "/dashboard", produces = "application/json")
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @RequiredArgsConstructor
 public class DashboardController {
 
