@@ -32,6 +32,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,14 +43,17 @@ public class JwtAuthenticationTokenConverter implements Converter<Jwt, AbstractA
     private final JwtGrantedAuthoritiesConverter defaultGrantedAuthoritiesConverter;
 
     public JwtAuthenticationTokenConverter(String resourceClient) {
+        log.info("Initializing JwtAuthenticationTokenConverter for resource client {}", resourceClient);
         this.resourceClient = resourceClient;
         this.defaultGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
     }
 
     private static Collection<? extends GrantedAuthority> extractRoles(final Jwt jwt, final String resourceId) {
-        return JwtRolesExtractor.extract(jwt, resourceId).stream().map(Enum::name)
+        Set<SimpleGrantedAuthority> collect = JwtRolesExtractor.extract(jwt, resourceId).stream().map(Enum::name)
                 .map(it -> new SimpleGrantedAuthority("ROLE_%s".formatted(it)))
                 .collect(Collectors.toSet());
+        log.info("Granted authorities: {}", collect);
+        return collect;
     }
 
     @Override
