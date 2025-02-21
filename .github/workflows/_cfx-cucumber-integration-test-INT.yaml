@@ -1,0 +1,119 @@
+name: '[CFX] Trace-X Cucumber Integration Test execution with Xray'
+
+on:
+  workflow_dispatch: # Trigger manually
+    inputs:
+      executionFilter:
+        description: 'Execution filter'
+        required: false
+        default: '!Ignore& !INACTIVE & TRACE-X & INT & cucumber_test'
+      exportFilter:
+        description: 'Jira export filter'
+        required: false
+        default: '10433'
+
+jobs:
+  build:
+    runs-on: [ self-hosted, linux ]
+    container:
+      image: maven:3-eclipse-temurin-21
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Download Feature Files
+        id: download
+        env:
+          JIRA_USERNAME: ${{ secrets.TRACEX_XRAY_JIRA_USER }}
+          JIRA_PASSWORD: ${{ secrets.TRACEX_XRAY_JIRA_SECRET }}
+          EXPORT_FILTER: ${{ inputs.exportFilter }}
+          # Downloads all TRACE-X feature files of cucumber tests
+        run: |
+          token=$(curl -H "Content-Type: application/json" -X POST \
+          --data "{ \"client_id\": \"$JIRA_USERNAME\",\"client_secret\": \"$JIRA_PASSWORD\" }" \
+          https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
+
+          export HTTP_RESULT=$(curl -s --show-error -w "%{http_code}" --header "Authorization: Bearer $token" \
+          "https://xray.cloud.getxray.app/api/v2/export/cucumber?filter=$EXPORT_FILTER&fz=true" \
+          -o tx-cucumber-tests/src/test/resources/features/features.zip)
+
+          echo "http_response=$HTTP_RESULT" >> $GITHUB_OUTPUT
+
+      - name: Extract feature files
+        if: ${{ steps.download.outputs.http_response == '200' }}
+        working-directory: tx-cucumber-tests/src/test/resources/features/
+        run: |
+          jar xf features.zip
+          rm features.zip
+
+      - name: Run Tests with Maven
+        if: ${{ steps.download.outputs.http_response == '200' }}
+        env:
+          REGULAR_USER_API_KEY: ${{ secrets.INT_REGULAR_USER_API_KEY }}
+          ADMIN_USER_API_KEY: ${{ secrets.INT_ADMIN_USER_API_KEY }}
+          ISSUE_FILTER: ${{ inputs.executionFilter }}
+        run: |
+          mvn clean verify -P cucumber -Dgroups="$ISSUE_FILTER" -Dcucumber.publish.enabled=false -pl tx-cucumber-tests -am --batch-mode 2> tx-cucumber-tests/report-banner.txt
+
+      - name: Submit results to Xray
+        if: ${{ always() && steps.download.outputs.http_response == '200' }}
+        env:
+          JIRA_USERNAME: ${{ secrets.TRACEX_XRAY_JIRA_USER }}
+          JIRA_PASSWORD: ${{ secrets.TRACEX_XRAY_JIRA_SECRET }}
+        run: |
+          token=$(curl -H "Content-Type: application/json" -X POST \
+          --data "{ \"client_id\": \"$JIRA_USERNAME\",\"client_secret\": \"$JIRA_PASSWORD\" }" \
+          https://xray.cloud.getxray.app/api/v2/authenticate | tr -d '"')
+
+          curl --request POST \
+          --header 'Content-Type: application/json' \
+          --header "Authorization: Bearer $token" \
+          --data-binary '@tx-cucumber-tests/target/report.json' \
+          "https://xray.cloud.getxray.app/api/v2/import/execution/cucumber"
+
+      - name: Get Cucumber Report
+        if: always()
+        id: get-cucumber-report
+        run: |
+          if [ -s file.txt ]; then
+            grep -E "^│.*│$" tx-cucumber-tests/report-banner.txt > tx-cucumber-tests/cucumber-report.txt
+            sed -i 's/│//g' tx-cucumber-tests/cucumber-report.txt
+            cat tx-cucumber-tests/cucumber-report.txt
+            cat tx-cucumber-tests/cucumber-report.txt >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Find previous comment in PR
+        if: always() && github.event_name == 'pull_request'
+        uses: peter-evans/find-comment@v3
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: 'View your Cucumber Report at'
+
+      - name: Create or update comment in PR
+        if: always() && github.event_name == 'pull_request'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-path: 'tx-cucumber-tests/cucumber-report.txt'
+          edit-mode: replace
+
+      - name: Upload Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          path: 'tx-cucumber-tests/target/report.html'
