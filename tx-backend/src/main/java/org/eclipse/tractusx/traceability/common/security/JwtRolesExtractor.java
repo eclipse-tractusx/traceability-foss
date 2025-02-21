@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.common.security;
 
 import com.nimbusds.jose.shaded.gson.internal.LinkedTreeMap;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.ArrayList;
@@ -30,23 +31,25 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Slf4j
 class JwtRolesExtractor {
 
     private static final String RESOURCE_ACCESS = "resource_access";
     private static final String ROLES = "roles";
 
     private JwtRolesExtractor() {
+
     }
 
     static Set<JwtRole> extract(Jwt jwtToken, String resourceClient) {
+      log.info("Extracting roles for resource client {}", resourceClient);
         Object resourceAccess = Optional.ofNullable(jwtToken.getClaimAsMap(RESOURCE_ACCESS))
                 .flatMap(it -> Optional.ofNullable(it.get(resourceClient)))
                 .orElse(null);
-
+        log.info("Resource access: {}", resourceAccess);
         if (resourceAccess instanceof LinkedTreeMap<?, ?> resourceAccessCasted) {
             Object roles = resourceAccessCasted.get(ROLES);
-
+log.info("Roles: {}", roles);
             if (roles instanceof ArrayList<?> arrayList) {
                 return arrayList.stream()
                         .map(JwtRolesExtractor::castStringOrNull)

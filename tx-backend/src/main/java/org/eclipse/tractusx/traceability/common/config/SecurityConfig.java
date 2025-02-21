@@ -101,6 +101,7 @@ public class SecurityConfig {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource(@Value("${cors.origins}") List<String> origins) {
+        log.info("Registering CORS filter with origins: {}", origins);
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(origins);
         configuration.setAllowedMethods(List.of("*"));

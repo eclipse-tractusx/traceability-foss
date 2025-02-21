@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -34,6 +35,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class JwtAuthenticationTokenConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
     private final String resourceClient;
@@ -56,7 +58,7 @@ public class JwtAuthenticationTokenConverter implements Converter<Jwt, AbstractA
         Collection<GrantedAuthority> authorities =
                 Stream.concat((grantedAuthorities != null ? grantedAuthorities.stream() : Stream.empty()), extractRoles(source, resourceClient).stream()
                 ).collect(Collectors.toSet());
-
+        log.info("Authorities: {}", authorities);
         return new JwtAuthenticationToken(source, authorities);
     }
 }
