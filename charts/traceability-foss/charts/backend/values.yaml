@@ -139,7 +139,7 @@ traceability:
   operatorType: "CHANGEME" #<traceability.operatorType>
   rightOperand: "CHANGEME" #<traceability.rightOperand>
   validUntil: "CHANGEME" #<traceability.validUntil>
-  discoveryType: "bpnl"  # discovery type to find bpnl type in EDC discovery
+  discoveryType: "bpn"  # discovery type to find bpnl type in EDC discovery
   technicalServiceApiKey: "CHANGEME" #<traceability.technicalServiceApiKey>
   assetRefreshJobCronExpression: "0 0 */2 * * ?" # Default value for assets refresh cron job expression
   assetRefreshJobZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
