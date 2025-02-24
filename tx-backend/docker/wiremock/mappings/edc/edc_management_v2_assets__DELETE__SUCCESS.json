@@ -2,7 +2,7 @@
   "priority": 1,
   "request": {
     "method": "DELETE",
-    "urlPathPattern": "/edc/management/v2/assets/.*"
+    "urlPathPattern": "/edc/management/v3/assets/.*"
   },
   "response": {
     "status": 200
