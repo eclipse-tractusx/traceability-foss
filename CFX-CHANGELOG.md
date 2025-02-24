@@ -11,6 +11,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ### Changed
  - TRACEX-34 fix path-to-regexp CVE-2024-45296
+ - TRACEX-60 fix cross-spawn dependency
 
 -TRACEX-533 remove fdescribe from test to run full test set
 
