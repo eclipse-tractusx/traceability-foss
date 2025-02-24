@@ -423,6 +423,7 @@ item-relationship-service:
 ###################################
 tractusx-connector:
   nameOverride: *edc_name
+  policy-validation: false
   fullnameOverride: *edc_name
   participant:
     id: *bpn

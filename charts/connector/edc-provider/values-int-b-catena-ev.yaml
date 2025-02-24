@@ -1,5 +1,6 @@
 tractusx-connector:
   enabled: true
+  policy-validation: false
   nameOverride: "tx-edc-provider-int-b"
   fullnameOverride: "tx-edc-provider-int-b"
   participant:
