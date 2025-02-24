@@ -46,10 +46,10 @@ dependencies:
     condition: item-relationship-service.enabled
   - name: tractusx-connector
     repository: https://eclipse-tractusx.github.io/tractusx-edc
-    version: 0.7.7
+    version: 0.9.0-rc2
     condition: tractusx-connector.enabled
   - name: postgresql
     alias: edc-postgresql
     repository: https://charts.bitnami.com/bitnami
-    version: 12.12.10
+    version: 15.2.1
     condition: edc-postgresql.enabled
