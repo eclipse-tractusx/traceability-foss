@@ -28,7 +28,7 @@ import { delay } from 'rxjs/operators';
 
 import { AutocompleteChipInputComponent } from './autocomplete-chip-input.component';
 
-fdescribe('AutocompleteChipInputComponent', () => {
+describe('AutocompleteChipInputComponent', () => {
   const filterStateSubject = new BehaviorSubject<any>({ asBuilt: {}, asPlanned: {} });
   const mockFilterService = {
     getFilter: jasmine.createSpy('getFilter').and.returnValue({}),
