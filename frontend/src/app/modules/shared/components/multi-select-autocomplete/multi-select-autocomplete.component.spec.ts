@@ -27,6 +27,7 @@ describe('MultiSelectAutocompleteComponent', () => {
   it('should initialize with empty selectedValue when no input selectedOptions', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
+    fixture.detectChanges();
     expect(componentInstance.selectedValue).toEqual([]);
   });
 
@@ -255,7 +256,7 @@ describe('MultiSelectAutocompleteComponent', () => {
   it('should set prefilter value', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent(false, 'hello');
     const { componentInstance } = fixture;
-
+    fixture.detectChanges()
     expect(componentInstance.searchElement).toEqual('hello');
     expect(componentInstance.selectedValue).toEqual([ 'hello' ]);
 
