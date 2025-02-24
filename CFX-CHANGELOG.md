@@ -10,6 +10,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ## [Unreleased]
 
 ### Changed
+ - TRACEX-34 fix path-to-regexp CVE-2024-45296
 
 ### Removed
 
