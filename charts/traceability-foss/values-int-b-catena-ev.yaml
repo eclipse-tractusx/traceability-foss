@@ -423,7 +423,6 @@ item-relationship-service:
 ###################################
 tractusx-connector:
   nameOverride: *edc_name
-  policy-validation: false
   fullnameOverride: *edc_name
   participant:
     id: *bpn
@@ -439,6 +438,9 @@ tractusx-connector:
           id: <path:traceability-foss/data/int-b/iatp#dimClientId>
           secret_alias: edc-miw-keycloak-secret-int-b-provider
   controlplane:
+    policy:
+      validation:
+        enabled: false
     ingresses:
       - enabled: true
         hostname: *edc_controlplane_hostname

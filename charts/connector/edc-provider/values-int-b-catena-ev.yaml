@@ -1,6 +1,5 @@
 tractusx-connector:
   enabled: true
-  policy-validation: false
   nameOverride: "tx-edc-provider-int-b"
   fullnameOverride: "tx-edc-provider-int-b"
   participant:
@@ -18,6 +17,9 @@ tractusx-connector:
           id: <path:traceability-foss/data/int-b/iatp#dimClientId>
           secret_alias: edc-miw-keycloak-secret-int-b-provider
   controlplane:
+    policy:
+      validation:
+        enabled: false
     ingresses:
       - enabled: true
         hostname: "trace-x-edc-int-b.int.catena-x.net"
