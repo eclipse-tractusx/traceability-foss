@@ -211,7 +211,6 @@ backend:
   service:
     type: ClusterIP
     port: 8080
-    trustedPort: 8181
 
   autoscaling:
     enabled: false
@@ -278,7 +277,7 @@ backend:
     operatorTypeSecond: "eq"
     rightOperandSecond: "anything"
     validUntil: "2024-09-30T23:59:59.99Z"
-    discoveryType: "bpnl"  # discovery type to find bpnl type in EDC discovery
+    discoveryType: "bpn"  # discovery type to find bpnl type in EDC discovery
     technicalServiceApiKey: ""  # <traceability.technicalServiceApiKey>
     assetRefreshJobCronExpression: "0 0 */2 * * ?"  # Default value for assets refresh cron job expression
     assetRefreshJobZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
