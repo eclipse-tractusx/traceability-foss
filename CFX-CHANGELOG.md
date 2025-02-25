@@ -10,6 +10,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ## [Unreleased]
 
 ### Changed
+
  - TRACEX-533 remove fdescribe from test to run full test set
  - TRACEX-34 fix path-to-regexp CVE-2024-45296
  - TRACEX-60 fix cross-spawn dependency
@@ -18,8 +19,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
  - TRACEX-28 add resolution to fix Denial of service in http-proxy-middleware
  - TRACEX-489 provide fix for json-smart vulnerability
  - TRACEX-25 provide fix for semver vulnerability
-
-
+ - TRACEX-471 Modify Helm chart pipeline to append git hash and update values repo
 
 ### Removed
 
