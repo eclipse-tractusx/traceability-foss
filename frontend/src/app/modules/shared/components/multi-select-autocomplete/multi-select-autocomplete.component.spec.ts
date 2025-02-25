@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
@@ -17,6 +18,12 @@ describe('MultiSelectAutocompleteComponent', () => {
       componentProperties: { placeholder: placeholder, options: options, prefilterValue: prefilterValue },
     });
   };
+
+  beforeEach(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
 
   it('should create the component', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
@@ -216,6 +223,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     // @ts-ignore
     componentInstance.searchElement = [ '2023-12-10' ] as unknown as [];
     componentInstance.dateFilter();
+
     expect(componentInstance.formControl.value).toEqual([ '2023-12-10' ]);
   });
 

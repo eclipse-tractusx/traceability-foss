@@ -48,7 +48,7 @@ describe('ErrorPageComponent', () => {
   it('should render generic error page - with user role', async () => {
     const { fixture } = await renderErrorPageComponent({ errorPage: {}, roles: [ 'user' ] });
 
-    await fixture.whenStable();
+
     fixture.detectChanges();
 
     expect(screen.getByText('errorPage.title')).toBeInTheDocument();
@@ -59,7 +59,7 @@ describe('ErrorPageComponent', () => {
   it('should render generic error page - no user role', async () => {
     const { fixture } = await renderErrorPageComponent({ errorPage: {}, roles: [] });
 
-    await fixture.whenStable();
+
     fixture.detectChanges();
 
     expect(screen.getByText('errorPage.title')).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('ErrorPageComponent', () => {
       roles: [ 'user' ],
     });
 
-    await fixture.whenStable();
+
     fixture.detectChanges();
 
     expect(screen.getByText('pageNotFound.title')).toBeInTheDocument();
@@ -87,7 +87,7 @@ describe('ErrorPageComponent', () => {
       roles: [],
     });
 
-    await fixture.whenStable();
+
     fixture.detectChanges();
 
     expect(screen.getByText('pageNotFound.title')).toBeInTheDocument();
@@ -101,7 +101,7 @@ describe('ErrorPageComponent', () => {
       roles: [ 'user' ],
     });
 
-    await fixture.whenStable();
+
     fixture.detectChanges();
 
     expect(screen.getByText('noPermissions.title')).toBeInTheDocument();
@@ -115,7 +115,7 @@ describe('ErrorPageComponent', () => {
       roles: [],
     });
 
-    await fixture.whenStable();
+
     fixture.detectChanges();
 
     expect(screen.getByText('noPermissions.title')).toBeInTheDocument();
