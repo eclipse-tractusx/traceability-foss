@@ -18,6 +18,7 @@
  ********************************************************************************/
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { AdminService } from '@page/admin/core/admin.service';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FilterService } from '@shared/service/filter.service';
 import { SharedModule } from '@shared/shared.module';
@@ -38,30 +39,6 @@ const mockFilterService = {
 
 
 describe('DatepickerInputComponent', () => {
-  const renderDatepickerInput = async (label = 'Pick a Date') => {
-    const form = new UntypedFormGroup({
-      dateField: new UntypedFormControl(undefined),
-    });
-
-    await renderComponent(
-      `
-        <form [formGroup]="form">
-          <app-datepicker-input [parentControlName]="dateField"></app-datepicker-input>
-        </form>
-      `,
-      {
-        declarations: [ DatepickerInputComponent ],
-        imports: [ ReactiveFormsModule, SharedModule ],
-        providers: [ DatePipe ],
-        componentProperties: {
-          form,
-        },
-      },
-    );
-
-    return { form };
-  };
-
   const renderDateInputComponent = () => {
 
     return renderComponent(DatepickerInputComponent, {
@@ -70,6 +47,12 @@ describe('DatepickerInputComponent', () => {
       componentProperties: { },
     });
   };
+  beforeEach(() => {
+    filterStateSubject.next({
+      asBuilt: {},
+      asPlanned: {},
+    });
+  });
 
   it('should clear datepicker input', async () => {
     const { fixture } = await renderDateInputComponent();
@@ -140,7 +123,6 @@ describe('DatepickerInputComponent', () => {
         parentFormGroup: parentForm,
       },
     });
-
     const componentInstance = fixture.componentInstance;
     expect(componentInstance.dateRange.value).toEqual({ start: null, end: null });
 
