@@ -11,7 +11,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - fix cross-spawn dependency (#1416)
 - add resolution to fix Path traversal in webpack-dev-middleware (#1416)
 - add resolution to fix Denial of service in http-proxy-middleware (#1416)
-
+- provide fix for semver vulnerability (#1416)
 
 ## [14.0.0 - 18.02.2025]
 
