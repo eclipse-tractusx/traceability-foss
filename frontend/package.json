@@ -130,7 +130,8 @@
   "resolutions": {
     "@angular-devkit/build-angular": "16.2.12",
     "cross-spawn": "^7.0.5",
-    "webpack-dev-middleware": "6.1.2"
+    "webpack-dev-middleware": "6.1.2",
+    "http-proxy-middleware": "^2.0.7"
   },
   "msw": {
     "workerDirectory": "src"

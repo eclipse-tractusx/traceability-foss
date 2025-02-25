@@ -15,6 +15,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
  - TRACEX-60 fix cross-spawn dependency
  - TRACEX-533 repair unit test pipeline and revert breaking dependency changes
  - TRACEX-21 add resolution to fix Path traversal in webpack-dev-middleware
+ - TRACEX-28 add resolution to fix Denial of service in http-proxy-middleware
 
 
 
