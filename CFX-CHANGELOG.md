@@ -14,6 +14,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
  - TRACEX-34 fix path-to-regexp CVE-2024-45296
  - TRACEX-60 fix cross-spawn dependency
  - TRACEX-533 repair unit test pipeline and revert breaking dependency changes
+ - TRACEX-21 add resolution to fix Path traversal in webpack-dev-middleware
 
 
 
