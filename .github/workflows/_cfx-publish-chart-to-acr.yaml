@@ -26,19 +26,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
+          ref: ${{ github.ref_name }}
           token: ${{ steps.get_token.outputs.token }}
+
+      # Gets the short form commit hash
+      - name: Get commit hash
+        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
       # Add the commit has to the version
       - name: Suffix commit hash
         uses: mikefarah/yq@f15500b20a1c991c8729870ba60a4dc3524b6a94
         with:
           cmd: |
-            export COMMIT_HASH=`git rev-parse --short=8 HEAD`;
-            yq -i '.version |= sub("-[a-zA-Z0-9]+$"; "") + "-'"$COMMIT_HASH"'"' charts/traceability-foss/Chart.yaml;
-            yq -i '.version |= sub("-[a-zA-Z0-9]+$"; "") + "-'"$COMMIT_HASH"'"' charts/traceability-foss/charts/frontend/Chart.yaml;
-            yq -i '.version |= sub("-[a-zA-Z0-9]+$"; "") + "-'"$COMMIT_HASH"'"' charts/traceability-foss/charts/backend/Chart.yaml;
+            yq -i '.version |= sub("\-[a-zA-Z0-9]+$"; "") + "-'"$COMMIT_HASH"'"' charts/traceability-foss/Chart.yaml;
+            yq -i '.version |= sub("\-[a-zA-Z0-9]+$"; "") + "-'"$COMMIT_HASH"'"' charts/traceability-foss/charts/frontend/Chart.yaml;
+            yq -i '.version |= sub("\-[a-zA-Z0-9]+$"; "") + "-'"$COMMIT_HASH"'"' charts/traceability-foss/charts/backend/Chart.yaml;
             yq -i -e '.dependencies[] |= select(.name == "frontend" or .name == "backend")
-              .version |= sub("-[a-zA-Z0-9]+$"; "") + "-'"$COMMIT_HASH"'"' charts/traceability-foss/Chart.yaml;
+              .version |= sub("\-[a-zA-Z0-9]+$"; "") + "-'"$COMMIT_HASH"'"' charts/traceability-foss/Chart.yaml;
             echo "chart_version=$(yq .version charts/traceability-foss/Chart.yaml)" >> $GITHUB_OUTPUT
 
       # Commit the helm charts and push the code
@@ -51,7 +55,7 @@ jobs:
 
           git pull
           git add charts
-          git commit -m "ci: add commit hash to Helm chart version"
+          git commit -m "ci: [skip ci] add commit hash to Helm chart version"
           git push
 
   publish-portal-chart-to-registry:
