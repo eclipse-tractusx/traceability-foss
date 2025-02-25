@@ -36,9 +36,9 @@ configuration:
     hostName: &be_host_name 'traceability-int-a.int.catena-x.net'
     # -- backend host with https://
     url: &be_url 'https://traceability-int-a.int.catena-x.net'
-    internalUrl: &be_url_internal 'http://tx-backend-int-a:8181'
+    internalUrl: &be_url_internal 'http://tx-backend-int-a:8080'
     edcClient:
-      callbackUrl: &backend_edc_client_callback_url 'http://tx-backend-int-a:8181/api/internal/endpoint-data-reference'
+      callbackUrl: &backend_edc_client_callback_url 'http://tx-backend-int-a:8080/api/internal/endpoint-data-reference'
     backendDatabase:
       url: &backend_database_url 'jdbc:postgresql://tx-backend-postgresql-int-a:5432/trace'
       name: &backend_database_name 'tx-backend-postgresql-int-a'
@@ -60,7 +60,7 @@ configuration:
         clientSecret: &submodel_client_secret <path:traceability-foss/data/int-a/provisioning#SUBMODEL_OAUTH_CLIENT_SECRET>
       registry:
         allowedBpns: &allowed_bpns 'BPNL000000002CS4,BPNL000000002BR4'
-        urlExternalWithPath: &registry_url_external_with_path 'https://backend.enablement.integration.cofinity-x.com/api/v4/dtr/666255be-0b25-4333-ba44-a8965d99d7c0'
+        urlExternalWithPath: &registry_url_external_with_path 'http://tracexa-dtr:8080/api/v3'
         urlInternalWithPath: &registry_url_internal_with_path 'http://tracexa-dtr:8080/api/v3'
         oauthProviderRegistrationId: &registry_provider_registration_id <path:traceability-foss/data/int-a/provisioning#REGISTRY_OAUTH_PROVIDER_REGISTRATION_ID>
         oauthTokenUrl: &registry_token_url <path:traceability-foss/data/int-a/provisioning#REGISTRY_OAUTH_TOKEN_URL>
