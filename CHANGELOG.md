@@ -97,6 +97,10 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 
 - Remove unused vulnerable dependency commons-fileupload to fix CVE-2024-47554 (#1386)
 
+### Known knowns
+
+- Full registry reload is not functional https://github.com/eclipse-tractusx/traceability-foss/issues/1423
+
 ## [13.0.2 - 16.08.2024]
 
 ### Added
