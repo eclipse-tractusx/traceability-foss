@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload features.zip as artifact
         if: steps.download.outputs.http_response == '200' || steps.download.outputs.http_response == '400'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: features-zip
           path: tx-cucumber-tests/features.zip
