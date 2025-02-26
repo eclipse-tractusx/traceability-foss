@@ -61,8 +61,16 @@ jobs:
           [[ $HTTP_RESULT == 200 || $HTTP_RESULT == 400 ]]
           echo "::set-output name=http_response::$HTTP_RESULT"
 
+      - name: Upload features.zip as artifact
+        if: steps.download.outputs.http_response == '200' || steps.download.outputs.http_response == '400'
+        uses: actions/upload-artifact@v3
+        with:
+          name: features-zip
+          path: tx-cucumber-tests/features.zip
+
       - name: install tx-models
         run: mvn install -pl tx-models
+
 
       # Required step due to fact that jira will name feature files differently with each feature added and that will cause duplicate test runs
       - name: Cleanup repository feature files
