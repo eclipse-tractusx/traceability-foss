@@ -13,6 +13,9 @@ jobs:
   set-version-suffix:
     runs-on: ubuntu-latest
     name: Suffix the Helm version with the commit hash
+    outputs:
+      latest_ref: ${{ steps.commit-and-push.outputs.ref }}
+      chart_version: ${{ steps.add-suffix.outputs.chart_version }}
     steps:
       # Get the GitHub token using GitHub app
       - name: Get token
@@ -35,6 +38,7 @@ jobs:
 
       # Add the commit has to the version
       - name: Suffix commit hash
+        id: add-suffix
         uses: mikefarah/yq@f15500b20a1c991c8729870ba60a4dc3524b6a94
         with:
           cmd: |
@@ -47,6 +51,7 @@ jobs:
 
       # Commit the helm charts and push the code
       - name: Commit and push new chart version
+        id: commit-and-push
         env:
           GITHUB_USER: ${{ steps.get_token.outputs.app-slug }}[bot]
         run: |
@@ -57,6 +62,8 @@ jobs:
           git add charts
           git commit -m "ci: [skip ci] add commit hash to Helm chart version"
           git push
+          echo "ref=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
 
   publish-portal-chart-to-registry:
     needs: "set-version-suffix"
@@ -66,13 +73,14 @@ jobs:
       id-token: write
 
     name: Lint, package, and publish helm chart
-    uses: Cofinity-X/central-pipelines/.github/workflows/reusable-publish-chart-to-acr.yaml@f0bb8858ee1a26f0578088c6f5841bf17134dedf
+    uses: Cofinity-X/central-pipelines/.github/workflows/reusable-publish-chart-to-acr.yaml@75ddfdbf095041bcb6604f7053381563789448ed
     with:
       team_name: trace-x
       repository_name: traceability-foss
       service_name: traceability-foss
       environment: lower-env-acr
       push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+      ref: ${{ needs.set-version-suffix.outputs.latest_ref }}
     secrets:
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
