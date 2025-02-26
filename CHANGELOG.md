@@ -6,13 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
-## [Unreleased - DD.MM.YYYY]
+## [14.0.1 - 26.02.2025]
 ### Fixed
 - fix cross-spawn dependency (#1416)
 - add resolution to fix Path traversal in webpack-dev-middleware (#1416)
 - add resolution to fix Denial of service in http-proxy-middleware (#1416)
 - provide fix for semver vulnerability (#1416)
 - provide fix for json-smart vulnerability (#1415)
+
+### Known knowns
+
+- Full registry reload is not functional https://github.com/eclipse-tractusx/traceability-foss/issues/1423
+
 
 ## [14.0.0 - 18.02.2025]
 
