@@ -219,6 +219,7 @@ class ReadCreatedInvestigationsInSortedOrderControllerIT extends IntegrationTest
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(4))
                 .body("totalItems", Matchers.is(4))
-                .body("content.sendToName", Matchers.containsInRelativeOrder("OEM1", "OEM2", "OEM1", "OEM3"));
+                .body("content.sendToName", Matchers.containsInRelativeOrder("OEM1", "OEM2", "OEM3"))
+                .body("content.sendToName", Matchers.containsInRelativeOrder("OEM1", "OEM2", "OEM1"));
     }
 }

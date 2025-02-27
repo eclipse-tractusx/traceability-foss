@@ -79,10 +79,7 @@ spring:
     username: postgres
   flyway:
     enabled: true
-    placeholders:
-      applicationBpn: BPNL00000003AXS3
-      bpnB: BPNL000000000IAX
-      bpnA: BPNLWHATEVEREZFA
+    placeholder-replacement: false
 
 jwt:
   resource-client: "Integration-Test"
