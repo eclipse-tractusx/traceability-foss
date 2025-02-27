@@ -57,6 +57,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.DirectFieldBindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Method;
@@ -66,6 +67,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -85,115 +87,115 @@ class ErrorHandlingConfigTest {
     @Test
     void givenMethodArgumentNotValidException_handler_respondsBadRequest() throws Exception {
 
-        mockMvc.perform(get("/methodArgumentNotValidException"))
+        mockMvc.perform(post("/methodArgumentNotValidException"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenJpaSystemException_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/jpaSystemException"))
+        mockMvc.perform(post("/jpaSystemException"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenHttpMessageNotReadableException_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/httpMessageNotReadableException"))
+        mockMvc.perform(post("/httpMessageNotReadableException"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenAssetNotFoundException_handler_respondsNotFound() throws Exception {
-        mockMvc.perform(get("/assetNotFoundException"))
+        mockMvc.perform(post("/assetNotFoundException"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void givenInvestigationNotFoundException_handler_respondsNotFound() throws Exception {
-        mockMvc.perform(get("/investigationNotFoundException"))
+        mockMvc.perform(post("/investigationNotFoundException"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void givenInvestigationStatusTransitionNotAllowed_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/investigationStatusTransitionNotAllowed"))
+        mockMvc.perform(post("/investigationStatusTransitionNotAllowed"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenBpnEdcMappingNotFoundException_handler_respondsNotFound() throws Exception {
-        mockMvc.perform(get("/bpnEdcMappingNotFoundException"))
+        mockMvc.perform(post("/bpnEdcMappingNotFoundException"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void givenInvestigationReceiverBpnMismatchException_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/investigationReceiverBpnMismatchException"))
+        mockMvc.perform(post("/investigationReceiverBpnMismatchException"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenValidationException_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/validationException"))
+        mockMvc.perform(post("/validationException"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenInvestigationIllegalUpdate_handler_respondsForbidden() throws Exception {
-        mockMvc.perform(get("/investigationIllegalUpdate"))
+        mockMvc.perform(post("/investigationIllegalUpdate"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void givenIllegalArgumentException_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/illegalArgumentException"))
+        mockMvc.perform(post("/illegalArgumentException"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenAccessDeniedException_handler_respondsForbidden() throws Exception {
-        mockMvc.perform(get("/accessDeniedException"))
+        mockMvc.perform(post("/accessDeniedException"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void givenTechnicalUserAuthorizationException_handler_respondsInternalServerError() throws Exception {
-        mockMvc.perform(get("/technicalUserAuthorizationException"))
+        mockMvc.perform(post("/technicalUserAuthorizationException"))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
     void givenAuthenticationCredentialsNotFoundException_handler_respondsUnauthorized() throws Exception {
-        mockMvc.perform(get("/authenticationCredentialsNotFoundException"))
+        mockMvc.perform(post("/authenticationCredentialsNotFoundException"))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void givenNotificationStatusTransitionNotAllowed_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/notificationStatusTransitionNotAllowed"))
+        mockMvc.perform(post("/notificationStatusTransitionNotAllowed"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenUpdateNotificationValidationException_handler_respondsBadRequest() throws Exception {
-        mockMvc.perform(get("/updateNotificationValidationException"))
+        mockMvc.perform(post("/updateNotificationValidationException"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenCreateNotificationContractException_handler_respondsInternalServerError() throws Exception {
-        mockMvc.perform(get("/createNotificationContractException"))
+        mockMvc.perform(post("/createNotificationContractException"))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
     void givenJsonFileProcessingException_handler_respondsInternalServerError() throws Exception {
-        mockMvc.perform(get("/jsonFileProcessingException"))
+        mockMvc.perform(post("/jsonFileProcessingException"))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
     void givenException_handler_respondsInternalServerError() throws Exception {
-        mockMvc.perform(get("/exception"))
+        mockMvc.perform(post("/exception"))
                 .andExpect(status().isInternalServerError());
     }
 
@@ -234,19 +236,19 @@ class ErrorHandlingConfigTest {
     private static class DummyController {
 
         @SneakyThrows
-        @GetMapping("/methodArgumentNotValidException")
+        @PostMapping("/methodArgumentNotValidException")
         public void methodArgumentNotValidException() {
             MethodParameter parameter = new MethodParameter(getClass().getMethod("methodArgumentNotValidException"), 0);
             BindingResult bindingResult = new DirectFieldBindingResult(null, "");
             throw new MethodArgumentNotValidException(parameter, bindingResult);
         }
 
-        @GetMapping("/jpaSystemException")
+        @PostMapping("/jpaSystemException")
         public void jpaSystemException() {
             throw new JpaSystemException(new RuntimeException());
         }
 
-        @GetMapping("/httpMessageNotReadableException")
+        @PostMapping("/httpMessageNotReadableException")
         public void httpMessageNotReadableException() {
             byte[] message = new byte[]{};
             throw new HttpMessageNotReadableException(
@@ -254,17 +256,17 @@ class ErrorHandlingConfigTest {
                     new MockHttpInputMessage(message));
         }
 
-        @GetMapping("/assetNotFoundException")
+        @PostMapping("/assetNotFoundException")
         public void assetNotFoundException() {
             throw new AssetNotFoundException("");
         }
 
-        @GetMapping("/investigationNotFoundException")
+        @PostMapping("/investigationNotFoundException")
         public void investigationNotFoundException() {
             throw new InvestigationNotFoundException("");
         }
 
-        @GetMapping("/investigationStatusTransitionNotAllowed")
+        @PostMapping("/investigationStatusTransitionNotAllowed")
         public void investigationStatusTransitionNotAllowed() {
             throw new InvestigationStatusTransitionNotAllowed(
                     new NotificationId(1L),
@@ -273,47 +275,47 @@ class ErrorHandlingConfigTest {
             );
         }
 
-        @GetMapping("/bpnEdcMappingNotFoundException")
+        @PostMapping("/bpnEdcMappingNotFoundException")
         public void bpnEdcMappingNotFoundException() {
             throw new BpnNotFoundException("");
         }
 
-        @GetMapping("/investigationReceiverBpnMismatchException")
+        @PostMapping("/investigationReceiverBpnMismatchException")
         public void investigationReceiverBpnMismatchException() {
             throw new InvestigationReceiverBpnMismatchException("");
         }
 
-        @GetMapping("/validationException")
+        @PostMapping("/validationException")
         public void validationException() {
             throw new ValidationException("");
         }
 
-        @GetMapping("/investigationIllegalUpdate")
+        @PostMapping("/investigationIllegalUpdate")
         public void investigationIllegalUpdate() {
             throw new InvestigationIllegalUpdate("");
         }
 
-        @GetMapping("/illegalArgumentException")
+        @PostMapping("/illegalArgumentException")
         public void illegalArgumentException() {
             throw new IllegalArgumentException("");
         }
 
-        @GetMapping("/accessDeniedException")
+        @PostMapping("/accessDeniedException")
         public void accessDeniedException() {
             throw new AccessDeniedException("");
         }
 
-        @GetMapping("/technicalUserAuthorizationException")
+        @PostMapping("/technicalUserAuthorizationException")
         public void technicalUserAuthorizationException() {
             throw new TechnicalUserAuthorizationException("");
         }
 
-        @GetMapping("/authenticationCredentialsNotFoundException")
+        @PostMapping("/authenticationCredentialsNotFoundException")
         public void authenticationCredentialsNotFoundException() {
             throw new AuthenticationCredentialsNotFoundException("");
         }
 
-        @GetMapping("/notificationStatusTransitionNotAllowed")
+        @PostMapping("/notificationStatusTransitionNotAllowed")
         public void notificationStatusTransitionNotAllowed() {
             throw new NotificationStatusTransitionNotAllowed(
                     "",
@@ -321,22 +323,22 @@ class ErrorHandlingConfigTest {
                     NotificationStatus.ACCEPTED);
         }
 
-        @GetMapping("/updateNotificationValidationException")
+        @PostMapping("/updateNotificationValidationException")
         public void updateNotificationValidationException() {
             throw new UpdateNotificationValidationException("");
         }
 
-        @GetMapping("/createNotificationContractException")
+        @PostMapping("/createNotificationContractException")
         public void createNotificationContractException() {
             throw new CreateNotificationContractException("");
         }
 
-        @GetMapping("/jsonFileProcessingException")
+        @PostMapping("/jsonFileProcessingException")
         public void createJsonFileProcessingException() {
             throw new JsonFileProcessingException(new RuntimeException("reason for JsonFileProcessingException"));
         }
 
-        @GetMapping("/exception")
+        @PostMapping("/exception")
         public void exception() throws Exception {
             throw new Exception("");
         }

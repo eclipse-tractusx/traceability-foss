@@ -20,6 +20,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
  - TRACEX-489 provide fix for json-smart vulnerability
  - TRACEX-25 provide fix for semver vulnerability
  - TRACEX-471 Modify Helm chart pipeline to append git hash and update values repo
+ - TRACEX-534 change dummy test controller to post requests to resolve CSRF alert
 
 ### Removed
 
