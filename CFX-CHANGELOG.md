@@ -50,6 +50,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - TRACEX-420 functionality to Sync child/supplier parts for Admin
 - TRACEX-203 Added concept for aas lookup
 - TRACEX-394 add double click listener to open detail view
+- TRACEX-526 add customer part ID to advance filter
 
 ### Changed
 

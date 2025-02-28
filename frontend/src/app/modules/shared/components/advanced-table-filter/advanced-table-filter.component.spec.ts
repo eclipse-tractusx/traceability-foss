@@ -109,6 +109,7 @@ describe('AdvancedTableFilterComponent', () => {
       manufacturingCountry: null,
       manufacturingDate: null,
       importState: null,
+      customerPartId: null
     });
 
     expect(mockFilterService.clearFilter).toHaveBeenCalledWith(instance.tableType);
