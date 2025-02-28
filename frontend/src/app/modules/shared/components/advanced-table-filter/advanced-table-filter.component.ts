@@ -106,6 +106,11 @@ export class AdvancedTableFilterComponent implements OnInit {
         filterName: 'importState',
         controlName: 'importState',
       },
+      {
+        component: 'autocomplete',
+        filterName: 'customerPartId',
+        controlName: 'customerPartId',
+      },
     ]
   ];
 
