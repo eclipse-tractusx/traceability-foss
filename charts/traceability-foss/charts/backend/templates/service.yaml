@@ -35,5 +35,11 @@ spec:
       targetPort: {{ .Values.service.trustedPort }}
       protocol: TCP
       name: http-trusted
+    {{- if .Values.service.actuatorPort }}
+    - port: {{ .Values.service.actuatorPort }}
+      targetPort: actuator
+      protocol: TCP
+      name: actuator
+    {{- end }}
   selector:
     {{- include "traceability-foss-backend.selectorLabels" . | nindent 4 }}
