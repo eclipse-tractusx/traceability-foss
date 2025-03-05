@@ -21,6 +21,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { getI18nPageProvider } from '@core/i18n';
 import { PartsFacade } from '@page/parts/core/parts.facade';
@@ -38,7 +39,7 @@ import { RelationComponent } from './presentation/relation/relation.component';
 
 @NgModule({
   declarations: [ PartsComponent, RelationComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, AngularSplitModule, MatDialogModule, PartsDetailModule ],
+  imports: [ CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, AngularSplitModule, MatDialogModule, PartsDetailModule, MatCardModule, MatDialogModule, RelationsModule, SharedModule ],
   providers: [ PartsState, BomLifecycleSettingsService, PartsFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider([ 'page.parts', 'partDetail' ]) ],
 })
 export class PartsModule {

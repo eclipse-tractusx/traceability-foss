@@ -63,6 +63,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - TRACEX-384  Remove null check for manufacturerName in findByBpn
 - TRACEX-278 Enable nginx forward proxy for cfx-frontend
 - TRACEX-493 Fixed correct owner assignment after supplier sync
+- TRACEX-395 Adjust logic to open part details on click leaf of the part tree
 
 ## [13.0.2-cfx-9 - 09.01.2025]
 

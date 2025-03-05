@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { RelationComponentState } from '@shared/modules/relations/core/component.state';
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
@@ -128,7 +129,7 @@ export class RelationsFacade {
     this.getNodesOfLoadedElement(elementId).forEach(childId => this.deleteOpenElement(childId));
   }
 
-  public initRequestPartDetailQueue(): Observable<TreeElement[]> {
+  public initRequestPartDetailQueue(mainAspectType?: MainAspectType): Observable<TreeElement[]> {
     const empty = { children: [], parents: [] };
     let nodes;
     return this.requestPartDetailsQueue.pipe(
@@ -136,7 +137,7 @@ export class RelationsFacade {
       filter(nodeList => !!nodeList.length),
       switchMap(nodeList => {
         nodes = nodeList.reduce((p, c) => [ ...p, ...c ], []);
-        return this.partsService.getPartDetailOfIds(nodes);
+        return this.partsService.getPartDetailOfIds(nodes, mainAspectType);
       }),
       catchError(_ => of(nodes.map(id => ({ id, ...empty } as Part)))),
       map(nodesDetail => nodes.map(id => nodesDetail.find(data => data.id === id) || ({ id, ...empty } as Part))),

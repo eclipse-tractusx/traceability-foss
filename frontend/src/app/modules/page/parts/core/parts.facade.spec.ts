@@ -37,9 +37,10 @@ import {
 describe('Parts facade', () => {
   let partsFacade: PartsFacade, partsState: PartsState, partsServiceMock: PartsService;
 
+
   beforeEach(() => {
     partsServiceMock = {
-      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
+      getPart: (id, type) => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartsAsBuilt: (_page, _pageSize, _sorting, assetAsBuiltFilter) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
       getPartsAsPlanned: (_page, _pageSize, _sorting, assetAsPlannedFilter) =>

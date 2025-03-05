@@ -128,7 +128,7 @@ export class RelationsFacade {
     this.getNodesOfLoadedElement(elementId).forEach(childId => this.deleteOpenElement(childId));
   }
 
-  public initRequestPartDetailQueue(mainAppectType?: MainAspectType): Observable<TreeElement[]> {
+  public initRequestPartDetailQueue(mainAspectType?: MainAspectType): Observable<TreeElement[]> {
     const empty = { children: [], parents: [] };
     let nodes;
     return this.requestPartDetailsQueue.pipe(
@@ -136,7 +136,7 @@ export class RelationsFacade {
       filter(nodeList => !!nodeList.length),
       switchMap(nodeList => {
         nodes = nodeList.reduce((p, c) => [...p, ...c], []);
-        return this.partsService.getPartDetailOfIds(nodes, mainAppectType);
+        return this.partsService.getPartDetailOfIds(nodes, mainAspectType);
       }),
       catchError(_ => of(nodes.map(id => ({ id, ...empty } as Part)))),
       map(nodesDetail => nodes.map(id => nodesDetail.find(data => data.id === id) || ({ id, ...empty } as Part))),

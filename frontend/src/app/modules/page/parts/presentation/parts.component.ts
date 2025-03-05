@@ -285,6 +285,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onSelectItem($event: Record<string, unknown>): void {
     this.partDetailsFacade.selectedPart = $event as unknown as Part;
+    this.partDetailsFacade.mainAspectType = this.partDetailsFacade.selectedPart.mainAspectType;
     let tableData = {};
     for (let component of this.partsTableComponents) {
       tableData[component.tableType + '_PAGE'] = component.pageIndex;
