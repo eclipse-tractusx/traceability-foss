@@ -269,7 +269,7 @@ export class PartsTableComponent implements OnInit {
 
   isValidOwnerSelection(): boolean {
     const selected = this.selection.selected as Part[];
-    if (this.tableType === TableType.AS_PLANNED_OWN) {
+    if (this.tableType === TableType.AS_PLANNED_OWN || this.tableType === TableType.AS_BUILT_OWN ) {
       return selected.every(part => part.owner === Owner.OWN);
     }
     return true;
