@@ -23,6 +23,7 @@ import { ApiService } from '@core/api/api.service';
 import { AuthService } from '@core/auth/auth.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { PartsService } from '@shared/service/parts.service';
@@ -79,7 +80,7 @@ describe('PartsService', () => {
     spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
 
     const id = '1';
-    service.getPart(id).subscribe((parts: Part) => {
+    service.getPart(id, MainAspectType.AS_BUILT).subscribe((parts: Part) => {
       expect(parts).toBeTruthy();
     });
 
@@ -221,7 +222,7 @@ describe('PartsService', () => {
 
     const asBuiltId = 'MOCK_part_1';
 
-    service.getPartDetailOfIds([ asBuiltId ], true).subscribe((parts) => {
+    service.getPartDetailOfIds([asBuiltId], MainAspectType.AS_BUILT).subscribe((parts) => {
       console.warn(parts);
       expect(parts).toBeTruthy();
     });
@@ -243,7 +244,7 @@ describe('PartsService', () => {
 
     const asPlannedId = 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01';
 
-    service.getPartDetailOfIds([ asPlannedId ], false).subscribe((parts) => {
+    service.getPartDetailOfIds([asPlannedId], MainAspectType.AS_PLANNED).subscribe((parts) => {
       expect(parts).toBeTruthy();
     });
 

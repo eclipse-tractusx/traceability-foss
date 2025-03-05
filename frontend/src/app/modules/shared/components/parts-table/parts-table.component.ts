@@ -72,13 +72,13 @@ import { map } from 'rxjs/operators';
   styleUrls: [ 'parts-table.component.scss' ],
   animations: [
     trigger('tableFilterExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
     trigger('advancedFilterExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
     ]),
   ],
 })
@@ -112,6 +112,71 @@ export class PartsTableComponent implements OnInit {
   isMaximized = false;
   toggleAdvancedFilter: boolean = false;
   activeFiltersCount = 0;
+  @Output() selected = new EventEmitter<Record<string, unknown>>();
+  @Output() createQualityNotificationClickedEvent = new EventEmitter<NotificationType>();
+  @Output() configChanged = new EventEmitter<TableEventConfig>();
+  @Output() multiSelect = new EventEmitter<any[]>();
+  @Output() clickSelectAction = new EventEmitter<void>();
+  @Output() filterActivated = new EventEmitter<any>();
+  @Output() maximizeClicked = new EventEmitter<TableType>();
+  filterKeys = [
+    'owner',
+    'id',
+    'idShort',
+    'nameAtManufacturer',
+    'businessPartner',
+    'manufacturerName',
+    'manufacturerPartId',
+    'customerPartId',
+    'classification',
+    'nameAtCustomer',
+    'semanticModelId',
+    'semanticDataModel',
+    'manufacturingDate',
+    'manufacturingCountry',
+    'receivedActiveAlerts',
+    'receivedActiveInvestigations',
+    'sentActiveAlerts',
+    'sentActiveInvestigations',
+    'importState',
+    'importNote',
+  ];
+  public readonly dataSource = new MatTableDataSource<unknown>();
+  public readonly selection = new SelectionModel<unknown>(true, []);
+  public totalItems: number;
+  public pageIndex: number;
+  public isDataLoading: boolean;
+  public isMenuOpen: boolean;
+  public notificationType: NotificationType;
+  // TODO remove it and set only in tableViewConfig
+  public displayedColumns: string[];
+  // TODO remove it and set only in tableViewConfig
+  public defaultColumns: string[];
+  // TODO remove it and set only in tableViewConfig
+  filterFormGroup = new FormGroup({});
+  public tableViewConfig: TableViewConfig;
+  protected readonly TableType = TableType;
+  protected readonly MainAspectType = MainAspectType;
+  protected readonly NotificationType = NotificationType;
+  protected readonly UserService = UserService;
+  private pageSize: number;
+  public sorting: TableHeaderSort;
+
+  constructor(
+    private readonly tableSettingsService: TableSettingsService,
+    private dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute,
+    private deeplinkService: DeeplinkService,
+    public roleService: RoleService,
+    private readonly partsFacade: PartsFacade,
+    private readonly toastService: ToastService,
+    private readonly quickFilterService: QuickfilterService,
+    private filterService: FilterService,
+    private bomLifeCycleSettingsService: BomLifecycleSettingsService,
+  ) {
+    this.preFilter = this.route.snapshot.queryParams['contractId'];
+  }
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
@@ -144,53 +209,6 @@ export class PartsTableComponent implements OnInit {
     this.emitMultiSelect();
   }
 
-  @Output() selected = new EventEmitter<Record<string, unknown>>();
-  @Output() createQualityNotificationClickedEvent = new EventEmitter<NotificationType>();
-  @Output() configChanged = new EventEmitter<TableEventConfig>();
-  @Output() multiSelect = new EventEmitter<any[]>();
-  @Output() clickSelectAction = new EventEmitter<void>();
-  @Output() filterActivated = new EventEmitter<any>();
-  @Output() maximizeClicked = new EventEmitter<TableType>();
-
-  filterKeys = [
-    'owner',
-    'id',
-    'idShort',
-    'nameAtManufacturer',
-    'businessPartner',
-    'manufacturerName',
-    'manufacturerPartId',
-    'customerPartId',
-    'classification',
-    'nameAtCustomer',
-    'semanticModelId',
-    'semanticDataModel',
-    'manufacturingDate',
-    'manufacturingCountry',
-    'receivedActiveAlerts',
-    'receivedActiveInvestigations',
-    'sentActiveAlerts',
-    'sentActiveInvestigations',
-    'importState',
-    'importNote',
-  ];
-
-  constructor(
-    private readonly tableSettingsService: TableSettingsService,
-    private dialog: MatDialog,
-    private router: Router,
-    private route: ActivatedRoute,
-    private deeplinkService: DeeplinkService,
-    public roleService: RoleService,
-    private readonly partsFacade: PartsFacade,
-    private readonly toastService: ToastService,
-    private readonly quickFilterService: QuickfilterService,
-    private filterService: FilterService,
-    private bomLifeCycleSettingsService: BomLifecycleSettingsService,
-  ) {
-    this.preFilter = this.route.snapshot.queryParams['contractId'];
-  }
-
   public isAllowedToCreateInvestigation(): boolean {
     const selected = this.selection.selected as Part[];
     const hasDifferentOwner = selected.some(value => value.owner !== Owner.SUPPLIER);
@@ -202,16 +220,16 @@ export class PartsTableComponent implements OnInit {
     const hasDifferentOwner = selected.some(value => value.owner !== Owner.OWN);
     return !hasDifferentOwner;
   }
+
   public isBusinessPartnerValid(): boolean {
     const selected = this.selection.selected as Part[];
-    const hasNullBusinessPartner = selected.some(value => value.businessPartner === null || value.businessPartner === "");
+    const hasNullBusinessPartner = selected.some(value => value.businessPartner === null || value.businessPartner === '');
     return !hasNullBusinessPartner;
   }
 
   public isActionButtonDisabled(): boolean {
     return (!this.isAllowedToCreateAlert() && !this.isAllowedToCreateInvestigation()) || this.roleService.isAdmin() || !this.isBusinessPartnerValid();
   }
-
 
   getTooltipText(): string {
     if (this.roleService.isAdmin()) {
@@ -222,12 +240,11 @@ export class PartsTableComponent implements OnInit {
         ? 'routing.hasCustomerPart'
         : 'routing.partMismatch';
     }
-    if (!this.isBusinessPartnerValid()){
+    if (!this.isBusinessPartnerValid()) {
       return 'table.missingBusinessPartner';
     }
     return 'table.createNotification';
   }
-
 
   handleKeyDownOpenDialog(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -257,7 +274,6 @@ export class PartsTableComponent implements OnInit {
     }
     return true;
   }
-  
 
   selectionContainsCustomerPart(): boolean {
     const selected = this.selection.selected as Part[];
@@ -325,25 +341,6 @@ export class PartsTableComponent implements OnInit {
     }
   }
 
-  public readonly dataSource = new MatTableDataSource<unknown>();
-  public readonly selection = new SelectionModel<unknown>(true, []);
-
-  public totalItems: number;
-  public pageIndex: number;
-  public isDataLoading: boolean;
-  public isMenuOpen: boolean;
-  public notificationType: NotificationType;
-
-  // TODO remove it and set only in tableViewConfig
-  public displayedColumns: string[];
-  // TODO remove it and set only in tableViewConfig
-  public defaultColumns: string[];
-  // TODO remove it and set only in tableViewConfig
-  filterFormGroup = new FormGroup({});
-
-  public tableViewConfig: TableViewConfig;
-
-
   public deeplinkToNotification(column: any, notificationId: string[]) {
     const deeplinkModel = this.deeplinkService.getDeeplink(column, notificationId);
     this.router.navigate([ deeplinkModel.route ], {
@@ -371,9 +368,6 @@ export class PartsTableComponent implements OnInit {
   public isSemanticDataModel(key: string) {
     return key === 'semanticDataModel';
   }
-
-  private pageSize: number;
-  private sorting: TableHeaderSort;
 
   ngOnInit() {
     this.tableViewConfig = this.tableSettingsService.initializeTableViewSettings(this.tableType);
@@ -410,7 +404,7 @@ export class PartsTableComponent implements OnInit {
           this.tableType === TableType.AS_BUILT_OWN
             ? filterState.asBuilt
             : filterState.asPlanned,
-        )
+        ),
       )
       .subscribe(filterForThisTable => {
         this.filterKeys.forEach(key => {
@@ -429,6 +423,81 @@ export class PartsTableComponent implements OnInit {
         this.isMaximized = (settings.asPlannedSize === 100);
       }
     });
+  }
+
+  public areAllRowsSelected(): boolean {
+    return this.dataSource.data.every(data => this.isSelected(data));
+  }
+
+  public clearAllRows(): void {
+    this.selection.clear();
+    this.emitMultiSelect();
+  }
+
+  public onRowDoubleClick(row: Record<string, unknown>) {
+    this.selected.emit(row);
+  }
+
+  public deleteItem(data: Part) {
+    const deleteObservable = data.mainAspectType === MainAspectType.AS_PLANNED
+      ? this.partsFacade.deletePartByIdAsPlanned(data.id)
+      : this.partsFacade.deletePartByIdAsBuilt(data.id);
+
+    deleteObservable.subscribe({
+      next: () => {
+        this.toastService.success('actions.deletePartMessageSuccess');
+        this.reloadTableData();
+      },
+    });
+  }
+
+  public clearCurrentRows(): void {
+    this.removeSelectedValues(this.dataSource.data);
+    this.emitMultiSelect();
+  }
+
+  public toggleAllRows(): void {
+    this.areAllRowsSelected()
+      ? this.removeSelectedValues(this.dataSource.data)
+      : this.addSelectedValues(this.dataSource.data);
+
+    this.emitMultiSelect();
+  }
+
+  public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
+    this.pageIndex = pageIndex;
+    this.isDataLoading = true;
+    this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
+  }
+
+  public updateSortingOfData({ active, direction }: Sort): void {
+    this.pageSize = this.pageSize === 0 ? EmptyPagination.pageSize : this.pageSize;
+    this.selection.clear();
+    this.emitMultiSelect();
+    this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
+    this.isDataLoading = true;
+    this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
+  }
+
+  public toggleSelection(row: unknown): void {
+    this.isSelected(row) ? this.removeSelectedValues([ row ]) : this.addSelectedValues([ row ]);
+    this.emitMultiSelect();
+  }
+
+  public isSelected(row: unknown): boolean {
+    return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
+  }
+
+  openDialog(): void {
+    const config = new MatDialogConfig();
+    config.data = {
+      title: 'table.tableSettings.title',
+      panelClass: 'custom',
+      tableType: this.tableType,
+      defaultColumns: this.tableViewConfig.displayedColumns,
+      defaultFilterColumns: this.tableViewConfig.filterColumns,
+    };
+    this.dialog.open(TableSettingsComponent, config);
   }
 
   private countActiveFilters(filterObject: Record<string, any>): number {
@@ -457,7 +526,6 @@ export class PartsTableComponent implements OnInit {
       return count;
     }, 0);
   }
-
 
   private setupTableViewSettings() {
 
@@ -496,7 +564,6 @@ export class PartsTableComponent implements OnInit {
     }
   }
 
-
   private setupTableConfigurations(displayedColumnsForTable: string[], displayedColumns: string[], sortableColumns: Record<string, boolean>, filterConfiguration: any[], filterFormGroup: any): any {
     const headerKey = 'table.column';
     this.tableConfig = {
@@ -523,75 +590,12 @@ export class PartsTableComponent implements OnInit {
     }
   }
 
-  public areAllRowsSelected(): boolean {
-    return this.dataSource.data.every(data => this.isSelected(data));
-  }
-
-  public clearAllRows(): void {
-    this.selection.clear();
-    this.emitMultiSelect();
-  }
-
-  public onRowDoubleClick(row: Record<string, unknown>) {
-    this.selected.emit(row);
-  }
-
-  public deleteItem(data: Part) {
-    const deleteObservable = data.mainAspectType === MainAspectType.AS_PLANNED
-      ? this.partsFacade.deletePartByIdAsPlanned(data.id)
-      : this.partsFacade.deletePartByIdAsBuilt(data.id);
-
-    deleteObservable.subscribe({
-      next: () => {
-        this.toastService.success('actions.deletePartMessageSuccess');
-        this.reloadTableData();
-      },
-    });
-  }
-
   private reloadTableData(): void {
     this.configChanged.emit({ page: this.pageIndex, pageSize: this.pageSize, sorting: this.sorting });
   }
 
-  public clearCurrentRows(): void {
-    this.removeSelectedValues(this.dataSource.data);
-    this.emitMultiSelect();
-  }
-
-  public toggleAllRows(): void {
-    this.areAllRowsSelected()
-      ? this.removeSelectedValues(this.dataSource.data)
-      : this.addSelectedValues(this.dataSource.data);
-
-    this.emitMultiSelect();
-  }
-
-  public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
-    this.pageIndex = pageIndex;
-    this.isDataLoading = true;
-    this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
-  }
-
-  public updateSortingOfData({ active, direction }: Sort): void {
-    this.pageSize = this.pageSize === 0 ? EmptyPagination.pageSize : this.pageSize;
-    this.selection.clear();
-    this.emitMultiSelect();
-    this.sorting = !direction ? null : ([ active, direction ] as TableHeaderSort);
-    this.isDataLoading = true;
-    this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
-  }
-
-  public toggleSelection(row: unknown): void {
-    this.isSelected(row) ? this.removeSelectedValues([ row ]) : this.addSelectedValues([ row ]);
-    this.emitMultiSelect();
-  }
-
   private emitMultiSelect(): void {
     this.multiSelect.emit(this.selection.selected);
-  }
-
-  public isSelected(row: unknown): boolean {
-    return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
   }
 
   private addSelectedValues(newData: unknown[]): void {
@@ -611,28 +615,11 @@ export class PartsTableComponent implements OnInit {
     if (ownerValue !== Owner.UNKNOWN) {
       // Set `owner` form control to array containing the new value
       // @ts-ignore
-      ownerControl.setValue([ownerValue]);
+      ownerControl.setValue([ ownerValue ]);
     } else {
       // Clear it if the ownerValue is UNKNOWN
       // @ts-ignore
       ownerControl.setValue([]);
     }
   }
-
-  openDialog(): void {
-    const config = new MatDialogConfig();
-    config.data = {
-      title: 'table.tableSettings.title',
-      panelClass: 'custom',
-      tableType: this.tableType,
-      defaultColumns: this.tableViewConfig.displayedColumns,
-      defaultFilterColumns: this.tableViewConfig.filterColumns,
-    };
-    this.dialog.open(TableSettingsComponent, config);
-  }
-
-  protected readonly TableType = TableType;
-  protected readonly MainAspectType = MainAspectType;
-  protected readonly NotificationType = NotificationType;
-  protected readonly UserService = UserService;
 }

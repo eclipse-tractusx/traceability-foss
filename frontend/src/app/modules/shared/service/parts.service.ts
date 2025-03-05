@@ -123,88 +123,34 @@ export class PartsService {
   }
 
 
-  public getPart(id: string): Observable<Part> {
-    if (!id || typeof id !== 'string') {
-      throw new Error('invalid ID');
+  public getPart(id: string, type: MainAspectType): Observable<Part> {
+    if (type === MainAspectType.AS_PLANNED) {
+      return this.apiService.get<PartResponse>(`${this.url}/assets/as-planned/${id}`)
+        .pipe(map(part => PartsAssembler.assemblePart(part, type)));
     }
 
-    const encodedId = encodeURIComponent(id);
-
-    const resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ encodedId }`).pipe(
-      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)),
-      catchError(() => of(null)),
-    );
-    const resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ encodedId }`).pipe(
-      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)),
-      catchError(() => of(null)),
-    );
-
-    // Combine both observables and filter out null values from the array
-    return forkJoin([ resultsAsBuilt, resultsAsPlanned ]).pipe(
-      filter(([ partAsBuilt, partAsPlanned ]) => partAsBuilt !== null || partAsPlanned !== null),
-      map(([ partAsBuilt, partAsPlanned ]) => partAsBuilt || partAsPlanned),
-    );
+    return this.apiService.get<PartResponse>(`${this.url}/assets/as-built/${id}`)
+      .pipe(map(part => PartsAssembler.assemblePart(part, type)));
   }
 
-  public getPartByIdAsBuilt(id: string): Observable<Part> {
-    if (!id || typeof id !== 'string') {
-      throw new Error('invalid ID');
-    }
-
-    const encodedId = encodeURIComponent(id);
-
-    return this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ encodedId }`).pipe(
-      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)),
-      catchError(() => of(null)),
-    );
-
-
-  }
-
-  public getPartByIdAsPlanned(id: string): Observable<Part> {
-    if (!id || typeof id !== 'string') {
-      throw new Error('invalid ID');
-    }
-
-    const encodedId = encodeURIComponent(id);
-
-    return this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ encodedId }`).pipe(
-      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)),
-      catchError(() => of(null)),
-    );
-
-  }
-  public getPartDetailOfIds(assetIds: string[], isAsBuilt?: boolean): Observable<Part[]> {
-
-    if (isAsBuilt !== undefined) {
-      if (isAsBuilt) {
-        return this.apiService
-          .post<PartResponse[]>(`${ this.url }/assets/as-built/detail-information`, { assetIds })
-          .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
-      } else {
-        return this.apiService
-          .post<PartResponse[]>(`${ this.url }/assets/as-planned/detail-information`, { assetIds })
-          .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
-      }
-
-    } else {
-      let resultsAsBuilt = this.apiService
-        .post<PartResponse[]>(`${ this.url }/assets/as-built/detail-information`, { assetIds })
+  public getPartDetailOfIds(assetIds: string[], mainAspectType= MainAspectType.AS_BUILT): Observable<Part[]> {
+    if (mainAspectType === MainAspectType.AS_BUILT) {
+      const resultsAsBuilt = this.apiService
+        .post<PartResponse[]>(`${this.url}/assets/as-built/detail-information`, { assetIds })
         .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
-
-      let resultsAsPlanned = this.apiService
-        .post<PartResponse[]>(`${ this.url }/assets/as-planned/detail-information`, { assetIds })
-        .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
 
       if (resultsAsBuilt) {
         return resultsAsBuilt;
       }
+    } else {
+      const resultsAsPlanned = this.apiService
+        .post<PartResponse[]>(`${this.url}/assets/as-planned/detail-information`, { assetIds })
+        .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
 
       if (resultsAsPlanned) {
         return resultsAsPlanned;
       }
     }
-
   }
 
   public getSearchableValues(isAsBuilt: boolean, fieldNames: string, startsWith: string, inAssetIds?: string[]) {
