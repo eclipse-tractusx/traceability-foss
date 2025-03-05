@@ -99,6 +99,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings();
   public searchFormGroup = new FormGroup({});
   chipItems: string[] = [];
+  searchTerms: string[] = [];
   visibleChips: string[] = [];
   @ViewChild('chipContainer', { static: false }) chipContainer!: ElementRef;
   hiddenCount = 0;
@@ -198,20 +199,36 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   triggerPartSearch() {
+
     this.resetFilterAndShowToast();
     const searchValue: string = this.searchControl.value;
 
     if (this.chipItems.length || searchValue && searchValue !== '') {
-      const regex = /\b[\w-]+\b/g;
+      const regex = /\b[\p{L}\p{N}:/_-]+\b/gu;
       const values: string[] = searchValue.match(regex) ?? [];
-      values.push(...this.chipItems);
-      this.partsFacade.setPartsAsPlanned(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList,
-        toGlobalSearchAssetFilter(values, false), true);
-      this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList,
-        toGlobalSearchAssetFilter(values, true), true);
+
+      values.push(...this.searchTerms);
+
+      this.partsFacade.setPartsAsPlanned(
+        FIRST_PAGE,
+        DEFAULT_PAGE_SIZE,
+        this.tableAsPlannedSortList,
+        toGlobalSearchAssetFilter(values, false),
+        true,
+      );
+
+      this.partsFacade.setPartsAsBuilt(
+        FIRST_PAGE,
+        DEFAULT_PAGE_SIZE,
+        this.tableAsBuiltSortList,
+        toGlobalSearchAssetFilter(values, true),
+        true,
+      );
+
       values.forEach(value => {
-        const truncated = this.truncateText(value);
-        if (!this.chipItems.includes(truncated)) {
+        if (!this.searchTerms.includes(value)) {
+          this.searchTerms.push(value);
+          const truncated = this.truncateText(value);
           this.chipItems.push(truncated);
           this.updateVisibleChips();
         }
@@ -230,14 +247,19 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   clearInput() {
     this.searchControl.setValue('');
     this.chipItems.length = 0;
+    this.searchTerms.length = 0;
     this.triggerPartSearch();
     this.updateVisibleChips();
   }
 
   remove(item: string) {
-    this.chipItems = this.chipItems.filter(i => i !== item);
-    this.triggerPartSearch();
-    this.updateVisibleChips();
+    const originalTerm = this.searchTerms.find(orig => this.truncateText(orig) === item);
+    if (originalTerm) {
+      this.searchTerms = this.searchTerms.filter(i => i !== originalTerm);
+      this.chipItems = this.chipItems.filter(i => i !== item);
+      this.triggerPartSearch();
+      this.updateVisibleChips();
+    }
   }
 
   updatePartsByOwner(owner: Owner) {
@@ -454,7 +476,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     const containerWidth = this.chipContainer.nativeElement.offsetWidth;
     let totalWidth = 0;
     let visibleCount = 0;
-    this.chipItems.forEach( ()=> {
+    this.chipItems.forEach(() => {
       const chipWidth = 190;
       totalWidth += chipWidth;
 
