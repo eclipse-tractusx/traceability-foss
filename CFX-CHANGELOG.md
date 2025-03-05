@@ -22,6 +22,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
  - TRACEX-471 Modify Helm chart pipeline to append git hash and update values repo
  - TRACEX-534 change dummy test controller to post requests to resolve CSRF alert
  - TRACEX-539 repair flaky integration tests
+ - TRACEX-493 reverted supplier/customer parts sync
 
 ### Removed
 

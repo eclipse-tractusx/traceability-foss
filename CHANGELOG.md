@@ -17,6 +17,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #221 Restricted Supervisor role from modifying policies
 - #239 Fixed correct owner assignment after supplier sync
 - #XXX Tombstones will still have the bpn value
+- #292 reverted supplier/customer parts sync
 
 ### Changed
 - #117 updated spring boot to v3.3.5
