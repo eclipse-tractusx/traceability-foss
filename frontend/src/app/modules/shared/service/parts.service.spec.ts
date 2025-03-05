@@ -104,7 +104,7 @@ describe('PartsService', () => {
       [ 'age', 'asc' ],
       [ 'score', 'desc' ],
     ];
-    const filter = { id: '123' } as AssetAsBuiltFilter;
+    const filter = [{ id: '123' }] as AssetAsBuiltFilter[];
 
     service.getPartsAsBuilt(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
       expect(parts).toBeTruthy();
@@ -157,7 +157,7 @@ describe('PartsService', () => {
       [ 'age', 'asc' ],
       [ 'score', 'desc' ],
     ];
-    const filter = { id: '123' } as AssetAsPlannedFilter;
+    const filter = [{ id: '123' }] as AssetAsPlannedFilter[];
 
     service.getPartsAsPlanned(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
       expect(parts).toBeTruthy();

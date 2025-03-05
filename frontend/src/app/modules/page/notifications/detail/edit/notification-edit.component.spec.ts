@@ -338,4 +338,49 @@ describe('NotificationEditComponent', () => {
 
   });
 
+  it('should call setPartsAsBuiltSecondEmpty and setPartsAsBuilt when affectedPartIds is empty', async() => {
+
+    const notification: Notification = {
+      id: 'id-1',
+      title: '',
+      type: NotificationType.ALERT,
+      status: undefined,
+      description: '',
+      createdBy: '',
+      createdByName: '',
+      createdDate: undefined,
+      updatedDate: undefined,
+      assetIds: [],
+      channel: 'SENDER',
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      targetDate: null,
+      messages: [],
+    };
+
+    const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
+    notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
+
+    const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
+    const { componentInstance } = fixture;
+
+    spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
+    spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecondEmpty');
+
+    componentInstance.removeAffectedParts();
+
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuiltSecondEmpty).toHaveBeenCalled();
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(
+      FIRST_PAGE,
+      DEFAULT_PAGE_SIZE,
+      componentInstance.tableAsBuiltSortList,
+      [{
+        excludeIds: [],
+        ids: [],
+        owner: Owner.SUPPLIER,
+      }]
+    );
+    expect(componentInstance.isSaveButtonDisabled).toBeTrue();
+  });
 });

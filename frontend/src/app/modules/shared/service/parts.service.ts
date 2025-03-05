@@ -25,13 +25,7 @@ import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import {
-  AssetAsBuiltFilter,
-  AssetAsPlannedFilter,
-  Part,
-  PartResponse,
-  PartsResponse,
-} from '@page/parts/model/parts.model';
+import { AssetAsPlannedFilter, Part, PartResponse, PartsResponse } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { enrichFilterAndGetUpdatedParams } from '@shared/helper/filter-helper';
@@ -59,7 +53,7 @@ export class PartsService {
     return this.apiService.post(`${ this.url }/assets/as-planned/sync`, { globalAssetIds });
   }
 
-  public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+  public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsPlannedFilter[], isOrSearch?: boolean): Observable<Pagination<Part>> {
 
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
     let filterOperator = isOrSearch ? 'OR' : 'AND';
@@ -73,7 +67,7 @@ export class PartsService {
     });
 
     if (assetAsBuiltFilter) {
-      params = enrichFilterAndGetUpdatedParams(assetAsBuiltFilter, params, filterOperator);
+      params = this.getFilterParams(assetAsBuiltFilter, params, filterOperator);
     }
 
     return this.apiService
@@ -81,8 +75,7 @@ export class PartsService {
       .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
   }
 
-
-  public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+  public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter[], isOrSearch?: boolean): Observable<Pagination<Part>> {
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
     let filterOperator = isOrSearch ? 'OR' : 'AND';
     let params = new HttpParams()
@@ -94,7 +87,7 @@ export class PartsService {
     });
 
     if (assetAsPlannedFilter) {
-      params = enrichFilterAndGetUpdatedParams(assetAsPlannedFilter, params, filterOperator);
+      params = this.getFilterParams(assetAsPlannedFilter, params, filterOperator);
     }
 
     return this.apiService
@@ -109,7 +102,7 @@ export class PartsService {
 
     const encodedId = encodeURIComponent(id);
 
-    return this.apiService.delete<void>(`${this.url}/assets/as-built/${encodedId}`);
+    return this.apiService.delete<void>(`${ this.url }/assets/as-built/${ encodedId }`);
   }
 
   public deletePartByIdAsPlanned(id: string): Observable<void> {
@@ -119,9 +112,8 @@ export class PartsService {
 
     const encodedId = encodeURIComponent(id);
 
-    return this.apiService.delete<void>(`${this.url}/assets/as-planned/${encodedId}`);
+    return this.apiService.delete<void>(`${ this.url }/assets/as-planned/${ encodedId }`);
   }
-
 
   public getPart(id: string, type: MainAspectType): Observable<Part> {
     if (type === MainAspectType.AS_PLANNED) {
@@ -131,6 +123,33 @@ export class PartsService {
 
     return this.apiService.get<PartResponse>(`${this.url}/assets/as-built/${id}`)
       .pipe(map(part => PartsAssembler.assemblePart(part, type)));
+  }
+
+  public getPartByIdAsBuilt(id: string): Observable<Part> {
+    if (!id || typeof id !== 'string') {
+      throw new Error('invalid ID');
+    }
+
+    const encodedId = encodeURIComponent(id);
+
+    return this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ encodedId }`).pipe(
+      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)),
+      catchError(() => of(null)),
+    );
+  }
+
+  public getPartByIdAsPlanned(id: string): Observable<Part> {
+    if (!id || typeof id !== 'string') {
+      throw new Error('invalid ID');
+    }
+
+    const encodedId = encodeURIComponent(id);
+
+    return this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ encodedId }`).pipe(
+      map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)),
+      catchError(() => of(null)),
+    );
+
   }
 
   public getPartDetailOfIds(assetIds: string[], mainAspectType= MainAspectType.AS_BUILT): Observable<Part[]> {
@@ -157,11 +176,11 @@ export class PartsService {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
 
     const body = {
-      "fieldName": mappedFieldName,
-      "startWith": startsWith,
-      "size": 200,
-      "inAssetIds": inAssetIds ? inAssetIds : []
-    }
+      'fieldName': mappedFieldName,
+      'startWith': startsWith,
+      'size': 200,
+      'inAssetIds': inAssetIds ? inAssetIds : [],
+    };
 
     if (isAsBuilt) {
       return this.apiService
@@ -192,5 +211,16 @@ export class PartsService {
       if (a < b) return 1;
       return 0;
     });
+  }
+
+  private getFilterParams(filters: any, params: HttpParams, filterOperator: string) {
+    if (Array.isArray(filters)) {
+      for (let filter of filters) {
+        params = enrichFilterAndGetUpdatedParams(filter, params, filterOperator);
+      }
+    } else {
+      params = enrichFilterAndGetUpdatedParams(filters, params, filterOperator);
+    }
+    return params;
   }
 }
