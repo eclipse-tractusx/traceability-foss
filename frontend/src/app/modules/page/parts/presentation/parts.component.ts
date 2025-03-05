@@ -19,7 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Pagination } from '@core/model/pagination.model';
@@ -54,8 +63,8 @@ import { map } from 'rxjs/operators';
   templateUrl: './parts.component.html',
   styleUrls: [ './parts.component.scss' ],
   host: {
-    'class': 'app-parts-style'
-  }
+    'class': 'app-parts-style',
+  },
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -87,6 +96,19 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
   @ViewChildren(QuickFilterComponent) quickFilterComponents: QueryList<QuickFilterComponent>;
+  public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings();
+  public searchFormGroup = new FormGroup({});
+  chipItems: string[] = [];
+  visibleChips: string[] = [];
+  @ViewChild('chipContainer', { static: false }) chipContainer!: ElementRef;
+  hiddenCount = 0;
+  public searchControl: FormControl;
+  assetAsBuiltFilter: AssetAsBuiltFilter;
+  assetsAsPlannedFilter: AssetAsPlannedFilter;
+  protected readonly TableType = TableType;
+  protected readonly MainAspectType = MainAspectType;
+  protected readonly NotificationType = NotificationType;
+  private readonly maxLength: number = 20;
 
   constructor(
     private readonly partsFacade: PartsFacade,
@@ -112,20 +134,14 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings();
-
-  public searchFormGroup = new FormGroup({});
-  public searchControl: FormControl;
-
-  assetAsBuiltFilter: AssetAsBuiltFilter;
-  assetsAsPlannedFilter: AssetAsPlannedFilter;
-
   public ngOnInit(): void {
     this.partsFacade.setPartsAsBuilt();
     this.partsFacade.setPartsAsPlanned();
     this.searchFormGroup.addControl('partSearch', new FormControl([]));
     this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
     this.route.queryParams.subscribe(params => this.setupPageByUrlParams(params));
+    this.updateVisibleChips();
+    window.addEventListener('resize', () => this.updateVisibleChips());
 
   }
 
@@ -169,40 +185,66 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  asPlannedFilterActivated(assetAsPlannedFilter: AssetAsPlannedFilter): void {
+    this.assetsAsPlannedFilter = assetAsPlannedFilter;
+    this.partsFacade.setPartsAsPlanned(this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] ?? FIRST_PAGE, DEFAULT_PAGE_SIZE,
+      this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, false));
+  }
 
-  filterActivated(isAsBuilt: boolean, assetFilter: any): void {
-    if (isAsBuilt) {
-      this.assetAsBuiltFilter = assetFilter;
-      this.partsFacade.setPartsAsBuilt(this.currentPartTablePage['AS_BUILT_OWN_PAGE'] ?? FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
-    } else {
-      this.assetsAsPlannedFilter = assetFilter;
-      this.partsFacade.setPartsAsPlanned(this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] ?? FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, false));
-    }
+  asBuiltFilterActivated(assetAsBuiltFilter: AssetAsBuiltFilter): void {
+    this.assetAsBuiltFilter = assetAsBuiltFilter;
+    this.partsFacade.setPartsAsBuilt(this.currentPartTablePage['AS_BUILT_OWN_PAGE'] ?? FIRST_PAGE, DEFAULT_PAGE_SIZE,
+      this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
   }
 
   triggerPartSearch() {
-
     this.resetFilterAndShowToast();
+    const searchValue: string = this.searchControl.value;
 
-    const searchValue = this.searchFormGroup.get('partSearch').value;
-
-    if (searchValue && searchValue !== '') {
-      this.partsFacade.setPartsAsPlanned(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toGlobalSearchAssetFilter(searchValue, false), true);
-      this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toGlobalSearchAssetFilter(searchValue, true), true);
+    if (this.chipItems.length || searchValue && searchValue !== '') {
+      const regex = /\b[\w-]+\b/g;
+      const values: string[] = searchValue.match(regex) ?? [];
+      values.push(...this.chipItems);
+      this.partsFacade.setPartsAsPlanned(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList,
+        toGlobalSearchAssetFilter(values, false), true);
+      this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList,
+        toGlobalSearchAssetFilter(values, true), true);
+      values.forEach(value => {
+        const truncated = this.truncateText(value);
+        if (!this.chipItems.includes(truncated)) {
+          this.chipItems.push(truncated);
+          this.updateVisibleChips();
+        }
+      });
     } else {
       this.partsFacade.setPartsAsBuilt();
       this.partsFacade.setPartsAsPlanned();
     }
+    this.searchFormGroup.patchValue({ partSearch: '' });
+  }
 
+  truncateText(text: string): string {
+    return text.length > this.maxLength ? text.substring(0, this.maxLength) + '...' : text;
+  }
+
+  clearInput() {
+    this.searchControl.setValue('');
+    this.chipItems.length = 0;
+    this.triggerPartSearch();
+    this.updateVisibleChips();
+  }
+
+  remove(item: string) {
+    this.chipItems = this.chipItems.filter(i => i !== item);
+    this.triggerPartSearch();
+    this.updateVisibleChips();
   }
 
   updatePartsByOwner(owner: Owner) {
     this.resetFilterAndShowToast();
-    let filter = {};
+    let filter = [];
     if (owner != Owner.UNKNOWN) {
-      filter = {
-        owner,
-      };
+      filter = [ { owner } ];
     }
     this.partsFacade.setPartsAsPlanned(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, filter, true);
     this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, filter, true);
@@ -232,6 +274,79 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       case PartReloadOperation.SYNC_PARTS_AS_PLANNED:
         this.syncPartsAsPlanned(this.currentSelectedAsPlannedItems$.value.map(part => part.id));
         break;
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    this.handleTableActivationEvent(this.bomLifecycleSize);
+  }
+
+  public ngOnDestroy(): void {
+    this.partsFacade.unsubscribeParts();
+  }
+
+  public onSelectItem($event: Record<string, unknown>): void {
+    this.partDetailsFacade.selectedPart = $event as unknown as Part;
+    this.partDetailsFacade.mainAspectType = this.partDetailsFacade.selectedPart.mainAspectType;
+    let tableData = {};
+    for (let component of this.partsTableComponents) {
+      tableData[component.tableType + '_PAGE'] = component.pageIndex;
+    }
+    tableData['isAsBuilt'] = $event?.partId !== undefined;
+    this.router.navigate([ `parts/${ $event?.id }` ], { queryParams: tableData });
+  }
+
+  public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+    this.currentPartTablePage['AS_BUILT_OWN_PAGE'] = page;
+    let pageSizeValue = DEFAULT_PAGE_SIZE;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+    if (this.quickFilterComponents && this.quickFilterComponents?.get(0)?.owner !== Owner.UNKNOWN) {
+      this.assetAsBuiltFilter.owner = this.quickFilterComponents.get(0)?.owner;
+    }
+    if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
+      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+    } else {
+      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
+    }
+
+  }
+
+  public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
+    this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] = page;
+
+    let pageSizeValue = DEFAULT_PAGE_SIZE;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+    if (this.quickFilterComponents && this.quickFilterComponents?.get(0)?.owner !== Owner.UNKNOWN) {
+      this.assetsAsPlannedFilter.owner = this.quickFilterComponents.get(0)?.owner;
+    }
+    if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
+      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
+    } else {
+      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
+    }
+
+  }
+
+  public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
+    this.bomLifecycleSize = bomLifecycleSize;
+  }
+
+  openPublisherSideNav(): void {
+    this.isPublisherOpen$.next(true);
+  }
+
+  navigateToNotificationCreationView(type?: NotificationType) {
+    this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
+    if (this.sharedPartService?.affectedParts.length > 0 && type) {
+      this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: type } });
+    } else {
+      this.router.navigate([ 'inbox/create' ]);
     }
   }
 
@@ -273,67 +388,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (filterIsSet) {
       this.toastService.info('parts.input.global-search.toastInfo');
     }
-  }
-
-  public ngAfterViewInit(): void {
-    this.handleTableActivationEvent(this.bomLifecycleSize);
-  }
-
-  public ngOnDestroy(): void {
-    this.partsFacade.unsubscribeParts();
-  }
-
-  public onSelectItem($event: Record<string, unknown>): void {
-    this.partDetailsFacade.selectedPart = $event as unknown as Part;
-    this.partDetailsFacade.mainAspectType = this.partDetailsFacade.selectedPart.mainAspectType;
-    let tableData = {};
-    for (let component of this.partsTableComponents) {
-      tableData[component.tableType + '_PAGE'] = component.pageIndex;
-    }
-    tableData['isAsBuilt'] = $event?.partId !== undefined;
-    this.router.navigate([ `parts/${ $event?.id }` ], { queryParams: tableData });
-  }
-
-  public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-    this.currentPartTablePage['AS_BUILT_OWN_PAGE'] = page;
-    let pageSizeValue = DEFAULT_PAGE_SIZE;
-    if (pageSize !== 0) {
-      pageSizeValue = pageSize;
-    }
-    if (this.quickFilterComponents && this.quickFilterComponents?.get(0)?.owner !== Owner.UNKNOWN){
-      this.assetAsBuiltFilter.owner = this.quickFilterComponents.get(0)?.owner;
-    }
-    if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
-      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
-    } else {
-      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
-    }
-
-  }
-
-  public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-    this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] = page;
-
-    let pageSizeValue = DEFAULT_PAGE_SIZE;
-    if (pageSize !== 0) {
-      pageSizeValue = pageSize;
-    }
-    if (this.quickFilterComponents && this.quickFilterComponents?.get(0)?.owner !== Owner.UNKNOWN){
-      this.assetsAsPlannedFilter.owner = this.quickFilterComponents.get(0)?.owner;
-    }
-    if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
-      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
-    } else {
-      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
-    }
-
-  }
-
-
-  public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
-    this.bomLifecycleSize = bomLifecycleSize;
   }
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
@@ -394,23 +448,21 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  openPublisherSideNav(): void {
-    this.isPublisherOpen$.next(true);
+
+  private updateVisibleChips() {
+    if (!this.chipContainer) return;
+    const containerWidth = this.chipContainer.nativeElement.offsetWidth;
+    let totalWidth = 0;
+    let visibleCount = 0;
+    this.chipItems.forEach( ()=> {
+      const chipWidth = 190;
+      totalWidth += chipWidth;
+
+      if (totalWidth < containerWidth - 50) {
+        visibleCount++;
+      }
+    });
+    this.visibleChips = this.chipItems.slice(0, visibleCount);
+    this.hiddenCount = this.chipItems.length - visibleCount;
   }
-
-  navigateToNotificationCreationView(type?: NotificationType) {
-    this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
-    if (this.sharedPartService?.affectedParts.length > 0 && type) {
-      this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: type } });
-    } else {
-      this.router.navigate([ 'inbox/create' ]);
-    }
-  }
-
-
-  protected readonly TableType = TableType;
-  protected readonly MainAspectType = MainAspectType;
-  protected readonly NotificationType = NotificationType;
-
-
 }

@@ -96,7 +96,7 @@ describe('Parts facade', () => {
       const serviceSpy = spyOn(partsServiceMock, 'getPartsAsBuilt').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
       );
-      const filter = { id: '123' } as AssetAsBuiltFilter;
+      const filter = [{ id: '123' }] as AssetAsBuiltFilter[];
       partsFacade.setPartsAsBuilt(0, 10, [], filter);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
@@ -116,7 +116,7 @@ describe('Parts facade', () => {
       const serviceSpy = spyOn(partsServiceMock, 'getPartsAsPlanned').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_PLANNED)),
       );
-      const filter = { id: '123' } as AssetAsPlannedFilter;
+      const filter = [{ id: '123' }] as AssetAsPlannedFilter[];
       partsFacade.setPartsAsPlanned(0, 10, [], filter);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));

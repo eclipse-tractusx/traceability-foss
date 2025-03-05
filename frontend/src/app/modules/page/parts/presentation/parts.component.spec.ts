@@ -84,7 +84,7 @@ describe('Parts', () => {
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
 
-    componentInstance.filterActivated(true, assetAsBuiltFilter);
+    componentInstance.asBuiltFilterActivated(assetAsBuiltFilter);
 
 
     expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsBuiltFilter);
@@ -102,7 +102,7 @@ describe('Parts', () => {
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
 
 
-    componentInstance.filterActivated(false, assetAsPlannedFilter);
+    componentInstance.asPlannedFilterActivated(assetAsPlannedFilter);
 
 
     expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsPlannedFilter);
@@ -118,7 +118,7 @@ describe('Parts', () => {
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
 
     // Act
-    componentInstance.filterActivated(true, assetAsBuiltFilter);
+    componentInstance.asBuiltFilterActivated(assetAsBuiltFilter);
 
     // Assert
     expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], null);
@@ -318,12 +318,12 @@ describe('Parts', () => {
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
     // Arrange
-    const searchValue = 'searchTerm';
+    const searchValue = ['searchTerm'];
 
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
     const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
-    componentInstance.searchControl.setValue(searchValue);
+    componentInstance.searchControl.setValue(searchValue[0]);
 
 
     // Act
@@ -350,7 +350,7 @@ describe('Parts', () => {
     // Act
     componentInstance.updatePartsByOwner(Owner.OWN);
 
-    let filter = {owner: Owner.OWN};
+    let filter = [{owner: Owner.OWN}];
 
     // Assert
     expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], filter, true);
@@ -488,5 +488,54 @@ describe('Parts', () => {
   });
 
 
+  it('should clear input and reset filter', async () => {
+
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const searchValue = ['SO'];
+
+    const partsFacade = (componentInstance as any)['partsFacade'];
+    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+    componentInstance.searchControl.setValue(searchValue[0]);
+
+    componentInstance.triggerPartSearch();
+    expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, false), true);
+    expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], toGlobalSearchAssetFilter(searchValue, true), true);
+    expect(componentInstance.chipItems.length).toBeGreaterThan(0);
+    expect(componentInstance.visibleChips.length).toBeGreaterThan(0);
+
+    componentInstance.clearInput();
+
+    expect(componentInstance.searchControl.value).toEqual('')
+    expect(componentInstance.chipItems).toEqual([]);
+    expect(componentInstance.visibleChips).toEqual([]);
+    expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith();
+    expect(partsFacadeSpy).toHaveBeenCalledWith();
+
+  });
+
+
+  it('should remove chip', async () => {
+
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const searchValue = ['SO PO'];
+
+    const partsFacade = (componentInstance as any)['partsFacade'];
+    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
+    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+    componentInstance.searchControl.setValue(searchValue[0]);
+
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.chipItems.length).toEqual(2);
+    expect(componentInstance.visibleChips.length).toEqual(2);;
+
+    componentInstance.remove('SO');
+
+    expect(componentInstance.chipItems).toContain('PO');
+    expect(componentInstance.visibleChips).toContain('PO');
+
+  });
 
 });

@@ -129,7 +129,7 @@ export function isSameDate(startDate: string, endDate: string): boolean {
   return startDate === endDate;
 }
 
-export function toAssetFilter(formValues: any, isAsBuilt: boolean, ids?: string[]): AssetAsPlannedFilter | AssetAsBuiltFilter {
+export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter[] | AssetAsBuiltFilter[] {
 
   const transformedFilter: any = {};
 
@@ -156,16 +156,12 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean, ids?: string[
     }
   }
 
-  if (ids){
-    transformedFilter['ids'] = ids;
-  }
-
   const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
   if (filterIsSet) {
     if (isAsBuilt) {
-      return transformedFilter as AssetAsBuiltFilter;
+      return transformedFilter as AssetAsBuiltFilter[];
     } else {
-      return transformedFilter as AssetAsPlannedFilter;
+      return transformedFilter as AssetAsPlannedFilter[];
     }
   } else {
     return null;
@@ -191,28 +187,29 @@ export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
 }
 
 
-export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
-  let filter;
-  if (isAsBuilt) {
-    filter = {
-      id: formValues,
-      semanticModelId: formValues,
-      idShort: formValues,
-      customerPartId: formValues,
-      manufacturerPartId: formValues,
-      businessPartner: formValues,
-    } as AssetAsBuiltFilter;
-  } else {
-    filter = {
-      id: formValues,
-      idShort: formValues,
-      semanticModelId: formValues,
-      manufacturerPartId: formValues,
-      businessPartner: formValues,
-    } as AssetAsPlannedFilter;
-  }
+export function toGlobalSearchAssetFilter(values: string[], isAsBuilt: boolean) {
 
-  return filter;
+  let filters: AssetAsPlannedFilter[] | AssetAsBuiltFilter[];
+
+  if (isAsBuilt) {
+    filters = values.map(value => ({
+      id: value,
+      semanticModelId: value,
+      idShort: value,
+      customerPartId: value,
+      manufacturerPartId: value,
+      businessPartner: value,
+    })) as AssetAsBuiltFilter[];
+  } else {
+    filters = values.map(value => ({
+      id: value,
+      idShort: value,
+      semanticModelId: value,
+      manufacturerPartId: value,
+      businessPartner: value,
+    })) as AssetAsPlannedFilter[];
+  }
+  return filters;
 }
 
 export function provideFilterListForNotifications(filter?: NotificationDeeplinkFilter, fullFilter?: any): string[] {
