@@ -8,6 +8,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 ## [Unreleased - DD.MM.YYYY]
 
+##  [14.0.0-cfx-2 - 05.03.2025]
 ### Added
 - #124 Added new section under crosscuting/api-endpoints to arc42 documentation
 - #476 Cascading removal on AssetAsBuiltEntity & AssetAsPlannedEntity
@@ -30,7 +31,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - #385 refactor submodel implementation to accept custom implementations
 - #362 Upgrade Spring Boot to fix vulnerability CVE-2024-50379
 
-- [13.0.2-cfx-5 - 06.11.2024]
+##  [13.0.2-cfx-5 - 06.11.2024]
 ### Added
 - #350 Added properties for provisioning to submodel / dtr service
 - #349 Added second identity provider for Oauth2 for DTR and submodel service
