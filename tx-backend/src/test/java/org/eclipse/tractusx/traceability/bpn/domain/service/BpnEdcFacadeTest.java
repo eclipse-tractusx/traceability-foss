@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -37,10 +38,12 @@ import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.model.TransferProcessResponse;
 import org.eclipse.tractusx.irs.edc.client.storage.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
-import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpEntity;
@@ -49,10 +52,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(MockitoExtension.class)
-public class BpnEdcFacadeTest {
+class BpnEdcFacadeTest {
 
     @Mock
-    private BpdmProperties bpdmProperties;
+    private EdcProperties edcProperties;
+
+    @Mock
+    private TraceabilityProperties traceabilityProperties;
 
     @Mock
     private EDCCatalogFacade edcCatalogFacade;
@@ -66,8 +72,12 @@ public class BpnEdcFacadeTest {
     @Mock
     private RestTemplate restTemplate;
 
-    @InjectMocks
     private BpnEdcFacade bpnEdcFacade;
+
+    @BeforeEach
+    void setUp() {
+        bpnEdcFacade = new BpnEdcFacade(edcProperties, edcCatalogFacade, contractNegotiationService, endpointDataReferenceStorage, restTemplate, traceabilityProperties);
+    }
 
     @Test
     void shouldResolveBusinessPartnerByBpn()
@@ -76,12 +86,13 @@ public class BpnEdcFacadeTest {
         final String bpn = "bpn";
         final String legalName = "legalName";
         final String providerUrl = "providerUrl";
-        final String providerBpnl = "providerBpnl";
+        final String dspUrl = "/api/v1/dsp";
         final String contractAgreementId = "contractAgreementId";
         final String endpoint = "endpoint";
 
-        when(bpdmProperties.getProviderUrl()).thenReturn(providerUrl);
-        when(bpdmProperties.getProviderBpnl()).thenReturn(providerBpnl);
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of(bpn));
+        when(edcProperties.getProviderEdcUrl()).thenReturn(providerUrl);
+        when(edcProperties.getIdsPath()).thenReturn(dspUrl);
 
         BusinessPartnerResponse businessPartnerResponse = BusinessPartnerResponse.builder()
                 .legalName(legalName)
@@ -90,10 +101,10 @@ public class BpnEdcFacadeTest {
         when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of(CatalogItem.builder().build()));
 
         when(contractNegotiationService.negotiate(
-                eq(providerUrl),
                 any(),
                 any(),
-                eq(providerBpnl)))
+                any(),
+                any()))
                 .thenReturn(TransferProcessResponse.builder()
                         .contractId(contractAgreementId)
                         .build());
@@ -119,6 +130,11 @@ public class BpnEdcFacadeTest {
 
         // then
         assertThat(legalName).isEqualTo(response.getLegalName());
+        verify(restTemplate).exchange(
+                eq("endpoint/members/legal-entities/search"),
+                eq(HttpMethod.POST),
+                any(HttpEntity.class),
+                eq(BusinessPartnerResponse.class));
     }
 
 }

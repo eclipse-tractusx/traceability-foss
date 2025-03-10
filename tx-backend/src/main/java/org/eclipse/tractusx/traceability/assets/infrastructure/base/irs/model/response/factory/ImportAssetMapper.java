@@ -76,7 +76,6 @@ public class ImportAssetMapper implements AssetBaseMappers<List<ImportRequest.As
                     assetBase.setImportNote(ImportNote.TRANSIENT_CREATED);
                     assetBase.setImportState(ImportState.TRANSIENT);
                     assetBase.setManufacturerId(traceabilityProperties.getBpn().value());
-                    assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
                     assetBase.setDigitalTwinType(assetMetaInfoRequest.digitalTwinType());
                     enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
                     enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);

@@ -48,15 +48,14 @@ public class BpnServiceImpl implements BpnService {
             return null;
         }
 
-        String manufacturerName = bpnRepository.findManufacturerName(bpn);
-            try {
-                BusinessPartnerResponse businessPartner = bpdmEdcClient.getBusinessPartnerLegalName(bpn);
-                BpnEntity bpnEntity = bpnRepository.save(businessPartner);
-                return bpnEntity.getManufacturerName();
-            } catch (Exception e) {
-                log.error("Error resolving business partner data: {}", e.getMessage());
-                return null;
-            }
+        try {
+            BusinessPartnerResponse businessPartner = bpdmEdcClient.getBusinessPartnerLegalName(bpn);
+            BpnEntity bpnEntity = bpnRepository.save(businessPartner);
+            return bpnEntity.getManufacturerName();
+        } catch (Exception e) {
+            log.error("Error resolving business partner data: {}", e.getMessage());
+            return null;
+        }
     }
 
     @Override
