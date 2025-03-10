@@ -227,7 +227,3 @@ digitalTwinRegistryClient:
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
   discovery:
     type: ${DISCOVERY_TYPE}
-
-bpdm:
-  providerUrl: ${BPDM_URL} # Endpoint to resolve BPNs, must contain the placeholders {partnerId} and {idType}
-  providerBpnl: ${BPDM_PROVIDER_BPNL}
