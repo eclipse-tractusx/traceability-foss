@@ -29,9 +29,12 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 3) Optional: If [IRS Library Release](#irs-library-release) was needed:
     1) If the action of [IRS Library Release](#irs-library-release) step 7 was executed successfully
     2) Update <irs-client-lib.version> in the above created release
-4) Edit changelog: Align the new version (1.0.0-cfx-1) with the changes and add a new UNRELEASED section
-5) Update the [Compatability Matrix](https://github.com/Cofinity-X/traceability-foss/blob/main/COMPATIBILITY_MATRIX.md) with a new entry for the release version
-6) Push onto /release/1.0.0-cfx-1
+4) Optional: If there have been changes to the Helm charts
+   1) Bump the version in the Chart.yaml file under charts/. Also do this for the frontend and backend subcharts
+   2) In the main Chart.yaml file, update the version of the frontend and backend dependencies to the version created in the previous step
+5) Edit changelog: Align the new version (1.0.0-cfx-1) with the changes and add a new UNRELEASED section
+6) Update the [Compatability Matrix](https://github.com/Cofinity-X/traceability-foss/blob/main/COMPATIBILITY_MATRIX.md) with a new entry for the release version
+7) Push onto /release/1.0.0-cfx-1
 9) Open releases page: https://github.com/Cofinity-X/traceability-foss/releases
 10) Draft a new release
 11) On dropdown choose a tag - use the version 1.0.0-cfx-1 (Create new tag will appear - select it)
