@@ -58,7 +58,7 @@ SPDX-License-Identifier: Apache-2.0
         <owasp-plugin.version>9.0.9</owasp-plugin.version>
         <spotbugs-plugin.version>4.8.6.2</spotbugs-plugin.version>
         <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
-        <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
