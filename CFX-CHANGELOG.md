@@ -9,6 +9,10 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ## [Unreleased]
 
+### Added
+- TRACEX-540 extend callback logic for partial state batches
+
+
 ## [14.0.0-cfx-2]
 
 ### Changed

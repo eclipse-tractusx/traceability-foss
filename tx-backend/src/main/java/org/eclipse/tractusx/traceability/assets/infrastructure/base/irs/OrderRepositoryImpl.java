@@ -34,6 +34,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsBatchResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.JobState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
@@ -44,6 +45,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,6 +61,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     private final AssetCallbackRepository assetAsBuiltCallbackRepository;
     private final AssetCallbackRepository assetAsPlannedCallbackRepository;
     private static final ProcessingState STATUS_COMPLETED = ProcessingState.COMPLETED;
+    private static final ProcessingState STATUS_PARTIAL = ProcessingState.PARTIAL;
+    private static final JobState JOB_STATUS_COMPLETED = JobState.COMPLETED;
 
     private final IrsResponseAssetMapper assetMapperFactory;
 
@@ -100,10 +104,10 @@ public class OrderRepositoryImpl implements OrderRepository {
 
         log.info("Handling order finished callback for orderId: {}, batchId: {}, orderState: {}, batchState: {}",
                 sanitize(orderId), sanitize(batchId), orderState, batchState);
-        if (!STATUS_COMPLETED.equals(batchState)) {
-            log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is not COMPLETED (actual: {}).",
-                    sanitize(orderId), sanitize(batchId), batchState);
-            return;
+        if (!STATUS_COMPLETED.equals(batchState) && ( !STATUS_PARTIAL.equals(batchState))){
+                    log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is (actual: {}).",
+                            sanitize(orderId), sanitize(batchId), batchState);
+                    return;
         }
 
         final IrsBatchResponse irsBatchResponse = this.orderClient.getBatchByOrder(orderId, batchId);
@@ -126,6 +130,23 @@ public class OrderRepositoryImpl implements OrderRepository {
         irsBatchResponse.jobs().forEach(jobRecord -> {
             log.debug("Processing job with ID: {} for orderId: {}, batchId: {}.", jobRecord.id(), sanitize(orderId), sanitize(batchId));
             IRSResponse irsJobDetailResponse = jobClient.getIrsJobDetailResponse(jobRecord.id());
+
+            if (irsJobDetailResponse == null) {
+                log.warn("Skipping job with ID: {} as IRS job detail response is null.", jobRecord.id());
+                return;
+            }
+            if (irsJobDetailResponse.jobStatus() == null || irsJobDetailResponse.jobStatus().state() == null) {
+                log.warn("Skipping job with ID: {} as IRS job status or its state is null.", jobRecord.id());
+                return;
+            }
+            if (STATUS_PARTIAL.equals(batchState)) {
+                JobState jobState = JobState.fromString(irsJobDetailResponse.jobStatus().state());
+                if (!JOB_STATUS_COMPLETED.equals(jobState)) {
+                    log.info("Skipping job with ID: {} in PARTIAL batch as it is not COMPLETED (actual: {}).",
+                            jobRecord.id(), irsJobDetailResponse.jobStatus().state());
+                    return;
+                }
+            }
             List<AssetBase> assets = assetMapperFactory.toAssetBaseList(irsJobDetailResponse);
 
             assets.forEach(assetBase -> {
