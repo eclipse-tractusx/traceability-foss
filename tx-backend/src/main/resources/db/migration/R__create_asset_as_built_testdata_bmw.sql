@@ -4,7 +4,7 @@ DO $$
         bpnB TEXT := '${bpnB}';
         bpnA TEXT := '${bpnA}';
     BEGIN
-        IF applicationBpn = '${bpnB}' AND '${applyTestData}' = true THEN
+         IF applicationBpn = '${bpnB}' AND '${applyTestData}' = true THEN
 
             INSERT INTO assets_as_built (
                 id, customer_part_id, id_short, manufacturer_id, manufacturer_name, manufacturer_part_id, manufacturing_country, name_at_customer, name_at_manufacturer, quality_type, van, owner, semantic_model_id, semantic_data_model, classification, product_type, manufacturing_date, import_state, import_note, policy_id, tombstone, contract_agreement_id, digital_twin_type

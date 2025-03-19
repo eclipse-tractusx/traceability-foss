@@ -4,7 +4,6 @@ DECLARE
     bpnB TEXT := '${bpnB}';
     bpnA TEXT := '${bpnA}';
 BEGIN
-
     IF applicationBpn = '${bpnA}' AND '${applyTestData}' = true THEN
 
     INSERT INTO assets_as_built (
