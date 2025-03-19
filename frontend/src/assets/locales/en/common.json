@@ -245,7 +245,9 @@
     "generic": "Please enter valid data.",
     "invalidBpn" : "Must not be own BPN.",
     "pastDate" : "Please select a date in the future.",
-    "minimumOneConstraint" : "Please add at least one valid constraint to the policy"
+    "minimumOneConstraint" : "Please add at least one valid constraint to the policy",
+    "invalidCsv": "Invalid file format. Please upload a valid CSV file.",
+    "invalidCsvContent": "Please make sure that the file contains at least one of the required columns."
   },
   "unitTest": {
     "test01": "This is for unit tests purposes.",
@@ -483,7 +485,7 @@
   "parts": {
     "input": {
       "global-search": {
-        "placeholder" : "Search by entering ID, part ID or Business partner number (BPN)",
+        "placeholder" : "Search by entering ID, part ID or Business partner number (BPN) or drag & drop csv file",
         "toastInfo": "Any local filters on table level were removed."
       }
     }

@@ -249,7 +249,9 @@
     "generic": "Die Eingabe ist ungültig.",
     "invalidBpn" : "Die eigene BPN darf nicht verwendet werden.",
     "pastDate" : "Bitte wählen Sie ein Datum in Zukunft aus.",
-    "minimumOneConstraint" : "Bitte fügen Sie mindestens eine valide Richtlinie hinzu."
+    "minimumOneConstraint" : "Bitte fügen Sie mindestens eine valide Richtlinie hinzu.",
+    "invalidCsv": "Ungültiges Dateiformat. Bitte laden Sie eine gültige CSV-Datei hoch.",
+    "invalidCsvContent": "Bitte stellen Sie sicher, dass die Datei mindestens eine der zur Suche erforderlichen Spalten enthält."
   },
   "requestAlert": {
     "headline": "Qualitätswarnung erstellen",
@@ -485,7 +487,7 @@
   "parts": {
     "input": {
       "global-search": {
-        "placeholder" : "Suche nach ID, Produktnummer oder Business Partner Nummer (BPN)",
+        "placeholder" : "Suche nach ID, Produktnummer oder Business Partner Nummer (BPN) oder per drag & drop einer csv-Datei",
         "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
       }
     }

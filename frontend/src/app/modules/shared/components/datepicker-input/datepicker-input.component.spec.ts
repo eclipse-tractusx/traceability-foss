@@ -17,8 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { AdminService } from '@page/admin/core/admin.service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FilterOperator, FilterValue } from '@page/parts/model/parts.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FilterService } from '@shared/service/filter.service';
 import { SharedModule } from '@shared/shared.module';
@@ -44,7 +44,7 @@ describe('DatepickerInputComponent', () => {
     return renderComponent(DatepickerInputComponent, {
       declarations: [],
       imports: [ ReactiveFormsModule, SharedModule ],
-      componentProperties: { },
+      componentProperties: {},
     });
   };
   beforeEach(() => {
@@ -75,7 +75,19 @@ describe('DatepickerInputComponent', () => {
 
     filterStateSubject.next({
       asBuilt: {
-        dateField: '2025-02-01,2025-02-10',
+        dateField: {
+          value: [
+            {
+              value: '2025-02-01',
+              strategy: FilterOperator.AFTER_LOCAL_DATE,
+            },
+            {
+              value: '2025-02-10',
+              strategy: FilterOperator.BEFORE_LOCAL_DATE,
+            },
+          ],
+          operator: 'OR',
+        },
       },
       asPlanned: {},
     });
@@ -85,7 +97,7 @@ describe('DatepickerInputComponent', () => {
     });
 
     const { fixture } = await renderComponent(DatepickerInputComponent, {
-      imports: [ReactiveFormsModule],
+      imports: [ ReactiveFormsModule ],
       providers: [
         { provide: FilterService, useValue: mockFilterService },
         DatePipe,
@@ -102,7 +114,11 @@ describe('DatepickerInputComponent', () => {
     expect(componentInstance.dateRange.value.start).toEqual(new Date('2025-02-01'));
     expect(componentInstance.dateRange.value.end).toEqual(new Date('2025-02-10'));
 
-    expect(parentForm.get('dateField').value).toBe('2025-02-01,2025-02-10');
+    expect(
+      (parentForm.get('dateField').value as unknown as FilterValue[])
+        .map((fv) => fv.value)
+        .join(',')
+    ).toBe('2025-02-01,2025-02-10');
   });
 
   it('should update datepicker on filter state change', async () => {
@@ -111,7 +127,7 @@ describe('DatepickerInputComponent', () => {
     });
 
     const { fixture } = await renderComponent(DatepickerInputComponent, {
-      imports: [ReactiveFormsModule],
+      imports: [ ReactiveFormsModule ],
       providers: [
         { provide: FilterService, useValue: mockFilterService },
         DatePipe,
@@ -128,7 +144,19 @@ describe('DatepickerInputComponent', () => {
 
     filterStateSubject.next({
       asBuilt: {
-        dateField: '2025-02-01,2025-02-10',
+        dateField: {
+          value: [
+            {
+              value: '2025-02-01',
+              strategy: FilterOperator.AFTER_LOCAL_DATE,
+            },
+            {
+              value: '2025-02-10',
+              strategy: FilterOperator.BEFORE_LOCAL_DATE,
+            },
+          ],
+          operator: 'OR',
+        },
       },
       asPlanned: {},
     });

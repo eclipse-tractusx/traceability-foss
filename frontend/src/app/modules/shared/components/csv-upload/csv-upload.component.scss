@@ -1,0 +1,61 @@
+.csv-upload-dialog {
+  background-color: #f5f5f5 !important;
+  padding: 10px;
+  min-height: 300px;
+}
+
+.dialog-actions {
+  justify-content: flex-end !important;
+}
+
+.drag-drop-box ::ng-deep .ngx-file-drop__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: rgb(136 136 136) !important;
+  min-height: 250px;
+}
+
+.csv-icon {
+  font-size: 60px;
+  overflow: visible;
+  position: absolute;
+  left: 44%;
+  top: 30px;
+  color: rgb(136 136 136);
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__title{
+  font-family: inherit;
+  letter-spacing: 0;
+}
+
+.drag-drop-box ::ng-deep .ngx-file-drop__drop-zone{
+  min-height: 160px;
+}
+
+::ng-deep .drag-drop-box .ngx-file-drop__drop-zone[_ngcontent-ng-c2614662205] {
+  height: 100px;
+  margin: auto;
+  border: 1px dotted grey;
+  border-radius: 30px;
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface{
+  border-radius: 30px;
+}
+
+.csv-dialog-content,
+.drag-drop-box {
+  position: relative;
+  display: block;
+}
+
+::ng-deep .csv-browse-button {
+  color: #0782d0 !important;
+}
+
+::ng-deep .csv-close-button > button {
+  border-radius: 25px !important;
+  padding: 10px 24px;
+}

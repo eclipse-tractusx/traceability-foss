@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { TestBed } from '@angular/core/testing';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { SemanticDataModel } from '@page/parts/model/parts.model';
+import { MatSelectChange } from '@angular/material/select';
+import { FilterOperator, SemanticDataModel } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
@@ -35,7 +35,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
     fixture.detectChanges();
-    expect(componentInstance.selectedValue).toEqual([]);
+    expect(componentInstance.selectedValue).toEqual(null);
   });
 
 
@@ -221,10 +221,10 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { componentInstance } = fixture;
 
     // @ts-ignore
-    componentInstance.searchElement = [ '2023-12-10' ] as unknown as [];
+    componentInstance.searchElement = ['2023-12-10'];
     componentInstance.dateFilter();
 
-    expect(componentInstance.formControl.value).toEqual([ '2023-12-10' ]);
+    expect(componentInstance.formControl.value).toEqual( ['2023-12-10' ]);
   });
 
   it('should subscribe to searchElementChange and call filterItem when delayTimeoutId is present', async () => {
@@ -348,6 +348,31 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     // Assert
     expect(eventMock.stopPropagation).toHaveBeenCalled();
+  });
+
+  it('should handle selection change and update filter', async () => {
+    const filterServiceSpy = jasmine.createSpyObj('FilterService', ['setFilter']);
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
+
+    componentInstance.filterService = filterServiceSpy;
+
+    const matSelectChange: MatSelectChange = {
+      value: ['Option1', 'Option2'],
+      source: {} as any,
+    };
+
+    spyOn(componentInstance.formControl, 'patchValue');
+    componentInstance.onSelectionChange(matSelectChange);
+    expect(componentInstance.formControl.patchValue).toHaveBeenCalledWith(['Option1', 'Option2']);
+
+    const expectedFilterValues = [
+      { value: 'Option1', strategy: FilterOperator.EQUAL },
+      { value: 'Option2', strategy: FilterOperator.EQUAL }
+    ];
+    expect(filterServiceSpy.setFilter).toHaveBeenCalledWith(componentInstance.tableType, {
+      [componentInstance.filterColumn]: { value: expectedFilterValues, operator: 'AND' }
+    });
   });
 
 });

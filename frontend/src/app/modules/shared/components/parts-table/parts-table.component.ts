@@ -44,7 +44,7 @@ import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
-import { ImportState, Part } from '@page/parts/model/parts.model';
+import { FilterValue, ImportState, Part } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
@@ -408,8 +408,10 @@ export class PartsTableComponent implements OnInit {
       )
       .subscribe(filterForThisTable => {
         this.filterKeys.forEach(key => {
-          const value = filterForThisTable[key] ?? null;
-          this.filterFormGroup.get(key)?.setValue(value, { emitEvent: false });
+          const value: FilterValue[] = filterForThisTable[key]?.['value'] ?? null;
+          if(value && Array.isArray(value)){
+            this.filterFormGroup.get(key)?.setValue(value.map(value => value.value), { emitEvent: false });
+          }
         });
         this.activeFiltersCount = this.countActiveFilters(filterForThisTable);
         this.filterActivated.emit(filterForThisTable);

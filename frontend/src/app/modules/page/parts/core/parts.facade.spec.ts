@@ -23,7 +23,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator, Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
@@ -96,7 +96,12 @@ describe('Parts facade', () => {
       const serviceSpy = spyOn(partsServiceMock, 'getPartsAsBuilt').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
       );
-      const filter = [{ id: '123' }] as AssetAsBuiltFilter[];
+      const filter = {
+        id: {
+          value: [ { value: '123', strategy: FilterOperator.EQUAL } ],
+          operator: 'OR',
+        },
+      } as AssetAsBuiltFilter;
       partsFacade.setPartsAsBuilt(0, 10, [], filter);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
@@ -116,7 +121,12 @@ describe('Parts facade', () => {
       const serviceSpy = spyOn(partsServiceMock, 'getPartsAsPlanned').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_PLANNED)),
       );
-      const filter = [{ id: '123' }] as AssetAsPlannedFilter[];
+      const filter = {
+        id: {
+          value: [ { value: '123', strategy: FilterOperator.EQUAL } ],
+          operator: 'OR',
+        },
+      } as AssetAsPlannedFilter;
       partsFacade.setPartsAsPlanned(0, 10, [], filter);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));

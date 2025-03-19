@@ -29,7 +29,7 @@ import { SharedPartService } from '@page/notifications/detail/edit/shared-part.s
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
-import { AssetAsBuiltFilter, Part } from '@page/parts/model/parts.model';
+import { AssetAsBuiltFilter, FilterOperator, FilterValue, Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
@@ -206,11 +206,17 @@ export class NotificationEditComponent implements OnDestroy {
 
     if (!this.affectedPartIds || this.affectedPartIds.length === 0) {
       this.ownPartsFacade.setPartsAsBuiltSecondEmpty();
-      this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, [ {
-        excludeIds: [],
-        ids: [],
-        owner: this.selectedNotification.type === NotificationType.INVESTIGATION ? Owner.SUPPLIER : Owner.OWN,
-      } ]);
+      this.ownPartsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, {
+        owner: {
+          value: [
+            {
+              value: this.selectedNotification.type === NotificationType.INVESTIGATION ? Owner.SUPPLIER : Owner.OWN,
+              strategy: FilterOperator.EQUAL,
+            },
+          ],
+          operator: 'OR',
+        },
+      });
       this.isSaveButtonDisabled = true;
     } else {
       this.isSaveButtonDisabled = this.notificationFormGroup.invalid || this.affectedPartIds.length < 1;
@@ -283,29 +289,26 @@ export class NotificationEditComponent implements OnDestroy {
     }
   }
 
-  private enrichPartsFilterByAffectedAssetIdsAndOwner(partsFilter: any, notificationType: NotificationType, exclude?: boolean) {
+  private enrichPartsFilterByAffectedAssetIdsAndOwner(partsFilter: any, notificationType: NotificationType, exclude?: boolean): AssetAsBuiltFilter {
+
+    let filterValues: FilterValue[] = this.affectedPartIds.map(value => ({
+      value,
+      strategy: exclude ? FilterOperator.EXCLUDE : FilterOperator.EQUAL,
+    }));
 
     let filter: AssetAsBuiltFilter = {
-      excludeIds: [],
-      ids: [],
+      id: { value: filterValues, operator: 'AND' },
       ...partsFilter,
     };
 
     if (notificationType === NotificationType.INVESTIGATION) {
-      filter.owner = Owner.SUPPLIER;
+      filter.owner = { value: [ { value: Owner.SUPPLIER, strategy: FilterOperator.EQUAL } ], operator: 'AND' };
     }
 
     if (notificationType === NotificationType.ALERT) {
-      filter.owner = Owner.OWN;
-    }
-
-    if (exclude) {
-      filter.excludeIds = this.affectedPartIds;
-    } else {
-      filter.ids = this.affectedPartIds;
+      filter.owner = { value: [ { value: Owner.OWN, strategy: FilterOperator.EQUAL } ], operator: 'AND' };
     }
     return filter;
-
   }
 
   private setAvailablePartsBasedOnNotificationType(notification: Notification, assetFilter?: any, pagination?: any) {

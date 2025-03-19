@@ -26,6 +26,7 @@ import { NotificationEditComponent } from '@page/notifications/detail/edit/notif
 import { NotificationsModule } from '@page/notifications/notifications.module';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
+import { FilterOperator } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { toAssetFilter } from '@shared/helper/filter-helper';
@@ -60,7 +61,7 @@ describe('NotificationEditComponent', () => {
             snapshot: {
               paramMap: paramMapValue,
               queryParams: NotificationType.INVESTIGATION,
-              url: "https://test.net/inbox/97/edit"
+              url: 'https://test.net/inbox/97/edit',
             },
             queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
@@ -228,10 +229,16 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilterAffected = {excludeIds: [], ids: ['1'], owner: Owner.SUPPLIER};
-    const assetFilterAvailable = {excludeIds: ['1'], ids: [], owner: Owner.SUPPLIER};
+    const assetFilterAffected = {
+      id: { value: [ { value: '1', strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+      owner: { value: [ { value: Owner.SUPPLIER, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+    };
+    const assetFilterAvailable = {
+      id: { value: [ { value: '1', strategy: FilterOperator.EXCLUDE } ], operator: 'AND' },
+      owner: { value: [ { value: Owner.SUPPLIER, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+    };
 
-    componentInstance.affectedPartIds= ['1'];
+    componentInstance.affectedPartIds = [ '1' ];
 
 
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
@@ -272,10 +279,16 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilterAffected = {excludeIds: [], ids: ['1'], owner: Owner.OWN};
-    const assetFilterAvailable = {excludeIds: ['1'], ids: [], owner: Owner.OWN};
+    const assetFilterAffected = {
+      id: { value: [ { value: '1', strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+      owner: { value: [ { value: Owner.OWN, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+    };
+    const assetFilterAvailable = {
+      id: { value: [ { value: '1', strategy: FilterOperator.EXCLUDE } ], operator: 'AND' },
+      owner: { value: [ { value: Owner.OWN, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+    };
 
-    componentInstance.affectedPartIds= ['1'];
+    componentInstance.affectedPartIds = [ '1' ];
 
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecond');
@@ -338,7 +351,7 @@ describe('NotificationEditComponent', () => {
 
   });
 
-  it('should call setPartsAsBuiltSecondEmpty and setPartsAsBuilt when affectedPartIds is empty', async() => {
+  it('should call setPartsAsBuiltSecondEmpty and setPartsAsBuilt when affectedPartIds is empty', async () => {
 
     const notification: Notification = {
       id: 'id-1',
@@ -375,11 +388,9 @@ describe('NotificationEditComponent', () => {
       FIRST_PAGE,
       DEFAULT_PAGE_SIZE,
       componentInstance.tableAsBuiltSortList,
-      [{
-        excludeIds: [],
-        ids: [],
-        owner: Owner.SUPPLIER,
-      }]
+      {
+        owner: { value: [ { value: Owner.SUPPLIER, strategy: FilterOperator.EQUAL } ], operator: 'OR' },
+      },
     );
     expect(componentInstance.isSaveButtonDisabled).toBeTrue();
   });

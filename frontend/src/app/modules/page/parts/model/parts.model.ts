@@ -143,44 +143,52 @@ export interface Relation {
 }
 
 export interface AssetAsBuiltFilter {
-  id?: string,
-  ids?: string[],
-  excludeIds?: string[],
-  idShort?: string,
-  name?: string,
-  manufacturerName?: string,
-  businessPartner?: string,
-  partId?: string,
-  manufacturerPartId?: string,
-  customerPartId?: string,
-  contractAgreementId?: string,
-  classification?: string,
-  nameAtCustomer?: string,
-  semanticModelId?: string,
+  id?: FilterAttribute,
+  idShort?: FilterAttribute,
+  name?: FilterAttribute,
+  manufacturerName?: FilterAttribute,
+  businessPartner?: FilterAttribute,
+  partId?: FilterAttribute,
+  manufacturerPartId?: FilterAttribute,
+  customerPartId?: FilterAttribute,
+  contractAgreementId?: FilterAttribute,
+  classification?: FilterAttribute,
+  nameAtCustomer?: FilterAttribute,
+  semanticModelId?: FilterAttribute,
   semanticDataModel?: string[],
-  manufacturingDate?: string,
-  manufacturingCountry?: string,
-  owner?: Owner
+  manufacturingDate?: FilterAttribute,
+  manufacturingCountry?: FilterAttribute,
+  owner?: FilterAttribute
+}
+
+export type FilterValue = {
+  value: string;
+  strategy: FilterOperator;
+}
+
+export type FilterAttribute = {
+  value: FilterValue[]
+  operator: string;
 }
 
 export interface AssetAsPlannedFilter {
-  id?: string,
-  idShort?: string,
-  name?: string,
-  manufacturer?: string,
-  businessPartner?: string,
-  manufacturerPartId?: string,
-  classification?: string,
-  contractAgreementId?: string,
+  id?: FilterAttribute,
+  idShort?: FilterAttribute,
+  name?: FilterAttribute,
+  manufacturer?: FilterAttribute,
+  businessPartner?: FilterAttribute,
+  manufacturerPartId?: FilterAttribute,
+  classification?: FilterAttribute,
+  contractAgreementId?: FilterAttribute,
   semanticDataModel?: string[],
-  semanticModelId?: string,
-  validityPeriodFrom?: string,
-  validityPeriodTo?: string,
-  psFunction?: string,
-  catenaXSiteId?: string,
-  functionValidFrom?: string,
-  functionValidUntil?: string,
-  owner?: Owner
+  semanticModelId?: FilterAttribute,
+  validityPeriodFrom?: FilterAttribute,
+  validityPeriodTo?: FilterAttribute,
+  psFunction?: FilterAttribute,
+  catenaXSiteId?: FilterAttribute,
+  functionValidFrom?: FilterAttribute,
+  functionValidUntil?: FilterAttribute,
+  owner?: FilterAttribute
 }
 
 export enum ImportState {

@@ -30,6 +30,7 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Pagination } from '@core/model/pagination.model';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
@@ -40,11 +41,11 @@ import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator, Part } from '@page/parts/model/parts.model';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { CsvUploadComponent } from '@shared/components/csv-upload/csv-upload.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { QuickFilterComponent } from '@shared/components/quick-filter/quick-filter.component';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
@@ -53,6 +54,7 @@ import { NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
+import { CsvFilterService } from '@shared/service/csv-filter.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -95,7 +97,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public currentPartTablePage = { AS_BUILT_OWN_PAGE: 0, AS_PLANNED_OWN_PAGE: 0 };
 
   @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
-  @ViewChildren(QuickFilterComponent) quickFilterComponents: QueryList<QuickFilterComponent>;
   public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings();
   public searchFormGroup = new FormGroup({});
   chipItems: string[] = [];
@@ -121,6 +122,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public roleService: RoleService,
     public router: Router,
     public route: ActivatedRoute,
+    private readonly dialog: MatDialog,
+    private readonly csvFilterService: CsvFilterService,
   ) {
     this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
     this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -135,6 +138,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  openUploadDialog() {
+    this.dialog.open(CsvUploadComponent, {
+      minWidth: '600px',
+    });
+  }
+
   public ngOnInit(): void {
     this.partsFacade.setPartsAsBuilt();
     this.partsFacade.setPartsAsPlanned();
@@ -143,6 +152,16 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.route.queryParams.subscribe(params => this.setupPageByUrlParams(params));
     this.updateVisibleChips();
     window.addEventListener('resize', () => this.updateVisibleChips());
+    this.csvFilterService.searchValues$.subscribe(values => {
+      if (Object.values(values).flat().length > 0) {
+        this.clearInput();
+        this.searchControl.setValue(values);
+        this.triggerPartSearch();
+        setTimeout(() => {
+          this.chipContainer.nativeElement.focus();
+        }, 100);
+      }
+    });
 
   }
 
@@ -199,15 +218,18 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   triggerPartSearch() {
-
     this.resetFilterAndShowToast();
     const searchValue: string = this.searchControl.value;
 
     if (this.chipItems.length || searchValue && searchValue !== '') {
-      const regex = /\b[\p{L}\p{N}:/_-]+\b/gu;
-      const values: string[] = searchValue.match(regex) ?? [];
-
-      values.push(...this.searchTerms);
+      let values: string[] | Record<string, string[]>;
+      if (!this.isRecord(searchValue)) {
+        const regex = /\b[\p{L}\p{N}:/_-]+\b/gu;
+        values = searchValue.match(regex) ?? [];
+        values.push(...this.searchTerms);
+      } else {
+        values = searchValue;
+      }
 
       this.partsFacade.setPartsAsPlanned(
         FIRST_PAGE,
@@ -224,6 +246,10 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         toGlobalSearchAssetFilter(values, true),
         true,
       );
+
+      if (this.isRecord(values)) {
+        values = Object.values(values).flat();
+      }
 
       values.forEach(value => {
         if (!this.searchTerms.includes(value)) {
@@ -264,14 +290,15 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   updatePartsByOwner(owner: Owner) {
     this.resetFilterAndShowToast();
-    let filter = [];
+    let filter: AssetAsPlannedFilter | AssetAsBuiltFilter;
     if (owner != Owner.UNKNOWN) {
-      filter = [ { owner } ];
+      filter = {
+        owner: { value: [ { value: owner, strategy: FilterOperator.EQUAL } ], operator: 'OR' },
+      };
     }
     this.partsFacade.setPartsAsPlanned(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, filter, true);
     this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, filter, true);
     this.currentQuickFilter = owner;
-
   }
 
   refreshPartsOnPublish(message: string) {
@@ -325,9 +352,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (pageSize !== 0) {
       pageSizeValue = pageSize;
     }
-    if (this.quickFilterComponents && this.quickFilterComponents?.get(0)?.owner !== Owner.UNKNOWN) {
-      this.assetAsBuiltFilter.owner = this.quickFilterComponents.get(0)?.owner;
-    }
     if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
       this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
@@ -343,9 +367,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     let pageSizeValue = DEFAULT_PAGE_SIZE;
     if (pageSize !== 0) {
       pageSizeValue = pageSize;
-    }
-    if (this.quickFilterComponents && this.quickFilterComponents?.get(0)?.owner !== Owner.UNKNOWN) {
-      this.assetsAsPlannedFilter.owner = this.quickFilterComponents.get(0)?.owner;
     }
     if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
       this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
@@ -370,6 +391,20 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.router.navigate([ 'inbox/create' ]);
     }
+  }
+
+  onFileDropped(event: DragEvent) {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      this.csvFilterService.parseCsvFile(file);
+    }
+  }
+
+  isRecord(value: any): value is Record<string, string[]> {
+    return typeof value === 'object' && value !== null &&
+      Object.values(value).every(arr => Array.isArray(arr));
   }
 
   private reloadRegistry() {
@@ -470,14 +505,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-
   private updateVisibleChips() {
     if (!this.chipContainer) return;
     const containerWidth = this.chipContainer.nativeElement.offsetWidth;
     let totalWidth = 0;
     let visibleCount = 0;
     this.chipItems.forEach(() => {
-      const chipWidth = 190;
+      const chipWidth = 200;
       totalWidth += chipWidth;
 
       if (totalWidth < containerWidth - 50) {

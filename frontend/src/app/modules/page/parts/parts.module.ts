@@ -33,13 +33,14 @@ import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-setti
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { AngularSplitModule } from 'angular-split';
+import { NgxFileDropModule } from 'ngx-file-drop';
 import { PartsRoutingModule } from './parts.routing';
 import { PartsComponent } from './presentation/parts.component';
 import { RelationComponent } from './presentation/relation/relation.component';
 
 @NgModule({
   declarations: [ PartsComponent, RelationComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, AngularSplitModule, MatDialogModule, PartsDetailModule, MatCardModule, MatDialogModule, RelationsModule, SharedModule ],
+  imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, AngularSplitModule, MatDialogModule, PartsDetailModule, MatCardModule, MatDialogModule, RelationsModule, SharedModule, NgxFileDropModule],
   providers: [ PartsState, BomLifecycleSettingsService, PartsFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider([ 'page.parts', 'partDetail' ]) ],
 })
 export class PartsModule {

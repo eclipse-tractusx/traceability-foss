@@ -18,6 +18,7 @@
  ********************************************************************************/
 import { ComponentFixture } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FilterOperator } from '@page/parts/model/parts.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FilterService } from '@shared/service/filter.service';
 import { SharedModule } from '@shared/shared.module';
@@ -41,7 +42,7 @@ describe('AdvancedTableFilterComponent', () => {
 
   async function renderAdvancedTableFilter(tableType = TableType.AS_BUILT_OWN) {
     return renderComponent(AdvancedTableFilterComponent, {
-      imports: [ReactiveFormsModule, SharedModule],
+      imports: [ ReactiveFormsModule, SharedModule ],
       providers: [
         { provide: FilterService, useValue: mockFilterService },
       ],
@@ -65,7 +66,7 @@ describe('AdvancedTableFilterComponent', () => {
 
     flattened.forEach(filterConfig => {
       const control = instance.formGroup.get(filterConfig.controlName);
-      expect(control).toBeTruthy(`Missing control ${filterConfig.controlName}`);
+      expect(control).toBeTruthy(`Missing control ${ filterConfig.controlName }`);
     });
   });
 
@@ -91,7 +92,7 @@ describe('AdvancedTableFilterComponent', () => {
     const instance = fixture.componentInstance;
 
     // @ts-ignore
-    instance.formGroup.get('owner').setValue(['OEM']);
+    instance.formGroup.get('owner').setValue([ 'OEM' ]);
     // @ts-ignore
     instance.formGroup.get('businessPartner').setValue('BP123');
 
@@ -109,7 +110,7 @@ describe('AdvancedTableFilterComponent', () => {
       manufacturingCountry: null,
       manufacturingDate: null,
       importState: null,
-      customerPartId: null
+      customerPartId: null,
     });
 
     expect(mockFilterService.clearFilter).toHaveBeenCalledWith(instance.tableType);
@@ -120,15 +121,16 @@ describe('AdvancedTableFilterComponent', () => {
     const instance = fixture.componentInstance;
 
     // @ts-ignore
-    instance.formGroup.get('owner').setValue(['OEM']);
+    instance.formGroup.get('owner').setValue([ 'OEM' ]);
     // @ts-ignore
     instance.formGroup.get('businessPartner').setValue('BP123');
 
     instance.search();
 
     expect(mockFilterService.setFilter).toHaveBeenCalledWith(TableType.AS_PLANNED_OWN, {
-      owner: ['OEM'],
-      businessPartner: 'BP123',
+      owner: { value: [ { value: 'OEM', strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+      businessPartner: { value: [ { value: 'BP123', strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+
     });
   });
 });

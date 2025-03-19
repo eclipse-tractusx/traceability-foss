@@ -16,15 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FilterOperator } from '@page/parts/model/parts.model';
 import { PartsStrategy } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FilterService } from '@shared/service/filter.service';
 import { renderComponent } from '@tests/test-render.utils';
 import { BehaviorSubject, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 
 import { AutocompleteChipInputComponent } from './autocomplete-chip-input.component';
 
@@ -40,7 +39,7 @@ describe('AutocompleteChipInputComponent', () => {
   const mockPartsStrategy = {
     retrieveSuggestionValues: jasmine
       .createSpy('retrieveSuggestionValues')
-      .and.returnValue(of(['defaultSuggestion'])),
+      .and.returnValue(of([ 'defaultSuggestion' ])),
   };
 
   const renderAutocompleteChipInput = async (
@@ -49,14 +48,14 @@ describe('AutocompleteChipInputComponent', () => {
       tableType: TableType;
       parentControlName: string;
       parentFormGroup: FormGroup;
-    }> = {}
+    }> = {},
   ) => {
     const defaultParentForm = new FormGroup({
       chipControl: new FormControl([]),
     });
 
     return renderComponent(AutocompleteChipInputComponent, {
-      imports: [ReactiveFormsModule],
+      imports: [ ReactiveFormsModule ],
       providers: [
         { provide: FilterService, useValue: mockFilterService },
         { provide: PartsStrategy, useValue: mockPartsStrategy },
@@ -81,16 +80,21 @@ describe('AutocompleteChipInputComponent', () => {
     const { fixture } = await renderAutocompleteChipInput();
     const { componentInstance } = fixture;
 
-    componentInstance.onFilterValueChanged(['item1', 'item2']);
-    expect(componentInstance.items).toEqual(['item1', 'item2']);
+    componentInstance.onFilterValueChanged({
+      value: [
+        { value: 'item1', strategy: FilterOperator.EQUAL },
+        { value: 'item2', strategy: FilterOperator.EQUAL } ],
+      operator: 'OR',
+    });
+    expect(componentInstance.items).toEqual([ 'item1', 'item2' ]);
   });
 
   it('should clear items if the provided filter value is not an array', async () => {
     const { fixture } = await renderAutocompleteChipInput();
     const { componentInstance } = fixture;
 
-    componentInstance.items = ['existingItem'];
-    componentInstance.onFilterValueChanged('someNonArrayValue');
+    componentInstance.items = [ 'existingItem' ];
+    componentInstance.onFilterValueChanged({value:[], operator:"OR"});
     expect(componentInstance.items).toEqual([]);
   });
 
@@ -100,7 +104,7 @@ describe('AutocompleteChipInputComponent', () => {
 
     spyOn(componentInstance, 'clearAllItems').and.callThrough();
 
-    componentInstance.items = ['onlyItem'];
+    componentInstance.items = [ 'onlyItem' ];
     componentInstance.remove('onlyItem');
 
     expect(componentInstance.clearAllItems).toHaveBeenCalled();
@@ -112,7 +116,7 @@ describe('AutocompleteChipInputComponent', () => {
 
     const event = new MouseEvent('click');
     componentInstance.onCheckboxClicked(event, 'newItem');
-    expect(componentInstance.items).toEqual(['newItem']);
+    expect(componentInstance.items).toEqual([ 'newItem' ]);
 
     componentInstance.onCheckboxClicked(event, 'newItem');
     expect(componentInstance.items).toEqual([]);
@@ -122,8 +126,8 @@ describe('AutocompleteChipInputComponent', () => {
     const { fixture } = await renderAutocompleteChipInput();
     const { componentInstance } = fixture;
 
-    componentInstance.filteredItemsList = ['a', 'b', 'c'];
-    componentInstance.items = ['a', 'b', 'c'];
+    componentInstance.filteredItemsList = [ 'a', 'b', 'c' ];
+    componentInstance.items = [ 'a', 'b', 'c' ];
 
     expect(componentInstance.areAllSelected()).toBeTrue();
   });
@@ -136,9 +140,9 @@ describe('AutocompleteChipInputComponent', () => {
       option: { viewValue: 'newItem' },
     } as MatAutocompleteSelectedEvent;
 
-    componentInstance.items = ['existingItem'];
+    componentInstance.items = [ 'existingItem' ];
     componentInstance.selected(fakeEvent);
-    expect(componentInstance.items).toEqual(['existingItem', 'newItem']);
+    expect(componentInstance.items).toEqual([ 'existingItem', 'newItem' ]);
   });
 
   it('should not duplicate item if already in items array', async () => {
@@ -149,9 +153,9 @@ describe('AutocompleteChipInputComponent', () => {
       option: { viewValue: 'existingItem' },
     } as MatAutocompleteSelectedEvent;
 
-    componentInstance.items = ['existingItem'];
+    componentInstance.items = [ 'existingItem' ];
     componentInstance.selected(fakeEvent);
-    expect(componentInstance.items).toEqual(['existingItem']);
+    expect(componentInstance.items).toEqual([ 'existingItem' ]);
   });
 
   it('should clear all items (and remove filter value) with clearAllItems()', async () => {
@@ -162,7 +166,7 @@ describe('AutocompleteChipInputComponent', () => {
       nativeElement: { value: 'some text' },
     } as any;
 
-    componentInstance.items = ['item1', 'item2'];
+    componentInstance.items = [ 'item1', 'item2' ];
     componentInstance.clearAllItems();
 
     expect(componentInstance.itemInput.nativeElement.value).toBe('');
@@ -170,7 +174,7 @@ describe('AutocompleteChipInputComponent', () => {
     expect(componentInstance.items).toEqual([]);
     expect(mockFilterService.removeFilterKey).toHaveBeenCalledWith(
       componentInstance.tableType,
-      componentInstance.filterName
+      componentInstance.filterName,
     );
   });
 

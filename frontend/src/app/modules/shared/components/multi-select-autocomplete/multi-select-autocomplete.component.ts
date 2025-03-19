@@ -27,13 +27,15 @@ import {
   Injector,
   Input,
   LOCALE_ID,
-  OnChanges, OnInit,
+  OnChanges,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
+import { FilterOperator, FilterValue } from '@page/parts/model/parts.model';
 import {
   AutocompleteStrategy,
   AutocompleteStrategyMap,
@@ -124,7 +126,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
               private readonly formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe,
               private injector: Injector,
               private readonly quickFilterService: QuickfilterService,
-              private readonly filterService: FilterService) {
+              public filterService: FilterService) {
     registerLocaleData(localeDe, 'de', localeDeExtra);
     this._adapter.setLocale(locale);
   }
@@ -135,94 +137,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     this.initializePrefilterValue();
     this.initializeExistingFilter();
     this.subscribeToFilterUpdates();
-  }
-
-  private initStrategy(): void {
-    this.strategy = this.injector.get<AutocompleteStrategy>(
-      AutocompleteStrategyMap.get(this.tableType)
-    );
-  }
-
-  private subscribeToSearchElementChange(): void {
-    this.searchElementChange.subscribe((value) => {
-      if (this.delayTimeoutId) {
-        clearTimeout(this.delayTimeoutId);
-        this.delayTimeoutId = null;
-        this.filterItem(value);
-      }
-    });
-  }
-
-  private initializePrefilterValue(): void {
-    if (!this.prefilterValue?.length) {
-      return;
-    }
-
-    this.searchElement = this.prefilterValue;
-    this.selectedValue = [this.searchElement];
-    this.formControl.patchValue(this.selectedValue);
-    this.updateOptionsAndSelections();
-  }
-
-  private initializeExistingFilter(): void {
-    if (!this.filterService.isFilterSet(this.tableType, this.filterColumn)) {
-      return;
-    }
-
-    const currFilter = this.filterService.getFilter(this.tableType);
-
-    if (!this.isDate) {
-      this.optionsSelected = (currFilter[this.filterColumn] || []).map((item: any) => ({
-        display: item,
-        value: item
-      }));
-      return;
-    }
-
-    this.searchElement = currFilter[this.filterColumn];
-    const [startStr, endStr] = this.searchElement.split(',');
-    this.startDate = new Date(startStr);
-    this.endDate = new Date(endStr);
-  }
-
-  private subscribeToFilterUpdates(): void {
-    this.filterService.filterState$.subscribe((state) => {
-      const relevant = this.tableType === TableType.AS_BUILT_OWN
-        ? state.asBuilt
-        : state.asPlanned;
-
-      if (this.isDate) {
-        this.handleDateFilterChange(relevant);
-      } else {
-        this.handleNonDateFilterChange(relevant);
-      }
-    });
-  }
-
-  private handleDateFilterChange(relevant: any): void {
-    this.searchElement = relevant[this.filterColumn];
-    if (!this.searchElement) {
-      this.startDate = null;
-      this.endDate = null;
-      return;
-    }
-
-    const [startStr, endStr] = this.searchElement.split(',');
-    this.startDate = new Date(startStr);
-    this.endDate = new Date(endStr);
-  }
-
-  private handleNonDateFilterChange(relevant: any): void {
-
-    //if there is a saved filter state, set this as value otherwise use preFilter Value
-    const newSelectedValue = relevant[this.filterColumn] ?? [];
-    if(this.prefilterValue && newSelectedValue.length === 0){
-      this.selectedValue = [this.prefilterValue];
-    } else{
-      this.selectedValue = newSelectedValue;
-    }
-    this.formControl.patchValue(newSelectedValue);
-    this.updateOptionsAndSelections();
   }
 
   ngOnChanges(): void {
@@ -358,9 +272,157 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     this.selectedValue = [];
     this.suggestionError = false;
 
-    this.filterService.setFilter(this.tableType, {[this.filterColumn]: this.selectedValue});
+    this.filterService.setFilter(this.tableType, { [this.filterColumn]: this.selectedValue });
 
     this.updateOptionsAndSelections();
+  }
+
+  dateFilter() {
+    this.formControl.patchValue(this.searchElement);
+    const dates = Array.isArray(this.searchElement)
+      ? this.searchElement
+      : this.searchElement?.split(',');
+    if (dates.length === 2) {
+      this.filterService.setFilter(this.tableType, {
+        [this.filterColumn]: {
+          value:
+            [
+              {
+                value: dates[0],
+                strategy: FilterOperator.AFTER_LOCAL_DATE,
+              },
+              {
+                value: dates[1],
+                strategy: FilterOperator.BEFORE_LOCAL_DATE,
+              },
+            ],
+          operator: 'AND',
+        },
+      });
+    } else {
+      this.filterService.setFilter(this.tableType, {
+        [this.filterColumn]: {
+          value: [ {
+            value: dates[0],
+            strategy: FilterOperator.AT_LOCAL_DATE,
+          } ], operator: 'AND',
+        },
+      });
+    }
+  }
+
+  onSelectionChange(matSelectChange: MatSelectChange) {
+    this.selectedValue = matSelectChange.value;
+    this.formControl.patchValue(matSelectChange.value);
+    this.updateOptionsAndSelections();
+    let filterValues: FilterValue[] = this.selectedValue.map(value => ({
+      value: value,
+      strategy: FilterOperator.EQUAL,
+    }));
+    this.filterService.setFilter(this.tableType, { [this.filterColumn]: { value: filterValues, operator: 'AND' } });
+  }
+
+  filterKeyCommands(event: any) {
+    if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
+      event.stopPropagation();
+    }
+  }
+
+  containsIllegalCharactersForI18nKey(text: string) {
+    const allowedCharacters = /^\w+$/;
+    return !allowedCharacters.test(text);
+  }
+
+  private initStrategy(): void {
+    this.strategy = this.injector.get<AutocompleteStrategy>(
+      AutocompleteStrategyMap.get(this.tableType),
+    );
+  }
+
+  private subscribeToSearchElementChange(): void {
+    this.searchElementChange.subscribe((value) => {
+      if (this.delayTimeoutId) {
+        clearTimeout(this.delayTimeoutId);
+        this.delayTimeoutId = null;
+        this.filterItem(value);
+      }
+    });
+  }
+
+  private initializePrefilterValue(): void {
+    if (!this.prefilterValue?.length) {
+      return;
+    }
+
+    this.searchElement = this.prefilterValue;
+    this.selectedValue = [ this.searchElement ];
+    this.formControl.patchValue(this.selectedValue);
+    this.updateOptionsAndSelections();
+  }
+
+  private initializeExistingFilter(): void {
+    if (!this.filterService.isFilterSet(this.tableType, this.filterColumn)) {
+      return;
+    }
+
+    const currFilter = this.filterService.getFilter(this.tableType);
+
+    if (!this.isDate) {
+      this.optionsSelected = (currFilter[this.filterColumn]?.['value'] || []).map((item: FilterValue) => ({
+        display: item.value,
+        value: item.value,
+      }));
+      return;
+    }
+
+    this.searchElement = currFilter[this.filterColumn];
+    const filterValue: FilterValue[] = this.searchElement?.['value'];
+    const [ startStr, endStr ] = filterValue.map(filter => filter.value);
+    this.startDate = new Date(startStr);
+    this.endDate = new Date(endStr);
+  }
+
+  private subscribeToFilterUpdates(): void {
+    this.filterService.filterState$.subscribe((state) => {
+      const relevant = this.tableType === TableType.AS_BUILT_OWN
+        ? state.asBuilt
+        : state.asPlanned;
+
+      if (this.isDate) {
+        this.handleDateFilterChange(relevant);
+      } else {
+        this.handleNonDateFilterChange(relevant);
+      }
+    });
+  }
+
+  private handleDateFilterChange(relevant: any): void {
+    this.searchElement = relevant[this.filterColumn]?.[0];
+    if (!this.searchElement) {
+      this.startDate = null;
+      this.endDate = null;
+      return;
+    }
+
+    const [ startStr, endStr ] = this.searchElement.split(',');
+    this.startDate = new Date(startStr);
+    this.endDate = new Date(endStr);
+  }
+
+  private handleNonDateFilterChange(relevant: any): void {
+
+    //if there is a saved filter state, set this as value otherwise use preFilter Value
+    if (!Array.isArray(relevant[this.filterColumn]) && relevant[this.filterColumn] !== undefined) {
+      const newSelectedValue: FilterValue[] = relevant[this.filterColumn].value ?? [];
+      let filterValues: string[] = newSelectedValue.map(filter => filter.value);
+      if (this.prefilterValue && filterValues.length === 0) {
+        this.selectedValue = [ this.prefilterValue ];
+      } else {
+        this.selectedValue = filterValues;
+      }
+      this.formControl.patchValue(filterValues);
+      this.updateOptionsAndSelections();
+    }
   }
 
   private updateOptionsAndSelections() {
@@ -387,33 +449,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     this.handleAllSelectedCheckbox();
   }
 
-  dateFilter() {
-    this.formControl.patchValue(this.searchElement);
-    this.filterService.setFilter(this.tableType, {[this.filterColumn]: this.searchElement});
-  }
-
-  onSelectionChange(matSelectChange: MatSelectChange) {
-    this.selectedValue = matSelectChange.value;
-    this.formControl.patchValue(matSelectChange.value);
-    this.updateOptionsAndSelections();
-    this.filterService.setFilter(this.tableType, {[this.filterColumn]: this.selectedValue});
-  }
-
   private handleAllSelectedCheckbox() {
     const noSelectedValues = this.selectedValue?.length === 0;
     const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
     this.selectAllChecked = noSelectedValues ? false : oneOptionSelected || this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
-  }
-
-  filterKeyCommands(event: any) {
-    if (event.key === 'Enter' || (event.ctrlKey && event.key === 'a' || event.key === ' ')) {
-      event.stopPropagation();
-    }
-  }
-
-  containsIllegalCharactersForI18nKey(text: string) {
-    const allowedCharacters = /^\w+$/;
-    return !allowedCharacters.test(text);
   }
 
 }
