@@ -51,6 +51,10 @@ export class PartsFacade {
     return this.partsState.partsAsPlanned$;
   }
 
+  public resetGlobalFilter(){
+    this.partsState.globalSearchData = null;
+  }
+
   public reloadRegistry() {
     return this.partsService.reloadRegistry();
   }
@@ -74,7 +78,20 @@ export class PartsFacade {
   public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscription?.unsubscribe();
     this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
-      next: data => (this.partsState.partsAsBuilt = { data: provideDataObject(data) }),
+      next: data => {
+        this.partsState.partsAsBuilt = { data: provideDataObject(data, this.partsState.globalSearchData) };
+      },
+      error: error => (this.partsState.partsAsBuilt = { error }),
+    });
+  }
+
+  public setGlobalFilterPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
+    this.partsAsBuiltSubscription?.unsubscribe();
+    this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
+      next: data => {
+        this.partsState.globalSearchData = provideDataObject(data);
+        this.partsState.partsAsBuilt = { data: this.partsState.globalSearchData };
+      },
       error: error => (this.partsState.partsAsBuilt = { error }),
     });
   }
@@ -98,7 +115,18 @@ export class PartsFacade {
   public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.partsAsPlannedSubscription?.unsubscribe();
     this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
-      next: data => (this.partsState.partsAsPlanned = { data: provideDataObject(data) }),
+      next: data => (this.partsState.partsAsPlanned = { data: provideDataObject(data, this.partsState.globalSearchData) }),
+      error: error => (this.partsState.partsAsPlanned = { error }),
+    });
+  }
+
+  public setGlobalFilterPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
+    this.partsAsPlannedSubscription?.unsubscribe();
+    this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
+      next: data => {
+        this.partsState.globalSearchData = provideDataObject(data);
+        this.partsState.partsAsPlanned = { data: this.partsState.globalSearchData };
+      },
       error: error => (this.partsState.partsAsPlanned = { error }),
     });
   }

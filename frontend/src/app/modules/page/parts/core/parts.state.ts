@@ -31,6 +31,16 @@ export class PartsState {
   private readonly _partsAsBuilt$ = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _partsAsBuiltSecond$ = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _partsAsPlanned$ = new State<View<Pagination<Part>>>({ loader: true });
+  private _globalSearchData: Pagination<Part>;
+
+
+  get globalSearchData(): Pagination<Part> {
+    return this._globalSearchData;
+  }
+
+  set globalSearchData(data: Pagination<Part>){
+    this._globalSearchData = data;
+  }
 
   public get partsAsBuilt$(): Observable<View<Pagination<Part>>> {
     return this._partsAsBuilt$.observable;
@@ -38,11 +48,6 @@ export class PartsState {
 
   public get partsAsBuiltSecond$(): Observable<View<Pagination<Part>>> {
     return this._partsAsBuiltSecond$.observable;
-  }
-
-  public set partsAsBuilt({ data, loader, error }: View<Pagination<Part>>) {
-    const partsView: View<Pagination<Part>> = { data, loader, error };
-    this._partsAsBuilt$.update(partsView);
   }
 
   public set partsAsBuiltSecond({ data, loader, error }: View<Pagination<Part>>) {
@@ -54,8 +59,17 @@ export class PartsState {
     return this._partsAsBuilt$.snapshot;
   }
 
+  public set partsAsBuilt({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._partsAsBuilt$.update(partsView);
+  }
+
   public get partsAsPlanned$(): Observable<View<Pagination<Part>>> {
     return this._partsAsPlanned$.observable;
+  }
+
+  public get partsAsPlanned(): View<Pagination<Part>> {
+    return this._partsAsPlanned$.snapshot;
   }
 
   public set partsAsPlanned({ data, loader, error }: View<Pagination<Part>>) {
@@ -63,7 +77,5 @@ export class PartsState {
     this._partsAsPlanned$.update(partsView);
   }
 
-  public get partsAsPlanned(): View<Pagination<Part>> {
-    return this._partsAsPlanned$.snapshot;
-  }
+
 }

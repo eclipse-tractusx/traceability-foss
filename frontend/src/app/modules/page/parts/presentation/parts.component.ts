@@ -231,7 +231,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         values = searchValue;
       }
 
-      this.partsFacade.setPartsAsPlanned(
+      this.partsFacade.setGlobalFilterPartsAsPlanned(
         FIRST_PAGE,
         DEFAULT_PAGE_SIZE,
         this.tableAsPlannedSortList,
@@ -239,7 +239,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         true,
       );
 
-      this.partsFacade.setPartsAsBuilt(
+      this.partsFacade.setGlobalFilterPartsAsBuilt(
         FIRST_PAGE,
         DEFAULT_PAGE_SIZE,
         this.tableAsBuiltSortList,
@@ -274,6 +274,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.searchControl.setValue('');
     this.chipItems.length = 0;
     this.searchTerms.length = 0;
+    this.partsFacade.resetGlobalFilter()
     this.triggerPartSearch();
     this.updateVisibleChips();
   }
@@ -283,6 +284,9 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (originalTerm) {
       this.searchTerms = this.searchTerms.filter(i => i !== originalTerm);
       this.chipItems = this.chipItems.filter(i => i !== item);
+      if(this.chipItems.length === 0){
+        this.partsFacade.resetGlobalFilter();
+      }
       this.triggerPartSearch();
       this.updateVisibleChips();
     }

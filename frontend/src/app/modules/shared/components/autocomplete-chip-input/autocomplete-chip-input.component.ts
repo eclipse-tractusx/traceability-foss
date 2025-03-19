@@ -80,7 +80,7 @@ export class AutocompleteChipInputComponent extends BaseFilterInputComponent {
   }
 
   onFilterValueChanged(filterAttribute: FilterAttribute): void {
-    if (filterAttribute) {
+    if (filterAttribute?.value?.length) {
       this.items = filterAttribute.value.map(value1 => value1.value);
     } else {
       this.items = [];
