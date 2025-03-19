@@ -148,6 +148,7 @@ spring:
       applicationBpn: ${TRACEABILITY_BPN}
       bpnB: ${TRACEABILITY_BPN_B}
       bpnA: ${TRACEABILITY_BPN_A}
+      applyTestData: ${SPRING_FLYWAY_PLACEHOLDERS_APPLY_TEST_DATA:false}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}

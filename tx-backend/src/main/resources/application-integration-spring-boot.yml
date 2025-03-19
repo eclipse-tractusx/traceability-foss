@@ -79,7 +79,9 @@ spring:
     username: postgres
   flyway:
     enabled: true
-    placeholder-replacement: false
+    placeholder-replacement: true
+    placeholders:
+      applyTestData: false
 
 jwt:
   resource-client: "Integration-Test"

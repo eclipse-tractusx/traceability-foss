@@ -76,6 +76,13 @@ cors:
     http://localhost:5200
 
 spring:
+  flyway:
+    enabled: true
+    placeholders:
+      applicationBpn: BPNL000000000001
+      bpnB: BPNL000000000001
+      bpnA: BPNL000000000002
+      applyTestData: true
   main:
     allow-bean-definition-overriding: true
   datasource:

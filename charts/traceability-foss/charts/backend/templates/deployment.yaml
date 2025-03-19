@@ -176,6 +176,8 @@ spec:
               value: {{ .Values.datasource.username | quote }}
             - name: SPRING_DATASOURCE_PASSWORD
               value: {{ .Values.datasource.password | quote }}
+            - name: SPRING_FLYWAY_PLACEHOLDERS_APPLY_TEST_DATA
+              value: {{ .Values.spring.flyway.placeholders.applyTestData | quote }}
             - name: IRS_ADMIN_API_KEY
               value: {{ .Values.irsAdminApiKey | quote }}
             - name: IRS_REGULAR_API_KEY

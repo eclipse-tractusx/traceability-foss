@@ -210,3 +210,8 @@ bpdm:
   clientSecret: "CHANGEME"
   oauthTokenUrl: "https://replace.me"
   providerBpnl: "CHANGEME"
+
+spring:
+  flyway:
+    placeholders:
+      applyTestData: false

@@ -30,6 +30,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
  - TRACEX-539 repair flaky integration tests
  - TRACEX-493 reverted supplier/customer parts sync
  - Bump irs-registry-client to 2.1.29-SNAPSHOT
+ - TRACEX-78 Prepare BETA test data for BMW CTO Demo
 
 ### Removed
 
