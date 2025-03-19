@@ -291,8 +291,8 @@ describe('Parts', () => {
     const searchValue = [ 'searchTerm' ];
 
     const partsFacade = (componentInstance as any)['partsFacade'];
-    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
-    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+    const partsFacadeSpy = spyOn(partsFacade, 'setGlobalFilterPartsAsBuilt');
+    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setGlobalFilterPartsAsPlanned');
     componentInstance.searchControl.setValue(searchValue[0]);
 
 
@@ -466,8 +466,9 @@ describe('Parts', () => {
     const searchValue = [ 'SO' ];
 
     const partsFacade = (componentInstance as any)['partsFacade'];
-    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
-    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+    const partsFacadeSpy = spyOn(partsFacade, 'setGlobalFilterPartsAsBuilt');
+    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setGlobalFilterPartsAsPlanned');
+    const partsFacadeResetSpy = spyOn(partsFacade, 'resetGlobalFilter');
     componentInstance.searchControl.setValue(searchValue[0]);
 
     componentInstance.triggerPartSearch();
@@ -478,11 +479,10 @@ describe('Parts', () => {
 
     componentInstance.clearInput();
 
+    expect(partsFacadeResetSpy).toHaveBeenCalled();
     expect(componentInstance.searchControl.value).toEqual('');
     expect(componentInstance.chipItems).toEqual([]);
     expect(componentInstance.visibleChips).toEqual([]);
-    expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith();
-    expect(partsFacadeSpy).toHaveBeenCalledWith();
 
   });
 
