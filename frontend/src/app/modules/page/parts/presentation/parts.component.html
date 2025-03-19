@@ -19,44 +19,54 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 <div class="parts-table-container">
-  <mat-form-field class="parts-global-search-field" [floatLabel]="chipItems.length > 0 ? 'always' : 'auto'">
-    <mat-label>{{ 'parts.input.global-search.placeholder' | i18n }}</mat-label>
-    <mat-chip-listbox aria-label="Item selection">
-      <div #chipContainer class="chip-container">
-        <mat-chip *ngFor="let item of visibleChips">
-          {{ item }}
-          <button matChipRemove [attr.aria-label]="'remove ' + item" (click)="remove(item)">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-        <mat-chip *ngIf="hiddenCount > 0" class="hidden-chip">
-          +{{ hiddenCount }}
-        </mat-chip>
-        <input
-          matInput
-          [formControl]="searchControl"
-          (keydown.enter)="triggerPartSearch()"
-        />
-        <div class="search-buttons">
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="triggerPartSearch()"
-            [color]="'primary'">
-            <mat-icon>search</mat-icon>
-          </button>
-          <button
-            *ngIf="chipItems.length"
-            mat-icon-button
-            matSuffix
-            (click)="clearInput()"
-            [color]="'primary'">
-            <mat-icon>clear</mat-icon>
-          </button>
+  <div class="global-search-container">
+    <mat-form-field class="parts-global-search-field"
+                    [floatLabel]="chipItems.length > 0 ? 'always' : 'auto'"
+    (drop)="onFileDropped($event)"
+    (dragover)="$event.preventDefault()">
+      <mat-label>{{ 'parts.input.global-search.placeholder' | i18n }}</mat-label>
+      <mat-chip-listbox aria-label="Item selection">
+        <div #chipContainer class="chip-container">
+          <mat-chip *ngFor="let item of visibleChips">
+            {{ item }}
+            <button matChipRemove [attr.aria-label]="'remove ' + item" (click)="remove(item)">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <mat-chip *ngIf="hiddenCount > 0" class="hidden-chip">
+            +{{ hiddenCount }}
+          </mat-chip>
+          <input
+            matInput
+            [formControl]="searchControl"
+            (keydown.enter)="triggerPartSearch()"
+          />
+          <div class="search-buttons">
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="triggerPartSearch()"
+              [color]="'primary'">
+              <mat-icon>search</mat-icon>
+            </button>
+            <button
+              *ngIf="chipItems.length"
+              mat-icon-button
+              matSuffix
+              (click)="clearInput()"
+              [color]="'primary'">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </div>
         </div>
-      </div>
-    </mat-chip-listbox>
-  </mat-form-field>
+      </mat-chip-listbox>
+    </mat-form-field>
+    <app-button [iconName]="'upload_file'" [variant]="'stroked'" [useGap]="true"
+                (click)="openUploadDialog()" onKeyDown="andSonarQubeIsHappy" class="csv-upload-button">
+      Search by CSV
+    </app-button>
+  </div>
+
 
   <div class="split-container-wrapper">
     <as-split (dragEnd)="splitAreaChanged($event)" direction="horizontal" class="split-container">
@@ -83,7 +93,7 @@ SPDX-License-Identifier: Apache-2.0
                              (configChanged)="onAsBuiltTableConfigChange($event)"
                              (multiSelect)="currentSelectedItems$.next($event)"
                              (clickSelectAction)="navigateToNotificationCreationView()"
-                             (filterActivated)="asBuiltFilterActivated( $event )"
+                             (filterActivated)="asBuiltFilterActivated($event)"
                              [multiSortList]="tableAsBuiltSortList"
                              (maximizeClicked)="maximizeClicked($event)"
                              [tableHeader]='"page.asBuiltParts" | i18n'

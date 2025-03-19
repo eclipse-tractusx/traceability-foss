@@ -21,6 +21,7 @@ import {
   AssetAsBuiltFilter,
   AssetAsPlannedFilter,
   FilterOperator,
+  FilterValue,
   getFilterOperatorValue,
 } from '@page/parts/model/parts.model';
 import { NotificationDeeplinkFilter } from '@shared/model/notification.model';
@@ -29,7 +30,7 @@ import { NotificationDeeplinkFilter } from '@shared/model/notification.model';
 export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate', 'createdOn', 'validUntil' ];
 
 // TODO: Refactor function
-export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter | any, params: HttpParams, filterOperator: string): HttpParams {
+export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter | AssetAsPlannedFilter, params: HttpParams, filterOperator: string): HttpParams {
 
   for (const key in filter) {
     let operator: string;
@@ -80,18 +81,18 @@ export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter | any
     // has single value
     if (isAssetIdsFilter(key)) {
       operator = getFilterOperatorValue(FilterOperator.EQUAL);
-      const keyOverride = "id";
-      const filterOperatorOverride = "OR";
-      for (let value of filterValues){
+      const keyOverride = 'id';
+      const filterOperatorOverride = 'OR';
+      for (let value of filterValues) {
         params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
       }
     }
 
     if (isExcludeAssetIdsFilter(key)) {
       operator = getFilterOperatorValue(FilterOperator.EXCLUDE);
-      const keyOverride = "id";
-      const filterOperatorOverride = "AND";
-      for (let value of filterValues){
+      const keyOverride = 'id';
+      const filterOperatorOverride = 'AND';
+      for (let value of filterValues) {
         params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
       }
     }
@@ -129,13 +130,13 @@ export function isSameDate(startDate: string, endDate: string): boolean {
   return startDate === endDate;
 }
 
-export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter[] | AssetAsBuiltFilter[] {
+export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
 
   const transformedFilter: any = {};
 
   // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
   for (const key in formValues) {
-    if (formValues[key] !== null && formValues[key] !== undefined) {
+    if (formValues[key] !== null && formValues[key] !== undefined && !Array.isArray(formValues[key])) {
       if ('receivedActiveAlerts' === key) {
         transformedFilter['receivedQualityAlertIdsInStatusActive'] = formValues[key];
         continue;
@@ -159,15 +160,15 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlann
   const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
   if (filterIsSet) {
     if (isAsBuilt) {
-      return transformedFilter as AssetAsBuiltFilter[];
+      return transformedFilter as AssetAsBuiltFilter;
     } else {
-      return transformedFilter as AssetAsPlannedFilter[];
+      return transformedFilter as AssetAsPlannedFilter;
     }
   } else {
     return null;
   }
-
 }
+
 
 export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
   let filterList: string[] = [];
@@ -186,30 +187,36 @@ export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
 
 }
 
+export function toGlobalSearchAssetFilter(values: string[] | Record<string, string[]>, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
 
-export function toGlobalSearchAssetFilter(values: string[], isAsBuilt: boolean) {
+  let filter: AssetAsPlannedFilter | AssetAsBuiltFilter;
+  let strategy = FilterOperator.EQUAL;
+  let filterValues: FilterValue[];
 
-  let filters: AssetAsPlannedFilter[] | AssetAsBuiltFilter[];
-
-  if (isAsBuilt) {
-    filters = values.map(value => ({
-      id: value,
-      semanticModelId: value,
-      idShort: value,
-      customerPartId: value,
-      manufacturerPartId: value,
-      businessPartner: value,
-    })) as AssetAsBuiltFilter[];
+  if (Array.isArray(values)) {
+    filterValues = values.map(value => ({ value, strategy }));
   } else {
-    filters = values.map(value => ({
-      id: value,
-      idShort: value,
-      semanticModelId: value,
-      manufacturerPartId: value,
-      businessPartner: value,
-    })) as AssetAsPlannedFilter[];
+    filterValues = Object.values(values).flat().map(value => ({ value, strategy }));
   }
-  return filters;
+  if (isAsBuilt) {
+    filter = {
+      id: { value: filterValues, operator: 'OR' },
+      semanticModelId: { value: filterValues, operator: 'OR' },
+      idShort: { value: filterValues, operator: 'OR' },
+      customerPartId: { value: filterValues, operator: 'OR' },
+      manufacturerPartId: { value: filterValues, operator: 'OR' },
+      businessPartner: { value: filterValues, operator: 'OR' },
+    } as AssetAsBuiltFilter;
+  } else {
+    filter = {
+      id: { value: filterValues, operator: 'OR' },
+      idShort: { value: filterValues, operator: 'OR' },
+      semanticModelId: { value: filterValues, operator: 'OR' },
+      manufacturerPartId: { value: filterValues, operator: 'OR' },
+      businessPartner: { value: filterValues, operator: 'OR' },
+    } as AssetAsPlannedFilter;
+  }
+  return filter;
 }
 
 export function provideFilterListForNotifications(filter?: NotificationDeeplinkFilter, fullFilter?: any): string[] {
@@ -235,7 +242,7 @@ export function provideFilterListForNotifications(filter?: NotificationDeeplinkF
 }
 
 export function containsAtleastOneFilterEntry(filter: AssetAsBuiltFilter | AssetAsPlannedFilter): boolean {
-  return Object.keys(filter)
-    .filter(key => filter[key]?.length)
-    .length > 0;
+  return Object.values(filter).some((attr) =>
+    attr?.value?.some((filterValue: FilterValue) => Boolean(filterValue.value?.trim()))
+  );
 }

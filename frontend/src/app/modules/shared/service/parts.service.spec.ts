@@ -24,7 +24,7 @@ import { AuthService } from '@core/auth/auth.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator, Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
@@ -64,10 +64,10 @@ describe('PartsService', () => {
       expect(parts).toBeTruthy();
     });
 
-    const expectedUrl = `${ environment.apiUrl }/assets/as-built`;
+    const expectedUrl = `${ environment.apiUrl }/assets/as-built/query`;
 
     const req = httpMock.expectOne((request) => {
-      return request.url === expectedUrl && request.method === 'GET';
+      return request.url === expectedUrl && request.method === 'POST';
     });
 
     req.flush(mockAssets);
@@ -104,16 +104,21 @@ describe('PartsService', () => {
       [ 'age', 'asc' ],
       [ 'score', 'desc' ],
     ];
-    const filter = [{ id: '123' }] as AssetAsBuiltFilter[];
+    const filter = {
+      id: {
+        value: [ { value: '123', strategy: FilterOperator.EQUAL } ],
+        operator: 'OR',
+      },
+    } as AssetAsBuiltFilter;
 
     service.getPartsAsBuilt(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
       expect(parts).toBeTruthy();
     });
 
-    const expectedUrl = `${ environment.apiUrl }/assets/as-built`;
+    const expectedUrl = `${ environment.apiUrl }/assets/as-built/query`;
 
     const req = httpMock.expectOne((request) => {
-      return request.url === expectedUrl && request.method === 'GET';
+      return request.url === expectedUrl && request.method === 'POST';
     });
 
     req.flush(mockAssets);
@@ -136,10 +141,10 @@ describe('PartsService', () => {
       expect(parts).toBeTruthy();
     });
 
-    const expectedUrl = `${ environment.apiUrl }/assets/as-planned`;
+    const expectedUrl = `${ environment.apiUrl }/assets/as-planned/query`;
 
     const req = httpMock.expectOne((request) => {
-      return request.url === expectedUrl && request.method === 'GET';
+      return request.url === expectedUrl && request.method === 'POST';
     });
 
     req.flush(mockAssets);
@@ -157,64 +162,27 @@ describe('PartsService', () => {
       [ 'age', 'asc' ],
       [ 'score', 'desc' ],
     ];
-    const filter = [{ id: '123' }] as AssetAsPlannedFilter[];
+    const filter = {
+      id: {
+        value: [ { value: '123', strategy: FilterOperator.EQUAL } ],
+        operator: 'OR',
+      },
+    } as AssetAsPlannedFilter;
 
     service.getPartsAsPlanned(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
       expect(parts).toBeTruthy();
     });
 
-    const expectedUrl = `${ environment.apiUrl }/assets/as-planned`;
+    const expectedUrl = `${ environment.apiUrl }/assets/as-planned/query`;
 
     const req = httpMock.expectOne((request) => {
-      return request.url === expectedUrl && request.method === 'GET';
+      return request.url === expectedUrl && request.method === 'POST';
     });
 
     req.flush(mockAssets);
 
     httpMock.verify();
   });
-
-  it('should call the partbyFilter as built and return parts filtered', () => {
-
-    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
-
-    service.getPartsByFilter({ contractAgreementId: 'abc' }, true).subscribe((parts: Pagination<Part>) => {
-      expect(parts).toBeTruthy();
-    });
-
-    const expectedUrl = `${ environment.apiUrl }/assets/as-built`;
-
-    const req = httpMock.expectOne((request) => {
-      return request.url === expectedUrl && request.method === 'GET';
-    });
-
-    req.flush(mockAssets);
-
-    httpMock.verify();
-  });
-
-  it('should call the partbyFilter as planned and return parts filtered', () => {
-
-    spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
-
-    service.getPartsByFilter({ contractAgreementId: 'abc' }, false).subscribe((parts: Pagination<Part>) => {
-      expect(parts).toBeTruthy();
-    });
-
-    const expectedUrl = `${ environment.apiUrl }/assets/as-planned`;
-
-    const req = httpMock.expectOne((request) => {
-      return request.url === expectedUrl && request.method === 'GET';
-    });
-
-    req.flush(mockAssets);
-
-    httpMock.verify();
-  });
-
-
-
-
 
   it('should request partDetails of as built Id', () => {
 
@@ -222,7 +190,7 @@ describe('PartsService', () => {
 
     const asBuiltId = 'MOCK_part_1';
 
-    service.getPartDetailOfIds([asBuiltId], MainAspectType.AS_BUILT).subscribe((parts) => {
+    service.getPartDetailOfIds([ asBuiltId ], MainAspectType.AS_BUILT).subscribe((parts) => {
       console.warn(parts);
       expect(parts).toBeTruthy();
     });
@@ -244,7 +212,7 @@ describe('PartsService', () => {
 
     const asPlannedId = 'urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01';
 
-    service.getPartDetailOfIds([asPlannedId], MainAspectType.AS_PLANNED).subscribe((parts) => {
+    service.getPartDetailOfIds([ asPlannedId ], MainAspectType.AS_PLANNED).subscribe((parts) => {
       expect(parts).toBeTruthy();
     });
 
@@ -263,12 +231,12 @@ describe('PartsService', () => {
     spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
 
     const id = 'valid-id';
-    const expectedUrl = `${environment.apiUrl}/assets/as-planned/${encodeURIComponent(id)}`;
+    const expectedUrl = `${ environment.apiUrl }/assets/as-planned/${ encodeURIComponent(id) }`;
 
     service.deletePartByIdAsPlanned(id).subscribe({
       error: (error) => {
         expect(error).toBeTruthy();
-      }
+      },
     });
 
     const req = httpMock.expectOne((request) => {
@@ -293,7 +261,7 @@ describe('PartsService', () => {
     spyOn(authService, 'getBearerToken').and.returnValue('your_mocked_token');
 
     const id = 'valid-id';
-    const expectedUrl = `${environment.apiUrl}/assets/as-planned/${encodeURIComponent(id)}`;
+    const expectedUrl = `${ environment.apiUrl }/assets/as-planned/${ encodeURIComponent(id) }`;
 
     service.deletePartByIdAsPlanned(id).subscribe(() => {
       expect().nothing(); // No need to expect anything on success

@@ -19,24 +19,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { QueryList } from '@angular/core';
-import {LayoutModule} from '@layout/layout.module';
-import {SidenavComponent} from '@layout/sidenav/sidenav.component';
-import {SidenavService} from '@layout/sidenav/sidenav.service';
+import { LayoutModule } from '@layout/layout.module';
+import { SidenavComponent } from '@layout/sidenav/sidenav.component';
+import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { Owner } from '@page/parts/model/owner.enum';
-import {AssetAsBuiltFilter, AssetAsPlannedFilter} from '@page/parts/model/parts.model';
-import {PartsComponent} from '@page/parts/presentation/parts.component';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator } from '@page/parts/model/parts.model';
+import { PartsComponent } from '@page/parts/presentation/parts.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
-import { QuickFilterComponent } from '@shared/components/quick-filter/quick-filter.component';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {toAssetFilter, toGlobalSearchAssetFilter} from '@shared/helper/filter-helper';
-import {PartDetailsFacade} from '@shared/modules/part-details/core/partDetails.facade';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { QuickfilterService } from '@shared/service/quickfilter.service';
-import {SharedModule} from '@shared/shared.module';
-import {screen, waitFor} from '@testing-library/angular';
-import {renderComponent} from '@tests/test-render.utils';
+import { SharedModule } from '@shared/shared.module';
+import { screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
-import {PartsModule} from '../parts.module';
+import { PartsModule } from '../parts.module';
 
 const mockQuickfilterService = {
   setOwner: jasmine.createSpy('setOwner'),
@@ -52,7 +50,7 @@ describe('Parts', () => {
 
     return renderComponent(PartsComponent, {
       declarations: [ SidenavComponent ],
-      imports: [ PartsModule, SharedModule, LayoutModule],
+      imports: [ PartsModule, SharedModule, LayoutModule ],
       providers: [ { provide: SidenavService }, { provide: PartDetailsFacade } ],
       roles: [ 'admin', 'wip' ],
     });
@@ -79,7 +77,7 @@ describe('Parts', () => {
     const { componentInstance } = fixture;
     // Arrange
     const assetAsBuiltFilter: AssetAsBuiltFilter = {
-      id: '123',
+      id: { value: [ { value: '123', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
     };
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
@@ -96,14 +94,12 @@ describe('Parts', () => {
     const { componentInstance } = fixture;
     // Arrange
     const assetAsPlannedFilter: AssetAsPlannedFilter = {
-      id: '123',
+      id: { value: [ { value: '123', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
     };
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
 
-
     componentInstance.asPlannedFilterActivated(assetAsPlannedFilter);
-
 
     expect(partsFacadeSpy).toHaveBeenCalledWith(0, 50, [], assetAsPlannedFilter);
   });
@@ -132,12 +128,6 @@ describe('Parts', () => {
     const pageSize = 10; // Set the page size
     const sorting = [ 'id', 'asc' ] as TableHeaderSort;
     componentInstance.ctrlKeyState = true;
-    // Set up QueryList of QuickFilterComponent
-    const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
-    quickFilterComponentMock.owner = Owner.UNKNOWN;
-    quickFilterComponents.reset([quickFilterComponentMock]);
-    componentInstance.quickFilterComponents = quickFilterComponents;
     // Access the private partsFacade property
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
@@ -157,7 +147,7 @@ describe('Parts', () => {
     const pageSize = 10; // Set the page size
     const sorting = [ 'id', 'asc' ] as TableHeaderSort;
     componentInstance.assetAsBuiltFilter = {
-      id: 'urn',
+      id: { value: [ { value: 'urn', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
     };
     componentInstance.ctrlKeyState = false;
 
@@ -171,7 +161,7 @@ describe('Parts', () => {
     // Assert
     expect(partsFacadeSpy).toHaveBeenCalledWith(0, pageSize, componentInstance['tableAsBuiltSortList'], toAssetFilter(componentInstance.assetAsBuiltFilter, true));
 
-  })
+  });
 
 
   it('should call partsFacade.setPartsAsPlanned with the correct parameters and page 0 no ctrlkey pressed', async () => {
@@ -183,7 +173,8 @@ describe('Parts', () => {
     const sorting = [ 'id', 'asc' ] as TableHeaderSort;
 
     componentInstance.assetsAsPlannedFilter = {
-      id: 'urn',
+      id: { value: [ { value: 'urn', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
+
     };
     componentInstance.ctrlKeyState = false;
 
@@ -197,7 +188,7 @@ describe('Parts', () => {
     // Assert
     expect(partsFacadeSpy).toHaveBeenCalledWith(0, pageSize, componentInstance['tableAsPlannedSortList'], toAssetFilter(componentInstance.assetsAsPlannedFilter, true));
 
-  })
+  });
 
   it('should call partsFacade.setPartsAsBuilt with the correct parameters no ctrlkey pressed', async () => {
     const { fixture } = await renderParts();
@@ -212,11 +203,7 @@ describe('Parts', () => {
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
     // Set up QueryList of QuickFilterComponent
-    const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
-    quickFilterComponentMock.owner = Owner.UNKNOWN;
-    quickFilterComponents.reset([quickFilterComponentMock]);
-    componentInstance.quickFilterComponents = quickFilterComponents;    // Act
+    // Act
     componentInstance['onAsPlannedTableConfigChange']({ page, pageSize, sorting }); // Access private method
     // Act
     componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
@@ -224,7 +211,6 @@ describe('Parts', () => {
     // Assert
     expect(partsFacadeSpy).toHaveBeenCalledWith(page, pageSize, componentInstance['tableAsBuiltSortList']);
   });
-
 
 
   it('should call partsFacade.setPartsAsPlanned with the correct parameters', async () => {
@@ -240,12 +226,7 @@ describe('Parts', () => {
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsPlanned');
 
-    // Set up QueryList of QuickFilterComponent
-    const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
-    quickFilterComponentMock.owner = Owner.UNKNOWN;
-    quickFilterComponents.reset([quickFilterComponentMock]);
-    componentInstance.quickFilterComponents = quickFilterComponents;    // Act
+    // Act
     componentInstance['onAsPlannedTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
     // Assert
@@ -260,12 +241,6 @@ describe('Parts', () => {
     const pageSize = 10; // Set the page size
     const sorting = [ 'id', 'asc' ] as TableHeaderSort;
     componentInstance.ctrlKeyState = false;
-    // Set up QueryList of QuickFilterComponent
-    const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
-    quickFilterComponentMock.owner = Owner.UNKNOWN;
-    quickFilterComponents.reset([quickFilterComponentMock]);
-    componentInstance.quickFilterComponents = quickFilterComponents;
 
     // Access the private partsFacade property
     const partsFacade = (componentInstance as any)['partsFacade'];
@@ -300,12 +275,7 @@ describe('Parts', () => {
     // Access the private partsFacade property
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
-    // Set up QueryList of QuickFilterComponent
-    const quickFilterComponents = new QueryList<QuickFilterComponent>();
-    const quickFilterComponentMock = new QuickFilterComponent(mockQuickfilterService);
-    quickFilterComponentMock.owner = Owner.UNKNOWN;
-    quickFilterComponents.reset([quickFilterComponentMock]);
-    componentInstance.quickFilterComponents = quickFilterComponents;
+
     // Act
     componentInstance['onAsBuiltTableConfigChange']({ page, pageSize, sorting }); // Access private method
 
@@ -318,7 +288,7 @@ describe('Parts', () => {
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
     // Arrange
-    const searchValue = ['searchTerm'];
+    const searchValue = [ 'searchTerm' ];
 
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
@@ -350,7 +320,9 @@ describe('Parts', () => {
     // Act
     componentInstance.updatePartsByOwner(Owner.OWN);
 
-    let filter = [{owner: Owner.OWN}];
+    let filter = {
+      owner: { value: [ { value: Owner.OWN, strategy: FilterOperator.EQUAL } ], operator: 'OR' },
+    };
 
     // Assert
     expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith(0, 50, [], filter, true);
@@ -371,7 +343,7 @@ describe('Parts', () => {
 
     // Assert
 
-    const expectedBomLifeCycle = {asBuiltSize: 50, asPlannedSize: 50}
+    const expectedBomLifeCycle = { asBuiltSize: 50, asPlannedSize: 50 };
     expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
   });
 
@@ -388,7 +360,7 @@ describe('Parts', () => {
     componentInstance.maximizeClicked(TableType.AS_BUILT_OWN);
 
     // Assert
-    const expectedBomLifeCycle = {asBuiltSize: 100, asPlannedSize: 0}
+    const expectedBomLifeCycle = { asBuiltSize: 100, asPlannedSize: 0 };
     expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
   });
 
@@ -405,7 +377,7 @@ describe('Parts', () => {
     componentInstance.maximizeClicked(TableType.AS_PLANNED_OWN);
 
     // Assert
-    const expectedBomLifeCycle = {asBuiltSize: 50, asPlannedSize: 50}
+    const expectedBomLifeCycle = { asBuiltSize: 50, asPlannedSize: 50 };
     expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
   });
 
@@ -422,7 +394,7 @@ describe('Parts', () => {
     componentInstance.maximizeClicked(TableType.AS_PLANNED_OWN);
 
     // Assert
-    const expectedBomLifeCycle = {asBuiltSize: 0, asPlannedSize: 100}
+    const expectedBomLifeCycle = { asBuiltSize: 0, asPlannedSize: 100 };
     expect(setUserSettingsSpy).toHaveBeenCalledWith(expectedBomLifeCycle);
   });
 
@@ -452,10 +424,9 @@ describe('Parts', () => {
     const { componentInstance } = fixture;
 
 
-
   });
 
-  it('should show success toast and refresh parts on successful publish', async() => {
+  it('should show success toast and refresh parts on successful publish', async () => {
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
     const partsFacade = (componentInstance as any)['partsFacade'];
@@ -492,7 +463,7 @@ describe('Parts', () => {
 
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
-    const searchValue = ['SO'];
+    const searchValue = [ 'SO' ];
 
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
@@ -507,7 +478,7 @@ describe('Parts', () => {
 
     componentInstance.clearInput();
 
-    expect(componentInstance.searchControl.value).toEqual('')
+    expect(componentInstance.searchControl.value).toEqual('');
     expect(componentInstance.chipItems).toEqual([]);
     expect(componentInstance.visibleChips).toEqual([]);
     expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith();
@@ -520,22 +491,50 @@ describe('Parts', () => {
 
     const { fixture } = await renderParts();
     const { componentInstance } = fixture;
-    const searchValue = ['SO PO'];
-
-    const partsFacade = (componentInstance as any)['partsFacade'];
-    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
-    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+    const searchValue = [ 'SO PO' ];
     componentInstance.searchControl.setValue(searchValue[0]);
 
     componentInstance.triggerPartSearch();
     expect(componentInstance.chipItems.length).toEqual(2);
-    expect(componentInstance.visibleChips.length).toEqual(2);;
+    expect(componentInstance.visibleChips.length).toEqual(2);
 
     componentInstance.remove('SO');
 
     expect(componentInstance.chipItems).toContain('PO');
     expect(componentInstance.visibleChips).toContain('PO');
 
+  });
+
+  it('should return true if the value is a valid record',  async() => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const value = { key1: ['value1', 'value2'], key2: ['value3'] };
+    const result = componentInstance.isRecord(value);
+    expect(result).toBeTrue();
+  });
+
+  it('should return false if the value is an object but not a valid record',  async() => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const value = { key1: 'value1', key2: 'value2' };
+    const result = componentInstance.isRecord(value);
+    expect(result).toBeFalse();
+  });
+
+  it('should return false if the value is not an object',  async() => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const value = 'some string';
+    const result = componentInstance.isRecord(value);
+    expect(result).toBeFalse();
+  });
+
+  it('should return false if the value is null',  async() => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    const value = null;
+    const result = componentInstance.isRecord(value);
+    expect(result).toBeFalse();
   });
 
 });

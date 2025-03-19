@@ -18,13 +18,14 @@
  ********************************************************************************/
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FilterAttribute, FilterOperator, FilterValue } from '@page/parts/model/parts.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FilterService } from '@shared/service/filter.service';
 
 @Component({
   selector: 'app-advanced-table-filter',
   templateUrl: './advanced-table-filter.component.html',
-  styleUrls: ['./advanced-table-filter.component.scss']
+  styleUrls: [ './advanced-table-filter.component.scss' ],
 })
 export class AdvancedTableFilterComponent implements OnInit {
 
@@ -37,7 +38,7 @@ export class AdvancedTableFilterComponent implements OnInit {
         controlName: 'owner',
       },
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'semanticModelId',
         controlName: 'semanticModelId',
       },
@@ -46,12 +47,12 @@ export class AdvancedTableFilterComponent implements OnInit {
     // Row 2
     [
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'businessPartner',
         controlName: 'businessPartner',
       },
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'nameAtManufacturer',
         controlName: 'nameAtManufacturer',
       },
@@ -60,12 +61,12 @@ export class AdvancedTableFilterComponent implements OnInit {
     // Row 3
     [
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'manufacturerName',
         controlName: 'manufacturerName',
       },
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'id',
         controlName: 'id',
       },
@@ -74,12 +75,12 @@ export class AdvancedTableFilterComponent implements OnInit {
     // Row 4
     [
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'manufacturerPartId',
         controlName: 'manufacturerPartId',
       },
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'idShort',
         controlName: 'idShort',
       },
@@ -88,7 +89,7 @@ export class AdvancedTableFilterComponent implements OnInit {
     // Row 5
     [
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'manufacturingCountry',
         controlName: 'manufacturingCountry',
       },
@@ -107,21 +108,19 @@ export class AdvancedTableFilterComponent implements OnInit {
         controlName: 'importState',
       },
       {
-        component: 'autocomplete',
+        component: 'chip',
         filterName: 'customerPartId',
         controlName: 'customerPartId',
       },
-    ]
+    ],
   ];
-
 
   @Input() tableType: TableType;
   enableSearchButton: boolean = false;
+  public readonly formGroup = new FormGroup({});
 
   constructor(private readonly filterService: FilterService) {
   }
-
-  public readonly formGroup = new FormGroup({});
 
   ngOnInit() {
     this.advancedFilters.flat().forEach(filter => {
@@ -147,18 +146,28 @@ export class AdvancedTableFilterComponent implements OnInit {
   search() {
     const formValues = this.formGroup.value;
 
-    const nonEmptyValues = Object.entries(formValues).reduce((acc, [key, value]) => {
+    const nonEmptyValues = Object.entries(formValues).reduce((acc, [ key, value ]) => {
       if (
         value != null &&
         !(typeof value === 'string' && value.trim() === '') &&
         !(Array.isArray(value) && value.length === 0)
       ) {
-        acc[key] = value;
+        acc[key] = {
+          value: (Array.isArray(value) ? value : [ value ]).map(val =>
+            this.isFilterValue(val)
+              ? val as FilterValue
+              : { value: val, strategy: FilterOperator.EQUAL }),
+          operator: "AND"
+        } as FilterAttribute;
       }
       return acc;
     }, {} as Record<string, any>);
 
     this.filterService.setFilter(this.tableType, nonEmptyValues);
+  }
+
+  private isFilterValue(val: any) {
+    return typeof val === 'object' && 'value' in val && 'strategy' in val;
   }
 
   clearSearch(): void {

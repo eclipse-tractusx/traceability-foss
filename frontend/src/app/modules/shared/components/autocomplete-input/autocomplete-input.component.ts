@@ -18,13 +18,14 @@
  ********************************************************************************/
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BaseFilterInputComponent } from '@shared/abstraction/baseInputFilter/baseInputFilter.component';
-import { of } from 'rxjs';
-import { debounceTime, delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FilterAttribute } from '@page/parts/model/parts.model';
+import { BaseFilterInputComponent } from '@shared/abstraction/baseInputFilter/baseInputFilter.component';
 
 import { PartsStrategy } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { FilterService } from '@shared/service/filter.service';
+import { of } from 'rxjs';
+import { debounceTime, delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-autocomplete-input',
@@ -79,9 +80,9 @@ export class AutocompleteInputComponent extends BaseFilterInputComponent {
       });
   }
 
-  protected onFilterValueChanged(value: unknown): void {
-    if (Array.isArray(value)) {
-      this.items = [...value];
+  protected onFilterValueChanged(filterAttribute: FilterAttribute): void {
+  if (filterAttribute) {
+    this.items = filterAttribute.value.map(value1 => value1.value);
     } else {
       this.items = [];
     }

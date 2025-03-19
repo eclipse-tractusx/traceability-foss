@@ -21,6 +21,10 @@
 
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { AdvancedTableFilterComponent } from '@shared/components/advanced-table-filter/advanced-table-filter.component';
@@ -31,6 +35,7 @@ import { CardMetricComponent } from '@shared/components/card-metric/card-metric.
 import { ChipComponent } from '@shared/components/chip/chip.component';
 import { ContractsQuickFilterComponent } from '@shared/components/contracts-quick-filter/contracts-quick-filter.component';
 import { CountryFlagGeneratorComponent } from '@shared/components/country-flag-generator/country-flag-generator.component';
+import { CsvUploadComponent } from '@shared/components/csv-upload/csv-upload.component';
 import { DatepickerInputComponent } from '@shared/components/datepicker-input/datepicker-input.component';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
@@ -40,7 +45,6 @@ import { NotificationOverviewComponent } from '@shared/components/notification-o
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
 import { NotificationTypeComponent } from '@shared/components/notification-type/notification-type.component';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { QuickFilterComponent } from '@shared/components/quick-filter/quick-filter.component';
 import { RequestNotificationNewComponent } from '@shared/components/request-notification-new';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
@@ -55,6 +59,7 @@ import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { I18NextModule } from 'angular-i18next';
+import { NgxFileDropModule } from 'ngx-file-drop';
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { ButtonComponent } from './components/button/button.component';
@@ -83,7 +88,6 @@ import { I18nPipe } from './pipes/i18n.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
-import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -128,7 +132,6 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     SeveritySelectComponent,
     TypeSelectComponent,
     InputComponent,
-    QuickFilterComponent,
     ContractsQuickFilterComponent,
     ViewSelectorComponent,
     MultiSelectAutocompleteComponent,
@@ -141,9 +144,13 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     AdvancedTableFilterComponent,
     AutocompleteChipInputComponent,
     DatepickerInputComponent,
-    AutocompleteInputComponent
+    AutocompleteInputComponent,
+    CsvUploadComponent,
   ],
-  imports: [ TemplateModule, RouterModule, I18NextModule, MatAutocompleteModule ],
+  imports: [ TemplateModule, RouterModule, I18NextModule, MatAutocompleteModule, NgxFileDropModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule ],
   exports: [
     ToastContainerComponent,
     ToastMessageComponent,
@@ -184,7 +191,6 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     FlattenObjectPipe,
     FormatPartSemanticDataModelToCamelCasePipe,
     FormatPartlistSemanticDataModelToCamelCasePipe,
-    QuickFilterComponent,
     ContractsQuickFilterComponent,
     ViewSelectorComponent,
     PartsTableComponent,
@@ -197,7 +203,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     AdvancedTableFilterComponent,
     AutocompleteChipInputComponent,
     DatepickerInputComponent,
-    AutocompleteInputComponent
+    AutocompleteInputComponent,
+    CsvUploadComponent,
   ],
   providers: [
     FormatDatePipe,

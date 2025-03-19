@@ -1,0 +1,19 @@
+<div class="csv-upload-dialog">
+  <p mat-dialog-title class="large-text">Search for parts via csv file</p>
+
+  <mat-dialog-content class="csv-dialog-content">
+    <mat-icon class="csv-icon">upload_file</mat-icon>
+
+    <ngx-file-drop [dropZoneLabel]="'Drag and drop file here'"
+                   (onFileDrop)="onFileDrop($event)"
+                   [showBrowseBtn]="true"
+                   [browseBtnLabel]="'or click here to browse'"
+                   [browseBtnClassName]="'csv-browse-button'"
+                   class="drag-drop-box">
+    </ngx-file-drop>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <app-button class="csv-close-button" [variant]="'stroked'" mat-dialog-close>Close</app-button>
+  </mat-dialog-actions>
+</div>

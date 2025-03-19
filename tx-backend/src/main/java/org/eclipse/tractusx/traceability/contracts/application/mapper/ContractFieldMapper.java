@@ -33,7 +33,7 @@ public class ContractFieldMapper extends BaseRequestFieldMapper {
             );
 
     @Override
-    protected Map<String, String> getSupportedFields() {
+    public Map<String, String> getSupportedFields() {
         return SUPPORTED_CONTRACT_FILTER_FIELDS;
     }
 }

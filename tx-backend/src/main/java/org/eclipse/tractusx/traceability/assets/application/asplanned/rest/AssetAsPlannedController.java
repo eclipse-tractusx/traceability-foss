@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
 import assets.importpoc.ErrorResponse;
 import assets.request.SearchableAssetsRequest;
+import assets.response.asbuilt.AssetAsBuiltResponse;
 import assets.response.asplanned.AssetAsPlannedResponse;
 import assets.response.base.request.UpdateAssetRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,20 +44,13 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.request.AssetRequest;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -194,6 +188,81 @@ public class AssetAsPlannedController {
     @GetMapping("")
     public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, SearchCriteriaRequestParam filter) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable, fieldMapper), filter.toSearchCriteria(fieldMapper)));
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
+    @Operation(operationId = "query",
+            summary = "Query assets by pagination using POST request",
+            tags = {"AssetsAsPlanned"},
+            description = "The endpoint returns a paged result of assets.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
+            mediaType = "application/json",
+            array = @ArraySchema(
+                    schema = @Schema(implementation = AssetAsBuiltResponse.class),
+                    arraySchema = @Schema(
+                            description = "Assets",
+                            implementation = AssetAsPlannedResponse.class,
+                            additionalProperties = Schema.AdditionalPropertiesValue.FALSE
+                    ),
+                    maxItems = Integer.MAX_VALUE,
+                    minItems = 0)
+    )),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @PostMapping("query")
+    public PageResult<AssetAsPlannedResponse> query(@RequestBody AssetRequest assetRequest) {
+        return AssetAsPlannedResponseMapper.from(
+                assetService.getAssets(
+                        OwnPageable.toPageable(
+                                new OwnPageable(
+                                        assetRequest.getPage(),
+                                        assetRequest.getSize(),
+                                        assetRequest.getSort()
+                                ), fieldMapper),
+                        assetRequest.toSearchCriteria(fieldMapper))
+        );
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")

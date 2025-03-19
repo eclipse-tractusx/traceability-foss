@@ -19,11 +19,8 @@
 import { DatePipe } from '@angular/common';
 import { ElementRef } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FilterOperator } from '@page/parts/model/parts.model';
 import { PartsStrategy } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { FilterService } from '@shared/service/filter.service';
@@ -47,7 +44,7 @@ const mockFilterService = {
 const mockPartsStrategy = {
   retrieveSuggestionValues: jasmine
     .createSpy('retrieveSuggestionValues')
-    .and.returnValue(of(['defaultSuggestion'])),
+    .and.returnValue(of([ 'defaultSuggestion' ])),
 };
 
 
@@ -63,7 +60,7 @@ describe('AutocompleteInputComponent', () => {
     });
 
     return renderComponent(AutocompleteInputComponent, {
-      imports: [ReactiveFormsModule, SharedModule],
+      imports: [ ReactiveFormsModule, SharedModule ],
       providers: [
         { provide: FilterService, useValue: mockFilterService },
         { provide: 'announcer', useValue: { announce: jasmine.createSpy('announce') } },
@@ -82,12 +79,12 @@ describe('AutocompleteInputComponent', () => {
 
   it('should set input according to filterstate', async () => {
     mockFilterService.getFilter.and.returnValue({
-      autoComplete: ['test'],
+      autoComplete: { value: [ { value: 'test', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
     });
 
     filterStateSubject.next({
       asBuilt: {
-        autoComplete: ['test'],
+        autoComplete: { value: [ { value: 'test', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
       },
       asPlanned: {},
     });
@@ -97,7 +94,7 @@ describe('AutocompleteInputComponent', () => {
     });
 
     const { fixture } = await renderComponent(AutocompleteInputComponent, {
-      imports: [ReactiveFormsModule],
+      imports: [ ReactiveFormsModule ],
       providers: [
         { provide: FilterService, useValue: mockFilterService },
         DatePipe,
@@ -111,19 +108,19 @@ describe('AutocompleteInputComponent', () => {
     });
 
     const componentInstance = fixture.componentInstance;
-    expect(componentInstance.items).toEqual(['test'])
+    expect(componentInstance.items).toEqual([ 'test' ]);
 
-    expect(parentForm.get('autoComplete').value).toEqual(['test']);
+    expect(parentForm.get('autoComplete').value).toEqual([ 'test' ]);
   });
 
   it('should shorten visible selected elements', async () => {
     const { fixture } = await renderAutocompleteInput();
     const { componentInstance } = fixture;
 
-    componentInstance.items = ['test', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8'];
+    componentInstance.items = [ 'test', 'test2', 'test3', 'test4', 'test5', 'test6', 'test7', 'test8' ];
     const trimmedString = componentInstance.displaySelectedItemsTruncated();
     expect(trimmedString).toEqual('test... + 7');
-    componentInstance.items = ['thisisareallylongstringthatshouldbetrimmed'];
+    componentInstance.items = [ 'thisisareallylongstringthatshouldbetrimmed' ];
     const anotherTrimmedString = componentInstance.displaySelectedItemsTruncated();
     expect(anotherTrimmedString).toEqual('thisisareallylongstringthatsho...');
   });
@@ -143,7 +140,7 @@ describe('AutocompleteInputComponent', () => {
     expect(mockPartsStrategy.retrieveSuggestionValues).toHaveBeenCalledWith(
       componentInstance.tableType,
       componentInstance.filterName,
-      ''
+      '',
     );
     expect(componentInstance.filteredItemsList).toEqual([ 'val1', 'val2' ]);
   }));
@@ -152,15 +149,15 @@ describe('AutocompleteInputComponent', () => {
     const { fixture } = await renderAutocompleteInput();
     const { componentInstance } = fixture;
 
-    componentInstance.filteredItemsList = ['a', 'b', 'c'];
-    componentInstance.items = ['a', 'b', 'c'];
+    componentInstance.filteredItemsList = [ 'a', 'b', 'c' ];
+    componentInstance.items = [ 'a', 'b', 'c' ];
 
     expect(componentInstance.areAllSelected()).toBeTrue();
   });
 
   it('should clear the input, reset items, update parent form, and remove filter value', async () => {
     const parentForm = new FormGroup({
-      autoComplete: new FormControl(['initialValue']),
+      autoComplete: new FormControl([ 'initialValue' ]),
     });
 
     const { fixture } = await renderAutocompleteInput();
@@ -171,7 +168,7 @@ describe('AutocompleteInputComponent', () => {
       nativeElement: { value: 'some text' },
     } as ElementRef<HTMLInputElement>;
 
-    componentInstance.items = ['initialValue'];
+    componentInstance.items = [ 'initialValue' ];
     componentInstance.itemCtrl.setValue('some text');
 
     componentInstance.clearInput();
@@ -186,7 +183,7 @@ describe('AutocompleteInputComponent', () => {
 
     expect(mockFilterService.removeFilterKey).toHaveBeenCalledWith(
       TableType.AS_BUILT_OWN,
-      'autoComplete'
+      'autoComplete',
     );
   });
 });

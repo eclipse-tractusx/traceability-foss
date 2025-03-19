@@ -52,7 +52,7 @@ public class NotificationFieldMapper extends BaseRequestFieldMapper {
     );
 
     @Override
-    protected Map<String, String> getSupportedFields() {
+    public Map<String, String> getSupportedFields() {
         return SUPPORTED_NOTIFICATION_FILTER_FIELDS;
     }
 }

@@ -71,7 +71,7 @@ export class PartsFacade {
     return this.partsService.deletePartByIdAsBuilt(id);
   }
 
-  public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter[], isOrSearch?: boolean): void {
+  public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscription?.unsubscribe();
     this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
       next: data => (this.partsState.partsAsBuilt = { data: provideDataObject(data) }),
@@ -79,7 +79,7 @@ export class PartsFacade {
     });
   }
 
-  public setPartsAsBuiltSecond(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter[], isOrSearch?: boolean): void {
+  public setPartsAsBuiltSecond(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscriptionSecond?.unsubscribe();
     this.partsAsBuiltSubscriptionSecond = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
       next: data => (this.partsState.partsAsBuiltSecond = { data: provideDataObject(data) }),
@@ -87,7 +87,7 @@ export class PartsFacade {
     });
   }
 
-  public setPartsAsBuiltSecondEmpty(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter[], isOrSearch?: boolean): void {
+  public setPartsAsBuiltSecondEmpty(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscriptionSecond?.unsubscribe();
     this.partsAsBuiltSubscriptionSecond = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
       next: data => (this.partsState.partsAsBuiltSecond = { data: provideDataObject(null) }),
@@ -95,7 +95,7 @@ export class PartsFacade {
     });
   }
 
-  public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter[], isOrSearch?: boolean): void {
+  public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.partsAsPlannedSubscription?.unsubscribe();
     this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
       next: data => (this.partsState.partsAsPlanned = { data: provideDataObject(data) }),

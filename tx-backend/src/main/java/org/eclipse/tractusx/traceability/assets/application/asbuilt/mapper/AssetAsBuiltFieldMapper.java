@@ -56,7 +56,7 @@ public class AssetAsBuiltFieldMapper extends BaseRequestFieldMapper {
             Map.entry("importNote", "importNote"));
 
     @Override
-    protected Map<String, String> getSupportedFields() {
+    public Map<String, String> getSupportedFields() {
         return SUPPORTED_ASSETS_AS_BUILT_FILTER_FIELDS;
     }
 }

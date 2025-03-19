@@ -16,9 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { FilterAttribute, FilterOperator, FilterValue } from '@page/parts/model/parts.model';
 import { BaseFilterInputComponent } from '@shared/abstraction/baseInputFilter/baseInputFilter.component';
 
 import { FilterService } from '@shared/service/filter.service';
@@ -26,7 +27,7 @@ import { FilterService } from '@shared/service/filter.service';
 @Component({
   selector: 'app-datepicker-input',
   templateUrl: './datepicker-input.component.html',
-  styleUrls: ['./datepicker-input.component.scss'],
+  styleUrls: [ './datepicker-input.component.scss' ],
 })
 export class DatepickerInputComponent extends BaseFilterInputComponent {
   dateRange = new FormGroup({
@@ -36,7 +37,7 @@ export class DatepickerInputComponent extends BaseFilterInputComponent {
 
   constructor(
     filterService: FilterService,
-    public datePipe: DatePipe
+    public datePipe: DatePipe,
   ) {
     super(filterService);
 
@@ -46,23 +47,20 @@ export class DatepickerInputComponent extends BaseFilterInputComponent {
       }
       const startStr = this.datePipe.transform(range.start, 'yyyy-MM-dd');
       const endStr = this.datePipe.transform(range.end, 'yyyy-MM-dd');
-      const filterValue = `${startStr},${endStr}`;
+      const filterValue = [
+        {
+          value: startStr,
+          strategy: FilterOperator.AFTER_LOCAL_DATE,
+        },
+        {
+          value: endStr,
+          strategy: FilterOperator.BEFORE_LOCAL_DATE,
+        },
+      ];
 
       this.updateParentFormControl(filterValue);
-      this.announcer.announce(`Selected date range from ${startStr} to ${endStr}`);
+      this.announcer.announce(`Selected date range from ${ startStr } to ${ endStr }`);
     });
-  }
-
-  protected onFilterValueChanged(value: unknown): void {
-    if (typeof value === 'string') {
-      const [startStr, endStr] = value.split(',');
-      this.dateRange.setValue({
-        start: startStr ? new Date(startStr) : null,
-        end: endStr ? new Date(endStr) : null,
-      });
-    } else {
-      this.dateRange.setValue({ start: null, end: null });
-    }
   }
 
   clearRange(): void {
@@ -70,5 +68,41 @@ export class DatepickerInputComponent extends BaseFilterInputComponent {
     this.updateParentFormControl('');
     this.removeFilterValue();
     this.announcer.announce(`Date range cleared`);
+  }
+
+  protected onFilterValueChanged(value: unknown): void {
+    if (this.isFilterAttribute(value)) {
+      const filterValues: FilterValue[] = value.value;
+      let start: Date | null = null;
+      let end: Date | null = null;
+
+      filterValues.forEach(filterValue => {
+        if (filterValue.strategy === FilterOperator.AFTER_LOCAL_DATE) {
+          start = new Date(filterValue.value);
+        } else if (filterValue.strategy === FilterOperator.BEFORE_LOCAL_DATE) {
+          end = new Date(filterValue.value);
+        }
+      });
+
+      this.dateRange.setValue({ start, end });
+    } else {
+      this.dateRange.setValue({ start: null, end: null });
+    }
+  }
+
+  private isFilterAttribute(value: unknown): value is FilterAttribute {
+    return (
+      typeof value === "object" &&
+      value !== null &&
+      "value" in value &&
+      Array.isArray(value.value) &&
+      value.value.every(
+        (fv) =>
+          typeof fv === "object" &&
+          fv !== null &&
+          "value" in fv &&
+          "strategy" in fv
+      )
+    );
   }
 }
