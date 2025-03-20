@@ -227,3 +227,6 @@ digitalTwinRegistryClient:
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
   discovery:
     type: ${DISCOVERY_TYPE}
+
+bpdm:
+  goldenRecordUrl: ${BPDM_GOLDEN_RECORD_URL}

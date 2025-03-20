@@ -132,5 +132,4 @@ openapi-doc:
   generate: false
 
 bpdm:
-  providerUrl: "providerUrl"
-  providerBpnl: "providerBpnl"
+  goldenRecordUrl: providerUrl/api/v1/dsp

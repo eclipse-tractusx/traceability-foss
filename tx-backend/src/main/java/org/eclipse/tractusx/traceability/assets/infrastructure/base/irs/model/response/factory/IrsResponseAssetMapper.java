@@ -82,7 +82,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
                         assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setLatestContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setManufacturerId(getManufacturerId(irsResponse, assetBase));
-                        assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
+                        assetBase.setManufacturerName(bpnService.findByBpn(traceabilityProperties.getBpn().value()));
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
                         enrichAssetBase(tractionBatteryCode, assetBase);
                         enrichAssetBase(partSiteInformationAsPlanned, assetBase);
