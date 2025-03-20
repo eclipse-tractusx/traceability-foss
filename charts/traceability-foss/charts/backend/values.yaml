@@ -205,11 +205,8 @@ dependencies:
   edc: CHANGEME #<tractusx-connector.nameOverride>-controlplane
 
 bpdm:
-  url: "https://replace.me"
-  clientId: "CHANGEME"
-  clientSecret: "CHANGEME"
-  oauthTokenUrl: "https://replace.me"
-  providerBpnl: "CHANGEME"
+  goldenRecordUrl: "https://replace.me"
+  bpn: CHANGEME
 
 spring:
   flyway:

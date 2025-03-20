@@ -36,8 +36,7 @@ import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.storage.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.bpn.domain.model.BpdmRequest;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
-import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.BadRequestException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.notification.domain.base.exception.NoEndpointDataReferenceException;
@@ -52,44 +51,42 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class BpnEdcFacade {
 
-    private final EdcProperties edcProperties;
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
     private final RestTemplate restTemplate;
-    private final TraceabilityProperties traceabilityProperties;
+    private final BpdmProperties bpdmProperties;
 
     public BpnEdcFacade(
-            EdcProperties edcProperties,
             EDCCatalogFacade edcCatalogFacade,
             ContractNegotiationService contractNegotiationService,
             EndpointDataReferenceStorage endpointDataReferenceStorage,
             @Qualifier(EDC_CLIENT_REST_TEMPLATE) RestTemplate restTemplate,
-            TraceabilityProperties traceabilityProperties) {
-        this.edcProperties = edcProperties;
+            BpdmProperties bpdmProperties) {
         this.edcCatalogFacade = edcCatalogFacade;
         this.contractNegotiationService = contractNegotiationService;
         this.endpointDataReferenceStorage = endpointDataReferenceStorage;
         this.restTemplate = restTemplate;
-        this.traceabilityProperties = traceabilityProperties;
+        this.bpdmProperties = bpdmProperties;
     }
 
     public BusinessPartnerResponse resolveBusinessPartnerByBpn(String bpn) {
 
-        final String providerEdcUrl = edcProperties.getProviderEdcUrl() + edcProperties.getIdsPath();
+        final String goldenRecordProviderUrl = bpdmProperties.getGoldenRecordUrl();
 
         List<CatalogItem> catalogItems = edcCatalogFacade.fetchCatalogItems(
                 CatalogRequest.Builder.newInstance()
                         .protocol("dataspace-protocol-http")
-                        .counterPartyAddress(providerEdcUrl)
-                        .counterPartyId(traceabilityProperties.getBpn().value())
+                        .counterPartyAddress(goldenRecordProviderUrl)
+                        .counterPartyId(bpdmProperties.getBpn())
                         .querySpec(QuerySpec.Builder.newInstance()
                                 .filter(
                                         List.of(
                                                 new Criterion("https://purl.org/dc/terms/subject", "=",
                                                         "cx-taxo:ReadAccessPoolForCatenaXMember"),
                                                 new Criterion("https://w3id.org/catenax/ontology/common/version", "=",
-                                                        "6.0"))
+                                                        "6.0"),
+                                                new Criterion("https://w3id.org/edc/v0.0.1/ns/BusinessPartnerNumber", "=", bpn))
                                 )
                                 .build())
                         .build()
@@ -106,7 +103,7 @@ public class BpnEdcFacade {
         log.info("Negotiating the contract for catalog item: {}", firstCatalogItem);
 
         String contractAgreementId = negotiateContractAgreement(
-                providerEdcUrl,
+                goldenRecordProviderUrl,
                 firstCatalogItem,
                 bpn);
 

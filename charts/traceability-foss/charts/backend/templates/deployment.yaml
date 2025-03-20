@@ -186,16 +186,10 @@ spec:
               value: {{ .Values.traceability.technicalServiceApiKey | quote }}
             - name: JAVA_TOOL_OPTIONS
               value: {{ .Values.javaToolOptions | default "" | quote }}
-            - name: BPDM_URL
-              value: {{ .Values.bpdm.url | quote }}
-            - name: BPDM_CLIENT_ID
-              value: {{ .Values.bpdm.clientId | quote }}
-            - name: BPDM_CLIENT_SECRET
-              value: {{ .Values.bpdm.clientSecret | quote }}
-            - name: BPDM_TOKEN_URL
-              value: {{ .Values.bpdm.oauthTokenUrl | quote }}
-            - name: BPDM_PROVIDER_BPNL
-              value: {{ .Values.bpdm.providerBpnl | quote }}
+            - name: BPDM_GOLDEN_RECORD_URL
+              value: {{ .Values.bpdm.goldenRecordUrl | quote }}
+            - name: BPDM_BPN
+              value: {{ .Values.bpdm.bpn | quote }}
             - name: DISCOVERY_TYPE
               value: {{ .Values.traceability.discoveryType | quote }}
             - name: TRACEABILITY_ASSETS_REFRESH_CRON

@@ -38,9 +38,7 @@ import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.model.TransferProcessResponse;
 import org.eclipse.tractusx.irs.edc.client.storage.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.traceability.bpn.infrastructure.model.BusinessPartnerResponse;
-import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.common.properties.BpdmProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,10 +53,7 @@ import org.springframework.web.client.RestTemplate;
 class BpnEdcFacadeTest {
 
     @Mock
-    private EdcProperties edcProperties;
-
-    @Mock
-    private TraceabilityProperties traceabilityProperties;
+    private BpdmProperties bpdmProperties;
 
     @Mock
     private EDCCatalogFacade edcCatalogFacade;
@@ -76,7 +71,7 @@ class BpnEdcFacadeTest {
 
     @BeforeEach
     void setUp() {
-        bpnEdcFacade = new BpnEdcFacade(edcProperties, edcCatalogFacade, contractNegotiationService, endpointDataReferenceStorage, restTemplate, traceabilityProperties);
+        bpnEdcFacade = new BpnEdcFacade(edcCatalogFacade, contractNegotiationService, endpointDataReferenceStorage, restTemplate, bpdmProperties);
     }
 
     @Test
@@ -86,13 +81,10 @@ class BpnEdcFacadeTest {
         final String bpn = "bpn";
         final String legalName = "legalName";
         final String providerUrl = "providerUrl";
-        final String dspUrl = "/api/v1/dsp";
         final String contractAgreementId = "contractAgreementId";
         final String endpoint = "endpoint";
 
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of(bpn));
-        when(edcProperties.getProviderEdcUrl()).thenReturn(providerUrl);
-        when(edcProperties.getIdsPath()).thenReturn(dspUrl);
+        when(bpdmProperties.getGoldenRecordUrl()).thenReturn(providerUrl);
 
         BusinessPartnerResponse businessPartnerResponse = BusinessPartnerResponse.builder()
                 .legalName(legalName)
