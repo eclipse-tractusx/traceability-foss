@@ -49,7 +49,8 @@ public class DatabaseSupport {
             "contract_agreement_notification",
             "import_job",
             "import_job_assets_as_built",
-            "import_job_assets_as_planned"
+            "import_job_assets_as_planned",
+            "aas"
     });
 
 

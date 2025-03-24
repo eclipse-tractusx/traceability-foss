@@ -1,0 +1,8 @@
+[
+  {
+    "bpn" : "BPNL00000003AXS3",
+    "connectorEndpoint" : [
+      "${Placeholder}"
+    ]
+  }
+]

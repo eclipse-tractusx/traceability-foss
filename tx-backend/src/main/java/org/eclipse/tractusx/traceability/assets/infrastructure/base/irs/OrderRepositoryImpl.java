@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.edc.spi.types.domain.asset.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -45,7 +44,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -90,10 +88,10 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public void createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
+    public void createOrderToResolveAssets(List<String> aasIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
         final String callbackUrl = traceabilityProperties.getUrl();
         String applicationBpn = traceabilityProperties.getBpn().toString();
-        List<PartChainIdentificationKey> keys = globalAssetIds.stream().map(globalAssetId -> new PartChainIdentificationKey(globalAssetId, applicationBpn)).collect(Collectors.toList());
+        List<PartChainIdentificationKey> keys = aasIds.stream().map(aasId -> new PartChainIdentificationKey(aasId, applicationBpn)).collect(Collectors.toList());
         RegisterOrderRequest registerOrderRequest = RegisterOrderRequest.buildOrderRequest(aspects, bomLifecycle, callbackUrl, direction, keys);
         this.orderClient.registerOrder(registerOrderRequest);
     }
@@ -104,10 +102,10 @@ public class OrderRepositoryImpl implements OrderRepository {
 
         log.info("Handling order finished callback for orderId: {}, batchId: {}, orderState: {}, batchState: {}",
                 sanitize(orderId), sanitize(batchId), orderState, batchState);
-        if (!STATUS_COMPLETED.equals(batchState) && ( !STATUS_PARTIAL.equals(batchState))){
-                    log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is (actual: {}).",
-                            sanitize(orderId), sanitize(batchId), batchState);
-                    return;
+        if (!STATUS_COMPLETED.equals(batchState) && (!STATUS_PARTIAL.equals(batchState))) {
+            log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is (actual: {}).",
+                    sanitize(orderId), sanitize(batchId), batchState);
+            return;
         }
 
         final IrsBatchResponse irsBatchResponse = this.orderClient.getBatchByOrder(orderId, batchId);

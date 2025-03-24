@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,7 +16,35 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
+package org.eclipse.tractusx.traceability.aas.infrastructure.model;
 
-public record PartChainIdentificationKey(String identifier, String bpn) {
+public enum DigitalTwinType {
+    PART_TYPE("PartType"),
+    PART_INSTANCE("PartInstance");
+
+    private final String value;
+
+    DigitalTwinType(String value) {
+        this.value = value;
+    }
+
+    public static DigitalTwinType digitalTwinTypeFromString(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        for (DigitalTwinType type : values()) {
+            if (type.getValue().equals(value)) {
+                return type;
+            }
+        }
+
+        throw new IllegalArgumentException("Unknown DigitalTwinType value: " + value);
+    }
+
+    public String getValue() {
+        return value;
+    }
+
 }
+

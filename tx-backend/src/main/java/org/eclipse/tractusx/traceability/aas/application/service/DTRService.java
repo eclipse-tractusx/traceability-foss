@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,13 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.aas.application.service;
 
-package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
+import org.eclipse.tractusx.traceability.aas.domain.model.DTR;
+import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
 
-import org.eclipse.tractusx.irs.component.Shell;
-
-import java.util.List;
-
-public interface DecentralRegistryRepository {
-    List<Shell> retrieveShellDescriptorsByBpn(String bpn);
+public interface DTRService {
+    DTR lookupAASShells(TwinType digitalTwinType, String cursor, int limit) throws RegistryServiceException;
 }
