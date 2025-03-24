@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,37 +16,28 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.aas.infrastructure.repository;
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.rest;
-
-import io.github.resilience4j.core.functions.Either;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.Shell;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
+import org.eclipse.tractusx.irs.registryclient.decentral.LookupShellsFilter;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
+import org.eclipse.tractusx.traceability.aas.domain.model.DTR;
+import org.eclipse.tractusx.traceability.aas.domain.repository.DTRRepository;
+
+
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.List;
-
-@Slf4j
 @Component
 @RequiredArgsConstructor
-public class DecentralRegistryRepositoryImpl implements DecentralRegistryRepository {
-
+public class DTRRepositoryImpl implements DTRRepository {
     private final DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
-
+    private final TraceabilityProperties traceabilityProperties;
     @Override
-    public List<Shell> retrieveShellDescriptorsByBpn(String bpn) {
-        try {
-            List<Either<Exception, Shell>> list = decentralDigitalTwinRegistryService.lookupShellsByBPN(bpn).stream().toList();
-            return list.stream().map(Either::get).toList();
-        } catch (RegistryServiceException exception) {
-            log.error("Could not retrieve globalAssetIds by bpn " + bpn, exception);
-            return Collections.emptyList();
-        }
+    public DTR lookupShellIdentifiers(LookupShellsFilter lookupShellsFilter) throws RegistryServiceException {
+        return DTR.fromLookupShellsResponseExtended(decentralDigitalTwinRegistryService
+                .lookupShellIdentifiers(traceabilityProperties.getBpn().value(), lookupShellsFilter));
     }
 
 }

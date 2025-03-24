@@ -23,67 +23,66 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.component.Shell;
-import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
+import org.eclipse.tractusx.traceability.aas.application.service.AASService;
+import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
+import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.BATCH;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.JUSTINSEQUENCE;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.SERIALPART;
+import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @Slf4j
 @Component
 public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
+    private static final int BATCH_SIZE = 500;
+    private static final long PAUSE_DURATION_MILLIS = 8 * 60 * 1000; // 8 minutes
+
     private final AssetAsBuiltServiceImpl assetAsBuiltService;
     private final AssetAsPlannedServiceImpl assetAsPlannedService;
-    private final TraceabilityProperties traceabilityProperties;
-    private final DecentralRegistryRepository decentralRegistryRepository;
 
-
-    private static final List<String> AS_BUILT_ASPECT_TYPES = List.of(SERIALPART.getValue(), BATCH.getValue(), JUSTINSEQUENCE.getValue());
-    private static final List<String> AS_PLANNED_ASPECT_TYPES = List.of(PARTASPLANNED.getValue());
+    private final AASService aasService;
 
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void synchronizeAssets() {
-        List<Shell> shellDescriptors = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
-        List<String> asBuiltAssetIds = shellDescriptors.stream().map(Shell::payload).filter(this::isAsBuilt).map(AssetAdministrationShellDescriptor::getGlobalAssetId).toList();
-        List<String> asPlannedAssetIds = shellDescriptors.stream().map(Shell::payload).filter(this::isAsPlanned).map(AssetAdministrationShellDescriptor::getGlobalAssetId).toList();
+        List<String> aasIdsPartType = aasService.findByDigitalTwinType(TwinType.PART_TYPE)
+                .stream()
+                .map(AAS::getAasId)
+                .toList();
+        List<String> aasPartInstance = aasService.findByDigitalTwinType(TwinType.PART_INSTANCE)
+                .stream()
+                .map(AAS::getAasId)
+                .toList();
 
-        List<String> existingAsBuiltInSyncAndTransientStates = assetAsBuiltService.getAssetIdsInImportState(ImportState.TRANSIENT, ImportState.IN_SYNCHRONIZATION);
-        List<String> existingAsPlannedInSyncAndTransientStates = assetAsPlannedService.getAssetIdsInImportState(ImportState.TRANSIENT, ImportState.IN_SYNCHRONIZATION);
+        log.info("Try to sync {} aasIds asBuilt", aasIdsPartType.size());
+        processInBatches(aasIdsPartType, assetAsBuiltService::syncAssetsAsyncUsingIRSOrderAPI);
 
-        List<String> asBuiltAssetsToSync = asBuiltAssetIds.stream().filter(assetId -> !existingAsBuiltInSyncAndTransientStates.contains(assetId)).toList();
-        List<String> asPlannedAssetsToSync = asPlannedAssetIds.stream().filter(assetId -> !existingAsPlannedInSyncAndTransientStates.contains(assetId)).toList();
-
-        log.info("Try to sync {} assets asBuilt", asBuiltAssetsToSync.size());
-        assetAsBuiltService.syncAssetsAsyncUsingIRSOrderAPI(asBuiltAssetsToSync);
-        log.info("Try to sync {} assets asPlanned", asPlannedAssetsToSync.size());
-        assetAsPlannedService.syncAssetsAsyncUsingIRSOrderAPI(asPlannedAssetsToSync);
+        log.info("Try to sync {} assets asPlanned", aasPartInstance.size());
+        processInBatches(aasPartInstance, assetAsPlannedService::syncAssetsAsyncUsingIRSOrderAPI);
     }
 
+    private void processInBatches(List<String> ids, Consumer<List<String>> syncFunction) {
+        for (int i = 0; i < ids.size(); i += BATCH_SIZE) {
+            int end = Math.min(i + BATCH_SIZE, ids.size());
+            List<String> batch = ids.subList(i, end);
+            syncFunction.accept(batch);
+            log.info("Processed {} - {} IDs", i + 1, end);
 
-    // TODO: consider creating support method on AssetAdministrationShellDescriptor.is(BomLifecycle lifecycle) that will be usable on our code
-    // IRS already have BomLifecycle in their domain so we can use it there also
-    private boolean isAsBuilt(AssetAdministrationShellDescriptor shellDescriptor) {
-        return !shellDescriptor.filterDescriptorsByAspectTypes(AS_BUILT_ASPECT_TYPES).isEmpty();
-    }
-
-    private boolean isAsPlanned(AssetAdministrationShellDescriptor shellDescriptor) {
-        return !shellDescriptor.filterDescriptorsByAspectTypes(AS_PLANNED_ASPECT_TYPES).isEmpty();
+            // 5 minutes break after each registered order
+            try {
+                Thread.sleep(PAUSE_DURATION_MILLIS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                log.warn("Pause interrupted", e);
+            }
+        }
     }
 }
 

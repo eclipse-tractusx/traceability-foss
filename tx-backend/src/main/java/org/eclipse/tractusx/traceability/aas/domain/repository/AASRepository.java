@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,7 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
+package org.eclipse.tractusx.traceability.aas.domain.repository;
 
-public record PartChainIdentificationKey(String identifier, String bpn) {
+import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
+import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
+
+import java.util.List;
+
+public interface AASRepository {
+    List<AAS> findExistingAasList(List<String> aasIds);
+
+    void save(List<AAS> aasIds);
+
+    void cleanExpiredEntries();
+
+    List<AAS> findByDigitalTwinType(TwinType digitalTwinType);
 }

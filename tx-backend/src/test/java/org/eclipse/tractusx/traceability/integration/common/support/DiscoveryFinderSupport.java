@@ -30,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.semantics.Action.status;
 import static com.xebialabs.restito.semantics.Condition.post;
+import static com.xebialabs.restito.semantics.Condition.withPostBodyContaining;
 
 @Component
 @Slf4j
@@ -68,6 +69,22 @@ public class DiscoveryFinderSupport {
             whenHttp(restitoProvider.stubServer()).match(
                     post("/v1.0/administration/connectors/discovery")
 
+            ).then(
+                    status(HttpStatus.OK_200),
+                    restitoProvider.jsonResponseFromString(discoveryFinderMock));
+
+        } catch (IOException e) {
+            log.error("Could not retrieve connector endpoints " + e);
+        }
+    }
+
+    public void discoveryFinderWillReturnConnectorEndpointForAXS3() {
+        try {
+            String jsonString = resourceLoader.getResource("classpath:stubs/discovery.post.data/discovery_finder_connector_response_200_AXS3.json").getContentAsString(StandardCharsets.UTF_8);
+            String discoveryFinderMock = jsonString.replace("${Placeholder}", "http://localhost:" + restitoProvider.stubServer().getPort() + "/");
+
+            whenHttp(restitoProvider.stubServer()).match(
+                    post("/v1.0/administration/connectors/discovery")
             ).then(
                     status(HttpStatus.OK_200),
                     restitoProvider.jsonResponseFromString(discoveryFinderMock));

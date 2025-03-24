@@ -1,0 +1,1577 @@
+{
+  "@id": "3bced5c1-f6c1-4fca-8919-954054e4d017",
+  "@type": "dcat:Catalog",
+  "dspace:participantId": "BPNL000000002CS4",
+  "dcat:dataset": {
+    "@id": "trace-x-dtr-asset",
+    "@type": "dcat:Dataset",
+    "odrl:hasPolicy": [
+      {
+        "@id": "ZDk2YWQ1MDYtYjg4Yy00YWViLWE4ZDktZDcyMGUwMGJmMTI4:dHJhY2UteC1kdHItYXNzZXQ=:MmYzNjNmODgtMWExNi00NmM0LThjY2UtMjQ2MDA4YjM2MTA3",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "OGFjMTljYTItYzI5Yy00OGQxLWE5MmUtMTU1OWJmYTc5Y2Q4:dHJhY2UteC1kdHItYXNzZXQ=:NjliYTc1NGEtN2ZhOS00NGQwLWE3YTgtN2MyM2E0NzI4Njkz",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "M2I1MDYyYmMtYTQ2Ny00OTkxLTk0ZTMtNGI5YjYzMWUzNGQz:dHJhY2UteC1kdHItYXNzZXQ=:ODk0ZjI2ZDYtNGU0Mi00Y2E3LWIyMWEtZmM0MDUxOWIwZGVh",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZDQ3YjY1NzUtNzQ2Mi00OWU2LTg1ZmQtNTNiYmFmN2FiN2Yz:dHJhY2UteC1kdHItYXNzZXQ=:MDVlNTBjNGQtYzI0Zi00YWE2LWFmNTAtNzNlY2M5YjY1ZDg0",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NDZlZDUxY2EtNWM3MS00OTY0LWJlZTQtYmEyOWQ3OWE0Zjdj:dHJhY2UteC1kdHItYXNzZXQ=:MjFjMTY5MTEtNTM5NC00Zjk4LWIwMGMtMDE2NmQ0ZjA3ZjM2",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "MTYwNDkyYTAtYjNhYy00MzdiLWFlN2EtNDhlYjg3MzE5OGM3:dHJhY2UteC1kdHItYXNzZXQ=:YmIxYWVjMjEtNGI3ZS00NDFiLTkxZTUtZDRlZTFlZTc0ZGNj",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZjU5MGY1NzMtZmM4Ny00OTE1LWIxNzYtODlkOWIxOTRhOTY5:dHJhY2UteC1kdHItYXNzZXQ=:ZWRmN2E3ZjItZjM2OS00OWQxLTg1YmQtOWE3MDA0MWZmYjJh",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "MDNiMzQ2NzEtOWQ2Ni00ODYyLTljNmItNjg0YTc0ZDc5YTM1:dHJhY2UteC1kdHItYXNzZXQ=:YWNhOTU4ZDYtYWU0Zi00OWNlLWFiYTMtYWM1ZDM5M2I5NDlk",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ODU4Y2YzODgtYzEzNS00ZmU1LTgwNDItMzRhZDQwODQ1MDJl:dHJhY2UteC1kdHItYXNzZXQ=:NTBjYWI3MzEtNmNkZC00NWQ0LWE0ZTItNGU1ZmI1NDMxZDQy",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NWI4YjI4YTUtNzYzYS00YzJhLWEzZDctZGRkOWY2YTQzZGRh:dHJhY2UteC1kdHItYXNzZXQ=:NzMyN2M2YTAtZGRlYy00ZWYwLTk1NWMtM2ZlODFiNTU2ODUy",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NjRiMDE1NWUtZTg5ZC00OTYwLThkZmUtMTQyNDBkYjQwMDQ4:dHJhY2UteC1kdHItYXNzZXQ=:MGE2OTQ1MzUtNjNiMi00YmE5LTkzNjQtYTdkZjU0YjMwYTlk",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ODkzZDI2MDktOWEwYy00ZTA2LWExZTUtZTM3ODc2MjY0ZjM2:dHJhY2UteC1kdHItYXNzZXQ=:ZWU1ZGJmZmQtZWExMy00NGVjLWEyNzItNDFkZTc1YjYyYWRm",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZGY0ZDk5MWMtNWM3ZC00OTBhLTkwY2EtMjI5NWFlM2Y1MTky:dHJhY2UteC1kdHItYXNzZXQ=:N2U3YTAwZWYtYzkzZi00Zjg4LTkzNzUtMjFmMjQzMTg4ZWE1",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NDM5ZDI4NTEtNDM1Yi00YWEyLTk3ZGQtMTI1NTU3ZDNmNzY1:dHJhY2UteC1kdHItYXNzZXQ=:NTliMWNlNzYtOGIwZi00ZjJiLWI2MDgtZmU4NjA2NTFjZjI0",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NTRmNGViODktZTIzNC00NTU3LTkzZDMtMmM1MTMxZmMxMDll:dHJhY2UteC1kdHItYXNzZXQ=:NmU5MDZmYzgtZDYyOS00OTNkLTlhMWQtZjdkODAwNTc0NDM0",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NDhhZWY5ZjMtYmFmMi00NDc5LWI4N2MtNmMwNWMyN2VkMDk5:dHJhY2UteC1kdHItYXNzZXQ=:ZDhkZDRhYmItNjNiMy00ODhkLTgyNjMtMWE1YzQyZGM0OWNm",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NWUwYmMwZjUtYTNjNi00NmQ4LTkwMTgtODljYzQ5ZjAyYzZj:dHJhY2UteC1kdHItYXNzZXQ=:M2ExOTM3ZjQtYjFhOS00YjA0LTkxMzgtN2MzNjkyMzQ0Y2M4",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NjI3YzA1M2EtNmE0Yi00OGYwLWFmYTktODc0MDkxYzgyZGM0:dHJhY2UteC1kdHItYXNzZXQ=:YTkwNGYwYmUtMzI0NC00NTdmLTgyYmUtYjY3ZTk4N2U1NTNj",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NTc0NTYxNjgtZjI4Mi00OTM0LWJkYWUtNGEyODEyZjE0MWE5:dHJhY2UteC1kdHItYXNzZXQ=:MDI5YTgzNzgtNDA5NS00ZTU3LWJkNmMtZTZjY2ZmZDIxOTQ5",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZjlhOWQ3MmItY2QwYi00YTlhLTk5MjItMjcxZGRiYjY1Yjc2:dHJhY2UteC1kdHItYXNzZXQ=:MGEzYmU0MmUtM2JkZS00NTQ5LWI1ODEtZTY0ZWUxODY0YzMw",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "N2UzNjY1OWItNmQyYS00ZTNiLTlkMDItY2YyOTUzMWJjYTE3:dHJhY2UteC1kdHItYXNzZXQ=:MTJiNDIzMTQtY2Y5Yi00MGFjLWJjNWUtZDYwNmNmYjc5OGU1",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "YjZhMjRmMGQtNmVlMC00YjA2LTkwYzMtMWIxMDc3MzRkYjE1:dHJhY2UteC1kdHItYXNzZXQ=:NTU3M2IwMWYtYzg3MC00OGZmLWExOTUtNjY2MGIyNDdlNDZl",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NjJiMGI4NGQtZjkwMi00OTM2LTk4YjYtM2FhODg5MGFkYmUw:dHJhY2UteC1kdHItYXNzZXQ=:ZDQwMjcyMmItYzgxYi00NDk2LTg2MTItMmVjZGNjMmI3NWM3",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "Yjg4YWM5YzMtM2NlMC00OWM0LTg4MDgtOTFhZWVhNjY0ODQ5:dHJhY2UteC1kdHItYXNzZXQ=:MGRkMjUzMzgtNDkyNi00YzRlLWFkYWItNDExYmY4ZjkzYThh",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZmJlYzFkNzYtMDkzMS00OWUxLWE5ZDktZjYyMWFhZGFlY2Fm:dHJhY2UteC1kdHItYXNzZXQ=:M2U1ODM5NGYtOWE4My00MDQ1LWIyNzctODM5MDQ2NzgzMDhi",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "OTM0NzVhNTktMTc1MS00ZWU0LTkyNTEtNmUwOGQwZGUzNDdi:dHJhY2UteC1kdHItYXNzZXQ=:YWZlOGUzMmEtYzEzZS00ZWE4LWI3YTMtZWYyYzUxYjU3MWQ0",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NDAzYzBlNWYtNmY1MC00YWVjLWFkM2UtY2IxMTRmNjMwMjZk:dHJhY2UteC1kdHItYXNzZXQ=:Y2ZhN2QzNmQtZGE0Ny00MDg3LWE3MGQtZDZkZWY1MDNkYzVm",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "OGMxNDk3MjUtZmU0OC00ZjFhLWJiOGMtYjBiMzE1ZmVhOTMy:dHJhY2UteC1kdHItYXNzZXQ=:MzIwNmZjNDQtMjFiYy00NmY2LTkwNzgtYThjMmJhZjA0YjI4",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "MWExOGQ2ZDAtMTcxNS00OTkxLWIzODktZWI3NDhiYTI4YjBl:dHJhY2UteC1kdHItYXNzZXQ=:YTNlMmRhYmMtYThhYi00Y2NhLWJiMWQtNjQzYmIwMjJjMDZj",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "Y2NkNzcxZGYtMGE0ZS00Mjk0LTk5YTgtMDJjN2Y3MjIyOGEw:dHJhY2UteC1kdHItYXNzZXQ=:YzQ3ODgzOWYtOGQwMy00MjQ3LTkzYTEtYzA2N2Q2MzAwNzdm",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZGUwNGE3NWMtOTlmNi00ZGNmLTgxZDctMGIyYzM4ZjE2Yzkz:dHJhY2UteC1kdHItYXNzZXQ=:NDdhYTM4MjItNTBmMS00YTcyLTkyN2EtNmRhM2EzNTBlYzI1",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "YTRhN2NhYWItMTc0Ny00NzE3LWFkZWUtZTgyYmI2NmExZTY5:dHJhY2UteC1kdHItYXNzZXQ=:Njc4ZjNhNGUtNThhZC00MGVlLWIwYTctNjYyYjUwMzQwYWJi",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZjJlY2E4YmUtNmVkMy00N2QxLWI1ODMtYjUwYjNmZTA3MDNm:dHJhY2UteC1kdHItYXNzZXQ=:MzdiZWE1YjItYWM0My00YTljLWExZTMtYzdlMzFmMGM1NjU0",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZDlmNTJiNDctNjhkNC00ZDA2LWFmZGEtZTAxM2RlZmZmYzUz:dHJhY2UteC1kdHItYXNzZXQ=:ZTUyZGQyNTItMDlkOS00OWYzLThhY2EtOTVkZmI5MGRlNzc1",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "OTgwNjBiZmEtMWRhYy00ZmU5LWFjMjktMDUwYjE2OWY1ZTQy:dHJhY2UteC1kdHItYXNzZXQ=:YzM4YzlmOTgtYWYyZC00NDI2LWE2OGYtNzI1MTYxNTJiYmM0",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "MTE0ODYyNjYtNGNmNS00NmVmLWE1ODYtYTY0NzM4MDVlMWIx:dHJhY2UteC1kdHItYXNzZXQ=:MWU1ZDJmOTItMGJlMy00ZTgxLWJiOGUtMGQ3NDE4Nzg1NDdk",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "ZmJlMGE0YzgtZWE5YS00MjViLWFiN2UtNDc0ZjNmMTlmMDA2:dHJhY2UteC1kdHItYXNzZXQ=:OTg1MmQyMzctYmQ0NC00MDU1LWEzOGUtY2U2ZDBiMjc0MTAz",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "MmFkMGM1ZWUtZmRjZC00MDc2LWE2N2MtMzdjM2Y4NzUyNjZm:dHJhY2UteC1kdHItYXNzZXQ=:MjAzOWZiMWItOGU5Ni00MGQ5LWIxZDctN2FjZWVhMWIyMDc1",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NjM5MTQ4OWYtMzhhYy00MTNkLWFjODQtOGI5OTMyYTFjMjIz:dHJhY2UteC1kdHItYXNzZXQ=:MWU4NjczNDQtZDliMC00ODk5LThjNzUtMTI3NDhmNzc2ZTk2",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "YWI1ZThmMDEtYzRiMC00NjM1LTliZTktM2Q0NmNmZjFhN2E3:dHJhY2UteC1kdHItYXNzZXQ=:OWZjNDYxMTgtZWVkMC00Zjg0LWEyM2MtMGRkMWQyZThjZjI5",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NmNiNGRkOTktZDhhNi00N2RmLTg5ZmMtMmRmMTI5MzE2MDI0:dHJhY2UteC1kdHItYXNzZXQ=:NzgzZGI1MjEtYTYwNi00NjRjLWE0NjAtNTUyNjY0YjI5NDE1",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "N2EzZTRmNWUtZWI3ZC00MjZmLWFjMWItNGMyZDNlMmQ1M2E1:dHJhY2UteC1kdHItYXNzZXQ=:MzAxMWZmNDUtMTJjMC00YzYxLThjNmEtYWJmZDhkNjllMTM2",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NTlkYWZmOTAtMDNmZi00ZWQ3LWIyYmYtZWRjMzU1N2UwMzg2:dHJhY2UteC1kdHItYXNzZXQ=:OGQyNDYxMTQtZmE3Ni00OTE1LTgwODMtZjQ2MGIxYTNjM2Yx",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      },
+      {
+        "@id": "NDM4ZWVmNjItM2U4Mi00MmIyLWIzOWEtM2IxOWJmNWE1NTli:dHJhY2UteC1kdHItYXNzZXQ=:OWI4MjAxZTItNTYxMS00YjdlLWI2ZDAtY2E5Zjc1N2VhM2Ey",
+        "@type": "odrl:Offer",
+        "odrl:permission": {
+          "odrl:action": {
+            "@id": "use"
+          },
+          "odrl:constraint": {
+            "odrl:and": [
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:FrameworkAgreement"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "traceability:1.0"
+              },
+              {
+                "odrl:leftOperand": {
+                  "@id": "cx-policy:UsagePurpose"
+                },
+                "odrl:operator": {
+                  "@id": "odrl:eq"
+                },
+                "odrl:rightOperand": "cx.core.industrycore:1"
+              }
+            ]
+          }
+        },
+        "odrl:prohibition": [],
+        "odrl:obligation": []
+      }
+    ],
+    "dcat:distribution": [
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AzureStorage-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "8fb5884e-747c-4280-bcbf-525e903a26e5",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "HttpData-PULL"
+        },
+        "dcat:accessService": {
+          "@id": "8fb5884e-747c-4280-bcbf-525e903a26e5",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "HttpData-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "8fb5884e-747c-4280-bcbf-525e903a26e5",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AmazonS3-PULL"
+        },
+        "dcat:accessService": {
+          "@id": "8fb5884e-747c-4280-bcbf-525e903a26e5",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AmazonS3-PUSH"
+        },
+        "dcat:accessService": {
+          "@id": "8fb5884e-747c-4280-bcbf-525e903a26e5",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp"
+        }
+      },
+      {
+        "@type": "dcat:Distribution",
+        "dct:format": {
+          "@id": "AzureStorage-PULL"
+        },
+        "dcat:accessService": {
+          "@id": "8fb5884e-747c-4280-bcbf-525e903a26e5",
+          "@type": "dcat:DataService",
+          "dcat:endpointDescription": "dspace:connector",
+          "dcat:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp",
+          "dct:terms": "dspace:connector",
+          "dct:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp"
+        }
+      }
+    ],
+    "type": "data.core.digitalTwinRegistry",
+    "dct:type": {
+      "@id": "https://w3id.org/catenax/taxonomy#DigitalTwinRegistry"
+    },
+    "description": "Digital Twin Registry Asset",
+    "https://w3id.org/catenax/ontology/common#version": "3.0",
+    "id": "trace-x-dtr-asset",
+    "contenttype": "Asset"
+  },
+  "dcat:service": {
+    "@id": "8fb5884e-747c-4280-bcbf-525e903a26e5",
+    "@type": "dcat:DataService",
+    "dcat:endpointDescription": "dspace:connector",
+    "dcat:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp",
+    "dct:terms": "dspace:connector",
+    "dct:endpointUrl": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/v1/dsp"
+  },
+  "participantId": "BPNL000000002CS4",
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "edc": "https://w3id.org/edc/v0.0.1/ns/",
+    "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+    "tx-auth": "https://w3id.org/tractusx/auth/",
+    "cx-policy": "https://w3id.org/catenax/policy/",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "odrl": "http://www.w3.org/ns/odrl/2/",
+    "dspace": "https://w3id.org/dspace/v0.8/"
+  }
+}

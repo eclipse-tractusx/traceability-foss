@@ -19,27 +19,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
+package org.eclipse.tractusx.traceability.common.properties;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
-
-public record RegisterJobRequest(
-        List<String> aspects,
-        PartChainIdentificationKey key,
-        boolean collectAspects,
-        BomLifecycle bomLifecycle,
-        boolean lookupBPNs,
-        int depth,
-        Direction direction,
-        String callbackUrl
-) {
-    public static RegisterJobRequest buildJobRequest(String globalAssetId, String manufacturerId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle, String callbackUrl) {
-        return new RegisterJobRequest(aspects, new PartChainIdentificationKey(globalAssetId, manufacturerId), true, bomLifecycle, true, DEFAULT_DEPTH, direction, callbackUrl + "/api/irs/job/callback");
-    }
-
-    public static final int DEFAULT_DEPTH = 2;
+@Configuration
+@Data
+@ConfigurationProperties("aas")
+public class AASProperties {
+    private int ttl;
+    private int limit;
+    private String dtrLookupCronExpression;
+    private String cleanupExpiredCronExpression;
+    private String cronZone;
 }
-
-

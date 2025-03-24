@@ -19,6 +19,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.base.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
@@ -59,19 +60,19 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     @Override
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds) {
-        log.info("Synchronizing assets for globalAssetIds: {}", globalAssetIds);
+    public void syncAssetsAsyncUsingIRSOrderAPI(List<String> aasList) {
+        log.info("Synchronizing assets for aasList: {}", aasList);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
+                getOrderRepository().createOrderToResolveAssets(aasList, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
             }
 
             if (!getUpwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(globalAssetIds, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+                getOrderRepository().createOrderToResolveAssets(aasList, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
             }
 
         } catch (Exception e) {
-            log.warn("Exception during assets synchronization for globalAssetIds: {}. Message: {}.", globalAssetIds, e.getMessage(), e);
+            log.warn("Exception during assets synchronization for aasList: {}. Message: {}.", aasList, e.getMessage(), e);
         }
     }
 

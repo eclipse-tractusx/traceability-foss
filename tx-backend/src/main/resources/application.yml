@@ -43,6 +43,13 @@ traceability:
   enableApiKeyAuthentication: ${TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION:false}
   tracexAdminKey: ${TRACEABILITY_ADMIN_KEY}
 
+aas:
+  ttl: 100000
+  limit: 1000
+  dtr-lookup-cron-expression: 0 0 */2 * * ?
+  cron-zone: Europe/Berlin
+  cleanup-expired-cron-expression: 0 0 */2 * * ?
+
 provisioning:
   submodel:
     baseInternal: ${SUBMODEL_URL_INTERNAL}
