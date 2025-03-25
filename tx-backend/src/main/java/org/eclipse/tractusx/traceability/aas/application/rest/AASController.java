@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/aas", produces = "application/json")
 @RequiredArgsConstructor
 public class AASController {
-
     private final AASLookup aasLookup;
 
     @Operation(operationId = "lookup",
@@ -80,6 +79,6 @@ public class AASController {
     @ApiKeyEnabled
     public void lookup() throws RegistryServiceException {
         aasLookup.aasLookupByType(TwinType.PART_INSTANCE);
-}
+    }
 
 }
