@@ -88,7 +88,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shoulReturnSupplierAssets() throws JoseException {
+    void shouldReturnSupplierAssets() throws JoseException {
         //GIVEN
         assetsSupport.defaultAssetsStored();
         final String filter = "owner,EQUAL,SUPPLIER,AND";

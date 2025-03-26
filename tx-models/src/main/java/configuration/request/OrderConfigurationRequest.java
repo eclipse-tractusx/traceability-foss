@@ -17,19 +17,31 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.base;
+package configuration.request;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import configuration.util.ValidBatchSize;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
-import java.util.List;
-
-public interface OrderRepository {
-
-    void createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
-
-    void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState);
-
-
+@Data
+@AllArgsConstructor
+@Builder
+public class OrderConfigurationRequest {
+    @Schema(example = "10")
+    @Min(value = 10)
+    @Max(value = 100)
+    @ValidBatchSize
+    int batchSize;
+    @Schema(example = "60")
+    @Min(value = 60)
+    @Max(value = 86400)
+    int timeoutMs;
+    @Schema(example = "60")
+    @Min(value = 60)
+    @Max(value = 7200)
+    int jobTimeoutMs;
 }
