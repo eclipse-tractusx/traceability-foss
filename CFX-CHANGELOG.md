@@ -12,6 +12,9 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ### Added
 - TRACEX-540 extend callback logic for partial state batches
 
+### Changed
+- TRACEX-466 Bumped IRS Client Library to 2.1.34-SNAPSHOT
+
 
 ## [14.0.0-cfx-2]
 
