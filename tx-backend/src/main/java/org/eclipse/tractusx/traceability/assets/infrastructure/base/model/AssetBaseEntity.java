@@ -62,6 +62,6 @@ public class AssetBaseEntity {
     private String importNote;
     private String policyId;
     private String tombstone;
-    private int ttl;
+    private Integer ttl;
     private LocalDateTime expirationDate;
 }
