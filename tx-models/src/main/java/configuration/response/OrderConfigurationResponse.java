@@ -17,19 +17,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.base;
+package configuration.response;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
-import java.util.List;
-
-public interface OrderRepository {
-
-    void createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
-
-    void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState);
-
-
+@Data
+@AllArgsConstructor
+@Builder
+public class OrderConfigurationResponse {
+    @Schema(example = "1")
+    Long id;
+    @Schema(example = "15")
+    Long orderId;
+    @Schema(example = "10")
+    int batchSize;
+    @Schema(example = "60")
+    int timeoutMs;
+    @Schema(example = "60")
+    int jobTimeoutMs;
 }

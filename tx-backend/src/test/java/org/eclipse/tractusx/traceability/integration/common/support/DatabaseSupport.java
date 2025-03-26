@@ -28,8 +28,7 @@ import java.util.List;
 @Component
 public class DatabaseSupport {
     // TODO: CLEAR NEW TABLES
-    private static final List<String> TABLES = List.of(new String[]{
-            "submodel_payload",
+    private static final List<String> TABLES = List.of("submodel_payload",
             "import_job_assets_as_built",
             "import_job_assets_as_planned",
             "assets_as_built_childs",
@@ -50,8 +49,11 @@ public class DatabaseSupport {
             "import_job",
             "import_job_assets_as_built",
             "import_job_assets_as_planned",
-            "aas"
-    });
+            "order_configuration",
+            "trigger_configuration",
+            "orders",
+            "import_job_assets_as_planned",
+            "aas");
 
 
     @Autowired

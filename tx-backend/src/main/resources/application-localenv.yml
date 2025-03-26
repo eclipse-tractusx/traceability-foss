@@ -68,7 +68,8 @@ irs-edc-client:
 
 digitalTwinRegistryClient:
   discoveryFinderUrl: http://localhost:5001/discoveryfinder/administration/connectors/discovery/search
-
+  discovery:
+    type: "bpnl"
 cors:
   origins: >
     http://localhost:4200,

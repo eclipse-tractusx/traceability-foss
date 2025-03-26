@@ -17,19 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.base;
+package org.eclipse.tractusx.traceability.configuration.infrastructure.repository;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderConfigurationEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface OrderRepository {
+@Repository
+public interface OrderConfigurationJPARepository extends JpaRepository<OrderConfigurationEntity, Long> {
 
-    void createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
-
-    void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState);
-
+    @Query("SELECT a FROM OrderConfigurationEntity a WHERE a.order.id = :orderId AND a.createdAt = (SELECT MAX(b.createdAt) FROM OrderConfigurationEntity b WHERE b.order.id = :orderId)")
+    Optional<OrderConfigurationEntity> findTopByOrderIdOrderByCreatedAtDesc(@Param("orderId") Long orderId);
 
 }
