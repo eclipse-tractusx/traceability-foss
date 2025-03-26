@@ -42,7 +42,15 @@ traceability:
   publishAssetCronZone: ${TRACEABILITY_PUBLISH_ASSET_ZONE:Europe/Berlin}
   enableApiKeyAuthentication: ${TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION:false}
   tracexAdminKey: ${TRACEABILITY_ADMIN_KEY}
-
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
+      apache:
+        http: DEBUG
 aas:
   ttl: 100000
   limit: 1000
