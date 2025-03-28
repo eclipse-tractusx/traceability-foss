@@ -52,20 +52,20 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void synchronizeAssets() {
-        List<String> aasIdsPartType = aasService.findByDigitalTwinType(TwinType.PART_TYPE)
+        List<String> asBuiltAASIds = aasService.findByDigitalTwinType(TwinType.PART_INSTANCE)
                 .stream()
                 .map(AAS::getAasId)
                 .toList();
-        List<String> aasPartInstance = aasService.findByDigitalTwinType(TwinType.PART_INSTANCE)
+        List<String> asPlannedAASIds = aasService.findByDigitalTwinType(TwinType.PART_TYPE)
                 .stream()
                 .map(AAS::getAasId)
                 .toList();
 
-        log.info("Try to sync {} aasIds asBuilt", aasIdsPartType.size());
-        processInBatches(aasIdsPartType, assetAsBuiltService::syncAssetsAsyncUsingIRSOrderAPI);
+        log.info("Try to sync {} aasIds asBuilt", asBuiltAASIds.size());
+        processInBatches(asBuiltAASIds, assetAsBuiltService::syncAssetsAsyncUsingIRSOrderAPI);
 
-        log.info("Try to sync {} assets asPlanned", aasPartInstance.size());
-        processInBatches(aasPartInstance, assetAsPlannedService::syncAssetsAsyncUsingIRSOrderAPI);
+        log.info("Try to sync {} aasIds asPlanned", asPlannedAASIds.size());
+        processInBatches(asPlannedAASIds, assetAsPlannedService::syncAssetsAsyncUsingIRSOrderAPI);
     }
 
     private void processInBatches(List<String> ids, Consumer<List<String>> syncFunction) {
