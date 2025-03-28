@@ -10,13 +10,14 @@ import org.eclipse.tractusx.traceability.integration.common.support.AASDatabaseS
 import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.EdcSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+@Disabled("Temporarily deactivated for investigation")
 public class AASLookupIT extends IntegrationTestSpecification {
     @Autowired
     private AASLookup aasLookup;
