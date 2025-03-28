@@ -47,15 +47,16 @@ public class DTRServiceImpl implements DTRService {
                 .value((digitalTwinType.getValue()))
                 .build();
 
-        IdentifierKeyValuePairLite bpnKeyValue = IdentifierKeyValuePairLite.builder()
+        // TODO TRACEX-466 Currently there is a problem while the edc is proxying the two query params which leads to an empty result - therefore we need to ignore the bpn for now.
+       /* IdentifierKeyValuePairLite bpnKeyValue = IdentifierKeyValuePairLite.builder()
                 .name(PLACEHOLDER_BPN)
                 .value((traceabilityProperties.getBpn().value()))
-                .build();
+                .build();*/
 
         LookupShellsFilter lookupShellsFilter = LookupShellsFilter.builder()
                 .cursor(cursor)
                 .limit(limit)
-                .identifierKeyValuePairs(List.of(digitalTwinTypeKeyValue, bpnKeyValue))
+                .identifierKeyValuePairs(List.of(digitalTwinTypeKeyValue))
                 .build();
         return dtrRepository.lookupShellIdentifiers(lookupShellsFilter);
     }
