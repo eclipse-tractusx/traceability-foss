@@ -46,9 +46,9 @@ public class NotificationMapper {
     /**
      * Creates an Notification object representing the notification received by the receiver for a given notification.
      *
-     * @param bpn          the BPN of the notification
-     * @param edcNotification  the edcNotification of the notification
-     * @param notification the notification associated with the alert or investigation
+     * @param bpn             the BPN of the notification
+     * @param edcNotification the edcNotification of the notification
+     * @param notification    the notification associated with the alert or investigation
      * @return an Notification object representing the notification received by the receiver
      */
     public Notification toNotification(BPN bpn, EDCNotification edcNotification, NotificationMessage notification, NotificationType notificationType, BPN applicationBPN) {
