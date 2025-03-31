@@ -6,6 +6,20 @@
 !define FOREIGN_KEY_FIELD field
 !define GENERATED_FIELD field
 
+ENTITY public.digital_twin_registry_entry {
+    + aas_id : varchar(255)
+    ttl : int
+    created : timestamp
+    updated : timestamp
+    expiry_date : timestamp
+    actor : varchar(255)
+    digital_twin_type : varchar(255)
+    bpn : varchar(255)
+    global_asset_id : varchar(255)
+}
+
+public.digital_twin_registry_entry }-- public.assets_as_built : global_asset_id = id
+public.digital_twin_registry_entry }-- public.assets_as_planned : global_asset_id = id
 
 ENTITY public.assets_as_built {
     + id : varchar(255)

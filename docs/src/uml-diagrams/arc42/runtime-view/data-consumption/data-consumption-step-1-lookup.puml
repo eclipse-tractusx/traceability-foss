@@ -1,0 +1,24 @@
+@startuml
+'autonumber
+participant TraceXDB
+participant TraceX
+participant "Digital Twin Registry" as DTR
+
+TraceX -> DTR: lookup assets by configured "BPN" and "digitalTwinType"
+rnote right TraceX
+TraceX should filter by configured "BPN" and "digitalTwinType" but there is an issue which does not allow us to
+query for two query params assetIds in the DTR. As a workaround we decided to only filter for the "digitalTwinType"
+which could lead to a problem if an element would be registered in the "Digital Twin Registry" which is not an own twin.
+"digitalTwinType" which is in use:
+1. "digitalTwinType" = "partType"
+2. "digitalTwinType" = "partInstance"
+end rnote
+
+TraceX <-- DTR: List<Page<aasID>>
+    loop For each page
+        TraceX <-- DTR: Page<aasID>
+        TraceX --> TraceXDB: Compare AASIDs in this page for diff
+        TraceX -> TraceXDB: Create/Update new and outdated twins
+    end
+
+@enduml
