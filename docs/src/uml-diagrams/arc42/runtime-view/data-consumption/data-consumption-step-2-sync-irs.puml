@@ -1,0 +1,28 @@
+@startuml
+'autonumbering for reference
+autonumber
+
+actor User
+participant TraceX
+participant "TraceXDB" as DB
+participant IRS
+
+User -> TraceX: Open asset list
+TraceX -> DB: search for assets in database AASTable
+TraceX <-- DB: Filter by ttl expired and return List<aasID, digitalTwinType, ttl>
+
+group Process in batches (batchSize from TraceX)
+    loop for each batch of aasIDs
+        TraceX -> IRS: Register order for aasIDs
+        TraceX <-- IRS: Submodel Data for order
+        TraceX -> TraceX: Extract objects
+            rnote right TraceX
+                relationships, shells, tombstones,submodels, bpns
+            end rnote
+        TraceX -> TraceX: Merge batch data to backend
+    end
+end
+
+User <-- TraceX: List<Assets>
+
+@enduml
