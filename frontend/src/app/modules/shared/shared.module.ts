@@ -88,7 +88,7 @@ import { I18nPipe } from './pipes/i18n.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
-
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 @NgModule({
   declarations: [
     ToastContainerComponent,
@@ -146,6 +146,7 @@ import { TemplateModule } from './template.module';
     DatepickerInputComponent,
     AutocompleteInputComponent,
     CsvUploadComponent,
+    BreadcrumbComponent,
   ],
   imports: [ TemplateModule, RouterModule, I18NextModule, MatAutocompleteModule, NgxFileDropModule,
     MatFormFieldModule,
@@ -205,6 +206,7 @@ import { TemplateModule } from './template.module';
     DatepickerInputComponent,
     AutocompleteInputComponent,
     CsvUploadComponent,
+    BreadcrumbComponent,
   ],
   providers: [
     FormatDatePipe,

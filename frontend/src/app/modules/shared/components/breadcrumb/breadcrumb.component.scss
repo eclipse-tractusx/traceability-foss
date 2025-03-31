@@ -1,0 +1,32 @@
+.breadcrumb-wrapper {
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    color: #4b5563; 
+  }
+  
+  .breadcrumb-link {
+
+    transition: color 1s;
+  
+    &:hover {
+    text-decoration: underline;
+      color: #374151;
+    }
+
+  }
+  
+  .breadcrumb-separator {
+    margin: 0 8px;
+    color: #9ca3af;
+  }
+  
+  .breadcrumb-current {
+    color: #4b5563;
+  }
+  
+  .breadcrumb-uuid {
+    color: #9ca3af;
+    margin-left: 4px;
+  }
+  

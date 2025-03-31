@@ -37,10 +37,11 @@ describe('CardList', () => {
 
     const cardKeyElement = screen.getByText('partDetail.test_key');
     expect(cardKeyElement).toBeInTheDocument();
-    expect(cardKeyElement).toHaveClass('card-list--key');
+    expect(cardKeyElement).toHaveClass('info-key');
 
     const cardValueElement = screen.getByText('test_value');
     expect(cardValueElement).toBeInTheDocument();
-    expect(cardValueElement).toHaveClass('card-list--value');
+    expect(cardValueElement).toHaveClass('info-value');
   });
 });
+

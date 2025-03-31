@@ -18,146 +18,210 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-<div class="part-detail--header--container flex flex-row justify-between items-center mb-1">
-  <div class="part-detail--header--navigation--container">
+<div class="breadcrumb-header">
+  <div class="breadcrumb-nav-container">
     <app-button
+      class="breadcrumb-back-button"
       [color]="'primary'"
       onkeydown="this.navigateToParentPath()"
       (click)="this.navigateToParentPath()"
     >
       <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">arrow_back</mat-icon>
+        <mat-icon class="back-icon">arrow_back</mat-icon>
         {{ 'actions.goBack' | i18n }}
       </div>
     </app-button>
+
+    <ng-container *ngIf="breadcrumbData$ | async as breadcrumb">
+      <app-breadcrumb
+        [variant]="breadcrumb.variant"
+        [partName]="breadcrumb.partName"
+        [uuid]="breadcrumb.uuid"
+      ></app-breadcrumb>
+    </ng-container>
   </div>
-  <div class="part-detail--header--action--container flex flex-row justify-center items-center">
-    <div class="action-button-tile"
-         matTooltip="{{ incidentCreationTooltipMessage | i18n}}"
-         matTooltipClass="table--header--tooltip"
-         matTooltipPosition="above"
-         [class.mdc-tooltip--multiline]="true"
-         [matTooltipShowDelay]="500"
-    >
-    <app-button
-      [style.cursor]="'pointer'"
-      iconName="announcement"
-      class="action-button-tile mr-2"
-      [isDisabled]="incidentCreationTooltipMessage !== 'routing.createIncident'"
-      onkeydown="navigateToNotificationCreationView()"
-      (click)="navigateToNotificationCreationView()"
-    >
-    </app-button>
-    </div>
-    <div class="action-button-tile"
-         matTooltip="{{ publishAssetsTooltipMessage | i18n}}"
-         matTooltipClass="table--header--tooltip"
-         matTooltipPosition="above"
-         [class.mdc-tooltip--multiline]="true"
-         [matTooltipShowDelay]="500"
-    >
+</div>
+
+<div class="part-detail--header--container flex flex-row justify-between items-center">
+  <div class="part-detail--header--navigation--container">
+    <ng-container *ngIf="selectedPartDetails$ | async as partDetails">
+      <div class="flex items-center space-x-2">
+        <div class="svg-icon-wrapper">
+          <mat-icon [svgIcon]="svgIconName"></mat-icon>
+        </div>
+        <span class="text-xl font-semibold">
+          {{ partDetails.data?.nameAtManufacturer }}
+        </span>
+        <span *ngIf="partDetails.data?.owner" class="own-part-badge">
+          {{ 'partDetail.ownerLabels.' + partDetails.data.owner | i18n }}
+        </span>
+      </div>
+    </ng-container>
+  </div>
+  <div class="part-detail--header--action--container flex flex-row justify-center items-center gap-2">
+      <!-- Incident Button -->
       <app-button
+      *ngIf="shouldShowIncidentButton()"
+      class="rounded-button pill-button"
+      iconName="announcement"
+      variant="flat"
+      type="button"
+      color="primary"
+      [useGap]="true"
+      [useWhiteText]="true"
+      [isDisabled]="isIncidentActionAllowed()"
+      (click)="navigateToNotificationCreationView()"
+      (keydown.enter)="navigateToNotificationCreationView()"
+      [matTooltip]="incidentCreationTooltipMessage | i18n"
+      matTooltipClass="table--header--tooltip"
+      matTooltipPosition="above"
+      [class.mdc-tooltip--multiline]="true"
+      [matTooltipShowDelay]="500"
+    >
+      {{ incidentCreationTooltipMessage | i18n }}
+    </app-button>
+    
+
+      <!-- Publish Asset Button -->
+      <app-button
+        *ngIf="shouldShowPublishButton()"
+        class="rounded-button pill-button"
         iconName="published_with_changes"
-        class="action-button-tile"
+        variant="flat"
+        color="primary"
+        [useGap]="true"
+        [useWhiteText]="true"
         [isDisabled]="publishAssetsTooltipMessage !== 'routing.publishAssets'"
         onkeydown="isPublisherOpen$.next(true)"
         (click)="isPublisherOpen$.next(true)"
-        ></app-button>
-  </div>
+        matTooltip="{{ publishAssetsTooltipMessage | i18n }}"
+        matTooltipClass="table--header--tooltip"
+        matTooltipPosition="above"
+        [class.mdc-tooltip--multiline]="true"
+        [matTooltipShowDelay]="500"
+      >
+      {{ 'routing.publishAssets' | i18n }}
+      </app-button>
+
+      <!-- Sync Asset Button -->
+      <app-button
+        *ngIf="shouldShowSyncButton()"
+        class="rounded-button sync-button"
+        [isDisabled]="isSyncButtonDisabled()"
+        onkeydown="syncSelectedPart()"
+        (click)="syncSelectedPart()"
+        type="button"
+        matTooltip="{{ SyncAssetsTooltipMessage | i18n }}"
+        matTooltipClass="table--header--tooltip"
+        matTooltipPosition="above"
+        [class.mdc-tooltip--multiline]="true"
+        [matTooltipShowDelay]="500"
+      >
+        <div class="pill-button-content">
+          <mat-icon>published_with_changes</mat-icon>
+          {{ 'routing.syncPart' | i18n }}
+        </div>
+      </app-button>
+
+
   </div>
 </div>
-<div class="part-detail--container">
-  <div class="part-detail--part-info--overview overview">
-    <ng-container
-      *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
-    ></ng-container>
-  </div>
-  <div class="part-detail--part-info--relation relation"
-       *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
-    <ng-container
-      *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
+
+<div class="grid-container">
+  <div class="left-column">
+    <div class="part-detail--part-info--overview overview">
+      <ng-container
+        *viewContainer="shortenPartDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+      ></ng-container>
+    </div>
+
+    <div class="part-detail--manufacturer-info manufacturer">
+      <ng-container
+        *viewContainer="
+          manufacturerDetails$ | async;
+          main: manufacturerDetailsMainTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      ></ng-container>
+    </div>
+
+    <div class="part-detail--specific-info specific">
+      <ng-container
+        *viewContainer="
+          customerOrPartSiteDetails$ | async;
+          main: customerOrPartSiteDetailsMainTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      ></ng-container>
+    </div>
+
+    <div
+      class="part-detail--traction-battery tractionbattery"
+      *ngIf="(selectedPartDetails$ | async)?.data?.tractionBatteryCode"
     >
-    </ng-container>
+      <ng-container
+        *viewContainer="
+          tractionBatteryDetails$ | async;
+          main: tractionBatteryDetailsMainTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      >
+      </ng-container>
+    </div>
+    <div
+      class="part-detail--part-info--import-state import-state"
+      *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN"
+    >
+      <ng-container
+        *viewContainer="
+          importStateDetails$ | async;
+          main: importStateDetailsMainTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      >
+      </ng-container>
+    </div>
   </div>
-
-  <div class="part-detail--part-info--import-state import-state"
-       *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN">
-    <ng-container
-      *viewContainer="importStateDetails$ | async; main: importStateDetailsMainTmp; error: errorTmp; loading: loaderTmp">
-    </ng-container>
+  <div class="part-detail--right-container">
+    <div class="part-detail--part-info--relation relation">
+      <ng-container
+        *viewContainer="selectedPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
+      >
+      </ng-container>
+    </div>
   </div>
-
-
-  <div class="part-detail--manufacturer-info manufacturer">
-    <ng-container
-      *viewContainer="
-            manufacturerDetails$ | async;
-            main: manufacturerDetailsMainTmp;
-            error: errorTmp;
-            loading: loaderTmp
-          "
-    ></ng-container>
-  </div>
-
-  <div class="part-detail--specific-info specific">
-    <ng-container
-      *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"
-    ></ng-container>
-  </div>
-
-  <div class="part-detail--traction-battery tractionbattery"
-       *ngIf="(selectedPartDetails$ | async)?.data?.tractionBatteryCode">
-    <ng-container
-      *viewContainer="tractionBatteryDetails$ | async; main: tractionBatteryDetailsMainTmp; error: errorTmp; loading: loaderTmp">
-    </ng-container>
-  </div>
-
-
 </div>
 
-<mat-expansion-panel *ngIf="showStartInvestigationOnChildParts"
-                     [disabled]="!(selectedPartDetails$ | async)?.data?.children?.length || roleService.isAdmin() || isAsPlannedPart"
-                     matTooltip="{{ investigationOnSubcomponentsTooltipMessage | i18n}}"
-                     matTooltipClass="table--header--tooltip"
-                     matTooltipPosition="above"
-                     [class.mdc-tooltip--multiline]="true"
-                     [matTooltipShowDelay]="1000"
-                     [matTooltipDisabled]="!roleService.isAdmin() && !isAsPlannedPart && (selectedPartDetails$ | async)?.data?.children?.length > 0"
->
-  <mat-expansion-panel-header>
-    <mat-panel-title>{{ 'partDetail.investigation.tab.header' | i18n }}</mat-panel-title>
-    <mat-panel-description class="justify-between items-center">
-      {{ 'partDetail.investigation.tab.description' | i18n }}
-      <mat-icon>announcement</mat-icon>
-    </mat-panel-description>
-  </mat-expansion-panel-header>
-
-  <app-start-investigation
-    *ngIf="(selectedPartDetails$ | async)?.data?.children?.length"
-    [part]="selectedPartDetails$ | async"
-    (submitted)="setIsOpen(false)"
-  ></app-start-investigation>
-
-</mat-expansion-panel>
 <ng-template #manufacturerDetailsMainTmp let-manufacturerDetails="view">
-  <app-card-list [list]="manufacturerDetails.data" [title]="'partDetail.manufacturerData' | i18n"></app-card-list>
+  <app-card-list
+    [list]="manufacturerDetails.data"
+    [title]="'partDetail.manufacturerInformation' | i18n"
+  ></app-card-list>
 </ng-template>
 
 <ng-template #customerOrPartSiteDetailsMainTmp let-customerOrPartSiteDetails="view">
-  <app-card-list [list]="customerOrPartSiteDetails.data"
-                 [title]=" customerOrPartSiteHeader.toString() | i18n"></app-card-list>
+  <app-card-list
+    [list]="customerOrPartSiteDetails.data"
+    [title]="customerOrPartSiteHeader.toString() | i18n"
+  ></app-card-list>
 </ng-template>
 
 <ng-template #tractionBatteryDetailsMainTmp let-tractionBatteryDetails="view" let-tractionBattery>
-
   <mat-card class="part-detail--tractionBattery-info">
     <mat-card-header>
       <mat-card-title>{{ 'partDetail.tractionBatteryCodeTitle' | i18n }}</mat-card-title>
     </mat-card-header>
     <mat-card-content class="part-detail--tractionBattery-content">
       <ng-container>
-        <app-card-list [list]="tractionBatteryDetails.data" [title]="'partDetail.tractionBattery' | i18n"
-                       class="part-detail--tractionBattery-details"></app-card-list>
+        <app-card-list
+          [list]="tractionBatteryDetails.data"
+          [title]="'partDetail.tractionBattery' | i18n"
+          class="part-detail--tractionBattery-details"
+        ></app-card-list>
         <mat-card class="part-detail-subcomponents-table-container">
           <mat-card-header>
             <mat-card-title>{{ 'partDetail.subcomponents' | i18n }}</mat-card-title>
@@ -165,24 +229,25 @@ SPDX-License-Identifier: Apache-2.0
           <mat-card-content>
             <ng-container>
               <section class="part-detail-subcomponents-table-container">
-                <table mat-table
-                       [dataSource]="(tractionBatterySubcomponents$ | async)?.data.subcomponents"
-                       aria-describedby="tractionBatteryCodeSubcomponentsTable"
+                <table
+                  mat-table
+                  [dataSource]="(tractionBatterySubcomponents$ | async)?.data.subcomponents"
+                  aria-describedby="tractionBatteryCodeSubcomponentsTable"
                 >
                   <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> {{'partDetail.position' | i18n}} </th>
-                    <td mat-cell *matCellDef="let i=index">000{{i + 1}}</td>
+                    <th mat-header-cell *matHeaderCellDef>{{ 'partDetail.position' | i18n }}</th>
+                    <td mat-cell *matCellDef="let i = index">000{{ i + 1 }}</td>
                   </ng-container>
                   <ng-container matColumnDef="productType">
-                    <th mat-header-cell *matHeaderCellDef> {{'partDetail.productType' | i18n }}</th>
-                    <td mat-cell *matCellDef="let subcomponent">{{subcomponent.productType}}</td>
+                    <th mat-header-cell *matHeaderCellDef>{{ 'partDetail.productType' | i18n }}</th>
+                    <td mat-cell *matCellDef="let subcomponent">{{ subcomponent.productType }}</td>
                   </ng-container>
                   <ng-container matColumnDef="tractionBatteryCode">
-                    <th mat-header-cell *matHeaderCellDef> {{'partDetail.tractionBatteryCode' | i18n }} </th>
-                    <td mat-cell *matCellDef="let subcomponent">{{subcomponent.tractionBatteryCode}}</td>
+                    <th mat-header-cell *matHeaderCellDef>{{ 'partDetail.tractionBatteryCode' | i18n }}</th>
+                    <td mat-cell *matCellDef="let subcomponent">{{ subcomponent.tractionBatteryCode }}</td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                 </table>
               </section>
             </ng-container>
@@ -193,17 +258,19 @@ SPDX-License-Identifier: Apache-2.0
   </mat-card>
 </ng-template>
 
-
 <ng-template #partRelationMainTmp let-partDetails="view">
-  <mat-card *ngIf="showRelation" class="part-detail--relation__card">
-    <mat-card-header>
+  <mat-card *ngIf="showRelation" class="info-card relation mt-5">
+    <mat-card-header class="info-card--header">
       <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
     </mat-card-header>
     <mat-card-content class="part-detail--relation__container">
       <ng-container>
         <app-part-relation [isStandalone]="false" [showMiniMap]="false" [isAsBuilt]="isAsBuiltPart"></app-part-relation>
-        <mat-icon onkeydown="openRelationPage(partDetails.data)" (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon"
-        >open_in_new
+        <mat-icon
+          onkeydown="openRelationPage(partDetails.data)"
+          (click)="openRelationPage(partDetails.data)"
+          class="part-detail--relation__icon"
+          >open_in_new
         </mat-icon>
       </ng-container>
     </mat-card-content>
@@ -232,35 +299,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <!-- ToDo: this can be split into multiple files and components-->
 <ng-template #partDetailsMainTmp let-partDetails="view">
-  <mat-card class="card-list">
-    <mat-card-header>
-      <mat-card-title>{{ 'partDetail.overview' | i18n }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <ng-container
-        *ngFor="let item of partDetails.data | ToKeyValue"
-        [ngTemplateOutlet]="item.key !== 'qualityType' ? (item.key == 'manufacturingCountry' ? countryFlag : listElement) : qualityTypeElement"
-        [ngTemplateOutletContext]="{ item }"
-      >
-      </ng-container>
-    </mat-card-content>
-  </mat-card>
-</ng-template>
-
-<ng-template #countryFlag let-item="item">
-  <div *ngIf="item.value" class="card-list--row">
-    <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
-    <p class="card-list--value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}
-      <app-country-flag-generator [countryCode]="item.value"></app-country-flag-generator>
-    </p>
-  </div>
-</ng-template>
-
-<ng-template #listElement let-item="item">
-  <div *ngIf="item.value" class="card-list--row">
-    <p class="card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
-    <p class="card-list--value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
-  </div>
+      <app-card-list [list]="partDetails.data" [title]="'partDetail.partInformation' | i18n"></app-card-list>
 </ng-template>
 
 <ng-template #qualityTypeElement let-item="item">
@@ -281,7 +320,6 @@ SPDX-License-Identifier: Apache-2.0
         <mat-icon class="ml-2" inline>edit</mat-icon>
       </div>
     </ng-container>
-
     <div *ngIf="showQualityTypeDropdown" class="card-list--qualityType">
       <app-select
         [label]="'partDetail.' + item.key | i18n"
@@ -294,15 +332,14 @@ SPDX-License-Identifier: Apache-2.0
         (keydown.enter)="showQualityTypeDropdown = false"
         tabindex="0"
         inline
-      >close
+        >close
       </mat-icon>
     </div>
   </div>
 </ng-template>
 
 <ng-template #importStateDetailsMainTmp let-importStateDetails="view">
-  <app-card-list [list]="importStateDetails.data"
-                 [title]=" 'partDetail.importHeader' | i18n"></app-card-list>
+  <app-card-list [list]="importStateDetails.data" [title]="'partDetail.importHeader' | i18n"></app-card-list>
 </ng-template>
 
 <ng-template let-label="value" #qualityTypeOptionTmp>
@@ -311,8 +348,8 @@ SPDX-License-Identifier: Apache-2.0
 
 <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
   <app-asset-publisher
-    [selectedAssets] = "[((selectedPartDetails$ | async)?.data)]"
+    [selectedAssets]="[(selectedPartDetails$ | async)?.data]"
     [isOpen]="isPublisherOpen$"
-    (submitted)="isPublisherOpen$.next(false);"
+    (submitted)="isPublisherOpen$.next(false)"
   ></app-asset-publisher>
 </app-sidenav-wrapper>
