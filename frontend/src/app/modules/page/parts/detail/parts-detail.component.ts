@@ -183,7 +183,7 @@ export class PartsDetailComponent implements OnDestroy, AfterViewInit {
     if (!this.roleService.isAdmin()) {
       return 'routing.unauthorized';
     }
-    if (this.partOwner == Owner.OWN && this.partImportState !== ImportState.TRANSIENT) {
+    if (this.partOwner == Owner.OWN && this.partImportState == ImportState.TRANSIENT) {
       return 'routing.publishAssets';
     }
     return 'routing.onlyAllowedForOwnParts';
