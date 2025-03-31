@@ -101,6 +101,7 @@ describe('PartsDetailComponent', () => {
 
     // publish assets success
     componentInstance.partOwner = Owner.OWN;
+    componentInstance.partImportState = ImportState.TRANSIENT;
     expect(componentInstance.setRestrictionMessageKeyForPublishAssets()).toEqual("routing.publishAssets")
 
     // publish assets - not own Part
