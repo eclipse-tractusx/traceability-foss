@@ -34,7 +34,7 @@ traceability:
   irsBase: ${IRS_URL}
   irsPoliciesPath: "/irs/policies"
   register-decentral-registry-permissions: ${TRACEABILITY_REGISTER_DECENTRAL_REGISTRY_PERMISSIONS}
-  discoveryType: ${DISCOVERY_TYPE}
+  discoveryType: ${DISCOVERY_TYPE:"bpnl" default}
   technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY}
   assetRefreshJobCronExpression: ${TRACEABILITY_ASSETS_REFRESH_CRON:0 0 */2 * * ?}
   assetRefreshJobZone: ${TRACEABILITY_ASSETS_REFRESH_ZONE:Europe/Berlin}
@@ -242,7 +242,7 @@ digitalTwinRegistryClient:
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
   discovery:
-    type: ${DISCOVERY_TYPE}
+    type: ${DISCOVERY_TYPE:"bpnl"}
 
 bpdm:
   goldenRecordUrl: ${BPDM_GOLDEN_RECORD_URL}

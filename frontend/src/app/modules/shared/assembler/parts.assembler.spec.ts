@@ -23,7 +23,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { AsBuiltAspectModel } from '@page/parts/model/aspectModels.model';
 import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { Part, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
+import { ImportState, Part, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { of } from 'rxjs';
 
@@ -139,39 +139,91 @@ describe('PartsAssembler', () => {
   });
 
   describe('filterPartForView', () => {
+    const manufacturerName = 'BMW AG';
+    const businessPartner = 'BP123456';
+    const manufacturerPartId = 'MAN123';
+    const nameAtManufacturer = 'Engine Block';
     const semanticModelId = 'semanticModelId';
-    const semanticDataModel = 'semanticDataModel';
-    const manufacturingDate = 'manufacturingDate';
-    const manufacturingCountry = 'manufacturingCountry';
-    const classification = 'classification';
-
-
-    it('should clean up data for part view', () => {
+    const semanticDataModel = 'BATCH';
+    const van = 'VAN123';
+  
+    it('should clean up data for part view with AS_BUILT type and include van', () => {
       const data = {
-        semanticDataModel,
+        manufacturerName,
+        businessPartner,
+        manufacturerPartId,
+        nameAtManufacturer,
         semanticModelId,
-        manufacturingDate,
-        manufacturingCountry,
-        classification,
-        test: '',
+        semanticDataModel,
+        mainAspectType: MainAspectType.AS_BUILT,
+        van,
       } as unknown as Part;
+  
       expect(PartsAssembler.filterPartForView({ data })).toEqual({
         data: {
-          manufacturingDate,
+          manufacturerDisplay: `${manufacturerName} (${businessPartner})`,
+          manufacturerPartId,
+          nameAtManufacturer,
           semanticModelId,
           semanticDataModel,
-          manufacturingCountry,
-          classification,
+          van,
         } as unknown as Part,
       });
     });
-
-    it('should return view if data is not set', () => {
+  
+    it('should clean up data for part view without van when not AS_BUILT', () => {
+      const data = {
+        manufacturerName,
+        businessPartner,
+        manufacturerPartId,
+        nameAtManufacturer,
+        semanticModelId,
+        semanticDataModel,
+        mainAspectType: MainAspectType.AS_PLANNED,
+        van,
+      } as unknown as Part;
+  
+      expect(PartsAssembler.filterPartForView({ data })).toEqual({
+        data: {
+          manufacturerDisplay: `${manufacturerName} (${businessPartner})`,
+          manufacturerPartId,
+          nameAtManufacturer,
+          semanticModelId,
+          semanticDataModel,
+        } as unknown as Part,
+      });
+    });
+  
+    it('should clean up data when businessPartner is missing', () => {
+      const data = {
+        manufacturerName,
+        manufacturerPartId,
+        nameAtManufacturer,
+        semanticModelId,
+        semanticDataModel,
+        mainAspectType: MainAspectType.AS_BUILT,
+        van,
+      } as unknown as Part;
+  
+      expect(PartsAssembler.filterPartForView({ data })).toEqual({
+        data: {
+          manufacturerDisplay: manufacturerName,
+          manufacturerPartId,
+          nameAtManufacturer,
+          semanticModelId,
+          semanticDataModel,
+          van,
+        } as unknown as Part,
+      });
+    });
+  
+    it('should return view unchanged if data is not set', () => {
       const viewData = {};
       expect(PartsAssembler.filterPartForView(viewData)).toEqual(viewData);
       expect(PartsAssembler.filterPartForView(undefined)).toEqual(undefined);
     });
   });
+  
 
   describe('mapPartForManufacturerView', () => {
     const manufacturerName = 'manufacturerName';
@@ -179,38 +231,62 @@ describe('PartsAssembler', () => {
     const nameAtManufacturer = 'nameAtManufacturer';
     const businessPartner = 'businessPartner';
     const van = 'van';
-    const mainAspectType = MainAspectType.AS_BUILT;
+    const manufacturingDate = 'manufacturingDate';
+    const manufacturingCountry = 'manufacturingCountry';
 
-    it('should clean up data for manufacturer view', done => {
+    it('should clean up data for manufacturer view when AS_BUILT', done => {
       const data = {
         manufacturerName,
         manufacturerPartId,
         nameAtManufacturer,
         businessPartner,
-        test: '',
+        manufacturingDate,
+        manufacturingCountry,
         van,
-        mainAspectType,
+        mainAspectType: MainAspectType.AS_BUILT,
       } as unknown as Part;
+
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
           expect(result).toEqual({
-            data: { manufacturerName, manufacturerPartId, nameAtManufacturer, businessPartner, van } as unknown as Part,
+            data: {
+              manufacturingDate,
+              manufacturingCountry,
+            } as unknown as Part,
           });
           done();
         });
     });
 
-    it('should return view if data is not set', done => {
-      const viewData = {};
-      of(viewData)
+    it('should clean up data for manufacturer view when not AS_BUILT', done => {
+      const data = {
+        manufacturerName,
+        manufacturerPartId,
+        nameAtManufacturer,
+        businessPartner,
+        manufacturingDate,
+        manufacturingCountry,
+        van,
+        mainAspectType: MainAspectType.AS_PLANNED, // 👈 important difference
+      } as unknown as Part;
+
+      of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
-          expect(result).toEqual(viewData);
+          expect(result).toEqual({
+            data: {
+              manufacturerName,
+              manufacturerPartId,
+              nameAtManufacturer,
+              businessPartner,
+            } as unknown as Part,
+          });
           done();
         });
     });
   });
+
 
   describe('mapPartForCustomerView', () => {
     const customerPartId = 'customerPartId';
@@ -294,18 +370,21 @@ describe('PartsAssembler', () => {
   });
 
   describe('mapForAssetStateView', () => {
-    const importState = 'importState';
+    const importState =ImportState.PERSISTENT;
     const importNote = 'importNote';
     const tombStoneErrorDetail = 'Error';
+    const id = 'id';
+  
     it('should clean up data for asset state view', done => {
-      const data = { importState, importNote, test: '' } as unknown as Part;
+      const data = { id, importState, importNote, test: '' } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
         .subscribe(result => {
-          expect(result).toEqual({ data: { importState, importNote } as unknown as Part });
+          expect(result).toEqual({ data: { importState, importNote, id } as unknown as Part });
           done();
         });
     });
+  
     it('should return nothing when there is no viewData', done => {
       const data = undefined as unknown as Part;
       of({ data })
@@ -315,17 +394,83 @@ describe('PartsAssembler', () => {
           done();
         });
     });
+  
     it('should clean up data for asset state view with tombStoneErrorDetail', done => {
-      const data = { importState, importNote, tombStoneErrorDetail } as unknown as Part;
+      const data = { id, importState, importNote, tombStoneErrorDetail } as unknown as Part; 
       of({ data })
         .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
         .subscribe(result => {
-          expect(result).toEqual({ data: { importState, importNote, tombStoneErrorDetail } as unknown as Part });
+          expect(result).toEqual({
+            data: { importState, importNote, tombStoneErrorDetail, id } as unknown as Part,
+          });
+          done();
+        });
+    });
+  });
+  
+describe('PartsAssembler.mapPartForAssetStateDetailsView', () => {
+  const scenarios = [
+    {
+      description: 'maps importState and id only',
+      input: { importState: ImportState.PERSISTENT, id: 'part-123' },
+      expected: { importState: ImportState.PERSISTENT, id: 'part-123' },
+    },
+    {
+      description: 'includes importNote',
+      input: { importState: ImportState.PERSISTENT, importNote: 'Note', id: 'part-456' },
+      expected: { importState: ImportState.PERSISTENT, importNote: 'Note', id: 'part-456' },
+    },
+    {
+      description: 'includes tombStoneErrorDetail',
+      input: { importState: ImportState.PERSISTENT, tombStoneErrorDetail: 'Error', id: 'part-789' },
+      expected: { importState: ImportState.PERSISTENT, tombStoneErrorDetail: 'Error', id: 'part-789' },
+    },
+    {
+      description: 'includes all fields',
+      input: {
+        importState: ImportState.PERSISTENT,
+        importNote: 'Full',
+        tombStoneErrorDetail: 'Details',
+        id: 'part-999',
+      },
+      expected: {
+        importState: ImportState.PERSISTENT,
+        importNote: 'Full',
+        tombStoneErrorDetail: 'Details',
+        id: 'part-999',
+      },
+    },
+  ];
+
+  scenarios.forEach(({ description, input, expected }) => {
+    it(`should ${description}`, done => {
+      of({ data: input as unknown as Part })
+        .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
+        .subscribe(result => {
+          expect(result).toEqual({ data: expected as unknown as Part });
           done();
         });
     });
   });
 
+  it('should return undefined when importState is missing', done => {
+    of({ data: { id: 'no-state' } as unknown as Part })
+      .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
+      .subscribe(result => {
+        expect(result).toBeUndefined();
+        done();
+      });
+  });
 
+  it('should return undefined when data is undefined', done => {
+    of({ data: undefined })
+      .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
+      .subscribe(result => {
+        expect(result).toBeUndefined();
+        done();
+      });
+  });
+});
+  
 
 });

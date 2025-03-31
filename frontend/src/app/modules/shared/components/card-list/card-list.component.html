@@ -19,8 +19,8 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-card>
-  <mat-card-header>
+<mat-card class="info-card">
+  <mat-card-header class="info-card--header" >
     <ng-container *ngIf="!isBoldTitle; else boldTitle">
       <mat-card-title>{{ title | i18n }}</mat-card-title>
     </ng-container>
@@ -30,41 +30,48 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
 
   </mat-card-header>
-  <mat-card-content>
-    <div *ngFor="let item of list | ToKeyValue" [ngClass]="item.key === 'importNote' || item.key === 'tombStoneErrorDetail' || item.key === 'contractId' ? 'card-list--row--textField' : 'card-list--row'">
-      <p class="card-list--key" *ngIf="item.key !== 'policy'">{{ i18nPrefix + '.' + item.key | i18n }}</p>
+  <mat-card-content class="info-card--content">
+    <div class="info-row" *ngFor="let item of list | ToKeyValue" [ngClass]="item.key === 'importNote' || item.key === 'tombStoneErrorDetail' || item.key === 'contractId' ? 'card-list--row--textField' : 'card-list--row'">
+      <p class="info-key" *ngIf="item.key !== 'policy'">{{ i18nPrefix + '.' + item.key | i18n }}</p>
 
       <ng-container [ngSwitch]="item.key">
         <ng-container *ngSwitchCase="'importState'">
-          <p class="card-list--value">
+          <p class="info-value">
             <app-chip [chipTextContent]="valueAsString(item.value)"></app-chip>
           </p>
         </ng-container>
         <ng-container *ngSwitchCase="'importNote'">
-          <div class="card-list--value">
+          <div class="info-value">
           <div class="card-list--value--textField">
             {{item.value}}
           </div>
           </div>
         </ng-container>
         <ng-container *ngSwitchCase="'contractId'">
-          <div class="card-list--value">
-            <div class="card-list--value--textField">
+          <div class="info-value">
+
               {{item.value}}
-            </div>
+
           </div>
         </ng-container>
         <ng-container *ngSwitchCase="'policy'">
         </ng-container>
         <ng-container *ngSwitchCase="'tombStoneErrorDetail'">
-          <div class="card-list--value mt-1">
+          <div class="info-value mt-1">
             <div class="card-list--value--textField text-error">
               {{item.value}}
             </div>
           </div>
         </ng-container>
+        <ng-container *ngSwitchCase="'manufacturingCountry'">
+          <p class="info-value">
+            {{ item.value | autoFormat }}
+            <app-country-flag-generator [countryCode]="valueAsString(item.value)"></app-country-flag-generator>
+
+          </p>
+        </ng-container>
         <ng-container *ngSwitchDefault>
-          <p class="card-list--value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
+          <p class="info-value" title="{{ item.value | autoFormat }}">{{ item.value | autoFormat }}</p>
         </ng-container>
       </ng-container>
 

@@ -1,0 +1,10 @@
+<div class="breadcrumb-wrapper">
+  <a class="breadcrumb-link" [routerLink]="['/parts']" [queryParams]="{ isAsBuilt: variant === 'As built' }">
+    Parts - {{ variant }}
+  </a>
+  <span class="breadcrumb-separator">›</span>
+  <span class="breadcrumb-current">
+    {{ partName }}
+    <span class="breadcrumb-uuid">( {{ uuid }} )</span>
+  </span>
+</div>

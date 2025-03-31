@@ -1,11 +1,14 @@
 {
   "partDetail": {
+    "id": "Catena-X ID",
     "tombStoneErrorDetail": "Grabstein Fehlerbeschreibung",
     "relations": "Beziehungen",
     "overview": "Übersicht",
     "manufacturerData": "Herstellerdaten",
+    "manufacturerInformation": "Herstellungs Informationen",
     "customerData": "Kundendaten",
-    "partSiteInformationData": "PartSite Informationen",
+    "partSiteInformationData": "Partsite Informationen",
+    "partInformation": "Teileinformationen",
     "catenaXSiteId": "Standort",
     "psFunction": "Funktion",
     "name": "Name",
@@ -18,9 +21,10 @@
     "nameAtManufacturer": "Hersteller Produktname",
     "nameAtCustomer": "Name beim Kunden",
     "customerPartId": "Kunden Produktnummer",
-    "semanticDataModel": "Semantisches Datenmodell",
+    "semanticDataModel": "Serienteil/Charge/JiS",
     "businessPartner": "Geschäftspartner Nummer",
-    "van": "Van",
+    "van": "VAN",
+    "manufacturerDisplay": "Hersteller",
     "manufacturingDate": "Produktionsdatum",
     "manufacturingCountry": "Produktionsland",
     "classification": "Klassifizierung",
@@ -36,6 +40,12 @@
       "header": "Produkt-Details",
       "description": "Detaillierte Informationen über Ihr ausgewähltes Produkt"
     },
+    "ownerLabels": {
+      "OWN": "Eigenes Teil",
+      "SUPPLIER": "Zulieferteil",
+      "CUSTOMER": "Kundenteil"
+    },
+
     "investigation": {
       "headline": "Qualitätsuntersuchung für Bauteile anfordern",
       "tab": {
@@ -50,6 +60,5 @@
     "importHeader": "Produktstatus",
     "importState": "Importstatus",
     "importNote": "Importanmerkung"
-
   }
 }
