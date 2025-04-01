@@ -56,9 +56,13 @@ jobs:
     strategy:
       matrix:
         environment:
-          - name: trace-x-a
+          - name: trace-x-dev-a
+            helm_values_path: "traceability-foss/dev/values-dev-a.yaml"
+          - name: trace-x-dev-b
+            helm_values_path: "traceability-foss/dev/values-dev-b.yaml"
+          - name: trace-x-int-a
             helm_values_path: "traceability-foss/int/values-int-a.yaml"
-          - name: trace-x-b
+          - name: trace-x-int-b
             helm_values_path: "traceability-foss/int/values-int-b.yaml"
     steps:
       # Get image tags from the previous job filter the tag that needs to be updated.
