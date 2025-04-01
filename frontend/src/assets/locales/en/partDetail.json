@@ -58,6 +58,7 @@
     },
     "importHeader": "Asset State",
     "importState": "Import State",
-    "importNote": "Import Note"
+    "importNote": "Import Note",
+    "recordInformation": "Record Information"
   }
 }

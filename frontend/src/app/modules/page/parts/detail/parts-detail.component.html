@@ -173,12 +173,12 @@ SPDX-License-Identifier: Apache-2.0
     </div>
     <div
       class="part-detail--part-info--import-state import-state"
-      *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN"
+      *ngIf="(selectedPartDetails$ | async)?.data?.owner === Owner.OWN  && !shouldShowIncidentButton()"
     >
       <ng-container
         *viewContainer="
-          importStateDetails$ | async;
-          main: importStateDetailsMainTmp;
+          recordInformation$ | async;
+          main: recordInformationMainTmp;
           error: errorTmp;
           loading: loaderTmp
         "
@@ -338,8 +338,8 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </ng-template>
 
-<ng-template #importStateDetailsMainTmp let-importStateDetails="view">
-  <app-card-list [list]="importStateDetails.data" [title]="'partDetail.importHeader' | i18n"></app-card-list>
+<ng-template #recordInformationMainTmp let-recordInformation="view">
+  <app-card-list [list]="recordInformation.data" [title]="'partDetail.recordInformation' | i18n"></app-card-list>
 </ng-template>
 
 <ng-template let-label="value" #qualityTypeOptionTmp>
