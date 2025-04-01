@@ -390,7 +390,7 @@ describe('PartsAssembler', () => {
       of({ data })
         .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
         .subscribe(result => {
-          expect(result).toEqual(undefined);
+          expect(result).toEqual(null);
           done();
         });
     });
@@ -408,69 +408,66 @@ describe('PartsAssembler', () => {
     });
   });
   
-describe('PartsAssembler.mapPartForAssetStateDetailsView', () => {
-  const scenarios = [
-    {
-      description: 'maps importState and id only',
-      input: { importState: ImportState.PERSISTENT, id: 'part-123' },
-      expected: { importState: ImportState.PERSISTENT, id: 'part-123' },
-    },
-    {
-      description: 'includes importNote',
-      input: { importState: ImportState.PERSISTENT, importNote: 'Note', id: 'part-456' },
-      expected: { importState: ImportState.PERSISTENT, importNote: 'Note', id: 'part-456' },
-    },
-    {
-      description: 'includes tombStoneErrorDetail',
-      input: { importState: ImportState.PERSISTENT, tombStoneErrorDetail: 'Error', id: 'part-789' },
-      expected: { importState: ImportState.PERSISTENT, tombStoneErrorDetail: 'Error', id: 'part-789' },
-    },
-    {
-      description: 'includes all fields',
-      input: {
-        importState: ImportState.PERSISTENT,
-        importNote: 'Full',
-        tombStoneErrorDetail: 'Details',
-        id: 'part-999',
+  describe('PartsAssembler.mapPartForAssetStateDetailsView', () => {
+    const scenarios = [
+      {
+        description: 'maps importState and id only',
+        input: { importState: ImportState.PERSISTENT, id: 'part-123' },
+        expected: { importState: ImportState.PERSISTENT, id: 'part-123' },
       },
-      expected: {
-        importState: ImportState.PERSISTENT,
-        importNote: 'Full',
-        tombStoneErrorDetail: 'Details',
-        id: 'part-999',
+      {
+        description: 'includes importNote',
+        input: { importState: ImportState.PERSISTENT, importNote: 'Note', id: 'part-456' },
+        expected: { importState: ImportState.PERSISTENT, importNote: 'Note', id: 'part-456' },
       },
-    },
-  ];
-
-  scenarios.forEach(({ description, input, expected }) => {
-    it(`should ${description}`, done => {
-      of({ data: input as unknown as Part })
+      {
+        description: 'includes tombStoneErrorDetail',
+        input: { importState: ImportState.PERSISTENT, tombStoneErrorDetail: 'Error', id: 'part-789' },
+        expected: { importState: ImportState.PERSISTENT, tombStoneErrorDetail: 'Error', id: 'part-789' },
+      },
+      {
+        description: 'includes all fields',
+        input: {
+          importState: ImportState.PERSISTENT,
+          importNote: 'Full',
+          tombStoneErrorDetail: 'Details',
+          id: 'part-999',
+        },
+        expected: {
+          importState: ImportState.PERSISTENT,
+          importNote: 'Full',
+          tombStoneErrorDetail: 'Details',
+          id: 'part-999',
+        },
+      },
+      {
+        description: 'handles missing importState but returns id',
+        input: { id: 'no-state' },
+        expected: { id: 'no-state' },
+      },
+    ];
+  
+    scenarios.forEach(({ description, input, expected }) => {
+      it(`should ${description}`, done => {
+        of({ data: input as unknown as Part })
+          .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
+          .subscribe(result => {
+            expect(result).toEqual({ data: expected as unknown as Part });
+            done();
+          });
+      });
+    });
+  
+    it('should return null when data is undefined', done => {
+      of({ data: undefined })
         .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
         .subscribe(result => {
-          expect(result).toEqual({ data: expected as unknown as Part });
+          expect(result).toBeNull();
           done();
         });
     });
   });
-
-  it('should return undefined when importState is missing', done => {
-    of({ data: { id: 'no-state' } as unknown as Part })
-      .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
-      .subscribe(result => {
-        expect(result).toBeUndefined();
-        done();
-      });
-  });
-
-  it('should return undefined when data is undefined', done => {
-    of({ data: undefined })
-      .pipe(PartsAssembler.mapPartForAssetStateDetailsView())
-      .subscribe(result => {
-        expect(result).toBeUndefined();
-        done();
-      });
-  });
-});
+  
   
 
 });

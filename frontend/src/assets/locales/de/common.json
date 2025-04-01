@@ -26,7 +26,7 @@
     "synchronizePartInProgress": "Synchronisation läuft",
     "refreshAllParts" : "Synchronisierung aller Parts",
     "adminContract": "Verträge",
-    "createIncident" : "Qualitätsalarm erstellen",
+    "createIncident" : "Qualitätswarnung",
     "requestInvestigation":"Qualitätsuntersuchung anfordern",
     "startInvestigation": "Qualitätsuntersuchung für Bauteile erstellen",
     "notAllowedForNonPersistentPart" : "Qualitätsthemen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",

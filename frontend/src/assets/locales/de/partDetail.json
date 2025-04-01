@@ -13,7 +13,7 @@
     "psFunction": "Funktion",
     "name": "Name",
     "partId": "Produktnummer",
-    "semanticModelId": "Semantische Modellnummer",
+    "semanticModelId": "Serien-/Chargen-/JiS-Nr.",
     "qualityType": "Qualitätsstufe",
     "productionDate": "Produktionsdatum",
     "manufacturerName": "Hersteller",
@@ -59,6 +59,8 @@
     },
     "importHeader": "Produktstatus",
     "importState": "Importstatus",
-    "importNote": "Importanmerkung"
+    "importNote": "Importanmerkung",
+    "recordInformation": "Datensatzinformationen"
+
   }
 }

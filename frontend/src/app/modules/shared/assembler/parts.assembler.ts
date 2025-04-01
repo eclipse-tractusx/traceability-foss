@@ -236,28 +236,27 @@ export class PartsAssembler {
     });
   }
 
-  public static mapPartForAssetStateDetailsView(): OperatorFunction<View<Part>, View<Part>> {
+  public static mapPartForAssetStateDetailsView(): OperatorFunction<View<Part>, View<Part | null>> {
     return map(viewData => {
-      if (!viewData?.data?.importState) {
-        return;
+      if (!viewData?.data) {
+        return null;
       }
-      const { importState, importNote, tombStoneErrorDetail, id } = viewData.data;
-      const mappedData: Partial<Part> = {
-        importState,
-        id,
-      };
-  
+      const { id, importState, importNote, tombStoneErrorDetail } = viewData.data;
+      console.log('viewData.data', viewData.data);
+      const mappedData: Partial<Part> = { id };
+      if (importState !== undefined && importState !== null) {
+        mappedData.importState = importState;
+      }
       if (importNote) {
         mappedData.importNote = importNote;
       }
-  
       if (tombStoneErrorDetail) {
         mappedData.tombStoneErrorDetail = tombStoneErrorDetail;
       }
-  
       return { data: mappedData as Part };
     });
   }
+  
 
   public static mapPartForTractionBatteryCodeSubComponentsView(): OperatorFunction<View<Part>, View<Part>> {
     return map(viewData => {

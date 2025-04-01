@@ -43,7 +43,7 @@ export class PartsDetailComponent implements OnDestroy, AfterViewInit {
   public manufacturerDetails$: Observable<View<Part>>;
   public customerOrPartSiteDetails$: Observable<View<Part>>;
   public tractionBatteryDetails$: Observable<View<Part>>;
-  public importStateDetails$: Observable<View<Part>>;
+  public recordInformation$: Observable<View<Part>>;
   public tractionBatterySubcomponents$: Observable<View<TractionBatteryCode>>;
 
   public displayedColumns: string[];
@@ -237,7 +237,7 @@ export class PartsDetailComponent implements OnDestroy, AfterViewInit {
     this.tractionBatterySubcomponents$ = this.partDetailsFacade.selectedPart$.pipe(
       PartsAssembler.mapPartForTractionBatteryCodeSubComponentsView(),
     ) as unknown as Observable<View<TractionBatteryCode>>;
-    this.importStateDetails$ = this.partDetailsFacade.selectedPart$.pipe(
+    this.recordInformation$ = this.partDetailsFacade.selectedPart$.pipe(
       PartsAssembler.mapPartForAssetStateDetailsView(),
     );
 
