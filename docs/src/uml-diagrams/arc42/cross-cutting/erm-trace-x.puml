@@ -46,6 +46,8 @@ ENTITY public.assets_as_built {
     tombstone : varchar
     contract_agreement_id : varchar(255)
     created : timestamp
+    ttl : integer
+    expiration_date: timestamptz
 }
 
 
@@ -175,6 +177,8 @@ ENTITY public.assets_as_planned {
     tombstone : varchar
     contract_agreement_id : varchar(255)
     created : timestamp
+    ttl : integer
+    expiration_date: timestamptz
   }
 
    ENTITY public.bpn_storage {
@@ -200,5 +204,35 @@ public.notification }-l{ public.assets_as_built_notifications: FOREIGN_KEY: noti
 
 public.assets_as_planned -u-{ public.assets_as_planned_childs: FOREIGN_KEY: asset_as_planned_id
 public.assets_as_planned - public.submodel_payload: FOREIGN_KEY: asset_as_planned_id
+
+TABLE public.orders {
+  + id : varchar(255)
+  status : varchar(11)
+  message : text
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+TABLE public.order_configuration {
+  + id : bigint
+  order_id : varchar(255)
+  batch_size : integer
+  timeout_ms : integer
+  job_timeout_ms : integer
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+TABLE public.trigger_configuration {
+  + id : bigint
+  cron_expression_register_order_ttl_reached : text
+  cron_expression_map_completed_orders : text
+  part_ttl : integer
+  aas_ttl : integer
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+public.order_configuration -l public.orders: FOREIGN_KEY: order_id
 
   @enduml
