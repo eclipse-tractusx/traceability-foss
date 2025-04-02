@@ -18,9 +18,9 @@
  ********************************************************************************/
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FilterOperator } from '@page/parts/model/parts.model';
 import { PartsStrategy } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { FilterOperator } from '@shared/model/filter.model';
 import { FilterService } from '@shared/service/filter.service';
 import { renderComponent } from '@tests/test-render.utils';
 import { BehaviorSubject, of } from 'rxjs';

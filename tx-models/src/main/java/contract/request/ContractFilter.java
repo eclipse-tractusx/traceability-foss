@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,12 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.contracts.application.service;
 
-import contract.request.ContractRequest;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
+package contract.request;
 
-public interface ContractServiceReadOnly {
-    PageResult<Contract> getContracts(ContractRequest contractRequest);
+import common.FilterAttribute;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class ContractFilter {
+    private final FilterAttribute created;
+    private final FilterAttribute id;
+    private final FilterAttribute contractId;
+    private final FilterAttribute contractType;
 }

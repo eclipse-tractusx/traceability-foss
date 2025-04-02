@@ -19,11 +19,17 @@
 
 package org.eclipse.tractusx.traceability.integration.assets;
 
+import assets.request.AssetFilter;
+import assets.request.AssetRequest;
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -233,20 +239,35 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     @Test
     void givenSemanticDataModelAndManufacturingDateFilterOR_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
+
         assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18,OR&filter=semanticDataModel,EQUAL,SERIALPART,OR";
+
+        AssetRequest requestBody = AssetRequest.builder().page(5).size(50).assetFilters(List.of(AssetFilter.builder()
+                .manufacturingDate(
+                        FilterAttribute.builder()
+                                .value(List.of(FilterValue.builder()
+                                        .value("2014-11-18")
+                                        .strategy(SearchCriteriaStrategy.AT_LOCAL_DATE.name()).build()))
+                                .operator(SearchCriteriaOperator.AND.name()).build())
+                .semanticDataModel(
+                        FilterAttribute.builder()
+                                .value(List.of(FilterValue.builder()
+                                        .value("SERIALPART")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                                .operator(SearchCriteriaOperator.OR.name()).build()).build())).build();
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
+                .body(requestBody)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built" + filter)
+                .post("/api/assets/as-built/query")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(13));
+                .body("totalItems", equalTo(1));
     }
 
     @Test

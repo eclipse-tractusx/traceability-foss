@@ -24,7 +24,7 @@
     "start:auth:local": "ng serve --configuration=authLocal",
     "start:auth:localBe": "ng serve --configuration=localBackend",
     "start:noAuth:localBe": "ng serve --configuration=localBackendNoAuth",
-    "start:auth:localBeTractusX": "ng serve --configuration=localBackendTractusX --port 5200",
+    "start:auth:localBeTractusX": "ng serve --configuration=localBackendTractusX --port 4200",
     "env:mock": "docker-compose up",
     "test": "ng test",
     "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless",

@@ -27,10 +27,10 @@ import io.restassured.http.Header;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import notification.request.EditNotificationRequest;
+import notification.request.NotificationRequest;
 import notification.request.StartNotificationRequest;
 import notification.response.NotificationResponse;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.springframework.stereotype.Component;
 
 import static io.restassured.RestAssured.given;
@@ -75,10 +75,10 @@ public class NotificationApiSupport {
                 .statusCode(expectedStatusCode);
     }
 
-    public PageResult<NotificationResponse> getNotificationsRequest(Header authHeader, PageableFilterRequest pageableFilterRequest) {
+    public PageResult<NotificationResponse> getNotificationsRequest(Header authHeader, NotificationRequest notificationRequest) {
         Response response = given()
                 .header(authHeader)
-                .body(pageableFilterRequest)
+                .body(notificationRequest)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")

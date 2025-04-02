@@ -26,10 +26,10 @@ import { NotificationEditComponent } from '@page/notifications/detail/edit/notif
 import { NotificationsModule } from '@page/notifications/notifications.module';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
-import { FilterOperator } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { toAssetFilter } from '@shared/helper/filter-helper';
+import { FilterOperator } from '@shared/model/filter.model';
 import { Notification, NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { NotificationService } from '@shared/service/notification.service';
@@ -230,7 +230,7 @@ describe('NotificationEditComponent', () => {
     const { componentInstance } = fixture;
 
     const assetFilterAffected = {
-      id: { value: [ { value: '1', strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+      id: { value: [ { value: '1', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
       owner: { value: [ { value: Owner.SUPPLIER, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
     };
     const assetFilterAvailable = {
@@ -280,7 +280,7 @@ describe('NotificationEditComponent', () => {
     const { componentInstance } = fixture;
 
     const assetFilterAffected = {
-      id: { value: [ { value: '1', strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+      id: { value: [ { value: '1', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
       owner: { value: [ { value: Owner.OWN, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
     };
     const assetFilterAvailable = {

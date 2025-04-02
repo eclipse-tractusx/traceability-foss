@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltViewEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -45,7 +46,7 @@ public class AssetAsBuiltViewRepositoryImpl implements AssetAsBuiltViewRepositor
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         List<AssetAsBuiltViewSpecification> assetAsBuildSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsBuiltViewSpecification::new).toList();
-        Specification<AssetAsBuiltViewEntity> specification = AssetAsBuiltViewSpecification.toSpecification(assetAsBuildSpecifications);
+        Specification<AssetAsBuiltViewEntity> specification = BaseSpecification.toSpecification(assetAsBuildSpecifications);
         return new PageResult<>(jpaAssetAsBuiltViewRepository.findAll(specification, pageable), AssetAsBuiltViewEntity::toDomain);
     }
 

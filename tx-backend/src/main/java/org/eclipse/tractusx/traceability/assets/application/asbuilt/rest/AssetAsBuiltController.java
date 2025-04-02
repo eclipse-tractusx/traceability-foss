@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.application.asbuilt.rest;
 
 import assets.importpoc.ErrorResponse;
+import assets.request.AssetRequest;
 import assets.request.SearchableAssetsRequest;
 import assets.response.asbuilt.AssetAsBuiltResponse;
 import assets.response.base.request.UpdateAssetRequest;
@@ -45,13 +46,21 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.AssetRequest;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
@@ -266,7 +275,7 @@ public class AssetAsBuiltController {
                                         assetRequest.getSize(),
                                         assetRequest.getSort()
                                 ), fieldMapper),
-                        assetRequest.toSearchCriteria(fieldMapper))
+                        SearchCriteriaMapper.toSearchCriteria(fieldMapper, assetRequest.getAssetFilters()))
         );
     }
 

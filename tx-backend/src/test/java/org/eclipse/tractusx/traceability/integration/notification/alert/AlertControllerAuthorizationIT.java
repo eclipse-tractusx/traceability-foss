@@ -18,11 +18,19 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.notification.alert;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
-import notification.request.*;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import notification.request.CloseNotificationRequest;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
+import notification.request.NotificationSeverityRequest;
+import notification.request.NotificationTypeRequest;
+import notification.request.StartNotificationRequest;
+import notification.request.UpdateNotificationStatusRequest;
+import notification.request.UpdateNotificationStatusTransitionRequest;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.ForbiddenMatcher;
@@ -35,11 +43,9 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity.RECEIVER;
+import static org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity.SENDER;
 
-/**
- * Integration test for checking correct role-based authorization of
- * the endpoints of {@link org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest.AlertController}.
- */
 class AlertControllerAuthorizationIT extends IntegrationTestSpecification {
 
     private static final String ROOT = "/api/notifications";
@@ -77,11 +83,16 @@ class AlertControllerAuthorizationIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#allRolesAllowed")
     void shouldAllowGetCreatedEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
-        String filterString = "channel,EQUAL,SENDER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post(ROOT + "/filter")
@@ -94,11 +105,16 @@ class AlertControllerAuthorizationIT extends IntegrationTestSpecification {
     @ParameterizedTest
     @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#allRolesAllowed")
     void shouldAllowGetReceivedEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
-        String filterString = "channel,EQUAL,RECEIVER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post(ROOT + "/filter")

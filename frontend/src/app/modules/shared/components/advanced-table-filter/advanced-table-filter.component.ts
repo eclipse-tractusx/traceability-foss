@@ -18,8 +18,8 @@
  ********************************************************************************/
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FilterAttribute, FilterOperator, FilterValue } from '@page/parts/model/parts.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { FilterAttribute, FilterOperator, FilterValue } from '@shared/model/filter.model';
 import { FilterService } from '@shared/service/filter.service';
 
 @Component({

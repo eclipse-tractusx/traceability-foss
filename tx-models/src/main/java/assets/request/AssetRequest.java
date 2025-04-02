@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,32 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.common.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+package assets.request;
+
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class PageableFilterRequest {
-    @JsonProperty("pageAble")
-    private OwnPageable ownPageable;
-
-    @JsonProperty("searchCriteria")
-    @Valid
-    private SearchCriteriaRequestParam searchCriteriaRequestParam;
-
-    public SearchCriteriaRequestParam getSearchCriteriaRequestParam() {
-        return searchCriteriaRequestParam == null ? new SearchCriteriaRequestParam() : searchCriteriaRequestParam;
-    }
-
-    public OwnPageable getOwnPageable() {
-        return ownPageable == null ? new OwnPageable() : ownPageable;
-    }
+public class AssetRequest {
+    private final Integer page;
+    private final Integer size;
+    private final List<String> sort;
+    private final List<AssetFilter> assetFilters;
 }

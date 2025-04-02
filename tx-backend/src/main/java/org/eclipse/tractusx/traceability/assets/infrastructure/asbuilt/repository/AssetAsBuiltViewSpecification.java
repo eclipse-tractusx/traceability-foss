@@ -38,4 +38,5 @@ public class AssetAsBuiltViewSpecification extends BaseSpecification<AssetAsBuil
     public Predicate toPredicate(@NotNull Root<AssetAsBuiltViewEntity> root, @NotNull CriteriaQuery<?> query, @NotNull CriteriaBuilder builder) {
         return createPredicate(getSearchCriteriaFilter(), root, builder);
     }
+
 }

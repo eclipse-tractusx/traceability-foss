@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.application.rest;
 
+import contract.request.ContractRequest;
 import contract.response.ContractResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +30,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractResponseMapper;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractServiceReadOnly;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
@@ -95,9 +95,8 @@ public class ContractsController {
                     content = @Content(
                             mediaType = "application/json", schema = @Schema(example = "{\"message\": \"Internal server error.\"}")))})
     @PostMapping
-    public PageResult<ContractResponse> getContracts(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
-        PageResult<Contract> contracts = contractServiceReadOnly.getContracts(pageableFilterRequest);
+    public PageResult<ContractResponse> getContracts(@Valid @RequestBody ContractRequest contractRequest) {
+        PageResult<Contract> contracts = contractServiceReadOnly.getContracts(contractRequest);
         return ContractResponseMapper.from(contracts);
     }
-
 }

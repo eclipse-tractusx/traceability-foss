@@ -44,7 +44,7 @@ import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
-import { FilterValue, ImportState, Part } from '@page/parts/model/parts.model';
+import { ImportState, Part } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableConfigUtils } from '@shared/components/parts-table/parts-table-config.utils';
@@ -59,6 +59,7 @@ import {
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { isDateFilter } from '@shared/helper/filter-helper';
 import { addSelectedValues, removeSelectedValues } from '@shared/helper/table-helper';
+import { FilterValue } from '@shared/model/filter.model';
 import { NotificationColumn, NotificationType } from '@shared/model/notification.model';
 import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
 import { DeeplinkService } from '@shared/service/deeplink.service';
@@ -155,12 +156,12 @@ export class PartsTableComponent implements OnInit {
   // TODO remove it and set only in tableViewConfig
   filterFormGroup = new FormGroup({});
   public tableViewConfig: TableViewConfig;
+  public sorting: TableHeaderSort;
   protected readonly TableType = TableType;
   protected readonly MainAspectType = MainAspectType;
   protected readonly NotificationType = NotificationType;
   protected readonly UserService = UserService;
   private pageSize: number;
-  public sorting: TableHeaderSort;
 
   constructor(
     private readonly tableSettingsService: TableSettingsService,
@@ -269,7 +270,7 @@ export class PartsTableComponent implements OnInit {
 
   isValidOwnerSelection(): boolean {
     const selected = this.selection.selected as Part[];
-    if (this.tableType === TableType.AS_PLANNED_OWN || this.tableType === TableType.AS_BUILT_OWN ) {
+    if (this.tableType === TableType.AS_PLANNED_OWN || this.tableType === TableType.AS_BUILT_OWN) {
       return selected.every(part => part.owner === Owner.OWN);
     }
     return true;
@@ -409,7 +410,7 @@ export class PartsTableComponent implements OnInit {
       .subscribe(filterForThisTable => {
         this.filterKeys.forEach(key => {
           const value: FilterValue[] = filterForThisTable[key]?.['value'] ?? null;
-          if(value && Array.isArray(value)){
+          if (value && Array.isArray(value)) {
             this.filterFormGroup.get(key)?.setValue(value.map(value => value.value), { emitEvent: false });
           }
         });

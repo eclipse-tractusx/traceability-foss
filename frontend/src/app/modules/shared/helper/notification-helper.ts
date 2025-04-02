@@ -18,31 +18,26 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import {Notification, NotificationDeeplinkFilter, NotificationType} from '@shared/model/notification.model';
-import {TranslationContext} from "@shared/model/translation-context.model";
+import { FilterOperator, FilterValue, NotificationFilter } from '@shared/model/filter.model';
+import { Notification, NotificationType } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 
-export interface DeeplinkNotificationFilter {
-  receivedFilter: NotificationDeeplinkFilter,
-  sentFilter: NotificationDeeplinkFilter
-}
-
-export function createDeeplinkNotificationFilter(params: any): DeeplinkNotificationFilter {
-  let receivedFilter = null;
-  let sentFilter = null;
-  if (params.deeplink) {
-    if (params.received === 'true' && params?.notificationIds?.length > 0) {
-      receivedFilter = { notificationIds: params.notificationIds };
-    }
-    if (params.received === 'false' && params?.notificationIds?.length > 0) {
-      sentFilter = { notificationIds: params.notificationIds };
-    }
-    return { receivedFilter, sentFilter };
+export function createNotificationFilterFromDeeplink(params: any): NotificationFilter | undefined {
+  if (params.deeplink && params?.notificationIds?.length > 0) {
+    return {
+      id: {
+        value: params.notificationIds.map((id: string): FilterValue => ({ value: id, strategy: FilterOperator.EQUAL })),
+        operator: 'OR',
+      },
+    };
   }
+  return undefined;
 }
 
-export function getTranslationContext(notification: Notification):TranslationContext{
-  if (notification?.type === NotificationType.ALERT.valueOf()){
-    return TranslationContext.COMMONALERT
+
+export function getTranslationContext(notification: Notification): TranslationContext {
+  if (notification?.type === NotificationType.ALERT.valueOf()) {
+    return TranslationContext.COMMONALERT;
   } else {
     return TranslationContext.COMMONINVESTIGATION;
   }

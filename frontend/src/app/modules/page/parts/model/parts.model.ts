@@ -142,83 +142,20 @@ export interface Relation {
   idShort: string;
 }
 
-export interface AssetAsBuiltFilter {
-  id?: FilterAttribute,
-  idShort?: FilterAttribute,
-  name?: FilterAttribute,
-  manufacturerName?: FilterAttribute,
-  businessPartner?: FilterAttribute,
-  partId?: FilterAttribute,
-  manufacturerPartId?: FilterAttribute,
-  customerPartId?: FilterAttribute,
-  contractAgreementId?: FilterAttribute,
-  classification?: FilterAttribute,
-  nameAtCustomer?: FilterAttribute,
-  semanticModelId?: FilterAttribute,
-  semanticDataModel?: string[],
-  manufacturingDate?: FilterAttribute,
-  manufacturingCountry?: FilterAttribute,
-  owner?: FilterAttribute
-}
-
-export type FilterValue = {
-  value: string;
-  strategy: FilterOperator;
-}
-
-export type FilterAttribute = {
-  value: FilterValue[]
-  operator: string;
-}
-
-export interface AssetAsPlannedFilter {
-  id?: FilterAttribute,
-  idShort?: FilterAttribute,
-  name?: FilterAttribute,
-  manufacturer?: FilterAttribute,
-  businessPartner?: FilterAttribute,
-  manufacturerPartId?: FilterAttribute,
-  classification?: FilterAttribute,
-  contractAgreementId?: FilterAttribute,
-  semanticDataModel?: string[],
-  semanticModelId?: FilterAttribute,
-  validityPeriodFrom?: FilterAttribute,
-  validityPeriodTo?: FilterAttribute,
-  psFunction?: FilterAttribute,
-  catenaXSiteId?: FilterAttribute,
-  functionValidFrom?: FilterAttribute,
-  functionValidUntil?: FilterAttribute,
-  owner?: FilterAttribute
-}
-
 export enum ImportState {
-  TRANSIENT = "TRANSIENT",
-  PERSISTENT = "PERSISTENT",
-  IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION",
-  ERROR = "ERROR",
-  UNSET = "UNSET",
-  PUBLISHED_TO_CORE_SERVICES="PUBLISHED_TO_CORE_SERVICES"
+  TRANSIENT = 'TRANSIENT',
+  PERSISTENT = 'PERSISTENT',
+  IN_SYNCHRONIZATION = 'IN_SYNCHRONIZATION',
+  ERROR = 'ERROR',
+  UNSET = 'UNSET',
+  PUBLISHED_TO_CORE_SERVICES = 'PUBLISHED_TO_CORE_SERVICES'
 }
 
 export enum ImportStateInCamelCase {
-  TRANSIENT = "Transient",
-  PERSISTENT = "Persistent",
-  IN_SYNCHRONIZATION = "In Synchronization",
-  ERROR = "Error",
-  UNSET = "Unset",
-  PUBLISHED_TO_CORE_SERVICES="Published to Core Services"
-}
-
-export enum FilterOperator {
-  EQUAL = 'EQUAL',
-  AT_LOCAL_DATE = 'AT_LOCAL_DATE',
-  STARTS_WITH = 'STARTS_WITH',
-  BEFORE_LOCAL_DATE = 'BEFORE_LOCAL_DATE',
-  AFTER_LOCAL_DATE = 'AFTER_LOCAL_DATE',
-  NOTIFICATION_COUNT_EQUAL = 'NOTIFICATION_COUNT_EQUAL',
-  EXCLUDE = 'EXCLUDE'
-}
-
-export function getFilterOperatorValue(operator: FilterOperator) {
-  return operator as string;
+  TRANSIENT = 'Transient',
+  PERSISTENT = 'Persistent',
+  IN_SYNCHRONIZATION = 'In Synchronization',
+  ERROR = 'Error',
+  UNSET = 'Unset',
+  PUBLISHED_TO_CORE_SERVICES = 'Published to Core Services'
 }

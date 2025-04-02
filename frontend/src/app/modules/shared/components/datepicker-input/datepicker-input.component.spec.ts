@@ -18,8 +18,8 @@
  ********************************************************************************/
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FilterOperator, FilterValue } from '@page/parts/model/parts.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { FilterOperator, FilterValue } from '@shared/model/filter.model';
 import { FilterService } from '@shared/service/filter.service';
 import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';

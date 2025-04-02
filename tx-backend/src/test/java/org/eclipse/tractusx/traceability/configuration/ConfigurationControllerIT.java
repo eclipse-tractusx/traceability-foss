@@ -19,6 +19,21 @@
 
 package org.eclipse.tractusx.traceability.configuration;
 
+import configuration.request.OrderConfigurationRequest;
+import configuration.request.TriggerConfigurationRequest;
+import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderConfigurationEntity;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.model.TriggerConfigurationEntity;
+import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.ConfigurationSupport;
+import org.jose4j.lang.JoseException;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+import java.util.Locale;
+
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
@@ -26,23 +41,15 @@ import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVIS
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-import io.restassured.http.ContentType;
-import java.util.List;
-import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderConfigurationEntity;
-import configuration.request.OrderConfigurationRequest;
-import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
-import org.eclipse.tractusx.traceability.configuration.infrastructure.model.TriggerConfigurationEntity;
-import configuration.request.TriggerConfigurationRequest;
-import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
-import org.eclipse.tractusx.traceability.integration.common.support.ConfigurationSupport;
-import org.jose4j.lang.JoseException;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-public class ConfigurationControllerIT extends IntegrationTestSpecification {
+class ConfigurationControllerIT extends IntegrationTestSpecification {
 
     @Autowired
     ConfigurationSupport configurationSupport;
+
+    @org.junit.jupiter.api.BeforeEach
+    void setUp() {
+        Locale.setDefault(Locale.ENGLISH);
+    }
 
     @Test
     void shouldStoreOrderConfiguration() throws JoseException {

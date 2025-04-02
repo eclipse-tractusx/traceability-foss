@@ -19,10 +19,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FilterAttribute } from '@page/parts/model/parts.model';
 import { BaseFilterInputComponent } from '@shared/abstraction/baseInputFilter/baseInputFilter.component';
 
 import { PartsStrategy } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
+import { FilterAttribute } from '@shared/model/filter.model';
 import { FilterService } from '@shared/service/filter.service';
 import { of } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -30,7 +30,7 @@ import { debounceTime, delay, distinctUntilChanged, switchMap } from 'rxjs/opera
 @Component({
   selector: 'app-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
-  styleUrls: ['./autocomplete-input.component.scss'],
+  styleUrls: [ './autocomplete-input.component.scss' ],
 })
 export class AutocompleteInputComponent extends BaseFilterInputComponent {
   public isDropdownOpen = false;
@@ -43,7 +43,7 @@ export class AutocompleteInputComponent extends BaseFilterInputComponent {
 
   constructor(
     filterService: FilterService,
-    private readonly partsStrategy: PartsStrategy
+    private readonly partsStrategy: PartsStrategy,
   ) {
     super(filterService);
 
@@ -59,9 +59,9 @@ export class AutocompleteInputComponent extends BaseFilterInputComponent {
           return this.partsStrategy.retrieveSuggestionValues(
             this.tableType,
             this.filterName,
-            searchTerm
+            searchTerm,
           );
-        })
+        }),
       )
       .subscribe((items) => {
         // @ts-ignore
@@ -80,23 +80,14 @@ export class AutocompleteInputComponent extends BaseFilterInputComponent {
       });
   }
 
-  protected onFilterValueChanged(filterAttribute: FilterAttribute): void {
-  if (filterAttribute?.value?.length) {
-    this.items = filterAttribute.value.map(value1 => value1.value);
-    } else {
-      this.items = [];
-    }
-    this.updateParentFormControl(this.items);
-  }
-
   onCheckboxClicked(event: MouseEvent, option: string): void {
     event.stopPropagation();
     if (this.items.includes(option)) {
       this.items = this.items.filter((i) => i !== option);
-      this.announcer.announce(`Deselected ${option}`);
+      this.announcer.announce(`Deselected ${ option }`);
     } else {
       this.items.push(option);
-      this.announcer.announce(`Selected ${option}`);
+      this.announcer.announce(`Selected ${ option }`);
     }
     this.updateParentFormControl(this.items);
   }
@@ -123,7 +114,7 @@ export class AutocompleteInputComponent extends BaseFilterInputComponent {
     const val = event.option.viewValue;
     if (!this.items.includes(val)) {
       this.items.push(val);
-      this.announcer.announce(`Selected ${val}`);
+      this.announcer.announce(`Selected ${ val }`);
     }
     this.clearInput();
   }
@@ -172,5 +163,14 @@ export class AutocompleteInputComponent extends BaseFilterInputComponent {
     this.items = [];
     this.updateParentFormControl(this.items);
     this.removeFilterValue();
+  }
+
+  protected onFilterValueChanged(filterAttribute: FilterAttribute): void {
+    if (filterAttribute?.value?.length) {
+      this.items = filterAttribute.value.map(value1 => value1.value);
+    } else {
+      this.items = [];
+    }
+    this.updateParentFormControl(this.items);
   }
 }

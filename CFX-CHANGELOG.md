@@ -16,6 +16,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ### Changed
 - TRACEX-466 Bumped IRS Client Library to 2.1.34-SNAPSHOT
+- TRACEX-492 Refactor all filter objects in front- and backend and fix the hierarchical filtering
 
 
 ## [14.0.0-cfx-2]

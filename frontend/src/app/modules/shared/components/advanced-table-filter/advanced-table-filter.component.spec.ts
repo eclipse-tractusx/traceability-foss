@@ -18,8 +18,8 @@
  ********************************************************************************/
 import { ComponentFixture } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FilterOperator } from '@page/parts/model/parts.model';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { FilterOperator } from '@shared/model/filter.model';
 import { FilterService } from '@shared/service/filter.service';
 import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';

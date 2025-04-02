@@ -1,5 +1,6 @@
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
+import assets.request.AssetRequest;
 import assets.response.asbuilt.AssetAsBuiltResponse;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
@@ -8,8 +9,8 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.common.request.AssetRequest;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +24,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AssetAsBuiltControllerTest {
@@ -39,12 +43,12 @@ class AssetAsBuiltControllerTest {
 
     @Test
     void testQuery() {
-        AssetRequest assetRequest = new AssetRequest();
-        assetRequest.setPage(1);
-        assetRequest.setSize(10);
+
+        AssetRequest assetRequest = AssetRequest.builder().page(1).size(10).assetFilters(Collections.emptyList()).build();
 
         OwnPageable ownPageable = new OwnPageable(1, 10, Collections.emptyList());
-        SearchCriteria searchCriteria = assetRequest.toSearchCriteria(fieldMapper);
+        SearchCriteria searchCriteria = SearchCriteriaMapper
+                .toSearchCriteria(fieldMapper, assetRequest.getAssetFilters());
         Pageable pageable = OwnPageable.toPageable(ownPageable, fieldMapper);
 
         PageResult<AssetBase> mockPageResult = new PageResult<>(

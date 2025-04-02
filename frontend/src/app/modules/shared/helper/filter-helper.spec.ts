@@ -17,111 +17,117 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpParams } from '@angular/common/http';
-import { enrichFilterAndGetUpdatedParams, provideFilterListForNotifications } from './filter-helper';
+import {
+  containsAtLeastOneFilterEntry,
+  isDateFilter,
+  toAssetFilter,
+  toGlobalSearchAssetFilter,
+} from '@shared/helper/filter-helper';
+import { FilterOperator } from '@shared/model/filter.model';
 
-describe('enrichFilterAndGetUpdatedParams', () => {
-  it('should append filter parameters for non-date filters', () => {
-    const filter = {
-      otherKey: [ 'value3' ],
-    };
-    const params = new HttpParams();
-    // @ts-ignore
-    const result = enrichFilterAndGetUpdatedParams(filter, params, 'OR');
+describe('Asset Filter Functions', () => {
 
-    expect(result.toString()).toContain('filter=otherKey,EQUAL,value3');
+  describe('isDateFilter', () => {
+    it('should return true for a valid date filter key', () => {
+      expect(isDateFilter('manufacturingDate')).toBeTrue();
+    });
+
+    it('should return false for an invalid date filter key', () => {
+      expect(isDateFilter('invalidKey')).toBeFalse();
+    });
   });
 
-  it('should append filter parameters for date filters', () => {
-    const filter = {
-      functionValidUntil: [ '2023-10-13' ],
-      functionValidFrom: [ '2023-10-14' ],
-      validityPeriodFrom: [ '2023-10-15' ],
-      validityPeriodTo: [ '2023-10-17' ],
-    };
-    const params = new HttpParams();
-    // @ts-ignore
-    const result = enrichFilterAndGetUpdatedParams(filter, params, 'OR');
-    expect(result.toString()).toContain('filter=functionValidUntil,AT_LOCAL_DATE,2023-10-13');
-    expect(result.toString()).toContain('filter=functionValidFrom,AT_LOCAL_DATE,2023-10-14');
-    expect(result.toString()).toContain('filter=validityPeriodFrom,AT_LOCAL_DATE,2023-10-15');
-    expect(result.toString()).toContain('filter=validityPeriodTo,AT_LOCAL_DATE,2023-10-17');
+  describe('toAssetFilter', () => {
+    it('should transform form values to AssetAsBuiltFilter', () => {
+      const formValues = { id: {
+          value: [ { value: 'value1', strategy: FilterOperator.GLOBAL }, {
+            value: 'value2',
+            strategy: FilterOperator.GLOBAL,
+          } ],
+          operator: 'OR',
+        } };
+      const result = toAssetFilter(formValues, true);
+      expect(result).toEqual({ id: {
+          value: [ { value: 'value1', strategy: FilterOperator.GLOBAL }, {
+            value: 'value2',
+            strategy: FilterOperator.GLOBAL,
+          } ],
+          operator: 'OR',
+        } });
+    });
+
+    it('should return null if no valid filters are set', () => {
+      const formValues = { key1: null, key2: undefined };
+      expect(toAssetFilter(formValues, true)).toBeNull();
+    });
   });
 
-  it('should append filter parameters for date range filters', () => {
-    const filter = {
-      manufacturingDate: '2023-10-13,2023-10-20',
-    };
-    const params = new HttpParams();
-    // @ts-ignore
-    const result = enrichFilterAndGetUpdatedParams(filter, params, 'AND');
-    expect(result.toString()).toContain('filter=manufacturingDate,AFTER_LOCAL_DATE,2023-10-13,AND');
-    expect(result.toString()).toContain('filter=manufacturingDate,BEFORE_LOCAL_DATE,2023-10-20,AND');
+  describe('toGlobalSearchAssetFilter', () => {
+    it('should create a global search filter for AssetAsBuilt', () => {
+      const values = [ 'value1', 'value2' ];
+      const result = toGlobalSearchAssetFilter(values, true);
+      expect(result).toEqual({
+        id: {
+          value: [ { value: 'value1', strategy: FilterOperator.GLOBAL }, {
+            value: 'value2',
+            strategy: FilterOperator.GLOBAL,
+          } ],
+          operator: 'OR',
+        },
+        semanticModelId: {
+          value: [ { value: 'value1', strategy: FilterOperator.GLOBAL }, {
+            value: 'value2',
+            strategy: FilterOperator.GLOBAL,
+          } ],
+          operator: 'OR',
+        },
+        idShort: {
+          value: [ { value: 'value1', strategy: FilterOperator.GLOBAL }, {
+            value: 'value2',
+            strategy: FilterOperator.GLOBAL,
+          } ],
+          operator: 'OR',
+        },
+        customerPartId: {
+          value: [ { value: 'value1', strategy: FilterOperator.GLOBAL }, {
+            value: 'value2',
+            strategy: FilterOperator.GLOBAL,
+          } ],
+          operator: 'OR',
+        },
+        manufacturerPartId: {
+          value: [ { value: 'value1', strategy: FilterOperator.GLOBAL }, {
+            value: 'value2',
+            strategy: FilterOperator.GLOBAL,
+          } ], operator: 'OR',
+        },
+        businessPartner: {
+          value: [ { value: 'value1', strategy: FilterOperator.GLOBAL }, {
+            value: 'value2',
+            strategy: FilterOperator.GLOBAL,
+          } ],
+          operator: 'OR',
+        },
+      });
+    });
+
+    it('should handle object input values correctly', () => {
+      const values = { key1: [ 'value1' ], key2: [ 'value2' ] };
+      const result = toGlobalSearchAssetFilter(values, false);
+      expect(result.id.value.length).toBe(2);
+    });
   });
 
-  it('should append filter parameters for date range filters with same date', () => {
-    const filter = {
-      manufacturingDate: '2023-10-20,2023-10-20',
-    };
-    const params = new HttpParams();
-    // @ts-ignore
-    const result = enrichFilterAndGetUpdatedParams(filter, params, 'AND');
-    expect(result.toString()).toContain('filter=manufacturingDate,AT_LOCAL_DATE,2023-10-20,AND');
+  describe('containsAtLeastOneFilterEntry', () => {
+    it('should return true if at least one filter entry is non-empty', () => {
+      const filter = { id: { value: [ { value: 'value1', strategy: FilterOperator.EQUAL } ], operator: 'OR' } };
+      expect(containsAtLeastOneFilterEntry(filter)).toBeTrue();
+    });
+
+    it('should return false if all filter entries are empty', () => {
+      const filter = { id: { value: [ { value: '', strategy: FilterOperator.EQUAL } ], operator: 'OR' } };
+      expect(containsAtLeastOneFilterEntry(filter)).toBeFalse();
+    });
   });
-
-  it('should append filter parameters for semanticDataModelKey', () => {
-    const filter = {
-      semanticDataModel: [ 'value1', 'value2' ],
-    };
-    const params = new HttpParams();
-    const result = enrichFilterAndGetUpdatedParams(filter, params, 'OR');
-    expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value1');
-    expect(result.toString()).toContain('filter=semanticDataModel,EQUAL,value2');
-  });
-
-  it('should handle single value for semanticDataModelKey', () => {
-    const filter = {
-      semanticDataModel: 'value1',
-    };
-    const params = new HttpParams();
-    // @ts-ignore
-    const result = enrichFilterAndGetUpdatedParams(filter, params, 'OR');
-    expect(result.toString()).toContain('filter=semanticDataModel,STARTS_WITH,value1,OR');
-  });
-
-  it('should handle empty filter values', () => {
-    const filter = {
-      emptyFilter: [],
-    };
-    const params = new HttpParams();
-    // @ts-ignore
-    const result = enrichFilterAndGetUpdatedParams(filter, params);
-    expect(result.toString()).not.toContain('filter=emptyFilter');
-  });
-
-  it('should handle provideFilterNotifications', () => {
-    let filterList = [];
-    filterList = provideFilterListForNotifications( null, null);
-    expect(filterList.length).toEqual(0);
-  })
-
-  it('should handle provideFilterNotifications successfully', () => {
-    const filter = {notificationIds: ['1']}
-    const filterList = provideFilterListForNotifications( filter, null);
-    expect(filterList).toContain('id,EQUAL,1,OR')
-  })
-
-  it('should add filters to the filterList when fullFilter is provided', () => {
-    const mockFilter = null;
-    const mockFullFilter = { test: 'test' };
-
-    const mockHttpParams = jasmine.createSpyObj('HttpParams', ['getAll']);
-    mockHttpParams.getAll.and.returnValue(['filter1', 'filter2']);
-
-    const result = provideFilterListForNotifications(mockFilter, mockFullFilter);
-
-    expect(result).toEqual(['test,STARTS_WITH,test,AND']);
-  });
-
 
 });

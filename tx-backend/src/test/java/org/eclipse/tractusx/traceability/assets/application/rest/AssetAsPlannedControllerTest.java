@@ -1,5 +1,6 @@
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
+import assets.request.AssetRequest;
 import assets.response.asplanned.AssetAsPlannedResponse;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedFieldMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
@@ -8,8 +9,8 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.common.request.AssetRequest;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,12 +44,10 @@ class AssetAsPlannedControllerTest {
     @Test
     void testQueryForPlannedAssets() {
         // Arrange
-        AssetRequest assetRequest = new AssetRequest();
-        assetRequest.setPage(1);
-        assetRequest.setSize(10);
+        AssetRequest assetRequest = AssetRequest.builder().page(1).size(10).assetFilters(Collections.emptyList()).build();
 
         OwnPageable ownPageable = new OwnPageable(1, 10, Collections.emptyList());
-        SearchCriteria searchCriteria = assetRequest.toSearchCriteria(fieldMapper);
+        SearchCriteria searchCriteria = SearchCriteriaMapper.toSearchCriteria(fieldMapper, assetRequest.getAssetFilters());
 
         Pageable pageable = OwnPageable.toPageable(ownPageable, fieldMapper);
 

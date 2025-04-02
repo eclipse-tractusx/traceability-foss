@@ -19,12 +19,15 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.alert;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
@@ -35,7 +38,6 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -76,7 +78,11 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(Collections.emptyList())))
+                .body(NotificationRequest.builder().page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(NotificationFilter.builder().build())
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -92,12 +98,26 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideBpnFilter_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "bpn,STARTS_WITH,BPNL00000001OWN,OR";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(NotificationFilter.builder()
+                                .bpn(FilterAttribute.builder()
+                                        .value(Collections.singletonList(
+                                                FilterValue.builder()
+                                                        .value("BPNL00000001OWN")
+                                                        .strategy(SearchCriteriaStrategy.STARTS_WITH.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .build())
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -114,16 +134,29 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         // given
         alertNotificationsSupport.defaultAlertsStored();
 
-        OwnPageable ownPageable = new OwnPageable(0, 10, Collections.emptyList());
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .bpn(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("BPNL00000001OWN")
+                                        .strategy(SearchCriteriaStrategy.STARTS_WITH.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
-        ArrayList<String> filter = new ArrayList<>();
-        filter.add("bpn,STARTS_WITH,BPNL00000001OWN,OR");
-        PageableFilterRequest pageableFilterRequest = new PageableFilterRequest(ownPageable, new SearchCriteriaRequestParam(filter));
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .page(0)
+                .size(10)
+                .sort(Collections.emptyList())
+                .notificationFilter(notificationFilter)
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(pageableFilterRequest)
+                .body(notificationRequest)
                 .contentType(ContentType.JSON)
                 .when()
                 .log()
@@ -140,13 +173,39 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideBpnFilterAnd_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter1 = "bpn,STARTS_WITH,BPNL00000001OWN,AND";
-        String filter2 = "createdDate,AT_LOCAL_DATE,2023-10-10,AND";
+
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .bpn(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("BPNL00000001OWN")
+                                        .strategy(SearchCriteriaStrategy.STARTS_WITH.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .createdDate(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("2023-10-10")
+                                        .strategy(SearchCriteriaStrategy.AT_LOCAL_DATE.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .page(0)
+                .size(10)
+                .sort(Collections.emptyList())
+                .notificationFilter(notificationFilter)
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
+                .body(notificationRequest)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -162,13 +221,35 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideDateRangeFilters_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter1 = "createdDate,AFTER_LOCAL_DATE,2023-10-09,AND";
-        String filter2 = "createdDate,BEFORE_LOCAL_DATE,2023-10-11,AND";
+
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .createdDate(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("2023-10-09")
+                                        .strategy(SearchCriteriaStrategy.AFTER_LOCAL_DATE.name())
+                                        .build(),
+                                FilterValue.builder()
+                                        .value("2023-10-11")
+                                        .strategy(SearchCriteriaStrategy.BEFORE_LOCAL_DATE.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+
+                .page(0)
+                .size(10)
+                .sort(Collections.emptyList())
+                .notificationFilter(notificationFilter)
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
+                .body(notificationRequest)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -184,13 +265,35 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideDateRangeFiltersXAnd_thenReturnExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter1 = "createdDate,AFTER_LOCAL_DATE,2023-10-13,AND";
-        String filter2 = "createdDate,BEFORE_LOCAL_DATE,2023-10-07,AND";
+
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .createdDate(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("2023-10-10")
+                                        .strategy(SearchCriteriaStrategy.BEFORE_LOCAL_DATE.name())
+                                        .build(),
+                                FilterValue.builder()
+                                        .value("2023-10-07")
+                                        .strategy(SearchCriteriaStrategy.AFTER_LOCAL_DATE.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+
+                .page(0)
+                .size(10)
+                .sort(Collections.emptyList())
+                .notificationFilter(notificationFilter)
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter1, filter2))))
+                .body(notificationRequest)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -198,38 +301,36 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .statusCode(200)
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
-                .body("totalItems", Matchers.is(2))
-                .body("content", Matchers.hasSize(2));
+                .body("totalItems", Matchers.is(10))
+                .body("content", Matchers.hasSize(10));
     }
-
-    @Test
-    void givenNonExistingFilterField_whenGetAlerts_thenBadRequest() throws JoseException {
-        // given
-        alertNotificationsSupport.defaultAlertsStored();
-        String filter = "?filter=nonExistingField,AFTER_LOCAL_DATE,2023-10-13,AND";
-
-        // when/then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/notifications/filter")
-                .then()
-                .statusCode(400);
-    }
-
 
     @Test
     void givenAlerts_whenInvalidLocalDate_thenReturnBadRequest() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "createdDate,AT_LOCAL_DATE,2023-10-1111111,AND";
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .createdDate(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("2023-10-1111111")
+                                        .strategy(SearchCriteriaStrategy.AT_LOCAL_DATE.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -241,12 +342,28 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenTargetDateAtLocalDate_thenExpectedResult() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        String filter = "targetDate,AT_LOCAL_DATE,2023-11-10,AND";
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .targetDate(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("2023-11-10")
+                                        .strategy(SearchCriteriaStrategy.AT_LOCAL_DATE.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -262,11 +379,28 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideFilterWithSeverityCritical_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .severity(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("CRITICAL")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("severity,EQUAL,CRITICAL,AND"))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -282,11 +416,28 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideFilterCreatedBy_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .createdBy(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("BPNL00000001O")
+                                        .strategy(SearchCriteriaStrategy.STARTS_WITH.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("createdBy,STARTS_WITH,BPNL00000001O,AND"))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -302,11 +453,28 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideFilterCreatedByName_thenReturnAllCritical() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .createdByName(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("Car")
+                                        .strategy(SearchCriteriaStrategy.STARTS_WITH.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("createdByName,STARTS_WITH,Car,AND"))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -322,12 +490,28 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideFilterSendTo_thenReturnExpectedResults() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        final String filterString = "sendTo,STARTS_WITH,B,AND";
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .sendTo(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("B")
+                                        .strategy(SearchCriteriaStrategy.STARTS_WITH.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -343,13 +527,29 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
     void givenAlerts_whenProvideFilterSendToSort_thenReturnExpectedResults() throws JoseException {
         // given
         alertNotificationsSupport.defaultAlertsStored();
-        final String filterString = "sendTo,STARTS_WITH,B,AND";
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .sendTo(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("B")
+                                        .strategy(SearchCriteriaStrategy.STARTS_WITH.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
         String sortString = "sendTo,ASC";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(10)
+                        .sort(List.of(sortString))
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -377,12 +577,28 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
         alertsSupport.storeAlertWithStatusAndAssets(CANCELED, List.of());
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt));
 
-        final String filter = "assetId,EQUAL,urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562,AND";
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .assetId(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // When
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filter))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -392,24 +608,4 @@ class AlertControllerFilterIT extends IntegrationTestSpecification {
                 .assertThat()
                 .body("totalItems", equalTo(1));
     }
-
-    @Test
-    void givenAlerts_whenProvideFilterLongerThan1100_thenReturnHttp400() throws JoseException {
-        // given
-        alertNotificationsSupport.defaultAlertsStored();
-
-        // when/then
-        SearchCriteriaRequestParam searchCriteriaRequestParam = new SearchCriteriaRequestParam(List.of("description,EQUAL," +"1".repeat(1101)+",AND" ));
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), searchCriteriaRequestParam))
-                .contentType(ContentType.JSON)
-                .when()
-                .post("/api/notifications/filter")
-                .then()
-                .log().all()
-                .statusCode(400)
-                .body("message", equalTo("Filter string should not be longer than 1100 characters."));
-    }
-
 }

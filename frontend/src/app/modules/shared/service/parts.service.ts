@@ -24,15 +24,10 @@ import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import {
-  AssetAsBuiltFilter,
-  AssetAsPlannedFilter,
-  Part,
-  PartResponse,
-  PartsResponse,
-} from '@page/parts/model/parts.model';
+import { Part, PartResponse, PartsResponse } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter } from '@shared/model/filter.model';
 import _deepClone from 'lodash-es/cloneDeep';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -57,16 +52,15 @@ export class PartsService {
     return this.apiService.post(`${ this.url }/assets/as-planned/sync`, { globalAssetIds });
   }
 
-  public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+  public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsBuiltFilters?: AssetAsBuiltFilter[], isOrSearch?: boolean): Observable<Pagination<Part>> {
 
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
 
     const requestBody = {
       page: page,
       size: pageSize,
-      operator: isOrSearch ? 'OR' : 'AND',
       sort: sort,
-      filter: assetAsBuiltFilter,
+      assetFilters: assetAsBuiltFilters,
     };
 
     return this.apiService
@@ -74,15 +68,14 @@ export class PartsService {
       .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
   }
 
-  public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): Observable<Pagination<Part>> {
+  public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[], assetAsPlannedFilters?: AssetAsPlannedFilter[], isOrSearch?: boolean, globalAssetFilter?: AssetAsBuiltFilter): Observable<Pagination<Part>> {
     let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
 
     const requestBody = {
       page: page,
       size: pageSize,
-      operator: isOrSearch ? 'OR' : 'AND',
       sort: sort,
-      filter: assetAsPlannedFilter,
+      assetFilters: assetAsPlannedFilters,
     };
 
     return this.apiService
