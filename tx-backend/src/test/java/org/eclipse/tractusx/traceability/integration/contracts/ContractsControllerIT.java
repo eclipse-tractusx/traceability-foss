@@ -18,12 +18,16 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.contracts;
 
+import common.FilterAttribute;
+import common.FilterValue;
+import contract.request.ContractFilter;
+import contract.request.ContractRequest;
 import contract.response.ContractResponse;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.ContractsSupport;
@@ -32,6 +36,7 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -62,7 +67,13 @@ class ContractsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .body(PageableFilterRequest.builder().searchCriteriaRequestParam(SearchCriteriaRequestParam.builder().filter(List.of("contractId,STARTS_WITH,abc1,AND")).build()).build())
+                .body(ContractRequest.builder().page(0).size(10)
+                        .contractFilter(ContractFilter.builder()
+                                .contractId(FilterAttribute.builder()
+                                        .value(List.of(FilterValue.builder().value("abc1").strategy(SearchCriteriaStrategy.STARTS_WITH.name()).build()))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .build()).build())
                 .post("/api/contracts")
                 .then()
                 .log().all()
@@ -88,7 +99,17 @@ class ContractsControllerIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .body(PageableFilterRequest.builder().searchCriteriaRequestParam(SearchCriteriaRequestParam.builder().filter(List.of("id,EQUAL,IdontExist,AND")).build()).build())
+                .body(ContractRequest.builder().page(0).size(10).sort(Collections.emptyList())
+                        .contractFilter(ContractFilter.builder()
+                                .id(FilterAttribute.builder()
+                                        .value(List.of(FilterValue.builder()
+                                                .value("IdontExist")
+                                                .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                .build()))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .build())
+                        .build())
                 .post("/api/contracts")
                 .then()
                 .log().all()

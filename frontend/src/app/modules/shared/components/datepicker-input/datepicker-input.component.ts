@@ -19,8 +19,8 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FilterAttribute, FilterOperator, FilterValue } from '@page/parts/model/parts.model';
 import { BaseFilterInputComponent } from '@shared/abstraction/baseInputFilter/baseInputFilter.component';
+import { FilterAttribute, FilterOperator, FilterValue } from '@shared/model/filter.model';
 
 import { FilterService } from '@shared/service/filter.service';
 
@@ -77,7 +77,8 @@ export class DatepickerInputComponent extends BaseFilterInputComponent {
       let end: Date | null = null;
 
       filterValues.forEach(filterValue => {
-        if (filterValue.strategy === FilterOperator.AFTER_LOCAL_DATE) {
+        if (filterValue.strategy === FilterOperator.AFTER_LOCAL_DATE
+          || filterValue.strategy === FilterOperator.AT_LOCAL_DATE) {
           start = new Date(filterValue.value);
         } else if (filterValue.strategy === FilterOperator.BEFORE_LOCAL_DATE) {
           end = new Date(filterValue.value);
@@ -92,16 +93,16 @@ export class DatepickerInputComponent extends BaseFilterInputComponent {
 
   private isFilterAttribute(value: unknown): value is FilterAttribute {
     return (
-      typeof value === "object" &&
+      typeof value === 'object' &&
       value !== null &&
-      "value" in value &&
+      'value' in value &&
       Array.isArray(value.value) &&
       value.value.every(
         (fv) =>
-          typeof fv === "object" &&
+          typeof fv === 'object' &&
           fv !== null &&
-          "value" in fv &&
-          "strategy" in fv
+          'value' in fv &&
+          'strategy' in fv,
       )
     );
   }

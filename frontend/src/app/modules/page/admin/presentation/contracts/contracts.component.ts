@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Pagination } from '@core/model/pagination.model';
 import { AdminFacade } from '@page/admin/core/admin.facade';
@@ -7,6 +7,7 @@ import { ContractsFacade } from '@page/admin/presentation/contracts/contracts.fa
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { ContractFilter, FilterOperator } from '@shared/model/filter.model';
 import { View } from '@shared/model/view.model';
 import { NotificationAction } from '@shared/modules/notification/notification-action.enum';
 import { NotificationService } from '@shared/service/notification.service';
@@ -19,11 +20,11 @@ import { take } from 'rxjs/operators';
   templateUrl: './contracts.component.html',
   styleUrls: [],
 })
-export class ContractsComponent {
+export class ContractsComponent implements OnInit, OnDestroy{
   contractsView$: Observable<View<Pagination<Contract>>>;
   tableConfig: TableConfig;
   selectedContracts: Contract[];
-  contractFilter: any;
+  contractFilter: ContractFilter;
   pagination: TableEventConfig;
   viewItemsClicked: EventEmitter<any> = new EventEmitter;
 
@@ -36,7 +37,7 @@ export class ContractsComponent {
       if (data?.data?.content.length) {
         return;
       } else {
-        this.contractsFacade.setContracts(0, 10, [ ]);
+        this.contractsFacade.setContracts(0, [ ], 10);
       }
 
     });
@@ -44,7 +45,7 @@ export class ContractsComponent {
     this.viewItemsClicked.subscribe((data) => {
       const contractId = data?.contractId;
       if (data?.contractType === ContractType.NOTIFICATION) {
-        this.notificationsService.getNotifications(0, 1, [], undefined, undefined, { contractAgreementId: contractId }).subscribe({
+        this.notificationsService.getNotifications(0, 1, [], { contractAgreementId: contractId }).subscribe({
             next: data => {
               data?.content?.length > 0 ? this.router.navigate([ 'inbox', data?.content[0]?.id ]) : this.toastService.error('pageAdmin.contracts.noItemsFoundError');
             },
@@ -103,7 +104,7 @@ export class ContractsComponent {
 
   public onTableConfigChange(pagination: TableEventConfig): void {
     this.pagination = pagination;
-    this.contractsFacade.setContracts(pagination.page, pagination.pageSize, [ pagination.sorting ], this.contractFilter);
+    this.contractsFacade.setContracts(pagination.page, [ pagination.sorting ], pagination.pageSize, this.contractFilter);
   }
 
   multiSelection(selectedContracts: Contract[]) {
@@ -140,7 +141,6 @@ export class ContractsComponent {
     link.click();
     document.body.removeChild(link);
 
-
   }
 
   openDetailedView(selectedContract: Record<string, unknown>) {
@@ -151,18 +151,19 @@ export class ContractsComponent {
   filterContractType(filterList: any) {
     this.contractFilter = {
       ...this.contractFilter,
-      contractType: filterList,
+      contractType: {
+        value: filterList.map(value => ({ value, strategy: FilterOperator.EQUAL })),
+        operator: "OR"
+      }
     };
-    this.contractsFacade.setContracts(0, this.pagination.pageSize, [ this.pagination.sorting ], this.contractFilter);
+    this.contractsFacade.setContracts(0, [ this.pagination.sorting ], this.pagination.pageSize, this.contractFilter);
   }
 
   ngOnDestroy() {
     this.contractsFacade.unsubscribeContracts();
   }
 
-
   protected readonly NotificationAction = NotificationAction;
   protected readonly TableType = TableType;
-
 
 }

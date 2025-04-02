@@ -1,12 +1,16 @@
 package org.eclipse.tractusx.traceability.integration.notification.investigation;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.hamcrest.Matchers;
@@ -55,9 +59,31 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,SENDER,AND";
-        String filter1 = "status,EQUAL,SENT,AND";
-        String filter2 = "status,EQUAL,ACCEPTED,AND";
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value(NotificationSide.SENDER.name())
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .status(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("ACCEPTED")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build(),
+                                FilterValue.builder()
+                                        .value("SENT")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
+
         String sort = "createdDate,desc";
 
         final NotificationMessageEntity[] testData = InvestigationTestDataFactory.createSenderMajorityInvestigationNotificationEntitiesTestData(bpnSupport.testBpn());
@@ -69,7 +95,12 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(10)
+                        .sort(List.of(sort))
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -104,9 +135,31 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter1 = "status,EQUAL,RECEIVED,AND";
-        String filter2 = "status,EQUAL,ACCEPTED,AND";
+        NotificationFilter notificationFilter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value(NotificationSide.RECEIVER.name())
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .status(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("ACCEPTED")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build(),
+                                FilterValue.builder()
+                                        .value("RECEIVED")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
+
         String sort = "createdDate,desc";
 
         final NotificationMessageEntity[] testData = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(bpnSupport.testBpn());
@@ -118,7 +171,12 @@ class ReadInvestigationsAndTestAllPagesIT extends IntegrationTestSpecification {
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(page, 2, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2))))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(10)
+                        .sort(List.of(sort))
+                        .notificationFilter(notificationFilter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")

@@ -35,12 +35,12 @@ import { FormControl } from '@angular/forms';
 import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
-import { FilterOperator, FilterValue } from '@page/parts/model/parts.model';
 import {
   AutocompleteStrategy,
   AutocompleteStrategyMap,
 } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { FilterOperator, FilterValue } from '@shared/model/filter.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { FilterService } from '@shared/service/filter.service';
 import { PartsService } from '@shared/service/parts.service';
@@ -278,12 +278,13 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
   }
 
   dateFilter() {
-    this.formControl.patchValue(this.searchElement);
+
     const dates = Array.isArray(this.searchElement)
       ? this.searchElement
       : this.searchElement?.split(',');
+    let filterAttribute: any;
     if (dates.length === 2) {
-      this.filterService.setFilter(this.tableType, {
+      filterAttribute = {
         [this.filterColumn]: {
           value:
             [
@@ -298,17 +299,20 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
             ],
           operator: 'AND',
         },
-      });
+      };
+      this.filterService.setFilter(this.tableType, filterAttribute);
     } else {
-      this.filterService.setFilter(this.tableType, {
+      filterAttribute = {
         [this.filterColumn]: {
           value: [ {
             value: dates[0],
             strategy: FilterOperator.AT_LOCAL_DATE,
           } ], operator: 'AND',
         },
-      });
+      };
+      this.filterService.setFilter(this.tableType, filterAttribute);
     }
+    this.formControl.patchValue([ filterAttribute[this.filterColumn] ]);
   }
 
   onSelectionChange(matSelectChange: MatSelectChange) {
@@ -319,7 +323,7 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
       value: value,
       strategy: FilterOperator.EQUAL,
     }));
-    this.filterService.setFilter(this.tableType, { [this.filterColumn]: { value: filterValues, operator: 'AND' } });
+    this.filterService.setFilter(this.tableType, { [this.filterColumn]: { value: filterValues, operator: 'OR' } });
   }
 
   filterKeyCommands(event: any) {
@@ -397,16 +401,22 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
   }
 
   private handleDateFilterChange(relevant: any): void {
-    this.searchElement = relevant[this.filterColumn]?.[0];
-    if (!this.searchElement) {
+    const filterAttribute = relevant[this.filterColumn];
+
+    if (!filterAttribute?.value) {
       this.startDate = null;
       this.endDate = null;
       return;
     }
 
-    const [ startStr, endStr ] = this.searchElement.split(',');
-    this.startDate = new Date(startStr);
-    this.endDate = new Date(endStr);
+    filterAttribute.value.forEach((filterValue: any) => {
+      if (filterValue.strategy === FilterOperator.AT_LOCAL_DATE || filterValue.strategy === FilterOperator.AFTER_LOCAL_DATE) {
+        this.startDate = new Date(filterValue.value);
+      }
+      if (filterValue.strategy === FilterOperator.BEFORE_LOCAL_DATE) {
+        this.endDate = new Date(filterValue.value);
+      }
+    });
   }
 
   private handleNonDateFilterChange(relevant: any): void {

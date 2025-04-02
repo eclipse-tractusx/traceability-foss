@@ -29,13 +29,14 @@ import { SharedPartService } from '@page/notifications/detail/edit/shared-part.s
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
-import { AssetAsBuiltFilter, FilterOperator, FilterValue, Part } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { NotificationActionHelperService } from '@shared/assembler/notification-action-helper.service';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { toAssetFilter } from '@shared/helper/filter-helper';
+import { AssetAsBuiltFilter, FilterOperator, FilterValue } from '@shared/model/filter.model';
 import { Notification, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -297,7 +298,7 @@ export class NotificationEditComponent implements OnDestroy {
     }));
 
     let filter: AssetAsBuiltFilter = {
-      id: { value: filterValues, operator: 'AND' },
+      id: { value: filterValues, operator: exclude ? 'AND' : 'OR' },
       ...partsFilter,
     };
 

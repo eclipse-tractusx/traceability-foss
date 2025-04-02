@@ -23,8 +23,9 @@ import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { provideDataObject } from '@page/parts/core/parts.helper';
 import { PartsState } from '@page/parts/core/parts.state';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter } from '@shared/model/filter.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable, Subject, Subscription } from 'rxjs';
@@ -35,6 +36,8 @@ export class PartsFacade {
   private partsAsBuiltSubscriptionSecond: Subscription;
   private partsAsPlannedSubscription: Subscription;
   private readonly unsubscribeTrigger = new Subject<void>();
+  private globalAssetAsBuiltFilter: AssetAsBuiltFilter;
+  private globalAssetAsPlannedFilter: AssetAsPlannedFilter;
 
   constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {
   }
@@ -49,10 +52,6 @@ export class PartsFacade {
 
   public get partsAsPlanned$(): Observable<View<Pagination<Part>>> {
     return this.partsState.partsAsPlanned$;
-  }
-
-  public resetGlobalFilter(){
-    this.partsState.globalSearchData = null;
   }
 
   public reloadRegistry() {
@@ -77,28 +76,22 @@ export class PartsFacade {
 
   public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscription?.unsubscribe();
-    this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
+    this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, [ assetAsBuiltFilter, this.globalAssetAsBuiltFilter ].filter(Boolean), isOrSearch).subscribe({
       next: data => {
-        this.partsState.partsAsBuilt = { data: provideDataObject(data, this.partsState.globalSearchData) };
+        this.partsState.partsAsBuilt = { data: provideDataObject(data) };
       },
       error: error => (this.partsState.partsAsBuilt = { error }),
     });
   }
 
   public setGlobalFilterPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
-    this.partsAsBuiltSubscription?.unsubscribe();
-    this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
-      next: data => {
-        this.partsState.globalSearchData = provideDataObject(data);
-        this.partsState.partsAsBuilt = { data: this.partsState.globalSearchData };
-      },
-      error: error => (this.partsState.partsAsBuilt = { error }),
-    });
+    this.globalAssetAsBuiltFilter = assetAsBuiltFilter;
+    this.setPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch);
   }
 
   public setPartsAsBuiltSecond(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscriptionSecond?.unsubscribe();
-    this.partsAsBuiltSubscriptionSecond = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
+    this.partsAsBuiltSubscriptionSecond = this.partsService.getPartsAsBuilt(page, pageSize, sorting, [ assetAsBuiltFilter ].filter(Boolean), isOrSearch).subscribe({
       next: data => (this.partsState.partsAsBuiltSecond = { data: provideDataObject(data) }),
       error: error => (this.partsState.partsAsBuiltSecond = { error }),
     });
@@ -106,7 +99,7 @@ export class PartsFacade {
 
   public setPartsAsBuiltSecondEmpty(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsBuiltFilter?: AssetAsBuiltFilter, isOrSearch?: boolean): void {
     this.partsAsBuiltSubscriptionSecond?.unsubscribe();
-    this.partsAsBuiltSubscriptionSecond = this.partsService.getPartsAsBuilt(page, pageSize, sorting, assetAsBuiltFilter, isOrSearch).subscribe({
+    this.partsAsBuiltSubscriptionSecond = this.partsService.getPartsAsBuilt(page, pageSize, sorting, [ assetAsBuiltFilter ].filter(Boolean), isOrSearch).subscribe({
       next: data => (this.partsState.partsAsBuiltSecond = { data: provideDataObject(null) }),
       error: error => (this.partsState.partsAsBuiltSecond = { error }),
     });
@@ -114,21 +107,15 @@ export class PartsFacade {
 
   public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
     this.partsAsPlannedSubscription?.unsubscribe();
-    this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
-      next: data => (this.partsState.partsAsPlanned = { data: provideDataObject(data, this.partsState.globalSearchData) }),
+    this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, [ assetAsPlannedFilter, this.globalAssetAsPlannedFilter ].filter(Boolean), isOrSearch).subscribe({
+      next: data => (this.partsState.partsAsPlanned = { data: provideDataObject(data) }),
       error: error => (this.partsState.partsAsPlanned = { error }),
     });
   }
 
   public setGlobalFilterPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], assetAsPlannedFilter?: AssetAsPlannedFilter, isOrSearch?: boolean): void {
-    this.partsAsPlannedSubscription?.unsubscribe();
-    this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch).subscribe({
-      next: data => {
-        this.partsState.globalSearchData = provideDataObject(data);
-        this.partsState.partsAsPlanned = { data: this.partsState.globalSearchData };
-      },
-      error: error => (this.partsState.partsAsPlanned = { error }),
-    });
+    this.globalAssetAsPlannedFilter = assetAsPlannedFilter;
+    this.setPartsAsPlanned(page, pageSize, sorting, assetAsPlannedFilter, isOrSearch);
   }
 
   public unsubscribeParts(): void {

@@ -19,15 +19,18 @@
 package org.eclipse.tractusx.traceability.integration.notification.investigation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
 import lombok.val;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
@@ -37,6 +40,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.Notification
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.notification.service.NotificationReceiverService;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
@@ -145,7 +149,28 @@ public class InvestigationPolicyNotSupportedIT extends IntegrationTestSpecificat
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(10)
+                        .sort(Collections.emptyList())
+                        .notificationFilter(
+                                NotificationFilter.builder()
+                                        .channel(
+                                                FilterAttribute.builder()
+                                                        .value(
+                                                                List.of(
+                                                                        FilterValue.builder()
+                                                                                .value(NotificationSide.SENDER.name())
+                                                                                .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                                                .build()
+                                                                )
+                                                        )
+                                                        .operator(SearchCriteriaOperator.AND.name())
+                                                        .build()
+                                        )
+                                        .build()
+                        )
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")

@@ -23,11 +23,11 @@ import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { Owner } from '@page/parts/model/owner.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator } from '@page/parts/model/parts.model';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator } from '@shared/model/filter.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { QuickfilterService } from '@shared/service/quickfilter.service';
 import { SharedModule } from '@shared/shared.module';
@@ -406,8 +406,8 @@ describe('Parts', () => {
     const searchValue = '';
 
     const partsFacade = (componentInstance as any)['partsFacade'];
-    const partsFacadeSpy = spyOn(partsFacade, 'setPartsAsBuilt');
-    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setPartsAsPlanned');
+    const partsFacadeSpy = spyOn(partsFacade, 'setGlobalFilterPartsAsBuilt');
+    const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setGlobalFilterPartsAsPlanned');
     componentInstance.searchControl.setValue(searchValue);
 
 
@@ -468,7 +468,6 @@ describe('Parts', () => {
     const partsFacade = (componentInstance as any)['partsFacade'];
     const partsFacadeSpy = spyOn(partsFacade, 'setGlobalFilterPartsAsBuilt');
     const partsFacadeAsPlannedSpy = spyOn(partsFacade, 'setGlobalFilterPartsAsPlanned');
-    const partsFacadeResetSpy = spyOn(partsFacade, 'resetGlobalFilter');
     componentInstance.searchControl.setValue(searchValue[0]);
 
     componentInstance.triggerPartSearch();
@@ -479,10 +478,11 @@ describe('Parts', () => {
 
     componentInstance.clearInput();
 
-    expect(partsFacadeResetSpy).toHaveBeenCalled();
     expect(componentInstance.searchControl.value).toEqual('');
     expect(componentInstance.chipItems).toEqual([]);
     expect(componentInstance.visibleChips).toEqual([]);
+    expect(partsFacadeAsPlannedSpy).toHaveBeenCalledWith();
+    expect(partsFacadeSpy).toHaveBeenCalledWith();
 
   });
 

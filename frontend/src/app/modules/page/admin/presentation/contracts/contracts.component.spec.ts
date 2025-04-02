@@ -6,6 +6,7 @@ import { assembleContract, ContractType } from '@page/admin/core/admin.model';
 import { AdminService } from '@page/admin/core/admin.service';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
+import { FilterOperator } from '@shared/model/filter.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { PartsService } from '@shared/service/parts.service';
 import { renderComponent } from '@tests/test-render.utils';
@@ -182,7 +183,7 @@ describe('ContractTableComponent', () => {
     componentInstance.viewItemsClicked.emit(data);
     fixture.detectChanges();
 
-    expect(notificationServiceMock.getNotifications).toHaveBeenCalledWith(0, 1, [], undefined, undefined, { contractAgreementId: 'contract-id' });
+    expect(notificationServiceMock.getNotifications).toHaveBeenCalledWith(0, 1, [], { contractAgreementId: 'contract-id' });
     expect(toastServiceMock.error).toHaveBeenCalledWith('pageAdmin.contracts.noItemsFoundError');
   });
 
@@ -192,12 +193,14 @@ describe('ContractTableComponent', () => {
 
     let spy = spyOn(componentInstance['contractsFacade'], 'setContracts');
 
-    componentInstance.filterContractType({ contractType: [ ContractType.ASSET_AS_BUILT ] });
-    expect(componentInstance.contractFilter?.contractType).toEqual(Object({ contractType: [ 'ASSET_AS_BUILT' ] }));
+    componentInstance.filterContractType([ContractType.ASSET_AS_BUILT ]);
+    expect(componentInstance.contractFilter?.contractType).toEqual({
+      value: [ { value: 'ASSET_AS_BUILT', strategy: FilterOperator.EQUAL } ],
+      operator: 'OR',
+    });
     expect(spy).toHaveBeenCalled();
 
   });
-
 
 
 });

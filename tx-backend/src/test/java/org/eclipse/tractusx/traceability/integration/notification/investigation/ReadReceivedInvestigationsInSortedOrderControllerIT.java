@@ -19,13 +19,17 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.investigation;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.hamcrest.Matchers;
@@ -33,7 +37,6 @@ import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -46,10 +49,18 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
     @Autowired
     InvestigationNotificationsSupport investigationNotificationsSupport;
 
+    NotificationFilter notificationFilter = NotificationFilter.builder()
+            .channel(
+                    FilterAttribute.builder()
+                            .value(List.of(FilterValue.builder()
+                                    .value(NotificationSide.RECEIVER.name())
+                                    .strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                            .operator(SearchCriteriaOperator.OR.name()).build()
+            ).build();
+
     @Test
     void givenSortByCreatedDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "createdDate,desc";
         String testBpn = bpnSupport.testBpn();
 
@@ -59,7 +70,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(notificationFilter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -78,7 +89,6 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
     @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "description,desc";
         String testBpn = bpnSupport.testBpn();
 
@@ -88,7 +98,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(notificationFilter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -106,7 +116,6 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
     @Test
     void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "status,asc";
         String testBpn = bpnSupport.testBpn();
 
@@ -116,7 +125,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(notificationFilter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -132,7 +141,6 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
     @Test
     void givenSortBySeverityProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "severity,asc";
         String testBpn = bpnSupport.testBpn();
 
@@ -142,7 +150,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(notificationFilter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -158,13 +166,12 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
     @Test
     void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "createdDate,failure";
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(notificationFilter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -178,7 +185,6 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
     @Test
     void givenSortBySendToProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "sendTo,desc";
         String testBpn = bpnSupport.testBpn();
 
@@ -188,7 +194,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(notificationFilter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -204,7 +210,6 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
     @Test
     void givenSortByTargetDateProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String sortString = "targetDate,asc";
         String testBpn = bpnSupport.testBpn();
 
@@ -214,7 +219,7 @@ class ReadReceivedInvestigationsInSortedOrderControllerIT extends IntegrationTes
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(notificationFilter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")

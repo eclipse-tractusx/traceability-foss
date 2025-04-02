@@ -33,6 +33,7 @@ import {
   ContractResponse,
 } from '@page/admin/core/admin.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { ContractFilter } from '@shared/model/filter.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -68,31 +69,21 @@ export class AdminService {
     return this.apiService.postFile(`${ this.url }/assets/import`, formData);
   }
 
-  public getContracts(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: Object): Observable<Pagination<Contract>> {
+  public getContracts(page: number, pageSize: number, sorting?: TableHeaderSort[], filter?: ContractFilter): Observable<Pagination<Contract>> {
 
     const body = {
-      pageAble: {
-        page: page,
-        size: pageSize,
-        sorting: undefined
-      },
-      searchCriteria: {},
+      page: page,
+      size: pageSize,
+      sorting: sorting,
+      contractFilter: filter,
     };
-
-    if (filter) {
-      body.searchCriteria = { filter: this.createFilterList(filter) };
-    }
-
-    if(sorting) {
-      body.pageAble.sorting = sorting;
-    }
 
     return this.apiService.post<Pagination<ContractResponse>>(`${ this.url }/contracts`, body).pipe(
       map(response => {
         const assembled = response.content.map(contract => assembleContract(contract));
-        return {...response, content: assembled} as Pagination<Contract>;
-      })
-    )
+        return { ...response, content: assembled } as Pagination<Contract>;
+      }),
+    );
   }
 
   getDistinctFilterValues(filterColumns: string, searchElement: string) {
@@ -102,17 +93,5 @@ export class AdminService {
       .set('size', 200);
 
     return this.apiService.getBy<any>(`${ this.url }/contracts/distinctFilterValues`, params);
-  }
-
-  private createFilterList(filter: Object) {
-    let filterList = [];
-    Object.entries(filter).forEach(([ entry, values ]) => {
-      if (values.length) {
-        values.forEach(value => {
-          filterList.push(`${ entry },EQUAL,${ value },OR`);
-        });
-      }
-    });
-    return filterList;
   }
 }

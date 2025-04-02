@@ -19,19 +19,23 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.alert;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
+import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationStatusBaseEntity;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationTypeEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationEntity;
-import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -78,12 +82,11 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
                 .statusCode(401);
     }
 
-
     @Test
     void shouldReturnNoAlerts() throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of())))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(NotificationFilter.builder().build()).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -97,14 +100,20 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenAlerts_whenGetSenderAlertsSortedAsc_thenReturnProperlySorted() throws JoseException {
         // given
-        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "createdDate,ASC";
         alertNotificationsSupport.defaultAlertsStored();
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -120,14 +129,20 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSortByDescriptionProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "description,ASC";
         alertNotificationsSupport.defaultAlertsStored();
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -143,14 +158,20 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void givenSortByStatusProvided_whenGetInvestigations_thenReturnInvestigationsProperlySorted() throws JoseException {
         // given
-        String filterString = "channel,EQUAL,SENDER,AND";
         String sortString = "status,ASC";
         alertNotificationsSupport.defaultAlertsStored();
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -171,7 +192,11 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(10)
+                        .sort(List.of(sortString))
+                        .notificationFilter(NotificationFilter.builder().build()).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -191,7 +216,13 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         String senderName = "Sender name";
         String receiverBPN = "BPN0002";
         String receiverName = "Receiver name";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         IntStream.range(101, 201)
                 .forEach(number ->
@@ -229,7 +260,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(2, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(2).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -291,7 +322,7 @@ class ReadAlertsControllerIT extends IntegrationTestSpecification {
         //THEN
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of())))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(NotificationFilter.builder().build()).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")

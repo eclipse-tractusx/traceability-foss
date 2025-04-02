@@ -1,19 +1,22 @@
 package org.eclipse.tractusx.traceability.integration.notification;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import notification.request.EditNotificationRequest;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
 import notification.response.NotificationResponse;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationApiSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.NotificationMessageSupport;
@@ -30,6 +33,7 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
+import static org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity.SENDER;
 
 @RequiredArgsConstructor
 class EditNotificationIT extends IntegrationTestSpecification {
@@ -90,9 +94,16 @@ class EditNotificationIT extends IntegrationTestSpecification {
         // then
         notificationMessageSupport.assertMessageSize(0);
 
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         given()
                 .header(authHeader)
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND"))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -185,13 +196,20 @@ class EditNotificationIT extends IntegrationTestSpecification {
         // then
         notificationMessageSupport.assertMessageSize(0);
 
-        PageableFilterRequest pageableFilterRequest =
-                new PageableFilterRequest(
-                        new OwnPageable(0, 10, Collections.emptyList()),
-                        new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND")));
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .page(0).size(10).sort(Collections.emptyList())
+                .notificationFilter(filter)
+                .build();
 
         PageResult<NotificationResponse> notificationResponsePageResult
-                = notificationAPISupport.getNotificationsRequest(authHeader, pageableFilterRequest);
+                = notificationAPISupport.getNotificationsRequest(authHeader, notificationRequest);
 
 
         NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
@@ -244,12 +262,20 @@ class EditNotificationIT extends IntegrationTestSpecification {
         notificationAPISupport.editNotificationRequest(authHeader, editNotificationRequest, id, 400);
 
         // then
-        PageableFilterRequest pageableFilterRequest =
-                new PageableFilterRequest(
-                        new OwnPageable(0, 10, Collections.emptyList()),
-                        new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND")));
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .page(0).size(10).sort(Collections.emptyList())
+                .notificationFilter(filter)
+                .build();
+
         PageResult<NotificationResponse> notificationResponsePageResult
-                = notificationAPISupport.getNotificationsRequest(authHeader, pageableFilterRequest);
+                = notificationAPISupport.getNotificationsRequest(authHeader, notificationRequest);
 
         NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
         assertThat(notificationResponse.getSendTo()).isEqualTo("BPNL00000003CNKC");
@@ -297,18 +323,24 @@ class EditNotificationIT extends IntegrationTestSpecification {
         // then
         notificationMessageSupport.assertMessageSize(0);
 
-        PageableFilterRequest pageableFilterRequest =
-                new PageableFilterRequest(
-                        new OwnPageable(0, 10, Collections.emptyList()),
-                        new SearchCriteriaRequestParam(List.of("channel,EQUAL,SENDER,AND")));
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
+        NotificationRequest notificationRequest = NotificationRequest.builder()
+                .page(0).size(10).sort(Collections.emptyList())
+                .notificationFilter(filter)
+                .build();
 
         PageResult<NotificationResponse> notificationResponsePageResult
-                = notificationAPISupport.getNotificationsRequest(authHeader, pageableFilterRequest);
+                = notificationAPISupport.getNotificationsRequest(authHeader, notificationRequest);
 
         NotificationResponse notificationResponse = notificationResponsePageResult.content().get(0);
         assertThat(notificationResponse.getId()).isEqualTo(id);
         assertThat(notificationResponse.getSendTo()).isEqualTo(editNotificationRequest.getReceiverBpn());
         assertThat(notificationResponse.getCreatedBy()).isEqualTo("BPNL00000003AXS3");
-
     }
 }

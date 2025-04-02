@@ -17,22 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import {Injectable} from '@angular/core';
-import {NotificationsState} from '@page/notifications/core/notifications.state';
-import {provideDataObject} from '@page/parts/core/parts.helper';
-import {NotificationChannel} from '@shared/components/multi-select-autocomplete/table-type.model';
-import {TableHeaderSort} from '@shared/components/table/table.model';
-import {
-  Notification,
-  NotificationDeeplinkFilter,
-  Notifications,
-  NotificationStatus,
-} from '@shared/model/notification.model';
-import {Severity} from '@shared/model/severity.model';
-import {View} from '@shared/model/view.model';
-import {NotificationService} from '@shared/service/notification.service';
-import {Observable, Subscription} from 'rxjs';
-import {DateTimeString} from "@shared/components/dateTime/dateTime.component";
+import { Injectable } from '@angular/core';
+import { NotificationsState } from '@page/notifications/core/notifications.state';
+import { provideDataObject } from '@page/parts/core/parts.helper';
+import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { NotificationFilter } from '@shared/model/filter.model';
+import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
+import { View } from '@shared/model/view.model';
+import { NotificationService } from '@shared/service/notification.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable()
 export class NotificationsFacade {
@@ -57,20 +52,20 @@ export class NotificationsFacade {
     return this.notificationService.getNotificationById(id);
   }
 
-  public setReceivedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationDeeplinkFilter, fullFilter?: any): void {
+  public setReceivedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], notificationFilter?: NotificationFilter): void {
     this.notificationReceivedSubscription?.unsubscribe();
     this.notificationReceivedSubscription = this.notificationService
-      .getNotifications(page, pageSize, sorting, NotificationChannel.RECEIVER, filter, fullFilter)
+      .getNotifications(page, pageSize, sorting, notificationFilter)
       .subscribe({
         next: data => (this.notificationsState.notificationsReceived = { data: provideDataObject(data) }),
         error: (error: Error) => (this.notificationsState.notificationsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], filter?: NotificationDeeplinkFilter, fullFilter?: any): void {
+  public setQueuedAndRequestedNotifications(page = 0, pageSize = 50, sorting: TableHeaderSort[] = [], notificationFilter?: NotificationFilter): void {
     this.notificationQueuedAndRequestedSubscription?.unsubscribe();
     this.notificationQueuedAndRequestedSubscription = this.notificationService
-      .getNotifications(page, pageSize, sorting, NotificationChannel.SENDER, filter, fullFilter)
+      .getNotifications(page, pageSize, sorting, notificationFilter)
       .subscribe({
         next: data => (this.notificationsState.notificationsQueuedAndRequested = { data: provideDataObject(data) }),
         error: (error: Error) => (this.notificationsState.notificationsQueuedAndRequested = { error }),
@@ -112,7 +107,7 @@ export class NotificationsFacade {
   }
 
   public createNotification(partIds: string[], type: string, title: string, bpn: string, severity: Severity, targetDate: DateTimeString, description: string): Observable<string> {
-    return this.notificationService.createNotification(partIds, description, severity, bpn, type, title, targetDate)
+    return this.notificationService.createNotification(partIds, description, severity, bpn, type, title, targetDate);
   }
 
 }

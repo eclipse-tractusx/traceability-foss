@@ -33,6 +33,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCal
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
@@ -78,7 +79,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
 
     @Override
     public void deleteAssetById(String assetId) {
-            jpaAssetAsPlannedRepository.deleteById(assetId);
+        jpaAssetAsPlannedRepository.deleteById(assetId);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         List<AssetAsPlannedSpecification> assetAsPlannedSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsPlannedSpecification::new).toList();
-        Specification<AssetAsPlannedEntity> specification = AssetAsPlannedSpecification.toSpecification(assetAsPlannedSpecifications);
+        Specification<AssetAsPlannedEntity> specification = BaseSpecification.toSpecification(assetAsPlannedSpecifications);
         return new PageResult<>(jpaAssetAsPlannedRepository.findAll(specification, pageable), AssetAsPlannedEntity::toDomain);
     }
 

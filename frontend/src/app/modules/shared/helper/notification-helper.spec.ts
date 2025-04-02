@@ -18,53 +18,42 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { createDeeplinkNotificationFilter } from '@shared/helper/notification-helper';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { createNotificationFilterFromDeeplink, getTranslationContext } from '@shared/helper/notification-helper';
+import { FilterOperator } from '@shared/model/filter.model';
+import { NotificationStatus, NotificationType } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 
-
-describe('NotificationHelper', () => {
-  it('should create received deeplink notification filter', () => {
-
-
-    const params = {
-      deeplink: 'true',
-      received: 'true',
-      notificationIds: [ '1' ],
-    };
-
-    // @ts-ignore
-    const result = createDeeplinkNotificationFilter(params);
-
-    expect(result.receivedFilter).toEqual({ notificationIds: [ '1' ] });
-    expect(result.sentFilter).toBeNull();
-  });
-  it('should create sent deeplink notification filter', () => {
-
-
-    const params = {
-      deeplink: 'true',
-      received: 'false',
-      notificationIds: [ '2' ],
-    };
-
-    // @ts-ignore
-    const result = createDeeplinkNotificationFilter(params);
-
-    expect(result.sentFilter).toEqual({ notificationIds: [ '2' ] });
-    expect(result.receivedFilter).toBeNull();
+describe('createNotificationFilterFromDeeplink', () => {
+  it('should return a valid NotificationFilter when params are correct', () => {
+    const params = { deeplink: true, notificationIds: ['id1', 'id2'] };
+    const result = createNotificationFilterFromDeeplink(params);
+    expect(result).toEqual({
+      id: {
+        value: [
+          { value: 'id1', strategy: FilterOperator.EQUAL },
+          { value: 'id2', strategy: FilterOperator.EQUAL }
+        ],
+        operator: 'OR'
+      }
+    });
   });
 
-  it('should not create deeplink notification filter', () => {
-
-    const params = {
-      deeplink: 'false',
-    };
-
-    // @ts-ignore
-    const result = createDeeplinkNotificationFilter(params);
-
-    expect(result.sentFilter).toBeNull();
-    expect(result.receivedFilter).toBeNull();
+  it('should return undefined if params are incorrect', () => {
+    const params = { deeplink: false, notificationIds: [] };
+    expect(createNotificationFilterFromDeeplink(params)).toBeUndefined();
   });
-
-
 });
+
+describe('getTranslationContext', () => {
+  it('should return commonAlert for alert notifications', () => {
+    const notification = { id: '1', type: NotificationType.ALERT, title: 'Test1', status: NotificationStatus.ACCEPTED, createdDate: new CalendarDateModel("27.01.2026"), description: '', createdBy: '', assetIds: [], sendTo: '', severity: Severity.LIFE_THREATENING, messages: [] };
+    expect(getTranslationContext(notification)).toBe('commonAlert');
+  });
+
+  it('should return commonInvestigation for other notifications', () => {
+    const notification = { id: '2', type: NotificationType.INVESTIGATION, title: 'Test2', status: NotificationStatus.SENT, createdDate: new CalendarDateModel("27.01.2026"), description: '', createdBy: '', assetIds: [], sendTo: '', severity: Severity.CRITICAL, messages: [] };
+    expect(getTranslationContext(notification)).toBe('commonInvestigation');
+  });
+});
+

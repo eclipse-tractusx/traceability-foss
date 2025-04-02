@@ -19,13 +19,18 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.alert;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
+import notification.request.UpdateNotificationStatusRequest;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -33,7 +38,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import notification.request.UpdateNotificationStatusRequest;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -55,7 +59,17 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToAcknowledgedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
-        String filterString = "channel,EQUAL,RECEIVER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value(NotificationSide.RECEIVER.name())
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // when
         given()
@@ -74,7 +88,12 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(15)
+                        .sort(List.of())
+                        .notificationFilter(filter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -89,7 +108,17 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToAcceptedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
-        String filterString = "channel,EQUAL,RECEIVER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value(NotificationSide.RECEIVER.name())
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // when
         given()
@@ -109,7 +138,12 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(15)
+                        .sort(List.of())
+                        .notificationFilter(filter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -124,7 +158,17 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateToDeclinedNonExistingAlert() throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
-        String filterString = "channel,EQUAL,RECEIVER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value(NotificationSide.RECEIVER.name())
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // when
         given()
@@ -144,7 +188,12 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(15)
+                        .sort(List.of())
+                        .notificationFilter(filter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -160,7 +209,17 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
     void shouldNotUpdateWithInvalidRequest(final String request) throws JoseException {
         // given
         final long notExistingAlertId = 1234L;
-        String filterString = "channel,EQUAL,SENDER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value(NotificationSide.SENDER.name())
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // when
         given()
@@ -175,7 +234,12 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 15, List.of()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder()
+                        .page(0)
+                        .size(15)
+                        .sort(List.of())
+                        .notificationFilter(filter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -220,5 +284,4 @@ class ReceiverAlertsControllerIT extends IntegrationTestSpecification {
                         """.replace("$status", UpdateNotificationStatusRequest.DECLINED.name()))
         );
     }
-
 }

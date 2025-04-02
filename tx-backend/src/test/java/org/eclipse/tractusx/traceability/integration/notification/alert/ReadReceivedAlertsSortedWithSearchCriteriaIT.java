@@ -1,12 +1,16 @@
 package org.eclipse.tractusx.traceability.integration.notification.alert;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.testdata.AlertTestDataFactory;
 import org.hamcrest.Matchers;
@@ -48,27 +52,122 @@ class ReadReceivedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecif
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,RECEIVED,AND",
-                        "status,EQUAL,ACCEPTED,AND",
-                        "severity,EQUAL,CRITICAL,AND",
+                        NotificationFilter.builder()
+                                .channel(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value(NotificationSide.RECEIVER.name())
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .status(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value("RECEIVED")
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build(),
+                                                FilterValue.builder()
+                                                        .value("ACCEPTED")
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .severity(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value("CRITICAL")
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .build(),
                         new String[]{"RECEIVED", "RECEIVED"}
                 ),
                 Arguments.of(
                         0,
                         50,
                         "createdDate,desc",
-                        "status,EQUAL,ACCEPTED,AND",
-                        "severity,EQUAL,LIFE_THREATENING,AND",
-                        "severity,EQUAL,MAJOR,AND",
+                        NotificationFilter.builder()
+                                .channel(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value(NotificationSide.RECEIVER.name())
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .status(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value("ACCEPTED")
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .severity(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value("LIFE_THREATENING")
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build(),
+                                                FilterValue.builder()
+                                                        .value("MAJOR")
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .build(),
                         new String[]{"ACCEPTED", "ACCEPTED"}
                 ),
                 Arguments.of(
                         0,
                         5,
                         "createdDate,desc",
-                        "createdBy,STARTS_WITH,BPNL00000000000A,AND",
-                        "status,EQUAL,ACKNOWLEDGED,AND",
-                        "severity,EQUAL,MAJOR,AND",
+                        NotificationFilter.builder()
+                                .channel(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value(NotificationSide.RECEIVER.name())
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .createdBy(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value("BPNL00000000000A")
+                                                        .strategy(SearchCriteriaStrategy.STARTS_WITH.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .status(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value("ACKNOWLEDGED")
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .severity(FilterAttribute.builder()
+                                        .value(List.of(
+                                                FilterValue.builder()
+                                                        .value("MAJOR")
+                                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                                        .build()
+                                        ))
+                                        .operator(SearchCriteriaOperator.OR.name())
+                                        .build())
+                                .build(),
                         new String[]{"ACKNOWLEDGED", "ACKNOWLEDGED"}
                 )
         );
@@ -80,17 +179,18 @@ class ReadReceivedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecif
             final int page,
             final int size,
             final String sort,
-            final String filter1,
-            final String filter2,
-            final String filter3,
+            final NotificationFilter filter,
             final String[] expectedOrderOfIdShortItems
     ) throws JoseException {
-
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(page, size, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3))))
+                .body(NotificationRequest.builder()
+
+                        .page(page)
+                        .size(size)
+                        .sort(List.of(sort))
+                        .notificationFilter(filter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -104,15 +204,49 @@ class ReadReceivedAlertsSortedWithSearchCriteriaIT extends IntegrationTestSpecif
     @Test
     void testDashboardLatestFiveActiveAlertEntries() throws JoseException {
         String sort = "createdDate,desc";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter1 = "status,EQUAL,RECEIVED,OR";
-        String filter2 = "status,EQUAL,ACKNOWLEDGED,OR";
-        String filter3 = "status,EQUAL,ACCEPTED,OR";
-        String filter4 = "status,EQUAL,DECLINED,OR";
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value(NotificationSide.RECEIVER.name())
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .status(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder()
+                                        .value("RECEIVED")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build(),
+                                FilterValue.builder()
+                                        .value("ACKNOWLEDGED")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build(),
+                                FilterValue.builder()
+                                        .value("ACCEPTED")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build(),
+                                FilterValue.builder()
+                                        .value("DECLINED")
+                                        .strategy(SearchCriteriaStrategy.EQUAL.name())
+                                        .build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 5, List.of(sort)), new SearchCriteriaRequestParam(List.of(filterString, filter1, filter2, filter3, filter4))))
+                .body(NotificationRequest.builder()
+
+                        .page(0)
+                        .size(5)
+                        .sort(List.of(sort))
+                        .notificationFilter(filter)
+                        .build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")

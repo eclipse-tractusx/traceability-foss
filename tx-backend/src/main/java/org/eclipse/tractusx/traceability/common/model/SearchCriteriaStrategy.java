@@ -27,9 +27,10 @@ public enum SearchCriteriaStrategy {
     BEFORE_LOCAL_DATE("BEFORE_LOCAL_DATE"),
     NOTIFICATION_COUNT_EQUAL("NOTIFICATION_COUNT_EQUAL"),
     EXCLUDE("EXCLUDE"),
-    IS_NOT_NULL("IS_NOT_NULL"),;
+    IS_NOT_NULL("IS_NOT_NULL"),
+    GLOBAL("GLOBAL");
 
-    private String value;
+    private final String value;
 
     SearchCriteriaStrategy(String value) {
         this.value = value;

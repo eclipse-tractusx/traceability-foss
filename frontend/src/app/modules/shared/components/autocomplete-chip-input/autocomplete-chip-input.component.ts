@@ -20,10 +20,10 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FilterAttribute } from '@page/parts/model/parts.model';
 import { BaseFilterInputComponent } from '@shared/abstraction/baseInputFilter/baseInputFilter.component';
 
 import { PartsStrategy } from '@shared/components/multi-select-autocomplete/autocomplete-strategy';
+import { FilterAttribute } from '@shared/model/filter.model';
 import { FilterService } from '@shared/service/filter.service';
 import { of } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -31,10 +31,10 @@ import { debounceTime, delay, distinctUntilChanged, switchMap } from 'rxjs/opera
 @Component({
   selector: 'app-autocomplete-chip-input',
   templateUrl: './autocomplete-chip-input.component.html',
-  styleUrls: ['./autocomplete-chip-input.component.scss'],
+  styleUrls: [ './autocomplete-chip-input.component.scss' ],
 })
 export class AutocompleteChipInputComponent extends BaseFilterInputComponent {
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [ ENTER, COMMA ];
   itemCtrl = new FormControl('');
   filteredItemsList: string[] = [];
   items: string[] = [];
@@ -43,7 +43,7 @@ export class AutocompleteChipInputComponent extends BaseFilterInputComponent {
 
   constructor(
     filterService: FilterService,
-    private readonly partsStrategy: PartsStrategy
+    private readonly partsStrategy: PartsStrategy,
   ) {
     super(filterService);
     this.itemCtrl.valueChanges
@@ -58,9 +58,9 @@ export class AutocompleteChipInputComponent extends BaseFilterInputComponent {
           return this.partsStrategy.retrieveSuggestionValues(
             this.tableType,
             this.filterName,
-            term
+            term,
           );
-        })
+        }),
       )
       .subscribe((items) => {
         // @ts-ignore
@@ -72,11 +72,11 @@ export class AutocompleteChipInputComponent extends BaseFilterInputComponent {
     const term = this.itemCtrl.value?.trim() || '';
 
     this.partsStrategy
-        .retrieveSuggestionValues(this.tableType, this.filterName, term)
-        .pipe(delay(300))
-        .subscribe((items: any[]) => {
-          this.filteredItemsList = items ?? [];
-        });
+      .retrieveSuggestionValues(this.tableType, this.filterName, term)
+      .pipe(delay(300))
+      .subscribe((items: any[]) => {
+        this.filteredItemsList = items ?? [];
+      });
   }
 
   onFilterValueChanged(filterAttribute: FilterAttribute): void {
@@ -92,7 +92,7 @@ export class AutocompleteChipInputComponent extends BaseFilterInputComponent {
     const index = this.items.indexOf(item);
     if (index >= 0) {
       this.items.splice(index, 1);
-      this.announcer.announce(`Removed ${item}`);
+      this.announcer.announce(`Removed ${ item }`);
       if (this.items.length === 0) {
         this.clearAllItems();
       } else {

@@ -29,7 +29,8 @@ import {
   TableEventConfig,
   TableHeaderSort,
 } from '@shared/components/table/table.model';
-import { Notification, NotificationFilter, Notifications, NotificationType } from '@shared/model/notification.model';
+import { FilterAttribute, FilterOperator, FilterValue, NotificationFilter } from '@shared/model/filter.model';
+import { Notification, Notifications, NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 import { Observable } from 'rxjs';
@@ -109,13 +110,42 @@ export class NotificationTabComponent implements AfterViewInit {
     if(noFilterApplied) {
       return;
     }
-
-    this.notificationFilter = notificationFilter;
-    const channel = notificationFilter['createdBy'] ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
+      let filter = this.createNotificationFilter(notificationFilter);
       this.notificationsFilterChanged.emit({
-        channel: channel,
-        filter: notificationFilter,
+        filter
       });
+  }
+
+  public createNotificationFilter(filterObject: any): NotificationFilter {
+    const toFilterAttribute = (values: any): FilterAttribute | undefined => {
+      if (!values) return undefined;
+      if (Array.isArray(values) && values.length === 0) return undefined;
+      if (Array.isArray(values) && values.every(v => typeof v === 'object' && 'value' in v && 'operator' in v)) {
+        return values[0];
+      }
+      return {
+        value: values.map((val: string): FilterValue => ({ value: val, strategy: FilterOperator.EQUAL })),
+        operator: 'OR',
+      };
+    };
+
+    const notificationFilter: NotificationFilter = {};
+
+    Object.keys(filterObject).forEach(key => {
+      const attribute = toFilterAttribute(filterObject[key]);
+      if (attribute) {
+        (notificationFilter as any)[key] = attribute;
+      }
+    });
+
+    const channel = filterObject.hasOwnProperty('createdBy') ? NotificationChannel.RECEIVER : NotificationChannel.SENDER;
+
+    notificationFilter['channel'] = {
+      value: [{ value: channel, strategy: FilterOperator.EQUAL }],
+      operator: 'OR'
+    };
+
+    return notificationFilter;
   }
 
   public selectNotification(notification: Record<string, unknown>): void {

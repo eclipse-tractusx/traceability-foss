@@ -24,8 +24,9 @@ import { AuthService } from '@core/auth/auth.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator, Part } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator } from '@shared/model/filter.model';
 import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
 import { MOCK_part_1 } from '../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
@@ -111,7 +112,7 @@ describe('PartsService', () => {
       },
     } as AssetAsBuiltFilter;
 
-    service.getPartsAsBuilt(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
+    service.getPartsAsBuilt(page, pageSize, multiSort, [filter]).subscribe((parts: Pagination<Part>) => {
       expect(parts).toBeTruthy();
     });
 
@@ -169,7 +170,7 @@ describe('PartsService', () => {
       },
     } as AssetAsPlannedFilter;
 
-    service.getPartsAsPlanned(page, pageSize, multiSort, filter).subscribe((parts: Pagination<Part>) => {
+    service.getPartsAsPlanned(page, pageSize, multiSort, [filter]).subscribe((parts: Pagination<Part>) => {
       expect(parts).toBeTruthy();
     });
 

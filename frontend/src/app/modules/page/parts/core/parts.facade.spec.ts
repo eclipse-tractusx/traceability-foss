@@ -23,8 +23,9 @@ import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsState } from '@page/parts/core/parts.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator, Part } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator } from '@shared/model/filter.model';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
 import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
@@ -61,7 +62,7 @@ describe('Parts facade', () => {
       partsFacade.setPartsAsBuilt(0, 10);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], undefined, undefined));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], [], undefined));
 
       const parts = await firstValueFrom(partsState.partsAsBuilt$);
       await waitFor(() =>
@@ -80,7 +81,7 @@ describe('Parts facade', () => {
       partsFacade.setPartsAsBuiltSecond(0, 10);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], undefined, undefined));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], [], undefined));
 
       const parts = await firstValueFrom(partsState.partsAsBuiltSecond$);
       await waitFor(() =>
@@ -105,7 +106,7 @@ describe('Parts facade', () => {
       partsFacade.setPartsAsBuilt(0, 10, [], filter);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], filter, undefined));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], [filter], undefined));
 
       const parts = await firstValueFrom(partsState.partsAsBuilt$);
       await waitFor(() =>
@@ -130,7 +131,7 @@ describe('Parts facade', () => {
       partsFacade.setPartsAsPlanned(0, 10, [], filter);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], filter, undefined));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, [], [filter], undefined));
 
       const parts = await firstValueFrom(partsState.partsAsPlanned$);
       await waitFor(() =>

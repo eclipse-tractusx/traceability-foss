@@ -41,15 +41,16 @@ import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator, Part } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
 import { CsvUploadComponent } from '@shared/components/csv-upload/csv-upload.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { containsAtLeastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { setMultiSorting } from '@shared/helper/table-helper';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator } from '@shared/model/filter.model';
 import { NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -260,8 +261,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
     } else {
-      this.partsFacade.setPartsAsBuilt();
-      this.partsFacade.setPartsAsPlanned();
+      this.partsFacade.setGlobalFilterPartsAsBuilt();
+      this.partsFacade.setGlobalFilterPartsAsPlanned();
     }
     this.searchFormGroup.patchValue({ partSearch: '' });
   }
@@ -274,7 +275,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.searchControl.setValue('');
     this.chipItems.length = 0;
     this.searchTerms.length = 0;
-    this.partsFacade.resetGlobalFilter()
     this.triggerPartSearch();
     this.updateVisibleChips();
   }
@@ -284,9 +284,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (originalTerm) {
       this.searchTerms = this.searchTerms.filter(i => i !== originalTerm);
       this.chipItems = this.chipItems.filter(i => i !== item);
-      if(this.chipItems.length === 0){
-        this.partsFacade.resetGlobalFilter();
-      }
       this.triggerPartSearch();
       this.updateVisibleChips();
     }
@@ -356,7 +353,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (pageSize !== 0) {
       pageSizeValue = pageSize;
     }
-    if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
+    if (this.assetAsBuiltFilter && containsAtLeastOneFilterEntry(this.assetAsBuiltFilter)) {
       this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
     } else {
       this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
@@ -372,7 +369,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (pageSize !== 0) {
       pageSizeValue = pageSize;
     }
-    if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
+    if (this.assetsAsPlannedFilter && containsAtLeastOneFilterEntry(this.assetsAsPlannedFilter)) {
       this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
     } else {
       this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);

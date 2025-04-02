@@ -1,8 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSelectChange } from '@angular/material/select';
-import { FilterOperator, SemanticDataModel } from '@page/parts/model/parts.model';
+import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { MultiSelectAutocompleteComponent } from '@shared/components/multi-select-autocomplete/multi-select-autocomplete.component';
+import { FilterOperator } from '@shared/model/filter.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';
@@ -67,7 +68,7 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.searchElement = 'TestValue';
     const result = componentInstance.displayValue();
 
-    expect(result).toEqual(['TestValue', '']);
+    expect(result).toEqual([ 'TestValue', '' ]);
   });
 
   it('should return correct display string when textSearch is false and multiple is true', async () => {
@@ -86,7 +87,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const result = componentInstance.displayValue();
 
-    expect(result).toEqual(['value1',' + 2 undefined']);
+    expect(result).toEqual([ 'value1', ' + 2 undefined' ]);
   });
 
   it('should return correct display string when textSearch is false and multiple is false', async () => {
@@ -105,7 +106,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
     const result = componentInstance.displayValue();
 
-    expect(result).toEqual(['value1','']);
+    expect(result).toEqual([ 'value1', '' ]);
   });
 
 
@@ -221,10 +222,16 @@ describe('MultiSelectAutocompleteComponent', () => {
     const { componentInstance } = fixture;
 
     // @ts-ignore
-    componentInstance.searchElement = ['2023-12-10'];
+    componentInstance.searchElement = [ '2023-12-10' ];
+    componentInstance.filterColumn = 'createdDate';
     componentInstance.dateFilter();
 
-    expect(componentInstance.formControl.value).toEqual( ['2023-12-10' ]);
+    expect(componentInstance.formControl.value).toEqual([{
+      value: [ Object({
+        value: '2023-12-10',
+        strategy: 'AT_LOCAL_DATE',
+      }) ], operator: 'AND',
+    }]);
   });
 
   it('should subscribe to searchElementChange and call filterItem when delayTimeoutId is present', async () => {
@@ -264,7 +271,7 @@ describe('MultiSelectAutocompleteComponent', () => {
   it('should set prefilter value', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent(false, 'hello');
     const { componentInstance } = fixture;
-    fixture.detectChanges()
+    fixture.detectChanges();
     expect(componentInstance.searchElement).toEqual('hello');
     expect(componentInstance.selectedValue).toEqual([ 'hello' ]);
 
@@ -351,27 +358,141 @@ describe('MultiSelectAutocompleteComponent', () => {
   });
 
   it('should handle selection change and update filter', async () => {
-    const filterServiceSpy = jasmine.createSpyObj('FilterService', ['setFilter']);
+    const filterServiceSpy = jasmine.createSpyObj('FilterService', [ 'setFilter' ]);
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
 
     componentInstance.filterService = filterServiceSpy;
 
     const matSelectChange: MatSelectChange = {
-      value: ['Option1', 'Option2'],
+      value: [ 'Option1', 'Option2' ],
       source: {} as any,
     };
 
     spyOn(componentInstance.formControl, 'patchValue');
     componentInstance.onSelectionChange(matSelectChange);
-    expect(componentInstance.formControl.patchValue).toHaveBeenCalledWith(['Option1', 'Option2']);
+    expect(componentInstance.formControl.patchValue).toHaveBeenCalledWith([ 'Option1', 'Option2' ]);
 
     const expectedFilterValues = [
       { value: 'Option1', strategy: FilterOperator.EQUAL },
-      { value: 'Option2', strategy: FilterOperator.EQUAL }
+      { value: 'Option2', strategy: FilterOperator.EQUAL },
     ];
     expect(filterServiceSpy.setFilter).toHaveBeenCalledWith(componentInstance.tableType, {
-      [componentInstance.filterColumn]: { value: expectedFilterValues, operator: 'AND' }
+      [componentInstance.filterColumn]: { value: expectedFilterValues, operator: 'OR' },
+    });
+  });
+
+  describe('handleDateFilterChange', () => {
+    it('should clear dates when no filter attribute is present', async () => {
+      const { fixture } = await renderMultiSelectAutoCompleteComponent();
+      const { componentInstance } = fixture;
+
+      // Access private method via type assertion
+      (componentInstance as any).handleDateFilterChange({});
+
+      expect(componentInstance.startDate).toBeNull();
+      expect(componentInstance.endDate).toBeNull();
+    });
+
+    it('should clear dates when filter attribute has no value', async () => {
+      const { fixture } = await renderMultiSelectAutoCompleteComponent();
+      const { componentInstance } = fixture;
+      componentInstance.filterColumn = 'testColumn';
+
+      // Access private method via type assertion
+      (componentInstance as any).handleDateFilterChange({
+        testColumn: {}
+      });
+
+      expect(componentInstance.startDate).toBeNull();
+      expect(componentInstance.endDate).toBeNull();
+    });
+
+    it('should set startDate for AT_LOCAL_DATE strategy', async () => {
+      const { fixture } = await renderMultiSelectAutoCompleteComponent();
+      const { componentInstance } = fixture;
+      componentInstance.filterColumn = 'testColumn';
+      const testDate = '2023-01-01';
+
+      // Access private method via type assertion
+      (componentInstance as any).handleDateFilterChange({
+        testColumn: {
+          value: [{
+            strategy: FilterOperator.AT_LOCAL_DATE,
+            value: testDate
+          }]
+        }
+      });
+
+      expect(componentInstance.startDate).toEqual(new Date(testDate));
+      expect(componentInstance.endDate).toBe(undefined);
+    });
+
+    it('should set startDate for AFTER_LOCAL_DATE strategy', async () => {
+      const { fixture } = await renderMultiSelectAutoCompleteComponent();
+      const { componentInstance } = fixture;
+      componentInstance.filterColumn = 'testColumn';
+      const testDate = '2023-01-01';
+
+      // Access private method via type assertion
+      (componentInstance as any).handleDateFilterChange({
+        testColumn: {
+          value: [{
+            strategy: FilterOperator.AFTER_LOCAL_DATE,
+            value: testDate
+          }]
+        }
+      });
+
+      expect(componentInstance.startDate).toEqual(new Date(testDate));
+      expect(componentInstance.endDate).toBe(undefined);
+    });
+
+    it('should set endDate for BEFORE_LOCAL_DATE strategy', async () => {
+      const { fixture } = await renderMultiSelectAutoCompleteComponent();
+      const { componentInstance } = fixture;
+      componentInstance.filterColumn = 'testColumn';
+      const testDate = '2023-01-01';
+
+      // Access private method via type assertion
+      (componentInstance as any).handleDateFilterChange({
+        testColumn: {
+          value: [{
+            strategy: FilterOperator.BEFORE_LOCAL_DATE,
+            value: testDate
+          }]
+        }
+      });
+
+      expect(componentInstance.startDate).toBe(undefined);
+      expect(componentInstance.endDate).toEqual(new Date(testDate));
+    });
+
+    it('should handle multiple date filters correctly', async () => {
+      const { fixture } = await renderMultiSelectAutoCompleteComponent();
+      const { componentInstance } = fixture;
+      componentInstance.filterColumn = 'testColumn';
+      const startDate = '2023-01-01';
+      const endDate = '2023-12-31';
+
+      // Access private method via type assertion
+      (componentInstance as any).handleDateFilterChange({
+        testColumn: {
+          value: [
+            {
+              strategy: FilterOperator.AT_LOCAL_DATE,
+              value: startDate
+            },
+            {
+              strategy: FilterOperator.BEFORE_LOCAL_DATE,
+              value: endDate
+            }
+          ]
+        }
+      });
+
+      expect(componentInstance.startDate).toEqual(new Date(startDate));
+      expect(componentInstance.endDate).toEqual(new Date(endDate));
     });
   });
 
