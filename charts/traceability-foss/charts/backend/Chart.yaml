@@ -20,7 +20,7 @@ apiVersion: v2
 name: backend
 description: A Helm chart for Traceability backend application.
 type: application
-version: 1.3.44-cfx-1
+version: 1.3.44-cfx-release-51edc9d
 appVersion: "13.0.2"
 dependencies:
   - name: postgresql
