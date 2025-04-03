@@ -17,8 +17,9 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
 2) If yes, continue with the next steps. If no, skip to the [Trace-X Release process](#trace-x-release-process)
 3) Click on the [Update irs-registry-client Version workflow](https://github.com/Cofinity-X/item-relationship-service/actions/workflows/update-registry-library.yaml).
 4) Select "Run workflow" select the type of version increment major, minor or patch (Can be adjusted on generated PR branch). Check the box to remove the snapshot. Click on "Run".
-5) A pull request (name: Update irs-registry-client to "Version") will be generated in which you have to make sure the irs lib version is now correct (change it manually if necessary).
-6) Merge the generated Pull request
+6) A pull request (name: Update irs-registry-client to "Version") will be generated in which you have to make sure the irs lib version is now correct (change it manually if necessary).
+   1) If the pipeline fails, create a PR manually with the irs-registry-client set to the correct version.
+7) Merge the generated Pull request
 ### TODO currently irs cannot publish library for cofinity project
 7) The GitHub action [Upload to Central Maven Registry ](https://github.com/Cofinity-X/item-relationship-service/actions/workflows/maven-deploy.yaml) will automatically release the irs-registry-client library with the new version defined in step 4
 
@@ -30,7 +31,7 @@ The goal is to not use a -SNAPSHOT version in the Trace-X Release.
     1) If the action of [IRS Library Release](#irs-library-release) step 7 was executed successfully
     2) Update <irs-client-lib.version> in the above created release
 4) Optional: If there have been changes to the Helm charts
-   1) Bump the version in the Chart.yaml file under charts/. Also do this for the frontend and backend subcharts
+   1) Set the version in Chart.yaml in charts/ to one higher than the previous cfx-version. The previous version can be found in the git history. Also do this for the frontend and backend subcharts
    2) In the main Chart.yaml file, update the version of the frontend and backend dependencies to the version created in the previous step
 5) Edit changelog: Align the new version (1.0.0-cfx-1) with the changes and add a new UNRELEASED section
 6) Update the [Compatability Matrix](https://github.com/Cofinity-X/traceability-foss/blob/main/COMPATIBILITY_MATRIX.md) with a new entry for the release version
