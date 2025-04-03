@@ -11,6 +11,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ### Added
 - TRACEX-540 extend callback logic for partial state batches
+- TRACEX-484 Added digital twin part info domain / api
 - TRACEX-477 add API for Orders and Triggers configuration
 - TRACEX-391 Improve the parts detail view
 - TRACEX-481 Automated Order Registration via CronJob

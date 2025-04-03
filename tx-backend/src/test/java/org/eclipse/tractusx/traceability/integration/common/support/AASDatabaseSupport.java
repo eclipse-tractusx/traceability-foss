@@ -61,6 +61,31 @@ public class AASDatabaseSupport {
                 .build();
         aasRepository.save(List.of(aas));
     }
+    public void createAASEntityByAASId(String aasId) {
+        AAS aas = AAS.builder()
+                .aasId(aasId)
+                .created(LocalDateTime.now().minus(Duration.ofDays(5)))
+                .updated(LocalDateTime.now())
+                .ttl(1000)
+                .bpn(BPN.of("BPNL00000001TEST"))
+                .actor(Actor.SYSTEM)
+                .digitalTwinType(DigitalTwinType.PART_TYPE)
+                .build();
+        aasRepository.save(List.of(aas));
+    }
+
+    public void createAASEntityByGlobalAssetId(String aasId) {
+        AAS aas = AAS.builder()
+                .aasId(aasId)
+                .created(LocalDateTime.now().minus(Duration.ofDays(5)))
+                .updated(LocalDateTime.now())
+                .ttl(1000)
+                .bpn(BPN.of("BPNL00000001TEST"))
+                .actor(Actor.SYSTEM)
+                .digitalTwinType(DigitalTwinType.PART_TYPE)
+                .build();
+        aasRepository.save(List.of(aas));
+    }
 
     public void createExpiredAASEntity() {
         AAS aas = AAS.builder()

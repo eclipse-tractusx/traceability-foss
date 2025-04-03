@@ -16,22 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.digitaltwinpart.application.service;
 
-package org.eclipse.tractusx.traceability.configuration.domain.model;
+import digitaltwinpart.DigitalTwinPartDetailRequest;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.digitaltwinpart.domain.model.DigitalTwinPart;
+import org.eclipse.tractusx.traceability.digitaltwinpart.domain.model.DigitalTwinPartDetail;
+import org.springframework.data.domain.Pageable;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+public interface DigitalTwinPartService {
+    PageResult<DigitalTwinPart> findAllBy(Pageable pageable, SearchCriteria searchCriteria);
 
-@Data
-@AllArgsConstructor
-@Builder
-public class TriggerConfiguration {
-    Long id;
-    String cronExpressionRegisterOrderTTLReached;
-    String cronExpressionMapCompletedOrders;
-    String cronExpressionAASLookup;
-    int partTTL;
-    int aasTTL;
-
+    DigitalTwinPartDetail findDetail(DigitalTwinPartDetailRequest digitalTwinPartDetailRequest);
 }

@@ -16,22 +16,27 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package org.eclipse.tractusx.traceability.configuration.domain.model;
+package digitaltwinpart;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
-@Builder
-public class TriggerConfiguration {
-    Long id;
-    String cronExpressionRegisterOrderTTLReached;
-    String cronExpressionMapCompletedOrders;
-    String cronExpressionAASLookup;
-    int partTTL;
-    int aasTTL;
+public class CustomPageResponse<T> {
+    private List<T> content;
+    private int pageNumber;
+    private int pageSize;
+    private long totalElements;
+    private int totalPages;
 
+    public boolean isFirst() {
+        return pageNumber == 0;
+    }
+
+    public boolean isLast() {
+        return pageNumber == totalPages - 1;
+    }
 }
