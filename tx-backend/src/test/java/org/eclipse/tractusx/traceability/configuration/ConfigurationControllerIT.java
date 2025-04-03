@@ -82,15 +82,14 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldRetrieveTheLatestOrderConfigurationForGivenOrder() throws JoseException {
+    void shouldRetrieveTheLatestOrderConfiguration() throws JoseException {
         // given
-        Long orderId = 1L;
-        OrderEntity orderEntity = OrderEntity.builder().id(orderId).build();
+        OrderEntity orderEntity = OrderEntity.builder().id("id").build();
 
         configurationSupport.storeOrder(orderEntity);
-        configurationSupport.storeOrderConfiguration(OrderConfigurationEntity.builder().order(orderEntity).batchSize(80).build());
-        configurationSupport.storeOrderConfiguration(OrderConfigurationEntity.builder().order(orderEntity).batchSize(90).build());
-        configurationSupport.storeOrderConfiguration(OrderConfigurationEntity.builder().order(orderEntity).batchSize(100).build());
+        configurationSupport.storeOrderConfiguration(OrderConfigurationEntity.builder().batchSize(80).build());
+        configurationSupport.storeOrderConfiguration(OrderConfigurationEntity.builder().batchSize(90).build());
+        configurationSupport.storeOrderConfiguration(OrderConfigurationEntity.builder().batchSize(100).build());
 
         // then
         given()
@@ -99,14 +98,14 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
                 .log()
                 .all()
                 .when()
-                .get("/api/orders/configuration/batches/" + orderId + "/active")
+                .get("/api/orders/configuration/batches/active")
                 .then()
                 .statusCode(200)
                 .body("batchSize", equalTo(100));
     }
 
     @Test
-    void shouldTriggerConfiguration() throws JoseException {
+    void shouldStoreTriggerConfiguration() throws JoseException {
         // given
         TriggerConfigurationRequest request = TriggerConfigurationRequest.builder()
                 .aasTTL(10)

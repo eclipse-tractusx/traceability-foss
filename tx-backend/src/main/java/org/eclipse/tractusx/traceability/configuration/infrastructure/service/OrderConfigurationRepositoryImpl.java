@@ -16,6 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
 package org.eclipse.tractusx.traceability.configuration.infrastructure.service;
 
 import lombok.RequiredArgsConstructor;
@@ -32,13 +33,8 @@ public class OrderConfigurationRepositoryImpl implements OrderConfigurationRepos
     private final OrderConfigurationJPARepository orderConfigurationJPARepository;
 
     @Override
-    public OrderConfiguration findTopByOrderIdOrderByCreatedAtDesc(Long orderId) {
-        OrderConfiguration orderConfiguration = orderConfigurationJPARepository
-                .findTopByOrderIdOrderByCreatedAtDesc(orderId)
-                .map(OrderConfigurationEntity::toDomain)
-                .orElse(null);
-
-        return orderConfiguration;
+    public OrderConfiguration findTopByCreatedAtDesc() {
+        return OrderConfigurationEntity.toDomain(orderConfigurationJPARepository.findTopByCreatedAtDesc().orElse(null));
     }
 
     @Override

@@ -105,8 +105,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     }
 
     private void enrichContractAgreementsAsBuilt(List<AssetBase> assets) {
-
-
         assets.forEach(assetBase -> {
             List<ContractAgreement> contractAgreements = new ArrayList<>();
             contractAgreements.add(ContractAgreement.toDomain(assetBase.getLatestContractAgreementId(), assetBase.getId(), ContractType.ASSET_AS_BUILT));
@@ -119,7 +117,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     @Override
     public List<AssetBase> saveAll(List<AssetBase> assets) {
         enrichContractAgreementsAsBuilt(assets);
-        return jpaAssetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)).stream()
+        return jpaAssetAsBuiltRepository.saveAllAndFlush(AssetAsBuiltEntity.fromList(assets)).stream()
                 .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
@@ -185,5 +183,12 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, Asset
     @Override
     public long countAssetsByOwner(Owner owner) {
         return jpaAssetAsBuiltRepository.countAssetsByOwner(owner);
+    }
+
+    @Override
+    public List<AssetBase> findAllExpired() {
+        return jpaAssetAsBuiltRepository.findAllExpired().stream()
+                .map(AssetAsBuiltEntity::toDomain)
+                .toList();
     }
 }

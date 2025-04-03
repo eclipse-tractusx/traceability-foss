@@ -55,4 +55,6 @@ public interface AssetRepository {
     void updateImportStateAndNoteForAssets(ImportState importState, String importNote, List<String> assetIds);
 
     List<AssetBase> findAll();
+
+    List<AssetBase> findAllExpired();
 }

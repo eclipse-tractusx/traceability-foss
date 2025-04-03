@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.integration.assets.infrastructure.base
 import assets.importpoc.ImportResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.restassured.http.ContentType;
-import org.apache.http.protocol.HTTP;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
@@ -68,8 +67,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenAssets_whenCallbackReceived_thenSaveThemAndStoreContractAgreementId()
-            throws JoseException {
+    void givenAssets_whenCallbackReceived_thenSaveThemAndStoreContractAgreementId() {
         // given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiReturnsOrderAndBatchDetails();
@@ -130,7 +128,6 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
 
     }
 
-
     @Test
     void givenNoJobsForOrder_whenCallbackReceivedForAsPlanned_thenNothingSynchronized() {
         // given
@@ -150,7 +147,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateAsBuiltAsset() throws JoseException {
+    void givenSuccessImportJob_whenCallbackReceivedWithTombstones_thenUpdateAsBuiltAsset() throws JoseException {
         // given
 
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
@@ -194,7 +191,7 @@ class IrsCallbackControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenSuccessImportJob_whenCallbackReceivedWithTombsones_thenUpdateAsPlannedAsset() throws JoseException {
+    void givenSuccessImportJob_whenCallbackReceivedWithTombstones_thenUpdateAsPlannedAsset() throws JoseException {
         // given
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsJobDetailsAsPlanned();

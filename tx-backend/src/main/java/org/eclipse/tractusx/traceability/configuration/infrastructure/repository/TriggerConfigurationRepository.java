@@ -22,6 +22,6 @@ package org.eclipse.tractusx.traceability.configuration.infrastructure.repositor
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 
 public interface TriggerConfigurationRepository {
-    TriggerConfiguration findTopByOrderByCreatedAtDesc();
+    TriggerConfiguration findTopByCreatedAtDesc();
     void save(TriggerConfiguration triggerConfiguration);
 }

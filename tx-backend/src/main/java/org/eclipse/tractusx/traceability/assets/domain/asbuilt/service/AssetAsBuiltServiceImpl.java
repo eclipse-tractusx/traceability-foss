@@ -48,7 +48,6 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
 
     private final AssetAsBuiltViewRepository assetAsBuiltViewRepository;
 
-
     private final OrderRepository orderRepository;
 
     @Override
@@ -76,7 +75,6 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
         return BomLifecycle.AS_BUILT;
     }
 
-
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         return assetAsBuiltViewRepository.getAssets(pageable, searchCriteria);
@@ -103,6 +101,5 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
     public AssetBase getAssetById(String assetId) {
         return assetAsBuiltViewRepository.getAssetById(assetId);
     }
-
 
 }

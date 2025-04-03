@@ -118,7 +118,7 @@ public class ConfigurationController {
                 .build();
     }
 
-    @GetMapping("/batches/{orderId}/active")
+    @GetMapping("/batches/active")
     @Operation(operationId = "batches/active",
             summary = "Retrieves latest Order Configuration",
             tags = {"OrdersConfiguration"},
@@ -173,9 +173,9 @@ public class ConfigurationController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    public ResponseEntity<OrderConfigurationResponse> getLatestOrderConfiguration(@PathVariable Long orderId) {
+    public ResponseEntity<OrderConfigurationResponse> getLatestOrderConfiguration() {
         return ResponseEntity.ok(
-                OrderConfigurationResponseMapper.from(configurationService.getLatestOrderConfiguration(orderId)));
+                OrderConfigurationResponseMapper.from(configurationService.getLatestOrderConfiguration().orElse(null)));
     }
 
     @PostMapping(value = "/triggers")
@@ -294,7 +294,7 @@ public class ConfigurationController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     public ResponseEntity<TriggerConfigurationResponse> getLatestTriggerConfiguration() {
         return ResponseEntity.ok(
-                TriggerConfigurationResponseMapper.from(configurationService.getLatestTriggerConfiguration()));
+                TriggerConfigurationResponseMapper.from(configurationService.getLatestTriggerConfiguration().orElse(null)));
     }
 
 }

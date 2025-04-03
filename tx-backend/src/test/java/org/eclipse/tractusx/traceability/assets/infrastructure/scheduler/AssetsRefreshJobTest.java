@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.scheduler;
 
-import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.AssetsRefreshJob;
 import org.junit.jupiter.api.Test;
@@ -41,7 +40,7 @@ class AssetsRefreshJobTest {
     private DecentralRegistryServiceImpl registryFacade;
 
     @Test
-    void refresh_shouldCallLoadShellDescriptors() throws RegistryServiceException {
+    void refresh_shouldCallLoadShellDescriptors() {
         AssetsRefreshJob job = new AssetsRefreshJob(registryFacade);
         job.refresh();
         verify(registryFacade).synchronizeAssets();

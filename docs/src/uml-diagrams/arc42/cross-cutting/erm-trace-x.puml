@@ -207,15 +207,17 @@ public.assets_as_planned - public.submodel_payload: FOREIGN_KEY: asset_as_planne
 
 TABLE public.orders {
   + id : varchar(255)
+  order_configuration_id : integer
   status : varchar(11)
   message : text
   created_at : timestamptz
   updated_at : timestamptz
 }
 
+public.orders -l public.order_configuration: FOREIGN_KEY: order_configuration_id
+
 TABLE public.order_configuration {
   + id : bigint
-  order_id : varchar(255)
   batch_size : integer
   timeout_ms : integer
   job_timeout_ms : integer
@@ -232,7 +234,5 @@ TABLE public.trigger_configuration {
   created_at : timestamptz
   updated_at : timestamptz
 }
-
-public.order_configuration -l public.orders: FOREIGN_KEY: order_id
 
   @enduml

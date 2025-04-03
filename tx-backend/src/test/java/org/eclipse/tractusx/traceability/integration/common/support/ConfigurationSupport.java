@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderConfigurationJPARepository;
-import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJpaRepository;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationJPARepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderConfigurationEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
@@ -41,7 +41,7 @@ public class ConfigurationSupport {
     TriggerConfigurationJPARepository triggerConfigurationRepository;
 
     @Autowired
-    OrderJpaRepository orderJpaRepository;
+    OrderJPARepository orderJpaRepository;
 
     public void storeOrder(OrderEntity orderEntity) {
         orderJpaRepository.save(orderEntity);

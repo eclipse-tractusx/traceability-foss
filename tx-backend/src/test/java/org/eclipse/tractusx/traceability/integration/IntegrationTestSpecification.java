@@ -59,7 +59,6 @@ public class IntegrationTestSpecification {
     @Autowired
     DatabaseSupport databaseSupport;
 
-
     @LocalServerPort
     private Integer port;
 

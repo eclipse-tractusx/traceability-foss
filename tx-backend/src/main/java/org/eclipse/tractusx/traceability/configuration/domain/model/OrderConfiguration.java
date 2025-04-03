@@ -31,5 +31,4 @@ public class OrderConfiguration {
     int batchSize;
     int timeoutMs;
     int jobTimeoutMs;
-    Long orderId;
 }

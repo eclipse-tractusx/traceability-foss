@@ -56,7 +56,7 @@ class AssetAsPlannedServiceImplTest {
         assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds);
 
         // then
-        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
+        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED, null);
     }
 }
 

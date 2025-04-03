@@ -618,9 +618,9 @@ This document provides an overview of the API endpoints, their supported HTTP me
 [#_configuration]
 == Configuration
 
-=== GET `/orders/configuration/batches/+{orderId}+/active`
+=== GET `/orders/configuration/batches/active`
 
-*Description*: Retrieves active order configuration by orderId.
+*Description*: Retrieves active order configuration.
 
 * *Visibility*:
 +

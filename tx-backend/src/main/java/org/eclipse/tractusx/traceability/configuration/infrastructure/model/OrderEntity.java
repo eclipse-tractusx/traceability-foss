@@ -19,12 +19,14 @@
 
 package org.eclipse.tractusx.traceability.configuration.infrastructure.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -37,6 +39,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 
 @Entity
 @Table(name = "orders")
@@ -49,7 +52,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Proces
 public class OrderEntity {
 
     @Id
-    private Long id;
+    private String id;
 
     @Enumerated(EnumType.STRING)
     private ProcessingState status;
@@ -60,9 +63,7 @@ public class OrderEntity {
 
     private LocalDateTime updatedAt;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private OrderConfigurationEntity orderConfiguration;
+    private Long orderConfigurationId;
 
 //TODO: Uncomment this when OrderPart is implemented in TRACEX-480
 //    @OneToMany(mappedBy = "order")
@@ -77,6 +78,14 @@ public class OrderEntity {
     public void preCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public static OrderEntity toEntity(Order domain) {
+        return OrderEntity.builder()
+                .id(domain.getId())
+                .message(domain.getMessage())
+                .status(domain.getStatus())
+                .build();
     }
 
 }

@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.springframework.validation.annotation.Validated;
@@ -98,9 +99,9 @@ public class IrsCallbackController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/irs/order/callback")
     void handleIrsOrderCallback(
-            @RequestParam("orderId") String orderId,
+            @RequestParam(value = "orderId", required = false) String orderId,
             @RequestParam(value = "batchId", required = false) String batchId,
-            @RequestParam("orderState") String orderState,
+            @RequestParam(value = "orderState", required = false) String orderState,
             @RequestParam(value = "batchState", required = false) String batchState) {
 
         log.info("Received IRS order callback with orderId: {}, batchId: {}, orderState: {}, batchState: {}",
@@ -118,10 +119,8 @@ public class IrsCallbackController {
             log.info("Successfully handled callback for orderId: {}", sanitize(orderId));
         } catch (IllegalArgumentException e) {
             log.warn("Validation failed for callback parameters: {}", e.getMessage());
-            throw e; // Re-throw to ensure appropriate HTTP response
         } catch (Exception e) {
             log.error("Error occurred while handling IRS order callback for orderId: {}", sanitize(orderId), e);
-            throw e; // Re-throw to ensure appropriate HTTP response
         }
     }
 
@@ -131,8 +130,11 @@ public class IrsCallbackController {
                 log.warn("Invalid UUID format detected: {}", sanitize(id));
                 throw new IllegalArgumentException("Invalid UUID format " + id);
             }
+
+            if (StringUtils.isEmpty(id)) {
+                log.warn("Empty or null UUID detected");
+                throw new IllegalArgumentException("Empty or null UUID");
+            }
         }
     }
-
-
 }

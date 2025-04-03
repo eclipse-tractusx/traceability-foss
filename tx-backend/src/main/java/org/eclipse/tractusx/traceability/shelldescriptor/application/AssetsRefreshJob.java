@@ -40,7 +40,6 @@ public class AssetsRefreshJob {
 
     @Scheduled(cron = "${traceability.assetRefreshJobCronExpression}", zone = "${traceability.assetRefreshJobZone}")
     public void refresh() {
-        log.info("Refreshing registry");
         decentralRegistryService.synchronizeAssets();
     }
 }

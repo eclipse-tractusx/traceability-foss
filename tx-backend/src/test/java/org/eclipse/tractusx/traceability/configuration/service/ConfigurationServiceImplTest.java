@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.configuration.service;
 
 import configuration.request.OrderConfigurationRequest;
 import configuration.request.TriggerConfigurationRequest;
+import java.util.Optional;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.service.ConfigurationServiceImpl;
@@ -64,14 +65,13 @@ class ConfigurationServiceImplTest {
 
     @Test
     void shouldReturnLatestOrderConfigurationEntity() {
-        Long orderId = 1L;
         OrderConfiguration orderConfiguration = OrderConfiguration.builder().build();
-        when(orderConfigurationRepository.findTopByOrderIdOrderByCreatedAtDesc(orderId)).thenReturn(orderConfiguration);
+        when(orderConfigurationRepository.findTopByCreatedAtDesc()).thenReturn(orderConfiguration);
 
-        OrderConfiguration result = configurationServiceImpl.getLatestOrderConfiguration(orderId);
+        Optional<OrderConfiguration> result = configurationServiceImpl.getLatestOrderConfiguration();
 
         assertNotNull(result);
-        verify(orderConfigurationRepository).findTopByOrderIdOrderByCreatedAtDesc(orderId);
+        verify(orderConfigurationRepository).findTopByCreatedAtDesc();
     }
 
     @Test
@@ -91,11 +91,11 @@ class ConfigurationServiceImplTest {
     @Test
     void shouldReturnLatestTriggerConfigurationEntity() {
         TriggerConfiguration triggerConfiguration = TriggerConfiguration.builder().build();
-        when(triggerConfigurationRepository.findTopByOrderByCreatedAtDesc()).thenReturn(triggerConfiguration);
+        when(triggerConfigurationRepository.findTopByCreatedAtDesc()).thenReturn(triggerConfiguration);
 
-        TriggerConfiguration result = configurationServiceImpl.getLatestTriggerConfiguration();
+        Optional<TriggerConfiguration> result = configurationServiceImpl.getLatestTriggerConfiguration();
 
         assertNotNull(result);
-        verify(triggerConfigurationRepository).findTopByOrderByCreatedAtDesc();
+        verify(triggerConfigurationRepository).findTopByCreatedAtDesc();
     }
 }

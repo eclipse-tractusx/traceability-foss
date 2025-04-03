@@ -17,18 +17,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.configuration.infrastructure.repository;
+package org.eclipse.tractusx.traceability.configuration.domain.service;
 
-import java.util.Optional;
-import org.eclipse.tractusx.traceability.configuration.infrastructure.model.TriggerConfigurationEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
+import org.eclipse.tractusx.traceability.configuration.application.service.OrderService;
+import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
+import org.springframework.stereotype.Service;
 
-@Repository
-public interface TriggerConfigurationJPARepository extends JpaRepository<TriggerConfigurationEntity, Long> {
+@Slf4j
+@Service
+@AllArgsConstructor
+public class OrderServiceImpl implements OrderService {
 
-    @Query("SELECT a FROM TriggerConfigurationEntity a WHERE a.createdAt = (SELECT MAX(b.createdAt) FROM TriggerConfigurationEntity b)")
-    Optional<TriggerConfigurationEntity> findTopByCreatedAtDesc();
+    private final OrderRepository orderRepository;
 
+    @Override
+    public void persistOrder(Order order) {
+        orderRepository.save(order);
+    }
 }

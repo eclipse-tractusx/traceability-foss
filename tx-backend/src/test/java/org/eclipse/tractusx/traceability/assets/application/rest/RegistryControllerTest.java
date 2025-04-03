@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
-import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.RegistryController;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,11 +39,11 @@ class RegistryControllerTest {
     private RegistryController registryController;
 
     @Test
-    void givenController_whenReload_thenCallFacade() throws RegistryServiceException {
+    void givenController_whenReload_thenCallFacade() {
         // when
         registryController.reload();
 
         // then
-        verify(registryFacade, times(1)).synchronizeAssets();
+        verify(registryFacade).synchronizeAssets();
     }
 }

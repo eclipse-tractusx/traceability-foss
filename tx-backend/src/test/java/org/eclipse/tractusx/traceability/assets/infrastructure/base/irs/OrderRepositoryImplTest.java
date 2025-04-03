@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
@@ -30,18 +31,23 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsBatchResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterOrderResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
-import org.eclipse.tractusx.traceability.bpn.infrastructure.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationJPARepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -50,9 +56,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.spy;
@@ -74,9 +82,6 @@ class OrderRepositoryImplTest {
     AssetCallbackRepository assetAsPlannedCallbackRepository;
 
     @Mock
-    private BpnRepository bpnRepository;
-
-    @Mock
     private OrderClient orderClient;
 
     @Mock
@@ -88,6 +93,15 @@ class OrderRepositoryImplTest {
     @Mock
     private ObjectMapper objectMapper;
 
+    @Mock
+    private OrderJPARepository orderJPARepository;
+
+    @Mock
+    private TriggerConfigurationJPARepository triggerConfigurationJPARepository;
+
+    @Captor
+    private ArgumentCaptor<OrderEntity> orderEntityArgumentCaptor;
+
     private String orderId;
     private String batchId;
 
@@ -97,23 +111,24 @@ class OrderRepositoryImplTest {
         orderId = UUID.randomUUID().toString();
         batchId = UUID.randomUUID().toString();
 
-
         // Spy on the actual orderRepositoryImpl with all dependencies
         orderRepositoryImpl = spy(new OrderRepositoryImpl(orderClient, traceabilityProperties,
                 assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository,
-                assetMapperFactory, objectMapper, jobClient));    }
+                assetMapperFactory, objectMapper, jobClient, orderJPARepository, triggerConfigurationJPARepository));
+    }
 
     @ParameterizedTest
     @MethodSource("provideDirections")
     void testFindAssets_completedJob_returnsConvertedAssets(Direction direction) {
         // Given
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
+        when(orderClient.registerOrder(any())).thenReturn(new RegisterOrderResponse("id"));
 
         // When
-        orderRepositoryImpl.createOrderToResolveAssets(List.of("1"), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        orderRepositoryImpl.createOrderToResolveAssets(List.of("1"), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, Optional.empty());
 
         // Then
-        verify(orderClient, times(1)).registerOrder(any(RegisterOrderRequest.class));
+        verify(orderClient).registerOrder(any(RegisterOrderRequest.class));
     }
 
     private static Stream<Arguments> provideDirections() {
@@ -122,7 +137,6 @@ class OrderRepositoryImplTest {
                 Arguments.of(Direction.UPWARD)
         );
     }
-
 
     @Test
     void testHandleOrderFinishedCallback_withCompletedJob_shouldProcessIt() {
@@ -146,14 +160,19 @@ class OrderRepositoryImplTest {
         when(assetBase.getBomLifecycle()).thenReturn(AS_BUILT);
         when(assetBase.getSemanticDataModel()).thenReturn(SemanticDataModel.TOMBSTONEASBUILT);
         when(assetMapperFactory.toAssetBaseList(completedJobDetailResponse)).thenReturn(List.of(assetBase));
+        when(orderJPARepository.findById(eq(orderId))).thenReturn(Optional.of(OrderEntity.builder().id(orderId).build()));
 
         //When
         orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
 
         //Then
-        verify(jobClient, times(1)).getIrsJobDetailResponse("job-1");
-        verify(assetMapperFactory, times(1)).toAssetBaseList(any());
-        verify(orderRepositoryImpl, times(1)).saveOrUpdateAssets(any(), any());
+        verify(jobClient).getIrsJobDetailResponse("job-1");
+        verify(assetMapperFactory).toAssetBaseList(any());
+        verify(orderRepositoryImpl).saveOrUpdateAssets(any(), any());
+        verify(orderJPARepository).save(orderEntityArgumentCaptor.capture());
+
+        OrderEntity orderEntity = orderEntityArgumentCaptor.getValue();
+        assertThat(orderEntity.getStatus()).isEqualTo(ProcessingState.PROCESSING);
     }
 
     @Test
@@ -180,9 +199,9 @@ class OrderRepositoryImplTest {
         orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
 
         //Then
-        verify(jobClient, times(1)).getIrsJobDetailResponse("job-2");
-        verify(assetMapperFactory, times(0)).toAssetBaseList(any()); // Should not process ERROR jobs
-        verify(orderRepositoryImpl, times(0)).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
+        verify(jobClient).getIrsJobDetailResponse("job-2");
+        verify(assetMapperFactory, never()).toAssetBaseList(any()); // Should not process ERROR jobs
+        verify(orderRepositoryImpl, never()).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
     }
 
     @Test
@@ -209,9 +228,9 @@ class OrderRepositoryImplTest {
         orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
 
         //Then
-        verify(jobClient, times(1)).getIrsJobDetailResponse("job-3");
-        verify(assetMapperFactory, times(0)).toAssetBaseList(any()); // Should not process ERROR jobs
-        verify(orderRepositoryImpl, times(0)).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
+        verify(jobClient).getIrsJobDetailResponse("job-3");
+        verify(assetMapperFactory, never()).toAssetBaseList(any()); // Should not process ERROR jobs
+        verify(orderRepositoryImpl, never()).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
     }
 
     @Test
@@ -234,9 +253,9 @@ class OrderRepositoryImplTest {
         orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, ProcessingState.PROCESSING, ProcessingState.PARTIAL);
 
         // Then
-        verify(jobClient, times(1)).getIrsJobDetailResponse(jobId);
-        verify(assetMapperFactory, times(0)).toAssetBaseList(any()); // Should not process ERROR jobs
-        verify(orderRepositoryImpl, times(0)).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
+        verify(jobClient).getIrsJobDetailResponse(jobId);
+        verify(assetMapperFactory, never()).toAssetBaseList(any()); // Should not process ERROR jobs
+        verify(orderRepositoryImpl, never()).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
     }
 
     @Test
@@ -263,9 +282,9 @@ class OrderRepositoryImplTest {
         orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
 
         //Then
-        verify(jobClient, times(1)).getIrsJobDetailResponse("job-2");
-        verify(assetMapperFactory, times(0)).toAssetBaseList(any()); // Should not process ERROR jobs
-        verify(orderRepositoryImpl, times(0)).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
+        verify(jobClient).getIrsJobDetailResponse("job-2");
+        verify(assetMapperFactory, never()).toAssetBaseList(any()); // Should not process ERROR jobs
+        verify(orderRepositoryImpl, never()).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
     }
 
 }
