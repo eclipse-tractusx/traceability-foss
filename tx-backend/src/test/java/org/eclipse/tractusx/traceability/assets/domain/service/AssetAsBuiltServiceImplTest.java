@@ -54,7 +54,7 @@ class AssetAsBuiltServiceImplTest {
         assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds);
 
         // then
-        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
+        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
     }
 }

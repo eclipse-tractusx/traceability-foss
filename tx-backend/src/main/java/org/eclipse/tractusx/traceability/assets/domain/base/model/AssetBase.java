@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -66,7 +67,8 @@ public class AssetBase {
     private String tombstone;
     private List<ContractAgreement> contractAgreements;
     private String latestContractAgreementId;
-
+    private Integer ttl;
+    private LocalDateTime expirationDate;
 
     public BomLifecycle getBomLifecycle() {
         if (semanticDataModel.isAsBuilt()) {

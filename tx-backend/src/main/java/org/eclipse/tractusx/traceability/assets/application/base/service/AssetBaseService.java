@@ -18,12 +18,14 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.base.service;
 
+import java.util.Optional;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -32,6 +34,8 @@ import java.util.Map;
 public interface AssetBaseService {
 
     void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds);
+
+    String syncAssetsUsingIRSOrderAPI(List<String> globalAssetIds, Optional<OrderConfiguration> orderConfiguration);
 
     Map<String, Long> getAssetsCountryMap();
 

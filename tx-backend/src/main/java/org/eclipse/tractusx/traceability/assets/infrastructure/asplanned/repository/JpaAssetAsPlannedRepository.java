@@ -35,4 +35,7 @@ public interface JpaAssetAsPlannedRepository extends JpaRepository<AssetAsPlanne
     long countAssetsByOwner(@Param("owner") Owner owner);
 
     List<AssetAsPlannedEntity> findByImportStateIn(ImportState... importState);
+
+    @Query("SELECT a FROM AssetAsPlannedEntity a WHERE a.expirationDate < CURRENT_TIMESTAMP OR a.expirationDate IS NULL")
+    List<AssetAsPlannedEntity> findAllExpired();
 }

@@ -32,7 +32,6 @@ public class OrderConfigurationResponseMapper {
             return orderConfigurationResponse.build();
         }
 
-        orderConfigurationResponse.orderId(orderConfiguration.getOrderId());
         orderConfigurationResponse.id(orderConfiguration.getId());
         orderConfigurationResponse.batchSize(orderConfiguration.getBatchSize());
         orderConfigurationResponse.timeoutMs(orderConfiguration.getTimeoutMs());

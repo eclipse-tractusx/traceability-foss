@@ -19,14 +19,10 @@
 
 package org.eclipse.tractusx.traceability.configuration.infrastructure.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,11 +46,6 @@ public class OrderConfigurationEntity extends ConfigurationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", unique = true, nullable = false)
-    @JsonBackReference
-    private OrderEntity order;
-
     private int batchSize;
 
     private int timeoutMs;
@@ -62,12 +53,15 @@ public class OrderConfigurationEntity extends ConfigurationEntity {
     private int jobTimeoutMs;
 
     public static OrderConfiguration toDomain(OrderConfigurationEntity entity) {
+        if (entity == null) {
+            return null;
+        }
+
         return OrderConfiguration.builder()
                 .batchSize(entity.getBatchSize())
                 .jobTimeoutMs(entity.getJobTimeoutMs())
                 .timeoutMs(entity.getTimeoutMs())
                 .id(entity.getId())
-                .orderId(entity.getOrder() != null ? entity.getOrder().getId() : null)
                 .build();
     }
 

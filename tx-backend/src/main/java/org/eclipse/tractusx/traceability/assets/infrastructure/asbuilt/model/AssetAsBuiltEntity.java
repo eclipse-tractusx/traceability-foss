@@ -130,6 +130,8 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .policyId(asset.getPolicyId())
                 .tombstone(asset.getTombstone())
                 .contractAgreements(ContractAgreementAsBuiltEntity.fromDomainToEntityList(asset.getContractAgreements()))
+                .ttl(asset.getTtl())
+                .expirationDate(asset.getExpirationDate())
                 .build();
     }
 
@@ -188,6 +190,8 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .policyId(this.getPolicyId())
                 .tombstone(this.getTombstone())
                 .contractAgreements(ContractAgreement.fromAsBuiltEntityToContractAgreements(emptyIfNull(this.getContractAgreements())))
+                .ttl(this.getTtl())
+                .expirationDate(this.getExpirationDate())
                 .build();
     }
 

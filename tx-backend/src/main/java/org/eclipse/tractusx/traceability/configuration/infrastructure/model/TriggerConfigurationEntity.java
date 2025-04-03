@@ -60,6 +60,9 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
     private int aasTTL;
 
     public static TriggerConfiguration toDomain(TriggerConfigurationEntity entity) {
+        if (entity == null) {
+            return null;
+        }
         return TriggerConfiguration.builder()
                 .id(entity.getId())
                 .aasTTL(entity.getAasTTL())

@@ -18,8 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.base.service;
 
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Man
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.Arrays;
@@ -57,23 +58,41 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     protected abstract OrderRepository getOrderRepository();
 
-
     @Override
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
     public void syncAssetsAsyncUsingIRSOrderAPI(List<String> aasList) {
         log.info("Synchronizing assets for aasList: {}", aasList);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(aasList, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
+                getOrderRepository().createOrderToResolveAssets(aasList, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle(), null);
             }
 
             if (!getUpwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(aasList, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+                getOrderRepository().createOrderToResolveAssets(aasList, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
             }
 
         } catch (Exception e) {
             log.warn("Exception during assets synchronization for aasList: {}. Message: {}.", aasList, e.getMessage(), e);
         }
+    }
+
+    @Override
+    public String syncAssetsUsingIRSOrderAPI(List<String> aasList, Optional<OrderConfiguration> orderConfiguration) {
+        log.info("Synchronizing assets for aasList: {}", aasList);
+        try {
+            if (!getDownwardAspects().isEmpty()) {
+                return getOrderRepository().createOrderToResolveAssets(aasList, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle(), orderConfiguration);
+            }
+
+            if (!getUpwardAspects().isEmpty()) {
+                return getOrderRepository().createOrderToResolveAssets(aasList, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration);
+            }
+
+        } catch (Exception e) {
+            log.warn("Exception during assets synchronization for aasList: {}. Message: {}.", aasList, e.getMessage(), e);
+        }
+        log.warn("No Aspects found for assets synchronization for aasList: {}", aasList);
+        return null;
     }
 
     @Override

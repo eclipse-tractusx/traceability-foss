@@ -188,6 +188,12 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
         jpaAssetAsPlannedRepository.saveAll(foundAssets);
     }
 
+    @Override
+    public List<AssetBase> findAllExpired() {
+        return jpaAssetAsPlannedRepository.findAllExpired().stream()
+                .map(AssetAsPlannedEntity::toDomain)
+                .toList();
+    }
 
     private void enrichContractAgreementsAsPlanned(List<AssetBase> assets) {
 

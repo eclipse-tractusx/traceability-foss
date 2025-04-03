@@ -17,18 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.configuration.infrastructure.repository;
+package org.eclipse.tractusx.traceability.configuration.domain.model;
 
-import java.util.Optional;
-import org.eclipse.tractusx.traceability.configuration.infrastructure.model.TriggerConfigurationEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import lombok.Builder;
+import lombok.Data;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 
-@Repository
-public interface TriggerConfigurationJPARepository extends JpaRepository<TriggerConfigurationEntity, Long> {
-
-    @Query("SELECT a FROM TriggerConfigurationEntity a WHERE a.createdAt = (SELECT MAX(b.createdAt) FROM TriggerConfigurationEntity b)")
-    Optional<TriggerConfigurationEntity> findTopByCreatedAtDesc();
-
+@Data
+@Builder
+public class Order {
+    private String id;
+    private ProcessingState status;
+    private String message;
+    private OrderConfiguration orderConfiguration;
 }

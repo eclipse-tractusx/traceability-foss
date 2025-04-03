@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.configuration.domain.service;
 
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
@@ -39,7 +40,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     @Override
     public void persistOrderConfiguration(OrderConfigurationRequest request) {
-
         OrderConfiguration orderConfiguration = OrderConfiguration.builder()
                 .batchSize(request.getBatchSize())
                 .jobTimeoutMs(request.getJobTimeoutMs())
@@ -49,8 +49,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    public OrderConfiguration getLatestOrderConfiguration(Long orderId) {
-        return orderConfigurationRepository.findTopByOrderIdOrderByCreatedAtDesc(orderId);
+    public Optional<OrderConfiguration> getLatestOrderConfiguration() {
+        return Optional.ofNullable(orderConfigurationRepository.findTopByCreatedAtDesc());
     }
 
     @Override
@@ -66,8 +66,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    public TriggerConfiguration getLatestTriggerConfiguration() {
-        return triggerConfigurationRepository.findTopByOrderByCreatedAtDesc();
+    public Optional<TriggerConfiguration> getLatestTriggerConfiguration() {
+        return Optional.ofNullable(triggerConfigurationRepository.findTopByCreatedAtDesc());
 
     }
 }

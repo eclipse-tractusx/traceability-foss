@@ -22,6 +22,6 @@ package org.eclipse.tractusx.traceability.configuration.infrastructure.repositor
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 
 public interface OrderConfigurationRepository {
-    OrderConfiguration findTopByOrderIdOrderByCreatedAtDesc(Long orderId);
+    OrderConfiguration findTopByCreatedAtDesc();
     void save(OrderConfiguration orderConfiguration);
 }

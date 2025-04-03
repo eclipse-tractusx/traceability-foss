@@ -21,68 +21,121 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
+import java.util.Optional;
+import java.util.concurrent.ScheduledFuture;
+import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.aas.application.service.AASService;
-import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
-import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
-import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
+import org.eclipse.tractusx.traceability.configuration.application.service.OrderService;
+import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.function.Consumer;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Slf4j
 @Component
 public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
-    private static final int BATCH_SIZE = 500;
-    private static final long PAUSE_DURATION_MILLIS = 8 * 60 * 1000; // 8 minutes
-
+    private final ConfigurationService configurationService;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
+    private final AssetAsPlannedRepository assetAsPlannedRepository;
+    private final TaskScheduler taskScheduler;
     private final AssetAsBuiltServiceImpl assetAsBuiltService;
     private final AssetAsPlannedServiceImpl assetAsPlannedService;
+    private final OrderService orderService;
 
-    private final AASService aasService;
+    private ScheduledFuture<?> currentSchedule;
 
     @Override
-    @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void synchronizeAssets() {
-        List<String> asBuiltAASIds = aasService.findByDigitalTwinType(TwinType.PART_INSTANCE)
-                .stream()
-                .map(AAS::getAasId)
-                .toList();
-        List<String> asPlannedAASIds = aasService.findByDigitalTwinType(TwinType.PART_TYPE)
-                .stream()
-                .map(AAS::getAasId)
-                .toList();
-
-        log.info("Try to sync {} aasIds asBuilt", asBuiltAASIds.size());
-        processInBatches(asBuiltAASIds, assetAsBuiltService::syncAssetsAsyncUsingIRSOrderAPI);
-
-        log.info("Try to sync {} aasIds asPlanned", asPlannedAASIds.size());
-        processInBatches(asPlannedAASIds, assetAsPlannedService::syncAssetsAsyncUsingIRSOrderAPI);
+        configurationService.getLatestTriggerConfiguration().ifPresentOrElse(trigger -> {
+            String cronExpressionRegisterOrderTTLReached = trigger.getCronExpressionRegisterOrderTTLReached();
+            log.info("Synchronizing assets with cron expression: {}", cronExpressionRegisterOrderTTLReached);
+            try {
+                scheduleJob(cronExpressionRegisterOrderTTLReached);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to schedule assets synchronization job, reason: %s".formatted(e.getMessage()));
+            }
+        }, () -> log.info("No trigger configuration found, skipping assets synchronization"));
     }
 
-    private void processInBatches(List<String> ids, Consumer<List<String>> syncFunction) {
-        for (int i = 0; i < ids.size(); i += BATCH_SIZE) {
-            int end = Math.min(i + BATCH_SIZE, ids.size());
-            List<String> batch = ids.subList(i, end);
-            syncFunction.accept(batch);
-            log.info("Processed {} - {} IDs", i + 1, end);
+    private void scheduleJob(String cronExpressionRegisterOrderTTLReached) {
+        if (currentSchedule != null && !currentSchedule.isCancelled()) {
+            log.info("Cancelling the current schedule");
+            currentSchedule.cancel(false);
+        }
 
-            // 5 minutes break after each registered order
-            try {
-                Thread.sleep(PAUSE_DURATION_MILLIS);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                log.warn("Pause interrupted", e);
-            }
+        currentSchedule = taskScheduler.schedule(this::executeJob,
+                new CronTrigger(cronExpressionRegisterOrderTTLReached));
+        log.info("Successfully scheduled assets synchronization job");
+    }
+
+    @Override
+    @Transactional
+    public void executeJob() {
+        List<AssetBase> assetsAsBuiltToSynchronize = assetAsBuiltRepository.findAllExpired();
+        log.info("Found {} assets as built to synchronize", assetsAsBuiltToSynchronize.size());
+        List<String> assetsAsBuiltIds = assetsAsBuiltToSynchronize.stream().map(AssetBase::getId).toList();
+
+        List<AssetBase> assetsAsPlannedToSynchronize = assetAsPlannedRepository.findAllExpired();
+        log.info("Found {} assets as planned to synchronize", assetsAsPlannedToSynchronize.size());
+        List<String> assetsAsPlannedIds = assetsAsPlannedToSynchronize.stream().map(AssetBase::getId).toList();
+
+        Optional<OrderConfiguration> maybeLatestOrderConfiguration = configurationService.getLatestOrderConfiguration();
+
+        String registerOrderResponseForAssetsAsBuilt =
+                assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetsAsBuiltIds, maybeLatestOrderConfiguration);
+
+        String registerOrderResponseForAssetsAsPlanned =
+                assetAsPlannedService.syncAssetsUsingIRSOrderAPI(assetsAsPlannedIds, maybeLatestOrderConfiguration);
+
+        if (!StringUtils.isEmpty(registerOrderResponseForAssetsAsBuilt)) {
+            log.info("Order created: {}", registerOrderResponseForAssetsAsBuilt);
+
+            orderService.persistOrder(Order.builder()
+                    .id(registerOrderResponseForAssetsAsBuilt)
+                    .orderConfiguration(maybeLatestOrderConfiguration.orElse(null))
+                    .status(ProcessingState.INITIALIZED)
+                    .build());
+
+            log.info("Changing as built assets import state to IN_SYNCHRONIZATION after creating an order");
+            updateAssetsStatus(assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll);
+        } else {
+            log.warn("No order created for assets as planned, skipping assets synchronization");
+        }
+
+        if (!StringUtils.isEmpty(registerOrderResponseForAssetsAsPlanned)) {
+            log.info("Order created: {}", registerOrderResponseForAssetsAsPlanned);
+            orderService.persistOrder(Order.builder()
+                    .id(registerOrderResponseForAssetsAsPlanned)
+                    .orderConfiguration(maybeLatestOrderConfiguration.orElse(null))
+                    .status(ProcessingState.INITIALIZED)
+                    .build());
+
+            log.info("Changing as planned assets import state to IN_SYNCHRONIZATION after creating an order");
+            updateAssetsStatus(assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll);
+        } else {
+            log.warn("No order created for assets as planned, skipping assets synchronization");
         }
     }
-}
 
+    private void updateAssetsStatus(List<AssetBase> assets, Consumer<List<AssetBase>> repository) {
+        assets.forEach(assetBase -> assetBase.setImportState(ImportState.IN_SYNCHRONIZATION));
+        repository.accept(assets);
+    }
+}

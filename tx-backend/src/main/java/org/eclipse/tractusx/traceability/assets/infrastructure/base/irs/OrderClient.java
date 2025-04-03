@@ -45,8 +45,9 @@ public class OrderClient {
         this.irsRegularTemplate = irsRegularTemplate;
     }
 
-    public void registerOrder(RegisterOrderRequest registerOrderRequest) {
-        irsRegularTemplate.exchange("/irs/orders", HttpMethod.POST, new HttpEntity<>(registerOrderRequest), RegisterOrderResponse.class).getBody();
+    public RegisterOrderResponse registerOrder(RegisterOrderRequest registerOrderRequest) {
+        return irsRegularTemplate.exchange("/irs/orders", HttpMethod.POST,
+                new HttpEntity<>(registerOrderRequest), RegisterOrderResponse.class).getBody();
     }
 
     @Nullable

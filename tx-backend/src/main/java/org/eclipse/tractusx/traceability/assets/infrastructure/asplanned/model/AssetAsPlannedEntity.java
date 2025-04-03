@@ -116,6 +116,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .policyId(asset.getPolicyId())
                 .tombstone(asset.getTombstone())
                 .contractAgreements(ContractAgreementAsPlannedEntity.fromDomainToEntityList(asset.getContractAgreements()))
+                .ttl(asset.getTtl())
+                .expirationDate(asset.getExpirationDate())
                 .build();
     }
 
@@ -143,6 +145,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .policyId(entity.getPolicyId())
                 .tombstone(entity.getTombstone())
                 .contractAgreements(ContractAgreement.fromAsPlannedEntityToContractAgreements(entity.getContractAgreements()))
+                .ttl(entity.getTtl())
+                .expirationDate(entity.getExpirationDate())
                 .build();
     }
 

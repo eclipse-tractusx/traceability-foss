@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
@@ -50,6 +51,11 @@ public class AssetsSupport {
 
     public AssetAsBuiltEntity findById(String id) {
         return AssetAsBuiltEntity.from(assetRepositoryProvider.assetAsBuiltRepository.getAssetById(id));
+    }
+
+    public List<AssetAsBuiltEntity> findAll() {
+        return assetRepositoryProvider.assetAsBuiltRepository.findAll().stream()
+                .map(AssetAsBuiltEntity::from).toList();
     }
 
     public void defaultMultipleAssetsAsBuiltStored() {

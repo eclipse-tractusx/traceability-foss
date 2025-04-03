@@ -30,8 +30,6 @@ import lombok.Data;
 public class OrderConfigurationResponse {
     @Schema(example = "1")
     Long id;
-    @Schema(example = "15")
-    Long orderId;
     @Schema(example = "10")
     int batchSize;
     @Schema(example = "60")

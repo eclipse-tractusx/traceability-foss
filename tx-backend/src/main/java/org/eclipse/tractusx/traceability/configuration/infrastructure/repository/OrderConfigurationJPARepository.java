@@ -19,18 +19,16 @@
 
 package org.eclipse.tractusx.traceability.configuration.infrastructure.repository;
 
+import java.util.Optional;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderConfigurationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface OrderConfigurationJPARepository extends JpaRepository<OrderConfigurationEntity, Long> {
 
-    @Query("SELECT a FROM OrderConfigurationEntity a WHERE a.order.id = :orderId AND a.createdAt = (SELECT MAX(b.createdAt) FROM OrderConfigurationEntity b WHERE b.order.id = :orderId)")
-    Optional<OrderConfigurationEntity> findTopByOrderIdOrderByCreatedAtDesc(@Param("orderId") Long orderId);
+    @Query("SELECT a FROM OrderConfigurationEntity a WHERE a.createdAt = (SELECT MAX(b.createdAt) FROM OrderConfigurationEntity b)")
+    Optional<OrderConfigurationEntity> findTopByCreatedAtDesc();
 
 }
