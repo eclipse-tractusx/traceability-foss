@@ -18,5 +18,5 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
-public record PartChainIdentificationKey(String identifier, String bpn) {
+public record PartChainIdentificationKey(String identifier, String globalAssetId, String bpn) {
 }

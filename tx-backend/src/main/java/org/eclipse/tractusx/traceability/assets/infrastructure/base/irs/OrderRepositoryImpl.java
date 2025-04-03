@@ -108,7 +108,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             Optional<OrderConfiguration> orderConfiguration) {
         final String callbackUrl = traceabilityProperties.getUrl();
         String applicationBpn = traceabilityProperties.getBpn().toString();
-        List<PartChainIdentificationKey> keys = ids.stream().map(id -> new PartChainIdentificationKey(id, applicationBpn)).collect(Collectors.toList());
+        List<PartChainIdentificationKey> keys = ids.stream().map(id -> new PartChainIdentificationKey(null, id, applicationBpn)).collect(Collectors.toList());
         RegisterOrderRequest registerOrderRequest = RegisterOrderRequest.buildOrderRequest(aspects, bomLifecycle, callbackUrl, direction, keys, orderConfiguration);
         return orderClient.registerOrder(registerOrderRequest).id();
     }
