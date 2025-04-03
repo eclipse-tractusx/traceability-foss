@@ -46,6 +46,7 @@ import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortExc
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.common.security.exception.InvalidApiKeyException;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
+import org.eclipse.tractusx.traceability.digitaltwinpart.domain.DigitalTwinPartNotFoundException;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
@@ -210,6 +211,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(AssetNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAssetNotFoundException(final AssetNotFoundException exception) {
         log.warn("handleAssetNotFoundException", exception);
+        return ResponseEntity.status(NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(DigitalTwinPartNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleAssetNotFoundException(final DigitalTwinPartNotFoundException exception) {
+        log.warn("handleDigitalTwinPartNotFoundException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }

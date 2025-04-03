@@ -16,22 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package digitaltwinpart;
 
-package org.eclipse.tractusx.traceability.configuration.domain.model;
-
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
-@AllArgsConstructor
-@Builder
-public class TriggerConfiguration {
-    Long id;
-    String cronExpressionRegisterOrderTTLReached;
-    String cronExpressionMapCompletedOrders;
-    String cronExpressionAASLookup;
-    int partTTL;
-    int aasTTL;
+import java.util.ArrayList;
+import java.util.List;
 
+@Data
+@Builder
+public class DigitalTwinPartRequest {
+    private final Integer page;
+    private final Integer size;
+    private final List<String> sort;
+    private final List<DigitalTwinPartFilter> filters;
 }

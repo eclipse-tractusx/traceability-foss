@@ -40,9 +40,9 @@ public class SearchCriteriaMapper {
     public static <T> SearchCriteria toSearchCriteria(BaseRequestFieldMapper fieldMapper, List<T> filters) throws InvalidFilterException {
         List<SearchCriteriaFilter> filterList = new ArrayList<>();
 
-        filters.forEach(assetFilter -> {
-            if (Objects.nonNull(assetFilter)) {
-                extractFilters(filterList, assetFilter, fieldMapper);
+        filters.forEach(filter -> {
+            if (Objects.nonNull(filter)) {
+                extractFilters(filterList, filter, fieldMapper);
             }
         });
 

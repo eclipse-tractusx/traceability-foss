@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,21 +17,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.configuration.domain.model;
+package org.eclipse.tractusx.traceability.digitaltwinpart.application.mapper;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
+import org.springframework.stereotype.Component;
 
-@Data
-@AllArgsConstructor
-@Builder
-public class TriggerConfiguration {
-    Long id;
-    String cronExpressionRegisterOrderTTLReached;
-    String cronExpressionMapCompletedOrders;
-    String cronExpressionAASLookup;
-    int partTTL;
-    int aasTTL;
+import java.util.Map;
 
+@Component
+public class DigitalTwinPartFieldMapper extends BaseRequestFieldMapper {
+
+    private static final Map<String, String> SUPPORTED_DIGITALTWINPART_FIELD_MAPPERS = Map.ofEntries(
+            Map.entry("aasId", "aasId"),
+            Map.entry("globalAssetId", "globalAssetId")
+    );
+
+    @Override
+    public Map<String, String> getSupportedFields() {
+        return SUPPORTED_DIGITALTWINPART_FIELD_MAPPERS;
+    }
 }

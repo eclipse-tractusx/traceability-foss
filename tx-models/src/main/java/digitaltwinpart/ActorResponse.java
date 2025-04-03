@@ -16,22 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package digitaltwinpart;
 
-package org.eclipse.tractusx.traceability.configuration.domain.model;
+public enum ActorResponse {
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+    SYSTEM, ADMIN;
 
-@Data
-@AllArgsConstructor
-@Builder
-public class TriggerConfiguration {
-    Long id;
-    String cronExpressionRegisterOrderTTLReached;
-    String cronExpressionMapCompletedOrders;
-    String cronExpressionAASLookup;
-    int partTTL;
-    int aasTTL;
-
-}
+    }
