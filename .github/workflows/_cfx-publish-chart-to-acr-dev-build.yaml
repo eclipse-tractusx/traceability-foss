@@ -1,0 +1,130 @@
+name: '[CFX] Lint and publish Helm chart to Azure container registry (dev build)'
+
+# Should run on every change to the chart. Adds the current commit hash as a suffix, and publishs
+# the chart to ACR. Then updates the trace-x-charts repo with the new version.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - charts/traceability-foss/**
+      - .github/workflows/_cfx-publish-chart-to-acr-dev-build.yaml
+
+jobs:
+  # Add the commit hash to the chart version to get a unique version
+  set-version-suffix:
+    runs-on: ubuntu-latest
+    name: Suffix the Helm version with the commit hash
+    outputs:
+      latest_ref: ${{ steps.commit-and-push.outputs.ref }}
+      chart_version: ${{ steps.add-suffix.outputs.chart_version }}
+    steps:
+      # Get the GitHub token using GitHub app
+      - name: Get token
+        id: get_token
+        uses: actions/create-github-app-token@31c86eb3b33c9b601a1f60f98dcbfd1d70f379b4 #v1.10.3
+        with:
+          app-id: ${{ secrets.TRACE_X_VERSION_BUMP_APP_ID }}
+          private-key: ${{ secrets.TRACE_X_VERSION_BUMP_APP_PRIVATE_KEY }}
+
+      # Here, we need to check out using the token created in the above step to be able to push code in the protected branch
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          ref: ${{ github.ref_name }}
+          token: ${{ steps.get_token.outputs.token }}
+
+      # Gets the short form commit hash
+      - name: Get commit hash
+        run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      # Add the commit has to the version
+      - name: Suffix commit hash
+        id: add-suffix
+        uses: mikefarah/yq@f15500b20a1c991c8729870ba60a4dc3524b6a94
+        with:
+          cmd: |
+            yq -i '.version |= sub("-.*$"; "") + "-release-'"$COMMIT_HASH"'"' charts/traceability-foss/Chart.yaml;
+            yq -i '.version |= sub("-.*$"; "") + "-release-'"$COMMIT_HASH"'"' charts/traceability-foss/charts/frontend/Chart.yaml;
+            yq -i '.version |= sub("-.*$"; "") + "-release-'"$COMMIT_HASH"'"' charts/traceability-foss/charts/backend/Chart.yaml;
+            yq -i -e '.dependencies[] |= select(.name == "frontend" or .name == "backend")
+              .version |= sub("-.*$"; "") + "-release-'"$COMMIT_HASH"'"' charts/traceability-foss/Chart.yaml;
+            echo "chart_version=$(yq .version charts/traceability-foss/Chart.yaml)" >> $GITHUB_OUTPUT
+
+      # Commit the helm charts and push the code
+      - name: Commit and push new chart version
+        id: commit-and-push
+        env:
+          GITHUB_USER: ${{ steps.get_token.outputs.app-slug }}[bot]
+        run: |
+          git config user.name '${{ env.GITHUB_USER }}'
+          git config user.email '${{ env.GITHUB_USER }}@users.noreply.github.com>'
+
+          git pull
+          git add charts
+          git commit -m "ci: [skip ci] add commit hash to Helm chart version"
+          git push
+          echo "ref=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+
+  publish-portal-chart-to-registry:
+    needs: "set-version-suffix"
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+
+    name: Lint, package, and publish helm chart
+    uses: Cofinity-X/central-pipelines/.github/workflows/reusable-publish-chart-to-acr.yaml@75ddfdbf095041bcb6604f7053381563789448ed
+    with:
+      team_name: trace-x
+      repository_name: traceability-foss
+      service_name: traceability-foss
+      environment: lower-env-acr
+      push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+      ref: ${{ needs.set-version-suffix.outputs.latest_ref }}
+    secrets:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+  update-values-files:
+    needs: "set-version-suffix"
+    name: Dispatch charts repo workflow
+    runs-on: ubuntu-latest
+    # Execute only if chart is updated and no tag is published
+    if: ${{ (github.event_name != 'pull_request') && (github.ref_type != 'tag') }}
+    steps:
+    # Generate a temporary token using GitHub app
+    - name: Get token
+      id: get_token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.TRACE_X_WORKFLOW_TRIGGER_GH_APP_ID }}
+        private-key: ${{ secrets.TRACE_X_WORKFLOW_TRIGGER_GH_APP_PRIVATE_KEY }}
+        repositories: trace-x-charts
+        owner: cofinity-x
+
+    - name: Update chart version for INT
+      env:
+        TOKEN: ${{ steps.get_token.outputs.token }}
+        GITHUB_RUN_ID: ${{ github.run_id }}
+        CHART_VERSION: ${{ needs.set-version-suffix.outputs.chart_version }}
+      run: |
+        curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer $TOKEN" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/Cofinity-X/trace-x-charts/dispatches \
+          -d '{
+            "event_type": "update_chart_version",
+            "client_payload": {
+              "chart_version": "${{ env.CHART_VERSION }}",
+              "helm_chart_path": "traceability-foss/int/Chart.yaml",
+              "dispatcher_info": "Runner id - ${{ env.GITHUB_RUN_ID }}"
+            }
+          }' \
+          --fail
+
