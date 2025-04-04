@@ -41,6 +41,6 @@ public interface JpaAssetAsBuiltRepository extends JpaRepository<AssetAsBuiltEnt
 
     List<AssetAsBuiltEntity> findByImportStateIn(ImportState... importState);
 
-    @Query("SELECT a FROM AssetAsBuiltEntity a WHERE a.expirationDate < CURRENT_TIMESTAMP OR a.expirationDate IS NULL")
+    @Query(value = "SELECT * FROM assets_as_built a WHERE a.expiration_date < CURRENT_TIMESTAMP OR a.expiration_date IS NULL LIMIT 1000", nativeQuery = true)
     List<AssetAsBuiltEntity> findAllExpired();
 }
