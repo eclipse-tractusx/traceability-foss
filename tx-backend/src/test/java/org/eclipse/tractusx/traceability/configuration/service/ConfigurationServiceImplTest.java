@@ -81,6 +81,8 @@ class ConfigurationServiceImplTest {
                 .cronExpressionMapCompletedOrders("* * * * *")
                 .partTTL(3600)
                 .aasTTL(7200)
+                .cronExpressionAASLookup("* * * * *")
+                .cronExpressionAASCleanup("* * * * *")
                 .build();
 
         configurationServiceImpl.persistTriggerConfiguration(request);

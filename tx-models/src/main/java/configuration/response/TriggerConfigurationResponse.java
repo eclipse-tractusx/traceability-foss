@@ -38,5 +38,9 @@ public class TriggerConfigurationResponse {
     int partTTL;
     @Schema(example = "60")
     int aasTTL;
+    @Schema(example = "* * * * * *")
+    private String cronExpressionAASLookup;
+    @Schema(example = "* * * * * *")
+    private String cronExpressionAASCleanup;
 
 }

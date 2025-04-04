@@ -31,13 +31,13 @@ public class TriggerConfigurationResponseMapper {
         if (triggerConfiguration == null) {
             return triggerConfigurationResponse.build();
         }
-
         triggerConfigurationResponse.id(triggerConfiguration.getId());
         triggerConfigurationResponse.cronExpressionMapCompletedOrders(triggerConfiguration.getCronExpressionMapCompletedOrders());
         triggerConfigurationResponse.cronExpressionRegisterOrderTTLReached(triggerConfiguration.getCronExpressionRegisterOrderTTLReached());
         triggerConfigurationResponse.aasTTL(triggerConfiguration.getAasTTL());
         triggerConfigurationResponse.partTTL(triggerConfiguration.getPartTTL());
-
+        triggerConfigurationResponse.cronExpressionAASLookup(triggerConfiguration.getCronExpressionAASLookup());
+        triggerConfigurationResponse.cronExpressionAASCleanup(triggerConfiguration.getCronExpressionAASCleanup());
         return triggerConfigurationResponse.build();
     }
 

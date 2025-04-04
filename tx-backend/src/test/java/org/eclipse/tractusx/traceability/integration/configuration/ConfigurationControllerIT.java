@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.configuration;
+package org.eclipse.tractusx.traceability.integration.configuration;
 
 import configuration.request.OrderConfigurationRequest;
 import configuration.request.TriggerConfigurationRequest;
@@ -112,6 +112,8 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
                 .partTTL(100)
                 .cronExpressionRegisterOrderTTLReached("0 0 0 1 1 ?")
                 .cronExpressionMapCompletedOrders("0 0 0 2 2 ?")
+                .cronExpressionAASLookup("0 0 0 2 2 ?")
+                .cronExpressionAASCleanup("0 0 0 2 2 ?")
                 .build();
 
         // when
@@ -134,6 +136,8 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
         assertThat(triggerConfigurations.get(0).getPartTTL()).isEqualTo(100);
         assertThat(triggerConfigurations.get(0).getCronExpressionRegisterOrderTTLReached()).isEqualTo("0 0 0 1 1 ?");
         assertThat(triggerConfigurations.get(0).getCronExpressionMapCompletedOrders()).isEqualTo("0 0 0 2 2 ?");
+        assertThat(triggerConfigurations.get(0).getCronExpressionAASLookup()).isEqualTo("0 0 0 2 2 ?");
+        assertThat(triggerConfigurations.get(0).getCronExpressionAASCleanup()).isEqualTo("0 0 0 2 2 ?");
     }
 
     @Test
@@ -256,6 +260,8 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
                 .partTTL(100)
                 .cronExpressionRegisterOrderTTLReached("invalid")
                 .cronExpressionMapCompletedOrders("0 0 0 2 2 ?")
+                .cronExpressionAASCleanup("0 0 0 2 2 ?")
+                .cronExpressionAASLookup("0 0 0 2 2 ?")
                 .build();
 
         // when

@@ -59,6 +59,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                 .partTTL(request.getPartTTL())
                 .cronExpressionRegisterOrderTTLReached(request.getCronExpressionRegisterOrderTTLReached())
                 .cronExpressionMapCompletedOrders(request.getCronExpressionMapCompletedOrders())
+                .cronExpressionAASLookup(request.getCronExpressionAASLookup())
+                .cronExpressionAASCleanup(request.getCronExpressionAASCleanup())
                 .aasTTL(request.getAasTTL())
                 .build();
 

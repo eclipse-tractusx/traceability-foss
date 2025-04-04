@@ -53,6 +53,12 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
     @Column(name = "cron_expression_map_completed_orders")
     private String cronExpressionMapCompletedOrders;
 
+    @Column(name = "cron_expression_aas_lookup_ttl_reached")
+    private String cronExpressionAASLookup;
+
+    @Column(name = "cron_expression_aas_cleanup_ttl_reached")
+    private String cronExpressionAASCleanup;
+
     @Column(name = "part_ttl")
     private int partTTL;
 
@@ -69,6 +75,8 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .partTTL(entity.getPartTTL())
                 .cronExpressionMapCompletedOrders(entity.getCronExpressionMapCompletedOrders())
                 .cronExpressionRegisterOrderTTLReached(entity.getCronExpressionRegisterOrderTTLReached())
+                .cronExpressionAASLookup(entity.getCronExpressionAASLookup())
+                .cronExpressionAASCleanup(entity.getCronExpressionAASCleanup())
                 .build();
     }
 
@@ -79,6 +87,8 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .partTTL(domain.getPartTTL())
                 .cronExpressionMapCompletedOrders(domain.getCronExpressionMapCompletedOrders())
                 .cronExpressionRegisterOrderTTLReached(domain.getCronExpressionRegisterOrderTTLReached())
+                .cronExpressionAASLookup(domain.getCronExpressionAASLookup())
+                .cronExpressionAASCleanup(domain.getCronExpressionAASCleanup())
                 .build();
     }
 
