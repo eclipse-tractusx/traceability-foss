@@ -84,7 +84,7 @@ class DecentralRegistryServiceImplTest {
 
         final String responseId = "responseId";
 
-        final OrderConfiguration orderConfiguration = OrderConfiguration.builder().timeoutMs(100).build();
+        final OrderConfiguration orderConfiguration = OrderConfiguration.builder().batchSize(1).timeoutMs(100).build();
 
         when(configurationService.getLatestTriggerConfiguration()).thenReturn(Optional.of(triggerConfiguration));
         when(assetAsBuiltRepository.findAllExpired()).thenReturn(List.of(AssetBase.builder().id("1").importState(ImportState.UNSET).build()));

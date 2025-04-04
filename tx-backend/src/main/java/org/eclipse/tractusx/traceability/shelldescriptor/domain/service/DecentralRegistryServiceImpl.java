@@ -51,7 +51,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
-    private final ConfigurationService configurationService;
+   private final ConfigurationService configurationService;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final TaskScheduler taskScheduler;
@@ -90,47 +90,48 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     public void executeJob() {
         List<AssetBase> assetsAsBuiltToSynchronize = assetAsBuiltRepository.findAllExpired();
         log.info("Found {} assets as built to synchronize", assetsAsBuiltToSynchronize.size());
-        List<String> assetsAsBuiltIds = assetsAsBuiltToSynchronize.stream().map(AssetBase::getId).toList();
 
         List<AssetBase> assetsAsPlannedToSynchronize = assetAsPlannedRepository.findAllExpired();
         log.info("Found {} assets as planned to synchronize", assetsAsPlannedToSynchronize.size());
-        List<String> assetsAsPlannedIds = assetsAsPlannedToSynchronize.stream().map(AssetBase::getId).toList();
 
         Optional<OrderConfiguration> maybeLatestOrderConfiguration = configurationService.getLatestOrderConfiguration();
 
-        String registerOrderResponseForAssetsAsBuilt =
-                assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetsAsBuiltIds, maybeLatestOrderConfiguration);
+        if (!assetsAsBuiltToSynchronize.isEmpty()) {
+                String registerOrderResponseForAssetsAsBuilt =
+                        assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetsAsBuiltToSynchronize.stream().map(AssetBase::getId).toList(), maybeLatestOrderConfiguration);
 
-        String registerOrderResponseForAssetsAsPlanned =
-                assetAsPlannedService.syncAssetsUsingIRSOrderAPI(assetsAsPlannedIds, maybeLatestOrderConfiguration);
+                if (!StringUtils.isEmpty(registerOrderResponseForAssetsAsBuilt)) {
+                    log.info("Order created: {}", registerOrderResponseForAssetsAsBuilt);
 
-        if (!StringUtils.isEmpty(registerOrderResponseForAssetsAsBuilt)) {
-            log.info("Order created: {}", registerOrderResponseForAssetsAsBuilt);
+                    orderService.persistOrder(Order.builder()
+                            .id(registerOrderResponseForAssetsAsBuilt)
+                            .orderConfiguration(maybeLatestOrderConfiguration.orElse(null))
+                            .status(ProcessingState.INITIALIZED)
+                            .build());
 
-            orderService.persistOrder(Order.builder()
-                    .id(registerOrderResponseForAssetsAsBuilt)
-                    .orderConfiguration(maybeLatestOrderConfiguration.orElse(null))
-                    .status(ProcessingState.INITIALIZED)
-                    .build());
-
-            log.info("Changing as built assets import state to IN_SYNCHRONIZATION after creating an order");
-            updateAssetsStatus(assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll);
-        } else {
-            log.warn("No order created for assets as planned, skipping assets synchronization");
+                    log.info("Changing as built assets import state to IN_SYNCHRONIZATION after creating an order");
+                    updateAssetsStatus(assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll);
+                } else {
+                    log.warn("No order created for assets as planned, skipping assets synchronization");
+                }
         }
 
-        if (!StringUtils.isEmpty(registerOrderResponseForAssetsAsPlanned)) {
-            log.info("Order created: {}", registerOrderResponseForAssetsAsPlanned);
-            orderService.persistOrder(Order.builder()
-                    .id(registerOrderResponseForAssetsAsPlanned)
-                    .orderConfiguration(maybeLatestOrderConfiguration.orElse(null))
-                    .status(ProcessingState.INITIALIZED)
-                    .build());
+        if (!assetsAsPlannedToSynchronize.isEmpty()) {
+            String registerOrderResponseForAssetsAsPlanned =
+                    assetAsPlannedService.syncAssetsUsingIRSOrderAPI(assetsAsPlannedToSynchronize.stream().map(AssetBase::getId).toList(), maybeLatestOrderConfiguration);
+            if (!StringUtils.isEmpty(registerOrderResponseForAssetsAsPlanned)) {
+                log.info("Order created: {}", registerOrderResponseForAssetsAsPlanned);
+                orderService.persistOrder(Order.builder()
+                        .id(registerOrderResponseForAssetsAsPlanned)
+                        .orderConfiguration(maybeLatestOrderConfiguration.orElse(null))
+                        .status(ProcessingState.INITIALIZED)
+                        .build());
 
-            log.info("Changing as planned assets import state to IN_SYNCHRONIZATION after creating an order");
-            updateAssetsStatus(assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll);
-        } else {
-            log.warn("No order created for assets as planned, skipping assets synchronization");
+                log.info("Changing as planned assets import state to IN_SYNCHRONIZATION after creating an order");
+                updateAssetsStatus(assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll);
+            } else {
+                log.warn("No order created for assets as planned, skipping assets synchronization");
+            }
         }
     }
 
