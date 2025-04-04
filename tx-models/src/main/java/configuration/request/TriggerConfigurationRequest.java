@@ -37,6 +37,12 @@ public class TriggerConfigurationRequest {
     String cronExpressionMapCompletedOrders;
     @Schema(example = "60")
     int partTTL;
+    @Schema(example = "* * * * * *")
+    @ValidCron
+    String cronExpressionAASLookup;
+    @Schema(example = "* * * * * *")
+    @ValidCron
+    String cronExpressionAASCleanup;
     @Schema(example = "60")
     int aasTTL;
 

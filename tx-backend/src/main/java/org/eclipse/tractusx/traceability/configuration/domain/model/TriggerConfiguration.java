@@ -27,11 +27,12 @@ import lombok.Data;
 @AllArgsConstructor
 @Builder
 public class TriggerConfiguration {
-    Long id;
-    String cronExpressionRegisterOrderTTLReached;
-    String cronExpressionMapCompletedOrders;
-    String cronExpressionAASLookup;
-    int partTTL;
-    int aasTTL;
+    private Long id;
+    private String cronExpressionRegisterOrderTTLReached;
+    private String cronExpressionMapCompletedOrders;
+    private String cronExpressionAASLookup;
+    private String cronExpressionAASCleanup;
+    private int partTTL;
+    private int aasTTL;
 
 }
