@@ -23,9 +23,6 @@ mat-card {
   height: 100% !important;
 }
 
-.card-list--container {
-}
-
 .card-list--row {
   display: grid;
   grid-template-columns: 35% 65%;
@@ -131,6 +128,8 @@ mat-card {
   }
   .info-value {
     color: #111827;
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 }
 

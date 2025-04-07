@@ -93,7 +93,16 @@ export class PartDetailsFacade {
     return this.partsService.getPartDetailOfIds(part.children);
   }
 
+  public getParentPartDetails(part): Observable<Part[]> {
+    return this.partsService.getPartDetailOfIds(part.parents);
+  }
+
   public sortChildParts(view: View<Part[]>, key: string, direction: SortDirection): Part[] {
+    if (!view.data) return [];
+
+    return this.partsService.sortParts(view.data, key, direction);
+  }
+  public sortParentParts(view: View<Part[]>, key: string, direction: SortDirection): Part[] {
     if (!view.data) return [];
 
     return this.partsService.sortParts(view.data, key, direction);
