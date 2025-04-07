@@ -21,12 +21,14 @@ package org.eclipse.tractusx.traceability.aas.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.aas.application.service.AASService;
+import org.eclipse.tractusx.traceability.aas.application.service.DTRService;
 import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
 import org.eclipse.tractusx.traceability.aas.domain.model.Actor;
 import org.eclipse.tractusx.traceability.aas.domain.model.DTR;
 import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
 import org.eclipse.tractusx.traceability.aas.domain.repository.AASRepository;
-import org.eclipse.tractusx.traceability.common.properties.AASProperties;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -34,17 +36,54 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Primary
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class AASServiceImpl implements AASService {
 
     private final AASRepository aasRepository;
-    private final AASProperties aasProperties;
-
+    private final DTRService dtrService;
 
     @Override
-    public void upsertAASList(DTR dtr) {
+    public void aasCleanup() {
+        aasRepository.cleanExpiredEntries();
+    }
+
+    @Override
+    public void aasLookup(final TriggerConfiguration triggerConfiguration) {
+        aasLookupByType(TwinType.PART_TYPE, triggerConfiguration);
+        aasLookupByType(TwinType.PART_INSTANCE, triggerConfiguration);
+    }
+
+    private void aasLookupByType(TwinType twinType, TriggerConfiguration latestTriggerConfiguration) {
+        DTR result = queryAndStoreAAS(null, twinType, latestTriggerConfiguration);
+        if (result == null) {
+            return;
+        }
+        String cursor = result.getNextCursor();
+        while (cursor != null) {
+            DTR lookupDTRs = queryAndStoreAAS(cursor, twinType, latestTriggerConfiguration);
+            cursor = lookupDTRs.getNextCursor();
+        }
+    }
+
+    private DTR queryAndStoreAAS(final String nextCursor, final TwinType digitalTwinType, final TriggerConfiguration triggerConfiguration) {
+        log.info("Processing AAS Lookup with cursor: {} and limit: {}", nextCursor, triggerConfiguration.getAasLimit());
+        DTR dtr;
+
+        try {
+            dtr = dtrService.lookupAASShells(digitalTwinType, nextCursor, triggerConfiguration.getAasLimit());
+        } catch (Exception e) {
+            log.error("Failed to query AAS shells for cursor: {}", nextCursor, e);
+            return null;
+        }
+        upsertAASList(dtr, triggerConfiguration.getAasTTL());
+        return dtr;
+    }
+
+
+    protected void upsertAASList(final DTR dtr, int aas_ttl) {
 
         List<String> aasList = dtr.getAasIds();
         log.info("Starting to upsert AAS objects. Total IDs to process: {}", aasList.size());
@@ -55,8 +94,8 @@ public class AASServiceImpl implements AASService {
         List<AAS> aasForUpdate = new ArrayList<>();
         List<AAS> aasForInsert = new ArrayList<>();
 
-        int ttl = aasProperties.getTtl();
-        log.debug("TTL (Time to Live) value loaded from properties: {}", ttl);
+
+        log.debug("TTL (Time to Live) value loaded from properties: {}", aas_ttl);
 
         for (String aasId : aasList) {
             log.debug("Processing AAS ID: {}", aasId);
@@ -73,7 +112,7 @@ public class AASServiceImpl implements AASService {
             } else {
                 AAS newAAS = AAS.builder()
                         .aasId(aasId)
-                        .ttl(ttl)
+                        .ttl(aas_ttl)
                         .actor(Actor.SYSTEM)
                         .created(LocalDateTime.now())
                         .updated(LocalDateTime.now())
@@ -106,13 +145,4 @@ public class AASServiceImpl implements AASService {
     }
 
 
-    @Override
-    public void cleanExpiredAASEntries() {
-        aasRepository.cleanExpiredEntries();
-    }
-
-    @Override
-    public List<AAS> findByDigitalTwinType(final TwinType digitalTwinType) {
-        return aasRepository.findByDigitalTwinType(digitalTwinType);
-    }
 }

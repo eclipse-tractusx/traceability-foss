@@ -93,7 +93,7 @@ class DigitalTwinPartServiceImplTest {
         when(digitalTwinPartRepository.getDigitalTwinPartDetail("aasId-123")).thenReturn(detail);
 
         TriggerConfiguration triggerConfig = mock(TriggerConfiguration.class);
-        when(configurationService.getLatestTriggerConfiguration()).thenReturn(Optional.ofNullable(triggerConfig));
+        when(configurationService.getLatestTriggerConfiguration()).thenReturn(triggerConfig);
         assert triggerConfig != null;
         when(triggerConfig.getCronExpressionAASLookup()).thenReturn("0 0 12 * * *"); // valid Spring cron
         when(triggerConfig.getCronExpressionRegisterOrderTTLReached()).thenReturn("0 0 12 * * *");
@@ -117,7 +117,7 @@ class DigitalTwinPartServiceImplTest {
         when(digitalTwinPartRepository.getDigitalTwinPartDetail("global-456")).thenReturn(detail);
 
         TriggerConfiguration triggerConfig = mock(TriggerConfiguration.class);
-        when(configurationService.getLatestTriggerConfiguration()).thenReturn(Optional.ofNullable(triggerConfig));
+        when(configurationService.getLatestTriggerConfiguration()).thenReturn(triggerConfig);
         when(triggerConfig.getCronExpressionAASLookup()).thenReturn("0 0 12 * * *");
         when(triggerConfig.getCronExpressionRegisterOrderTTLReached()).thenReturn("0 0 12 * * *");
 

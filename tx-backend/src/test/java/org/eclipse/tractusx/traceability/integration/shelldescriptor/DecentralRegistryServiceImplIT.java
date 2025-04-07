@@ -28,6 +28,7 @@ import java.util.List;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.TriggerConfigurationEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
@@ -58,7 +59,7 @@ public class DecentralRegistryServiceImplIT extends IntegrationTestSpecification
     DecentralRegistryService service;
 
     @Test
-    void shouldSynchronizeAssets() throws JoseException {
+    void shouldUpdateRegisterOrderCron() throws JoseException {
         // given
         final int ttl = 604800000; // 1 week
 
@@ -69,8 +70,8 @@ public class DecentralRegistryServiceImplIT extends IntegrationTestSpecification
         configurationSupport.storeTriggerConfiguration(TriggerConfigurationEntity.builder()
                 .cronExpressionRegisterOrderTTLReached("* * * * * ?")
                 .aasTTL(ttl).build());
-
-        service.executeJob();
+        OrderConfiguration orderConfiguration = OrderConfiguration.builder().build();
+        service.registerOrdersForExpiredAssets(orderConfiguration);
 
         final String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
 

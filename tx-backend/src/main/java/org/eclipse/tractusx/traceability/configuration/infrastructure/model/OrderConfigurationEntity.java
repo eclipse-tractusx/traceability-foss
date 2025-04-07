@@ -42,6 +42,10 @@ import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfigu
 @EqualsAndHashCode(callSuper = true)
 public class OrderConfigurationEntity extends ConfigurationEntity {
 
+    private static final int DEFAULT_BATCH_SIZE = 100;
+    private static final int DEFAULT_JOB_TIMEOUT_MS = 7200;
+    private static final int DEFAULT_TIMEOUT_MS = 86400;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -74,5 +78,13 @@ public class OrderConfigurationEntity extends ConfigurationEntity {
                 .build();
     }
 
+
+    public static OrderConfigurationEntity defaultOrderConfigurationEntity() {
+        return OrderConfigurationEntity.builder()
+                .batchSize(DEFAULT_BATCH_SIZE)
+                .jobTimeoutMs(DEFAULT_JOB_TIMEOUT_MS)
+                .timeoutMs(DEFAULT_TIMEOUT_MS)
+                .build();
+    }
 
 }

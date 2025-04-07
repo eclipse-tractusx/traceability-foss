@@ -25,6 +25,7 @@ import java.util.Optional;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.service.ConfigurationServiceImpl;
+import org.eclipse.tractusx.traceability.configuration.domain.service.CronRegistrationService;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderConfigurationRepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,9 @@ class ConfigurationServiceImplTest {
     @Mock
     private TriggerConfigurationRepository triggerConfigurationRepository;
 
+    @Mock
+    private CronRegistrationService cronRegistrationService;
+
     @InjectMocks
     private ConfigurationServiceImpl configurationServiceImpl;
 
@@ -68,7 +72,7 @@ class ConfigurationServiceImplTest {
         OrderConfiguration orderConfiguration = OrderConfiguration.builder().build();
         when(orderConfigurationRepository.findTopByCreatedAtDesc()).thenReturn(orderConfiguration);
 
-        Optional<OrderConfiguration> result = configurationServiceImpl.getLatestOrderConfiguration();
+        OrderConfiguration result = configurationServiceImpl.getLatestOrderConfiguration();
 
         assertNotNull(result);
         verify(orderConfigurationRepository).findTopByCreatedAtDesc();
@@ -84,8 +88,8 @@ class ConfigurationServiceImplTest {
                 .cronExpressionAASLookup("* * * * *")
                 .cronExpressionAASCleanup("* * * * *")
                 .build();
-
-        configurationServiceImpl.persistTriggerConfiguration(request);
+        when(orderConfigurationRepository.findTopByCreatedAtDesc()).thenReturn(OrderConfiguration.builder().build());
+        configurationServiceImpl.persistTriggerConfigurationAndUpdateCronjobs(request);
 
         verify(triggerConfigurationRepository).save(any(TriggerConfiguration.class));
     }
@@ -95,7 +99,7 @@ class ConfigurationServiceImplTest {
         TriggerConfiguration triggerConfiguration = TriggerConfiguration.builder().build();
         when(triggerConfigurationRepository.findTopByCreatedAtDesc()).thenReturn(triggerConfiguration);
 
-        Optional<TriggerConfiguration> result = configurationServiceImpl.getLatestTriggerConfiguration();
+        TriggerConfiguration result = configurationServiceImpl.getLatestTriggerConfiguration();
 
         assertNotNull(result);
         verify(triggerConfigurationRepository).findTopByCreatedAtDesc();

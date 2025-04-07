@@ -19,14 +19,11 @@
 package org.eclipse.tractusx.traceability.aas.domain.service;
 
 import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
-import org.eclipse.tractusx.traceability.aas.domain.model.Actor;
 import org.eclipse.tractusx.traceability.aas.domain.model.DTR;
 import org.eclipse.tractusx.traceability.aas.domain.repository.AASRepository;
 import org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType;
-import org.eclipse.tractusx.traceability.common.properties.AASProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,7 +32,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -46,16 +42,13 @@ class AASServiceImplTest {
 
     @Mock
     private AASRepository aasRepository;
-    @Mock
-    private AASProperties aasProperties;
+
     @InjectMocks
     private AASServiceImpl aasService;
 
     @Test
     void upsertAASList_withOnlyExistingEntries_shouldOnlyUpdate() {
         // Arrange
-        when(aasProperties.getTtl()).thenReturn(3600);
-
         DTR dtr = DTR.builder()
                 .aasIds(List.of("existingAAS"))
                 .digitalTwinType(DigitalTwinType.PART_TYPE)
@@ -68,7 +61,7 @@ class AASServiceImplTest {
         when(aasRepository.findExistingAasList(anyList())).thenReturn(List.of(existingAAS));
 
         // Act
-        aasService.upsertAASList(dtr);
+        aasService.upsertAASList(dtr, 1000);
 
         // Assert
         verify(aasRepository).save(anyList());
@@ -78,8 +71,6 @@ class AASServiceImplTest {
     @Test
     void upsertAASList_withOnlyNewEntries_shouldOnlyInsert() {
         // Arrange
-        when(aasProperties.getTtl()).thenReturn(3600);
-
         DTR dtr = DTR.builder()
                 .aasIds(List.of("newAAS"))
                 .digitalTwinType(DigitalTwinType.PART_TYPE)
@@ -90,7 +81,7 @@ class AASServiceImplTest {
         when(aasRepository.findExistingAasList(anyList())).thenReturn(Collections.emptyList());
 
         // Act
-        aasService.upsertAASList(dtr);
+        aasService.upsertAASList(dtr, 1000);
 
         // Assert
         verify(aasRepository, never()).save(Collections.emptyList());
@@ -108,7 +99,7 @@ class AASServiceImplTest {
                 .nextCursor(null)
                 .build();
         // Act
-        aasService.upsertAASList(dtr);
+        aasService.upsertAASList(dtr, 1000);
 
         // Assert
         verify(aasRepository, never()).save(anyList());
@@ -117,7 +108,7 @@ class AASServiceImplTest {
     @Test
     void cleanExpiredAASEntries_shouldInvokeRepositoryMethod() {
         // Act
-        aasService.cleanExpiredAASEntries();
+        aasService.aasCleanup();
 
         // Assert
         verify(aasRepository).cleanExpiredEntries();

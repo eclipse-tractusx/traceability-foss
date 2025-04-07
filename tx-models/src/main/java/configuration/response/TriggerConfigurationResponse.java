@@ -38,6 +38,8 @@ public class TriggerConfigurationResponse {
     int partTTL;
     @Schema(example = "60")
     int aasTTL;
+    @Schema(example = "60")
+    int aasLimit;
     @Schema(example = "* * * * * *")
     private String cronExpressionAASLookup;
     @Schema(example = "* * * * * *")

@@ -34,5 +34,6 @@ public class TriggerConfiguration {
     private String cronExpressionAASCleanup;
     private int partTTL;
     private int aasTTL;
+    private int aasLimit;
 
 }

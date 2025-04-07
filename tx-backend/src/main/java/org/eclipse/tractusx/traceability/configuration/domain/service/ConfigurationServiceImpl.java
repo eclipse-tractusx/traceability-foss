@@ -19,24 +19,27 @@
 
 package org.eclipse.tractusx.traceability.configuration.domain.service;
 
-import java.util.Optional;
-import lombok.AllArgsConstructor;
-import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
-import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import configuration.request.OrderConfigurationRequest;
 import configuration.request.TriggerConfigurationRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderConfigurationRepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+@Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ConfigurationServiceImpl implements ConfigurationService {
 
     private final OrderConfigurationRepository orderConfigurationRepository;
-
     private final TriggerConfigurationRepository triggerConfigurationRepository;
+    private final CronRegistrationService cronRegistrationService;
 
     @Override
     public void persistOrderConfiguration(OrderConfigurationRequest request) {
@@ -49,12 +52,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     }
 
     @Override
-    public Optional<OrderConfiguration> getLatestOrderConfiguration() {
-        return Optional.ofNullable(orderConfigurationRepository.findTopByCreatedAtDesc());
+    public OrderConfiguration getLatestOrderConfiguration() {
+        return orderConfigurationRepository.findTopByCreatedAtDesc();
     }
 
     @Override
-    public void persistTriggerConfiguration(TriggerConfigurationRequest request) {
+    public void persistTriggerConfigurationAndUpdateCronjobs(TriggerConfigurationRequest request) {
         TriggerConfiguration triggerConfiguration = TriggerConfiguration.builder()
                 .partTTL(request.getPartTTL())
                 .cronExpressionRegisterOrderTTLReached(request.getCronExpressionRegisterOrderTTLReached())
@@ -63,13 +66,15 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                 .cronExpressionAASCleanup(request.getCronExpressionAASCleanup())
                 .aasTTL(request.getAasTTL())
                 .build();
-
         triggerConfigurationRepository.save(triggerConfiguration);
+        OrderConfiguration latestConfig = getLatestOrderConfiguration();
+        cronRegistrationService.updateCronjobs(triggerConfiguration, latestConfig);
     }
 
     @Override
-    public Optional<TriggerConfiguration> getLatestTriggerConfiguration() {
-        return Optional.ofNullable(triggerConfigurationRepository.findTopByCreatedAtDesc());
-
+    public TriggerConfiguration getLatestTriggerConfiguration() {
+        return triggerConfigurationRepository.findTopByCreatedAtDesc();
     }
+
+
 }

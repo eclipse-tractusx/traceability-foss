@@ -34,7 +34,7 @@ public class OrderConfigurationRepositoryImpl implements OrderConfigurationRepos
 
     @Override
     public OrderConfiguration findTopByCreatedAtDesc() {
-        return OrderConfigurationEntity.toDomain(orderConfigurationJPARepository.findTopByCreatedAtDesc().orElse(null));
+        return OrderConfigurationEntity.toDomain(orderConfigurationJPARepository.findTopByCreatedAtDesc().orElse(OrderConfigurationEntity.defaultOrderConfigurationEntity()));
     }
 
     @Override

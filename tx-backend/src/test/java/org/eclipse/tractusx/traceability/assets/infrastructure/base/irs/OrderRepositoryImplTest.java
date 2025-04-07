@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
@@ -37,6 +36,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationJPARepository;
@@ -53,6 +53,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -60,11 +61,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.mock;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -97,6 +98,8 @@ class OrderRepositoryImplTest {
     private OrderJPARepository orderJPARepository;
 
     @Mock
+    private OrderConfiguration orderConfiguration;
+    @Mock
     private TriggerConfigurationJPARepository triggerConfigurationJPARepository;
 
     @Captor
@@ -106,7 +109,7 @@ class OrderRepositoryImplTest {
     private String batchId;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         // Generate UUIDs for orderId and batchId
         orderId = UUID.randomUUID().toString();
         batchId = UUID.randomUUID().toString();
@@ -123,9 +126,13 @@ class OrderRepositoryImplTest {
         // Given
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
         when(orderClient.registerOrder(any())).thenReturn(new RegisterOrderResponse("id"));
+        when(orderConfiguration.getBatchSize()).thenReturn(50);
+        when(orderConfiguration.getJobTimeoutMs()).thenReturn(5000);
+        when(orderConfiguration.getTimeoutMs()).thenReturn(7000);
+
 
         // When
-        orderRepositoryImpl.createOrderToResolveAssets(List.of("1"), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, Optional.empty());
+        orderRepositoryImpl.createOrderToResolveAssets(List.of("1"), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration);
 
         // Then
         verify(orderClient).registerOrder(any(RegisterOrderRequest.class));

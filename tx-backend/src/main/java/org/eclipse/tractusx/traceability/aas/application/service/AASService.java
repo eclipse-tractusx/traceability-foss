@@ -18,16 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.aas.application.service;
 
-import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
-import org.eclipse.tractusx.traceability.aas.domain.model.DTR;
-import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
-
-import java.util.List;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 
 public interface AASService {
-    void upsertAASList(DTR dtr);
+    void aasLookup(TriggerConfiguration triggerConfiguration);
 
-    void cleanExpiredAASEntries();
-
-    List<AAS> findByDigitalTwinType(final TwinType digitalTwinType);
+    void aasCleanup();
 }

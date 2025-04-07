@@ -43,6 +43,15 @@ import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfi
 @EqualsAndHashCode(callSuper = true)
 public class TriggerConfigurationEntity extends ConfigurationEntity {
 
+    private static final String DEFAULT_CRON_EXPRESSION_AAS_CLEANUP = "0 0 1 * * ?";
+    private static final String DEFAULT_CRON_EXPRESSION_AAS_LOOKUP = "0 0 3 * * ?";
+    private static final String DEFAULT_CRON_EXPRESSION_MAP_COMPLETED_ORDERS = "0 0 0/4 * * ?";
+    private static final String DEFAULT_CRON_EXPRESSION_REGISTER_ORDER_TTL_REACHED = "0 0 0/4 * * ?";
+    private static final int DEFAULT_AAS_LIMIT = 1000;
+    private static final int DEFAULT_AAS_TTL = 2629536;
+    private static final int DEFAULT_PART_TTL = 2629536;
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -65,6 +74,9 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
     @Column(name = "aas_ttl")
     private int aasTTL;
 
+    @Column(name = "aas_limit")
+    private int aasLimit;
+
     public static TriggerConfiguration toDomain(TriggerConfigurationEntity entity) {
         if (entity == null) {
             return null;
@@ -77,6 +89,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .cronExpressionRegisterOrderTTLReached(entity.getCronExpressionRegisterOrderTTLReached())
                 .cronExpressionAASLookup(entity.getCronExpressionAASLookup())
                 .cronExpressionAASCleanup(entity.getCronExpressionAASCleanup())
+                .aasLimit(entity.getAasLimit())
                 .build();
     }
 
@@ -89,8 +102,21 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .cronExpressionRegisterOrderTTLReached(domain.getCronExpressionRegisterOrderTTLReached())
                 .cronExpressionAASLookup(domain.getCronExpressionAASLookup())
                 .cronExpressionAASCleanup(domain.getCronExpressionAASCleanup())
+                .aasLimit(domain.getAasLimit())
                 .build();
     }
 
+
+    public static TriggerConfigurationEntity defaultTriggerConfigurationEntity() {
+        return TriggerConfigurationEntity.builder()
+                .cronExpressionAASCleanup(DEFAULT_CRON_EXPRESSION_AAS_CLEANUP)
+                .cronExpressionRegisterOrderTTLReached(DEFAULT_CRON_EXPRESSION_REGISTER_ORDER_TTL_REACHED)
+                .cronExpressionMapCompletedOrders(DEFAULT_CRON_EXPRESSION_MAP_COMPLETED_ORDERS)
+                .cronExpressionAASLookup(DEFAULT_CRON_EXPRESSION_AAS_LOOKUP)
+                .aasTTL(DEFAULT_AAS_TTL)
+                .partTTL(DEFAULT_PART_TTL)
+                .aasLimit(DEFAULT_AAS_LIMIT)
+                .build();
+    }
 
 }
