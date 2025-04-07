@@ -225,7 +225,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.chipItems.length || searchValue && searchValue !== '') {
       let values: string[] | Record<string, string[]>;
       if (!this.isRecord(searchValue)) {
-        const regex = /\b[\p{L}\p{N}:/_-]+\b/gu;
+        const regex = /[\p{L}\p{N}:_+\\/=#'-]+/gu;
         values = searchValue.match(regex) ?? [];
         values.push(...this.searchTerms);
       } else {
