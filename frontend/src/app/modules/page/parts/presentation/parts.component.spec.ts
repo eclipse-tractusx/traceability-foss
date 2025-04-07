@@ -40,7 +40,7 @@ const mockQuickfilterService = {
   setOwner: jasmine.createSpy('setOwner'),
   getOwner: jasmine.createSpy('getOwner').and.returnValue(Owner.UNKNOWN),
   isQuickFilterSet: jasmine.createSpy('isQuickFilterSet').and.returnValue(false),
-  // For completeness, if the component ever subscribes to owner$:
+  // For completeness, if the componentInstance ever subscribes to owner$:
   owner$: of(Owner.UNKNOWN),
 } as Partial<QuickfilterService> as QuickfilterService;
 
@@ -535,6 +535,118 @@ describe('Parts', () => {
     const value = null;
     const result = componentInstance.isRecord(value);
     expect(result).toBeFalse();
+  });
+
+  it('should not split search value with special characters', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('ID_123+ABC/DEF=G#H');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'ID_123+ABC/DEF=G#H' ]);
+  });
+
+  it('should handle special characters within IDs', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('ID_123+ABC/DEF=G#H OtherID:123');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'ID_123+ABC/DEF=G#H', 'OtherID:123' ]);
+  });
+
+  it('should handle multiple IDs with comma separator', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('ID_123+ABC/DEF=G#H,OtherID:123');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'ID_123+ABC/DEF=G#H', 'OtherID:123' ]);
+  });
+
+  it('should handle mixed IDs and words', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('ID_123,+ABC/DEF=G#H word123');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'ID_123', '+ABC/DEF=G#H', 'word123' ]);
+  });
+
+  it('should handle empty search value', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([]);
+  });
+
+  it('should handle only spaces in search value', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('   ');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([]);
+  });
+
+  it('should handle special characters at the beginning and end', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('_ID123+');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ '_ID123+' ]);
+  });
+
+  it('should handle more complex search value', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('ID_123+ABC/DEF=G#H word123_456-789+abc_def/ghi=jkl#mno\'pqr');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'ID_123+ABC/DEF=G#H', 'word123_456-789+abc_def/ghi=jkl#mno\'pqr' ]);
+  });
+
+  it('should handle numbers with special characters', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('123_456+789/0=1#2\'3');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ '123_456+789/0=1#2\'3' ]);
+  });
+
+  it('should handle umlauts and other unicode characters', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('ÖÄÜß_123+ABC/DEF=G#H');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'ÖÄÜß_123+ABC/DEF=G#H' ]);
+  });
+
+  it('should handle a string with a colon and a space', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('Teil: 1234');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'Teil:', '1234' ]);
+  });
+
+  it('should handle a string with a colon and no space', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('Teil:1234');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'Teil:1234' ]);
+  });
+
+  it('should handle a string with a single quote', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('Teil\'1234');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'Teil\'1234' ]);
+  });
+
+  it('should handle a string with a hyphen', async () => {
+    const { fixture } = await renderParts();
+    const { componentInstance } = fixture;
+    componentInstance.searchControl.setValue('Teil-1234');
+    componentInstance.triggerPartSearch();
+    expect(componentInstance.searchTerms).toEqual([ 'Teil-1234' ]);
   });
 
 });
