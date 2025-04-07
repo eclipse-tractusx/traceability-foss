@@ -18,7 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+
 public interface DecentralRegistryService {
-    void synchronizeAssets();
-    void executeJob();
+    void registerOrdersForExpiredAssets(OrderConfiguration orderConfiguration);
 }

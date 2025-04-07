@@ -29,9 +29,9 @@ public interface ConfigurationService {
 
     void persistOrderConfiguration(OrderConfigurationRequest request);
 
-    Optional<OrderConfiguration> getLatestOrderConfiguration();
+    OrderConfiguration getLatestOrderConfiguration();
 
-    void persistTriggerConfiguration(TriggerConfigurationRequest request);
+    void persistTriggerConfigurationAndUpdateCronjobs(TriggerConfigurationRequest request);
 
-    Optional<TriggerConfiguration> getLatestTriggerConfiguration();
+    TriggerConfiguration getLatestTriggerConfiguration();
 }

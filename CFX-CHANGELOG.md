@@ -11,7 +11,8 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ### Added
 - TRACEX-409 show child/parent parts in table(Part detail view)
-
+- TRACEX-466 Adapting cron jobs to allow dynamic updates
+-
 ## [14.0.0-cfx-5]
 
 ### Added

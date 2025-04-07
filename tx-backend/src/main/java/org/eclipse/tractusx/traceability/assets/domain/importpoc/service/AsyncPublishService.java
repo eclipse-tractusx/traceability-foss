@@ -31,6 +31,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -51,7 +53,7 @@ public class AsyncPublishService {
     private final EdcAssetCreationService edcAssetCreationService;
     private final DtrService dtrService;
     private final DecentralRegistryServiceImpl decentralRegistryService;
-
+    private final ConfigurationService configurationService;
     @Async(value = AssetsAsyncConfig.PUBLISH_ASSETS_EXECUTOR)
     public void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
         Map<String, List<AssetBase>> assetsByPolicyId = assets.stream().collect(Collectors.groupingBy(AssetBase::getPolicyId));
@@ -87,7 +89,8 @@ public class AsyncPublishService {
 
                 updateAssetStates(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
                 if (triggerSynchronizeAssets) {
-                    decentralRegistryService.synchronizeAssets();
+                    OrderConfiguration latestConfig = configurationService.getLatestOrderConfiguration();
+                    decentralRegistryService.registerOrdersForExpiredAssets(latestConfig);
                 }
             }
         });

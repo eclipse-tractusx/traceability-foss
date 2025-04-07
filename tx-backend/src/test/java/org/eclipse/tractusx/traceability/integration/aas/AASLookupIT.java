@@ -2,9 +2,9 @@ package org.eclipse.tractusx.traceability.integration.aas;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.aas.application.cron.AASLookup;
+import org.eclipse.tractusx.traceability.aas.application.service.AASService;
 import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
-import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AASDatabaseSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.DiscoveryFinderSupport;
@@ -17,10 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 @Disabled("Temporarily deactivated for investigation")
 public class AASLookupIT extends IntegrationTestSpecification {
     @Autowired
-    private AASLookup aasLookup;
+    private AASService aasService;
 
     @Autowired
     private DiscoveryFinderSupport discoveryFinderSupport;
@@ -63,8 +64,10 @@ public class AASLookupIT extends IntegrationTestSpecification {
         );
         List<AAS> existingAASIdsBeforeInsert = aasDatabaseSupport.findExistingAASIds(uuids);
         assertThat(existingAASIdsBeforeInsert.size()).isEqualTo(0);
-
-        aasLookup.aasLookupByType(TwinType.PART_TYPE);
+        TriggerConfiguration triggerConfiguration = TriggerConfiguration.builder()
+                .aasTTL(1000)
+                .build();
+        aasService.aasLookup(triggerConfiguration);
 
         List<AAS> existingAASIdsAfter = aasDatabaseSupport.findExistingAASIds(uuids);
         assertThat(existingAASIdsAfter.size()).isEqualTo(11);

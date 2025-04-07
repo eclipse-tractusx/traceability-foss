@@ -77,8 +77,5 @@ public class AssetsAsyncConfig {
         return executor;
     }
 
-    @Bean
-    public TaskScheduler taskScheduler() {
-        return new ConcurrentTaskScheduler(Executors.newSingleThreadScheduledExecutor());
-    }
+
 }

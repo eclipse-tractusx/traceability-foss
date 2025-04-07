@@ -45,5 +45,7 @@ public class TriggerConfigurationRequest {
     String cronExpressionAASCleanup;
     @Schema(example = "60")
     int aasTTL;
+    @Schema(example = "1000")
+    int aasLimit;
 
 }

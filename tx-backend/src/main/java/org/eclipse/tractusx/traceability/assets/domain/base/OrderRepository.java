@@ -30,7 +30,7 @@ import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfigu
 
 public interface OrderRepository {
 
-    String createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle, Optional<OrderConfiguration> orderConfiguration);
+    String createOrderToResolveAssets(List<String> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle, OrderConfiguration orderConfiguration);
 
     void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState);
 

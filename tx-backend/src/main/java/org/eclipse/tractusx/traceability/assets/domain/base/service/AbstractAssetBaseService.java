@@ -77,7 +77,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public String syncAssetsUsingIRSOrderAPI(List<String> aasList, Optional<OrderConfiguration> orderConfiguration) {
+    public String syncAssetsUsingIRSOrderAPI(List<String> aasList, OrderConfiguration orderConfiguration) {
         log.info("Synchronizing assets for aasList: {}", aasList);
         try {
             if (!getDownwardAspects().isEmpty()) {

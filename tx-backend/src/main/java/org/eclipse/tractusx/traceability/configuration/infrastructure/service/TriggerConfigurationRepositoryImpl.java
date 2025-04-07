@@ -33,7 +33,7 @@ public class TriggerConfigurationRepositoryImpl implements TriggerConfigurationR
 
     @Override
     public TriggerConfiguration findTopByCreatedAtDesc() {
-        return TriggerConfigurationEntity.toDomain(triggerConfigurationJPARepository.findTopByCreatedAtDesc().orElse(null));
+        return TriggerConfigurationEntity.toDomain(triggerConfigurationJPARepository.findTopByCreatedAtDesc().orElse(TriggerConfigurationEntity.defaultTriggerConfigurationEntity()));
     }
 
     @Override

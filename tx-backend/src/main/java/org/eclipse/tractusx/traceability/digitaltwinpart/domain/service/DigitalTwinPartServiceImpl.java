@@ -65,8 +65,8 @@ public class DigitalTwinPartServiceImpl implements DigitalTwinPartService {
     }
 
     private void enrichNextLookupAndSync(DigitalTwinPartDetail digitalTwinPartDetail) {
-        String cronAASLookup = configurationService.getLatestTriggerConfiguration().get().getCronExpressionAASLookup();
-        String cronRegisterOrderTTL = configurationService.getLatestTriggerConfiguration().get().getCronExpressionRegisterOrderTTLReached();
+        String cronAASLookup = configurationService.getLatestTriggerConfiguration().getCronExpressionAASLookup();
+        String cronRegisterOrderTTL = configurationService.getLatestTriggerConfiguration().getCronExpressionRegisterOrderTTLReached();
 
         LocalDateTime now = LocalDateTime.now();
 

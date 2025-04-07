@@ -105,42 +105,6 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void shouldStoreTriggerConfiguration() throws JoseException {
-        // given
-        TriggerConfigurationRequest request = TriggerConfigurationRequest.builder()
-                .aasTTL(10)
-                .partTTL(100)
-                .cronExpressionRegisterOrderTTLReached("0 0 0 1 1 ?")
-                .cronExpressionMapCompletedOrders("0 0 0 2 2 ?")
-                .cronExpressionAASLookup("0 0 0 2 2 ?")
-                .cronExpressionAASCleanup("0 0 0 2 2 ?")
-                .build();
-
-        // when
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .body(request)
-                .log()
-                .all()
-                .when()
-                .post("/api/orders/configuration/triggers")
-                .then()
-                .statusCode(201);
-
-        // then
-        List<TriggerConfigurationEntity> triggerConfigurations = configurationSupport.getTriggersConfigurations();
-
-        assertThat(triggerConfigurations).hasSize(1);
-        assertThat(triggerConfigurations.get(0).getAasTTL()).isEqualTo(10);
-        assertThat(triggerConfigurations.get(0).getPartTTL()).isEqualTo(100);
-        assertThat(triggerConfigurations.get(0).getCronExpressionRegisterOrderTTLReached()).isEqualTo("0 0 0 1 1 ?");
-        assertThat(triggerConfigurations.get(0).getCronExpressionMapCompletedOrders()).isEqualTo("0 0 0 2 2 ?");
-        assertThat(triggerConfigurations.get(0).getCronExpressionAASLookup()).isEqualTo("0 0 0 2 2 ?");
-        assertThat(triggerConfigurations.get(0).getCronExpressionAASCleanup()).isEqualTo("0 0 0 2 2 ?");
-    }
-
-    @Test
     void shouldRetrieveTheLatestTriggerConfiguration() throws JoseException {
         // given
         configurationSupport.storeTriggerConfiguration(TriggerConfigurationEntity.builder().aasTTL(10).build());

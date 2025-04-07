@@ -105,7 +105,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             Direction direction,
             List<String> aspects,
             BomLifecycle bomLifecycle,
-            Optional<OrderConfiguration> orderConfiguration) {
+            OrderConfiguration orderConfiguration) {
         final String callbackUrl = traceabilityProperties.getUrl();
         String applicationBpn = traceabilityProperties.getBpn().toString();
         List<PartChainIdentificationKey> keys = ids.stream().map(id -> new PartChainIdentificationKey(null, id, applicationBpn)).collect(Collectors.toList());

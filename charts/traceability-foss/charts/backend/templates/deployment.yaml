@@ -192,10 +192,6 @@ spec:
               value: {{ .Values.bpdm.bpn | quote }}
             - name: DISCOVERY_TYPE
               value: {{ .Values.traceability.discoveryType | quote }}
-            - name: TRACEABILITY_ASSETS_REFRESH_CRON
-              value: {{ .Values.traceability.assetRefreshJobCronExpression | quote }}
-            - name: TRACEABILITY_ASSETS_REFRESH_ZONE
-              value: {{ .Values.traceability.assetRefreshJobZone | quote }}
             - name: TRACEABILITY_PUBLISH_ASSET_CRON
               value: {{ .Values.traceability.publishAssetCronExpression | quote }}
             - name: TRACEABILITY_PUBLISH_ASSET_ZONE
