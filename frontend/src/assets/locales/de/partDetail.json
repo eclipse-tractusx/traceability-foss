@@ -45,7 +45,6 @@
       "SUPPLIER": "Zulieferteil",
       "CUSTOMER": "Kundenteil"
     },
-
     "investigation": {
       "headline": "Qualitätsuntersuchung für Bauteile anfordern",
       "tab": {
@@ -60,7 +59,8 @@
     "importHeader": "Produktstatus",
     "importState": "Importstatus",
     "importNote": "Importanmerkung",
+    "childParts": "Untergeordnete Teile",
+    "parentParts": "Übergeordnete Teile",
     "recordInformation": "Datensatzinformationen"
-
   }
 }

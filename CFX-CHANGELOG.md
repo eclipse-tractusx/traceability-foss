@@ -9,6 +9,9 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ## [Unreleased]
 
+### Added
+- TRACEX-409 show child/parent parts in table(Part detail view)
+
 ## [14.0.0-cfx-5]
 
 ### Added

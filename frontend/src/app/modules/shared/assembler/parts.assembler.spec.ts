@@ -291,7 +291,7 @@ describe('PartsAssembler', () => {
   describe('mapPartForCustomerView', () => {
     const customerPartId = 'customerPartId';
     const nameAtCustomer = 'nameAtCustomer';
-
+  
     it('should clean up data for customer view', done => {
       const data = { customerPartId, nameAtCustomer, test: '' } as unknown as Part;
       of({ data })
@@ -301,17 +301,72 @@ describe('PartsAssembler', () => {
           done();
         });
     });
-
-    it('should return view if data is not set', done => {
+  
+    it('should exclude empty and "null" string values', done => {
+      const data = {
+        customerPartId: '',
+        nameAtCustomer: 'null',
+        test: 'should be ignored'
+      } as unknown as Part;
+  
+      of({ data })
+        .pipe(PartsAssembler.mapPartForCustomerOrPartSiteView())
+        .subscribe(result => {
+          expect(result).toBeNull(); 
+          done();
+        });
+    });
+  
+    it('should return fallback part site info when customer data is invalid but functionValidFrom is present', done => {
+      const data = {
+        customerPartId: '',
+        nameAtCustomer: null,
+        catenaXSiteId: 'site-123',
+        psFunction: 'function-x',
+        functionValidFrom: '2024-01-01',
+        functionValidUntil: '2025-01-01'
+      } as unknown as Part;
+  
+      of({ data })
+        .pipe(PartsAssembler.mapPartForCustomerOrPartSiteView())
+        .subscribe(result => {
+          expect(result).toEqual({
+            data: {
+              catenaXSiteId: 'site-123',
+              psFunction: 'function-x',
+              functionValidFrom: '2024-01-01',
+              functionValidUntil: '2025-01-01'
+            } as unknown as Part
+          });
+          done();
+        });
+    });
+  
+    it('should return null if both customer fields are missing and no fallback', done => {
+      const data = {
+        customerPartId: '',
+        nameAtCustomer: undefined
+      } as unknown as Part;
+  
+      of({ data })
+        .pipe(PartsAssembler.mapPartForCustomerOrPartSiteView())
+        .subscribe(result => {
+          expect(result).toBeNull();
+          done();
+        });
+    });
+  
+    it('should return undefined if viewData has no data', done => {
       const viewData = {};
       of(viewData)
         .pipe(PartsAssembler.mapPartForCustomerOrPartSiteView())
         .subscribe(result => {
-          expect(result).toEqual(undefined);
+          expect(result).toBeNull();
           done();
         });
     });
   });
+  
 
   describe('mapForTractionBatteryCodeDetailsView', () => {
     const tractionBatteryCode = 'tractionBatteryCode';

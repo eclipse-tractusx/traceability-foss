@@ -76,6 +76,7 @@ export class PartsDetailComponent implements OnDestroy, AfterViewInit {
   protected readonly NotificationType = NotificationType;
   private readonly isStartInvestigationOpen: State<boolean> = new State<boolean>(false);
   public partImportState: ImportState;
+  public showDetailTable: boolean = true;
 
   constructor(
     public readonly partDetailsFacade: PartDetailsFacade,
@@ -335,6 +336,12 @@ export class PartsDetailComponent implements OnDestroy, AfterViewInit {
         this.toastService.error(error?.getMessage());
       },
     });
+  }
+
+  public shouldRenderRelatedParts(view: View<Part>): boolean {
+    const children = view?.data?.children?.length || 0;
+    const parents = view?.data?.parents?.length || 0;
+    return children + parents > 0;
   }
 
   private syncPartsAsPlanned(assetIds: string[]) {

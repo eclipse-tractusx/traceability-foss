@@ -29,7 +29,7 @@ import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { AssetAsBuiltFilter, AssetAsPlannedFilter } from '@shared/model/filter.model';
 import _deepClone from 'lodash-es/cloneDeep';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SortDirection } from '../../../mocks/services/pagination.helper';
 
@@ -114,6 +114,9 @@ export class PartsService {
   }
 
   public getPartDetailOfIds(assetIds: string[], mainAspectType = MainAspectType.AS_BUILT): Observable<Part[]> {
+    if (!assetIds || assetIds.length === 0) {
+      return of([]);
+    }
     if (mainAspectType === MainAspectType.AS_BUILT) {
       const resultsAsBuilt = this.apiService
         .post<PartResponse[]>(`${ this.url }/assets/as-built/detail-information`, { assetIds })

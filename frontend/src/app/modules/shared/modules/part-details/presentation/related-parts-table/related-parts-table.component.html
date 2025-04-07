@@ -1,0 +1,139 @@
+<!--
+Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+<div class="related-parts-tab--wrapper">
+  <mat-tab-group mat-stretch-tabs="false" animationDuration="0ms">
+    <!-- Child Parts Tab -->
+    <mat-tab *ngIf="(childParts$ | async)?.data?.length > 0" [label]="'partDetail.childParts' | i18n">
+      <div class="table-toolbar">
+        <div class="toolbar-left">
+          <app-button
+            data-testid="request-investigation-btn"
+            class="rounded-button pill-button"
+            iconName="announcement"
+            variant="flat"
+            type="button"
+            color="primary"
+            [useGap]="true"
+            [useWhiteText]="true"
+            [isDisabled]="!showIncidentButton()"
+            (click)="navigateToNotificationCreationView()"
+            (keydown.enter)="navigateToNotificationCreationView()"
+            [matTooltip]="'routing.requestInvestigation' | i18n"
+            matTooltipClass="table--header--tooltip"
+            matTooltipPosition="above"
+            [class.mdc-tooltip--multiline]="true"
+            [matTooltipShowDelay]="500"
+          >
+            {{ 'routing.requestInvestigation' | i18n }}
+          </app-button>
+        </div>
+      </div>
+
+      <ng-container>
+        <ng-container
+          *viewContainer="childParts$ | async; main: childMain; error: errorTmp; loading: loaderTmp"
+        ></ng-container>
+      </ng-container>
+    </mat-tab>
+
+    <!-- Parent Parts Tab -->
+    <mat-tab *ngIf="(parentParts$ | async)?.data?.length > 0" [label]="'partDetail.parentParts' | i18n">
+      <ng-container>
+        <ng-container
+          *viewContainer="parentParts$ | async; main: parentMain; error: errorTmp; loading: loaderTmp"
+        ></ng-container>
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<!-- Child Parts Table Template -->
+<ng-template #childMain let-view="view">
+  <mat-card class="table-card">
+  <div class="scroll-container">
+    <app-table class="table"
+      data-testid="child-app-table"
+      [paginationData]="childPaginationObject"
+      [tableConfig]="tableConfig"
+      [autocompleteEnabled]="false"
+      [tableType]="TableType.AS_BUILT_OWN"
+      [multiSortList]="multiSortList"
+      [labelId]="relatedPartsLabel"
+      [noShadow]="true"
+      [showHover]="false"
+      [tableSettingsEnabled]="false"
+      (multiSelect)="onMultiSelect($event)"
+      (configChanged)="onChildPartsSort($event)"
+    >
+    </app-table>
+  </div>
+  <div class="paginator-wrapper">
+  <mat-paginator
+  [length]="childPaginationObject?.totalItems || 0"
+  [pageSize]="childPaginationObject?.pageSize || 10"
+  [pageSizeOptions]="[5, 10, 25, 50]"
+  (page)="childPageChange($event)"
+>
+</mat-paginator>
+ </div>
+</mat-card>
+</ng-template>
+
+<!-- Parent Parts Table Template -->
+<ng-template #parentMain let-view="view">
+  <mat-card class="table-card">
+  <div class="scroll-container">
+    <app-table class="table"
+      data-testid="parent-app-table"
+      [paginationData]="parentPaginationObject"
+      [additionalTableHeader]="true"
+      [tableConfig]="tableConfig"
+      [autocompleteEnabled]="false"
+      [tableType]="TableType.AS_BUILT_OWN"
+      [multiSortList]="multiSortList"
+      [labelId]="relatedPartsLabel"
+      [noShadow]="true"
+      [showHover]="false"
+      [tableSettingsEnabled]="false"
+      (configChanged)="onParentPartsSort($event)"
+    >
+    </app-table>
+  </div>
+  <div class="paginator-wrapper">
+  <mat-paginator
+  [length]="parentPaginationObject?.totalItems || 0"
+  [pageSize]="parentPaginationObject?.pageSize || 10"
+  [pageSizeOptions]="[5, 10, 25, 50]"
+  (page)="parentPageChange($event)"
+>
+</mat-paginator>
+  </div>
+</mat-card>
+</ng-template>
+
+<ng-template #errorTmp let-view="view">
+  <h1>{{ 'dataLoading.error' | i18n }}</h1>
+  <p>{{ view.error }}</p>
+</ng-template>
+
+<ng-template #loaderTmp let-view="view">
+  <mat-spinner></mat-spinner>
+</ng-template>

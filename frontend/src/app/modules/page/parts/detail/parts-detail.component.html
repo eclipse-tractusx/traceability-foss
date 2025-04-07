@@ -259,11 +259,18 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #partRelationMainTmp let-partDetails="view">
-  <mat-card *ngIf="showRelation" class="info-card relation mt-5">
+  <mat-card *ngIf="showRelation" class="info-card part-detail--relation mt-5">
     <mat-card-header class="info-card--header">
-      <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
+      <div class="info-card--header__content">
+        <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
+        <div class="toggle-wrapper">
+          <span class="toggle-wrapper--label">{{ 'Show details table' | i18n }}</span>
+          <mat-slide-toggle class = "toggle-wrapper--slide-toggle" [(ngModel)]="showDetailTable"   [disabled]="!shouldRenderRelatedParts(selectedPartDetails$ | async)" color="primary"></mat-slide-toggle>
+        </div>
+      </div>
     </mat-card-header>
-    <mat-card-content class="part-detail--relation__container">
+    
+    <mat-card-content >
       <ng-container>
         <app-part-relation [isStandalone]="false" [showMiniMap]="false" [isAsBuilt]="isAsBuiltPart"></app-part-relation>
         <mat-icon
@@ -273,8 +280,17 @@ SPDX-License-Identifier: Apache-2.0
           >open_in_new
         </mat-icon>
       </ng-container>
+
     </mat-card-content>
+    <div class="related-parts-tab"  *ngIf="showDetailTable">
+      <app-related-parts-table
+      [showDetailTable]="showDetailTable"
+      *ngIf="shouldRenderRelatedParts(selectedPartDetails$ | async)"
+      [part]="selectedPartDetails$ | async"
+    ></app-related-parts-table>
+</div>
   </mat-card>
+
 </ng-template>
 
 <ng-template #errorTmp let-customerOrPartSiteDetails="view">

@@ -212,18 +212,53 @@ export class PartsAssembler {
   public static mapPartForCustomerOrPartSiteView(): OperatorFunction<View<Part>, View<Part>> {
     return map(viewData => {
       if (!viewData.data) {
-        return;
+        return null;
       }
-      // if no customer data is available then return partSiteInformation
-      if (!viewData.data?.nameAtCustomer && !viewData.data?.customerPartId && viewData.data?.functionValidFrom) {
-        const { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } = viewData.data;
-        return { data: { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } as Part };
+  
+      const {
+        nameAtCustomer,
+        customerPartId,
+        functionValidFrom,
+        functionValidUntil,
+        catenaXSiteId,
+        psFunction
+      } = viewData.data;
+  
+      const isEmpty = (value?: string | null) =>
+        value === null || value === undefined || value.trim() === '' || value === 'null';
+  
+      const hasValidCustomerData = !isEmpty(nameAtCustomer) || !isEmpty(customerPartId);
+  
+      if (!hasValidCustomerData) {
+        // If fallback data exists, return it; else return null
+        if (functionValidFrom) {
+          return {
+            data: {
+              catenaXSiteId,
+              psFunction,
+              functionValidFrom,
+              functionValidUntil
+            } as Part
+          };
+        }
+        // No useful customer or fallback data — suppress card
+        return null;
       }
-
-      const { nameAtCustomer, customerPartId } = viewData.data;
-      return { data: { nameAtCustomer, customerPartId } as Part };
+  
+      const data: any = {};
+      if (!isEmpty(nameAtCustomer)) {
+        data.nameAtCustomer = nameAtCustomer;
+      }
+      if (!isEmpty(customerPartId)) {
+        data.customerPartId = customerPartId;
+      }
+  
+      return { data: data as Part };
     });
   }
+  
+  
+  
 
   public static mapPartForTractionBatteryCodeDetailsView(): OperatorFunction<View<Part>, View<Part>> {
     return map(viewData => {

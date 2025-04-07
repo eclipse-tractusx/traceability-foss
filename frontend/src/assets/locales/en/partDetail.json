@@ -59,6 +59,8 @@
     "importHeader": "Asset State",
     "importState": "Import State",
     "importNote": "Import Note",
+    "childParts": "Child Parts",
+    "parentParts": "Parent Parts",
     "recordInformation": "Record Information"
   }
 }
