@@ -24,6 +24,13 @@ SPDX-License-Identifier: Apache-2.0
     <mat-tab *ngIf="(childParts$ | async)?.data?.length > 0" [label]="'partDetail.childParts' | i18n">
       <div class="table-toolbar">
         <div class="toolbar-left">
+          <span
+          [matTooltip]="requestButtonTooltipKey | i18n"
+          matTooltipClass="table--header--tooltip"
+          matTooltipPosition="above"
+          [class.mdc-tooltip--multiline]="true"
+          [matTooltipShowDelay]="500"
+        >
           <app-button
             data-testid="request-investigation-btn"
             class="rounded-button pill-button"
@@ -36,14 +43,10 @@ SPDX-License-Identifier: Apache-2.0
             [isDisabled]="!showIncidentButton()"
             (click)="navigateToNotificationCreationView()"
             (keydown.enter)="navigateToNotificationCreationView()"
-            [matTooltip]="'routing.requestInvestigation' | i18n"
-            matTooltipClass="table--header--tooltip"
-            matTooltipPosition="above"
-            [class.mdc-tooltip--multiline]="true"
-            [matTooltipShowDelay]="500"
           >
-            {{ 'routing.requestInvestigation' | i18n }}
+            {{ requestButtonLabelKey | i18n }}
           </app-button>
+        </span>
         </div>
       </div>
 
