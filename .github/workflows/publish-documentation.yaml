@@ -82,7 +82,7 @@ jobs:
           asciidoctor-reducer -o docs/target/user-manual.adoc docs/src/docs/user/user-manual.adoc
 
       - name: Cache plantuml jar
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: plantuml.jar
           key: ${{ runner.os }}-file-${{ hashFiles('plantuml.jar') }}
