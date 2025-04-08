@@ -47,7 +47,7 @@ RUN --mount=type=secret,id=PACKAGES_ACCESS_USERNAME,env=PACKAGES_ACCESS_USERNAME
     -DPACKAGES_ACCESS_TOKEN=$PACKAGES_ACCESS_TOKEN
 
 # Copy the jar and build image
-FROM eclipse-temurin:21-jre-alpine AS traceability-app
+FROM eclipse-temurin:24-jre-alpine AS traceability-app
 
 WORKDIR /app
 
