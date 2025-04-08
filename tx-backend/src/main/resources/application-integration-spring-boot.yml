@@ -59,6 +59,8 @@ edc:
   provider-dataplane-edc-url: "http://127.0.0.1"
 
 spring:
+  cache:
+    type: none
   jpa:
     show-sql: false
     properties:
@@ -88,6 +90,9 @@ jwt:
 server:
   port: 9998
 management:
+  health:
+    redis:
+      enabled: false
   server:
     port: 8082
 

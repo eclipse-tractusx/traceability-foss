@@ -129,6 +129,8 @@ management:
       probes:
         enabled: true
   health:
+    redis:
+      enabled: false
     readinessState:
       enabled: true
     livenessState:
@@ -142,6 +144,8 @@ management:
     port: 8081
 
 spring:
+  cache:
+    type: none
   jpa:
     show-sql: false
     properties:
