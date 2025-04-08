@@ -14,25 +14,25 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - TRACEX-466 Adapting cron jobs to allow dynamic updates
 
 ## Changed
-- Bump express from 4.18.2 to 4.21.0 in /cfx-frontend
-- Bump actions/checkout from 2 to 4
-- Bump actions/cache from 3 to 4
-- Bump webpack from 5.76.1 to 5.94.0 in /frontend
-- Bump io.cucumber:cucumber-bom from 7.17.0 to 7.21.1
-- Bump serialize-javascript from 6.0.1 to 6.0.2 in /cfx-frontend
-- Bump @babel/helpers from 7.21.5 to 7.27.0 in /cfx-frontend
-- Bump org.apache.maven.plugins:maven-install-plugin from 3.1.2 to 3.1.4
-- Bump logback.version from 1.5.6 to 1.5.7
-- Bump actions/setup-node from 3 to 4
-- Bump org.awaitility:awaitility from 4.2.1 to 4.3.0
-- Bump org.apache.maven.plugins:maven-failsafe-plugin from 3.2.5 to 3.5.3
-- Bump @babel/helpers from 7.25.6 to 7.26.10 in /frontend
-- Bump axios from 1.7.7 to 1.8.4 in /frontend
-- Bump cypress-io/github-action from 6.7.2 to 6.7.16
-- Bump base image eclipse-temurin:21-jre-alpine to eclipse-temurin:24-jre-alpine to fix CVE-2024-8176 libexpat
-- Bump brances from 3.0.2 to 3.0.3 to fix CVE-2024-4068
-
-
+- TRACEX-556 Bump base image eclipse-temurin:21-jre-alpine to eclipse-temurin:24-jre-alpine to fix CVE-2024-8176 libexpat
+- TRACEX-466 Adapting cron jobs to allow dynamic updates
+- TRACEX-53 Bump body-parser to fix CVE-2024-45590
+- TRACEX-49 Bump brances from 3.0.2 to 3.0.3 to fix CVE-2024-4068
+- TRACEX-579 Bump axios from 1.7.7 to 1.8.4 in /frontend
+- TRACEX-XX Bump express from 4.18.2 to 4.21.0 in /cfx-frontend
+- TRACEX-XX Bump actions/checkout from 2 to 4
+- TRACEX-XX Bump actions/cache from 3 to 4
+- TRACEX-XX Bump webpack from 5.76.1 to 5.94.0 in /frontend
+- TRACEX-XX Bump io.cucumber:cucumber-bom from 7.17.0 to 7.21.1
+- TRACEX-XX Bump serialize-javascript from 6.0.1 to 6.0.2 in /cfx-frontend
+- TRACEX-XX Bump @babel/helpers from 7.21.5 to 7.27.0 in /cfx-frontend
+- TRACEX-XX Bump org.apache.maven.plugins:maven-install-plugin from 3.1.2 to 3.1.4
+- TRACEX-XX Bump logback.version from 1.5.6 to 1.5.7
+- TRACEX-XX Bump actions/setup-node from 3 to 4
+- TRACEX-XX Bump org.awaitility:awaitility from 4.2.1 to 4.3.0
+- TRACEX-XX Bump org.apache.maven.plugins:maven-failsafe-plugin from 3.2.5 to 3.5.3
+- TRACEX-XX Bump @babel/helpers from 7.25.6 to 7.26.10 in /frontend
+- TRACEX-XX Bump cypress-io/github-action from 6.7.2 to 6.7.16
 
 ## [14.0.0-cfx-5]
 
