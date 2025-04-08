@@ -41,6 +41,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { RoleService } from '@core/user/role.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { Owner } from '@page/parts/model/owner.enum';
 
 @Component({
   selector: 'app-related-parts-table',
@@ -203,14 +204,69 @@ export class RelatedPartsTableComponent {
   public showIncidentButton(): boolean {
     const hasValidRole = this.roleService.isSupervisor() || this.roleService.isUser();
     const selectedParts = this.selectedPartsState.snapshot;
+    console.log('selectedParts', selectedParts);
+  
     const hasSelection = !this.isPartsSelectionEmpty(selectedParts);
-
-    return hasValidRole && hasSelection;
+    const hasSameOwner = this.checkIfSameOwner(selectedParts);
+  
+    return hasValidRole && hasSelection && hasSameOwner;
+  }
+  
+  private checkIfSameOwner(selectedParts: Part[]): boolean {
+    if (!selectedParts || selectedParts.length === 0) return false;
+  
+    const firstOwner = selectedParts[0]?.owner;
+    return selectedParts.every(part => part.owner === firstOwner);
   }
 
+  public get requestButtonLabelKey(): string {
+    const selectedParts = this.selectedPartsState.snapshot;
+  
+    if (!selectedParts || selectedParts.length === 0) return 'routing.requestInvestigation';
+  
+    const allOwned = selectedParts.every(part => part.owner === Owner.OWN);
+    if (allOwned) {
+      return 'routing.createIncident';
+    }
+  
+    return 'routing.requestInvestigation';
+  }
+
+  public get requestButtonTooltipKey(): string {
+    const selectedParts = this.selectedPartsState.snapshot;
+  
+    if (!selectedParts || selectedParts.length === 0) {
+      return 'routing.noChildPartsForInvestigation';
+    }
+  
+    const firstOwner = selectedParts[0]?.owner;
+    const allSameOwner = selectedParts.every(part => part.owner === firstOwner);
+  
+    if (!allSameOwner) {
+      return 'routing.partMismatch';
+    }
+  
+    return firstOwner === 'OWN'
+      ? 'routing.createIncident'
+      : 'routing.requestInvestigation';
+  }
+  
+  
+
   navigateToNotificationCreationView() {
-    this.sharedPartService.affectedParts = this.selectedPartsState.snapshot;
-    this.router.navigate(['inbox/create'], { queryParams: { initialType: NotificationType.INVESTIGATION } });
+    const selectedParts = this.selectedPartsState.snapshot;
+  
+    this.sharedPartService.affectedParts = selectedParts;
+  
+    const allOwned = selectedParts.every(part => part.owner === 'OWN');
+  
+    this.router.navigate(['inbox/create'], {
+      queryParams: {
+        initialType: allOwned
+          ? NotificationType.ALERT
+          : NotificationType.INVESTIGATION,
+      },
+    });
   }
 
   public childPageChange(event: PageEvent): void {

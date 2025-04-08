@@ -36,6 +36,7 @@ import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails
 import { RoleService } from '@core/user/role.service';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { By } from '@angular/platform-browser';
+import { Owner } from '@page/parts/model/owner.enum';
 
 describe('RelatedPartsTableComponent', () => {
   const part = { data: PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT) };
@@ -273,4 +274,70 @@ describe('RelatedPartsTableComponent', () => {
     fixture.detectChanges();
     expect(sortSpy).toHaveBeenCalledWith(mockSortEvent);
   });
+
+  it('should display correct label and tooltip based on selected parts ownership', async () => {
+    const facadeMock = {
+      getChildPartDetails: jasmine.createSpy().and.returnValue(of([mockChildPart])),
+      getParentPartDetails: jasmine.createSpy().and.returnValue(of([])),
+      sortChildParts: (data, field, direction) => data,
+      sortParentParts: (data, field, direction) => data,
+    };
+  
+    const roleMock = {
+      isUser: () => true,
+      isSupervisor: () => false,
+      hasAccess: () => true,
+    };
+  
+    const ownPart = { ...mockChildPart, owner: Owner.OWN };
+    const supplierPart = { ...mockChildPart,owner: Owner.SUPPLIER };
+    const mixedParts = [ownPart, supplierPart];
+  
+    const { fixture } = await renderComponent(RelatedPartsTableComponent, {
+      declarations: [RelatedPartsTableComponent],
+      imports: [PartsModule, LayoutModule],
+      providers: [
+        StaticIdService,
+        { provide: PartDetailsFacade, useValue: facadeMock },
+        { provide: RoleService, useValue: roleMock },
+      ],
+    });
+  
+    // Set part data
+    fixture.componentInstance.part = { data: mockChildPart };
+    fixture.detectChanges();
+    await fixture.whenStable();
+  
+    // Case 1: OWN part selected
+    fixture.componentInstance['selectedPartsState'].update([ownPart]);
+    fixture.detectChanges();
+  
+    let button = await screen.findByTestId('request-investigation-btn');
+    expect(button.textContent).toContain('routing.createIncident');
+    expect(fixture.componentInstance.requestButtonTooltipKey).toBe('routing.createIncident');
+    expect(fixture.componentInstance.showIncidentButton()).toBeTrue();
+  
+    // Case 2: SUPPLIER part selected
+    fixture.componentInstance['selectedPartsState'].update([supplierPart]);
+    fixture.detectChanges();
+  
+    expect(button.textContent).toContain('routing.requestInvestigation');
+    expect(fixture.componentInstance.requestButtonTooltipKey).toBe('routing.requestInvestigation');
+    expect(fixture.componentInstance.showIncidentButton()).toBeTrue();
+  
+    // Case 3: Mixed ownership
+    fixture.componentInstance['selectedPartsState'].update(mixedParts);
+    fixture.detectChanges();
+  
+    expect(fixture.componentInstance.requestButtonTooltipKey).toBe('routing.partMismatch');
+    expect(fixture.componentInstance.showIncidentButton()).toBeFalse();
+  
+    // Case 4: No selection
+    fixture.componentInstance['selectedPartsState'].update([]);
+    fixture.detectChanges();
+  
+    expect(fixture.componentInstance.requestButtonTooltipKey).toBe('routing.noChildPartsForInvestigation');
+    expect(fixture.componentInstance.showIncidentButton()).toBeFalse();
+  });
+  
 });
