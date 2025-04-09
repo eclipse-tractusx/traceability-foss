@@ -34,6 +34,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 - TRACEX-XX Bump org.apache.maven.plugins:maven-failsafe-plugin from 3.2.5 to 3.5.3
 - TRACEX-XX Bump @babel/helpers from 7.25.6 to 7.26.10 in /frontend
 - TRACEX-XX Bump cypress-io/github-action from 6.7.2 to 6.7.16
+- TRACEX-41 Bump socket.io from 4.6.1 to 4.8.1 in /cfx-frontend
 
 ## [14.0.0-cfx-5]
 
