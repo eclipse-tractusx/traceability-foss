@@ -92,7 +92,7 @@ SPDX-License-Identifier: Apache-2.0
         <micrometer.version>1.11.4</micrometer.version>
         <irs-client-lib.version>2.1.35</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
-        <apache-tomcat-embed.version>10.1.39</apache-tomcat-embed.version>
+        <apache-tomcat-embed.version>11.0.5</apache-tomcat-embed.version>
         <spring-security-crypto.version>6.4.4</spring-security-crypto.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
