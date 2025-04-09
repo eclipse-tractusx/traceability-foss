@@ -73,8 +73,21 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>org.eclipse.tractusx.irs</groupId>
             <artifactId>irs-registry-client</artifactId>
             <version>${irs-client-lib.version}</version>
+            <!-- TRACEX-586: Adding dependency for Netty Handler explicitly -->
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-handler</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+        <!-- TRACEX-586: Adding dependency for Netty Handler explicitly -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
+            <version>4.1.118.Final</version>
+        </dependency>
 
         <!-- tx-application modules -->
         <dependency>

@@ -77,5 +77,14 @@ SPDX-License-Identifier: Apache-2.0
         <cve>CVE-2020-27216</cve>
     </suppress>
 
+    <suppress>
+        <notes><![CDATA[
+        Suppressing CVE-2023-36415 for azure-identity 1.15.3 until safe upgrade is available
+    ]]></notes>
+        <packageUrl>pkg:maven/com.azure/azure-identity@1.15.3</packageUrl>
+        <cve>CVE-2023-36415</cve>
+    </suppress>
+
+
 
 </suppressions>
