@@ -104,7 +104,7 @@ jobs:
       # Generate a temporary token using GitHub app
       - name: Get token
         id: get_token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.TRACE_X_WORKFLOW_TRIGGER_GH_APP_ID }}
           private-key: ${{ secrets.TRACE_X_WORKFLOW_TRIGGER_GH_APP_PRIVATE_KEY }}
