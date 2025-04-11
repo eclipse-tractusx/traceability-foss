@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
-import org.eclipse.tractusx.traceability.configuration.domain.service.CronRegistrationService;
+import org.eclipse.tractusx.traceability.cron.domain.CronJobRegistrationServiceImpl;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -38,7 +38,7 @@ import java.util.concurrent.Executors;
 @RequiredArgsConstructor
 public class CronjobStartupConfig {
 
-    private final CronRegistrationService cronRegistrationService;
+    private final CronJobRegistrationServiceImpl cronRegistrationService;
     ;
     private final ConfigurationService configurationService;
 
@@ -46,13 +46,11 @@ public class CronjobStartupConfig {
     public void initializeCronJobs() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            log.info("on ApplicationReadyEvent create notification contracts.");
+            log.info("on ApplicationReadyEvent create cron jobs.");
             try {
                 TriggerConfiguration triggerConfig = configurationService.getLatestTriggerConfiguration();
-
-                OrderConfiguration orderConfig = configurationService.getLatestOrderConfiguration();
-
-                cronRegistrationService.updateCronjobs(triggerConfig, orderConfig);
+                OrderConfiguration orderConfiguration = configurationService.getLatestOrderConfiguration();
+                cronRegistrationService.updateCronJobs(triggerConfig, orderConfiguration);
             } catch (IllegalStateException e) {
                 log.error("Required configuration for initializing cron jobs missing: {}", e.getMessage());
             } catch (Exception exception) {

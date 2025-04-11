@@ -45,6 +45,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
 
     private static final String DEFAULT_CRON_EXPRESSION_AAS_CLEANUP = "0 0 1 * * ?";
     private static final String DEFAULT_CRON_EXPRESSION_AAS_LOOKUP = "0 0 3 * * ?";
+    private static final String DEFAULT_CRON_EXPRESSION_PUBLISH_ASSETS = "0 0 5 * * ?";
     private static final String DEFAULT_CRON_EXPRESSION_MAP_COMPLETED_ORDERS = "0 0 0/4 * * ?";
     private static final String DEFAULT_CRON_EXPRESSION_REGISTER_ORDER_TTL_REACHED = "0 0 0/4 * * ?";
     private static final int DEFAULT_AAS_LIMIT = 1000;
@@ -68,14 +69,17 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
     @Column(name = "cron_expression_aas_cleanup_ttl_reached")
     private String cronExpressionAASCleanup;
 
+    @Column(name = "cron_expression_publish_assets")
+    private String cronExpressionPublishAssets;
+
     @Column(name = "part_ttl")
-    private int partTTL;
+    private Integer partTTL;
 
     @Column(name = "aas_ttl")
-    private int aasTTL;
+    private Integer aasTTL;
 
     @Column(name = "aas_limit")
-    private int aasLimit;
+    private Integer aasLimit;
 
     public static TriggerConfiguration toDomain(TriggerConfigurationEntity entity) {
         if (entity == null) {
@@ -89,6 +93,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .cronExpressionRegisterOrderTTLReached(entity.getCronExpressionRegisterOrderTTLReached())
                 .cronExpressionAASLookup(entity.getCronExpressionAASLookup())
                 .cronExpressionAASCleanup(entity.getCronExpressionAASCleanup())
+                .cronExpressionPublishAssets(entity.getCronExpressionPublishAssets())
                 .aasLimit(entity.getAasLimit())
                 .build();
     }
@@ -102,6 +107,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .cronExpressionRegisterOrderTTLReached(domain.getCronExpressionRegisterOrderTTLReached())
                 .cronExpressionAASLookup(domain.getCronExpressionAASLookup())
                 .cronExpressionAASCleanup(domain.getCronExpressionAASCleanup())
+                .cronExpressionPublishAssets(domain.getCronExpressionPublishAssets())
                 .aasLimit(domain.getAasLimit())
                 .build();
     }
@@ -113,6 +119,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .cronExpressionRegisterOrderTTLReached(DEFAULT_CRON_EXPRESSION_REGISTER_ORDER_TTL_REACHED)
                 .cronExpressionMapCompletedOrders(DEFAULT_CRON_EXPRESSION_MAP_COMPLETED_ORDERS)
                 .cronExpressionAASLookup(DEFAULT_CRON_EXPRESSION_AAS_LOOKUP)
+                .cronExpressionPublishAssets(DEFAULT_CRON_EXPRESSION_PUBLISH_ASSETS)
                 .aasTTL(DEFAULT_AAS_TTL)
                 .partTTL(DEFAULT_PART_TTL)
                 .aasLimit(DEFAULT_AAS_LIMIT)

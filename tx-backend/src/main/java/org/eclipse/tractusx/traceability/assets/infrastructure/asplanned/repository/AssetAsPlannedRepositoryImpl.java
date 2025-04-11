@@ -29,7 +29,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
@@ -53,7 +52,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, AssetCallbackRepository {
+public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
     private final JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
 

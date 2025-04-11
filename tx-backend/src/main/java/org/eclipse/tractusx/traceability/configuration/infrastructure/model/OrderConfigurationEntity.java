@@ -50,11 +50,11 @@ public class OrderConfigurationEntity extends ConfigurationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int batchSize;
+    private Integer batchSize;
 
-    private int timeoutMs;
+    private Integer timeoutMs;
 
-    private int jobTimeoutMs;
+    private Integer jobTimeoutMs;
 
     public static OrderConfiguration toDomain(OrderConfigurationEntity entity) {
         if (entity == null) {

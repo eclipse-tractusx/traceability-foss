@@ -35,14 +35,16 @@ public class TriggerConfigurationResponse {
     @Schema(example = "* * * * * *")
     String cronExpressionMapCompletedOrders;
     @Schema(example = "60")
-    int partTTL;
+    Integer partTTL;
     @Schema(example = "60")
-    int aasTTL;
+    Integer aasTTL;
     @Schema(example = "60")
-    int aasLimit;
+    Integer aasLimit;
     @Schema(example = "* * * * * *")
     private String cronExpressionAASLookup;
     @Schema(example = "* * * * * *")
     private String cronExpressionAASCleanup;
+    @Schema(example = "* * * * * *")
+    private String cronExpressionPublishAssets;
 
 }

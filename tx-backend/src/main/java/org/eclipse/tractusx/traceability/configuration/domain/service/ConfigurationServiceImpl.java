@@ -28,9 +28,8 @@ import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfigu
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderConfigurationRepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
+import org.eclipse.tractusx.traceability.cron.application.CronJobRegistrationService;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -39,7 +38,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     private final OrderConfigurationRepository orderConfigurationRepository;
     private final TriggerConfigurationRepository triggerConfigurationRepository;
-    private final CronRegistrationService cronRegistrationService;
+    private final CronJobRegistrationService cronRegistrationService;
 
     @Override
     public void persistOrderConfiguration(OrderConfigurationRequest request) {
@@ -64,11 +63,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                 .cronExpressionMapCompletedOrders(request.getCronExpressionMapCompletedOrders())
                 .cronExpressionAASLookup(request.getCronExpressionAASLookup())
                 .cronExpressionAASCleanup(request.getCronExpressionAASCleanup())
+                .cronExpressionPublishAssets(request.getCronExpressionPublishAssets())
                 .aasTTL(request.getAasTTL())
                 .build();
         triggerConfigurationRepository.save(triggerConfiguration);
-        OrderConfiguration latestConfig = getLatestOrderConfiguration();
-        cronRegistrationService.updateCronjobs(triggerConfiguration, latestConfig);
+        cronRegistrationService.updateCronJobs(triggerConfiguration, getLatestOrderConfiguration());
     }
 
     @Override

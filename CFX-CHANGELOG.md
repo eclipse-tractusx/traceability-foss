@@ -12,6 +12,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 ### Added
 - TRACEX-409 show child/parent parts in table(Part detail view)
 - TRACEX-466 Adapting cron jobs to allow dynamic updates
+- TRACEX-466 Extending trigger configuration to also include publish core service cron
 
 ## Changed
 

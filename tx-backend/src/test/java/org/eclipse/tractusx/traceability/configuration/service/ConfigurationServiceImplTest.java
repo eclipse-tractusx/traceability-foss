@@ -21,13 +21,12 @@ package org.eclipse.tractusx.traceability.configuration.service;
 
 import configuration.request.OrderConfigurationRequest;
 import configuration.request.TriggerConfigurationRequest;
-import java.util.Optional;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.service.ConfigurationServiceImpl;
-import org.eclipse.tractusx.traceability.configuration.domain.service.CronRegistrationService;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderConfigurationRepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
+import org.eclipse.tractusx.traceability.cron.application.CronJobRegistrationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,7 +48,7 @@ class ConfigurationServiceImplTest {
     private TriggerConfigurationRepository triggerConfigurationRepository;
 
     @Mock
-    private CronRegistrationService cronRegistrationService;
+    private CronJobRegistrationService cronRegistrationService;
 
     @InjectMocks
     private ConfigurationServiceImpl configurationServiceImpl;
@@ -88,7 +87,6 @@ class ConfigurationServiceImplTest {
                 .cronExpressionAASLookup("* * * * *")
                 .cronExpressionAASCleanup("* * * * *")
                 .build();
-        when(orderConfigurationRepository.findTopByCreatedAtDesc()).thenReturn(OrderConfiguration.builder().build());
         configurationServiceImpl.persistTriggerConfigurationAndUpdateCronjobs(request);
 
         verify(triggerConfigurationRepository).save(any(TriggerConfiguration.class));

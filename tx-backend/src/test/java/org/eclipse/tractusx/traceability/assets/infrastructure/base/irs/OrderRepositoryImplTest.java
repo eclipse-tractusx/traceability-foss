@@ -22,6 +22,8 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -77,10 +79,10 @@ class OrderRepositoryImplTest {
     TraceabilityProperties traceabilityProperties;
 
     @Mock
-    AssetCallbackRepository assetAsBuiltCallbackRepository;
+    AssetAsBuiltRepository assetAsBuiltRepository;
 
     @Mock
-    AssetCallbackRepository assetAsPlannedCallbackRepository;
+    AssetAsPlannedRepository assetAsPlannedRepository;
 
     @Mock
     private OrderClient orderClient;
@@ -116,7 +118,7 @@ class OrderRepositoryImplTest {
 
         // Spy on the actual orderRepositoryImpl with all dependencies
         orderRepositoryImpl = spy(new OrderRepositoryImpl(orderClient, traceabilityProperties,
-                assetAsBuiltCallbackRepository, assetAsPlannedCallbackRepository,
+                assetAsBuiltRepository, assetAsPlannedRepository,
                 assetMapperFactory, objectMapper, jobClient, orderJPARepository, triggerConfigurationJPARepository));
     }
 

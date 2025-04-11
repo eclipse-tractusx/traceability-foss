@@ -50,8 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
-
 @EnableAsync(proxyTargetClass = true)
 @RequiredArgsConstructor
 @Component

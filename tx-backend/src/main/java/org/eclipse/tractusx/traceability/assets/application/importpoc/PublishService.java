@@ -18,13 +18,13 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 
 import java.util.List;
 
 public interface PublishService {
 
-    void publishAssets(String policyId, List<String> assetIds, boolean triggerSynchronizeAssets);
+    void publishAssets(OrderConfiguration orderConfiguration);
 
-    void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets);
+    void publishAssets(String policyId, List<String> assetIds, boolean triggerSynchronizeAssets, OrderConfiguration orderConfiguration);
 }

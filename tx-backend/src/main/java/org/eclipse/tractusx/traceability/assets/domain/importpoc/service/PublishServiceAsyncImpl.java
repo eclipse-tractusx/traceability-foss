@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,7 +16,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 
 import lombok.RequiredArgsConstructor;
@@ -25,13 +24,13 @@ import org.eclipse.tractusx.irs.edc.client.asset.model.exception.CreateEdcAssetE
 import org.eclipse.tractusx.irs.edc.client.contract.model.exception.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.irs.edc.client.policy.model.exception.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.irs.registryclient.decentral.exception.CreateDtrShellException;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishServiceAsync;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
-import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.springframework.scheduling.annotation.Async;
@@ -43,20 +42,33 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class AsyncPublishService {
+public class PublishServiceAsyncImpl implements PublishServiceAsync {
 
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
+
     private final EdcAssetCreationService edcAssetCreationService;
     private final DtrService dtrService;
     private final DecentralRegistryServiceImpl decentralRegistryService;
-    private final ConfigurationService configurationService;
+    // Needed to make sure async method is async executed
+
+    @Override
     @Async(value = AssetsAsyncConfig.PUBLISH_ASSETS_EXECUTOR)
-    public void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
-        Map<String, List<AssetBase>> assetsByPolicyId = assets.stream().collect(Collectors.groupingBy(AssetBase::getPolicyId));
+    public void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets, final OrderConfiguration orderConfiguration) {
+        Map<String, List<AssetBase>> assetsByPolicyId = assets.stream()
+                .map(asset -> {
+                    if (asset.getPolicyId() == null) {
+                        log.warn("Asset with ID [{}] has null policyId and will be skipped.", asset.getId());
+                        return null;
+                    }
+                    return asset;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.groupingBy(AssetBase::getPolicyId));
 
         List<String> createdShellsAssetIds = new ArrayList<>();
         assetsByPolicyId.forEach((policyId, assetsForPolicy) -> {
@@ -76,22 +88,23 @@ public class AsyncPublishService {
             }
 
             if (Objects.nonNull(submodelServerAssetId)) {
-                String tempSubmodelServerAssetId = submodelServerAssetId;
-                assetsForPolicy.forEach(assetBase -> {
-                    try {
-                        String assetId = dtrService.createShellInDtr(assetBase, tempSubmodelServerAssetId);
-                        createdShellsAssetIds.add(assetId);
-                    } catch (CreateDtrShellException e) {
-                        log.error("Failed to create shell in dtr for asset with id %s".formatted(assetBase.getId()), e);
-                        updateAssetStates(ImportState.ERROR, ImportNote.ERROR_DTR_SHELL_CREATION_FAILED, List.of(assetBase.getId()));
-                    }
-                });
-
+                createShellInDTR(assetsForPolicy, submodelServerAssetId, createdShellsAssetIds);
                 updateAssetStates(ImportState.PUBLISHED_TO_CORE_SERVICES, ImportNote.PUBLISHED_TO_CORE_SERVICES, createdShellsAssetIds);
                 if (triggerSynchronizeAssets) {
-                    OrderConfiguration latestConfig = configurationService.getLatestOrderConfiguration();
-                    decentralRegistryService.registerOrdersForExpiredAssets(latestConfig);
+                    decentralRegistryService.registerOrdersForExpiredAssets(orderConfiguration);
                 }
+            }
+        });
+    }
+
+    private void createShellInDTR(List<AssetBase> assetsForPolicy, String tempSubmodelServerAssetId, List<String> createdShellsAssetIds) {
+        assetsForPolicy.forEach(assetBase -> {
+            try {
+                String assetId = dtrService.createShellInDtr(assetBase, tempSubmodelServerAssetId);
+                createdShellsAssetIds.add(assetId);
+            } catch (CreateDtrShellException e) {
+                log.error("Failed to create shell in dtr for asset with id %s".formatted(assetBase.getId()), e);
+                updateAssetStates(ImportState.ERROR, ImportNote.ERROR_DTR_SHELL_CREATION_FAILED, List.of(assetBase.getId()));
             }
         });
     }

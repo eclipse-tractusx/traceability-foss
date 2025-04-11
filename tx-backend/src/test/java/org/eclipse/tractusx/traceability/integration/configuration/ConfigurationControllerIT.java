@@ -30,6 +30,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.Configuratio
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.List;
 import java.util.Locale;
@@ -49,6 +50,7 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
         Locale.setDefault(Locale.ENGLISH);
+        LocaleContextHolder.setLocale(Locale.ENGLISH);
     }
 
     @Test
@@ -226,6 +228,7 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
                 .cronExpressionMapCompletedOrders("0 0 0 2 2 ?")
                 .cronExpressionAASCleanup("0 0 0 2 2 ?")
                 .cronExpressionAASLookup("0 0 0 2 2 ?")
+                .cronExpressionPublishAssets("0 0 0 2 2 ?")
                 .build();
 
         // when

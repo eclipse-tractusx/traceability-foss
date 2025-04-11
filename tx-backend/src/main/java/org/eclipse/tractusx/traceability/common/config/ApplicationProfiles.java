@@ -21,16 +21,11 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class ApplicationProfiles {
-
-    public static final String LOCAL = "local";
-    public static final String TESTS = "integration";
     public static final String INTEGRATION_SPRING_BOOT = "integration-spring-boot";
-    public static final String NOT_TESTS = "!" + TESTS;
     public static final String NOT_INTEGRATION_TESTS = "!" + INTEGRATION_SPRING_BOOT;
-    public static final String DEV = "dev";
-    public static final String STABLE = "stable";
 
-    private ApplicationProfiles() {
-    }
 }

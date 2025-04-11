@@ -40,12 +40,13 @@ public class SearchCriteriaMapper {
     public static <T> SearchCriteria toSearchCriteria(BaseRequestFieldMapper fieldMapper, List<T> filters) throws InvalidFilterException {
         List<SearchCriteriaFilter> filterList = new ArrayList<>();
 
-        filters.forEach(filter -> {
-            if (Objects.nonNull(filter)) {
-                extractFilters(filterList, filter, fieldMapper);
-            }
-        });
-
+        if (filters != null) {
+            filters.forEach(filter -> {
+                if (Objects.nonNull(filter)) {
+                    extractFilters(filterList, filter, fieldMapper);
+                }
+            });
+        }
         return SearchCriteria.builder()
                 .searchCriteriaFilterList(filterList)
                 .build();

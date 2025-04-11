@@ -32,8 +32,9 @@ public class TriggerConfiguration {
     private String cronExpressionMapCompletedOrders;
     private String cronExpressionAASLookup;
     private String cronExpressionAASCleanup;
-    private int partTTL;
-    private int aasTTL;
-    private int aasLimit;
+    private String cronExpressionPublishAssets;
+    private Integer partTTL;
+    private Integer aasTTL;
+    private Integer aasLimit;
 
 }

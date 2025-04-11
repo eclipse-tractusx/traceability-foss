@@ -24,14 +24,11 @@ package org.eclipse.tractusx.traceability.common.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import java.util.concurrent.Executors;
-
-import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
 
 @Configuration
 public class SchedulerConfig {
@@ -57,6 +54,10 @@ public class SchedulerConfig {
     @Primary
     @Bean("registerOrderScheduler")
     public TaskScheduler registerOrderScheduler() {
+        return new ConcurrentTaskScheduler(Executors.newSingleThreadScheduledExecutor());
+    }
+    @Bean("publishAssetScheduler")
+    public TaskScheduler publishAssetScheduler() {
         return new ConcurrentTaskScheduler(Executors.newSingleThreadScheduledExecutor());
     }
 }

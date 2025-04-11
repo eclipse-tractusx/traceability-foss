@@ -16,19 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
-package org.eclipse.tractusx.traceability.configuration.domain.model;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import java.util.List;
 
-@Data
-@AllArgsConstructor
-@Builder
-public class OrderConfiguration {
-    Long id;
-    Integer batchSize;
-    Integer timeoutMs;
-    Integer jobTimeoutMs;
+public interface PublishServiceAsync {
+    void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets, final OrderConfiguration orderConfiguration);
 }

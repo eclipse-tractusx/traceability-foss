@@ -38,6 +38,7 @@ public class TriggerConfigurationResponseMapper {
         triggerConfigurationResponse.partTTL(triggerConfiguration.getPartTTL());
         triggerConfigurationResponse.cronExpressionAASLookup(triggerConfiguration.getCronExpressionAASLookup());
         triggerConfigurationResponse.cronExpressionAASCleanup(triggerConfiguration.getCronExpressionAASCleanup());
+        triggerConfigurationResponse.cronExpressionPublishAssets(triggerConfiguration.getCronExpressionPublishAssets());
         triggerConfigurationResponse.aasLimit(triggerConfiguration.getAasLimit());
         return triggerConfigurationResponse.build();
     }

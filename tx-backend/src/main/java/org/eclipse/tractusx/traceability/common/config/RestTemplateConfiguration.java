@@ -77,8 +77,8 @@ public class RestTemplateConfiguration {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
-                .setConnectTimeout(Duration.ofSeconds(10L))
-                .setReadTimeout(Duration.ofSeconds(25L))
+                .connectTimeout(Duration.ofSeconds(10L))
+                .readTimeout(Duration.ofSeconds(25L))
                 .build();
     }
 
@@ -89,8 +89,8 @@ public class RestTemplateConfiguration {
                 .defaultHeader("Accept", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
-                .setConnectTimeout(Duration.ofSeconds(10L))
-                .setReadTimeout(Duration.ofSeconds(25L))
+                .connectTimeout(Duration.ofSeconds(10L))
+                .readTimeout(Duration.ofSeconds(25L))
                 .build();
     }
 
@@ -145,8 +145,8 @@ public class RestTemplateConfiguration {
 
         return oAuthRestTemplate(restTemplateBuilder, submodelProperties.getOauthProviderRegistrationId())
                 .rootUri(submodelProperties.getBaseExternal())
-                .setConnectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
-                .setReadTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
+                .connectTimeout(Duration.ofMillis(feignDefaultProperties.getConnectionTimeoutMillis()))
+                .readTimeout(Duration.ofMillis(feignDefaultProperties.getReadTimeoutMillis()))
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
