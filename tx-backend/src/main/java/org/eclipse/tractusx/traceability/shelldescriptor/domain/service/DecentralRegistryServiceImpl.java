@@ -21,9 +21,6 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
-import java.util.Optional;
-import java.util.concurrent.ScheduledFuture;
-import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -34,18 +31,15 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAs
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
-import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.eclipse.tractusx.traceability.configuration.application.service.OrderService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -71,7 +65,7 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         log.info("Found {} assets as planned to synchronize", assetsAsPlannedToSynchronize.size());
         List<String> assetsAsPlannedIds = assetsAsPlannedToSynchronize.stream().map(AssetBase::getId).toList();
 
-               String registerOrderResponseForAssetsAsBuilt =
+        String registerOrderResponseForAssetsAsBuilt =
                 assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetsAsBuiltIds, orderConfiguration);
 
         String registerOrderResponseForAssetsAsPlanned =

@@ -36,8 +36,6 @@ traceability:
   register-decentral-registry-permissions: ${TRACEABILITY_REGISTER_DECENTRAL_REGISTRY_PERMISSIONS}
   discoveryType: ${DISCOVERY_TYPE:"bpnl" default}
   technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY}
-  publishAssetCronExpression: ${TRACEABILITY_PUBLISH_ASSET_CRON:0 30 */1 * * ?}
-  publishAssetCronZone: ${TRACEABILITY_PUBLISH_ASSET_ZONE:Europe/Berlin}
   enableApiKeyAuthentication: ${TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION:false}
   tracexAdminKey: ${TRACEABILITY_ADMIN_KEY}
 logging:

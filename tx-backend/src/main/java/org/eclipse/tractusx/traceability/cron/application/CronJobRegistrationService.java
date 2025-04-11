@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 202 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-// TODO package needs to be renamed (MW)
-package org.eclipse.tractusx.traceability.assets.application.importpoc;
+package org.eclipse.tractusx.traceability.cron.application;
 
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Map;
-
-public interface ImportJsonService {
-    Map<AssetBase, Boolean> importJsonAssets(MultipartFile file);
+public interface CronJobRegistrationService {
+    void updateCronJobs(final TriggerConfiguration triggerConfiguration, final OrderConfiguration orderConfiguration);
 }

@@ -31,9 +31,9 @@ public class OrderConfigurationResponse {
     @Schema(example = "1")
     Long id;
     @Schema(example = "10")
-    int batchSize;
+    Integer batchSize;
     @Schema(example = "60")
-    int timeoutMs;
+    Integer timeoutMs;
     @Schema(example = "60")
-    int jobTimeoutMs;
+    Integer jobTimeoutMs;
 }

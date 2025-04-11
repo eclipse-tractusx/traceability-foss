@@ -31,7 +31,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
@@ -48,7 +47,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository, AssetCallbackRepository {
+public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
 

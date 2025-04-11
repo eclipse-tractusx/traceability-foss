@@ -16,19 +16,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.cron.application;
 
-package org.eclipse.tractusx.traceability.configuration.domain.model;
+import org.eclipse.tractusx.traceability.cron.domain.Config;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+public interface CronJobRegistration {
+    String getJobName();
 
-@Data
-@AllArgsConstructor
-@Builder
-public class OrderConfiguration {
-    Long id;
-    Integer batchSize;
-    Integer timeoutMs;
-    Integer jobTimeoutMs;
+    String getCronExpression(Config config);
+
+    void schedule(String cronExpression, Config config);
+
+    void cancel();
 }

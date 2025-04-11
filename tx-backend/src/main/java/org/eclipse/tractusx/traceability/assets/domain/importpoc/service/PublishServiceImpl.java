@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.importpoc.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishService;
+import org.eclipse.tractusx.traceability.assets.application.importpoc.PublishServiceAsync;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
@@ -28,6 +29,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,11 +48,24 @@ public class PublishServiceImpl implements PublishService {
 
     private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetAsBuiltRepository assetAsBuiltRepository;
-    private final AsyncPublishService asyncPublishService;
+
+    // Needed to make sure async method is async executed
+    private final PublishServiceAsync publishServiceAsync;
+
+    @Override
+    public void publishAssets(final OrderConfiguration orderConfiguration) {
+        log.info("Start publish assets cron job");
+        List<AssetBase> assetsAsBuiltInSync = assetAsBuiltRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
+        List<AssetBase> assetsAsPlannedInSync = assetAsPlannedRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
+        List<AssetBase> allInSyncAssets = Stream.concat(assetsAsPlannedInSync.stream(), assetsAsBuiltInSync.stream()).toList();
+        log.info("Found following assets in state IN_SYNCHRONIZATION to publish {}", allInSyncAssets.stream().map(AssetBase::getId).toList());
+        boolean triggerSynchronizeAssets = true;
+        publishServiceAsync.publishAssetsToCoreServices(allInSyncAssets, triggerSynchronizeAssets, orderConfiguration);
+    }
 
     @Override
     @Transactional
-    public void publishAssets(String policyId, List<String> assetIds, boolean triggerSynchronizeAssets) {
+    public void publishAssets(String policyId, List<String> assetIds, boolean triggerSynchronizeAssets, OrderConfiguration orderConfiguration) {
         assetIds.forEach(this::throwIfNotExists);
 
         //Update assets with policy id
@@ -59,15 +74,10 @@ public class PublishServiceImpl implements PublishService {
         log.info("Updating status of asBuiltAssets.");
         List<AssetBase> updatedAsBuiltAssets = updateAssetWithStatusAndPolicy(policyId, assetIds, assetAsBuiltRepository);
 
-        publishAssetsToCoreServices(
+        publishServiceAsync.publishAssetsToCoreServices(
                 Stream.concat(updatedAsPlannedAssets.stream(), updatedAsBuiltAssets.stream()).toList(),
-                triggerSynchronizeAssets
+                triggerSynchronizeAssets, orderConfiguration
         );
-    }
-
-    @Override
-    public void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets) {
-        asyncPublishService.publishAssetsToCoreServices(assets, triggerSynchronizeAssets);
     }
 
     private void throwIfNotExists(String assetId) {

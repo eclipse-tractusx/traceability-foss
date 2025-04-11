@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,16 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.cron.domain;
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
-
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-
-import java.util.Optional;
-
-public interface AssetCallbackRepository {
-
-    Optional<AssetBase> findById(final String assetId);
-
-    AssetBase save(AssetBase asset);
+public class CronJobRegistrationException extends RuntimeException {
+    public CronJobRegistrationException(String message) {
+        super(message);
+    }
 }

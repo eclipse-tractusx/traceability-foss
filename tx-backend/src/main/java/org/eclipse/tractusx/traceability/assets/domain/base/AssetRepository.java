@@ -24,9 +24,12 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AssetRepository {
     AssetBase getAssetById(String assetId);
+
+    Optional<AssetBase> findById(final String assetId);
 
     void deleteAssetById(String assetId);
 

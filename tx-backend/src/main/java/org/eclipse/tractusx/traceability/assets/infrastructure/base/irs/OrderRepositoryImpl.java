@@ -21,8 +21,10 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
@@ -48,12 +50,13 @@ import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
@@ -64,8 +67,8 @@ import static org.eclipse.tractusx.traceability.common.security.Sanitizer.saniti
 public class OrderRepositoryImpl implements OrderRepository {
 
     private final TraceabilityProperties traceabilityProperties;
-    private final AssetCallbackRepository assetAsBuiltCallbackRepository;
-    private final AssetCallbackRepository assetAsPlannedCallbackRepository;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
+    private final AssetAsPlannedRepository assetAsPlannedRepository;
     private static final ProcessingState STATUS_COMPLETED = ProcessingState.COMPLETED;
     private static final ProcessingState STATUS_PARTIAL = ProcessingState.PARTIAL;
     private static final JobState JOB_STATUS_COMPLETED = JobState.COMPLETED;
@@ -80,17 +83,17 @@ public class OrderRepositoryImpl implements OrderRepository {
             OrderClient orderClient,
             TraceabilityProperties traceabilityProperties,
             @Qualifier("assetAsBuiltRepositoryImpl")
-            AssetCallbackRepository assetAsBuiltCallbackRepository,
+            AssetAsBuiltRepository assetAsBuiltRepository,
             @Qualifier("assetAsPlannedRepositoryImpl")
-            AssetCallbackRepository assetAsPlannedCallbackRepository,
+            AssetAsPlannedRepository assetAsPlannedRepository,
             IrsResponseAssetMapper assetMapperFactory,
             ObjectMapper objectMapper,
             JobClient jobClient,
             OrderJPARepository orderJPARepository,
             TriggerConfigurationJPARepository triggerConfigurationJPARepository) {
         this.traceabilityProperties = traceabilityProperties;
-        this.assetAsBuiltCallbackRepository = assetAsBuiltCallbackRepository;
-        this.assetAsPlannedCallbackRepository = assetAsPlannedCallbackRepository;
+        this.assetAsBuiltRepository = assetAsBuiltRepository;
+        this.assetAsPlannedRepository = assetAsPlannedRepository;
         this.orderClient = orderClient;
         this.assetMapperFactory = assetMapperFactory;
         this.objectMapper = objectMapper;
@@ -168,9 +171,9 @@ public class OrderRepositoryImpl implements OrderRepository {
             assets.forEach(assetBase -> {
                 addTombstoneDetails(assetBase);
                 if (assetBase.getBomLifecycle() == AS_BUILT) {
-                    saveOrUpdateAssets(assetAsBuiltCallbackRepository, assetBase);
+                    saveOrUpdateAssets(assetAsBuiltRepository, assetBase);
                 } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
-                    saveOrUpdateAssets(assetAsPlannedCallbackRepository, assetBase);
+                    saveOrUpdateAssets(assetAsPlannedRepository, assetBase);
                 }
             });
         });
@@ -191,7 +194,7 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     void addTombstoneDetails(AssetBase tombstone) {
         if (tombstone.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASBUILT)) {
-            assetAsBuiltCallbackRepository
+            assetAsBuiltRepository
                     .findById(tombstone.getId())
                     .ifPresent(oldAsset -> {
                         tombstone.setManufacturerId(oldAsset.getManufacturerId());
@@ -200,7 +203,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                         }
                     });
         } else if (tombstone.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASPLANNED)) {
-            assetAsPlannedCallbackRepository
+            assetAsPlannedRepository
                     .findById(tombstone.getId())
                     .ifPresent(oldAsset -> {
                         tombstone.setManufacturerId(oldAsset.getManufacturerId());
@@ -211,7 +214,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
     }
 
-    void saveOrUpdateAssets(AssetCallbackRepository repository, AssetBase asset) {
+    void saveOrUpdateAssets(AssetRepository repository, AssetBase asset) {
         try {
             enrichAssetBaseByContractAgreements(repository, asset);
             updateExpirationDate(repository, asset);
@@ -223,7 +226,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         }
     }
 
-    private void updateExpirationDate(AssetCallbackRepository repository, AssetBase asset) {
+    private void updateExpirationDate(AssetRepository repository, AssetBase asset) {
         triggerConfigurationJPARepository.findTopByCreatedAtDesc().ifPresentOrElse(triggerConfiguration -> {
             Optional<AssetBase> assetToUpdate = repository.findById(asset.getId());
             assetToUpdate.ifPresentOrElse(assetBase -> {
@@ -237,7 +240,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         }, () -> log.info("No trigger configuration found, skipping updating assets expiration date"));
     }
 
-    private void enrichAssetBaseByContractAgreements(AssetCallbackRepository repository, AssetBase asset) {
+    private void enrichAssetBaseByContractAgreements(AssetRepository repository, AssetBase asset) {
         Optional<AssetBase> byId = repository.findById(asset.getId());
         List<ContractAgreement> agreementsToAdd = new ArrayList<>();
         byId.ifPresent(assetBase -> agreementsToAdd.addAll(assetBase.getContractAgreements()));

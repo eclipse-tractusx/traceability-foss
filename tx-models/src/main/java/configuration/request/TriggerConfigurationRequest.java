@@ -43,6 +43,9 @@ public class TriggerConfigurationRequest {
     @Schema(example = "* * * * * *")
     @ValidCron
     String cronExpressionAASCleanup;
+    @Schema(example = "* * * * * *")
+    @ValidCron
+    String cronExpressionPublishAssets;
     @Schema(example = "60")
     int aasTTL;
     @Schema(example = "1000")

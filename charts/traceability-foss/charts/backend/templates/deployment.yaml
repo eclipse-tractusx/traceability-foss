@@ -190,10 +190,6 @@ spec:
               value: {{ .Values.bpdm.bpn | quote }}
             - name: DISCOVERY_TYPE
               value: {{ .Values.traceability.discoveryType | quote }}
-            - name: TRACEABILITY_PUBLISH_ASSET_CRON
-              value: {{ .Values.traceability.publishAssetCronExpression | quote }}
-            - name: TRACEABILITY_PUBLISH_ASSET_ZONE
-              value: {{ .Values.traceability.publishAssetCronZone | quote }}
             - name: TRACEABILITY_REGISTER_DECENTRAL_REGISTRY_PERMISSIONS
               value: {{ ne .Values.traceability.registerDecentralRegistryPermissions false | quote }}
             {{- range $key, $val := .Values.env }}
