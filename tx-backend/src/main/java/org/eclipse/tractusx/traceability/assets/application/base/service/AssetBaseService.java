@@ -32,7 +32,7 @@ import java.util.Map;
 
 public interface AssetBaseService {
 
-    void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds);
+    void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds, OrderConfiguration orderConfiguration);
 
     String syncAssetsUsingIRSOrderAPI(List<String> globalAssetIds, OrderConfiguration orderConfiguration);
 

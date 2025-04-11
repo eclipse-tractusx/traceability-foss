@@ -51,7 +51,7 @@ class AssetAsBuiltServiceImplTest {
         List<String> globalAssetIds = List.of(globalAssetId);
 
         // when
-        assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds);
+        assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds, null);
 
         // then
         verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
