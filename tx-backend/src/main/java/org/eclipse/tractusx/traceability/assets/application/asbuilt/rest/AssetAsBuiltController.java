@@ -50,6 +50,7 @@ import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
+import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,12 +75,15 @@ public class AssetAsBuiltController {
 
     private final AssetBaseService assetBaseService;
     private final BaseRequestFieldMapper fieldMapper;
+    private final ConfigurationService configurationService;
+
 
     public AssetAsBuiltController(
             @Qualifier("assetAsBuiltServiceImpl") AssetBaseService assetService,
-            AssetAsBuiltFieldMapper fieldMapper) {
+            AssetAsBuiltFieldMapper fieldMapper, ConfigurationService configurationService) {
         this.assetBaseService = assetService;
         this.fieldMapper = fieldMapper;
+        this.configurationService = configurationService;
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
@@ -135,7 +139,7 @@ public class AssetAsBuiltController {
     @PostMapping("/sync")
     @ApiKeyEnabled
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetBaseService.syncAssetsAsyncUsingIRSOrderAPI(syncAssetsRequest.globalAssetIds());
+        assetBaseService.syncAssetsAsyncUsingIRSOrderAPI(syncAssetsRequest.globalAssetIds(), configurationService.getLatestOrderConfiguration());
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")

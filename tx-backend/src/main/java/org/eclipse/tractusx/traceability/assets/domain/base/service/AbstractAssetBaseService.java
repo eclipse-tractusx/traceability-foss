@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.base.service;
 
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
@@ -60,7 +59,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     @Override
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void syncAssetsAsyncUsingIRSOrderAPI(List<String> aasList) {
+    public void syncAssetsAsyncUsingIRSOrderAPI(List<String> aasList, OrderConfiguration orderConfiguration) {
         log.info("Synchronizing assets for aasList: {}", aasList);
         try {
             if (!getDownwardAspects().isEmpty()) {

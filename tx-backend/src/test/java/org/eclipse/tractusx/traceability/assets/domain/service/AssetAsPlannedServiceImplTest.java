@@ -53,7 +53,7 @@ class AssetAsPlannedServiceImplTest {
         String globalAssetId = "123";
         List<String> globalAssetIds = List.of(globalAssetId);
         // when
-        assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds);
+        assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds, null);
 
         // then
         verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED, null);
