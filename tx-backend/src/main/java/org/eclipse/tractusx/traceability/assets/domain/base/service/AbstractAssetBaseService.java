@@ -26,15 +26,14 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.common.domain.EnumFieldUtils;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.springframework.scheduling.annotation.Async;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -129,23 +128,13 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds) {
+    public List<String> getSearchableValues(String fieldName, List<String> startsWith, Integer size, Owner owner, List<String> inAssetIds) {
         final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
 
         if (isSupportedEnumType(fieldName)) {
-            return getAssetEnumFieldValues(fieldName);
+            return EnumFieldUtils.getValues(fieldName, startsWith);
         }
-        return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner, inAssetIds);
-    }
-
-    @Override
-    public List<String> getSearchableValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds) {
-        final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
-
-        if (isSupportedEnumType(fieldName)) {
-            return getAssetEnumFieldValues(fieldName);
-        }
-        return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner, inAssetIds);
+        return getAssetRepository().getFieldValues(fieldName, startsWith, resultSize, owner, inAssetIds);
     }
 
     @Override
@@ -162,13 +151,5 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return SUPPORTED_ENUM_FIELDS.contains(fieldName);
     }
 
-    private List<String> getAssetEnumFieldValues(String fieldName) {
-        return switch (fieldName) {
-            case "owner" -> Arrays.stream(Owner.values()).map(Enum::name).toList();
-            case "qualityType" -> Arrays.stream(QualityType.values()).map(Enum::name).toList();
-            case "semanticDataModel" -> Arrays.stream(SemanticDataModel.values()).map(Enum::name).toList();
-            case "importState" -> Arrays.stream(ImportState.values()).map(Enum::name).toList();
-            default -> null;
-        };
-    }
+
 }

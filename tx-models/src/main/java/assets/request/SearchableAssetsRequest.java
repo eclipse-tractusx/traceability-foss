@@ -29,7 +29,7 @@ public record SearchableAssetsRequest(
         @NotNull
         String fieldName,
         @Size()
-        String startWith,
+        List<String> startsWith,
         Integer size,
         OwnerType owner,
         List<String> inAssetIds) {

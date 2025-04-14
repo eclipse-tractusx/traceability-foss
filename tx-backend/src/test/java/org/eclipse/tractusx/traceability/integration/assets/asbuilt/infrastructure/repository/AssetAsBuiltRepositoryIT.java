@@ -32,6 +32,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -52,7 +53,7 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
     @MethodSource("fieldNameTestProvider")
     void givenIdField_whenGetFieldValues_thenSorted(
             String fieldName,
-            String startWith,
+            List<String> startsWith,
             Integer resultLimit,
             Integer expectedSize
     ) {
@@ -60,7 +61,7 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsStored();
 
         // when
-        List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, startWith, resultLimit, null, List.of());
+        List<String> result = assetAsBuiltRepository.getFieldValues(fieldName, startsWith, resultLimit, null, List.of());
 
         // then
         assertThat(result)
@@ -87,10 +88,10 @@ class AssetAsBuiltRepositoryIT extends IntegrationTestSpecification {
 
     private static Stream<Arguments> fieldNameTestProvider() {
         return Stream.of(
-                Arguments.of("id", "urn:uuid:1", 10, 3),
-                Arguments.of("id", null, 10, 10),
-                Arguments.of("id", null, 200, 13),
-                Arguments.of("owner", null, 10, 2)
+                Arguments.of("id", List.of("urn:uuid:1"), 10, 3),
+                Arguments.of("id", Collections.EMPTY_LIST, 10, 10),
+                Arguments.of("id", Collections.EMPTY_LIST, 200, 13),
+                Arguments.of("owner", Collections.EMPTY_LIST, 10, 2)
         );
     }
 }

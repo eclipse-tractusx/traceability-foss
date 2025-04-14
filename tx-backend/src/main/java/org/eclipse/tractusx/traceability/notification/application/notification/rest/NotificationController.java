@@ -662,6 +662,6 @@ public class NotificationController {
     @PostMapping("searchable-values")
     public List<String> searchableValues(@Valid @RequestBody SearchableNotificationsRequest request) {
         return notificationService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
-                request.startWith(), request.size(), NotificationSideTypeMapper.from(request.channel()));
+                request.startsWith(), request.size(), NotificationSideTypeMapper.from(request.channel()));
     }
 }

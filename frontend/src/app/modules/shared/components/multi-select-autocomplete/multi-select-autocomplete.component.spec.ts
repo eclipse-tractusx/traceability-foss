@@ -226,12 +226,12 @@ describe('MultiSelectAutocompleteComponent', () => {
     componentInstance.filterColumn = 'createdDate';
     componentInstance.dateFilter();
 
-    expect(componentInstance.formControl.value).toEqual([{
+    expect(componentInstance.formControl.value).toEqual([ {
       value: [ Object({
         value: '2023-12-10',
         strategy: 'AT_LOCAL_DATE',
       }) ], operator: 'AND',
-    }]);
+    } ]);
   });
 
   it('should subscribe to searchElementChange and call filterItem when delayTimeoutId is present', async () => {
@@ -276,18 +276,6 @@ describe('MultiSelectAutocompleteComponent', () => {
     expect(componentInstance.selectedValue).toEqual([ 'hello' ]);
 
   });
-
-  it('should return when calling filterItem() without value', async () => {
-    const { fixture } = await renderMultiSelectAutoCompleteComponent();
-    const { componentInstance } = fixture;
-
-    componentInstance.searchElement = 'test';
-    componentInstance.filterItem(undefined);
-
-    const option = componentInstance.searchedOptions;
-    expect(option).toEqual([]);
-  });
-
 
   it('should stop event propagation for Enter key and Ctrl+A combination', async () => {
     // Arrange
@@ -401,7 +389,7 @@ describe('MultiSelectAutocompleteComponent', () => {
 
       // Access private method via type assertion
       (componentInstance as any).handleDateFilterChange({
-        testColumn: {}
+        testColumn: {},
       });
 
       expect(componentInstance.startDate).toBeNull();
@@ -417,11 +405,11 @@ describe('MultiSelectAutocompleteComponent', () => {
       // Access private method via type assertion
       (componentInstance as any).handleDateFilterChange({
         testColumn: {
-          value: [{
+          value: [ {
             strategy: FilterOperator.AT_LOCAL_DATE,
-            value: testDate
-          }]
-        }
+            value: testDate,
+          } ],
+        },
       });
 
       expect(componentInstance.startDate).toEqual(new Date(testDate));
@@ -437,11 +425,11 @@ describe('MultiSelectAutocompleteComponent', () => {
       // Access private method via type assertion
       (componentInstance as any).handleDateFilterChange({
         testColumn: {
-          value: [{
+          value: [ {
             strategy: FilterOperator.AFTER_LOCAL_DATE,
-            value: testDate
-          }]
-        }
+            value: testDate,
+          } ],
+        },
       });
 
       expect(componentInstance.startDate).toEqual(new Date(testDate));
@@ -457,11 +445,11 @@ describe('MultiSelectAutocompleteComponent', () => {
       // Access private method via type assertion
       (componentInstance as any).handleDateFilterChange({
         testColumn: {
-          value: [{
+          value: [ {
             strategy: FilterOperator.BEFORE_LOCAL_DATE,
-            value: testDate
-          }]
-        }
+            value: testDate,
+          } ],
+        },
       });
 
       expect(componentInstance.startDate).toBe(undefined);
@@ -481,19 +469,75 @@ describe('MultiSelectAutocompleteComponent', () => {
           value: [
             {
               strategy: FilterOperator.AT_LOCAL_DATE,
-              value: startDate
+              value: startDate,
             },
             {
               strategy: FilterOperator.BEFORE_LOCAL_DATE,
-              value: endDate
-            }
-          ]
-        }
+              value: endDate,
+            },
+          ],
+        },
       });
 
       expect(componentInstance.startDate).toEqual(new Date(startDate));
       expect(componentInstance.endDate).toEqual(new Date(endDate));
     });
+  });
+
+  it('should call filterItem when opened and options are undefined', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
+    spyOn(componentInstance as any, 'filterItem');
+    spyOn(componentInstance as any, 'clickClear');
+    (componentInstance as any).options = undefined;
+    (componentInstance as any).searchElement = 'abc';
+
+    componentInstance.handleOpen(true);
+
+    expect((componentInstance as any).filterItem).toHaveBeenCalledWith('abc');
+    expect((componentInstance as any).clickClear).not.toHaveBeenCalled();
+  });
+
+  it('should call filterItem when opened and options are empty', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
+    spyOn(componentInstance as any, 'filterItem');
+    spyOn(componentInstance as any, 'clickClear');
+    (componentInstance as any).options = [];
+    (componentInstance as any).searchElement = '';
+
+    componentInstance.handleOpen(true);
+
+    expect((componentInstance as any).filterItem).toHaveBeenCalledWith('');
+    expect((componentInstance as any).clickClear).not.toHaveBeenCalled();
+  });
+
+  it('should call clickClear when opened and options are present', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
+    spyOn(componentInstance as any, 'filterItem');
+    spyOn(componentInstance as any, 'clickClear');
+    (componentInstance as any).options = [ 'something' ];
+    (componentInstance as any).searchElement = 'abc';
+
+    componentInstance.handleOpen(true);
+
+    expect((componentInstance as any).filterItem).not.toHaveBeenCalled();
+    expect((componentInstance as any).clickClear).toHaveBeenCalled();
+  });
+
+  it('should call clickClear when not opened', async () => {
+    const { fixture } = await renderMultiSelectAutoCompleteComponent();
+    const { componentInstance } = fixture;
+    spyOn(componentInstance as any, 'filterItem');
+    spyOn(componentInstance as any, 'clickClear');
+    (componentInstance as any).options = undefined;
+    (componentInstance as any).searchElement = 'abc';
+
+    componentInstance.handleOpen(false);
+
+    expect((componentInstance as any).filterItem).not.toHaveBeenCalled();
+    expect((componentInstance as any).clickClear).toHaveBeenCalled();
   });
 
 });

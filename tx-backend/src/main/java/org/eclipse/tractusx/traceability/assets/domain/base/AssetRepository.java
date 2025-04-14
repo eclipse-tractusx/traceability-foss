@@ -51,7 +51,7 @@ public interface AssetRepository {
 
     long countAssetsByOwner(Owner owner);
 
-    List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner, List<String> inAssetIds);
+    List<String> getFieldValues(String fieldName, List<String> startsWith, Integer resultLimit, Owner owner, List<String> inAssetIds);
 
     List<AssetBase> findByImportStateIn(ImportState... importStates);
 

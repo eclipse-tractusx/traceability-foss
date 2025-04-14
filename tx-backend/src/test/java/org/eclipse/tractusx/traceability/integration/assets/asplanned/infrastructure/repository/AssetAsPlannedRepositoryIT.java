@@ -44,7 +44,7 @@ class AssetAsPlannedRepositoryIT extends IntegrationTestSpecification {
     @MethodSource("fieldNameTestProvider")
     void givenFieldNameAndResultLimit_whenGetFieldValues_thenSorted(
             String fieldName,
-            String startWith,
+            List<String> startsWith,
             Integer resultLimit,
             Integer expectedSize
     ) {
@@ -52,7 +52,7 @@ class AssetAsPlannedRepositoryIT extends IntegrationTestSpecification {
         assetsSupport.defaultAssetsAsPlannedStored();
 
         // when
-        List<String> result = assetAsPlannedRepository.getFieldValues(fieldName, startWith, resultLimit, null, List.of());
+        List<String> result = assetAsPlannedRepository.getFieldValues(fieldName, startsWith, resultLimit, null, List.of());
 
         // then
         assertThat(result)
@@ -63,7 +63,7 @@ class AssetAsPlannedRepositoryIT extends IntegrationTestSpecification {
     private static Stream<Arguments> fieldNameTestProvider() {
         return Stream.of(
                 Arguments.of("id", null, 10, 2),
-                Arguments.of("id", "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4d", 10, 1),
+                Arguments.of("id", List.of("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4d"), 10, 1),
                 Arguments.of("id", null, 1, 1),
                 Arguments.of("owner", null, 10, 2),
                 Arguments.of("semanticDataModel", null, 10, 1),

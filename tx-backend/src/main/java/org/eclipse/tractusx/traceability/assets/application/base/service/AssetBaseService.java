@@ -48,9 +48,7 @@ public interface AssetBaseService {
 
     AssetBase updateQualityType(String assetId, QualityType qualityType);
 
-    List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds);
-
-    List<String> getSearchableValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds);
+    List<String> getSearchableValues(String fieldName, List<String> startsWith, Integer size, Owner owner, List<String> inAssetIds);
 
     List<String> getAssetIdsInImportState(ImportState... importStates);
 

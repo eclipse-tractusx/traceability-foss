@@ -21,10 +21,44 @@ import { AdminService } from '@page/admin/core/admin.service';
 import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { NotificationService } from '@shared/service/notification.service';
 import { PartsService } from '@shared/service/parts.service';
+import { I18NextService } from 'angular-i18next';
 import { of } from 'rxjs';
 
 export abstract class AutocompleteStrategy {
+  protected constructor(private readonly i18nextService: I18NextService) {}
+
   abstract retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string, inAssetIds?: string[]): any;
+
+  getTranslatedSearchValue(searchElement: string, filterColumns: string) {
+    const mappedText = this.i18nextService.t('multiSelect.mappedText.' + filterColumns, { returnObjects: true }) as unknown as Record<string, string>;
+    const result = mappedText && typeof mappedText === 'object' && Object.keys(mappedText).length > 0
+      ? mappedText
+      : null;
+    if (result) {
+      const reverseMap = this.createReverseLookup(result);
+      return this.findMatchingKeysFromTranslation(searchElement, reverseMap);
+    } else {
+      return [ searchElement ];
+    }
+  }
+
+  createReverseLookup(obj: Record<string, string>): Record<string, string> {
+    const reverse: Record<string, string> = {};
+    for (const key in obj) {
+      reverse[obj[key]] = key;
+    }
+    return reverse;
+  }
+
+  findMatchingKeysFromTranslation(searchElement: string, reverseMap: Record<string, string>): string[] {
+    const matches = Object.entries(reverseMap)
+      .filter(([ translatedValue ]) =>
+        translatedValue.toLowerCase().startsWith(searchElement.toLowerCase()),
+      )
+      .map(([ _, originalKey ]) => originalKey);
+
+    return matches.length > 0 ? matches : [ 'n/a' ];
+  }
 }
 
 @Injectable({
@@ -33,22 +67,22 @@ export abstract class AutocompleteStrategy {
 export class PartsStrategy extends AutocompleteStrategy {
   partsService: PartsService;
 
-  constructor(partsService: PartsService) {
-    super();
+  constructor(partsService: PartsService, i18nextService: I18NextService) {
+    super(i18nextService);
     this.partsService = partsService;
   }
 
   retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string, inAssetIds?: string[]): any {
     const asBuilt = isAsBuilt(tableType);
 
-    if(inAssetIds?.length < 1) {
+    if (inAssetIds?.length < 1) {
       return of([]);
     }
 
     return this.partsService.getSearchableValues(
       asBuilt,
       filterColumns,
-      searchElement,
+      super.getTranslatedSearchValue(searchElement, filterColumns),
       inAssetIds,
     );
   }
@@ -60,8 +94,8 @@ export class PartsStrategy extends AutocompleteStrategy {
 export class NotificationStrategy extends AutocompleteStrategy {
   notificationService: NotificationService;
 
-  constructor(notificationService: NotificationService) {
-    super();
+  constructor(notificationService: NotificationService, i18nextService: I18NextService) {
+    super(i18nextService);
     this.notificationService = notificationService;
   }
 
@@ -70,7 +104,7 @@ export class NotificationStrategy extends AutocompleteStrategy {
     return this.notificationService.getSearchableValues(
       notificationChannel,
       filterColumns,
-      searchElement,
+      super.getTranslatedSearchValue(searchElement, filterColumns),
     );
   }
 }
@@ -81,8 +115,8 @@ export class NotificationStrategy extends AutocompleteStrategy {
 export class ContractsStrategy extends AutocompleteStrategy {
   adminService: AdminService;
 
-  constructor(adminService: AdminService) {
-    super();
+  constructor(adminService: AdminService, i18nextService: I18NextService) {
+    super(i18nextService);
     this.adminService = adminService;
   }
 

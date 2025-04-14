@@ -31,6 +31,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -121,13 +122,13 @@ class AssetAsPlannedControllerSearchValuesIT extends IntegrationTestSpecificatio
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "idShort";
-        String startWith = "vehicle";
+        String startsWith = "vehicle";
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "startWith", startWith)))
+                .body(asJson(Map.of("fieldName", fieldName, "startsWith", List.of(startsWith))))
                 .log().all()
                 .when()
                 .post("/api/assets/as-planned/searchable-values")
@@ -145,13 +146,13 @@ class AssetAsPlannedControllerSearchValuesIT extends IntegrationTestSpecificatio
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
         String fieldName = "idShort";
-        String startWith = "vehicleMODEL";
+        String startsWith = "vehicleMODEL";
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "startWith", startWith)))
+                .body(asJson(Map.of("fieldName", fieldName, "startsWith", List.of(startsWith))))
                 .log().all()
                 .when()
                 .post("/api/assets/as-planned/searchable-values")

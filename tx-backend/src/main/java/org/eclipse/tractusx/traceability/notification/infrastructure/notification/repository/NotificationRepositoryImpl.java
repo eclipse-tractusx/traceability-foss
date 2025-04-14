@@ -157,8 +157,8 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     }
 
     @Override
-    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, NotificationSide side) {
-        return CriteriaUtility.getDistinctNotificationFieldValues(fieldName, startWith, resultLimit, side, NotificationEntity.class, entityManager);
+    public List<String> getDistinctFieldValues(String fieldName, List<String> startsWith, Integer resultLimit, NotificationSide side) {
+        return CriteriaUtility.getDistinctNotificationFieldValues(fieldName, startsWith, resultLimit, side, NotificationEntity.class, entityManager);
     }
 
     @Override
