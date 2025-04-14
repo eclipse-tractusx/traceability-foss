@@ -40,7 +40,16 @@ class ApiKeyFeatureServiceTest {
         //THEN
         assertNotNull(apiKeyRequestMapping);
         assertFalse(apiKeyRequestMapping.isEmpty());
-        assertThat(apiKeyRequestMapping).containsExactlyInAnyOrder("/assets/as-built/sync", "/assets/as-planned/sync", "/registry/reload", "/aas/lookup", "/administration/digitalTwinPart", "/administration/digitalTwinPart/detail");
+        assertThat(apiKeyRequestMapping).containsExactlyInAnyOrder(
+                "/assets/as-built/sync", "/assets/as-planned/sync",
+                "/registry/reload", "/aas/lookup",
+                "/administration/digitalTwinPart",
+                "/administration/digitalTwinPart/detail",
+                "/orders/configuration/triggers",
+                "/orders/configuration/batches/active",
+                "/orders/configuration/batches",
+                "/orders/configuration/triggers/active"
+        );
     }
 
 
