@@ -19,7 +19,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { NotificationHelperService } from '@page/notifications/core/notification-helper.service';
 import { NotificationsFacade } from '@page/notifications/core/notifications.facade';
 import { NotificationsState } from '@page/notifications/core/notifications.state';
@@ -74,7 +73,7 @@ describe('NotificationMenuActionsAssembler', () => {
       description: 'Investigation No 1',
       createdBy: '',
       createdByName: '',
-      createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
+      createdDate: new Date('2022-05-01T10:34:12.000Z'),
       assetIds: [ 'MOCK_part_1' ],
       sendTo: '',
       sendToName: '',

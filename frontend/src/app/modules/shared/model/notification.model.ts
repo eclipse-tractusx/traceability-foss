@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { Severity } from '@shared/model/severity.model';
 
@@ -109,14 +108,14 @@ export interface Notification {
   description: string;
   createdBy: string;
   createdByName?: string;
-  createdDate: CalendarDateModel;
-  updatedDate?: CalendarDateModel;
+  createdDate: Date;
+  updatedDate?: Date;
   assetIds: string[];
   channel?: 'SENDER' | 'RECEIVER';
   sendTo: string;
   sendToName?: string;
   severity: Severity;
-  targetDate?: CalendarDateModel;
+  targetDate?: Date;
   messages: NotificationMessage[];
 
   //added fields

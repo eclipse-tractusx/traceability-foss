@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { NotificationReasonComponent } from './notification-reason.component';
@@ -34,7 +33,7 @@ describe('NotificationReasonComponent', () => {
       description: 'Test Notification',
       createdBy: '123',
       createdByName: 'John Doe',
-      createdDate: new CalendarDateModel('2022-05-01T12:34:12'),
+      createdDate: new Date('2022-05-01T12:34:12'),
       assetIds: [],
       sendTo: 'B',
       severity: Severity.CRITICAL,
@@ -96,7 +95,7 @@ describe('NotificationReasonComponent', () => {
       description: 'Test Notification',
       createdBy: '123',
       createdByName: 'John Doe',
-      createdDate: new CalendarDateModel('2022-05-01T12:34:12'),
+      createdDate: new Date('2022-05-01T12:34:12'),
       assetIds: [],
       sendTo: 'B',
       severity: Severity.CRITICAL,
@@ -116,7 +115,7 @@ describe('NotificationReasonComponent', () => {
       description: 'Test Notification',
       createdBy: '123',
       createdByName: 'John Doe',
-      createdDate: new CalendarDateModel('2022-05-01T12:34:12'),
+      createdDate: new Date('2022-05-01T12:34:12'),
       assetIds: [],
       sendTo: 'B',
       severity: Severity.CRITICAL,
