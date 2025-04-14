@@ -34,6 +34,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
 import org.eclipse.tractusx.traceability.configuration.application.mapper.OrderConfigurationResponseMapper;
 import org.eclipse.tractusx.traceability.configuration.application.mapper.TriggerConfigurationResponseMapper;
 import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
@@ -109,6 +110,7 @@ public class ConfigurationController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
+    @ApiKeyEnabled
     public ResponseEntity<Void> createOrderConfiguration(@Valid @RequestBody OrderConfigurationRequest request) {
         log.info("Received request to create order configuration: {}", sanitize(request.toString()));
         configurationService.persistOrderConfiguration(request);
@@ -172,6 +174,7 @@ public class ConfigurationController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
+    @ApiKeyEnabled
     public ResponseEntity<OrderConfigurationResponse> getLatestOrderConfiguration() {
         return ResponseEntity.ok(
                 OrderConfigurationResponseMapper.from(configurationService.getLatestOrderConfiguration()));
@@ -228,6 +231,7 @@ public class ConfigurationController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
+    @ApiKeyEnabled
     public ResponseEntity<Void> createTriggerConfiguration(@Valid @RequestBody TriggerConfigurationRequest request) {
         log.info("Received request to create trigger configuration: {}", sanitize(request.toString()));
         configurationService.persistTriggerConfigurationAndUpdateCronjobs(request);
@@ -291,6 +295,7 @@ public class ConfigurationController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
+    @ApiKeyEnabled
     public ResponseEntity<TriggerConfigurationResponse> getLatestTriggerConfiguration() {
         return ResponseEntity.ok(
                 TriggerConfigurationResponseMapper.from(configurationService.getLatestTriggerConfiguration()));
