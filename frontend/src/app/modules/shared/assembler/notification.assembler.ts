@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
 import { Severity } from '@shared/model/severity.model';
 import {
@@ -61,12 +60,12 @@ export class NotificationAssembler {
     const status = NotificationStatus[_status] ?? null;
     const createdBy = _createdBy;
     const createdByName = _createdByName;
-    const createdDate = new CalendarDateModel(_createdDate);
-    const updatedDate = new CalendarDateModel(_updatedDate);
+    const createdDate = new Date(_createdDate || null);
+    const updatedDate = new Date(_updatedDate || null);
     const sendTo = _sendTo;
     const sendToName = _sendToName;
     const severity = Object.values(Severity).find(element => element == _severity) ?? null;
-    const targetDate = new CalendarDateModel(_targetDate);
+    const targetDate = new Date(_targetDate || null);
     const messages = _messages;
 
     const isFromSender = channel === 'SENDER';

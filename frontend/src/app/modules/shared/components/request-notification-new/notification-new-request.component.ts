@@ -75,7 +75,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
         'severity': severity,
         'type': type,
         'bpn': sendTo,
-        'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
+        'targetDate': targetDate.getTime() === 0 ? null : targetDate.toISOString().slice(0, 16),
       });
 
       this.formGroupChanged.emit(this.formGroup);
@@ -113,7 +113,7 @@ export class RequestNotificationNewComponent implements OnDestroy, OnInit {
               'severity': severity,
               'type': type,
               'bpn': sendTo,
-              'targetDate': targetDate.isInitial() ? null : targetDate.valueOf().toISOString().slice(0, 16),
+              'targetDate': targetDate.getTime() === 0 ? null : targetDate.toISOString().slice(0, 16),
             });
             if (this.editMode) {
               this.formGroup.get('type').disable();

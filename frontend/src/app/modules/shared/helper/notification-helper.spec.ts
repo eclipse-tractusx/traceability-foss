@@ -18,7 +18,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { createNotificationFilterFromDeeplink, getTranslationContext } from '@shared/helper/notification-helper';
 import { FilterOperator } from '@shared/model/filter.model';
 import { NotificationStatus, NotificationType } from '@shared/model/notification.model';
@@ -47,12 +46,36 @@ describe('createNotificationFilterFromDeeplink', () => {
 
 describe('getTranslationContext', () => {
   it('should return commonAlert for alert notifications', () => {
-    const notification = { id: '1', type: NotificationType.ALERT, title: 'Test1', status: NotificationStatus.ACCEPTED, createdDate: new CalendarDateModel("27.01.2026"), description: '', createdBy: '', assetIds: [], sendTo: '', severity: Severity.LIFE_THREATENING, messages: [] };
+    const notification = {
+      id: '1',
+      type: NotificationType.ALERT,
+      title: 'Test1',
+      status: NotificationStatus.ACCEPTED,
+      createdDate: new Date('27.01.2026'),
+      description: '',
+      createdBy: '',
+      assetIds: [],
+      sendTo: '',
+      severity: Severity.LIFE_THREATENING,
+      messages: [],
+    };
     expect(getTranslationContext(notification)).toBe('commonAlert');
   });
 
   it('should return commonInvestigation for other notifications', () => {
-    const notification = { id: '2', type: NotificationType.INVESTIGATION, title: 'Test2', status: NotificationStatus.SENT, createdDate: new CalendarDateModel("27.01.2026"), description: '', createdBy: '', assetIds: [], sendTo: '', severity: Severity.CRITICAL, messages: [] };
+    const notification = {
+      id: '2',
+      type: NotificationType.INVESTIGATION,
+      title: 'Test2',
+      status: NotificationStatus.SENT,
+      createdDate: new Date('27.01.2026'),
+      description: '',
+      createdBy: '',
+      assetIds: [],
+      sendTo: '',
+      severity: Severity.CRITICAL,
+      messages: [],
+    };
     expect(getTranslationContext(notification)).toBe('commonInvestigation');
   });
 });

@@ -20,19 +20,19 @@
 import { TitleCasePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { NotificationDetailFacade } from '@page/notifications/core/notification-detail.facade';
 import { NotificationDetailState } from '@page/notifications/core/notification-detail.state';
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
 import { BehaviorSubject, of, throwError } from 'rxjs';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
-import { Notification, NotificationStatus, NotificationType } from '@shared/model/notification.model';
+
 describe('NotificationDetailFacade', () => {
   let notificationDetailFacade: NotificationDetailFacade;
   let notificationDetailState: NotificationDetailState;
@@ -71,7 +71,7 @@ describe('NotificationDetailFacade', () => {
 
   describe('setNotificationPartsInformation', () => {
     let notification: Notification;
-    const createdDate = new CalendarDateModel('2023-01-01T00:00:00Z');
+    const createdDate = new Date('2023-01-01T00:00:00Z');
     beforeEach(() => {
       notification = {
         id: '1',
@@ -121,7 +121,7 @@ describe('NotificationDetailFacade', () => {
 
   describe('setAndSupplierPartsInformation', () => {
     let notification: Notification;
-    const createdDate = new CalendarDateModel('2023-01-01T00:00:00Z');
+    const createdDate = new Date('2023-01-01T00:00:00Z');
 
     beforeEach(() => {
       notification = {

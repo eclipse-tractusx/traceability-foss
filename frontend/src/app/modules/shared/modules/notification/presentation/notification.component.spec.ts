@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
 import {
   Notification,
@@ -47,9 +46,9 @@ describe('NotificationsInboxComponent', () => {
 
   const mapNotificationResponse = (data: NotificationResponse): Notification => {
     const isFromSender = data.channel === NotificationChannel.SENDER;
-    const createdDate = new CalendarDateModel(data.createdDate);
-    const updatedDate = new CalendarDateModel((data.updatedDate));
-    const targetDate = new CalendarDateModel(data.targetDate);
+    const createdDate = new Date(data.createdDate);
+    const updatedDate = new Date((data.updatedDate));
+    const targetDate = new Date(data.targetDate);
     const createdBy = data.createdBy;
     const createdByName = data.createdByName;
     const sendTo = data.sendTo;
