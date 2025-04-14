@@ -64,8 +64,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 
@@ -346,7 +348,7 @@ public class AssetAsBuiltController {
     @PostMapping("searchable-values")
     public List<String> searchableValues(@Valid @RequestBody SearchableAssetsRequest request) {
         return assetBaseService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
-                request.startWith(), request.size(), OwnerTypeMapper.from(request.owner()), request.inAssetIds());
+                request.startsWith(), request.size(), OwnerTypeMapper.from(request.owner()), request.inAssetIds());
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
@@ -765,13 +767,14 @@ public class AssetAsBuiltController {
     public List<String> distinctFilterValues(
             @RequestParam("fieldName") String fieldName,
             @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "startWith", required = false) String startWith,
+            @RequestParam(value = "startsWith", required = false) String startsWith,
             @RequestParam(value = "owner", required = false) Owner owner,
             @RequestParam(value = "inAssetIds", required = false) String[] inAssetIds) {
         List<String> inAssetIdsList = List.of();
         if (ArrayUtils.isNotEmpty(inAssetIds)) {
             inAssetIdsList = Arrays.asList(inAssetIds);
         }
-        return assetBaseService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner, inAssetIdsList);
+        List<String> startsWithList = Objects.nonNull(startsWith) ? List.of(startsWith) : Collections.emptyList();
+        return assetBaseService.getSearchableValues(fieldMapper.mapRequestFieldName(fieldName), startsWithList, size, owner, inAssetIdsList);
     }
 }

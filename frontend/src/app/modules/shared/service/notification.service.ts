@@ -164,14 +164,14 @@ export class NotificationService {
   }
 
 
-  public getSearchableValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
+  public getSearchableValues(channel: NotificationChannel, fieldNames: string, startsWith: string[]) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     const requestUrl = this.notificationUrl();
 
     const body = {
       'fieldName': mappedFieldName,
-      'startWith': startsWith,
-      'size': 200,
+      'startsWith': startsWith,
+      'size': 20,
       'channel': channel,
     };
 

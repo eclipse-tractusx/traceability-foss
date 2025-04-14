@@ -86,8 +86,8 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     }
 
     @Override
-    public List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner, List<String> inAssetIds) {
-        return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, inAssetIds, AssetAsBuiltEntity.class, entityManager);
+    public List<String> getFieldValues(String fieldName, List<String> startsWith, Integer resultLimit, Owner owner, List<String> inAssetIds) {
+        return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startsWith, resultLimit, owner, inAssetIds, AssetAsBuiltEntity.class, entityManager);
     }
 
     @Override

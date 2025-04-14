@@ -16,6 +16,7 @@ _**For better traceability add the corresponding JIRA issue number in each chang
 
 ## Changed
 
+- TRACEX-584 fix filter value suggestion for enum field
 - TRACEX-556 Bump base image eclipse-temurin:21-jre-alpine to eclipse-temurin:24-jre-alpine to fix CVE-2024-8176 libexpat
 - TRACEX-466 Adapting cron jobs to allow dynamic updates
 - TRACEX-53 Bump body-parser to fix CVE-2024-45590

@@ -190,7 +190,7 @@ SPDX-License-Identifier: Apache-2.0
             {{ value }}
           </ng-container>
           <ng-template #i18nKeyDisplay>
-            {{ 'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+            {{ 'multiSelect.mappedText.' + filterColumn + '.' + value | i18n: { defaultValue: value } }}
           </ng-template>
         </ng-container>
       </div>

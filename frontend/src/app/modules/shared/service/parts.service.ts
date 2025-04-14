@@ -136,13 +136,14 @@ export class PartsService {
     }
   }
 
-  public getSearchableValues(isAsBuilt: boolean, fieldNames: string, startsWith: string, inAssetIds?: string[]) {
+  public getSearchableValues(isAsBuilt: boolean, fieldNames: string, startsWith: string[], inAssetIds?: string[]) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
+
 
     const body = {
       'fieldName': mappedFieldName,
-      'startWith': startsWith,
-      'size': 200,
+      'startsWith': startsWith,
+      'size': 20,
       'inAssetIds': inAssetIds ? inAssetIds : [],
     };
 

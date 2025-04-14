@@ -118,7 +118,7 @@ describe('NotificationService', () => {
   it('should get searchable values', () => {
     const channel: NotificationChannel = NotificationChannel.SENDER;
     const fieldName = 'SomeField';
-    const startsWith = 'Test';
+    const startsWith = [ 'Test' ];
     spyOn(authService, 'getBearerToken').and.returnValue('testtoken');
 
     service.getSearchableValues(channel, fieldName, startsWith).subscribe();
@@ -129,8 +129,8 @@ describe('NotificationService', () => {
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(JSON.stringify({
       'fieldName': fieldName,
-      'startWith': startsWith,
-      'size': 200,
+      'startsWith': startsWith,
+      'size': 20,
       'channel': channel,
     }));
     req.flush({});

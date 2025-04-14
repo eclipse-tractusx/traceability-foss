@@ -194,15 +194,6 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
   }
 
   filterItem(value: any): void {
-    if (!this.searchElement?.length) {
-      return;
-    }
-
-    if (!value) {
-      this.searchedOptions = [];
-      return;
-    }
-
     if (this.singleSearch) {
       return;
     }
@@ -217,31 +208,30 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     const timeoutCallback = async (): Promise<void> => {
       this.isLoadingSuggestions = true;
       try {
-        firstValueFrom(this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement, this.inAssetIds)).then((res) => {
-          // @ts-ignore
-          this.searchedOptions = res.filter(option => !this.selectedValue?.includes(option))
-            .map(option => ({ display: option, value: option }));
-          this.options = this.searchedOptions;
-          // @ts-ignore
-          this.allOptions = res.map(option => ({ display: option, value: option }));
-          this.handleAllSelectedCheckbox();
-          this.suggestionError = !this.searchedOptions?.length;
-        }).catch((error) => {
-          console.error('Error fetching data: ', error);
-          this.suggestionError = !this.searchedOptions.length;
-        }).finally(() => {
-          this.delayTimeoutId = null;
-          this.isLoadingSuggestions = false;
-        });
+        const result: string[] = await firstValueFrom(
+          this.strategy.retrieveSuggestionValues(this.tableType, this.filterColumn, this.searchElement, this.inAssetIds),
+        );
+
+        this.searchedOptions = result.filter(option => !this.selectedValue?.includes(option))
+          .map(option => ({ display: option, value: option }));
+        this.options = this.searchedOptions;
+        this.allOptions = result.map(option => ({ display: option, value: option }));
+        this.handleAllSelectedCheckbox();
+        this.suggestionError = !this.searchedOptions?.length;
+
       } catch (error) {
-        console.error('Error in timeoutCallback: ', error);
+        console.error('Error fetching data: ', error);
+        this.suggestionError = !this.searchedOptions?.length;
+      } finally {
+        this.delayTimeoutId = null;
+        this.isLoadingSuggestions = false;
       }
     };
 
     // Start the delay with the callback
     this.delayTimeoutId = setTimeout(() => {
       Promise.resolve().then(() => timeoutCallback());
-    }, 500);
+    }, value ? 500 : 0);
   }
 
   startDateSelected(event: MatDatepickerInputEvent<Date>) {
@@ -463,6 +453,14 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
     const noSelectedValues = this.selectedValue?.length === 0;
     const oneOptionSelected = this.optionsSelected?.length === 1 && this.allOptions?.length === 0;
     this.selectAllChecked = noSelectedValues ? false : oneOptionSelected || this.allOptions?.length + this.optionsSelected?.length === this.selectedValue?.length;
+  }
+
+  handleOpen(isOpened: boolean): void {
+    if (isOpened && (this.options === undefined || this.options.length === 0)) {
+      this.filterItem(this.searchElement ?? '');
+    } else {
+      this.clickClear();
+    }
   }
 
 }

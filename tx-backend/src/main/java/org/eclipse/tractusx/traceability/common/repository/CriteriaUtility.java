@@ -20,7 +20,14 @@
 package org.eclipse.tractusx.traceability.common.repository;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.collections.CollectionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -36,7 +43,7 @@ public class CriteriaUtility {
 
     public List<String> getDistinctAssetFieldValues(
             String fieldName,
-            String startWith,
+            List<String> startWith,
             Integer resultLimit,
             Owner owner,
             List<String> inAssetIds,
@@ -55,12 +62,10 @@ public class CriteriaUtility {
                 .orderBy(List.of(builder.asc(stringFieldPath)));
 
         List<Predicate> predicates = new ArrayList<>();
-        if (nonNull(startWith)) {
-            predicates.add(
-                    builder.like(
-                            builder.lower(fieldPath),
-                            startWith.toLowerCase() + "%")
-            );
+        if (nonNull(startWith) && !startWith.isEmpty()) {
+            startWith.forEach(p -> predicates.add(builder.like(
+                    builder.lower(fieldPath),
+                    p.toLowerCase() + "%")));
         }
 
         if (nonNull(owner)) {
@@ -79,7 +84,7 @@ public class CriteriaUtility {
 
     public List<String> getDistinctNotificationFieldValues(
             String fieldName,
-            String startWith,
+            List<String> startsWithList,
             Integer resultLimit,
             NotificationSide side,
             Class<?> notificationEntityClass,
@@ -98,12 +103,10 @@ public class CriteriaUtility {
                 .orderBy(List.of(builder.asc(stringFieldPath1)));
 
         List<Predicate> predicates = new ArrayList<>();
-        if (nonNull(startWith)) {
-            predicates.add(
-                    builder.like(
-                            builder.lower(stringFieldPath1),
-                            startWith.toLowerCase() + "%")
-            );
+        if (nonNull(startsWithList)) {
+            startsWithList.forEach(p -> predicates.add(builder.like(
+                    builder.lower(stringFieldPath1),
+                    p.toLowerCase() + "%")));
         }
 
         if (nonNull(side)) {

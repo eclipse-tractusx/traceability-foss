@@ -19,11 +19,9 @@ SPDX-License-Identifier: Apache-2.0
 <mat-form-field>
 
   <mat-select *ngIf="!isDate" #selectElem [placeholder]="placeholder" [formControl]="formControl"
-              onkeydown="filterItem('')"
-              (click)="filterItem('')"
               [multiple]="true"
               (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown"
-              (openedChange)="options = []; filterItem(searchInput.value)">
+              (openedChange)="handleOpen($event)">
 
     <div class="box-search">
       <mat-checkbox *ngIf="!singleSearch && !(!searchedOptions?.length && !optionsSelected?.length)" color="primary" class="box-select-all" [disabled]="!searchedOptions?.length && !optionsSelected?.length" [(ngModel)]="selectAllChecked"
@@ -52,7 +50,7 @@ SPDX-License-Identifier: Apache-2.0
       </mat-option>
       <ng-template #i18nKeyDisplay>
         <mat-option [disabled]="option.disabled" [value]="option.value">
-          {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+          {{ 'multiSelect.mappedText.' + filterColumn + '.' + option.display | i18n: { defaultValue: option.display } }}
         </mat-option>
       </ng-template>
     </ng-container>
@@ -65,7 +63,7 @@ SPDX-License-Identifier: Apache-2.0
         </mat-option>
         <ng-template #i18nKeyDisplay>
           <mat-option [disabled]="option.disabled" [value]="option.value">
-            {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+            {{ 'multiSelect.mappedText.' + filterColumn + '.' + option.display | i18n: { defaultValue: option.display } }}
           </mat-option>
         </ng-template>
       </ng-container>
@@ -81,7 +79,7 @@ SPDX-License-Identifier: Apache-2.0
             {{ value }}
           </ng-container>
           <ng-template #i18nKeyDisplay>
-            {{ 'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+            {{ 'multiSelect.mappedText.' + filterColumn + '.' + value | i18n: { defaultValue: value } }}
           </ng-template>
         </ng-container>
       </div>
