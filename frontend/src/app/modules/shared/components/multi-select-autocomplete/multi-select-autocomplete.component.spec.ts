@@ -512,32 +512,18 @@ describe('MultiSelectAutocompleteComponent', () => {
     expect((componentInstance as any).clickClear).not.toHaveBeenCalled();
   });
 
-  it('should call clickClear when opened and options are present', async () => {
+  it('should clear searchElement when not opened', async () => {
     const { fixture } = await renderMultiSelectAutoCompleteComponent();
     const { componentInstance } = fixture;
     spyOn(componentInstance as any, 'filterItem');
-    spyOn(componentInstance as any, 'clickClear');
-    (componentInstance as any).options = [ 'something' ];
-    (componentInstance as any).searchElement = 'abc';
 
-    componentInstance.handleOpen(true);
-
-    expect((componentInstance as any).filterItem).not.toHaveBeenCalled();
-    expect((componentInstance as any).clickClear).toHaveBeenCalled();
-  });
-
-  it('should call clickClear when not opened', async () => {
-    const { fixture } = await renderMultiSelectAutoCompleteComponent();
-    const { componentInstance } = fixture;
-    spyOn(componentInstance as any, 'filterItem');
-    spyOn(componentInstance as any, 'clickClear');
     (componentInstance as any).options = undefined;
     (componentInstance as any).searchElement = 'abc';
 
     componentInstance.handleOpen(false);
 
     expect((componentInstance as any).filterItem).not.toHaveBeenCalled();
-    expect((componentInstance as any).clickClear).toHaveBeenCalled();
+    expect((componentInstance as any).searchElement).toEqual('');
   });
 
 });
