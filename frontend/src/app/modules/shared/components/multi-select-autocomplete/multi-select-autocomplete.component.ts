@@ -456,10 +456,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
   }
 
   handleOpen(isOpened: boolean): void {
-    if (isOpened && (this.options === undefined || this.options.length === 0)) {
+    if (isOpened) {
       this.filterItem(this.searchElement ?? '');
     } else {
-      this.clickClear();
+      this.searchElement = '';
     }
   }
 
