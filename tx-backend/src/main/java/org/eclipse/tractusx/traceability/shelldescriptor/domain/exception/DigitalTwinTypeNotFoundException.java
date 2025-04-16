@@ -16,15 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.shelldescriptor.domain.exception;
 
-package org.eclipse.tractusx.traceability.configuration.application.service;
-
-import java.util.List;
-import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
-
-public interface OrderService {
-
-    void persistOrder(Order order);
-
-    List<Order> findOrdersByStatus(List<String> statuses);
+public class DigitalTwinTypeNotFoundException extends RuntimeException {
+    public DigitalTwinTypeNotFoundException(String message) {
+        super(message);
+    }
 }

@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.aas.domain.model;
 import lombok.Builder;
 import lombok.Data;
 import org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 
 import java.time.LocalDateTime;
@@ -37,7 +38,8 @@ public class AAS {
     private DigitalTwinType digitalTwinType;
     private BPN bpn;
     private LocalDateTime expiryDate;
-
+    private AssetBase assetAsBuilt;
+    private AssetBase assetAsPlanned;
 
     public static Actor actorFromString(String actor) {
         if (actor == null) {
@@ -58,6 +60,17 @@ public class AAS {
             return null;
         }
         return BPN.of(bpn);
+    }
+
+    public String getGlobalAssetId() {
+        if (assetAsBuilt != null) {
+            return assetAsBuilt.getId();
+        }
+
+        if (assetAsPlanned != null) {
+            return assetAsPlanned.getId();
+        }
+        return null;
     }
 
 }

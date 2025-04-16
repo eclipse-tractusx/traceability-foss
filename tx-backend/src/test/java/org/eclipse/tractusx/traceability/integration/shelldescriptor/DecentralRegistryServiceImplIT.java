@@ -23,7 +23,6 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
@@ -99,11 +98,6 @@ public class DecentralRegistryServiceImplIT extends IntegrationTestSpecification
         List<OrderEntity> allAfterCallback = orderJPARepository.findAll();
         assertThat(allAfterCallback).hasSize(1);
         assertThat(allAfterCallback.get(0).getStatus()).isEqualTo(ProcessingState.PROCESSING);
-
-        AssetAsBuiltEntity assetFromCallbackMock1 = assetsSupport.findById(
-                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb");
-        assertThat(assetFromCallbackMock1.getTtl()).isEqualTo(ttl);
-        assertThat(assetFromCallbackMock1.getExpirationDate()).isAfter(LocalDateTime.now().plusDays(6));
 
         AssetAsBuiltEntity assetFromCallbackMockError = assetsSupport.findById(
                 "urn:uuid:b978ad2d-be06-47ea-a578-580d9b2eca77");

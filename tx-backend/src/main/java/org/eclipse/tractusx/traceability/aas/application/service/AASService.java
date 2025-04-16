@@ -19,9 +19,14 @@
 package org.eclipse.tractusx.traceability.aas.application.service;
 
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
+import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
+
+import java.util.List;
 
 public interface AASService {
     void aasLookup(TriggerConfiguration triggerConfiguration);
 
     void aasCleanup();
+
+    List<AAS> findAllByIds(final List<String> aasIds);
 }

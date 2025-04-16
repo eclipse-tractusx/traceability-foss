@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base;
 
-import java.util.Optional;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
@@ -36,4 +35,5 @@ public interface OrderRepository {
 
     void save(Order order);
 
+    List<Order> findOrdersByStatus(List<ProcessingState> statusList);
 }

@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ApiKeyFeatureServiceTest {
 
-
     @Test
     void test_getApiKeyRequestMapping_should_return_apiKey_secured_paths() {
         //GIVEN
@@ -46,11 +45,10 @@ class ApiKeyFeatureServiceTest {
                 "/administration/digitalTwinPart",
                 "/administration/digitalTwinPart/detail",
                 "/orders/configuration/triggers",
+                "/orders",
                 "/orders/configuration/batches/active",
                 "/orders/configuration/batches",
                 "/orders/configuration/triggers/active"
         );
     }
-
-
 }

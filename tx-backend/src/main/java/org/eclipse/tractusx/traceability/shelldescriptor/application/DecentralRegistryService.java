@@ -18,8 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
+import orders.request.CreateOrderRequest;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 
 public interface DecentralRegistryService {
     void registerOrdersForExpiredAssets(OrderConfiguration orderConfiguration);
+    String createOrder(CreateOrderRequest createOrderRequest, OrderConfiguration orderConfiguration);
 }

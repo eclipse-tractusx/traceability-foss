@@ -3,7 +3,7 @@ drop view if exists assets_as_built_view;
 
 create
 or replace view assets_as_built_view as
-select asset.*,
+    select asset.*,
        (select count(notification.id)
         from notification notification
                  join

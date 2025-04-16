@@ -19,7 +19,7 @@
 package org.eclipse.tractusx.traceability.digitaltwinpart.domain;
 
 public class DigitalTwinPartNotFoundException extends RuntimeException {
-    public DigitalTwinPartNotFoundException(String message) {
-        super(message);
+    public DigitalTwinPartNotFoundException(String digitalTwinType) {
+        super("Unknown Digital Twin Type: %s".formatted(digitalTwinType));
     }
 }

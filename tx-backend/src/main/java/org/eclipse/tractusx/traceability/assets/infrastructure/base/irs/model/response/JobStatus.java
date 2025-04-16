@@ -29,6 +29,7 @@ public record JobStatus(
         Date startedOn,
         Date lastModifiedOn,
         String globalAssetId,
+        String aasIdentifier,
         Parameter parameter
 ) {
 }

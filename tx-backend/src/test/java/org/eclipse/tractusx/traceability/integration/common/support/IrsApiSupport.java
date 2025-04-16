@@ -95,6 +95,17 @@ public class IrsApiSupport {
                 );
     }
 
+    public void irsApiReturnsJobDetails_withAasIdentifier() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54")
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_with_aas_identifier_200.json")
+                );
+    }
+
     public void irsApiReturnsOrderAndBatchDetails() {
         whenHttp(restitoProvider.stubServer()).match(
                         get("/irs/orders/ebb79c45-7bba-4169-bf17-3e719989ab54/batches/ebb79c45-7bba-4169-bf17-3e719989ab55")

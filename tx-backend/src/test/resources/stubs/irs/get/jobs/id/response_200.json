@@ -2,6 +2,7 @@
   "job": {
     "id": "173e576a-d155-41ce-b2d5-71f470ebb15c",
     "globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
+    "aasIdentifier": null,
     "state": "COMPLETED",
     "exception": null,
     "createdOn": "2024-05-29T07:55:10.835923974Z",

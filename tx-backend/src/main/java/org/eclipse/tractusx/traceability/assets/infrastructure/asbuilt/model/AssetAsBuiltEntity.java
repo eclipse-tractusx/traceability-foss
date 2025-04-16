@@ -96,6 +96,10 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     private List<ContractAgreementAsBuiltEntity> contractAgreements;
 
     public static AssetAsBuiltEntity from(AssetBase asset) {
+        if (asset == null) {
+            return null;
+        }
+
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
         TractionBatteryCode tractionBatteryCodeObj = TractionBatteryCode.from(asset.getDetailAspectModels());
 

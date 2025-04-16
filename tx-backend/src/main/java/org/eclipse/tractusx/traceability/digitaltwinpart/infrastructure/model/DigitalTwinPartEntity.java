@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 public class DigitalTwinPartEntity {
     @Id
     @Column(name = "id", nullable = false)
-    private String id;
+    private Long id;
 
     @Column(name = "aas_id")
     private String aasId;

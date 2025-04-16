@@ -67,7 +67,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
     private List<AssetAsPlannedEntity.ChildDescription> childDescriptors;
 
-    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "assetAsPlanned")
     private List<ContractAgreementAsPlannedEntity> contractAgreements;
 
     @Builder
@@ -83,8 +83,10 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<SubmodelPayloadEntity> submodels;
 
-
     public static AssetAsPlannedEntity from(AssetBase asset) {
+        if (asset == null) {
+            return null;
+        }
         List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
         AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
 

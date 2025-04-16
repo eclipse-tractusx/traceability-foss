@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.TombstoneMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.AssetBaseMappers;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.relationship.RelationshipMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper;
@@ -139,6 +140,11 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
 
         log.debug("Returning existing manufacturerId: {}", assetBase.getManufacturerId());
         return assetBase.getManufacturerId();
+    }
+
+    public Optional<Descriptions> extractSubmodelDescription(IrsSubmodel irsSubmodel) {
+        return assetBaseMapperProvider.getRelationshipSubmodelMapper(irsSubmodel)
+                .map(submodelMapper -> submodelMapper.extractDescription(irsSubmodel));
     }
 
 }

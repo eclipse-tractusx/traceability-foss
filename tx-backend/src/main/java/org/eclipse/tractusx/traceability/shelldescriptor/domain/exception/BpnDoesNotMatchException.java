@@ -17,14 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.configuration.application.service;
+package org.eclipse.tractusx.traceability.shelldescriptor.domain.exception;
 
-import java.util.List;
-import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
+public class BpnDoesNotMatchException extends RuntimeException {
 
-public interface OrderService {
-
-    void persistOrder(Order order);
-
-    List<Order> findOrdersByStatus(List<String> statuses);
+        public BpnDoesNotMatchException(String provided, String persisted) {
+            super("Provided BPN does not match persisted one: provided: %s, persisted: %s"
+                    .formatted(provided, persisted));
+        }
 }

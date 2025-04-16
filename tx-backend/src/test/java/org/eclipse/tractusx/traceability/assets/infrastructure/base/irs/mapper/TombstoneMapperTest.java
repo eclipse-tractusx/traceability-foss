@@ -50,7 +50,7 @@ class TombstoneMapperTest {
         String ownCatenaxId = "id";
         String bpn = "BPN";
 
-        JobStatus jobStatus = new JobStatus(null, null, null, null, ownCatenaxId, new Parameter(direction, bomLifeCycle, bpn));
+        JobStatus jobStatus = new JobStatus(null, null, null, null, ownCatenaxId, null, new Parameter(direction, bomLifeCycle, bpn));
         Tombstone tombstone = Tombstone.builder()
                 .catenaXId(assetCatenaxId).businessPartnerNumber(bpn).processingError(ProcessingError.builder().withErrorDetail("didn't work :(").build()).build();
 
@@ -70,7 +70,7 @@ class TombstoneMapperTest {
         String ownPartsBpn = "BPN";
         String otherPartsBpn = "XYZ";
 
-        JobStatus jobStatus = new JobStatus(null, null, null, null, ownCatenaxId, new Parameter(direction, bomLifeCycle, otherPartsBpn));
+        JobStatus jobStatus = new JobStatus(null, null, null, null, ownCatenaxId, null, new Parameter(direction, bomLifeCycle, otherPartsBpn));
         Tombstone tombstone = Tombstone.builder()
                 .catenaXId(assetCatenaxId).businessPartnerNumber(ownPartsBpn).processingError(ProcessingError.builder().withErrorDetail("didn't work :(").build()).build();
 

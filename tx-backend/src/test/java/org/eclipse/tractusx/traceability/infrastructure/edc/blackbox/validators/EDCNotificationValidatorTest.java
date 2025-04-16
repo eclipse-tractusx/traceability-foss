@@ -80,7 +80,7 @@ class EDCNotificationValidatorTest {
     }
 
     @Test
-    void testSenderAndReceiverSameBPNException(){
+    void testSenderAndReceiverSameBPNException() {
         String bpn = "APPLICATION_BON";
         // Given
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of(bpn));
