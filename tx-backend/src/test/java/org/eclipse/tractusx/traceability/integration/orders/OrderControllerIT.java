@@ -72,7 +72,7 @@ public class OrderControllerIT extends IntegrationTestSpecification {
         irsApiSupport.irsApiReturnsOrderAndBatchDetails();
         irsApiSupport.irsApiReturnsJobDetails_withAasIdentifier();
 
-        final String bpn = "bpn";
+        final String bpn = "BPNL00000003AXS3";
         final String globalAssetId = "urn:uuid:12345678-1234-1234-1234-123456789012";
         final String aasIdentifier = "urn:uuid:12345678-1234-1234-1234-123456789000";
 
@@ -152,5 +152,27 @@ public class OrderControllerIT extends IntegrationTestSpecification {
                 .post("/api/orders")
                 .then()
                 .statusCode(400);
+    }
+
+    @Test
+    void shouldNotRegisterManualOrder_notOwnBpn() throws JoseException {
+        // given
+        final String bpn = "wrong-bpn";
+        final String globalAssetId = "urn:uuid:12345678-1234-1234-1234-123456789012";
+
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest("PartType", List.of(
+            PartChainIdentificationKey.builder().bpn(bpn).globalAssetId(globalAssetId).build()));
+
+        // then
+        given()
+            .header(oAuth2Support.jwtAuthorization(ADMIN))
+            .log()
+            .all()
+            .when()
+            .contentType(ContentType.JSON)
+            .body(createOrderRequest)
+            .post("/api/orders")
+            .then()
+            .statusCode(400);
     }
 }

@@ -62,6 +62,7 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.except
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.exception.NotOwnPartException;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -492,5 +493,11 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         }
         return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse(message));
+    }
+
+    @ExceptionHandler(NotOwnPartException.class)
+    public ResponseEntity<ErrorResponse> handleNotOwnPartException(final NotOwnPartException exception) {
+        log.error("NotOwnPartException exception", exception);
+        return ResponseEntity.status(BAD_REQUEST).body(new ErrorResponse(exception.getMessage()));
     }
 }

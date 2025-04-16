@@ -27,6 +27,7 @@ import static org.eclipse.tractusx.traceability.aas.infrastructure.model.Digital
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,9 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAs
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.configuration.application.service.OrderService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order.OrderBuilder;
@@ -52,6 +55,7 @@ import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfigu
 import org.eclipse.tractusx.traceability.digitaltwinpart.domain.DigitalTwinPartNotFoundException;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.exception.BpnDoesNotMatchException;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.exception.NotOwnPartException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +73,7 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     private final AssetAsPlannedServiceImpl assetAsPlannedService;
     private final OrderService orderService;
     private final AASService aasService;
+    private final TraceabilityProperties traceabilityProperties;
 
     @Override
     @Transactional
@@ -100,6 +105,8 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
                       PartChainIdentificationKey::getGlobalAssetId,
                       PartChainIdentificationKey::getBpn
         ));
+
+        validatePartsOwnership(globalAssetIdsBpns);
 
         // fetching globalAssetIds from AAS table
         List<String> globalAssetsIdByAasId = aasService.findAllByIds(createOrderRequest.keys().stream()
@@ -144,6 +151,14 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         throw new DigitalTwinPartNotFoundException(createOrderRequest.digitalTwinType());
     }
 
+    private void validatePartsOwnership(Map<String, String> globalAssetIdsBpns) {
+        for (Entry<String, String> entry : globalAssetIdsBpns.entrySet()) {
+            if (!traceabilityProperties.getBpn().value().equals(entry.getValue())) {
+                throw new NotOwnPartException(entry.getKey(), traceabilityProperties.getBpn().value());
+            }
+        }
+    }
+
     private void persistOrder(String orderId, OrderConfiguration orderConfiguration,
             List<AssetBase> assetBases, Consumer<List<AssetBase>> repository) {
         if (!StringUtils.isEmpty(orderId)) {
@@ -177,17 +192,15 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
             DigitalTwinType digitalTwinType) {
         List<AssetBase> existingAssets = new ArrayList<>();
         Map<String, String> newAssetIds = new HashMap<>();
-        globalAssetIds.forEach((globalAssetId, bpn) -> {
-            repository.findById(globalAssetId).ifPresentOrElse(assetBase -> {
-                if (!assetBase.getManufacturerId().equalsIgnoreCase(bpn)) {
-                    throw new BpnDoesNotMatchException(bpn, assetBase.getManufacturerId());
-                }
-                existingAssets.add(assetBase);
-            }, () -> {
-                log.info("Asset with id {} not found, creating new one", globalAssetId);
-                newAssetIds.put(globalAssetId, bpn);
-            });
-        });
+        globalAssetIds.forEach((globalAssetId, bpn) -> repository.findById(globalAssetId).ifPresentOrElse(assetBase -> {
+            if (!assetBase.getManufacturerId().equalsIgnoreCase(bpn)) {
+                throw new BpnDoesNotMatchException(bpn, assetBase.getManufacturerId());
+            }
+            existingAssets.add(assetBase);
+        }, () -> {
+            log.info("Asset with id {} not found, creating new one", globalAssetId);
+            newAssetIds.put(globalAssetId, bpn);
+        }));
 
         List<AssetBase> savedAssetBases = createNewAssets(newAssetIds, digitalTwinType, repository);
 
@@ -199,6 +212,7 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         List<AssetBase> toInsert = newAssetIds.entrySet().stream().map(entry -> AssetBase.builder()
                         .importState(ImportState.NEW)
                         .id(entry.getKey())
+                        .owner(Owner.OWN)
                         .manufacturerId(entry.getValue())
                         .digitalTwinType(digitalTwinType.getValue())
                         .build())
