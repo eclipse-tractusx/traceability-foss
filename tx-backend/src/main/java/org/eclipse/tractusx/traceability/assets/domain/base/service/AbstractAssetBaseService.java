@@ -81,21 +81,19 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public String syncAssetsUsingIRSOrderAPI(List<String> aasList, OrderConfiguration orderConfiguration) {
-        log.info("Synchronizing assets for aasList: {}", aasList);
-        try {
-            if (!getDownwardAspects().isEmpty()) {
-                return getOrderRepository().createOrderToResolveAssets(aasList, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle(), orderConfiguration);
-            }
-
-            if (!getUpwardAspects().isEmpty()) {
-                return getOrderRepository().createOrderToResolveAssets(aasList, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration);
-            }
-
-        } catch (Exception e) {
-            log.warn("Exception during assets synchronization for aasList: {}. Message: {}.", aasList, e.getMessage(), e);
+    public String syncAssetsUsingIRSOrderAPI(List<String> identifiers, OrderConfiguration orderConfiguration) {
+        log.info("Synchronizing assets for identifiers: {}", identifiers);
+        if (!getDownwardAspects().isEmpty()) {
+            return getOrderRepository().createOrderToResolveAssets(identifiers, Direction.DOWNWARD,
+                    getDownwardAspects(), getBomLifecycle(), orderConfiguration);
         }
-        log.warn("No Aspects found for assets synchronization for aasList: {}", aasList);
+
+        if (!getUpwardAspects().isEmpty()) {
+            return getOrderRepository().createOrderToResolveAssets(identifiers, Direction.UPWARD,
+                    upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration);
+        }
+        log.warn("No Aspects found for assets synchronization for identifiers: {}, skipping order creation",
+                identifiers);
         return null;
     }
 

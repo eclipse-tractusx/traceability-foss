@@ -69,7 +69,11 @@ public class DecentralRegistryServiceImplIT extends IntegrationTestSpecification
         configurationSupport.storeTriggerConfiguration(TriggerConfigurationEntity.builder()
                 .cronExpressionRegisterOrderTTLReached("* * * * * ?")
                 .aasTTL(ttl).build());
-        OrderConfiguration orderConfiguration = OrderConfiguration.builder().build();
+        OrderConfiguration orderConfiguration = OrderConfiguration.builder()
+                .batchSize(5)
+                .jobTimeoutMs(500)
+                .timeoutMs(500)
+                .build();
         service.registerOrdersForExpiredAssets(orderConfiguration);
 
         final String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
