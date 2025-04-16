@@ -60,10 +60,9 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class AssetBaseResponseMapper {
 
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
-        List<DetailAspectModelResponse> list = emptyIfNull(detailAspectModels).stream()
+        return emptyIfNull(detailAspectModels).stream()
                 .map(AssetBaseResponseMapper::from)
                 .toList();
-        return list;
     }
 
     public static DetailAspectModelResponse from(DetailAspectModel detailAspectModel) {
@@ -115,6 +114,9 @@ public class AssetBaseResponseMapper {
     }
 
     public static OwnerResponse from(final Owner owner) {
+        if (owner == null) {
+            return OwnerResponse.UNKNOWN;
+        }
         return OwnerResponse.valueOf(owner.name());
     }
 
