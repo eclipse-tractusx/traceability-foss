@@ -55,7 +55,6 @@ class DigitalTwinPartsControllerIT extends IntegrationTestSpecification {
     AssetsSupport assetsSupport;
     @Autowired
     EdcSupport edcSupport;
-
     @Autowired
     IrsApiSupport irsApiSupport;
     @Autowired
@@ -70,7 +69,6 @@ class DigitalTwinPartsControllerIT extends IntegrationTestSpecification {
         irsApiSupport.irsApiReturnsPoliciesBpdm();
     }
 
-
     @Test
     void shouldReturnDigitalTwinPartSorted() throws JoseException {
         //GIVEN
@@ -79,7 +77,6 @@ class DigitalTwinPartsControllerIT extends IntegrationTestSpecification {
         String aasId2 = "ABC_2";
         aasDatabaseSupport.createAASEntityByAASId(aasId);
         aasDatabaseSupport.createAASEntityByAASId(aasId2);
-
 
         DigitalTwinPartRequest digitalTwinPartRequest = DigitalTwinPartRequest.builder()
                 .filters(List.of())

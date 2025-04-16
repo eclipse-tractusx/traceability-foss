@@ -25,5 +25,6 @@ public enum ImportState {
     ERROR,
     IN_SYNCHRONIZATION,
     PUBLISHED_TO_CORE_SERVICES,
-    UNSET
+    UNSET,
+    NEW
 }

@@ -18,10 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.aas.infrastructure.repository;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
-import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
 import org.eclipse.tractusx.traceability.aas.domain.repository.AASRepository;
 import org.eclipse.tractusx.traceability.aas.infrastructure.model.AASEntity;
 import org.springframework.stereotype.Component;
@@ -41,11 +41,6 @@ public class AASRepositoryImpl implements AASRepository {
     }
 
     @Override
-    public List<AAS> findByDigitalTwinType(final TwinType digitalTwinType) {
-        return AASEntity.toDomainList(jpaAASRepository.findByDigitalTwinType(digitalTwinType.name()));
-    }
-
-    @Override
     public void save(List<AAS> aasList) {
         List<AASEntity> aasEntities = AASEntity.fromList(aasList);
         jpaAASRepository.saveAll(aasEntities);
@@ -60,5 +55,11 @@ public class AASRepositoryImpl implements AASRepository {
         } else {
             log.info("No expired AAS entries found.");
         }
+    }
+
+    @Override
+    public Optional<AAS> findById(String aasId) {
+        return jpaAASRepository.findById(aasId)
+                .map(AASEntity::toDomain);
     }
 }

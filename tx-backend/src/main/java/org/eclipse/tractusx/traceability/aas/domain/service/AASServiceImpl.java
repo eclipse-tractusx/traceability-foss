@@ -144,5 +144,9 @@ public class AASServiceImpl implements AASService {
         log.info("Completed upserting AAS objects.");
     }
 
+    @Override
+    public List<AAS> findAllByIds(final List<String> aasIds) {
+        return aasRepository.findExistingAasList(aasIds);
+    }
 
 }

@@ -231,7 +231,7 @@ class AssetAsPlannedControllerSearchValuesIT extends IntegrationTestSpecificatio
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(6));
+                .body("size()", is(7));
     }
 
     @Test

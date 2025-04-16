@@ -18,6 +18,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.base.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
@@ -32,6 +35,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.domain.EnumFieldUtils;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
@@ -55,6 +59,8 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     protected abstract BomLifecycle getBomLifecycle();
 
     protected abstract OrderRepository getOrderRepository();
+
+    protected abstract TriggerConfiguration getTriggerConfiguration();
 
     @Override
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
@@ -138,11 +144,6 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public List<String> getAssetIdsInImportState(ImportState... importStates) {
-        return getAssetRepository().findByImportStateIn(importStates).stream().map(AssetBase::getId).toList();
-    }
-
-    @Override
     public List<AssetBase> findAll() {
         return getAssetRepository().findAll();
     }
@@ -151,5 +152,21 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return SUPPORTED_ENUM_FIELDS.contains(fieldName);
     }
 
-
+    @Override
+    public void updateAssetsAfterJobCompletion(Set<AssetBase> assets) {
+        TriggerConfiguration triggerConfiguration = getTriggerConfiguration();
+        assets.forEach(asset -> {
+            Optional<AssetBase> assetToUpdate = getAssetRepository().findById(asset.getId());
+            assetToUpdate.ifPresentOrElse(assetBase -> {
+                if (assetBase.getImportState() != ImportState.ERROR) {
+                    asset.setTtl(triggerConfiguration.getAasTTL());
+                    asset.setExpirationDate(LocalDateTime.now().plusSeconds(triggerConfiguration.getAasTTL() / 1000));
+                    getAssetRepository().save(asset);
+                } else {
+                    log.info("Asset with id {} has an import state of ERROR, skipping updating assets expiration date",
+                            asset.getId());
+                }
+            }, () -> log.info("No asset found with id {}, skipping updating assets expiration date", asset.getId()));
+        });
+    }
 }

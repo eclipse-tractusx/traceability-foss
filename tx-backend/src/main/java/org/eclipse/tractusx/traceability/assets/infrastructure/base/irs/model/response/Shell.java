@@ -22,9 +22,14 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
 import java.util.List;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.SubmodelDescriptor;
 
 public record Shell(String contractAgreementId, Payload payload) {
-    public record Payload(String globalAssetId, String idShort, String id, List<SpecificAssetId> specificAssetIds) {
+    public record Payload(String globalAssetId,
+                          String idShort,
+                          String id,
+                          List<SpecificAssetId> specificAssetIds,
+                          List<SubmodelDescriptor> submodelDescriptors) {
         public record SpecificAssetId(String name, String value) {
         }
     }

@@ -19,9 +19,11 @@
 
 package org.eclipse.tractusx.traceability.configuration.domain.service;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.configuration.application.service.OrderService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 import org.springframework.stereotype.Service;
@@ -36,5 +38,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void persistOrder(Order order) {
         orderRepository.save(order);
+    }
+
+    @Override
+    public List<Order> findOrdersByStatus(List<String> statuses) {
+        return orderRepository.findOrdersByStatus(statuses.stream().map(ProcessingState::valueOf).toList());
     }
 }

@@ -18,8 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.base.service;
 
+import java.util.Set;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -50,9 +50,9 @@ public interface AssetBaseService {
 
     List<String> getSearchableValues(String fieldName, List<String> startsWith, Integer size, Owner owner, List<String> inAssetIds);
 
-    List<String> getAssetIdsInImportState(ImportState... importStates);
-
     List<AssetBase> findAll();
 
     void deleteAssetById(final String assetId);
+
+    void updateAssetsAfterJobCompletion(Set<AssetBase> assets);
 }

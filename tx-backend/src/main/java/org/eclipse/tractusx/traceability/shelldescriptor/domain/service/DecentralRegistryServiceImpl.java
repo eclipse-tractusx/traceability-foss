@@ -21,20 +21,37 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
+import static org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType.PART_INSTANCE;
+import static org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType.PART_TYPE;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import orders.request.CreateOrderRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.tractusx.irs.component.PartChainIdentificationKey;
+import org.eclipse.tractusx.traceability.aas.application.service.AASService;
+import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
+import org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.configuration.application.service.OrderService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
+import org.eclipse.tractusx.traceability.configuration.domain.model.Order.OrderBuilder;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.digitaltwinpart.domain.DigitalTwinPartNotFoundException;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.exception.BpnDoesNotMatchException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,11 +65,10 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final AssetAsPlannedRepository assetAsPlannedRepository;
-
     private final AssetAsBuiltServiceImpl assetAsBuiltService;
     private final AssetAsPlannedServiceImpl assetAsPlannedService;
     private final OrderService orderService;
-
+    private final AASService aasService;
 
     @Override
     @Transactional
@@ -71,34 +87,124 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         String registerOrderResponseForAssetsAsPlanned =
                 assetAsPlannedService.syncAssetsUsingIRSOrderAPI(assetsAsPlannedIds, orderConfiguration);
 
-        if (!StringUtils.isEmpty(registerOrderResponseForAssetsAsBuilt)) {
-            log.info("Order created: {}", registerOrderResponseForAssetsAsBuilt);
+        persistOrder(registerOrderResponseForAssetsAsBuilt, orderConfiguration, assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll);
+        persistOrder(registerOrderResponseForAssetsAsPlanned, orderConfiguration, assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll);
+    }
 
-            orderService.persistOrder(Order.builder()
-                    .id(registerOrderResponseForAssetsAsBuilt)
-                    .orderConfiguration(orderConfiguration)
-                    .status(ProcessingState.INITIALIZED)
-                    .build());
+    @Override
+    @Transactional
+    public String createOrder(CreateOrderRequest createOrderRequest, OrderConfiguration orderConfiguration) {
+        Map<String, String> globalAssetIdsBpns = createOrderRequest.keys().stream()
+                .filter(key -> key.getGlobalAssetId() != null)
+                .collect(Collectors.toMap(
+                      PartChainIdentificationKey::getGlobalAssetId,
+                      PartChainIdentificationKey::getBpn
+        ));
 
-            log.info("Changing as built assets import state to IN_SYNCHRONIZATION after creating an order");
-            updateAssetsStatus(assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll);
-        } else {
-            log.warn("No order created for assets as planned, skipping assets synchronization");
+        // fetching globalAssetIds from AAS table
+        List<String> globalAssetsIdByAasId = aasService.findAllByIds(createOrderRequest.keys().stream()
+                        .filter(key -> key.getIdentifier() == null)
+                        .map(PartChainIdentificationKey::getIdentifier)
+                        .toList())
+                .stream()
+                .map(AAS::getGlobalAssetId)
+                .toList();
+
+        switch (DigitalTwinType.digitalTwinTypeFromString(createOrderRequest.digitalTwinType())) {
+            case PART_TYPE -> {
+                List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsBuiltRepository, PART_TYPE);
+                List<String> globalAssetIdsForAnOrder = assetBases.stream().map(AssetBase::getId).toList();
+
+                List<String> globalAssetIds = Stream
+                        .concat(globalAssetIdsForAnOrder.stream(), globalAssetsIdByAasId.stream()).toList();
+
+                String orderId = assetAsBuiltService
+                        .syncAssetsUsingIRSOrderAPI(globalAssetIds, orderConfiguration);
+
+                persistOrder(orderId, orderConfiguration, assetBases, assetAsBuiltRepository::saveAll);
+
+                return orderId;
+            }
+            case PART_INSTANCE -> {
+                List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsPlannedRepository, PART_INSTANCE);
+                List<String> globalAssetIdsForAnOrder = assetBases.stream().map(AssetBase::getId).toList();
+
+                List<String> globalAssetIds = Stream
+                        .concat(globalAssetIdsForAnOrder.stream(), globalAssetsIdByAasId.stream()).toList();
+
+                String orderId = assetAsPlannedService
+                        .syncAssetsUsingIRSOrderAPI(globalAssetIds, orderConfiguration);
+
+                persistOrder(orderId, orderConfiguration, assetBases, assetAsPlannedRepository::saveAll);
+
+                return orderId;
+            }
         }
 
-        if (!StringUtils.isEmpty(registerOrderResponseForAssetsAsPlanned)) {
-            log.info("Order created: {}", registerOrderResponseForAssetsAsPlanned);
-            orderService.persistOrder(Order.builder()
-                    .id(registerOrderResponseForAssetsAsPlanned)
-                    .orderConfiguration(orderConfiguration)
-                    .status(ProcessingState.INITIALIZED)
-                    .build());
+        throw new DigitalTwinPartNotFoundException(createOrderRequest.digitalTwinType());
+    }
 
-            log.info("Changing as planned assets import state to IN_SYNCHRONIZATION after creating an order");
-            updateAssetsStatus(assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll);
+    private void persistOrder(String orderId, OrderConfiguration orderConfiguration,
+            List<AssetBase> assetBases, Consumer<List<AssetBase>> repository) {
+        if (!StringUtils.isEmpty(orderId)) {
+            log.info("Order created: {}", orderId);
+
+            OrderBuilder orderBuilder = Order.builder()
+                    .id(orderId)
+                    .orderConfiguration(orderConfiguration)
+                    .status(ProcessingState.INITIALIZED);
+
+            orderBuilder.partsAsBuilt(assetBases.stream()
+                            .filter(assetBase -> PART_TYPE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
+                            .collect(Collectors.toSet()));
+
+            orderBuilder.partsAsPlanned(assetBases.stream()
+                    .filter(assetBase -> PART_INSTANCE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
+                    .collect(Collectors.toSet()));
+
+            orderService.persistOrder(orderBuilder.build());
+
+            log.info("Changing assets import state to IN_SYNCHRONIZATION after creating an order");
+            updateAssetsStatus(assetBases, repository);
         } else {
-            log.warn("No order created for assets as planned, skipping assets synchronization");
+            log.warn("No order created, skipping assets synchronization");
         }
+    }
+
+    private List<AssetBase> getOrInsertByGlobalAssetId(
+            Map<String, String> globalAssetIds,
+            AssetRepository repository,
+            DigitalTwinType digitalTwinType) {
+        List<AssetBase> existingAssets = new ArrayList<>();
+        Map<String, String> newAssetIds = new HashMap<>();
+        globalAssetIds.forEach((globalAssetId, bpn) -> {
+            repository.findById(globalAssetId).ifPresentOrElse(assetBase -> {
+                if (!assetBase.getManufacturerId().equalsIgnoreCase(bpn)) {
+                    throw new BpnDoesNotMatchException(bpn, assetBase.getManufacturerId());
+                }
+                existingAssets.add(assetBase);
+            }, () -> {
+                log.info("Asset with id {} not found, creating new one", globalAssetId);
+                newAssetIds.put(globalAssetId, bpn);
+            });
+        });
+
+        List<AssetBase> savedAssetBases = createNewAssets(newAssetIds, digitalTwinType, repository);
+
+        existingAssets.addAll(savedAssetBases);
+        return existingAssets;
+    }
+
+    private List<AssetBase> createNewAssets(Map<String, String> newAssetIds, DigitalTwinType digitalTwinType, AssetRepository repository) {
+        List<AssetBase> toInsert = newAssetIds.entrySet().stream().map(entry -> AssetBase.builder()
+                        .importState(ImportState.NEW)
+                        .id(entry.getKey())
+                        .manufacturerId(entry.getValue())
+                        .digitalTwinType(digitalTwinType.getValue())
+                        .build())
+                .peek(assetBase -> log.info("Creating new asset: [globalAssetId: {}, bpn: {}]", assetBase.getId(), assetBase.getManufacturerId()))
+                .toList();
+        return repository.saveAll(toInsert);
     }
 
     private void updateAssetsStatus(List<AssetBase> assets, Consumer<List<AssetBase>> repository) {

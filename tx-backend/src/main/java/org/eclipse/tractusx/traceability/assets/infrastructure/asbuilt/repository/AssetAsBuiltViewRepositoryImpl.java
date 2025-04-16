@@ -54,7 +54,6 @@ public class AssetAsBuiltViewRepositoryImpl implements AssetAsBuiltViewRepositor
     public List<AssetBase> getAssets() {
         return jpaAssetAsBuiltViewRepository.findAll().stream()
                 .map(AssetAsBuiltViewEntity::toDomain).toList();
-
     }
 
     @Override

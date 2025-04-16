@@ -19,8 +19,10 @@
 
 package org.eclipse.tractusx.traceability.configuration.domain.model;
 
+import java.util.Set;
 import lombok.Builder;
 import lombok.Data;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 
 @Data
@@ -29,5 +31,8 @@ public class Order {
     private String id;
     private ProcessingState status;
     private String message;
+    private Set<AssetBase> partsAsBuilt;
+    private Set<AssetBase> partsAsPlanned;
     private OrderConfiguration orderConfiguration;
+
 }

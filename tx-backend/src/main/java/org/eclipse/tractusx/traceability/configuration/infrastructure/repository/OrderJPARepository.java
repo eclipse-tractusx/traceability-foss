@@ -19,9 +19,17 @@
 
 package org.eclipse.tractusx.traceability.configuration.infrastructure.repository;
 
+import java.util.List;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderJPARepository extends JpaRepository<OrderEntity, String> {}
+public interface OrderJPARepository extends JpaRepository<OrderEntity, String> {
+
+    @Query("SELECT o FROM OrderEntity o WHERE o.status IN :statusList")
+    List<OrderEntity> findOrdersByStatus(@Param("statusList") List<ProcessingState> statusList);
+}

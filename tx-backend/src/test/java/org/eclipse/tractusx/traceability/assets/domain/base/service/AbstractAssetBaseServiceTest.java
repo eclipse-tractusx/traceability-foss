@@ -6,6 +6,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -71,6 +72,11 @@ class AbstractAssetBaseServiceTest {
 
         @Override
         protected OrderRepository getOrderRepository() {
+            return null;
+        }
+
+        @Override
+        protected TriggerConfiguration getTriggerConfiguration() {
             return null;
         }
 

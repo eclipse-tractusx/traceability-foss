@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.aas.domain.repository;
 
+import java.util.Optional;
 import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
 import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
 
@@ -30,5 +31,5 @@ public interface AASRepository {
 
     void cleanExpiredEntries();
 
-    List<AAS> findByDigitalTwinType(TwinType digitalTwinType);
+    Optional<AAS> findById(String aasId);
 }

@@ -17,14 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.configuration.application.service;
+package orders.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
-import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
+import org.eclipse.tractusx.irs.component.PartChainIdentificationKey;
 
-public interface OrderService {
-
-    void persistOrder(Order order);
-
-    List<Order> findOrdersByStatus(List<String> statuses);
+public record CreateOrderRequest(
+        @NotNull(message = "digitalTwinType must be present")
+        @Schema(example = "PartInstance")
+        String digitalTwinType,
+        @NotEmpty
+        List<PartChainIdentificationKey> keys) {
 }
+
+

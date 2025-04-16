@@ -19,25 +19,26 @@
 
 package org.eclipse.tractusx.traceability.configuration.infrastructure.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 
@@ -65,9 +66,13 @@ public class OrderEntity {
 
     private Long orderConfigurationId;
 
-//TODO: Uncomment this when OrderPart is implemented in TRACEX-480
-//    @OneToMany(mappedBy = "order")
-//    Set<OrderPart> orderParts;
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    Set<AssetAsBuiltEntity> assetsAsBuilt;
+
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    Set<AssetAsPlannedEntity> assetsAsPlanned;
 
     @PreUpdate
     public void preUpdate() {
@@ -80,12 +85,17 @@ public class OrderEntity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public static OrderEntity toEntity(Order domain) {
-        return OrderEntity.builder()
-                .id(domain.getId())
-                .message(domain.getMessage())
-                .status(domain.getStatus())
+    public static Order toDomain(OrderEntity entity) {
+        return Order.builder()
+                .id(entity.getId())
+                .message(entity.getMessage())
+                .status(entity.getStatus())
+                .partsAsBuilt(entity.getAssetsAsBuilt().stream()
+                        .map(AssetAsBuiltEntity::toDomain)
+                        .collect(Collectors.toSet()))
+                .partsAsPlanned(entity.getAssetsAsPlanned().stream()
+                        .map(AssetAsPlannedEntity::toDomain)
+                        .collect(Collectors.toSet()))
                 .build();
     }
-
 }

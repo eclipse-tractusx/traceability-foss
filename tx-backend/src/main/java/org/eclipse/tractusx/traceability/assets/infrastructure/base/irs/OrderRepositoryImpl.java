@@ -21,30 +21,41 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.SubmodelDescriptor;
+import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
+import org.eclipse.tractusx.traceability.aas.domain.model.AAS.AASBuilder;
+import org.eclipse.tractusx.traceability.aas.domain.model.Actor;
+import org.eclipse.tractusx.traceability.aas.domain.repository.AASRepository;
+import org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.PartChainIdentificationKey;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterOrderRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsBatchResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.JobState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
-import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationJPARepository;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -52,7 +63,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +87,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     private final ObjectMapper objectMapper;
     private final JobClient jobClient;
     private final OrderJPARepository orderJPARepository;
-    private final TriggerConfigurationJPARepository triggerConfigurationJPARepository;
+    private final AASRepository aasRepository;
+    private final TriggerConfigurationRepository triggerConfigurationRepository;
 
     public OrderRepositoryImpl(
             OrderClient orderClient,
@@ -90,7 +101,8 @@ public class OrderRepositoryImpl implements OrderRepository {
             ObjectMapper objectMapper,
             JobClient jobClient,
             OrderJPARepository orderJPARepository,
-            TriggerConfigurationJPARepository triggerConfigurationJPARepository) {
+            AASRepository aasRepository,
+            TriggerConfigurationRepository triggerConfigurationRepository) {
         this.traceabilityProperties = traceabilityProperties;
         this.assetAsBuiltRepository = assetAsBuiltRepository;
         this.assetAsPlannedRepository = assetAsPlannedRepository;
@@ -99,7 +111,8 @@ public class OrderRepositoryImpl implements OrderRepository {
         this.objectMapper = objectMapper;
         this.jobClient = jobClient;
         this.orderJPARepository = orderJPARepository;
-        this.triggerConfigurationJPARepository = triggerConfigurationJPARepository;
+        this.aasRepository = aasRepository;
+        this.triggerConfigurationRepository = triggerConfigurationRepository;
     }
 
     @Override
@@ -175,21 +188,69 @@ public class OrderRepositoryImpl implements OrderRepository {
                 } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
                     saveOrUpdateAssets(assetAsPlannedRepository, assetBase);
                 }
+                updateAas(assetBase, irsJobDetailResponse);
             });
         });
+    }
 
+    private void updateAas(AssetBase assetBase, IRSResponse irsJobDetailResponse) {
+        String aasIdentifier = irsJobDetailResponse.jobStatus().aasIdentifier();
+        TriggerConfiguration triggerConfiguration = triggerConfigurationRepository.findTopByCreatedAtDesc();
+
+        if (aasIdentifier != null) {
+            List<Shell> shells = irsJobDetailResponse.shells().stream()
+                    .filter(shell -> shell.payload().id().equals(aasIdentifier))
+                    .toList();
+
+            List<String> submodelDescriptorIds = shells.stream()
+                    .flatMap(shell -> shell.payload().submodelDescriptors().stream().map(SubmodelDescriptor::getId))
+                    .toList();
+
+            irsJobDetailResponse.submodels().stream()
+                    .filter(submodel -> submodelDescriptorIds.contains(submodel.getIdentification()))
+                    .forEach(submodel -> assetMapperFactory.extractSubmodelDescription(submodel)
+                            .map(Descriptions::parentId)
+                            .ifPresentOrElse(globalAssetId -> aasRepository.findById(aasIdentifier)
+                                            .ifPresentOrElse(aas -> {
+                                                log.info("AAS with ID: {} already exists in the database, updating it", aasIdentifier);
+                                                        if (assetBase.getBomLifecycle() == AS_BUILT) {
+                                                            aas.setAssetAsBuilt(assetBase);
+                                                        } else {
+                                                            aas.setAssetAsPlanned(assetBase);
+                                                        }
+                                                    }, () -> {
+                                                        log.info("AAS with ID: {} not found in the database, creating new one",
+                                                                aasIdentifier);
+                                                        Integer aasTTL = triggerConfiguration.getAasTTL();
+                                                        AASBuilder aasBuilder = AAS.builder()
+                                                                .aasId(aasIdentifier)
+                                                                .bpn(AAS.bpnFromString(assetBase.getManufacturerId()))
+                                                                .created(LocalDateTime.now())
+                                                                .updated(LocalDateTime.now())
+                                                                .actor(Actor.SYSTEM)
+                                                                .digitalTwinType(assetBase.getSemanticDataModel().isAsBuilt() ?
+                                                                        DigitalTwinType.PART_TYPE : DigitalTwinType.PART_INSTANCE)
+                                                                .ttl(aasTTL)
+                                                                .expiryDate(LocalDateTime.now().plusSeconds(aasTTL / 1000));
+                                                        if (assetBase.getBomLifecycle() == AS_BUILT) {
+                                                            aasBuilder.assetAsBuilt(assetBase);
+                                                        } else {
+                                                            aasBuilder.assetAsPlanned(assetBase);
+                                                        }
+                                                        aasRepository.save(List.of(aasBuilder.build()));
+                                                    }
+                                            ),
+                                    () -> log.info("Global asset id could not be extracted from Irs submodel response.")
+                            ));
+        }
+        log.info("No aasIdentifier found in job details response: %s".formatted(irsJobDetailResponse.jobStatus().id()));
     }
 
     private void updateOrderTable(String orderId, ProcessingState orderState) {
-        Optional<OrderEntity> order = orderJPARepository.findById(orderId);
-
-        if (order.isPresent()) {
-            OrderEntity orderEntity = order.get();
+        orderJPARepository.findById(orderId).ifPresentOrElse(orderEntity -> {
             orderEntity.setStatus(orderState);
             orderJPARepository.save(orderEntity);
-        } else {
-            log.warn("Order with ID: {} not found in the database.", orderId);
-        }
+        }, () -> log.warn("Order with ID: {} not found in the database.", sanitize(orderId)));
     }
 
     void addTombstoneDetails(AssetBase tombstone) {
@@ -217,27 +278,12 @@ public class OrderRepositoryImpl implements OrderRepository {
     void saveOrUpdateAssets(AssetRepository repository, AssetBase asset) {
         try {
             enrichAssetBaseByContractAgreements(repository, asset);
-            updateExpirationDate(repository, asset);
             repository.save(asset);
         } catch (DataIntegrityViolationException ex) {
             //retry save in case of ERROR: duplicate key value violates unique constraint "asset_pkey"
             log.info("Asset with id {} already exists in the database. The record will be updated instead.", asset.getId());
             repository.save(asset);
         }
-    }
-
-    private void updateExpirationDate(AssetRepository repository, AssetBase asset) {
-        triggerConfigurationJPARepository.findTopByCreatedAtDesc().ifPresentOrElse(triggerConfiguration -> {
-            Optional<AssetBase> assetToUpdate = repository.findById(asset.getId());
-            assetToUpdate.ifPresentOrElse(assetBase -> {
-                if (assetBase.getImportState() != ImportState.ERROR) {
-                    asset.setTtl(triggerConfiguration.getAasTTL());
-                    asset.setExpirationDate(LocalDateTime.now().plusSeconds(triggerConfiguration.getAasTTL() / 1000));
-                } else {
-                    log.info("Asset with id {} has an import state of ERROR, skipping updating assets expiration date", asset.getId());
-                }
-            }, () -> log.info("No asset found with id {}, skipping updating assets expiration date", asset.getId()));
-        }, () -> log.info("No trigger configuration found, skipping updating assets expiration date"));
     }
 
     private void enrichAssetBaseByContractAgreements(AssetRepository repository, AssetBase asset) {
@@ -268,9 +314,19 @@ public class OrderRepositoryImpl implements OrderRepository {
                 .save(OrderEntity.builder()
                         .id(order.getId())
                         .status(order.getStatus())
-                        .orderConfigurationId(order.getOrderConfiguration() != null ? order.getOrderConfiguration().getId() : null)
+                        .assetsAsBuilt(order.getPartsAsBuilt().stream().map(AssetAsBuiltEntity::from).collect(Collectors.toSet()))
+                        .assetsAsPlanned(order.getPartsAsPlanned().stream().map(AssetAsPlannedEntity::from).collect(Collectors.toSet()))
+                        .orderConfigurationId(
+                                order.getOrderConfiguration() != null ? order.getOrderConfiguration().getId() : null)
                         .message(order.getMessage())
                         .build());
+    }
+
+    @Override
+    public List<Order> findOrdersByStatus(List<ProcessingState> statusList) {
+        return orderJPARepository.findOrdersByStatus(statusList).stream()
+                .map(OrderEntity::toDomain)
+                .collect(Collectors.toList());
     }
 
 }

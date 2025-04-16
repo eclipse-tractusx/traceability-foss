@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.aas.domain.repository.AASRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -41,7 +42,7 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
-import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationJPARepository;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -101,8 +102,12 @@ class OrderRepositoryImplTest {
 
     @Mock
     private OrderConfiguration orderConfiguration;
+
     @Mock
-    private TriggerConfigurationJPARepository triggerConfigurationJPARepository;
+    private AASRepository aasRepository;
+
+    @Mock
+    private TriggerConfigurationRepository triggerConfigurationRepository;
 
     @Captor
     private ArgumentCaptor<OrderEntity> orderEntityArgumentCaptor;
@@ -119,7 +124,7 @@ class OrderRepositoryImplTest {
         // Spy on the actual orderRepositoryImpl with all dependencies
         orderRepositoryImpl = spy(new OrderRepositoryImpl(orderClient, traceabilityProperties,
                 assetAsBuiltRepository, assetAsPlannedRepository,
-                assetMapperFactory, objectMapper, jobClient, orderJPARepository, triggerConfigurationJPARepository));
+                assetMapperFactory, objectMapper, jobClient, orderJPARepository, aasRepository, triggerConfigurationRepository));
     }
 
     @ParameterizedTest
@@ -131,7 +136,6 @@ class OrderRepositoryImplTest {
         when(orderConfiguration.getBatchSize()).thenReturn(50);
         when(orderConfiguration.getJobTimeoutMs()).thenReturn(5000);
         when(orderConfiguration.getTimeoutMs()).thenReturn(7000);
-
 
         // When
         orderRepositoryImpl.createOrderToResolveAssets(List.of("1"), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration);

@@ -1,0 +1,719 @@
+{
+  "job": {
+    "id": "bf27d233-299d-4729-8f09-fa957adf1fa0",
+    "aasIdentifier": "urn:uuid:34685b48-6a5a-44aa-8cf7-c4b663939cd6",
+    "state": "COMPLETED",
+    "exception": null,
+    "createdOn": "2025-04-03T10:58:21.846164542Z",
+    "startedOn": "2025-04-03T10:58:21.846261123Z",
+    "lastModifiedOn": "2025-04-03T10:59:39.207223242Z",
+    "completedOn": "2025-04-03T10:59:39.207228381Z",
+    "summary": {
+      "asyncFetchedItems": {
+        "running": 0,
+        "completed": 4,
+        "failed": 0
+      }
+    },
+    "parameter": {
+      "bomLifecycle": "asBuilt",
+      "aspects": [
+        "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+        "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+        "urn:samm:io.catenax.batch:3.0.0#Batch"
+      ],
+      "depth": 100,
+      "bpn": "BPNL000000002BR4",
+      "direction": "downward",
+      "collectAspects": true,
+      "lookupBPNs": false,
+      "auditContractNegotiation": true,
+      "callbackUrl": null
+    }
+  },
+  "relationships": [
+    {
+      "catenaXId": "urn:uuid:3d4a9e3c-f05f-401e-a7bb-cf0a688ebbf6",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 1.0,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:piece"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2023-04-09T14:14:18.268Z",
+        "lastModifiedOn": "2023-04-09T14:14:18.268Z",
+        "childCatenaXId": "urn:uuid:4c7fc813-9c97-44d2-ba31-3e6a9c959d66",
+        "hasAlternatives": false
+      },
+      "aspectType": "SingleLevelBomAsBuilt",
+      "bpn": "BPNL000000002CS4"
+    },
+    {
+      "catenaXId": "urn:uuid:3d4a9e3c-f05f-401e-a7bb-cf0a688ebbf6",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 1.0,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:piece"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2021-11-21T06:28:55.024Z",
+        "lastModifiedOn": "2021-11-21T06:28:55.024Z",
+        "childCatenaXId": "urn:uuid:477c2267-f22f-413e-9684-17a09d5c1d2f",
+        "hasAlternatives": false
+      },
+      "aspectType": "SingleLevelBomAsBuilt",
+      "bpn": "BPNL000000002CS4"
+    },
+    {
+      "catenaXId": "urn:uuid:3d4a9e3c-f05f-401e-a7bb-cf0a688ebbf6",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 1.0,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:piece"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-11-29T02:18:27.31Z",
+        "lastModifiedOn": "2022-11-29T02:18:27.31Z",
+        "childCatenaXId": "urn:uuid:f7c8e88b-170a-4eff-9043-40ce36fc1aa7",
+        "hasAlternatives": false
+      },
+      "aspectType": "SingleLevelBomAsBuilt",
+      "bpn": "BPNL000000002CS4"
+    }
+  ],
+  "shells": [
+    {
+      "contractAgreementId": "2f460fbb-118a-495e-bdb3-a06fcc1adb66",
+      "payload": {
+        "administration": null,
+        "description": [],
+        "globalAssetId": null,
+        "idShort": null,
+        "id": "urn:uuid:34685b48-6a5a-44aa-8cf7-c4b663939cd6",
+        "specificAssetIds": [
+          {
+            "name": "digitalTwinType",
+            "externalSubjectId": {
+              "keys": [
+                {
+                  "value": "PUBLIC_READABLE",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "value": "PartInstance",
+            "semanticId": null
+          }
+        ],
+        "submodelDescriptors": [
+          {
+            "administration": null,
+            "description": [],
+            "idShort": "SingleLevelBomAsBuilt",
+            "id": "urn:uuid:c0d255d5-e70f-4b4a-b420-d44c6962bccf",
+            "semanticId": {
+              "keys": [
+                {
+                  "value": "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "endpoints": [
+              {
+                "protocolInformation": {
+                  "href": "https://tracexa-provider-edc-edc.enablement.integration.cofinity-x.com/api/public/urn:uuid:c0d255d5-e70f-4b4a-b420-d44c6962bccf",
+                  "endpointProtocol": "HTTP",
+                  "endpointProtocolVersion": [
+                    "1.1"
+                  ],
+                  "subprotocol": "DSP",
+                  "subprotocolBody": "id=93eac0d5-0beb-4977-b0df-dee0890d9fe5;dspEndpoint=https://tracexa-provider-edc-edc.enablement.integration.cofinity-x.com",
+                  "subprotocolBodyEncoding": "plain",
+                  "securityAttributes": [
+                    {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                    }
+                  ]
+                },
+                "interface": "SUBMODEL-3.0"
+              }
+            ]
+          },
+          {
+            "administration": null,
+            "description": [],
+            "idShort": "SerialPart",
+            "id": "urn:uuid:71af2662-73ed-4b6d-9096-cee88bce76ab",
+            "semanticId": {
+              "keys": [
+                {
+                  "value": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "endpoints": [
+              {
+                "protocolInformation": {
+                  "href": "https://tracexa-provider-edc-edc.enablement.integration.cofinity-x.com/api/public/urn:uuid:71af2662-73ed-4b6d-9096-cee88bce76ab",
+                  "endpointProtocol": "HTTP",
+                  "endpointProtocolVersion": [
+                    "1.1"
+                  ],
+                  "subprotocol": "DSP",
+                  "subprotocolBody": "id=93eac0d5-0beb-4977-b0df-dee0890d9fe5;dspEndpoint=https://tracexa-provider-edc-edc.enablement.integration.cofinity-x.com",
+                  "subprotocolBodyEncoding": "plain",
+                  "securityAttributes": [
+                    {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                    }
+                  ]
+                },
+                "interface": "SUBMODEL-3.0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "contractAgreementId": "e40ad033-cf9d-403e-84e3-5d9a86335bc9",
+      "payload": {
+        "administration": null,
+        "description": [],
+        "globalAssetId": null,
+        "idShort": null,
+        "id": "urn:uuid:d1e885f0-a6e7-41e4-bee5-41c81bea7037",
+        "specificAssetIds": [
+          {
+            "name": "digitalTwinType",
+            "externalSubjectId": {
+              "keys": [
+                {
+                  "value": "PUBLIC_READABLE",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "value": "PartInstance",
+            "semanticId": null
+          }
+        ],
+        "submodelDescriptors": [
+          {
+            "administration": null,
+            "description": [],
+            "idShort": "SerialPart",
+            "id": "urn:uuid:8feb89e4-87e7-408a-b5c7-a7cff9536346",
+            "semanticId": {
+              "keys": [
+                {
+                  "value": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "endpoints": [
+              {
+                "protocolInformation": {
+                  "href": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/public/urn:uuid:8feb89e4-87e7-408a-b5c7-a7cff9536346",
+                  "endpointProtocol": "HTTP",
+                  "endpointProtocolVersion": [
+                    "1.1"
+                  ],
+                  "subprotocol": "DSP",
+                  "subprotocolBody": "id=977a2493-7b0d-4cee-ac52-bee0cdd4f13e;dspEndpoint=https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com",
+                  "subprotocolBodyEncoding": "plain",
+                  "securityAttributes": [
+                    {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                    }
+                  ]
+                },
+                "interface": "SUBMODEL-3.0"
+              }
+            ]
+          },
+          {
+            "administration": null,
+            "description": [],
+            "idShort": "SingleLevelUsageAsBuilt",
+            "id": "urn:uuid:5a670f59-8867-4efb-858e-4321b230bf29",
+            "semanticId": {
+              "keys": [
+                {
+                  "value": "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "endpoints": [
+              {
+                "protocolInformation": {
+                  "href": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/public/urn:uuid:5a670f59-8867-4efb-858e-4321b230bf29",
+                  "endpointProtocol": "HTTP",
+                  "endpointProtocolVersion": [
+                    "1.1"
+                  ],
+                  "subprotocol": "DSP",
+                  "subprotocolBody": "id=977a2493-7b0d-4cee-ac52-bee0cdd4f13e;dspEndpoint=https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com",
+                  "subprotocolBodyEncoding": "plain",
+                  "securityAttributes": [
+                    {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                    }
+                  ]
+                },
+                "interface": "SUBMODEL-3.0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "contractAgreementId": "e40ad033-cf9d-403e-84e3-5d9a86335bc9",
+      "payload": {
+        "administration": null,
+        "description": [],
+        "globalAssetId": null,
+        "idShort": null,
+        "id": "urn:uuid:4a7b7a2b-2d75-4218-8030-f98e4ceeb2d7",
+        "specificAssetIds": [
+          {
+            "name": "digitalTwinType",
+            "externalSubjectId": {
+              "keys": [
+                {
+                  "value": "PUBLIC_READABLE",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "value": "PartInstance",
+            "semanticId": null
+          }
+        ],
+        "submodelDescriptors": [
+          {
+            "administration": null,
+            "description": [],
+            "idShort": "SerialPart",
+            "id": "urn:uuid:e3411cbe-88e1-4ca6-ba9a-78cb45807ef6",
+            "semanticId": {
+              "keys": [
+                {
+                  "value": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "endpoints": [
+              {
+                "protocolInformation": {
+                  "href": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/public/urn:uuid:e3411cbe-88e1-4ca6-ba9a-78cb45807ef6",
+                  "endpointProtocol": "HTTP",
+                  "endpointProtocolVersion": [
+                    "1.1"
+                  ],
+                  "subprotocol": "DSP",
+                  "subprotocolBody": "id=977a2493-7b0d-4cee-ac52-bee0cdd4f13e;dspEndpoint=https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com",
+                  "subprotocolBodyEncoding": "plain",
+                  "securityAttributes": [
+                    {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                    }
+                  ]
+                },
+                "interface": "SUBMODEL-3.0"
+              }
+            ]
+          },
+          {
+            "administration": null,
+            "description": [],
+            "idShort": "SingleLevelUsageAsBuilt",
+            "id": "urn:uuid:b3de9859-af3e-4ea2-92aa-3169b4a830c1",
+            "semanticId": {
+              "keys": [
+                {
+                  "value": "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "endpoints": [
+              {
+                "protocolInformation": {
+                  "href": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/public/urn:uuid:b3de9859-af3e-4ea2-92aa-3169b4a830c1",
+                  "endpointProtocol": "HTTP",
+                  "endpointProtocolVersion": [
+                    "1.1"
+                  ],
+                  "subprotocol": "DSP",
+                  "subprotocolBody": "id=977a2493-7b0d-4cee-ac52-bee0cdd4f13e;dspEndpoint=https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com",
+                  "subprotocolBodyEncoding": "plain",
+                  "securityAttributes": [
+                    {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                    }
+                  ]
+                },
+                "interface": "SUBMODEL-3.0"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "contractAgreementId": "e40ad033-cf9d-403e-84e3-5d9a86335bc9",
+      "payload": {
+        "administration": null,
+        "description": [],
+        "globalAssetId": null,
+        "idShort": null,
+        "id": "urn:uuid:db06c15b-8f8b-4668-a476-4216a9e5d39b",
+        "specificAssetIds": [
+          {
+            "name": "digitalTwinType",
+            "externalSubjectId": {
+              "keys": [
+                {
+                  "value": "PUBLIC_READABLE",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "value": "PartInstance",
+            "semanticId": null
+          }
+        ],
+        "submodelDescriptors": [
+          {
+            "administration": null,
+            "description": [],
+            "idShort": "SerialPart",
+            "id": "urn:uuid:ffe81c8a-ddef-48ff-9289-3e698f2b7939",
+            "semanticId": {
+              "keys": [
+                {
+                  "value": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "endpoints": [
+              {
+                "protocolInformation": {
+                  "href": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/public/urn:uuid:ffe81c8a-ddef-48ff-9289-3e698f2b7939",
+                  "endpointProtocol": "HTTP",
+                  "endpointProtocolVersion": [
+                    "1.1"
+                  ],
+                  "subprotocol": "DSP",
+                  "subprotocolBody": "id=977a2493-7b0d-4cee-ac52-bee0cdd4f13e;dspEndpoint=https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com",
+                  "subprotocolBodyEncoding": "plain",
+                  "securityAttributes": [
+                    {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                    }
+                  ]
+                },
+                "interface": "SUBMODEL-3.0"
+              }
+            ]
+          },
+          {
+            "administration": null,
+            "description": [],
+            "idShort": "SingleLevelUsageAsBuilt",
+            "id": "urn:uuid:7a30d8a6-4c93-4279-8322-c863e64f0083",
+            "semanticId": {
+              "keys": [
+                {
+                  "value": "urn:samm:io.catenax.single_level_usage_as_built:3.0.0#SingleLevelUsageAsBuilt",
+                  "type": "GlobalReference"
+                }
+              ],
+              "type": "ExternalReference"
+            },
+            "endpoints": [
+              {
+                "protocolInformation": {
+                  "href": "https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com/api/public/urn:uuid:7a30d8a6-4c93-4279-8322-c863e64f0083",
+                  "endpointProtocol": "HTTP",
+                  "endpointProtocolVersion": [
+                    "1.1"
+                  ],
+                  "subprotocol": "DSP",
+                  "subprotocolBody": "id=977a2493-7b0d-4cee-ac52-bee0cdd4f13e;dspEndpoint=https://tracexb-provider-edc-edc.enablement.integration.cofinity-x.com",
+                  "subprotocolBodyEncoding": "plain",
+                  "securityAttributes": [
+                    {
+                      "type": "NONE",
+                      "key": "NONE",
+                      "value": "NONE"
+                    }
+                  ]
+                },
+                "interface": "SUBMODEL-3.0"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "tombstones": [],
+  "submodels": [
+    {
+      "identification": "urn:uuid:c0d255d5-e70f-4b4a-b420-d44c6962bccf",
+      "aspectType": "urn:samm:io.catenax.single_level_bom_as_built:3.0.0#SingleLevelBomAsBuilt",
+      "contractAgreementId": "ec09e87b-ccdd-4807-9949-d24cc84a6520",
+      "payload": {
+        "catenaXId": "urn:uuid:3d4a9e3c-f05f-401e-a7bb-cf0a688ebbf6",
+        "childItems": [
+          {
+            "catenaXId": "urn:uuid:477c2267-f22f-413e-9684-17a09d5c1d2f",
+            "quantity": {
+              "unit": "unit:piece",
+              "value": 1.0
+            },
+            "hasAlternatives": false,
+            "businessPartner": "BPNL000000002CS4",
+            "createdOn": "2021-11-21T06:28:55.024Z",
+            "lastModifiedOn": "2021-11-21T06:28:55.024Z"
+          },
+          {
+            "catenaXId": "urn:uuid:f7c8e88b-170a-4eff-9043-40ce36fc1aa7",
+            "quantity": {
+              "unit": "unit:piece",
+              "value": 1.0
+            },
+            "hasAlternatives": false,
+            "businessPartner": "BPNL000000002CS4",
+            "createdOn": "2022-11-29T02:18:27.31Z",
+            "lastModifiedOn": "2022-11-29T02:18:27.31Z"
+          },
+          {
+            "catenaXId": "urn:uuid:4c7fc813-9c97-44d2-ba31-3e6a9c959d66",
+            "quantity": {
+              "unit": "unit:piece",
+              "value": 1.0
+            },
+            "hasAlternatives": false,
+            "businessPartner": "BPNL000000002CS4",
+            "createdOn": "2023-04-09T14:14:18.268Z",
+            "lastModifiedOn": "2023-04-09T14:14:18.268Z"
+          }
+        ],
+        "submodelId": "urn:uuid:c0d255d5-e70f-4b4a-b420-d44c6962bccf"
+      }
+    },
+    {
+      "identification": "urn:uuid:71af2662-73ed-4b6d-9096-cee88bce76ab",
+      "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+      "contractAgreementId": "ec09e87b-ccdd-4807-9949-d24cc84a6520",
+      "payload": {
+        "localIdentifiers": [
+          {
+            "value": "BPNL000000002BR4",
+            "key": "manufacturerId"
+          },
+          {
+            "value": "NO-476388540641334394626338",
+            "key": "partInstanceId"
+          }
+        ],
+        "manufacturingInformation": {
+          "date": "2020-02-24T05:00:09.195Z",
+          "country": "TTO",
+          "sites": [
+            {
+              "catenaXsiteId": "BPNS000000002BR4",
+              "function": "production"
+            }
+          ]
+        },
+        "catenaXId": "urn:uuid:3d4a9e3c-f05f-401e-a7bb-cf0a688ebbf6",
+        "partTypeInformation": {
+          "manufacturerPartId": "0-9860994-6-5",
+          "customerPartId": "PRT-FB07921B",
+          "partClassification": [
+            {
+              "classificationDescription": "Standard data element types with associated classification scheme for electric components.",
+              "classificationStandard": "IEC",
+              "classificationID": "61360-2:2012"
+            }
+          ],
+          "nameAtManufacturer": "Vehicle",
+          "nameAtCustomer": "Vehicle"
+        },
+        "submodelId": "urn:uuid:71af2662-73ed-4b6d-9096-cee88bce76ab"
+      }
+    },
+    {
+      "identification": "urn:uuid:8feb89e4-87e7-408a-b5c7-a7cff9536346",
+      "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+      "contractAgreementId": "64fff868-aea4-4b87-8938-1b26fc2d6c8b",
+      "payload": {
+        "localIdentifiers": [
+          {
+            "value": "BPNL000000002CS4",
+            "key": "manufacturerId"
+          },
+          {
+            "value": "NO-637585612226496162848335",
+            "key": "partInstanceId"
+          }
+        ],
+        "manufacturingInformation": {
+          "date": "2024-12-06T11:12:10.846Z",
+          "country": "SLB",
+          "sites": [
+            {
+              "catenaXsiteId": "BPNS000000002CS4",
+              "function": "production"
+            }
+          ]
+        },
+        "catenaXId": "urn:uuid:f7c8e88b-170a-4eff-9043-40ce36fc1aa7",
+        "partTypeInformation": {
+          "manufacturerPartId": "1-402-33926-7",
+          "customerPartId": "PRT-B36A3938",
+          "partClassification": [
+            {
+              "classificationDescription": "Standard data element types with associated classification scheme for electric components.",
+              "classificationStandard": "IEC",
+              "classificationID": "61360-2:2012"
+            }
+          ],
+          "nameAtManufacturer": "NOX Sensor",
+          "nameAtCustomer": "NOX Sensor"
+        },
+        "submodelId": "urn:uuid:8feb89e4-87e7-408a-b5c7-a7cff9536346"
+      }
+    },
+    {
+      "identification": "urn:uuid:e3411cbe-88e1-4ca6-ba9a-78cb45807ef6",
+      "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+      "contractAgreementId": "64fff868-aea4-4b87-8938-1b26fc2d6c8b",
+      "payload": {
+        "localIdentifiers": [
+          {
+            "value": "BPNL000000002CS4",
+            "key": "manufacturerId"
+          },
+          {
+            "value": "NO-741652902853172671552689",
+            "key": "partInstanceId"
+          }
+        ],
+        "manufacturingInformation": {
+          "date": "2023-04-11T11:14:51.772Z",
+          "country": "SVK",
+          "sites": [
+            {
+              "catenaXsiteId": "BPNS000000002CS4",
+              "function": "production"
+            }
+          ]
+        },
+        "catenaXId": "urn:uuid:477c2267-f22f-413e-9684-17a09d5c1d2f",
+        "partTypeInformation": {
+          "manufacturerPartId": "0-06-286148-4",
+          "customerPartId": "PRT-925DE7CD",
+          "partClassification": [
+            {
+              "classificationDescription": "Standard data element types with associated classification scheme for electric components.",
+              "classificationStandard": "IEC",
+              "classificationID": "61360-2:2012"
+            }
+          ],
+          "nameAtManufacturer": "NOX Sensor",
+          "nameAtCustomer": "NOX Sensor"
+        },
+        "submodelId": "urn:uuid:e3411cbe-88e1-4ca6-ba9a-78cb45807ef6"
+      }
+    },
+    {
+      "identification": "urn:uuid:ffe81c8a-ddef-48ff-9289-3e698f2b7939",
+      "aspectType": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart",
+      "contractAgreementId": "64fff868-aea4-4b87-8938-1b26fc2d6c8b",
+      "payload": {
+        "localIdentifiers": [
+          {
+            "value": "BPNL000000002CS4",
+            "key": "manufacturerId"
+          },
+          {
+            "value": "NO-983854159483713393656592",
+            "key": "partInstanceId"
+          }
+        ],
+        "manufacturingInformation": {
+          "date": "2021-04-18T20:01:23.126Z",
+          "country": "IRN",
+          "sites": [
+            {
+              "catenaXsiteId": "BPNS000000002CS4",
+              "function": "production"
+            }
+          ]
+        },
+        "catenaXId": "urn:uuid:4c7fc813-9c97-44d2-ba31-3e6a9c959d66",
+        "partTypeInformation": {
+          "manufacturerPartId": "1-8106-4026-1",
+          "customerPartId": "PRT-D3590DD4",
+          "partClassification": [
+            {
+              "classificationDescription": "Standard data element types with associated classification scheme for electric components.",
+              "classificationStandard": "IEC",
+              "classificationID": "61360-2:2012"
+            }
+          ],
+          "nameAtManufacturer": "NOX Sensor",
+          "nameAtCustomer": "NOX Sensor"
+        },
+        "submodelId": "urn:uuid:ffe81c8a-ddef-48ff-9289-3e698f2b7939"
+      }
+    }
+  ],
+  "bpns": []
+}
