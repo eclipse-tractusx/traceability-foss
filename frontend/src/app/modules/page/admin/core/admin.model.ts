@@ -33,6 +33,8 @@ export enum KnownAdminRoutes {
   POLICY_MANAGEMENT_EDIT = 'policies/edit/:policyId',
   POLICY_MANAGEMENT_CREATE = 'policies/create',
   POLICY_MANAGEMENT_DETAIL_VIEW = 'policies/:policyId',
+  DIGITAL_TWIN_PART = 'digital-twin-part',
+  DIGITAL_TWIN_PART_DETAIL = 'digital-twin-part/detail/:aasId',
 }
 
 

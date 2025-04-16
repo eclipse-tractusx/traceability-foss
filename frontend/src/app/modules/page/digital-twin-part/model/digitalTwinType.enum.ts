@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,17 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export enum TableType {
-  AS_BUILT_OWN = 'AS_BUILT_OWN',
-  AS_PLANNED_OWN = 'AS_PLANNED_OWN',
-  RECEIVED_NOTIFICATION = 'RECEIVED_NOTIFICATION',
-  SENT_NOTIFICATION = 'SENT_NOTIFICATION',
-  CONTRACTS = 'CONTRACTS',
-  POLICIES = 'POLICIES',
-  DIGITAL_TWIN_PART = 'DIGITAL_TWIN_PART',
-}
 
-export enum NotificationChannel {
-  SENDER = 'SENDER',
-  RECEIVER = 'RECEIVER'
+export enum DigitalTwinType {
+  PART_TYPE = 'PART_TYPE',
+  PART_INSTANCE = 'PART_INSTANCE',
 }

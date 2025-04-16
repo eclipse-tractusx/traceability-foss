@@ -30,6 +30,9 @@ import { ImportJsonComponent } from '@page/admin/presentation/import-json/import
 import { PoliciesComponent } from '@page/admin/presentation/policy-management/policies/policies.component';
 import { PolicyEditorComponent } from '@page/admin/presentation/policy-management/policy-editor/policy-editor.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
+import { DigitalTwinPartComponent } from '@page/digital-twin-part/presentation/digital-twin-part.component';
+import { DigitalTwinPartDetailComponent } from '@page/digital-twin-part/detail/digital-twin-part-detail.component';
+
 
 export /** @type {*} */
 const ADMIN_ROUTING: Routes = [
@@ -101,6 +104,22 @@ const ADMIN_ROUTING: Routes = [
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
     canActivate: [ RoleGuard ],
   },
+  {
+    path: KnownAdminRoutes.DIGITAL_TWIN_PART,
+    pathMatch: 'full',
+    component: DigitalTwinPartComponent,
+    data: { i18nextNamespaces: [ 'page.admin' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    canActivate: [ RoleGuard ],
+  }, 
+  {
+    path: KnownAdminRoutes.DIGITAL_TWIN_PART_DETAIL,
+    component: DigitalTwinPartDetailComponent,
+    data: { i18nextNamespaces: [ 'page.admin' ] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+    canActivate: [ RoleGuard ],
+  }
+  
 ];
 
 @NgModule({

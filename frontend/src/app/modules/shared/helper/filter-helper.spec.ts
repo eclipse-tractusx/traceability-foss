@@ -22,6 +22,8 @@ import {
   isDateFilter,
   toAssetFilter,
   toGlobalSearchAssetFilter,
+  toGlobalSearchDigitalTwinFilter,
+  toStructuredDigitalTwinFilter
 } from '@shared/helper/filter-helper';
 import { FilterOperator } from '@shared/model/filter.model';
 
@@ -130,4 +132,71 @@ describe('Asset Filter Functions', () => {
     });
   });
 
+  describe('toGlobalSearchDigitalTwinFilter', () => {
+    it('should create digital twin global search filter from array', () => {
+      const values = ['aas1', 'asset123'];
+      const result = toGlobalSearchDigitalTwinFilter(values);
+  
+      expect(result).toEqual({
+        aasId: {
+          value: [
+            { value: 'aas1', strategy: FilterOperator.GLOBAL },
+            { value: 'asset123', strategy: FilterOperator.GLOBAL }
+          ],
+          operator: 'OR'
+        },
+        globalAssetId: {
+          value: [
+            { value: 'aas1', strategy: FilterOperator.GLOBAL },
+            { value: 'asset123', strategy: FilterOperator.GLOBAL }
+          ],
+          operator: 'OR'
+        }
+      });
+    });
+  
+    it('should create digital twin global search filter from object', () => {
+      const values = { randomKey: ['aasIdX', 'gaidX'] };
+      const result = toGlobalSearchDigitalTwinFilter(values);
+  
+      expect(result.aasId.value.length).toBe(2);
+      expect(result.globalAssetId.value[0].value).toBe('aasIdX');
+    });
+  });
+  
+  describe('toStructuredDigitalTwinFilter', () => {
+    it('should return a structured filter with STARTS_WITH strategy for known non-date keys', () => {
+      const values = {
+        digitalTwinType: ['instance']
+      };
+  
+      const result = toStructuredDigitalTwinFilter(values);
+  
+      expect(result.digitalTwinType).toBeDefined();
+      expect(result.digitalTwinType.value[0].strategy).toBe(FilterOperator.STARTS_WITH);
+      expect(result.digitalTwinType.value[0].value).toBe('instance');
+    });
+  
+    it('should return a structured filter with AT_LOCAL_DATE strategy for date keys', () => {
+      const values = {
+        aasExpirationDate: ['2025-01-01']
+      };
+  
+      const result = toStructuredDigitalTwinFilter(values);
+  
+      expect(result.aasExpirationDate).toBeDefined();
+      expect(result.aasExpirationDate.value[0].strategy).toBe(FilterOperator.AT_LOCAL_DATE);
+      expect(result.aasExpirationDate.value[0].value).toBe('2025-01-01');
+    });
+  
+    it('should ignore keys with empty arrays', () => {
+      const values = {
+        globalAssetId: []
+      };
+  
+      const result = toStructuredDigitalTwinFilter(values);
+  
+      expect(result.globalAssetId).toBeUndefined();
+    });
+  });
 });

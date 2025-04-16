@@ -44,10 +44,11 @@ import { AdminComponent } from './presentation/admin.component';
 import { BpnConfigurationComponent } from './presentation/bpn-configuration/bpn-configuration.component';
 import { SaveBpnConfigModal } from './presentation/bpn-configuration/save-modal/save-modal.component';
 import { ImportJsonComponent } from './presentation/import-json/import-json.component';
+import { DigitalTwinPartModule } from '@page/digital-twin-part/digital-twin-part.module';
 
 @NgModule({
   declarations: [ AdminComponent, BpnConfigurationComponent, SaveBpnConfigModal, ImportJsonComponent, ContractsComponent, ContractDetailComponent, PoliciesComponent, DeletionDialogComponent, PolicyEditorComponent ],
-  imports: [ CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule, NgxJsonViewerModule, MatLineModule ],
+  imports: [ CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule, NgxJsonViewerModule, MatLineModule, DigitalTwinPartModule ],
   providers: [ ...getI18nPageProvider('page.admin'), AdminService, AdminFacade, ContractsFacade, ContractsState, PoliciesFacade, PoliciesState, PolicyService ],
 })
 export class AdminModule {

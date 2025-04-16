@@ -19,6 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { DigitalTwinConfigurationModel } from '@shared/components/parts-table/digital-twin-parts-configuration.model';
 import { NotificationsReceivedConfigurationModel } from '@shared/components/parts-table/notifications-received-configuration.model';
 import { NotificationsSentConfigurationModel } from '@shared/components/parts-table/notifications-sent-configuration.model';
 import { PartsAsBuiltConfigurationModel } from '@shared/components/parts-table/parts-as-built-configuration.model';
@@ -115,7 +116,8 @@ export class TableSettingsService {
         return new NotificationsReceivedConfigurationModel().filterConfiguration();
       case TableType.POLICIES:
         return new PoliciesConfigurationModel().filterConfiguration();
+      case TableType.DIGITAL_TWIN_PART:
+        return new DigitalTwinConfigurationModel().filterConfiguration();
     }
   }
-
 }

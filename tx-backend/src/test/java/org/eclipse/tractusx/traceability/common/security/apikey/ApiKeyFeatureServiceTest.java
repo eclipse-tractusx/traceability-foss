@@ -44,6 +44,7 @@ class ApiKeyFeatureServiceTest {
                 "/registry/reload", "/aas/lookup",
                 "/administration/digitalTwinPart",
                 "/administration/digitalTwinPart/detail",
+                "/administration/digitalTwinPart/searchable-values",
                 "/orders/configuration/triggers",
                 "/orders",
                 "/orders/configuration/batches/active",

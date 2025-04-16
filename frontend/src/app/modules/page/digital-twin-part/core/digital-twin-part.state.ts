@@ -16,20 +16,27 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.digitaltwinpart.application.service;
 
-import digitaltwinpart.DigitalTwinPartDetailRequest;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.digitaltwinpart.domain.model.DigitalTwinPart;
-import org.eclipse.tractusx.traceability.digitaltwinpart.domain.model.DigitalTwinPartDetail;
-import org.springframework.data.domain.Pageable;
-import java.util.List;
+import { Injectable } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
+import { View } from '@shared/model/view.model';
+import { State } from '@shared/model/state';
+import { Observable } from 'rxjs';
+import { DigitalTwinPartResponse } from '@page/digital-twin-part/model/digitalTwinPart.model';
 
-public interface DigitalTwinPartService {
-    PageResult<DigitalTwinPart> findAllBy(Pageable pageable, SearchCriteria searchCriteria);
+@Injectable()
+export class DigitalTwinPartState {
+  private readonly _digitalTwinParts$ = new State<View<Pagination<DigitalTwinPartResponse>>>({ loader: true });
 
-    DigitalTwinPartDetail findDetail(DigitalTwinPartDetailRequest digitalTwinPartDetailRequest);
+  public get digitalTwinParts$(): Observable<View<Pagination<DigitalTwinPartResponse>>> {
+    return this._digitalTwinParts$.observable;
+  }
 
-    List<String> getSearchableValues(String fieldName, String startWith, Integer size);
+  public get digitalTwinParts(): View<Pagination<DigitalTwinPartResponse>> {
+    return this._digitalTwinParts$.snapshot;
+  }
+
+  public set digitalTwinParts(view: View<Pagination<DigitalTwinPartResponse>>) {
+    this._digitalTwinParts$.update(view);
+  }
 }

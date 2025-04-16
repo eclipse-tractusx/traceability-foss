@@ -16,27 +16,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package org.eclipse.tractusx.traceability.digitaltwinpart.application.mapper;
-
-import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
-import org.springframework.stereotype.Component;
-
-import java.util.Map;
-
-@Component
-public class DigitalTwinPartFieldMapper extends BaseRequestFieldMapper {
-
-    private static final Map<String, String> SUPPORTED_DIGITALTWINPART_FIELD_MAPPERS = Map.ofEntries(
-            Map.entry("aasId", "aasId"),
-            Map.entry("globalAssetId", "globalAssetId"),
-            Map.entry("bpn", "bpn"),
-            Map.entry("digitalTwinType", "digitalTwinType"),
-            Map.entry("assetExpirationDate", "assetExpirationDate")
-    );
-
-    @Override
-    public Map<String, String> getSupportedFields() {
-        return SUPPORTED_DIGITALTWINPART_FIELD_MAPPERS;
-    }
-}
+ 
+.detail-wrapper {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .card-container {
+    margin: 0;
+  }
+  
+  

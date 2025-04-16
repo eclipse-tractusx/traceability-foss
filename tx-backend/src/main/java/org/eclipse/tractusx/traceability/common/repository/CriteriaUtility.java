@@ -139,4 +139,41 @@ public class CriteriaUtility {
         String[] split = joinQueryFieldName.split("_");
         return split.length == 2 ? split[1] : split[0];
     }
+
+    public List<String> getDistinctDigitalTwinFieldValues(
+            String fieldName,
+            String startWith,
+            Integer resultLimit,
+            Class<?> digitalTwinEntityClass,
+            EntityManager entityManager) {
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<String> cq = builder.createQuery(String.class);
+        Root<?> root = cq.from(digitalTwinEntityClass);
+
+        Path<String> fieldPath = getFieldPath(root, fieldName);
+        Expression<String> stringFieldPath = builder.concat(fieldPath, "");
+
+        cq.select(stringFieldPath)
+                .distinct(true)
+                .orderBy(List.of(builder.asc(stringFieldPath)));
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (nonNull(startWith)) {
+            predicates.add(
+                    builder.like(
+                            builder.lower(stringFieldPath),
+                            startWith.toLowerCase() + "%"
+                    )
+            );
+        }
+
+        cq.where(predicates.toArray(new Predicate[0]));
+
+        return entityManager.createQuery(cq)
+                .setMaxResults(resultLimit)
+                .getResultList();
+    }
+
 }

@@ -19,6 +19,7 @@
 import { Injectable } from '@angular/core';
 import { AdminService } from '@page/admin/core/admin.service';
 import { NotificationChannel, TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
+import { DigitalTwinPartService } from '@shared/service/digitalTwinPart.service';
 import { NotificationService } from '@shared/service/notification.service';
 import { PartsService } from '@shared/service/parts.service';
 import { I18NextService } from 'angular-i18next';
@@ -127,6 +128,20 @@ export class ContractsStrategy extends AutocompleteStrategy {
     );
   }
 }
+@Injectable({
+  providedIn: 'any',
+})
+export class DigitalTwinAutocompleteStrategy extends AutocompleteStrategy {
+  digitalTwinService: DigitalTwinPartService;
+  constructor(digitalTwinService: DigitalTwinPartService ,i18nextService: I18NextService ) {
+    super(i18nextService);
+    this.digitalTwinService = digitalTwinService;
+  }
+
+  retrieveSuggestionValues(tableType: TableType, filterColumns: string, searchElement: string): any {
+    return this.digitalTwinService.getDistinctFilterValues(filterColumns, searchElement);
+  }
+}
 
 export const AutocompleteStrategyMap = new Map<TableType, any>([
   [ TableType.AS_BUILT_OWN, PartsStrategy ],
@@ -134,6 +149,7 @@ export const AutocompleteStrategyMap = new Map<TableType, any>([
   [ TableType.RECEIVED_NOTIFICATION, NotificationStrategy ],
   [ TableType.SENT_NOTIFICATION, NotificationStrategy ],
   [ TableType.CONTRACTS, ContractsStrategy ],
+  [TableType.DIGITAL_TWIN_PART, DigitalTwinAutocompleteStrategy],
 ]);
 
 

@@ -27,6 +27,7 @@ import digitaltwinpart.DigitalTwinPartDetailResponse;
 import digitaltwinpart.DigitalTwinPartFilter;
 import digitaltwinpart.DigitalTwinPartRequest;
 import digitaltwinpart.DigitalTwinPartResponse;
+import digitaltwinpart.SearchableDigitalTwinPartRequest;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -189,4 +190,36 @@ class DigitalTwinPartsControllerIT extends IntegrationTestSpecification {
 
     }
 
+    @Test
+    void shouldReturnSearchableValuesForFieldName() throws JoseException {
+        // GIVEN
+        assetsSupport.defaultAssetsStored();
+        String aasId = "ABC_FILTER_TEST";
+        aasDatabaseSupport.createAASEntityByAASId(aasId);
+
+        var request = new SearchableDigitalTwinPartRequest();
+        request.setFieldName("aasId");
+        request.setStartWith("ABC");
+        request.setSize(10);
+
+        // WHEN
+        List<String> results = given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .body(request)
+                .when()
+                .post("/api/administration/digitalTwinPart/searchable-values")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(new TypeRef<>() {});
+
+        // THEN
+        assertThat(results)
+                .isNotEmpty()
+                .anyMatch(val -> val.startsWith("ABC"));
+    }
 }

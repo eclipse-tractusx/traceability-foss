@@ -18,6 +18,7 @@
         "failedSave": "Beim Speichern ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
       }
     },
+    "digitalTwinPart": "Digital Twin Management",
     "importJson": {
       "title": "Trace-X Datenimport",
       "clear_file": "Datei löschen",
