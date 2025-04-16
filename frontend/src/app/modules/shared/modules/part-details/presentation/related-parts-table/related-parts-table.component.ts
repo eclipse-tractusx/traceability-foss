@@ -204,7 +204,6 @@ export class RelatedPartsTableComponent {
   public showIncidentButton(): boolean {
     const hasValidRole = this.roleService.isSupervisor() || this.roleService.isUser();
     const selectedParts = this.selectedPartsState.snapshot;
-    console.log('selectedParts', selectedParts);
   
     const hasSelection = !this.isPartsSelectionEmpty(selectedParts);
     const hasSameOwner = this.checkIfSameOwner(selectedParts);

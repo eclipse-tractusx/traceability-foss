@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,17 +17,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export enum TableType {
-  AS_BUILT_OWN = 'AS_BUILT_OWN',
-  AS_PLANNED_OWN = 'AS_PLANNED_OWN',
-  RECEIVED_NOTIFICATION = 'RECEIVED_NOTIFICATION',
-  SENT_NOTIFICATION = 'SENT_NOTIFICATION',
-  CONTRACTS = 'CONTRACTS',
-  POLICIES = 'POLICIES',
-  DIGITAL_TWIN_PART = 'DIGITAL_TWIN_PART',
-}
+export interface TriggerConfigurationRequest {
+    cronExpressionRegisterOrderTTLReached: string;
+    cronExpressionMapCompletedOrders: string;
+    partTTL: number;
+    cronExpressionAASLookup: string;
+    cronExpressionAASCleanup: string;
+    cronExpressionPublishAssets: string;
+    aasTTL: number;
+    aasLimit: number;
+  }
 
-export enum NotificationChannel {
-  SENDER = 'SENDER',
-  RECEIVER = 'RECEIVER'
-}
+  export interface TriggerConfigurationResponse extends TriggerConfigurationRequest {
+    id: number;
+  }
+
+  export interface OrderConfigurationRequest {
+    batchSize: number;
+    timeoutMs: number;
+    jobTimeoutMs: number;
+  }
+
+  export interface OrderConfigurationResponse extends OrderConfigurationRequest {
+    id: number;
+  }

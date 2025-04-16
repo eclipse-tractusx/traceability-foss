@@ -30,7 +30,10 @@
     "requestInvestigation" : "Qualitätsuntersuchung anfordern",
     "startInvestigation" : "Qualitätsuntersuchung für Bauteile erstellen",
     "notAllowedForNonPersistentPart" : "Qualitätsthemen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
-    "onlyAllowedForOwnParts" : "Diese Funktion ist nur für eigene Produkte möglich.",
+    "onlyAllowedForOwnParts": "Diese Funktion ist nur für eigene Produkte möglich.",
+    "publishAssets": "Produkt veröffentlichen",
+    "notAuthorizedOwner" : "Qualitätsthemen sind nur für Eigene- und Lieferantenprodukte möglich.",
+    "digitalTwinPart": "Digital Twin Management",
     "publishAssets" : "Produkt veröffentlichen",
     "notAuthorizedOwner" : "Qualitätsthemen sind nur für Eigene- und Lieferantenprodukte möglich."
   },
@@ -201,7 +204,12 @@
       "accessType" : "Zugriffsart",
       "contractAgreementId" : "Vertrags-ID",
       "parts" : "Produkt",
-      "notifications" : "Qualitätsthema"
+      "notifications" : "Qualitätsthema",
+      "digitalTwinType" : "Digital Twin Type",
+      "aasId" : "AAS ID",
+      "assetExpirationDate": "Asset-Ablaufdatum",
+      "aasExpirationDate": "AAS-Ablaufdatum",
+      "globalAssetId": "Globale Asset-ID"
     }
   },
   "dataLoading" : {
@@ -341,6 +349,24 @@
     "success" : "Prozess zur Synchronisierung ausgewählter Produkte erfolgreich angestoßen. Dies kann eine Weile dauern.",
     "error" : "Prozess zur Synchronisierung ausgewählter Produkte konnte nicht angestoßen werden."
   },
+  "orderConfiguration": {
+  "success": "Die Auftragskonfiguration wurde erfolgreich übermittelt.",
+  "failure": "Die Auftragskonfiguration konnte nicht übermittelt werden.",
+  "unableToFetch": "Die aktuelle Auftragskonfiguration konnte nicht abgerufen werden."
+},
+"triggerConfiguration": {
+  "success": "Die Trigger-Konfiguration wurde erfolgreich übermittelt.",
+  "failure": "Die Trigger-Konfiguration konnte nicht übermittelt werden.",
+  "unableToFetch": "Die aktuelle Trigger-Konfiguration konnte nicht abgerufen werden."
+},
+  "pagination": {
+    "itemsPerPageLabel": "Artikel pro Seite:",
+    "nextPageLabel": "Nächsten Seite",
+    "previousPageLabel": "Vorherige Seite",
+    "firstPageLabel": "Erste Seite",
+    "lastPageLabel": "Letzte Seite",
+    "emptyRange": "0 von {{length}}",
+    "range": "{{startIndex}} – {{endIndex}} von {{length}}"
   "pagination" : {
     "itemsPerPageLabel" : "Artikel pro Seite:",
     "nextPageLabel" : "Nächsten Seite",
@@ -529,5 +555,20 @@
       "startDate" : "Startdatum",
       "endDate" : "Enddatum"
     }
+  },
+  "digitalTwinPart": {
+    "digitalTwinRegistryData": "Digitale Zwilling-Registerdaten",
+    "aasId": "AAS-ID",
+    "ttl": "TTL",
+    "nextLookup": "Nächste Abfrage",
+    "lastUpdatedAt": "Zuletzt aktualisiert am",
+    "createdAt": "Erstellt am",
+    "assetTTl": "Asset-TTL",
+    "actor": "Akteur",
+    "nextSync": "Nächste Synchronisierung",
+    "assetExpirationDate": "Asset-Ablaufdatum",
+    "aasExpirationDate": "AAS-Ablaufdatum",
+    "irsDataSync": "IRS-Datensynchronisation",
+    "globalAssetId": "Globale Asset-ID"
   }
 }

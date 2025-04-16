@@ -32,6 +32,7 @@ import org.springframework.scheduling.support.CronExpression;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -85,5 +86,9 @@ public class DigitalTwinPartServiceImpl implements DigitalTwinPartService {
                 digitalTwinPartDetail.setNextSync(nextSync);
             }
         }
+    }
+    @Override
+    public List<String> getSearchableValues(String fieldName, String startWith, Integer size) {
+        return digitalTwinPartRepository.getDistinctFieldValues(fieldName, startWith, size);
     }
 }

@@ -31,7 +31,8 @@
     "notAllowedForNonPersistentPart": "Quality notifications can only be created for parts that are in the import state \"PERSISTENT\".",
     "onlyAllowedForOwnParts": "This functionality is only possible for own parts.",
     "publishAssets": "Publish asset",
-    "notAuthorizedOwner": "This functionality is only allowed for own and supplier parts."
+    "notAuthorizedOwner": "This functionality is only allowed for own and supplier parts.",
+    "digitalTwinPart": "Digital Twin Management"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -197,7 +198,12 @@
       "accessType" : "Access type",
       "contractAgreementId" : "Contract ID",
       "parts" : "Part",
-      "notifications" : "Quality notification"
+      "notifications" : "Quality notification",
+      "globalAssetId" : "Global Asset ID",
+      "digitalTwinType" : "Digital Twin Type",
+      "aasExpirationDate": "AAS expiration date",
+      "assetExpirationDate" : "Asset expiration date",
+      "aasId" : "AAS ID"
     }
   },
   "dataLoading": {
@@ -339,6 +345,16 @@
   "partSynchronization": {
     "success" : "Successfully triggered synchronization of selected parts. This may take a while.",
     "error" : "Error while trying to trigger synchronization of selected parts."
+  },
+  "orderConfiguration": {
+    "success": "Order configuration was successfully submitted.",
+    "failure": "Failed to submit the order configuration.",
+    "unableToFetch": "Unable to fetch the latest order configuration."
+  },
+  "triggerConfiguration": {
+    "success": "Trigger configuration was successfully submitted.",
+    "failure": "Failed to submit the trigger configuration.",
+    "unableToFetch": "Unable to fetch the latest trigger configuration."
   },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",
@@ -518,5 +534,20 @@
       "startDate": "Start date",
       "endDate": "End date"
     }
-  }
+  },
+  "digitalTwinPart": {
+        "registryData": "Digital Twin Registry Data",
+        "aasId": "AAS ID",
+        "ttl": "TTL",
+        "nextLookup": "Next look up",
+        "lastUpdatedAt": "Last updated at",
+        "createdAt": "Created at",
+        "assetTTl": "Asset TTL",
+        "actor": "Actor",
+        "nextSync": "Next Sync",
+        "aasExpirationDate": "AAS expiration date",
+        "assetExpirationDate": "Asset expiration date",
+        "irsDataSync": "IRS Data Synchronization",
+        "globalAssetId": "Global Asset ID"
+    }
 }

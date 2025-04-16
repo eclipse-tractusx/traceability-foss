@@ -277,7 +277,6 @@ export class PartsAssembler {
         return null;
       }
       const { id, importState, importNote, tombStoneErrorDetail } = viewData.data;
-      console.log('viewData.data', viewData.data);
       const mappedData: Partial<Part> = { id };
       if (importState !== undefined && importState !== null) {
         mappedData.importState = importState;

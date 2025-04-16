@@ -16,9 +16,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator, FilterValue } from '@shared/model/filter.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, DigitalTwinPartFilter, FilterOperator, FilterValue } from '@shared/model/filter.model';
 
-export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate', 'createdOn', 'validUntil' ];
+export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate', 'createdOn', 'validUntil','aasExpirationDate','assetExpirationDate' ];
 
 export function isDateFilter(key: string): boolean {
   return DATE_FILTER_KEYS.includes(key);
@@ -100,3 +100,45 @@ export function containsAtLeastOneFilterEntry(filter: AssetAsBuiltFilter | Asset
     attr?.value?.some((filterValue: FilterValue) => Boolean(filterValue.value?.trim())),
   );
 }
+
+export function toGlobalSearchDigitalTwinFilter(values: string[] | Record<string, string[]>): DigitalTwinPartFilter {
+  const strategy = FilterOperator.GLOBAL;
+  let filterValues: FilterValue[];
+
+  if (Array.isArray(values)) {
+    filterValues = values.map(value => ({ value, strategy }));
+  } else {
+    filterValues = Object.values(values).flat().map(value => ({ value, strategy }));
+  }
+
+  return {
+    aasId: {
+      value: filterValues,
+      operator: 'OR',
+    },
+    globalAssetId: {
+      value: filterValues,
+      operator: 'OR',
+    },
+  };
+}
+
+export function toStructuredDigitalTwinFilter(formValues: Record<string, string[]>): DigitalTwinPartFilter {
+  const filter: DigitalTwinPartFilter = {};
+
+  Object.entries(formValues).forEach(([key, values]) => {
+    console.log('Checking filter key:', key);
+    
+    if (Array.isArray(values) && values.length > 0) {
+      filter[key] = {
+        value: values.map(value => ({
+          value,
+          strategy: isDateFilter(key) ? FilterOperator.AT_LOCAL_DATE : FilterOperator.STARTS_WITH,
+        })),
+        operator: 'OR',
+      };
+    }
+  });
+
+  return filter;
+  }

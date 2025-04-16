@@ -75,6 +75,14 @@ export interface ContractFilter {
   contractType?: FilterAttribute;
 }
 
+export interface DigitalTwinPartFilter {
+  aasId?: FilterAttribute;
+  globalAssetId?: FilterAttribute;
+  digitalTwinType?: FilterAttribute;
+  aasExpirationDate?: FilterAttribute;
+  assetExpirationDate?: FilterAttribute;
+}
+
 export enum FilterOperator {
   EQUAL = 'EQUAL',
   AT_LOCAL_DATE = 'AT_LOCAL_DATE',

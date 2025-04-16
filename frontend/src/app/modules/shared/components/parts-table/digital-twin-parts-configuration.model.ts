@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,17 +17,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export enum TableType {
-  AS_BUILT_OWN = 'AS_BUILT_OWN',
-  AS_PLANNED_OWN = 'AS_PLANNED_OWN',
-  RECEIVED_NOTIFICATION = 'RECEIVED_NOTIFICATION',
-  SENT_NOTIFICATION = 'SENT_NOTIFICATION',
-  CONTRACTS = 'CONTRACTS',
-  POLICIES = 'POLICIES',
-  DIGITAL_TWIN_PART = 'DIGITAL_TWIN_PART',
-}
+import { TableFilterConfiguration } from '@shared/components/parts-table/parts-config.model';
 
-export enum NotificationChannel {
-  SENDER = 'SENDER',
-  RECEIVER = 'RECEIVER'
+export class DigitalTwinConfigurationModel extends TableFilterConfiguration {
+  constructor() {
+    const sortableColumns = {
+      select: false,
+      aasId: true,
+      globalAssetId: true,
+      bpn: false,
+      digitalTwinType: false,
+      aasExpirationDate: false,
+      assetExpirationDate: false,
+      menu: false,
+    };
+
+    const dateFields = [ 'aasExpirationDate','assetExpirationDate' ];
+    const singleSearchFields = [];
+    super(sortableColumns, dateFields, singleSearchFields, true);
+  }
 }

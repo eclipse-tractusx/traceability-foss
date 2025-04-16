@@ -18,10 +18,13 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.digitaltwinpart.infrastructure.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
+import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.digitaltwinpart.domain.DigitalTwinPartNotFoundException;
 import org.eclipse.tractusx.traceability.digitaltwinpart.domain.model.DigitalTwinPart;
 import org.eclipse.tractusx.traceability.digitaltwinpart.domain.model.DigitalTwinPartDetail;
@@ -40,6 +43,10 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class DigitalTwinPartRepositoryImpl implements DigitalTwinPartRepository {
     private final DigitalTwinPartJPARepository repository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
     @Override
     public PageResult<DigitalTwinPart> getAllDigitalTwinParts(Pageable pageable, SearchCriteria searchCriteria) {
 
@@ -57,5 +64,16 @@ public class DigitalTwinPartRepositoryImpl implements DigitalTwinPartRepository 
                 .orElseThrow(() -> new DigitalTwinPartNotFoundException("DigitalTwinPart with ID " + filterId + " not found"));
 
         return DigitalTwinPartEntity.toDomainDetail(entity);
+    }
+
+    @Override
+    public List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit) {
+        return CriteriaUtility.getDistinctDigitalTwinFieldValues(
+                fieldName,
+                startWith,
+                resultLimit,
+                DigitalTwinPartEntity.class,
+                entityManager
+        );
     }
 }
