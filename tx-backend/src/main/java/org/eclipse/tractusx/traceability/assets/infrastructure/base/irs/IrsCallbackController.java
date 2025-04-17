@@ -119,7 +119,7 @@ public class IrsCallbackController {
         } catch (IllegalArgumentException e) {
             log.warn("Validation failed for callback parameters: {}", e.getMessage());
         } catch (Exception e) {
-            log.error("Error occurred while handling IRS order callback for orderId: {}", sanitize(orderId), e);
+            log.warn("Order id invalid - skipping callback IRS order callback for orderId {} message: {}", sanitize(orderId), e.getMessage());
         }
     }
 

@@ -133,8 +133,8 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
                 .concat(globalAssetIdKeys.stream(), aasIdentifiersKeys.stream()).toList();
 
         switch (DigitalTwinType.digitalTwinTypeFromString(createOrderRequest.digitalTwinType())) {
-            case PART_TYPE -> {
-                List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsBuiltRepository, PART_TYPE);
+            case PART_INSTANCE -> {
+                List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsBuiltRepository, PART_INSTANCE);
 
                 CreateOrderResponse createOrderResponse = assetAsBuiltService
                         .syncAssetsUsingIRSOrderAPI(identifiers, orderConfiguration);
@@ -143,8 +143,8 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
                 return createOrderResponse;
             }
-            case PART_INSTANCE -> {
-                List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsPlannedRepository, PART_INSTANCE);
+            case PART_TYPE -> {
+                List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsPlannedRepository, PART_TYPE);
 
                 CreateOrderResponse createOrderResponse = assetAsPlannedService
                         .syncAssetsUsingIRSOrderAPI(identifiers, orderConfiguration);
@@ -177,11 +177,11 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
                     .status(ProcessingState.INITIALIZED);
 
             orderBuilder.partsAsBuilt(assetBases.stream()
-                    .filter(assetBase -> PART_TYPE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
+                    .filter(assetBase -> PART_INSTANCE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
                     .collect(Collectors.toSet()));
 
             orderBuilder.partsAsPlanned(assetBases.stream()
-                    .filter(assetBase -> PART_INSTANCE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
+                    .filter(assetBase -> PART_TYPE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
                     .collect(Collectors.toSet()));
 
             orderService.persistOrder(orderBuilder.build());
