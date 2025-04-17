@@ -127,7 +127,6 @@ export function toStructuredDigitalTwinFilter(formValues: Record<string, string[
   const filter: DigitalTwinPartFilter = {};
 
   Object.entries(formValues).forEach(([key, values]) => {
-    console.log('Checking filter key:', key);
     
     if (Array.isArray(values) && values.length > 0) {
       filter[key] = {
