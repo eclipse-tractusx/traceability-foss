@@ -21,8 +21,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.exception;
 
 public class NotOwnPartException extends RuntimeException {
 
-        public NotOwnPartException(String globalAssetId, String bpn) {
-            super("Provided BPN does not match with own one: %s, for globalAssetId: %s"
-                    .formatted(bpn, globalAssetId));
+        public NotOwnPartException(String identifier, String bpn) {
+            super("Provided BPN does not match with own one: %s, for identifier: %s".formatted(bpn, identifier));
         }
 }
