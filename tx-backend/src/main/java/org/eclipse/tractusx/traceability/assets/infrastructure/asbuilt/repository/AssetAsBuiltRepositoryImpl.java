@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.reposito
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -33,20 +34,24 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Component
 @Transactional
+@Slf4j
 public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
@@ -190,4 +195,5 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
                 .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
+
 }

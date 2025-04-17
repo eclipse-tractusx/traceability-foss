@@ -19,21 +19,16 @@
 
 package org.eclipse.tractusx.traceability.configuration.infrastructure.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -43,17 +38,21 @@ import lombok.Setter;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
+import org.eclipse.tractusx.traceability.configuration.domain.model.Batch;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 
+import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Entity
-@Table(name = "orders")
-@Setter
+@Table(name = "batches")
 @Getter
-@Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-public class OrderEntity {
+@Builder
+public class BatchEntity {
 
     @Id
     private String id;
@@ -61,55 +60,14 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     private ProcessingState status;
 
-    private String message;
+    @ManyToOne()
+    @JoinColumn(name = "order_id", nullable = false)
+    private OrderEntity order;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    private Long orderConfigurationId;
-
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BatchEntity> batches;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id")
-    Set<AssetAsBuiltEntity> assetsAsBuilt;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id")
-    Set<AssetAsPlannedEntity> assetsAsPlanned;
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PrePersist
-    public void preCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    public void addBatch(BatchEntity batch) {
-        batch.setOrder(this);
-        this.batches.add(batch);
-    }
-
-    public static Order toDomain(OrderEntity entity) {
-        return Order.builder()
+    public static Batch toDomain(BatchEntity entity) {
+        return Batch.builder()
                 .id(entity.getId())
-                .message(entity.getMessage())
                 .status(entity.getStatus())
-                .batchList(entity.getBatches().stream()
-                        .map(BatchEntity::toDomain)
-                        .collect(Collectors.toList()))
-                .partsAsBuilt(entity.getAssetsAsBuilt().stream()
-                        .map(AssetAsBuiltEntity::toDomain)
-                        .collect(Collectors.toSet()))
-                .partsAsPlanned(entity.getAssetsAsPlanned().stream()
-                        .map(AssetAsPlannedEntity::toDomain)
-                        .collect(Collectors.toSet()))
                 .build();
     }
 }

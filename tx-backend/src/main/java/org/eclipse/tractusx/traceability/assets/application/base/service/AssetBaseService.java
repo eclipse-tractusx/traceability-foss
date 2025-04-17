@@ -54,5 +54,4 @@ public interface AssetBaseService {
 
     void deleteAssetById(final String assetId);
 
-    void updateAssetsAfterJobCompletion(Set<AssetBase> assets);
 }

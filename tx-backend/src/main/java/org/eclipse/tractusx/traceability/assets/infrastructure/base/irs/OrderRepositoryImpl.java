@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 import assets.request.PartChainIdentificationKey;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.SubmodelDescriptor;
 import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
@@ -36,6 +35,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
@@ -53,6 +53,7 @@ import org.eclipse.tractusx.traceability.common.properties.TraceabilityPropertie
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.model.BatchEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
@@ -63,11 +64,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_PLANNED;
 import static org.eclipse.tractusx.traceability.common.security.Sanitizer.sanitize;
@@ -133,8 +136,13 @@ public class OrderRepositoryImpl implements OrderRepository {
         log.info("Handling order finished callback for orderId: {}, batchId: {}, orderState: {}, batchState: {}",
                 sanitize(orderId), sanitize(batchId), orderState, batchState);
 
-        updateOrderTable(orderId, orderState);
+        updateOrderTable(orderId, orderState, batchId, batchState);
 
+    }
+
+    @Transactional
+    @Override
+    public void requestOrderBatchAndMapAssets(String orderId, String batchId, ProcessingState batchState) {
         if (!STATUS_COMPLETED.equals(batchState) && (!STATUS_PARTIAL.equals(batchState))) {
             log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is (actual: {}).",
                     sanitize(orderId), sanitize(batchId), batchState);
@@ -191,6 +199,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         });
     }
 
+    // TODO this can be moved to assetmapperfactory
     private void updateAas(AssetBase assetBase, IRSResponse irsJobDetailResponse) {
         String aasIdentifier = irsJobDetailResponse.jobStatus().aasIdentifier();
         TriggerConfiguration triggerConfiguration = triggerConfigurationRepository.findTopByCreatedAtDesc();
@@ -210,7 +219,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                             .map(Descriptions::parentId)
                             .ifPresentOrElse(globalAssetId -> aasRepository.findById(aasIdentifier)
                                             .ifPresentOrElse(aas -> {
-                                                log.info("AAS with ID: {} already exists in the database, updating it", aasIdentifier);
+                                                        log.info("AAS with ID: {} already exists in the database, updating it", aasIdentifier);
                                                         if (assetBase.getBomLifecycle() == AS_BUILT) {
                                                             aas.setAssetAsBuilt(assetBase);
                                                         } else {
@@ -244,13 +253,36 @@ public class OrderRepositoryImpl implements OrderRepository {
         log.info("No aasIdentifier found in job details response: %s".formatted(irsJobDetailResponse.jobStatus().id()));
     }
 
-    private void updateOrderTable(String orderId, ProcessingState orderState) {
+    private void updateOrderTable(String orderId, ProcessingState orderState, String batchId, ProcessingState batchState) {
         orderJPARepository.findById(orderId).ifPresentOrElse(orderEntity -> {
-            orderEntity.setStatus(orderState);
+
+            if (orderState != null) {
+                orderEntity.setStatus(orderState);
+            }
+
+            if (batchId != null && batchState != null) {
+                List<BatchEntity> batches = orderEntity.getBatches();
+                batches.stream()
+                        .filter(batch ->  batchId.equals(batch.getId()))
+                        .findFirst()
+                        .orElseGet(() -> {
+                            BatchEntity newBatch = BatchEntity.builder()
+                                    .id(batchId)
+                                    .order(orderEntity)
+                                    .status(batchState)
+                                    .build();
+                            orderEntity.addBatch(newBatch);
+                            return newBatch;
+                        });
+
+            }
+
             orderJPARepository.save(orderEntity);
-            log.info("Order with ID: {} updated in the database with status: {}", sanitize(orderId), orderState);
+            log.info("Order with ID: {} updated in the database", sanitize(orderId));
+
         }, () -> log.warn("Order with ID: {} not found in the database.", sanitize(orderId)));
     }
+
 
     void addTombstoneDetails(AssetBase tombstone) {
         if (tombstone.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASBUILT)) {
@@ -277,6 +309,14 @@ public class OrderRepositoryImpl implements OrderRepository {
     void saveOrUpdateAssets(AssetRepository repository, AssetBase asset) {
         try {
             enrichAssetBaseByContractAgreements(repository, asset);
+            if (asset.getImportState() != ImportState.ERROR) {
+                asset.setTtl(triggerConfigurationRepository.findTopByCreatedAtDesc().getAasTTL());
+                asset.setExpirationDate(LocalDateTime.now().plusSeconds(triggerConfigurationRepository.findTopByCreatedAtDesc().getAasTTL() / 1000));
+                log.info("Asset with id {} has been updated with expiration date {}", asset.getId(), asset.getExpirationDate());
+            } else {
+                log.info("Asset with id {} has an import state of ERROR, skipping updating assets expiration date",
+                        asset.getId());
+            }
             repository.save(asset);
         } catch (DataIntegrityViolationException ex) {
             //retry save in case of ERROR: duplicate key value violates unique constraint "asset_pkey"
@@ -313,8 +353,8 @@ public class OrderRepositoryImpl implements OrderRepository {
                 .save(OrderEntity.builder()
                         .id(order.getId())
                         .status(order.getStatus())
-                        .assetsAsBuilt(order.getPartsAsBuilt().stream().map(AssetAsBuiltEntity::from).collect(Collectors.toSet()))
-                        .assetsAsPlanned(order.getPartsAsPlanned().stream().map(AssetAsPlannedEntity::from).collect(Collectors.toSet()))
+                        .assetsAsBuilt(emptyIfNull(order.getPartsAsBuilt()).stream().map(AssetAsBuiltEntity::from).collect(Collectors.toSet()))
+                        .assetsAsPlanned(emptyIfNull(order.getPartsAsPlanned()).stream().map(AssetAsPlannedEntity::from).collect(Collectors.toSet()))
                         .orderConfigurationId(
                                 order.getOrderConfiguration() != null ? order.getOrderConfiguration().getId() : null)
                         .message(order.getMessage())

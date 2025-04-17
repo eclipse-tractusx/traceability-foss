@@ -102,10 +102,5 @@ public class DecentralRegistryServiceImplIT extends IntegrationTestSpecification
         List<OrderEntity> allAfterCallback = orderJPARepository.findAll();
         assertThat(allAfterCallback).hasSize(1);
         assertThat(allAfterCallback.get(0).getStatus()).isEqualTo(ProcessingState.PROCESSING);
-
-        AssetAsBuiltEntity assetFromCallbackMockError = assetsSupport.findById(
-                "urn:uuid:b978ad2d-be06-47ea-a578-580d9b2eca77");
-        assertThat(assetFromCallbackMockError.getTtl()).isNull();
-        assertThat(assetFromCallbackMockError.getExpirationDate()).isNull();
     }
 }

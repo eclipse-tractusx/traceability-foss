@@ -22,9 +22,11 @@ package org.eclipse.tractusx.traceability.assets.domain.base;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AssetRepository {
     AssetBase getAssetById(String assetId);
@@ -60,4 +62,5 @@ public interface AssetRepository {
     List<AssetBase> findAll();
 
     List<AssetBase> findAllExpired();
+
 }

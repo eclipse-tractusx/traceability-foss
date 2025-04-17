@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.reposi
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -52,6 +53,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @RequiredArgsConstructor
 @Component
 @Transactional
+@Slf4j
 public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
     private final JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;

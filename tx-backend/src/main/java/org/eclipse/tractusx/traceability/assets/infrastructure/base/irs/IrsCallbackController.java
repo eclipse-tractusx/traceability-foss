@@ -108,7 +108,6 @@ public class IrsCallbackController {
                 sanitize(orderId), sanitize(batchId), sanitize(orderState), sanitize(batchState));
         try {
             validateIds(orderId, batchId);
-            log.debug("Validated orderId and batchId successfully.");
 
             ProcessingState orderStateEnum = ProcessingState.fromString(orderState);
             ProcessingState batchStateEnum = ProcessingState.fromString(batchState);
@@ -128,12 +127,10 @@ public class IrsCallbackController {
         for (String id : ids) {
             if (id != null && !id.isEmpty() && !id.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")) {
                 log.warn("Invalid UUID format detected: {}", sanitize(id));
-                throw new IllegalArgumentException("Invalid UUID format " + id);
             }
 
             if (StringUtils.isEmpty(id)) {
                 log.warn("Empty or null UUID detected");
-                throw new IllegalArgumentException("Empty or null UUID");
             }
         }
     }

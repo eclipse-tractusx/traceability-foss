@@ -20,11 +20,13 @@
 package org.eclipse.tractusx.traceability.configuration.application.service;
 
 import java.util.List;
+
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 
 public interface OrderService {
 
     void persistOrder(Order order);
-
     List<Order> findOrdersByStatus(List<String> statuses);
+    void mapCompletedOrdersJobRegistration();
 }

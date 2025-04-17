@@ -37,4 +37,6 @@ public interface OrderRepository {
     void save(Order order);
 
     List<Order> findOrdersByStatus(List<ProcessingState> statusList);
+
+    void requestOrderBatchAndMapAssets(String orderId, String batchId, ProcessingState batchState);
 }

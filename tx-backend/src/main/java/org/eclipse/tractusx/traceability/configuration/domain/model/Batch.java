@@ -19,22 +19,16 @@
 
 package org.eclipse.tractusx.traceability.configuration.domain.model;
 
-import java.util.List;
-import java.util.Set;
 import lombok.Builder;
 import lombok.Data;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 
+import java.util.Set;
+
 @Data
 @Builder
-public class Order {
+public class Batch {
     private String id;
     private ProcessingState status;
-    private String message;
-    private Set<AssetBase> partsAsBuilt;
-    private Set<AssetBase> partsAsPlanned;
-    private OrderConfiguration orderConfiguration;
-    private List<Batch> batchList;
-
 }
