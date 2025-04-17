@@ -160,6 +160,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
                     asset.setTtl(triggerConfiguration.getAasTTL());
                     asset.setExpirationDate(LocalDateTime.now().plusSeconds(triggerConfiguration.getAasTTL() / 1000));
                     getAssetRepository().save(asset);
+                    log.info("Asset with id {} has been updated with expiration date {}", asset.getId(), asset.getExpirationDate());
                 } else {
                     log.info("Asset with id {} has an import state of ERROR, skipping updating assets expiration date",
                             asset.getId());
