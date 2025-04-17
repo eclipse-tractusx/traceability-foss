@@ -67,7 +67,7 @@ public class OrderControllerIT extends IntegrationTestSpecification {
         final String globalAssetId = "urn:uuid:12345678-1234-1234-1234-123456789012";
         final String aasIdentifier = "urn:uuid:12345678-1234-1234-1234-123456789000";
 
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest("PartType", List.of(
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest("PartInstance", List.of(
                 new PartChainIdentificationKey(null, globalAssetId, bpn),
                 new PartChainIdentificationKey(aasIdentifier, null, bpn)));
 
