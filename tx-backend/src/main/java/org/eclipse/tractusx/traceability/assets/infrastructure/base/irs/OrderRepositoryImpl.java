@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import assets.request.PartChainIdentificationKey;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
@@ -40,7 +41,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataMo
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.PartChainIdentificationKey;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterOrderRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
@@ -117,14 +117,12 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public String createOrderToResolveAssets(
-            List<String> ids,
+            List<PartChainIdentificationKey> keys,
             Direction direction,
             List<String> aspects,
             BomLifecycle bomLifecycle,
             OrderConfiguration orderConfiguration) {
         final String callbackUrl = traceabilityProperties.getUrl();
-        String applicationBpn = traceabilityProperties.getBpn().toString();
-        List<PartChainIdentificationKey> keys = ids.stream().map(id -> new PartChainIdentificationKey(null, id, applicationBpn)).collect(Collectors.toList());
         RegisterOrderRequest registerOrderRequest = RegisterOrderRequest.buildOrderRequest(aspects, bomLifecycle, callbackUrl, direction, keys, orderConfiguration);
         return orderClient.registerOrder(registerOrderRequest).id();
     }

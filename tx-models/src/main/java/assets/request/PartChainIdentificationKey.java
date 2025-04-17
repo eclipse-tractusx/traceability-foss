@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,21 +16,6 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.request;
 
-package orders.request;
-
-import assets.request.PartChainIdentificationKey;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import java.util.List;
-
-public record CreateOrderRequest(
-        @NotNull(message = "digitalTwinType must be present")
-        @Schema(example = "PartInstance")
-        String digitalTwinType,
-        @NotEmpty
-        List<PartChainIdentificationKey> keys) {
-}
-
-
+public record PartChainIdentificationKey(String identifier, String globalAssetId, String bpn) {}

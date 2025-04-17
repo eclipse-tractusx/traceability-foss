@@ -19,6 +19,8 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
+import assets.request.PartChainIdentificationKey;
+import java.util.stream.Stream;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
@@ -43,18 +45,18 @@ class AssetAsBuiltServiceImplTest {
     @Mock
     private OrderRepository orderRepository;
 
-
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
         // given
-        String globalAssetId = "123";
-        List<String> globalAssetIds = List.of(globalAssetId);
+        List<PartChainIdentificationKey> keys = Stream.of("123")
+                .map(id -> new PartChainIdentificationKey(null, id, "bpn"))
+                .toList();
 
         // when
-        assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds, null);
+        assetService.syncAssetsUsingIRSOrderAPI(keys, null);
 
         // then
-        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
-        verify(orderRepository).createOrderToResolveAssets(globalAssetIds, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
+        verify(orderRepository).createOrderToResolveAssets(keys, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
+        verify(orderRepository).createOrderToResolveAssets(keys, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
     }
 }

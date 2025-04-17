@@ -18,7 +18,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.base.service;
 
+import assets.request.PartChainIdentificationKey;
 import java.util.Set;
+import orders.request.CreateOrderResponse;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
@@ -32,9 +34,7 @@ import java.util.Map;
 
 public interface AssetBaseService {
 
-    void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds, OrderConfiguration orderConfiguration);
-
-    String syncAssetsUsingIRSOrderAPI(List<String> globalAssetIds, OrderConfiguration orderConfiguration);
+    CreateOrderResponse syncAssetsUsingIRSOrderAPI(List<PartChainIdentificationKey> keys, OrderConfiguration orderConfiguration);
 
     Map<String, Long> getAssetsCountryMap();
 

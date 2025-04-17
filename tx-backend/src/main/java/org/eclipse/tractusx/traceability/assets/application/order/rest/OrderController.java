@@ -30,6 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import orders.request.CreateOrderRequest;
+import orders.request.CreateOrderResponse;
 import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
 import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
@@ -100,7 +101,7 @@ public class OrderController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("")
     @ApiKeyEnabled
-    public ResponseEntity<String> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
+    public ResponseEntity<CreateOrderResponse> createOrder(@Valid @RequestBody CreateOrderRequest createOrderRequest) {
         return ResponseEntity.status(201).body(decentralRegistryService.createOrder(createOrderRequest, configurationService.getLatestOrderConfiguration()));
     }
 

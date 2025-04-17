@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
 import assets.importpoc.ErrorResponse;
 import assets.request.AssetRequest;
+import assets.request.PartChainIdentificationKey;
 import assets.request.SearchableAssetsRequest;
 import assets.response.asbuilt.AssetAsBuiltResponse;
 import assets.response.asplanned.AssetAsPlannedResponse;
@@ -45,6 +46,7 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -74,13 +76,17 @@ public class AssetAsPlannedController {
     private final AssetBaseService assetService;
     private final BaseRequestFieldMapper fieldMapper;
     private final ConfigurationService configurationService;
+    private final TraceabilityProperties traceabilityProperties;
 
     public AssetAsPlannedController(
-            @Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService, ConfigurationService configurationService,
-            AssetAsPlannedFieldMapper fieldMapper) {
+            @Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService,
+            ConfigurationService configurationService,
+            AssetAsPlannedFieldMapper fieldMapper,
+            TraceabilityProperties traceabilityProperties) {
         this.assetService = assetService;
         this.fieldMapper = fieldMapper;
         this.configurationService = configurationService;
+        this.traceabilityProperties = traceabilityProperties;
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
@@ -136,7 +142,10 @@ public class AssetAsPlannedController {
     @PostMapping("/sync")
     @ApiKeyEnabled
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetService.syncAssetsAsyncUsingIRSOrderAPI(syncAssetsRequest.globalAssetIds(), configurationService.getLatestOrderConfiguration());
+        List<PartChainIdentificationKey> keys = syncAssetsRequest.globalAssetIds().stream()
+                .map(id -> new PartChainIdentificationKey(null, id, traceabilityProperties.getBpn().toString()))
+                .toList();
+        assetService.syncAssetsUsingIRSOrderAPI(keys, configurationService.getLatestOrderConfiguration());
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")

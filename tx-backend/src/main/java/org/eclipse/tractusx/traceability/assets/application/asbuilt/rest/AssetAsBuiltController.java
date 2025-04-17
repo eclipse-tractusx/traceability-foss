@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.assets.application.asbuilt.rest;
 
 import assets.importpoc.ErrorResponse;
 import assets.request.AssetRequest;
+import assets.request.PartChainIdentificationKey;
 import assets.request.SearchableAssetsRequest;
 import assets.response.asbuilt.AssetAsBuiltResponse;
 import assets.response.base.request.UpdateAssetRequest;
@@ -46,6 +47,7 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
@@ -78,14 +80,17 @@ public class AssetAsBuiltController {
     private final AssetBaseService assetBaseService;
     private final BaseRequestFieldMapper fieldMapper;
     private final ConfigurationService configurationService;
-
+    private final TraceabilityProperties traceabilityProperties;
 
     public AssetAsBuiltController(
             @Qualifier("assetAsBuiltServiceImpl") AssetBaseService assetService,
-            AssetAsBuiltFieldMapper fieldMapper, ConfigurationService configurationService) {
+            AssetAsBuiltFieldMapper fieldMapper,
+            ConfigurationService configurationService,
+            TraceabilityProperties traceabilityProperties) {
         this.assetBaseService = assetService;
         this.fieldMapper = fieldMapper;
         this.configurationService = configurationService;
+        this.traceabilityProperties = traceabilityProperties;
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
@@ -141,7 +146,10 @@ public class AssetAsBuiltController {
     @PostMapping("/sync")
     @ApiKeyEnabled
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetBaseService.syncAssetsAsyncUsingIRSOrderAPI(syncAssetsRequest.globalAssetIds(), configurationService.getLatestOrderConfiguration());
+        List<PartChainIdentificationKey> keys = syncAssetsRequest.globalAssetIds().stream()
+                .map(id -> new PartChainIdentificationKey(null, id, traceabilityProperties.getBpn().toString()))
+                .toList();
+        assetBaseService.syncAssetsUsingIRSOrderAPI(keys, configurationService.getLatestOrderConfiguration());
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
