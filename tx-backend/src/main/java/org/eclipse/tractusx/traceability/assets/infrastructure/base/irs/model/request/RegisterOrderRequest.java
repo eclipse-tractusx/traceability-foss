@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
+import  assets.request.PartChainIdentificationKey;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 

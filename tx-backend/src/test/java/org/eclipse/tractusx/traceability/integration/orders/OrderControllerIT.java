@@ -23,10 +23,10 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
+import assets.request.PartChainIdentificationKey;
 import io.restassured.http.ContentType;
 import java.util.List;
 import orders.request.CreateOrderRequest;
-import org.eclipse.tractusx.irs.component.PartChainIdentificationKey;
 import org.eclipse.tractusx.traceability.aas.infrastructure.model.AASEntity;
 import org.eclipse.tractusx.traceability.aas.infrastructure.repository.JpaAASRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
@@ -77,8 +77,8 @@ public class OrderControllerIT extends IntegrationTestSpecification {
         final String aasIdentifier = "urn:uuid:12345678-1234-1234-1234-123456789000";
 
         CreateOrderRequest createOrderRequest = new CreateOrderRequest("PartType", List.of(
-                PartChainIdentificationKey.builder().bpn(bpn).globalAssetId(globalAssetId).build(),
-                PartChainIdentificationKey.builder().bpn(bpn).identifier(aasIdentifier).build()));
+                new PartChainIdentificationKey(null, globalAssetId, bpn),
+                new PartChainIdentificationKey(aasIdentifier, null, bpn)));
 
         final String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
 
@@ -121,7 +121,7 @@ public class OrderControllerIT extends IntegrationTestSpecification {
     void shouldNotRegisterManualOrder_missingDigitalTwinType() throws JoseException {
         // given
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(null, List.of(
-                PartChainIdentificationKey.builder().bpn("bpn").globalAssetId("globalAssetId").build()));
+                new PartChainIdentificationKey(null, "globalAssetId", "bpn")));
 
         // then
         given()
@@ -161,7 +161,7 @@ public class OrderControllerIT extends IntegrationTestSpecification {
         final String globalAssetId = "urn:uuid:12345678-1234-1234-1234-123456789012";
 
         CreateOrderRequest createOrderRequest = new CreateOrderRequest("PartType", List.of(
-            PartChainIdentificationKey.builder().bpn(bpn).globalAssetId(globalAssetId).build()));
+                new PartChainIdentificationKey(null, globalAssetId, bpn)));
 
         // then
         given()

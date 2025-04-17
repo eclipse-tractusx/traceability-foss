@@ -18,10 +18,13 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.base.service;
 
+import assets.request.PartChainIdentificationKey;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import orders.request.CreateOrderResponse;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
@@ -32,12 +35,9 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.domain.EnumFieldUtils;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
-import org.springframework.scheduling.annotation.Async;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -63,38 +63,21 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     protected abstract TriggerConfiguration getTriggerConfiguration();
 
     @Override
-    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void syncAssetsAsyncUsingIRSOrderAPI(List<String> aasList, OrderConfiguration orderConfiguration) {
-        log.info("Synchronizing assets for aasList: {}", aasList);
+    public CreateOrderResponse syncAssetsUsingIRSOrderAPI(List<PartChainIdentificationKey> keys, OrderConfiguration orderConfiguration) {
+        List<String> orderIds = new ArrayList<>();
+        log.info("Synchronizing assets for aasList: {}", keys);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(aasList, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle(), null);
+                orderIds.add(getOrderRepository().createOrderToResolveAssets(keys, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle(), orderConfiguration));
             }
 
             if (!getUpwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(aasList, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
+                orderIds.add(getOrderRepository().createOrderToResolveAssets(keys, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration));
             }
-
         } catch (Exception e) {
-            log.warn("Exception during assets synchronization for aasList: {}. Message: {}.", aasList, e.getMessage(), e);
+            log.warn("Exception during assets synchronization for aasList: {}. Message: {}.", keys, e.getMessage(), e);
         }
-    }
-
-    @Override
-    public String syncAssetsUsingIRSOrderAPI(List<String> identifiers, OrderConfiguration orderConfiguration) {
-        log.info("Synchronizing assets for identifiers: {}", identifiers);
-        if (!getDownwardAspects().isEmpty()) {
-            return getOrderRepository().createOrderToResolveAssets(identifiers, Direction.DOWNWARD,
-                    getDownwardAspects(), getBomLifecycle(), orderConfiguration);
-        }
-
-        if (!getUpwardAspects().isEmpty()) {
-            return getOrderRepository().createOrderToResolveAssets(identifiers, Direction.UPWARD,
-                    upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration);
-        }
-        log.warn("No Aspects found for assets synchronization for identifiers: {}, skipping order creation",
-                identifiers);
-        return null;
+        return new CreateOrderResponse(orderIds);
     }
 
     @Override

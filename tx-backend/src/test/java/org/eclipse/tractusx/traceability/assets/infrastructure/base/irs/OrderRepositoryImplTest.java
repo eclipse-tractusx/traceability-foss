@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 
+import assets.request.PartChainIdentificationKey;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.aas.domain.repository.AASRepository;
@@ -37,7 +38,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
-import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
@@ -131,14 +131,13 @@ class OrderRepositoryImplTest {
     @MethodSource("provideDirections")
     void testFindAssets_completedJob_returnsConvertedAssets(Direction direction) {
         // Given
-        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
         when(orderClient.registerOrder(any())).thenReturn(new RegisterOrderResponse("id"));
         when(orderConfiguration.getBatchSize()).thenReturn(50);
         when(orderConfiguration.getJobTimeoutMs()).thenReturn(5000);
         when(orderConfiguration.getTimeoutMs()).thenReturn(7000);
 
         // When
-        orderRepositoryImpl.createOrderToResolveAssets(List.of("1"), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration);
+        orderRepositoryImpl.createOrderToResolveAssets(List.of(new PartChainIdentificationKey(null, null, null)), direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration);
 
         // Then
         verify(orderClient).registerOrder(any(RegisterOrderRequest.class));

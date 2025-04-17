@@ -24,19 +24,17 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 import static org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType.PART_INSTANCE;
 import static org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType.PART_TYPE;
 
+import assets.request.PartChainIdentificationKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import orders.request.CreateOrderRequest;
+import orders.request.CreateOrderResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.tractusx.irs.component.PartChainIdentificationKey;
-import org.eclipse.tractusx.traceability.aas.application.service.AASService;
-import org.eclipse.tractusx.traceability.aas.domain.model.AAS;
 import org.eclipse.tractusx.traceability.aas.infrastructure.model.DigitalTwinType;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
@@ -44,6 +42,7 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.Asse
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
@@ -72,7 +71,6 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     private final AssetAsBuiltServiceImpl assetAsBuiltService;
     private final AssetAsPlannedServiceImpl assetAsPlannedService;
     private final OrderService orderService;
-    private final AASService aasService;
     private final TraceabilityProperties traceabilityProperties;
 
     @Override
@@ -86,75 +84,84 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         log.info("Found {} assets as planned to synchronize", assetsAsPlannedToSynchronize.size());
         List<String> assetsAsPlannedIds = assetsAsPlannedToSynchronize.stream().map(AssetBase::getId).toList();
 
-        String registerOrderResponseForAssetsAsBuilt =
-                assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetsAsBuiltIds, orderConfiguration);
+        List<PartChainIdentificationKey> assetAsBuildKeys = assetsAsBuiltIds.stream()
+                .map(id -> new PartChainIdentificationKey(null, id, traceabilityProperties.getBpn().toString()))
+                .toList();
 
-        String registerOrderResponseForAssetsAsPlanned =
-                assetAsPlannedService.syncAssetsUsingIRSOrderAPI(assetsAsPlannedIds, orderConfiguration);
+        CreateOrderResponse createOrderResponseAsBuilt = assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetAsBuildKeys,
+                orderConfiguration);
 
-        persistOrder(registerOrderResponseForAssetsAsBuilt, orderConfiguration, assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll);
-        persistOrder(registerOrderResponseForAssetsAsPlanned, orderConfiguration, assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll);
+        List<PartChainIdentificationKey> assetAsPlannedKeys = assetsAsPlannedIds.stream()
+                .map(id -> new PartChainIdentificationKey(null, id, traceabilityProperties.getBpn().toString()))
+                .toList();
+
+        CreateOrderResponse createOrderResponseAsPlanned = assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetAsPlannedKeys,
+                orderConfiguration);
+
+        createOrderResponseAsBuilt.orderIds().forEach(orderId -> persistOrder(orderId, orderConfiguration, assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll));
+        createOrderResponseAsPlanned.orderIds().forEach(orderId -> persistOrder(orderId, orderConfiguration, assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll));
     }
 
     @Override
     @Transactional
-    public String createOrder(CreateOrderRequest createOrderRequest, OrderConfiguration orderConfiguration) {
+    public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest, OrderConfiguration orderConfiguration) {
+        validatePartsOwnership(createOrderRequest.keys());
+
         Map<String, String> globalAssetIdsBpns = createOrderRequest.keys().stream()
-                .filter(key -> key.getGlobalAssetId() != null)
+                .filter(key -> key.globalAssetId() != null)
                 .collect(Collectors.toMap(
-                      PartChainIdentificationKey::getGlobalAssetId,
-                      PartChainIdentificationKey::getBpn
-        ));
+                        PartChainIdentificationKey::globalAssetId,
+                        PartChainIdentificationKey::bpn
+                ));
 
-        validatePartsOwnership(globalAssetIdsBpns);
+        Map<String, String> aasIdentifiers = createOrderRequest.keys().stream()
+                .filter(key -> key.identifier() != null)
+                .collect(Collectors.toMap(
+                        PartChainIdentificationKey::identifier,
+                        PartChainIdentificationKey::bpn
+                ));
 
-        // fetching globalAssetIds from AAS table
-        List<String> globalAssetsIdByAasId = aasService.findAllByIds(createOrderRequest.keys().stream()
-                        .filter(key -> key.getIdentifier() == null)
-                        .map(PartChainIdentificationKey::getIdentifier)
-                        .toList())
-                .stream()
-                .map(AAS::getGlobalAssetId)
+        List<PartChainIdentificationKey> globalAssetIdKeys = globalAssetIdsBpns.entrySet().stream()
+                .map(entry -> new PartChainIdentificationKey(null, entry.getKey(), entry.getValue()))
                 .toList();
+
+        List<PartChainIdentificationKey> aasIdentifiersKeys = aasIdentifiers.entrySet().stream()
+                .map(entry -> new PartChainIdentificationKey(entry.getKey(), null, entry.getValue()))
+                .toList();
+
+        List<PartChainIdentificationKey> identifiers = Stream
+                .concat(globalAssetIdKeys.stream(), aasIdentifiersKeys.stream()).toList();
 
         switch (DigitalTwinType.digitalTwinTypeFromString(createOrderRequest.digitalTwinType())) {
             case PART_TYPE -> {
                 List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsBuiltRepository, PART_TYPE);
-                List<String> globalAssetIdsForAnOrder = assetBases.stream().map(AssetBase::getId).toList();
 
-                List<String> globalAssetIds = Stream
-                        .concat(globalAssetIdsForAnOrder.stream(), globalAssetsIdByAasId.stream()).toList();
+                CreateOrderResponse createOrderResponse = assetAsBuiltService
+                        .syncAssetsUsingIRSOrderAPI(identifiers, orderConfiguration);
 
-                String orderId = assetAsBuiltService
-                        .syncAssetsUsingIRSOrderAPI(globalAssetIds, orderConfiguration);
+                createOrderResponse.orderIds().forEach(orderId -> persistOrder(orderId, orderConfiguration, assetBases, assetAsBuiltRepository::saveAll));
 
-                persistOrder(orderId, orderConfiguration, assetBases, assetAsBuiltRepository::saveAll);
-
-                return orderId;
+                return createOrderResponse;
             }
             case PART_INSTANCE -> {
                 List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsPlannedRepository, PART_INSTANCE);
-                List<String> globalAssetIdsForAnOrder = assetBases.stream().map(AssetBase::getId).toList();
 
-                List<String> globalAssetIds = Stream
-                        .concat(globalAssetIdsForAnOrder.stream(), globalAssetsIdByAasId.stream()).toList();
+                CreateOrderResponse createOrderResponse = assetAsPlannedService
+                        .syncAssetsUsingIRSOrderAPI(identifiers, orderConfiguration);
 
-                String orderId = assetAsPlannedService
-                        .syncAssetsUsingIRSOrderAPI(globalAssetIds, orderConfiguration);
+                createOrderResponse.orderIds().forEach(orderId -> persistOrder(orderId, orderConfiguration, assetBases, assetAsPlannedRepository::saveAll));
 
-                persistOrder(orderId, orderConfiguration, assetBases, assetAsPlannedRepository::saveAll);
-
-                return orderId;
+                return createOrderResponse;
             }
         }
 
         throw new DigitalTwinPartNotFoundException(createOrderRequest.digitalTwinType());
     }
 
-    private void validatePartsOwnership(Map<String, String> globalAssetIdsBpns) {
-        for (Entry<String, String> entry : globalAssetIdsBpns.entrySet()) {
-            if (!traceabilityProperties.getBpn().value().equals(entry.getValue())) {
-                throw new NotOwnPartException(entry.getKey(), traceabilityProperties.getBpn().value());
+    private void validatePartsOwnership(List<PartChainIdentificationKey> keys) {
+        for (PartChainIdentificationKey key : keys) {
+            if (!traceabilityProperties.getBpn().value().equals(key.bpn())) {
+                throw new NotOwnPartException(key.globalAssetId(), traceabilityProperties.getBpn().value());
             }
         }
     }
@@ -170,8 +177,8 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
                     .status(ProcessingState.INITIALIZED);
 
             orderBuilder.partsAsBuilt(assetBases.stream()
-                            .filter(assetBase -> PART_TYPE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
-                            .collect(Collectors.toSet()));
+                    .filter(assetBase -> PART_TYPE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
+                    .collect(Collectors.toSet()));
 
             orderBuilder.partsAsPlanned(assetBases.stream()
                     .filter(assetBase -> PART_INSTANCE.getValue().equalsIgnoreCase(assetBase.getDigitalTwinType()))
@@ -222,7 +229,10 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     }
 
     private void updateAssetsStatus(List<AssetBase> assets, Consumer<List<AssetBase>> repository) {
-        assets.forEach(assetBase -> assetBase.setImportState(ImportState.IN_SYNCHRONIZATION));
+        assets.forEach(assetBase -> {
+            assetBase.setImportState(ImportState.IN_SYNCHRONIZATION);
+            assetBase.setImportNote(ImportNote.IN_SYNCHRONIZATION);
+        });
         repository.accept(assets);
     }
 }
