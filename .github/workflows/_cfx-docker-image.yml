@@ -53,17 +53,6 @@ jobs:
     name: Dispatch charts repo workflow
     runs-on: ubuntu-latest
     if: ${{ (github.event_name != 'pull_request') && (github.ref_type != 'tag') }}  # Execute only if container image is pushed and no tag is published
-    strategy:
-      matrix:
-        environment:
-          - name: trace-x-dev-a
-            helm_values_path: "traceability-foss/dev/values-dev-a.yaml"
-          - name: trace-x-dev-b
-            helm_values_path: "traceability-foss/dev/values-dev-b.yaml"
-          - name: trace-x-int-a
-            helm_values_path: "traceability-foss/int/values-int-a.yaml"
-          - name: trace-x-int-b
-            helm_values_path: "traceability-foss/int/values-int-b.yaml"
     steps:
       # Get image tags from the previous job filter the tag that needs to be updated.
       # When triggered by push on main, the tag "main-{sha}" will be used.
@@ -111,10 +100,10 @@ jobs:
           repositories: trace-x-charts
           owner: cofinity-x
 
-      - name: Trigger workflow for ${{ matrix.environment.name }}
+      - name: Trigger workflow for updating image tag
         env:
           TOKEN: ${{ steps.get_token.outputs.token }}
-          HELM_VALUES_PATH: ${{ matrix.environment.helm_values_path }}
+          HELM_VALUES_PATH: 'traceability-foss/dev/values-dev-a.yaml traceability-foss/dev/values-dev-b.yaml traceability-foss/int/values-int-a.yaml traceability-foss/int/values-int-b.yaml'
           IMAGE_TAG: ${{ steps.get_image_tag.outputs.image_tag }}
           IMAGE_TAG_PROPERTY: '(.traceability-foss.backend.image.tag, .traceability-foss.frontend.image.tag)'
           GITHUB_RUN_ID: ${{ github.run_id }}
