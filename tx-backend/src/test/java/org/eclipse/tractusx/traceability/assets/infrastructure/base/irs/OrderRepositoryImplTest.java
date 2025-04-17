@@ -26,20 +26,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.aas.domain.repository.AASRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterOrderRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsBatchResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterOrderResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.factory.IrsResponseAssetMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.model.BatchEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
@@ -61,11 +57,8 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.irs.component.enums.BomLifecycle.AS_BUILT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -152,152 +145,25 @@ class OrderRepositoryImplTest {
 
     @Test
     void testHandleOrderFinishedCallback_withCompletedJob_shouldProcessIt() {
-        //Mock
-        IrsBatchResponse batchResponse = mock(IrsBatchResponse.class);
-        IrsBatchResponse.JobRecord completedJob = mock(IrsBatchResponse.JobRecord.class);
-        JobStatus completedJobStatus = mock(JobStatus.class);
-        IRSResponse completedJobDetailResponse = mock(IRSResponse.class);
-        AssetBase assetBase = mock(AssetBase.class);
 
         //Given
         ProcessingState batchState = ProcessingState.PARTIAL;
         ProcessingState orderState = ProcessingState.PROCESSING;
 
-        when(orderClient.getBatchByOrder(orderId, batchId)).thenReturn(batchResponse);
-        when(batchResponse.jobs()).thenReturn(List.of(completedJob));
-        when(completedJob.id()).thenReturn("job-1");
-        when(completedJobStatus.state()).thenReturn("COMPLETED");
-        when(completedJobDetailResponse.jobStatus()).thenReturn(completedJobStatus);
-        when(jobClient.getIrsJobDetailResponse("job-1")).thenReturn(completedJobDetailResponse);
-        when(assetBase.getBomLifecycle()).thenReturn(AS_BUILT);
-        when(assetBase.getSemanticDataModel()).thenReturn(SemanticDataModel.TOMBSTONEASBUILT);
-        when(assetMapperFactory.toAssetBaseList(completedJobDetailResponse)).thenReturn(List.of(assetBase));
-        when(orderJPARepository.findById(eq(orderId))).thenReturn(Optional.of(OrderEntity.builder().id(orderId).build()));
+        BatchEntity batch = BatchEntity.builder().id(batchId).status(batchState).build();
+        OrderEntity entity = OrderEntity.builder().id(orderId).batches(List.of(batch)).build();
+        when(orderJPARepository.findById(eq(orderId))).thenReturn(Optional.of(entity));
 
         //When
         orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
 
         //Then
-        verify(jobClient).getIrsJobDetailResponse("job-1");
-        verify(assetMapperFactory).toAssetBaseList(any());
-        verify(orderRepositoryImpl).saveOrUpdateAssets(any(), any());
         verify(orderJPARepository).save(orderEntityArgumentCaptor.capture());
 
         OrderEntity orderEntity = orderEntityArgumentCaptor.getValue();
         assertThat(orderEntity.getStatus()).isEqualTo(ProcessingState.PROCESSING);
     }
 
-    @Test
-    void testHandleOrderFinishedCallback_withNotCompletedJob_shouldIgnoreIt() {
-        //Mock
-        IrsBatchResponse batchResponse = mock(IrsBatchResponse.class);
-        IrsBatchResponse.JobRecord cancelledJob = mock(IrsBatchResponse.JobRecord.class);
-        JobStatus errorJobStatus = mock(JobStatus.class);
-        IRSResponse errorJobDetailResponse = mock(IRSResponse.class);
-
-        //Given
-        ProcessingState batchState = ProcessingState.PARTIAL;
-        ProcessingState orderState = ProcessingState.PROCESSING;
-
-        when(orderClient.getBatchByOrder(orderId, batchId)).thenReturn(batchResponse);
-        when(batchResponse.jobs()).thenReturn(List.of(cancelledJob));
-
-        when(cancelledJob.id()).thenReturn("job-2");
-        when(errorJobStatus.state()).thenReturn("ERROR");
-        when(errorJobDetailResponse.jobStatus()).thenReturn(errorJobStatus);
-        when(jobClient.getIrsJobDetailResponse("job-2")).thenReturn(errorJobDetailResponse);
-
-        //When
-        orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
-
-        //Then
-        verify(jobClient).getIrsJobDetailResponse("job-2");
-        verify(assetMapperFactory, never()).toAssetBaseList(any()); // Should not process ERROR jobs
-        verify(orderRepositoryImpl, never()).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
-    }
-
-    @Test
-    void testHandleOrderFinishedCallback_withCanceledJob_shouldIgnoreIt() {
-        //Mock
-        IrsBatchResponse batchResponse = mock(IrsBatchResponse.class);
-        IrsBatchResponse.JobRecord cancelledJob = mock(IrsBatchResponse.JobRecord.class);
-        JobStatus errorJobStatus = mock(JobStatus.class);
-        IRSResponse errorJobDetailResponse = mock(IRSResponse.class);
-
-        //Given
-        ProcessingState batchState = ProcessingState.PARTIAL;
-        ProcessingState orderState = ProcessingState.PROCESSING;
-
-        when(orderClient.getBatchByOrder(orderId, batchId)).thenReturn(batchResponse);
-        when(batchResponse.jobs()).thenReturn(List.of(cancelledJob));
-
-        when(cancelledJob.id()).thenReturn("job-3");
-        when(errorJobStatus.state()).thenReturn("CANCELED");
-        when(errorJobDetailResponse.jobStatus()).thenReturn(errorJobStatus);
-        when(jobClient.getIrsJobDetailResponse("job-3")).thenReturn(errorJobDetailResponse);
-
-        //When
-        orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
-
-        //Then
-        verify(jobClient).getIrsJobDetailResponse("job-3");
-        verify(assetMapperFactory, never()).toAssetBaseList(any()); // Should not process ERROR jobs
-        verify(orderRepositoryImpl, never()).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
-    }
-
-    @Test
-    void testHandleOrderFinishedCallback_shouldSkipWhenJobDetailResponseIsNull() {
-
-        // Mock batch response and job record
-        IrsBatchResponse batchResponse = mock(IrsBatchResponse.class);
-        IrsBatchResponse.JobRecord jobRecord = mock(IrsBatchResponse.JobRecord.class);
-        when(batchResponse.jobs()).thenReturn(List.of(jobRecord));
-
-        // Ensure job ID is consistent across stubbing and assertions
-        String jobId = "job-4";
-        when(jobRecord.id()).thenReturn(jobId);
-        when(orderClient.getBatchByOrder(orderId, batchId)).thenReturn(batchResponse);
-
-        // Fix: Make sure the stub matches the actual argument
-        when(jobClient.getIrsJobDetailResponse(jobId)).thenReturn(null);
-
-        // When
-        orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, ProcessingState.PROCESSING, ProcessingState.PARTIAL);
-
-        // Then
-        verify(jobClient).getIrsJobDetailResponse(jobId);
-        verify(assetMapperFactory, never()).toAssetBaseList(any()); // Should not process ERROR jobs
-        verify(orderRepositoryImpl, never()).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
-    }
-
-    @Test
-    void testHandleOrderFinishedCallback_shouldSkipWhenJobStatusIsNull() {
-        //Mock
-        IrsBatchResponse batchResponse = mock(IrsBatchResponse.class);
-        IrsBatchResponse.JobRecord cancelledJob = mock(IrsBatchResponse.JobRecord.class);
-        JobStatus errorJobStatus = mock(JobStatus.class);
-        IRSResponse errorJobDetailResponse = mock(IRSResponse.class);
-
-        //Given
-        ProcessingState batchState = ProcessingState.PARTIAL;
-        ProcessingState orderState = ProcessingState.PROCESSING;
-
-        when(orderClient.getBatchByOrder(orderId, batchId)).thenReturn(batchResponse);
-        when(batchResponse.jobs()).thenReturn(List.of(cancelledJob));
-
-        when(cancelledJob.id()).thenReturn("job-2");
-        when(errorJobStatus.state()).thenReturn(null);
-        when(errorJobDetailResponse.jobStatus()).thenReturn(errorJobStatus);
-        when(jobClient.getIrsJobDetailResponse("job-2")).thenReturn(errorJobDetailResponse);
-
-        //When
-        orderRepositoryImpl.handleOrderFinishedCallback(orderId, batchId, orderState, batchState);
-
-        //Then
-        verify(jobClient).getIrsJobDetailResponse("job-2");
-        verify(assetMapperFactory, never()).toAssetBaseList(any()); // Should not process ERROR jobs
-        verify(orderRepositoryImpl, never()).saveOrUpdateAssets(any(), any()); // Should not save ERROR jobs
-    }
 
 }
 

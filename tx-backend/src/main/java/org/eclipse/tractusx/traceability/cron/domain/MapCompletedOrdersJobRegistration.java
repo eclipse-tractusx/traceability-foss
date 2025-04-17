@@ -18,34 +18,22 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.cron.domain;
 
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ScheduledFuture;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.configuration.application.service.OrderService;
-import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 import org.eclipse.tractusx.traceability.cron.application.CronJobRegistration;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.ScheduledFuture;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class UpdateAssetsAfterOrderCompletionJobRegistration implements CronJobRegistration {
+public class MapCompletedOrdersJobRegistration implements CronJobRegistration {
 
     private final OrderService orderService;
-    private final AssetAsBuiltServiceImpl assetAsBuiltService;
-    private final AssetAsPlannedServiceImpl assetAsPlannedService;
     private final TaskScheduler scheduler;
     private ScheduledFuture<?> future;
     private static final String JOB_NAME = "Update assets after order completion";
@@ -63,26 +51,10 @@ public class UpdateAssetsAfterOrderCompletionJobRegistration implements CronJobR
     @Override
     public void schedule(String cronExpression, Config config) {
         cancel();
-        future = scheduler.schedule(this::updateAssetsAfterJobCompletion,  new CronTrigger(cronExpression));
+        future = scheduler.schedule(orderService::mapCompletedOrdersJobRegistration, new CronTrigger(cronExpression));
         log.info("Successfully completion order mapping job");
     }
 
-    @Transactional
-    public void updateAssetsAfterJobCompletion() {
-        List<Order> ordersByStatus = orderService
-                .findOrdersByStatus(List.of(ProcessingState.COMPLETED.toString()));
-
-        Set<AssetBase> assetsAsBuilt = ordersByStatus.stream()
-                .flatMap(order -> order.getPartsAsBuilt().stream())
-                .collect(Collectors.toSet());
-
-        Set<AssetBase> assetsAsPlanned = ordersByStatus.stream()
-                .flatMap(order -> order.getPartsAsPlanned().stream())
-                .collect(Collectors.toSet());
-
-        assetAsBuiltService.updateAssetsAfterJobCompletion(assetsAsBuilt);
-        assetAsPlannedService.updateAssetsAfterJobCompletion(assetsAsPlanned);
-    }
 
     @Override
     public void cancel() {

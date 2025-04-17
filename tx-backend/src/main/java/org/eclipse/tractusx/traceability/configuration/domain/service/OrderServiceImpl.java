@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.configuration.domain.service;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
@@ -27,6 +26,9 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Proces
 import org.eclipse.tractusx.traceability.configuration.application.service.OrderService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -43,5 +45,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findOrdersByStatus(List<String> statuses) {
         return orderRepository.findOrdersByStatus(statuses.stream().map(ProcessingState::valueOf).toList());
+    }
+
+    @Transactional
+    @Override
+    public void mapCompletedOrdersJobRegistration() {
+        List<Order> ordersByStatus = findOrdersByStatus(List.of(ProcessingState.COMPLETED.toString()));
+        ordersByStatus.forEach(order -> {
+            order.getBatchList().forEach(batch ->
+                    orderRepository.requestOrderBatchAndMapAssets(order.getId(), batch.getId(), batch.getStatus()));
+        });
     }
 }

@@ -133,22 +133,4 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return SUPPORTED_ENUM_FIELDS.contains(fieldName);
     }
 
-    @Override
-    public void updateAssetsAfterJobCompletion(Set<AssetBase> assets) {
-        TriggerConfiguration triggerConfiguration = getTriggerConfiguration();
-        assets.forEach(asset -> {
-            Optional<AssetBase> assetToUpdate = getAssetRepository().findById(asset.getId());
-            assetToUpdate.ifPresentOrElse(assetBase -> {
-                if (assetBase.getImportState() != ImportState.ERROR) {
-                    asset.setTtl(triggerConfiguration.getAasTTL());
-                    asset.setExpirationDate(LocalDateTime.now().plusSeconds(triggerConfiguration.getAasTTL() / 1000));
-                    getAssetRepository().save(asset);
-                    log.info("Asset with id {} has been updated with expiration date {}", asset.getId(), asset.getExpirationDate());
-                } else {
-                    log.info("Asset with id {} has an import state of ERROR, skipping updating assets expiration date",
-                            asset.getId());
-                }
-            }, () -> log.info("No asset found with id {}, skipping updating assets expiration date", asset.getId()));
-        });
-    }
 }
