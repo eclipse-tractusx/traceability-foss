@@ -70,7 +70,6 @@ export class ConfigurationDialogComponent {
 
         if (!this.data?.trigger) {
             this.configService.getLatestTriggerConfiguration().subscribe(data => {
-                console.log('Trigger config received:\n' + JSON.stringify(data, null, 2));
                 this.triggerFormGroup.patchValue(data);
             });
         } else {
@@ -88,7 +87,6 @@ export class ConfigurationDialogComponent {
             this.configService.postOrderConfiguration(orderConfig).subscribe();
         } else {
             const triggerConfig: TriggerConfigurationRequest = this.triggerFormGroup.value;
-            console.log('Trigger config sent:\n' + JSON.stringify(triggerConfig, null, 2));
             this.configService.postTriggerConfiguration(triggerConfig).subscribe();
         }
 
