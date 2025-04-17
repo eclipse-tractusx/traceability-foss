@@ -245,5 +245,31 @@ class ConfigurationControllerIT extends IntegrationTestSpecification {
                 .body("message", equalTo("Cron expression is not valid."));
     }
 
+    @Test
+    void shouldCreateTriggerConfiguration_allowNullValuesForCronExpressions() throws JoseException {
+        // given
+        TriggerConfigurationRequest request = TriggerConfigurationRequest.builder()
+                .aasTTL(10)
+                .partTTL(100)
+                .cronExpressionRegisterOrderTTLReached(null)
+                .cronExpressionMapCompletedOrders(null)
+                .cronExpressionAASCleanup(null)
+                .cronExpressionAASLookup(null)
+                .cronExpressionPublishAssets(null)
+                .build();
+
+        // when
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .body(request)
+                .log()
+                .all()
+                .when()
+                .post("/api/orders/configuration/triggers")
+                .then()
+                .statusCode(201);
+    }
+
 
 }

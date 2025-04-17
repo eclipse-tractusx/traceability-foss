@@ -250,6 +250,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         orderJPARepository.findById(orderId).ifPresentOrElse(orderEntity -> {
             orderEntity.setStatus(orderState);
             orderJPARepository.save(orderEntity);
+            log.info("Order with ID: {} updated in the database with status: {}", sanitize(orderId), orderState);
         }, () -> log.warn("Order with ID: {} not found in the database.", sanitize(orderId)));
     }
 
