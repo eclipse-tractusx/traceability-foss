@@ -50,10 +50,22 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void mapCompletedOrdersJobRegistration() {
+        log.info("Starting job: Mapping completed orders with status '{}'.", ProcessingState.COMPLETED);
+
         List<Order> ordersByStatus = findOrdersByStatus(List.of(ProcessingState.COMPLETED.toString()));
+        log.info("Found {} completed orders to process.", ordersByStatus.size());
+
         ordersByStatus.forEach(order -> {
-            order.getBatchList().forEach(batch ->
-                    orderRepository.requestOrderBatchAndMapAssets(order.getId(), batch.getId(), batch.getStatus()));
+            log.debug("Processing order with ID: {}", order.getId());
+
+            order.getBatchList().forEach(batch -> {
+                log.debug("Processing batch with ID: {} and status: {} for order ID: {}",
+                        batch.getId(), batch.getStatus(), order.getId());
+
+                orderRepository.requestOrderBatchAndMapAssets(order.getId(), batch.getId(), batch.getStatus());
+            });
         });
+
+        log.info("Completed job: Mapping of completed orders.");
     }
 }

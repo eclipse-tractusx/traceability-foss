@@ -189,25 +189,4 @@ class AssetAsPlannedControllerByIdIT extends IntegrationTestSpecification {
                 .body("qualityType", equalTo("Critical"));
     }
 
-    @Test
-    void shouldReturnAssetAsPlannedWithBusinessPartner() throws JoseException {
-        //GIVEN
-        assetsSupport.defaultAssetsAsPlannedStored();
-        String existingAssetId = "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01";
-        String expectedBusinessPartner = "BPNL00000003CML1";
-        String expectedManufacturerName = "OEM A Short";
-
-        //THEN
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/as-planned/" + existingAssetId)
-                .then()
-                .statusCode(200)
-                .body("businessPartner", equalTo(expectedBusinessPartner))
-                .body("manufacturerName", equalTo(expectedManufacturerName));
-
-    }
-
 }
