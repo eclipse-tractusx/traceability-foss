@@ -143,60 +143,73 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Transactional
     @Override
     public void requestOrderBatchAndMapAssets(String orderId, String batchId, ProcessingState batchState) {
-        if (!STATUS_COMPLETED.equals(batchState) && (!STATUS_PARTIAL.equals(batchState))) {
-            log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is (actual: {}).",
-                    sanitize(orderId), sanitize(batchId), batchState);
-            return;
-        }
-
-        final IrsBatchResponse irsBatchResponse = this.orderClient.getBatchByOrder(orderId, batchId);
-
-        if (irsBatchResponse == null) {
-            log.warn("Received null response for batch details from IRS for orderId: {}, batchId: {}.",
-                    sanitize(orderId), sanitize(batchId));
-            return;
-        }
-
-        if (irsBatchResponse.jobs().isEmpty()) {
-            log.warn("IRS batch response for orderId: {}, batchId: {} contains no jobs.", sanitize(orderId), sanitize(batchId));
-            return;
-        }
-
-        log.info("Processing {} jobs in IRS batch response for orderId: {}, batchId: {}.",
-                irsBatchResponse.jobs().size(), sanitize(orderId), sanitize(batchId));
-
-        irsBatchResponse.jobs().forEach(jobRecord -> {
-            log.debug("Processing job with ID: {} for orderId: {}, batchId: {}.", jobRecord.id(), sanitize(orderId), sanitize(batchId));
-            IRSResponse irsJobDetailResponse = jobClient.getIrsJobDetailResponse(jobRecord.id());
-
-            if (irsJobDetailResponse == null) {
-                log.warn("Skipping job with ID: {} as IRS job detail response is null.", jobRecord.id());
+        try {
+            if (!STATUS_COMPLETED.equals(batchState) && (!STATUS_PARTIAL.equals(batchState))) {
+                log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is (actual: {}).",
+                        sanitize(orderId), sanitize(batchId), batchState);
                 return;
             }
-            if (irsJobDetailResponse.jobStatus() == null || irsJobDetailResponse.jobStatus().state() == null) {
-                log.warn("Skipping job with ID: {} as IRS job status or its state is null.", jobRecord.id());
+
+            final IrsBatchResponse irsBatchResponse = this.orderClient.getBatchByOrder(orderId, batchId);
+
+            if (irsBatchResponse == null) {
+                log.warn("Received null response for batch details from IRS for orderId: {}, batchId: {}.",
+                        sanitize(orderId), sanitize(batchId));
                 return;
             }
-            if (STATUS_PARTIAL.equals(batchState)) {
-                JobState jobState = JobState.fromString(irsJobDetailResponse.jobStatus().state());
-                if (!JOB_STATUS_COMPLETED.equals(jobState)) {
-                    log.info("Skipping job with ID: {} in PARTIAL batch as it is not COMPLETED (actual: {}).",
-                            jobRecord.id(), irsJobDetailResponse.jobStatus().state());
+
+            if (irsBatchResponse.jobs().isEmpty()) {
+                log.warn("IRS batch response for orderId: {}, batchId: {} contains no jobs.", sanitize(orderId), sanitize(batchId));
+                return;
+            }
+
+            log.info("Processing {} jobs in IRS batch response for orderId: {}, batchId: {}.",
+                    irsBatchResponse.jobs().size(), sanitize(orderId), sanitize(batchId));
+
+            irsBatchResponse.jobs().forEach(jobRecord -> {
+                log.debug("Processing job with ID: {} for orderId: {}, batchId: {}.", jobRecord.id(), sanitize(orderId), sanitize(batchId));
+                IRSResponse irsJobDetailResponse = jobClient.getIrsJobDetailResponse(jobRecord.id());
+
+                if (irsJobDetailResponse == null) {
+                    log.warn("Skipping job with ID: {} as IRS job detail response is null.", jobRecord.id());
                     return;
                 }
-            }
-            List<AssetBase> assets = assetMapperFactory.toAssetBaseList(irsJobDetailResponse);
-
-            assets.forEach(assetBase -> {
-                addTombstoneDetails(assetBase);
-                if (assetBase.getBomLifecycle() == AS_BUILT) {
-                    saveOrUpdateAssets(assetAsBuiltRepository, assetBase);
-                } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
-                    saveOrUpdateAssets(assetAsPlannedRepository, assetBase);
+                if (irsJobDetailResponse.jobStatus() == null || irsJobDetailResponse.jobStatus().state() == null) {
+                    log.warn("Skipping job with ID: {} as IRS job status or its state is null.", jobRecord.id());
+                    return;
                 }
-                updateAas(assetBase, irsJobDetailResponse);
+                if (STATUS_PARTIAL.equals(batchState)) {
+                    JobState jobState = JobState.fromString(irsJobDetailResponse.jobStatus().state());
+                    if (!JOB_STATUS_COMPLETED.equals(jobState)) {
+                        log.info("Skipping job with ID: {} in PARTIAL batch as it is not COMPLETED (actual: {}).",
+                                jobRecord.id(), irsJobDetailResponse.jobStatus().state());
+                        return;
+                    }
+                }
+                List<AssetBase> assets = assetMapperFactory.toAssetBaseList(irsJobDetailResponse);
+
+                assets.forEach(assetBase -> {
+                    addTombstoneDetails(assetBase);
+                    if (assetBase.getBomLifecycle() == AS_BUILT) {
+                        saveOrUpdateAssets(assetAsBuiltRepository, assetBase);
+                    } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
+                        saveOrUpdateAssets(assetAsPlannedRepository, assetBase);
+                    }
+                    updateAas(assetBase, irsJobDetailResponse);
+                });
             });
-        });
+        } catch (Exception e) {
+            log.warn("Exception occurred while processing order batch for orderId: {}, batchId: {} Error: {}.", sanitize(orderId), sanitize(batchId), e.getMessage());
+            try {
+                orderJPARepository.findById(orderId).ifPresent(orderEntity -> {
+                    orderEntity.setStatus(ProcessingState.ERROR);
+                    orderJPARepository.save(orderEntity);
+                    log.info("Order with ID: {} set to state ERROR.", sanitize(orderId));
+                });
+            } catch (Exception ex) {
+                log.error("Failed to update order status to ERROR for orderId: {} due to: {}", sanitize(orderId), ex.getMessage(), ex);
+            }
+        }
     }
 
     // TODO this can be moved to assetmapperfactory
