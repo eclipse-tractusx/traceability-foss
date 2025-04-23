@@ -27,6 +27,7 @@ import java.util.List;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.OrderEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.model.TriggerConfigurationEntity;
 import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.OrderJPARepository;
@@ -73,7 +74,12 @@ public class DecentralRegistryServiceImplIT extends IntegrationTestSpecification
                 .jobTimeoutMs(500)
                 .timeoutMs(500)
                 .build();
-        service.registerOrdersForExpiredAssets(orderConfiguration);
+
+        TriggerConfiguration triggerConfiguration = TriggerConfiguration.builder()
+                .fetchLimit(100)
+                .build();
+
+        service.registerOrdersForExpiredAssets(orderConfiguration, triggerConfiguration);
 
         final String orderId = "ebb79c45-7bba-4169-bf17-3e719989ab54";
 

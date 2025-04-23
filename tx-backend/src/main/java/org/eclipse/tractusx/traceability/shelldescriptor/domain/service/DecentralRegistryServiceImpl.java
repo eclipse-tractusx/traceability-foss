@@ -51,6 +51,7 @@ import org.eclipse.tractusx.traceability.configuration.application.service.Order
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
 import org.eclipse.tractusx.traceability.configuration.domain.model.Order.OrderBuilder;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.eclipse.tractusx.traceability.digitaltwinpart.domain.DigitalTwinPartNotFoundException;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.exception.BpnDoesNotMatchException;
@@ -75,12 +76,13 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
     @Override
     @Transactional
-    public void registerOrdersForExpiredAssets(OrderConfiguration orderConfiguration) {
-        List<AssetBase> assetsAsBuiltToSynchronize = assetAsBuiltRepository.findAllExpired();
+    public void registerOrdersForExpiredAssets(OrderConfiguration orderConfiguration, TriggerConfiguration triggerConfiguration) {
+        Integer fetchLimit = triggerConfiguration.getFetchLimit();
+        List<AssetBase> assetsAsBuiltToSynchronize = assetAsBuiltRepository.findAllExpired(fetchLimit);
         log.info("Found {} assets as built to synchronize", assetsAsBuiltToSynchronize.size());
         List<String> assetsAsBuiltIds = assetsAsBuiltToSynchronize.stream().map(AssetBase::getId).toList();
 
-        List<AssetBase> assetsAsPlannedToSynchronize = assetAsPlannedRepository.findAllExpired();
+        List<AssetBase> assetsAsPlannedToSynchronize = assetAsPlannedRepository.findAllExpired(fetchLimit);
         log.info("Found {} assets as planned to synchronize", assetsAsPlannedToSynchronize.size());
         List<String> assetsAsPlannedIds = assetsAsPlannedToSynchronize.stream().map(AssetBase::getId).toList();
 

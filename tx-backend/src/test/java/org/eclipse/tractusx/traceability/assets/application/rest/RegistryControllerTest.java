@@ -54,6 +54,6 @@ class RegistryControllerTest {
         registryController.reload();
 
         // then
-        verify(registryFacade).registerOrdersForExpiredAssets(any());
+        verify(registryFacade).registerOrdersForExpiredAssets(any(), any());
     }
 }

@@ -21,8 +21,9 @@ package org.eclipse.tractusx.traceability.shelldescriptor.application;
 import orders.request.CreateOrderRequest;
 import orders.request.CreateOrderResponse;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 
 public interface DecentralRegistryService {
-    void registerOrdersForExpiredAssets(OrderConfiguration orderConfiguration);
+    void registerOrdersForExpiredAssets(OrderConfiguration orderConfiguration, TriggerConfiguration triggerConfiguration);
     CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest, OrderConfiguration orderConfiguration);
 }

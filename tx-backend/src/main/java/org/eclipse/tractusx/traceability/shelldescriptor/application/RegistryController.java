@@ -33,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
 import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -101,6 +102,7 @@ public class RegistryController {
     @ApiKeyEnabled
     public void reload() {
         OrderConfiguration latestConfig = configurationService.getLatestOrderConfiguration();
-        decentralRegistryService.registerOrdersForExpiredAssets(latestConfig);
+        TriggerConfiguration latestTriggerConfiguration = configurationService.getLatestTriggerConfiguration();
+        decentralRegistryService.registerOrdersForExpiredAssets(latestConfig, latestTriggerConfiguration);
     }
 }

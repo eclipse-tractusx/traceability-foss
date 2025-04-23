@@ -25,7 +25,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,20 +50,16 @@ class PublishServiceImplTest {
     @Mock
     private AssetAsBuiltRepository assetAsBuiltRepository;
     @Mock
-    private EdcAssetCreationService edcAssetCreationService;
-    @Mock
-    private DtrService dtrService;
-    @Mock
-    private DecentralRegistryServiceImpl decentralRegistryService;
-    @Mock
     private PublishServiceAsync publishServiceAsync;
     @InjectMocks
     private PublishServiceImpl publishService;
     private final OrderConfiguration orderConfig = OrderConfiguration.builder().build();
+    private final TriggerConfiguration triggerConfig = TriggerConfiguration.builder().build();
 
     @Test
     void testPublishAssets_shouldTriggerCoreServicesPublishing() {
         OrderConfiguration orderConfiguration = mock(OrderConfiguration.class);
+        TriggerConfiguration triggerConfiguration = mock(TriggerConfiguration.class);
 
         AssetBase asset1 = mock(AssetBase.class);
         AssetBase asset2 = mock(AssetBase.class);
@@ -74,13 +70,12 @@ class PublishServiceImplTest {
         when(assetAsBuiltRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION)).thenReturn(List.of(asset1));
         when(assetAsPlannedRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION)).thenReturn(List.of(asset2));
 
-        publishService.publishAssets(orderConfiguration);
+        publishService.publishAssets(orderConfiguration, triggerConfiguration);
 
         verify(assetAsBuiltRepository).findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
         verify(assetAsPlannedRepository).findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
-        verify(publishServiceAsync).publishAssetsToCoreServices(any(), anyBoolean(), any());
+        verify(publishServiceAsync).publishAssetsToCoreServices(any(), anyBoolean(), any(), any());
     }
-
 
     @Test
     void publishAssets_shouldFetchAssetsAndTriggerAsyncPublishing() {
@@ -90,9 +85,9 @@ class PublishServiceImplTest {
         when(assetAsBuiltRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION)).thenReturn(List.of(asset1));
         when(assetAsPlannedRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION)).thenReturn(List.of(asset2));
 
-        publishService.publishAssets(orderConfig);
+        publishService.publishAssets(orderConfig, triggerConfig);
 
-        verify(publishServiceAsync).publishAssetsToCoreServices(List.of(asset2, asset1), true, orderConfig);
+        verify(publishServiceAsync).publishAssetsToCoreServices(List.of(asset2, asset1), true, orderConfig, triggerConfig);
     }
 
     @Test
@@ -106,9 +101,9 @@ class PublishServiceImplTest {
         when(assetAsBuiltRepository.getAssetsById(List.of(assetId))).thenReturn(List.of(asset));
         when(assetAsBuiltRepository.saveAll(any())).thenReturn(List.of(asset));
 
-        publishService.publishAssets(policyId, List.of(assetId), false, orderConfig);
+        publishService.publishAssets(policyId, List.of(assetId), false, orderConfig, triggerConfig);
 
-        verify(publishServiceAsync).publishAssetsToCoreServices(anyList(), eq(false), eq(orderConfig));
+        verify(publishServiceAsync).publishAssetsToCoreServices(anyList(), eq(false), eq(orderConfig), eq(triggerConfig));
     }
 
     @Test
@@ -119,14 +114,12 @@ class PublishServiceImplTest {
         when(assetAsPlannedRepository.existsById(assetId)).thenReturn(false);
 
         assertThrows(PublishAssetException.class, () ->
-                publishService.publishAssets("policy", List.of(assetId), true, orderConfig));
+                publishService.publishAssets("policy", List.of(assetId), true, orderConfig, triggerConfig));
     }
 
     @Test
     void updateAssetWithStatusAndPolicy_shouldThrowIfInvalidState() {
         assertThrows(PublishAssetException.class, () ->
-                publishService.publishAssets("policy", List.of("123"), true, orderConfig));
+                publishService.publishAssets("policy", List.of("123"), true, orderConfig, triggerConfig));
     }
-
-
 }

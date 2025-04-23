@@ -190,8 +190,8 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     }
 
     @Override
-    public List<AssetBase> findAllExpired() {
-        return jpaAssetAsBuiltRepository.findAllExpired().stream()
+    public List<AssetBase> findAllExpired(Integer fetchLimit) {
+        return jpaAssetAsBuiltRepository.findAllExpired(fetchLimit).stream()
                 .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }

@@ -51,7 +51,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
     private static final int DEFAULT_AAS_LIMIT = 1000;
     private static final int DEFAULT_AAS_TTL = 2629536;
     private static final int DEFAULT_PART_TTL = 2629536;
-
+    private static final Integer DEFAULT_FETCH_LIMIT = 500;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,6 +81,8 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
     @Column(name = "aas_limit")
     private Integer aasLimit;
 
+    private Integer fetchLimit;
+
     public static TriggerConfiguration toDomain(TriggerConfigurationEntity entity) {
         if (entity == null) {
             return null;
@@ -95,6 +97,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .cronExpressionAASCleanup(entity.getCronExpressionAASCleanup())
                 .cronExpressionPublishAssets(entity.getCronExpressionPublishAssets())
                 .aasLimit(entity.getAasLimit())
+                .fetchLimit(entity.getFetchLimit())
                 .build();
     }
 
@@ -109,6 +112,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .cronExpressionAASCleanup(domain.getCronExpressionAASCleanup())
                 .cronExpressionPublishAssets(domain.getCronExpressionPublishAssets())
                 .aasLimit(domain.getAasLimit())
+                .fetchLimit(domain.getFetchLimit())
                 .build();
     }
 
@@ -123,6 +127,7 @@ public class TriggerConfigurationEntity extends ConfigurationEntity {
                 .aasTTL(DEFAULT_AAS_TTL)
                 .partTTL(DEFAULT_PART_TTL)
                 .aasLimit(DEFAULT_AAS_LIMIT)
+                .fetchLimit(DEFAULT_FETCH_LIMIT)
                 .build();
     }
 

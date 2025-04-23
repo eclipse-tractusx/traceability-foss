@@ -19,12 +19,18 @@
 package org.eclipse.tractusx.traceability.assets.application.importpoc;
 
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 
 import java.util.List;
 
 public interface PublishService {
 
-    void publishAssets(OrderConfiguration orderConfiguration);
+    void publishAssets(OrderConfiguration orderConfiguration, TriggerConfiguration triggerConfigurations);
 
-    void publishAssets(String policyId, List<String> assetIds, boolean triggerSynchronizeAssets, OrderConfiguration orderConfiguration);
+    void publishAssets(
+            String policyId,
+            List<String> assetIds,
+            boolean triggerSynchronizeAssets,
+            OrderConfiguration orderConfiguration,
+            TriggerConfiguration triggerConfiguration);
 }

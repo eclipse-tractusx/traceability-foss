@@ -30,6 +30,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PublishAssetException;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,19 +54,24 @@ public class PublishServiceImpl implements PublishService {
     private final PublishServiceAsync publishServiceAsync;
 
     @Override
-    public void publishAssets(final OrderConfiguration orderConfiguration) {
+    public void publishAssets(final OrderConfiguration orderConfiguration, final TriggerConfiguration triggerConfiguration) {
         log.info("Start publish assets cron job");
         List<AssetBase> assetsAsBuiltInSync = assetAsBuiltRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
         List<AssetBase> assetsAsPlannedInSync = assetAsPlannedRepository.findByImportStateIn(ImportState.IN_SYNCHRONIZATION);
         List<AssetBase> allInSyncAssets = Stream.concat(assetsAsPlannedInSync.stream(), assetsAsBuiltInSync.stream()).toList();
         log.info("Found following assets in state IN_SYNCHRONIZATION to publish {}", allInSyncAssets.stream().map(AssetBase::getId).toList());
         boolean triggerSynchronizeAssets = true;
-        publishServiceAsync.publishAssetsToCoreServices(allInSyncAssets, triggerSynchronizeAssets, orderConfiguration);
+        publishServiceAsync.publishAssetsToCoreServices(allInSyncAssets, triggerSynchronizeAssets, orderConfiguration, triggerConfiguration);
     }
 
     @Override
     @Transactional
-    public void publishAssets(String policyId, List<String> assetIds, boolean triggerSynchronizeAssets, OrderConfiguration orderConfiguration) {
+    public void publishAssets(
+            String policyId,
+            List<String> assetIds,
+            boolean triggerSynchronizeAssets,
+            OrderConfiguration orderConfiguration,
+            TriggerConfiguration triggerConfiguration) {
         assetIds.forEach(this::throwIfNotExists);
 
         //Update assets with policy id
@@ -76,7 +82,7 @@ public class PublishServiceImpl implements PublishService {
 
         publishServiceAsync.publishAssetsToCoreServices(
                 Stream.concat(updatedAsPlannedAssets.stream(), updatedAsBuiltAssets.stream()).toList(),
-                triggerSynchronizeAssets, orderConfiguration
+                triggerSynchronizeAssets, orderConfiguration, triggerConfiguration
         );
     }
 

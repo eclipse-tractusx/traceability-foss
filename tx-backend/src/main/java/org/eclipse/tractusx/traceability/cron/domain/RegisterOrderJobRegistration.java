@@ -51,7 +51,7 @@ public class RegisterOrderJobRegistration implements CronJobRegistration {
     @Override
     public void schedule(String cronExpression, Config config) {
         cancel();
-        future = scheduler.schedule(() -> decentralRegistryService.registerOrdersForExpiredAssets(config.getOrderConfiguration()),
+        future = scheduler.schedule(() -> decentralRegistryService.registerOrdersForExpiredAssets(config.getOrderConfiguration(), config.getTriggerConfiguration()),
                 new CronTrigger(cronExpression));
         log.info("[{}] scheduled with cron expression '{}'", JOB_NAME, cronExpression);
     }

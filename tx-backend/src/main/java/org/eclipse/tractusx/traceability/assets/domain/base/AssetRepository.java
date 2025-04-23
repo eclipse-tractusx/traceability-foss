@@ -61,6 +61,6 @@ public interface AssetRepository {
 
     List<AssetBase> findAll();
 
-    List<AssetBase> findAllExpired();
+    List<AssetBase> findAllExpired(Integer fetchLimit);
 
 }

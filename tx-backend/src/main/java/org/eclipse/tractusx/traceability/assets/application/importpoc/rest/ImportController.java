@@ -44,6 +44,7 @@ import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.Impor
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
 import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -306,7 +307,8 @@ public class ImportController {
     @PostMapping(value = "/publish", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registerAssetsForPublishing(@RequestBody RegisterAssetRequest registerAssetRequest, @RequestParam(name = "triggerSynchronizeAssets", defaultValue = "true") boolean triggerSynchronizeAssets) {
         OrderConfiguration latestOrderConfiguration = configurationService.getLatestOrderConfiguration();
-        publishService.publishAssets(registerAssetRequest.policyId(), registerAssetRequest.assetIds(), triggerSynchronizeAssets, latestOrderConfiguration);
+        TriggerConfiguration latestTriggerConfiguration = configurationService.getLatestTriggerConfiguration();
+        publishService.publishAssets(registerAssetRequest.policyId(), registerAssetRequest.assetIds(), triggerSynchronizeAssets, latestOrderConfiguration, latestTriggerConfiguration);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

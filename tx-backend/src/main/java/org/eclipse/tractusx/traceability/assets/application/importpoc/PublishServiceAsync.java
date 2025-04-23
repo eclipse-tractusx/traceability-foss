@@ -22,7 +22,12 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 
 import java.util.List;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 
 public interface PublishServiceAsync {
-    void publishAssetsToCoreServices(List<AssetBase> assets, boolean triggerSynchronizeAssets, final OrderConfiguration orderConfiguration);
+    void publishAssetsToCoreServices(
+            List<AssetBase> assets,
+            boolean triggerSynchronizeAssets,
+            final OrderConfiguration orderConfiguration,
+            final TriggerConfiguration triggerConfiguration);
 }

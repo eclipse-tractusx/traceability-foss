@@ -95,7 +95,6 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
                 .map(AssetAsPlannedEntity::toDomain).toList();
     }
 
-
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         List<AssetAsPlannedSpecification> assetAsPlannedSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsPlannedSpecification::new).toList();
@@ -190,8 +189,8 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     }
 
     @Override
-    public List<AssetBase> findAllExpired() {
-        return jpaAssetAsPlannedRepository.findAllExpired().stream()
+    public List<AssetBase> findAllExpired(Integer fetchLimit) {
+        return jpaAssetAsPlannedRepository.findAllExpired(fetchLimit).stream()
                 .map(AssetAsPlannedEntity::toDomain)
                 .toList();
     }

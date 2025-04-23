@@ -36,5 +36,6 @@ public class TriggerConfiguration {
     private Integer partTTL;
     private Integer aasTTL;
     private Integer aasLimit;
+    private Integer fetchLimit;
 
 }
