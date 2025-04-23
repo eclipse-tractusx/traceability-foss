@@ -23,6 +23,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -68,6 +70,9 @@ public class AASEntity {
     @Column(name = "bpn", nullable = false)
     private String bpn;
 
+    @Column(name = "global_asset_id")
+    private String globalAssetId;
+
     @OneToOne
     @JoinColumn(name = "global_asset_id", referencedColumnName = "id", insertable = false, updatable = false)
     private AssetAsBuiltEntity assetAsBuilt;
@@ -75,6 +80,16 @@ public class AASEntity {
     @OneToOne
     @JoinColumn(name = "global_asset_id", referencedColumnName = "id", insertable = false, updatable = false)
     private AssetAsPlannedEntity assetAsPlanned;
+
+    @PrePersist
+    @PreUpdate
+    private void prePersistOrUpdate() {
+        if (assetAsPlanned != null) {
+            globalAssetId = assetAsPlanned.getId();
+        } else if (assetAsBuilt != null) {
+            globalAssetId = assetAsBuilt.getId();
+        }
+    }
 
     public static AAS toDomain(AASEntity aasEntity) {
         return AAS.builder()

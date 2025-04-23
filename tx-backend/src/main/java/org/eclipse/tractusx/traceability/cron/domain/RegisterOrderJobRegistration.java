@@ -35,7 +35,7 @@ public class RegisterOrderJobRegistration implements CronJobRegistration {
     private final DecentralRegistryService decentralRegistryService;
     private final TaskScheduler scheduler;
     private ScheduledFuture<?> future;
-    private static final String JOB_NAME = "register order for expired assets";
+    private static final String JOB_NAME = "register-order-expiration-date-reached";
 
 
     @Override
@@ -53,14 +53,14 @@ public class RegisterOrderJobRegistration implements CronJobRegistration {
         cancel();
         future = scheduler.schedule(() -> decentralRegistryService.registerOrdersForExpiredAssets(config.getOrderConfiguration()),
                 new CronTrigger(cronExpression));
-        log.info("Successfully scheduled register order for expired assets job");
+        log.info("[{}] scheduled with cron expression '{}'", JOB_NAME, cronExpression);
     }
 
     @Override
     public void cancel() {
         if (future != null && !future.isCancelled()) {
             future.cancel(false);
-            log.info("Cancelled register order for expired assets job");
+            log.info("[{}] schedule has been removed.", JOB_NAME);
         }
     }
 }

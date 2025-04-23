@@ -161,9 +161,9 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
         return assetBase.getManufacturerId();
     }
 
-    public Optional<Descriptions> extractSubmodelDescription(IrsSubmodel irsSubmodel) {
-        return assetBaseMapperProvider.getRelationshipSubmodelMapper(irsSubmodel)
-                .map(submodelMapper -> submodelMapper.extractDescription(irsSubmodel));
+    public Optional<AssetBase> extractSubmodel(IrsSubmodel irsSubmodel) {
+        return assetBaseMapperProvider.getMainSubmodelMapper(irsSubmodel)
+                .map(submodelMapper -> submodelMapper.extractSubmodel(irsSubmodel));
     }
 
 }

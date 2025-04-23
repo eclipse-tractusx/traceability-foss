@@ -35,7 +35,7 @@ public class PublishAssetJobRegistration implements CronJobRegistration {
     private final PublishService publishService;
     private final TaskScheduler scheduler;
     private ScheduledFuture<?> future;
-    private static final String JOB_NAME = "publish assets";
+    private static final String JOB_NAME = "publish-assets";
 
     @Override
     public String getJobName() {
@@ -52,14 +52,14 @@ public class PublishAssetJobRegistration implements CronJobRegistration {
         cancel();
         future = scheduler.schedule(() -> publishService.publishAssets(config.getOrderConfiguration()),
                 new CronTrigger(cronExpression));
-        log.info("Successfully scheduled publish assets job");
+        log.info("[{}] scheduled with cron expression '{}'", JOB_NAME, cronExpression);
     }
 
     @Override
     public void cancel() {
         if (future != null && !future.isCancelled()) {
             future.cancel(false);
-            log.info("Cancelled publish assets job");
+            log.info("[{}] schedule has been removed.", JOB_NAME);
         }
     }
 }

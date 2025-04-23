@@ -39,17 +39,17 @@ public class CronJobRegistrationServiceImpl implements CronJobRegistrationServic
     @Override
     public void updateCronJobs(TriggerConfiguration triggerConfig, OrderConfiguration orderConfiguration) {
         Config config = Config.builder().triggerConfiguration(triggerConfig).orderConfiguration(orderConfiguration).build();
-        for (CronJobRegistration registrar : registeredCronJobs) {
-            String expression = registrar.getCronExpression(config);
+        for (CronJobRegistration registeredCronJob : registeredCronJobs) {
+            String expression = registeredCronJob.getCronExpression(config);
+            String jobName = registeredCronJob.getJobName();
             if (expression == null) {
-                log.info("Cron expression for {} is null, cancelling...", registrar.getJobName());
-                registrar.cancel();
+                log.warn("[{}] No cron expression defined. Clear job...", jobName);
+                registeredCronJob.cancel();
             } else {
                 try {
-                    log.info("Scheduling {} job with cron: {}", registrar.getJobName(), sanitize(expression));
-                    registrar.schedule(expression, config);
+                    registeredCronJob.schedule(expression, config);
                 } catch (Exception e) {
-                    throw new CronJobRegistrationException("Failed to schedule %s job: %s".formatted(registrar.getJobName(), e.getMessage()));
+                    throw new CronJobRegistrationException("Failed to schedule %s job: %s".formatted(registeredCronJob.getJobName(), e.getMessage()));
                 }
             }
         }

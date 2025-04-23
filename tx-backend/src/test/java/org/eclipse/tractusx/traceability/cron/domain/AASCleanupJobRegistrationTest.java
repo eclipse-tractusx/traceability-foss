@@ -52,7 +52,7 @@ class AASCleanupJobRegistrationTest {
 
     @Test
     void testGetJobName() {
-        assertThat(jobRegistration.getJobName()).isEqualTo("aas cleanup");
+        assertThat(jobRegistration.getJobName()).isEqualTo("aas-cleanup");
     }
 
     @Test

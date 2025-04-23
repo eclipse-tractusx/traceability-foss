@@ -48,7 +48,7 @@ class RegisterOrderJobRegistrarTest {
 
     @Test
     void testGetJobName() {
-        assertThat(jobRegistration.getJobName()).isEqualTo("register order for expired assets");
+        assertThat(jobRegistration.getJobName()).isEqualTo("register-order-expiration-date-reached");
     }
 
     @Test

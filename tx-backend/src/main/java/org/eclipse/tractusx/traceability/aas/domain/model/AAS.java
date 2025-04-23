@@ -61,16 +61,4 @@ public class AAS {
         }
         return BPN.of(bpn);
     }
-
-    public String getGlobalAssetId() {
-        if (assetAsBuilt != null) {
-            return assetAsBuilt.getId();
-        }
-
-        if (assetAsPlanned != null) {
-            return assetAsPlanned.getId();
-        }
-        return null;
-    }
-
 }

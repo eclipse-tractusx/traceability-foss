@@ -132,30 +132,41 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         List<PartChainIdentificationKey> identifiers = Stream
                 .concat(globalAssetIdKeys.stream(), aasIdentifiersKeys.stream()).toList();
 
-        switch (DigitalTwinType.digitalTwinTypeFromString(createOrderRequest.digitalTwinType())) {
-            case PART_INSTANCE -> {
-                List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsBuiltRepository, PART_INSTANCE);
+        if (!identifiers.isEmpty()) {
+            switch (DigitalTwinType.digitalTwinTypeFromString(createOrderRequest.digitalTwinType())) {
+                case PART_INSTANCE -> {
+                    List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsBuiltRepository,
+                            PART_INSTANCE);
 
-                CreateOrderResponse createOrderResponse = assetAsBuiltService
-                        .syncAssetsUsingIRSOrderAPI(identifiers, orderConfiguration);
+                    CreateOrderResponse createOrderResponse = assetAsBuiltService
+                            .syncAssetsUsingIRSOrderAPI(identifiers, orderConfiguration);
 
-                createOrderResponse.orderIds().forEach(orderId -> persistOrder(orderId, orderConfiguration, assetBases, assetAsBuiltRepository::saveAll));
+                    createOrderResponse.orderIds().forEach(
+                            orderId -> persistOrder(orderId, orderConfiguration, assetBases,
+                                    assetAsBuiltRepository::saveAll));
 
-                return createOrderResponse;
+                    return createOrderResponse;
+                }
+                case PART_TYPE -> {
+                    List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns,
+                            assetAsPlannedRepository, PART_TYPE);
+
+                    CreateOrderResponse createOrderResponse = assetAsPlannedService
+                            .syncAssetsUsingIRSOrderAPI(identifiers, orderConfiguration);
+
+                    createOrderResponse.orderIds().forEach(
+                            orderId -> persistOrder(orderId, orderConfiguration, assetBases,
+                                    assetAsPlannedRepository::saveAll));
+
+                    return createOrderResponse;
+                }
             }
-            case PART_TYPE -> {
-                List<AssetBase> assetBases = getOrInsertByGlobalAssetId(globalAssetIdsBpns, assetAsPlannedRepository, PART_TYPE);
 
-                CreateOrderResponse createOrderResponse = assetAsPlannedService
-                        .syncAssetsUsingIRSOrderAPI(identifiers, orderConfiguration);
-
-                createOrderResponse.orderIds().forEach(orderId -> persistOrder(orderId, orderConfiguration, assetBases, assetAsPlannedRepository::saveAll));
-
-                return createOrderResponse;
-            }
+            throw new DigitalTwinPartNotFoundException(createOrderRequest.digitalTwinType());
+        } else {
+            log.warn("No global asset IDs or AAS identifiers found in the request");
+            return null;
         }
-
-        throw new DigitalTwinPartNotFoundException(createOrderRequest.digitalTwinType());
     }
 
     private void validatePartsOwnership(List<PartChainIdentificationKey> keys) {

@@ -36,7 +36,7 @@ public class MapCompletedOrdersJobRegistration implements CronJobRegistration {
     private final OrderService orderService;
     private final TaskScheduler scheduler;
     private ScheduledFuture<?> future;
-    private static final String JOB_NAME = "Update assets after order completion";
+    private static final String JOB_NAME = "fetch-batches-completed-or-partially-completed";
 
     @Override
     public String getJobName() {
@@ -52,7 +52,7 @@ public class MapCompletedOrdersJobRegistration implements CronJobRegistration {
     public void schedule(String cronExpression, Config config) {
         cancel();
         future = scheduler.schedule(orderService::mapCompletedOrdersJobRegistration, new CronTrigger(cronExpression));
-        log.info("Successfully completion order mapping job");
+        log.info("[{}] scheduled with cron expression '{}'", JOB_NAME, cronExpression);
     }
 
 
@@ -60,7 +60,7 @@ public class MapCompletedOrdersJobRegistration implements CronJobRegistration {
     public void cancel() {
         if (future != null && !future.isCancelled()) {
             future.cancel(false);
-            log.info("Cancelled completion order mapping job");
+            log.info("[{}] schedule has been removed.", JOB_NAME);
         }
     }
 }

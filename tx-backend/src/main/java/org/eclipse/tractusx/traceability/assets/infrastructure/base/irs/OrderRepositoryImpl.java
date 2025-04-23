@@ -34,7 +34,6 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.Asse
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
@@ -133,11 +132,44 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     @Transactional
     public void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState) {
-        log.info("Handling order finished callback for orderId: {}, batchId: {}, orderState: {}, batchState: {}",
-                sanitize(orderId), sanitize(batchId), orderState, batchState);
 
-        updateOrderTable(orderId, orderState, batchId, batchState);
+        orderJPARepository.findById(orderId).ifPresentOrElse(orderEntity -> {
 
+            boolean updated = false;
+
+            if (orderState != null) {
+                orderEntity.setStatus(orderState);
+                updated = true;
+                log.debug("Set order status to {} for order ID: {}", orderState, sanitize(orderId));
+            }
+
+            if (batchId != null && batchState != null) {
+                Optional<BatchEntity> existingBatch = orderEntity.getBatches().stream()
+                        .filter(batch -> batchId.equals(batch.getId()))
+                        .findFirst();
+
+                if (existingBatch.isPresent()) {
+                    log.info("Found existing batch ID: {} for order ID: {}, no new batch created", batchId, sanitize(orderId));
+                } else {
+                    BatchEntity newBatch = BatchEntity.builder()
+                            .id(batchId)
+                            .order(orderEntity)
+                            .status(batchState)
+                            .build();
+                    orderEntity.addBatch(newBatch);
+                    updated = true;
+                    log.info("Added new batch with ID: {} and status: {} to order ID: {}", newBatch.getId(), newBatch.getStatus(), sanitize(orderId));
+                }
+            }
+
+            if (updated) {
+                orderJPARepository.save(orderEntity);
+                log.info("Order update completed for ID: {}. Current order state: {}", sanitize(orderEntity.getId()), orderEntity.getStatus());
+            } else {
+                log.info("No changes made to order ID: {}", sanitize(orderId));
+            }
+
+        }, () -> log.warn("Order with ID: {} not found in the database.", sanitize(orderId)));
     }
 
     @Transactional
@@ -228,8 +260,8 @@ public class OrderRepositoryImpl implements OrderRepository {
 
             irsJobDetailResponse.submodels().stream()
                     .filter(submodel -> submodelDescriptorIds.contains(submodel.getIdentification()))
-                    .forEach(submodel -> assetMapperFactory.extractSubmodelDescription(submodel)
-                            .map(Descriptions::parentId)
+                    .forEach(submodel -> assetMapperFactory.extractSubmodel(submodel)
+                            .map(AssetBase::getId)
                             .ifPresentOrElse(globalAssetId -> aasRepository.findById(aasIdentifier)
                                             .ifPresentOrElse(aas -> {
                                                         log.info("AAS with ID: {} already exists in the database, updating it", aasIdentifier);
@@ -262,40 +294,11 @@ public class OrderRepositoryImpl implements OrderRepository {
                                             ),
                                     () -> log.info("Global asset id could not be extracted from Irs submodel response.")
                             ));
+        } else {
+            log.info("No aasIdentifier found in job details response: %s"
+                    .formatted(irsJobDetailResponse.jobStatus().id()));
         }
-        log.info("No aasIdentifier found in job details response: %s".formatted(irsJobDetailResponse.jobStatus().id()));
     }
-
-    private void updateOrderTable(String orderId, ProcessingState orderState, String batchId, ProcessingState batchState) {
-        orderJPARepository.findById(orderId).ifPresentOrElse(orderEntity -> {
-
-            if (orderState != null) {
-                orderEntity.setStatus(orderState);
-            }
-
-            if (batchId != null && batchState != null) {
-                List<BatchEntity> batches = orderEntity.getBatches();
-                batches.stream()
-                        .filter(batch ->  batchId.equals(batch.getId()))
-                        .findFirst()
-                        .orElseGet(() -> {
-                            BatchEntity newBatch = BatchEntity.builder()
-                                    .id(batchId)
-                                    .order(orderEntity)
-                                    .status(batchState)
-                                    .build();
-                            orderEntity.addBatch(newBatch);
-                            return newBatch;
-                        });
-
-            }
-
-            orderJPARepository.save(orderEntity);
-            log.info("Order with ID: {} updated in the database", sanitize(orderId));
-
-        }, () -> log.warn("Order with ID: {} not found in the database.", sanitize(orderId)));
-    }
-
 
     void addTombstoneDetails(AssetBase tombstone) {
         if (tombstone.getSemanticDataModel().equals(SemanticDataModel.TOMBSTONEASBUILT)) {

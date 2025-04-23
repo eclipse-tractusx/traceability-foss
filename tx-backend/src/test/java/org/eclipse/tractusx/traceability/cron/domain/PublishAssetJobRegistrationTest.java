@@ -49,7 +49,7 @@ class PublishAssetJobRegistrationTest {
 
     @Test
     void testGetJobName() {
-        assertThat(publishAssetJobRegistrar.getJobName()).isEqualTo("publish assets");
+        assertThat(publishAssetJobRegistrar.getJobName()).isEqualTo("publish-assets");
     }
 
     @Test

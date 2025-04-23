@@ -35,7 +35,7 @@ public class AASCleanupJobRegistration implements CronJobRegistration {
     private final AASService aasService;
     private final TaskScheduler scheduler;
     private ScheduledFuture<?> future;
-    private static final String JOB_NAME = "aas cleanup";
+    private static final String JOB_NAME = "aas-cleanup";
 
     @Override
     public String getJobName() {
@@ -51,14 +51,14 @@ public class AASCleanupJobRegistration implements CronJobRegistration {
     public void schedule(String cronExpression, Config config) {
         cancel();
         future = scheduler.schedule(aasService::aasCleanup, new CronTrigger(cronExpression));
-        log.info("Successfully scheduled aas cleanup job");
+        log.info("[{}] scheduled with cron expression '{}'", JOB_NAME, cronExpression);
     }
 
     @Override
     public void cancel() {
         if (future != null && !future.isCancelled()) {
             future.cancel(false);
-            log.info("Cancelled aas cleanup job");
+            log.info("[{}] schedule has been removed.", JOB_NAME);
         }
     }
 }

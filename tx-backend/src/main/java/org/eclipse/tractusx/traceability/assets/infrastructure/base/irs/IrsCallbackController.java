@@ -108,14 +108,9 @@ public class IrsCallbackController {
                 sanitize(orderId), sanitize(batchId), sanitize(orderState), sanitize(batchState));
         try {
             validateIds(orderId, batchId);
-
             ProcessingState orderStateEnum = ProcessingState.fromString(orderState);
             ProcessingState batchStateEnum = ProcessingState.fromString(batchState);
-
-            log.debug("Parsed orderState: {} and batchState: {}", orderStateEnum, batchStateEnum);
-
             orderRepository.handleOrderFinishedCallback(orderId, batchId, orderStateEnum, batchStateEnum);
-            log.info("Successfully handled callback for orderId: {}", sanitize(orderId));
         } catch (IllegalArgumentException e) {
             log.warn("Validation failed for callback parameters: {}", e.getMessage());
         } catch (Exception e) {
@@ -126,11 +121,11 @@ public class IrsCallbackController {
     private void validateIds(String... ids) {
         for (String id : ids) {
             if (id != null && !id.isEmpty() && !id.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")) {
-                log.warn("Invalid UUID format detected: {}", sanitize(id));
+                log.debug("Invalid UUID format detected: {}", sanitize(id));
             }
 
             if (StringUtils.isEmpty(id)) {
-                log.warn("Empty or null UUID detected");
+                log.debug("Empty or null UUID detected");
             }
         }
     }
