@@ -88,18 +88,28 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
                 .map(id -> new PartChainIdentificationKey(null, id, traceabilityProperties.getBpn().toString()))
                 .toList();
 
-        CreateOrderResponse createOrderResponseAsBuilt = assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetAsBuildKeys,
-                orderConfiguration);
+        if (!assetAsBuildKeys.isEmpty()) {
+            CreateOrderResponse createOrderResponseAsBuilt =
+                    assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetAsBuildKeys, orderConfiguration);
+            createOrderResponseAsBuilt.orderIds()
+                    .forEach(orderId -> persistOrder(orderId, orderConfiguration, assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll));
+        } else {
+            log.info("No assets as built to synchronize");
+        }
 
         List<PartChainIdentificationKey> assetAsPlannedKeys = assetsAsPlannedIds.stream()
                 .map(id -> new PartChainIdentificationKey(null, id, traceabilityProperties.getBpn().toString()))
                 .toList();
 
-        CreateOrderResponse createOrderResponseAsPlanned = assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetAsPlannedKeys,
-                orderConfiguration);
+        if (!assetAsPlannedKeys.isEmpty()) {
+            CreateOrderResponse createOrderResponseAsPlanned =
+                    assetAsBuiltService.syncAssetsUsingIRSOrderAPI(assetAsPlannedKeys, orderConfiguration);
 
-        createOrderResponseAsBuilt.orderIds().forEach(orderId -> persistOrder(orderId, orderConfiguration, assetsAsBuiltToSynchronize, assetAsBuiltRepository::saveAll));
-        createOrderResponseAsPlanned.orderIds().forEach(orderId -> persistOrder(orderId, orderConfiguration, assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll));
+            createOrderResponseAsPlanned.orderIds()
+                    .forEach(orderId -> persistOrder(orderId, orderConfiguration, assetsAsPlannedToSynchronize, assetAsPlannedRepository::saveAll));
+        } else {
+            log.info("No assets as planned to synchronize");
+        }
     }
 
     @Override
