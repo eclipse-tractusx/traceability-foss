@@ -257,7 +257,7 @@ public class OrderRepositoryImpl implements OrderRepository {
             List<String> submodelDescriptorIds = shells.stream()
                     .flatMap(shell -> shell.payload().submodelDescriptors().stream().map(SubmodelDescriptor::getId))
                     .toList();
-
+            Integer aasTTL = triggerConfiguration.getAasTTL();
             irsJobDetailResponse.submodels().stream()
                     .filter(submodel -> submodelDescriptorIds.contains(submodel.getIdentification()))
                     .forEach(submodel -> assetMapperFactory.extractSubmodel(submodel)
@@ -270,10 +270,12 @@ public class OrderRepositoryImpl implements OrderRepository {
                                                         } else {
                                                             aas.setAssetAsPlanned(assetBase);
                                                         }
+                                                        aas.setTtl(aasTTL);
+                                                        aas.setExpiryDate(LocalDateTime.now().plusSeconds(aasTTL / 1000));
+                                                        aasRepository.save(List.of(aas));
                                                     }, () -> {
                                                         log.info("AAS with ID: {} not found in the database, creating new one",
                                                                 aasIdentifier);
-                                                        Integer aasTTL = triggerConfiguration.getAasTTL();
                                                         AASBuilder aasBuilder = AAS.builder()
                                                                 .aasId(aasIdentifier)
                                                                 .bpn(AAS.bpnFromString(assetBase.getManufacturerId()))
