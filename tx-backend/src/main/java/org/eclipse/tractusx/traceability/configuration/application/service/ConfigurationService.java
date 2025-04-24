@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.configuration.application.service;
 
-import java.util.Optional;
 import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import configuration.request.OrderConfigurationRequest;
 import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;

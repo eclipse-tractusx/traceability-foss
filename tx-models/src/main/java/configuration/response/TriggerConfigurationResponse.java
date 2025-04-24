@@ -46,5 +46,6 @@ public class TriggerConfigurationResponse {
     private String cronExpressionAASCleanup;
     @Schema(example = "* * * * * *")
     private String cronExpressionPublishAssets;
-
+    @Schema(example = "1000")
+    private Integer fetchLimit;
 }

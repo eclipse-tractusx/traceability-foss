@@ -40,6 +40,7 @@ public class TriggerConfigurationResponseMapper {
         triggerConfigurationResponse.cronExpressionAASCleanup(triggerConfiguration.getCronExpressionAASCleanup());
         triggerConfigurationResponse.cronExpressionPublishAssets(triggerConfiguration.getCronExpressionPublishAssets());
         triggerConfigurationResponse.aasLimit(triggerConfiguration.getAasLimit());
+        triggerConfigurationResponse.fetchLimit(triggerConfiguration.getFetchLimit());
         return triggerConfigurationResponse.build();
     }
 
