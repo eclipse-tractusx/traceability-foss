@@ -50,5 +50,7 @@ public class TriggerConfigurationRequest {
     int aasTTL;
     @Schema(example = "1000")
     int aasLimit;
+    @Schema(example = "1000")
+    int fetchLimit;
 
 }

@@ -66,6 +66,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
                 .cronExpressionPublishAssets(request.getCronExpressionPublishAssets())
                 .aasTTL(request.getAasTTL())
                 .aasLimit(request.getAasLimit())
+                .fetchLimit(request.getFetchLimit())
                 .build();
         triggerConfigurationRepository.save(triggerConfiguration);
         cronRegistrationService.updateCronJobs(triggerConfiguration, getLatestOrderConfiguration());
