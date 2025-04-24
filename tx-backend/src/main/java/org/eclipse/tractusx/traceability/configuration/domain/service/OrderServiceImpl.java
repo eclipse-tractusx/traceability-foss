@@ -62,14 +62,10 @@ public class OrderServiceImpl implements OrderService {
                 log.debug("Processing batch with ID: {} and status: {} for order ID: {}",
                         batch.getId(), batch.getStatus(), order.getId());
 
-                orderRepository.requestOrderBatchAndMapAssets(order.getId(), batch.getId(), batch.getStatus());
+                orderRepository.requestOrderBatchAndMapAssets(order, batch.getId(), batch.getStatus());
+                persistOrder(order);
+                log.info("Successfully persisted assets in batch with ID: {} and status: {} for order ID: {}", batch.getId(), batch.getStatus(), order.getId());
             });
-        });
-
-        ordersByStatus.forEach(order -> {
-            log.info("Updating order with ID: {} to status: {}", order.getId(), ProcessingState.PROCESSED);
-            order.setStatus(ProcessingState.PROCESSED);
-            persistOrder(order);
         });
 
         log.info("Completed job: Mapping of completed orders.");

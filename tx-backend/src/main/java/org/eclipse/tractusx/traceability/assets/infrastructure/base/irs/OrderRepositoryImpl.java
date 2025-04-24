@@ -174,7 +174,8 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Transactional
     @Override
-    public void requestOrderBatchAndMapAssets(String orderId, String batchId, ProcessingState batchState) {
+    public void requestOrderBatchAndMapAssets(Order order, String batchId, ProcessingState batchState) {
+        final String orderId = order.getId();
         try {
             if (!STATUS_COMPLETED.equals(batchState) && (!STATUS_PARTIAL.equals(batchState))) {
                 log.info("Skipping callback handling for orderId: {}, batchId: {} because batchState is (actual: {}).",
@@ -221,7 +222,11 @@ public class OrderRepositoryImpl implements OrderRepository {
                 List<AssetBase> assets = assetMapperFactory.toAssetBaseList(irsJobDetailResponse);
 
                 assets.forEach(assetBase -> {
-                    addTombstoneDetails(assetBase);
+                    try {
+                        addTombstoneDetails(assetBase);
+                    } catch (Exception e) {
+                        log.info("Could not map tombstone due to: {}. Skipping asset with id: {}.", e.getMessage(), sanitize(assetBase.getId()));
+                    }
                     if (assetBase.getBomLifecycle() == AS_BUILT) {
                         saveOrUpdateAssets(assetAsBuiltRepository, assetBase);
                     } else if (assetBase.getBomLifecycle() == AS_PLANNED) {
@@ -230,17 +235,11 @@ public class OrderRepositoryImpl implements OrderRepository {
                     updateAas(assetBase, irsJobDetailResponse);
                 });
             });
+
+            order.setStatus(ProcessingState.PROCESSED);
         } catch (Exception e) {
             log.warn("Exception occurred while processing order batch for orderId: {}, batchId: {} Error: {}.", sanitize(orderId), sanitize(batchId), e.getMessage());
-            try {
-                orderJPARepository.findById(orderId).ifPresent(orderEntity -> {
-                    orderEntity.setStatus(ProcessingState.ERROR);
-                    orderJPARepository.save(orderEntity);
-                    log.info("Order with ID: {} set to state ERROR.", sanitize(orderId));
-                });
-            } catch (Exception ex) {
-                log.error("Failed to update order status to ERROR for orderId: {} due to: {}", sanitize(orderId), ex.getMessage(), ex);
-            }
+            order.setStatus(ProcessingState.ERROR);
         }
     }
 
