@@ -66,6 +66,12 @@ public class OrderServiceImpl implements OrderService {
             });
         });
 
+        ordersByStatus.forEach(order -> {
+            log.info("Updating order with ID: {} to status: {}", order.getId(), ProcessingState.PROCESSED);
+            order.setStatus(ProcessingState.PROCESSED);
+            persistOrder(order);
+        });
+
         log.info("Completed job: Mapping of completed orders.");
     }
 }
