@@ -36,6 +36,10 @@ public interface JpaAssetAsPlannedRepository extends JpaRepository<AssetAsPlanne
 
     List<AssetAsPlannedEntity> findByImportStateIn(ImportState... importState);
 
-    @Query(value = "SELECT * FROM assets_as_planned a WHERE a.expiration_date < CURRENT_TIMESTAMP OR a.expiration_date IS NULL LIMIT :fetchLimit", nativeQuery = true)
+    @Query(value = "SELECT * FROM assets_as_planned a " +
+            "WHERE a.expiration_date < CURRENT_TIMESTAMP OR a.expiration_date IS NULL " +
+            "ORDER BY CASE a.import_state WHEN 'PERSISTED' THEN 0 ELSE 1 END " +
+            "LIMIT :fetchLimit",
+            nativeQuery = true)
     List<AssetAsPlannedEntity> findAllExpired(@Param("fetchLimit") Integer fetchLimit);
 }
