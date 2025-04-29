@@ -149,7 +149,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                         .findFirst();
 
                 if (existingBatch.isPresent()) {
-                    log.info("Found existing batch ID: {} for order ID: {}, no new batch created", batchId, sanitize(orderId));
+                    log.info("Found existing batch ID: {} for order ID: {}, no new batch created", sanitize(batchId), sanitize(orderId));
                 } else {
                     BatchEntity newBatch = BatchEntity.builder()
                             .id(batchId)
@@ -158,7 +158,7 @@ public class OrderRepositoryImpl implements OrderRepository {
                             .build();
                     orderEntity.addBatch(newBatch);
                     updated = true;
-                    log.info("Added new batch with ID: {} and status: {} to order ID: {}", newBatch.getId(), newBatch.getStatus(), sanitize(orderId));
+                    log.info("Added new batch with ID: {} and status: {} to order ID: {}", sanitize(newBatch.getId()), newBatch.getStatus(), sanitize(orderId));
                 }
             }
 
