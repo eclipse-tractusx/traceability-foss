@@ -87,7 +87,7 @@ resources:
     cpu: 500m
     memory: 512Mi
   requests:
-    cpu: 15m
+    cpu: 250m
     memory: 512Mi
 
 nodeSelector: {}
@@ -139,7 +139,7 @@ traceability:
   operatorType: "CHANGEME" #<traceability.operatorType>
   rightOperand: "CHANGEME" #<traceability.rightOperand>
   validUntil: "CHANGEME" #<traceability.validUntil>
-  discoveryType: "bpn"  # discovery type to find bpnl type in EDC discovery
+  discoveryType: "bpnl"  # discovery type to find bpnl type in EDC discovery
   technicalServiceApiKey: "CHANGEME" #<traceability.technicalServiceApiKey>
   assetRefreshJobCronExpression: "0 0 */2 * * ?" # Default value for assets refresh cron job expression
   assetRefreshJobZone: "Europe/Berlin"  # Default value for assets refresh cron job zone
@@ -204,8 +204,10 @@ dependencies:
   edc: CHANGEME #<tractusx-connector.nameOverride>-controlplane
 
 bpdm:
-  url: "https://replace.me"
-  clientId: "CHANGEME"
-  clientSecret: "CHANGEME"
-  oauthTokenUrl: "https://replace.me"
-  providerBpnl: "CHANGEME"
+  goldenRecordUrl: "https://replace.me"
+  bpn: CHANGEME
+
+spring:
+  flyway:
+    placeholders:
+      applyTestData: false

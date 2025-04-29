@@ -20,7 +20,10 @@
 package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
 import assets.importpoc.ErrorResponse;
+import assets.request.AssetRequest;
+import assets.request.PartChainIdentificationKey;
 import assets.request.SearchableAssetsRequest;
+import assets.response.asbuilt.AssetAsBuiltResponse;
 import assets.response.asplanned.AssetAsPlannedResponse;
 import assets.response.base.request.UpdateAssetRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,9 +46,12 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
+import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,6 +66,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @Tag(name = "AssetsAsPlanned")
@@ -68,13 +75,20 @@ public class AssetAsPlannedController {
 
     private final AssetBaseService assetService;
     private final BaseRequestFieldMapper fieldMapper;
+    private final ConfigurationService configurationService;
+    private final TraceabilityProperties traceabilityProperties;
 
     public AssetAsPlannedController(
             @Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService,
-            AssetAsPlannedFieldMapper fieldMapper) {
+            ConfigurationService configurationService,
+            AssetAsPlannedFieldMapper fieldMapper,
+            TraceabilityProperties traceabilityProperties) {
         this.assetService = assetService;
         this.fieldMapper = fieldMapper;
+        this.configurationService = configurationService;
+        this.traceabilityProperties = traceabilityProperties;
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
@@ -128,8 +142,12 @@ public class AssetAsPlannedController {
     @PostMapping("/sync")
     @ApiKeyEnabled
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetService.syncAssetsAsyncUsingIRSOrderAPI(syncAssetsRequest.globalAssetIds());
+        List<PartChainIdentificationKey> keys = syncAssetsRequest.globalAssetIds().stream()
+                .map(id -> new PartChainIdentificationKey(null, id, traceabilityProperties.getBpn().toString()))
+                .toList();
+        assetService.syncAssetsUsingIRSOrderAPI(keys, configurationService.getLatestOrderConfiguration());
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "AssetsAsPlanned",
             summary = "Get assets by pagination",
@@ -197,6 +215,81 @@ public class AssetAsPlannedController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
+    @Operation(operationId = "query",
+            summary = "Query assets by pagination using POST request",
+            tags = {"AssetsAsPlanned"},
+            description = "The endpoint returns a paged result of assets.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
+            mediaType = "application/json",
+            array = @ArraySchema(
+                    schema = @Schema(implementation = AssetAsBuiltResponse.class),
+                    arraySchema = @Schema(
+                            description = "Assets",
+                            implementation = AssetAsPlannedResponse.class,
+                            additionalProperties = Schema.AdditionalPropertiesValue.FALSE
+                    ),
+                    maxItems = Integer.MAX_VALUE,
+                    minItems = 0)
+    )),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "415",
+                    description = "Unsupported media type",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
+    @PostMapping("query")
+    public PageResult<AssetAsPlannedResponse> query(@RequestBody AssetRequest assetRequest) {
+        return AssetAsPlannedResponseMapper.from(
+                assetService.getAssets(
+                        OwnPageable.toPageable(
+                                new OwnPageable(
+                                        assetRequest.getPage(),
+                                        assetRequest.getSize(),
+                                        assetRequest.getSort()
+                                ), fieldMapper),
+                        SearchCriteriaMapper.toSearchCriteria(fieldMapper, assetRequest.getAssetFilters()))
+        );
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "distinctFilterValues",
             summary = "getDistinctFilterValues",
             tags = {"Assets"},
@@ -260,15 +353,17 @@ public class AssetAsPlannedController {
     public List<String> distinctFilterValues(
             @RequestParam("fieldName") String fieldName,
             @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "startWith", required = false) String startWith,
+            @RequestParam(value = "startWith", required = false) String startsWith,
             @RequestParam(value = "owner", required = false) Owner owner,
             @RequestParam(value = "inAssetIds", required = false) String[] inAssetIds) {
         List<String> inAssetIdsList = List.of();
         if (ArrayUtils.isNotEmpty(inAssetIds)) {
             inAssetIdsList = Arrays.asList(inAssetIds);
         }
-        return assetService.getDistinctFilterValues(fieldMapper.mapRequestFieldName(fieldName), startWith, size, owner, inAssetIdsList);
+        List<String> startsWithList = Objects.nonNull(startsWith) ? List.of(startsWith) : null;
+        return assetService.getSearchableValues(fieldMapper.mapRequestFieldName(fieldName), startsWithList, size, owner, inAssetIdsList);
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "searchable-values",
             summary = "Get searchable values for a fieldName",
@@ -332,8 +427,9 @@ public class AssetAsPlannedController {
     @PostMapping("searchable-values")
     public List<String> searchableValues(@Valid @RequestBody SearchableAssetsRequest request) {
         return assetService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
-                request.startWith(), request.size(), OwnerTypeMapper.from(request.owner()), request.inAssetIds());
+                request.startsWith(), request.size(), OwnerTypeMapper.from(request.owner()), request.inAssetIds());
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "assetById",
             summary = "Get asset by id",
@@ -389,6 +485,7 @@ public class AssetAsPlannedController {
     public AssetAsPlannedResponse getAssetById(@PathVariable("assetId") String assetId) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssetById(assetId));
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @Operation(operationId = "deleteAssetById",
             summary = "Delete asset by id",
@@ -488,6 +585,7 @@ public class AssetAsPlannedController {
     public AssetAsPlannedResponse getAssetByChildId(@PathVariable("childId") String childId) {
         return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(childId));
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "updateAsset",
             summary = "Updates asset",
@@ -544,6 +642,7 @@ public class AssetAsPlannedController {
         return AssetAsPlannedResponseMapper.from(
                 assetService.updateQualityType(assetId, QualityTypeMapper.toDomain(updateAssetRequest.qualityType())));
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
     @Operation(operationId = "getDetailInformation",
             summary = "Searches for assets by ids.",

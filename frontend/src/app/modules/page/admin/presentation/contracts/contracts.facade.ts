@@ -5,6 +5,7 @@ import { AdminService } from '@page/admin/core/admin.service';
 import { ContractsState } from '@page/admin/presentation/contracts/contracts.state';
 import { provideDataObject } from '@page/parts/core/parts.helper';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { ContractFilter, FilterOperator } from '@shared/model/filter.model';
 import { View } from '@shared/model/view.model';
 import { Observable, Subject, Subscription } from 'rxjs';
 
@@ -16,19 +17,12 @@ export class ContractsFacade {
 
 
   constructor(private readonly adminService: AdminService,
-              private readonly contractsState: ContractsState
-  ) {}
-
-  get contracts$(): Observable<View<Pagination<Contract>>> {
-    return this.contractsState.contracts$
+              private readonly contractsState: ContractsState,
+  ) {
   }
 
-  public setContracts(page, pageSize = 50, sorting: TableHeaderSort[], filter?: any): void {
-    this.contractsSubscription?.unsubscribe();
-    this.contractsSubscription = this.adminService.getContracts(page, pageSize, sorting, filter).subscribe({
-      next: data => (this.contractsState.contracts = { data: provideDataObject(data) }),
-      error: error => (this.contractsState.contracts = { error})
-    })
+  get contracts$(): Observable<View<Pagination<Contract>>> {
+    return this.contractsState.contracts$;
   }
 
   get selectedContract$(): Observable<View<Contract>> {
@@ -39,16 +33,30 @@ export class ContractsFacade {
     return this.contractsState.selectedContract?.data;
   }
 
-
   public set selectedContract(contract: Contract) {
-    this.contractsState.selectedContract = {data: contract};
+    this.contractsState.selectedContract = { data: contract };
+  }
+
+  public setContracts(page,  sorting: TableHeaderSort[], pageSize = 50, filter?: ContractFilter): void {
+    this.contractsSubscription?.unsubscribe();
+    this.contractsSubscription = this.adminService.getContracts(page, pageSize, sorting, filter).subscribe({
+      next: data => (this.contractsState.contracts = { data: provideDataObject(data) }),
+      error: error => (this.contractsState.contracts = { error }),
+    });
   }
 
   public setSelectedContractById(contractId: string): void {
-    this.selectedContractSubscription = this.adminService.getContracts(0, 10, [null,null], {contractId: [contractId]}).subscribe({
-      next: data => (this.contractsState.selectedContract = { data: data.content[0] as unknown as Contract}),
-      error: error => (this.contractsState.selectedContract = {error})
-    })
+    this.selectedContractSubscription = this.adminService.getContracts(0, 10, [ null, null ], {
+      contractId: {
+        value: [ {
+          value: contractId,
+          strategy: FilterOperator.EQUAL,
+        } ], operator: 'OR',
+      },
+    }).subscribe({
+      next: data => (this.contractsState.selectedContract = { data: data.content[0] as unknown as Contract }),
+      error: error => (this.contractsState.selectedContract = { error }),
+    });
   }
 
 

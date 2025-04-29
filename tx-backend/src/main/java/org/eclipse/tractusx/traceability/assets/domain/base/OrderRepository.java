@@ -19,18 +19,24 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import assets.request.PartChainIdentificationKey;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
 
 import java.util.List;
+import org.eclipse.tractusx.traceability.configuration.domain.model.Order;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 
 public interface OrderRepository {
 
-    void createOrderToResolveAssets(List<AssetBase> assetList, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+    String createOrderToResolveAssets(List<PartChainIdentificationKey> globalAssetIds, Direction direction, List<String> aspects, BomLifecycle bomLifecycle, OrderConfiguration orderConfiguration);
 
     void handleOrderFinishedCallback(String orderId, String batchId, ProcessingState orderState, ProcessingState batchState);
 
+    void save(Order order);
 
+    List<Order> findOrdersByStatus(List<ProcessingState> statusList);
+
+    void requestOrderBatchAndMapAssets(Order order, String batchId, ProcessingState batchState);
 }

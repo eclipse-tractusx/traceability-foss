@@ -25,7 +25,9 @@ public enum ProcessingState {
     COMPLETED,
     PROCESSING,
     PARTIAL,
-    ERROR;
+    ERROR,
+    PROCESSED,
+    ;
 
     public static ProcessingState fromString(String value) {
         if (value == null || value.isEmpty()) {

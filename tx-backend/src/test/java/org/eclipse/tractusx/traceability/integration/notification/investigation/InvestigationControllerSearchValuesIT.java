@@ -74,13 +74,13 @@ class InvestigationControllerSearchValuesIT extends IntegrationTestSpecification
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
-        final String startWith = "1";
+        final String startsWith = "1";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith)))
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startsWith", List.of(startsWith))))
                 .log().all()
                 .when()
                 .post("/api/notifications/searchable-values")
@@ -97,14 +97,14 @@ class InvestigationControllerSearchValuesIT extends IntegrationTestSpecification
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
-        final String startWith = "1";
+        final String startsWith = "1";
         final String channel = "RECEIVER";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith, "channel", channel)))
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startsWith", List.of(startsWith), "channel", channel)))
                 .log().all()
                 .when()
                 .post("/api/notifications/searchable-values")
@@ -121,14 +121,14 @@ class InvestigationControllerSearchValuesIT extends IntegrationTestSpecification
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "description";
         final Integer size = 200;
-        final String startWith = "1";
+        final String startsWith = "1";
         final String channel = "SENDER";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith, "channel", channel)))
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startsWith", List.of(startsWith), "channel", channel)))
                 .log().all()
                 .when()
                 .post("/api/notifications/searchable-values")
@@ -167,13 +167,13 @@ class InvestigationControllerSearchValuesIT extends IntegrationTestSpecification
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "bpn";
         final Integer size = 200;
-        final String startWith = "bpnl";
+        final String startsWith = "bpnl";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith)))
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startsWith", List.of(startsWith))))
                 .log().all()
                 .when()
                 .post("/api/notifications/searchable-values")
@@ -190,13 +190,13 @@ class InvestigationControllerSearchValuesIT extends IntegrationTestSpecification
         investigationNotificationsSupport.defaultInvestigationsStored();
         final String fieldName = "bpn";
         final Integer size = 200;
-        final String startWith = "bpNl";
+        final String startsWith = "bpNl";
 
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startWith", startWith)))
+                .body(asJson(Map.of("fieldName", fieldName, "size", size, "startsWith", List.of(startsWith))))
                 .log().all()
                 .when()
                 .post("/api/notifications/searchable-values")

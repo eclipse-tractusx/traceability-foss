@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.hamcrest.Matchers;
@@ -41,9 +40,6 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
 
     @Autowired
     AssetsSupport assetsSupport;
-
-    @Autowired
-    JpaAssetAsPlannedRepository repo;
 
     @ParameterizedTest
     @MethodSource("fieldNameTestProvider")
@@ -133,7 +129,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 .log().all()
                 .when()
                 .param("fieldName", fieldName)
-                .param("startWith", startWith)
+                .param("startsWith", startWith)
                 .get("/api/assets/as-planned/distinctFilterValues")
                 .then()
                 .log().all()
@@ -158,7 +154,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 .log().all()
                 .when()
                 .param("fieldName", fieldName)
-                .param("startWith", startWith)
+                .param("startsWith", startWith)
                 .get("/api/assets/as-planned/distinctFilterValues")
                 .then()
                 .log().all()
@@ -241,7 +237,7 @@ class AssetAsPlannedControllerFilterValuesIT extends IntegrationTestSpecificatio
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(6));
+                .body("size()", is(7));
     }
 
     @Test

@@ -57,6 +57,12 @@ export class AdminComponent {
       icon: 'description',
       link: '/admin/policies',
     },
+    {
+      name: 'routing.digitalTwinPart', 
+      icon: 'build',
+      link: '/admin/digital-twin-part',
+    },
+  
   ];
 
   constructor(router: Router) {

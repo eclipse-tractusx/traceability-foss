@@ -23,11 +23,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import notification.NotificationSideType;
 
+import java.util.List;
+
 public record SearchableNotificationsRequest(
         @NotNull
         String fieldName,
         @Size(min = 1)
-        String startWith,
+        List<String> startsWith,
         Integer size,
         NotificationSideType channel) {
 

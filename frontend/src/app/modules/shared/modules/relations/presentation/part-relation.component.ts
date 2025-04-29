@@ -30,6 +30,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
@@ -80,7 +81,10 @@ export class PartRelationComponent implements OnInit, OnDestroy {
           if (this.partDetailsFacade.selectedPart) return this.partDetailsFacade.selectedPart$;
 
           const partId = params.get('partId');
-          return partId ? this.partDetailsFacade.getRootPart(partId, this.isAsBuilt) : this.partDetailsFacade.selectedPart$;
+          this.partDetailsFacade.mainAspectType = this.route?.snapshot?.queryParams?.isAsBuilt === 'false'
+            ? MainAspectType.AS_PLANNED
+            : MainAspectType.AS_BUILT;
+          return partId ? this.partDetailsFacade.getRootPart(partId) : this.partDetailsFacade.selectedPart$;
         }),
         tap(viewData => this._rootPart$.update(viewData)),
         takeWhile(({ data }) => !data, true),

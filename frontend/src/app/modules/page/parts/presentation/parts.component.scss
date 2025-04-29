@@ -19,8 +19,70 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+::ng-deep .csv-upload-button > button {
+  border-radius: 25px !important;
+  padding: 10px 24px;
+  width: 180px;
+}
+
 .parts-table-container {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .global-search-container{
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+  }
+
+  .parts-global-search-field {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .chip-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 4px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    min-height: 40px;
+    flex-grow: 1;
+    padding-right: 90px;
+  }
+
+  .hidden-chip {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  input[matInput] {
+    flex-grow: 1;
+    flex-basis: 100px;
+    min-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .search-buttons {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    min-width: 90px;
+  }
+
 
   .search--and--quick--filter--wrapper {
     display: flex;
@@ -31,6 +93,28 @@
   .searchbar--container {
     flex-grow: 1;
   }
+}
+
+.parts-table-wrapper {
+  height: 100%;
+}
+
+.parts-asBuilt-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.parts-asPlanned-table {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.split-container-wrapper{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 

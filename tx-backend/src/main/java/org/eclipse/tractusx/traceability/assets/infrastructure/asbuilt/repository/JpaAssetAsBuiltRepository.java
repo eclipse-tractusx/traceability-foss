@@ -40,4 +40,11 @@ public interface JpaAssetAsBuiltRepository extends JpaRepository<AssetAsBuiltEnt
     long countAssetsByOwner(@Param("owner") Owner owner);
 
     List<AssetAsBuiltEntity> findByImportStateIn(ImportState... importState);
+
+    @Query(value = "SELECT * FROM assets_as_built a " +
+            "WHERE a.expiration_date < CURRENT_TIMESTAMP OR a.expiration_date IS NULL " +
+            "ORDER BY CASE a.import_state WHEN 'PERSISTED' THEN 0 ELSE 1 END " +
+            "LIMIT :fetchLimit",
+            nativeQuery = true)
+    List<AssetAsBuiltEntity> findAllExpired(@Param("fetchLimit") Integer fetchLimit);
 }

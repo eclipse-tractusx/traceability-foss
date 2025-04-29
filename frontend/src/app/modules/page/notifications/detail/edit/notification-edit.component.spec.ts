@@ -29,6 +29,7 @@ import { Owner } from '@page/parts/model/owner.enum';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { toAssetFilter } from '@shared/helper/filter-helper';
+import { FilterOperator } from '@shared/model/filter.model';
 import { Notification, NotificationType } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { NotificationService } from '@shared/service/notification.service';
@@ -60,7 +61,7 @@ describe('NotificationEditComponent', () => {
             snapshot: {
               paramMap: paramMapValue,
               queryParams: NotificationType.INVESTIGATION,
-              url: "https://test.net/inbox/97/edit"
+              url: 'https://test.net/inbox/97/edit',
             },
             queryParams: of({ pageNumber: 0, tabIndex: 0 }),
           },
@@ -228,10 +229,16 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilterAffected = {excludeIds: [], ids: ['1'], owner: Owner.SUPPLIER};
-    const assetFilterAvailable = {excludeIds: ['1'], ids: [], owner: Owner.SUPPLIER};
+    const assetFilterAffected = {
+      id: { value: [ { value: '1', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
+      owner: { value: [ { value: Owner.SUPPLIER, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+    };
+    const assetFilterAvailable = {
+      id: { value: [ { value: '1', strategy: FilterOperator.EXCLUDE } ], operator: 'AND' },
+      owner: { value: [ { value: Owner.SUPPLIER, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+    };
 
-    componentInstance.affectedPartIds= ['1'];
+    componentInstance.affectedPartIds = [ '1' ];
 
 
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
@@ -272,10 +279,16 @@ describe('NotificationEditComponent', () => {
     const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
     const { componentInstance } = fixture;
 
-    const assetFilterAffected = {excludeIds: [], ids: ['1'], owner: Owner.OWN};
-    const assetFilterAvailable = {excludeIds: ['1'], ids: [], owner: Owner.OWN};
+    const assetFilterAffected = {
+      id: { value: [ { value: '1', strategy: FilterOperator.EQUAL } ], operator: 'OR' },
+      owner: { value: [ { value: Owner.OWN, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+    };
+    const assetFilterAvailable = {
+      id: { value: [ { value: '1', strategy: FilterOperator.EXCLUDE } ], operator: 'AND' },
+      owner: { value: [ { value: Owner.OWN, strategy: FilterOperator.EQUAL } ], operator: 'AND' },
+    };
 
-    componentInstance.affectedPartIds= ['1'];
+    componentInstance.affectedPartIds = [ '1' ];
 
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
     spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecond');
@@ -338,4 +351,47 @@ describe('NotificationEditComponent', () => {
 
   });
 
+  it('should call setPartsAsBuiltSecondEmpty and setPartsAsBuilt when affectedPartIds is empty', async () => {
+
+    const notification: Notification = {
+      id: 'id-1',
+      title: '',
+      type: NotificationType.ALERT,
+      status: undefined,
+      description: '',
+      createdBy: '',
+      createdByName: '',
+      createdDate: undefined,
+      updatedDate: undefined,
+      assetIds: [],
+      channel: 'SENDER',
+      sendTo: '',
+      sendToName: '',
+      severity: undefined,
+      targetDate: null,
+      messages: [],
+    };
+
+    const notificationsFacadeMock = jasmine.createSpyObj('notificationsFacade', [ 'getNotification' ]);
+    notificationsFacadeMock.getNotification.and.returnValue(of({ notification }));
+
+    const { fixture } = await renderNotificationEditComponent(true, notificationsFacadeMock, 'id-1');
+    const { componentInstance } = fixture;
+
+    spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuilt');
+    spyOn(componentInstance['ownPartsFacade'], 'setPartsAsBuiltSecondEmpty');
+
+    componentInstance.removeAffectedParts();
+
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuiltSecondEmpty).toHaveBeenCalled();
+    expect(componentInstance['ownPartsFacade'].setPartsAsBuilt).toHaveBeenCalledWith(
+      FIRST_PAGE,
+      DEFAULT_PAGE_SIZE,
+      componentInstance.tableAsBuiltSortList,
+      {
+        owner: { value: [ { value: Owner.SUPPLIER, strategy: FilterOperator.EQUAL } ], operator: 'OR' },
+      },
+    );
+    expect(componentInstance.isSaveButtonDisabled).toBeTrue();
+  });
 });

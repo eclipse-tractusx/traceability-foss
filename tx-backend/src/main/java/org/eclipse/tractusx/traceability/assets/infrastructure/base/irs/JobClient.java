@@ -19,12 +19,10 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -39,10 +37,6 @@ public class JobClient {
 
     public JobClient(@Qualifier(IRS_REGULAR_TEMPLATE) RestTemplate irsRegularTemplate) {
         this.irsRegularTemplate = irsRegularTemplate;
-    }
-
-    public void registerJob(RegisterJobRequest registerJobRequest) {
-        irsRegularTemplate.exchange("/irs/jobs", HttpMethod.POST, new HttpEntity<>(registerJobRequest), Void.class);
     }
 
     @Nullable

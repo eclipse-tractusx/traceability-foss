@@ -10,7 +10,7 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied See the
  * License for the specific language governing permissions and limitations
  * under the License.
  *
@@ -19,21 +19,22 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.investigation;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.SimpleDateFormat;
@@ -41,11 +42,9 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.hamcrest.Matchers.equalTo;
 
 class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends IntegrationTestSpecification {
 
@@ -57,17 +56,25 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     @Test
     void givenFilterBySendToProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredBySendTo() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter = "sendTo,EQUAL,BPNL000000000001,AND";
         String testBpn = bpnSupport.testBpn();
-
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .sendTo(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value("BPNL000000000001").strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -83,20 +90,29 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     @Test
     void givenFilterByCreatedDateProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredByCreatedDate() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         Date myDate = Date.from(Instant.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(myDate);
-        String filter = "createdDate,AT_LOCAL_DATE," + formattedDate + ",AND";
         String testBpn = bpnSupport.testBpn();
 
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
 
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .createdDate(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(formattedDate).strategy(SearchCriteriaStrategy.AT_LOCAL_DATE.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
+
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -111,17 +127,25 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     @Test
     void givenFilterBySendToNameProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredBySendToName() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter = "sendToName,EQUAL,OEM2,AND";
         String testBpn = bpnSupport.testBpn();
-
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .sendToName(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value("OEM2").strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -137,17 +161,25 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     @Test
     void givenFilterByStatusProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredByStatus() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter = "status,EQUAL,RECEIVED,AND";
         String testBpn = bpnSupport.testBpn();
-
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .status(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value("RECEIVED").strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -163,17 +195,25 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     @Test
     void givenFilterBySeverityProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredBySeverity() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter = "severity,EQUAL,LIFE_THREATENING,AND";
         String testBpn = bpnSupport.testBpn();
-
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .severity(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value("LIFE_THREATENING").strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -189,17 +229,25 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     @Test
     void givenFilterByCreatedByProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredByCreatedBy() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter = "createdBy,EQUAL,BPNL00000000000A,AND";
         String testBpn = bpnSupport.testBpn();
-
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .createdBy(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value("BPNL00000000000A").strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -215,17 +263,25 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     @Test
     void givenFilterByDescriptionProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredByDescription() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filter = "description,STARTS_WITH,Second,AND";
         String testBpn = bpnSupport.testBpn();
-
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .description(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value("Second").strategy(SearchCriteriaStrategy.STARTS_WITH.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filter))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -241,18 +297,29 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     @Test
     void givenFilterByDescriptionAndSendToProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredByDescriptionAndSendTo() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filterString1 = "description,STARTS_WITH,Second,AND";
-        String filterString2 = "sendTo,EQUAL,BPNL000000000001,AND";
         String testBpn = bpnSupport.testBpn();
-
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .description(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value("Second").strategy(SearchCriteriaStrategy.STARTS_WITH.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .sendTo(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value("BPNL000000000001").strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -267,20 +334,30 @@ class ReadReceivedInvestigationsWithSearchCriteriaControllerIT extends Integrati
     }
 
     @Test
-    void givenFilterBySendToNameOrSendToProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredBySendToNameOrSendTo() throws JoseException {
+    void givenFilterBySendToNameOrSendNameProvided_whenGetInvestigations_thenReturnReceivedInvestigationsFilteredBySendToNames() throws JoseException {
         // Given
-        String filterString = "channel,EQUAL,RECEIVER,AND";
-        String filterString1 = "sendToName,EQUAL,OEM2,OR";
-        String filterString2 = "sendTo,EQUAL,BPNL000000000001,OR";
         String testBpn = bpnSupport.testBpn();
-
         NotificationMessageEntity[] investigationNotificationEntities = InvestigationTestDataFactory.createReceiverMajorityInvestigationNotificationEntitiesTestData(testBpn);
         investigationNotificationsSupport.storedNotifications(investigationNotificationEntities);
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .sendToName(FilterAttribute.builder()
+                        .value(List.of(
+                                FilterValue.builder().value("OEM2").strategy(SearchCriteriaStrategy.EQUAL.name()).build(),
+                                FilterValue.builder().value("OEM1").strategy(SearchCriteriaStrategy.EQUAL.name()).build()
+                        ))
+                        .operator(SearchCriteriaOperator.OR.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of()), new SearchCriteriaRequestParam(List.of(filterString, filterString1, filterString2))))
+                .body(NotificationRequest.builder().page(0).size(10).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")

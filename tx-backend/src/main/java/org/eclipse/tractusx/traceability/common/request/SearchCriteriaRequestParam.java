@@ -59,9 +59,9 @@ public class SearchCriteriaRequestParam {
             inputFilters = Collections.emptyList();
         }
 
-        for (String filter : inputFilters) {
+        for (String inputFilter : inputFilters) {
             try {
-                String[] filterParams = filter.split(",");
+                String[] filterParams = inputFilter.split(",");
                 filters.add(
                         SearchCriteriaFilter.builder()
                                 .key(fieldMapper.mapRequestFieldName(filterParams[0]))
@@ -74,7 +74,7 @@ public class SearchCriteriaRequestParam {
             } catch (Exception exception) {
                 throw new InvalidFilterException(
                         "Invalid filter param provided filter={provided} expected format is following sort=parameter,strategy,value,operator"
-                                .replace("{provided}", filter)
+                                .replace("{provided}", inputFilter)
                 );
             }
 

@@ -18,7 +18,13 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.base.service;
 
+import assets.request.PartChainIdentificationKey;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import orders.request.CreateOrderResponse;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
@@ -26,14 +32,12 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
-import org.springframework.scheduling.annotation.Async;
-
-import java.util.Arrays;
+import org.eclipse.tractusx.traceability.common.domain.EnumFieldUtils;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -56,24 +60,24 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     protected abstract OrderRepository getOrderRepository();
 
+    protected abstract TriggerConfiguration getTriggerConfiguration();
 
     @Override
-    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds) {
-        log.info("Synchronizing assets for globalAssetIds: {}", globalAssetIds);
-        List<AssetBase> assetList = getAssetRepository().getAssetsById(globalAssetIds);
+    public CreateOrderResponse syncAssetsUsingIRSOrderAPI(List<PartChainIdentificationKey> keys, OrderConfiguration orderConfiguration) {
+        List<String> orderIds = new ArrayList<>();
+        log.info("Synchronizing assets for aasList: {}", keys);
         try {
             if (!getDownwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(assetList, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle());
+                orderIds.add(getOrderRepository().createOrderToResolveAssets(keys, Direction.DOWNWARD, getDownwardAspects(), getBomLifecycle(), orderConfiguration));
             }
 
             if (!getUpwardAspects().isEmpty()) {
-                getOrderRepository().createOrderToResolveAssets(assetList, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+                orderIds.add(getOrderRepository().createOrderToResolveAssets(keys, Direction.UPWARD, upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, orderConfiguration));
             }
-
         } catch (Exception e) {
-            log.warn("Exception during assets synchronization for globalAssetIds: {}. Message: {}.", globalAssetIds, e.getMessage(), e);
+            log.warn("Exception during assets synchronization for aasList: {}. Message: {}.", keys, e.getMessage(), e);
         }
+        return new CreateOrderResponse(orderIds);
     }
 
     @Override
@@ -111,28 +115,13 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
     @Override
-    public List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds) {
+    public List<String> getSearchableValues(String fieldName, List<String> startsWith, Integer size, Owner owner, List<String> inAssetIds) {
         final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
 
         if (isSupportedEnumType(fieldName)) {
-            return getAssetEnumFieldValues(fieldName);
+            return EnumFieldUtils.getValues(fieldName, startsWith);
         }
-        return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner, inAssetIds);
-    }
-
-    @Override
-    public List<String> getSearchableValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds) {
-        final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
-
-        if (isSupportedEnumType(fieldName)) {
-            return getAssetEnumFieldValues(fieldName);
-        }
-        return getAssetRepository().getFieldValues(fieldName, startWith, resultSize, owner, inAssetIds);
-    }
-
-    @Override
-    public List<String> getAssetIdsInImportState(ImportState... importStates) {
-        return getAssetRepository().findByImportStateIn(importStates).stream().map(AssetBase::getId).toList();
+        return getAssetRepository().getFieldValues(fieldName, startsWith, resultSize, owner, inAssetIds);
     }
 
     @Override
@@ -144,13 +133,4 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return SUPPORTED_ENUM_FIELDS.contains(fieldName);
     }
 
-    private List<String> getAssetEnumFieldValues(String fieldName) {
-        return switch (fieldName) {
-            case "owner" -> Arrays.stream(Owner.values()).map(Enum::name).toList();
-            case "qualityType" -> Arrays.stream(QualityType.values()).map(Enum::name).toList();
-            case "semanticDataModel" -> Arrays.stream(SemanticDataModel.values()).map(Enum::name).toList();
-            case "importState" -> Arrays.stream(ImportState.values()).map(Enum::name).toList();
-            default -> null;
-        };
-    }
 }

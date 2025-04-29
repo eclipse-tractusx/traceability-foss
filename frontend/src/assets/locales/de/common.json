@@ -1,77 +1,83 @@
 {
-  "clipboard": "Text \"{{value}}\" in Zwischenablage kopiert.",
-  "routing": {
-    "home": "Home",
-    "dashboard": "Dashboard",
-    "parts": "Produkte",
-    "otherParts": "Andere Produkte",
-    "about": "Info & Rechtliches",
-    "relations": "Beziehungen",
-    "admin": "Verwaltung",
-    "inbox": "Qualitätsthemen",
-    "adminRegistry": "Registry-Abfragen",
-    "adminBpn": "BPN - EDC Konfiguration",
-    "adminImport": "Datenbereitstellung",
+  "clipboard" : "Text \"{{value}}\" in Zwischenablage kopiert.",
+  "routing" : {
+    "home" : "Home",
+    "dashboard" : "Dashboard",
+    "parts" : "Produkte",
+    "otherParts" : "Andere Produkte",
+    "about" : "Info & Rechtliches",
+    "relations" : "Beziehungen",
+    "admin" : "Verwaltung",
+    "inbox" : "Qualitätsthemen",
+    "adminRegistry" : "Registry-Abfragen",
+    "adminBpn" : "BPN - EDC Konfiguration",
+    "adminImport" : "Datenbereitstellung",
     "adminPolicies" : "Richtlinienverwaltung",
     "partMismatch" : "Alle ausgewählten Teile müssen vom selben Eigentümer sein, um ein Qualitätsthema zu erstellen (Lieferant/Eigene).",
     "hasCustomerPart" : "Die Erstellung eines Qualitätsthemas für Kundenteile ist nicht möglich. Alle ausgewählten Teile müssen vom selben Eigentümer sein (Lieferant/Eigene).",
-    "unauthorized": "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
+    "unauthorized" : "Die Funktion ist aufgrund einer fehlenden Rolle deaktiviert. Bitten Sie Ihren Administrator, die erforderliche Rolle für die Funktion bereitzustellen.",
     "notificationInProcess" : "Aktionen für Qualitätsthemen sind während dem Verarbeitungsprozess nicht verfügbar.",
-    "notAllowedForAsPlanned": "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
-    "noChildPartsForInvestigation": "Diese Funktion ist für Produkte ohne Bauteile nicht verfügbar.",
-    "noCustomerAsPlannedParts": "Produkte von Kunden im Lebenszyklus \"AsPlanned\" sind nicht verfügbar.",
-    "illegalAssetStateToPublish": "Ein oder mehrere ausgewählte Produkte befinden sich nicht im erforderlichen Importstatus \"TRANSIENT\" oder \"ERROR\".",
+    "notAllowedForAsPlanned" : "Diese Funktion ist für Produkte im Lebenszyklus \"AsPlanned\" nicht verfügbar.",
+    "noChildPartsForInvestigation" : "Diese Funktion ist für Produkte ohne Bauteile nicht verfügbar.",
+    "noCustomerAsPlannedParts" : "Produkte von Kunden im Lebenszyklus \"AsPlanned\" sind nicht verfügbar.",
+    "illegalAssetStateToPublish" : "Ein oder mehrere ausgewählte Produkte befinden sich nicht im erforderlichen Importstatus \"TRANSIENT\" oder \"ERROR\".",
     "syncSelectedParts" : "Synchronisierung der ausgewählten Parts",
+    "syncPart" : "Teil synchronisieren",
+    "synchronizePartInProgress" : "Synchronisation läuft",
     "refreshAllParts" : "Synchronisierung aller Parts",
-    "adminContract": "Verträge",
-    "createIncident" : "Qualitätsthema erstellen",
-    "startInvestigation": "Qualitätsuntersuchung für Bauteile erstellen",
+    "adminContract" : "Verträge",
+    "createIncident" : "Qualitätswarnung",
+    "requestInvestigation" : "Qualitätsuntersuchung anfordern",
+    "startInvestigation" : "Qualitätsuntersuchung für Bauteile erstellen",
     "notAllowedForNonPersistentPart" : "Qualitätsthemen sind nur für Produkte im Importstatus \"PERSISTENT\" möglich.",
     "onlyAllowedForOwnParts": "Diese Funktion ist nur für eigene Produkte möglich.",
     "publishAssets": "Produkt veröffentlichen",
+    "notAuthorizedOwner" : "Qualitätsthemen sind nur für Eigene- und Lieferantenprodukte möglich.",
+    "digitalTwinPart": "Digital Twin Management",
+    "publishAssets" : "Produkt veröffentlichen",
     "notAuthorizedOwner" : "Qualitätsthemen sind nur für Eigene- und Lieferantenprodukte möglich."
   },
-  "pageTitle": {
-    "dashboard": "Dashboard",
-    "parts": "Meine Produkte",
-    "otherParts": "Andere Produkte",
-    "about": "Über Catena-X Open-Source Rückverfolgbarkeit",
-    "relations": "Beziehungen",
-    "admin": "Verwaltung Catena-X",
+  "pageTitle" : {
+    "dashboard" : "Dashboard",
+    "parts" : "Meine Produkte",
+    "otherParts" : "Andere Produkte",
+    "about" : "Über Catena-X Open-Source Rückverfolgbarkeit",
+    "relations" : "Beziehungen",
+    "admin" : "Verwaltung Catena-X",
     "alerts" : "Qualitätsthemen",
     "receivedQualityNotification" : "Empfangene Qualitätsthemen",
     "sentQualityNotification" : "Versendete Qualitätsthemen"
   },
-  "layout": {
-    "nav": {
-      "openUserMenu": "Benutzermenü öffnen",
-      "signOut": "Abmelden",
-      "goToPortal": "Öffne CX Portal"
+  "layout" : {
+    "nav" : {
+      "openUserMenu" : "Benutzermenü öffnen",
+      "signOut" : "Abmelden",
+      "goToPortal" : "Öffne CX Portal"
     }
   },
-  "actions": {
-    "back": "Zurück",
-    "cancel": "Abbrechen",
-    "approve": "Genehmigen",
-    "close": "Schließen",
-    "viewDetails": "Details anzeigen",
-    "edit": "Ändern",
-    "cancellationConfirm": "Abbruch bestätigen",
-    "accept": "Akzeptieren",
-    "acknowledge": "Bestätigen",
-    "confirm": "Genehmigen",
-    "decline": "Ablehnen",
-    "deletePart": "Teil entfernen",
-    "help": "Hilfe",
-    "add": "Hinzufügen",
+  "actions" : {
+    "back" : "Zurück",
+    "cancel" : "Abbrechen",
+    "approve" : "Genehmigen",
+    "close" : "Schließen",
+    "viewDetails" : "Details anzeigen",
+    "edit" : "Ändern",
+    "cancellationConfirm" : "Abbruch bestätigen",
+    "accept" : "Akzeptieren",
+    "acknowledge" : "Bestätigen",
+    "confirm" : "Genehmigen",
+    "decline" : "Ablehnen",
+    "deletePart" : "Teil entfernen",
+    "help" : "Hilfe",
+    "add" : "Hinzufügen",
     "saveChanges" : "Änderungen speichern",
     "save" : "Speichern",
-    "remove": "Entfernen",
-    "delete": "Löschen",
-    "goToQueue": "Zur Warteschlange",
-    "goBack": "Zurück",
-    "publishAssets": "Produkte veröffentlichen",
-    "maximizeTable": "Volle Breite",
+    "remove" : "Entfernen",
+    "delete" : "Löschen",
+    "goToQueue" : "Zur Warteschlange",
+    "goBack" : "Zurück",
+    "publishAssets" : "Produkte veröffentlichen",
+    "maximizeTable" : "Volle Breite",
     "userSettings" : "Tabellen Einstellung",
     "uploadFile" : "Richtlinien JSON-Datei hochladen",
     "downloadFile" : "Vorlage als Datei herunterladen",
@@ -81,48 +87,54 @@
     "viewNotificationsTooltip" : "Qualitätsthema unter diesem Vertrag ansehen",
     "notificationInProgress" : "Qualitätsthema befindet sich im Verarbeitungsstatus",
     "deletePartMessageSuccess" : "Teil erfolgreich entfernt",
-    "deletePartMessageError" : "Fehler beim Entfernen des Teils"
+    "deletePartMessageError" : "Fehler beim Entfernen des Teils",
+    "advancedSearch" : "Erweiterte Suche",
+    "createNotification" : "Qualitätsthema erstellen",
+    "applySearch" : "Suche anwenden",
+    "clearSearch" : "Suche löschen",
+    "closeAdvancedSearch" : "Erweiterte Suche schließen",
+    "showTableFilter" : "Tabellenfilter anzeigen"
   },
-  "publisher": {
-    "selectedAssets": "Ausgewählte Produkte",
-    "policyToApply": "Anzuwendende Richtlinie",
-    "selectPolicyLabel": "Richtlinie auswählen",
-    "selectPolicyError": "Bitte selektieren sie eine Richtlinie",
-    "publish": "Veröffentlichen"
+  "publisher" : {
+    "selectedAssets" : "Ausgewählte Produkte",
+    "policyToApply" : "Anzuwendende Richtlinie",
+    "selectPolicyLabel" : "Richtlinie auswählen",
+    "selectPolicyError" : "Bitte selektieren sie eine Richtlinie",
+    "publish" : "Veröffentlichen"
   },
-  "table": {
-    "tombStone": "Grabstein",
-    "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
-    "tryAgain": "Bitte versuchen Sie es später noch einmal.",
-    "selectPageSize": "Seite für segmentierte Elemente auswählen",
-    "menuDescription": "Aktionsmenü",
-    "clearPage": "Markierungen auf dieser Seite aufheben",
-    "clearAll": "Alle Markierungen aufheben",
-    "multiSortingTooltip": "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
+  "table" : {
+    "tombStone" : "Grabstein",
+    "noResultFound" : "KEINE ERGEBNISSE GEFUNDEN.",
+    "tryAgain" : "Bitte versuchen Sie es später noch einmal.",
+    "selectPageSize" : "Seite für segmentierte Elemente auswählen",
+    "menuDescription" : "Aktionsmenü",
+    "clearPage" : "Markierungen auf dieser Seite aufheben",
+    "clearAll" : "Alle Markierungen aufheben",
+    "multiSortingTooltip" : "Erster Klick: aufsteigend sortieren ↑ Zweiter Klick: absteigend sortieren ↓ Dritter Klick: Sortierung zurücksetzen",
     "filterTitle" : "Filter",
-    "owner": {
+    "owner" : {
       "own" : "Eigene",
-      "supplier": "Lieferant",
-      "customer": "Kunde"
+      "supplier" : "Lieferant",
+      "customer" : "Kunde"
     },
-    "semanticDataModel": {
-      "BATCH": "Batch",
-      "SERIALPART": "SerialPart",
-      "PARTASPLANNED": "PartAsPlanned",
-      "JUSTINSEQUENCE": "JustInSequence",
-      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
-      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode"
+    "semanticDataModel" : {
+      "BATCH" : "Batch",
+      "SERIALPART" : "SerialPart",
+      "PARTASPLANNED" : "PartAsPlanned",
+      "JUSTINSEQUENCE" : "JustInSequence",
+      "TOMBSTONEASBUILT" : "TombstoneAsBuilt",
+      "TOMBSTONEASPLANNED" : "TombstoneAsPlanned",
+      "TRACTIONBATTERYCODE" : "TractionBatteryCode"
     },
-    "tableSettings": {
-      "invalid": "Auf Grund eines Fehlers werden die Tabelleneinstellungen zurückgesetzt",
-      "title": "Tabellenspalten Einstellungen",
-      "selectAll": "Alle",
-      "orderTooltip": "Die Anordnung der Tabellenspalten kann über die Auswahl einer Spalte und einem Klick auf die Pfeilsymbole angepasst werden. ↑ (hoch) oder ↓ (runter)",
-      "refreshTooltip": "Zurücksetzen der individuellen Einstellung der Tabellenspalten auf die Standardeinstellung",
-      "saveAction": "Speichern",
-      "alert": "Qualitätswarnung",
-      "investigation": "Qualitätsuntersuchung"
+    "tableSettings" : {
+      "invalid" : "Auf Grund eines Fehlers werden die Tabelleneinstellungen zurückgesetzt",
+      "title" : "Tabellenspalten Einstellungen",
+      "selectAll" : "Alle",
+      "orderTooltip" : "Die Anordnung der Tabellenspalten kann über die Auswahl einer Spalte und einem Klick auf die Pfeilsymbole angepasst werden. ↑ (hoch) oder ↓ (runter)",
+      "refreshTooltip" : "Zurücksetzen der individuellen Einstellung der Tabellenspalten auf die Standardeinstellung",
+      "saveAction" : "Speichern",
+      "alert" : "Qualitätswarnung",
+      "investigation" : "Qualitätsuntersuchung"
     },
     "createNotification" : "Qualitätsthema erstellen",
     "sendNotification" : "Qualitätsthemen senden",
@@ -140,48 +152,48 @@
     "onlyNotificationInStatusCreatedAllowed" : "Aktion erfordert eine Selektion an Qualitätsthemen im Status \"Erstellt\".",
     "createPolicy" : "Richtlinie erstellen",
     "deletePolicy" : "Selektierte Richtlinien löschen",
-    "column": {
-      "id": "ID",
-      "idShort": "Kurz-ID",
-      "owner": "Eigentümer",
-      "name": "Name",
-      "manufacturerName": "Hersteller",
-      "businessPartner": "Business Partner Nummer",
-      "partId": "Produktnummer",
-      "manufacturerPartId": "Hersteller Produktnummer",
-      "customerPartId": "Kunden Produktnummer",
-      "classification": "Klassifizierung",
-      "nameAtCustomer": "Kunden Produktname",
-      "nameAtManufacturer": "Hersteller Produktname",
-      "semanticModelId": "Semantische Modellnummer",
-      "qualityType": "Qualitätsstufe",
-      "manufacturingDate": "Produktionsdatum",
-      "manufacturingCountry": "Produktionsland",
-      "validityPeriodFrom": "Gültigkeit von",
-      "validityPeriodTo": "Gültigkeit bis",
+    "column" : {
+      "id" : "ID",
+      "idShort" : "Kurz-ID",
+      "owner" : "Eigentümer",
+      "name" : "Name",
+      "manufacturerName" : "Hersteller",
+      "businessPartner" : "Business Partner Nummer",
+      "partId" : "Produktnummer",
+      "manufacturerPartId" : "Hersteller Produktnummer",
+      "customerPartId" : "Kunden Produktnummer",
+      "classification" : "Klassifizierung",
+      "nameAtCustomer" : "Kunden Produktname",
+      "nameAtManufacturer" : "Hersteller Produktname",
+      "semanticModelId" : "Semantische Modellnummer",
+      "qualityType" : "Qualitätsstufe",
+      "manufacturingDate" : "Produktionsdatum",
+      "manufacturingCountry" : "Produktionsland",
+      "validityPeriodFrom" : "Gültigkeit von",
+      "validityPeriodTo" : "Gültigkeit bis",
       "childInvestigation" : "Qualitätsthema",
-      "description": "Beschreibung",
-      "status": "Status",
-      "targetDate": "Rückmeldedatum",
-      "createdDate": "Erstelldatum",
-      "createdBy": "Erstellt von BPN",
-      "createdByName": "Erstellt von Hersteller",
-      "sendTo": "Gesendet an BPN",
-      "sendToName": "Gesendet an Hersteller",
-      "severity": "Gefahrenstufe",
-      "semanticDataModel": "Semantisches Datenmodell",
-      "catenaXSiteId": "Standort ID",
-      "psFunction": "Funktion",
-      "functionValidFrom": "Funktion gültig von",
+      "description" : "Beschreibung",
+      "status" : "Status",
+      "targetDate" : "Rückmeldedatum",
+      "createdDate" : "Erstelldatum",
+      "createdBy" : "Erstellt von BPN",
+      "createdByName" : "Erstellt von Hersteller",
+      "sendTo" : "Gesendet an BPN",
+      "sendToName" : "Gesendet an Hersteller",
+      "severity" : "Gefahrenstufe",
+      "semanticDataModel" : "Semantisches Datenmodell",
+      "catenaXSiteId" : "Standort ID",
+      "psFunction" : "Funktion",
+      "functionValidFrom" : "Funktion gültig von",
       "functionValidUntil" : "Funktion gültig bis",
       "sentActiveAlerts" : "Erstellte",
       "receivedActiveInvestigations" : "Empfangene",
       "receivedActiveAlerts" : "Empfangene",
       "sentActiveInvestigations" : "Erstellte",
-      "importState": "Importstatus",
-      "importNote": "Importbemerkung",
-      "importDate": "Importdatum",
-      "type": "Typ",
+      "importState" : "Importstatus",
+      "importNote" : "Importbemerkung",
+      "importDate" : "Importdatum",
+      "type" : "Typ",
       "title" : "Titel",
       "policyId" : "Policy ID",
       "validUntil" : "Gültig bis",
@@ -192,112 +204,119 @@
       "accessType" : "Zugriffsart",
       "contractAgreementId" : "Vertrags-ID",
       "parts" : "Produkt",
-      "notifications" : "Qualitätsthema"
+      "notifications" : "Qualitätsthema",
+      "digitalTwinType" : "Digital Twin Type",
+      "aasId" : "AAS ID",
+      "assetExpirationDate": "Asset-Ablaufdatum",
+      "aasExpirationDate": "AAS-Ablaufdatum",
+      "globalAssetId": "Globale Asset-ID"
     }
   },
-  "dataLoading": {
-    "inProgress": "Daten werden geladen...",
-    "error": "Fehler beim Laden der Daten."
+  "dataLoading" : {
+    "inProgress" : "Daten werden geladen...",
+    "error" : "Fehler beim Laden der Daten."
   },
-  "qualityType": {
-    "Ok": "Ok",
-    "Minor": "Gering",
-    "Major": "Schwerwiegend",
-    "Critical": "Kritisch",
-    "LifeThreatening": "Lebensgefährlich"
+  "qualityType" : {
+    "Ok" : "Ok",
+    "Minor" : "Gering",
+    "Major" : "Schwerwiegend",
+    "Critical" : "Kritisch",
+    "LifeThreatening" : "Lebensgefährlich"
   },
-  "importState": {
-    "PERSISTENT": "PERSISTENT",
-    "TRANSIENT": "TRANSIENT",
-    "IN_SYNCHRONIZATION": "IN SYNCHRONISATION",
-    "ERROR": "FEHLER",
-    "UNSET": "UNDEFINIERT",
-    "PUBLISHED_TO_CORE_SERVICES": "VERÖFFENTLICHT"
+  "importState" : {
+    "PERSISTENT" : "PERSISTENT",
+    "TRANSIENT" : "TRANSIENT",
+    "IN_SYNCHRONIZATION" : "IN SYNCHRONISATION",
+    "ERROR" : "FEHLER",
+    "UNSET" : "UNDEFINIERT",
+    "PUBLISHED_TO_CORE_SERVICES" : "VERÖFFENTLICHT"
   },
-  "severity": {
-    "MINOR": "Gering",
-    "MAJOR": "Schwerwiegend",
-    "CRITICAL": "Kritisch",
-    "LIFE-THREATENING": "Lebensgefährlich"
+  "severity" : {
+    "MINOR" : "Gering",
+    "MAJOR" : "Schwerwiegend",
+    "CRITICAL" : "Kritisch",
+    "LIFE-THREATENING" : "Lebensgefährlich"
   },
-  "input": {
-    "minMaxLengthHint": "{{current}} Zeichen. (Min. {{min}} und max {{max}} Zeichen)",
-    "minLengthHint": "{{current}} Zeichen. (Min. {{min}} Zeichen)",
-    "maxLengthHint": "{{rest}} verbleibende Zeichen."
+  "input" : {
+    "minMaxLengthHint" : "{{current}} Zeichen. (Min. {{min}} und max {{max}} Zeichen)",
+    "minLengthHint" : "{{current}} Zeichen. (Min. {{min}} Zeichen)",
+    "maxLengthHint" : "{{rest}} verbleibende Zeichen."
   },
-  "errorMessage": {
-    "notificationError": "Der Service hat bei der Bearbeitung dieser Warnung einen Fehler gemeldet.",
-    "min": "Bitte geben Sie eine Zahl größer {{min}} ein.",
-    "max": "Bitte geben Sie eine Zahl kleiner {{max}} ein.",
-    "required": "Pflichtfeld!",
-    "requiredTrue": "Bitte Checkbox bestätigen.",
-    "email": "Die E-Mail Adresse ist ungültig.",
-    "minLength": "Bitte geben Sie mindestens {{minLength}} Zeichen ein. Momentan: {{current}}",
-    "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein. Momentan: {{current}}",
-    "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{- pattern}}.",
-    "url": "Bitte geben Sie eine valide URL ein.",
+  "errorMessage" : {
+    "notificationError" : "Der Service hat bei der Bearbeitung dieser Warnung einen Fehler gemeldet.",
+    "min" : "Bitte geben Sie eine Zahl größer {{min}} ein.",
+    "max" : "Bitte geben Sie eine Zahl kleiner {{max}} ein.",
+    "required" : "Pflichtfeld!",
+    "requiredTrue" : "Bitte Checkbox bestätigen.",
+    "email" : "Die E-Mail Adresse ist ungültig.",
+    "minLength" : "Bitte geben Sie mindestens {{minLength}} Zeichen ein. Momentan: {{current}}",
+    "maxLength" : "Bitte geben Sie maximal {{maxLength}} Zeichen ein. Momentan: {{current}}",
+    "pattern" : "Bitte geben Sie die Daten in folgendem Format ein: {{- pattern}}.",
+    "url" : "Bitte geben Sie eine valide URL ein.",
     "bpn" : "Bitte geben Sie eine valide BPN ein (Beispiel: BPNL00000001ABC2).",
-    "maxDate": "Bitte wählen Sie ein Datum vor dem {{- maxDate}}.",
-    "minDate": "Bitte wählen Sie ein Datum nach dem {{- minDate}}.",
-    "currentDate": "Bitte wählen Sie ein Datum nach dem {{- currentDate}}.",
-    "generic": "Die Eingabe ist ungültig.",
+    "maxDate" : "Bitte wählen Sie ein Datum vor dem {{- maxDate}}.",
+    "minDate" : "Bitte wählen Sie ein Datum nach dem {{- minDate}}.",
+    "currentDate" : "Bitte wählen Sie ein Datum nach dem {{- currentDate}}.",
+    "generic" : "Die Eingabe ist ungültig.",
     "invalidBpn" : "Die eigene BPN darf nicht verwendet werden.",
     "pastDate" : "Bitte wählen Sie ein Datum in Zukunft aus.",
-    "minimumOneConstraint" : "Bitte fügen Sie mindestens eine valide Richtlinie hinzu."
+    "minimumOneConstraint" : "Bitte fügen Sie mindestens eine valide Richtlinie hinzu.",
+    "invalidCsv" : "Ungültiges Dateiformat. Bitte laden Sie eine gültige CSV-Datei hoch.",
+    "invalidCsvContent" : "Bitte stellen Sie sicher, dass die Datei mindestens eine der zur Suche erforderlichen Spalten enthält."
   },
-  "requestAlert": {
-    "headline": "Qualitätswarnung erstellen",
-    "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
-    "titleDescription": "Titel",
-    "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
-    "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt.",
-    "serverError": "Serverfehler:"
-
+  "requestAlert" : {
+    "headline" : "Qualitätswarnung erstellen",
+    "textAreaDescription" : "Fügen sie eine Beschreibung hinzu.",
+    "titleDescription" : "Titel",
+    "success_one" : "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
+    "success_other" : "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt.",
+    "serverError" : "Serverfehler:"
   },
-  "requestInvestigations": {
+  "requestInvestigations" : {
     "headline" : "Qualitätsuntersuchung anfordern",
-    "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
-    "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
-    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",
-    "serverError": "Serverfehler:"
+    "textAreaDescription" : "Fügen sie eine Beschreibung hinzu.",
+    "success_one" : "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
+    "success_other" : "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",
+    "serverError" : "Serverfehler:"
   },
-  "requestNotification": {
-    "investigation": "Qualitätsuntersuchung",
-    "alert": "Qualitätswarnung",
-    "header": "Qualitätsthema erstellen",
-    "editNotificationHeader": "Qualitätsthema anpassen",
-    "createNotificationHeader": "Qualitätsthema erstellen",
-    "affectedParts": "Betroffene Teile",
-    "asBuiltParts": "As Built",
-    "unAffectedParts": "Verfügbare Teile",
-    "partDescription": "Sie haben folgende Produkte ausgewählt:",
-    "targetDateDescription": "Bitte geben Sie das Datum an, bis wann Sie eine Antwort erwarten.",
-    "bpnLabel": "BPN",
-    "bpnDescription": "Bitte geben Sie die Empfänger BPN an.",
-    "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
-    "titleDescription": "Wählen Sie einen kurzen Titel.",
-    "titleLabel": "Titel",
-    "typeDescription": "Typ des Qualitätsthemas.",
-    "typeLabel": "Type",
-    "textAreaLabel": "Beschreibung",
-    "targetDateLabel": "Rückmeldedatum",
-    "cancel": "ABBRUCH",
-    "submit": "ZUR WARTESCHLANGE HINZUFÜGEN",
-    "severity": "Gefahrenstufe",
-    "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem.",
-    "serverError": "Serverfehler:",
-    "remove": "Auswahl entfernen",
-    "add": "Auswahl hinzufügen",
-    "modifyNotAllowed": "Erfordert mindestens eine Selektion innerhalb der Tabelle",
+  "requestNotification" : {
+    "investigation" : "Qualitätsuntersuchung",
+    "alert" : "Qualitätswarnung",
+    "header" : "Qualitätsthema erstellen",
+    "editNotificationHeader" : "Qualitätsthema anpassen",
+    "createNotificationHeader" : "Qualitätsthema erstellen",
+    "affectedParts" : "Betroffene Teile",
+    "asBuiltParts" : "As Built",
+    "unAffectedParts" : "Verfügbare Teile",
+    "partDescription" : "Sie haben folgende Produkte ausgewählt:",
+    "targetDateDescription" : "Bitte geben Sie das Datum an, bis wann Sie eine Antwort erwarten.",
+    "bpnLabel" : "BPN",
+    "bpnDescription" : "Bitte geben Sie die Empfänger BPN an.",
+    "restoreItem" : "Zuletzt gelöschtes Produkt wiederherstellen?",
+    "titleDescription" : "Wählen Sie einen kurzen Titel.",
+    "titleLabel" : "Titel",
+    "typeDescription" : "Typ des Qualitätsthemas.",
+    "typeLabel" : "Type",
+    "textAreaLabel" : "Beschreibung",
+    "targetDateLabel" : "Rückmeldedatum",
+    "cancel" : "ABBRUCH",
+    "submit" : "ZUR WARTESCHLANGE HINZUFÜGEN",
+    "severity" : "Gefahrenstufe",
+    "severityDescription" : "Wählen Sie die Gefahrenstufe für das vorliegende Problem.",
+    "serverError" : "Serverfehler:",
+    "remove" : "Auswahl entfernen",
+    "add" : "Auswahl hinzufügen",
+    "modifyNotAllowed" : "Erfordert mindestens eine Selektion innerhalb der Tabelle",
+    "invalidOwnerSelection" : "Nur eigene Teile können im As-Planned BOM synchronisiert werden.",
     "modifyAffectedNotAllowed" : "Erfordert mindestens eine Selektion in der Tabelle für betroffene Teile.",
     "modifyAvailableNotAllowed" : "Erfordert mindestens eine Selektion in der Tabelle für verfügbare Teile.",
-    "textAreaDescription": "Beschreiben Sie das Problem.",
-    "saveNotAllowed": "Erfordert eine valide Eingabe im Formular.",
+    "textAreaDescription" : "Beschreiben Sie das Problem.",
+    "saveNotAllowed" : "Erfordert eine valide Eingabe im Formular.",
     "noPartsSelected" : "Erfordert mindestens ein betroffenes Teil",
-    "saveSuccess": "Qualitätsthema wurde erfolgreich erstellt.",
-    "saveError": "Bei der Erstellung des Qualitätsthemas ist ein Fehler aufgetreten.",
-    "saveEditSuccess": "Qualitätsthema wurde erfolgreich aktualisiert.",
-    "saveEditError": "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten.",
+    "saveSuccess" : "Qualitätsthema wurde erfolgreich erstellt.",
+    "saveError" : "Bei der Erstellung des Qualitätsthemas ist ein Fehler aufgetreten.",
+    "saveEditSuccess" : "Qualitätsthema wurde erfolgreich aktualisiert.",
+    "saveEditError" : "Bei der Aktualisierung des Qualitätsthemas ist ein Fehler aufgetreten.",
     "save" : "Qualitätsthema speichern",
     "successfullyApproved" : "Qualitätsthema wurde erfolgreich genehmigt.",
     "failedApprove" : "Qualitätsthema konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
@@ -314,22 +333,32 @@
     "failedDeclined" : "Qualitätsthema konnte nicht abgelehnt werden, bitte versuchen Sie es erneut.",
     "noChanges" : "Keine Änderungen; Nichts zu speichern."
   },
-  "editNotification": {
-    "saveButton": "Speichern",
-    "cancelButton": "Verwerfen"
+  "editNotification" : {
+    "saveButton" : "Speichern",
+    "cancelButton" : "Verwerfen"
   },
-  "requestPublishAssets": {
+  "requestPublishAssets" : {
     "success" : "Anfrage zur Veröffentlichung der Produkte war erfolgreich.",
     "error" : "Fehler bei der Veröffentlichung der Produkte."
   },
-  "registryReload": {
+  "registryReload" : {
     "success" : "Prozess zur Synchronisierung der Produkte erfolgreich angestoßen. Dies kann eine Weile dauern.",
     "error" : "Prozess zur Synchronisierung der Produkte konnte nicht angestoßen werden."
   },
-  "partSynchronization": {
+  "partSynchronization" : {
     "success" : "Prozess zur Synchronisierung ausgewählter Produkte erfolgreich angestoßen. Dies kann eine Weile dauern.",
     "error" : "Prozess zur Synchronisierung ausgewählter Produkte konnte nicht angestoßen werden."
   },
+  "orderConfiguration": {
+  "success": "Die Auftragskonfiguration wurde erfolgreich übermittelt.",
+  "failure": "Die Auftragskonfiguration konnte nicht übermittelt werden.",
+  "unableToFetch": "Die aktuelle Auftragskonfiguration konnte nicht abgerufen werden."
+},
+"triggerConfiguration": {
+  "success": "Die Trigger-Konfiguration wurde erfolgreich übermittelt.",
+  "failure": "Die Trigger-Konfiguration konnte nicht übermittelt werden.",
+  "unableToFetch": "Die aktuelle Trigger-Konfiguration konnte nicht abgerufen werden."
+},
   "pagination": {
     "itemsPerPageLabel": "Artikel pro Seite:",
     "nextPageLabel": "Nächsten Seite",
@@ -338,156 +367,208 @@
     "lastPageLabel": "Letzte Seite",
     "emptyRange": "0 von {{length}}",
     "range": "{{startIndex}} – {{endIndex}} von {{length}}"
+  "pagination" : {
+    "itemsPerPageLabel" : "Artikel pro Seite:",
+    "nextPageLabel" : "Nächsten Seite",
+    "previousPageLabel" : "Vorherige Seite",
+    "firstPageLabel" : "Erste Seite",
+    "lastPageLabel" : "Letzte Seite",
+    "emptyRange" : "0 von {{length}}",
+    "range" : "{{startIndex}} – {{endIndex}} von {{length}}"
   },
-  "commonInvestigation": {
-    "viewAll": "Alle anzeigen",
-    "tabs": {
-      "received": "Zugewiesene",
-      "queuedAndRequested": "Erstellte und Angefragte"
+  "commonInvestigation" : {
+    "viewAll" : "Alle anzeigen",
+    "tabs" : {
+      "received" : "Zugewiesene",
+      "queuedAndRequested" : "Erstellte und Angefragte"
     },
-    "status": {
-      "RECEIVED": "Erhalten",
-      "CREATED": "Erstellt",
-      "SENT": "Zugestellt",
-      "CANCELED": "Abgebrochen",
-      "CLOSED": "Abgeschlossen",
-      "ACCEPTED": "Akzeptiert",
-      "ACKNOWLEDGED": "Bestätigt",
-      "DECLINED": "Abgelehnt"
+    "status" : {
+      "RECEIVED" : "Erhalten",
+      "CREATED" : "Erstellt",
+      "SENT" : "Zugestellt",
+      "CANCELED" : "Abgebrochen",
+      "CLOSED" : "Abgeschlossen",
+      "ACCEPTED" : "Akzeptiert",
+      "ACKNOWLEDGED" : "Bestätigt",
+      "DECLINED" : "Abgelehnt"
     },
-    "modal": {
-      "acceptTitle": "Annehmen der Untersuchung",
-      "acceptReasonHint": "Geben Sie den Grund für die Annahme dieser Untersuchung ein.",
-      "acknowledgeTitle": "Bestätigung der Untersuchung",
-      "approvalTitle": "Genehmigung der Untersuchung",
-      "closeTitle": "Schließen der Untersuchung",
-      "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
-      "cancellationTitle": "Abbruch der Untersuchung",
-      "cancellationHint": "Geben Sie die ID der Untersuchung ein, um Ihre Abbruchanfrage zu bestätigen.",
-      "cancellationConfirmationLabel": "Ja, ich bestätige die Stornierung der Untersuchung mit der ID: ",
-      "declineTitle": "Ablehnung der Untersuchung",
-      "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Untersuchung ein.",
-      "successfullyAccepted": "Untersuchung wurde erfolgreich angenommen.",
-      "successfullyAcknowledged": "Untersuchung wurde erfolgreich bestätigt",
-      "successfullyApproved": "Untersuchung wurde erfolgreich genehmigt.",
-      "successfullyCanceled": "Untersuchung wurde erfolgreich abgebrochen.",
-      "successfullyClosed": "Untersuchung wurde erfolgreich geschlossen.",
-      "successfullyDeclined": "Untersuchung wurde erfolgreich abgelehnt.",
-      "failedAccept": "Untersuchung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
-      "failedAcknowledge": "Untersuchung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
-      "failedApprove": "Die Untersuchung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
-      "failedCancel": "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
-      "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
-      "failedDecline": "Untersuchung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
+    "modal" : {
+      "acceptTitle" : "Annehmen der Untersuchung",
+      "acceptReasonHint" : "Geben Sie den Grund für die Annahme dieser Untersuchung ein.",
+      "acknowledgeTitle" : "Bestätigung der Untersuchung",
+      "approvalTitle" : "Genehmigung der Untersuchung",
+      "closeTitle" : "Schließen der Untersuchung",
+      "closeReasonHint" : "Geben Sie den Grund für das Schließen ein.",
+      "cancellationTitle" : "Abbruch der Untersuchung",
+      "cancellationHint" : "Geben Sie die ID der Untersuchung ein, um Ihre Abbruchanfrage zu bestätigen.",
+      "cancellationConfirmationLabel" : "Ja, ich bestätige die Stornierung der Untersuchung mit der ID: ",
+      "declineTitle" : "Ablehnung der Untersuchung",
+      "declineReasonHint" : "Geben Sie den Grund für die Ablehnung dieser Untersuchung ein.",
+      "successfullyAccepted" : "Untersuchung wurde erfolgreich angenommen.",
+      "successfullyAcknowledged" : "Untersuchung wurde erfolgreich bestätigt",
+      "successfullyApproved" : "Untersuchung wurde erfolgreich genehmigt.",
+      "successfullyCanceled" : "Untersuchung wurde erfolgreich abgebrochen.",
+      "successfullyClosed" : "Untersuchung wurde erfolgreich geschlossen.",
+      "successfullyDeclined" : "Untersuchung wurde erfolgreich abgelehnt.",
+      "failedAccept" : "Untersuchung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
+      "failedAcknowledge" : "Untersuchung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
+      "failedApprove" : "Die Untersuchung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
+      "failedCancel" : "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
+      "failedClose" : "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
+      "failedDecline" : "Untersuchung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
     }
   },
-  "commonAlert": {
-    "viewAll": "Alle anzeigen",
-    "tabs": {
-      "received": "Empfangene",
-      "queuedAndRequested": "Versendete"
+  "commonAlert" : {
+    "viewAll" : "Alle anzeigen",
+    "tabs" : {
+      "received" : "Empfangene",
+      "queuedAndRequested" : "Versendete"
     },
-    "status": {
-      "RECEIVED": "Erhalten",
-      "CREATED": "Erstellt",
-      "SENT": "Zugestellt",
-      "CANCELED": "Abgebrochen",
-      "CLOSED": "Abgeschlossen",
-      "ACCEPTED": "Akzeptiert",
-      "ACKNOWLEDGED": "Bestätigt",
-      "DECLINED": "Abgelehnt"
+    "status" : {
+      "RECEIVED" : "Erhalten",
+      "CREATED" : "Erstellt",
+      "SENT" : "Zugestellt",
+      "CANCELED" : "Abgebrochen",
+      "CLOSED" : "Abgeschlossen",
+      "ACCEPTED" : "Akzeptiert",
+      "ACKNOWLEDGED" : "Bestätigt",
+      "DECLINED" : "Abgelehnt"
     },
-    "modal": {
-      "acceptTitle": "Annehmen der Qualitätswarnung",
-      "acceptReasonHint": "Geben Sie den Grund für die Annahme dieser Qualitätswarnung ein.",
-      "acknowledgeTitle": "Bestätigung der Qualitätswarnung",
-      "approvalTitle": "Genehmigung der Qualitätswarnung",
-      "closeTitle": "Schließen der Qualitätswarnung",
-      "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
-      "cancellationTitle": "Abbruch der Qualitätswarnung",
-      "cancellationHint": "Geben Sie die ID der Qualitätswarnung ein, um Ihre Abbruchanfrage zu bestätigen.",
-      "cancellationConfirmationLabel": "Ja, ich bestätige die Stornierung der Warnung mit der ID: ",
-      "declineTitle": "Ablehnung der Qualitätswarnung",
-      "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Qualitätswarnung ein.",
-      "successfullyAccepted": "Qualitätswarnung wurde erfolgreich angenommen.",
-      "successfullyAcknowledged": "Qualitätswarnung wurde erfolgreich bestätigt",
-      "successfullyApproved": "Qualitätswarnung wurde erfolgreich genehmigt.",
-      "successfullyCanceled": "Qualitätswarnung wurde erfolgreich abgebrochen.",
-      "successfullyClosed": "Qualitätswarnung wurde erfolgreich geschlossen.",
-      "successfullyDeclined": "Qualitätswarnung wurde erfolgreich abgelehnt.",
-      "failedAccept": "Qualitätswarnung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
-      "failedAcknowledge": "Qualitätswarnung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
+    "modal" : {
+      "acceptTitle" : "Annehmen der Qualitätswarnung",
+      "acceptReasonHint" : "Geben Sie den Grund für die Annahme dieser Qualitätswarnung ein.",
+      "acknowledgeTitle" : "Bestätigung der Qualitätswarnung",
+      "approvalTitle" : "Genehmigung der Qualitätswarnung",
+      "closeTitle" : "Schließen der Qualitätswarnung",
+      "closeReasonHint" : "Geben Sie den Grund für das Schließen ein.",
+      "cancellationTitle" : "Abbruch der Qualitätswarnung",
+      "cancellationHint" : "Geben Sie die ID der Qualitätswarnung ein, um Ihre Abbruchanfrage zu bestätigen.",
+      "cancellationConfirmationLabel" : "Ja, ich bestätige die Stornierung der Warnung mit der ID: ",
+      "declineTitle" : "Ablehnung der Qualitätswarnung",
+      "declineReasonHint" : "Geben Sie den Grund für die Ablehnung dieser Qualitätswarnung ein.",
+      "successfullyAccepted" : "Qualitätswarnung wurde erfolgreich angenommen.",
+      "successfullyAcknowledged" : "Qualitätswarnung wurde erfolgreich bestätigt",
+      "successfullyApproved" : "Qualitätswarnung wurde erfolgreich genehmigt.",
+      "successfullyCanceled" : "Qualitätswarnung wurde erfolgreich abgebrochen.",
+      "successfullyClosed" : "Qualitätswarnung wurde erfolgreich geschlossen.",
+      "successfullyDeclined" : "Qualitätswarnung wurde erfolgreich abgelehnt.",
+      "failedAccept" : "Qualitätswarnung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
+      "failedAcknowledge" : "Qualitätswarnung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
       "failedApprove" : "Qualitätswarnung konnte nicht gesendet werden, bitte versuchen Sie es erneut.",
       "failedCancel" : "Qualitätswarnung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
       "failedClose" : "Qualitätswarnung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
-      "failedDecline": "Qualitätswarnung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
+      "failedDecline" : "Qualitätswarnung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
     }
   },
-  "bomLifecycleActivator": {
-    "asBuilt": "As Built",
-    "asPlanned": "As Planned"
+  "bomLifecycleActivator" : {
+    "asBuilt" : "As Built",
+    "asPlanned" : "As Planned"
   },
-  "quickFilter": {
-    "own": "Eigene",
-    "supplier": "LIEFERANT",
+  "quickFilter" : {
+    "own" : "Eigene",
+    "supplier" : "LIEFERANT",
     "customer" : "KUNDE",
     "asBuilt" : "As built",
     "asPlanned" : "As planned",
     "notification" : "Qualitätsthemen",
     "parts" : "Produkte"
   },
-  "multiSelect": {
-    "filterLabel": "Filter",
-    "placeholder": "Alle",
-    "searchPlaceholder": "Suche..",
-    "choosePlaceholder": "Auswählen..",
-    "suggestionError": "Keine Vorschläge gefunden.",
-    "multipleResults": "weitere",
-    "mappedText": {
-      "RECEIVED": "ERHALTEN",
-      "CREATED": "ERSTELLT",
-      "SENT": "ZUGESTELLT",
-      "CANCELED": "ABGEBROCHEN",
-      "CLOSED": "ABGESCHLOSSEN",
-      "ACCEPTED": "AKZEPTIERT",
-      "ACKNOWLEDGED": "BESTÄTIGT",
-      "DECLINED": "ABGELEHNT",
-      "MINOR": "Gering",
-      "MAJOR": "Schwerwiegend",
-      "CRITICAL": "Kritisch",
-      "LIFE_THREATENING": "Lebensgefährlich",
-      "BATCH": "Batch",
-      "SERIALPART": "SerialPart",
-      "PARTASPLANNED": "PartAsPlanned",
-      "JUSTINSEQUENCE": "JustInSequence",
-      "TOMBSTONEASBUILT": "TombstoneAsBuilt",
-      "TOMBSTONEASPLANNED": "TombstoneAsPlanned",
-      "TRACTIONBATTERYCODE": "TractionBatteryCode",
-      "TRANSIENT": "Transient",
-      "PERSISTENT": "Persistent",
-      "IN_SYNCHRONIZATION": "In Synchronisation",
-      "ERROR": "Fehler",
-      "UNSET": "Undefiniert",
-      "PUBLISHED_TO_CORE_SERVICES": "Veröffentlicht",
-      "OWN" : "Eigene",
-      "SUPPLIER": "Lieferant",
-      "CUSTOMER": "Kunde",
-      "UNKNOWN": "Unbekannt"
-    }
-  },
-  "parts": {
-    "input": {
-      "global-search": {
-        "placeholder" : "Suche nach ID, Produktnummer oder Business Partner Nummer (BPN)",
-        "toastInfo": "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
+  "multiSelect" : {
+    "filterLabel" : "Filter",
+    "placeholder" : "Alle",
+    "searchPlaceholder" : "Suche..",
+    "choosePlaceholder" : "Auswählen..",
+    "suggestionError" : "Keine Vorschläge gefunden.",
+    "multipleResults" : "weitere",
+    "mappedText" : {
+      "status" : {
+        "RECEIVED" : "ERHALTEN",
+        "CREATED" : "ERSTELLT",
+        "SENT" : "ZUGESTELLT",
+        "CANCELED" : "ABGEBROCHEN",
+        "CLOSED" : "ABGESCHLOSSEN",
+        "ACCEPTED" : "AKZEPTIERT",
+        "ACKNOWLEDGED" : "BESTÄTIGT",
+        "DECLINED" : "ABGELEHNT"
+      },
+      "qualityType" : {
+        "MINOR" : "Gering",
+        "MAJOR" : "Schwerwiegend",
+        "CRITICAL" : "Kritisch",
+        "LIFE_THREATENING" : "Lebensgefährlich"
+      },
+      "semanticDataModel" : {
+        "BATCH" : "Batch",
+        "SERIALPART" : "SerialPart",
+        "PARTASPLANNED" : "PartAsPlanned",
+        "JUSTINSEQUENCE" : "JustInSequence",
+        "TOMBSTONEASBUILT" : "TombstoneAsBuilt",
+        "TOMBSTONEASPLANNED" : "TombstoneAsPlanned",
+        "TRACTIONBATTERYCODE" : "TractionBatteryCode"
+      },
+      "importState" : {
+        "TRANSIENT" : "Transient",
+        "PERSISTENT" : "Persistent",
+        "IN_SYNCHRONIZATION" : "In Synchronisation",
+        "ERROR" : "Fehler",
+        "UNSET" : "Undefiniert",
+        "PUBLISHED_TO_CORE_SERVICES" : "Veröffentlicht"
+      },
+      "owner" : {
+        "OWN" : "Eigene",
+        "SUPPLIER" : "Lieferant",
+        "CUSTOMER" : "Kunde",
+        "UNKNOWN" : "Unbekannt"
       }
     }
   },
-  "datepicker": {
-    "apply": "Filter",
-    "cancel": "Zurücksetzen",
-    "startDate": "Startdatum",
-    "endDate": "Enddatum"
+  "parts" : {
+    "input" : {
+      "global-search" : {
+        "placeholder" : "Suche nach ID, Produktnummer oder Business Partner Nummer (BPN) oder per drag & drop einer csv-Datei",
+        "toastInfo" : "Lokale Filterung auf Tabellenebene wurde zurückgesetzt."
+      }
+    }
   },
-  "retry": "Erneut versuchen"
+  "datepicker" : {
+    "apply" : "Filter",
+    "cancel" : "Zurücksetzen",
+    "startDate" : "Startdatum",
+    "endDate" : "Enddatum"
+  },
+  "retry" : "Erneut versuchen",
+  "filter" : {
+    "select-all" : "Alles auswählen",
+    "placeholder" : {
+      "owner" : "Eigentümer Filtern",
+      "importState" : "Importstatus Filtern",
+      "businessPartner" : "BPNL Filtern",
+      "nameAtManufacturer" : "Produktnamen Filtern",
+      "manufacturerName" : "Herstellernamen Filtern",
+      "id" : "IDs Filtern",
+      "idShort" : "Kurz-IDs Filtern",
+      "manufacturerPartId" : "Hersteller Produktnummern Filtern",
+      "customerPartId" : "Kunden Produktnummern Filtern",
+      "manufacturingCountry" : "Produktionsland Filtern",
+      "manufacturingDate" : "Produktionsdatum Filtern",
+      "semanticModelId" : "Semantische Modellnummer Filtern",
+      "startDate" : "Startdatum",
+      "endDate" : "Enddatum"
+    }
+  },
+  "digitalTwinPart": {
+    "digitalTwinRegistryData": "Digitale Zwilling-Registerdaten",
+    "aasId": "AAS-ID",
+    "ttl": "TTL",
+    "nextLookup": "Nächste Abfrage",
+    "lastUpdatedAt": "Zuletzt aktualisiert am",
+    "createdAt": "Erstellt am",
+    "assetTTl": "Asset-TTL",
+    "actor": "Akteur",
+    "nextSync": "Nächste Synchronisierung",
+    "assetExpirationDate": "Asset-Ablaufdatum",
+    "aasExpirationDate": "AAS-Ablaufdatum",
+    "irsDataSync": "IRS-Datensynchronisation",
+    "globalAssetId": "Globale Asset-ID"
+  }
 }

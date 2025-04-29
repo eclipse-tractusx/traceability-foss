@@ -20,12 +20,28 @@
 package org.eclipse.tractusx.traceability.common.model;
 
 public enum SearchCriteriaStrategy {
-    EQUAL,
-    STARTS_WITH,
-    AT_LOCAL_DATE,
-    AFTER_LOCAL_DATE,
-    BEFORE_LOCAL_DATE,
-    NOTIFICATION_COUNT_EQUAL,
-    EXCLUDE,
-    IS_NOT_NULL
+    EQUAL("EQUAL"),
+    STARTS_WITH("STARTS_WITH"),
+    AT_LOCAL_DATE("AT_LOCAL_DATE"),
+    AFTER_LOCAL_DATE("AFTER_LOCAL_DATE"),
+    BEFORE_LOCAL_DATE("BEFORE_LOCAL_DATE"),
+    NOTIFICATION_COUNT_EQUAL("NOTIFICATION_COUNT_EQUAL"),
+    EXCLUDE("EXCLUDE"),
+    IS_NOT_NULL("IS_NOT_NULL"),
+    GLOBAL("GLOBAL");
+
+    private final String value;
+
+    SearchCriteriaStrategy(String value) {
+        this.value = value;
+    }
+
+    public static SearchCriteriaStrategy fromValue(String value) {
+        for (SearchCriteriaStrategy strategy : values()) {
+            if (strategy.value.equalsIgnoreCase(value)) {
+                return strategy;
+            }
+        }
+        throw new IllegalArgumentException("Invalid SearchCriteriaOperator value: " + value);
+    }
 }

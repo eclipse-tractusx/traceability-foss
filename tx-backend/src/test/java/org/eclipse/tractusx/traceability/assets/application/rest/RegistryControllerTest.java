@@ -19,16 +19,20 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
-import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
+import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.RegistryController;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.times;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,12 +44,16 @@ class RegistryControllerTest {
     @InjectMocks
     private RegistryController registryController;
 
+    @Mock
+    ConfigurationService configurationService;
+
     @Test
-    void givenController_whenReload_thenCallFacade() throws RegistryServiceException {
+    void givenController_whenReload_thenCallFacade() {
         // when
+        Mockito.when(configurationService.getLatestOrderConfiguration()).thenReturn(OrderConfiguration.builder().build());
         registryController.reload();
 
         // then
-        verify(registryFacade, times(1)).synchronizeAssets();
+        verify(registryFacade).registerOrdersForExpiredAssets(any(), any());
     }
 }

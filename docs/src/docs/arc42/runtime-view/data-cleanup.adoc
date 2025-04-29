@@ -1,0 +1,20 @@
+= Data cleanup for AASIds
+
+This sequence diagram describes the process necessary for removing old AAS elements which are stored in Trace-X
+but have an expired TTL
+
+== Cleanup  (DTR)
+
+[plantuml, target=business-context_data_cleanup, format=svg]
+....
+include::../../../uml-diagrams/arc42/runtime-view/data-cleanup/data-cleanup.puml[]
+....
+
+== Overview
+
+Trace-X includes a scheduled cleanup mechanism to maintain data integrity in its local database.
+At fixed intervals, a cron job triggers the cleanup process.
+During this process, Trace-X queries the database for expired Asset Administration Shell (AAS)
+entries based on their time-to-live (TTL). If any expired entries are found, they are removed from the database,
+and a corresponding log message is written. If no expired entries exist,
+Trace-X logs that no cleanup was necessary. This ensures outdated twin data does not accumulate over time.

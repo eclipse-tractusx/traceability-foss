@@ -30,6 +30,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +46,8 @@ public class AssetAsPlannedServiceImpl extends AbstractAssetBaseService {
     private final AssetAsPlannedRepository assetAsPlannedRepository;
 
     private final OrderRepository orderRepository;
+
+    private final TriggerConfigurationRepository triggerConfigurationRepository;
 
     @Override
     protected AssetRepository getAssetRepository() {
@@ -68,6 +72,11 @@ public class AssetAsPlannedServiceImpl extends AbstractAssetBaseService {
     @Override
     protected OrderRepository getOrderRepository() {
         return orderRepository;
+    }
+
+    @Override
+    protected TriggerConfiguration getTriggerConfiguration() {
+        return triggerConfigurationRepository.findTopByCreatedAtDesc();
     }
 
     @Override

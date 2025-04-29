@@ -6,6 +6,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -28,11 +29,11 @@ class AbstractAssetBaseServiceTest {
 
     @ParameterizedTest
     @MethodSource("enumFieldNamesProvider")
-    void givenEnumFieldName(String fieldName, String startWith, List<String> expectedValues) {
+    void givenEnumFieldName(String fieldName, List<String> startsWith, List<String> expectedValues) {
         // given params
 
         // when
-        List<String> result = service.getSearchableValues(fieldName, startWith, 10, null, List.of());
+        List<String> result = service.getSearchableValues(fieldName, startsWith, 10, null, List.of());
 
         // then
         assertThat(result).containsAll(expectedValues);
@@ -40,10 +41,10 @@ class AbstractAssetBaseServiceTest {
 
     private static Stream<Arguments> enumFieldNamesProvider() {
         return Stream.of(
-                Arguments.of("owner", null, List.of("SUPPLIER", "CUSTOMER", "OWN", "UNKNOWN")),
-                Arguments.of("qualityType", "O", List.of("OK", "MINOR", "MAJOR", "CRITICAL", "LIFE_THREATENING")),
+                Arguments.of("owner", List.of("SU", "CU"), List.of("SUPPLIER", "CUSTOMER")),
+                Arguments.of("qualityType", List.of("M"), List.of("MINOR", "MAJOR")),
                 Arguments.of("semanticDataModel", null, List.of("BATCH", "SERIALPART", "UNKNOWN", "PARTASPLANNED", "JUSTINSEQUENCE")),
-                Arguments.of("importState", null, List.of("TRANSIENT", "PERSISTENT", "ERROR", "IN_SYNCHRONIZATION", "UNSET"))
+                Arguments.of("importState", List.of("T"), List.of("TRANSIENT"))
         );
     }
 
@@ -71,6 +72,11 @@ class AbstractAssetBaseServiceTest {
 
         @Override
         protected OrderRepository getOrderRepository() {
+            return null;
+        }
+
+        @Override
+        protected TriggerConfiguration getTriggerConfiguration() {
             return null;
         }
 

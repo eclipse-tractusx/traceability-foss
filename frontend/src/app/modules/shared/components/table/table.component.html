@@ -239,6 +239,7 @@ SPDX-License-Identifier: Apache-2.0
       [class.no-hover]="!showHover"
       [ngClass]="{'error': row?.errorMessage }"
       (click)="selectElement(row)"
+      (dblclick)="onRowDoubleClick(row)"
       onkeydown="selectElement(row)"
       mat-row
       data-testid="table-component--body-row"

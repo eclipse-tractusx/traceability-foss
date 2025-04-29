@@ -18,19 +18,17 @@
  ********************************************************************************/
 
 
-import { AfterViewInit, Component, Input, NgZone, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { View } from '@shared/model/view.model';
+import { AfterViewInit, Component, inject, Input, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { State } from '@shared/model/state';
-import Tree from '@shared/modules/relations/presentation/tree/tree.d3';
-import Minimap from '@shared/modules/relations/presentation/minimap/minimap.d3';
+import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { RelationsFacade } from '@shared/modules/relations/core/relations.facade';
+import { RelationComponentState } from '@shared/modules/relations/core/component.state';
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
-import { ActivatedRoute } from '@angular/router';
-import { debounceTime, tap } from 'rxjs/operators';
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';
+import { RelationsFacade } from '@shared/modules/relations/core/relations.facade';
 import {
   OpenElements,
   TreeData,
@@ -38,7 +36,10 @@ import {
   TreeElement,
   TreeStructure,
 } from '@shared/modules/relations/model/relations.model';
-import { RelationComponentState } from '@shared/modules/relations/core/component.state';
+import Minimap from '@shared/modules/relations/presentation/minimap/minimap.d3';
+import Tree from '@shared/modules/relations/presentation/tree/tree.d3';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { debounceTime, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tree',
@@ -46,21 +47,52 @@ import { RelationComponentState } from '@shared/modules/relations/core/component
   encapsulation: ViewEncapsulation.None,
   providers: [ RelationComponentState, RelationsFacade ],
 })
-export class TreeComponent implements OnDestroy, AfterViewInit {
+export class TreeComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() showMiniMap = false;
   @Input() shouldRenderParents = false;
   @Input() isStandalone = true;
   @Input() htmlId: string;
+  @Input() overwriteContext: string = undefined;
+
+  public readonly subscriptions = new Subscription();
+  public readonly rootPart$: Observable<View<Part>>;
+  private isComponentInitialized = false;
+  private resizeSub: Subscription;
+  private treeDirection: TreeDirection;
+  private _rootPart$ = new State<View<Part>>({ loader: true });
+  private tree: Tree;
+  private minimap: Minimap;
+  private activatedRoute = inject(ActivatedRoute);
+  private context: string;
+  private mainAspectType: MainAspectType = null;
+
+
+  constructor(
+    private readonly partDetailsFacade: PartDetailsFacade,
+    private readonly relationsFacade: RelationsFacade,
+    private readonly loadedElementsFacade: LoadedElementsFacade,
+    private readonly router: Router,
+    private readonly ngZone: NgZone,
+  ) {
+    this.rootPart$ = this._rootPart$.observable;
+    this.context = this.activatedRoute?.parent?.toString().split('\'')[1];
+  }
 
   @Input() set direction(_direction: 'LEFT' | 'RIGHT') {
     this.treeDirection = TreeDirection[_direction];
 
-    this.relationsFacade.isParentRelationTree = _direction === 'LEFT';
-    const sub = this.relationsFacade.initRequestPartDetailQueue().subscribe();
-    this.subscriptions.add(sub);
+    if (this.mainAspectType !== null) {
+      this.relationsFacade.isParentRelationTree = _direction === 'LEFT';
+      const sub = this.relationsFacade.initRequestPartDetailQueue(this.mainAspectType).subscribe();
+      this.subscriptions.add(sub);
+    }
   }
 
   @Input() set rootPart(data: View<Part>) {
+    if (data) {
+      this.mainAspectType = data.data.mainAspectType;
+      this.direction = this.treeDirection;
+    }
     this.resetTree(data || {});
   }
 
@@ -69,25 +101,10 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
     this.resizeSub = resize$.subscribe(resize => this.tree?.changeSize?.(resize));
   }
 
-  public readonly subscriptions = new Subscription();
-  public readonly rootPart$: Observable<View<Part>>;
-
-  private isComponentInitialized = false;
-  private resizeSub: Subscription;
-
-  private treeDirection: TreeDirection;
-  private _rootPart$ = new State<View<Part>>({ loader: true });
-  private tree: Tree;
-  private minimap: Minimap;
-
-  constructor(
-    private readonly partDetailsFacade: PartDetailsFacade,
-    private readonly relationsFacade: RelationsFacade,
-    private readonly loadedElementsFacade: LoadedElementsFacade,
-    private readonly route: ActivatedRoute,
-    private readonly ngZone: NgZone,
-  ) {
-    this.rootPart$ = this._rootPart$.observable;
+  public ngOnInit(): void {
+    if (this.overwriteContext) {
+      this.context = this.overwriteContext;
+    }
   }
 
   public ngOnDestroy(): void {
@@ -126,7 +143,7 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
     const treeConfigRight: TreeData = {
       id,
       mainId: this.htmlId,
-      openDetails: this.isStandalone ? this.openDetails.bind(this) : _ => null,
+      openDetails: this.openDetails.bind(this),
       defaultZoom: this.isStandalone ? 1 : 0.7,
       updateChildren: this.updateChildren.bind(this),
     };
@@ -149,6 +166,7 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
 
   private openDetails({ id }: TreeElement): void {
     this.subscriptions.add(this.partDetailsFacade.setPartFromTree(id).subscribe());
+    this.router.navigate([ `/${ this.context }/${ id }` ], { queryParams: { isAsBuilt: this.partDetailsFacade.mainAspectType === MainAspectType.AS_BUILT } });
   }
 
   private renderTreeWithOpenElements(openElements: OpenElements): void {

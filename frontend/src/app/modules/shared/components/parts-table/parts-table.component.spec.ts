@@ -17,6 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { EventEmitter } from '@angular/core';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
@@ -24,12 +27,15 @@ import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
+import { TableSettingsComponent } from '@shared/components/table-settings/table-settings.component';
+import { TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationType } from '@shared/model/notification.model';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { c } from 'msw/lib/glossary-2792c6da';
 import { of } from 'rxjs';
 import { TableType } from '../multi-select-autocomplete/table-type.model';
 
@@ -44,7 +50,7 @@ describe('PartsTableComponent', () => {
     const paginationData = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
     const partsFacadeMock = jasmine.createSpyObj('PartsFacade', [
       'deletePartByIdAsPlanned',
-      'deletePartByIdAsBuild',
+      'deletePartByIdAsBuilt',
     ]);
     return renderComponent(PartsTableComponent, {
       imports: [ SharedModule ],
@@ -64,9 +70,9 @@ describe('PartsTableComponent', () => {
   ) => {
     const partsFacadeMock = jasmine.createSpyObj('PartsFacade', [
       'deletePartByIdAsPlanned',
-      'deletePartByIdAsBuild',
+      'deletePartByIdAsBuilt',
     ]);
-    const toastServiceMock = jasmine.createSpyObj('ToastService', ['success', 'error']);
+    const toastServiceMock = jasmine.createSpyObj('ToastService', [ 'success', 'error' ]);
 
     const { fixture } = await renderPartsTableComponent(size, tableType, [
       { provide: PartsFacade, useValue: partsFacadeMock },
@@ -358,6 +364,17 @@ describe('PartsTableComponent', () => {
     expect(emitPartReloadSpy).toHaveBeenCalledWith(PartReloadOperation.SYNC_PARTS_AS_PLANNED);
   });
 
+  it('should emit selected event when row is double clicked', async () => {
+    const { fixture } = await renderPartsTableComponent(1, TableType.AS_BUILT_OWN);
+    const { componentInstance } = fixture;
+    spyOn(componentInstance.selected, 'emit');
+    const mockRow = { id: 1, name: 'Test' };
+
+    componentInstance.onRowDoubleClick(mockRow);
+
+    expect(componentInstance.selected.emit).toHaveBeenCalledWith(mockRow);
+  });
+
   it('should delete AS_PLANNED part successfully', async () => {
     const { componentInstance, partsFacadeMock, toastServiceMock } = await renderPartsTableComponentWithMocks(
       1,
@@ -370,7 +387,65 @@ describe('PartsTableComponent', () => {
     componentInstance.deleteItem(part);
 
     expect(partsFacadeMock.deletePartByIdAsPlanned).toHaveBeenCalledWith('123');
-    expect(partsFacadeMock.deletePartByIdAsBuild).not.toHaveBeenCalled();
+    expect(partsFacadeMock.deletePartByIdAsBuilt).not.toHaveBeenCalled();
     expect(toastServiceMock.success).toHaveBeenCalledWith('actions.deletePartMessageSuccess');
   });
+
+  it('should delete AS_BUILT part successfully', async () => {
+    const { componentInstance, partsFacadeMock, toastServiceMock } = await renderPartsTableComponentWithMocks(
+      1,
+      TableType.AS_BUILT_OWN,
+    );
+
+    const part: Part = { id: '123', mainAspectType: MainAspectType.AS_BUILT } as Part;
+    partsFacadeMock.deletePartByIdAsBuilt.and.returnValue(of({}));
+
+    componentInstance.deleteItem(part);
+
+    expect(partsFacadeMock.deletePartByIdAsBuilt).toHaveBeenCalledWith('123');
+    expect(partsFacadeMock.deletePartByIdAsPlanned).not.toHaveBeenCalled();
+    expect(toastServiceMock.success).toHaveBeenCalledWith('actions.deletePartMessageSuccess');
+  });
+
+  it('should update pageIndex, set isDataLoading to true and emit configChanged on pagination change', async () => {
+    const { componentInstance } = await renderPartsTableComponentWithMocks(
+      1,
+      TableType.AS_BUILT_OWN,
+    );
+
+    const pageEvent: PageEvent = { pageIndex: 2, pageSize: 50, length: 100 };
+    const configChangedSpy = spyOn(componentInstance.configChanged, 'emit');
+    componentInstance.sorting = ['name', 'asc'];
+
+    componentInstance.onPaginationChange(pageEvent);
+
+    expect(componentInstance.pageIndex).toBe(2);
+    expect(componentInstance.isDataLoading).toBeTrue();
+    expect(configChangedSpy).toHaveBeenCalledWith({
+      page: 2,
+      pageSize: 50,
+      sorting: ['name', 'asc'] ,
+    });
+  });
+
+  it('should call removeSelectedValues when row is already selected', async () => {
+    const { componentInstance } = await renderPartsTableComponentWithMocks(
+      1,
+      TableType.AS_BUILT_OWN,
+    );
+    let removeSelectedValueSpy = spyOn<any>(componentInstance, 'removeSelectedValues');
+    let addSelectedValuesSpy = spyOn<any>(componentInstance, 'addSelectedValues');
+    let emitMultiSelectSpy = spyOn<any>(componentInstance, 'emitMultiSelect');
+    let isSelectedSpy = spyOn(componentInstance, 'isSelected').and.returnValue(true)
+
+    const part: Part = { id: '123', mainAspectType: MainAspectType.AS_BUILT } as Part;
+
+    componentInstance.toggleSelection(part);
+
+    expect(isSelectedSpy).toHaveBeenCalledWith(part);
+    expect(removeSelectedValueSpy).toHaveBeenCalledWith([part]);
+    expect(addSelectedValuesSpy).not.toHaveBeenCalled();
+    expect(emitMultiSelectSpy).toHaveBeenCalled();
+  });
+
 });

@@ -62,6 +62,16 @@ public class IrsApiSupport {
         );
     }
 
+    public void irsApiTriggerOrder() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/irs/orders")
+        ).then(
+                ok(),
+                header("Content-Type", "application/json"),
+                restitoProvider.jsonResponseFromFile("./stubs/irs/post/jobs/response_200.json")
+        );
+    }
+
     public void irsJobDetailsAsPlanned() {
         whenHttp(restitoProvider.stubServer()).match(
                         get("/irs/jobs/ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED")
@@ -82,6 +92,17 @@ public class IrsApiSupport {
                         ok(),
                         header("Content-Type", "application/json"),
                         restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json")
+                );
+    }
+
+    public void irsApiReturnsJobDetails_withAasIdentifier() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54")
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_with_aas_identifier_200.json")
                 );
     }
 

@@ -35,8 +35,9 @@ export function resetMultiSelectionAutoCompleteComponent(partsTableComponents: Q
   return oneFilterSet;
 }
 
-export function provideDataObject(data: Pagination<any>) {
+export function provideDataObject(data: Pagination<any>, existingData?: Pagination<any>) {
   let usedData: Pagination<any>;
+
   if (!data || !data.content?.length) {
     usedData = {
       content: [],
@@ -45,10 +46,21 @@ export function provideDataObject(data: Pagination<any>) {
       pageSize: 0,
       totalItems: 0,
     };
+  } else if (existingData && existingData.content?.length) {
+    const filteredContent = data.content.filter(item =>
+      existingData.content.some(existingItem => existingItem.id === item.id)
+    );
 
+    usedData = {
+      ...data,
+      content: filteredContent,
+      totalItems: filteredContent.length,
+    };
   } else {
     usedData = data;
   }
+
   return usedData;
 }
+
 

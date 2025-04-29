@@ -32,6 +32,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
+import org.eclipse.tractusx.traceability.configuration.infrastructure.repository.TriggerConfigurationRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -48,8 +50,9 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
 
     private final AssetAsBuiltViewRepository assetAsBuiltViewRepository;
 
-
     private final OrderRepository orderRepository;
+
+    private final TriggerConfigurationRepository triggerConfigurationRepository;
 
     @Override
     protected AssetRepository getAssetRepository() {
@@ -59,6 +62,11 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
     @Override
     protected OrderRepository getOrderRepository() {
         return orderRepository;
+    }
+
+    @Override
+    protected TriggerConfiguration getTriggerConfiguration() {
+        return triggerConfigurationRepository.findTopByCreatedAtDesc();
     }
 
     @Override
@@ -75,7 +83,6 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
     protected BomLifecycle getBomLifecycle() {
         return BomLifecycle.AS_BUILT;
     }
-
 
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
@@ -103,6 +110,5 @@ public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
     public AssetBase getAssetById(String assetId) {
         return assetAsBuiltViewRepository.getAssetById(assetId);
     }
-
 
 }

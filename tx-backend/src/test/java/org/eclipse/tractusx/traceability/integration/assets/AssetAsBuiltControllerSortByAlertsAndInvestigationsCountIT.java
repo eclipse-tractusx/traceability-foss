@@ -68,12 +68,12 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
     @Test
     void givenAlertsForAsset_whenCallWithSortByQualityAlertsInStatusActiveDesc_thenReturnAssetsWithActiveAlertsCountInDesc() throws JoseException {
         // Given
-        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt1), SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt1), SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt1), SENDER);
 
-        AssetAsBuiltEntity assetAsBuilt3 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2cc").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt3 = jpaAssetAsBuiltRepository.findById("urn:uuid:b931e9e8-614d-494c-a8e6-548ee8b6ef34").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt3), SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt3), SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt3), SENDER);
@@ -110,12 +110,12 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
     @Test
     void givenAlertsForAsset_whenCallWithSortByQualityAlertsInStatusActiveAsc_thenReturnAssetsWithActiveAlertsCountInAsc() throws JoseException {
         // Given
-        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt1), SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt1), SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(CLOSED, List.of(assetAsBuilt1), SENDER);
 
-        AssetAsBuiltEntity assetAsBuilt3 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2cc").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt3 = jpaAssetAsBuiltRepository.findById("urn:uuid:b931e9e8-614d-494c-a8e6-548ee8b6ef34").orElseThrow();
         alertsSupport.storeAlertWithStatusAndAssets(CREATED, List.of(assetAsBuilt3), SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(SENT, List.of(assetAsBuilt3), SENDER);
         alertsSupport.storeAlertWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt3), SENDER);
@@ -154,11 +154,11 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
     void givenInvestigationsForAsset_whenCallWithSortByQualityInvestigationsInStatusActiveDesc_thenReturnAssetsWithActiveInvestigationsCountInDesc() throws JoseException {
         // Given
         assetsSupport.defaultMultipleAssetsAsBuiltStored();
-        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt1), RECEIVER);
         investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt1), RECEIVER);
 
-        AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2cc").orElseThrow();
+        AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById("urn:uuid:b931e9e8-614d-494c-a8e6-548ee8b6ef34").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt2), RECEIVER);
         investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt2), RECEIVER);
         investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt2), RECEIVER);
@@ -196,11 +196,11 @@ class AssetAsBuiltControllerSortByAlertsAndInvestigationsCountIT extends Integra
         // Given
         assetsSupport.defaultMultipleAssetsAsBuiltStored();
 
-        final AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb").orElseThrow();
+        final AssetAsBuiltEntity assetAsBuilt1 = jpaAssetAsBuiltRepository.findById("urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt1), RECEIVER);
         investigationsSupport.storeInvestigationWithStatusAndAssets(DECLINED, List.of(assetAsBuilt1), RECEIVER);
 
-        final AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2cc").orElseThrow();
+        final AssetAsBuiltEntity assetAsBuilt2 = jpaAssetAsBuiltRepository.findById("urn:uuid:b931e9e8-614d-494c-a8e6-548ee8b6ef34").orElseThrow();
         investigationsSupport.storeInvestigationWithStatusAndAssets(RECEIVED, List.of(assetAsBuilt2), RECEIVER);
         investigationsSupport.storeInvestigationWithStatusAndAssets(ACKNOWLEDGED, List.of(assetAsBuilt2), RECEIVER);
         investigationsSupport.storeInvestigationWithStatusAndAssets(ACCEPTED, List.of(assetAsBuilt2), RECEIVER);

@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import {
   Notification,
   NotificationResponse,
@@ -46,13 +45,13 @@ describe('InvestigationsAssembler', () => {
       description: '',
       createdBy: '',
       createdByName: '',
-      createdDate: new CalendarDateModel(null),
-      updatedDate: new CalendarDateModel(null),
+      createdDate: new Date(null),
+      updatedDate: new Date(null),
       assetIds: null,
       sendTo: '',
       sendToName: '',
       severity: null,
-      targetDate: new CalendarDateModel(null),
+      targetDate: new Date(null),
       messages: [],
       isFromSender: false,
     };
@@ -123,13 +122,13 @@ describe('InvestigationsAssembler', () => {
           description: 'test descr',
           createdBy: 'BPNL000000TESTRE',
           createdByName: '',
-          createdDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
-          updatedDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+          createdDate: new Date('2022-07-26T15:09:39.419Z'),
+          updatedDate: new Date('2022-07-26T15:09:39.419Z'),
           assetIds: [],
           sendTo: '',
           sendToName: '',
           severity: Severity.MINOR,
-          targetDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+          targetDate: new Date('2022-07-26T15:09:39.419Z'),
           messages: [],
           isFromSender: true,
 
@@ -142,13 +141,13 @@ describe('InvestigationsAssembler', () => {
           description: 'test descr',
           createdBy: 'BPNL000000TESTRE',
           createdByName: '',
-          createdDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
-          updatedDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+          createdDate: new Date('2022-07-26T15:09:39.419Z'),
+          updatedDate: new Date('2022-07-26T15:09:39.419Z'),
           assetIds: [],
           sendTo: '',
           sendToName: '',
           severity: Severity.MAJOR,
-          targetDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+          targetDate: new Date('2022-07-26T15:09:39.419Z'),
           messages: [],
           isFromSender: true,
         },

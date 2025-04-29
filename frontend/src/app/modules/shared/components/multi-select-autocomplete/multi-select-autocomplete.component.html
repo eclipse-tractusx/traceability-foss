@@ -19,11 +19,9 @@ SPDX-License-Identifier: Apache-2.0
 <mat-form-field>
 
   <mat-select *ngIf="!isDate" #selectElem [placeholder]="placeholder" [formControl]="formControl"
-              onkeydown="filterItem('')"
-              (click)="filterItem('')"
               [multiple]="true"
               (selectionChange)="onSelectionChange($event)" panelClass="app-multiselect-filter-dropdown"
-              (openedChange)="options = []; filterItem(searchInput.value)">
+              (openedChange)="handleOpen($event)">
 
     <div class="box-search">
       <mat-checkbox *ngIf="!singleSearch && !(!searchedOptions?.length && !optionsSelected?.length)" color="primary" class="box-select-all" [disabled]="!searchedOptions?.length && !optionsSelected?.length" [(ngModel)]="selectAllChecked"
@@ -47,12 +45,12 @@ SPDX-License-Identifier: Apache-2.0
 
     <div class="pl-1" *ngIf="suggestionError">{{'multiSelect.suggestionError' | i18n}}</div>
     <ng-container *ngFor="let option of optionsSelected">
-      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
+      <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
         {{ option.display }}
       </mat-option>
       <ng-template #i18nKeyDisplay>
-        <mat-option [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
-          {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+        <mat-option [disabled]="option.disabled" [value]="option.value">
+          {{ 'multiSelect.mappedText.' + filterColumn + '.' + option.display | i18n: { defaultValue: option.display } }}
         </mat-option>
       </ng-template>
     </ng-container>
@@ -60,12 +58,12 @@ SPDX-License-Identifier: Apache-2.0
     <mat-divider></mat-divider>
     <ng-container *ngIf="options?.length">
       <ng-container *ngFor="let option of options">
-        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
+        <mat-option *ngIf="containsIllegalCharactersForI18nKey(option.display); else i18nKeyDisplay" [disabled]="option.disabled" [value]="option.value">
           {{ option.display }}
         </mat-option>
         <ng-template #i18nKeyDisplay>
-          <mat-option [disabled]="option.disabled || isQuickFilterOption(option.value)" [value]="option.value">
-            {{ 'multiSelect.mappedText.' + option.display | i18n: {defaultValue: option.display} }}
+          <mat-option [disabled]="option.disabled" [value]="option.value">
+            {{ 'multiSelect.mappedText.' + filterColumn + '.' + option.display | i18n: { defaultValue: option.display } }}
           </mat-option>
         </ng-template>
       </ng-container>
@@ -81,7 +79,7 @@ SPDX-License-Identifier: Apache-2.0
             {{ value }}
           </ng-container>
           <ng-template #i18nKeyDisplay>
-            {{ 'multiSelect.mappedText.' + value | i18n: {defaultValue: value} }}
+            {{ 'multiSelect.mappedText.' + filterColumn + '.' + value | i18n: { defaultValue: value } }}
           </ng-template>
         </ng-container>
       </div>
@@ -97,7 +95,7 @@ SPDX-License-Identifier: Apache-2.0
              (dateChange)="endDateSelected($event)">
     </mat-date-range-input>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker disabled="false">
+    <mat-date-range-picker #picker [disabled]="false">
       <mat-datepicker-actions>
         <button (click)="clickClear()" mat-button matDatepickerCancel>{{ 'datepicker.cancel' | i18n }}</button>
         <button (click)="dateFilter()" mat-raised-button color="primary"

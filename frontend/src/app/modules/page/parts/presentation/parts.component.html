@@ -18,32 +18,59 @@ under the License.
 
 SPDX-License-Identifier: Apache-2.0
 -->
-
 <div class="parts-table-container">
-  <div class="search--and--quick--filter--wrapper">
-    <div class="quick--filter--wrapper">
-      <app-quick-filter (buttonClickEvent)="updatePartsByOwner($event)"></app-quick-filter>
-    </div>
-    <div class="searchbar--container" [formGroup]="searchFormGroup">
-      <app-input
-        [label]="'parts.input.global-search.placeholder' | i18n"
-        [suffixIconHover]="true"
-        [displayClearButton]="true"
-        (suffixIconClick)="triggerPartSearch()"
-        [onEnterActive]="true"
-        [suffixIcon]="'search'"
-        class="parts-search-input"
-        formControlName="partSearch"
-        [parentFormGroup]="searchFormGroup"
-        [parentControlName]="'partSearch'"
-        suffixIconColor="primary"
-      ></app-input>
-    </div>
+  <div class="global-search-container">
+    <mat-form-field class="parts-global-search-field"
+                    [floatLabel]="chipItems.length > 0 ? 'always' : 'auto'"
+    (drop)="onFileDropped($event)"
+    (dragover)="$event.preventDefault()">
+      <mat-label>{{ 'parts.input.global-search.placeholder' | i18n }}</mat-label>
+      <mat-chip-listbox aria-label="Item selection">
+        <div #chipContainer class="chip-container">
+          <mat-chip *ngFor="let item of visibleChips">
+            {{ item }}
+            <button matChipRemove [attr.aria-label]="'remove ' + item" (click)="remove(item)">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <mat-chip *ngIf="hiddenCount > 0" class="hidden-chip">
+            +{{ hiddenCount }}
+          </mat-chip>
+          <input
+            matInput
+            [formControl]="searchControl"
+            (keydown.enter)="triggerPartSearch()"
+          />
+          <div class="search-buttons">
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="triggerPartSearch()"
+              [color]="'primary'">
+              <mat-icon>search</mat-icon>
+            </button>
+            <button
+              *ngIf="chipItems.length"
+              mat-icon-button
+              matSuffix
+              (click)="clearInput()"
+              [color]="'primary'">
+              <mat-icon>clear</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-chip-listbox>
+    </mat-form-field>
+    <app-button [iconName]="'upload_file'" [variant]="'stroked'" [useGap]="true"
+                (click)="openUploadDialog()" onKeyDown="andSonarQubeIsHappy" class="csv-upload-button">
+      Search by CSV
+    </app-button>
   </div>
 
+
   <div class="split-container-wrapper">
-    <as-split  (dragEnd)="splitAreaChanged($event)" direction="horizontal" class="split-container">
-      <as-split-area  data-testid="as-split-area-1-component--test-id"  [size]="bomLifecycleSize.asBuiltSize"
+    <as-split (dragEnd)="splitAreaChanged($event)" direction="horizontal" class="split-container">
+      <as-split-area data-testid="as-split-area-1-component--test-id" [size]="bomLifecycleSize.asBuiltSize"
                      class="split-area">
 
 
@@ -66,7 +93,7 @@ SPDX-License-Identifier: Apache-2.0
                              (configChanged)="onAsBuiltTableConfigChange($event)"
                              (multiSelect)="currentSelectedItems$.next($event)"
                              (clickSelectAction)="navigateToNotificationCreationView()"
-                             (filterActivated)="filterActivated(true, $event )"
+                             (filterActivated)="asBuiltFilterActivated($event)"
                              [multiSortList]="tableAsBuiltSortList"
                              (maximizeClicked)="maximizeClicked($event)"
                              [tableHeader]='"page.asBuiltParts" | i18n'
@@ -96,7 +123,7 @@ SPDX-License-Identifier: Apache-2.0
                              (configChanged)="onAsPlannedTableConfigChange($event)"
                              (multiSelect)="currentSelectedAsPlannedItems$.next($event)"
                              (clickSelectAction)="isAlertOpen$.next(true)"
-                             (filterActivated)="filterActivated(false, $event)"
+                             (filterActivated)="asPlannedFilterActivated($event)"
                              [multiSortList]="tableAsPlannedSortList"
                              [tableHeader]='"page.asPlannedParts" | i18n'
                              (maximizeClicked)="maximizeClicked($event)"
@@ -113,9 +140,9 @@ SPDX-License-Identifier: Apache-2.0
 
   <app-sidenav-wrapper [isOpen]="isPublisherOpen$ | async" (sidenavAction)="isPublisherOpen$.next($event)">
     <app-asset-publisher
-    [selectedAssets] = "allSelectedItems$ | async"
-    [isOpen]="isPublisherOpen$"
-    (submitted)="isPublisherOpen$.next(false); refreshPartsOnPublish($event);"
+      [selectedAssets]="allSelectedItems$ | async"
+      [isOpen]="isPublisherOpen$"
+      (submitted)="isPublisherOpen$.next(false); refreshPartsOnPublish($event);"
     ></app-asset-publisher>
   </app-sidenav-wrapper>
 

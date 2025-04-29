@@ -68,7 +68,8 @@ irs-edc-client:
 
 digitalTwinRegistryClient:
   discoveryFinderUrl: http://localhost:5001/discoveryfinder/administration/connectors/discovery/search
-
+  discovery:
+    type: "bpnl"
 cors:
   origins: >
     http://localhost:4200,
@@ -128,7 +129,3 @@ irs:
   policies:
     - policyId: "ID 3.0 Trace"
       ttl: "2024-09-30T23:59:59.99Z"
-
-bpdm:
-  providerUrl: https://golden-record-provider-edc.dataspaceos.preprod.whatever.com/api/v1/dsp
-  providerBpnl: BPNLWHATEVEREZFA

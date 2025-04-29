@@ -1,0 +1,89 @@
+/********************************************************************************
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+.digital-twin-part-card{
+  border-radius: 20px;
+}
+
+
+.global-search-container {
+  display: flex;
+  align-items: stretch; 
+  gap: 16px;
+  padding: 20px;
+}
+
+.search-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-button-container {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.parts-global-search-field {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+  padding-right: 5px;
+  padding-bottom: 8px;
+  transition: all 0.2s ease;
+}
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  overflow: hidden;
+  flex-grow: 1;
+  padding-right: 90px;
+  transition: all 0.2s ease;
+}
+
+input[matInput] {
+  flex-grow: 1;
+  flex-basis: 100px;
+  min-width: 150px;
+  margin-top: 4px;
+}
+
+
+.search-buttons {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}

@@ -16,126 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-import { HttpParams } from '@angular/common/http';
-import {
-  AssetAsBuiltFilter,
-  AssetAsPlannedFilter,
-  FilterOperator,
-  getFilterOperatorValue,
-} from '@page/parts/model/parts.model';
-import { NotificationDeeplinkFilter } from '@shared/model/notification.model';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, DigitalTwinPartFilter, FilterOperator, FilterValue } from '@shared/model/filter.model';
 
-
-export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate', 'createdOn', 'validUntil' ];
-
-// TODO: Refactor function
-export function enrichFilterAndGetUpdatedParams(filter: AssetAsBuiltFilter | any, params: HttpParams, filterOperator: string): HttpParams {
-
-  for (const key in filter) {
-    let operator: string;
-    const filterValues: string = filter[key];
-    if (!filterValues) {
-      continue;
-    }
-    // has date
-    if (isDateFilter(key)) {
-      if (isDateRangeFilter(filterValues)) {
-        const [ startDate, endDate ] = filterValues.split(',');
-        if (isSameDate(startDate, endDate)) {
-          operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-          params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
-          continue;
-        }
-        let endDateOperator = getFilterOperatorValue(FilterOperator.BEFORE_LOCAL_DATE);
-        operator = getFilterOperatorValue((FilterOperator.AFTER_LOCAL_DATE));
-        params = params.append('filter', `${ key },${ operator },${ startDate },${ filterOperator }`);
-        params = params.append('filter', `${ key },${ endDateOperator },${ endDate },${ filterOperator }`);
-        continue;
-      } else if (filterValues && filterValues.length != 0) {
-        operator = getFilterOperatorValue(FilterOperator.AT_LOCAL_DATE);
-        params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
-      }
-    }
-
-    // has multiple values
-    if (isStartsWithFilter(key) && Array.isArray(filter[key])) {
-      operator = getFilterOperatorValue(FilterOperator.EQUAL);
-
-      for (const value of filter[key]) {
-        params = params.append('filter', `${ key },${ operator },${ value },${ filterOperator }`);
-      }
-    }
-
-    // has single value
-    if (isStartsWithFilter(key) && !Array.isArray(filter[key])) {
-      operator = getFilterOperatorValue(FilterOperator.STARTS_WITH);
-      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
-    }
-
-    if (isNotificationCountFilter(key) && filterValues && filterValues.length != 0) {
-      operator = getFilterOperatorValue(FilterOperator.NOTIFICATION_COUNT_EQUAL);
-      params = params.append('filter', `${ key },${ operator },${ filterValues },${ filterOperator }`);
-    }
-
-    // has single value
-    if (isAssetIdsFilter(key)) {
-      operator = getFilterOperatorValue(FilterOperator.EQUAL);
-      const keyOverride = "id";
-      const filterOperatorOverride = "OR";
-      for (let value of filterValues){
-        params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
-      }
-    }
-
-    if (isExcludeAssetIdsFilter(key)) {
-      operator = getFilterOperatorValue(FilterOperator.EXCLUDE);
-      const keyOverride = "id";
-      const filterOperatorOverride = "AND";
-      for (let value of filterValues){
-        params = params.append('filter', `${ keyOverride },${ operator },${ value },${ filterOperatorOverride }`);
-      }
-    }
-
-  }
-
-  return params;
-}
-
-export function isAssetIdsFilter(key: string): boolean {
-  return 'ids' === key;
-}
-
-export function isExcludeAssetIdsFilter(key: string): boolean {
-  return 'excludeIds' === key;
-}
-
-export function isStartsWithFilter(key: string): boolean {
-  return !isDateFilter(key) && !isNotificationCountFilter(key) && !isAssetIdsFilter(key) && !isExcludeAssetIdsFilter(key);
-}
-
-export function isNotificationCountFilter(key: string): boolean {
-  return 'receivedQualityAlertIdsInStatusActive' === key || 'sentQualityAlertIdsInStatusActive' === key || 'receivedQualityInvestigationIdsInStatusActive' === key || 'sentQualityInvestigationIdsInStatusActive' === key;
-}
+export const DATE_FILTER_KEYS = [ 'manufacturingDate', 'functionValidFrom', 'functionValidUntil', 'validityPeriodFrom', 'validityPeriodTo', 'createdDate', 'targetDate', 'creationDate', 'endDate', 'createdOn', 'validUntil','aasExpirationDate','assetExpirationDate' ];
 
 export function isDateFilter(key: string): boolean {
   return DATE_FILTER_KEYS.includes(key);
 }
 
-export function isDateRangeFilter(filterValues: string): boolean {
-  return filterValues.includes(',');
-}
-
-export function isSameDate(startDate: string, endDate: string): boolean {
-  return startDate === endDate;
-}
-
-export function toAssetFilter(formValues: any, isAsBuilt: boolean, ids?: string[]): AssetAsPlannedFilter | AssetAsBuiltFilter {
+export function toAssetFilter(formValues: any, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
 
   const transformedFilter: any = {};
 
   // Loop through each form control and add it to the transformedFilter if it has a non-null and non-undefined value
   for (const key in formValues) {
-    if (formValues[key] !== null && formValues[key] !== undefined) {
+    if (formValues[key] !== null && formValues[key] !== undefined && !Array.isArray(formValues[key])) {
       if ('receivedActiveAlerts' === key) {
         transformedFilter['receivedQualityAlertIdsInStatusActive'] = formValues[key];
         continue;
@@ -156,10 +51,6 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean, ids?: string[
     }
   }
 
-  if (ids){
-    transformedFilter['ids'] = ids;
-  }
-
   const filterIsSet = Object.values(transformedFilter).some(value => value !== undefined && value !== null);
   if (filterIsSet) {
     if (isAsBuilt) {
@@ -170,75 +61,83 @@ export function toAssetFilter(formValues: any, isAsBuilt: boolean, ids?: string[
   } else {
     return null;
   }
-
 }
 
-export function enrichDeeplinkFilterAndGetUpdatedFilter(filter: any): string[] {
-  let filterList: string[] = [];
-  if (filter?.notificationIds) {
+export function toGlobalSearchAssetFilter(values: string[] | Record<string, string[]>, isAsBuilt: boolean): AssetAsPlannedFilter | AssetAsBuiltFilter {
 
-    if (Array.isArray(filter.notificationIds)) {
-      filter.notificationIds.forEach(notificationId => {
-        filterList.push('id,EQUAL,' + notificationId + ',OR');
-      });
-    } else {
-      filterList.push('id,EQUAL,' + filter.notificationIds + ',OR');
-    }
+  let filter: AssetAsPlannedFilter | AssetAsBuiltFilter;
+  let strategy = FilterOperator.GLOBAL;
+  let filterValues: FilterValue[];
 
+  if (Array.isArray(values)) {
+    filterValues = values.map(value => ({ value, strategy }));
+  } else {
+    filterValues = Object.values(values).flat().map(value => ({ value, strategy }));
   }
-  return filterList;
-
-}
-
-
-export function toGlobalSearchAssetFilter(formValues: string, isAsBuilt: boolean) {
-  let filter;
   if (isAsBuilt) {
     filter = {
-      id: formValues,
-      semanticModelId: formValues,
-      idShort: formValues,
-      customerPartId: formValues,
-      manufacturerPartId: formValues,
-      businessPartner: formValues,
+      id: { value: filterValues, operator: 'OR' },
+      semanticModelId: { value: filterValues, operator: 'OR' },
+      idShort: { value: filterValues, operator: 'OR' },
+      customerPartId: { value: filterValues, operator: 'OR' },
+      manufacturerPartId: { value: filterValues, operator: 'OR' },
+      businessPartner: { value: filterValues, operator: 'OR' },
     } as AssetAsBuiltFilter;
   } else {
     filter = {
-      id: formValues,
-      idShort: formValues,
-      semanticModelId: formValues,
-      manufacturerPartId: formValues,
-      businessPartner: formValues,
+      id: { value: filterValues, operator: 'OR' },
+      idShort: { value: filterValues, operator: 'OR' },
+      semanticModelId: { value: filterValues, operator: 'OR' },
+      manufacturerPartId: { value: filterValues, operator: 'OR' },
+      businessPartner: { value: filterValues, operator: 'OR' },
     } as AssetAsPlannedFilter;
   }
-
   return filter;
 }
 
-export function provideFilterListForNotifications(filter?: NotificationDeeplinkFilter, fullFilter?: any): string[] {
-  let filterList: string[] = [];
+export function containsAtLeastOneFilterEntry(filter: AssetAsBuiltFilter | AssetAsPlannedFilter): boolean {
+  return Object.values(filter).some((attr) =>
+    attr?.value?.some((filterValue: FilterValue) => Boolean(filterValue.value?.trim())),
+  );
+}
 
-  if (filter && !fullFilter) {
-    filterList = enrichDeeplinkFilterAndGetUpdatedFilter(filter);
+export function toGlobalSearchDigitalTwinFilter(values: string[] | Record<string, string[]>): DigitalTwinPartFilter {
+  const strategy = FilterOperator.GLOBAL;
+  let filterValues: FilterValue[];
+
+  if (Array.isArray(values)) {
+    filterValues = values.map(value => ({ value, strategy }));
+  } else {
+    filterValues = Object.values(values).flat().map(value => ({ value, strategy }));
   }
 
-  if (!filter && fullFilter) {
-    let params: HttpParams;
-    params = enrichFilterAndGetUpdatedParams(fullFilter, new HttpParams(), 'AND');
-    let filterParams = params.getAll('filter');
-    if (filterParams) {
-      filterParams.forEach(filter => {
-        filterList.push(filter);
-      });
+  return {
+    aasId: {
+      value: filterValues,
+      operator: 'OR',
+    },
+    globalAssetId: {
+      value: filterValues,
+      operator: 'OR',
+    },
+  };
+}
+
+export function toStructuredDigitalTwinFilter(formValues: Record<string, string[]>): DigitalTwinPartFilter {
+  const filter: DigitalTwinPartFilter = {};
+
+  Object.entries(formValues).forEach(([key, values]) => {
+    
+    if (Array.isArray(values) && values.length > 0) {
+      filter[key] = {
+        value: values.map(value => ({
+          value,
+          strategy: isDateFilter(key) ? FilterOperator.AT_LOCAL_DATE : FilterOperator.STARTS_WITH,
+        })),
+        operator: 'OR',
+      };
     }
+  });
 
+  return filter;
   }
-
-  return filterList;
-}
-
-export function containsAtleastOneFilterEntry(filter: AssetAsBuiltFilter | AssetAsPlannedFilter): boolean {
-  return Object.keys(filter)
-    .filter(key => filter[key]?.length)
-    .length > 0;
-}

@@ -26,11 +26,13 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.mapper.TombstoneMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IRSResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.IrsSubmodel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.AssetBaseMappers;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.relationship.RelationshipMapper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.MapperHelper;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.mapping.submodel.SubmodelMapper;
 import org.eclipse.tractusx.traceability.bpn.domain.service.BpnService;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
@@ -57,6 +59,7 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
     private final AssetBaseMapperProvider assetBaseMapperProvider;
     private final ObjectMapper objectMapper;
     private final BpnService bpnService;
+    private final TraceabilityProperties traceabilityProperties;
 
 
     @Override
@@ -64,10 +67,18 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
         Map<String, List<Descriptions>> descriptionMap = extractRelationshipToDescriptionMap(irsResponse);
         List<DetailAspectModel> tractionBatteryCode = MapperHelper.extractTractionBatteryCode(irsResponse.submodels(), irsResponse.jobStatus().globalAssetId(), assetBaseMapperProvider);
         List<DetailAspectModel> partSiteInformationAsPlanned = MapperHelper.extractPartSiteInformationAsPlanned(irsResponse.submodels(), assetBaseMapperProvider);
-        List<AssetBase> tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper);
+        List<AssetBase> tombstones = null;
+        try {
+            tombstones = TombstoneMapper.mapTombstones(irsResponse.jobStatus(), irsResponse.tombstones(), objectMapper, traceabilityProperties.getBpn().value());
+        } catch (Exception e) {
+            log.warn("Failed to map tombstones for IRS job with status: {}, exception: {}",
+                    irsResponse.jobStatus(), e.getMessage(), e);
+        }
+
         if (tombstones != null) {
             log.info("Found {} tombstones", tombstones.size());
         }
+
 
         List<AssetBase> submodelAssets = new ArrayList<>(irsResponse
                 .submodels()
@@ -76,11 +87,20 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
                     Optional<SubmodelMapper> mapper = assetBaseMapperProvider.getMainSubmodelMapper(irsSubmodel);
                     if (mapper.isPresent()) {
                         AssetBase assetBase = mapper.get().extractSubmodel(irsSubmodel);
-                        assetBase.setOwner(getOwner(assetBase, irsResponse));
+
+                        String manufacturerName = null;
+                        try {
+                            manufacturerName = bpnService.findByBpn(assetBase.getManufacturerId());
+                        } catch (Exception e) {
+                            log.warn("Failed to resolve manufacturer name for BPN: {}. Exception: {}",
+                                    assetBase.getManufacturerId(), e.getMessage(), e);
+                        }
+
+                        assetBase.setOwner(getOwner(assetBase, irsResponse, traceabilityProperties.getBpn().toString()));
                         assetBase.setIdShort(getShortId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setLatestContractAgreementId(getContractAgreementId(irsResponse.shells(), assetBase.getId()));
                         assetBase.setManufacturerId(getManufacturerId(irsResponse, assetBase));
-                        assetBase.setManufacturerName(bpnService.findByBpn(assetBase.getManufacturerId()));
+                        assetBase.setManufacturerName(manufacturerName);
                         enrichUpwardAndDownwardDescriptions(descriptionMap, assetBase);
                         enrichAssetBase(tractionBatteryCode, assetBase);
                         enrichAssetBase(partSiteInformationAsPlanned, assetBase);
@@ -93,6 +113,8 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
 
         if (tombstones != null) {
             submodelAssets.addAll(tombstones);
+        } else{
+            log.info("Tombstones list is null. No tombstones were added to mapped asset.");
         }
         return submodelAssets;
     }
@@ -137,6 +159,11 @@ public class IrsResponseAssetMapper implements AssetBaseMappers<IRSResponse> {
 
         log.debug("Returning existing manufacturerId: {}", assetBase.getManufacturerId());
         return assetBase.getManufacturerId();
+    }
+
+    public Optional<AssetBase> extractSubmodel(IrsSubmodel irsSubmodel) {
+        return assetBaseMapperProvider.getMainSubmodelMapper(irsSubmodel)
+                .map(submodelMapper -> submodelMapper.extractSubmodel(irsSubmodel));
     }
 
 }

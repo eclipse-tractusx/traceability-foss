@@ -19,8 +19,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Pagination } from '@core/model/pagination.model';
 import { DEFAULT_PAGE_SIZE, FIRST_PAGE } from '@core/pagination/pagination.model';
@@ -31,19 +41,21 @@ import { resetMultiSelectionAutoCompleteComponent } from '@page/parts/core/parts
 import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 import { PartReloadOperation } from '@page/parts/model/partReloadOperation.enum';
-import { AssetAsBuiltFilter, AssetAsPlannedFilter, Part } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { CsvUploadComponent } from '@shared/components/csv-upload/csv-upload.component';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { PartsTableComponent } from '@shared/components/parts-table/parts-table.component';
-import { QuickFilterComponent } from '@shared/components/quick-filter/quick-filter.component';
 import { TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 import { ToastService } from '@shared/components/toasts/toast.service';
-import { containsAtleastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
+import { containsAtLeastOneFilterEntry, toAssetFilter, toGlobalSearchAssetFilter } from '@shared/helper/filter-helper';
 import { setMultiSorting } from '@shared/helper/table-helper';
+import { AssetAsBuiltFilter, AssetAsPlannedFilter, FilterOperator } from '@shared/model/filter.model';
 import { NotificationType } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { BomLifecycleSettingsService } from '@shared/service/bom-lifecycle-settings.service';
+import { CsvFilterService } from '@shared/service/csv-filter.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -53,6 +65,9 @@ import { map } from 'rxjs/operators';
   selector: 'app-parts',
   templateUrl: './parts.component.html',
   styleUrls: [ './parts.component.scss' ],
+  host: {
+    'class': 'app-parts-style',
+  },
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -83,7 +98,20 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public currentPartTablePage = { AS_BUILT_OWN_PAGE: 0, AS_PLANNED_OWN_PAGE: 0 };
 
   @ViewChildren(PartsTableComponent) partsTableComponents: QueryList<PartsTableComponent>;
-  @ViewChildren(QuickFilterComponent) quickFilterComponents: QueryList<QuickFilterComponent>;
+  public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings();
+  public searchFormGroup = new FormGroup({});
+  chipItems: string[] = [];
+  searchTerms: string[] = [];
+  visibleChips: string[] = [];
+  @ViewChild('chipContainer', { static: false }) chipContainer!: ElementRef;
+  hiddenCount = 0;
+  public searchControl: FormControl;
+  assetAsBuiltFilter: AssetAsBuiltFilter;
+  assetsAsPlannedFilter: AssetAsPlannedFilter;
+  protected readonly TableType = TableType;
+  protected readonly MainAspectType = MainAspectType;
+  protected readonly NotificationType = NotificationType;
+  private readonly maxLength: number = 20;
 
   constructor(
     private readonly partsFacade: PartsFacade,
@@ -95,6 +123,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     public roleService: RoleService,
     public router: Router,
     public route: ActivatedRoute,
+    private readonly dialog: MatDialog,
+    private readonly csvFilterService: CsvFilterService,
   ) {
     this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
     this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
@@ -109,13 +139,11 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public bomLifecycleSize: BomLifecycleSize = this.userSettingService.getUserSettings();
-
-  public searchFormGroup = new FormGroup({});
-  public searchControl: FormControl;
-
-  assetAsBuiltFilter: AssetAsBuiltFilter;
-  assetsAsPlannedFilter: AssetAsPlannedFilter;
+  openUploadDialog() {
+    this.dialog.open(CsvUploadComponent, {
+      minWidth: '600px',
+    });
+  }
 
   public ngOnInit(): void {
     this.partsFacade.setPartsAsBuilt();
@@ -123,6 +151,18 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.searchFormGroup.addControl('partSearch', new FormControl([]));
     this.searchControl = this.searchFormGroup.get('partSearch') as unknown as FormControl;
     this.route.queryParams.subscribe(params => this.setupPageByUrlParams(params));
+    this.updateVisibleChips();
+    window.addEventListener('resize', () => this.updateVisibleChips());
+    this.csvFilterService.searchValues$.subscribe(values => {
+      if (Object.values(values).flat().length > 0) {
+        this.clearInput();
+        this.searchControl.setValue(values);
+        this.triggerPartSearch();
+        setTimeout(() => {
+          this.chipContainer.nativeElement.focus();
+        }, 100);
+      }
+    });
 
   }
 
@@ -166,45 +206,100 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  asPlannedFilterActivated(assetAsPlannedFilter: AssetAsPlannedFilter): void {
+    this.assetsAsPlannedFilter = assetAsPlannedFilter;
+    this.partsFacade.setPartsAsPlanned(this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] ?? FIRST_PAGE, DEFAULT_PAGE_SIZE,
+      this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, false));
+  }
 
-  filterActivated(isAsBuilt: boolean, assetFilter: any): void {
-    if (isAsBuilt) {
-      this.assetAsBuiltFilter = assetFilter;
-      this.partsFacade.setPartsAsBuilt(this.currentPartTablePage['AS_BUILT_OWN_PAGE'] ?? FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
-    } else {
-      this.assetsAsPlannedFilter = assetFilter;
-      this.partsFacade.setPartsAsPlanned(this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] ?? FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, false));
-    }
+  asBuiltFilterActivated(assetAsBuiltFilter: AssetAsBuiltFilter): void {
+    this.assetAsBuiltFilter = assetAsBuiltFilter;
+    this.partsFacade.setPartsAsBuilt(this.currentPartTablePage['AS_BUILT_OWN_PAGE'] ?? FIRST_PAGE, DEFAULT_PAGE_SIZE,
+      this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
   }
 
   triggerPartSearch() {
+    this.resetFilterAndShowToast();
+    const searchValue: string = this.searchControl.value;
 
-    this.resetFilterAndShowToast(true);
+    if (this.chipItems.length || searchValue && searchValue !== '') {
+      let values: string[] | Record<string, string[]>;
+      if (!this.isRecord(searchValue)) {
+        const regex = /[\p{L}\p{N}:_+\\/=#'-]+/gu;
+        values = searchValue.match(regex) ?? [];
+        values.push(...this.searchTerms);
+      } else {
+        values = searchValue;
+      }
 
-    const searchValue = this.searchFormGroup.get('partSearch').value;
+      this.partsFacade.setGlobalFilterPartsAsPlanned(
+        FIRST_PAGE,
+        DEFAULT_PAGE_SIZE,
+        this.tableAsPlannedSortList,
+        toGlobalSearchAssetFilter(values, false),
+        true,
+      );
 
-    if (searchValue && searchValue !== '') {
-      this.partsFacade.setPartsAsPlanned(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, toGlobalSearchAssetFilter(searchValue, false), true);
-      this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, toGlobalSearchAssetFilter(searchValue, true), true);
+      this.partsFacade.setGlobalFilterPartsAsBuilt(
+        FIRST_PAGE,
+        DEFAULT_PAGE_SIZE,
+        this.tableAsBuiltSortList,
+        toGlobalSearchAssetFilter(values, true),
+        true,
+      );
+
+      if (this.isRecord(values)) {
+        values = Object.values(values).flat();
+      }
+
+      values.forEach(value => {
+        if (!this.searchTerms.includes(value)) {
+          this.searchTerms.push(value);
+          const truncated = this.truncateText(value);
+          this.chipItems.push(truncated);
+          this.updateVisibleChips();
+        }
+      });
     } else {
-      this.partsFacade.setPartsAsBuilt();
-      this.partsFacade.setPartsAsPlanned();
+      this.partsFacade.setGlobalFilterPartsAsBuilt();
+      this.partsFacade.setGlobalFilterPartsAsPlanned();
     }
+    this.searchFormGroup.patchValue({ partSearch: '' });
+  }
 
+  truncateText(text: string): string {
+    return text.length > this.maxLength ? text.substring(0, this.maxLength) + '...' : text;
+  }
+
+  clearInput() {
+    this.searchControl.setValue('');
+    this.chipItems.length = 0;
+    this.searchTerms.length = 0;
+    this.triggerPartSearch();
+    this.updateVisibleChips();
+  }
+
+  remove(item: string) {
+    const originalTerm = this.searchTerms.find(orig => this.truncateText(orig) === item);
+    if (originalTerm) {
+      this.searchTerms = this.searchTerms.filter(i => i !== originalTerm);
+      this.chipItems = this.chipItems.filter(i => i !== item);
+      this.triggerPartSearch();
+      this.updateVisibleChips();
+    }
   }
 
   updatePartsByOwner(owner: Owner) {
     this.resetFilterAndShowToast();
-    let filter = {};
+    let filter: AssetAsPlannedFilter | AssetAsBuiltFilter;
     if (owner != Owner.UNKNOWN) {
       filter = {
-        owner,
+        owner: { value: [ { value: owner, strategy: FilterOperator.EQUAL } ], operator: 'OR' },
       };
     }
     this.partsFacade.setPartsAsPlanned(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsPlannedSortList, filter, true);
     this.partsFacade.setPartsAsBuilt(FIRST_PAGE, DEFAULT_PAGE_SIZE, this.tableAsBuiltSortList, filter, true);
     this.currentQuickFilter = owner;
-
   }
 
   refreshPartsOnPublish(message: string) {
@@ -230,6 +325,87 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.syncPartsAsPlanned(this.currentSelectedAsPlannedItems$.value.map(part => part.id));
         break;
     }
+  }
+
+  public ngAfterViewInit(): void {
+    this.handleTableActivationEvent(this.bomLifecycleSize);
+  }
+
+  public ngOnDestroy(): void {
+    this.partsFacade.unsubscribeParts();
+  }
+
+  public onSelectItem($event: Record<string, unknown>): void {
+    this.partDetailsFacade.selectedPart = $event as unknown as Part;
+    this.partDetailsFacade.mainAspectType = this.partDetailsFacade.selectedPart.mainAspectType;
+    let tableData = {};
+    for (let component of this.partsTableComponents) {
+      tableData[component.tableType + '_PAGE'] = component.pageIndex;
+    }
+    tableData['isAsBuilt'] = $event?.partId !== undefined;
+    this.router.navigate([ `parts/${ $event?.id }` ], { queryParams: tableData });
+  }
+
+  public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
+    this.currentPartTablePage['AS_BUILT_OWN_PAGE'] = page;
+    let pageSizeValue = DEFAULT_PAGE_SIZE;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+    if (this.assetAsBuiltFilter && containsAtLeastOneFilterEntry(this.assetAsBuiltFilter)) {
+      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
+    } else {
+      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
+    }
+
+  }
+
+  public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
+    this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] = page;
+
+    let pageSizeValue = DEFAULT_PAGE_SIZE;
+    if (pageSize !== 0) {
+      pageSizeValue = pageSize;
+    }
+    if (this.assetsAsPlannedFilter && containsAtLeastOneFilterEntry(this.assetsAsPlannedFilter)) {
+      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
+    } else {
+      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
+    }
+
+  }
+
+  public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
+    this.bomLifecycleSize = bomLifecycleSize;
+  }
+
+  openPublisherSideNav(): void {
+    this.isPublisherOpen$.next(true);
+  }
+
+  navigateToNotificationCreationView(type?: NotificationType) {
+    this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
+    if (this.sharedPartService?.affectedParts.length > 0 && type) {
+      this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: type } });
+    } else {
+      this.router.navigate([ 'inbox/create' ]);
+    }
+  }
+
+  onFileDropped(event: DragEvent) {
+    event.preventDefault();
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      this.csvFilterService.parseCsvFile(file);
+    }
+  }
+
+  isRecord(value: any): value is Record<string, string[]> {
+    return typeof value === 'object' && value !== null &&
+      Object.values(value).every(arr => Array.isArray(arr));
   }
 
   private reloadRegistry() {
@@ -265,74 +441,11 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  private resetFilterAndShowToast(resetOwner?: boolean) {
+  private resetFilterAndShowToast() {
     let filterIsSet = resetMultiSelectionAutoCompleteComponent(this.partsTableComponents, false);
-    if (resetOwner) {
-      this.quickFilterComponents.get(0).owner = Owner.UNKNOWN;
-    }
     if (filterIsSet) {
       this.toastService.info('parts.input.global-search.toastInfo');
     }
-  }
-
-  public ngAfterViewInit(): void {
-    this.handleTableActivationEvent(this.bomLifecycleSize);
-  }
-
-  public ngOnDestroy(): void {
-    this.partsFacade.unsubscribeParts();
-  }
-
-  public onSelectItem($event: Record<string, unknown>): void {
-    this.partDetailsFacade.selectedPart = $event as unknown as Part;
-    let tableData = {};
-    for (let component of this.partsTableComponents) {
-      tableData[component.tableType + '_PAGE'] = component.pageIndex;
-    }
-    tableData['isAsBuilt'] = $event?.partId !== undefined;
-    this.router.navigate([ `parts/${ $event?.id }` ], { queryParams: tableData });
-  }
-
-  public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.setTableSortingList(sorting, MainAspectType.AS_BUILT);
-    this.currentPartTablePage['AS_BUILT_OWN_PAGE'] = page;
-    let pageSizeValue = DEFAULT_PAGE_SIZE;
-    if (pageSize !== 0) {
-      pageSizeValue = pageSize;
-    }
-    if (this.quickFilterComponents && this.quickFilterComponents?.get(0)?.owner !== Owner.UNKNOWN){
-      this.assetAsBuiltFilter.owner = this.quickFilterComponents.get(0)?.owner;
-    }
-    if (this.assetAsBuiltFilter && containsAtleastOneFilterEntry(this.assetAsBuiltFilter)) {
-      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList, toAssetFilter(this.assetAsBuiltFilter, true));
-    } else {
-      this.partsFacade.setPartsAsBuilt(page, pageSizeValue, this.tableAsBuiltSortList);
-    }
-
-  }
-
-  public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.setTableSortingList(sorting, MainAspectType.AS_PLANNED);
-    this.currentPartTablePage['AS_PLANNED_OWN_PAGE'] = page;
-
-    let pageSizeValue = DEFAULT_PAGE_SIZE;
-    if (pageSize !== 0) {
-      pageSizeValue = pageSize;
-    }
-    if (this.quickFilterComponents && this.quickFilterComponents?.get(0)?.owner !== Owner.UNKNOWN){
-      this.assetsAsPlannedFilter.owner = this.quickFilterComponents.get(0)?.owner;
-    }
-    if (this.assetsAsPlannedFilter && containsAtleastOneFilterEntry(this.assetsAsPlannedFilter)) {
-      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList, toAssetFilter(this.assetsAsPlannedFilter, true));
-    } else {
-      this.partsFacade.setPartsAsPlanned(page, pageSizeValue, this.tableAsPlannedSortList);
-    }
-
-  }
-
-
-  public handleTableActivationEvent(bomLifecycleSize: BomLifecycleSize) {
-    this.bomLifecycleSize = bomLifecycleSize;
   }
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
@@ -393,23 +506,20 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  openPublisherSideNav(): void {
-    this.isPublisherOpen$.next(true);
+  private updateVisibleChips() {
+    if (!this.chipContainer) return;
+    const containerWidth = this.chipContainer.nativeElement.offsetWidth;
+    let totalWidth = 0;
+    let visibleCount = 0;
+    this.chipItems.forEach(() => {
+      const chipWidth = 200;
+      totalWidth += chipWidth;
+
+      if (totalWidth < containerWidth - 50) {
+        visibleCount++;
+      }
+    });
+    this.visibleChips = this.chipItems.slice(0, visibleCount);
+    this.hiddenCount = this.chipItems.length - visibleCount;
   }
-
-  navigateToNotificationCreationView(type?: NotificationType) {
-    this.sharedPartService.affectedParts = this.currentSelectedItems$.value;
-    if (this.sharedPartService?.affectedParts.length > 0 && type) {
-      this.router.navigate([ 'inbox/create' ], { queryParams: { initialType: type } });
-    } else {
-      this.router.navigate([ 'inbox/create' ]);
-    }
-  }
-
-
-  protected readonly TableType = TableType;
-  protected readonly MainAspectType = MainAspectType;
-  protected readonly NotificationType = NotificationType;
-
-
 }

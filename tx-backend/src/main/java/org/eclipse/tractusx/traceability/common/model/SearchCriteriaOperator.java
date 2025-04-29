@@ -20,6 +20,21 @@
 package org.eclipse.tractusx.traceability.common.model;
 
 public enum SearchCriteriaOperator {
-    AND,
-    OR
+    AND("AND"),
+    OR("OR");
+
+    private String value;
+
+    SearchCriteriaOperator(String value) {
+        this.value = value;
+    }
+
+    public static SearchCriteriaOperator fromValue(String value) {
+        for (SearchCriteriaOperator operator : values()) {
+            if (operator.value.equalsIgnoreCase(value)) {
+                return operator;
+            }
+        }
+        throw new IllegalArgumentException("Invalid SearchCriteriaOperator value: " + value);
+    }
 }

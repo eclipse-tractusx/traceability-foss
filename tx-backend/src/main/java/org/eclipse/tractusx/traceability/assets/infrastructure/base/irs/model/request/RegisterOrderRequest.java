@@ -19,7 +19,9 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
+import  assets.request.PartChainIdentificationKey;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 
 import java.util.List;
 
@@ -36,17 +38,27 @@ public record RegisterOrderRequest(
         List<PartChainIdentificationKey> keys,
         int timeout
 ) {
-    public static RegisterOrderRequest buildOrderRequest(List<String> aspects, BomLifecycle bomLifecycle, String callbackUrl, Direction direction, List<PartChainIdentificationKey> keys) {
-        final String callback = callbackUrl + "/api/irs/order/callback?orderId={orderId}&batchId={batchId}&orderState={orderState}&batchState={batchState}";
-        return new RegisterOrderRequest(aspects, DEFAULT_BATCH_SIZE, DEFAULT_BATCH_STRATEGY, bomLifecycle, callback, DEFAULT_COLLECT_ASPECTS, DEFAULT_DEPTH, direction, DEFAULT_JOB_TIMEOUT, keys, DEFAULT_TIMEOUT);
-    }
 
-    public static final int DEFAULT_DEPTH = 2;
-    public static final int DEFAULT_BATCH_SIZE = 10;
-    public static final BatchStrategy DEFAULT_BATCH_STRATEGY = BatchStrategy.PRESERVE_BATCH_JOB_ORDER;
-    public static final boolean DEFAULT_COLLECT_ASPECTS = true;
-    public static final int DEFAULT_JOB_TIMEOUT = 3600;
-    public static final int DEFAULT_TIMEOUT = 43200;
+    private static final int DEFAULT_DEPTH = 2;
+    private static final BatchStrategy DEFAULT_BATCH_STRATEGY = BatchStrategy.PRESERVE_BATCH_JOB_ORDER;
+    private static final boolean DEFAULT_COLLECT_ASPECTS = true;
+    private static final String ORDER_CALLBACK = "/api/irs/order/callback";
+
+    public static RegisterOrderRequest buildOrderRequest(List<String> aspects, BomLifecycle bomLifecycle, String callbackUrl, Direction direction, List<PartChainIdentificationKey> keys, OrderConfiguration orderConfiguration) {
+
+        return new RegisterOrderRequest(
+                aspects,
+                orderConfiguration.getBatchSize(),
+                DEFAULT_BATCH_STRATEGY,
+                bomLifecycle,
+                callbackUrl + ORDER_CALLBACK,
+                DEFAULT_COLLECT_ASPECTS,
+                DEFAULT_DEPTH,
+                direction,
+                orderConfiguration.getJobTimeoutMs(),
+                keys,
+                orderConfiguration.getTimeoutMs());
+    }
 
 }
 

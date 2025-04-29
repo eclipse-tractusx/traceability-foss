@@ -17,6 +17,7 @@ This document provides an overview of the API endpoints, their supported HTTP me
 . <<_notifications,Notifications>>
 . <<_policies,Policies>>
 . <<_registry,Registry>>
+. <<_configuration,Configuration>>
 
 [#_assets]
 == Assets
@@ -604,6 +605,61 @@ This document provides an overview of the API endpoints, their supported HTTP me
 === GET `/registry/reload`
 
 *Description*: Reload the registry data.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+[#_configuration]
+== Configuration
+
+=== GET `/orders/configuration/batches/active`
+
+*Description*: Retrieves active order configuration.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/orders/configuration/batches`
+
+*Description*: Creates new Order Configuration.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== POST `/orders/configuration/triggers`
+
+*Description*: Creates new Trigger Configuration.
+
+* *Visibility*:
++
+--
+** Current: Public
+** Future: Public
+--
+
+*Reason for visibility*: Is accessed from other instances.
+
+=== GET `/orders/configuration/triggers/active`
+
+*Description*:  Retrieves active trigger configuration.
 
 * *Visibility*:
 +

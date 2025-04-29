@@ -1,5 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,20 +18,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
 package org.eclipse.tractusx.traceability.common.properties;
 
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-@Getter
 @Configuration
+@Getter
+@Setter
+@ConfigurationProperties("bpdm")
 public class BpdmProperties {
 
-    @Value("${bpdm.providerUrl}")
-    private String providerUrl;
-
-    @Value("${bpdm.providerBpnl}")
-    private String providerBpnl;
-
+    private String goldenRecordUrl;
+    private String bpn;
 }

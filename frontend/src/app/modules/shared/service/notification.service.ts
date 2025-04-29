@@ -25,14 +25,13 @@ import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
 import { NotificationChannel } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
-import { provideFilterListForNotifications } from '@shared/helper/filter-helper';
+import { NotificationFilter } from '@shared/model/filter.model';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   Notification,
   NotificationCreateResponse,
-  NotificationDeeplinkFilter,
   NotificationResponse,
   Notifications,
   NotificationsResponse,
@@ -48,21 +47,15 @@ export class NotificationService {
   constructor(private readonly apiService: ApiService) {
   }
 
-  public getNotifications(page: number, pageSize: number, sorting: TableHeaderSort[], channel?: NotificationChannel, filter?: NotificationDeeplinkFilter, fullFilter?: any): Observable<Notifications> {
+  public getNotifications(page: number, pageSize: number, sorting: TableHeaderSort[], notificationFilter?: NotificationFilter): Observable<Notifications> {
     const sort = sorting.length ? sorting.map(array => `${ array[0] },${ array[1] }`) : [ 'createdDate,desc' ];
     const requestUrl = this.notificationUrl() + '/filter';
-    const channelFilter = channel === NotificationChannel.RECEIVER ? 'channel,EQUAL,RECEIVER,AND' : 'channel,EQUAL,SENDER,AND';
-    const additionalFilters = new Set([ ...provideFilterListForNotifications(filter, fullFilter), channelFilter ]);
 
     const body = {
-      pageAble: {
-        page: page,
-        size: pageSize,
-        sort: sort,
-      },
-      searchCriteria: {
-        filter: [ ...additionalFilters ],
-      },
+      page: page,
+      size: pageSize,
+      sort: sort,
+      notificationFilter: notificationFilter,
     };
 
     return this.apiService
@@ -171,14 +164,14 @@ export class NotificationService {
   }
 
 
-  public getSearchableValues(channel: NotificationChannel, fieldNames: string, startsWith: string) {
+  public getSearchableValues(channel: NotificationChannel, fieldNames: string, startsWith: string[]) {
     const mappedFieldName = PartsAssembler.mapFieldNameToApi(fieldNames);
     const requestUrl = this.notificationUrl();
 
     const body = {
       'fieldName': mappedFieldName,
-      'startWith': startsWith,
-      'size': 200,
+      'startsWith': startsWith,
+      'size': 20,
       'channel': channel,
     };
 

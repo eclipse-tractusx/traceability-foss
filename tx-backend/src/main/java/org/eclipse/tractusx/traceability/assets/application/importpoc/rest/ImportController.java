@@ -42,6 +42,9 @@ import org.eclipse.tractusx.traceability.assets.application.importpoc.validation
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.ImportException;
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.model.ImportJob;
+import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +66,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 @Tag(name = "AssetsImport")
 @RequestMapping(path = "/assets")
 public class ImportController {
@@ -71,6 +74,7 @@ public class ImportController {
     private final ImportService importService;
     private final JsonFileValidator jsonFileValidator;
     private final PublishService publishService;
+    private final ConfigurationService configurationService;
 
     @Operation(operationId = "importJson",
             summary = "asset upload",
@@ -302,9 +306,10 @@ public class ImportController {
 
     @PostMapping(value = "/publish", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registerAssetsForPublishing(@RequestBody RegisterAssetRequest registerAssetRequest, @RequestParam(name = "triggerSynchronizeAssets", defaultValue = "true") boolean triggerSynchronizeAssets) {
-        publishService.publishAssets(registerAssetRequest.policyId(), registerAssetRequest.assetIds(), triggerSynchronizeAssets);
+        OrderConfiguration latestOrderConfiguration = configurationService.getLatestOrderConfiguration();
+        TriggerConfiguration latestTriggerConfiguration = configurationService.getLatestTriggerConfiguration();
+        publishService.publishAssets(registerAssetRequest.policyId(), registerAssetRequest.assetIds(), triggerSynchronizeAssets, latestOrderConfiguration, latestTriggerConfiguration);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-
     }
 
 

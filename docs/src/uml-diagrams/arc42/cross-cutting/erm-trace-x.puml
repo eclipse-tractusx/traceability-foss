@@ -6,6 +6,20 @@
 !define FOREIGN_KEY_FIELD field
 !define GENERATED_FIELD field
 
+ENTITY public.digital_twin_registry_entry {
+    + aas_id : varchar(255)
+    ttl : int
+    created : timestamp
+    updated : timestamp
+    expiry_date : timestamp
+    actor : varchar(255)
+    digital_twin_type : varchar(255)
+    bpn : varchar(255)
+    global_asset_id : varchar(255)
+}
+
+public.digital_twin_registry_entry }-- public.assets_as_built : global_asset_id = id
+public.digital_twin_registry_entry }-- public.assets_as_planned : global_asset_id = id
 
 ENTITY public.assets_as_built {
     + id : varchar(255)
@@ -32,6 +46,8 @@ ENTITY public.assets_as_built {
     tombstone : varchar
     contract_agreement_id : varchar(255)
     created : timestamp
+    ttl : integer
+    expiration_date: timestamptz
 }
 
 
@@ -161,6 +177,8 @@ ENTITY public.assets_as_planned {
     tombstone : varchar
     contract_agreement_id : varchar(255)
     created : timestamp
+    ttl : integer
+    expiration_date: timestamptz
   }
 
    ENTITY public.bpn_storage {
@@ -186,5 +204,35 @@ public.notification }-l{ public.assets_as_built_notifications: FOREIGN_KEY: noti
 
 public.assets_as_planned -u-{ public.assets_as_planned_childs: FOREIGN_KEY: asset_as_planned_id
 public.assets_as_planned - public.submodel_payload: FOREIGN_KEY: asset_as_planned_id
+
+TABLE public.orders {
+  + id : varchar(255)
+  order_configuration_id : integer
+  status : varchar(11)
+  message : text
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+public.orders -l public.order_configuration: FOREIGN_KEY: order_configuration_id
+
+TABLE public.order_configuration {
+  + id : bigint
+  batch_size : integer
+  timeout_ms : integer
+  job_timeout_ms : integer
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+TABLE public.trigger_configuration {
+  + id : bigint
+  cron_expression_register_order_ttl_reached : text
+  cron_expression_map_completed_orders : text
+  part_ttl : integer
+  aas_ttl : integer
+  created_at : timestamptz
+  updated_at : timestamptz
+}
 
   @enduml

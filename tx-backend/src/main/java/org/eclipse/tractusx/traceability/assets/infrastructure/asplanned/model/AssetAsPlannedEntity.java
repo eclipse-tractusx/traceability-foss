@@ -67,7 +67,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
     private List<AssetAsPlannedEntity.ChildDescription> childDescriptors;
 
-    @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "assetAsPlanned")
     private List<ContractAgreementAsPlannedEntity> contractAgreements;
 
     @Builder
@@ -83,8 +83,10 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @OneToMany(mappedBy = "assetAsPlanned", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<SubmodelPayloadEntity> submodels;
 
-
     public static AssetAsPlannedEntity from(AssetBase asset) {
+        if (asset == null) {
+            return null;
+        }
         List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
         AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
 
@@ -116,6 +118,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .policyId(asset.getPolicyId())
                 .tombstone(asset.getTombstone())
                 .contractAgreements(ContractAgreementAsPlannedEntity.fromDomainToEntityList(asset.getContractAgreements()))
+                .ttl(asset.getTtl())
+                .expirationDate(asset.getExpirationDate())
                 .build();
     }
 
@@ -143,6 +147,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .policyId(entity.getPolicyId())
                 .tombstone(entity.getTombstone())
                 .contractAgreements(ContractAgreement.fromAsPlannedEntityToContractAgreements(entity.getContractAgreements()))
+                .ttl(entity.getTtl())
+                .expirationDate(entity.getExpirationDate())
                 .build();
     }
 

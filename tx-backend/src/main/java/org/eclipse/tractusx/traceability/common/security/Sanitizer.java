@@ -27,6 +27,7 @@ public class Sanitizer {
         if (input == null) {
             return null;
         }
-        return StringUtils.replaceEach(input, new String[]{"\n", "\r"}, new String[]{"", ""});
+        input = input.replaceAll("[^\\w:-]", "");;
+        return input;
     }
 }

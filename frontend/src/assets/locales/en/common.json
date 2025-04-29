@@ -21,14 +21,18 @@
     "noCustomerAsPlannedParts": "Customer parts in lifecycle \"AsPlanned\" are not available.",
     "illegalAssetStateToPublish": "One or more selected parts are not in the required import state \"TRANSIENT\" or \"ERROR\".",
     "syncSelectedParts" : "Synchronize selected parts",
+    "synchronizePartInProgress": "Synchronization is in progress",
+    "syncPart": "Sync Part",
     "refreshAllParts" : "Synchronize all parts",
     "adminContract": "Contracts",
-    "createIncident": "Create quality notification",
+    "createIncident": "Create quality alert",
+    "requestInvestigation": "Request quality investigation",
     "startInvestigation": "Start Quality investigation on subcomponents",
     "notAllowedForNonPersistentPart": "Quality notifications can only be created for parts that are in the import state \"PERSISTENT\".",
     "onlyAllowedForOwnParts": "This functionality is only possible for own parts.",
     "publishAssets": "Publish asset",
-    "notAuthorizedOwner": "This functionality is only allowed for own and supplier parts."
+    "notAuthorizedOwner": "This functionality is only allowed for own and supplier parts.",
+    "digitalTwinPart": "Digital Twin Management"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -79,7 +83,13 @@
     "viewNotificationsTooltip" : "View notification using this contract",
     "notificationInProgress" : "Notification is currently in processing state",
     "deletePartMessageSuccess" : "Deleted part successfully",
-    "deletePartMessageError" : "Failed to delete part"
+    "deletePartMessageError" : "Failed to delete part",
+    "advancedSearch": "Advanced search",
+    "createNotification": "Create notification",
+    "applySearch": "Apply search",
+    "clearSearch": "Clear search",
+    "closeAdvancedSearch": "Close Advanced Search",
+    "showTableFilter": "Show filter in table"
   },
   "publisher": {
     "selectedAssets": "Assets selected",
@@ -188,7 +198,12 @@
       "accessType" : "Access type",
       "contractAgreementId" : "Contract ID",
       "parts" : "Part",
-      "notifications" : "Quality notification"
+      "notifications" : "Quality notification",
+      "globalAssetId" : "Global Asset ID",
+      "digitalTwinType" : "Digital Twin Type",
+      "aasExpirationDate": "AAS expiration date",
+      "assetExpirationDate" : "Asset expiration date",
+      "aasId" : "AAS ID"
     }
   },
   "dataLoading": {
@@ -239,7 +254,9 @@
     "generic": "Please enter valid data.",
     "invalidBpn" : "Must not be own BPN.",
     "pastDate" : "Please select a date in the future.",
-    "minimumOneConstraint" : "Please add at least one valid constraint to the policy"
+    "minimumOneConstraint" : "Please add at least one valid constraint to the policy",
+    "invalidCsv": "Invalid file format. Please upload a valid CSV file.",
+    "invalidCsvContent": "Please make sure that the file contains at least one of the required columns."
   },
   "unitTest": {
     "test01": "This is for unit tests purposes.",
@@ -288,6 +305,7 @@
     "remove": "Remove selection",
     "add": "Add selection",
     "modifyNotAllowed": "Requires at least one selection in the parts table.",
+    "invalidOwnerSelection": "Only OWN parts are allowed to sync within the As-Planned BOM lifecycle.",
     "modifyAffectedNotAllowed" : "Requires at least one selection in the affected parts table.",
     "modifyAvailableNotAllowed" : "Requires at least one selection in the available parts table.",
     "textAreaDescription" : "Describe the issue.",
@@ -327,6 +345,16 @@
   "partSynchronization": {
     "success" : "Successfully triggered synchronization of selected parts. This may take a while.",
     "error" : "Error while trying to trigger synchronization of selected parts."
+  },
+  "orderConfiguration": {
+    "success": "Order configuration was successfully submitted.",
+    "failure": "Failed to submit the order configuration.",
+    "unableToFetch": "Unable to fetch the latest order configuration."
+  },
+  "triggerConfiguration": {
+    "success": "Trigger configuration was successfully submitted.",
+    "failure": "Failed to submit the trigger configuration.",
+    "unableToFetch": "Unable to fetch the latest trigger configuration."
   },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",
@@ -476,7 +504,7 @@
   "parts": {
     "input": {
       "global-search": {
-        "placeholder" : "Search by entering ID, part ID or Business partner number (BPN)",
+        "placeholder" : "Search by entering ID, part ID or Business partner number (BPN) or drag & drop csv file",
         "toastInfo": "Any local filters on table level were removed."
       }
     }
@@ -487,5 +515,39 @@
     "startDate": "Start Date",
     "endDate": "End Date"
   },
-  "retry": "Try again"
+  "retry": "Try again",
+  "filter": {
+    "select-all": "Select all",
+    "placeholder": {
+      "owner": "Filter part ownership",
+      "importState": "Filter import state",
+      "businessPartner": "Filter for BPNL",
+      "nameAtManufacturer": "Filter part name",
+      "manufacturerName": "Filter manufacturer name",
+      "id": "Filter for IDs",
+      "idShort": "Filter for short IDs",
+      "manufacturerPartId": "Filter for manufacturer part IDs",
+      "customerPartId": "Filter for customer part IDs",
+      "manufacturingCountry": "Filter production country",
+      "manufacturingDate": "Filter production date",
+      "semanticModelId": "Filter semantic model IDs",
+      "startDate": "Start date",
+      "endDate": "End date"
+    }
+  },
+  "digitalTwinPart": {
+        "registryData": "Digital Twin Registry Data",
+        "aasId": "AAS ID",
+        "ttl": "TTL",
+        "nextLookup": "Next look up",
+        "lastUpdatedAt": "Last updated at",
+        "createdAt": "Created at",
+        "assetTTl": "Asset TTL",
+        "actor": "Actor",
+        "nextSync": "Next Sync",
+        "aasExpirationDate": "AAS expiration date",
+        "assetExpirationDate": "Asset expiration date",
+        "irsDataSync": "IRS Data Synchronization",
+        "globalAssetId": "Global Asset ID"
+    }
 }

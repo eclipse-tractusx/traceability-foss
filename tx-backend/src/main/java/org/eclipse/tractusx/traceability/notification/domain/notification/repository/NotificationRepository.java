@@ -53,7 +53,7 @@ public interface NotificationRepository {
 
     long countOpenNotificationsByOwnershipAndNotificationType(List<Owner> owners, NotificationType notificationType);
 
-    List<String> getDistinctFieldValues(String fieldName, String startWith, Integer resultLimit, NotificationSide owner);
+    List<String> getDistinctFieldValues(String fieldName, List<String> startsWith, Integer resultLimit, NotificationSide owner);
 
     void updateErrorMessage(Notification notification, NotificationMessage message);
 

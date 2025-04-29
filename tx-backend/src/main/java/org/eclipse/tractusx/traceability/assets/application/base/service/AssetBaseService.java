@@ -18,12 +18,15 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.base.service;
 
+import assets.request.PartChainIdentificationKey;
+import java.util.Set;
+import orders.request.CreateOrderResponse;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -31,7 +34,7 @@ import java.util.Map;
 
 public interface AssetBaseService {
 
-    void syncAssetsAsyncUsingIRSOrderAPI(List<String> globalAssetIds);
+    CreateOrderResponse syncAssetsUsingIRSOrderAPI(List<PartChainIdentificationKey> keys, OrderConfiguration orderConfiguration);
 
     Map<String, Long> getAssetsCountryMap();
 
@@ -45,13 +48,10 @@ public interface AssetBaseService {
 
     AssetBase updateQualityType(String assetId, QualityType qualityType);
 
-    List<String> getDistinctFilterValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds);
-
-    List<String> getSearchableValues(String fieldName, String startWith, Integer size, Owner owner, List<String> inAssetIds);
-
-    List<String> getAssetIdsInImportState(ImportState... importStates);
+    List<String> getSearchableValues(String fieldName, List<String> startsWith, Integer size, Owner owner, List<String> inAssetIds);
 
     List<AssetBase> findAll();
 
     void deleteAssetById(final String assetId);
+
 }

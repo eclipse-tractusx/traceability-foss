@@ -48,14 +48,36 @@ class TombstoneMapperTest {
     void test_MapTombstones_mapOwnPart(String assetCatenaxId, String bomLifeCycle, String direction) {
         //GIVEN
         String ownCatenaxId = "id";
-        JobStatus jobStatus = new JobStatus(null, null, null, null, ownCatenaxId, new Parameter(direction, bomLifeCycle, null));
+        String bpn = "BPN";
+
+        JobStatus jobStatus = new JobStatus(null, null, null, null, ownCatenaxId, null, new Parameter(direction, bomLifeCycle, bpn));
         Tombstone tombstone = Tombstone.builder()
-                .catenaXId(assetCatenaxId).processingError(ProcessingError.builder().withErrorDetail("didn't work :(").build()).build();
+                .catenaXId(assetCatenaxId).businessPartnerNumber(bpn).processingError(ProcessingError.builder().withErrorDetail("didn't work :(").build()).build();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         //WHEN
-        List<AssetBase> assetBases = TombstoneMapper.mapTombstones(jobStatus, List.of(tombstone), objectMapper);
+        List<AssetBase> assetBases = TombstoneMapper.mapTombstones(jobStatus, List.of(tombstone), objectMapper,bpn);
+
+        //THEN
+        assertNotNull(assetBases.get(0).getTombstone());
+    }
+    @ParameterizedTest
+    @MethodSource("provideStringsForIsBlank")
+    void test_MapTombstones_mapOtherPart(String assetCatenaxId, String bomLifeCycle, String direction) {
+        //GIVEN
+        String ownCatenaxId = "id";
+        String ownPartsBpn = "BPN";
+        String otherPartsBpn = "XYZ";
+
+        JobStatus jobStatus = new JobStatus(null, null, null, null, ownCatenaxId, null, new Parameter(direction, bomLifeCycle, otherPartsBpn));
+        Tombstone tombstone = Tombstone.builder()
+                .catenaXId(assetCatenaxId).businessPartnerNumber(ownPartsBpn).processingError(ProcessingError.builder().withErrorDetail("didn't work :(").build()).build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        //WHEN
+        List<AssetBase> assetBases = TombstoneMapper.mapTombstones(jobStatus, List.of(tombstone), objectMapper,otherPartsBpn);
 
         //THEN
         assertNotNull(assetBases.get(0).getTombstone());

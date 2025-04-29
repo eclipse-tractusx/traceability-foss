@@ -19,6 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { BomLifecycleSize } from '@shared/components/bom-lifecycle-activator/bom-lifecycle-activator.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,19 +31,28 @@ export class BomLifecycleSettingsService {
   };
   private PART_TABLE_KEY = 'PART';
 
-  getUserSettings(): BomLifecycleSize {
+  private _settingsSubject = new BehaviorSubject<BomLifecycleSize>(this.DEFAULT);
+
+  public settings$ = this._settingsSubject.asObservable();
+
+  constructor() {
     const settingsJson = localStorage.getItem(this.PART_TABLE_KEY);
     if (settingsJson) {
-      return JSON.parse(settingsJson);
+      this._settingsSubject.next(JSON.parse(settingsJson));
     }
-    return this.DEFAULT;
+  }
+
+  getUserSettings(): BomLifecycleSize {
+    return this._settingsSubject.getValue();
   };
 
   setUserSettings(settings: BomLifecycleSize): void {
     localStorage.setItem(this.PART_TABLE_KEY, JSON.stringify(settings));
+    this._settingsSubject.next(settings);
   }
 
   clearUserSettings(): void {
     localStorage.removeItem(this.PART_TABLE_KEY);
+    this._settingsSubject.next(this.DEFAULT);
   }
 }

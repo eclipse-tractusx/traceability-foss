@@ -153,6 +153,16 @@ public class EdcSupport {
         );
     }
 
+    public void edcWillReturnCatalogRegistryAsset() {
+        whenHttp(restitoProvider.stubServer()).match(
+                post("/management/v2/catalog/request"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/catalog_response_200.json")
+        );
+    }
+
     public void edcWillReturnCatalogForBpdmGoldenRecord() {
         whenHttp(restitoProvider.stubServer()).match(
                 post("/management/v3/catalog/request"),
@@ -296,6 +306,16 @@ public class EdcSupport {
         ).then(
                 status(HttpStatus.OK_200),
                 restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/transferprocesses_response_200.json")
+        );
+    }
+
+    public void edcWillLookupShells() {
+        whenHttp(restitoProvider.stubServer()).match(
+                get("/endpointdatareference/lookup/shells"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200),
+                restitoProvider.jsonResponseFromFile("stubs/edc/post/data/contractagreements/lookupshells_response_200.json")
         );
     }
 

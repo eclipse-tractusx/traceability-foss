@@ -51,35 +51,41 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class BpnEdcFacade {
 
-    private final BpdmProperties bpdmProperties;
     private final EDCCatalogFacade edcCatalogFacade;
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
     private final RestTemplate restTemplate;
+    private final BpdmProperties bpdmProperties;
 
     public BpnEdcFacade(
-            BpdmProperties bpdmProperties,
-            EDCCatalogFacade edcCatalogFacade, ContractNegotiationService contractNegotiationService,
+            EDCCatalogFacade edcCatalogFacade,
+            ContractNegotiationService contractNegotiationService,
             EndpointDataReferenceStorage endpointDataReferenceStorage,
-            @Qualifier(EDC_CLIENT_REST_TEMPLATE) RestTemplate restTemplate) {
-        this.bpdmProperties = bpdmProperties;
+            @Qualifier(EDC_CLIENT_REST_TEMPLATE) RestTemplate restTemplate,
+            BpdmProperties bpdmProperties) {
         this.edcCatalogFacade = edcCatalogFacade;
         this.contractNegotiationService = contractNegotiationService;
         this.endpointDataReferenceStorage = endpointDataReferenceStorage;
         this.restTemplate = restTemplate;
+        this.bpdmProperties = bpdmProperties;
     }
 
     public BusinessPartnerResponse resolveBusinessPartnerByBpn(String bpn) {
+
+        final String goldenRecordProviderUrl = bpdmProperties.getGoldenRecordUrl();
+
         List<CatalogItem> catalogItems = edcCatalogFacade.fetchCatalogItems(
                 CatalogRequest.Builder.newInstance()
                         .protocol("dataspace-protocol-http")
-                        .counterPartyAddress(bpdmProperties.getProviderUrl())
-                        .counterPartyId(bpdmProperties.getProviderBpnl())
+                        .counterPartyAddress(goldenRecordProviderUrl)
+                        .counterPartyId(bpdmProperties.getBpn())
                         .querySpec(QuerySpec.Builder.newInstance()
                                 .filter(
                                         List.of(
-                                                new Criterion("https://purl.org/dc/terms/subject", "=", "cx-taxo:ReadAccessPoolForCatenaXMember"),
-                                                new Criterion("https://w3id.org/catenax/ontology/common/version", "=", "6.0"),
+                                                new Criterion("https://purl.org/dc/terms/subject", "=",
+                                                        "cx-taxo:ReadAccessPoolForCatenaXMember"),
+                                                new Criterion("https://w3id.org/catenax/ontology/common/version", "=",
+                                                        "6.0"),
                                                 new Criterion("https://w3id.org/edc/v0.0.1/ns/BusinessPartnerNumber", "=", bpn))
                                 )
                                 .build())
@@ -97,9 +103,9 @@ public class BpnEdcFacade {
         log.info("Negotiating the contract for catalog item: {}", firstCatalogItem);
 
         String contractAgreementId = negotiateContractAgreement(
-            bpdmProperties.getProviderUrl(),
-            firstCatalogItem,
-            bpdmProperties.getProviderBpnl());
+                goldenRecordProviderUrl,
+                firstCatalogItem,
+                bpn);
 
         final EndpointDataReference dataReference = endpointDataReferenceStorage.get(contractAgreementId)
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));

@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.reposi
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
@@ -29,10 +30,10 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportNote;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.AssetCallbackRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.eclipse.tractusx.traceability.common.repository.CriteriaUtility;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractAgreement;
 import org.eclipse.tractusx.traceability.contracts.domain.model.ContractType;
@@ -52,7 +53,8 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @RequiredArgsConstructor
 @Component
 @Transactional
-public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, AssetCallbackRepository {
+@Slf4j
+public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
     private final JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
 
@@ -78,7 +80,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
 
     @Override
     public void deleteAssetById(String assetId) {
-            jpaAssetAsPlannedRepository.deleteById(assetId);
+        jpaAssetAsPlannedRepository.deleteById(assetId);
     }
 
     @Override
@@ -93,11 +95,10 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
                 .map(AssetAsPlannedEntity::toDomain).toList();
     }
 
-
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, SearchCriteria searchCriteria) {
         List<AssetAsPlannedSpecification> assetAsPlannedSpecifications = emptyIfNull(searchCriteria.getSearchCriteriaFilterList()).stream().map(AssetAsPlannedSpecification::new).toList();
-        Specification<AssetAsPlannedEntity> specification = AssetAsPlannedSpecification.toSpecification(assetAsPlannedSpecifications);
+        Specification<AssetAsPlannedEntity> specification = BaseSpecification.toSpecification(assetAsPlannedSpecifications);
         return new PageResult<>(jpaAssetAsPlannedRepository.findAll(specification, pageable), AssetAsPlannedEntity::toDomain);
     }
 
@@ -167,8 +168,8 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
     }
 
     @Override
-    public List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner, List<String> inAssetIds) {
-        return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startWith, resultLimit, owner, inAssetIds, AssetAsPlannedEntity.class, entityManager);
+    public List<String> getFieldValues(String fieldName, List<String> startsWith, Integer resultLimit, Owner owner, List<String> inAssetIds) {
+        return CriteriaUtility.getDistinctAssetFieldValues(fieldName, startsWith, resultLimit, owner, inAssetIds, AssetAsPlannedEntity.class, entityManager);
     }
 
     @Override
@@ -187,6 +188,12 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository, A
         jpaAssetAsPlannedRepository.saveAll(foundAssets);
     }
 
+    @Override
+    public List<AssetBase> findAllExpired(Integer fetchLimit) {
+        return jpaAssetAsPlannedRepository.findAllExpired(fetchLimit).stream()
+                .map(AssetAsPlannedEntity::toDomain)
+                .toList();
+    }
 
     private void enrichContractAgreementsAsPlanned(List<AssetBase> assets) {
 

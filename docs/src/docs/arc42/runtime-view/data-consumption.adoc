@@ -1,13 +1,24 @@
 = Data consumption
 
-This sequence diagram describes the process of fetching data from the DTR and the Catena-X ecosystem:
+This sequence diagram describes the two processes necessary for fetching data from the DTR and the Catena-X ecosystem with the IRS:
 
-[plantuml, target=business-context_data_consumption, format=svg]
+== Lookup (DTR)
+
+[plantuml, target=business-context_data_consumption-step1-dtr, format=svg]
 ....
-include::../../../uml-diagrams/arc42/runtime-view/data-consumption-process.puml[]
+include::../../../uml-diagrams/arc42/runtime-view/data-consumption/data-consumption-step-1-lookup.puml[]
+....
+
+== Sync (IRS)
+
+[plantuml, target=business-context_data_consumption-step2-irs, format=svg]
+....
+include::../../../uml-diagrams/arc42/runtime-view/data-consumption/data-consumption-step-2-sync-irs.puml[]
 ....
 
 == Overview
 
-Data is fetched by a Trace-X instance using the Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
-For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, part trees / part relations.
+Trace-X retrieves Asset Administration Shell (AAS) data by interacting with the Digital Twin Registry (DTR), Item Relationship Service (IRS), and its own consumer EDC.
+The process begins with Trace-X querying the DTR for digital twins filtered by a configured Business Partner Number (BPN) and specific digital twin types (e.g., partType and partInstance). The DTR responds with a paginated list of aasIDs. For each page, Trace-X compares the AAS identifiers with those stored in its database and creates or updates entries as needed.
+To fetch detailed submodel data, Trace-X identifies outdated or missing AAS entries from its local database. These are processed in batches according to a configurable batchSize. Each batch is registered as an order with the IRS, which returns submodel data. Trace-X then extracts relevant structures—such as relationships, shells, tombstones, submodels, and business partner numbers (BPNs)—and merges the results into its backend.
+This pipeline ensures that part structures, including supplier and customer parts and their hierarchical relationships, are kept up to date in alignment with the AAS standard.

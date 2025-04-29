@@ -59,6 +59,8 @@ edc:
   provider-dataplane-edc-url: "http://127.0.0.1"
 
 spring:
+  cache:
+    type: none
   jpa:
     show-sql: false
     properties:
@@ -79,16 +81,16 @@ spring:
     username: postgres
   flyway:
     enabled: true
-    placeholders:
-      applicationBpn: BPNL00000003AXS3
-      bpnB: BPNL000000000IAX
-      bpnA: BPNLWHATEVEREZFA
+    placeholder-replacement: false
 
 jwt:
   resource-client: "Integration-Test"
 server:
   port: 9998
 management:
+  health:
+    redis:
+      enabled: false
   server:
     port: 8082
 
@@ -135,5 +137,4 @@ openapi-doc:
   generate: false
 
 bpdm:
-  providerUrl: "providerUrl"
-  providerBpnl: "providerBpnl"
+  goldenRecordUrl: providerUrl/api/v1/dsp

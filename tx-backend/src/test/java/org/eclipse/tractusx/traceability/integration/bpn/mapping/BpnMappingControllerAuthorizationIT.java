@@ -44,7 +44,7 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndAdminRolesAllowed")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowGetEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
@@ -57,7 +57,7 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
     }
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndAdminRolesAllowed")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowPostEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException, JsonProcessingException {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
@@ -71,7 +71,7 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
     }
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndAdminRolesAllowed")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowPutEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException, JsonProcessingException {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))
@@ -85,7 +85,7 @@ class BpnMappingControllerAuthorizationIT extends IntegrationTestSpecification {
     }
 
     @ParameterizedTest
-    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#supervisorAndAdminRolesAllowed")
+    @MethodSource("org.eclipse.tractusx.traceability.integration.common.support.RoleSupport#adminRoleAllowed")
     void shouldAllowDeleteEndpointOnlyForSpecificRoles(JwtRole role, boolean isAllowed) throws JoseException {
         given()
                 .header(oAuth2Support.jwtAuthorizationWithOptionalRole(role))

@@ -22,11 +22,16 @@ package org.eclipse.tractusx.traceability.assets.domain.base;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.ImportState;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public interface AssetRepository {
     AssetBase getAssetById(String assetId);
+
+    Optional<AssetBase> findById(final String assetId);
 
     void deleteAssetById(String assetId);
 
@@ -48,11 +53,14 @@ public interface AssetRepository {
 
     long countAssetsByOwner(Owner owner);
 
-    List<String> getFieldValues(String fieldName, String startWith, Integer resultLimit, Owner owner, List<String> inAssetIds);
+    List<String> getFieldValues(String fieldName, List<String> startsWith, Integer resultLimit, Owner owner, List<String> inAssetIds);
 
     List<AssetBase> findByImportStateIn(ImportState... importStates);
 
     void updateImportStateAndNoteForAssets(ImportState importState, String importNote, List<String> assetIds);
 
     List<AssetBase> findAll();
+
+    List<AssetBase> findAllExpired(Integer fetchLimit);
+
 }

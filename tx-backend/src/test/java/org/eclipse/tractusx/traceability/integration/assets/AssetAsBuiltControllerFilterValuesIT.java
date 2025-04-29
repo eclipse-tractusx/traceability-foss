@@ -86,7 +86,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .when()
                 .param("fieldName", fieldName)
                 .param("size", resultLimit.toString())
-                .param("startWith", startWith)
+                .param("startsWith", startWith)
                 .get("/api/assets/as-built/distinctFilterValues")
                 .then()
                 .log().all()
@@ -117,7 +117,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(1));
+                .body("size()", is(2));
     }
 
     @Test
@@ -136,7 +136,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .when()
                 .param("fieldName", fieldName)
                 .param("size", resultLimit)
-                .param("startWith", startWith)
+                .param("startsWith", startWith)
                 .get("/api/assets/as-built/distinctFilterValues")
                 .then()
                 .log().all()
@@ -167,7 +167,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .when()
                 .param("fieldName", fieldName)
                 .param("size", resultLimit)
-                .param("startWith", startWith)
+                .param("startsWith", startWith)
                 .get("/api/assets/as-built/distinctFilterValues")
                 .then()
                 .log().all()
@@ -250,7 +250,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(12));
+                .body("size()", is(11));
     }
 
     @Test
@@ -275,7 +275,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(6));
+                .body("size()", is(7));
     }
 
     @Test
@@ -302,7 +302,7 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(2));
+                .body("size()", is(1));
     }
 
     private static Stream<Arguments> fieldNameTestProvider() {
@@ -318,9 +318,9 @@ class AssetAsBuiltControllerFilterValuesIT extends IntegrationTestSpecification 
     private static Stream<Arguments> fieldNameTestProviderWithStartWithParam() {
         return Stream.of(
                 Arguments.of("id", "urn:uuid:1", 10L, 3),
-                Arguments.of("owner", "shuldNotMakeDifference", 10L, 4),
-                Arguments.of("semanticDataModel", "shuldNotMakeDifference", 10L, 7),
-                Arguments.of("qualityType", "shuldNotMakeDifference", 10L, 5)
+                Arguments.of("owner", "O", 10L, 1),
+                Arguments.of("semanticDataModel", "shouldNotFindAnything", 10L, 0),
+                Arguments.of("qualityType", "M", 10L, 2)
         );
     }
 }

@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.contracts.domain.service;
 
+import contract.request.ContractRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -26,13 +27,15 @@ import org.eclipse.tractusx.traceability.common.model.SearchCriteriaFilter;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.eclipse.tractusx.traceability.contracts.application.mapper.ContractFieldMapper;
 import org.eclipse.tractusx.traceability.contracts.application.service.ContractServiceReadOnly;
 import org.eclipse.tractusx.traceability.contracts.domain.model.Contract;
 import org.eclipse.tractusx.traceability.contracts.infrastructure.repository.ContractViewRepositoryImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
 
 @Slf4j
 @Component
@@ -43,9 +46,13 @@ public class ContractViewServiceImpl implements ContractServiceReadOnly {
     private final ContractFieldMapper contractFieldMapper;
 
     @Override
-    public PageResult<Contract> getContracts(PageableFilterRequest pageableFilterRequest) {
-        Pageable pageable = OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), contractFieldMapper);
-        SearchCriteria searchCriteria = pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(contractFieldMapper);
+    public PageResult<Contract> getContracts(ContractRequest contractRequest) {
+        Pageable pageable = OwnPageable.toPageable(OwnPageable.builder()
+                .page(contractRequest.getPage())
+                .size(contractRequest.getSize())
+                .sort(contractRequest.getSort())
+                .build(), contractFieldMapper);
+        SearchCriteria searchCriteria = SearchCriteriaMapper.toSearchCriteria(contractFieldMapper, Collections.singletonList(contractRequest.getContractFilter()));
         searchCriteria.getSearchCriteriaFilterList().add(SearchCriteriaFilter.builder().key("contractAgreementId").strategy(SearchCriteriaStrategy.IS_NOT_NULL).operator(SearchCriteriaOperator.AND).build());
         return contractViewRepository.getContractsByPageable(pageable, searchCriteria);
     }

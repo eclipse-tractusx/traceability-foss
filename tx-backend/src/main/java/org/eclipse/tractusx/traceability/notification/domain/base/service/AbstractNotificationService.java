@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.notification.domain.base.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.common.domain.EnumFieldUtils;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -29,17 +30,14 @@ import org.eclipse.tractusx.traceability.notification.domain.base.exception.Send
 import org.eclipse.tractusx.traceability.notification.domain.base.model.Notification;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationId;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationMessage;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSeverity;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationStatus;
-import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationType;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.EditNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.model.StartNotification;
 import org.eclipse.tractusx.traceability.notification.domain.notification.repository.NotificationRepository;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -161,13 +159,13 @@ public abstract class AbstractNotificationService implements NotificationService
     }
 
     @Override
-    public List<String> getSearchableValues(String fieldName, String startWith, Integer size, NotificationSide side) {
+    public List<String> getSearchableValues(String fieldName, List<String> startsWith, Integer size, NotificationSide side) {
         final Integer resultSize = Objects.isNull(size) ? Integer.MAX_VALUE : size;
 
         if (isSupportedEnumType(fieldName)) {
-            return getAssetEnumFieldValues(fieldName);
+            return EnumFieldUtils.getValues(fieldName, startsWith);
         }
-        return getNotificationRepository().getDistinctFieldValues(fieldName, startWith, resultSize, side);
+        return getNotificationRepository().getDistinctFieldValues(fieldName, startsWith, resultSize, side);
     }
 
     @Override
@@ -184,16 +182,6 @@ public abstract class AbstractNotificationService implements NotificationService
 
     private boolean isSupportedEnumType(String fieldName) {
         return SUPPORTED_ENUM_FIELDS.contains(fieldName);
-    }
-
-    private List<String> getAssetEnumFieldValues(String fieldName) {
-        return switch (fieldName) {
-            case "status" -> Arrays.stream(NotificationStatus.values()).map(Enum::name).toList();
-            case "side" -> Arrays.stream(NotificationSide.values()).map(Enum::name).toList();
-            case "severity" -> Arrays.stream(NotificationSeverity.values()).map(Enum::name).toList();
-            case "type" -> Arrays.stream(NotificationType.values()).map(Enum::name).toList();
-            default -> null;
-        };
     }
 
     private void validateReceiverIsNotOwnBpn(String bpn, Long notificationId) {

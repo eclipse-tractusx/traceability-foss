@@ -18,6 +18,7 @@
         "failedSave": "Error while saving the changes. Please try again later."
       }
     },
+    "digitalTwinPart": "Digital Twin Management",
     "importJson": {
       "title": "Trace-X Data import",
       "clear_file": "clear file",

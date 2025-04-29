@@ -22,6 +22,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -61,4 +62,6 @@ public class AssetBaseEntity {
     private String importNote;
     private String policyId;
     private String tombstone;
+    private Integer ttl;
+    private LocalDateTime expirationDate;
 }

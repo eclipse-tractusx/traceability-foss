@@ -33,6 +33,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import notification.request.CloseNotificationRequest;
 import notification.request.EditNotificationRequest;
+import notification.request.NotificationRequest;
 import notification.request.NotificationStatusRequest;
 import notification.request.SearchableNotificationsRequest;
 import notification.request.StartNotificationRequest;
@@ -42,7 +43,7 @@ import notification.response.NotificationResponse;
 import org.eclipse.tractusx.traceability.common.model.BaseRequestFieldMapper;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationFieldMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.mapper.NotificationResponseMapper;
 import org.eclipse.tractusx.traceability.notification.application.notification.service.NotificationService;
@@ -200,13 +201,23 @@ public class NotificationController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/filter")
-    public PageResult<NotificationResponse> getNotifications(@Valid @RequestBody PageableFilterRequest pageableFilterRequest) {
+    public PageResult<NotificationResponse> getNotifications(@Valid @RequestBody NotificationRequest notificationRequest) {
         log.info(RECEIVED_API_CALL_LOG + "/filter");
 
         return NotificationResponseMapper.fromAsPageResult(
                 notificationService.getNotifications(
-                        OwnPageable.toPageable(pageableFilterRequest.getOwnPageable(), fieldMapper),
-                        pageableFilterRequest.getSearchCriteriaRequestParam().toSearchCriteria(fieldMapper)));
+                        OwnPageable.toPageable(OwnPageable.builder()
+                                .page(notificationRequest.getPage())
+                                .size(notificationRequest.getSize())
+                                .sort(notificationRequest.getSort())
+                                .build(), fieldMapper),
+                        SearchCriteriaMapper.
+                                toSearchCriteria(
+                                        fieldMapper,
+                                        List.of(notificationRequest.getNotificationFilter())
+                                )
+                )
+        );
     }
 
     @Operation(operationId = "getNotification",
@@ -651,6 +662,6 @@ public class NotificationController {
     @PostMapping("searchable-values")
     public List<String> searchableValues(@Valid @RequestBody SearchableNotificationsRequest request) {
         return notificationService.getSearchableValues(fieldMapper.mapRequestFieldName(request.fieldName()),
-                request.startWith(), request.size(), NotificationSideTypeMapper.from(request.channel()));
+                request.startsWith(), request.size(), NotificationSideTypeMapper.from(request.channel()));
     }
 }

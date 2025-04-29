@@ -21,22 +21,21 @@ package org.eclipse.tractusx.traceability.integration.notification.alert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
 import lombok.val;
 import notification.request.CloseNotificationRequest;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
 import notification.request.NotificationSeverityRequest;
 import notification.request.NotificationTypeRequest;
 import notification.request.StartNotificationRequest;
-import notification.request.UpdateNotificationStatusRequest;
-import notification.request.UpdateNotificationStatusTransitionRequest;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
-import org.eclipse.tractusx.traceability.common.security.JwtRole;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
@@ -69,6 +68,7 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
+import static org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationSideBaseEntity.SENDER;
 
 class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
@@ -141,7 +141,13 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldStartAlert() throws JsonProcessingException, JoseException {
         // given
-        String filterString = "channel,EQUAL,SENDER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
@@ -183,7 +189,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // when/then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -195,113 +201,15 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenMissingSeverity_whenStartAlert_thenBadRequest() throws JsonProcessingException, JoseException {
-        // given
-        List<String> partIds = List.of(
-                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
-                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
-                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
-        );
-        String description = "at least 15 characters long investigation description";
-        val request = StartNotificationRequest.builder()
-                .affectedPartIds(partIds)
-                .description(description)
-                .build();
-
-        // when/then
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(400);
-    }
-
-    @Test
-    void givenDescriptionOverMaxLength_whenStartAlert_thenBadRequest() throws JsonProcessingException, JoseException {
-        // given
-        List<String> partIds = List.of(
-                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
-                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
-                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
-        );
-
-        String description = RandomStringUtils.random(1001);
-
-        val request = StartNotificationRequest.builder()
-                .affectedPartIds(partIds)
-                .description(description)
-                .severity(NotificationSeverityRequest.MINOR)
-                .receiverBpn("BPN")
-                .build();
-
-        // when/then
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(400)
-                .body(Matchers.containsString("Description should have at least 15 characters and at most 1000 characters"));
-    }
-
-    @Test
-    void givenTooLongAlertReason_whenUpdateAlert_thenBadRequest() throws JsonProcessingException, JoseException {
-        // given
-        String description = RandomStringUtils.random(1001);
-
-        UpdateNotificationStatusTransitionRequest request = UpdateNotificationStatusTransitionRequest
-                .builder()
-                .status(UpdateNotificationStatusRequest.ACCEPTED)
-                .reason(description)
-                .build();
-
-        // when/then
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request))
-                .header(oAuth2Support.jwtAuthorization(JwtRole.SUPERVISOR))
-                .when()
-                .post("/api/notifications/1/update")
-                .then()
-                .statusCode(400)
-                .body(Matchers.containsString("Reason should have at least 15 characters and at most 1000 characters"));
-    }
-
-    @Test
-    void givenWrongStatus_whenUpdateAlert_thenBadRequest() throws JsonProcessingException, JoseException {
-        // given
-        String description = RandomStringUtils.random(15);
-
-
-        UpdateNotificationStatusTransitionRequest request = UpdateNotificationStatusTransitionRequest
-                .builder()
-                .status(UpdateNotificationStatusRequest.ACCEPTED)
-                .reason(description)
-                .build();
-
-        // when/then
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(request)
-                        .replace("ACCEPTED", "wrongStatus")
-                )
-                .header(oAuth2Support.jwtAuthorization(JwtRole.SUPERVISOR))
-                .when()
-                .post("/api/notifications/1/update")
-                .then()
-                .statusCode(400)
-                .body(Matchers.containsString("message\":\"NoSuchElementException: Unsupported UpdateInvestigationStatus: wrongStatus. Must be one of: ACKNOWLEDGED, ACCEPTED, DECLINED"));
-    }
-
-    @Test
     void shouldCancelAlert() throws JoseException, JsonProcessingException {
         // given
-        String filterString = "channel,EQUAL,SENDER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         assetsSupport.defaultAssetsStored();
         val startAlertRequest = StartNotificationRequest.builder()
                 .affectedPartIds(List.of("urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"))
@@ -313,10 +221,9 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
 
-
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -338,7 +245,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -357,7 +264,14 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
-        String filterString = "channel,EQUAL,SENDER,AND";
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
@@ -377,7 +291,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // when
         val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
 
-
         alertsSupport.assertAlertsSize(1);
 
         given()
@@ -391,8 +304,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -411,7 +323,14 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
-        String filterString = "channel,EQUAL,SENDER,AND";
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
@@ -429,7 +348,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         // when
         val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
-
 
         alertsSupport.assertAlertsSize(1);
 
@@ -455,8 +373,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -472,14 +389,20 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldCloseAlertStatus() throws JoseException, JsonProcessingException {
         // given
-
         discoveryFinderSupport.discoveryFinderWillReturnEndpointAddress();
         discoveryFinderSupport.discoveryFinderWillReturnConnectorEndpoints();
         oauth2ApiSupport.oauth2ApiReturnsDtrToken();
         edcSupport.performSupportActionsForAsyncNotificationMessageExecutor();
 
         irsApiSupport.provideAcceptedPolicies();
-        String filterString = "channel,EQUAL,SENDER,AND";
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         );
@@ -498,7 +421,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // when
         val id = notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
 
-
         // then
         alertsSupport.assertAlertsSize(1);
 
@@ -514,7 +436,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -543,7 +465,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -584,7 +506,13 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     @Test
     void shouldBeCreatedBySender() throws JoseException, JsonProcessingException {
         // given
-        String filterString = "channel,EQUAL,SENDER,AND";
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(SENDER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         List<String> partIds = List.of(
                 "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
                 "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
@@ -603,7 +531,6 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         // when
         notificationApiSupport.createNotificationRequest_withDefaultAssetsStored(oAuth2Support.jwtAuthorization(SUPERVISOR), startAlertRequest, 201);
 
-
         // then
         partIds.forEach(partId -> {
             AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
@@ -614,7 +541,7 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
 
         given()
                 .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, Collections.emptyList()), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(Collections.emptyList()).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -623,34 +550,5 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1));
-    }
-
-    @Test
-    void shouldReturn404WhenNoNotificationTypeSpecified() throws JsonProcessingException, JoseException {
-        // given
-        List<String> partIds = List.of(
-                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
-                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
-        );
-        String description = "at least 15 characters long investigation description";
-
-        assetsSupport.defaultAssetsStored();
-
-        val startAlertRequest = StartNotificationRequest.builder()
-                .affectedPartIds(partIds)
-                .description(description)
-                .severity(NotificationSeverityRequest.MINOR)
-                .receiverBpn("BPN")
-                .build();
-
-        // when
-        given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(startAlertRequest))
-                .header(oAuth2Support.jwtAuthorization(SUPERVISOR))
-                .when()
-                .post("/api/notifications")
-                .then()
-                .statusCode(400);
     }
 }

@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 :host {
   th {
     z-index: 4 !important;
@@ -27,34 +26,54 @@
 }
 
 
-mat-card {
-  height: 100% !important;
+.svg-icon-wrapper {
+  display: flex;
+  align-items: center;
+  background: #e7b80c;
+  border-radius: 5px;
+
+}
+
+.grid-container {
+  display: grid;
+  flex-direction: column;
+  gap: 25px 25px;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100vh;
+}
+.left-column  {
+  gap: 15px;
+  box-sizing: border-box;
+}
+.right-column {
+  gap: 15px;
+  box-sizing: border-box;
 }
 
 .part-detail {
-
   &--spinner {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
-  &--container {
+  &--right-container,
+  &--left-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px 25px;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
     margin-bottom: 25px;
   }
 
-  @media(max-width: 1023px) {
+  @media (max-width: 1023px) {
     &--container {
       grid-template-columns: repeat(1, 1fr);
     }
   }
 
-  &--container > div {
+  &--right-container,
+  &--left-container > div {
     min-height: 200px;
-    max-height: 600px;
+    max-height: 500px;
   }
 
   &--open {
@@ -74,7 +93,6 @@ mat-card {
       cursor: pointer;
     }
   }
-
 
   &-subcomponents-table-container {
     flex: 1;
@@ -99,10 +117,11 @@ mat-card {
 }
 
 .relation {
-  grid-column: span 2;
-  grid-row: span 2;
+  grid-column: span 1;
+  grid-row: span 1;
   mat-card-content {
-    height: 90%;
+    height: 500px;
+    padding-bottom: 10px;
   }
 }
 
@@ -126,7 +145,7 @@ mat-card {
   grid-row: span 1;
 }
 
-@media(max-width: 1023px) {
+@media (max-width: 1023px) {
   .overview {
     grid-column: span 1;
     grid-row: span 1;
@@ -240,3 +259,156 @@ mat-card {
     }
   }
 }
+
+.own-part-badge {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 4px 15px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+.info-card {
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  display: block;
+
+  &--header {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 8px 24px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+    mat-card-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+  }
+
+  .info-card--header__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  &--content {
+    display: flex;
+    padding: 16px 24px 24px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    align-self: stretch;
+  }
+  &--content-relation {
+    overflow: auto;
+    max-height: none;
+  }
+
+
+}
+
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &--label {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+}
+
+.related-parts-tab {
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  background:  rgba(0, 0, 0, 0.05);
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  padding: 5px 0;
+  font-size: 0.9rem;
+  align-items: center;
+  .info-key {
+    color: #6b7280;
+    font-weight: 500;
+  }
+  .info-value {
+    color: #111827;
+  }
+}
+
+.breadcrumb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.breadcrumb-nav-container {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.breadcrumb-back-button {
+
+  font-size: 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .back-icon {
+    margin-right: 3px;
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    line-height: 1;
+  }
+}
+::ng-deep .rounded-button > button {
+  display: flex;
+  padding: 10px 24px 10px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 100px;
+}
+
+::ng-deep .pill-button > button {
+  @extend .rounded-button;
+  flex: 1 0 0;
+  background-color: #3B82F6;
+}
+
+::ng-deep .sync-button > button {
+  @extend .rounded-button;
+  border: 1px solid #1111114a;
+}
+
+
+::ng-deep .pill-button-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

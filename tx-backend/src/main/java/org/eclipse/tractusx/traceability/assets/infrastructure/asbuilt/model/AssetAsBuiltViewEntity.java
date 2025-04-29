@@ -156,7 +156,6 @@ public class AssetAsBuiltViewEntity extends AssetBaseEntity {
                 .build();
     }
 
-
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor

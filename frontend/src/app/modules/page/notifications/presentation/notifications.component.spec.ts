@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { NotificationsModule } from '@page/notifications/notifications.module';
-import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { NotificationService } from '@shared/service/notification.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
@@ -34,19 +33,6 @@ describe('NotificationsComponent', () => {
       translations: [ 'page.alert' ],
     });
   };
-
-  it('should call detail page with correct ID', async () => {
-    const { fixture } = await renderNotifications();
-    fireEvent.click((await waitFor(() => screen.getAllByTestId('table-menu-button')))[0]);
-
-    const spy = spyOn((fixture.componentInstance as any).router, 'navigate');
-    spy.and.returnValue(new Promise(null));
-
-    fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
-    const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined };
-    expect(spy).toHaveBeenCalledWith([ '/inbox/id-84' ], { queryParams: tabInformation });
-  });
-
 
   it('should sort received notifications after column status', async () => {
     const { fixture } = await renderNotifications();

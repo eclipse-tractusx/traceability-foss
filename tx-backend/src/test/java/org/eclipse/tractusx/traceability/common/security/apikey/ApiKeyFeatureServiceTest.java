@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ApiKeyFeatureServiceTest {
 
-
     @Test
     void test_getApiKeyRequestMapping_should_return_apiKey_secured_paths() {
         //GIVEN
@@ -40,8 +39,17 @@ class ApiKeyFeatureServiceTest {
         //THEN
         assertNotNull(apiKeyRequestMapping);
         assertFalse(apiKeyRequestMapping.isEmpty());
-        assertThat(apiKeyRequestMapping).containsExactlyInAnyOrder("/assets/as-built/sync", "/assets/as-planned/sync", "/registry/reload");
+        assertThat(apiKeyRequestMapping).containsExactlyInAnyOrder(
+                "/assets/as-built/sync", "/assets/as-planned/sync",
+                "/registry/reload", "/aas/lookup",
+                "/administration/digitalTwinPart",
+                "/administration/digitalTwinPart/detail",
+                "/administration/digitalTwinPart/searchable-values",
+                "/orders/configuration/triggers",
+                "/orders",
+                "/orders/configuration/batches/active",
+                "/orders/configuration/batches",
+                "/orders/configuration/triggers/active"
+        );
     }
-
-
 }

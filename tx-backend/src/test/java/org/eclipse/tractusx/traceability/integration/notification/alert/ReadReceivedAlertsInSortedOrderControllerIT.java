@@ -10,7 +10,7 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied See the
  * License for the specific language governing permissions and limitations
  * under the License.
  *
@@ -19,13 +19,17 @@
 
 package org.eclipse.tractusx.traceability.integration.notification.alert;
 
+import common.FilterAttribute;
+import common.FilterValue;
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.common.request.PageableFilterRequest;
-import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
+import notification.request.NotificationFilter;
+import notification.request.NotificationRequest;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaOperator;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteriaStrategy;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AlertNotificationsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
+import org.eclipse.tractusx.traceability.notification.domain.base.model.NotificationSide;
 import org.eclipse.tractusx.traceability.notification.infrastructure.notification.model.NotificationMessageEntity;
 import org.eclipse.tractusx.traceability.testdata.AlertTestDataFactory;
 import org.hamcrest.Matchers;
@@ -51,16 +55,22 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
     void givenSortByCreatedDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // Given
         String sortString = "createdDate,desc";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
 
         NotificationMessageEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -80,16 +90,22 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
     void givenSortByDescriptionProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // Given
         String sortString = "description,desc";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
 
         NotificationMessageEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -109,16 +125,22 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
     void givenSortByStatusProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // Given
         String sortString = "status,asc";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
 
         NotificationMessageEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -136,16 +158,22 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
     void givenSortBySeverityProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // Given
         String sortString = "severity,asc";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
 
         NotificationMessageEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -163,12 +191,18 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
     void givenInvalidSort_whenGetCreated_thenBadRequest() throws JoseException {
         // Given
         String sortString = "createdDate,failure";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
+
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
 
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -183,16 +217,22 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
     void givenSortBySendToProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // Given
         String sortString = "sendTo,desc";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
 
         NotificationMessageEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         // Then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")
@@ -210,17 +250,22 @@ class ReadReceivedAlertsInSortedOrderControllerIT extends IntegrationTestSpecifi
     void givenSortByTargetDateProvided_whenGetAlerts_thenReturnAlertsProperlySorted() throws JoseException {
         // Given
         String sortString = "targetDate,asc";
-        String filterString = "channel,EQUAL,RECEIVER,AND";
         String testBpn = bpnSupport.testBpn();
 
         NotificationMessageEntity[] alertNotificationEntities = AlertTestDataFactory.createReceiverMajorityAlertNotificationEntitiesTestData(testBpn);
         alertNotificationsSupport.storedAlertNotifications(alertNotificationEntities);
 
+        NotificationFilter filter = NotificationFilter.builder()
+                .channel(FilterAttribute.builder()
+                        .value(List.of(FilterValue.builder().value(NotificationSide.RECEIVER.name()).strategy(SearchCriteriaStrategy.EQUAL.name()).build()))
+                        .operator(SearchCriteriaOperator.AND.name())
+                        .build())
+                .build();
+
         // Then
-        // not all entities have a different target date
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .body(new PageableFilterRequest(new OwnPageable(0, 10, List.of(sortString)), new SearchCriteriaRequestParam(List.of(filterString))))
+                .body(NotificationRequest.builder().page(0).size(10).sort(List.of(sortString)).notificationFilter(filter).build())
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/api/notifications/filter")

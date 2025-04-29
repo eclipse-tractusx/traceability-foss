@@ -1,0 +1,19 @@
+@startuml
+'autonumber
+
+actor Cron as "Scheduled Task"
+participant TraceX
+participant "TraceXDB" as DB
+
+Cron -> TraceX: Trigger cleanExpiredEntries()
+TraceX -> DB: findExpiredEntries()
+DB --> TraceX: List<expired AASEntries>
+
+alt expired entries found
+    TraceX -> DB: deleteAll(expiredEntries)
+    TraceX -> TraceX: log "Deleted {count} expired AAS entries."
+else no expired entries
+    TraceX -> TraceX: log "No expired AAS entries found."
+end
+
+@enduml

@@ -29,9 +29,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.exception.InputIdIsNullException;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.ProcessingState;
-import org.springframework.boot.actuate.endpoint.Sanitizer;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +48,8 @@ import static org.eclipse.tractusx.traceability.common.security.Sanitizer.saniti
 public class IrsCallbackController {
 
     private final OrderRepository orderRepository;
+
+    private static final String ID_REGEX = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$";
 
     @Operation(operationId = "irsCallback",
             summary = "Callback of irs get order details",
@@ -99,41 +102,38 @@ public class IrsCallbackController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/irs/order/callback")
     void handleIrsOrderCallback(
-            @RequestParam("orderId") String orderId,
+            @RequestParam(value = "orderId", required = false) String orderId,
             @RequestParam(value = "batchId", required = false) String batchId,
-            @RequestParam("orderState") String orderState,
+            @RequestParam(value = "orderState", required = false) String orderState,
             @RequestParam(value = "batchState", required = false) String batchState) {
 
         log.info("Received IRS order callback with orderId: {}, batchId: {}, orderState: {}, batchState: {}",
                 sanitize(orderId), sanitize(batchId), sanitize(orderState), sanitize(batchState));
         try {
-            validateIds(orderId, batchId);
-            log.debug("Validated orderId and batchId successfully.");
-
+            validateIds(orderId);
             ProcessingState orderStateEnum = ProcessingState.fromString(orderState);
             ProcessingState batchStateEnum = ProcessingState.fromString(batchState);
-
-            log.debug("Parsed orderState: {} and batchState: {}", orderStateEnum, batchStateEnum);
-
             orderRepository.handleOrderFinishedCallback(orderId, batchId, orderStateEnum, batchStateEnum);
-            log.info("Successfully handled callback for orderId: {}", sanitize(orderId));
         } catch (IllegalArgumentException e) {
-            log.warn("Validation failed for callback parameters: {}", e.getMessage());
-            throw e; // Re-throw to ensure appropriate HTTP response
+            log.debug("Validation failed for callback parameters: {}", e.getMessage());
+        } catch (InputIdIsNullException idIsNullException) {
+            log.debug("Order id is null - skipping callback IRS order callback for orderId {} message: {}", sanitize(orderId), idIsNullException.getMessage());
         } catch (Exception e) {
-            log.error("Error occurred while handling IRS order callback for orderId: {}", sanitize(orderId), e);
-            throw e; // Re-throw to ensure appropriate HTTP response
+            log.warn("Unknown exception during IRS order callback: {}", e.getMessage(), e);
         }
     }
 
     private void validateIds(String... ids) {
         for (String id : ids) {
-            if (id != null && !id.isEmpty() && !id.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")) {
-                log.warn("Invalid UUID format detected: {}", sanitize(id));
-                throw new IllegalArgumentException("Invalid UUID format " + id);
+            if (StringUtils.isNotBlank(id) && !id.matches(ID_REGEX)) {
+                log.debug("Invalid UUID format detected: {}", sanitize(id));
+                throw new IllegalArgumentException("Invalid UUID format detected: " + sanitize(id));
+            }
+
+            if (StringUtils.isBlank(id)) {
+                log.debug("Empty or null UUID detected");
+                throw new InputIdIsNullException();
             }
         }
     }
-
-
 }

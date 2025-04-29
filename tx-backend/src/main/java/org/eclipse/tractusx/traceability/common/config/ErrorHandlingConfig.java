@@ -46,6 +46,7 @@ import org.eclipse.tractusx.traceability.common.request.exception.InvalidSortExc
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.common.security.exception.InvalidApiKeyException;
 import org.eclipse.tractusx.traceability.contracts.domain.exception.ContractException;
+import org.eclipse.tractusx.traceability.digitaltwinpart.domain.DigitalTwinPartNotFoundException;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.exception.DiscoveryFinderException;
 import org.eclipse.tractusx.traceability.notification.application.contract.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.notification.application.notification.validation.UpdateNotificationValidationException;
@@ -61,6 +62,7 @@ import org.eclipse.tractusx.traceability.notification.domain.notification.except
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationNotSupportedException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationSenderAndReceiverBPNEqualException;
 import org.eclipse.tractusx.traceability.notification.domain.notification.exception.NotificationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.exception.NotOwnPartException;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -210,6 +212,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(AssetNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAssetNotFoundException(final AssetNotFoundException exception) {
         log.warn("handleAssetNotFoundException", exception);
+        return ResponseEntity.status(NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(DigitalTwinPartNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleAssetNotFoundException(final DigitalTwinPartNotFoundException exception) {
+        log.warn("handleDigitalTwinPartNotFoundException", exception);
         return ResponseEntity.status(NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
@@ -484,5 +493,11 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
         }
         return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse(message));
+    }
+
+    @ExceptionHandler(NotOwnPartException.class)
+    public ResponseEntity<ErrorResponse> handleNotOwnPartException(final NotOwnPartException exception) {
+        log.error("NotOwnPartException exception", exception);
+        return ResponseEntity.status(BAD_REQUEST).body(new ErrorResponse(exception.getMessage()));
     }
 }

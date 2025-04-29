@@ -142,75 +142,20 @@ export interface Relation {
   idShort: string;
 }
 
-export interface AssetAsBuiltFilter {
-  id?: string,
-  ids?: string[],
-  excludeIds?: string[],
-  idShort?: string,
-  name?: string,
-  manufacturerName?: string,
-  businessPartner?: string,
-  partId?: string,
-  manufacturerPartId?: string,
-  customerPartId?: string,
-  contractAgreementId?: string,
-  classification?: string,
-  nameAtCustomer?: string,
-  semanticModelId?: string,
-  semanticDataModel?: string[],
-  manufacturingDate?: string,
-  manufacturingCountry?: string,
-  owner?: Owner
-}
-
-export interface AssetAsPlannedFilter {
-  id?: string,
-  idShort?: string,
-  name?: string,
-  manufacturer?: string,
-  businessPartner?: string,
-  manufacturerPartId?: string,
-  classification?: string,
-  contractAgreementId?: string,
-  semanticDataModel?: string[],
-  semanticModelId?: string,
-  validityPeriodFrom?: string,
-  validityPeriodTo?: string,
-  psFunction?: string,
-  catenaXSiteId?: string,
-  functionValidFrom?: string,
-  functionValidUntil?: string,
-  owner?: Owner
-}
-
 export enum ImportState {
-  TRANSIENT = "TRANSIENT",
-  PERSISTENT = "PERSISTENT",
-  IN_SYNCHRONIZATION = "IN_SYNCHRONIZATION",
-  ERROR = "ERROR",
-  UNSET = "UNSET",
-  PUBLISHED_TO_CORE_SERVICES="PUBLISHED_TO_CORE_SERVICES"
+  TRANSIENT = 'TRANSIENT',
+  PERSISTENT = 'PERSISTENT',
+  IN_SYNCHRONIZATION = 'IN_SYNCHRONIZATION',
+  ERROR = 'ERROR',
+  UNSET = 'UNSET',
+  PUBLISHED_TO_CORE_SERVICES = 'PUBLISHED_TO_CORE_SERVICES'
 }
 
 export enum ImportStateInCamelCase {
-  TRANSIENT = "Transient",
-  PERSISTENT = "Persistent",
-  IN_SYNCHRONIZATION = "In Synchronization",
-  ERROR = "Error",
-  UNSET = "Unset",
-  PUBLISHED_TO_CORE_SERVICES="Published to Core Services"
-}
-
-export enum FilterOperator {
-  EQUAL = 'EQUAL',
-  AT_LOCAL_DATE = 'AT_LOCAL_DATE',
-  STARTS_WITH = 'STARTS_WITH',
-  BEFORE_LOCAL_DATE = 'BEFORE_LOCAL_DATE',
-  AFTER_LOCAL_DATE = 'AFTER_LOCAL_DATE',
-  NOTIFICATION_COUNT_EQUAL = 'NOTIFICATION_COUNT_EQUAL',
-  EXCLUDE = 'EXCLUDE'
-}
-
-export function getFilterOperatorValue(operator: FilterOperator) {
-  return operator as string;
+  TRANSIENT = 'Transient',
+  PERSISTENT = 'Persistent',
+  IN_SYNCHRONIZATION = 'In Synchronization',
+  ERROR = 'Error',
+  UNSET = 'Unset',
+  PUBLISHED_TO_CORE_SERVICES = 'Published to Core Services'
 }

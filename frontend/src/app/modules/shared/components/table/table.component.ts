@@ -347,6 +347,10 @@ export class TableComponent {
     }
   }
 
+  public onRowDoubleClick(row: Record<string, unknown>) {
+    this.selected.emit(row);
+  }
+
   private handleSelectionChange(): void {
     this.notificationsSelectedOnlyInStatusCreated = this.selection.selected.every(notification => notification?.['status'] === NotificationStatus.CREATED);
     this.multiSelect.emit(this.selection.selected);

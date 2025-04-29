@@ -19,11 +19,10 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import assets.request.PartChainIdentificationKey;
+import java.util.stream.Stream;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.OrderRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -36,7 +35,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AssetAsBuiltServiceImplTest {
@@ -47,44 +45,18 @@ class AssetAsBuiltServiceImplTest {
     @Mock
     private OrderRepository orderRepository;
 
-    @Mock
-    private AssetAsBuiltRepository assetAsBuiltRepository; // Mock the concrete repository, not AssetRepository
-
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
         // given
-        String globalAssetId = "123";
-        List<String> globalAssetIds = List.of(globalAssetId);
-
-        AssetBase mockAssetBase = AssetBase.builder()
-                .id(globalAssetId)
-                .manufacturerId("456")
-                .build();
-
-        List<AssetBase> mockAssets = List.of(mockAssetBase);
-
-        // Stub the repository method to return mock data
-        when(assetAsBuiltRepository.getAssetsById(globalAssetIds)).thenReturn(mockAssets);
+        List<PartChainIdentificationKey> keys = Stream.of("123")
+                .map(id -> new PartChainIdentificationKey(null, id, "bpn"))
+                .toList();
 
         // when
-        assetService.syncAssetsAsyncUsingIRSOrderAPI(globalAssetIds);
+        assetService.syncAssetsUsingIRSOrderAPI(keys, null);
 
         // then
-        verify(orderRepository).createOrderToResolveAssets(
-                mockAssets,
-                Direction.DOWNWARD,
-                Aspect.downwardAspectsForAssetsAsBuilt(),
-                BomLifecycle.AS_BUILT
-        );
-
-        verify(orderRepository).createOrderToResolveAssets(
-                mockAssets,
-                Direction.UPWARD,
-                Aspect.upwardAspectsForAssetsAsBuilt(),
-                BomLifecycle.AS_BUILT
-        );
+        verify(orderRepository).createOrderToResolveAssets(keys, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
+        verify(orderRepository).createOrderToResolveAssets(keys, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT, null);
     }
 }
-
-
-

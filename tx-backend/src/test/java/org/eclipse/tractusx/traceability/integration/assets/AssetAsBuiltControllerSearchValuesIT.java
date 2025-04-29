@@ -30,6 +30,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -82,7 +83,7 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "startWith", startWith)))
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "startsWith", List.of(startWith))))
                 .log().all()
                 .when()
                 .post("/api/assets/as-built/searchable-values")
@@ -112,7 +113,7 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(1));
+                .body("size()", is(2));
     }
 
     @Test
@@ -121,13 +122,13 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
         assetsSupport.defaultAssetsStored();
         String fieldName = "businessPartner";
         String resultLimit = "100";
-        String startWith = "bpnl";
+        List<String> startsWith = List.of("bpnl");
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "startWith", startWith)))
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "startsWith", startsWith)))
                 .log().all()
                 .when()
                 .post("/api/assets/as-built/searchable-values")
@@ -150,13 +151,13 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
         assetsSupport.defaultAssetsStored();
         String fieldName = "businessPartner";
         String resultLimit = "100";
-        String startWith = "bpNl";
+        List<String> startsWith = List.of("bpnl");
 
         // then
         given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
-                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "startWith", startWith)))
+                .body(asJson(Map.of("fieldName", fieldName, "size", resultLimit, "startsWith", startsWith)))
                 .log().all()
                 .when()
                 .post("/api/assets/as-built/searchable-values")
@@ -237,7 +238,7 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(12));
+                .body("size()", is(11));
     }
 
     @Test
@@ -260,7 +261,7 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(6));
+                .body("size()", is(7));
     }
 
     @Test
@@ -284,7 +285,7 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
                 .log().all()
                 .statusCode(200)
                 .assertThat()
-                .body("size()", is(2));
+                .body("size()", is(1));
     }
 
     private static Stream<Arguments> fieldNameTestProvider() {
@@ -300,9 +301,9 @@ class AssetAsBuiltControllerSearchValuesIT extends IntegrationTestSpecification 
     private static Stream<Arguments> fieldNameTestProviderWithStartWithParam() {
         return Stream.of(
                 Arguments.of("id", "urn:uuid:1", 10L, 3),
-                Arguments.of("owner", "shuldNotMakeDifference", 10L, 4),
-                Arguments.of("semanticDataModel", "shuldNotMakeDifference", 10L, 7),
-                Arguments.of("qualityType", "shuldNotMakeDifference", 10L, 5)
+                Arguments.of("owner", "shouldNotFindAnything", 10L, 0),
+                Arguments.of("semanticDataModel", "s", 10L, 1),
+                Arguments.of("qualityType", "M", 10L, 2)
         );
     }
 }

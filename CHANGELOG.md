@@ -6,6 +6,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
+
+## [Unreleased]
+### Added
+- show child/parent parts in table (Part detail view) eclipse-tractusx/traceability-foss/issues#1434
+- Improve the parts detail view eclipse-tractusx/traceability-foss/issues#1434
+- Add api for manual order registration eclipse-tractusx/traceability-foss/issues#946
+- extend callback logic for partial state batches eclipse-tractusx/traceability-foss/issues#946
+- add API for Orders and Triggers configuration eclipse-tractusx/traceability-foss/issues#1441
+- Display Digital Twin and Part Information (Digital Twin Management) eclipse-tractusx/traceability-foss/issues#1441
+- Automated Order Registration via CronJob eclipse-tractusx/traceability-foss/issues#1441
+- Added digital twin part info domain / api eclipse-tractusx/traceability-foss/issues#1441
+-
+### Changed
+- Adapting cron jobs to allow dynamic updates eclipse-tractusx/traceability-foss/issues#1441
+- Refactor all filter objects in front- and backend and fix the hierarchical filtering eclipse-tractusx/traceability-foss/issues#1429
+- Adjust the regex to split ids in global search bar eclipse-tractusx/traceability-foss/issues#1429
+
+
+### Fixed
+- use date instead of custom date class to also include time in the date columns of the notification table eclipse-tractusx/traceability-foss/issues#1442
+- fix filter value suggestion for enum field eclipse-tractusx/traceability-foss/issues#1430
+- Bump base image eclipse-temurin:21-jre-alpine to eclipse-temurin:24-jre-alpine eclipse-tractusx/traceability-foss/issues#1439
+- Bump body-parser to fix CVE-2024-45590 eclipse-tractusx/traceability-foss/issues#1439
+- Bump brances from 3.0.2 to 3.0.3 eclipse-tractusx/traceability-foss/issues#1439
+- Bump axios from 1.7.7 to 1.8.4 in /frontend eclipse-tractusx/traceability-foss/issues#1439
+- Bump actions/checkout from 2 to 4 eclipse-tractusx/traceability-foss/issues#1439
+- Bump actions/cache from 3 to 4 eclipse-tractusx/traceability-foss/issues#1439
+- Bump webpack from 5.76.1 to 5.94.0 in /frontend eclipse-tractusx/traceability-foss/issues#1439
+- Bump io.cucumber:cucumber-bom from 7.17.0 to 7.21.1 d eclipse-tractusx/traceability-foss/issues#1439
+- Bump org.apache.maven.plugins:maven-install-plugin from 3.1.2 to 3.1.4 eclipse-tractusx/traceability-foss/issues#1439
+- Bump logback.version from 1.5.6 to 1.5.7 eclipse-tractusx/traceability-foss/issues#1439
+- Bump actions/setup-node from 3 to 4 eclipse-tractusx/traceability-foss/issues#1439
+- Bump org.awaitility:awaitility from 4.2.1 to 4.3.0 eclipse-tractusx/traceability-foss/issues#1439
+- Bump org.apache.maven.plugins:maven-failsafe-plugin from 3.2.5 to 3.5.3 eclipse-tractusx/traceability-foss/issues#1439
+- Bump @babel/helpers from 7.25.6 to 7.26.10 in /frontend eclipse-tractusx/traceability-foss/issues#1439
+- Bump cypress-io/github-action from 6.7.2 to 6.7.16 eclipse-tractusx/traceability-foss/issues#1439
+- repair unit test pipeline and revert breaking dependency changes eclipse-tractusx/traceability-foss/issues#1439
+- change dummy test controller to post requests to resolve CSRF alert eclipse-tractusx/traceability-foss/issues#1439
+- repair flaky integration tests eclipse-tractusx/traceability-foss/issues#1439
+
+### Removed
+- Remove unused vulnerable dependency commons-fileupload eclipse-tractusx/traceability-foss/issues#1439
+- TRACEX-463 remove callbacks path parameters templates eclipse-tractusx/traceability-foss/issues#1439
+- remove fdescribe from test to run full test set eclipse-tractusx/traceability-foss/issues#1439
+- Remove supervisor role from admin endpoints eclipse-tractusx/traceability-foss/issues#1439
+
 ## [14.0.1 - 26.02.2025]
 ### Fixed
 - fix cross-spawn dependency (#1416)

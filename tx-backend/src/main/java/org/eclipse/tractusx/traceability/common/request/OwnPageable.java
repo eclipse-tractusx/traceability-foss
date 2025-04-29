@@ -43,7 +43,7 @@ import java.util.List;
 public class OwnPageable {
     private Integer page;
     private Integer size;
-    @ArraySchema(arraySchema = @Schema(description = "Content of Assets PageResults", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "manufacturerPartId,desc"), maxItems = Integer.MAX_VALUE)
+    @ArraySchema(arraySchema = @Schema(description = "Content of PageResults", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "manufacturerPartId,desc"), maxItems = Integer.MAX_VALUE)
     private List<String> sort;
 
     public static Pageable toPageable(OwnPageable ownPageable, BaseRequestFieldMapper fieldMapper) {

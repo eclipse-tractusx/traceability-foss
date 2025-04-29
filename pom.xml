@@ -52,18 +52,18 @@ SPDX-License-Identifier: Apache-2.0
         <checkstyle-plugin.version>3.3.1</checkstyle-plugin.version>
         <findsecbugs-plugin.version>1.13.0</findsecbugs-plugin.version>
         <commons-compress.version>1.27.1</commons-compress.version>
-        <install-plugin.version>3.1.2</install-plugin.version>
+        <install-plugin.version>3.1.4</install-plugin.version>
         <jacoco-plugin.version>0.8.12</jacoco-plugin.version>
         <jar-plugin.version>3.3.0</jar-plugin.version>
         <owasp-plugin.version>9.0.9</owasp-plugin.version>
         <spotbugs-plugin.version>4.8.6.2</spotbugs-plugin.version>
         <maven-project-info-reports-plugin.version>3.6.2</maven-project-info-reports-plugin.version>
         <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
-        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>3.2.5</maven-failsafe-plugin.version>
+        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <!-- versions for 3rd party dependecies -->
-        <logback.version>1.5.6</logback.version>
+        <logback.version>1.5.18</logback.version>
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.3.0</ascii-doctor-j-diagram.version>
@@ -77,8 +77,8 @@ SPDX-License-Identifier: Apache-2.0
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <jose4j.version>0.9.6</jose4j.version>
         <restito.version>1.1.2</restito.version>
-        <testcontainer-postgresql.version>1.19.8</testcontainer-postgresql.version>
-        <rest-assured.version>5.5.0</rest-assured.version>
+        <rest-assured.version>5.5.1</rest-assured.version>
+        <testcontainer-postgresql.version>1.20.6</testcontainer-postgresql.version>
         <postgresql.version>42.6.1</postgresql.version>
         <springdoc.version>2.8.3</springdoc.version>
         <assertj.version>3.24.2</assertj.version>
@@ -86,13 +86,14 @@ SPDX-License-Identifier: Apache-2.0
         <commons-collections.version>4.4</commons-collections.version>
         <lombok.version>1.18.32</lombok.version>
         <json-unit-assertj.version>3.2.7</json-unit-assertj.version>
-        <cucumber.version>7.17.0</cucumber.version>
+        <cucumber.version>7.22.0</cucumber.version>
         <junit-bom.version>5.11.4</junit-bom.version>
-        <awaitility.version>4.2.1</awaitility.version>
+        <awaitility.version>4.3.0</awaitility.version>
         <micrometer.version>1.11.4</micrometer.version>
-        <!-- TODO https://github.com/eclipse-tractusx/traceability-foss/issues/978 update to the cx release version of irs lib IMPORTANT NO SNAPSHOT-->
-        <irs-client-lib.version>2.1.27</irs-client-lib.version>
+        <irs-client-lib.version>2.2.0</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
+        <apache-tomcat-embed.version>11.0.5</apache-tomcat-embed.version>
+        <spring-security-crypto.version>6.4.4</spring-security-crypto.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>

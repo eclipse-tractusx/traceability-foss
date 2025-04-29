@@ -31,6 +31,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.security.apikey.ApiKeyEnabled;
+import org.eclipse.tractusx.traceability.configuration.application.service.ConfigurationService;
+import org.eclipse.tractusx.traceability.configuration.domain.model.OrderConfiguration;
+import org.eclipse.tractusx.traceability.configuration.domain.model.TriggerConfiguration;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistryController {
 
     private final DecentralRegistryService decentralRegistryService;
+    private final ConfigurationService configurationService;
 
     @Operation(operationId = "reload",
             summary = "Triggers reload of shell descriptors",
@@ -97,7 +101,8 @@ public class RegistryController {
     @GetMapping("/reload")
     @ApiKeyEnabled
     public void reload() {
-        decentralRegistryService.synchronizeAssets();
+        OrderConfiguration latestConfig = configurationService.getLatestOrderConfiguration();
+        TriggerConfiguration latestTriggerConfiguration = configurationService.getLatestTriggerConfiguration();
+        decentralRegistryService.registerOrdersForExpiredAssets(latestConfig, latestTriggerConfiguration);
     }
-
 }

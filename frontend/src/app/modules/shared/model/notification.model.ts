@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { Severity } from '@shared/model/severity.model';
 
@@ -53,25 +52,6 @@ export interface NotificationReason {
 export interface NotificationUser {
   bpn?: string;
   name?: string;
-}
-
-export interface NotificationFilter {
-  id?: string;
-  description?: string;
-  status?: NotificationStatus;
-  severity?: Severity;
-  createdDate?: string;
-  createdBy?: string;
-  createdByName?: string;
-  sendTo?: string;
-  sendToName?: string;
-  reason?: NotificationReason;
-  assetIds?: string[];
-  channel?: 'SENDER' | 'RECEIVER';
-  targetDate?: string;
-  bpn?: string;
-  errorMessage?: string;
-  title: string;
 }
 
 export enum NotificationType {
@@ -128,14 +108,14 @@ export interface Notification {
   description: string;
   createdBy: string;
   createdByName?: string;
-  createdDate: CalendarDateModel;
-  updatedDate?: CalendarDateModel;
+  createdDate: Date;
+  updatedDate?: Date;
   assetIds: string[];
   channel?: 'SENDER' | 'RECEIVER';
   sendTo: string;
   sendToName?: string;
   severity: Severity;
-  targetDate?: CalendarDateModel;
+  targetDate?: Date;
   messages: NotificationMessage[];
 
   //added fields
@@ -148,8 +128,10 @@ export enum NotificationColumn {
   RECEIVED_INVESTIGATION = 'receivedActiveInvestigations',
   SENT_INVESTIGATION = 'sentActiveInvestigations'
 }
+
 export interface NotificationDeeplinkFilter {
   notificationIds: string[];
 }
+
 export type NotificationsResponse = PaginationResponse<NotificationResponse>;
 export type Notifications = Pagination<Notification>;

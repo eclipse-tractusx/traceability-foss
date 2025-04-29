@@ -34,14 +34,19 @@ traceability:
   irsBase: ${IRS_URL}
   irsPoliciesPath: "/irs/policies"
   register-decentral-registry-permissions: ${TRACEABILITY_REGISTER_DECENTRAL_REGISTRY_PERMISSIONS}
-  discoveryType: ${DISCOVERY_TYPE}
+  discoveryType: ${DISCOVERY_TYPE:"bpnl" default}
   technicalServiceApiKey: ${TECHNICAL_SERVICE_API_KEY}
-  assetRefreshJobCronExpression: ${TRACEABILITY_ASSETS_REFRESH_CRON:0 0 */2 * * ?}
-  assetRefreshJobZone: ${TRACEABILITY_ASSETS_REFRESH_ZONE:Europe/Berlin}
-  publishAssetCronExpression: ${TRACEABILITY_PUBLISH_ASSET_CRON:0 30 */1 * * ?}
-  publishAssetCronZone: ${TRACEABILITY_PUBLISH_ASSET_ZONE:Europe/Berlin}
   enableApiKeyAuthentication: ${TRACEABILITY_ENABLE_API_KEY_AUTHENTICATION:false}
   tracexAdminKey: ${TRACEABILITY_ADMIN_KEY}
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG
+      apache:
+        http: DEBUG
 
 provisioning:
   submodel:
@@ -122,6 +127,8 @@ management:
       probes:
         enabled: true
   health:
+    redis:
+      enabled: false
     readinessState:
       enabled: true
     livenessState:
@@ -135,11 +142,14 @@ management:
     port: 8081
 
 spring:
+  cache:
+    type: none
   jpa:
     show-sql: false
     properties:
       hibernate:
         format_sql: true
+
   main:
     allow-bean-definition-overriding: true
   flyway:
@@ -226,8 +236,7 @@ digitalTwinRegistryClient:
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
   discovery:
-    type: ${DISCOVERY_TYPE}
+    type: ${DISCOVERY_TYPE:"bpnl"}
 
 bpdm:
-  providerUrl: ${BPDM_URL} # Endpoint to resolve BPNs, must contain the placeholders {partnerId} and {idType}
-  providerBpnl: ${BPDM_PROVIDER_BPNL}
+  goldenRecordUrl: ${BPDM_GOLDEN_RECORD_URL}

@@ -28,8 +28,8 @@ import java.util.List;
 public record SearchableAssetsRequest(
         @NotNull
         String fieldName,
-        @Size(min = 1)
-        String startWith,
+        @Size()
+        List<String> startsWith,
         Integer size,
         OwnerType owner,
         List<String> inAssetIds) {

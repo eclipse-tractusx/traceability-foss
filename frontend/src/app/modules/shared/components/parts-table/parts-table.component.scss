@@ -31,9 +31,11 @@ table {
   display:flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 1rem;
 
   .right-icon-container{
     display:flex;
+    align-items: center;
   }
 
   .action-button-tile-maximizeTable.activated{
@@ -135,7 +137,7 @@ table {
   display: flex;
   align-items: center;
   min-height: 35px;
-
+  margin-bottom: 1rem;
 }
 
 .publish--disabled{
@@ -146,20 +148,33 @@ table {
   cursor: pointer;
 }
 
+.vertical-line {
+  width: 2px;
+  background-color: #80808038;
+  height: 36px;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.filter-header-divider {
+  border: none;
+  height: 2px;
+  background-color: #80808038;
+}
+
 .icon-container{
-  width:50%;
+  width:70%;
   display:flex;
-  margin-left: -20px;
   mat-icon{
-    width: 28px;
-    height: 28px;
-    font-size: 28px;
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
     cursor: pointer;
     color: #333333;
   }
 }
 .selected-text-container{
-  width:50%;
+  width:30%;
   text-align:right;
 }
 
@@ -262,9 +277,7 @@ tr.error {
 }
 
 .table-paginator-menu {
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
+  flex: 0 0 56px;
 }
 
 .table--header--row {
@@ -314,5 +327,35 @@ tr.error {
 
 .table--notification--cell--notification--count {
   cursor: pointer;
+}
+
+.table-wrapper {
+  flex: 1 1 auto;
+}
+
+.notification {
+  position: relative;
+  display: inline-block;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  min-width: 16px;
+  min-height: 16px;
+  background: #0f71ca;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification .normal-badge {
+  padding: 1px;
+}
+.notification .badge-big {
+  padding: 3px;
 }
 

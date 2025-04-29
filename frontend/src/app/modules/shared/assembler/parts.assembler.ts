@@ -151,25 +151,34 @@ export class PartsAssembler {
     if (!viewData?.data) {
       return viewData;
     }
-
+  
     const {
-      semanticDataModel,
+      manufacturerName,
+      businessPartner,
+      manufacturerPartId,
+      nameAtManufacturer,
       semanticModelId,
-      manufacturingDate,
-      manufacturingCountry,
-      classification,
-
+      semanticDataModel,
+      van,
     } = viewData.data;
-    return {
-      data: {
-        semanticDataModel,
-        semanticModelId,
-        manufacturingDate,
-        manufacturingCountry,
-        classification,
-      } as Part,
-    };
+  
+    const manufacturerDisplay = businessPartner
+      ? `${manufacturerName} (${businessPartner})`
+      : manufacturerName;
+  
+      return {
+        data: {
+          manufacturerDisplay,
+          manufacturerPartId,
+          nameAtManufacturer,
+          semanticModelId,
+          semanticDataModel,
+          ...(viewData.data?.mainAspectType === MainAspectType.AS_BUILT && { van }),
+        } as Part & { manufacturerDisplay: string },
+      };
+      
   }
+  
 
   public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {
     return map(PartsAssembler.filterPartForView);
@@ -184,13 +193,10 @@ export class PartsAssembler {
       // exclude 'van' if is a partAsPlanned
       if (viewData.data?.mainAspectType === MainAspectType.AS_BUILT) {
         const {
-          manufacturerName,
-          manufacturerPartId,
-          nameAtManufacturer,
-          businessPartner,
-          van,
+          manufacturingDate,
+          manufacturingCountry,
         } = viewData.data;
-        return { data: { manufacturerName, manufacturerPartId, nameAtManufacturer, businessPartner, van } as Part };
+        return { data: { manufacturingDate,manufacturingCountry} as Part };
       } else {
         const {
           manufacturerName,
@@ -206,18 +212,53 @@ export class PartsAssembler {
   public static mapPartForCustomerOrPartSiteView(): OperatorFunction<View<Part>, View<Part>> {
     return map(viewData => {
       if (!viewData.data) {
-        return;
+        return null;
       }
-      // if no customer data is available then return partSiteInformation
-      if (!viewData.data?.nameAtCustomer && !viewData.data?.customerPartId && viewData.data?.functionValidFrom) {
-        const { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } = viewData.data;
-        return { data: { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } as Part };
+  
+      const {
+        nameAtCustomer,
+        customerPartId,
+        functionValidFrom,
+        functionValidUntil,
+        catenaXSiteId,
+        psFunction
+      } = viewData.data;
+  
+      const isEmpty = (value?: string | null) =>
+        value === null || value === undefined || value.trim() === '' || value === 'null';
+  
+      const hasValidCustomerData = !isEmpty(nameAtCustomer) || !isEmpty(customerPartId);
+  
+      if (!hasValidCustomerData) {
+        // If fallback data exists, return it; else return null
+        if (functionValidFrom) {
+          return {
+            data: {
+              catenaXSiteId,
+              psFunction,
+              functionValidFrom,
+              functionValidUntil
+            } as Part
+          };
+        }
+        // No useful customer or fallback data — suppress card
+        return null;
       }
-
-      const { nameAtCustomer, customerPartId } = viewData.data;
-      return { data: { nameAtCustomer, customerPartId } as Part };
+  
+      const data: any = {};
+      if (!isEmpty(nameAtCustomer)) {
+        data.nameAtCustomer = nameAtCustomer;
+      }
+      if (!isEmpty(customerPartId)) {
+        data.customerPartId = customerPartId;
+      }
+  
+      return { data: data as Part };
     });
   }
+  
+  
+  
 
   public static mapPartForTractionBatteryCodeDetailsView(): OperatorFunction<View<Part>, View<Part>> {
     return map(viewData => {
@@ -230,21 +271,26 @@ export class PartsAssembler {
     });
   }
 
-  public static mapPartForAssetStateDetailsView(): OperatorFunction<View<Part>, View<Part>> {
+  public static mapPartForAssetStateDetailsView(): OperatorFunction<View<Part>, View<Part | null>> {
     return map(viewData => {
-      if(!viewData?.data?.importState) {
-        return;
+      if (!viewData?.data) {
+        return null;
       }
-
-      const { importNote, importState, tombStoneErrorDetail } = viewData.data;
-
-      if(!viewData.data.tombStoneErrorDetail) {
-        return {data: {importNote, importState} as Part};
-      } else {
-        return { data: {importNote, importState, tombStoneErrorDetail} as Part};
+      const { id, importState, importNote, tombStoneErrorDetail } = viewData.data;
+      const mappedData: Partial<Part> = { id };
+      if (importState !== undefined && importState !== null) {
+        mappedData.importState = importState;
       }
-    })
+      if (importNote) {
+        mappedData.importNote = importNote;
+      }
+      if (tombStoneErrorDetail) {
+        mappedData.tombStoneErrorDetail = tombStoneErrorDetail;
+      }
+      return { data: mappedData as Part };
+    });
   }
+  
 
   public static mapPartForTractionBatteryCodeSubComponentsView(): OperatorFunction<View<Part>, View<Part>> {
     return map(viewData => {

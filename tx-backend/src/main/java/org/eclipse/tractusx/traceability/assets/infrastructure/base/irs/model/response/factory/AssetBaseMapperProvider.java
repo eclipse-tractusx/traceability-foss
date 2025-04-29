@@ -35,7 +35,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AssetBaseMapperProvider {
     private final List<SubmodelMapper> baseMappers;
-    private final List<SubmodelRelationshipMapper> submodelRelationshipMapper;
+    private final List<SubmodelRelationshipMapper> submodelRelationshipMappers;
     private final List<RelationshipMapper> relationshipMappers;
     private final List<AsPlannedDetailMapper> asPlannedDetailMappers;
     private final List<AsBuiltDetailMapper> asBuiltDetailMappers;
@@ -45,7 +45,7 @@ public class AssetBaseMapperProvider {
     }
 
     public Optional<SubmodelRelationshipMapper> getRelationshipSubmodelMapper(IrsSubmodel irsSubmodel) {
-        return submodelRelationshipMapper.stream().filter(assetBaseMapper -> assetBaseMapper.validMapper(irsSubmodel)).findFirst();
+        return submodelRelationshipMappers.stream().filter(submodelRelationshipMapper -> submodelRelationshipMapper.validMapper(irsSubmodel)).findFirst();
     }
 
     public Optional<RelationshipMapper> getRelationshipMapper(Relationship relationship) {

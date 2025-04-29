@@ -53,10 +53,6 @@ public class ContractAgreement {
                 .build();
     }
 
-    public static List<ContractAgreementBaseEntity> toEntityList(List<ContractAgreement> contractAgreementList) {
-        return contractAgreementList.stream().map(ContractAgreement::toEntity).toList();
-    }
-
     public static ContractAgreement toDomain(String contractAgreementId, String globalAssetId, ContractType contractType) {
         return ContractAgreement.builder()
                 .contractAgreementId(contractAgreementId)
