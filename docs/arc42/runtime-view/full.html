@@ -457,6 +457,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#_data_consumption">Data consumption</a>
 <ul class="sectlevel2">
+<li><a href="#_lookup_dtr">Lookup (DTR)</a></li>
+<li><a href="#_sync_irs">Sync (IRS)</a></li>
 <li><a href="#_overview_5">Overview</a></li>
 </ul>
 </li>
@@ -637,18 +639,31 @@ To be able to send notifications to a partner you need to</p>
 <h2 id="_data_consumption">Data consumption</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This sequence diagram describes the process of fetching data from the DTR and the Catena-X ecosystem:</p>
+<p>This sequence diagram describes the two processes necessary for fetching data from the DTR and the Catena-X ecosystem with the IRS:</p>
 </div>
+<div class="sect2">
+<h3 id="_lookup_dtr">Lookup (DTR)</h3>
 <div class="imageblock">
 <div class="content">
-<img src="business-context_data_consumption.svg" alt="business context data consumption" width="849" height="789">
+<img src="business-context_data_consumption-step1-dtr.svg" alt="business context data consumption step1 dtr" width="1100" height="377">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sync_irs">Sync (IRS)</h3>
+<div class="imageblock">
+<div class="content">
+<img src="business-context_data_consumption-step2-irs.svg" alt="business context data consumption step2 irs" width="703" height="536">
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_overview_5">Overview</h3>
 <div class="paragraph">
-<p>Data is fetched by a Trace-X instance using the Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
-For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, part trees / part relations.</p>
+<p>Trace-X retrieves Asset Administration Shell (AAS) data by interacting with the Digital Twin Registry (DTR), Item Relationship Service (IRS), and its own consumer EDC.
+The process begins with Trace-X querying the DTR for digital twins filtered by a configured Business Partner Number (BPN) and specific digital twin types (e.g., partType and partInstance). The DTR responds with a paginated list of aasIDs. For each page, Trace-X compares the AAS identifiers with those stored in its database and creates or updates entries as needed.
+To fetch detailed submodel data, Trace-X identifies outdated or missing AAS entries from its local database. These are processed in batches according to a configurable batchSize. Each batch is registered as an order with the IRS, which returns submodel data. Trace-X then extracts relevant structures—such as relationships, shells, tombstones, submodels, and business partner numbers (BPNs)—and merges the results into its backend.
+This pipeline ensures that part structures, including supplier and customer parts and their hierarchical relationships, are kept up to date in alignment with the AAS standard.</p>
 </div>
 </div>
 </div>
@@ -1338,7 +1353,7 @@ A note clarifies that if a <code>BpnNotFoundException</code> occurs, the URL fro
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-07 14:22:54 UTC
+Last updated 2025-04-29 14:09:21 UTC
 </div>
 </div>
 </body>

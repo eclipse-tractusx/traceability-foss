@@ -340,14 +340,22 @@ With the notification asset it is possible to enable EDC contract negotiation an
 
 ## Data consumption
 
-This sequence diagram describes the process of fetching data from the DTR and the Catena-X ecosystem:
+This sequence diagram describes the two processes necessary for fetching data from the DTR and the Catena-X ecosystem with the IRS:
+
+### Lookup (DTR)
 
 ![arc42_010](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_010.png)
 
+### Sync (IRS)
+
+![arc42_011](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_011.png)
+
 ### Overview
 
-Data is fetched by a Trace-X instance using the Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
-For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, part trees / part relations.
+Trace-X retrieves Asset Administration Shell (AAS) data by interacting with the Digital Twin Registry (DTR), Item Relationship Service (IRS), and its own consumer EDC.
+The process begins with Trace-X querying the DTR for digital twins filtered by a configured Business Partner Number (BPN) and specific digital twin types (e.g., partType and partInstance). The DTR responds with a paginated list of aasIDs. For each page, Trace-X compares the AAS identifiers with those stored in its database and creates or updates entries as needed.
+To fetch detailed submodel data, Trace-X identifies outdated or missing AAS entries from its local database. These are processed in batches according to a configurable batchSize. Each batch is registered as an order with the IRS, which returns submodel data. Trace-X then extracts relevant structures—such as relationships, shells, tombstones, submodels, and business partner numbers (BPNs)—and merges the results into its backend.
+This pipeline ensures that part structures, including supplier and customer parts and their hierarchical relationships, are kept up to date in alignment with the AAS standard.
 
 ## Data provisioning
 
@@ -358,19 +366,19 @@ The following sequence diagrams describe the process of importing data from a Tr
 Data will be imported by the Trace-X frontend into the Trace-X backend and will be persisted as an asset in a transient state.
 The raw data which is needed for the shared services (DTR / EDC) will be persisted as well.
 
-![arc42_011](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_011.png)
+![arc42_012](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_012.png)
 
 ### Module 2
 
 The frontend is able to select assets and publish / synchronize them with the shared services DTR / EDC / submodel API.
 
-![arc42_012](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_012.png)
+![arc42_013](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_013.png)
 
 ### Module 3
 
 The backend is able to persist the data in the DTR / EDC and enables the IRS to resolve assets.
 
-![arc42_013](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_013.png)
+![arc42_014](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_014.png)
 
 ## Scenario 1: Receive import report
 
@@ -446,7 +454,7 @@ For additional information refer to the [Connector KIT](https://eclipse-tractusx
 
 ### Policies for sending and receiving parts
 
-![arc42_014](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_014.png)
+![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
 
 |     |     |
 | --- | --- |
@@ -479,7 +487,7 @@ For more detailed information concerning the functionality of IRS please refer t
 
 ### Policies for sending and receiving notifications
 
-![arc42_015](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_015.png)
+![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
 
 |     |     |
 | --- | --- |
@@ -497,13 +505,13 @@ For more detailed information concerning the functionality of IRS please refer t
 
 #### No policies defined for receiver when sending notifications
 
-![arc42_016](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_016.png)
+![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
 
 If no policies are configured for the receiving BPN and a notification is sent to that BPN, the default policy of Trace-X is used as a backup. If the default policy is accepted by the receiving BPN, the process can continue as normally and the notification can be sent. When the policy does not match and the notification can’t be sent, an administrator can create policies for the receiving BPN. Then the notification can be resent and will use the new policy.
 
 #### Expired policy when sending notifications
 
-![arc42_017](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_017.png)
+![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
 
 Policies always have an expiration time defined by the 'validUntil' timestamp. When a notification is sent and there are policies configured for the selected BPN with an expiration time in the past, Trace-X will throw an error. In that case, an administrator must update or recreate the policy. Then the policy can be resent.
 
@@ -583,7 +591,7 @@ If a policy with the constraint exists and is valid, the process ends. If the po
 
 This sequence diagram describes the process of retrieving or creating policies from the IRS policy store based on the constraint given by Trace-X:
 
-![arc42_018](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_018.png)
+![arc42_019](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_019.png)
 ```bash
 
 
@@ -599,7 +607,7 @@ The EDC policy request will be used for creating a policy for the required notif
 
 This sequence diagram describes the process of retrieving the correct policy by IRS policy store based on the constraint given by Trace-X and reuses it for creating an EDC policy.
 
-![arc42_019](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_019.png)
+![arc42_020](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_020.png)
 ```bash
 
 
@@ -613,7 +621,7 @@ The Trace-X instance uses the policy which includes the defined constraint for v
 
 This sequence diagram describes the process of how the policy with the defined constraint will be used for validation of the catalog offers from the receiver EDC:
 
-![arc42_020](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_020.png)
+![arc42_021](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_021.png)
 
 #### Scenario 4: Provisioning of assets
 
@@ -621,7 +629,7 @@ The Trace-X instance uses the policy which includes the defined constraint for c
 
 This sequence diagram describes the process of how the policy with the defined constraint will be used for registering EDC data assets:
 
-![arc42_021](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_021.png)
+![arc42_022](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_022.png)
 
 #### Scenario 5: Updating notification offers when creating / deleting / updating policies
 
@@ -693,12 +701,12 @@ Unresolved directive in full.adoc - include::deployment-view/index.adoc[leveloff
 Please be informed that the 'as-planned' version currently lacks the database relations.
 
 ```bash
-image::./assets/arc42/arc42_022.png[]
+image::./assets/arc42/arc42_023.png[]
 ```
 
 #### Quality notifications
 
-![arc42_023](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_023.png)
+![arc42_024](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_024.png)
 ```bash
 
 ```
@@ -1041,6 +1049,7 @@ This document provides an overview of the API endpoints, their supported HTTP me
 7. [Notifications](#notifications)
 8. [Policies](#policies)
 9. [Registry](#registry)
+10. [Configuration](#configuration)
 
 ### Assets
 
@@ -1541,6 +1550,52 @@ This document provides an overview of the API endpoints, their supported HTTP me
 
 **Reason for visibility**: Is accessed from other instances.
 
+### Configuration
+
+#### GET `/orders/configuration/batches/active`
+
+**Description**: Retrieves active order configuration.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/orders/configuration/batches`
+
+**Description**: Creates new Order Configuration.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### POST `/orders/configuration/triggers`
+
+**Description**: Creates new Trigger Configuration.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
+#### GET `/orders/configuration/triggers/active`
+
+**Description**:  Retrieves active trigger configuration.
+
+* **Visibility**:
+
+  * Current: Public
+  * Future: Public
+
+**Reason for visibility**: Is accessed from other instances.
+
 ## Quality requirements
 
 This section includes concrete quality scenarios to better capture the key quality objectives but also other required quality attributes.
@@ -1549,7 +1604,7 @@ This section includes concrete quality scenarios to better capture the key quali
 
 The tree structure provides an overview for a sometimes large number of quality requirements.
 
-![arc42_024](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_024.png)
+![arc42_025](https://eclipse-tractusx.github.io/traceability-foss/docs/assets/arc42/arc42_025.png)
 
 ## Quality scenarios
 

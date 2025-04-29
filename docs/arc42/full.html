@@ -556,6 +556,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_notifications">Notifications</a></li>
 <li><a href="#_policies">Policies</a></li>
 <li><a href="#_registry">Registry</a></li>
+<li><a href="#_configuration">Configuration</a></li>
 </ul>
 </li>
 <li><a href="#_quality_requirements">Quality requirements</a>
@@ -1477,18 +1478,31 @@ To be able to send notifications to a partner you need to</p>
 <div class="sect2">
 <h3 id="_data_consumption">Data consumption</h3>
 <div class="paragraph">
-<p>This sequence diagram describes the process of fetching data from the DTR and the Catena-X ecosystem:</p>
+<p>This sequence diagram describes the two processes necessary for fetching data from the DTR and the Catena-X ecosystem with the IRS:</p>
 </div>
+<div class="sect3">
+<h4 id="_lookup_dtr">Lookup (DTR)</h4>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/business-context_data_consumption.svg" alt="business context data consumption" width="849" height="789">
+<img src="architecture-constraints/business-context_data_consumption-step1-dtr.svg" alt="business context data consumption step1 dtr" width="1100" height="377">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sync_irs">Sync (IRS)</h4>
+<div class="imageblock">
+<div class="content">
+<img src="architecture-constraints/business-context_data_consumption-step2-irs.svg" alt="business context data consumption step2 irs" width="703" height="536">
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_overview_5">Overview</h4>
 <div class="paragraph">
-<p>Data is fetched by a Trace-X instance using the Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X consumer EDC.
-For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, part trees / part relations.</p>
+<p>Trace-X retrieves Asset Administration Shell (AAS) data by interacting with the Digital Twin Registry (DTR), Item Relationship Service (IRS), and its own consumer EDC.
+The process begins with Trace-X querying the DTR for digital twins filtered by a configured Business Partner Number (BPN) and specific digital twin types (e.g., partType and partInstance). The DTR responds with a paginated list of aasIDs. For each page, Trace-X compares the AAS identifiers with those stored in its database and creates or updates entries as needed.
+To fetch detailed submodel data, Trace-X identifies outdated or missing AAS entries from its local database. These are processed in batches according to a configurable batchSize. Each batch is registered as an order with the IRS, which returns submodel data. Trace-X then extracts relevant structures—such as relationships, shells, tombstones, submodels, and business partner numbers (BPNs)—and merges the results into its backend.
+This pipeline ensures that part structures, including supplier and customer parts and their hierarchical relationships, are kept up to date in alignment with the AAS standard.</p>
 </div>
 </div>
 </div>
@@ -2179,7 +2193,7 @@ A note clarifies that if a <code>BpnNotFoundException</code> occurs, the URL fro
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/diag-plantuml-md5-02e8c16ca5bc38a04ad201ff718a283f.svg" alt="Diagram" width="2033" height="1160">
+<img src="architecture-constraints/diag-plantuml-md5-a6a189d18e4a6444e18990030b897f95.svg" alt="Diagram" width="2436" height="1259">
 </div>
 </div>
 </div>
@@ -3140,6 +3154,9 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </li>
 <li>
 <p><a href="#_registry">Registry</a></p>
+</li>
+<li>
+<p><a href="#_configuration">Configuration</a></p>
 </li>
 </ol>
 </div>
@@ -4460,6 +4477,129 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_configuration">Configuration</h3>
+<div class="sect3">
+<h4 id="_get_ordersconfigurationbatchesactive">GET <code>/orders/configuration/batches/active</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieves active order configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_ordersconfigurationbatches">POST <code>/orders/configuration/batches</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Creates new Order Configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_ordersconfigurationtriggers">POST <code>/orders/configuration/triggers</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Creates new Trigger Configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_ordersconfigurationtriggersactive">GET <code>/orders/configuration/triggers/active</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>:  Retrieves active trigger configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -4623,7 +4763,7 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-07 14:22:54 UTC
+Last updated 2025-04-29 14:09:21 UTC
 </div>
 </div>
 </body>

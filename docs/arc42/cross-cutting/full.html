@@ -507,6 +507,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_notifications">Notifications</a></li>
 <li><a href="#_policies">Policies</a></li>
 <li><a href="#_registry">Registry</a></li>
+<li><a href="#_configuration">Configuration</a></li>
 </ul>
 </li>
 </ul>
@@ -521,7 +522,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="diag-plantuml-md5-02e8c16ca5bc38a04ad201ff718a283f.svg" alt="Diagram" width="2033" height="1160">
+<img src="diag-plantuml-md5-a6a189d18e4a6444e18990030b897f95.svg" alt="Diagram" width="2436" height="1259">
 </div>
 </div>
 </div>
@@ -1482,6 +1483,9 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </li>
 <li>
 <p><a href="#_registry">Registry</a></p>
+</li>
+<li>
+<p><a href="#_configuration">Configuration</a></p>
 </li>
 </ol>
 </div>
@@ -2802,12 +2806,135 @@ Date filter: <span class="image"><img src="https://raw.githubusercontent.com/ecl
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_configuration">Configuration</h3>
+<div class="sect3">
+<h4 id="_get_ordersconfigurationbatchesactive">GET <code>/orders/configuration/batches/active</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Retrieves active order configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_ordersconfigurationbatches">POST <code>/orders/configuration/batches</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Creates new Order Configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_post_ordersconfigurationtriggers">POST <code>/orders/configuration/triggers</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>: Creates new Trigger Configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_ordersconfigurationtriggersactive">GET <code>/orders/configuration/triggers/active</code></h4>
+<div class="paragraph">
+<p><strong>Description</strong>:  Retrieves active trigger configuration.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Visibility</strong>:</p>
+<div class="openblock">
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>Current: Public</p>
+</li>
+<li>
+<p>Future: Public</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Reason for visibility</strong>: Is accessed from other instances.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-02-07 14:22:54 UTC
+Last updated 2025-04-29 14:09:21 UTC
 </div>
 </div>
 </body>
