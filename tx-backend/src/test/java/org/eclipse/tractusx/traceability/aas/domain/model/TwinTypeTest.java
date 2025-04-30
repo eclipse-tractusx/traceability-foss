@@ -1,11 +1,11 @@
 package org.eclipse.tractusx.traceability.aas.domain.model;
 
-import org.eclipse.tractusx.traceability.aas.domain.model.TwinType;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TwinTypeTest {
+class TwinTypeTest {
 
     @Test
     void testGetValue() {
