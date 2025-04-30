@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TwinTypeTest {
+public class TwinTypeTest {
 
     @Test
     void testGetValue() {
