@@ -45,6 +45,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - repair unit test pipeline and revert breaking dependency changes eclipse-tractusx/traceability-foss/issues#1439
 - change dummy test controller to post requests to resolve CSRF alert eclipse-tractusx/traceability-foss/issues#1439
 - repair flaky integration tests eclipse-tractusx/traceability-foss/issues#1439
+- fix notification filter for automated tests eclipse-tractusx/sig-release#1327
 
 ### Removed
 - Remove unused vulnerable dependency commons-fileupload eclipse-tractusx/traceability-foss/issues#1439

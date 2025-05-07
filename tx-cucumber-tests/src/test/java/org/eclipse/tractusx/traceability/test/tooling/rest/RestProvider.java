@@ -246,21 +246,28 @@ public class RestProvider {
     }
 
     public List<NotificationResponse> getReceivedNotifications() {
-
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
                 .body("""
                         {
-                            "pageAble": {
-                                "size": 1000\s
-                            },
-                            "searchCriteria": {
-                                "filter": [
-                                    "channel,EQUAL,RECEIVER,AND"
-                                ]
+                          "page": 0,
+                          "size": 1000,
+                          "sort": ["created,desc"],
+                          "notificationFilter": {
+                            "channel": {
+                              "value": [
+                                {
+                                  "value": "RECEIVER",
+                                  "strategy": "OR"
+
+                                }
+                              ],
+                              "operator": "EQUAL"
                             }
-                        }""")
+                          }
+                        }
+                        """)
                 .post("/api/notifications/filter")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
