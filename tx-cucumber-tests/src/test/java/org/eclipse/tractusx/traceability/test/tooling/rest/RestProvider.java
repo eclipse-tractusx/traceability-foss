@@ -259,11 +259,11 @@ public class RestProvider {
                               "value": [
                                 {
                                   "value": "RECEIVER",
-                                  "strategy": "OR"
+                                  "strategy": "EQUAL"
 
                                 }
                               ],
-                              "operator": "EQUAL"
+                              "operator": "OR"
                             }
                           }
                         }
