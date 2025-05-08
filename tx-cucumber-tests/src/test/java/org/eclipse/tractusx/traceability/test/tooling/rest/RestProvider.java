@@ -253,17 +253,17 @@ public class RestProvider {
                         {
                           "page": 0,
                           "size": 1000,
-                          "sort": ["created,desc"],
+                          "sort": ["createdDate,desc"],
                           "notificationFilter": {
                             "channel": {
                               "value": [
                                 {
                                   "value": "RECEIVER",
-                                  "strategy": "OR"
+                                  "strategy": "EQUAL"
 
                                 }
                               ],
-                              "operator": "EQUAL"
+                              "operator": "OR"
                             }
                           }
                         }
