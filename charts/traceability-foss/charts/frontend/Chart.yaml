@@ -21,4 +21,4 @@ name: frontend
 description: A Helm chart for Traceability frontend application.
 type: application
 version: 1.4.1
-appVersion: "14.0.1"
+appVersion: "15.0.0"
