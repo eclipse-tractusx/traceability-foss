@@ -1,6 +1,6 @@
 # Compatibility matrix Trace-X
 
-## Trace-X [14.0.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/14.0.0) - 2025-02-18
+## Trace-X [14.0.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/14.0.0) 2025-02-18 - [15.0.0](https://github.com/eclipse-tractusx/traceability-foss/releases/tag/15.0.0) - 2025-05-09
 
 | Dependency       | Name of Service              | Version              | Helm      | Comments                                            |
 |------------------|------------------------------|----------------------|-----------|-----------------------------------------------------|
