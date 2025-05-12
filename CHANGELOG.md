@@ -6,8 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
+## [15.0.0 - 09.05.2025]
+### Fixed
+- dependency upgrades and adjustments
+- change wild card whitelisting for actuator endpoints against a defined list of endpoints without wildscards
+- EDC 0.10.0-rc1 adjustments in Charts
 
-## [Unreleased]
+## [15.0.0 - 09.05.2025]
 ### Added
 - show child/parent parts in table (Part detail view) eclipse-tractusx/traceability-foss/issues#1434
 - Improve the parts detail view eclipse-tractusx/traceability-foss/issues#1434
@@ -22,7 +27,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - Adapting cron jobs to allow dynamic updates eclipse-tractusx/traceability-foss/issues#1441
 - Refactor all filter objects in front- and backend and fix the hierarchical filtering eclipse-tractusx/traceability-foss/issues#1429
 - Adjust the regex to split ids in global search bar eclipse-tractusx/traceability-foss/issues#1429
-
 
 ### Fixed
 - use date instead of custom date class to also include time in the date columns of the notification table eclipse-tractusx/traceability-foss/issues#1442
@@ -45,6 +49,7 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - repair unit test pipeline and revert breaking dependency changes eclipse-tractusx/traceability-foss/issues#1439
 - change dummy test controller to post requests to resolve CSRF alert eclipse-tractusx/traceability-foss/issues#1439
 - repair flaky integration tests eclipse-tractusx/traceability-foss/issues#1439
+- fix notification filter for automated tests eclipse-tractusx/sig-release#1327
 
 ### Removed
 - Remove unused vulnerable dependency commons-fileupload eclipse-tractusx/traceability-foss/issues#1439
