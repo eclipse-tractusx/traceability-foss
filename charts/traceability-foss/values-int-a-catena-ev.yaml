@@ -380,9 +380,19 @@ item-relationship-service:
   bpdm:
     url: *partners_pool_url
 
-  minioUser: *irs_database_username
-  minioPassword: *irs_database_password
-  minioUrl: *irs_database_url
+  blobstore:
+    persistence:
+      storeType: MINIO
+      minio:
+        endpoint: *irs_database_url
+        accessKey: *irs_database_username
+        secretKey: *irs_database_password
+    jobs:
+      containerName: irsbucket
+      daysToLive: 7
+    policies:
+      containerName: irs-policy-bucket
+      daysToLive: -1
 
   oauth2:
     semantics:
