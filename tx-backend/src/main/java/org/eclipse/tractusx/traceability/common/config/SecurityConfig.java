@@ -58,7 +58,11 @@ public class SecurityConfig {
             "/webjars/swagger-ui/**",
             "/internal/**",
             "/api/internal/**",
-            "/actuator/**",
+            "/actuator/health",
+            "/actuator/health/readiness",
+            "/actuator/health/liveness",
+            "/actuator/info",
+            "/actuator/prometheus",
             "/irs/order/callback"
 
     };
