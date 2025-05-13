@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
-## [15.0.0 - 09.05.2025]
+## [Unreleased - 13.05.2025]
 ### Fixed
 - dependency upgrades and adjustments
 - change wild card whitelisting for actuator endpoints against a defined list of endpoints without wildscards
