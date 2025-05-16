@@ -6,7 +6,7 @@
 |------------------|------------------------------|----------------------|------------|-----------------------------------------------------|
 | EDC              | edc-postgresql               | 15.4.0-debian-11-r45 | 12.12.10   | Enterprise Data Connector for PostgreSQL            |
 | IRS              | item-relationship-service    | 7.0.1                | 9.0.0      | Helm charts for Item Relationship Service           |
-| EDC              | tractusx-connector           | 0.10.0-rc1           | 0.10.0-rc1 | Connector for Data Transfer and Registration        |
+| EDC              | tractusx-connector           | 0.10.0-rc2           | 0.10.0-rc2 | Connector for Data Transfer and Registration        |
 | Discovery Finder | discovery service            | 0.2.5                | -          | Service for discovering and registering artifacts   |
 | Portal           | portal                       | 1.8.0                | -          | Web portal for interacting with Trace-X             |
 | SD-Factory       | SD-Factory                   | 2.1.7                | -          | Service Discovery Factory for managing dependencies |
