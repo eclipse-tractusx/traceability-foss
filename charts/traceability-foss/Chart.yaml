@@ -23,15 +23,15 @@ home: https://eclipse-tractusx.github.io/
 sources:
   - https://github.com/eclipse-tractusx/traceability-foss
 type: application
-version: 1.4.2
-appVersion: "15.0.0"
+version: 1.5.0
+appVersion: "15.1.0"
 dependencies:
   - name: frontend
     repository: "file://charts/frontend"
-    version: 1.4.2
+    version: 1.5.0
   - name: backend
     repository: "file://charts/backend"
-    version: 1.4.2
+    version: 1.5.0
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 12.12.10
@@ -42,14 +42,14 @@ dependencies:
     condition: pgadmin4.enabled
   - name: item-relationship-service
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 8.0.2
+    version: 9.0.0
     condition: item-relationship-service.enabled
   - name: tractusx-connector
     repository: https://eclipse-tractusx.github.io/tractusx-edc
-    version: 0.10.0-rc1
+    version: 0.10.0-rc2
     condition: tractusx-connector.enabled
   - name: postgresql
     alias: edc-postgresql
     repository: https://charts.bitnami.com/bitnami
-    version: 15.2.1
+    version: 12.12.10
     condition: edc-postgresql.enabled
