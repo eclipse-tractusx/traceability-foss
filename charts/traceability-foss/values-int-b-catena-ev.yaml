@@ -486,6 +486,16 @@ tractusx-connector:
         cpu: 15m
         memory: 1.5Gi
 
+    # workaround for 0.10.0-rc2
+    catalog:
+      cache:
+        execution:
+          enabled: false
+    dcp:
+      v08:
+        forced: true
+
+
   dataplane:
     token:
       signer:
