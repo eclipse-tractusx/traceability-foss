@@ -17,92 +17,96 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { TestBed } from '@angular/core/testing';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { SemanticDataModel } from '@page/parts/model/parts.model';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
-import {
-  FormatPartSemanticDataModelToCamelCasePipe,
-} from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import { MOCK_part_1 } from '../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
+import { SemanticDataModel, SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+interface Part {
+  semanticDataModel: string;
+  [key: string]: any;
+}
 describe('FormatPartSemanticDataModelToCamelCasePipe', () => {
-  let formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe;
+  let pipe: FormatPartSemanticDataModelToCamelCasePipe;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        FormatPartSemanticDataModelToCamelCasePipe,
-      ],
-    });
-    formatPartSemanticDataModelToCamelCasePipe = TestBed.inject(FormatPartSemanticDataModelToCamelCasePipe);
+    pipe = new FormatPartSemanticDataModelToCamelCasePipe();
   });
 
-  [
-    {
-      option: SemanticDataModel.BATCH,
-      expected: 'Batch',
-    },
-    {
-      option: SemanticDataModel.SERIALPART,
-      expected: 'SerialPart',
-    },
-    {
-      option: SemanticDataModel.PARTASPLANNED,
-      expected: 'PartAsPlanned',
-    },
-    {
-      option: SemanticDataModel.UNKNOWN,
-      expected: 'Unknown',
-    },
-    {
-      option: SemanticDataModel.JUSTINSEQUENCE,
-      expected: 'JustInSequence',
-    },
-  ].forEach(object => {
-
-    it(`should transform semanticDataModel from ${ object.option } Part to ${ object.expected }`, function() {
-      let partData = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
-      partData.semanticDataModel = object.option;
-
-      expect(partData.semanticDataModel).toEqual(object.option);
-
-      let transformedPartData = formatPartSemanticDataModelToCamelCasePipe.transform(partData);
-
-      expect(transformedPartData.semanticDataModel).toEqual(object.expected);
-    });
+  it('should create the pipe instance', () => {
+    expect(pipe).toBeTruthy();
   });
 
-  [
-    {
-      option: SemanticDataModel.BATCH,
-      expected: 'Batch',
-    },
-    {
-      option: SemanticDataModel.SERIALPART,
-      expected: 'SerialPart',
-    },
-    {
-      option: SemanticDataModel.PARTASPLANNED,
-      expected: 'PartAsPlanned',
-    },
-    {
-      option: SemanticDataModel.JUSTINSEQUENCE,
-      expected: 'JustInSequence',
-    },
-    {
-      option: SemanticDataModel.UNKNOWN,
-      expected: 'Unknown',
-    },
-  ].forEach(object => {
+  describe('transform()', () => {
+    it('should convert semanticDataModel to camel case for BATCH', () => {
+      const part: Part = { semanticDataModel: SemanticDataModel.BATCH } as Part;
+      const result = pipe.transform(part);
+      expect(result.semanticDataModel).toBe(SemanticDataModelInCamelCase.BATCH);
+    });
 
-    it(`should transform semanticDataModel from ${ object.option } Model to ${ object.expected }`, function() {
+    it('should convert semanticDataModel to camel case for SERIALPART', () => {
+      const part: Part = { semanticDataModel: 'serialpart' } as Part;
+      const result = pipe.transform(part);
+      expect(result.semanticDataModel).toBe(SemanticDataModelInCamelCase.SERIALPART);
+    });
 
-      let transformedModel = formatPartSemanticDataModelToCamelCasePipe.transformModel(object.option);
+    it('should convert semanticDataModel to camel case for PARTASPLANNED', () => {
+      const part: Part = { semanticDataModel: 'PartAsPlanned' } as Part;
+      const result = pipe.transform(part);
+      expect(result.semanticDataModel).toBe(SemanticDataModelInCamelCase.PARTASPLANNED);
+    });
 
-      expect(transformedModel).toEqual(object.expected);
+    it('should convert semanticDataModel to camel case for JUSTINSEQUENCE', () => {
+      const part: Part = { semanticDataModel: 'JustInSequence' } as Part;
+      const result = pipe.transform(part);
+      expect(result.semanticDataModel).toBe(SemanticDataModelInCamelCase.JUSTINSEQUENCE);
+    });
+
+    it('should return UNKNOWN for unrecognized model value', () => {
+      const part: Part = { semanticDataModel: 'UnmappedModel' } as Part;
+      const result = pipe.transform(part);
+      expect(result.semanticDataModel).toBe(SemanticDataModelInCamelCase.UNKNOWN);
+    });
+
+    it('should preserve all other properties of the part', () => {
+      const part: Part = {
+        id: '1',
+        semanticDataModel: SemanticDataModel.BATCH,
+        idShort: 'short',
+        manufacturerName: 'BMW',
+        manufacturerPartId: 'MPID',
+        nameAtManufacturer: 'PartName',
+        businessPartner: 'BP',
+        semanticModelId: 'modelId',
+        qualityType: 'Ok',
+        children: [],
+        van: 'VAN123',
+        owner: 'OEM',
+        classification: 'ClassA',
+        mainAspectType: 'SomeAspect',
+        catenaXSiteId: 'Site1',
+        psFunction: 'Function',
+        sentActiveAlerts: [],
+        sentActiveInvestigations: [],
+        receivedActiveAlerts: [],
+        receivedActiveInvestigations: []
+      } as unknown as Part;
+
+      const result = pipe.transform(part);
+      expect(result.id).toBe('1');
+      expect(result.manufacturerName).toBe('BMW');
+      expect(result.semanticDataModel).toBe(SemanticDataModelInCamelCase.BATCH);
     });
   });
 
+  describe('transformModel()', () => {
+    it('should convert SemanticDataModel enums to camelCase equivalents', () => {
+      expect(pipe.transformModel(SemanticDataModel.BATCH)).toBe(SemanticDataModelInCamelCase.BATCH);
+      expect(pipe.transformModel(SemanticDataModel.SERIALPART)).toBe(SemanticDataModelInCamelCase.SERIALPART);
+      expect(pipe.transformModel(SemanticDataModel.PARTASPLANNED)).toBe(SemanticDataModelInCamelCase.PARTASPLANNED);
+      expect(pipe.transformModel(SemanticDataModel.JUSTINSEQUENCE)).toBe(SemanticDataModelInCamelCase.JUSTINSEQUENCE);
+    });
 
+    it('should return UNKNOWN for undefined or unrecognized semantic data model', () => {
+      expect(pipe.transformModel('nonexistent')).toBe(SemanticDataModelInCamelCase.UNKNOWN);
+    });
+  });
 });

@@ -24,7 +24,7 @@ import { Part, SemanticDataModel, SemanticDataModelInCamelCase } from '@page/par
 })
 export class FormatPartSemanticDataModelToCamelCasePipe implements PipeTransform {
 
-  transform(part: Part): Part {
+  transform(part: Part | any): Part {
     let camelCase;
     switch (part.semanticDataModel.toString().toLowerCase()) {
       case 'batch': {
