@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -99,4 +100,10 @@ public class AssetsSupport {
     public void assertNoAssetsStored() {
         assertAssetAsBuiltSize(0);
     }
+    public void storeAssetAsBuilt(Owner owner) {
+    }
+
+    public void storeAssetAsPlanned(Owner owner) {
+    }
+
 }
