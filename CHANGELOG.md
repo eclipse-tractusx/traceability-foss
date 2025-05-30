@@ -15,7 +15,6 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - dependency upgrades and adjustments
 - change wild card whitelisting for actuator endpoints against a defined list of endpoints without wildscards
 - EDC 0.10.0-rc1 adjustments in Charts
-- Bumped irs-client-library version to 3.1.1
 
 ## [15.0.0 - 09.05.2025]
 ### Added
