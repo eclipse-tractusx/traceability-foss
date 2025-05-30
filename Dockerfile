@@ -40,11 +40,7 @@ COPY tx-gatling-tests tx-gatling-tests
 # :Variable specifies an artifact ID of project to build
 # -am build all dependencies of a project
 
-RUN --mount=type=secret,id=PACKAGES_ACCESS_USERNAME,env=PACKAGES_ACCESS_USERNAME \
-    --mount=type=secret,id=PACKAGES_ACCESS_TOKEN,env=PACKAGES_ACCESS_TOKEN \
-    mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests -s settings.xml -U \
-    -DPACKAGES_ACCESS_USERNAME=$PACKAGES_ACCESS_USERNAME \
-    -DPACKAGES_ACCESS_TOKEN=$PACKAGES_ACCESS_TOKEN
+RUN mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests
 
 # Copy the jar and build image
 FROM eclipse-temurin:24-jre-alpine AS traceability-app
