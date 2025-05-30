@@ -16,6 +16,11 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - change wild card whitelisting for actuator endpoints against a defined list of endpoints without wildscards
 - EDC 0.10.0-rc1 adjustments in Charts
 
+### Known knowns
+- https://github.com/eclipse-tractusx/sig-release/issues/1443
+- https://github.com/eclipse-tractusx/sig-release/issues/1442
+- https://github.com/eclipse-tractusx/sig-release/issues/1441
+
 ## [15.0.0 - 09.05.2025]
 ### Added
 - show child/parent parts in table (Part detail view) eclipse-tractusx/traceability-foss/issues#1434
@@ -60,6 +65,11 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - TRACEX-463 remove callbacks path parameters templates eclipse-tractusx/traceability-foss/issues#1439
 - remove fdescribe from test to run full test set eclipse-tractusx/traceability-foss/issues#1439
 - Remove supervisor role from admin endpoints eclipse-tractusx/traceability-foss/issues#1439
+
+### Known knowns
+- https://github.com/eclipse-tractusx/sig-release/issues/1443
+- https://github.com/eclipse-tractusx/sig-release/issues/1442
+- https://github.com/eclipse-tractusx/sig-release/issues/1441
 
 ## [14.0.1 - 26.02.2025]
 ### Fixed
