@@ -68,7 +68,22 @@ SPDX-License-Identifier: Apache-2.0
             <version>${json-schema-validator.version}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>${commons-validator.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-beanutils</groupId>
+                    <artifactId>commons-beanutils</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${common-beanutils.version}</version>
+        </dependency>
         <!-- IRS Client for decentral registry approach -->
         <dependency>
             <groupId>org.eclipse.tractusx.irs</groupId>
@@ -80,6 +95,10 @@ SPDX-License-Identifier: Apache-2.0
                     <groupId>io.netty</groupId>
                     <artifactId>netty-handler</artifactId>
                 </exclusion>
+                    <exclusion>
+                        <groupId>commons-beanutils</groupId>
+                        <artifactId>commons-beanutils</artifactId>
+                    </exclusion>
             </exclusions>
         </dependency>
 
