@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.eclipse.tractusx.irs.edc.client.policy.Policy; // Correct import for Policy
+import policies.request.Payload;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
 import policies.response.CreatePolicyResponse;
@@ -54,9 +56,15 @@ class PolicyServiceImplTest {
 
     @Test
     void testGetPoliciesReturnsFlattenedList() {
-        IrsPolicyResponse irsPolicy = mock(IrsPolicyResponse.class);
-        Map<String, List<IrsPolicyResponse>> policies = Map.of("type1", List.of(irsPolicy));
+        // Mock nested calls like payload().policyId() and payload().policy()
+        Payload payload = mock(Payload.class);
+        when(payload.policyId()).thenReturn("mock-policy-id");
+        when(payload.policy()).thenReturn(mock(Policy.class)); // required for toResponse()
 
+        IrsPolicyResponse irsPolicy = mock(IrsPolicyResponse.class);
+        when(irsPolicy.payload()).thenReturn(payload);
+
+        Map<String, List<IrsPolicyResponse>> policies = Map.of("type1", List.of(irsPolicy));
         when(policyRepository.getPolicies()).thenReturn(policies);
 
         List<PolicyResponse> result = policyService.getPolicies();
@@ -79,7 +87,13 @@ class PolicyServiceImplTest {
 
     @Test
     void testGetPolicyReturnsPolicyResponse() {
+        Payload payload = mock(Payload.class);
+        when(payload.policyId()).thenReturn("mock-policy-id");
+        when(payload.policy()).thenReturn(mock(Policy.class));
+
         IrsPolicyResponse irsPolicy = mock(IrsPolicyResponse.class);
+        when(irsPolicy.payload()).thenReturn(payload);
+
         when(policyRepository.getPolicy("123")).thenReturn(Map.of("type1", Optional.of(irsPolicy)));
 
         PolicyResponse result = policyService.getPolicy("123");
