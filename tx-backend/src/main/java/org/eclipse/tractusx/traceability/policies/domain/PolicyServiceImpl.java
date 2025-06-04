@@ -9,8 +9,8 @@
  * https://www.apache.org/licenses/LICENSE-2.0.
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations
  * under the License.
  *
@@ -70,10 +70,11 @@ public class PolicyServiceImpl implements PolicyService {
                 .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
     }
 
-
-
     @Override
     public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
+        if (registerPolicyRequest == null) {
+            throw new IllegalArgumentException("RegisterPolicyRequest must not be null");
+        }
         CreatePolicyResponse policy = policyRepository.createPolicy(registerPolicyRequest);
         edcNotificationContractService.updateNotificationContractDefinitions();
         return policy;
@@ -81,15 +82,19 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public void deletePolicy(String id) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Policy ID must not be null or empty");
+        }
         policyRepository.deletePolicy(id);
         edcNotificationContractService.updateNotificationContractDefinitions();
     }
 
     @Override
     public void updatePolicy(UpdatePolicyRequest updatePolicyRequest) {
+        if (updatePolicyRequest == null) {
+            throw new IllegalArgumentException("UpdatePolicyRequest must not be null");
+        }
         policyRepository.updatePolicy(updatePolicyRequest);
         edcNotificationContractService.updateNotificationContractDefinitions();
     }
-
-
 }
