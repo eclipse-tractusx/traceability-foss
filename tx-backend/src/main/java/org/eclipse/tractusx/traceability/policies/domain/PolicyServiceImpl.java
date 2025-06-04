@@ -57,15 +57,20 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Override
     public PolicyResponse getPolicy(String id) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Policy ID must not be null or empty");
+        }
+
         Map<String, Optional<IrsPolicyResponse>> policies = policyRepository.getPolicy(id);
 
-        // Find the first entry with a present policy
         return policies.entrySet().stream()
                 .filter(entry -> entry.getValue().isPresent())
                 .findFirst()
                 .map(entry -> toResponse(entry.getValue().get(), entry.getKey()))
                 .orElseThrow(() -> new PolicyNotFoundException("Policy with id: %s not found.".formatted(id)));
     }
+
+
 
     @Override
     public CreatePolicyResponse createPolicy(RegisterPolicyRequest registerPolicyRequest) {
