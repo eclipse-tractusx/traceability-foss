@@ -6,11 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
-## [Unreleased - 13.05.2025]
+## [Unreleased - 06.06.2025]
 ### Fixed
+- fix: eclipse-tractusx/sig-release#1442 record information should only be visible for admins
+
+## [15.0.1 - 30.05.2025]
+### Changed
+- updated compatibility matrix with EDC version 0.10.0
 - dependency upgrades and adjustments
 - change wild card whitelisting for actuator endpoints against a defined list of endpoints without wildscards
 - EDC 0.10.0-rc1 adjustments in Charts
+
+### Known knowns
+- https://github.com/eclipse-tractusx/sig-release/issues/1443
+- https://github.com/eclipse-tractusx/sig-release/issues/1442
+- https://github.com/eclipse-tractusx/sig-release/issues/1441
 
 ## [15.0.0 - 09.05.2025]
 ### Added
