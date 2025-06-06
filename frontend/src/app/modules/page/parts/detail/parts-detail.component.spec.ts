@@ -400,4 +400,22 @@ describe('PartsDetailComponent', () => {
     expect(PartsFacadeMock.syncPartsAsPlanned).toHaveBeenCalledWith(['test-part-id']);
     expect(toastSpy).toHaveBeenCalledWith('partSynchronization.success');
   });
+
+  it('should render the record information section for admin users', async () => {
+    const { fixture } = await renderPartsDetailComponent({ roles: ['admin'] });
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const importStateSection = await screen.findByText(/partDetail.recordInformation/i);
+    expect(importStateSection).toBeInTheDocument();
+  });
+
+  it('should NOT render record information section for non-admin users', async () => {
+    const { fixture } = await renderPartsDetailComponent({ roles: ['user'] });
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const importStateSection = screen.queryByText(/partDetail.recordInformation/i);
+    expect(importStateSection).toBeNull();
+  });
 });
