@@ -90,7 +90,7 @@ maven/mavencentral/com.vaadin.external.google/android-json/0.0.20131108.vaadin1,
 maven/mavencentral/com.vdurmont/semver4j/3.1.0, MIT, approved, clearlydefined
 maven/mavencentral/com.xebialabs.restito/restito/1.1.2, MIT, approved, clearlydefined
 maven/mavencentral/com.zaxxer/HikariCP/5.1.0, Apache-2.0, approved, clearlydefined
-maven/mavencentral/commons-beanutils/commons-beanutils/1.9.4, Apache-2.0, approved, CQ12654
+maven/mavencentral/commons-beanutils/commons-beanutils/1.11.0, Apache-2.0, approved, #21555
 maven/mavencentral/commons-codec/commons-codec/1.17.0, Apache-2.0 AND (Apache-2.0 AND BSD-3-Clause), approved, #14583
 maven/mavencentral/commons-collections/commons-collections/3.2.2, Apache-2.0, approved, #15185
 maven/mavencentral/commons-digester/commons-digester/2.1, Apache-2.0, approved, clearlydefined
@@ -98,8 +98,9 @@ maven/mavencentral/commons-io/commons-io/2.15.1, Apache-2.0, approved, #11244
 maven/mavencentral/commons-io/commons-io/2.17.0, Apache-2.0, approved, #16198
 maven/mavencentral/commons-lang/commons-lang/2.6, Apache-2.0, approved, CQ6183
 maven/mavencentral/commons-logging/commons-logging/1.2, Apache-2.0, approved, CQ10162
+maven/mavencentral/commons-logging/commons-logging/1.3.2, Apache-2.0, approved, #11783
 maven/mavencentral/commons-logging/commons-logging/1.3.3, Apache-2.0, approved, #11783
-maven/mavencentral/commons-validator/commons-validator/1.8.0, Apache-2.0, approved, #11891
+maven/mavencentral/commons-validator/commons-validator/1.9.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/dev.failsafe/failsafe-okhttp/3.3.2, Apache-2.0, approved, #15208
 maven/mavencentral/dev.failsafe/failsafe/3.3.2, Apache-2.0, approved, #9268
 maven/mavencentral/io.burt/jmespath-core/0.6.0, BSD-3-Clause, approved, clearlydefined
@@ -158,10 +159,12 @@ maven/mavencentral/io.github.resilience4j/resilience4j-timelimiter/2.1.0, Apache
 maven/mavencentral/io.lettuce/lettuce-core/6.4.1.RELEASE, MIT, approved, clearlydefined
 maven/mavencentral/io.lettuce/lettuce-core/6.4.2.RELEASE, Apache-2.0 AND MIT, approved, clearlydefined
 maven/mavencentral/io.micrometer/micrometer-commons/1.14.2, Apache-2.0 AND (Apache-2.0 AND MIT), approved, #17272
+maven/mavencentral/io.micrometer/micrometer-commons/1.14.7, Apache-2.0 AND (Apache-2.0 AND MIT), approved, #17272
 maven/mavencentral/io.micrometer/micrometer-core/1.11.4, Apache-2.0 AND (Apache-2.0 AND MIT), approved, #9238
 maven/mavencentral/io.micrometer/micrometer-core/1.14.2, Apache-2.0 AND (Apache-2.0 AND MIT), approved, #17271
 maven/mavencentral/io.micrometer/micrometer-jakarta9/1.14.2, Apache-2.0, approved, #17531
 maven/mavencentral/io.micrometer/micrometer-observation/1.14.2, Apache-2.0, approved, #17270
+maven/mavencentral/io.micrometer/micrometer-observation/1.14.7, Apache-2.0, approved, #17270
 maven/mavencentral/io.micrometer/micrometer-registry-prometheus/1.11.4, Apache-2.0, approved, #9805
 maven/mavencentral/io.micrometer/micrometer-registry-prometheus/1.14.2, Apache-2.0, approved, clearlydefined
 maven/mavencentral/io.minio/minio/8.5.9, Apache-2.0, approved, #9097
@@ -305,11 +308,13 @@ maven/mavencentral/org.apache.httpcomponents/httpmime/4.5.13, Apache-2.0, approv
 maven/mavencentral/org.apache.logging.log4j/log4j-api/2.24.3, Apache-2.0, approved, #16095
 maven/mavencentral/org.apache.logging.log4j/log4j-to-slf4j/2.24.3, Apache-2.0, approved, #16094
 maven/mavencentral/org.apache.mina/mina-core/2.1.6, Apache-2.0 AND MIT, approved, #15289
-maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-core/11.0.5, Apache-2.0 AND (EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND (CDDL-1.0 OR GPL-2.0-or-later), approved, #19217
-maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-el/11.0.5, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-websocket/11.0.5, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-core/10.1.34, Apache-2.0 AND (EPL-2.0 OR (GPL-2.0-only WITH Classpath-exception-2.0)) AND CDDL-1.0 AND (CDDL-1.1 OR (GPL-2.0-only WITH Classpath-exception-2.0)) AND EPL-2.0, approved, #15195
+maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-core/11.0.7, Apache-2.0 AND (EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0) AND (CDDL-1.0 OR GPL-2.0-or-later), approved, #19217
+maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-el/11.0.7, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-websocket/10.1.34, Apache-2.0, approved, #7920
+maven/mavencentral/org.apache.tomcat.embed/tomcat-embed-websocket/11.0.7, Apache-2.0, approved, #21065
 maven/mavencentral/org.apache.tomcat/tomcat-annotations-api/10.1.34, Apache-2.0, approved, #8196
-maven/mavencentral/org.apache.tomcat/tomcat-annotations-api/11.0.5, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.apache.tomcat/tomcat-annotations-api/11.0.7, Apache-2.0, approved, #21067
 maven/mavencentral/org.apiguardian/apiguardian-api/1.1.2, Apache-2.0, approved, #17641
 maven/mavencentral/org.aspectj/aspectjweaver/1.9.22.1, EPL-1.0, approved, tools.aspectj
 maven/mavencentral/org.assertj/assertj-core/3.24.2, Apache-2.0, approved, #6161
@@ -383,10 +388,10 @@ maven/mavencentral/org.eclipse.jetty/jetty-http/12.0.16, EPL-2.0 OR Apache-2.0, 
 maven/mavencentral/org.eclipse.jetty/jetty-io/12.0.16, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.jetty/jetty-util/12.0.16, EPL-2.0 OR Apache-2.0, approved, rt.jetty
 maven/mavencentral/org.eclipse.tractusx.edc/edr-api/0.6.0, Apache-2.0, approved, automotive.tractusx
-maven/mavencentral/org.eclipse.tractusx.irs/irs-common/3.0.0, Apache-2.0, approved, automotive.tractusx
-maven/mavencentral/org.eclipse.tractusx.irs/irs-edc-client/3.0.0, Apache-2.0, approved, automotive.tractusx
-maven/mavencentral/org.eclipse.tractusx.irs/irs-models/3.0.0, Apache-2.0, approved, automotive.tractusx
-maven/mavencentral/org.eclipse.tractusx.irs/irs-registry-client/3.0.0, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-common/3.0.2, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-edc-client/3.0.2, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-models/3.0.2, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-registry-client/3.0.2, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.eclipse.tractusx.traceability/tx-backend/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.eclipse.tractusx.traceability/tx-models/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.flywaydb/flyway-core/10.20.1, Apache-2.0, approved, clearlydefined
@@ -492,9 +497,10 @@ maven/mavencentral/org.springframework.data/spring-data-keyvalue/3.4.4, Apache-2
 maven/mavencentral/org.springframework.data/spring-data-redis/3.4.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.data/spring-data-redis/3.4.4, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.security/spring-security-config/6.4.2, Apache-2.0, approved, #17578
-maven/mavencentral/org.springframework.security/spring-security-core/6.4.2, Apache-2.0, approved, #17557
+maven/mavencentral/org.springframework.security/spring-security-core/6.5.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.security/spring-security-crypto/6.4.2, Apache-2.0 AND ISC, approved, #17533
 maven/mavencentral/org.springframework.security/spring-security-crypto/6.4.4, Apache-2.0 AND ISC, approved, #17533
+maven/mavencentral/org.springframework.security/spring-security-crypto/6.5.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.springframework.security/spring-security-oauth2-client/6.4.2, Apache-2.0, approved, #17539
 maven/mavencentral/org.springframework.security/spring-security-oauth2-core/6.4.2, Apache-2.0, approved, #17551
 maven/mavencentral/org.springframework.security/spring-security-oauth2-jose/6.4.2, Apache-2.0, approved, #17577
@@ -502,14 +508,20 @@ maven/mavencentral/org.springframework.security/spring-security-oauth2-resource-
 maven/mavencentral/org.springframework.security/spring-security-test/6.4.2, Apache-2.0, approved, #17537
 maven/mavencentral/org.springframework.security/spring-security-web/6.4.2, Apache-2.0, approved, #17560
 maven/mavencentral/org.springframework/spring-aop/6.2.1, Apache-2.0, approved, #17530
+maven/mavencentral/org.springframework/spring-aop/6.2.7, Apache-2.0, approved, #17530
 maven/mavencentral/org.springframework/spring-aspects/6.2.1, Apache-2.0, approved, #17550
 maven/mavencentral/org.springframework/spring-beans/6.2.1, Apache-2.0, approved, #17528
+maven/mavencentral/org.springframework/spring-beans/6.2.7, Apache-2.0, approved, #17528
 maven/mavencentral/org.springframework/spring-context-support/6.2.1, Apache-2.0, approved, #18233
 maven/mavencentral/org.springframework/spring-context-support/6.2.4, Apache-2.0, approved, #18233
 maven/mavencentral/org.springframework/spring-context/6.2.1, Apache-2.0, approved, #17554
+maven/mavencentral/org.springframework/spring-context/6.2.7, Apache-2.0, approved, #17554
 maven/mavencentral/org.springframework/spring-core/6.2.1, Apache-2.0 AND BSD-3-Clause, approved, #17535
+maven/mavencentral/org.springframework/spring-core/6.2.7, Apache-2.0 AND BSD-3-Clause, approved, #17535
 maven/mavencentral/org.springframework/spring-expression/6.2.1, Apache-2.0, approved, #17544
+maven/mavencentral/org.springframework/spring-expression/6.2.7, Apache-2.0, approved, #17544
 maven/mavencentral/org.springframework/spring-jcl/6.2.1, Apache-2.0, approved, #17571
+maven/mavencentral/org.springframework/spring-jcl/6.2.7, Apache-2.0, approved, #17571
 maven/mavencentral/org.springframework/spring-jdbc/6.2.1, Apache-2.0, approved, #17543
 maven/mavencentral/org.springframework/spring-orm/6.2.1, Apache-2.0, approved, #17572
 maven/mavencentral/org.springframework/spring-oxm/6.2.1, Apache-2.0, approved, #20662

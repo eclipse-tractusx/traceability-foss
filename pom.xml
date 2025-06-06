@@ -64,6 +64,8 @@ SPDX-License-Identifier: Apache-2.0
         <maven-site-plugin.version>4.0.0-M11</maven-site-plugin.version>
         <!-- versions for 3rd party dependecies -->
         <logback.version>1.5.18</logback.version>
+        <commons-validator.version>1.9.0</commons-validator.version>
+        <common-beanutils.version>1.11.0</common-beanutils.version>
         <eclipse-dash-ip.version>1.1.0</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.3.0</ascii-doctor-j-diagram.version>
@@ -92,8 +94,9 @@ SPDX-License-Identifier: Apache-2.0
         <micrometer.version>1.11.4</micrometer.version>
         <irs-client-lib.version>3.0.2</irs-client-lib.version>
         <json-schema-validator.version>5.4.0</json-schema-validator.version>
-        <apache-tomcat-embed.version>11.0.5</apache-tomcat-embed.version>
+        <apache-tomcat-embed.version>11.0.7</apache-tomcat-embed.version>
         <spring-security-crypto.version>6.4.4</spring-security-crypto.version>
+        <spring-security-core-version>6.5.0</spring-security-core-version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -118,6 +121,11 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security-core-version}</version>
         </dependency>
         <!-- Test Dependencies -->
         <dependency>

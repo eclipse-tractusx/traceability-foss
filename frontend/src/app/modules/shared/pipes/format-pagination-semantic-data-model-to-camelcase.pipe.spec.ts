@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,68 +17,101 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { TestBed } from '@angular/core/testing';
+
+import { SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 import { Pagination } from '@core/model/pagination.model';
-import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
-import { SemanticDataModel } from '@page/parts/model/parts.model';
-import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
-import { MOCK_part_1, MOCK_part_2 } from '../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('FormatPaginationSemanticDataModelToCamelCasePipe', () => {
-  let formatPaginationSemanticDataModelToCamelCasePipe: FormatPaginationSemanticDataModelToCamelCasePipe;
+  let pipe: FormatPaginationSemanticDataModelToCamelCasePipe;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        FormatPaginationSemanticDataModelToCamelCasePipe,
-      ],
-    });
-    formatPaginationSemanticDataModelToCamelCasePipe = TestBed.inject(FormatPaginationSemanticDataModelToCamelCasePipe);
+    pipe = new FormatPaginationSemanticDataModelToCamelCasePipe();
   });
 
-  [
-    {
-      option: SemanticDataModel.BATCH,
-      expected: 'Batch',
-    },
-    {
-      option: SemanticDataModel.SERIALPART,
-      expected: 'SerialPart',
-    },
-    {
-      option: SemanticDataModel.PARTASPLANNED,
-      expected: 'PartAsPlanned',
-    },
-  ].forEach(object => {
+  it('should create an instance', () => {
+    expect(pipe).toBeTruthy();
+  });
 
-    it(`should transform semanticDataModel from ${ object.option } to ${ object.expected }`, function() {
+  it('should transform all known semanticDataModel values to camel case', () => {
+    const input: Pagination<any> = {
+      content: [
+        { semanticDataModel: 'batch' },
+        { semanticDataModel: 'SerialPart' },
+        { semanticDataModel: 'partAsPlanned' },
+        { semanticDataModel: 'JUSTINSEQUENCE' }
+      ],
+      page: 0,
+      pageCount: 1,
+      pageSize: 10,
+      totalItems: 4
+    };
 
-      let partList = [ PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT), PartsAssembler.assemblePart(MOCK_part_2, MainAspectType.AS_BUILT) ];
+    const result = pipe.transform(input);
 
-      let paginationData: Pagination<any> = {
-        page: 0,
-        pageCount: 1,
-        pageSize: 50,
-        totalItems: 1,
-        content: partList,
-      };
+    expect(result.content[0].semanticDataModel).toBe(SemanticDataModelInCamelCase.BATCH);
+    expect(result.content[1].semanticDataModel).toBe(SemanticDataModelInCamelCase.SERIALPART);
+    expect(result.content[2].semanticDataModel).toBe(SemanticDataModelInCamelCase.PARTASPLANNED);
+    expect(result.content[3].semanticDataModel).toBe(SemanticDataModelInCamelCase.JUSTINSEQUENCE);
+  });
 
-      paginationData.content.forEach(part => {
-        part.semanticDataModel = object.option;
-      });
+  it('should convert unknown semanticDataModel values to UNKNOWN', () => {
+    const input: Pagination<any> = {
+      content: [{ semanticDataModel: 'undefinedModel' }],
+      page: 1,
+      pageCount: 1,
+      pageSize: 5,
+      totalItems: 1
+    };
 
-      partList.map(part => {
-        expect(part.semanticDataModel).toEqual(object.option);
-      });
+    const result = pipe.transform(input);
 
+    expect(result.content[0].semanticDataModel).toBe(SemanticDataModelInCamelCase.UNKNOWN);
+  });
 
-      let transformedPartData = formatPaginationSemanticDataModelToCamelCasePipe.transform(paginationData);
+  it('should preserve non-semanticDataModel properties', () => {
+    const input: Pagination<any> = {
+      content: [{ semanticDataModel: 'batch', id: '123', name: 'TestPart' }],
+      page: 0,
+      pageCount: 1,
+      pageSize: 1,
+      totalItems: 1
+    };
 
-      transformedPartData.content.map(part => {
-        expect(part.semanticDataModel).toEqual(object.expected);
-      });
+    const result = pipe.transform(input);
 
-    });
+    expect(result.content[0].id).toBe('123');
+    expect(result.content[0].name).toBe('TestPart');
+    expect(result.content[0].semanticDataModel).toBe(SemanticDataModelInCamelCase.BATCH);
+  });
+
+  it('should return unchanged pagination metadata', () => {
+    const input: Pagination<any> = {
+      content: [{ semanticDataModel: 'serialpart' }],
+      page: 2,
+      pageCount: 5,
+      pageSize: 10,
+      totalItems: 50
+    };
+
+    const result = pipe.transform(input);
+
+    expect(result.page).toBe(2);
+    expect(result.pageCount).toBe(5);
+    expect(result.pageSize).toBe(10);
+    expect(result.totalItems).toBe(50);
+  });
+
+  it('should handle empty content arrays gracefully', () => {
+    const input: Pagination<any> = {
+      content: [],
+      page: 0,
+      pageCount: 0,
+      pageSize: 10,
+      totalItems: 0
+    };
+
+    const result = pipe.transform(input);
+    expect(result.content).toEqual([]);
   });
 });

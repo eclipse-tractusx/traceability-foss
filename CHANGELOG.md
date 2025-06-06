@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
+
 ## [Unreleased - 06.06.2025]
 ### Fixed
 - fix: eclipse-tractusx/sig-release#1442 record information should only be visible for admins
@@ -66,6 +67,11 @@ _**For better traceability add the corresponding GitHub issue number in each cha
 - TRACEX-463 remove callbacks path parameters templates eclipse-tractusx/traceability-foss/issues#1439
 - remove fdescribe from test to run full test set eclipse-tractusx/traceability-foss/issues#1439
 - Remove supervisor role from admin endpoints eclipse-tractusx/traceability-foss/issues#1439
+
+### Known knowns
+- https://github.com/eclipse-tractusx/sig-release/issues/1443
+- https://github.com/eclipse-tractusx/sig-release/issues/1442
+- https://github.com/eclipse-tractusx/sig-release/issues/1441
 
 ## [14.0.1 - 26.02.2025]
 ### Fixed

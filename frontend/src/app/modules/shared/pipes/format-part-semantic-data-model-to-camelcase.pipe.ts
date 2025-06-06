@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023, 2025 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,7 +24,7 @@ import { Part, SemanticDataModel, SemanticDataModelInCamelCase } from '@page/par
 })
 export class FormatPartSemanticDataModelToCamelCasePipe implements PipeTransform {
 
-  transform(part: Part): Part {
+  transform(part: Part | any): Part {
     let camelCase;
     switch (part.semanticDataModel.toString().toLowerCase()) {
       case 'batch': {
