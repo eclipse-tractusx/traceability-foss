@@ -6,8 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
-## [Unreleased - DD.MM.YYYY]
 
+## [Unreleased - 06.06.2025]
+### Fixed
+- fix: eclipse-tractusx/sig-release#1442 record information should only be visible for admins
 
 ## [15.0.1 - 30.05.2025]
 ### Changed
