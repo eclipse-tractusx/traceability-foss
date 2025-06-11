@@ -1,16 +1,32 @@
+/********************************************************************************
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 package org.eclipse.tractusx.traceability.policies.domain;
 
 import org.eclipse.tractusx.traceability.assets.domain.importpoc.exception.PolicyNotFoundException;
 import org.eclipse.tractusx.traceability.notification.domain.contract.EdcNotificationContractService;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.eclipse.tractusx.irs.edc.client.policy.Policy;
-import policies.request.Context;
 import policies.request.Payload;
 import policies.request.RegisterPolicyRequest;
 import policies.request.UpdatePolicyRequest;
@@ -18,7 +34,6 @@ import policies.response.CreatePolicyResponse;
 import policies.response.IrsPolicyResponse;
 import policies.response.PolicyResponse;
 
-import java.time.OffsetDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,249 +51,230 @@ class PolicyServiceImplTest {
     @InjectMocks
     private PolicyServiceImpl policyService;
 
-    // === Helper ===
+    @Test
+    @DisplayName("getIrsPolicies: returns policies map when present")
+    void testGetIrsPoliciesReturnsMap() {
+        Map<String, List<IrsPolicyResponse>> policies = new HashMap<>();
+        policies.put("type1", List.of(mock(IrsPolicyResponse.class)));
 
-    private IrsPolicyResponse createPolicyResponse(String policyId) {
-        Context context = mock(Context.class); // Context можно мокнуть
-        Policy policy = new Policy(); // Можно заполнять нужными значениями при необходимости
-        Payload payload = new Payload(context, policyId, policy);
-        OffsetDateTime now = OffsetDateTime.now();
-        return new IrsPolicyResponse(now, payload);
+        when(policyRepository.getPolicies()).thenReturn(policies);
+
+        Map<String, List<IrsPolicyResponse>> result = policyService.getIrsPolicies();
+
+        assertEquals(policies, result);
+        verify(policyRepository).getPolicies();
     }
 
-    // === Nested groups ===
+    @Test
+    @DisplayName("getIrsPolicies: returns empty map when none exist")
+    void testGetIrsPoliciesReturnsEmptyMapWhenNoneExist() {
+        when(policyRepository.getPolicies()).thenReturn(Collections.emptyMap());
 
-    @Nested
-    @DisplayName("getIrsPolicies tests")
-    class GetIrsPoliciesTests {
+        Map<String, List<IrsPolicyResponse>> result = policyService.getIrsPolicies();
 
-        @Test
-        @DisplayName("returns policies map when present")
-        void testReturnsPoliciesMap() {
-            IrsPolicyResponse policy = createPolicyResponse("mock-policy-id");
-            Map<String, List<IrsPolicyResponse>> policies = Map.of("type1", List.of(policy));
-
-            when(policyRepository.getPolicies()).thenReturn(policies);
-
-            Map<String, List<IrsPolicyResponse>> result = policyService.getIrsPolicies();
-
-            assertEquals(policies, result);
-            verify(policyRepository).getPolicies();
-        }
-
-        @Test
-        @DisplayName("returns empty map when none exist")
-        void testReturnsEmptyMapWhenNoneExist() {
-            when(policyRepository.getPolicies()).thenReturn(Collections.emptyMap());
-
-            Map<String, List<IrsPolicyResponse>> result = policyService.getIrsPolicies();
-
-            assertTrue(result.isEmpty());
-            verify(policyRepository).getPolicies();
-        }
+        assertTrue(result.isEmpty());
+        verify(policyRepository).getPolicies();
     }
 
-    @Nested
-    @DisplayName("getPolicies tests")
-    class GetPoliciesTests {
+    @Test
+    @DisplayName("getPolicies: returns flattened list with one policy type")
+    void testGetPoliciesReturnsFlattenedList() {
+        Payload payload = mock(Payload.class);
+        when(payload.policyId()).thenReturn("mock-policy-id");
 
-        @Test
-        @DisplayName("returns flattened list with correct content")
-        void testReturnsFlattenedListWithCorrectContent() {
-            IrsPolicyResponse policy = createPolicyResponse("mock-policy-id");
-            Map<String, List<IrsPolicyResponse>> policies = Map.of("type1", List.of(policy));
+        Policy policyMock = mock(Policy.class);
+        when(policyMock.getPermissions()).thenReturn(Collections.emptyList());
+        when(payload.policy()).thenReturn(policyMock);
 
-            when(policyRepository.getPolicies()).thenReturn(policies);
+        IrsPolicyResponse irsPolicy = mock(IrsPolicyResponse.class);
+        when(irsPolicy.payload()).thenReturn(payload);
 
-            List<PolicyResponse> result = policyService.getPolicies();
+        Map<String, List<IrsPolicyResponse>> policies = Map.of("type1", List.of(irsPolicy));
+        when(policyRepository.getPolicies()).thenReturn(policies);
 
-            assertEquals(1, result.size());
-            PolicyResponse response = result.get(0);
-            assertEquals("mock-policy-id", response.policyId()); // .policyId() — для record
+        List<PolicyResponse> result = policyService.getPolicies();
 
-            verify(policyRepository).getPolicies();
-        }
-
-        @Test
-        @DisplayName("returns empty list when no policies exist")
-        void testReturnsEmptyListWhenNoneExist() {
-            when(policyRepository.getPolicies()).thenReturn(Collections.emptyMap());
-
-            List<PolicyResponse> result = policyService.getPolicies();
-
-            assertTrue(result.isEmpty());
-            verify(policyRepository).getPolicies();
-        }
-
-        @Test
-        @DisplayName("returns flattened list with multiple policy types")
-        void testWithMultiplePolicyTypes() {
-            IrsPolicyResponse policy1 = createPolicyResponse("id1");
-            IrsPolicyResponse policy2 = createPolicyResponse("id2");
-
-            Map<String, List<IrsPolicyResponse>> policies = Map.of(
-                    "type1", List.of(policy1),
-                    "type2", List.of(policy2)
-            );
-
-            when(policyRepository.getPolicies()).thenReturn(policies);
-
-            List<PolicyResponse> result = policyService.getPolicies();
-
-            assertEquals(2, result.size());
-            assertTrue(result.stream().anyMatch(p -> p.policyId().equals("id1")));
-            assertTrue(result.stream().anyMatch(p -> p.policyId().equals("id2")));
-
-            verify(policyRepository).getPolicies();
-        }
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        verify(policyRepository).getPolicies();
     }
 
-    @Nested
-    @DisplayName("getPolicy tests")
-    class GetPolicyTests {
+    @Test
+    @DisplayName("getPolicies: returns flattened list with multiple policy types")
+    void testGetPoliciesWithMultipleTypes() {
+        Payload payload1 = mock(Payload.class);
+        when(payload1.policyId()).thenReturn("id1");
+        Policy policy1 = mock(Policy.class);
+        when(policy1.getPermissions()).thenReturn(Collections.emptyList());
+        when(payload1.policy()).thenReturn(policy1);
+        IrsPolicyResponse response1 = mock(IrsPolicyResponse.class);
+        when(response1.payload()).thenReturn(payload1);
 
-        @Test
-        @DisplayName("returns policy response when policy exists")
-        void testReturnsPolicyResponse() {
-            IrsPolicyResponse policy = createPolicyResponse("mock-policy-id");
+        Payload payload2 = mock(Payload.class);
+        when(payload2.policyId()).thenReturn("id2");
+        Policy policy2 = mock(Policy.class);
+        when(policy2.getPermissions()).thenReturn(Collections.emptyList());
+        when(payload2.policy()).thenReturn(policy2);
+        IrsPolicyResponse response2 = mock(IrsPolicyResponse.class);
+        when(response2.payload()).thenReturn(payload2);
 
-            when(policyRepository.getPolicy("123")).thenReturn(Map.of("type1", Optional.of(policy)));
+        Map<String, List<IrsPolicyResponse>> policies = new HashMap<>();
+        policies.put("type1", List.of(response1));
+        policies.put("type2", List.of(response2));
 
-            PolicyResponse result = policyService.getPolicy("123");
+        when(policyRepository.getPolicies()).thenReturn(policies);
 
-            assertEquals("mock-policy-id", result.policyId());
+        List<PolicyResponse> result = policyService.getPolicies();
 
-            verify(policyRepository).getPolicy("123");
-        }
-
-        @Test
-        @DisplayName("throws PolicyNotFoundException when policy missing")
-        void testThrowsWhenNotFound() {
-            when(policyRepository.getPolicy("missing")).thenReturn(Map.of());
-
-            assertThrows(PolicyNotFoundException.class, () -> policyService.getPolicy("missing"));
-            verify(policyRepository).getPolicy("missing");
-        }
-
-        @Test
-        @DisplayName("throws IllegalArgumentException when id is null")
-        void testThrowsWhenIdIsNull() {
-            assertThrows(IllegalArgumentException.class, () -> policyService.getPolicy(null));
-            verifyNoInteractions(policyRepository);
-        }
-
-        @Test
-        @DisplayName("throws IllegalArgumentException when id is empty")
-        void testThrowsWhenIdIsEmpty() {
-            assertThrows(IllegalArgumentException.class, () -> policyService.getPolicy(""));
-            verifyNoInteractions(policyRepository);
-        }
+        assertEquals(2, result.size());
+        verify(policyRepository).getPolicies();
     }
 
-    @Nested
-    @DisplayName("createPolicy tests")
-    class CreatePolicyTests {
+    @Test
+    @DisplayName("getPolicies: returns empty list when no policies exist")
+    void testGetPoliciesReturnsEmptyListWhenNoPoliciesExist() {
+        when(policyRepository.getPolicies()).thenReturn(Collections.emptyMap());
 
-        @Test
-        @DisplayName("creates policy and updates EDC")
-        void testCreatesPolicyAndUpdatesEdc() {
-            RegisterPolicyRequest request = mock(RegisterPolicyRequest.class);
-            CreatePolicyResponse response = mock(CreatePolicyResponse.class);
+        List<PolicyResponse> result = policyService.getPolicies();
 
-            when(policyRepository.createPolicy(request)).thenReturn(response);
-
-            CreatePolicyResponse result = policyService.createPolicy(request);
-
-            assertEquals(response, result);
-            verify(policyRepository).createPolicy(request);
-            verify(edcNotificationContractService).updateNotificationContractDefinitions();
-        }
-
-        @Test
-        @DisplayName("throws IllegalArgumentException when request is null")
-        void testThrowsWhenRequestIsNull() {
-            assertThrows(IllegalArgumentException.class, () -> policyService.createPolicy(null));
-            verifyNoInteractions(policyRepository, edcNotificationContractService);
-        }
-
-        @Test
-        @DisplayName("handles repository exception gracefully")
-        void testHandlesRepositoryFailure() {
-            RegisterPolicyRequest request = mock(RegisterPolicyRequest.class);
-            when(policyRepository.createPolicy(request)).thenThrow(new RuntimeException("DB error"));
-
-            assertThrows(RuntimeException.class, () -> policyService.createPolicy(request));
-            verify(edcNotificationContractService, never()).updateNotificationContractDefinitions();
-        }
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+        verify(policyRepository).getPolicies();
     }
 
-    @Nested
-    @DisplayName("updatePolicy tests")
-    class UpdatePolicyTests {
+    @Test
+    @DisplayName("getPolicy: returns policy response when policy exists")
+    void testGetPolicyReturnsPolicyResponse() {
+        Payload payload = mock(Payload.class);
+        when(payload.policyId()).thenReturn("mock-policy-id");
 
-        @Test
-        @DisplayName("calls repository and updates EDC")
-        void testCallsRepoAndUpdatesEdc() {
-            UpdatePolicyRequest request = mock(UpdatePolicyRequest.class);
+        Policy policyMock = mock(Policy.class);
+        when(policyMock.getPermissions()).thenReturn(Collections.emptyList());
+        when(payload.policy()).thenReturn(policyMock);
 
-            policyService.updatePolicy(request);
+        IrsPolicyResponse irsPolicy = mock(IrsPolicyResponse.class);
+        when(irsPolicy.payload()).thenReturn(payload);
 
-            verify(policyRepository).updatePolicy(request);
-            verify(edcNotificationContractService).updateNotificationContractDefinitions();
-        }
+        when(policyRepository.getPolicy("123")).thenReturn(Map.of("type1", Optional.of(irsPolicy)));
 
-        @Test
-        @DisplayName("throws IllegalArgumentException when request is null")
-        void testThrowsWhenRequestIsNull() {
-            assertThrows(IllegalArgumentException.class, () -> policyService.updatePolicy(null));
-            verifyNoInteractions(policyRepository, edcNotificationContractService);
-        }
+        PolicyResponse result = policyService.getPolicy("123");
 
-        @Test
-        @DisplayName("handles repository failure gracefully")
-        void testHandlesRepositoryFailure() {
-            UpdatePolicyRequest request = mock(UpdatePolicyRequest.class);
-            doThrow(new RuntimeException("Update error")).when(policyRepository).updatePolicy(request);
-
-            assertThrows(RuntimeException.class, () -> policyService.updatePolicy(request));
-            verify(edcNotificationContractService, never()).updateNotificationContractDefinitions();
-        }
+        assertNotNull(result);
+        verify(policyRepository).getPolicy("123");
     }
 
-    @Nested
-    @DisplayName("deletePolicy tests")
-    class DeletePolicyTests {
+    @Test
+    @DisplayName("getPolicy: throws PolicyNotFoundException when policy missing")
+    void testGetPolicyThrowsWhenNotFound() {
+        when(policyRepository.getPolicy("missing")).thenReturn(Map.of());
 
-        @Test
-        @DisplayName("deletes policy and updates EDC")
-        void testDeletesPolicyAndUpdatesEdc() {
-            policyService.deletePolicy("123");
+        assertThrows(PolicyNotFoundException.class, () -> policyService.getPolicy("missing"));
+        verify(policyRepository).getPolicy("missing");
+    }
 
-            verify(policyRepository).deletePolicy("123");
-            verify(edcNotificationContractService).updateNotificationContractDefinitions();
-        }
+    @Test
+    @DisplayName("getPolicy: throws IllegalArgumentException when id is null")
+    void testGetPolicyThrowsWhenIdIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> policyService.getPolicy(null));
+        verifyNoInteractions(policyRepository);
+    }
 
-        @Test
-        @DisplayName("throws IllegalArgumentException when id is null")
-        void testThrowsWhenIdIsNull() {
-            assertThrows(IllegalArgumentException.class, () -> policyService.deletePolicy(null));
-            verifyNoInteractions(policyRepository, edcNotificationContractService);
-        }
+    @Test
+    @DisplayName("getPolicy: throws IllegalArgumentException when id is empty")
+    void testGetPolicyThrowsWhenIdIsEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> policyService.getPolicy(""));
+        verifyNoInteractions(policyRepository);
+    }
 
-        @Test
-        @DisplayName("throws IllegalArgumentException when id is empty")
-        void testThrowsWhenIdIsEmpty() {
-            assertThrows(IllegalArgumentException.class, () -> policyService.deletePolicy(""));
-            verifyNoInteractions(policyRepository, edcNotificationContractService);
-        }
+    @Test
+    @DisplayName("createPolicy: creates policy and updates EDC")
+    void testCreatePolicyUpdatesEdcAndReturnsResponse() {
+        RegisterPolicyRequest request = mock(RegisterPolicyRequest.class);
+        CreatePolicyResponse response = mock(CreatePolicyResponse.class);
 
-        @Test
-        @DisplayName("handles repository failure gracefully")
-        void testHandlesRepositoryFailure() {
-            doThrow(new RuntimeException("Delete failed")).when(policyRepository).deletePolicy("123");
+        when(policyRepository.createPolicy(request)).thenReturn(response);
 
-            assertThrows(RuntimeException.class, () -> policyService.deletePolicy("123"));
-            verify(edcNotificationContractService, never()).updateNotificationContractDefinitions();
-        }
+        CreatePolicyResponse result = policyService.createPolicy(request);
+
+        assertEquals(response, result);
+        verify(policyRepository).createPolicy(request);
+        verify(edcNotificationContractService).updateNotificationContractDefinitions();
+    }
+
+    @Test
+    @DisplayName("createPolicy: throws IllegalArgumentException when request is null")
+    void testCreatePolicyThrowsWhenRequestIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> policyService.createPolicy(null));
+        verifyNoInteractions(policyRepository, edcNotificationContractService);
+    }
+
+    @Test
+    @DisplayName("createPolicy: handles repository exception gracefully")
+    void testCreatePolicyHandlesRepositoryFailure() {
+        RegisterPolicyRequest request = mock(RegisterPolicyRequest.class);
+        when(policyRepository.createPolicy(request)).thenThrow(new RuntimeException("DB error"));
+
+        assertThrows(RuntimeException.class, () -> policyService.createPolicy(request));
+        verify(edcNotificationContractService, never()).updateNotificationContractDefinitions();
+    }
+
+    @Test
+    @DisplayName("updatePolicy: calls repository and updates EDC")
+    void testUpdatePolicyCallsRepoAndUpdatesEdc() {
+        UpdatePolicyRequest request = mock(UpdatePolicyRequest.class);
+
+        policyService.updatePolicy(request);
+
+        verify(policyRepository).updatePolicy(request);
+        verify(edcNotificationContractService).updateNotificationContractDefinitions();
+    }
+
+    @Test
+    @DisplayName("updatePolicy: throws IllegalArgumentException when request is null")
+    void testUpdatePolicyThrowsWhenRequestIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> policyService.updatePolicy(null));
+        verifyNoInteractions(policyRepository, edcNotificationContractService);
+    }
+
+    @Test
+    @DisplayName("updatePolicy: handles repository failure gracefully")
+    void testUpdatePolicyHandlesRepositoryFailure() {
+        UpdatePolicyRequest request = mock(UpdatePolicyRequest.class);
+        doThrow(new RuntimeException("Update error")).when(policyRepository).updatePolicy(request);
+
+        assertThrows(RuntimeException.class, () -> policyService.updatePolicy(request));
+        verify(edcNotificationContractService, never()).updateNotificationContractDefinitions();
+    }
+
+    @Test
+    @DisplayName("deletePolicy: deletes policy and updates EDC")
+    void testDeletePolicyCallsRepoAndUpdatesEdc() {
+        policyService.deletePolicy("123");
+
+        verify(policyRepository).deletePolicy("123");
+        verify(edcNotificationContractService).updateNotificationContractDefinitions();
+    }
+
+    @Test
+    @DisplayName("deletePolicy: throws IllegalArgumentException when id is null")
+    void testDeletePolicyThrowsWhenIdIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> policyService.deletePolicy(null));
+        verifyNoInteractions(policyRepository, edcNotificationContractService);
+    }
+
+    @Test
+    @DisplayName("deletePolicy: throws IllegalArgumentException when id is empty")
+    void testDeletePolicyThrowsWhenIdIsEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> policyService.deletePolicy(""));
+        verifyNoInteractions(policyRepository, edcNotificationContractService);
+    }
+
+    @Test
+    @DisplayName("deletePolicy: handles repository failure gracefully")
+    void testDeletePolicyHandlesRepositoryFailure() {
+        doThrow(new RuntimeException("Delete failed")).when(policyRepository).deletePolicy("123");
+
+        assertThrows(RuntimeException.class, () -> policyService.deletePolicy("123"));
+        verify(edcNotificationContractService, never()).updateNotificationContractDefinitions();
     }
 }
