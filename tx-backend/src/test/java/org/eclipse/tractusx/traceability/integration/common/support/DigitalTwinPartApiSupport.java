@@ -23,6 +23,7 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
+import org.jose4j.lang.JoseException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,58 +37,70 @@ public class DigitalTwinPartApiSupport {
      * Executes POST request to /api/administration/digitalTwinPart endpoint
      */
     public <T> T postDigitalTwinPart(Object requestBody, int expectedStatusCode, TypeRef<T> typeRef) {
-        return RestAssured
-                .given()
-                .header(oAuth2Support.jwtAuthorization(ROLE))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .body(requestBody)
-                .when()
-                .post("/api/administration/digitalTwinPart")
-                .then()
-                .log().all()
-                .statusCode(expectedStatusCode)
-                .extract()
-                .body()
-                .as(typeRef);
+        try {
+            return RestAssured
+                    .given()
+                    .header(oAuth2Support.jwtAuthorization(ROLE))
+                    .contentType(ContentType.JSON)
+                    .log().all()
+                    .body(requestBody)
+                    .when()
+                    .post("/api/administration/digitalTwinPart")
+                    .then()
+                    .log().all()
+                    .statusCode(expectedStatusCode)
+                    .extract()
+                    .body()
+                    .as(typeRef);
+        } catch (JoseException e) {
+            throw new RuntimeException("Failed to authorize JWT for postDigitalTwinPart", e);
+        }
     }
 
     /**
      * Executes POST request to /api/administration/digitalTwinPart/detail endpoint
      */
     public <T> T postDigitalTwinPartDetail(Object requestBody, int expectedStatusCode, Class<T> clazz) {
-        return RestAssured
-                .given()
-                .header(oAuth2Support.jwtAuthorization(ROLE))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .body(requestBody)
-                .when()
-                .post("/api/administration/digitalTwinPart/detail")
-                .then()
-                .log().all()
-                .statusCode(expectedStatusCode)
-                .extract()
-                .as(clazz);
+        try {
+            return RestAssured
+                    .given()
+                    .header(oAuth2Support.jwtAuthorization(ROLE))
+                    .contentType(ContentType.JSON)
+                    .log().all()
+                    .body(requestBody)
+                    .when()
+                    .post("/api/administration/digitalTwinPart/detail")
+                    .then()
+                    .log().all()
+                    .statusCode(expectedStatusCode)
+                    .extract()
+                    .as(clazz);
+        } catch (JoseException e) {
+            throw new RuntimeException("Failed to authorize JWT for postDigitalTwinPartDetail", e);
+        }
     }
 
     /**
      * Executes POST request to /api/administration/digitalTwinPart/searchable-values endpoint
      */
     public <T> T postSearchableValues(Object requestBody, int expectedStatusCode, TypeRef<T> typeRef) {
-        return RestAssured
-                .given()
-                .header(oAuth2Support.jwtAuthorization(ROLE))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .body(requestBody)
-                .when()
-                .post("/api/administration/digitalTwinPart/searchable-values")
-                .then()
-                .log().all()
-                .statusCode(expectedStatusCode)
-                .extract()
-                .body()
-                .as(typeRef);
+        try {
+            return RestAssured
+                    .given()
+                    .header(oAuth2Support.jwtAuthorization(ROLE))
+                    .contentType(ContentType.JSON)
+                    .log().all()
+                    .body(requestBody)
+                    .when()
+                    .post("/api/administration/digitalTwinPart/searchable-values")
+                    .then()
+                    .log().all()
+                    .statusCode(expectedStatusCode)
+                    .extract()
+                    .body()
+                    .as(typeRef);
+        } catch (JoseException e) {
+            throw new RuntimeException("Failed to authorize JWT for postSearchableValues", e);
+        }
     }
 }
