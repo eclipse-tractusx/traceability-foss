@@ -57,7 +57,11 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
+          token: ${{ secrets.ACTIONS_PAT }}
           branch: auto/testdata-v${{ steps.version.outputs.version }}
+          base: main
           title: "Automated test data generation for MessagingTest v${{ steps.version.outputs.version }}"
           body: "This PR contains auto-generated test data."
           commit-message: "Add test data v${{ steps.version.outputs.version }}"
+
+
