@@ -7,9 +7,21 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
-## [Unreleased - 06.06.2025]
-### Fixed
-- fix: eclipse-tractusx/sig-release#1442 record information should only be visible for admins
+## [Unreleased - 17.06.2025]
+
+### Added
+- Automated pipeline for generating CX-0127-compliant test data using GitHub Actions.
+- New script: `tx-backend/testdata/scripts/automotive_test_data_generator_updated.py`
+- GitHub Actions workflow: `.github/workflows/generate_testdata.yml`
+- Auto-incrementing version logic for test data artifacts.
+- Output stored as: `CX_Testdata_MessagingTest_vX.X.X.json`
+- Pull request auto-created from branch: `auto/testdata-vX.X.X`
+- Manual trigger support via `workflow_dispatch`.
+
+### Notes
+- Fully tested in private fork.
+- No breaking changes introduced.
+- Compatible with current repository structure.
 
 ## [15.0.1 - 30.05.2025]
 ### Changed
