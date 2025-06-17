@@ -1,0 +1,61 @@
+name: Generate Automotive Test Data
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-test-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies (if any)
+        run: pip install -r requirements.txt || echo "No requirements.txt"
+
+      - name: Determine next version
+        id: version
+        run: |
+          mkdir -p tx-backend/testdata/
+          prefix="CX_Testdata_MessagingTest_v"
+          existing=$(ls tx-backend/testdata/${prefix}*.json 2>/dev/null || true)
+          if [ -z "$existing" ]; then
+            version="1.0.0"
+          else
+            latest=$(echo "$existing" | sed -E "s/.*${prefix}([0-9]+)\.([0-9]+)\.([0-9]+)\.json/\1 \2 \3/" | sort -k1,1n -k2,2n -k3,3n | tail -n1)
+            IFS=' ' read -r major minor patch <<< "$latest"
+            patch=$((patch + 1))
+            version="${major}.${minor}.${patch}"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Output version: $version"
+
+      - name: Generate test data
+        run: |
+          python3 tx-backend/testdata/scripts/automotive_test_data_generator_updated.py \
+            BPNL000000002OEM BPNL000000002T1S 10 \
+            -o tx-backend/testdata/CX_Testdata_MessagingTest_v${{ steps.version.outputs.version }}.json
+
+      - name: Create branch, commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          branch="auto/testdata-v${{ steps.version.outputs.version }}"
+          git checkout -b "$branch"
+          git add tx-backend/testdata/CX_Testdata_MessagingTest_v${{ steps.version.outputs.version }}.json
+          git commit -m "Automated test data generation for MessagingTest v${{ steps.version.outputs.version }}"
+          git push origin "$branch"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: auto/testdata-v${{ steps.version.outputs.version }}
+          title: "Automated test data generation for MessagingTest v${{ steps.version.outputs.version }}"
+          body: "This PR contains auto-generated test data."
+          commit-message: "Add test data v${{ steps.version.outputs.version }}"
