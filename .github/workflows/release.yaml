@@ -64,7 +64,7 @@ jobs:
           sudo json -I -f frontend/package.json -e "this.version='${{ github.ref_name }}'"
 
       - name: Prepare Helm release
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "chore(release): Prepare release for Helm version ${{ env.HELM_VERSION }}"
           branch: chore/prepare-helm-release-${{ env.HELM_VERSION }}
