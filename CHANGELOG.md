@@ -7,6 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 _**For better traceability add the corresponding GitHub issue number in each changelog entry, please.**_
 
+## [Unreleased - 20.06.2025]
+### Removed
+- Removed obsolete `EdcNotificationContractController`, which exposed the now-deprecated `/api/edc/notification/contract` endpoint.
+- Removed related integration test `EdcNotificationContractsControllerIT`.
+
+
 ## [Unreleased - 06.06.2025]
 ### Fixed
 - fix: eclipse-tractusx/sig-release#1442 record information should only be visible for admins
