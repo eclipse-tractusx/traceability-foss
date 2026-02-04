@@ -30,7 +30,7 @@ Please have a look into our [Helm chart documentation](charts/traceability-foss/
 
 ### Prerequisites
 
-* [Node.js 18](https://nodejs.org/en)
+* [Node.js 22](https://nodejs.org/en)
 * [Angular CLI](https://angular.io/cli)
 * [YARN](https://yarnpkg.com/)
 

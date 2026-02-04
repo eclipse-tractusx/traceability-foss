@@ -43,7 +43,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js 20.x
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
@@ -110,7 +110,7 @@ jobs:
           name: cypress - e2e
           path: frontend/cypress/e2e
 
-      - name: Use Node.js 20.x
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
