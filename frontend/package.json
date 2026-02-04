@@ -56,7 +56,7 @@
     "@angular/platform-browser-dynamic": "19.2.18",
     "@angular/router": "19.2.18",
     "@types/lodash-es": "4.17.7",
-    "angular-i18next": "16.0.0",
+    "angular-i18next": "20.0.1",
     "angular-split": "16.2.1",
     "autoprefixer": "10.4.14",
     "d3": "7.8.4",
@@ -130,7 +130,7 @@
     "webpack-bundle-analyzer": "4.8.0"
   },
   "resolutions": {
-    "@angular-devkit/build-angular": "16.2.12",
+    "@angular-devkit/build-angular": "19.2.19",
     "cross-spawn": "^7.0.5",
     "webpack-dev-middleware": "6.1.2",
     "http-proxy-middleware": "^2.0.7",
