@@ -7,17 +7,22 @@ import {
   PolicyEntry,
   PolicyResponseMap,
 } from '@page/policies/model/policy.model';
-import { isNumber } from 'lodash-es';
 
 export class PoliciesAssembler {
   public static assemblePolicy(policy: Policy): Policy {
     const formattedCreatedOn = new CalendarDateModel(policy.createdOn as string);
     const formattedValidUntil = new CalendarDateModel(policy.validUntil as string);
+    const createdOnNumber = typeof policy.createdOn === 'number' && Number.isFinite(policy.createdOn);
+    const validUntilNumber = typeof policy.validUntil === 'number' && Number.isFinite(policy.validUntil);
     return {
       ...policy,
       policyName: policy.policyId,
-      createdOn: isNumber(policy.createdOn) ? new Date(policy.createdOn as number * 1000).toISOString().slice(0, 19) + 'Z' : (formattedCreatedOn.isInitial() ? null : formattedCreatedOn.valueOf().toISOString().slice(0, 16)),
-      validUntil: isNumber(policy.validUntil) ? new Date(policy.validUntil as number * 1000).toISOString().slice(0, 19) + 'Z' : (formattedValidUntil.isInitial() ? null : formattedValidUntil.valueOf().toISOString().slice(0, 16)),
+      createdOn: createdOnNumber
+        ? new Date(policy.createdOn as number * 1000).toISOString().slice(0, 19) + 'Z'
+        : (formattedCreatedOn.isInitial() ? null : formattedCreatedOn.valueOf().toISOString().slice(0, 16)),
+      validUntil: validUntilNumber
+        ? new Date(policy.validUntil as number * 1000).toISOString().slice(0, 19) + 'Z'
+        : (formattedValidUntil.isInitial() ? null : formattedValidUntil.valueOf().toISOString().slice(0, 16)),
       accessType: policy.permissions[0].action.toUpperCase() as PolicyAction,
       constraints: policy.constraints ?? this.mapDisplayPropsToPolicyRootLevelFromPolicy(policy),
     };

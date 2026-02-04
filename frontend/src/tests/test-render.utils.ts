@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
+import { APP_INITIALIZER, Component, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 import { Role } from '@core/user/role.model';
@@ -56,8 +56,13 @@ declare class WrapperComponent {
 export const renderComponent: typeof ExtendedRenderFn = (
   cmp,
   { imports = [], providers = [], translations = [], roles = [ 'user' ], ...restConfig },
-) =>
-  render(cmp, {
+) => {
+  const renderTarget =
+    typeof cmp === 'string'
+      ? Component({ selector: 'atl-wrapper-component', template: cmp, standalone: false })(class WrapperComponent {})
+      : cmp;
+
+  return render(renderTarget as Type<unknown>, {
     imports: [
       ...imports,
       I18NextModule.forRoot(),
@@ -92,6 +97,7 @@ export const renderComponent: typeof ExtendedRenderFn = (
     ],
     ...restConfig,
   });
+};
 
 export const getTableCheckbox = async (screen: Screen, checkboxIndex: number): Promise<ChildNode> => {
   const matCheckbox = (await waitFor(() => screen.getAllByTestId('select-one--test-id')))[checkboxIndex];

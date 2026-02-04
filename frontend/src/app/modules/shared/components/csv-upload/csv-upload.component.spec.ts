@@ -2,6 +2,7 @@ import { NgZone } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CsvFilterService } from '@shared/service/csv-filter.service';
+import { SharedModule } from '@shared/shared.module';
 import { CsvUploadComponent } from './csv-upload.component';
 
 describe('CsvUploadComponent', () => {
@@ -22,7 +23,7 @@ describe('CsvUploadComponent', () => {
         { provide: CsvFilterService, useValue: csvFilterServiceSpy },
         { provide: NgZone, useValue: ngZone }
       ],
-      declarations: [CsvUploadComponent]
+      imports: [SharedModule]
     }).compileComponents();
   });
 

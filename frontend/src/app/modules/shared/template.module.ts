@@ -88,6 +88,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatRadioModule,
     MatChipsModule,
     MatTooltipModule,
+    MatTabsModule,
   ],
   exports: [
     CommonModule,

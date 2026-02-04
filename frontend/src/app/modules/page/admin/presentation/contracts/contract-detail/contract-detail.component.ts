@@ -39,7 +39,11 @@ export class ContractDetailComponent {
       if(!next?.data?.policy) {
         return;
       }
-      this.policyJson = JSON.parse(next?.data?.policy)
+      try {
+        this.policyJson = JSON.parse(next?.data?.policy);
+      } catch (error) {
+        this.policyJson = null;
+      }
     })
 
   }

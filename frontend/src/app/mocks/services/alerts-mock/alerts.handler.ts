@@ -133,9 +133,9 @@ export const alertsTestHandlers = [
   }),
 
   rest.get(`*${ environment.apiUrl }/notifications/:notificationId`, (req, res, ctx) => {
-    const { alertId } = req.params;
+    const { notificationId } = req.params;
 
-    const indexFromId = parseInt((alertId as string).replace('id-', ''), 10);
+    const indexFromId = parseInt((notificationId as string).replace('id-', ''), 10);
 
     const statusCollection = [
       NotificationStatus.CREATED,
@@ -151,17 +151,17 @@ export const alertsTestHandlers = [
     const channel = indexFromId === 2 || indexFromId === 8 ? 'RECEIVER' : 'SENDER';
     const randomNotification = testBuildMockAlerts([ statusCollection[indexFromId] ], channel)[0];
 
-    return res(ctx.status(200), ctx.json({ ...randomNotification, id: alertId }));
+    return res(ctx.status(200), ctx.json({ ...randomNotification, id: notificationId }));
   }),
   rest.post(`*${ environment.apiUrl }/notifications`, (_, res, ctx) => {
     return res(ctx.status(200), ctx.json({ id: testAlertIdPrefix + 1 }));
   }),
 
   rest.put(`*${ environment.apiUrl }/notifications/:notificationId/status`, async (req, res, ctx) => {
-    const { alertId } = req.params;
+    const { notificationId } = req.params;
     const { status } = await req.json();
 
-    const alert = testGetAlertById(alertId as string);
+    const alert = testGetAlertById(notificationId as string);
     return res(ctx.status(200), ctx.json({ ...alert, status }));
   }),
   ...commonHandler,

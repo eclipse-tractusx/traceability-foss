@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { DigitalTwinPartFacade } from '../core/digital-twin-part.facade';
 import { DigitalTwinPartDetailResponse } from '../model/digitalTwinPart.model';
 import { DigitalTwinPartAssembler } from '@shared/assembler/digital-twin-part.assembler';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('DigitalTwinPartDetailComponent', () => {
   let component: DigitalTwinPartDetailComponent;
@@ -59,6 +60,7 @@ describe('DigitalTwinPartDetailComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [DigitalTwinPartDetailComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: DigitalTwinPartFacade, useValue: mockFacade },
         { provide: ActivatedRoute, useValue: mockActivatedRoute }

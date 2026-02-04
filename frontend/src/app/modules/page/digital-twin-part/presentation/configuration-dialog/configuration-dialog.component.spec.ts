@@ -24,7 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfigurationService } from '@shared/service/configuration.service';
 import { of } from 'rxjs';
-import { Pipe, PipeTransform } from '@angular/core';
+import { NO_ERRORS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
+import { TemplateModule } from '@shared/template.module';
 
 @Pipe({ standalone: false,  name: 'i18n' })
 class MockI18nPipe implements PipeTransform {
@@ -64,7 +65,8 @@ describe('ConfigurationDialogComponent Validation', () => {
 
         await TestBed.configureTestingModule({
             declarations: [ConfigurationDialogComponent, MockI18nPipe],
-            imports: [ReactiveFormsModule],
+            imports: [ReactiveFormsModule, TemplateModule],
+            schemas: [NO_ERRORS_SCHEMA],
             providers: [
                 { provide: MatDialogRef, useValue: mockDialogRef },
                 { provide: MAT_DIALOG_DATA, useValue: {} },

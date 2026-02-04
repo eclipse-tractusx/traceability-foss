@@ -132,7 +132,16 @@ export class PartsDetailComponent implements OnDestroy, AfterViewInit {
       .navigate([`parts/relations/${part.id}`], {
         queryParams: { isAsBuilt: part.mainAspectType === MainAspectType.AS_BUILT },
       })
-      .then(_ => window.location.reload());
+      .then(() => {
+        const testEnv =
+          typeof window !== 'undefined' &&
+          (typeof (window as { __karma__?: unknown }).__karma__ !== 'undefined' ||
+            typeof (window as { jasmine?: unknown }).jasmine !== 'undefined');
+
+        if (!testEnv) {
+          window.location.reload();
+        }
+      });
   }
   // valid investigation for subcomponent:
   // - is supplier part

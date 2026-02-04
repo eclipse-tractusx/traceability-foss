@@ -74,6 +74,9 @@ describe('ImportJsonComponent', () => {
 
     // Act
     componentInstance.getFile(event);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
 
     // Assert
     expect(componentInstance.showError).toBe(true);
