@@ -349,12 +349,10 @@ export class MultiSelectAutocompleteComponent implements OnChanges, OnInit {
       return;
     }
 
-    setTimeout(() => {
-      this.searchElement = this.prefilterValue;
-      this.selectedValue = [ this.searchElement ];
-      this.formControl.patchValue(this.selectedValue);
-      this.updateOptionsAndSelections();
-    });
+    this.searchElement = this.prefilterValue;
+    this.selectedValue = [ this.searchElement ];
+    this.formControl.patchValue(this.selectedValue);
+    this.updateOptionsAndSelections();
   }
 
   private initializeExistingFilter(): void {

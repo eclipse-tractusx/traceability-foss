@@ -23,14 +23,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ToastMessage } from '../toast-message/toast-message.model';
 import { ToastService } from '../toast.service';
-import { notifyAnimation } from './animation';
 
 @Component({
   standalone: false,
   selector: 'app-toast-container',
   templateUrl: './toast-container.component.html',
   styleUrls: [ './toast-container.component.scss' ],
-  animations: [ notifyAnimation ],
 })
 export class ToastContainerComponent implements OnInit, OnDestroy {
   public toastMessages: ToastMessage[] = [];

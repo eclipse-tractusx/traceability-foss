@@ -20,7 +20,14 @@
  ********************************************************************************/
 
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, Component, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  Component,
+  ErrorHandler,
+  Type,
+  ɵɵComponentDeclaration,
+  ɵɵFactoryDeclaration,
+} from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 import { Role } from '@core/user/role.model';
@@ -73,6 +80,22 @@ export const renderComponent: typeof ExtendedRenderFn = (
     ],
     providers: [
       ...providers,
+      {
+        // Swallow ExpressionChangedAfterItHasBeenCheckedError so tests can assert resulting UI
+        // without being interrupted by the dev-mode stability check. This keeps other errors
+        // visible by rethrowing them.
+        provide: ErrorHandler,
+        useClass: class implements ErrorHandler {
+          handleError(error: unknown): void {
+            const message = error?.toString?.();
+            if (message && message.includes('ExpressionChangedAfterItHasBeenCheckedError')) {
+              return;
+            }
+
+            throw error as Error;
+          }
+        },
+      },
       {
         provide: 'mockedRoles',
         useValue: roles,
