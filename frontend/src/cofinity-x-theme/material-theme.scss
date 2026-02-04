@@ -96,11 +96,11 @@ $warn-palette: (
   ),
 );
 
-$my-primary: mat.define-palette($primary-palette, 700);
-$my-accent: mat.define-palette($accent-palette, 50);
-$my-warn: mat.define-palette($warn-palette, 700);
+$my-primary: mat.m2-define-palette($primary-palette, 700);
+$my-accent: mat.m2-define-palette($accent-palette, 50);
+$my-warn: mat.m2-define-palette($warn-palette, 700);
 
-$tracefoss-theme: mat.define-light-theme(
+$tracefoss-theme: mat.m2-define-light-theme(
     (
       color: (
         primary: $my-primary,
