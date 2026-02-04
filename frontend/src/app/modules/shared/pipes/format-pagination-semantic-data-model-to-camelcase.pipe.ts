@@ -21,6 +21,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 
 @Pipe({
+  standalone: false,
   name: 'formatPaginationSemanticDataModelToCamelCase',
 })
 export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTransform {

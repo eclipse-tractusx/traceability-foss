@@ -24,6 +24,7 @@ import { NotificationType } from '@shared/model/notification.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 
 @Component({
+  standalone: false,
   selector: 'app-type-select',
   templateUrl: './type-select.component.html',
 })

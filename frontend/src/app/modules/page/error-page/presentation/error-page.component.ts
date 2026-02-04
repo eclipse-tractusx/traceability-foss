@@ -26,6 +26,7 @@ import { LayoutFacade } from '@shared/abstraction/layout-facade';
 import { map } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-error',
   templateUrl: './error-page.component.html',
   styleUrls: [ './error-page.component.scss' ],

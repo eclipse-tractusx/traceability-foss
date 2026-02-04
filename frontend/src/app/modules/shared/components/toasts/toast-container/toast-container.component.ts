@@ -26,6 +26,7 @@ import { ToastService } from '../toast.service';
 import { notifyAnimation } from './animation';
 
 @Component({
+  standalone: false,
   selector: 'app-toast-container',
   templateUrl: './toast-container.component.html',
   styleUrls: [ './toast-container.component.scss' ],

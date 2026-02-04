@@ -44,6 +44,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Owner } from '@page/parts/model/owner.enum';
 
 @Component({
+  standalone: false,
   selector: 'app-related-parts-table',
   templateUrl: './related-parts-table.component.html',
   styleUrls: ['./related-parts-table.component.scss'],

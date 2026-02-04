@@ -21,6 +21,7 @@ import { Component, Input } from '@angular/core';
 import { NotificationType } from '@shared/model/notification.model';
 
 @Component({
+  standalone: false,
   selector: 'app-notification-type',
   templateUrl: './notification-type.component.html',
   styleUrls: [ './notification-type.component.scss' ],

@@ -25,6 +25,7 @@ import { TableType } from '@shared/components/multi-select-autocomplete/table-ty
 
 
 @Component({
+  standalone: false,
   selector: 'app-table-settings',
   templateUrl: 'table-settings.component.html',
   styleUrls: [ 'table-settings.component.scss' ],

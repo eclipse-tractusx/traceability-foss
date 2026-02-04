@@ -26,7 +26,7 @@ import { ConfigurationService } from '@shared/service/configuration.service';
 import { of } from 'rxjs';
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'i18n' })
+@Pipe({ standalone: false,  name: 'i18n' })
 class MockI18nPipe implements PipeTransform {
     transform(value: string): string {
         return value;

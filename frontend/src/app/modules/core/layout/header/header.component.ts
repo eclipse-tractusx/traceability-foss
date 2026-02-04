@@ -25,6 +25,7 @@ import { KnownUrl, NavigableUrls } from '@core/known-route';
 import { filter } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: [ './header.component.scss' ],

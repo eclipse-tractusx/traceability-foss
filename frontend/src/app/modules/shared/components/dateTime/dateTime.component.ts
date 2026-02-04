@@ -28,6 +28,7 @@ type TimeString = `${ string }${ string }:${ string }${ string }`;
 export type DateTimeString = `${ DateString }T${ TimeString }`;
 
 @Component({
+  standalone: false,
   selector: 'app-date-time',
   templateUrl: './dateTime.component.html',
 })

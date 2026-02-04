@@ -36,6 +36,7 @@ import { NotificationProcessingService } from '@shared/service/notification-proc
 import { Observable } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-notifications-tab',
   templateUrl: './notification-tab.component.html',
   styleUrls: [ './notification-tab.component.scss' ],

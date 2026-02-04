@@ -28,6 +28,7 @@ import { ChangedInformation } from '@page/admin/presentation/bpn-configuration/b
 import { BpnConfig } from '@page/admin/core/admin.model';
 
 @Component({
+  standalone: false,
   selector: 'app-save-bpn-config-modal',
   templateUrl: './save-modal.component.html',
   styleUrls: [ './save-modal.component.scss' ],

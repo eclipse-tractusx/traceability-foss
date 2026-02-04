@@ -24,6 +24,7 @@ import { ToastService } from '@shared/components/toasts/toast.service';
 import { ToastMessage } from './toast-message.model';
 
 @Component({
+  standalone: false,
   selector: 'app-toast-message',
   templateUrl: './toast-message.component.html',
   styleUrls: [ './toast-message.component.scss' ],

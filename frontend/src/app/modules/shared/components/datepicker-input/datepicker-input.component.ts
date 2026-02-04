@@ -25,6 +25,7 @@ import { FilterAttribute, FilterOperator, FilterValue } from '@shared/model/filt
 import { FilterService } from '@shared/service/filter.service';
 
 @Component({
+  standalone: false,
   selector: 'app-datepicker-input',
   templateUrl: './datepicker-input.component.html',
   styleUrls: [ './datepicker-input.component.scss' ],

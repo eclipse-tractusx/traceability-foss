@@ -22,6 +22,7 @@ import { AdminFacade } from '@page/admin/core/admin.facade';
 import { ToastService } from '@shared/components/toasts/toast.service';
 
 @Component({
+  standalone: false,
   selector: 'app-import-json',
   templateUrl: 'import-json.component.html',
   styleUrls: [ './import-json.component.scss' ],

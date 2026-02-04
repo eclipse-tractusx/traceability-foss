@@ -23,6 +23,7 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 
 @Directive({
+  standalone: false,
   selector: '[appTooltip]',
   providers: [ MatTooltip ],
 })

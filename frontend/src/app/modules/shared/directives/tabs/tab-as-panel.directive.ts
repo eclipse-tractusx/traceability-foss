@@ -22,6 +22,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
+  standalone: false,
   selector: '[appTabAsPanel]',
   host: {
     '[class]': '"app-tab-as-panel"',

@@ -25,6 +25,7 @@ import { State } from '@shared/model/state';
 
 // INFO: Tests for Sidenav wrapper are written within sidenav.component.spec.ts.
 @Component({
+  standalone: false,
   selector: 'app-sidenav-wrapper',
   templateUrl: './sidenav-wrapper.component.html',
 })

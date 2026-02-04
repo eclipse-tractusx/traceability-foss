@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'flattenObject' })
+@Pipe({ standalone: false,  name: 'flattenObject' })
 export class FlattenObjectPipe implements PipeTransform {
   transform(inputObject: any): any {
     if (typeof inputObject !== 'object' || inputObject === null) {

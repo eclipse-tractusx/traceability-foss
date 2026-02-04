@@ -23,6 +23,7 @@ import { Notification, NotificationStatus } from '@shared/model/notification.mod
 import { NotificationActionModalComponent } from '@shared/modules/notification/modal/actions/notification-action-modal.component';
 
 @Component({
+  standalone: false,
   selector: 'app-notification-common-modal',
   templateUrl: './notification-common-modal.component.html',
 })

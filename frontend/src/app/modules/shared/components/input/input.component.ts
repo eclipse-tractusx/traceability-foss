@@ -36,6 +36,7 @@ import { ThemePalette } from '@angular/material/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
+  standalone: false,
   selector: 'app-input',
   templateUrl: './input.component.html',
   styleUrls: [ './input.component.scss' ],
@@ -56,7 +57,10 @@ export class InputComponent extends BaseInputComponent<string> {
   }
 
   @HostListener('keydown.enter', [ '$event' ])
-  onEnterKey(event: KeyboardEvent): void {
+  onEnterKey(event: Event): void {
+    if (!(event instanceof KeyboardEvent)) {
+      return;
+    }
     // Check if the Enter key was pressed
     if (event.key === 'Enter') {
       // Trigger the suffixIconClick output event

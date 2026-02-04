@@ -25,6 +25,7 @@ import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-confirm',
   templateUrl: './modal.component.html',
   styleUrls: [ './modal.component.scss' ],

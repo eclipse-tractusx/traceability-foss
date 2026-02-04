@@ -48,6 +48,7 @@ import { QuickfilterService } from '@shared/service/quickfilter.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-multiselect',
   templateUrl: 'multi-select-autocomplete.component.html',
   styleUrls: [ 'multi-select-autocomplete.component.scss' ],

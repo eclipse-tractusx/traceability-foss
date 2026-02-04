@@ -25,6 +25,7 @@ import { ToastService } from '@shared/index';
 import { PartsFacade } from '../core/parts.facade';
 
 @Component({
+  standalone: false,
   selector: 'app-parts-detail',
   templateUrl: './parts-detail.component.html',
   styleUrls: ['./parts-detail.component.scss'],

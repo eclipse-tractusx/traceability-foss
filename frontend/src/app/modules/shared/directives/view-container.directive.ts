@@ -24,7 +24,7 @@ import { ViewContext } from '../model/view-context.model';
 import { View } from '../model/view.model';
 
 // https://indepth.dev/posts/1435/view-state-selector-design-pattern
-@Directive({ selector: '[viewContainer]' })
+@Directive({ standalone: false,  selector: '[viewContainer]' })
 export class ViewContainerDirective<T> implements AfterViewInit {
   @Input() set viewContainerLoading(templateRef: TemplateRef<ViewContext<T>>) {
     this.loaderTemplateRef = templateRef;

@@ -32,6 +32,7 @@ export interface SidenavConfig {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: [ './sidenav.component.scss' ],

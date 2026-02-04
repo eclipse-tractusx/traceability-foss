@@ -68,6 +68,7 @@ import { QuickfilterService } from '@shared/service/quickfilter.service';
 import { map } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-parts-table',
   templateUrl: './parts-table.component.html',
   styleUrls: [ 'parts-table.component.scss' ],

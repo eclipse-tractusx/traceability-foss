@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-contract-detail',
   templateUrl: './contract-detail.component.html',
   styleUrls: ['./contract-detail.component.scss']

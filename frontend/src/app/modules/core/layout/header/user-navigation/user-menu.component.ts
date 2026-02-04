@@ -27,6 +27,7 @@ import { LayoutFacade } from '@shared/abstraction/layout-facade';
 import { filter } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-user-navigation',
   templateUrl: './user-menu.component.html',
   styleUrls: [ './user-menu.component.scss' ],
@@ -68,7 +69,7 @@ export class UserMenuComponent {
   }
 
   @HostListener('window:click', [])
-  private onClick(): void {
+  public onClick(): void {
     this.isExpanded = false;
   }
 

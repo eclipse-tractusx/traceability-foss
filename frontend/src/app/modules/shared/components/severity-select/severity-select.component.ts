@@ -26,6 +26,7 @@ import { Severity } from '@shared/model/severity.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 
 @Component({
+  standalone: false,
   selector: 'app-severity-select',
   templateUrl: './severity-select.component.html',
 })

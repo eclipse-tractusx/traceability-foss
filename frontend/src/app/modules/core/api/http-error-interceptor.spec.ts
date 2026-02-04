@@ -30,7 +30,7 @@ import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-@Component({ selector: 'app-interceptor-test', template: '<app-toast-container></app-toast-container>' })
+@Component({ standalone: false,  selector: 'app-interceptor-test', template: '<app-toast-container></app-toast-container>' })
 export class ErrorTestComponent implements AfterViewInit {
   @Input() statusCode = '404';
 

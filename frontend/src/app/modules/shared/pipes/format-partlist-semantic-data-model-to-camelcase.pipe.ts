@@ -20,6 +20,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Part, SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 
 @Pipe({
+  standalone: false,
   name: 'formatPartlistSemanticDataModelToCamelCase',
 })
 export class FormatPartlistSemanticDataModelToCamelCasePipe implements PipeTransform {

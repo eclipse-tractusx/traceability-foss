@@ -22,6 +22,7 @@
 import { Component, ElementRef, Renderer2, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: [ './layout.component.scss' ],

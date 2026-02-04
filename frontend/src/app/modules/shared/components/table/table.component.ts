@@ -60,6 +60,7 @@ import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 import { NotificationProcessingService } from '@shared/service/notification-processing.service';
 
 @Component({
+  standalone: false,
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: [ 'table.component.scss' ],

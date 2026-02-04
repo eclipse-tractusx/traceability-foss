@@ -30,6 +30,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-notification',
   templateUrl: './notification.component.html',
 })

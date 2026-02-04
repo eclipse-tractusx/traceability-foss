@@ -22,6 +22,7 @@ import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/c
 type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
 
 @Component({
+  standalone: false,
   selector: 'app-view-selector',
   templateUrl: './view-selector.component.html',
   styleUrls: [ './view-selector.component.scss' ],

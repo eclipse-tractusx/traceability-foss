@@ -37,6 +37,7 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
 
 @Component({
+  standalone: false,
   selector: 'app-alert-detail',
   templateUrl: './notification-detail.component.html',
   styleUrls: [ './notification-detail.component.scss' ],

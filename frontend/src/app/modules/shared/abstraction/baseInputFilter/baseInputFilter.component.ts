@@ -23,7 +23,7 @@ import { FilterService } from '@shared/service/filter.service';
 import { TableType } from '@shared/components/multi-select-autocomplete/table-type.model';
 import { Subscription } from 'rxjs';
 
-@Component({ selector: 'app-base-filter-input', template: '' })
+@Component({ standalone: false,  selector: 'app-base-filter-input', template: '' })
 export abstract class BaseFilterInputComponent implements OnInit {
   @Input() filterName: string;
   @Input() tableType: TableType;

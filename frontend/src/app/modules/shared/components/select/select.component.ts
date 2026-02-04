@@ -29,6 +29,7 @@ export interface SelectOption {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: [ './select.component.scss' ],

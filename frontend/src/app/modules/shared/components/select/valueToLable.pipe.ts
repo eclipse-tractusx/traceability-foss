@@ -22,7 +22,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { SelectOption } from '@shared/components/select/select.component';
 
-@Pipe({ name: 'valueToLable' })
+@Pipe({ standalone: false,  name: 'valueToLable' })
 export class ValueToLablePipe implements PipeTransform {
   public transform(currentValue: string, options: SelectOption[]): string {
     if (!options) {

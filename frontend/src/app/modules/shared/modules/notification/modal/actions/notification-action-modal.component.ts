@@ -30,6 +30,7 @@ import { NotificationProcessingService } from '@shared/service/notification-proc
 import { Observable } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-notification-action-modal',
   templateUrl: './notification-action-modal.component.html',
 })

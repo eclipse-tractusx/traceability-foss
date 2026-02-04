@@ -34,6 +34,7 @@ type PatternError = { requiredPattern: string; actualValue: string };
 type DateError = { date: Date; actualValue: string };
 
 @Pipe({
+  standalone: false,
   name: 'errorMessage',
 })
 export class ErrorMessagePipe implements PipeTransform {

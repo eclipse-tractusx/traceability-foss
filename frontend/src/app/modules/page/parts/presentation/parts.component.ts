@@ -62,6 +62,7 @@ import { map } from 'rxjs/operators';
 
 
 @Component({
+  standalone: false,
   selector: 'app-parts',
   templateUrl: './parts.component.html',
   styleUrls: [ './parts.component.scss' ],

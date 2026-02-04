@@ -24,6 +24,7 @@ import { environment } from '@env';
 import * as mockService from '../../../mocks/mock';
 
 @Component({
+  standalone: false,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.scss' ],

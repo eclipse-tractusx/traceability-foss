@@ -24,6 +24,7 @@ import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.comp
 import { StaticIdService } from '@shared/service/staticId.service';
 
 @Component({
+  standalone: false,
   selector: 'app-textarea',
   templateUrl: './textarea.component.html',
   styleUrls: [ './textarea.component.scss' ],

@@ -20,6 +20,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ContractType } from '@page/admin/core/admin.model';
 
 @Component({
+  standalone: false,
   selector: 'app-contracts-quick-filter',
   templateUrl: './contracts-quick-filter.component.html',
   styleUrls: [ './contracts-quick-filter.component.scss' ],

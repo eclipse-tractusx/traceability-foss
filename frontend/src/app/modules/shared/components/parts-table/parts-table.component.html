@@ -324,7 +324,7 @@ SPDX-License-Identifier: Apache-2.0
               }
             }
           } @else {
-            {{ pureColumn }}
+            {{ column }}
           }
 
         </th>
@@ -449,7 +449,7 @@ SPDX-License-Identifier: Apache-2.0
                     matTooltipPosition="above"
                     [class.mdc-tooltip--multiline]="true"
                     [matTooltipShowDelay]="500"
-                    [matTooltipDisabled]="!config?.disabled ?? false"
+                    [matTooltipDisabled]="!(config?.disabled ?? false)"
                     >
                     <mat-icon>{{ config.icon }}</mat-icon>
                     <span>{{ config.label | i18n }}</span>
