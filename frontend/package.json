@@ -46,12 +46,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "21.1.2",
-    "@angular/cdk": "^20.2.14",
+    "@angular/cdk": "^21.1.2",
     "@angular/common": "21.1.2",
     "@angular/compiler": "21.1.2",
     "@angular/core": "21.1.2",
     "@angular/forms": "21.1.2",
-    "@angular/material": "^20.2.14",
+    "@angular/material": "^21.1.2",
     "@angular/platform-browser": "21.1.2",
     "@angular/platform-browser-dynamic": "21.1.2",
     "@angular/router": "21.1.2",
@@ -64,7 +64,7 @@
     "i18next": "22.4.15",
     "i18next-browser-languagedetector": "7.0.1",
     "i18next-http-backend": "2.2.0",
-    "keycloak-angular": "^19.0.2",
+    "keycloak-angular": "21.0.0",
     "keycloak-js": "25.0.1",
     "lodash-es": "4.17.21",
     "ngx-file-drop": "^16.0.0",
@@ -78,7 +78,7 @@
     "zone.js": "0.15.1"
   },
   "devDependencies": {
-    "@angular-builders/custom-webpack": "20",
+    "@angular-builders/custom-webpack": "21",
     "@angular-devkit/build-angular": "21.1.2",
     "@angular-eslint/builder": "18",
     "@angular-eslint/eslint-plugin": "18",
@@ -130,7 +130,7 @@
     "webpack-bundle-analyzer": "4.8.0"
   },
   "resolutions": {
-    "@angular-devkit/build-angular": "20.3.15",
+    "@angular-devkit/build-angular": "21.1.2",
     "cross-spawn": "^7.0.5",
     "webpack-dev-middleware": "6.1.2",
     "http-proxy-middleware": "^2.0.7",
